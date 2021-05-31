@@ -74,7 +74,7 @@
     "sellout": "如果你喜歡我，請考慮在 [Patreon](https://www.patreon.com/mantaro) 上贊助我一杯咖啡 úwù\n即使是一點點的贊助也能給我更多開發的動力!",
     "deprecated": "無法使用",
     "space_notice": "如果名稱包含空格，試著將他\"用引號包起來\"。也許help指令能告訴你更多資訊。",
-    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://wiki.mantaro.site> for more information about the bot.",
+    "missing_embed_permissions": "我需要嵌入連結權限才能顯示此命令。請給我所需的權限 (記得檢查頻道和類別權限)。如果你需要任何進一步的幫助，歡迎到 <https://support.mantaro.site> 詢問。你也可以查看我們的維基 <https://wiki.mantaro.site> 獲得更多資訊。",
     "ratelimit": {
       "header": "%1$s%2$s (限速中)\n **你能夠在 %3$s 內再次使用這個指令**",
       "spam_1": "拜託休息一下！這對你的健康是很好的。**記得如果在冷卻結束前繼續嘗試，速率限制會持續增加喔！**",
@@ -203,7 +203,7 @@
       "7": "- **暫停或繼續播放** `~>pause`",
       "8": "- **停止播放並退出語音頻道** `~>stop`",
       "9": "- **隨機播放目前清單** `~>shuffle`",
-      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeatqueue`. Using `~>repeat` while repeat is on, turns it off, the same is true for `~>repeatqueue`\n",
+      "10": "- 最後 **重複播放某首歌曲** 使用 `~>repeat`，**重複播放目前清單** 使用 `~>repeatqueue`。在重複播放開啟的時後使用 `~>repeat` 來關閉它，`~>repeatqueue` 也是一樣\n",
       "11": "要取得更多資訊請使用 `~>help <指令名稱>` (不包含<>)",
       "12": "謝謝使用Mantaro，享受你的音樂吧!"
     },
@@ -279,7 +279,7 @@
         "loaded_playlist": "%1$s已加入**%2$d首歌曲**進入播放清單:**%3$s** *(%4$s)*",
         "no_matches": "%1$s你的搜索沒有結果。如果你搜索的*每首歌曲*都發生此訊息，請先暫時使用 `~>play soundcloud <關鍵字>`，你也可以直接貼上YouTube連結。",
         "error_loading": "%1$s取得音樂時發生錯誤：%2$s。試著在試一次或使用別的鏈接？",
-        "unknown_error_loading": "%1$sUnknown error while fetching music. Maybe give it a try again or try another link?",
+        "unknown_error_loading": "%1$s取得音樂時發生未知錯誤。試著在試一次或使用別的連接？",
         "over_queue_limit": "%1$s**無法加入 `%2$s`：清單長度超出限制(%3$s)**",
         "over_32_minutes": "%1$s**無法加入 `%2$s` 至清單：長度超過 %3$s。**(歌曲長度為 %4$s)。\n你可以使用Mantaro Premium取得更高的長度限制和直播播放！查看 <https://patreon.com/mantaro> 獲得更多訊息。",
         "fair_queue_limit_reached": "%1$s**超出公平播放數量%2$d (相同歌曲數目過多)**",
@@ -389,9 +389,9 @@
       "footer": "感謝使用Mantaro呀！頁數：%1$d, 總頁數:%2$d"
     },
     "prefix": {
-      "header": "%1$s我默認的指令詞頭是 %2$s，或是你也可以提及我 (我兩種都會回應！)。%3$s。\n你可以使用 `~>opts prefix set <詞頭>` 設定一個新的詞頭，記得不用輸入 <> 唷。\n使用 `~>opts prefix clear` 來重設此伺服詞頭，\n有任何疑問的話，你可以加入 <https://support.mantaro.site> 詢問",
-      "guild_prefix": "此伺服的詞頭是 `%1$s` (只能在此伺服使用)",
-      "none": "此伺服器沒有設置自定義指令詞頭。"
+      "header": "%1$s我默認的指令前綴是 %2$s，或是你也可以提及我 (我兩種都會回應！)。%3$s。\n你可以使用 `~>opts prefix set <前綴>` 設定一個新的前綴，記得不用輸入 <> 唷。\n使用 `~>opts prefix clear` 來重設此伺服前綴，\n有任何疑問的話，你可以加入 <https://support.mantaro.site> 詢問",
+      "guild_prefix": "此伺服的前綴是 `%1$s` (只能在此伺服使用)",
+      "none": "此伺服器沒有設置自定義指令前綴。"
     },
     "custom": {
       "no_args": "%1$s你需要說明你用此指令想做些甚麼。運行指令 help 來看更多資訊！",
@@ -686,7 +686,7 @@
     },
     "ratewaifu": {
       "nothing_specified": "%1$s給我一位Waifu來評分！",
-      "success": "%1$sI rate your waifu with a **%2$,d/100**"
+      "success": "%1$s我給你的Waifu **%2$,d/100**"
     },
     "roll": {
       "success": "%1$s你得到了 **%2$,d**%3$s",
@@ -829,16 +829,16 @@
       "invalid_amount": "%1$s使用數量必須介於 `1` 到 `15` 之間！"
     },
     "opts": {
-      "note": "%1$sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!",
+      "note": "%1$s嘿，如果你不知該如何使用 opts 或需要幫助，請到 <https://github.com/Mantaro/MantaroBot/wiki/Configuration> 查看選項指南。\n請記得：只有管理者，有管理伺服器或機器人使用者權限的人才能使用這個指令！",
       "list": {
-        "header": "**Mantaro's Options List**\n%1$s*All options must be prefixed with `~>opts` when running them*\n%2$s"
+        "header": "**Mantaro 選項清單**\n%1$s *所有選項必須以 `~>opts` 當作前綴*\n%2$s"
       },
-      "option_not_found": "%1$sInvalid option help name.",
-      "invalid_args": "%1$sInvalid option or arguments."
+      "option_not_found": "%1$s無效選項名稱。",
+      "invalid_args": "%1$s無效選項或參數。"
     },
     "8ball": {
-      "no_args": "%1$sYou need to specify what you want the 8ball to answer.",
-      "error": "%1$sI ran into an error while fetching the 8ball results."
+      "no_args": "%1$s你需要指出你想要8球回答的問題。",
+      "error": "%1$s我在取得8球結果時遇到錯誤。"
     },
     "iam": {
       "list": {
@@ -1617,36 +1617,36 @@
       }
     },
     "anime": {
-      "no_args": "%1$sYou need to tell me what anime to look for.",
-      "selection_start": "Type the number of the anime you want to select.",
-      "information_footer": "Information provided by Kitsu.io. Type &cancel to cancel.",
-      "no_results": "%1$sNo results found...",
-      "malformed_result": "%1$sI got a wrong API result for this specific search. Maybe try with another search term?",
-      "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a `%2$s` while trying to process the command. (internal error)",
-      "timeout": "%1$sWe tried to look for this anime, but the request timed out on Kitsu's end. Try again later?",
-      "information_header": "Anime information for %1$s",
-      "information_notice": "Information provided by Kitsu.io.",
-      "airing": "Airing",
-      "release_date": "Release Date",
-      "favorite_count": "Favorite Count",
-      "end_date": "End Date",
-      "average_score": "Average Score",
-      "type": "Type",
-      "episodes": "Episodes",
-      "episode_duration": "Duration",
-      "genres": "Genres",
-      "minutes": "minutes",
-      "description": "Description"
+      "no_args": "%1$s你需要指出你想查看的動畫名稱。",
+      "selection_start": "輸入你想要選擇的動畫號碼。",
+      "information_footer": "由 Kitsu.io 提供。傳送 &cancel 來取消。",
+      "no_results": "%1$s找不到任何結果...",
+      "malformed_result": "%1$s我在搜尋時得到了錯誤的API結果。也許試試看另一個關鍵字？",
+      "error": "%1$s**我發誓我絕對沒有忘-忘記你的動畫，請原諒我！**\n我在處理指令時發生了 `%2$s`。(內部錯誤)",
+      "timeout": "%1$s我試圖搜尋了這個動畫，但是請求在Kitsu那邊超時了。也許等等再嘗試？",
+      "information_header": "%1$s 的動畫訊息",
+      "information_notice": "由 Kitsu.io 提供。",
+      "airing": "正在播出",
+      "release_date": "發行日期",
+      "favorite_count": "收藏數",
+      "end_date": "結束日期",
+      "average_score": "平均分數",
+      "type": "類型",
+      "episodes": "集數",
+      "episode_duration": "長度",
+      "genres": "分類",
+      "minutes": "分鐘",
+      "description": "描述"
     },
     "character": {
-      "no_args": "%1$sYou need to tell me what character you want to look for.",
-      "selection_start": "Type the number of the character you want to select.",
-      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got `%2$s` while trying to process this command. (internal error)",
-      "information_header": "Character information for %1$s",
-      "information": "Information",
-      "no_aliases": "No aliases",
-      "alias_start": "Also known as:",
-      "no_info": "No info."
+      "no_args": "%1$s你需要指出你想查看的角色名稱。",
+      "selection_start": "輸入你想要選擇的角色號碼。",
+      "error": "%1$s**我發誓我絕對沒有忘-忘記你的Waifu，請原諒我！**\n我在處理指令時發生了 `%2$s`。(內部錯誤)",
+      "information_header": "%1$s的角色訊息",
+      "information": "訊息",
+      "no_aliases": "沒有別名",
+      "alias_start": "也叫做：",
+      "no_info": "沒有資訊。"
     },
     "balance": {
       "bot_notice": "%1$s機器人們不能擁有錢。",
@@ -1832,24 +1832,24 @@
       "success": "%2$s **%3$s** (%4$s) **的物品訊息**\n%1$s**類型：**%5$s\n%1$s**說明：** *%6$s*\n%1$s**購買價格：**%7$s %8$s\n%1$s**出售價格：**%9$s %10$s"
     },
     "level": {
-      "bot_notice": "%1$sBots don't have level.",
-      "own_success": "%1$sYour level is %2$s. (Experience: %3$s/%4$s)",
-      "success_other": "%1$s%2$s's is level %3$s. (Experience: %4$s/%5$s)"
+      "bot_notice": "%1$s機器人沒有經驗。",
+      "own_success": "%1$s你的等級是 %2$s。(經驗：%3$s/%4$s)",
+      "success_other": "%1$s%2$s 的等級是 %3$s。(經驗：%4$s/%5$s)"
     }
   },
   "options": {
-    "options": "Mantaro 設定",
-    "error_general": "%1$s使用方法錯誤或缺少參數。確定第一個參數不以換行開頭！\n如果你不確定該如何使用設定，你能到 <https://github.com/Mantaro/MantaroBot/wiki/Configuration> 查看設定指南。如果還是有問題的話，歡迎到 <https://support.mantaro.site> 詢問",
+    "options": "Mantaro 選項",
+    "error_general": "%1$s使用方法錯誤或缺少參數。確定第一個參數不以換行開頭！\n如果你不確定該如何使用選項，你能到 <https://github.com/Mantaro/MantaroBot/wiki/Configuration> 查看選項指南。如果還是有問題的話，歡迎到 <https://support.mantaro.site> 詢問",
     "check_data": {
       "retrieve_failure": "%1$s無法取得數值。怪怪的...",
-      "header": "**%1$s** 的伺服器設定。",
+      "header": "**%1$s** 的伺服器選項。",
       "terminology": "\n\n**專用語法：** [] = 空白清單，null = 未設定，{} = 空白物件。如果你看到 numbers=[...]，代表那個ID將會被給予括弧內的內容。物件通常將以逗號分割",
       "footer": "這是一個測試指令，代表他不是100%使用者友好的",
       "null_set": "並未設置成任何內容。",
       "set_to": "已設為："
     },
     "reset_all": {
-      "success": "%1$s已重置你的設定！"
+      "success": "%1$s已重置你的選項！"
     },
     "server_command_disallow": {
       "no_command": "%1$s你需要指出你想為此伺服禁用的指令。",
@@ -1939,88 +1939,88 @@
       "success": "%1$s我可以在所有頻道播放音樂了。"
     },
     "music_vote_toggle": {
-      "success": "%1$sVoting (to stop/skip) is now set to %2$s"
+      "success": "%1$s音樂(停止/跳過)投票已設成 %2$s"
     },
     "localblacklist_add": {
-      "invalid": "%1$s**You need to specify the users to locally blacklist.**",
-      "yourself_notice": "%1$sWhy are you trying to blacklist yourself?...",
-      "admin_notice": "%1$sOne (or more) of the users you're trying to blacklist are admins or Bot Commanders!",
-      "bot_notice": "%1$sYou can't blacklist a bot. The bot will never reply to any bots.",
-      "success": "%1$sLocally blacklisted users: **%2$s**"
+      "invalid": "%1$s**你需要指出要列入本地黑名單的用戶。**",
+      "yourself_notice": "%1$s你怎麼會想要把你自己列入黑名單？...",
+      "admin_notice": "%1$s你嘗試列入黑名單的一位或多位用戶是管理員或機器人使用者！",
+      "bot_notice": "%1$s你不能將機器人列入黑名單。我不會回應其他機器人。",
+      "success": "%1$s已列入本地黑名單：**%2$s**"
     },
     "localblacklist_remove": {
-      "invalid": "%1$s**You need to specify the users to locally un-blacklist.**",
-      "success": "%1$sLocally un-blacklisted users: **%2$s**"
+      "invalid": "%1$s**你需要指出要從本地黑名單移除的用戶。**",
+      "success": "%1$s已從本地黑名單移除：**%2$s**"
     },
     "logs_enable": {
-      "no_channel": "%1$sYou need to specify which channel to use as the log channel.",
-      "success": "%1$sMessage logging has been enabled with parameters -> `Channel #%2$s (%3$s)`"
+      "no_channel": "%1$s你需要指出要用來紀錄訊息的頻道。",
+      "success": "%1$s已啟用訊息紀錄，參數 -> `頻道 #%2$s (%3$s)`"
     },
     "logs_disable": {
-      "success": "%1$sMessage logging has been disabled."
+      "success": "%1$s訊息紀錄已被取消。"
     },
     "logs_exclude": {
-      "no_args": "%1$sYou need to specify which channel to exclude, or `clearchannels` to clear all exceptions, or `remove` to remove a single channel from the exception list.",
+      "no_args": "%1$s你需要指出要從紀錄中排除的頻道，使用 `clearchannels` 來清除所有例外，或用 `remove` 從例外內刪除單個頻道。",
       "clearchannels": {
-        "success": "%1$sCleared log exceptions!"
+        "success": "%1$s已清除訊息紀錄例外！"
       },
       "remove": {
-        "success": "%1$sRemoved logs exception on channel: %2$s"
+        "success": "%1$s已從訊息紀錄例外內移除頻道：%2$s"
       },
-      "success": "%1$sAdded logs exception on channel: %2$s",
-      "invalid": "%1$sIncorrect argument length."
+      "success": "%1$s已從訊息紀錄例外內新增頻道：%2$s",
+      "invalid": "%1$s錯誤參數長度。"
     },
     "logs_timezone": {
-      "not_specified": "%1$sYou need to specify a timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
-      "invalid": "%1$sNot a valid timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
-      "success": "%1$sSet logs timezone to `%2$s`. This timezone will be used to display the time on moderation logs."
+      "not_specified": "%1$s你需要指出一個時區。有效的時區可以是 America/Chicago 或 GMT-4 等等。你可以到 <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> 查看時區列表 (使用TZ資料庫的名稱)",
+      "invalid": "%1$s錯誤時區。有效的時區可以是 America/Chicago 或 GMT-4 等等。你可以到 <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> 查看時區列表 (使用TZ資料庫的名稱)",
+      "success": "%1$s已將記錄時區設置為 `%2$s`。此時區將被用於訊息記錄來顯示時間。"
     },
     "logs_timezonereset": {
-      "success": "%1$sSuccesfully reset log timezone."
+      "success": "%1$s記錄時區已重設。"
     },
     "lobby_reset": {
-      "success": "%1$sReset the lobby correctly."
+      "success": "%1$s大廳已重設。"
     },
     "modlog_blacklist": {
-      "no_mentions": "%1$s**You need to specify the users to locally blacklist from mod logs.**",
-      "success": "%1$sLocally blacklisted users from mod-log: **%2$s**"
+      "no_mentions": "%1$s**你需要指出要列入本地管理紀錄黑名單的用戶。**",
+      "success": "%1$s已從本地管理紀錄黑名單加入用戶：**%2$s**"
     },
     "modlog_whitelist": {
-      "no_mentions": "%1$s**You need to specify the users to locally whitelist from mod logs.**",
-      "success": "%1$sLocally un-blacklisted users from mod-log: **%2$s**"
+      "no_mentions": "%1$s**你需要指出要列入本地管理紀錄白名單的用戶。**",
+      "success": "%1$s已從本地管理紀錄黑名單移除用戶：**%2$s**"
     },
     "imageboard_tags_blacklist_add": {
-      "no_tag": "%1$sYou need to specify at least a tag to blacklist!",
-      "success": "%1$sSuccessfully blacklisted %2$s from image search."
+      "no_tag": "%1$s你需要指出至少一個標籤來加入黑名單！",
+      "success": "%1$s已將 %2$s 列入圖片搜尋黑名單。"
     },
     "imageboard_tags_blacklist_remove": {
-      "no_tag": "%1$sYou need to specify at least a tag to un-blacklist!",
-      "success": "%1$sSuccessfully un-blacklisted %2$s from image search."
+      "no_tag": "%1$s你需要指出至少一個標籤來從黑名單內移除！",
+      "success": "%1$s已將 %2$s 從圖片搜尋黑名單內移除。"
     },
     "birthday_enable": {
-      "no_args": "%1$sYou need to specify the channel name and the role name.",
-      "public_role": "%1$sYou cannot set the everyone role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
-      "autorole": "%1$sYou cannot set the autorole role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
-      "warning": "%1$sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
-      "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and un-assigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `~>birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
-      "warning_3": "Additionally the birthday cache (what is used to store them) is only updated every 23 hours. Meaning if you set your birthday today to tomorrow to test this announcer it will **not** work.",
-      "warning_4": "Type **yes** if you agree to set the role %2$s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
-      "success": "%1$sBirthday logging enabled on this server with parameters -> Channel: `%2$s (%3$s)` and role: `%4$s (%5$s)`",
-      "error_channel_1": "%1$sI didn't find a channel or role!",
-      "error_channel_2": "*Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".* If the role contains spaces \"wrap it in quotes like this\""
+      "no_args": "%1$s你需要指出頻道名稱和身分組名稱。",
+      "public_role": "%1$s你不能將everyone設成生日身分組！記得生日身分組將被給予給當天生日的人，一天過後將被自動移除。",
+      "autorole": "%1$s你不能將自動身分組設成生日身分組！記得生日身分組將被給予給當天生日的人，一天過後將被自動移除。",
+      "warning": "%1$s記得生日身分組將被給予給當天生日的人，一天過後將被自動移除。如果你對他還有疑問，歡迎加入我們的支援伺服詢問。你也可以使用 `~>opts help birthday enable` 查看範例。",
+      "warning_1": "這是因為生日檢查器的工作原理的關係：他會給予當天生日的人一個臨時的身分組，當那一天過後將會把它移除。**這表示所有擁有這個身分組的人將會在那天過後被拿掉該身分組**。請小心選擇你想使用的身分組，因為設置錯誤可能會導致不好的事情發生 (真的)！",
+      "warning_2": "該身分組*需要是一個新建立的身分組或是無人使用的身分組*。他**不能**是任何用戶已經擁有的身分組。用戶也必須運行 `~>birthday allowserver` 來允許此伺服器宣布其生日，不然他們的生日永遠不會出現！閱讀 <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> 獲得更多資訊。",
+      "warning_3": "此外，生日快取 (用來儲存用戶生日) 每23小時才會更新一次。表示如果你將你的生日設為今天或明天來測試這個宣布器，他將**不會**起作用。",
+      "warning_4": "傳送 **yes** 來同意並將 %2$s 設置為生日身分組，或 **no** 取消。這將在45秒內超時。",
+      "success": "%1$s已啟用生日宣布器，參數 -> 頻道：`%2$s (%3$s)` 和身分組：`%4$s (%5$s)`",
+      "error_channel_1": "%1$s我找不到這個頻道或身分組！",
+      "error_channel_2": "*記得，你不需要提及該頻道或身分組，只需輸入它們的名稱，順序是 <頻道> <身分組>，不用輸入 \"<>\"。*如果名稱包含空格，將他們\"像這樣包在引號裡\""
     },
     "birthday_disable": {
-      "success": "%1$sBirthday logging has been disabled on this server"
+      "success": "%1$s此伺服的生日宣布器已被關閉"
     },
     "prefix_set": {
-      "no_prefix": "%1$sYou need to tell me what prefix you want to use.",
-      "too_long": "%1$sDon't you think that's a bit too long?",
-      "empty_prefix": "%1$sCannot set the guild prefix to nothing...",
-      "success": "%1$s此伺服器的自定義詞頭已更改為 %2$s"
+      "no_prefix": "%1$s你需要告訴我你想使用的前綴。",
+      "too_long": "%1$s你不覺得那有點太長了嗎？",
+      "empty_prefix": "%1$s無法將指令前綴設置為空...",
+      "success": "%1$s此伺服器的自定義前綴已設置為 %2$s"
     },
     "prefix_clear": {
-      "success": "%1$s此伺服器的自定義詞頭已被取消"
+      "success": "%1$s此伺服器的自定義前綴已被關閉"
     },
     "autorole_set": {
       "no_role": "%1$sYou didn't tell me what role to look for!",
@@ -2157,7 +2157,7 @@
       "success": "%1$sSet mute role to **%2$s**"
     },
     "reset:all": {
-      "success": "%1$s已重置你的設定！"
+      "success": "%1$s已重置你的選項！"
     },
     "birthday_test": {
       "no_user": "%1$sYou need to specify an user to test the assigner with. Just mention them.",
@@ -2260,42 +2260,42 @@
       }
     },
     "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
-    "help_opts_notice": "%1$sYou cannot disable the options or the help command.",
+    "help_opts_notice": "%1$s你無法禁用 opts 或 help 指令",
     "no_command": "%1$sNo command called %2$s",
     "invalid_role": "%1$sThat's not a valid role!"
   },
   "discord_permissions": {
-    "create_instant_invite": "Create Instant Invite",
-    "kick_members": "Kick Members",
-    "ban_members": "Ban Members",
-    "administrator": "Administrator",
-    "manage_channel": "Manage Channels",
-    "manage_server": "Manage Server",
-    "message_add_reaction": "Add Reactions",
-    "view_audit_logs": "View Audit Logs",
-    "view_channel": "Read Text Channels & See Voice Channels",
-    "message_read": "Read Messages",
-    "message_write": "Send Messages",
-    "message_tts": "Send TTS Messages",
-    "message_manage": "Manage Messages",
-    "message_embed_links": "Embed Links",
-    "message_attach_files": "Attach Files",
-    "message_history": "Read History",
-    "message_mention_everyone": "Mention Everyone",
-    "message_ext_emoji": "Use External Emojis",
-    "voice_connect": "Connect",
-    "voice_speak": "Speak",
-    "voice_mute_others": "Mute Members",
-    "voice_deaf_others": "Deafen Members",
-    "voice_move_others": "Move Members",
-    "voice_use_vad": "Use Voice Activity",
-    "nickname_change": "Change Nickname",
-    "nickname_manage": "Manage Nicknames",
-    "manage_roles": "Manage Roles",
-    "manage_permissions": "Manage Permissions",
-    "manage_webhooks": "Manage Webhooks",
-    "manage_emotes": "Manage Emojis",
-    "priority_speaker": "Priority Speaker"
+    "create_instant_invite": "建立邀請",
+    "kick_members": "踢出成員",
+    "ban_members": "對成員停權",
+    "administrator": "管理者",
+    "manage_channel": "管理頻道",
+    "manage_server": "管理伺服器",
+    "message_add_reaction": "新增反應",
+    "view_audit_logs": "檢視審核紀錄",
+    "view_channel": "檢視頻道",
+    "message_read": "讀取訊息",
+    "message_write": "發送訊息",
+    "message_tts": "傳送文字朗讀訊息",
+    "message_manage": "管理訊息",
+    "message_embed_links": "嵌入連結",
+    "message_attach_files": "附加檔案",
+    "message_history": "讀取訊息歷史",
+    "message_mention_everyone": "提及 @everyone @here 和所有身分組",
+    "message_ext_emoji": "使用外部表情符號",
+    "voice_connect": "連接",
+    "voice_speak": "說話",
+    "voice_mute_others": "讓成員靜音",
+    "voice_deaf_others": "讓成員拒聽",
+    "voice_move_others": "移動成員",
+    "voice_use_vad": "使用語音活動",
+    "nickname_change": "更改暱稱",
+    "nickname_manage": "管理暱稱",
+    "manage_roles": "管理身分組",
+    "manage_permissions": "管理權限",
+    "manage_webhooks": "管理 Webhooks",
+    "manage_emotes": "管理表情符號",
+    "priority_speaker": "優先發言者"
   },
   "items": {
     "categories": {
