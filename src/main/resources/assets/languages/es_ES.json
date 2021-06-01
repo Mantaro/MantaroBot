@@ -794,7 +794,7 @@
       "success": "%1$s%2$s le dió **%3$s** **%4$s** a %5$s",
       "multiple_items_error": "%1$sNo tienes ninguno de estos items en tu inventario.",
       "error": "%1$sNo tienes suficientes items!",
-      "no_item_mention": "%1$sNecesitas especificar a quién transferirle el ítem y el ítem que deseas transferirle."
+      "no_item_mention": "%1$sYou need to specify the person to transfer the item to and the item to transfer."
     },
     "transfer": {
       "new_account_notice_yourself": "%1$sTu cuenta debe tener al menos 14 días de existencia para transferir dinero.",
@@ -2166,7 +2166,7 @@
       "no_talk_permission": "%1$sEl bot no puede hablar en el canal para mensajes de cumpleaños.",
       "cannot_interact": "%1$sEl bot no puede interactuar con el rol de cumpleaños.",
       "no_role_permission": "%1$sThe bot is missing the Manage Roles permission.",
-      "success": "%1$sListo! El mensaje fue enviado en el canal %2$s para el usuario **%3$s**. Les fue asignado el rol %4$s",
+      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role **%4$s**\nKeep in mind the birthday testing message won't ping anyone nor any roles. The actual message can ping users and roles, but can't ping everyone or here.",
       "error": "%1$sOw... Hubo un error mientras se enviaba el mansaje en el canal %1$s para el usuario **%2$s** y el rol %3$s"
     },
     "usermessage_joinmessage_add": {
