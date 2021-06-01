@@ -794,7 +794,7 @@
       "success": "%1$s%2$s a donné **%3$s** **%4$s** à %5$s",
       "multiple_items_error": "%1$sTu n'as aucun de ces objets dans ton inventaire",
       "error": "%1$sTu n'as pas cet objet en quantité suffisante pour faire ça!",
-      "no_item_mention": "%1$sTu dois spécifier la personne à qui tu transfère l'objet ainsi que l'objet lui-même."
+      "no_item_mention": "%1$sYou need to specify the person to transfer the item to and the item to transfer."
     },
     "transfer": {
       "new_account_notice_yourself": "%1$sTon compte doit avoir au moins 14 jours d'ancienneté pour transférer de l'argent.",
@@ -2166,7 +2166,7 @@
       "no_talk_permission": "%1$sLe bot ne peut pas parler dans le salon d'anniversaires, vérifie les permissions.",
       "cannot_interact": "%1$sLe bot ne peut pas interagir avec le rôle anniversaire. (Parce qu'il est plus haut que son plus haut rôle ou parce qu'il n'a pas la permission de Gérer les rôles.)",
       "no_role_permission": "%1$sThe bot is missing the Manage Roles permission.",
-      "success": "%1$sC'est fait! Le message a été envoyé dans %2$s pour **%3$s** ayant reçu le rôle %4$s\n\nNote: Ceci ne montre pas le message personnalisé que tu avais programmé (si tu en avais programmé un).",
+      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role **%4$s**\nKeep in mind the birthday testing message won't ping anyone nor any roles. The actual message can ping users and roles, but can't ping everyone or here.",
       "error": "%1$sOw... Il y a eu une erreur en envoyant le message dans %2$s pour **%3$s** avec le rôle %4$s"
     },
     "usermessage_joinmessage_add": {
