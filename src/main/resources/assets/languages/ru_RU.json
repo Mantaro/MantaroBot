@@ -794,7 +794,7 @@
       "success": "%1$s%2$s передает **%3$s** **%4$s** пользователю %5$s",
       "multiple_items_error": "%1$sУ вас нет этих предметов в инвентаре",
       "error": "%1$sУ вас недостаточно этого предмета в инвентаре!",
-      "no_item_mention": "%1$sВы не указали человека, которому передаете предмет."
+      "no_item_mention": "%1$sYou need to specify the person to transfer the item to and the item to transfer."
     },
     "transfer": {
       "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
@@ -2166,7 +2166,7 @@
       "no_talk_permission": "%1$sБот не может говорить в канале дня рождения. Проверьте права канала.",
       "cannot_interact": "%1$sБот не может взаимодействовать с ролью дня рождения. (Возможно, данная роль выше, чем роль бота, попробуйте повысить роль бота, а после попытаться снова)",
       "no_role_permission": "%1$sThe bot is missing the Manage Roles permission.",
-      "success": "%1$sГотово! Сообщение было отправлено в канал %2$s для пользователя **%3$s**. Они получили роль %4$s\n\nПримечание: Это не показывает настраиваемое сообщение о дне рождения, которое вы могли установить..",
+      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role **%4$s**\nKeep in mind the birthday testing message won't ping anyone nor any roles. The actual message can ping users and roles, but can't ping everyone or here.",
       "error": "%1$sОх... Произошла ошибка при отправке сообщения в канал %2$s для пользователя **%3$s** и роли %4$s"
     },
     "usermessage_joinmessage_add": {
