@@ -794,7 +794,7 @@
       "success": "%1$s%2$s atidavė **%3$s** **%4$s** %5$s",
       "multiple_items_error": "%1$sTu neturi šių daiktų savo inventoriuje.",
       "error": "%1$sTu neturi užtektinai šio daikto kiekio, kad galėtum tai padaryti!",
-      "no_item_mention": "%1$sTuri nurodyti narį, kuriam nori perduoti daiktus, ir daiktą, kurį nori perduoti."
+      "no_item_mention": "%1$sYou need to specify the person to transfer the item to and the item to transfer."
     },
     "transfer": {
       "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
@@ -2166,7 +2166,7 @@
       "no_talk_permission": "%1$sThe bot cannot speak on the birthday channel.",
       "cannot_interact": "%1$sThe bot is unable to interact with the birthday role.",
       "no_role_permission": "%1$sThe bot is missing the Manage Roles permission.",
-      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role %4$s",
+      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role **%4$s**\nKeep in mind the birthday testing message won't ping anyone nor any roles. The actual message can ping users and roles, but can't ping everyone or here.",
       "error": "%1$sOw... There was an error while sending the message on channel %2$s for user **%3$s** and role %4$s"
     },
     "usermessage_joinmessage_add": {
