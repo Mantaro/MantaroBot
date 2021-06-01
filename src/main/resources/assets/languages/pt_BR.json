@@ -794,7 +794,7 @@
       "success": "%1$s%2$s deu **%3$s** **%4$s** para %5$s",
       "multiple_items_error": "%1$sVocê não tem nenhum desses itens no seu inventário",
       "error": "%1$sVocê não tem o suficiente deste item em seu inventário para fazer isso!",
-      "no_item_mention": "%1$sVocê precisa especificar a pessoa para transferir o item e o item a ser transferido."
+      "no_item_mention": "%1$sYou need to specify the person to transfer the item to and the item to transfer."
     },
     "transfer": {
       "new_account_notice_yourself": "%1$sSua conta deve ter pelo menos 14 dias para transferir dinheiro.",
@@ -2166,7 +2166,7 @@
       "no_talk_permission": "%1$sO bot não pode falar no canal de aniversário. Cheque as permissões do canal.",
       "cannot_interact": "%1$sO bot é incapaz de interagir com o cargo de aniversário. (Isso significa que o cargo de aniversário é mais alto que o cargo mais alto do bot na hierarquia de cargo, coloque-o abaixo e tente novamente)",
       "no_role_permission": "%1$sO bot está sem a permissão Gerenciar Cargos.",
-      "success": "%1$sFeito! A mensagem foi enviada no canal %2$s para o usuário **%3$s**. Ele foi atribuído com o cargo %4$s\n\nNota: Isso não mostra a mensagem de aniversário personalizada que você pode ter definido.",
+      "success": "%1$sFeito! A mensagem foi enviada no canal %2$s para o usuário **%3$s**. Ele ganhou o cargo **%4$s**\nTenha em mente que testar a mensagem de aniversário não menciona nenhuma pessoa ou cargo. A mensagem atual pode mencionar usuários e cargos, mas não pode mencionar everyone ou here.",
       "error": "%1$sOw... Ocorreu um erro ao enviar a mensagem no canal %2$s para o usuário **%3$s** e cargo %4$s"
     },
     "usermessage_joinmessage_add": {
