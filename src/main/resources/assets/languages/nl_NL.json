@@ -794,7 +794,7 @@
       "success": "%1$s%2$s gaf **%3$s** **%4$s** aan %5$s",
       "multiple_items_error": "%1$sJe hebt geen van deze voorwerpen in je inventaris",
       "error": "%1$sJe hebt niet genoeg van dit voorwerp in je inventaris om dit te doen!",
-      "no_item_mention": "%1$sJe moet de naam van de persoon specificeren die het item moet ontvangen en de naam van het voorwerp dat je wilt versturen."
+      "no_item_mention": "%1$sYou need to specify the person to transfer the item to and the item to transfer."
     },
     "transfer": {
       "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
@@ -2166,7 +2166,7 @@
       "no_talk_permission": "%1$sDe bot kan geen berichten sturen in het verjaardagskanaal. check je kanaal \ntoestemmingen.",
       "cannot_interact": "%1$sDe bot kan geen interactie hebben met de verjaardagsrol. (dit betekent dat de verjaardags rol hoger staat dan de hoogste rol van Mantaro in de rol hiërarchie, zet deze verder omlaag en probeer het opnieuw)",
       "no_role_permission": "%1$sThe bot is missing the Manage Roles permission.",
-      "success": "%1$sGelukt! Het bericht was gestuurd in kanaal %1$s voor de gebruiker **%2$s**. Ze hebben de rol %3$s toegewezen gekregen",
+      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role **%4$s**\nKeep in mind the birthday testing message won't ping anyone nor any roles. The actual message can ping users and roles, but can't ping everyone or here.",
       "error": "%1$sOw... Er is een fout opgetreden tijdens het verzenden van het bericht in het kanaal %2$s voor gebruiker **%3$s** en rol %4$s"
     },
     "usermessage_joinmessage_add": {
