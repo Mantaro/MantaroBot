@@ -794,7 +794,7 @@
       "success": "%1$s%2$s telah memberi **%3$s** **%4$s** kepada %5$s",
       "multiple_items_error": "%1$sAnda tidak mempunyai item ini dalam inventori anda",
       "error": "%1$sAnda tidak mempunyai item ini yang mencukupi dalam inventori anda untuk melakukan ini!",
-      "no_item_mention": "%1$sAnda perlu menyatakan penerima untuk memindahkan item dan item yang ingin dipindahkan."
+      "no_item_mention": "%1$sYou need to specify the person to transfer the item to and the item to transfer."
     },
     "transfer": {
       "new_account_notice_yourself": "%1$sAkaun anda mestilah berumur sekurang-kurangnya 14 hari untuk memindahkan wang.",
@@ -2166,7 +2166,7 @@
       "no_talk_permission": "%1$sBot tidak dapat bercakap dalam saluran hari jadi. Periksa kebenaran saluran.",
       "cannot_interact": "%1$sBot tidak dapat berinteraksi dengan peranan hari jadi. (Ini bermaksud peranan hari jadi lebih tinggi daripada peranan tertinggi bot dalam hierarki peranan, letakkannya di bawah peranan bot dan cuba sekali lagi)",
       "no_role_permission": "%1$sBot kekurangan kebenaran Mengurus Peranan.",
-      "success": "%1$sSiap! Mesej telah dihantar ke saluran %2$s untuk pengguna **%3$s**. Dia telah diberi peranan **%4$s**",
+      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role **%4$s**\nKeep in mind the birthday testing message won't ping anyone nor any roles. The actual message can ping users and roles, but can't ping everyone or here.",
       "error": "%1$sOw... Terdapat ralat semasa menghantar mesej ke saluran %2$s untuk pengguna **%3$s** dan peranan %4$s"
     },
     "usermessage_joinmessage_add": {
