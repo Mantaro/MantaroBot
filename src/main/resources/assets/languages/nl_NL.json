@@ -148,7 +148,7 @@
       "overflow": "%1$sJe hebt wat vis gevonden, maar een deel van je inventaris was vol, dus we moesten een deel ervan terug in het water gooien.",
       "success": "%1$sTerwijl je rustig aan het vissen was, vond je %2$s met een *%3$s* en je stopt ze in je emmer.",
       "success_money": "%1$sTijdens het rustig vissen vond je %2$s en **$%3$,d credits** met een *%4$s* en je stopt ze op in je emmer.%5$s",
-      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
+      "success_money_noitem": "%1$sTijdens het rustig vissen vond je **$%2$,d credits** met een *%3$s* en je stopt ze weg in je broekzak.",
       "rod_broke": "%1$sJe vishengel ging kapot terwijl je een vis probeerde te vangen :(",
       "waifu_help": "Je waifu kwam langs en deed mee aan je visavontuur waardoor jullie allebei een grotere vangst krijgen!",
       "not_suitable": "%1$sJe kan hier niet mee vissen.",
@@ -203,7 +203,7 @@
       "7": "- Om **te pauzeren of de pauze op te heffen** gebruik `~>pause`",
       "8": "- Om **de muziek te stoppen en de muziekpeler los te koppelen** gebruik `~>stop`",
       "9": "- Om **de nummers in de afspeellijst te verschuiven** gebruik `~>shuffle`",
-      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeatqueue`. Using `~>repeat` while repeat is on, turns it off, the same is true for `~>repeatqueue`\n",
+      "10": "- En als laatst, Om **een nummer te herhalen** gebruik `~>repeat` en om **een afspeellijst te herhalen** gebruik `~>repeat queue`. Als je `~>repeat` gebruikt als deze aanstaat, wordt het uitgeschakeld, het zelfde geld ook voor `~>repeatqueue`\n",
       "11": "Voor meer informatie gebruik `~>help <commando naam>` (zonder de <> en vervang de commandonaam met de naam van het gewenste commando)",
       "12": "Geniet van je muziek en bedankt voor het gebruiken van Mantaro!"
     },
@@ -282,7 +282,7 @@
         "unknown_error_loading": "%1$sUnknown error while fetching music. Maybe give it a try again or try another link?",
         "over_queue_limit": "%1$s **Kan het nummer `%2$s` niet toevoegen aan de afspeellijst: Het limiet van het aantal nummers in de afspeellijst is bereikt (%3$s)**",
         "over_32_minutes": "%1$s**Kon `%2$s`: niet in de wachtrij plaatsen: track is langer dan %3$s.** (De lengte van het nummer is %4$s).\nU kunt een langere limiet voor de tracklengte krijgen en livestreams afspelen met Mantaro Premium! Kijk op <https://patreon.com/mantaro> voor meer info.",
-        "fair_queue_limit_reached": "%1$s**Redelijk wachtrijniveau van %2$d (te veel nummers die exact gelijk zijn)**",
+        "fair_queue_limit_reached": "%1$s**te veel nummer in wachtrij van %2$d (te veel nummers die exact gelijk zijn)**",
         "loaded_song": "%1$sToegevoegd aan wachtrij -> **%2$s** **(%3$s)**",
         "selection_text": "Nummer geselecteerd. Type het cijfer van het nummer om door te gaan.",
         "timeout_text": "Dit zal een time-out geven in 30 seconden. Type &cancel om dit te annuleren."
@@ -571,7 +571,7 @@
         "scrapped": "%1$sJe hebt nog steeds tijd om na te denken wat je wilt schrijven, er is geen haast!"
       },
       "status": {
-        "no_marriage": "%1$sJe bent niet getrouwd, dus ik denk dat je status \"niet getrouwd\" is...",
+        "no_marriage": "%1$sJe bent niet getrouwd, dus ik denk dat je status uh... \"niet getrouwd\" is (als je een huwelijk in je profiel ziet en dit bericht ziet dat betekent dat je in het oude systeem zit, probeer dan te hertrouwen)",
         "header": "Huidige huwelijks status",
         "description_format": "%1$sHuwelijks status tussen **%2$s** en **%3$s**",
         "date": "Huwelijksdatum",
@@ -643,7 +643,7 @@
         "no_user": "%1$sJe hebt geen gebruiker genoemd om te claimen.",
         "locked": "%1$sJe kunt op dit moment deze actie niet uitvoeren.",
         "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `~>profile claimlock remove` if they wish to do so.",
-        "not_enough_money": "%1$sJe hebt niet genoeg geld om deze waifu te claimen **(Kosten: %2$s)**",
+        "not_enough_money": "%1$sJe hebt niet genoeg geld om deze waifu te claimen **(Kosten: %2$s credits)**",
         "not_enough_slots": "%1$sJe hebt niet genoeg plek beschikbaar om deze waifu te claimen (Totaal aantal slots: %2$s, Gebruikt aantal slots: %3$s)",
         "success": "%1$sSuccessfully claimed `%2$s` for %3$,d credits. Slots used: %4$s",
         "yourself": "%1$sYou cannot claim yourself!",
@@ -678,8 +678,8 @@
       "description_header": "Hier is een lijst met al je geliefde waifus, gesorteerd op datum.\n*Je kunt op dit moment een maximum van %1$d waifus hebben.*\n\nals je je waifu statistieken wil bekijken, typ `~>waifu stats`\n\n",
       "no_waifu": "Geen waifu te zien hier, alleen maar stof :(\nJe kunt waifus krijgen door iemand te claimen! Typ `~>waifu claim` om te beginnen met claimen.",
       "footer": "Totaal aantal waifus: %1$d - Beschikbaar aantal sloten: %2$s",
-      "value_format": "**- Waarde:**",
-      "value_b_format": "**- Gekocht voor:**",
+      "value_format": "**Waarde:**",
+      "value_b_format": "**Gekocht voor:**",
       "credits_format": " credits.",
       "waifu_header": "**Your waifus:**",
       "not_claimed": "%1$sYou haven't claimed this waifu."
@@ -702,7 +702,7 @@
       "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s zal **%3$d credits** krijgen als alle items zijn verkocht.",
       "header": "%1$s's Inventaris",
-      "format": "**Prijs**: 📥 %1$d 📤 %2$d\n%3$s",
+      "format": "**Prijs**: 📥 %1$,d 📤 %2$,d\n%3$s",
       "empty": "%1$sJe inventaris is leeg! :(",
       "brief_notice": "You can use `~>inventory -brief` to get a mobile friendly version.",
       "sorted_by": " *(sorted by: %1$s)*"
@@ -735,16 +735,16 @@
     "market": {
       "dump": {
         "replacement": "You can use `~>dump` now. For example, instead of `~>market dump floppy` you can do `~>dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
-        "no_item": "%1$sJe moet het aantal en de naam van het voorwerp opgeven die je wilt weggooien. Als het er maar één is, hoef je het aantal niet op te geven.",
+        "no_item": "%1$sU moet het bedrag van dat item specificeren (als het er maar één is, hoeft u het aantal niet op te geven) en het item dat u wilt dumpen.",
         "invalid": "%1$sGeen geldig aantal voorwerpen om weg te gooien.",
-        "non_existent": "%1$sKan een niet-bestaand voorwerp niet weggooien!",
+        "non_existent": "%1$sKan een niet-bestaand item niet dumpen! Als je de weg kwijt bent, kun je proberen de korte naam te typen of de naam tussen aanhalingstekens te plaatsen.",
         "player_no_item": "%1$sKan geen voorwerp weggooien dat je niet hebt!",
         "more_items_than_player": "%1$sJe kan niet meer voorwerpen weggooien dan dat je in totaal hebt.",
         "success": "%1$sHeeft %2$dx **%3$s %4$s** weggegooid."
       },
       "price": {
         "no_item": "%1$sYou need to specify the item you want to check the price of.",
-        "non_existent": "%1$sKan de prijs van een niet-bestaand voorwerp niet controleren.",
+        "non_existent": "%1$sKan de prijs van een niet-bestaand artikel niet controleren. Als je de weg kwijt bent, kun je proberen de korte naam te typen of de naam tussen aanhalingstekens te plaatsen.",
         "no_price": "%1$sDit voorwerp is niet beschikbaar om te verkopen of te kopen (kan een exclusief verzamelvoorwerp zijn)",
         "collectible": "%1$sDit is een verzamelvoorwerp. (Verkoopwaarde: %2$d credits)",
         "success": "%1$sDe marktwaarde van %2$s**%3$s** is %4$s credits om te kopen en %5$s credits om te verkopen."
@@ -794,7 +794,7 @@
       "success": "%1$s%2$s gaf **%3$s** **%4$s** aan %5$s",
       "multiple_items_error": "%1$sJe hebt geen van deze voorwerpen in je inventaris",
       "error": "%1$sJe hebt niet genoeg van dit voorwerp in je inventaris om dit te doen!",
-      "no_item_mention": "%1$sJe moet de naam van het voorwerp, en de naam van de persoon opgeven naar wie je het voorwerp wilt verzenden."
+      "no_item_mention": "%1$sJe moet de naam van de persoon specificeren die het item moet ontvangen en de naam van het voorwerp dat je wilt versturen."
     },
     "transfer": {
       "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
@@ -843,14 +843,14 @@
     "iam": {
       "list": {
         "name": "\nAutorol naam: ",
-        "role": " | Geeft rol **",
+        "role": "Rol:",
         "category": "Categorie: ",
         "header": "Autorol lijst",
         "role_give": "Gives role:",
         "no_autoroles": "Er zijn geen autorol-instellingen in deze server.",
         "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`"
       },
-      "deleted_role": "%1$sDe rol die deze autorol correspondeerde, is verwijderd",
+      "deleted_role": "%1$sDe rol die deze autorol correspondeerde is verwijderd",
       "already_assigned": "%1$sJe hebt deze rol al, gekkie!",
       "success": "%1$s%2$s, je hebt de **%3$s** rol gekregen",
       "error": "%1$sI couldn't take from you **%2$s**. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
@@ -864,14 +864,14 @@
     },
     "poll": {
       "missing": "%1$sJe hebt het %2$s argument niet toegevoegd of dit veld was leeg!\n%3$s",
-      "invalid": "%1$sDeze poll kan niet aangemaakt worden. **Denk eraan dat de opties maximaal 9 en minimaal 2 en de time-out maximaal 45m en minimaal 30s moeten zijn.**\nOpties worden gescheiden door een komma, bijvoorbeeld `1,2,3`. Als je meer ruimte wil gebruik je aanhalingstekens aan het begin en aan het einde van de zin.",
+      "invalid": "%1$sDeze poll kan niet aangemaakt worden. **Denk eraan dat de opties maximaal 9 en minimaal 2 en de time-out maximaal 45m en minimaal 30s moeten zijn.**\nOpties worden gescheiden door een komma, bijvoorbeeld `1,2,3` (geen spaties ertussen!). Voor antwoorden waar wel spaties in zitten gebruik je aan het begin en het einde van de zin aanhalingstekens. Als je echt de weg kwijt bent, is er een voorbeeld op `~>help poll`",
       "other_poll_running": "%1$sEr lijkt hier nog een poll actief te zijn...",
       "no_reaction_perms": "%1$sHet lijkt erop dat ik hier geen reacties kan toevoegen...",
       "too_long": "%1$sThis was too long to show. Try with less options?",
       "header": "Poll #%1$d gemaakt door %2$s",
       "success": "**Poll gestart. Reageer op het nummer dat je wilt stemmen.**\n*%1$s*\nTyp &cancelpoll om een actieve poll te annuleren.",
       "time": "Je hebt %1$s om te stemmen.",
-      "error": "%1$sEr is een onbekende fout opgetreden tijdens het opzetten van een poll. Misschien nog een keer proberen? (internal error)",
+      "error": "%1$sEr is een onbekende fout opgetreden tijdens het opzetten van een poll. Misschien nog een keer proberen? (interne foutmelding)",
       "result_header": "Poll resultaten",
       "result_screen": "**Resultaten weergeven voor de poll die is gestart door %1$s** met de naam: *%2$s*",
       "vote_results": "+%1$d geregistreerde stemmen voor optie %2$s",
@@ -1053,13 +1053,13 @@
       "reset": "%1$sVerjaardag succesvol gereset",
       "no_guild_birthdays": "%1$sThings seems a bit empty here.\nRemember that cache refreshes every 23h and that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
       "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
-      "cache_not_running": "%1$sDe Verjaardag cacher lijkt niet te werken (internal error) :(",
-      "error": "%1$sEr is iets misgegaan tijdens het opvragen van verjaardagen (internal error) :(",
+      "cache_not_running": "%1$sDe Verjaardag cacher lijkt niet te werken (interne foutmelding) :(",
+      "error": "%1$sEr is iets misgegaan tijdens het opvragen van verjaardagen (interne foutmelding) :(",
       "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out. Showing up to 100 results.\n",
       "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`. Showing up to 100 results.",
       "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November).\nIf the month or day has only one digit you need to append a 0 to it. For example, 14/7 would become 14/07 and 7/12 would become 07/12.",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`%3$s",
-      "invalid_month": "%1$sDat is geen geldige maand! (Geldige maanden zijn nummers van 01 tot 12)",
+      "invalid_month": "%1$sDat is geen geldige maand! (Geldige maanden zijn nummers van 1 tot 12)",
       "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `~>birthday allowserver`",
       "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part.",
       "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `~>birthday denyserver` on this server.",
@@ -1138,7 +1138,7 @@
       },
       "description": "Keys are valid for as long as your pledge is active, unless stated otherwise. Thanks for donating or pledging <3",
       "valid_for_old": "Geldig voor",
-      "old_days_more": "nog %1$d dagen",
+      "old_days_more": "nog %1$,d dagen",
       "thank_note": "Bedankt voor je steun <3",
       "expire": "Verloopt over",
       "key_duration": "Totale tijdsduur van de key",
@@ -1224,7 +1224,7 @@
       "meow": "Miauw."
     },
     "game": {
-      "won_games": "%1$s%2$s heeft **%3$s games gewonnen**",
+      "won_games": "%1$s%2$s heeft **%3$s spellen gewonnen**",
       "nothing_specified": "%1$sJe hebt niet opgegeven wat je wilt spelen ...",
       "not_enough_games": "%1$sYou need to specify two games at least. For example: `~>game lobby pokemon, trivia`",
       "invalid_selection": "%1$sYou need to specify two games at least. (Valid games: character, pokemon, number, trivia)",
@@ -1268,7 +1268,7 @@
       "lobby_time_out": "%1$sDe tijd is op! Het juiste antwoord is: %2$s",
       "end_footer": "Je hebt 5 pogingen en 60 seconden. (Typ 'end' om het spel te beëindigen)",
       "trivia_end_footer": "Je hebt %1$s pogingen en 60 seconden. (Typ 'end' om het spel te beëindigen)",
-      "error": "%1$sIk heb een fout gevonden tijdens het instellen van de game... (internal error)",
+      "error": "%1$sIk heb een fout gevonden tijdens het instellen van de game... (interne foutmelding)",
       "error_missing_permissions": "%1$sI can't attach files. Please check permissions.",
       "character_load_error": "%1$sRapporteer dit alstublieft op de officiële server. Het instellen van de game is mislukt voor het vooraf opgeslagen personage: %2$s",
       "character_request_error": "%1$sError requesting this character from Kitsu's API.",
@@ -1277,7 +1277,7 @@
       "disabled_multiple": "%1$sThis server has game multiple/lobby disabled."
     },
     "opencrate": {
-      "no_crate": "%1$sJe hebt geen buit kist van dit type (%2$s) om te openen:( (Als je een andere kist wil openen dan de standaard kist, gebruik dan de naam van de kist bij het commando)",
+      "no_crate": "%1$sJe hebt geen buit kist van dit type (%2$s) om te openen (Als je een andere kist wil openen dan de standaard kist, gebruik dan de naam van de kist bij het commando, als het om je seizoens inventaris gaat gebruiks dan `-s`)",
       "not_crate": "%1$sThat is not a valid loot crate.",
       "nothing_found": "%1$sI didn't find any crate matching your query. Make sure you used the correct name."
     },
@@ -1294,14 +1294,14 @@
       "no_pins_no_messages": "%1$sEr zijn hier geen berichten die niet gepind zijn ...",
       "mention_no_messages": "%1$sEr zijn geen berichten van gebruikers die je hier hebt genoemd.",
       "too_few_messages": "%1$sToo few messages to prune. The minimum is 5. This is computed after the message list has been filtered, so if you used a filter (say, mentioned someone), make sure you fetch 100 messages (or don't specify the amount).",
-      "error_retrieving": "%1$sIk vond een onbekende fout tijdens het ophalen van de geschiedenis om de berichten te weg te halen (Internal: %2$s %3$s)",
+      "error_retrieving": "%1$sIk vond een onbekende fout tijdens het ophalen van de geschiedenis om de berichten te weg te halen (Intern: %2$s %3$s)",
       "invalid_number": "%1$sGeef een geldig nummer op.",
       "not_valid": "%1$sDat is geen geldig aantal te verwijderen berichten.",
       "less_than_five": "%1$sYou need to provide at least 5 messages. For example, use `~>prune 20` to delete 20 messages.",
       "messages_too_old": "%1$sEr zijn geen berichten nieuwer dan 2 weken oud, Discord laat me ze niet verwijderen.",
       "success": "%1$s %2$s berichten succesvol verwijderd van deze kanaal.",
       "lack_perms": "%1$sGebrek aan toestemming tijdens het verwijderen van berichten (Geen toestemming verstrekt: %2$s)",
-      "error_deleting": "%1$sOnbekende fout tijdens het verwijderen van berichten (Internal: %2$s %3$s)"
+      "error_deleting": "%1$sOnbekende fout tijdens het verwijderen van berichten (Intern: %2$s %3$s) Als dit blijft gebeuren, meld dit dan op <https://support.mantaro.site>"
     },
     "imageboard": {
       "catgirl": {
@@ -1546,12 +1546,12 @@
       "channels": "Spraak/Tekst Kanalen",
       "owner": "Eigenaar",
       "region": "Regio",
-      "roles": "Rollen (%1$d)",
+      "roles": "Rollen (%1$,d)",
       "id_show": "Server ID: %1$s"
     },
     "userinfo": {
       "header": "Gebruikersinformatie voor %1$s#%2$s",
-      "roles": "Rollen: [%1$d]",
+      "roles": "Rollen: [%1$,d]",
       "id": "Gebruiker ID",
       "join_date": "Lid Geworden",
       "created": "Account Aangemaakt",
@@ -1650,7 +1650,7 @@
     },
     "balance": {
       "bot_notice": "%1$sBots kunnen geen geld hebben.",
-      "external_balance": "%1$s's balans is **$%2$.d credits.**",
+      "external_balance": "%1$s's balans is **$%2$,d credits.**",
       "own_balance": "Your balance is **$%1$,d credits.**%2$s",
       "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
       "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
@@ -1666,7 +1666,7 @@
         "same_user": "%1$sUse daily without mentioning yourself if you're gonna mention yourself :P"
       },
       "streak": {
-        "up": "Streak up! Huidige streak: `%1$sx`",
+        "up": "Streak up! Huidige streak: `%1$,dx`",
         "first_time": "Eerste keer dat je daily claimed, veel plezier! (Kom morgen terug voor je streak!)",
         "lost_streak": {
           "normal": "2+ days have passed since your last daily, so your streak of `%1$dx` got reset :(",
@@ -1674,7 +1674,7 @@
         },
         "bonus": "\nJe won een bonus van $%1$s voor het claimen van je dailies gedurende 5 dagen op rij of meer! (Inbegrepen in het getoonde aantal credits!)",
         "given": {
-          "up": "Streak up! Huidige streak: `%1$dx`.\n*De streak is toegevoegd aan je profiel!*",
+          "up": "Streak up! Huidige streak: `%1$,dx`.\n*De streak is toegevoegd aan je profiel!*",
           "bonus": "%1$s won een bonus van $%2$s voor het claimen van je dailies gedurende 5 dagen op rij of meer! (Inbegrepen in het getoonde aantal credits!)"
         },
         "watch_used": "Your `Magical Watches` saved your streak! You used `%1$d` of them to extend your streaks survival time to %2$dx, you have `%3$d` of them remaining!"
@@ -1696,8 +1696,8 @@
       "invalid_percentage": "%1$sVoer een geldige percentagewaarde in.",
       "confirmation_message": "%1$sJe staat op het punt om **%2$d** credits te gokken (dat lijkt veel te zijn). Weet je het zeker? Typ **yes** om door te gaan en **no** om te annuleren.",
       "cancelled_bet": "%1$sWeddenschap geannuleerd.",
-      "win": "%1$sGefeliciteerd, je hebt %2$d credits gewonnen en je hebt gehouden wat je al had.",
-      "win_overflow": "%1$sGefeliciteerd, je hebt %2$d credits gewonnen. Maar je had al te veel credits. Je tas is overgelopen.",
+      "win": "%1$sGefeliciteerd, je hebt %2$,d credits gewonnen en je hebt gehouden wat je al had.",
+      "win_overflow": "%1$sGefeliciteerd, je hebt %2$,d credits gewonnen. Maar je had al te veel credits. Je tas is overgelopen.",
       "lose": "%1$sHelaas, je hebt %2$s credits verloren. %3$s",
       "lose_all": "al je",
       "credits": "credits",
@@ -1714,7 +1714,7 @@
       },
       "without_item": {
         "found": "%1$sDigging through messages, you found **$%2$s credits!**%3$s",
-        "found_but_overflow_no_item": "%1$sTerwijl je door berichten aan het zoeken was, vond je **$%2$d credits.** Maar je had al te veel credits, dus heb ik wat je te veel had gedoneerd."
+        "found_but_overflow_no_item": "%1$sTerwijl je door berichten aan het zoeken was, vond je **$%2$,d credits.** Maar je had al te veel credits, dus heb ik wat je te veel had gedoneerd."
       },
       "dust": "Tijdens het doorzoeken van berichten, vond je niets anders dan stof (Dust level %1$s%%)",
       "easter": "\nHet lijkt erop dat je hier zoveel stof hebt ... Misschien wil je dit opruimen voordat het te rommelig wordt!"
@@ -1724,11 +1724,11 @@
       "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`",
       "not_suitable": "%1$sDit is geen pikhouweel die je kunt gebruiken om te minen!",
       "not_in_inventory": "%1$sJe hebt deze pikhouweel niet in je inventaris. Je wordt omgeschakeld naar de standaard pikhouweel.",
-      "success": "%1$sJe hebt mineralen gemijnd met een waarde van **$%2$s credits!**",
+      "success": "%1$sJe hebt mineralen gemijnd met een waarde van **$%2$,d credits!**, met een *%3$s*",
       "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
         "overflow": "Huh, je hebt tijdens het mijnen een diamant gevonden, maar je had al te veel, dus heb ik het voor je verkocht.",
-        "success": "\nHuh! Je hebt geluk gehad en een diamant gevonden tijdens het mijnen, controleer je inventaris!"
+        "success": "Hé! Je hebt geluk gehad en vond %1$s diamant(en) tijdens het mijnen, controleer je inventaris!"
       },
       "gem": {
         "overflow": "\nHuh, je vond *%1$s* tijdens het mijnen, maar je had al te veel van deze edelsteen, dus heb ik het voor je verkocht.",
@@ -1781,7 +1781,7 @@
         "too_many_tickets": "%1$sYou're trying to use too many slot tickets. Maximum allowed is %2$d"
       },
       "roll": "%1$s**Je gebruikte %2$s en gaf een slinger aan de slot machine**\n",
-      "win": "En je won **%1$d** credits en je behoudt wat je hebt ingezet (%2$d credits)! Lucky!",
+      "win": "En je won **%1$,d** credits en je behoudt wat je hebt ingezet (%2$,d credits)! Mazzel!",
       "lose": "En je verloor %1$s\nIk hoop dat je het de volgende keer beter doet!",
       "tickets": "slots ticket(s)",
       "credits": "credits"
@@ -2008,7 +2008,7 @@
       "warning_4": "Typ **yes** als je ermee instemt om de rol %2$s in te stellen als verjaardagsrol, en **no** om te annuleren. Deze actie verloopt over 45 seconden.",
       "success": "%1$sVerjaardagsregistratie ingeschakeld op deze server met parameters -> Kanaal: `%2$s (%3$s)` en rol: `%4$s (%5$s)`",
       "error_channel_1": "%1$sIk heb geen kanaal of rol kunnen vinden!",
-      "error_channel_2": "**Onthoud dat je niet de rol of het kanaal hoeft te noemen, maar gewoon de naam moet typen, de volgorde is <kanaal> <rol>, zonder de leidende \"<>\".**"
+      "error_channel_2": "*Onthoud dat je niet de rol of het kanaal hoeft te noemen, maar gewoon de naam moet typen, de volgorde is <kanaal> <rol>, zonder de leidende \"<>\".* Als de rol spaties bevat, \"schijf het dan tussen aanhalingstekens zoals deze\""
     },
     "birthday_disable": {
       "success": "%1$sVerjaardagsregistratie is uitgeschakeld op deze server"
@@ -2073,7 +2073,7 @@
     "autoroles_add": {
       "too_long": "%1$sThe autorole name needs to be at most 40 characters long.",
       "no_args": "%1$sJe moet de naam van de iam en de naam van de rol opgeven.",
-      "no_role_found": "%1$sIk kon geen rol vinden met die naam!",
+      "no_role_found": "%1$sIk kon geen rol vinden met die naam!\nAls de rolnaam spaties heeft, plaats deze dan als volgt tussen aanhalingstekens: \"Rolnaam\"",
       "hierarchy_conflict": "%1$sDeze rol is hoger geplaatst dan jouw hoogste rol, daarom kun je hem niet als een automatisch toewijsbare rol toevoegen!",
       "self_hierarchy_conflict": "%1$sDeze rol is hoger geplaatst dan mijn hoogste rol, daarom kun je hem niet als een automatisch toewijsbare rol toevoegen!",
       "success": "%1$sDe automatische toewijsbare rol **%2$s** is succesvol toegevoegd, en geeft de rol **%3$s**"
@@ -2118,7 +2118,7 @@
     },
     "server_role_allow": {
       "no_name": "%1$sJe moet de naam opgeven van de rol die je wilt toestaan (moet hiervoor al zijn uitgeschakeld om iets te kunnen doen, omdat toestaan de standaard waarde is)!",
-      "not_disabled": "%1$sDeze rol is niet uitgeschakeld!",
+      "not_disabled": "%1$sDeze rol is niet uitgeschakeld! (Alle rollen zijn standaard ingeschakeld)",
       "success": "%1$sDe rol %2$s heeft nu toestemming om commandos uit te voeren."
     },
     "server_ignorebots_autoroles_toggle": {
@@ -2487,13 +2487,13 @@
       "forgotten": "Nooit gedownload. Is waarschijnlijk auteursrechtelijk beschermd.",
       "pencil": "We hebben er hier heel veel van!",
       "moneybag": "Wat anders?",
-      "pick": "A basic pick for your regularly scheduled mining.",
+      "pick": "Een basis pickhouweel voor je standaard geplande mijnbouw.",
       "milk": "Misschien is het handig om er een aantal te hebben.",
       "beverage": "Is echt raar spul in grote hoeveelheden. Hoewel, het hangt af van wat voor soort ;)",
       "lewd": "Te veel lewd commando's. Veel te veel. Had je plezier?",
       "ring": "Kortom, wat je huwelijk officieel maakt.",
       "letter": "Een brief van je geliefde.",
-      "key": "Used to open various crates with `~>opencrate <crate name>` or `~>useitem <crate name>`",
+      "key": "Gebruikt om buit kist te openen met `~>opencrate <crate name>` of `~>useitem loot crate <crate name>`",
       "clothes": "In principe wat je draagt. Hopelijk...",
       "diamond": "Kortom een betere manier om geld op te sparen. Het is ook glanzend. En je kunt er glanzende spullen van gieten. Wat leuk.",
       "dress": "Is dit niet schattig?",
@@ -2510,7 +2510,7 @@
       "special_ring": "Het is zo speciaal, het is niet eens een ring. `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.`",
       "enchancer": "Een kapotte versterker, ik vraag me af of het kan worden opgelost? `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.`",
       "prize": "Vrijwel dit, hè? `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.`",
-      "crate": "You can use this along with a loot key to open a loot crate! Can be opened with `~>opencrate`",
+      "crate": "U kunt dit samen met een buit kist sleutel gebruiken om een buit kist te openen! `~>opencrate`",
       "prize_2": "In de eerste plaats, hoe heb je zoveel geld gekregen?",
       "slot_ticket": "Geeft je extra kans bij de slotmachine, werkt ook als bulkopslag.",
       "house": "Gezellige plek om in te wonen.",
@@ -2518,9 +2518,9 @@
       "bell": "Kerstevenement 2017/2018 beloning. Geeft je een gezellig kerstgevoel aan je boom.",
       "tree": "Kerstevenement 2017/2018 beloning. Wie houdt er niet van een kerstboom?",
       "pants": "In principe wat je om je benen draagt ... hopelijk.",
-      "haste": "Allows you to collect more stuff from currency commands for 3 commands.",
+      "haste": "Hiermee kun je meer spullen verzamelen via commando's om buit te maken. Werkt voor 3 sessies.",
       "milky": "Wist alle tovereffecten.",
-      "energy": "Makes a tool lose less durability per swing. Lasts 3 commands.",
+      "energy": "Maakt dat een stuk gereedschap minder duurzaamheid verliest per zwaai. Gaat 3 sessies mee.",
       "rod": "Een basishengel voor je vis activiteiten.",
       "fish": "Vis. Wordt gevangen tijdens het vissen.",
       "tropical_fish": "Een zeer tropische vis. Wordt gevangen tijdens het vissen.",
@@ -2530,23 +2530,23 @@
       "cobweb": "Iets wat een spin heeft achtergelaten in de mijn. Ik vraag me af of het iets waard is.",
       "fragment": "Fragment van een oude edelsteen. Handig voor het gieten.",
       "mop": "Een heerlijke manier om al het stof weg te halen. Ik weet zeker dat er veel van is.",
-      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `~>profile claimlock`",
+      "claim_key": "Dit item maakt je niet-claimbaar (als een waifu) wanneer je `~>profile claimlock` uitvoert",
       "coffee": "Een heerlijke manier om je dag mee te beginnen.",
       "waifu_pill": "Geeft je een aanzienlijk voordeel bij het mijnen en vissen als één van je waifus wordt gewaardeerd op meer dan 20,000. Werkt voor 3 sessies.",
       "bait": "Geeft je een hogere kans om vis te vangen",
       "diamond_pick": "Een sterkere-ish pikhouweel.",
       "tv": "Moet....tv.....kijken....",
       "wrench": "Gietgereedschap. Handig om spullen bij elkaar te voegen.",
-      "star_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking, needed to cast multiple items at once. Tier 3.",
-      "sparkle_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking. Less cost per cast. Tier 4.",
+      "star_wrench": "Gietgereedschap. Handig om spullen in elkaar te zetten. Minder kans op breken, nodig om meerdere items tegelijk te casten. Niveau 3.",
+      "sparkle_wrench": "Gietgereedschap. Handig om spullen in elkaar te zetten. Minder kans op breken. Minder kosten per gegoten item. Niveau 4.",
       "motorcycle": "Een rondje rijden, op de coole manier.",
       "comet_pick": "Een sterkere pikhouweel.",
       "star_pick": "Een veel sterkere pikhouweel.",
-      "sparkle": "One of the rarest gems around. Make sure to keep it. It is used to cast sparkle pickaxe & sparkle rods.",
+      "sparkle": "Een van de zeldzaamste edelstenen die er zijn. Zorg ervoor dat je het bewaart. Het wordt gebruikt om een fonkelende pikhouweel of een fonkelende hengel te gieten.",
       "sparkle_pick": "Een van de sterkste pikhouwelen die er is.",
       "pizza": "Lekker.",
-      "mine_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
-      "fish_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
+      "mine_crate": "Een mijn kist dat je hebt gevonden tijdens het mijnen. Misschien zitten er wel leuke dingen in. Kan geopend worden met `~>opencrate gem crate`",
+      "fish_crate": "Een schat die je tijdens het vissen hebt gevonden. Misschien zitten er wel leuke dingen in. Kan worden geopend met `~>opencrate treasure`",
       "mine_premium_crate": "Een juweeltje dat je hebt gevonden tijdens het mijnen. Misschien zitten er wel leuke dingen in. Kan worden geopend met `~>opencrate gem premium crate`",
       "fish_premium_crate": "Een schat die je tijdens het vissen hebt gevonden. Misschien zitten er wel leuke dingen in. Kan worden geopend met `~>opencrate premium treasure`",
       "comet_rod": "Een beetje sterkere hengel.",
