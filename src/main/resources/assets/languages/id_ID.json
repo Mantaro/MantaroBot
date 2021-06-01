@@ -794,7 +794,7 @@
       "success": "%1$s%2$s gave **%3$s** **%4$s** to %5$s",
       "multiple_items_error": "%1$sYou don't have any of these items in your inventory",
       "error": "%1$sYou don't have enough of this item in your inventory to do this!",
-      "no_item_mention": "%1$sYou need to specify the person to transfer the item and the item to transfer."
+      "no_item_mention": "%1$sYou need to specify the person to transfer the item to and the item to transfer."
     },
     "transfer": {
       "new_account_notice_yourself": "%1$sMinimal akunmu harus berusia 14 hari untuk transfer uang.",
@@ -2166,7 +2166,7 @@
       "no_talk_permission": "%1$sThe bot cannot speak on the birthday channel. Check channel permissions.",
       "cannot_interact": "%1$sThe bot is unable to interact with the birthday role. (This means the birthday role is higher than the bot's highest role on the role hierarchy, put it below and try again)",
       "no_role_permission": "%1$sThe bot is missing the Manage Roles permission.",
-      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role **%4$s**",
+      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role **%4$s**\nKeep in mind the birthday testing message won't ping anyone nor any roles. The actual message can ping users and roles, but can't ping everyone or here.",
       "error": "%1$sOw... There was an error while sending the message on channel %2$s for user **%3$s** and role %4$s"
     },
     "usermessage_joinmessage_add": {
