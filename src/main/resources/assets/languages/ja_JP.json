@@ -662,19 +662,19 @@
       },
       "buyslot": {
         "locked": "%1$sあなたは現在このアクションを実行できません。",
-        "not_enough_money": "%1$sYou don't have enough money to buy more slots! You need %2$,d credits.",
+        "not_enough_money": "%1$s追加スロットを買うのに必要なお金を持っていません！ %2$,d クレジットが必要です。",
         "success": "%1$sSuccessfully bought this slot for %2$s credits, you currently have %3$s total slots and %4$s available slots.",
         "too_many": "%1$sYou already have too many slots! The maximum is 30 slots."
       },
       "optout": {
-        "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
+        "notice": "%1$sあなたは、ワイフシステムから脱退したため使えません。",
         "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
-        "success": "%1$sYou successfully opted out of the waifu system.",
+        "success": "%1$sワイフシステムからの脱退に成功しました。",
         "cancelled": "%1$s脱退をキャンセルしました。",
         "claim_notice": "%1$sあなたが指定したユーザーはすでに脱退しています。",
         "lookup_notice": "%1$sThe user you're trying to lookup opted out."
       },
-      "header": "Waifu List",
+      "header": "ワイフリスト",
       "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$,d waifus as of now.*\n\nIf you wish to check your waifu stats, use `~>waifu stats`\n\n",
       "no_waifu": "No waifus to see here, just dust :(\nYou can get waifus by claiming someone! Use `~>waifu claim` to get started.",
       "footer": "Total waifus: %1$,d - available slots: %2$s",
@@ -700,7 +700,7 @@
     "inventory": {
       "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>dump`",
       "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
-      "calculate": "%1$s%2$s will get **%3$,d credits** if all of the items are sold.",
+      "calculate": "%1$s%2$s はもしもすべてを売却した場合 ``%3$,d クレジット** を入手できます。",
       "header": "%1$sのインベントリー",
       "format": "**価格**: 📥 %1$,d 📤 %2$,d\n%3$s",
       "empty": "%1$sこのインベントリーは空です！(´·ω·`)",
@@ -773,7 +773,7 @@
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
         "no_buy_price": "%1$s売っていない商品を買うことができません。",
         "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
-        "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
+        "success": "%1$s%2$,d %3$sを%4$,dクレジットでかいました。残り%5$,dクレジットを持っています。",
         "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
         "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `~>useitem <item name>`",
         "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits.",
