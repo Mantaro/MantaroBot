@@ -228,21 +228,21 @@
       "not_connected": "%1$sJe bevind je op dit moment niet in hetzelfde spraak-kanaal als ik! (Als je denkt dat dit een fout is, meld dit dan op onze support discord)",
       "np_message": "%1$s Ik speel nu **%2$s** (%3$s) op **%4$s** | %5$s",
       "track_error": "%1$sOeps, er is iets mis gegaan tijdens het afspelen van dit nummer! Excuses voor het ongemak. Ik probeer het volgende nummer af te spelen als deze beschikbaar is.",
-      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
+      "queue_finished": "%1$sKlaar met afspelen van de huidige wachtrij! Ik hoop dat je het leuk vond :heart:",
       "soundcloud_no_args": "%1$sJe moet me de naam van het nummer geven, ik kan helaas je gedachten niet lezen :(",
-      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
+      "missing_embed_permissions": "%1$sJe moet de bot toestemming geven voor Embed Links om het menu weer te geven. Als u het menu wilt overslaan, gebruikt u in plaats daarvan `~>forceplay` waardoor het eerste resultaat wordt afgespeeld.",
       "no_vc_found": "%1$sIk ben niet verbonden met een spraak-kanaal, hoewel ik dat wel zou moeten zijn? Probeer het opnieuw.",
       "queue": {
         "header_field": "Instructies",
         "header_noreact": "Gebruik `&p >>` en `&p <<` om door de pagina's te bladeren.",
         "no_track_found_np": "Niets, of de titel/afspeelduur niet gevonden.",
         "header": "afspeellijst voor de server %1$s",
-        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`",
+        "nothing_playing": "Niets hier, alleen stof. Waarom zet je niet een paar nummers niet in de wachtrij?\nAls je denkt dat er hier nummers zijn, maar ze verschijnen niet, probeer dan `~>queue 1`",
         "nothing_playing_2": "**Als er een nummer wordt afgespeeld en er staan geen nummers in de wachtrij, dan wordt er geen muziek meer afgespeeld. Je kunt natuurlijk meer nummers in de wachtrij plaatsen!**",
         "np": "Speelt op dit moment",
         "dj_np": "**In de wachtrij geplaatst door:** ",
         "page_overflow": "Er is hier niets te zien, alleen stof. probeer eens een pagina terug te gaan?",
-        "page_overflow_2": "If you think there are songs here but they don't appear, try using `~>queue 1`",
+        "page_overflow_2": "Als je denkt dat er hier nummers zijn, maar ze verschijnen niet, probeer dan `~>queue 1`",
         "total_queue_time": "Totale afspeellijst duur",
         "total_size": "Totale afspeellijst groote",
         "togglers": "Herhalen / Pauzeren",
@@ -254,7 +254,7 @@
         "songs": "nummer(s)",
         "clear_error": "%1$sJe hebt, of geen verbinding met het spraak-kanaal, of je bent geen DJ.",
         "clear_success": "%1$sDe huidige wachtrij is succesvol gewist. De wachtrij was %2$s",
-        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
+        "no_embed": "%1$sJe moet de bot de machtiging Embed Links geven om de wachtrij-Embed weer te geven."
       },
       "connect": {
         "success": "%1$sSuccessvol verbinding gemaakt met het kanaal **%2$s**!",
@@ -794,7 +794,7 @@
       "success": "%1$s%2$s gaf **%3$s** **%4$s** aan %5$s",
       "multiple_items_error": "%1$sJe hebt geen van deze voorwerpen in je inventaris",
       "error": "%1$sJe hebt niet genoeg van dit voorwerp in je inventaris om dit te doen!",
-      "no_item_mention": "%1$sYou need to specify the person to transfer the item to and the item to transfer."
+      "no_item_mention": "%1$sJe moet de naam van de persoon specificeren die het item moet ontvangen en de naam van het voorwerp dat je wilt versturen."
     },
     "transfer": {
       "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
