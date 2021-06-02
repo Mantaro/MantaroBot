@@ -408,7 +408,7 @@
         "description": "**這裡會顯示此伺服的所有自定義指令。**這裡的每個指令都跟Mantaro自身沒有任何關聯。\n\n自定義指令為用戶(通常是管理員)能夠因應各種場合自己創造的指令。\n如需更多資訊，請參與我們的Wiki頁面。(https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**清單：**",
         "footer": "此伺服器的自定義指令數量：%1$s"
       },
-      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
+      "invalid": "%1$s指令選擇無效。你也許可以看看我們的維基 <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101> (英文)。",
       "view": {
         "invalid": "%1$s你需要指出指令名稱及回應編號！",
         "not_found": "%1$s這裡沒有同樣名稱的自定義指令。",
@@ -420,7 +420,7 @@
         "not_found": "%1$s我找不到該指令。",
         "header": "自定義指令%1$s原始回應。",
         "amount": "(包含%1$d個中的%2$d個)",
-        "too_large_view": "Too large to view here, use `~>custom view %1$s %2$s`",
+        "too_large_view": "內容過長，無法在這查看，請使用 `~>custom view %1$s %2$s`",
         "description": "這個清單包含所有此指令的原始回應(你創造給我的內容)。"
       },
       "clear": {
@@ -444,7 +444,7 @@
       },
       "import": {
         "no_command": "%1$s你需要告訴我你想匯入哪條指令。",
-        "not_found": "%1$sThere are no custom commands matching your search query.\n**This command might not work properly!**\nIn such cases, you can manually copy the command using the output of `~>custom raw` instead.",
+        "not_found": "%1$s找不到這個自定義指令。\n**此指令可能不會正常運作！**\n如果找不到指令，你也可以手動複製 `~>custom raw` 的結果。",
         "header": "`%1$s` (回應：%2$s) - 伺服器：`%3$s`",
         "selection": "選擇指令：",
         "note": "(你只能選擇你所在伺服器中的自定義指令)",
@@ -463,19 +463,19 @@
         "invalid_number": "%1$s你需要指出你想刪除的回應編號。",
         "no_index": "%1$s你無法移除不存在的索引。",
         "not_enough_args": "%1$s你需要指出你想刪除的指令名稱及回應編號。",
-        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
+        "no_responses_left": "%1$s此指令已經沒有回應了，所以我已將他移除。",
         "success": "%1$s已成功移除指令 `%3$s` 的第**#%2$d**條回應"
       },
       "rename": {
         "success": "%1$s已重新命名指令 `%2$s` 為 `%3$s`",
-        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
+        "not_enough_args": "%1$s你需要指出你想重命名的指令和他的新名稱。"
       },
       "add": {
         "no_command": "%1$s你需要指出你想創建的指令名稱。",
         "not_enough_args": "%1$s你需要指出你想新增的指令名稱及回應。",
         "empty_content": "%1$s你需要指出這個自定義指令的內容。",
         "success": "%1$s已加到指令 `%2$s`",
-        "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
+        "too_many_responses": "%1$s這個指令已經擁有過多回應 (%2$s)。Premium伺服器 (查看 <https://patreon.com/mantaro>) 將擁有兩倍限制 (最高100)",
         "too_many_commands": "%1%s此伺服器的自定義指令數量已超過限制 (+100)，你無法再新增更多。高級伺服器將無視這個限制 (瀏覽<https://patreon.com/mantaro>)。"
       },
       "lockcommand": {
