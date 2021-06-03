@@ -794,7 +794,7 @@
       "success": "%1$s%2$s telah memberi **%3$s** **%4$s** kepada %5$s",
       "multiple_items_error": "%1$sAnda tidak mempunyai item ini dalam inventori anda",
       "error": "%1$sAnda tidak mempunyai item ini yang mencukupi dalam inventori anda untuk melakukan ini!",
-      "no_item_mention": "%1$sAnda perlu menyatakan penerima untuk memindahkan item dan item yang ingin dipindahkan."
+      "no_item_mention": "%1$sYou need to specify the person to transfer the item to and the item to transfer."
     },
     "transfer": {
       "new_account_notice_yourself": "%1$sAkaun anda mestilah berumur sekurang-kurangnya 14 hari untuk memindahkan wang.",
@@ -1057,7 +1057,6 @@
       "error": "%1$sTerdapat ralat semasa mengumpul hari jadi (ralat dalaman) :(",
       "header": "**Hari Jadi %1$s bagi %2$s**\nCache hari jadi dikemas kini setiap 23 jam, jadi sekiranya hari jadi anda tidak muncul di sini, jangan panik dan tunggu dengan sabar. Memaparkan sehingga 100 keputusan.\n",
       "full_header": "**Hari Jadi %1$s**\n%2$s\nIngat bahawa cache hari jadi akan dikemas kini setiap 23 jam dan mereka perlu menjalankan `~>birthday allowserver`. Memaparkan sehingga 100 keputusan.",
-      "invalid_date": "%1$sBukan tarikh yang sah ataupun ia tidak menggunakan format yang betul.\nIngat, format tarikh ialah `hh-bb` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
       "error_date": "%1$sTarikh yang telah anda masukkan bukan tarikh yang sah ataupun saya tidak dapat memprosesnya dengan betul. Sila cuba sekali lagi menggunakan format yang betul.\nIngat, format tarikh ialah `hh/bb` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November).\nSekiranya bulan atau hari hanya mempunyai satu angka, anda perlu menambahkan angka 0 kepadanya. Sebagai contoh, 14/7 akan menjadi 14/07 dan 7/12 akan menjadi 07/12.",
       "added_birthdate": "%1$sTarikh hari jadi telah ditambah. Tarikh hari jadi yang baru: %2$s *(Format: hh-BB)* [hari-bulan]. Untuk membenarkan pelayan ini mengumumkan hari jadi anda, anda perlu jalankan `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sItu bukan nombor bulan yang sah! (Bulan yang sah ialah nombor dari 1 hingga 12)",
@@ -1365,7 +1364,7 @@
         "footer": "Terima kasih kerana menggunakan Mantaro! <3"
       },
       "check": {
-        "success": "**Status haiwan peliharaan %1$s:**\n\n%2$s Kedahagaan: **%3$s / 100** | %4$s Kelaparan: **%5$s / 100** | %6$s Habuk: **%7$s%%**"
+        "success": "**Pet status for %1$s:**\n\n%2$s Thirst: **%3$s / 100** | %4$s Hunger: **%5$s / 100** | %6$s Dust: **%7$s%%**"
       },
       "clean": {
         "not_enough_money": "%1$sAnda memerlukan sekurang-kurangnya %2$,d kredit untuk membersihkan **%3$s**.",
@@ -1414,7 +1413,8 @@
         "success": "%1$sTahniah! Anda berdua berjaya menjadi pemilik `%2$s%3$s` yang bangga dan ia dinamakan `%4$s`. Kos untuk membeli haiwan peliharaan ini ialah %5$,d kredit dan pilihan haiwan peliharaan ini merupakan: %6$s",
         "success_personal": "%1$sTahniah! Anda berjaya menjadi pemilik `%2$s%3$s` yang bangga dan ia dinamakan `%4$s`. Kos untuk membeli haiwan peliharaan ini ialah %5$,d kredit dan pilihan haiwan peliharaan ini merupakan: %6$s",
         "cancel_success": "%1$sOperasi dibatalkan.",
-        "too_long": "%1$sNama ini terlalu panjang. Ia tidak boleh melebihi 150 aksara."
+        "too_long": "%1$sNama ini terlalu panjang. Ia tidak boleh melebihi 150 aksara.",
+        "no_marriage_marry": "%1$sI don't see any marriage here..."
       },
       "feed": {
         "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk diberikan makanan. Jalankan `~>pet` untuk mendapatkan penerangan. (Pilihan: %2$s)%3$s",
@@ -1432,7 +1432,7 @@
         "no_need": "%1$sHaiwan peliharaan anda tidak dahaga, jadi ia tidak mahu minum buat masa ini.",
         "not_inventory": "%1$sAnda tidak mempunyai Botol Air. Pastikan ia di dalam inventori anda.",
         "not_enough_inventory": "%1$sAnda tidak mempunyai botol air yang mencukupi di dalam inventori anda! Anda memerlukan %2$s.",
-        "too_much": "%1$sMungkin memberinya lebih kurang air? Jika tidak, anda akan membazirkan air! (Bilangan digunakan akan melebihi 100%% kedahagaan)",
+        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (The amount used would surpass 100%% thirst)",
         "success": "%1$sSyabas! Haiwan peliharaan anda telah diberi %2$d air dan ia memulihkan %3$s%% kedahagaannya. Kini, kedahagaannya ialah %4$s%% dihilangkan."
       },
       "activity": {
@@ -1455,6 +1455,7 @@
       },
       "remove": {
         "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk dipinggirkan. (Pilihan: %2$s)%3$s",
+        "no_pet_confirm": "%1$sI don't see any pet here...",
         "confirm": "%1$sAdakah anda pasti akan meminggirkan haiwan peliharaan ini? Pasangan perkahwinan akan menerima %2$,d kredit, dan anda juga akan menerima %2$,d kredit.\nTaip `yes` untuk sahkan atau `no` jika tidak. Anda diingatkan bahawa bayaran balik ini tidak berdasarkan level atau yang lain-lain, jadi anggaplah ini sebagai membeli tamagotchi yang baru atau sesuatu yang hampir sama.",
         "confirm_personal": "%1$sAdakah anda pasti akan meminggirkan haiwan peliharaan ini? Anda akan menerima %2$,d kredit.\nTaip `yes` untuk sahkan atau `no` jika tidak. Anda diingatkan bahawa bayaran balik ini tidak berdasarkan level atau yang lain-lain, jadi anggaplah ini sebagai membeli tamagotchi yang baru atau sesuatu yang hampir sama.",
         "success": "%1$sBerjaya meminggirkan haiwan peliharaan. Setiap orang dalam perkahwinan ini telah menerima %2$s kredit sebagai bayaran balik.",
@@ -1469,7 +1470,8 @@
         "food": "Makanan Kegemaran",
         "coin_buildup": "Kenaikan Kredit (Thp. 1 / 100)",
         "item_buildup": "Kenaikan Item (Thp. 1 / 100)"
-      }
+      },
+      "locked_notice": "%1$sYou can't buy/sell a pet when the transaction is locked. If this is an error, try again in a few minutes."
     },
     "invite": {
       "url": "URL Jemputan",
@@ -1571,7 +1573,8 @@
       "position": "Kedudukan",
       "hoisted": "Diasingkan",
       "managed": "Diuruskan",
-      "permissions": "Kebenaran: [%1$,d]"
+      "permissions": "Kebenaran: [%1$,d]",
+      "no_content": "%1$sYou need to specify the name of the role to look for."
     },
     "donate": {
       "beg": "%1$sOh hai! Jika anda berminat untuk menderma, sila periksa pautan di bawah. Menjalankan Mantaro mengambil masa dan wang, dan setiap dolar sangat dihargai!\n\n%2$s",
@@ -2163,7 +2166,7 @@
       "no_talk_permission": "%1$sBot tidak dapat bercakap dalam saluran hari jadi. Periksa kebenaran saluran.",
       "cannot_interact": "%1$sBot tidak dapat berinteraksi dengan peranan hari jadi. (Ini bermaksud peranan hari jadi lebih tinggi daripada peranan tertinggi bot dalam hierarki peranan, letakkannya di bawah peranan bot dan cuba sekali lagi)",
       "no_role_permission": "%1$sBot kekurangan kebenaran Mengurus Peranan.",
-      "success": "%1$sSiap! Mesej telah dihantar ke saluran %2$s untuk pengguna **%3$s**. Dia telah diberi peranan **%4$s**",
+      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role **%4$s**\nKeep in mind the birthday testing message won't ping anyone nor any roles. The actual message can ping users and roles, but can't ping everyone or here.",
       "error": "%1$sOw... Terdapat ralat semasa menghantar mesej ke saluran %2$s untuk pengguna **%3$s** dan peranan %4$s"
     },
     "usermessage_joinmessage_add": {

@@ -1057,7 +1057,6 @@
       "error": "%1$sAlgo deu errado ao receber aniversários (erro interno) :(",
       "header": "**%1$s Aniversário em %2$s**\nCache de aniversário atualiza a cada 23 horas, então se o seu aniversário não aparecer aqui, não entre em pânico e espere. Exibindo até 100 resultados.\n",
       "full_header": "**%1$s aniversários**\n%2$s\nLembre-se que os aniversários entram em cache a cada 23 horas e eles tem que executar `~>birthday allowserver`. Exibindo até 100 resultados.",
-      "invalid_date": "%1$sNão é uma data válida ou não está no formato correto.\nLembre-se que o formato de data é `dd-mm` (Por exemplo, use `~>birthday 16-11` para 16 de Novembro)",
       "error_date": "%1$sA data que você colocou não é válida ou eu não consigo analisá-la corretamente. Por favor tente com a formatação correta.\nLembre-se de que o formato de data é `dd/mm` (Por exemplo, use `~>birthday 16-11` para 16 de Novembro).\nSe o mês ou dia tiver apenas um digito você precisará acrescentar um 0 a ele. Por exemplo, 14/7 seria 14/07 e 7/12 seria 07/12.",
       "added_birthdate": "%1$sData de nascimento adicionada com sucesso. Nova data de nascimento: %2$s *(Formato: dd-MM)* [day-month]. Para este servidor anunciar seu aniversário, você terá que usar `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sEsse não é um número de mês válido! (Meses válidos são números de 1 a 12)",
@@ -1414,7 +1413,8 @@
         "success": "%1$sParabéns! Vocês dois agora são os orgulhosos proprietários de um `%2$s%3$s` e ele foi nomeado de `%4$s`. O custo para comprar esse pet foi %5$,d créditos e essa escolha de pet foi: %6$s",
         "success_personal": "%1$sParabéns! Você agora é o orgulhoso proprietário de um `%2$s%3$s` e ele foi nomeado de `%4$s`. O custo para comprar esse pet foi %5$,d créditos e essa escolha de pet foi: %6$s",
         "cancel_success": "%1$sOperação cancelada.",
-        "too_long": "%1$sEsse nome é muito longo. Ele precisa ter menos de 150 caracteres."
+        "too_long": "%1$sEsse nome é muito longo. Ele precisa ter menos de 150 caracteres.",
+        "no_marriage_marry": "%1$sEu não vejo nenhum casamento aqui..."
       },
       "feed": {
         "no_pet": "%1$sVocê não tem nenhum pet para alimentar. Cheque `~>pet` para uma explicação. (Escolha: %2$s)%3$s",
@@ -1432,7 +1432,7 @@
         "no_need": "%1$sSeu pet não está com sede, então ele não quer beber agora.",
         "not_inventory": "%1$sVocê não tem uma Garrafa d'Água. Certifique-se de que está em seu inventário.",
         "not_enough_inventory": "%1$sVocê não tem garrafas d'água suficiente no seu inventário! Você precisa de %2$s.",
-        "too_much": "%1$sQue tal um pouco menos de água? Você só vai desperdiçar água com esse tanto aí! (A quantidade que você colocou é mais do que a necessária para recuperar 100%% da sede)",
+        "too_much": "%1$sQue tal dar um pouco menos de água? Você só vai desperdiçar água com esse tanto aí! (A quantidade que você colocou é mais do que a necessária para recuperar 100%% da sede)",
         "success": "%1$sYay! %2$d de água foi dada com sucesso ao seu pet e ele recuperou %3$s%% de sua sede. A sede dele agora está %4$s%% apagada."
       },
       "activity": {
@@ -1455,6 +1455,7 @@
       },
       "remove": {
         "no_pet": "%1$sVocê não tem um pet para remover. (Escolha: %2$s)%3$s",
+        "no_pet_confirm": "%1$sEu não vejo nenhum animal de estimação aqui...",
         "confirm": "%1$sVocê tem certeza de que quer remover esse pet? A pessoa com quem você é casado irá receber %2$,d créditos, e você receberá %2$,d créditos também.\nDigite `yes` para confirmar ou `no` caso contrário. Tenha em mente que seu reembolso não aumentará com os níveis ou qualquer coisa, então considere isso como comprar um novo tamagotchi ou algo semelhante.",
         "confirm_personal": "%1$sVocê tem certeza de que quer remover esse pet? Você irá receber %2$,d créditos.\nDigite `yes` para confirmar e `no` caso contrário. Tenha em mente que seu reembolso não aumentará com os níveis ou qualquer coisa, então considere isso como comprar um novo tamagotchi ou algo semelhante.",
         "success": "%1$sPet removido com sucesso. Cada pessoa neste casamento recebeu %2$s créditos como um reembolso.",
@@ -1469,7 +1470,8 @@
         "food": "Comestíveis",
         "coin_buildup": "Acúmulo de Créditos (Nvl. 1 / 100)",
         "item_buildup": "Acúmulo de Itens (Nvl. 1 / 100)"
-      }
+      },
+      "locked_notice": "%1$sVocê não pode comprar/vender um pet quando a transação tá bloqueada. Se isso é um erro, tente novamente em alguns minutos."
     },
     "invite": {
       "url": "URL de Convite ",
@@ -1571,7 +1573,8 @@
       "position": "Posição",
       "hoisted": "Hosteado",
       "managed": "Gerenciado",
-      "permissions": "Permissões: [%1$d]"
+      "permissions": "Permissões: [%1$d]",
+      "no_content": "%1$sVocê tem que especificar o nome do cargo para ver."
     },
     "donate": {
       "beg": "%1$sOh oi! Se você estiver interessado em doar, por favor cheque os links abaixo. Deixar Mantaro ativa leva tempo e dinheiro, e todo dolar é altamente apreciado!\n\n%2$s",
@@ -2163,7 +2166,7 @@
       "no_talk_permission": "%1$sO bot não pode falar no canal de aniversário. Cheque as permissões do canal.",
       "cannot_interact": "%1$sO bot é incapaz de interagir com o cargo de aniversário. (Isso significa que o cargo de aniversário é mais alto que o cargo mais alto do bot na hierarquia de cargo, coloque-o abaixo e tente novamente)",
       "no_role_permission": "%1$sO bot está sem a permissão Gerenciar Cargos.",
-      "success": "%1$sFeito! A mensagem foi enviada no canal %2$s para o usuário **%3$s**. Ele foi atribuído com o cargo %4$s\n\nNota: Isso não mostra a mensagem de aniversário personalizada que você pode ter definido.",
+      "success": "%1$sFeito! A mensagem foi enviada no canal %2$s para o usuário **%3$s**. Ele ganhou o cargo **%4$s**\nTenha em mente que testar a mensagem de aniversário não menciona nenhuma pessoa ou cargo. A mensagem atual pode mencionar usuários e cargos, mas não pode mencionar everyone ou here.",
       "error": "%1$sOw... Ocorreu um erro ao enviar a mensagem no canal %2$s para o usuário **%3$s** e cargo %4$s"
     },
     "usermessage_joinmessage_add": {

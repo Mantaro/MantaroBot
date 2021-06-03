@@ -712,7 +712,7 @@
       "no_item_found": "%1$sJe n'ai pas trouvé l'objet dont tu me parles. Assure-toi de me donner le nom complet pour éviter les confusions ou alors montre moi l'emoji quand c'est possible. Exemple: `~>cast star pick`",
       "item_not_cast": "%1$sTu ne peux pas fabriquer cet objet. Va voir la liste avec `~>cast ls` pour savoir ce que tu peux fabriquer. Si tu penses être dans le bon, utilise le nom complet, le problème vient peut-être de là.",
       "not_enough_money": "%1$sTu n'as pas assez d’argent pour fabriquer ça. **(Cout : %2$s)**",
-      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast. You need %3$,d of them.",
+      "no_item": "%1$sTu n'as pas l'objet nécessaire *%2$s* pour procéder à cette fabrication. Tu en as besoin.",
       "not_enough_items": "%1$sTu n'as pas assez de *%2$s* pour faire une **%3$s**. **(Nécessaires : %4$s, Possédés : %5$s)**",
       "success": "%1$sTu as fabriqué %2$,dx %3$s **%4$s** avec succès pour %5$,d credits. *Matériaux utilisés : %6$s*",
       "no_tool": "%1$sTu as besoin d'un.e %2$s pour procéder à cette fabrication!",
@@ -750,7 +750,7 @@
         "success": "%1$sLe prix de %2$s**%3$s** au marché est de %4$s credits à l'achat et tu peux avoir %5$s credits si tu le vends."
       },
       "sell": {
-        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
+        "replacement": "Tu peux utiliser `~>sell` maintenant. Par exemple, au lieu de `~>market sell pick` tu peux faire `~>sell pick`. Utilise la nouvelle commande s'il te plait.",
         "no_item": "%1$sTu dois spécifier l'objet à vendre.",
         "no_item_amount": "%1$sTu dois préciser la quantité (s'il n'y en a qu'un, pas besoin de préciser) et l'objet que tu veux vendre.",
         "invalid": "%1$sNombre d'objets à vendre invalide.",
@@ -766,7 +766,7 @@
         "success": "%1$sTu as vendu %2$,d **%3$s** et as gagné %4$,d crédits!"
       },
       "buy": {
-        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
+        "replacement": "Tu peux utiliser `~>buy` maintenant. Par exemple, au lieu de `~>market buy pick` tu peux faire `~>buy pick`. Utilise la nouvelle commande s'il te plait.",
         "no_item": "%1$sTu dois spécifier l'objet à acheter.",
         "no_item_amount": "%1$sTu dois spécifier un montant de cet objet (si c'est seulement 1, pas besoin de spécifier) et l'objet que tu veux acheter.",
         "invalid": "%1$sNombre d'objets à acheter invalide.",
@@ -794,7 +794,7 @@
       "success": "%1$s%2$s a donné **%3$s** **%4$s** à %5$s",
       "multiple_items_error": "%1$sTu n'as aucun de ces objets dans ton inventaire",
       "error": "%1$sTu n'as pas cet objet en quantité suffisante pour faire ça!",
-      "no_item_mention": "%1$sTu dois spécifier la personne à qui tu transfère l'objet ainsi que l'objet lui-même."
+      "no_item_mention": "%1$sYou need to specify the person to transfer the item to and the item to transfer."
     },
     "transfer": {
       "new_account_notice_yourself": "%1$sTon compte doit avoir au moins 14 jours d'ancienneté pour transférer de l'argent.",
@@ -812,7 +812,7 @@
       "success": "%1$sEnvoyé **%2$d** *(%3$d après taxe de 8%%)* à **%4$s** avec succès.",
       "item_transfer": "%1$sTu ne peux pas transférer d'objets avec 'transfer', merci d'utiliser `~>transferitems` à la place.",
       "party": "Tu peux transférer à la même personne (%1$s) toutes les 10 minutes.",
-      "blacklisted_transfer": "%1$sYou can't transfer to blacklisted users."
+      "blacklisted_transfer": "%1$sTu peux transférer les joueurs de la liste noire."
     },
     "useitem": {
       "ls": {
@@ -867,7 +867,7 @@
       "invalid": "%1$sCe sondage ne peut être construit. **Souviens-toi que le nombre maximum d'option est 9 et que le minimum est de 2 et que le temps limite est de maximum 45min et de minimum 30s.**\nLes options sont séparées avec une virgule, par exemple `1,2,3` (pas d'espaces entre eux !). Pour les éléments requérants des espaces, veille à les écrire entre guillemets. Si tu es vraiment perdu.e, il y a un exemple sur `~>help poll`",
       "other_poll_running": "%1$sIl semble qu'un autre sondage soit en cours..",
       "no_reaction_perms": "%1$sIl semble que je ne peux pas ajouter de réactions ici...",
-      "too_long": "%1$sThis was too long to show. Try with less options?",
+      "too_long": "%1$sC'était trop long à montrer. Essaie avec moins d'option peut-être?",
       "header": "Sondage #%1$d créé par %2$s",
       "success": "**Le sondage commence. Réagis avec les nombres pour voter.**\n*%1$s*\nEnvoie &cancelpoll pour arrêter le sondage en cours.",
       "time": "Tu as %1$s pour voter.",
@@ -892,7 +892,7 @@
         "no_argument": "%1$sTu dois me donner un argument! (set ou remove). Par exemple, `~>profile description set Hello there!`",
         "no_content": "%1$sTu ne m'as pas dit ce que tu voulais comme description. Par exemple, `~>profile description set Hello there!`",
         "too_long": "%1$sTa description est trop longue! (Limite de 300 caractères pour tout le monde et de 500 pour les utilisateurs premium)",
-        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `~>profile`",
+        "success": "%1$sJ'ai défini ta description avec succès. Tu peux voir ton profil tout neuf en faisant `~>profile`",
         "clear_success": "%1$sDescription supprimée avec succès."
       },
       "displaybadge": {
@@ -914,8 +914,8 @@
         "success": "%1$sLe tri de ton inventaire a bien été changé, c'est désormais: **%2$s**"
       },
       "toggleaction": {
-        "enabled": "%1$sEnabled actions to be done to you.",
-        "disabled": "%1$sDisabled actions from being done to you."
+        "enabled": "%1$sEt voilà, on peut désormais t'inclure dans les actions!",
+        "disabled": "%1$sOn ne peut désormais plus t'inclure dans les actions."
       },
       "pet": {
         "header": "Animal actif",
@@ -967,7 +967,7 @@
         "not_equipped": "%1$sTu n'as rien d'équipé à cet emplacement.",
         "no_content": "%1$sTu dois spécifier quel type d'objet déséquiper `pick, axe, rod, wrench`(pioche, hache, canne à pêche, clé).",
         "invalid_type": "%1$sType invalide. Les types d'objets valides sont `pick, axe, rod, wrench` pioche, hache, canne à pêche et clé en anglais.",
-        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool, which means your currently equipped tool will break.",
+        "confirm": "%1$sEs-tu sûr.e de vouloir **déséquiper** ta %2$s %3$s? Envoie `yes` pour confirmer, `no` pour annuler. Ça te donnera une version endommagée de ton outil équipé actuellement, ce qui signifie qu'il cassera.",
         "success": "%1$sTu as déséquipé ton slot %2$s (pour rappel pick = pioche, rod = canne à pêche).",
         "equipment_recover": "\nPuisque tu ne l'avais pas utilisée, tu la retrouve dans ton inventaire (équipement retrouvé: %1$s)!",
         "broken_equipment_recover": "\nTon équipement était utilisé mais tu as tout de même récupéré une %1$s, tu peux toujours la réparer pour t'en servir plus tard!",
@@ -995,7 +995,7 @@
       "badge_header": "%1$sBadge affiché",
       "bot_notice": "%1$sLes bots n'ont pas de profil.",
       "header": "Profil de %1$s",
-      "no_desc": "No description set. You can set one with `~>profile description`",
+      "no_desc": "Aucune description définie. Tu peux en définir une avec `~>profile description`",
       "credits": "Crédits",
       "old_credits": "Crédits d'héritage",
       "level": "Niveau",
@@ -1023,8 +1023,8 @@
       },
       "ls": {
         "header": "Liste des badges obtenables",
-        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!",
-        "obtained": "**Obtained:** %s"
+        "desc": "Voici une liste de tous les badges disponibles actuellement sur Mantaro. Cette liste contient le nom et la description du badge, ce qui te donnera une vue globale de ce que tu dois accomplir.\nSi tu penses avoir obtenu un badge mais que tu ne le vois pas sur ta liste de badges personnels, utilise `~>profile` et relance `~>badges`.\nBonne chance, chasseurs de badges!",
+        "obtained": "**Obtenu:** %s"
       },
       "brief_success": "**Badges de %1$s:**\n%2$s",
       "profile_notice": "Si tu penses avoir eu un nouveau badge mais qu'il n'apparait pas ici, utilise `~>profile` puis refais cette commande.\n",
@@ -1041,11 +1041,11 @@
       "more_than_one": "%1$sTu ne peux donner un point de réputation qu'à une personne.",
       "rep_bot": "%1$sTu ne peux pas donner un point de réputations aux bots.\n%2$s",
       "rep_yourself": "%1$sTu ne peux pas te donner des points de réputations.\n%2$s",
-      "blacklisted_rep": "%1$sYou cannot rep a blacklisted account.",
+      "blacklisted_rep": "%1$sTu ne peux pas donner de point de réputation à un membre de la liste noire.",
       "cooldown": {
         "waiting": "**Tu pourras réutiliser cette commande dans %1$s**",
         "pass": "Tu peux utiliser la commande `->rep` maintenant.",
-        "explanation": "You can give reputation to one person every 12 hours. Please wait the time above before you can give reputation to someone else."
+        "explanation": "Tu peux donner un point de réputation toutes les 12 heures. Il faut attendre avant de recommencer, même pour le donner à quelqu'un d'autre."
       },
       "success": "%1$s a donné un point de réputation à **%2$s**"
     },
@@ -1057,7 +1057,6 @@
       "error": "%1$sUne erreur est survenue en cherchant les dates d'anniversaires (erreur interne) :(",
       "header": "**Les anniversaires de %1$s pour %2$s**\nLe cache des anniversaires se met à jour toutes les 23h, donc si ton anniversaire n'apparait pas ici, ne panique pas et sois patient. Montre jusqu'à 100 résultats.\n",
       "full_header": "**Anniversaires du mois de %1$s**\n%2$s\nSouviens-toi que le cache des anniversaires se met à jour toutes les 23 heures et que tu dois lancer `~>birthday allowserver`. Montre jusque 100 résultats.",
-      "invalid_date": "%1$sCe n'est pas une date valide ou le format est incorrect.\nSouviens-toi que le format de date est `jj-mm` (Par exemple, utilise `~>birthday 16-11` pour le 16 novembre)",
       "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November).\nIf the month or day has only one digit you need to append a 0 to it. For example, 14/7 would become 14/07 and 7/12 would become 07/12.",
       "added_birthdate": "%1$sTu as ajouté ta date d'anniversaire avec succès. Nouvelle date d'anniversaire: %2$s *(Format: jj-MM)* [day-month]. Pour que ce serveur annonce ton anniversaire , tu dois lancer la commande `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sCe n'est pas un numéro de mois valide! (Les nombres valides de mois vont de 01 à 12)",
@@ -1365,7 +1364,7 @@
         "footer": "Merci d'utiliser Mantaro! <3"
       },
       "check": {
-        "success": "**Pet status for %1$s:**\n\n%2$s Thrist: **%3$s / 100** | %4$s Hunger: **%5$s / 100** | %6$s Dust: **%7$s%%**"
+        "success": "**Pet status for %1$s:**\n\n%2$s Thirst: **%3$s / 100** | %4$s Hunger: **%5$s / 100** | %6$s Dust: **%7$s%%**"
       },
       "clean": {
         "not_enough_money": "%1$sYou need at least %2$,d credits to clean **%3$s**.",
@@ -1414,7 +1413,8 @@
         "success": "%1$sFélicitations! Vous êtes désormais tous deux propriétaires d'un `%2$s%3$s` nommé `%4$s`. Le cout de cet achat est de %5$,d crédits son appartenance était: %6$s",
         "success_personal": "%1$sFélicitations! Vous êtes désormais tous deux propriétaires d'un `%2$s%3$s` nommé `%4$s`. Le cout de cet achat est de %5$,d crédits son appartenance était: %6$s",
         "cancel_success": "%1$sOpération annulée.",
-        "too_long": "%1$sCe nom est trop long. Il doit avoir moins de 150 caractères."
+        "too_long": "%1$sCe nom est trop long. Il doit avoir moins de 150 caractères.",
+        "no_marriage_marry": "%1$sI don't see any marriage here..."
       },
       "feed": {
         "no_pet": "%1$sTu n'as pas d'animaux à nourrir. Fais la commande `~>pet` pour plus d'explications. (Appartenance: %2$s)%3$s",
@@ -1432,7 +1432,7 @@
         "no_need": "%1$sTon animal n'a pas soif pour le moment.",
         "not_inventory": "%1$sTu n'as pas de bouteille d'eau dans ton inventaire. Assure-toi d'en avoir.",
         "not_enough_inventory": "%1$sTu n'as pas assez de bouteilles dans ton inventaire! Tu en as besoin de %2$s.",
-        "too_much": "%1$sDonne lui peut-être moins d'eau? Tu vas gaspiller sinon! (L'augmentation surpasse 100%%)",
+        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (The amount used would surpass 100%% thirst)",
         "success": "%1$sYay! Tu as donné %2$d d'eau à ton animal et il a recouvert %3$s%% de sa soif. Sa soif est désormais étanchée à %4$s%%."
       },
       "activity": {
@@ -1455,6 +1455,7 @@
       },
       "remove": {
         "no_pet": "%1$sYou don't have a pet to remove. (Choice: %2$s)%3$s",
+        "no_pet_confirm": "%1$sI don't see any pet here...",
         "confirm": "%1$sEs-tu sûr.e de vouloir enlever cet animal? La personne avec qui tu es marié.e et toi recevrez respectivement %2$,d crédits.\nEnvoie `yes` pour confirmer ou `no` pour annuler. Garde à l'esprit que ce remboursement ne prendra pas de valeur avec le temps ou l'expérience donc prend ça comme l'achat d'un nouveau tomagotchi ou un truc du genre.",
         "confirm_personal": "%1$sEs-tu sûr.e de vouloir enlever cet animal? La personne avec qui tu es marié.e et toi recevrez respectivement %2$,d crédits.\nEnvoie `yes` pour confirmer ou `no` pour annuler. Garde à l'esprit que ce remboursement ne prendra pas de valeur avec le temps ou l'expérience donc prend ça comme l'achat d'un nouveau tomagotchi ou un truc du genre.",
         "success": "%1$sAnimal de compagnie enlevé avec succès. Chaque membre de ce mariage recevras %2$s crédits de remboursement.",
@@ -1469,7 +1470,8 @@
         "food": "Régime alimentaire",
         "coin_buildup": "Renforcement pécuniaire (Niv. 1/100)",
         "item_buildup": "Renforcement de l'objet (Niv. 1/100)"
-      }
+      },
+      "locked_notice": "%1$sYou can't buy/sell a pet when the transaction is locked. If this is an error, try again in a few minutes."
     },
     "invite": {
       "url": "URL d'invitation",
@@ -1571,7 +1573,8 @@
       "position": "Position",
       "hoisted": "Séparé",
       "managed": "Géré",
-      "permissions": "Permissions: [%1$d]"
+      "permissions": "Permissions: [%1$d]",
+      "no_content": "%1$sYou need to specify the name of the role to look for."
     },
     "donate": {
       "beg": "%1$sOh salut! Si tu es intéressé de nous faire un don, va sur les liens ci-dessous. S'occuper de Mantaro demande de temps et de l'argent, chaque dollar est fortement apprécié !\n\n%2$s",
@@ -1968,8 +1971,8 @@
       "invalid": "%1$sLongueur d'argument incorrecte."
     },
     "logs_timezone": {
-      "not_specified": "%1$sYou need to specify a timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
-      "invalid": "%1$sNot a valid timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
+      "not_specified": "%1$sTu dois spécifier ton fuseau horaire. Un fuseau valide serait, par exemple, Europe/Brussels ou GMT+1. Une liste complète se trouve sur <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Utilises les données de la colonne \"TZ database name\")",
+      "invalid": "%1$sCeci n'est pas un fuseau horaire valide. Un fuseau valide serait, par exemple, Europe/Brussels ou GMT+1. Une liste complète se trouve sur <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Utilises les données de la colonne \"TZ database name\")",
       "success": "%1$sSet logs timezone to `%2$s`. This timezone will be used to display the time on moderation logs."
     },
     "logs_timezonereset": {
@@ -2163,7 +2166,7 @@
       "no_talk_permission": "%1$sLe bot ne peut pas parler dans le salon d'anniversaires, vérifie les permissions.",
       "cannot_interact": "%1$sLe bot ne peut pas interagir avec le rôle anniversaire. (Parce qu'il est plus haut que son plus haut rôle ou parce qu'il n'a pas la permission de Gérer les rôles.)",
       "no_role_permission": "%1$sThe bot is missing the Manage Roles permission.",
-      "success": "%1$sC'est fait! Le message a été envoyé dans %2$s pour **%3$s** ayant reçu le rôle %4$s\n\nNote: Ceci ne montre pas le message personnalisé que tu avais programmé (si tu en avais programmé un).",
+      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role **%4$s**\nKeep in mind the birthday testing message won't ping anyone nor any roles. The actual message can ping users and roles, but can't ping everyone or here.",
       "error": "%1$sOw... Il y a eu une erreur en envoyant le message dans %2$s pour **%3$s** avec le rôle %4$s"
     },
     "usermessage_joinmessage_add": {
