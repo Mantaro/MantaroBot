@@ -582,6 +582,8 @@ public class ItemCmds {
                 .createSubCommandAlias("list", "1ist")
                 .createSubCommandAlias("list", "1s")
                 .createSubCommandAlias("list", "Is");
+
+        registry.registerAlias("repair", "fix");
     }
 
     @Subscribe
