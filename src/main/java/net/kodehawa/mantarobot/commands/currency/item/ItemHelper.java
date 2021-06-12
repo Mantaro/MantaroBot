@@ -54,7 +54,7 @@ public class ItemHelper {
     private static final IncreasingRateLimiter lootCrateRatelimiter = new IncreasingRateLimiter.Builder()
             .limit(1)
             .spamTolerance(2)
-            .cooldown(20, TimeUnit.SECONDS)
+            .cooldown(15, TimeUnit.SECONDS)
             .maxCooldown(2, TimeUnit.MINUTES)
             .randomIncrement(false)
             .pool(MantaroData.getDefaultJedisPool())
