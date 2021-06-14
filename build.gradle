@@ -82,7 +82,7 @@ dependencies {
 
     // Database
     implementation 'com.rethinkdb:rethinkdb-driver:2.4.4'
-    implementation 'redis.clients:jedis:3.6.0'
+    implementation 'redis.clients:jedis:3.6.1'
 
     // Utilities
     implementation 'net.jodah:expiringmap:0.5.9'
