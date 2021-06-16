@@ -61,7 +61,7 @@ task generateLanguageList {
 
 dependencies {
     // Base
-    implementation 'net.dv8tion:JDA:4.2.1_276'
+    implementation 'net.dv8tion:JDA:4.3.0_278'
     implementation 'club.minnced:discord-webhooks:0.5.7'
 
     // Music
