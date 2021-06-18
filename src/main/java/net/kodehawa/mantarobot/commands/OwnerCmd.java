@@ -411,13 +411,19 @@ public class OwnerCmd {
                     case "add" -> {
                         var entity = entityGetter.apply(shardManager, target);
                         if(entity == null) {
-                            ctx.send(EmoteReference.ERROR + type + " is already blacklisted?");
+                            ctx.send(EmoteReference.ERROR + type + ": I can't find this.");
                             return;
                         }
 
-                        dbGetter.apply(obj).add(target);
+                        var list = dbGetter.apply(obj);
+                        if (list.contains(target)) {
+                            ctx.send(EmoteReference.ERROR + " " + "This person is already blacklisted.");
+                            return;
+                        }
+
+                        list.add(target);
                         ctx.send(EmoteReference.CORRECT + "Blacklisted " + type + ": " + formatter.apply(entity));
-                        obj.saveAsync();
+                        obj.save();
                     }
                     case "remove" -> {
                         var list = dbGetter.apply(obj);
@@ -425,10 +431,12 @@ public class OwnerCmd {
                             ctx.send(EmoteReference.ERROR + type + " is not blacklisted?");
                             return;
                         }
-    
-                        list.remove(target);
-                        ctx.send(EmoteReference.CORRECT + "Unblacklisted " + type + ": " + target);
-                        obj.saveAsync();
+
+                        // Somehow there's dupes.
+                        var toRemove = list.stream().filter(s -> s.equals(target)).collect(Collectors.toList());
+                        toRemove.forEach(list::remove);
+                        ctx.send(EmoteReference.CORRECT + "Un-blacklisted " + type + ": " + target);
+                        obj.save();
                     }
                     default -> ctx.send("Invalid scope. (Valid: add, remove)");
                 }
