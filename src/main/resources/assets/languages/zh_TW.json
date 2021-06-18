@@ -1414,7 +1414,7 @@
         "success_personal": "%1$s恭喜！你現在是 `%2$s%3$s` 的主人了，他的名字叫 `%4$s`。你花了 %5$,d 元購買，寵物選擇為 %6$s",
         "cancel_success": "%1$s操作取消。",
         "too_long": "%1$s這個名字太長了。他必須少於150字元。",
-        "no_marriage_marry": "%1$sI don't see any marriage here..."
+        "no_marriage_marry": "%1$s我找不到任何婚姻..."
       },
       "feed": {
         "no_pet": "%1$s你沒有任何寵物可以餵養。使用 `~>pet` 獲得更多說明。(寵物選擇為：%2$s)%3$s",
@@ -1455,7 +1455,7 @@
       },
       "remove": {
         "no_pet": "%1$s你沒有寵物可以丟棄。(寵物選擇為：%2$s)%3$s",
-        "no_pet_confirm": "%1$sI don't see any pet here...",
+        "no_pet_confirm": "%1$s我找不到任何寵物...",
         "confirm": "%1$s你確定要丟棄你的寵物嗎？你將獲得 %2$,d 元，與你結婚的人也將獲得 %2$,d 元。\n傳送 `yes` 確認或 `no` 取消。請記得你的退款不會隨著寵物等級增加，就像你在買新的電子雞一樣。",
         "confirm_personal": "%1$s你確定要丟棄你的寵物嗎？你將被退回 %2$,d 元。\n傳送 `yes` 確認或 `no` 取消。請記得你的退款金額不會隨著寵物等級增加，就像在買新的電子雞一樣。",
         "success": "%1$s成功丟棄寵物。此婚姻中的每個人都獲得了 %2$s 元作為補償。",
@@ -1471,7 +1471,7 @@
         "coin_buildup": "金錢獎勵 (等級 1 / 100)",
         "item_buildup": "掉落物獎勵 (等級 1 / 100)"
       },
-      "locked_notice": "%1$sYou can't buy/sell a pet when the transaction is locked. If this is an error, try again in a few minutes."
+      "locked_notice": "%1$s當交易被鎖定時，你無法購買或出售寵物。如果這是一個錯誤，請在幾分鐘後重試。"
     },
     "invite": {
       "url": "邀請連結",

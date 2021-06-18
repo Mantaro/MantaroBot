@@ -490,7 +490,7 @@
       },
       "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
       "already_exists": "%1$sThe command `%2$s` already exists and it's a default bot command.",
-      "name_too_long": "%1$sName is too long.",
+      "name_too_long": "%1$sNama kepanjangan.",
       "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just a bit of dust.",
       "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
       "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild.",
@@ -550,45 +550,45 @@
     "love": {
       "no_mention": "%1$sKamu harus mention seseorang.",
       "not_ideal": "Coba lagi lain kali...",
-      "decent": "Good enough!",
-      "nice": "Good match!",
-      "perfect": "Perfect match!",
-      "yourself_note": "You're a special creature and you should love yourself more than anyone <3",
-      "header": "Love Meter",
-      "result": "Result:"
+      "decent": "Lumayan!",
+      "nice": "Cocok!",
+      "perfect": "Sangat cocok!",
+      "yourself_note": "Kamu orang yang spesial dan kamu harus menyayangi diri sendiri lebih dari orang lain <3",
+      "header": "Pengukur Cinta",
+      "result": "Hasil:"
     },
     "marry": {
       "loveletter": {
-        "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on. A love letter is given to you upon marriage.",
-        "empty": "%1$sYou cannot leave the love letter empty.",
-        "no_marriage": "%1$sYou aren't married, you cannot write a love letter for yourself...",
-        "not_proposing_player": "%1$sYou aren't the player who proposed this marriage!",
+        "no_letter": "%1$sTak ada lembaran surat cinta di inventarismu, jadi kamu tidak bisa menulisnya. Lembaran akan diberikan saat kamu menikah.",
+        "empty": "%1$sSurat cinta tidak boleh kosong.",
+        "no_marriage": "%1$sBelum menikah, kamu tidak bisa menulis surat cinta buat diri sendiri...",
+        "not_proposing_player": "%1$sBukan kamu yang mengajukan pernikahan ini!",
         "already_done": "%1$sPernikahan ini sudah memiliki surat cinta. Cek dengan `~>marry status`",
-        "too_long": "%1$sThe love letter is too long (maximum is 500 characters)",
-        "cannot_see": "%1$sI cannot find the user that you're married to... Probably they aren't in any server with me.",
-        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s",
+        "too_long": "%1$sSurat cinta kepanjangan (maksimal 500 karakter)",
+        "cannot_see": "%1$sAku tidak bisa menemukan pasanganmu... Mungkin dia tidak ada di server ini.",
+        "confirmation": "%1$sKamu *yakin* dengan surat pernikahan kepada **%2$s#%3$s** ini? Bersifat PERMANEN selama terikat status nikah. *Isi Surat:* %4$s",
         "confirmed": "%1$sBerhasil mengirim surat cinta ke belahan hatimu! Cek dengan `~>marry status`",
-        "scrapped": "%1$sYou still have time to think on what to write, no need to rush!"
+        "scrapped": "%1$sKamu masih memikirkan apa untuk ditulis, jangan terburu-buru!"
       },
       "status": {
-        "no_marriage": "%1$sYou aren't married, so I guess your status is uh... \"not married\" (If you see a marriage in your profile and see this message that means you are in the old system, try remarrying)",
-        "header": "Current Marriage Status",
-        "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
-        "date": "Marriage Date",
-        "age": "Marriage Age",
-        "love_letter": "Love Letter",
-        "waifus": "Waifu Ownership",
+        "no_marriage": "%1$sKamu belum menikah, jadi statusmu mungkin... \"belum nikah\" (Kalau di pprofilmu sudah nikah dan kamu lihat pesan ini berarti kamu masih ada di sistem lama, cobalah menikah lagi)",
+        "header": "Status Nikah Saat Ini",
+        "description_format": "%1$sStatus nikah **%2$s** dan **%3$s**",
+        "date": "Tanggal Nikah",
+        "age": "Usia Pernikahan",
+        "love_letter": "Surat Cinta",
+        "waifus": "Kepemilikan Waifu",
         "house": "Nama Rumah",
         "car": "Nama Mobil",
-        "pet": "Pet Name (Type)"
+        "pet": "Nama Peliharaan (Tipe)"
       },
       "timezone": {
-        "no_content": "%1$sYou need to specify what timezone you want this marriage to track.",
-        "invalid": "%1$sNot a valid timezone or Zone ID.",
-        "success": "%1$sSuccessfully set marriage timezone to %2$s. Pet time will be the same as the marriage timezone."
+        "no_content": "%1$sKamu harus menyebutkan zona waktu untuk melacak pernikahan ini.",
+        "invalid": "%1$sZona waktu atau ID Zona tidak valid.",
+        "success": "%1$sBerhasil mengubah zona waktu pernikahan ke %2$s. Waktu peliharaan akan sama dengan zona waktu pernikahan."
       },
       "general": {
-        "not_married": "%1$sYou're not married."
+        "not_married": "%1$sKamu belum menikah."
       },
       "buyhouse": {
         "not_married": "%1$sKamu cuma bisa beli rumah setelah menikah. Fungsi ini mungkin bisa berubah suatu saat.",
@@ -607,17 +607,17 @@
         "success": "%1$sKamu berhasil membeli mobil seharga %2$d kredit. Nama mobil barumu adalah %3$s, selamat menikmati!",
         "cancel_success": "%1$sOperasi dibatalkan."
       },
-      "no_mention": "%1$sMention the user you want to marry.",
-      "marry_yourself_notice": "%1$sYou cannot marry yourself, as much as you may want to.",
-      "marry_bot_notice": "%1$sYou cannot marry a bot. I don't think this is Futurama... yet. Wait, could bots and humans marry there?",
-      "already_married_receipt": "%1$sYou're married with them already, aww.",
-      "already_married": "%1$sYou're married already.",
-      "receipt_married": "%1$sThat user is married already.",
+      "no_mention": "%1$sMention orang yang ingin kamu nikahi.",
+      "marry_yourself_notice": "%1$sSengotot apapun, kamu tidak bisa menikahi dirimu sendiri.",
+      "marry_bot_notice": "%1$sKamu tidak bisa menikahi bot. Ini bukan Futurama... Eh, memangnya di sana manusia dan bot bisa menikah?",
+      "already_married_receipt": "%1$sKamu sudah menikah dengannya, aww.",
+      "already_married": "%1$sKamu sudah nikah.",
+      "receipt_married": "%1$sOrang itu sudah menikah.",
       "no_ring": "%1$sKamu tidak bisa melamar tanpa dua cincin pernikahan! Kamu bisa beli itu dengan `~>buy 2 ring` dan cobalah melamar lagi <3",
-      "confirmation": "%1$s%2$s, type with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
-      "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory :(",
-      "accepted": "%1$s**%2$s#%3$s** accepted the proposal of **%4$s#%5$s**!",
-      "denied": "%1$sDenied proposal from **%2$s**",
+      "confirmation": "%1$s%2$s, ketik **yes** untuk menerima atau **no** untuk menolak lamaran pernikahan dari %3$s\n%4$sBatas waktu 120 detik.",
+      "ring_check_fail": "%1$sMinimal harus punya dua cincin di inventaris untuk menikah :(",
+      "accepted": "%1$s**%2$s#%3$s** menerima lamaran dari **%4$s#%5$s**!",
+      "denied": "%1$sMenolak lamaran dari **%2$s**",
       "ratelimit_message": "Kenapa kamu ingin menikah sebanyak ini?"
     },
     "divorce": {
@@ -693,25 +693,25 @@
       "amount": "Doing **%1$,d** rolls."
     },
     "coinflip": {
-      "over_limit": "%1$sHold in there! The limit is 1,000 coin flips",
-      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions (For example, `~>roll 100`)",
-      "success": "%1$s Your result from **%2$,d** time(s) yielded **%3$,d** heads and **%4$,d** tails"
+      "over_limit": "%1$sHentikan! Batasnya 1,000 lemparan koin",
+      "no_repetitions": "%1$sKamu harus menentukan jumlah perulangan dengan angka Integer (Contoh, `~>roll 100`)",
+      "success": "%1$s Hasil dari **%2$,d** kali lemparan adalah **%3$,d** kepala dan **%4$,d** ekor"
     },
     "inventory": {
-      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>dump`",
-      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
-      "calculate": "%1$s%2$s will get **%3$,d credits** if all of the items are sold.",
-      "header": "%1$s's Inventory",
-      "format": "**Price**: 📥 %1$,d 📤 %2$,d\n%3$s",
-      "empty": "%1$sThis inventory is empty! :(",
-      "brief_notice": "You can use `~>inventory -brief` to get a mobile friendly version.",
-      "sorted_by": " *(sorted by: %1$s)*"
+      "bot_notice": "%1$sBot disini tidak punya inventaris. Kalaupun ada mungkin cuma `~>dump`",
+      "brief": "**Koleksi item %1$s** %2$s\n\n*Untuk versi lebih rinci, pakai `~>inventory -info`. Semoga harimu menyenangkan!*",
+      "calculate": "%1$s%2$s akan dapat **%3$,d kredit** kalau semua item dijual.",
+      "header": "Inventaris %1$s",
+      "format": "**Harga**: 📥 %1$,d 📤 %2$,d\n%3$s",
+      "empty": "%1$sInventaris kosong! :(",
+      "brief_notice": "Kamu bisa pakai `~>inventory -brief` untuk versi yang ramah buat ponsel.",
+      "sorted_by": " *(disortir berdasarkan: %1$s)*"
     },
     "cast": {
-      "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
+      "no_item_specified": "%1$sKamu tidak menyebutkan item. Untuk lihat daftar, cek `~>cast ls`",
       "no_item_found": "%1$sAku tidak menemukan item yang cocok dengan itu. Tulis nama lengkap item untuk menghindari ketidakcocokan, atau pakai emoji jika bisa. Contoh: `~>cast star pick`",
       "item_not_cast": "%1$sKamu tidak bisa membuat item ini. Kamu bisa cek `~>cast ls` untuk lihat daftar item yang bisa dibuat. Coba pakai nama lengkap kalau menurutmu nama itemnya pas.",
-      "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
+      "not_enough_money": "%1$sUangmu kurang untuk membuat item ini. **(Ongkos: %2$s)**",
       "no_item": "%1$sKamu tidak memiliki item *%2$s* yang diperlukan untuk membuatnya. Kamu butuh %3$,d dari item tersebut.",
       "not_enough_items": "%1$sItem *%2$s* milikmu tidak cukup untuk membuat sebuah **%3$s**. **(Butuh: %4$s, Punya: %5$s)**",
       "success": "%1$sKamu berhasil membuat %2$,dx %3$s **%4$s** seharga %5$,d kredit. *Cetakan terpakai: %6$s*",
@@ -720,17 +720,17 @@
       "too_many": "%1$sKamu akan punya lebih dari 5.000 item ini kalau dilanjut. Coba kurangi membuat item ini, ya?",
       "low_tier": "%1$sMinimal kamu butuh sebuah Wrench Tingkat 2 (paling tidak Comet Wrench) untuk membuat lebih banyak item di setiap perintah. Saat ini kamu memakai Wrench Tingkat %2$s.",
       "not_enough_wrench_level": "%1$sWrench-mu kurang kuat untuk membuat item ini. Coba pakai yang lebih kuat lagi? (*Level Wrench: %2$s, Syarat level: %3$s*)",
-      "too_many_amount": "%1$sYou can't cast that many of this item at once! Limit: %2$s, Attempt: %3$s. A sparkle wrench makes the limit double! Unless you're already using one.",
+      "too_many_amount": "%1$sKamu tidak bisa membuat item sebanyak itu sekaligus! Batas: %2$s, Dicoba: %3$s. Sparkle wrench bisa menggandakan batasnya! Kecuali kalau sudah kamu pakai.",
       "autoequip": {
         "success": "%1$sSebuah **%2$s** terpasang otomatis di slot Wrench-mu."
       },
       "ls": {
-        "header": "Castable Item List",
-        "cost": "Cast Cost: ",
+        "header": "Daftar Item Cetakan",
+        "cost": "Ongkos Mencetak: ",
         "desc": "Ini adalah daftar item yang bisa dibuat pakai perintah `~>cast`.\nKamu bisa pakai nama lengkap, nama pendek. atau emoji.\n**Minimal biaya membuat adalah setengah dari harga item, tertulis di bawah.**.\nWrench Tingkat 2 dan 3 adalah comet dan sparkle."
       },
       "dust": "%1$sKamu tidak bisa memakai cetakan saat inventarismu penuh debu! *(Level debu: %2$s%%)*. Kenapa tidak dibersihkan saja, pakai `~>useitem mop`?",
-      "wrench_multiple_use": "Tip: *You can't use the wrench you are trying to cast with as ingredient!*"
+      "wrench_multiple_use": "Tip: *Wrench alat untuk mencetak, jadi tidak bisa digunakan sebagai bahan!*"
     },
     "market": {
       "dump": {
