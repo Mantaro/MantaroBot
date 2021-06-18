@@ -209,7 +209,7 @@ public class MusicCmds {
                 return new HelpContent.Builder()
                         .setDescription(
                                 """
-                                Play songs! This connects to the voice channel you're connected to and starts playing music. 
+                                Play songs! This connects to the voice channel you're connected to and starts playing music.
                                 If the bot is already connected to a channel, this will just queue the song. You can either search or put an URL.
                                 You can use `~>play soundcloud <search>` to search in soundcloud's library.
                                 """)
@@ -252,10 +252,10 @@ public class MusicCmds {
                         .setDescription(
                             """
                             **This command doesn't put the song at the start of the queue, for that use `~>playnow`!**
-                            Play the first song I find in your search. 
-                            This connects to the voice channel the user that triggers it it's connected to, 
-                            *only* if there is no song playing currently and Mantaro isn't bound to any channel. 
-                            Basically this works as a join command on the first song. 
+                            Play the first song I find in your search.
+                            This connects to the voice channel the user that triggers it it's connected to,
+                            *only* if there is no song playing currently and Mantaro isn't bound to any channel.
+                            Basically this works as a join command on the first song.
                             If you're lost, use `~>music` for examples.
                             
                             You can use `~>forceplay soundcloud <search>` to search in soundcloud's library.""")

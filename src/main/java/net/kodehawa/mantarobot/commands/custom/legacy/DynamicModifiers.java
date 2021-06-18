@@ -23,6 +23,7 @@ import net.dv8tion.jda.api.events.message.guild.GenericGuildMessageEvent;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.utils.Utils;
 
+import java.io.Serial;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
 import static net.kodehawa.mantarobot.utils.Utils.iterate;
 
 public class DynamicModifiers extends LinkedHashMap<String, String> {
+    @Serial
     private static final long serialVersionUID = 1;
     private static final Pattern GETTER_MODIFIER = Pattern.compile("\\$\\([A-Za-z0-9.]+?\\)");
 
@@ -69,7 +71,6 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
         return this.set(prefix, guild.getName())
                 .set(prefix, "name", guild.getName())
                 .mapMember(k(prefix, "owner"), guild.retrieveOwner(false).complete())
-                .set(prefix, "region", guild.getRegion().getName())
                 .set(prefix, "totalusers", String.valueOf(guild.getMemberCount()))
                 .set(prefix, "icon", guild.getIconUrl() == null ? "https://i.imgur.com/k0V7Vnu.png" : guild.getIconUrl());
     }

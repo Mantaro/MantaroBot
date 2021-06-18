@@ -368,7 +368,7 @@ public class ImageCmds {
                         .setUsage(
                                 """
                                 `~>yandere` - Retrieves a random image.
-                                `~>yandere <tag> <rating>` - Fetches an image with the respective tag and specified parameters.         
+                                `~>yandere <tag> <rating>` - Fetches an image with the respective tag and specified parameters.
                                 """
                         )
                         .addParameter("tag", TAG_HELP.formatted("yande.re"))

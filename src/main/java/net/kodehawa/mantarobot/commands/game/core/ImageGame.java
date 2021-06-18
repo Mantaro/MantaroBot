@@ -40,7 +40,7 @@ public abstract class ImageGame extends Game<String> {
         eb.setImage("attachment://image.png")
                 .setColor(Color.PINK);
 
-        var message = new MessageBuilder().setEmbed(eb.build());
+        var message = new MessageBuilder().setEmbeds(eb.build());
         return channel.sendMessage(message.build())
                 .addFile(cache.getInput(url), "image.png");
     }

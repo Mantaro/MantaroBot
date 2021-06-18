@@ -21,7 +21,6 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;

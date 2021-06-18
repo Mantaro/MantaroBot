@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.core.modules.commands.base;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.options.core.Option;
-import net.kodehawa.mantarobot.utils.Utils;
 
 /**
  * "Assisted" version of the {@link Command} interface, providing some "common ground" for all Commands based on it.

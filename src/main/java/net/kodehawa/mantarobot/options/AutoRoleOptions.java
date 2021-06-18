@@ -44,7 +44,7 @@ public class AutoRoleOptions extends OptionHandler {
         registerOption("autorole:set", "Autorole set", """
                 Sets the server autorole. This means every user who joins will get this role.
                 **You need to use the role name, if it contains spaces you need to wrap it in quotation marks**
-                Example:** `~>opts autorole set Member`, `~>opts autorole set \"Magic Role\"`
+                Example:** `~>opts autorole set Member`, `~>opts autorole set "Magic Role"`
                 """, "Sets the server autorole.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.autorole_set.no_role", EmoteReference.ERROR);
@@ -91,7 +91,7 @@ public class AutoRoleOptions extends OptionHandler {
         registerOption("autoroles:add", "Autoroles add", """
                 Adds a role to the `~>iam` list.
                 You need the name of the iam and the name of the role. If the role contains spaces wrap it in quotation marks.
-                **Example:** `~>opts autoroles add member Member`, `~>opts autoroles add wew \"A role with spaces on its name\"`
+                **Example:** `~>opts autoroles add member Member`, `~>opts autoroles add wew "A role with spaces on its name"`
                 """, "Adds an auto-assignable role to the iam lists.", (ctx, args) -> {
             if (args.length < 2) {
                 ctx.sendLocalized("options.autoroles_add.no_args", EmoteReference.ERROR);

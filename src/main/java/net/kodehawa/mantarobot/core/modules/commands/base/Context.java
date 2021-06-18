@@ -259,7 +259,7 @@ public class Context {
     public void send(MessageEmbed embed) {
         // Sending embeds while supressing the failure callbacks leads to very hard
         // to debug bugs, so enable it.
-        getChannel().sendMessage(embed).queue(success -> {}, Throwable::printStackTrace);
+        getChannel().sendMessageEmbeds(embed).queue(success -> {}, Throwable::printStackTrace);
     }
 
     public void sendLocalized(String localizedMessage, Object... args) {

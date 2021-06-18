@@ -223,7 +223,7 @@ public class TracingPrintStream extends PrintStream {
                 destination.print("[" + getCaller() + "] ");
             }
 
-            destination.println(buffer.toString());
+            destination.println(buffer);
             buffer.reset();
         }
 

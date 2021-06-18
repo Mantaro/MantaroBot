@@ -625,10 +625,10 @@ public class CommandOptions extends OptionHandler {
         });
 
         registerOption("server:role:disallow", "Role disallow", """
-                Disallows all users with a role from executing commands.
-                You need to provide the name of the role to disallow from Mantaro on this server.
-                Example: `~>opts server role disallow bad`, `~>opts server role disallow \"No commands\"`
-                """,
+                        Disallows all users with a role from executing commands.
+                        You need to provide the name of the role to disallow from Mantaro on this server.
+                        Example: `~>opts server role disallow bad`, `~>opts server role disallow "No commands"`
+                        """,
                 "Disallows all users with a role from executing commands.", (ctx, args) -> {
                     if (args.length == 0) {
                         ctx.sendLocalized("options.server_role_disallow.no_name", EmoteReference.ERROR);
@@ -660,7 +660,7 @@ public class CommandOptions extends OptionHandler {
         registerOption("server:role:allow", "Role allow", """
                 Allows all users with a role from executing commands.
                 You need to provide the name of the role to allow from mantaro. Has to be already disabled.
-                Example: `~>opts server role allow bad`, `~>opts server role allow \"No commands\"`
+                Example: `~>opts server role allow bad`, `~>opts server role allow "No commands"`
                 """, "Allows all users with a role from executing commands (Has to be already disabled)", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.server_role_allow.no_name", EmoteReference.ERROR);

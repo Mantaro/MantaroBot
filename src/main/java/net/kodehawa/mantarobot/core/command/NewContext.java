@@ -271,7 +271,7 @@ public class NewContext {
     }
 
     public void send(MessageEmbed embed) {
-        getChannel().sendMessage(embed).queue();
+        getChannel().sendMessageEmbeds(embed).queue();
     }
 
     public void sendLocalized(String localizedMessage, Object... args) {

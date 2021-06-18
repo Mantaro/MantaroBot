@@ -39,7 +39,7 @@ public class Food extends Item {
         return type;
     }
 
-    public static enum FoodType {
+    public enum FoodType {
         CAT(HousePetType.CAT), DOG(HousePetType.DOG), HAMSTER(HousePetType.RAT), GENERAL(HousePetType.ALL);
 
         final HousePetType applicableType;

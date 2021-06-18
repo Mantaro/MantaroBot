@@ -79,7 +79,7 @@ public class Quest {
         return String.format("[ %s / %s ]", currentAmount, amount);
     }
 
-    public static enum QuestType {
+    public enum QuestType {
         MINE("commands.profile.quests.mine"),
         FISH("commands.profile.quests.fish"),
         CHOP("commands.profile.quests.chop"),

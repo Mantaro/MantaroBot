@@ -40,8 +40,8 @@ public class GuildOptions extends OptionHandler {
     @Subscribe
     public void onRegistry(OptionRegistryEvent e) {
         registerOption("prefix:set", "Prefix set", """
-                Sets the server prefix. 
-                **Example:** `~>opts prefix set .` 
+                Sets the server prefix.
+                **Example:** `~>opts prefix set .`
                 """, "Sets the server prefix.", (ctx, args) -> {
             if (args.length < 1) {
                 ctx.sendLocalized("options.prefix_set.no_prefix", EmoteReference.ERROR);
@@ -188,7 +188,10 @@ public class GuildOptions extends OptionHandler {
 
         registerOption("logs:editmessage", "Edit log message", """
                 Sets the edit message.
-                **Example:** `~>opts logs editmessage [$(hour)] Message (ID: $(event.message.id)) created by **$(event.user.tag)** in channel **$(event.channel.name)** was modified.\n```diff\n-$(old)\n+$(new)````
+                **Example:** `~>opts logs editmessage [$(hour)] Message (ID: $(event.message.id)) created by **$(event.user.tag)** in channel **$(event.channel.name)** was modified.
+                ```diff
+                -$(old)
+                +$(new)````
                 """, "Sets the edit message.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.logs_editmessage.no_message", EmoteReference.ERROR);
@@ -214,7 +217,8 @@ public class GuildOptions extends OptionHandler {
 
         registerOption("logs:deletemessage", "Delete log message", """
                 Sets the delete message.
-                **Example:** `~>opts logs deletemessage [$(hour)] Message (ID: $(event.message.id)) created by **$(event.user.tag)** (ID: $(event.user.id)) in channel **$(event.channel.name)** was deleted.```diff\n-$(content)``` `
+                **Example:** `~>opts logs deletemessage [$(hour)] Message (ID: $(event.message.id)) created by **$(event.user.tag)** (ID: $(event.user.id)) in channel **$(event.channel.name)** was deleted.```diff
+                -$(content)``` `
                 """, "Sets the delete message.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.logs_deletemessage.no_message", EmoteReference.ERROR);
@@ -332,7 +336,7 @@ public class GuildOptions extends OptionHandler {
 
         registerOption("djrole:set", "Set a custom DJ role", """
                 Sets a custom DJ role. This role will be used to control music.
-                **Example:** `~>opts djrole set DJ`, `~>opts djrole set \"Magic Role\"`
+                **Example:** `~>opts djrole set DJ`, `~>opts djrole set "Magic Role"`
                 """, "Sets the DJ role.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.djrole_set.no_role", EmoteReference.ERROR);

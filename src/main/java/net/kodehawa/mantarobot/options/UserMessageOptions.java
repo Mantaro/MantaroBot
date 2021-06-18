@@ -106,7 +106,7 @@ public class UserMessageOptions extends OptionHandler {
 
         registerOption("usermessage:leave:channel", "Sets the leave message channel", """
                 Sets the leave channel, you need the channel **name**.
-                You can reset it by doing `~>opts usermessage leave resetchannel` 
+                You can reset it by doing `~>opts usermessage leave resetchannel`
                 """, "Sets the leave message channel", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.usermessage_leave_channel.no_channel", EmoteReference.ERROR);
@@ -292,7 +292,7 @@ public class UserMessageOptions extends OptionHandler {
 
         registerOption("usermessage:joinmessages:list", "Join Message extra messages list", """
                 Lists all extra join messages
-                **Example**: `~>opts usermessage joinmessages list`", 
+                **Example**: `~>opts usermessage joinmessages list`",
                 """, "Lists all extra join messages", ((ctx, args) -> {
             StringBuilder builder = new StringBuilder();
             DBGuild dbGuild = ctx.getDBGuild();

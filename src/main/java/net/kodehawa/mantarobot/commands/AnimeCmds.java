@@ -235,7 +235,7 @@ public class AnimeCmds {
                         episodeDuration + " " + lang.get("commands.anime.minutes"), true
                 );
 
-        event.getChannel().sendMessage(embed.build()).queue();
+        event.getChannel().sendMessageEmbeds(embed.build()).queue();
     }
 
     private void characterData(GuildMessageReceivedEvent event, I18nContext lang, CharacterData character) {
@@ -275,7 +275,7 @@ public class AnimeCmds {
                     .setDescription(StringUtils.limit(charDescription, 1400))
                     .setFooter(lang.get("commands.anime.information_notice"), event.getAuthor().getEffectiveAvatarUrl());
 
-            event.getChannel().sendMessage(embed.build()).queue(success -> {
+            event.getChannel().sendMessageEmbeds(embed.build()).queue(success -> {
             }, Throwable::printStackTrace);
         } catch (Exception e) {
             e.printStackTrace();

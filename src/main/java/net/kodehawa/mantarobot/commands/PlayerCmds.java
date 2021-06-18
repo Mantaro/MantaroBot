@@ -466,7 +466,7 @@ public class PlayerCmds {
 
                 var player = ctx.getPlayer();
 
-                var message = new MessageBuilder().setEmbed(new EmbedBuilder()
+                var message = new MessageBuilder().setEmbeds(new EmbedBuilder()
                         .setAuthor(String.format(languageContext.get("commands.badges.info.header"), badge.display))
                         .setDescription(String.join("\n",
                                 EmoteReference.BLUE_SMALL_MARKER + "**" + languageContext.get("general.name") + ":** " + badge.display,

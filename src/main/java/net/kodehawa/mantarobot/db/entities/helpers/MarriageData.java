@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.db.entities.helpers;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
 

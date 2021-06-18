@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.exceptions.PermissionException;

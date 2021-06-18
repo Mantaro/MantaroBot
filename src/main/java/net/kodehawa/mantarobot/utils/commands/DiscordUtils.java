@@ -111,7 +111,7 @@ public class DiscordUtils {
                                               Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
                                               Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
         var r = embedList(list, toString);
-        event.getChannel().sendMessage(toEmbed.apply(r.getLeft())).queue();
+        event.getChannel().sendMessageEmbeds(toEmbed.apply(r.getLeft())).queue();
 
         return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list.get(i - 1)), cancelConsumer);
     }
@@ -120,7 +120,7 @@ public class DiscordUtils {
                                               Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
                                               Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
         var r = embedList(Arrays.asList(list), toString);
-        event.getChannel().sendMessage(toEmbed.apply(r.getLeft())).queue();
+        event.getChannel().sendMessageEmbeds(toEmbed.apply(r.getLeft())).queue();
 
         return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list[i - 1]), cancelConsumer);
     }
@@ -145,12 +145,12 @@ public class DiscordUtils {
 
         List<MessageEmbed> embeds = buildSplitEmbed(supplier, length, parts);
         if (embeds.size() == 1) {
-            event.getChannel().sendMessage(embeds.get(0)).queue();
+            event.getChannel().sendMessageEmbeds(embeds.get(0)).queue();
             return null;
         }
 
         var index = new AtomicInteger();
-        var message = event.getChannel().sendMessage(embeds.get(0)).complete();
+        var message = event.getChannel().sendMessageEmbeds(embeds.get(0)).complete();
 
         return ReactionOperations.create(message, timeoutSeconds, (e) -> {
             if (!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong()) {
@@ -164,7 +164,7 @@ public class DiscordUtils {
                         break;
                     }
 
-                    message.editMessage(embeds.get(index.decrementAndGet())).queue();
+                    message.editMessageEmbeds(embeds.get(index.decrementAndGet())).queue();
                 }
                 //right arrow
                 case "\u27a1" -> {
@@ -172,7 +172,7 @@ public class DiscordUtils {
                         break;
                     }
 
-                    message.editMessage(embeds.get(index.incrementAndGet())).queue();
+                    message.editMessageEmbeds(embeds.get(index.incrementAndGet())).queue();
                 }
                 default -> { } // Do nothing, but make codefactor happy lol
             }
@@ -196,12 +196,12 @@ public class DiscordUtils {
         }
 
         if (parts.size() == 1) {
-            event.getChannel().sendMessage(base.build()).queue();
+            event.getChannel().sendMessageEmbeds(base.build()).queue();
             return;
         }
 
         var index = new AtomicInteger();
-        var m = event.getChannel().sendMessage(base.build()).complete();
+        var m = event.getChannel().sendMessageEmbeds(base.build()).complete();
 
         InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), timeoutSeconds, e -> {
             if (!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong()) {
@@ -219,7 +219,7 @@ public class DiscordUtils {
                         event.getAuthor().getEffectiveAvatarUrl()
                 );
 
-                m.editMessage(toSend.build()).queue();
+                m.editMessageEmbeds(toSend.build()).queue();
             } else if (contentRaw.equals("&p >>") || contentRaw.equals("&page >>")) {
                 if (index.get() + 1 >= parts.size()) {
                     return Operation.IGNORED;
@@ -231,7 +231,7 @@ public class DiscordUtils {
                         event.getAuthor().getEffectiveAvatarUrl()
                 );
 
-                m.editMessage(toSend.build()).queue();
+                m.editMessageEmbeds(toSend.build()).queue();
             }
 
             if (contentRaw.equals("&cancel")) {
@@ -295,12 +295,12 @@ public class DiscordUtils {
 
         List<MessageEmbed> embeds = buildSplitEmbed(supplier, length, parts);
         if (embeds.size() == 1) {
-            event.getChannel().sendMessage(embeds.get(0)).queue();
+            event.getChannel().sendMessageEmbeds(embeds.get(0)).queue();
             return;
         }
 
         var index = new AtomicInteger();
-        var m = event.getChannel().sendMessage(embeds.get(0)).complete();
+        var m = event.getChannel().sendMessageEmbeds(embeds.get(0)).complete();
 
         InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), timeoutSeconds, e -> {
             if (!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong()) {
@@ -312,13 +312,13 @@ public class DiscordUtils {
                     return Operation.IGNORED;
                 }
 
-                m.editMessage(embeds.get(index.decrementAndGet())).queue();
+                m.editMessageEmbeds(embeds.get(index.decrementAndGet())).queue();
             } else if (e.getMessage().getContentRaw().equals("&p >>") || e.getMessage().getContentRaw().equals("&page >>")) {
                 if (index.get() + 1 >= embeds.size()) {
                     return Operation.IGNORED;
                 }
 
-                m.editMessage(embeds.get(index.incrementAndGet())).queue();
+                m.editMessageEmbeds(embeds.get(index.incrementAndGet())).queue();
             }
 
             if (e.getMessage().getContentRaw().equals("&cancel")) {
@@ -414,14 +414,14 @@ public class DiscordUtils {
         }
 
         if (parts.size() == 1) {
-            event.getChannel().sendMessage(base.build()).queue();
+            event.getChannel().sendMessageEmbeds(base.build()).queue();
             return null;
         }
 
         base.setFooter("Total Pages: %s | Thanks for using Mantaro ❤️".formatted(parts.size()), event.getAuthor().getEffectiveAvatarUrl());
 
         var index = new AtomicInteger();
-        var message = event.getChannel().sendMessage(base.build()).complete();
+        var message = event.getChannel().sendMessageEmbeds(base.build()).complete();
         return ReactionOperations.create(message, timeoutSeconds, (e) -> {
             if (!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong()) {
                 return Operation.IGNORED;
@@ -439,7 +439,7 @@ public class DiscordUtils {
                             event.getAuthor().getEffectiveAvatarUrl()
                     );
 
-                    message.editMessage(toSend.build()).queue();
+                    message.editMessageEmbeds(toSend.build()).queue();
                 }
                 //right arrow
                 case "\u27a1" -> {
@@ -451,7 +451,7 @@ public class DiscordUtils {
                     toSend1.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
                             event.getAuthor().getEffectiveAvatarUrl()
                     );
-                    message.editMessage(toSend1.build()).queue();
+                    message.editMessageEmbeds(toSend1.build()).queue();
                 }
                 default -> { } // Do nothing, but make codefactor happy lol
             }

@@ -20,7 +20,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.*;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;

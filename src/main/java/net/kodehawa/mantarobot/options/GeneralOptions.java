@@ -93,7 +93,7 @@ public class GeneralOptions extends OptionHandler {
                     .map(User::getAsTag)
                     .collect(Collectors.joining(","));
 
-            guildData.getModlogBlacklistedPeople().removeAll(toUnBlacklist);
+            toUnBlacklist.forEach(guildData.getModlogBlacklistedPeople()::remove);
             dbGuild.save();
 
             ctx.sendLocalized("options.modlog_whitelist.success", EmoteReference.CORRECT, unBlacklisted);

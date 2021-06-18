@@ -80,7 +80,7 @@ public class InfoCmds {
                         .setDescription(
                                 """
                                 Shows how to change the server and user languages, along with a language list.
-                                You can change the server language (if applicable) using `~>opts language set <language code>`. 
+                                You can change the server language (if applicable) using `~>opts language set <language code>`.
                                 Your personal language preferences can be changed using `~>profile lang <language code>`.
                                 Use the command to get a list of language codes.
                                 """
@@ -152,7 +152,6 @@ public class InfoCmds {
                         %2$s **%5$s:** %6$s
                         %2$s **%7$s:** %8$s
                         %2$s **%9$s:** %10$s
-                        %2$s **%11$s:** %12$s
                         """.formatted(languageContext.get("commands.serverinfo.description").formatted(guild.getName()),
                         BLUE_SMALL_MARKER,
                         languageContext.get("commands.serverinfo.users"),
@@ -161,10 +160,6 @@ public class InfoCmds {
                         "%,d / %,d".formatted(guild.getVoiceChannels().size(), guild.getTextChannels().size()),
                         languageContext.get("commands.serverinfo.owner"),
                         owner.getUser().getAsTag(),
-                        languageContext.get("commands.serverinfo.region"),
-                        guild.getRegion() == Region.UNKNOWN ?
-                                languageContext.get("general.unknown") :
-                                guild.getRegion().getName(),
                         languageContext.get("commands.serverinfo.created"),
                         Utils.formatDate(guild.getTimeCreated(), guildData.getLang())
                 );

@@ -86,7 +86,7 @@ public class AudioCmdUtils {
         }
 
         if (toSend.isEmpty()) {
-            channel.sendMessage(new EmbedBuilder()
+            channel.sendMessageEmbeds(new EmbedBuilder()
                     .setAuthor(
                             String.format(lang.get("commands.music_general.queue.header"), guild.getName()),
                             null, guild.getIconUrl()

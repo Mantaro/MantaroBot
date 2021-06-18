@@ -139,7 +139,7 @@ public class Trivia extends Game<String> {
                             lobby.getEvent().getAuthor().getAvatarUrl()
                     );
 
-            lobby.getChannel().sendMessage(eb.build()).queue(success -> lobby.setGameLoaded(true));
+            lobby.getChannel().sendMessageEmbeds(eb.build()).queue(success -> lobby.setGameLoaded(true));
 
             return true;
         } catch (Exception e) {

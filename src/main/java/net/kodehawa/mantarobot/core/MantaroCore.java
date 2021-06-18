@@ -432,7 +432,7 @@ public class MantaroCore {
         bot.getCore().markAsReady();
 
         // Get the amount of clusters
-        int clusterTotal = 1;
+        int clusterTotal;
         try(var jedis = MantaroData.getDefaultJedisPool().getResource()) {
             var clusters = jedis.hgetAll("node-stats-" + config.getClientId());
             clusterTotal = clusters.size();

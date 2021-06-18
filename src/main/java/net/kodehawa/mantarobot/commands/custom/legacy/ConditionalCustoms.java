@@ -20,6 +20,7 @@ import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.URLEncoding;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiPredicate;
@@ -109,7 +110,7 @@ public class ConditionalCustoms {
 
         //@jsonescape
         functions.put("jsonescape", args -> {
-            String s = JsonStringEncoder.getInstance().quoteAsString(String.join(";", args)).toString();
+            String s = Arrays.toString(JsonStringEncoder.getInstance().quoteAsString(String.join(";", args)));
             return s.substring(1, s.length() - 1);
         });
     }

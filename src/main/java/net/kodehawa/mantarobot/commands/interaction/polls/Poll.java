@@ -137,7 +137,7 @@ public class Poll extends Lobby {
                 builder.setImage(image);
             }
 
-            getChannel().sendMessage(builder.build()).queue(message -> createPoll(ctx, message, languageContext));
+            getChannel().sendMessageEmbeds(builder.build()).queue(message -> createPoll(ctx, message, languageContext));
 
             InteractiveOperations.create(getChannel(), Long.parseLong(owner), timeout, e -> {
                 if (e.getAuthor().getId().equals(owner)) {
@@ -207,7 +207,7 @@ public class Poll extends Lobby {
                             .collect(Collectors.joining("\n"));
 
                     embedBuilder.addField(languageContext.get("commands.poll.results"), "```diff\n" + votes + "```", false);
-                    getChannel().sendMessage(embedBuilder.build()).queue();
+                    getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
                 });
 
                 getRunningPolls().remove(getChannel().getId());

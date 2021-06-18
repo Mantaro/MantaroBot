@@ -45,8 +45,8 @@ public class CustomCommandHandler {
     private static final Pattern escape = Pattern.compile("\\\\");
     private final String args;
     private final Context ctx;
+    private final String prefixUsed;
     private String response;
-    private String prefixUsed;
 
     {
         specialHandlers.put("text", (ctx, value, args) -> ctx.send(value));

@@ -16,7 +16,10 @@
 
 package net.kodehawa.mantarobot.commands.custom.v3;
 
+import java.io.Serial;
+
 public class SyntaxException extends RuntimeException {
+    @Serial
     private static final long serialVersionUID = 1;
 
     public SyntaxException(String message) {

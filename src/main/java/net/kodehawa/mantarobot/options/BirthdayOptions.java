@@ -118,7 +118,7 @@ public class BirthdayOptions extends OptionHandler {
 
         registerOption("birthday:enable", "Birthday Monitoring enable", """
                 Enables birthday monitoring. You need the channel **name** and the role name (it assigns that role on birthday)
-                **Example:** `~>opts birthday enable general Birthday`, `~>opts birthday enable general \"Happy Birthday\"`
+                **Example:** `~>opts birthday enable general Birthday`, `~>opts birthday enable general "Happy Birthday"`
                 """, "Enables birthday monitoring.", (ctx, args) -> {
             if (args.length < 2) {
                 ctx.sendLocalized("options.birthday_enable.no_args", EmoteReference.ERROR);

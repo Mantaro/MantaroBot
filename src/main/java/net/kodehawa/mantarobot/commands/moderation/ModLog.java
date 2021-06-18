@@ -65,7 +65,7 @@ public class ModLog {
                     .getTextChannelById(guildDB.getData().getGuildLogChannel());
 
             if (logChannel != null) {
-                logChannel.sendMessage(embedBuilder.build()).queue();
+                logChannel.sendMessageEmbeds(embedBuilder.build()).queue();
             }
         }
     }

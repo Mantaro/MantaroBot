@@ -225,7 +225,7 @@ public class MantaroListener implements EventListener {
                 ).queue(message -> {
                     message.editMessage(
                             """
-                            %1$sYou received a premium key due to your donation to Mantaro. 
+                            %1$sYou received a premium key due to your donation to Mantaro.
                             If you have any doubts or questions, please contact Kodehawa#3457 or ask in the support server.
                             
                             Instructions: **Apply this key to yourself!**. This key is a subscription to Mantaro Premium, and will last as long as you pledge.
@@ -246,9 +246,7 @@ public class MantaroListener implements EventListener {
                     Metrics.PATRON_COUNTER.inc();
                     //Celebrate internally! \ o /
                     LogUtils.log("Delivered premium key to %s(%s)".formatted(user.getAsTag(), user.getId()));
-                }, error -> {
-                    LogUtils.log("Failed to deliver premium key to %s(%s). Maybe they had DMs disabled?".formatted(user.getAsTag(), user.getId()));
-                }));
+                }, error -> LogUtils.log("Failed to deliver premium key to %s(%s). Maybe they had DMs disabled?".formatted(user.getAsTag(), user.getId()))));
             });
         }
     }
@@ -462,7 +460,7 @@ public class MantaroListener implements EventListener {
                                 We have music, currency (money/economy), games and way more stuff you can check out!
                                 Make sure you use the `~>help` command to make yourself comfy and to get started with the bot!
 
-                                If you're interested in supporting Mantaro, check out our Patreon page below, it'll greatly help to improve the bot. 
+                                If you're interested in supporting Mantaro, check out our Patreon page below, it'll greatly help to improve the bot.
                                 Check out the links below for some help resources and quick start guides.
                                 This message will only be shown once.""")
                         .addField(EmoteReference.PENCIL.toHeaderString() + "Important Links",
@@ -488,7 +486,7 @@ public class MantaroListener implements EventListener {
                 ).findFirst().ifPresentOrElse(ch -> {
                     var channel = (TextChannel) ch;
                     if (channel.canTalk() && !guildData.hasReceivedGreet()) {
-                        channel.sendMessage(embedBuilder.build()).queue();
+                        channel.sendMessageEmbeds(embedBuilder.build()).queue();
                         guildData.setHasReceivedGreet(true);
                         dbGuild.save();
                     }
@@ -501,7 +499,7 @@ public class MantaroListener implements EventListener {
 
                     // Basically same code as above, but w/e.
                     if (channel != null && !guildData.hasReceivedGreet()) {
-                        channel.sendMessage(embedBuilder.build()).queue();
+                        channel.sendMessageEmbeds(embedBuilder.build()).queue();
                         guildData.setHasReceivedGreet(true);
                         dbGuild.save();
                     }
@@ -650,9 +648,9 @@ public class MantaroListener implements EventListener {
             allowedBirthdays.remove(user.getId());
             dbGuild.saveAsync();
 
-            var bdCacheMap = BirthdayCmd.getGuildBirthdayCache().getIfPresent(guild.getId());
+            var bdCacheMap = BirthdayCmd.getGuildBirthdayCache().getIfPresent(guild.getIdLong());
             if (bdCacheMap != null) {
-                bdCacheMap.remove(user.getId());
+                bdCacheMap.remove(user.getIdLong());
             }
         }
     }
@@ -702,7 +700,7 @@ public class MantaroListener implements EventListener {
                             return;
                         }
 
-                        var builder = new MessageBuilder().setEmbed(embed.gen(null));
+                        var builder = new MessageBuilder().setEmbeds(embed.gen(null));
                         if (!extra.isEmpty()) {
                             builder.append(extra);
                         }
