@@ -144,6 +144,7 @@ public class MantaroListener implements EventListener {
                 Metrics.GUILD_COUNT.set(shardManager.getGuildCache().size());
                 Metrics.USER_COUNT.set(shardManager.getUserCache().size());
             }
+
             return;
         }
 
@@ -153,6 +154,7 @@ public class MantaroListener implements EventListener {
                 Metrics.GUILD_COUNT.set(shardManager.getGuildCache().size());
                 Metrics.USER_COUNT.set(shardManager.getUserCache().size());
             }
+
             return;
         }
         // !! Events needed for the log feature end
@@ -171,18 +173,8 @@ public class MantaroListener implements EventListener {
 
         if (event instanceof ResumedEvent) {
             Metrics.SHARD_EVENTS.labels("resume").inc();
-            return;
         }
 
-        if (event instanceof HttpRequestEvent) {
-            // We've fucked up big time if we reach this
-            final var httpRequestEvent = (HttpRequestEvent) event;
-            if (httpRequestEvent.isRateLimit()) {
-                LOG.error("!!! Reached 429 on: {}", httpRequestEvent.getRoute());
-                Metrics.HTTP_429_REQUESTS.inc();
-            }
-            Metrics.HTTP_REQUESTS.inc();
-        }
         // !! Internal event end
     }
 
@@ -196,7 +188,7 @@ public class MantaroListener implements EventListener {
      * @param event The event that says that a role got added, obv.
      */
     private void handleNewPatron(GuildMemberRoleAddEvent event) {
-        //Only in mantaro's guild...
+        //Only in Mantaro's guild...
         if (event.getGuild().getIdLong() == 213468583252983809L && !CONFIG.isPremiumBot()) {
             threadPool.execute(() -> {
                 var hasPatronRole = event.getMember().getRoles().stream().anyMatch(r -> r.getId().equals("290257037072531466"));

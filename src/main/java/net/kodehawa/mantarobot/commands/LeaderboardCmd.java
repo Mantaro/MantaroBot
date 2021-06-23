@@ -24,6 +24,9 @@ import com.rethinkdb.net.Connection;
 import com.rethinkdb.utils.Types;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.Button;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.utils.leaderboards.CachedLeaderboardMember;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -107,7 +110,7 @@ public class LeaderboardCmd {
                 var gambleLeaderboard = getLeaderboard("playerstats", "gambleWins",
                         player -> player.pluck("id", "gambleWins"));
 
-                ctx.send(
+                send(ctx,
                         generateLeaderboardEmbed(ctx,
                                 languageContext.get("commands.leaderboard.inner.gamble").formatted(EmoteReference.MONEY),
                                 "commands.leaderboard.gamble", gambleLeaderboard,
@@ -129,7 +132,7 @@ public class LeaderboardCmd {
                 var slotsLeaderboard = getLeaderboard("playerstats", "slotsWins",
                         player -> player.pluck("id", "slotsWins"));
 
-                ctx.send(
+                send(ctx,
                         generateLeaderboardEmbed(ctx,
                                 languageContext.get("commands.leaderboard.inner.slots").formatted(EmoteReference.MONEY),
                                 "commands.leaderboard.slots", slotsLeaderboard,
@@ -164,7 +167,7 @@ public class LeaderboardCmd {
                                 }
                             });
 
-                    ctx.send(
+                    send(ctx,
                             generateLeaderboardEmbed(
                                     ctx,
                                     seasonal ?
@@ -209,7 +212,7 @@ public class LeaderboardCmd {
                         player -> player.g("id"),
                         player -> player.pluck("id", "money"));
 
-                ctx.send(
+                send(ctx,
                         generateLeaderboardEmbed(ctx,
                                 languageContext.get("commands.leaderboard.inner.money_old").formatted(EmoteReference.MONEY),
                                 "commands.leaderboard.money", moneyLeaderboard,
@@ -233,7 +236,7 @@ public class LeaderboardCmd {
                         player -> player.g("id"),
                         player -> player.pluck("id", "level", r.hashMap("data", "experience")));
 
-                ctx.send(
+                send(ctx,
                         generateLeaderboardEmbed(ctx,
                         languageContext.get("commands.leaderboard.inner.lvl").formatted(EmoteReference.ZAP),
                                 "commands.leaderboard.level", levelLeaderboard,
@@ -264,7 +267,7 @@ public class LeaderboardCmd {
                         player -> player.g("id"),
                         player -> player.pluck("id", "reputation"));
 
-                ctx.send(
+                send(ctx,
                         generateLeaderboardEmbed(ctx,
                         languageContext.get("commands.leaderboard.inner.rep").formatted(EmoteReference.REP),
                                 "commands.leaderboard.reputation", reputationLeaderboard,
@@ -291,7 +294,7 @@ public class LeaderboardCmd {
                         player -> player.g("id"),
                         player -> player.pluck("id", r.hashMap("data", "dailyStrike")));
 
-                ctx.send(
+                send(ctx,
                         generateLeaderboardEmbed(ctx,
                         languageContext.get("commands.leaderboard.inner.streak").formatted(EmoteReference.POPPER),
                                 "commands.leaderboard.daily", dailyLeaderboard,
@@ -319,7 +322,7 @@ public class LeaderboardCmd {
                 List<Map<String, Object>> claimLeaderboard = getLeaderboard("users", "timesClaimed",
                         player -> player.pluck("id", r.hashMap("data", "timesClaimed")));
 
-                ctx.send(
+                send(ctx,
                         generateLeaderboardEmbed(ctx,
                         languageContext.get("commands.leaderboard.inner.claim").formatted(EmoteReference.HEART),
                                 "commands.leaderboard.claim", claimLeaderboard,
@@ -351,7 +354,7 @@ public class LeaderboardCmd {
                         player -> player.g("id"),
                         player -> player.pluck("id", r.hashMap("data", "gamesWon")));
 
-                ctx.send(
+                send(ctx,
                         generateLeaderboardEmbed(ctx,
                         languageContext.get("commands.leaderboard.inner.game").formatted(EmoteReference.ZAP),
                                 "commands.leaderboard.game", gameLeaderboard,
@@ -500,5 +503,15 @@ public class LeaderboardCmd {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private void send(Context ctx, MessageEmbed embed) {
+        ctx.send(
+                embed,
+                ActionRow.of(
+                        Button.link("https://github.com/Mantaro/MantaroBot/wiki/Terms-of-Service", "Terms of Service"),
+                        Button.link("https://wiki.mantaro.site", "Wiki")
+                )
+        );
     }
 }

@@ -20,6 +20,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.Button;
 import net.kodehawa.mantarobot.commands.anime.AnimeData;
 import net.kodehawa.mantarobot.commands.anime.CharacterData;
 import net.kodehawa.mantarobot.commands.anime.KitsuRetriever;
@@ -235,7 +237,9 @@ public class AnimeCmds {
                         episodeDuration + " " + lang.get("commands.anime.minutes"), true
                 );
 
-        event.getChannel().sendMessageEmbeds(embed.build()).queue();
+        event.getChannel().sendMessageEmbeds(embed.build())
+                .setActionRows(ActionRow.of(Button.link(animeData.getURL(), lang.get("commands.anime.external_link_text"))))
+                .queue();
     }
 
     private void characterData(GuildMessageReceivedEvent event, I18nContext lang, CharacterData character) {

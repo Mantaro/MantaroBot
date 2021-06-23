@@ -19,6 +19,8 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.Button;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -59,8 +61,6 @@ public class HelpCmd {
                     .formatted(languageContext.get(category.toString()))
             );
         }
-
-        description.append(languageContext.get("commands.help.support"));
 
         if (!dbUser.isPremium() && !dbGuild.isPremium()) {
             description.append(languageContext.get("commands.help.patreon"));
@@ -111,7 +111,14 @@ public class HelpCmd {
                         )
                 );
 
-        ctx.send(embed.build());
+        ctx.send(embed.build(),
+                ActionRow.of(
+                        Button.link("https://patreon.com/mantaro", "Patreon"),
+                        Button.link("https://wiki.mantaro.site", "More Help"),
+                        Button.link("https://support.mantaro.site", "Support Server"),
+                        Button.link("https://twitter.com/mantarodiscord", "Twitter")
+                )
+        );
     }
 
     @Subscribe
@@ -270,12 +277,12 @@ public class HelpCmd {
                         }
                     }
 
-                    builder.addField(EmoteReference.MAGAZINE.toHeaderString() + "Still lost?",
-                            "[Check the wiki](https://wiki.mantaro.site) or " +
-                                    "[get support here!](https://support.mantaro.site)",  false
-                    ).setFooter("Thanks for using Mantaro!", ctx.getAuthor().getEffectiveAvatarUrl());
-
-                    ctx.send(builder.build());
+                    ctx.send(builder.build(),
+                            ActionRow.of(
+                                    Button.link("https://wiki.mantaro.site", "Check the wiki!"),
+                                    Button.link("https://support.mantaro.site", "Get support here")
+                            )
+                    );
                 }
             }
 

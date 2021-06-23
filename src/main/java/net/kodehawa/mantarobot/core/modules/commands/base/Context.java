@@ -20,6 +20,8 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.concurrent.Task;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -36,10 +38,8 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import redis.clients.jedis.JedisPool;
 
-import java.util.EnumSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import javax.swing.*;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class Context {
@@ -250,10 +250,26 @@ public class Context {
         getChannel().sendMessage(message).queue();
     }
 
+    public void send(String message, ActionRow... actionRow) {
+        getChannel().sendMessage(message).setActionRows(actionRow).queue();
+    }
+
     public void sendFormat(String message, Object... format) {
         getChannel().sendMessage(
                 String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format)
         ).queue();
+    }
+
+    public void sendFormat(String message, Collection<ActionRow> actionRow, Object... format) {
+        getChannel().sendMessage(
+                String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format)
+        ).setActionRows(actionRow).queue();
+    }
+
+    public void send(MessageEmbed embed, ActionRow... actionRow) {
+        // Sending embeds while supressing the failure callbacks leads to very hard
+        // to debug bugs, so enable it.
+        getChannel().sendMessageEmbeds(embed).setActionRows(actionRow).queue(success -> {}, Throwable::printStackTrace);
     }
 
     public void send(MessageEmbed embed) {
@@ -269,8 +285,20 @@ public class Context {
         ).queue(success -> {}, Throwable::printStackTrace);
     }
 
+    public void sendLocalized(String localizedMessage, Collection<ActionRow> actionRow, Object... args) {
+        // Stop swallowing issues with String replacements (somehow really common)
+        getChannel().sendMessage(
+                String.format(Utils.getLocaleFromLanguage(getLanguageContext()), languageContext.get(localizedMessage), args)
+        ).setActionRows(actionRow).queue(success -> {}, Throwable::printStackTrace);
+    }
+
+
     public void sendLocalized(String localizedMessage) {
         getChannel().sendMessage(languageContext.get(localizedMessage)).queue();
+    }
+
+    public void sendLocalized(String localizedMessage, ActionRow... actionRow) {
+        getChannel().sendMessage(languageContext.get(localizedMessage)).setActionRows(actionRow).queue();
     }
 
     public void sendStripped(String message) {

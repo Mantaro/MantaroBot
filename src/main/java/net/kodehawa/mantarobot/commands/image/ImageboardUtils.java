@@ -18,6 +18,8 @@ package net.kodehawa.mantarobot.commands.image;
 
 import com.google.common.collect.ImmutableMap;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.Button;
 import net.kodehawa.lib.imageboards.DefaultImageBoards;
 import net.kodehawa.lib.imageboards.ImageBoard;
 import net.kodehawa.lib.imageboards.entities.BoardImage;
@@ -277,7 +279,7 @@ public class ImageboardUtils {
                         null
                 );
 
-        ctx.send(builder.build());
+        ctx.send(builder.build(), ActionRow.of(Button.link(url, languageContext.get("commands.imageboard.open_in_browser_link"))));
     }
 
     // This is so random is a valid rating.

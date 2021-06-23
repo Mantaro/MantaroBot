@@ -298,7 +298,7 @@ public class UserMessageOptions extends OptionHandler {
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData data = dbGuild.getData();
 
-            if (data.getExtraJoinMessages().isEmpty()) {
+            if (data.getExtraJoinMessages().isEmpty() && data.getJoinMessage() != null) {
                 ctx.sendLocalized("options.usermessage_joinmessage_list.no_extras", EmoteReference.ERROR);
                 return;
             }
