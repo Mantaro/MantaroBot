@@ -1337,7 +1337,7 @@
       "konachan_nsfw_notice": "%1$sKonachan, danbooru e safebooru só podem ser usados em canais NSFW devido à classificação inconsistentes ao seu lado. Use esse comando em um canal NSFW ao invés disso (você pode deixar um canal assim nas configurações de canal).",
       "e621_nsfw_notice": "%1$sO comando e621 só pode ser usado em canais NSFW.",
       "e926_nsfw_notice": "%1$sO comando e926 só pode ser usado em canais NSFW. As imagens devem ser geralmente de boas, mas a classificação é inconsistente.",
-      "open_in_browser_link": "Open image in your browser"
+      "open_in_browser_link": "Abra a imagem no seu navegador"
     },
     "pet": {
       "explanation": "Pets são companhias úteis na moeda!\nEles te ajudam a ganhar mais dinheiro, mais loot, achar coisas aleatórias no mine, cortar árvores e até pegar peixe. Mais level, mais alta as recompensas!\nObtendo o pet certo para sua atividades é importante, então tenha certeza de checar o tipo e as habilidades do pet que você escolher!\nLembre-se que você precisa alimentar seu pet e dar água pra ele, também eixar ele descansar e recarregar a energia de vez e quando, como um pet real! Você ainda pode acariciar ele :)\nTem dois tipos: Personal (para você mesmo) e Marriage (compartilhado com seu parceiro e você). Escolha um usando `~>pet choice`. O padrão é Personal.\nPara mais ajuda, use `~>help pet` e `~>pet list` para uma lista de pets.",
@@ -1638,7 +1638,7 @@
       "genres": "Gêneros",
       "minutes": "minutos",
       "description": "Descrição",
-      "external_link_text": "Check it out!"
+      "external_link_text": "Confira!"
     },
     "character": {
       "no_args": "%1$sVocê precisa me dizer qual personagem você quer procurar.",
