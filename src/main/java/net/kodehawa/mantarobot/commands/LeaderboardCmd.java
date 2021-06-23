@@ -510,7 +510,8 @@ public class LeaderboardCmd {
                 embed,
                 ActionRow.of(
                         Button.link("https://github.com/Mantaro/MantaroBot/wiki/Terms-of-Service", "Terms of Service"),
-                        Button.link("https://wiki.mantaro.site", "Wiki")
+                        Button.link("https://wiki.mantaro.site", "Wiki"),
+                        Button.link("https://github.com/Mantaro/MantaroBot/wiki/Currency-101", "Currency Guide")
                 )
         );
     }
