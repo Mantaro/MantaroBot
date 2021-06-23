@@ -173,6 +173,11 @@ public class MantaroListener implements EventListener {
 
         if (event instanceof ResumedEvent) {
             Metrics.SHARD_EVENTS.labels("resume").inc();
+            return;
+        }
+
+        if (event instanceof HttpRequestEvent) {
+            Metrics.HTTP_REQUESTS.inc();
         }
 
         // !! Internal event end
