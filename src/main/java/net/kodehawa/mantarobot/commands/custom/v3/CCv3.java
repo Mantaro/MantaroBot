@@ -364,8 +364,10 @@ public class CCv3 {
                     .append("`");
         }
 
-        builder.setEmbeds(embed == null ? null : embed.gen(ctx.getMember()))
-                .denyMentions(Message.MentionType.ROLE, Message.MentionType.EVERYONE, Message.MentionType.HERE);
+        builder.denyMentions(Message.MentionType.ROLE, Message.MentionType.EVERYONE, Message.MentionType.HERE);
+        if (embed != null) {
+            builder.setEmbeds(embed.gen(ctx.getMember()));
+        }
 
         ctx.send(builder.build());
     }

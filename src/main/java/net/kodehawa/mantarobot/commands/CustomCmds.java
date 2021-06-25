@@ -857,18 +857,17 @@ public class CustomCmds {
                 }
 
                 String cmd = args[0];
-                String value = content.replaceFirst(args[0], "").trim();
+                if (!NAME_PATTERN.matcher(cmd).matches()) {
+                    ctx.sendLocalized("commands.custom.character_not_allowed", EmoteReference.ERROR);
+                    return;
+                }
 
+                String value = content.replaceFirst(args[0], "").trim();
                 Map<String, String> opts = ctx.getOptionalArguments();
                 String cmdSource = Utils.replaceArguments(opts, value, "nsfw");
 
                 if (cmdSource.isEmpty()) {
                     ctx.sendLocalized("commands.custom.add.empty_content", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (!NAME_PATTERN.matcher(cmd).matches()) {
-                    ctx.sendLocalized("commands.custom.character_not_allowed", EmoteReference.ERROR);
                     return;
                 }
 
