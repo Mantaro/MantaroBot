@@ -723,16 +723,14 @@ public class MarketCmd {
 
         if (hasReactionPerms) {
             embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"),
-                    String.format(String.format(languageContext.get("general.reaction_timeout"), 200),
-                            EmoteReference.BUY, EmoteReference.SELL)) + "\n"
+                   String.format(languageContext.get("general.reaction_timeout"), 200) + "\n")
                     + (user.isPremium() ? "" : languageContext.get("general.sellout")) + languageContext.get("commands.market.reference")
             );
 
             DiscordUtils.list(ctx.getEvent(), 200, false, embed, splitFields);
         } else {
             embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"),
-                    String.format(String.format(languageContext.get("general.reaction_timeout"), 200),
-                            EmoteReference.BUY, EmoteReference.SELL)) + "\n"
+                    String.format(languageContext.get("general.reaction_timeout"), 200) + "\n")
                     + (user.isPremium() ? "" : languageContext.get("general.sellout")) + languageContext.get("commands.market.reference")
             );
 

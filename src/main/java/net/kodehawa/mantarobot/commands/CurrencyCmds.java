@@ -605,8 +605,7 @@ public class CurrencyCmds {
                 // TODO: Make a common class for this instead of making static methods on unrelated classes, PLEASE
                 var equipment = ProfileCmd.parsePlayerEquipment(equippedItems, ctx.getLanguageContext());
 
-                // This is funny, but I really don't wanna repeat code ;-;
-                ctx.send(equipment.replaceAll("\u2009", "").trim());
+                ctx.send(equipment);
             }
 
             @Override
