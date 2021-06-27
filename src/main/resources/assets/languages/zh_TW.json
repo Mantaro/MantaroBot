@@ -154,7 +154,7 @@
       "not_suitable": "%1$s你不能用這個釣魚。",
       "shark_success": "%1$s你設法釣到了一隻大鯊魚，你的釣竿看起來挺堅固的嘛，是不是？",
       "fossil_success": "%1$s你在釣魚時還釣到了化石，看起來像是鑄造的材料，這可能非常值錢。",
-      "bait": "有隻魚在過程中把你的魚餌吃掉了!",
+      "bait": "有隻魚把你的魚餌吃掉了!",
       "missing_equipped": "%1$s你原本有支已裝備的 %2$s，但是你已經把庫存都用光了！已裝備釣竿已重設。",
       "broken_drop": "%1$s你的釣竿壞掉了，但是你還可以修復它。得到損壞物品：%2$s *%3$s*",
       "no_rod_equipped": "%1$s你目前沒有已裝備的釣竿。使用 `~>equip <rod name>` 來裝備一支新的釣竿！"
@@ -1336,7 +1336,8 @@
       "yandere_nsfw_notice": "%1$sThe Yande.re and Gelbooru commands can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side. Use this command in a NSFW channel instead.",
       "konachan_nsfw_notice": "%1$sKonachan, danbooru and safebooru can only be used in NSFW channels only due to inconsistent rating on their side. Use this command in a NSFW channel instead (you can mark a channel as one in the channel settings).",
       "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels.",
-      "e926_nsfw_notice": "%1$sThe e926 command can only be used on NSFW channels. The images should be mostly safe, but the rating is inconsistent."
+      "e926_nsfw_notice": "%1$sThe e926 command can only be used on NSFW channels. The images should be mostly safe, but the rating is inconsistent.",
+      "open_in_browser_link": "Open image in your browser"
     },
     "pet": {
       "explanation": "寵物們是貨幣系統的好伴侶！\n他們會幫助你獲得更多的金錢，更多的掉落物。在你挖礦的時候找到隨機的物品，砍樹，甚至是釣魚！寵物的等級越高，獎勵的數量也會隨之增加！\n為你的活動選擇合適的寵物是很重要的，記得檢查你想選擇的寵物類型和能力！\n別忘記你還是需要定期餵養你的寵物，給他喝水，讓他休息，就像個真正的寵物！你甚至能夠撫摸他的頭 :)\n你能擁有兩個寵物：個人 (你自己的) 及 婚姻 (你與你的伴侶之間共享)。使用 `~>pet choice` 來選擇。默認為個人。\n如需更多幫助，請使用 `~>help pet`，或使用 `~>pet list` 來查看所有的寵物。",
@@ -1442,9 +1443,9 @@
         "low_thirst": "%1$s**%2$s** 太渴了，無法做任何事。",
         "low_mood": "%1$s**%2$s** 的心情不太好。你可能要先陪他玩玩！",
         "dusty": "%1$s**%2$s** 身上太髒了。別忘記清潔你的寵物。",
-        "success_fish": "%1$s**%2$s** 幫助你抓到魚了！多虧了寵物為你做的事情，你獲得了Buff和額外的金錢 **(%3$,d 元和 %4$,d 個物品)**！*已經包含在你得到的掉落物中*",
-        "success_chop": "%1$s**%2$s** 幫助你伐木了！多虧了寵物為你做的事情，你獲得了Buff和額外的金錢 **(%3$,d 元和 %4$,d 個物品)**！*已經包含在你得到的掉落物中*",
-        "success_mine": "%1$s**%2$s** 幫助你挖礦了！多虧了寵物為你做的事情，你獲得了Buff和額外的金錢 **(%3$,d 元和額外的物品掉落機會)**！*已經包含在你得到的掉落物中*"
+        "success_fish": "%1$s**%2$s** 幫助你抓到魚了！多虧了寵物為你做的事情，你獲得了額外的 **%3$,d 元和 %4$,d 個物品**！*已經包含在你得到的掉落物中*",
+        "success_chop": "%1$s**%2$s** 幫助你伐木了！多虧了寵物為你做的事情，你獲得了額外的 **%3$,d 元和 %4$,d 個物品**！*已經包含在你得到的掉落物中*",
+        "success_mine": "%1$s**%2$s** 幫助你挖礦了！多虧了寵物為你做的事情，你獲得了額外的 **%3$,d 元和 %4$,d 個物品**！*已經包含在你得到的掉落物中*"
       },
       "rename": {
         "no_pet": "%1$s你沒有寵物可以重新命名。(寵物選擇為：%2$s)%3$s",
@@ -1636,7 +1637,8 @@
       "episode_duration": "長度",
       "genres": "分類",
       "minutes": "分鐘",
-      "description": "描述"
+      "description": "描述",
+      "external_link_text": "Check it out!"
     },
     "character": {
       "no_args": "%1$s你需要指出你想查看的角色名稱。",
