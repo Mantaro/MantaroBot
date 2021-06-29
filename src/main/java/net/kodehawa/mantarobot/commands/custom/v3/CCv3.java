@@ -261,7 +261,6 @@ public class CCv3 {
 
             String iam = args.get(0).evaluate();
             String ctn = args.stream().skip(1).map(Operation.Argument::evaluate).collect(Collectors.joining(" "));
-            GuildMessageReceivedEvent event = context.event();
 
             if (ctn.isEmpty())
                 MiscCmds.iamFunction(iam, context.getCommandContext());
@@ -348,8 +347,8 @@ public class CCv3 {
         String result = ast.accept(new InterpreterVisitor(), context);
         EmbedJSON embed = context.get("embed");
 
+        // Sending a message here breaks iam and others, lol
         if (embed == null && result.isEmpty()) {
-            ctx.send("Command response is empty.");
             return;
         }
 
@@ -369,6 +368,10 @@ public class CCv3 {
             builder.setEmbeds(embed.gen(ctx.getMember()));
         }
 
-        ctx.send(builder.build());
+        try {
+            ctx.send(builder.build());
+        } catch (Exception e) {
+            ctx.send("Error parsing command response. Maybe there's a space where there shouldn't be one?");
+        }
     }
 }
