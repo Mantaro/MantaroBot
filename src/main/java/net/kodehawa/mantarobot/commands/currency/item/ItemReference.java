@@ -311,7 +311,7 @@ public class ItemReference {
                     "items.description.fragment", 50, 3
             ),
 
-            MOP = new Item(ItemType.INTERACTIVE, "\uD83E\uDDF9",
+            MOP = new Item(ItemType.INTERACTIVE, EmoteReference.MOP.getUnicode(),
                     "Mop", "items.mop", "items.description.mop",
                     10, true
             ),
@@ -468,7 +468,7 @@ public class ItemReference {
                     800, false
             ),
 
-            SHARK = new Fish(ItemType.FISHING_RARE, 10, "\uD83E\uDD88",
+            SHARK = new Fish(ItemType.FISHING_RARE, 10, EmoteReference.SHARK.getUnicode(),
                     "Shark", "items.shark", "items.description.shark",
                     1000, false
             ),

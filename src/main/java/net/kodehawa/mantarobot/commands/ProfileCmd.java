@@ -650,7 +650,7 @@ public class ProfileCmd {
 
                     List<MessageEmbed.Field> fields = new LinkedList<>();
                     for (StatsComponent component : StatsComponent.values()) {
-                        fields.add(new MessageEmbed.Field(component.getName(ctx),
+                        fields.add(new MessageEmbed.Field(component.getEmoji() + component.getName(ctx),
                                 component.getContent(new StatsComponent.Holder(ctx, languageContext, player, dbUser, toLookup)),
                                 false)
                         );

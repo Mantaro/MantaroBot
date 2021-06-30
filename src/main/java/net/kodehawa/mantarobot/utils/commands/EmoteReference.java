@@ -101,6 +101,10 @@ public enum EmoteReference {
     SLIDER(":level_slider:", "\uD83C\uDF9A\uFE0F"),
     WIDTH(":left_right_arrow:", "\u2194\uFE0F"),
     HEIGHT(":arrow_up_down:", "\u2195\uFE0F"),
+    SHARK(":shark:", "\uD83E\uDD88"),
+    MOP(":broom:", "\uD83E\uDDF9"),
+    GLOBE("globe_with_meridians:", "\uD83C\uDF10"),
+    LOCK(":lock:", "\uD83D\uDD12"),
     //Custom emotes.
     LOOT_CRATE("<:lootbox:556992254749966346>", null),
     MINE_CRATE("<:mine_lootbox:556992254623875073>", null),

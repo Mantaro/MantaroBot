@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.currency.profile;
 
+import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.ProfileCmd;
 import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
@@ -33,11 +34,11 @@ import java.util.function.Function;
 
 // This isn't pretty, but the old one was *less* pretty!
 public enum StatsComponent {
-    MARKET_USED(lang -> lang.get("commands.profile.stats.market"), holder -> {
+    MARKET_USED(EmoteReference.MARKET, lang -> lang.get("commands.profile.stats.market"), holder -> {
         return "%,d %s".formatted(holder.getPlayerData().getMarketUsed(), holder.getI18nContext().get("commands.profile.stats.times"));
     }),
 
-    POTION_ACTIVE(lang -> lang.get("commands.profile.stats.potion"), holder -> {
+    POTION_ACTIVE(EmoteReference.BOOSTER, lang -> lang.get("commands.profile.stats.potion"), holder -> {
         var equippedItems = holder.getUserData().getEquippedItems();
         var potion = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.POTION);
         var potionEffect = equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION);
@@ -52,14 +53,16 @@ public enum StatsComponent {
             ) ? potionEffect.getAmountEquipped() : potionEffect.getAmountEquipped() - 1;
         }
         var noPotion = potion == null || !isPotionActive;
-
-        return (noPotion ? "None" : String.format("%s (%dx)", potion.getName(), potionEquipped)) +
-                "\n*" + holder.getI18nContext().get("commands.profile.stats.times_used") + "*: " +
-                (noPotion ? "Not equipped" : potionEffect.getTimesUsed() + " " +
-                        holder.getI18nContext().get("commands.profile.stats.times"));
+        if (noPotion) {
+            return "None";
+        } else {
+            return "%s (%dx)\n%s: %,d %s".formatted(potion.getName(), potionEquipped, holder.getI18nContext().get("commands.profile.stats.times_used"),
+                    potionEffect.getTimesUsed(), holder.getI18nContext().get("commands.profile.stats.times")
+            );
+        }
     }),
 
-    BUFF_ACTIVE(lang -> lang.get("commands.profile.stats.buff"), holder -> {
+    BUFF_ACTIVE(EmoteReference.BOOSTER, lang -> lang.get("commands.profile.stats.buff"), holder -> {
         var equippedItems = holder.getUserData().getEquippedItems();
         var buff = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.BUFF);
         var buffEffect = equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF);
@@ -74,48 +77,55 @@ public enum StatsComponent {
         }
         var noBuff = buff == null || !isBuffActive;
 
-        return (noBuff ? "None" : String.format("%s (%dx)", buff.getName(), buffEquipped)) +
-                "\n*" + holder.getI18nContext().get("commands.profile.stats.times_used") + "*: " +
-                (noBuff ? "Not equipped" : buffEffect.getTimesUsed() + " " +
-                        holder.getI18nContext().get("commands.profile.stats.times"));
+        if (noBuff) {
+            return "None";
+        } else {
+            return "%s (%dx)\n%s: %,d %s".formatted(buff.getName(), buffEquipped, holder.getI18nContext().get("commands.profile.stats.times_used"),
+                    buffEffect.getTimesUsed(), holder.getI18nContext().get("commands.profile.stats.times")
+            );
+        }
     }),
 
-    EQUIPMENT(lang -> lang.get("commands.profile.stats.equipment"), holder -> {
+    EQUIPMENT(EmoteReference.PICK, lang -> lang.get("commands.profile.stats.equipment"), holder -> {
         var equippedItems = holder.getUserData().getEquippedItems();
         return ProfileCmd.parsePlayerEquipment(equippedItems, holder.getI18nContext());
     }),
 
-    EXPERIENCE(lang -> lang.get("commands.profile.stats.experience"), holder -> {
+    EXPERIENCE(EmoteReference.ZAP, lang -> lang.get("commands.profile.stats.experience"), holder -> {
         var experienceNext = (long) (holder.getPlayer().getLevel() * Math.log10(holder.getPlayer().getLevel()) * 1000) +
                 (50 * holder.getPlayer().getLevel() / 2);
 
         return "%,d/%,d XP".formatted(holder.getPlayerData().getExperience(), experienceNext);
     }),
 
-    AUTO_EQUIP(lang -> lang.get("commands.profile.stats.autoequip"), holder -> String.valueOf(holder.getUserData().isAutoEquip())),
+    AUTO_EQUIP(EmoteReference.SATELLITE, lang -> lang.get("commands.profile.stats.autoequip"), holder -> String.valueOf(holder.getUserData().isAutoEquip())),
 
-    MINE_EXPERIENCE(lang -> lang.get("commands.profile.stats.mine_xp"), holder -> "%,d XP"
-            .formatted(holder.getPlayerData().getMiningExperience())),
+    ACTIVITY_EXPERIENCE(EmoteReference.ZAP, lang -> lang.get("commands.profile.stats.activity_xp"), holder -> {
+        var data = holder.getPlayerData();
+        var mine = data.getMiningExperience();
+        var fish = data.getFishingExperience();
+        var chop = data.getChopExperience();
 
-    CHOP_EXPERIENCE(lang -> lang.get("commands.profile.stats.chop_xp"), holder -> "%,d XP"
-            .formatted(holder.getPlayerData().getChopExperience())),
+        return "Mine: %,d XP, Fish: %,d XP, Chop: %,d XP".formatted(mine, fish, chop);
+    }),
 
-    FISH_EXPERIENCE(lang -> lang.get("commands.profile.stats.fish_xp"), holder -> "%,d XP"
-            .formatted(holder.getPlayerData().getFishingExperience())),
+    SHARKS_CAUGHT(EmoteReference.SHARK, lang -> lang.get("commands.profile.stats.sharks_caught"),
+            holder -> "%,d".formatted(holder.getPlayerData().getSharksCaught())
+    ),
 
-    SHARKS_CAUGHT(lang -> lang.get("commands.profile.stats.sharks_caught"), holder -> "%,d"
-            .formatted(holder.getPlayerData().getSharksCaught())),
+    CRATES_OPEN(EmoteReference.LOOT_CRATE, lang -> lang.get("commands.profile.stats.crates_open"),
+            holder -> "%,d".formatted(holder.getPlayerData().getCratesOpened())
+    ),
 
-    CRATES_OPEN(lang -> lang.get("commands.profile.stats.crates_open"), holder -> "%,d"
-            .formatted(holder.getPlayerData().getCratesOpened())),
+    TIMES_MOPPED(EmoteReference.MOP, lang -> lang.get("commands.profile.stats.times_mop"),
+            holder -> "%,d".formatted(holder.getPlayerData().getTimesMopped())
+    ),
 
-    TIMES_MOPPED(lang -> lang.get("commands.profile.stats.times_mop"), holder -> "%,d"
-            .formatted(holder.getPlayerData().getTimesMopped())),
+    DAILY_COUNT(EmoteReference.CALENDAR, lang -> lang.get("commands.profile.stats.daily"),
+            holder -> "%,d %s".formatted(holder.getPlayerData().getDailyStreak(), holder.getI18nContext().get("commands.profile.stats.days"))
+    ),
 
-    DAILY_COUNT(lang -> lang.get("commands.profile.stats.daily"), holder -> "%,d %s"
-            .formatted(holder.getPlayerData().getDailyStreak(), holder.getI18nContext().get("commands.profile.stats.days"))),
-
-    DAILY_AT(lang -> lang.get("commands.profile.stats.daily_at"), holder -> {
+    DAILY_AT(EmoteReference.STOPWATCH, lang -> lang.get("commands.profile.stats.daily_at"), holder -> {
         var playerData = holder.getPlayerData();
         if (playerData.getLastDailyAt() == 0) {
             return holder.getI18nContext().get("commands.profile.stats.never");
@@ -124,13 +134,27 @@ public enum StatsComponent {
         }
     }),
 
-    WAIFU_CLAIMED(lang -> lang.get("commands.profile.stats.waifu_claimed"), holder -> "%,d %s".formatted(holder.getUserData().getTimesClaimed(), holder.getI18nContext().get("commands.profile.stats.times"))),
-    WAIFU_LOCKED(lang -> lang.get("commands.profile.stats.waifu_locked"), holder -> String.valueOf(holder.getPlayerData().isClaimLocked())),
-    DUST_LEVEL(lang -> lang.get("commands.profile.stats.dust"), holder -> "%d%%".formatted(holder.getUserData().getDustLevel())),
-    REMINDER_COUNT(lang -> lang.get("commands.profile.stats.reminders"), holder -> "%,d %s".formatted(holder.getUserData().getRemindedTimes(), holder.getI18nContext().get("commands.profile.stats.times"))),
-    LANGUAGE(lang -> lang.get("commands.profile.stats.lang"), holder -> (holder.getUserData().getLang() == null ? "en_US" : holder.getUserData().getLang())),
+    WAIFU_CLAIMED(EmoteReference.ROSE, lang -> lang.get("commands.profile.stats.waifu_claimed"),
+            holder -> "%,d %s".formatted(holder.getUserData().getTimesClaimed(), holder.getI18nContext().get("commands.profile.stats.times"))
+    ),
 
-    CASINO_WINS(lang -> lang.get("commands.profile.stats.wins"), holder -> {
+    WAIFU_LOCKED(EmoteReference.LOCK, lang -> lang.get("commands.profile.stats.waifu_locked"),
+            holder -> String.valueOf(holder.getPlayerData().isClaimLocked())
+    ),
+
+    DUST_LEVEL(EmoteReference.DUST, lang -> lang.get("commands.profile.stats.dust"),
+            holder -> "%d%%".formatted(holder.getUserData().getDustLevel())
+    ),
+
+    REMINDER_COUNT(EmoteReference.CALENDAR2, lang -> lang.get("commands.profile.stats.reminders"),
+            holder -> "%,d %s".formatted(holder.getUserData().getRemindedTimes(), holder.getI18nContext().get("commands.profile.stats.times"))
+    ),
+
+    LANGUAGE(EmoteReference.GLOBE, lang -> lang.get("commands.profile.stats.lang"),
+            holder -> (holder.getUserData().getLang() == null ? "en_US" : holder.getUserData().getLang())
+    ),
+
+    CASINO_WINS(EmoteReference.MONEY, lang -> lang.get("commands.profile.stats.wins"), holder -> {
         var SEPARATOR_ONE = "\u2009\u2009";
         var playerStats = holder.getContext().getPlayerStats(holder.getUser());
         var playerData = holder.getPlayerData();
@@ -145,8 +169,10 @@ public enum StatsComponent {
 
     private final Function<I18nContext, String> name;
     private final Function<Holder, String> content;
+    private final EmoteReference emote;
 
-    StatsComponent(Function<I18nContext, String> name, Function<Holder, String> content) {
+    StatsComponent(EmoteReference emote, Function<I18nContext, String> name, Function<Holder, String> content) {
+        this.emote = emote;
         this.name = name;
         this.content = content;
     }
@@ -157,6 +183,10 @@ public enum StatsComponent {
 
     public String getName(Context ctx) {
         return name.apply(ctx.getLanguageContext());
+    }
+
+    public String getEmoji() {
+        return emote.toHeaderString();
     }
 
     public static class Holder {
