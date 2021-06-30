@@ -933,6 +933,7 @@
         "mine_xp": "Bergbauerfahrung",
         "fish_xp": "Angelerfahrung",
         "chop_xp": "Holzfällererfahrung",
+        "activity_xp": "Activity Experience",
         "sharks_caught": "Haie geangelt",
         "crates_open": "Truhen geöffnet",
         "times_mop": "Male gewischt",
