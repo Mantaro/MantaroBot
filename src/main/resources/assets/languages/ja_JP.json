@@ -933,6 +933,7 @@
         "mine_xp": "採掘経験値",
         "fish_xp": "釣り経験値",
         "chop_xp": "Chopping Experience",
+        "activity_xp": "Activity Experience",
         "sharks_caught": "サメの確保回数",
         "crates_open": "Crates Opened",
         "times_mop": "モップ掛け回数",
