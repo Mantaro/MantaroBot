@@ -933,6 +933,7 @@
         "mine_xp": "Mining Experience",
         "fish_xp": "Fishing Experience",
         "chop_xp": "Chopping Experience",
+        "activity_xp": "Activity Experience",
         "sharks_caught": "Sharks Caught",
         "crates_open": "Crates Opened",
         "times_mop": "Times Mopped",
