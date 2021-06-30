@@ -700,7 +700,7 @@
     "inventory": {
       "bot_notice": "%1$s其實機器人沒有背包。好吧，如果你希望他有的話，那也只會是一個 `~>dump`",
       "brief": "**%1$s 的所有物品** %2$s\n\n*使用 `~>inventory -info` 取得更詳細的版本。祝你玩得開心！*",
-      "calculate": "%1$s如果賣出了所有物品，%2$s 將得到 **%3$,d 元**。",
+      "calculate": "%1$s%2$s 的所有物品價值 **%3$,d 元**。",
       "header": "%1$s 的背包",
       "format": "**價格**：📥 %1$,d 📤 %2$,d\n%3$s",
       "empty": "%1$s這個背包是空的！:(",
@@ -933,6 +933,7 @@
         "mine_xp": "採礦經驗值",
         "fish_xp": "釣魚經驗值",
         "chop_xp": "伐木經驗值",
+        "activity_xp": "Activity Experience",
         "sharks_caught": "鯊魚捕獲次數",
         "crates_open": "寶箱開啟次數",
         "times_mop": "灰塵掃除次數",
