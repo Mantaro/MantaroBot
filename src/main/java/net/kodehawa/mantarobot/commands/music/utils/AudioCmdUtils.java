@@ -23,6 +23,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.StageChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.utils.MarkdownSanitizer;
@@ -190,6 +191,21 @@ public class AudioCmdUtils {
             // This used to be a CompletableFuture that went through a listener
             // which is now useless bc im 99% sure you can't listen to the connection status on LL.
             joinVoiceChannel(link, userChannel);
+
+            // Stage channel support
+            if (userChannel instanceof StageChannel) {
+                var channel = ((StageChannel) userChannel);
+                var stageInstance = channel.getStageInstance();
+                if (stageInstance == null) {
+                    channel.createStageInstance("Music").setTopic("Music by Mantaro").queue(inst -> {
+                        inst.requestToSpeak().queue();
+                    });
+                } else {
+                    stageInstance.getGuild().requestToSpeak();
+                }
+
+            }
+
             textChannel.sendMessageFormat(
                     lang.get("commands.music_general.connect.success"),
                     EmoteReference.MEGA, userChannel.getName()
