@@ -933,6 +933,7 @@
         "mine_xp": "Опыт Шахтёрства",
         "fish_xp": "Опыт Рыбалки",
         "chop_xp": "Chopping Experience",
+        "activity_xp": "Activity Experience",
         "sharks_caught": "Акул Поймано",
         "crates_open": "Контейнеров Открыто",
         "times_mop": "Раз Вытерто",
