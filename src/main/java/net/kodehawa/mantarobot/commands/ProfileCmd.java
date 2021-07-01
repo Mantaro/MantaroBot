@@ -667,10 +667,16 @@ public class ProfileCmd {
 
                     var hasReactionPerms = ctx.hasReactionPerms();
                     if (hasReactionPerms) {
-                        embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), String.format(languageContext.get("general.reaction_timeout"), 200)));
+                        embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"),
+                                String.format(languageContext.get("general.reaction_timeout"), 200))
+                        );
+
                         DiscordUtils.list(ctx.getEvent(), 200, false, embed, splitFields);
                     } else {
-                        embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), String.format(languageContext.get("general.reaction_timeout"), 200)));
+                        embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"),
+                                String.format(languageContext.get("general.reaction_timeout"), 200))
+                        );
+
                         DiscordUtils.listText(ctx.getEvent(), 200, false, embed, splitFields);
                     }
                 });

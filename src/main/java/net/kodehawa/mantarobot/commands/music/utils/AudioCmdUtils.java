@@ -203,7 +203,6 @@ public class AudioCmdUtils {
                 } else {
                     stageInstance.getGuild().requestToSpeak();
                 }
-
             }
 
             textChannel.sendMessageFormat(

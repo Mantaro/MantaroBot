@@ -261,11 +261,6 @@ public class OwnerCmd {
                     "Invalid user (to give)"
             );
 
-            if (user == null) {
-                ctx.send(EmoteReference.ERROR + "User not found.");
-                return;
-            }
-
             var badge = Badge.lookupFromString(toAdd);
             if (badge == null) {
                 ctx.send(EmoteReference.ERROR + "No badge with that enum name! Valid badges: " +
@@ -278,7 +273,7 @@ public class OwnerCmd {
             player.saveAsync();
 
             ctx.send("%sAdded badge %s %s to %s (ID: %s)".formatted(
-                    EmoteReference.CORRECT, badge.icon, badge.display,
+                    EmoteReference.CORRECT.getUnicode(), badge.icon, badge.display,
                     user.getAsTag(), user.getId()
             ));
 
