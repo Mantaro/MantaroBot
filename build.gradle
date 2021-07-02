@@ -76,7 +76,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
 
     // Core
-    implementation 'io.github.classgraph:classgraph:4.8.108'
+    implementation 'io.github.classgraph:classgraph:4.8.109'
     implementation 'ch.qos.logback:logback-classic:1.2.3'
     implementation 'com.google.guava:guava:30.1.1-jre'
 
