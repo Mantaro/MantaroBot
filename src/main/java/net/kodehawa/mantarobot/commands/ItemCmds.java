@@ -804,7 +804,7 @@ public class ItemCmds {
                     var languageContext = ctx.getLanguageContext();
                     builder.setAuthor(languageContext.get("commands.iteminfo.embed.header").formatted(translatedName),
                             null, ctx.getAuthor().getEffectiveAvatarUrl())
-                            .setColor(ctx.getMember().getColor() == null ? Color.PINK : ctx.getMember().getColor())
+                            .setColor(ctx.getMemberColor())
                             .addField(EmoteReference.DIAMOND.toHeaderString() + languageContext.get("commands.iteminfo.embed.type"),
                                     item.getEmoji() + " " + type, true
                             )

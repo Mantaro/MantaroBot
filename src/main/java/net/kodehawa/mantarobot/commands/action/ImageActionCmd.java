@@ -206,7 +206,7 @@ public class ImageActionCmd extends NoArgsCommand {
 
             var member = ctx.getMember();
             toSend.setEmbeds(new EmbedBuilder()
-                    .setColor(member.getColor() == null ? Color.PINK : member.getColor())
+                    .setColor(ctx.getMemberColor())
                     .setImage(random)
                     .build()
             );

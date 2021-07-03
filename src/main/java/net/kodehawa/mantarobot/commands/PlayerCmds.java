@@ -406,7 +406,7 @@ public class PlayerCmds {
 
                             var embed = new EmbedBuilder()
                                     .setAuthor(String.format(languageContext.get("commands.badges.header"), toLookup.getName()))
-                                    .setColor(ctx.getMember().getColor() == null ? Color.PINK : ctx.getMember().getColor())
+                                    .setColor(ctx.getMemberColor())
                                     .setThumbnail(toLookup.getEffectiveAvatarUrl());
                             List<MessageEmbed.Field> fields = new LinkedList<>();
 

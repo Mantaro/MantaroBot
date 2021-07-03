@@ -673,7 +673,7 @@ public class MarryCmd {
                 EmbedBuilder embedBuilder = new EmbedBuilder()
                         .setThumbnail(author.getEffectiveAvatarUrl())
                         .setAuthor(languageContext.get("commands.marry.status.header"), null, author.getEffectiveAvatarUrl())
-                        .setColor(ctx.getMember().getColor() == null ? Color.PINK : ctx.getMember().getColor())
+                        .setColor(ctx.getMemberColor())
                         .setDescription(languageContext.get("commands.marry.status.description_format").formatted(
                                 EmoteReference.HEART, authorName, marriedToName)
                         )

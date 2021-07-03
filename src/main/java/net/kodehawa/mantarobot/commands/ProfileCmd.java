@@ -203,7 +203,7 @@ public class ProfileCmd {
                                             memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl())
                                     .setDescription(description)
                                     .setThumbnail(userLooked.getEffectiveAvatarUrl())
-                                    .setColor(memberLooked.getColor() == null ? Color.PINK : memberLooked.getColor())
+                                    .setColor(ctx.getMemberColor(memberLooked))
                                     .setFooter(ProfileComponent.FOOTER.getContent().apply(holder, languageContext),
                                             ctx.getAuthor().getEffectiveAvatarUrl()
                                     );
@@ -663,6 +663,7 @@ public class ProfileCmd {
                             .setAuthor(languageContext.get("commands.profile.stats.header").formatted(toLookup.getName()),
                                     null, toLookup.getEffectiveAvatarUrl()
                             )
+                            .setColor(ctx.getMemberColor())
                             .setFooter("Thanks for using Mantaro! %s".formatted(EmoteReference.HEART), ctx.getGuild().getIconUrl());
 
                     var hasReactionPerms = ctx.hasReactionPerms();

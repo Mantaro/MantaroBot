@@ -106,7 +106,7 @@ public class InfoCmds {
                     var languageContext = ctx.getLanguageContext();
                     var user = member.getUser();
                     var embed = new EmbedBuilder()
-                            .setColor(member.getColor() == null ? Color.PINK : member.getColor())
+                            .setColor(ctx.getMemberColor())
                             .setAuthor(
                                     languageContext.get("commands.avatar.result").formatted(user.getName()),
                                     null, user.getEffectiveAvatarUrl()
@@ -166,7 +166,7 @@ public class InfoCmds {
 
                 ctx.send(new EmbedBuilder()
                         .setAuthor(languageContext.get("commands.serverinfo.header"), null, guild.getIconUrl())
-                        .setColor(owner.getColor() == null ? Color.PINK: owner.getColor())
+                        .setColor(ctx.getMemberColor(owner))
                         .setDescription(str)
                         .setThumbnail(guild.getIconUrl())
                         .addField(
@@ -308,7 +308,7 @@ public class InfoCmds {
                     );
 
                     ctx.send(new EmbedBuilder()
-                            .setColor(member.getColor() == null ? Color.PINK : member.getColor())
+                            .setColor(ctx.getMemberColor())
                             .setAuthor(
                                     languageContext.get("commands.userinfo.header")
                                             .formatted( user.getName(), user.getDiscriminator()),

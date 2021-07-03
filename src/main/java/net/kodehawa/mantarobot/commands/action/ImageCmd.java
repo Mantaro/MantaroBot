@@ -108,7 +108,7 @@ public class ImageCmd extends NoArgsCommand {
         builder.appendDescription(ctx.getLanguageContext().get(toSend));
 
         var member = ctx.getMember();
-        builder.setColor(member.getColor() == null ? Color.PINK : member.getColor())
+        builder.setColor(ctx.getMemberColor())
                 .setImage(random)
                 .build();
 

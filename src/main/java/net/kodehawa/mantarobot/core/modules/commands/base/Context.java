@@ -39,7 +39,9 @@ import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import redis.clients.jedis.JedisPool;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class Context {
@@ -248,6 +250,14 @@ public class Context {
 
     public void send(String message) {
         getChannel().sendMessage(message).queue();
+    }
+
+    public Color getMemberColor(Member member) {
+        return ctx.getMemberColor();
+    }
+
+    public Color getMemberColor() {
+        return getMemberColor(getMember());
     }
 
     public void send(String message, ActionRow... actionRow) {
