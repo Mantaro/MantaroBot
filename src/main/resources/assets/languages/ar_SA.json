@@ -2298,7 +2298,8 @@
     "manage_permissions": "ادارة الصلاحيات",
     "manage_webhooks": "ادارة الويب هوك",
     "manage_emotes": "ادارة الايموجيات",
-    "priority_speaker": "المتحدث ذو الاولوية"
+    "priority_speaker": "المتحدث ذو الاولوية",
+    "request_to_speak": "Request to Speak"
   },
   "items": {
     "categories": {
