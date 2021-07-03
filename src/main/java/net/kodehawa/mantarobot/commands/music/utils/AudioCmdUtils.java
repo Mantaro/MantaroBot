@@ -194,6 +194,14 @@ public class AudioCmdUtils {
 
             // Stage channel support
             if (userChannel instanceof StageChannel) {
+                if (!selfMember.hasPermission(Permission.REQUEST_TO_SPEAK)) {
+                    textChannel.sendMessageFormat(
+                            lang.get("commands.music_general.connect.missing_permissions_connect"),
+                            EmoteReference.ERROR, lang.get("discord_permissions.voice_connect")
+                    ).queue();
+                    return completedFuture(null);
+                }
+
                 var channel = ((StageChannel) userChannel);
                 var stageInstance = channel.getStageInstance();
                 if (stageInstance == null) {
