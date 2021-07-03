@@ -2298,7 +2298,8 @@
     "manage_permissions": "管理權限",
     "manage_webhooks": "管理 Webhooks",
     "manage_emotes": "管理表情符號",
-    "priority_speaker": "優先發言者"
+    "priority_speaker": "優先發言者",
+    "request_to_speak": "Request to Speak"
   },
   "items": {
     "categories": {
