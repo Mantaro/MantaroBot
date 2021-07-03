@@ -253,7 +253,7 @@ public class Context {
     }
 
     public Color getMemberColor(Member member) {
-        return ctx.getMemberColor();
+        return getMemberColor();
     }
 
     public Color getMemberColor() {
