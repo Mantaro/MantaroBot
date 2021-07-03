@@ -253,7 +253,7 @@ public class Context {
     }
 
     public Color getMemberColor(Member member) {
-        return getMemberColor();
+        return member.getColor() == null ? Color.PINK : member.getColor();
     }
 
     public Color getMemberColor() {
