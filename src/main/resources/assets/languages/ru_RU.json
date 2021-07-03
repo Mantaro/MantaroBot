@@ -2298,7 +2298,8 @@
     "manage_permissions": "Управление правами",
     "manage_webhooks": "Управление вебхуками",
     "manage_emotes": "Управление эмодзи",
-    "priority_speaker": "Приоритетный собеседник"
+    "priority_speaker": "Приоритетный собеседник",
+    "request_to_speak": "Request to Speak"
   },
   "items": {
     "categories": {
