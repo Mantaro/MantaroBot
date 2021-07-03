@@ -2298,7 +2298,8 @@
     "manage_permissions": "Spravovat Oprávnění",
     "manage_webhooks": "Spravovat Webhooky",
     "manage_emotes": "Spravovat Emoji",
-    "priority_speaker": "Prioritní Reproduktor"
+    "priority_speaker": "Prioritní Reproduktor",
+    "request_to_speak": "Request to Speak"
   },
   "items": {
     "categories": {
