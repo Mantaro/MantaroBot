@@ -2298,7 +2298,8 @@
     "manage_permissions": "Beheer Machtigingen",
     "manage_webhooks": "Beheer Webhooks",
     "manage_emotes": "Beheer Emojis",
-    "priority_speaker": "Voornaamste Spreker"
+    "priority_speaker": "Voornaamste Spreker",
+    "request_to_speak": "Request to Speak"
   },
   "items": {
     "categories": {
