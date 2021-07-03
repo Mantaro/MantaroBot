@@ -2298,7 +2298,8 @@
     "manage_permissions": "Gerenciar Permissões",
     "manage_webhooks": "Gerenciar Webhooks",
     "manage_emotes": "Gerenciar Emojis",
-    "priority_speaker": "Prioridade de Fala"
+    "priority_speaker": "Prioridade de Fala",
+    "request_to_speak": "Request to Speak"
   },
   "items": {
     "categories": {
