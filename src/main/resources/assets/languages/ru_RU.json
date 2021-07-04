@@ -474,6 +474,7 @@
         "no_command": "%1$sВам нужно указать команду, которую вы хотите добавить.",
         "not_enough_args": "%1$sВам нужно указать имя команды и ответ для команды, которую вы хотите добавить.",
         "empty_content": "%1$sВам необходимо указать содержимое этой пользовательской команды",
+        "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
         "success": "%1$sСохранено для команды `%2$s`",
         "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sНа этом сервере слишком много команд, поэтому вы не можете добавить больше (+100). Премиум-гильдии могут обойти это (см. <https://patreon.com/mantaro>)."
