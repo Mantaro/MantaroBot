@@ -474,6 +474,7 @@
         "no_command": "%1$sVocê tem que especificar o comando que você quer adicionar.",
         "not_enough_args": "%1$sVocê tem que especificar o nome do comando e a resposta do comando que você quer adicionar.",
         "empty_content": "%1$sVocê precisa especificar o conteúdo deste comando personalizado",
+        "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
         "success": "%1$sSalvo no comando `%2$s`",
         "too_many_responses": "%1$sHá muitas respostas (%2$s) para este comando. O limite é o dobro (até 100) para servidores premium (Veja em <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sHá muitos comandos nesse servidor, então você não pode adicionar mais (+100). Isso pode ser ignorado em guildas premium (Cheque <https://patreon.com/mantaro>)."
