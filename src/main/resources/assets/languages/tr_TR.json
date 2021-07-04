@@ -474,6 +474,7 @@
         "no_command": "%1$sNe komutu eklemek istediğini belirtmen gerekir.",
         "not_enough_args": "%1$sEklemek istediğin komutun ismini ve yanıtını belirtmeniz gerekir.",
         "empty_content": "%1$sÖzel komutun içeriğini belirtmen gerekir",
+        "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
         "success": "%1$s`%2$s` komutu kaydedildi",
         "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sBu sunucuda çok fazla komut var, bu yüzden daha fazlasını ekleyemezsiniz (+100).  Bu kısıtlama premium sunucuları etkilemez.(<https://patreon.com/mantaro> adresini kontrol edin)."
