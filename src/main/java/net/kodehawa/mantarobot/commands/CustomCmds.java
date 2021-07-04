@@ -19,10 +19,7 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.ISnowflake;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.custom.CustomCommandHandler;
@@ -868,6 +865,11 @@ public class CustomCmds {
 
                 if (cmdSource.isEmpty()) {
                     ctx.sendLocalized("commands.custom.add.empty_content", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (cmdSource.length() > Message.MAX_CONTENT_LENGTH - 100) {
+                    ctx.sendLocalized("commands.custom.add.too_long", EmoteReference.ERROR, Message.MAX_CONTENT_LENGTH - 100);
                     return;
                 }
 
