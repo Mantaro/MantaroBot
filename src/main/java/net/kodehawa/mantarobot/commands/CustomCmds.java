@@ -614,6 +614,11 @@ public class CustomCmds {
                     return;
                 }
 
+                if (commandContent.length() > Message.MAX_CONTENT_LENGTH - 100) {
+                    ctx.sendLocalized("commands.custom.add.too_long", EmoteReference.ERROR, Message.MAX_CONTENT_LENGTH - 100);
+                    return;
+                }
+
                 if (opts.containsKey("nsfw")) {
                     custom.getData().setNsfw(true);
                 }
