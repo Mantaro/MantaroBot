@@ -474,6 +474,7 @@
         "no_command": "%1$sMusisz określić komendę, którą chcesz dodać.",
         "not_enough_args": "%1$sMusisz określić nazwę polecenia i odpowiedź na polecenie, które chcesz dodać.",
         "empty_content": "%1$sMusisz określić zawartość tego niestandardowego polecenia",
+        "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
         "success": "%1$sZapisano do komendy `%2$s`",
         "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sNa tym serwerze jest zbyt wiele komend, więc nie można dodać więcej (+100). Mogą to ominąć gildie premium (Sprawdź <https://patreon.com/mantaro>)."
