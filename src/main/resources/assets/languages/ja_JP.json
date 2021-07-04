@@ -474,6 +474,7 @@
         "no_command": "%1$s追加したいコマンドを指定してください。",
         "not_enough_args": "%1$sYou need to specify the command name and the response of the command you want to add.",
         "empty_content": "%1$sYou need to specify the content of this custom command",
+        "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
         "success": "%1$sコマンド `%2$s` を保存しました。",
         "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sサーバーで使用出来るカスタムコマンドの総数が最大値に達しました。これ以上の追加はできません(+100)。 支援者のサーバーではこれを回避できます。(詳細はこちら <https://patreon.com/mantaro>)"
