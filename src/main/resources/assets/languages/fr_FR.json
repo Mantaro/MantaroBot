@@ -474,6 +474,7 @@
         "no_command": "$1$sTu dois spécifier la commande à ajouter.",
         "not_enough_args": "%1$sTu dois spécifier le nom et la réponse de la commande à ajouter.",
         "empty_content": "%1$sTu dois spécifier le contenu de cette commande personnalisée.",
+        "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
         "success": "%1$sCommande `%2$s` sauvegardée",
         "too_many_responses": "%1$sIl y a trop de réponses (%2$s) pour cette commande. Cette limite est doublée (jusque 100) pour les serveurs Premium (Va sur <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sIl y a déjà trop de commande personnalisées sur ce serveur(+100), donc tu ne peux plus en ajouter. Sauf si tu deviens premium (Va sur <https://patreon.com/mantaro>)."
