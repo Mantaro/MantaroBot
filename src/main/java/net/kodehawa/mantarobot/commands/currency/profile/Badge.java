@@ -251,6 +251,11 @@ public enum Badge {
             ((player, stats, dbUser) -> player.getData().getChopExperience() > 100000), false
     ),
 
+   LEGENDARY_PET_OWNER("Legendary Pet Owner", "\uD83C\uDFD8\uFE0F", "Get your pet to level 300",
+            91, 92,
+            (player, stats, dbUser) -> false, false
+    ),
+
     MARATHON_RUNNER("Marathon Runner", "\uD83C\uDF96",
             "Get to level 150.",
             91, 92,
