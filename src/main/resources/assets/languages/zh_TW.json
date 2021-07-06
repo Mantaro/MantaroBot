@@ -1312,6 +1312,9 @@
       "cat": {
         "error": "%1$sError retrieving cute cat images :("
       },
+      "dog": {
+        "error": "%1$sError retrieving cute dog images :("
+      },
       "too_many_tags": "%1$sYou specified too many tags for the current imageboard! Imageboard %2$s accepts a maximum of %3$d tags.",
       "invalid_rating": "%1$sYou provided an invalid rating (Available types: questionable, explicit, safe)",
       "nsfw_no_nsfw": "%1$sI cannot send a NSFW image in a non-nsfw channel :(",
