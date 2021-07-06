@@ -1312,6 +1312,9 @@
       "cat": {
         "error": "%1$sRalat mendapatkan imej kucing comel :("
       },
+      "dog": {
+        "error": "%1$sError retrieving cute dog images :("
+      },
       "too_many_tags": "%1$sAnda telah menyatakan terlalu banyak tag untuk papan imej semasa! Papan imej %2$s menerima maksimum %3$d tag.",
       "invalid_rating": "%1$sAnda menyatakan penilaian yang tidak sah (Jenis sah: questionable, explicit, safe)",
       "nsfw_no_nsfw": "%1$sSaya tidak boleh menghantar imej NSFW di saluran bukan NSFW :(",
