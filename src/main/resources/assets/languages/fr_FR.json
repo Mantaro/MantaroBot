@@ -1312,6 +1312,9 @@
       "cat": {
         "error": "%1$sErreur rencontrée en récupérant des images de chat :("
       },
+      "dog": {
+        "error": "%1$sError retrieving cute dog images :("
+      },
       "too_many_tags": "%1$sTu as spécifié trop de tags pour l'imageboard! L'imageboard %2$s n'accepte qu'un maximum de %3$d tags.",
       "invalid_rating": "%1$sTu as spécifié un argument invalide (Arguments disponibles: questionable, explicit, safe)",
       "nsfw_no_nsfw": "%1$sJe ne peux pas envoyer du NSFW dans un salon qui n'est pas NSFW :(",
