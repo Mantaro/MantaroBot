@@ -1312,6 +1312,9 @@
       "cat": {
         "error": "%1$sErro ao recuperar imagens de gatos fofos :("
       },
+      "dog": {
+        "error": "%1$sError retrieving cute dog images :("
+      },
       "too_many_tags": "%1$sVocê especificou muitas tags para o imageboard atual! Imageboard %2$s aceita um máximo de %3$d tags.",
       "invalid_rating": "%1$sVocê forneceu uma classificação inválida (Tipos disponíveis: questionável, explícito, salvo)",
       "nsfw_no_nsfw": "%1$sEu não posso enviar imagem NSFW em um canal não-nsfw :(",
@@ -2300,7 +2303,7 @@
     "manage_webhooks": "Gerenciar Webhooks",
     "manage_emotes": "Gerenciar Emojis",
     "priority_speaker": "Prioridade de Fala",
-    "request_to_speak": "Request to Speak"
+    "request_to_speak": "Pedir para Falar"
   },
   "items": {
     "categories": {
