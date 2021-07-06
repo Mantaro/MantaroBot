@@ -474,6 +474,7 @@
         "no_command": "%1$sVocê tem que especificar o comando que você quer adicionar.",
         "not_enough_args": "%1$sVocê tem que especificar o nome do comando e a resposta do comando que você quer adicionar.",
         "empty_content": "%1$sVocê precisa especificar o conteúdo deste comando personalizado",
+        "too_long": "%1$sO conteúdo deste comando é muito longo e o bot não é capaz de mostrar. Certifique-se de que o comando tem menos que %2$,d caracteres.",
         "success": "%1$sSalvo no comando `%2$s`",
         "too_many_responses": "%1$sHá muitas respostas (%2$s) para este comando. O limite é o dobro (até 100) para servidores premium (Veja em <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sHá muitos comandos nesse servidor, então você não pode adicionar mais (+100). Isso pode ser ignorado em guildas premium (Cheque <https://patreon.com/mantaro>)."
@@ -933,7 +934,7 @@
         "mine_xp": "Experiência de Mineração",
         "fish_xp": "Experiência de Pescaria",
         "chop_xp": "Experiência de Cortar",
-        "activity_xp": "Activity Experience",
+        "activity_xp": "Experiência de Atividade",
         "sharks_caught": "Tubarões Capturados",
         "crates_open": "Caixotes Abertos",
         "times_mop": "Vezes Limpado",
@@ -1444,9 +1445,9 @@
         "low_thirst": "%1$s**%2$s** está com muita sede pra fazer alguma coisa agora.",
         "low_mood": "%1$s**%2$s** seu pet tá com um humor muito baixo. Você pode querer brincar com ele!",
         "dusty": "%1$s**%2$s** está muito sujo. Limpe seu pet para tirar a sujeira.",
-        "success_fish": "%1$s**%2$s** ajudou você a pescar com sucesso! Você ganhou um buff e créditos extras **( %3$,d créditos extras, %4$,d itens extras)** agradeça ao trabalho extra que seu pet foi capaz de fazer por você! *incluído no que você ganhou*",
-        "success_chop": "%1$s**%2$s** ajudou você a cortar uma árvore com sucesso! Você ganhou um buff e créditos extras **( %3$,d créditos extras, %4$,d itens extras)** agradeça ao trabalho extra que seu pet foi capaz de fazer por você! *incluído no que você ganhou*",
-        "success_mine": "%1$s**%2$s** ajudou você a minerar com sucesso! Você ganhou um buff e créditos extras **(%3$,d créditos extras, e uma chance extra de drop de item)** agradeça ao trabalho extra que seu pet foi capaz de fazer por você! *incluído no que você ganhou*"
+        "success_fish": "%1$s**%2$s** ajudou você a pescar com sucesso! Você ganhou %3$,d créditos e %4$,d itens graças ao trabalho extra que seu pet foi capaz de fazer por você! *incluído no que você ganhou*",
+        "success_chop": "%1$s**%2$s** ajudou você a cortar a árvore com sucesso! Você ganhou %3$,d créditos e %4$,d itens graças ao trabalho extra que seu pet foi capaz de fazer por você! *incluído no que você ganhou*",
+        "success_mine": "%1$s**%2$s** ajudou você a minerar com sucesso! Você ganhou %3$,d créditos e %4$,d itens graças ao trabalho que seu pet foi capaz de fazer por você! *incluído no que você ganhou*"
       },
       "rename": {
         "no_pet": "%1$sVocê não tem um pet para renomear. (Escolha: %2$s)%3$s",
@@ -2298,7 +2299,8 @@
     "manage_permissions": "Gerenciar Permissões",
     "manage_webhooks": "Gerenciar Webhooks",
     "manage_emotes": "Gerenciar Emojis",
-    "priority_speaker": "Prioridade de Fala"
+    "priority_speaker": "Prioridade de Fala",
+    "request_to_speak": "Request to Speak"
   },
   "items": {
     "categories": {

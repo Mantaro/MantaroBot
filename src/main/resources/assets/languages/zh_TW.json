@@ -474,6 +474,7 @@
         "no_command": "%1$s你需要指出你想創建的指令名稱。",
         "not_enough_args": "%1$s你需要指出你想新增的指令名稱及回應。",
         "empty_content": "%1$s你需要指出這個自定義指令的內容。",
+        "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
         "success": "%1$s已加到指令 `%2$s`",
         "too_many_responses": "%1$s這個指令已經擁有過多回應 (%2$s)。Premium伺服器 (查看 <https://patreon.com/mantaro>) 將擁有兩倍限制 (最高100)",
         "too_many_commands": "%1%s此伺服器的自定義指令數量已超過限制 (+100)，你無法再新增更多。高級伺服器將無視這個限制 (瀏覽<https://patreon.com/mantaro>)。"
@@ -1444,9 +1445,9 @@
         "low_thirst": "%1$s**%2$s** 太渴了，無法做任何事。",
         "low_mood": "%1$s**%2$s** 的心情不太好。你可能要先陪他玩玩！",
         "dusty": "%1$s**%2$s** 身上太髒了。別忘記清潔你的寵物。",
-        "success_fish": "%1$s**%2$s** 幫助你抓到魚了！多虧了寵物為你做的事情，你獲得了額外的 **%3$,d 元和 %4$,d 個物品**！*已經包含在你得到的掉落物中*",
-        "success_chop": "%1$s**%2$s** 幫助你伐木了！多虧了寵物為你做的事情，你獲得了額外的 **%3$,d 元和 %4$,d 個物品**！*已經包含在你得到的掉落物中*",
-        "success_mine": "%1$s**%2$s** 幫助你挖礦了！多虧了寵物為你做的事情，你獲得了額外的 **%3$,d 元和 %4$,d 個物品**！*已經包含在你得到的掉落物中*"
+        "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got an extra %3$,d credits and %4$,d items thanks to the extra work your pet was able to do for you! *included on what you got*",
+        "success_chop": "%1$s**%2$s** successfully helped you chop a tree! You got an extra %3$,d credits and %4$,d items thanks to the extra work your pet was able to do for you! *included on what you got*",
+        "success_mine": "%1$s**%2$s** successfully helped you mine! You got an extra %3$,d credits and %4$,d items thanks to the extra work your pet was able to do for you! *included on what you got*"
       },
       "rename": {
         "no_pet": "%1$s你沒有寵物可以重新命名。(寵物選擇為：%2$s)%3$s",
@@ -1675,7 +1676,7 @@
           "normal": "你已經超過兩天尚未簽到，因此你的 `%1$dx` 連續簽到被重置了 :(",
           "watch": "你的`魔法手錶`無法停止這麼長的時間流動。用完了你所有的魔法手錶後，你的 `%1$dx` 連續簽到還是被重置了 :("
         },
-        "bonus": "你已經連續簽到了五天或更久，獲得了 %1$s 元作為獎勵！",
+        "bonus": "你已經連續簽到了五天以上，獲得了 %1$s 元作為獎勵！",
         "given": {
           "up": "簽到成功！目前連續簽到數：`%1$,dx`\n*以儲存至你的個人資料！*",
           "bonus": "你已經連續簽到了五天或更久，%1$s 獲得了 $%2$,d 元作為獎勵！"
@@ -2298,7 +2299,8 @@
     "manage_permissions": "管理權限",
     "manage_webhooks": "管理 Webhooks",
     "manage_emotes": "管理表情符號",
-    "priority_speaker": "優先發言者"
+    "priority_speaker": "優先發言者",
+    "request_to_speak": "Request to Speak"
   },
   "items": {
     "categories": {

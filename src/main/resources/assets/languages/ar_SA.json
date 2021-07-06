@@ -474,6 +474,7 @@
         "no_command": "%1$sيجب ان تحدد اي امر تريد ان تضيفه.",
         "not_enough_args": "%1$sيجب عليك تحديد اسم الأمر و الإستجابة للأمر الذي تريد ان تضيفه. ",
         "empty_content": "%1$sتحتاج الى تحديد محتوى الأمر المخصص ",
+        "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
         "success": "%1$sتم الحفظ في الأمر `%2$s`.",
         "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sيوجد الكثير من الأوامر في هذا الخادم، لايمكنك إضافة أكثر من 100 أمر. يمكنك تجاوز هذا اذا كان لديك premium guilds. (تفقد <https://patreon.com/mantaro> )."
@@ -1444,9 +1445,9 @@
         "low_thirst": "%1$s**%2$s** is too thirsty to do anything right now.",
         "low_mood": "%1$s**%2$s** has too low of a mood. You might wanna play with them!",
         "dusty": "%1$s**%2$s** is too dusty. Clean your pet to clear the dust.",
-        "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
-        "success_chop": "%1$s**%2$s** successfully helped you chop a tree! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
-        "success_mine": "%1$s**%2$s** successfully helped you mine! You got a buff and extra credits **(%3$,d extra credits, and a extra item drop chance)** thanks to the extra work your pet was able to do for you! *included on what you got*"
+        "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got an extra %3$,d credits and %4$,d items thanks to the extra work your pet was able to do for you! *included on what you got*",
+        "success_chop": "%1$s**%2$s** successfully helped you chop a tree! You got an extra %3$,d credits and %4$,d items thanks to the extra work your pet was able to do for you! *included on what you got*",
+        "success_mine": "%1$s**%2$s** successfully helped you mine! You got an extra %3$,d credits and %4$,d items thanks to the extra work your pet was able to do for you! *included on what you got*"
       },
       "rename": {
         "no_pet": "%1$sYou don't have a pet to rename. (Choice: %2$s)%3$s",
@@ -2298,7 +2299,8 @@
     "manage_permissions": "ادارة الصلاحيات",
     "manage_webhooks": "ادارة الويب هوك",
     "manage_emotes": "ادارة الايموجيات",
-    "priority_speaker": "المتحدث ذو الاولوية"
+    "priority_speaker": "المتحدث ذو الاولوية",
+    "request_to_speak": "Request to Speak"
   },
   "items": {
     "categories": {

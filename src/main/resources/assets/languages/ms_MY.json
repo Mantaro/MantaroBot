@@ -474,6 +474,7 @@
         "no_command": "%1$sAnda perlu menyatakan arahan yang ingin anda tambahkan.",
         "not_enough_args": "%1$sAnda harus menyatakan nama arahan dan respons arahan yang ingin anda tambahkan.",
         "empty_content": "%1$sAnda perlu menyatakan kandungan arahan kustom ini",
+        "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
         "success": "%1$sDisimpan ke arahan `%2$s`",
         "too_many_responses": "%1$sTerlalu banyak respons (%2$s) dalam arahan ini. Had ini adalah dua kali ganda (sebanyak 100) bagi pelayan premium (Periksa <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sTerlalu banyak arahan dalam pelayan ini, jadi anda tidak dapat menambah lagi (+100). Had ini boleh diabaikan oleh pelayan premium (Periksa <https://patreon.com/mantaro>)."
@@ -1444,9 +1445,9 @@
         "low_thirst": "%1$s**%2$s** terlalu dahaga untuk membuat apa-apa sekarang.",
         "low_mood": "%1$sMood **%2$s** terlalu rendah. Anda hendaklah bermain dengannya!",
         "dusty": "%1$s**%2$s** terlalu berhabuk. Membersihkan haiwan peliharaan anda untuk membersihkan habuk itu.",
-        "success_fish": "%1$s**%2$s** berjaya membantu anda menangkap ikan! Anda mendapat buff dan kredit tambahan **(%3$,d kredit tambahan, %4$,d item tambahan)** atas bantuan haiwan peliharaan anda! *disertakan pada pendapatan anda*",
-        "success_chop": "%1$s**%2$s** berjaya membantu anda menebang pokok! Anda mendapat buff dan kredit tambahan **(%3$,d kredit tambahan, %4$,d item tambahan)** atas bantuan haiwan peliharaan anda! *disertakan pada pendapatan anda*",
-        "success_mine": "%1$s**%2$s** berjaya membantu anda melombong! Anda mendapat buff dan kredit tambahan **(%3$,d kredit tambahan, dan peluang kejatuhan item tambahan)** atas bantuan haiwan peliharaan anda! *disertakan pada pendapatan anda*"
+        "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got an extra %3$,d credits and %4$,d items thanks to the extra work your pet was able to do for you! *included on what you got*",
+        "success_chop": "%1$s**%2$s** successfully helped you chop a tree! You got an extra %3$,d credits and %4$,d items thanks to the extra work your pet was able to do for you! *included on what you got*",
+        "success_mine": "%1$s**%2$s** successfully helped you mine! You got an extra %3$,d credits and %4$,d items thanks to the extra work your pet was able to do for you! *included on what you got*"
       },
       "rename": {
         "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk dinamakan semula. (Pilihan: %2$s)%3$s",
@@ -2298,7 +2299,8 @@
     "manage_permissions": "Mengurus Kebenaran",
     "manage_webhooks": "Mengurus Webhook",
     "manage_emotes": "Mengurus Emoji",
-    "priority_speaker": "Penceramah Keutamaan"
+    "priority_speaker": "Penceramah Keutamaan",
+    "request_to_speak": "Request to Speak"
   },
   "items": {
     "categories": {

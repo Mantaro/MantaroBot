@@ -474,6 +474,7 @@
         "no_command": "%1$s명령어를 추가하고 싶은지 지정해주세요.",
         "not_enough_args": "%1$s추가할 명령어의 명령어 이름과 응답을 지정해야 해요.",
         "empty_content": "%1$s이 사용자 정의 명령어의 내용을 지정해야 해요",
+        "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
         "success": "%1$s`%2$s` 명령어를 저장했어요",
         "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
         "too_many_commands": "%1이 서버에 명령어가 너무 많아서 더 이상 추가할 수 없어요(+100개). 프리미엄 길드에서 우회할 수 있어요(클릭<https://patreon.com/mantaro>)."
@@ -1444,9 +1445,9 @@
         "low_thirst": "%1$s**%2$s** is too thirsty to do anything right now.",
         "low_mood": "%1$s**%2$s** has too low of a mood. You might wanna play with them!",
         "dusty": "%1$s**%2$s** is too dusty. Clean your pet to clear the dust.",
-        "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
-        "success_chop": "%1$s**%2$s** successfully helped you chop a tree! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
-        "success_mine": "%1$s**%2$s** successfully helped you mine! You got a buff and extra credits **(%3$,d extra credits, and a extra item drop chance)** thanks to the extra work your pet was able to do for you! *included on what you got*"
+        "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got an extra %3$,d credits and %4$,d items thanks to the extra work your pet was able to do for you! *included on what you got*",
+        "success_chop": "%1$s**%2$s** successfully helped you chop a tree! You got an extra %3$,d credits and %4$,d items thanks to the extra work your pet was able to do for you! *included on what you got*",
+        "success_mine": "%1$s**%2$s** successfully helped you mine! You got an extra %3$,d credits and %4$,d items thanks to the extra work your pet was able to do for you! *included on what you got*"
       },
       "rename": {
         "no_pet": "%1$sYou don't have a pet to rename. (Choice: %2$s)%3$s",
@@ -2298,7 +2299,8 @@
     "manage_permissions": "Manage Permissions",
     "manage_webhooks": "Manage Webhooks",
     "manage_emotes": "Manage Emojis",
-    "priority_speaker": "Priority Speaker"
+    "priority_speaker": "Priority Speaker",
+    "request_to_speak": "Request to Speak"
   },
   "items": {
     "categories": {
