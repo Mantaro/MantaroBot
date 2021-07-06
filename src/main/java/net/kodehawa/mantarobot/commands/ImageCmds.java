@@ -17,8 +17,10 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.kodehawa.lib.imageboards.DefaultImageBoards;
 import net.kodehawa.lib.imageboards.ImageBoard;
 import net.kodehawa.lib.imageboards.entities.impl.*;
@@ -46,6 +48,12 @@ public class ImageCmds {
             "You should all have a cat in your life, but an image will do.",
             "Am I cute yet?", "I think you should have a cat, %mention%.",
             "Meow~ %mention%", "Nya~ %mention%"
+    };
+
+    private static final String[] dogResponses = {
+            "A cute doggo.",
+            "Woah, just look at that cuteness!",
+            "Woof? %mention%, Woof!",
     };
 
     // I basically repeated those two all the time, so might aswell just
@@ -76,20 +84,48 @@ public class ImageCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 try {
-                    var result = weebAPIRequester
-                            .getRandomImageByType("animal_cat", false, null);
-
+                    var result = weebAPIRequester.getRandomImageByType("animal_cat", false, null);
                     var url = result.getKey();
-                    var builder = new MessageBuilder()
-                            .append(EmoteReference.TALKING).append(catResponses[random.nextInt(catResponses.length)]
-                            .replace("%mention%", ctx.getAuthor().getName()))
+                    var embed = new EmbedBuilder()
+                            .setAuthor(catResponses[random.nextInt(catResponses.length)].replace("%mention%", ctx.getMember().getEffectiveName()),
+                                    null, ctx.getAuthor().getEffectiveAvatarUrl())
+                            .setColor(ctx.getMemberColor())
+                            .setImage(url)
                             .build();
 
-                    ctx.getChannel().sendMessage(builder)
-                            .addFile(imageCache.getFile(url), "cat-" + result.getValue() + ".png")
-                            .queue();
+                    ctx.send(embed);
                 } catch (Exception e) {
                     ctx.sendLocalized("commands.imageboard.cat.error", EmoteReference.ERROR);
+                }
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Sends a random dog image. Really cute stuff, you know?")
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
+    public void dog(CommandRegistry cr) {
+        cr.register("dog", new SimpleCommand(CommandCategory.IMAGE) {
+            @Override
+            protected void call(Context ctx, String content, String[] args) {
+                try {
+                    var result = weebAPIRequester.getRandomImageByType("animal_dog", false, null);
+                    var url = result.getKey();
+                    var embed = new EmbedBuilder()
+                            .setAuthor(dogResponses[random.nextInt(dogResponses.length)].replace("%mention%", ctx.getMember().getEffectiveName()),
+                                    null, ctx.getAuthor().getEffectiveAvatarUrl())
+                            .setColor(ctx.getMemberColor())
+                            .setImage(url)
+                            .build();
+
+                    ctx.send(embed);
+                } catch (Exception e) {
+                    ctx.sendLocalized("commands.imageboard.dog.error", EmoteReference.ERROR);
                 }
             }
 
@@ -101,6 +137,7 @@ public class ImageCmds {
             }
         });
     }
+
 
     @Subscribe
     public void catgirls(CommandRegistry cr) {
