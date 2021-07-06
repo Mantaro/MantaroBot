@@ -1312,6 +1312,9 @@
       "cat": {
         "error": "%1$sError buscando imagenes de gatitos tiernos :("
       },
+      "dog": {
+        "error": "%1$sError retrieving cute dog images :("
+      },
       "too_many_tags": "%1$sEspecificaste muchas etiquetas para el booru actual! El booru %2$s acepta un máximo de %3$d etiquetas.",
       "invalid_rating": "%1$sMe diste un rating invalido... (Ratings válidos: questionable, explicit, safe)!",
       "nsfw_no_nsfw": "%1$sNo puedo enviar una imagen NSFW en un canal que no este marcado como tal :(",
