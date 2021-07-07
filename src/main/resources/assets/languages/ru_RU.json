@@ -854,14 +854,14 @@
       "deleted_role": "%1$sРоль которая была авто-выдаваемой, была удалена",
       "already_assigned": "%1$sУ тебя уже есть данная роль, дурашка!",
       "success": "%1$s%2$s, вам выдана роль **%3$s**",
-      "error": "%1$sI couldn't take from you **%2$s**. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the name `%2$s`",
+      "error": "%1$sI couldn't take **%2$s** from you. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
+      "no_role": "%1$sThere isn't an autorole with the specified name.",
       "no_iam": "%1$sВы не указали роль, которую нужно выдать себе!"
     },
     "iamnot": {
       "no_args": "%1$sТы не указал роль, которую нужно с тебя снять, дурашка.",
       "not_assigned": "%1$sУ тебя нет этой роли, дурашка!",
-      "success": "%1$s%2$s, успешно снята роль**%3$s**"
+      "success": "%1$s%2$s, the role **%3$s** has been taken from you."
     },
     "poll": {
       "missing": "%1$sВы не указали аргумент %2$s или его просто нет!\n%3$s",
