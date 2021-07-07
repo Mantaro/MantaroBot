@@ -854,14 +854,14 @@
       "deleted_role": "%1$sO cargo que esse cargo automático correspondia foi excluído",
       "already_assigned": "%1$sVocê já tem esse cargo, bobo!",
       "success": "%1$s%2$s, você ganhou o cargo **%3$s**",
-      "error": "%1$sEu não posso tirar de você **%2$s**. Certifique-se de que eu tenho permissão para adicionar cargos (Gerenciar Cargo) e que meu cargo é maior que **%2$s**",
-      "no_role": "%1$sNão tem nenhum cargo com o nome `%2$s`",
+      "error": "%1$sI couldn't take **%2$s** from you. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
+      "no_role": "%1$sThere isn't an autorole with the specified name.",
       "no_iam": "%1$sVocê tem que especificar qual cargo auto-atribuível você quer atribuir a si mesmo!"
     },
     "iamnot": {
       "no_args": "%1$sVocê tem que especificar qual cargo você quer que eu remova de você, bobo.",
       "not_assigned": "%1$sVocê não tem esse cargo, bobo!",
-      "success": "%1$s%2$s, você perdeu o cargo **%3$s**"
+      "success": "%1$s%2$s, the role **%3$s** has been taken from you."
     },
     "poll": {
       "missing": "%1$sVocê não incluiu o argumento de %2$s ou estava vazio!\n%3$s",
