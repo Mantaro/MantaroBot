@@ -902,7 +902,6 @@ public class CurrencyActionCmds {
         if (pet.getLevel() >= 300) {
             playerData.addBadgeIfAbsent(Badge.LEGENDARY_PET_OWNER);
         }
-
     }
 
 }

@@ -83,7 +83,7 @@ public class MiscCmds {
                 }
             }
         } else {
-            ctx.sendStrippedLocalized("commands.iam.no_role", EmoteReference.ERROR, autoroleName);
+            ctx.sendStrippedLocalized("commands.iam.no_role", EmoteReference.ERROR);
         }
     }
 
@@ -119,7 +119,7 @@ public class MiscCmds {
                 }
             }
         } else {
-            ctx.sendStrippedLocalized("commands.iam.no_role", EmoteReference.ERROR, autoroleName);
+            ctx.sendStrippedLocalized("commands.iam.no_role", EmoteReference.ERROR);
         }
     }
 
