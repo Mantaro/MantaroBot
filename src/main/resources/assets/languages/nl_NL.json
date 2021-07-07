@@ -854,14 +854,14 @@
       "deleted_role": "%1$sDe rol die deze autorol correspondeerde is verwijderd",
       "already_assigned": "%1$sJe hebt deze rol al, gekkie!",
       "success": "%1$s%2$s, je hebt de **%3$s** rol gekregen",
-      "error": "%1$sI couldn't take from you **%2$s**. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the name `%2$s`",
+      "error": "%1$sI couldn't take **%2$s** from you. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
+      "no_role": "%1$sThere isn't an autorole with the specified name.",
       "no_iam": "%1$sJe moet aangeven welke autorol je jezelf wilt toewijzen!"
     },
     "iamnot": {
       "no_args": "%1$sJe moet aangeven welke rol je wilt dat ik van je verwijder, gekkie.",
       "not_assigned": "%1$sJe hebt deze rol helemaal niet, gekkie!",
-      "success": "%1$s%2$s, je bent je  **%3$s** rol kwijtgeraakt"
+      "success": "%1$s%2$s, the role **%3$s** has been taken from you."
     },
     "poll": {
       "missing": "%1$sJe hebt het %2$s argument niet toegevoegd of dit veld was leeg!\n%3$s",
