@@ -1313,7 +1313,7 @@
         "error": "%1$sErro ao recuperar imagens de gatos fofos :("
       },
       "dog": {
-        "error": "%1$sError retrieving cute dog images :("
+        "error": "%1$sErro ao recuperar imagens de cachorros fofos :("
       },
       "too_many_tags": "%1$sVocê especificou muitas tags para o imageboard atual! Imageboard %2$s aceita um máximo de %3$d tags.",
       "invalid_rating": "%1$sVocê forneceu uma classificação inválida (Tipos disponíveis: questionável, explícito, salvo)",
