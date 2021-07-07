@@ -854,14 +854,14 @@
       "deleted_role": "%1$sتم حذف الرتبة التي تتوافق مع هذه الرتبة التلقائية",
       "already_assigned": "%1$sأنت بالفعل لديك هذه الرتبة.",
       "success": "%1$s%2$s، تم إعطائك رتبة **%3$s**",
-      "error": "%1$sI couldn't take from you **%2$s**. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the name `%2$s`",
+      "error": "%1$sI couldn't take **%2$s** from you. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
+      "no_role": "%1$sThere isn't an autorole with the specified name.",
       "no_iam": "%1$sتحتاج إلى تحديد الرتبة القابلة للتعيين التلقائي الذي تريد تعيينه بنفسك!"
     },
     "iamnot": {
       "no_args": "%1$sيجب أن تُحدد ماهي الرتبة التي تريدنني أن أزيلها منك!",
       "not_assigned": "%1$sليس لديك هذه الرتبة.",
-      "success": "%1$s%2$sلقد خسرت رتبة **%3$s**"
+      "success": "%1$s%2$s, the role **%3$s** has been taken from you."
     },
     "poll": {
       "missing": "%1$sلم تُضيف %2$s الوسيطة أو كان فارغ!\n%3$s",
