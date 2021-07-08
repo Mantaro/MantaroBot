@@ -808,7 +808,7 @@
       "own_locked_notice": "%1$sVocê não pode transferir dinheiro agora.",
       "receipt_overflow_notice": "Não é possível enviar dinheiro para este jogador.",
       "no_money_notice": "%1$sVocê não pode transferir dinheiro que não tem.",
-      "receipt_locked_notice": "1$sEsse usuário não pode receber dinheiro agora.",
+      "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sEsse usuário já tem muito dinheiro...",
       "success": "%1$sTransferido **%2$d** *(%3$d depois de 8%% taxa)* para **%4$s** com sucesso.",
       "item_transfer": "%1$sVocê não pode transferir itens usando transfer, em vez disso, use o comando `~>transferitems`.",
@@ -854,14 +854,14 @@
       "deleted_role": "%1$sO cargo que esse cargo automático correspondia foi excluído",
       "already_assigned": "%1$sVocê já tem esse cargo, bobo!",
       "success": "%1$s%2$s, você ganhou o cargo **%3$s**",
-      "error": "%1$sEu não posso tirar de você **%2$s**. Certifique-se de que eu tenho permissão para adicionar cargos (Gerenciar Cargo) e que meu cargo é maior que **%2$s**",
-      "no_role": "%1$sNão tem nenhum cargo com o nome `%2$s`",
+      "error": "%1$sI couldn't take **%2$s** from you. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
+      "no_role": "%1$sThere isn't an autorole with the specified name.",
       "no_iam": "%1$sVocê tem que especificar qual cargo auto-atribuível você quer atribuir a si mesmo!"
     },
     "iamnot": {
       "no_args": "%1$sVocê tem que especificar qual cargo você quer que eu remova de você, bobo.",
       "not_assigned": "%1$sVocê não tem esse cargo, bobo!",
-      "success": "%1$s%2$s, você perdeu o cargo **%3$s**"
+      "success": "%1$s%2$s, the role **%3$s** has been taken from you."
     },
     "poll": {
       "missing": "%1$sVocê não incluiu o argumento de %2$s ou estava vazio!\n%3$s",
@@ -1311,6 +1311,9 @@
       },
       "cat": {
         "error": "%1$sErro ao recuperar imagens de gatos fofos :("
+      },
+      "dog": {
+        "error": "%1$sErro ao recuperar imagens de cachorros fofos :("
       },
       "too_many_tags": "%1$sVocê especificou muitas tags para o imageboard atual! Imageboard %2$s aceita um máximo de %3$d tags.",
       "invalid_rating": "%1$sVocê forneceu uma classificação inválida (Tipos disponíveis: questionável, explícito, salvo)",
@@ -2300,7 +2303,7 @@
     "manage_webhooks": "Gerenciar Webhooks",
     "manage_emotes": "Gerenciar Emojis",
     "priority_speaker": "Prioridade de Fala",
-    "request_to_speak": "Request to Speak"
+    "request_to_speak": "Pedir para Falar"
   },
   "items": {
     "categories": {
@@ -2523,9 +2526,9 @@
       "bell": "Recompensa de natal. Dá-lhe um sentimento de natal a sua árvore.",
       "tree": "Recompensa de natal. Quem não gosta de uma árvore de natal?.",
       "pants": "Basicamente, o que você veste nas pernas... esperançosamente.",
-      "haste": "Esta poção te possibilita coletar mais coisas ao executar qualquer comando da categoria Moeda e seu efeito dura 3 comandos.",
+      "haste": "Allows you to collect more stuff from some currency commands. Lasts for 4 commands.",
       "milky": "Limpa todos os efeitos de poção.",
-      "energy": "Esta poção faz com que a ferramenta perca menos durabilidade após cada utilização. Dura por 3 comandos.",
+      "energy": "Makes a tool lose less durability per swing. Lasts 4 commands.",
       "rod": "Uma vara básica para suas atividades de pesca.",
       "fish": "Peixe. Pego na pesca.",
       "tropical_fish": "Um peixe muito tropical. Pego na pesca.",

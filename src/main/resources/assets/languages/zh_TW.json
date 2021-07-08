@@ -808,7 +808,7 @@
       "own_locked_notice": "%1$s你目前無法傳送金錢。",
       "receipt_overflow_notice": "無法傳送金錢給這位用戶。",
       "no_money_notice": "%1$s你無法傳送你不擁有的錢。",
-      "receipt_locked_notice": "1$s那位用戶目前無法接收金錢。",
+      "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$s這位用戶已經擁有太多錢了...",
       "success": "%1$s已成功傳送 **%2$,d** *(減去8%%稅後為 %3$,d)* 給 **%4$s**。",
       "item_transfer": "%1$s你無法使用一般傳送指令傳送物品，請改用 `~>transferitems` 指令。",
@@ -854,14 +854,14 @@
       "deleted_role": "%1$s這個自動身分組對應的身分組已被刪除",
       "already_assigned": "%1$s你已經擁有這個身分組了！",
       "success": "%1$s%2$s，你已經被給予身分組 **%3$s**",
-      "error": "%1$s我無法給你 **%2$s**。確定我有添加身分組的權限 (管理身分組)，並且我的等級比 **%2$s** 高",
-      "no_role": "%1$s找不到叫做 `%2$s` 的自動身分組",
+      "error": "%1$sI couldn't take **%2$s** from you. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
+      "no_role": "%1$sThere isn't an autorole with the specified name.",
       "no_iam": "%1$s你需要指出你想添加給自己的自動身分組！"
     },
     "iamnot": {
       "no_args": "%1$s你需要指出你想移除的身分組。",
       "not_assigned": "%1$s你沒有這個身分組！",
-      "success": "%1$s%2$s，你已經被移除身分組 **%3$s**"
+      "success": "%1$s%2$s, the role **%3$s** has been taken from you."
     },
     "poll": {
       "missing": "%1$s你並沒有輸入 %2$s 參數，或者該參數為空！\n%3$s",
@@ -1311,6 +1311,9 @@
       },
       "cat": {
         "error": "%1$sError retrieving cute cat images :("
+      },
+      "dog": {
+        "error": "%1$sError retrieving cute dog images :("
       },
       "too_many_tags": "%1$sYou specified too many tags for the current imageboard! Imageboard %2$s accepts a maximum of %3$d tags.",
       "invalid_rating": "%1$sYou provided an invalid rating (Available types: questionable, explicit, safe)",
@@ -2523,9 +2526,9 @@
       "bell": "聖誕節獎勵。給你的聖誕樹上增加溫馨的感覺。",
       "tree": "聖誕節獎勵。誰不喜歡聖誕樹？",
       "pants": "你腿上穿的東西。應該吧...",
-      "haste": "讓你從貨幣指令獲得更多的物品，可使用三次。",
+      "haste": "Allows you to collect more stuff from some currency commands. Lasts for 4 commands.",
       "milky": "清除你的藥水效果。",
-      "energy": "讓你的工具變得更耐用，可使用三次。",
+      "energy": "Makes a tool lose less durability per swing. Lasts 4 commands.",
       "rod": "用來釣魚的一般釣竿。",
       "fish": "魚。釣魚時釣到的。",
       "tropical_fish": "一條非常熱帶的魚。釣魚時釣到的。",

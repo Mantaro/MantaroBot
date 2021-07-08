@@ -808,7 +808,7 @@
       "own_locked_notice": "%1$sDu kannst jetzt kein Geld versenden.",
       "receipt_overflow_notice": "Du kannst kein Geld an diesen Nutzer senden.",
       "no_money_notice": "%1$sDu kannst Geld, das du nicht hast, nicht versenden.",
-      "receipt_locked_notice": "1$sDieser Nutzer kann jetzt kein Geld erhalten.",
+      "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sDieser Nutzer hat bereits zu viel Geld...",
       "success": "%1$sEs wurden **%2$,d** *(%3$,d nach 8%% Steuern)* an **%4$s** erfolgreich überwiesen.",
       "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
@@ -854,14 +854,14 @@
       "deleted_role": "%1$sDie Rolle, die mit dieser Autorolle verbunden war, wurde anscheinend gelöscht",
       "already_assigned": "%1$sDu hast diese Rolle bereits, Dummerchen!",
       "success": "%1$s%2$s, du hast die **%3$s** Rolle erhalten.",
-      "error": "%1$sI couldn't take from you **%2$s**. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
-      "no_role": "%1$sEs gibt keine Autorolle mit dem Namen `%2$s`",
+      "error": "%1$sI couldn't take **%2$s** from you. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
+      "no_role": "%1$sThere isn't an autorole with the specified name.",
       "no_iam": "%1$sDu musst angeben welche automatisch zuweisbare Rolle du dir selbst geben willst!"
     },
     "iamnot": {
       "no_args": "%1$sDu musst angeben, welche Rolle ich dir nehmen soll, Dummerchen.",
       "not_assigned": "%1$sDu hast diese Rolle nicht, Dummerchen!",
-      "success": "%1$s%2$s, du hast die Rolle **%3$s** verloren."
+      "success": "%1$s%2$s, the role **%3$s** has been taken from you."
     },
     "poll": {
       "missing": "%1$sDu hast entweder das Argument %2$s vergessen oder leer gelassen!\n%3$s",
@@ -1311,6 +1311,9 @@
       },
       "cat": {
         "error": "%1$sFehler beim Abrufen von niedlichen Katzenbildern :("
+      },
+      "dog": {
+        "error": "%1$sError retrieving cute dog images :("
       },
       "too_many_tags": "%1$sDu hast zu viele Tags für das aktuelle Imageboard! Imageboard %2$s akzeptiert höchstens %3$d Tags.",
       "invalid_rating": "%1$sSie haben eine ungültige Bewertung angegeben (Verfügbare Arten: questionable (fraglich), explicit (explizit), safe (sicher))!",
@@ -2523,9 +2526,9 @@
       "bell": "Belohnung des Weihnachtsevent 2017/2018. Gibt ein gemütliches Weihnachtsgefühl an deinem Baum.",
       "tree": "Belohnung des Weihnachtsevent 2017/2018. Wer mag keinen Weihnachtsbaum?.",
       "pants": "Quasi das was du an deinen Beinen trägst. Hoffentlich...",
-      "haste": "Ermöglicht es dir für 3 Befehle mehr Zeug durch Währungsbefehle zu erhalten.",
+      "haste": "Allows you to collect more stuff from some currency commands. Lasts for 4 commands.",
       "milky": "Entfernt alle Trankeffekte.",
-      "energy": "Lässt ein Werkzeug pro Nutzung weniger Haltbarkeit verlieren. Hält 3 Befehle.",
+      "energy": "Makes a tool lose less durability per swing. Lasts 4 commands.",
       "rod": "A basic rod for your fishing activities.",
       "fish": "Fisch. Beim Fischen gefangen.",
       "tropical_fish": "Ein sehr tropischer Fisch. Beim Fischen gefangen.",

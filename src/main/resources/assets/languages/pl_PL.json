@@ -808,7 +808,7 @@
       "own_locked_notice": "%1$sYou cannot transfer money now.",
       "receipt_overflow_notice": "Nie można wysłać pieniędzy do tego użytkownika.",
       "no_money_notice": "%1$sYou cannot transfer money you don't have.",
-      "receipt_locked_notice": "1$sTen użytkownik nie może otrzymać teraz pieniędzy.",
+      "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sTen użytkownik ma za dużo kasy...",
       "success": "%1$sTransferred **%2$,d** *(%3$,d after 8%% tax)* to **%4$s** successfully.",
       "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
@@ -854,14 +854,14 @@
       "deleted_role": "%1$sThe role that this autorole corresponded to has been deleted",
       "already_assigned": "%1$sYou already have this role, silly!",
       "success": "%1$s%2$s, you've been given the **%3$s** role",
-      "error": "%1$sI couldn't take from you **%2$s**. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the name `%2$s`",
+      "error": "%1$sI couldn't take **%2$s** from you. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
+      "no_role": "%1$sThere isn't an autorole with the specified name.",
       "no_iam": "%1$sYou need to specify which auto-assignable role you want to assign yourself!"
     },
     "iamnot": {
       "no_args": "%1$sYou have to specify what role you want me to remove from you, silly.",
       "not_assigned": "%1$sYou don't have this role, silly!",
-      "success": "%1$s%2$s, you've lost the **%3$s** role"
+      "success": "%1$s%2$s, the role **%3$s** has been taken from you."
     },
     "poll": {
       "missing": "%1$sYou didn't include either the %2$s argument or it was empty!\n%3$s",
@@ -1311,6 +1311,9 @@
       },
       "cat": {
         "error": "%1$sError retrieving cute cat images :("
+      },
+      "dog": {
+        "error": "%1$sError retrieving cute dog images :("
       },
       "too_many_tags": "%1$sYou specified too many tags for the current imageboard! Imageboard %2$s accepts a maximum of %3$d tags.",
       "invalid_rating": "%1$sYou provided an invalid rating (Available types: questionable, explicit, safe)",
@@ -2523,9 +2526,9 @@
       "bell": "Christmas reward. Gives you a cozy christmas feeling on your tree.",
       "tree": "Christmas reward. Who doesn't like a christmas tree?.",
       "pants": "Basically what you wear on your legs... hopefully.",
-      "haste": "Allows you to collect more stuff from currency commands for 3 commands.",
+      "haste": "Allows you to collect more stuff from some currency commands. Lasts for 4 commands.",
       "milky": "Clears all potion effects.",
-      "energy": "Makes a tool lose less durability per swing. Lasts 3 commands.",
+      "energy": "Makes a tool lose less durability per swing. Lasts 4 commands.",
       "rod": "A basic rod for your fishing activities.",
       "fish": "Fish. Caught in fishing.",
       "tropical_fish": "A very tropical fish. Caught in fishing.",

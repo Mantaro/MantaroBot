@@ -808,7 +808,7 @@
       "own_locked_notice": "%1$sНа данный момент вы не можете совершать переводы.",
       "receipt_overflow_notice": "Не могу передать деньги этому пользователю.",
       "no_money_notice": "%1$sВы не можете перевести деньги, которых у вас нет.",
-      "receipt_locked_notice": "1$sЭтот пользователь не может получить ваш перевод.",
+      "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sУ этого пользователя уже слишком много денег...",
       "success": "%1$sПереведено **%2$d** *(%3$d вычтено 8%%)* пользователю **%4$s** успешно.",
       "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
@@ -854,14 +854,14 @@
       "deleted_role": "%1$sРоль которая была авто-выдаваемой, была удалена",
       "already_assigned": "%1$sУ тебя уже есть данная роль, дурашка!",
       "success": "%1$s%2$s, вам выдана роль **%3$s**",
-      "error": "%1$sI couldn't take from you **%2$s**. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the name `%2$s`",
+      "error": "%1$sI couldn't take **%2$s** from you. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
+      "no_role": "%1$sThere isn't an autorole with the specified name.",
       "no_iam": "%1$sВы не указали роль, которую нужно выдать себе!"
     },
     "iamnot": {
       "no_args": "%1$sТы не указал роль, которую нужно с тебя снять, дурашка.",
       "not_assigned": "%1$sУ тебя нет этой роли, дурашка!",
-      "success": "%1$s%2$s, успешно снята роль**%3$s**"
+      "success": "%1$s%2$s, the role **%3$s** has been taken from you."
     },
     "poll": {
       "missing": "%1$sВы не указали аргумент %2$s или его просто нет!\n%3$s",
@@ -1311,6 +1311,9 @@
       },
       "cat": {
         "error": "%1$sОшибка при получении милых кошечек :("
+      },
+      "dog": {
+        "error": "%1$sError retrieving cute dog images :("
       },
       "too_many_tags": "%1$sВы указали слишком много тегов для доски изображения! Доска изображений %2$s принимает максимум %3$d тегов.",
       "invalid_rating": "%1$sВы указали неверный рейтинг (Доступные типы: сомнительный, явный, безопасный)",
@@ -2523,9 +2526,9 @@
       "bell": "Нагарда за рождественский ивент 2017/2018. Делает твою ёлку немного уютнее.",
       "tree": "Нагарда за рождественский ивент 2017/2018. Кому не нравятся рождественские ёлки?.",
       "pants": "По идее, ты носишь это на ногах... обнадёживающе.",
-      "haste": "Allows you to collect more stuff from currency commands for 3 commands.",
+      "haste": "Allows you to collect more stuff from some currency commands. Lasts for 4 commands.",
       "milky": "Убирает все негативные эффекты.",
-      "energy": "Makes a tool lose less durability per swing. Lasts 3 commands.",
+      "energy": "Makes a tool lose less durability per swing. Lasts 4 commands.",
       "rod": "A basic rod for your fishing activities.",
       "fish": "Рыба. Поймана на рыбалке.",
       "tropical_fish": "Очень тропическая рыба. Поймана на рыбалке.",

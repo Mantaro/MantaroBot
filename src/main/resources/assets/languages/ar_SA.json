@@ -808,7 +808,7 @@
       "own_locked_notice": "%1$sلايمكنك تحويل مال الآن.",
       "receipt_overflow_notice": "لايمكن إرسال مال الى هذا العضو.",
       "no_money_notice": "%1$sلايمكنك تحويل مال لاتملكه.",
-      "receipt_locked_notice": "1$sهذا العضو لايمكنه إستقبال مال الآن.",
+      "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sهذا العضو بالفعل لديه الكثير من المال....",
       "success": "%1$sتم تحويل **%2$,d** *(%3$,d بعد 8%% ضريبة)* الى **%4$s** بنجاح.",
       "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
@@ -854,14 +854,14 @@
       "deleted_role": "%1$sتم حذف الرتبة التي تتوافق مع هذه الرتبة التلقائية",
       "already_assigned": "%1$sأنت بالفعل لديك هذه الرتبة.",
       "success": "%1$s%2$s، تم إعطائك رتبة **%3$s**",
-      "error": "%1$sI couldn't take from you **%2$s**. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the name `%2$s`",
+      "error": "%1$sI couldn't take **%2$s** from you. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
+      "no_role": "%1$sThere isn't an autorole with the specified name.",
       "no_iam": "%1$sتحتاج إلى تحديد الرتبة القابلة للتعيين التلقائي الذي تريد تعيينه بنفسك!"
     },
     "iamnot": {
       "no_args": "%1$sيجب أن تُحدد ماهي الرتبة التي تريدنني أن أزيلها منك!",
       "not_assigned": "%1$sليس لديك هذه الرتبة.",
-      "success": "%1$s%2$sلقد خسرت رتبة **%3$s**"
+      "success": "%1$s%2$s, the role **%3$s** has been taken from you."
     },
     "poll": {
       "missing": "%1$sلم تُضيف %2$s الوسيطة أو كان فارغ!\n%3$s",
@@ -1311,6 +1311,9 @@
       },
       "cat": {
         "error": "%1$sحدث خطأ اثناء البحث عن صور لقطط لطيفة :("
+      },
+      "dog": {
+        "error": "%1$sError retrieving cute dog images :("
       },
       "too_many_tags": "%1$sYou specified too many tags for the current imageboard! Imageboard %2$s accepts a maximum of %3$d tags.",
       "invalid_rating": "%1$sلقد قدمت تصنيف غير صالح (الانواع المتاحة: questionable, explicit, safe)",
@@ -2523,9 +2526,9 @@
       "bell": "مكافأة عيد الميلاد. تمنحك شعوراً دافئاً بعيد الميلاد على شجرتك.",
       "tree": "مكافأة عيد الميلاد. من منا لا يحب شجرة الكريسماس ؟.",
       "pants": "Basically what you wear on your legs... hopefully.",
-      "haste": "Allows you to collect more stuff from currency commands for 3 commands.",
+      "haste": "Allows you to collect more stuff from some currency commands. Lasts for 4 commands.",
       "milky": "يزيل كل تأثيرات الجرعة.",
-      "energy": "Makes a tool lose less durability per swing. Lasts 3 commands.",
+      "energy": "Makes a tool lose less durability per swing. Lasts 4 commands.",
       "rod": "A basic rod for your fishing activities.",
       "fish": "سمكة التُقِطت اثناء الصيد.",
       "tropical_fish": "سمكة استوائية. التقطت في الصيد.",

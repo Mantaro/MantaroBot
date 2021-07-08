@@ -808,7 +808,7 @@
       "own_locked_notice": "%1$sBạn hiện không thể chuyển tiền.",
       "receipt_overflow_notice": "Không thể chuyển tiền cho người chơi này.",
       "no_money_notice": "%1$sBạn không thể chuyển số tiền mà bạn không có.",
-      "receipt_locked_notice": "1$sNgười chơi đó hiện không thể nhận tiền.",
+      "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sNgười chơi này có quá nhiều tiền...",
       "success": "%1$sĐã chuyển thành công **%2$,d** *(%3$,d sau khi trừ 8%% thuế)* tới **%4$s**.",
       "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
@@ -854,14 +854,14 @@
       "deleted_role": "%1$sVai trò tương ứng với vai trò tự động này đã bị xóa",
       "already_assigned": "%1$sBạn vốn đã có vai trò này rồi, đồ ngốc!",
       "success": "%1$s%2$s, bạn đã được cấp vai trò **%3$s**",
-      "error": "%1$sI couldn't take from you **%2$s**. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the name `%2$s`",
+      "error": "%1$sI couldn't take **%2$s** from you. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
+      "no_role": "%1$sThere isn't an autorole with the specified name.",
       "no_iam": "%1$sBạn cần phải chỉ ra vai trò mà bạn muốn gắn!"
     },
     "iamnot": {
       "no_args": "%1$sBạn cần phải chỉ rõ ra vai trò mà bạn muốn tôi bỏ đi, ngốc ạ.",
       "not_assigned": "%1$sBạn không có vai trò này, đồ ngốc!",
-      "success": "%1$s%2$s, bạn đã mất vai trò **%3$s**"
+      "success": "%1$s%2$s, the role **%3$s** has been taken from you."
     },
     "poll": {
       "missing": "%1$sYou didn't include either the %2$s argument or it was empty!\n%3$s",
@@ -1311,6 +1311,9 @@
       },
       "cat": {
         "error": "%1$sError retrieving cute cat images :("
+      },
+      "dog": {
+        "error": "%1$sError retrieving cute dog images :("
       },
       "too_many_tags": "%1$sYou specified too many tags for the current imageboard! Imageboard %2$s accepts a maximum of %3$d tags.",
       "invalid_rating": "%1$sYou provided an invalid rating (Available types: questionable, explicit, safe)",
@@ -2523,9 +2526,9 @@
       "bell": "Phần thưởng Giáng sinh. Đem đến một cảm giác ấm cúng cho chiếc cây của bạn.",
       "tree": "Phần quà Giáng sinh. Ai mà lại không thích một cây thông Nô-en chứ?.",
       "pants": "Căn bản là thứ bạn mặc vào chân... mong là vậy.",
-      "haste": "Allows you to collect more stuff from currency commands for 3 commands.",
+      "haste": "Allows you to collect more stuff from some currency commands. Lasts for 4 commands.",
       "milky": "Vô hiệu hoá tất cả các công dụng thuốc.",
-      "energy": "Makes a tool lose less durability per swing. Lasts 3 commands.",
+      "energy": "Makes a tool lose less durability per swing. Lasts 4 commands.",
       "rod": "A basic rod for your fishing activities.",
       "fish": "Cá. Bắt được khi câu cá.",
       "tropical_fish": "Một con cá chuẩn nhiệt đới. Bắt được khi câu cá.",
