@@ -38,8 +38,6 @@ import java.time.Month;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static net.kodehawa.mantarobot.data.MantaroData.config;
@@ -52,7 +50,6 @@ public class Shard {
     private final MantaroEventManager manager = new MantaroEventManager();
     private final int id;
     private final EventListener listener;
-    private ScheduledFuture<?> statusChange;
     private JDA jda;
 
     public Shard(int id) {
@@ -61,13 +58,7 @@ public class Shard {
             if(event instanceof ReadyEvent) {
                 synchronized(this) {
                     jda = event.getJDA();
-                    if (statusChange != null) {
-                        statusChange.cancel(true);
-                    }
-            
-                    statusChange = MantaroBot.getInstance()
-                            .getExecutorService()
-                            .scheduleAtFixedRate(Shard.this::changeStatus, 0, 3, TimeUnit.HOURS);
+                    this.changeStatus();
                 }
             }
         };
