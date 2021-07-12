@@ -1310,7 +1310,7 @@
         "error": "Erreur rencontrée en récupérant des images catgirl :("
       },
       "cat": {
-        "error": "%1$sErreur rencontrée en récupérant des images de chat :("
+        "error": "%1$sErreur rencontrée en récupérant des images de chats :("
       },
       "dog": {
         "error": "%1$sError retrieving cute dog images :("
