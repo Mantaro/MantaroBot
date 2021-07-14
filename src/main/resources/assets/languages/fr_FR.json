@@ -970,7 +970,7 @@
         "no_content": "%1$sTu dois spécifier quel type d'objet déséquiper `pick, axe, rod, wrench`(pioche, hache, canne à pêche, clé).",
         "invalid_type": "%1$sType invalide. Les types d'objets valides sont `pick, axe, rod, wrench` pioche, hache, canne à pêche et clé en anglais.",
         "confirm": "%1$sEs-tu sûr.e de vouloir **déséquiper** ta %2$s %3$s? Envoie `yes` pour confirmer, `no` pour annuler. Ça te donnera une version endommagée de ton outil équipé actuellement, ce qui signifie qu'il cassera.",
-        "success": "%1$sTu as déséquipé ton slot %2$s (pour rappel pick = pioche, rod = canne à pêche).",
+        "success": "%1$sTu as déséquipé ton slot %2$s (pour rappel pick = pioche, rod = canne à pêche, wrench = clé et axe = hache).",
         "equipment_recover": "\nPuisque tu ne l'avais pas utilisée, tu la retrouve dans ton inventaire (équipement retrouvé: %1$s)!",
         "broken_equipment_recover": "\nTon équipement était utilisé mais tu as tout de même récupéré une %1$s, tu peux toujours la réparer pour t'en servir plus tard!",
         "broken_equipment_recover_none": "\nCet objet n'avait pas de version cassée, je t'ai donc donné %1$s crédits car il a disparu.",
