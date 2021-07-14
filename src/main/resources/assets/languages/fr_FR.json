@@ -1420,7 +1420,7 @@
         "success_personal": "%1$sFélicitations! Vous êtes désormais tous deux propriétaires d'un `%2$s%3$s` nommés `%4$s`. Le cout de cet achat est de %5$,d crédits son lien était: %6$s",
         "cancel_success": "%1$sOpération annulée.",
         "too_long": "%1$sCe nom est trop long. Il doit avoir moins de 150 caractères.",
-        "no_marriage_marry": "%1$sI don't see any marriage here..."
+        "no_marriage_marry": "%1$sJe ne vois pas d'épouxses ici..."
       },
       "feed": {
         "no_pet": "%1$sTu n'as pas d'animaux à nourrir. Fais la commande `~>pet` pour plus d'explications. (Lien: %2$s)%3$s",
@@ -1446,8 +1446,8 @@
         "low_health": "%1$s**%2$s** a vraiment peu de vie. Nourris-le et laisse-le se reposer un peu pour l'aider à regagner des forces.",
         "low_hunger": "%1$s**%2$s** est trop affamé pour faire quoique ce soit. *Mangeeeeeer~*",
         "low_thirst": "%1$s**%2$s** est trop assoiffé pour faire quoique ce soit.",
-        "low_mood": "%1$s**%2$s** has too low of a mood. You might wanna play with them!",
-        "dusty": "%1$s**%2$s** is too dusty. Clean your pet to clear the dust.",
+        "low_mood": "%1$s**%2$s** déprime un peu. Tu voudrais peut-être jouer avec?!",
+        "dusty": "%1$s**%2$s** est trop sale. Toilette ton animal de compagnie pour enlever la poussière.",
         "success_fish": "%1$s**%2$s** t'a aidé à pêcher avec succès! Tu as eu %3$,d crédits en plus et %4$,d objets grâce au travail supplémentaire que ton animal a pu faire pour toi! *inclus dans ce que tu as obtenu*",
         "success_chop": "%1$s**%2$s** t'a aidé à bucheronner avec succès! Tu as eu %3$,d crédits en plus et %4$,d objets grâce au travail supplémentaire que ton animal a pu faire pour toi! *inclus dans ce que tu as obtenu*",
         "success_mine": "%1$s**%2$s** t'a aidé à miner avec succès! Tu as eu %3$,d crédits en plus et %4$,d objets grâce au travail supplémentaire que ton animal a pu faire pour toi! *inclus dans ce que tu as obtenu*"
@@ -1477,7 +1477,7 @@
         "coin_buildup": "Accumulation pécuniaire (Niv. 1/100)",
         "item_buildup": "Accumulation d'objets (Niv. 1/100)"
       },
-      "locked_notice": "%1$sYou can't buy/sell a pet when the transaction is locked. If this is an error, try again in a few minutes."
+      "locked_notice": "%1$sTu ne peux pas acheter/vendre un animal tant que la transaction est verrouillée. Si c'est une erreur, réessaie dans quelques minutes."
     },
     "invite": {
       "url": "URL d'invitation",
@@ -1501,7 +1501,7 @@
       "no_main_item": "%1$sIl semblerait que tu ne possèdes pas cet objet.",
       "no_tool": "%1$sTu n'as pas cette clé. Essaie de la spécifier ou de spécifier une autre clé.",
       "no_tool_default": "%1$sTu as besoin au moins d'une `Comet Wrench` (une clé de comète) dans ton inventaire pour faire ça mais tu peux également spécifier une clé de tier plus élevé si tu veux.",
-      "not_enough_money": "%1$sYou don't have enough money to salvage this item. *(Wallet: %2$,d, Needed: %3$,d)*",
+      "not_enough_money": "%1$sTu n'as pas assez d'argent pour sauver cet objet. *(Portefeuille; %2$,d crédits , Nécessaire: %3$,d crédits)*",
       "dust": "%1$sTon inventaire à trop de poussière pour essayer de sauver cet objet, essaye de le nettoyer avec un balai.",
       "no_returnables": "%1$sCet objet n'a pas rendu d'éléments ayant servi à le sauver.",
       "item_broke": "%1$sTa clé (%1$s) s'est brisée en essayant de sauver cet objet :(",
@@ -1602,19 +1602,19 @@
       }
     },
     "repair": {
-      "no_item": "%1$sYou didn't specify any item to repair. If you think you have the correct item, try using the full name.",
-      "no_item_found": "%1$sI can't find that item. If you think you have the correct item, try using the full name.",
+      "no_item": "%1$sTu n'as spécifié aucun objet à réparer. Si tu penses avoir mentionné le bon objet, essaie avec son nom complet.",
+      "no_item_found": "%1$sJe ne trouve aucun objet de la sorte. Si tu penses avoir mentionné le bon objet, essaie avec son nom complet.",
       "no_main_item": "%1$sTu n'as pas l'objet que tu veux réparer (%2$s)",
       "cant_repair": "%1$s**%2$s** ce n'est pas un objet réparable. Tu ne peux réparer que ce qui est cassé.",
-      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can equip one if needed (`~>equip Comet Wrench`, for example)",
-      "no_tool_specified": "%1$sYou specified a wrench you don't have (%2$s). Please use a tool you have or cast it. If you think you have the correct item, try using the full name.",
+      "no_tool": "%1$sTu as besoin d'une clé de tier 2 (au moins une clé de comète) ou plus pour réparer cet objet. Tu peux en équiper une si besoin (`~>equip Comet Wrench`, par exemple)",
+      "no_tool_specified": "%1$sTu as mentionné une clé que tu ne possèdes pas (%2$s). Utilises-en une que tu possède ou fabrique-la. Si tu penses avoir mentionné le bon objet, essaie avec son nom complet.",
       "dust": "%1$sTon inventaire est trop poussiéreux pour réparer quoi que ce soit. Niveau de poussière : %2$s",
       "not_wrench": "%1$sTu ne peux pas utiliser ça en guise de clé. N'oublie pas d'utiliser les guillemets si le nom de l'objet contient des espaces.",
-      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. You can equip one if needed (`~>equip Comet Wrench`, for example)",
-      "not_enough_money": "%1$sYou don't have enough money to repair this item. *(Wallet: %2$,d, Needed: %3$,d)*",
+      "not_enough_level": "%1$sTu as besoin d'une clé de tier supérieur pour faire cette réparation. Tu peux en équiper une si besoin (`~>equip Comet Wrench`, par exemple)",
+      "not_enough_money": "%1$sTu n'as pas assez d'argent pour réparer cet objet. *(Portefeuille; %2$,d crédits , Nécessaire: %3$,d crédits)*",
       "no_item_recipe": "%1$sTu n'as pas le *%2$s* nécessaire pour faire cette réparation.",
       "not_enough_items": "%1$sTu n'as pas assez de *%2$s* pour faire cette réparation de **%3$s**. **(Nécessaire: %4$s, Actuellement en ta possession: %5$s)**",
-      "item_broke": "%1$sSadly, your wrench (%1$s) broke while repairing this item, but you still got your item!",
+      "item_broke": "%1$sMalheureusement, ta clé (%1$s) nous a quittés pendant l'opération, tout ce qu'il reste est l'objet que tu viens de réparer!",
       "success": "%1$sRéparation réalisée avec succès! Objet réparé %2$s **%3$s** -> %4$s **%5$s**. La réparation a couté *%6$s* crédits et la recette de réparation était *%7$s*.",
       "ls": {
         "header": "Liste d'objets réparables",
@@ -1629,7 +1629,7 @@
       "no_results": "%1$sAucun résultat trouvé...",
       "malformed_result": "%1$sJ'ai eu un mauvais résultat de la part de l'API pour cette recherche. Essaie de reformuler peut-être ?",
       "error": "%1$s**Je te jure que je n'ai pas perdu ton anime favori!**\nJ'ai reçu un `%2$s` en essayant d'exécuter la commande. (Erreur interne)",
-      "timeout": "%1$sWe tried to look for this anime, but the request timed out on Kitsu's end. Try again later?",
+      "timeout": "%1$sNous avons tenté de retrouver cet anime mais la requête sur kitsu a expiré. Réessaie plus tard?",
       "information_header": "Information d'anime pour %1$s",
       "information_notice": "Information fournie par AniList.",
       "airing": "Diffusion",
@@ -1665,7 +1665,7 @@
     "daily": {
       "check": "%1$sTu pourras réclamer ton gain journalier dans : **%2$s.**",
       "about_now": "à peu près maintenant",
-      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `~>daily -check`. Enjoy!",
+      "ratelimit_message": "Tu peux récolter le gain quotidien une fois par jour. Si tu veux savoir combien de temps il te reste avant ta prochaine réclamation, utilise `~>daily -check`. Bon amusement!",
       "errors": {
         "bot": "%1$sTu ne peux pas transférer ton gain journalier à un bot.",
         "receipt_locked": "Cet utilisateur ne peut pas recevoir de gain journalier maintenant.",
@@ -1732,7 +1732,7 @@
       "not_suitable": "%1$sMais ce n'est pas une pioche adapté pour miner ça!",
       "not_in_inventory": "%1$sTu n'as pas cette pioche dans ton inventaire, considérons que tu parlais de ta pioche par défaut.",
       "success": "%1$sTu as miné des minerais valant **$%2$,d crédits** avec ta *%3$s*",
-      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
+      "reminder": "\nTu peux fabriquer de meilleures pioches en utilisant les gemmes obtenues en minant. Tu peux trouver la liste des objet fabricables avec `~>cast ls`. Pour le guide complet des améliorations d'outils, ça se passe ici: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> (Attention, c'est en anglais)",
       "diamond": {
         "overflow": "Huh, Tu as trouvé un diamant mais tu en avais déjà trop donc je l'ai vendu pour toi.",
         "success": "Huh! Quelle chance, tu as trouvé un diamant en minant ! Regarde dans ton inventaire !"
@@ -1758,7 +1758,7 @@
       "waifu_help": "Ta waifu t'a rejoint dans ton aventure de minage, ensemble vous aurez un plus large butin!",
       "missing_equipped": "%1$sTu avais équipé une pioche %2$s, mais tu n'en as plus dans ton inventaire! La pioche équipée est donc réinitialisée.",
       "broken_drop": "%1$sTa pioche a cassé mais tu peux toujours la réparer. Objet endommagé obtenu : %2$s *%3$s*",
-      "broken_drop_miss": "%1$sYour tool broke and you didn't quite manage to get it back."
+      "broken_drop_miss": "%1$sTa pioche a cassé et tu n'as pas pu la ramener."
     },
     "chop": {
       "not_equipped": "%1$sTu n'as pas de hache équipée. Utilise `~>equip <axe name>` pour équiper ta hache et commencer à bucheronner! Si tu ne possèdes pas de hache, fais `~>buy axe` d'abord",
@@ -1770,7 +1770,7 @@
         "overflow": "Tu as trouvé **%1$s** en bucheronnant, mais tu en avais déjà trop, donc nous avons tout rendu à la nature...",
         "success": "Tu as trouvé un %1$s **%2$s** en bucheronnant et tu le ramasses. Allez ouvre-le en écrivant `~>opencrate <crate name>`. Tu auras besoin d'une clé pour l’ouvrir !"
       },
-      "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
+      "overflow": "%1$sTu as trouvé quelques trucs en bucheronnant mais tu ne pouvais pas porter une plus grande quantité de certains objets. Nous les avons donc laissés là.",
       "success_only_item": "%1$sEn coupant du bois tranquillement, tu as trouvé %2$s grâce à ta *%3$s* et tu les as gardés.",
       "success": "%1$sEn coupant du bois tranquillement, tu as trouvé %2$s et **$%3$,d crédits** grâce à ta *%4$s* et tu les as gardés.",
       "success_money_noitem": "%1$sEn coupant du bois tranquillement, tu as trouvé **$%2$,d crédits** grâce à ta *%3$s* et tu les as gardés dans ta poche."
@@ -1952,7 +1952,7 @@
       "invalid": "%1$s**Tu dois spécifier l'utilisateur à blacklister.**",
       "yourself_notice": "%1$sPourquoi essaies-tu de te blacklister?...",
       "admin_notice": "%1$sUn (ou plusieurs) des personnes que tu veux blacklister sont admins ou Bot Commanders!",
-      "bot_notice": "%1$sYou can't blacklist a bot. The bot will never reply to any bots.",
+      "bot_notice": "%1$sTu ne peux pas mettre un robot sur liste noire. Un robot ne répond pas à ses semblables.",
       "success": "%1$sUtilisateurs blacklistés localement: **%2$s**"
     },
     "localblacklist_remove": {
@@ -1980,7 +1980,7 @@
     "logs_timezone": {
       "not_specified": "%1$sTu dois spécifier ton fuseau horaire. Un fuseau valide serait, par exemple, Europe/Brussels ou GMT+1. Une liste complète se trouve sur <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Utilises les données de la colonne \"TZ database name\")",
       "invalid": "%1$sCeci n'est pas un fuseau horaire valide. Un fuseau valide serait, par exemple, Europe/Brussels ou GMT+1. Une liste complète se trouve sur <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Utilises les données de la colonne \"TZ database name\")",
-      "success": "%1$sSet logs timezone to `%2$s`. This timezone will be used to display the time on moderation logs."
+      "success": "%1$sDéfinition de `%2$s` comme fuseau horaire des logs. Ce fuseau sera utilisé pour attribuer une heure aux actions de modération reportées dans les logs."
     },
     "logs_timezonereset": {
       "success": "%1$sTon fuseau horaire a été réinitialisé avec succès."
