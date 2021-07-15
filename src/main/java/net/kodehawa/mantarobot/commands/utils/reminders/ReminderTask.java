@@ -77,7 +77,7 @@ public class ReminderTask {
                                                         You asked me to remind you of: **%s**
                                                         Asked at: %s (%s)%s""",
                                                 EmoteReference.POPPER,
-                                                reminder, Utils.formatDate(scheduledTime),
+                                                reminder.trim().isEmpty() ? "something" : reminder, Utils.formatDate(scheduledTime),
                                                 ZoneId.systemDefault().getDisplayName(TextStyle.SHORT, Locale.getDefault()),
                                                 (guild != null ? "\nAsked on: %s".formatted(guild.getName()) : "")
                                         )
