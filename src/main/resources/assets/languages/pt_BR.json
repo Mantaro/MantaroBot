@@ -1448,9 +1448,9 @@
         "low_thirst": "%1$s**%2$s** está com muita sede pra fazer alguma coisa agora.",
         "low_mood": "%1$s**%2$s** seu pet tá com um humor muito baixo. Você pode querer brincar com ele!",
         "dusty": "%1$s**%2$s** está muito sujo. Limpe seu pet para tirar a sujeira.",
-        "success_fish": "%1$s**%2$s** ajudou você a pescar com sucesso! Você ganhou %3$,d créditos e %4$,d itens graças ao trabalho extra que seu pet foi capaz de fazer por você! *incluído no que você ganhou*",
-        "success_chop": "%1$s**%2$s** ajudou você a cortar a árvore com sucesso! Você ganhou %3$,d créditos e %4$,d itens graças ao trabalho extra que seu pet foi capaz de fazer por você! *incluído no que você ganhou*",
-        "success_mine": "%1$s**%2$s** ajudou você a minerar com sucesso! Você ganhou %3$,d créditos e %4$,d itens graças ao trabalho que seu pet foi capaz de fazer por você! *incluído no que você ganhou*"
+        "success_fish": "%1$s**%2$s** successfully helped you catch fish! **You got an extra %3$,d credits and %4$,d items** thanks to the extra work your pet was able to do for you! *included on what you got*",
+        "success_chop": "%1$s**%2$s** successfully helped you chop a tree! **You got an extra %3$,d credits and %4$,d items** thanks to the extra work your pet was able to do for you! *included on what you got*",
+        "success_mine": "%1$s**%2$s** successfully helped you mine! **You got an extra %3$,d credits and %4$,d items** thanks to the extra work your pet was able to do for you! *included on what you got*"
       },
       "rename": {
         "no_pet": "%1$sVocê não tem um pet para renomear. (Escolha: %2$s)%3$s",
