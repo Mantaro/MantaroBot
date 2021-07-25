@@ -132,7 +132,7 @@ public class ImageCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Sends a random cat image. Really cute stuff, you know?")
+                        .setDescription("Sends a random dog image. Really cute stuff, you know?")
                         .build();
             }
         });
