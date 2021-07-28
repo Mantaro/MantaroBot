@@ -526,14 +526,6 @@ public class CurrencyActionCmds {
 
                     List<ItemStack> reducedList = ItemStack.reduce(list);
                     playerInventory.process(reducedList);
-
-                    if (isSeasonal) {
-                        seasonPlayer.addMoney(money);
-                    } else {
-                        player.addMoney(money);
-                        player.getData().incrementFishingExperience(random);
-                    }
-
                     var itemDisplay = ItemStack.toString(reducedList);
                     var foundFish = !reducedList.isEmpty();
 
@@ -547,8 +539,7 @@ public class CurrencyActionCmds {
                     if (nominalLevel >= 3 && random.nextInt(110) > 90) {
                         playerInventory.process(new ItemStack(ItemReference.SHELL, 1));
                         extraMessage += "\n" + EmoteReference.MEGA +
-                                languageContext.get("commands.fish.fossil_success")
-                                        .formatted(ItemReference.SHELL.getEmojiDisplay());
+                                languageContext.get("commands.fish.fossil_success").formatted(ItemReference.SHELL.getEmojiDisplay());
                     }
 
 
@@ -564,6 +555,13 @@ public class CurrencyActionCmds {
                     if (playerData.shouldSeeCampaign()) {
                         extraMessage += Campaign.PREMIUM.getStringFromCampaign(languageContext, dbUser.isPremium());
                         playerData.markCampaignAsSeen();
+                    }
+
+                    if (isSeasonal) {
+                        seasonPlayer.addMoney(money);
+                    } else {
+                        player.addMoney(money);
+                        player.getData().incrementFishingExperience(random);
                     }
 
                     //START OF REPLY HANDLING
@@ -756,14 +754,6 @@ public class CurrencyActionCmds {
 
                     playerInventory.process(reducedStack);
 
-                    // Add money
-                    if (isSeasonal) {
-                        seasonPlayer.addMoney(money);
-                    } else {
-                        player.addMoney(money);
-                        player.getData().incrementChopExperience(random);
-                    }
-
                     // Ah yes, sellout
                     var bonus = money;
                     if (random.nextBoolean()) {
@@ -787,6 +777,14 @@ public class CurrencyActionCmds {
                             extraMessage += "\n" + EmoteReference.MEGA + languageContext.get("commands.chop.crate.success")
                                     .formatted(crate.getEmojiDisplay(), crate.getName());
                         }
+                    }
+
+                    // Add money
+                    if (isSeasonal) {
+                        seasonPlayer.addMoney(money);
+                    } else {
+                        player.addMoney(money);
+                        player.getData().incrementChopExperience(random);
                     }
 
                     handlePetBadges(player, marriage, pet);
