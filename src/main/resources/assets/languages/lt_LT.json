@@ -13,6 +13,7 @@
     "daily": "Kas dieną",
     "total": "Viso",
     "arrow_react": "Naudok rodyklių reakcijas, kad pakeistum puslapius.",
+    "button_react": "Use the arrow buttons to change pages.",
     "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
     "not_found": "Nerasta",
     "no_results": "Jokių rezultatų.",
@@ -67,7 +68,7 @@
     "invalid_character": "%1$sTai neleistinas simbolis.",
     "invalid_action": "Tu negali to padaryti, kvaileli.",
     "interactive_running": "%1$sŠiame kanale jau veikia interaktyvi operacija (pradėta tavęs).",
-    "buy_sell_paged_react": "Use the message reactions to move between pages.\n%1$s",
+    "buy_sell_paged_react": "Use the message buttons to move between pages.\n%1$s",
     "buy_sell_paged_text": "Use **&p >>** and **&p <<** to move across pages.\n%1$s",
     "buy_sell_paged_reference": "**Skirtumas %1$s Pirkimas %2$s Pardavimas.**",
     "cancelled": "%1$sAtšauktas prašymas.",
@@ -81,6 +82,11 @@
       "spam_2": "\nI think stopping is the best option for now...",
       "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
       "spam_4": "\nIs this thing even on?"
+    },
+    "buttons": {
+      "previous": "Previous",
+      "next": "Next",
+      "close": "Close"
     },
     "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `~>shard`) when reporting!",
     "boom_quotes": [
