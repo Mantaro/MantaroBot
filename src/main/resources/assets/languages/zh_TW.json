@@ -13,6 +13,7 @@
     "daily": "一天",
     "total": "總計",
     "arrow_react": "使用箭號反應來改變頁數。",
+    "button_react": "Use the arrow buttons to change pages.",
     "text_menu": "傳送 &p >> 和 &p << 來切換頁數或 &cancel 結束。",
     "not_found": "沒有找到",
     "no_results": "查無結果",
@@ -67,7 +68,7 @@
     "invalid_character": "%1$s無效的字符。",
     "invalid_action": "你不能這樣做，傻瓜。",
     "interactive_running": "%1$s這個頻道裡已經有你與我的互動了。",
-    "buy_sell_paged_react": "使用箭號反應改變頁數。\n%1$s",
+    "buy_sell_paged_react": "Use the message buttons to move between pages.\n%1$s",
     "buy_sell_paged_text": "傳送 **&p >>** 或 **&p <<** 來切換頁數。\n%1$s",
     "buy_sell_paged_reference": "**提示：%1$s買 %2$s 賣。**",
     "cancelled": "%1$s已取消請求。",
@@ -81,6 +82,11 @@
       "spam_2": "\n我覺得你真的該停了...",
       "spam_3": "\n你是不是應該出去放鬆一下了？",
       "spam_4": "\n你確定我還活著嗎？"
+    },
+    "buttons": {
+      "previous": "Previous",
+      "next": "Next",
+      "close": "Close"
     },
     "generic_error": "你可以考慮回報到我們的**官方伺服** (`https://support.mantaro.site`)，或是我們的GitHub頁面 (`https://github.com/Kodehawa/MantaroBot`)。別忘記一同回報錯誤ID，你使用的指令和你所在的節點 (使用`~>shard`檢查)！",
     "boom_quotes": [
