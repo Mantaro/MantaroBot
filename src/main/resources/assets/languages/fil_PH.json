@@ -13,6 +13,7 @@
     "daily": "Araw-araw",
     "total": "Kabuuan",
     "arrow_react": "Gamitin ang mga arrow na reaksyon upang mapalitan ang pahina.",
+    "button_react": "Use the arrow buttons to change pages.",
     "text_menu": "Gamitin ang &p >> at &p << upang palitan ang pahina at &cancel upang tapusin.",
     "not_found": "Hindi Mahanap",
     "no_results": "Walang mga Resulta.",
@@ -67,7 +68,7 @@
     "invalid_character": "%1$sHindi mo pwedeng gamitin ang karakter na iyan.",
     "invalid_action": "Di mo pwedeng gawin yan, baliw.",
     "interactive_running": "%1$sMayroon nang aktibong operasyon (pagmamay-ari mo) sa channel na ito.",
-    "buy_sell_paged_react": "Gamitin ang message reactions upang lumipat sa mga pahina.\n%1$s",
+    "buy_sell_paged_react": "Use the message buttons to move between pages.\n%1$s",
     "buy_sell_paged_text": "Gamitin ang **&p>>** at **&p<<** upang lumipat sa mga pahina.\n%1$s",
     "buy_sell_paged_reference": "**Reference %1$s Buy %2$s Sell.**",
     "cancelled": "%1$sCancelled request.",
@@ -81,6 +82,11 @@
       "spam_2": "\nSa tingin ko, ang paghinto ang pinakamabuting piliin sa ngayon...",
       "spam_3": "\nHindi ba mas mabuti na lumabas ka kahit saglit?",
       "spam_4": "\nNakabukas ba ang bagay na ito?"
+    },
+    "buttons": {
+      "previous": "Previous",
+      "next": "Next",
+      "close": "Close"
     },
     "generic_error": "Kung gusto mo, sumali sa aming **support server** (`https://support.mantaro.site`), o bisitahin ang aming GitHub page (`https://github.com/Kodehawa/MantaroBot`). Paki sabi sa kanila na huwag akong kulitin at huwag kalimutan ang Error ID, ang command na ginamit mo at ang iyong node (nakikita sa `~>shard`) kapag nag-rereport!",
     "boom_quotes": [

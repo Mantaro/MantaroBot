@@ -13,6 +13,7 @@
     "daily": "Täglich",
     "total": "Gesamt",
     "arrow_react": "Verwende die Pfeilreaktionen, um die Seite zu wechseln.",
+    "button_react": "Use the arrow buttons to change pages.",
     "text_menu": "Verwende &p >> und &p <<, um Seiten zu wechseln oder &cancel, um die Aktion zu beenden.",
     "not_found": "Nicht(s) gefunden.",
     "no_results": "Keine Ergebnisse gefunden.",
@@ -67,7 +68,7 @@
     "invalid_character": "%1$sDas ist kein erlaubtes Zeichen.",
     "invalid_action": "Du kannst dies nicht tun, Dummerchen.",
     "interactive_running": "%1$sDu hast bereits eine interaktive Aktion in diesem Kanal am laufen!",
-    "buy_sell_paged_react": "Nutze die Reaktionen, um zwischen den Seiten zu wechseln.\n%1$s",
+    "buy_sell_paged_react": "Use the message buttons to move between pages.\n%1$s",
     "buy_sell_paged_text": "Nutze **&p>>** und **&p<<**, um zwischen Seiten zu wechseln.\n%1$s",
     "buy_sell_paged_reference": "**Referenz %1$s Kauf %2$s Verkauf.**",
     "cancelled": "%1$sAnfrage abgebrochen.",
@@ -81,6 +82,11 @@
       "spam_2": "\nIch denke aufhören ist jetzt die beste Option...",
       "spam_3": "\nWäre es nicht besser, wenn du ein wenig rausgehen würdest?",
       "spam_4": "\nIst das Ding überhaupt an?"
+    },
+    "buttons": {
+      "previous": "Previous",
+      "next": "Next",
+      "close": "Close"
     },
     "generic_error": "Wenn du willst, tritt unserem **Support Server** bei (`https://support.mantaro.site`), oder schau auf unserer GitHub Seite nach (`https://github.com/Kodehawa/MantaroBot`). Bitte sag denen, dass sie aufhören sollen mich hochzujagen und bitte vergiss nicht die Fehler-ID, den Befehl den du benutzt hast und deine Node (steht in `~>shard`) beim Melden eines Fehlers!",
     "boom_quotes": [

@@ -13,6 +13,7 @@
     "daily": "Dagelijks",
     "total": "Totaal",
     "arrow_react": "Gebruik de berichtreacties om van pagina te veranderen",
+    "button_react": "Use the arrow buttons to change pages.",
     "text_menu": "Gebruik &p >> en &p << om pagina's te veranderen, en &cancel om te beëindigen.",
     "not_found": "Niet gevonden",
     "no_results": "Geen resultaten.",
@@ -67,7 +68,7 @@
     "invalid_character": "%1$sDat is geen toegestaan karakter.",
     "invalid_action": "Je kunt dat niet doen, gekkie.",
     "interactive_running": "%1$sEr is al een interactieve bewerking (eigendom van jou) op dit kanaal.",
-    "buy_sell_paged_react": "Gebruik de reacties onder het bericht om door de pagina's te bladeren.\n%1$s",
+    "buy_sell_paged_react": "Use the message buttons to move between pages.\n%1$s",
     "buy_sell_paged_text": "Gebruik **&p >>** en **&p <<** om door de pagina's te bladeren.\n%1$s",
     "buy_sell_paged_reference": "**Verwijzing %1$s Koop %2$s Verkoop.**",
     "cancelled": "%1$sVerzoek geannuleerd.",
@@ -81,6 +82,11 @@
       "spam_2": "Ik denk dat stoppen voorlopig de beste optie is...",
       "spam_3": "\nZou het niet beter zijn als je even naar buiten gaat?",
       "spam_4": "\nIs dit ding aan?"
+    },
+    "buttons": {
+      "previous": "Previous",
+      "next": "Next",
+      "close": "Close"
     },
     "generic_error": "Als je wilt, word dan lid van onze **support server** (`https://support.mantaro.site`), of bekijk onze GitHub-pagina (`https://github.com/Kodehawa/MantaroBot`). Zeg alsjeblieft dat ze moeten stoppen met het exploderen van mij en vergeet alsjeblieft de Error ID, het commando dat je hebt gebruikt en je node (te zien in `~>shard`) niet bij het rapporteren!",
     "boom_quotes": [
