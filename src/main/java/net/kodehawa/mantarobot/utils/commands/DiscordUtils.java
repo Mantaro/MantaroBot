@@ -20,14 +20,12 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.components.Button;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.IntIntObjectFunction;
@@ -419,13 +417,14 @@ public class DiscordUtils {
             if (button == null)
                 return Operation.IGNORED;
 
+            var hook = e.getHook();
             switch (button.getId()) {
                 case "button_right" -> {
                     if (index.get() == 0) {
                         break;
                     }
 
-                    e.getHook().editOriginalEmbeds(embeds.get(index.decrementAndGet())).queue();
+                    hook.editOriginalEmbeds(embeds.get(index.decrementAndGet())).queue();
                 }
 
                 case "button_left" -> {
@@ -433,7 +432,7 @@ public class DiscordUtils {
                         break;
                     }
 
-                    e.getHook().editOriginalEmbeds(embeds.get(index.incrementAndGet())).queue();
+                    hook.editOriginalEmbeds(embeds.get(index.incrementAndGet())).queue();
                 }
                 default -> {
                     return Operation.IGNORED;
@@ -539,6 +538,7 @@ public class DiscordUtils {
             if (button == null)
                 return Operation.IGNORED;
 
+            var hook = e.getHook();
             switch (button.getId()) {
                 case "button_right" -> {
                     if (index.get() == 0) {
@@ -550,7 +550,7 @@ public class DiscordUtils {
                             ctx.getAuthor().getEffectiveAvatarUrl()
                     );
 
-                    e.getHook().editOriginalEmbeds(toSend.build()).queue();
+                    hook.editOriginalEmbeds(toSend.build()).queue();
                 }
 
                 case "button_left" -> {
@@ -563,7 +563,7 @@ public class DiscordUtils {
                             ctx.getAuthor().getEffectiveAvatarUrl()
                     );
 
-                    e.getHook().editOriginalEmbeds(toSend1.build()).queue();
+                    hook.editOriginalEmbeds(toSend1.build()).queue();
                 }
                 default -> {
                     return Operation.IGNORED;
