@@ -357,14 +357,10 @@ public class BirthdayCmd {
         }
 
         var parts = DiscordUtils.divideString(1000, '\n', builder);
-        var hasReactionPerms = ctx.hasReactionPerms();
 
         List<String> messages = new LinkedList<>();
         for (String part : parts) {
-            var help = languageContext.get("general.arrow_react");
-            if (!hasReactionPerms) {
-                help = languageContext.get("general.text_menu");
-            }
+            var help = languageContext.get("general.button_react");
 
             if (month && calendar != null) {
                 messages.add(
@@ -384,12 +380,7 @@ public class BirthdayCmd {
             ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
             return;
         }
-
-        if (hasReactionPerms) {
-            DiscordUtils.list(ctx.getEvent(), 45, false, messages);
-        } else {
-            DiscordUtils.listText(ctx.getEvent(), 45, false, messages);
-        }
+        DiscordUtils.listButtons(ctx, 45, messages);
     }
 
     public static Cache<Long, ConcurrentHashMap<Long, BirthdayCacher.BirthdayData>> getGuildBirthdayCache() {

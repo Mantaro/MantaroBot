@@ -72,18 +72,11 @@ public class OptsCmd {
                     var dividedMessages = DiscordUtils.divideString(builder);
                     List<String> messages = new LinkedList<>();
                     for (var msgs : dividedMessages) {
-                        messages.add(String.format(languageContext.get("commands.opts.list.header"),
-                                ctx.hasReactionPerms() ? languageContext.get("general.text_menu") + " " :
-                                        languageContext.get("general.arrow_react"), String.format("```prolog\n%s```", msgs))
+                        messages.add(String.format(languageContext.get("commands.opts.list.header"), languageContext.get("general.button_react"), String.format("```prolog\n%s```", msgs))
                         );
                     }
 
-                    if (ctx.hasReactionPerms()) {
-                        DiscordUtils.list(ctx.getEvent(), 45, false, messages);
-                    } else {
-                        DiscordUtils.listText(ctx.getEvent(), 45, false, messages);
-                    }
-
+                    DiscordUtils.listButtons(ctx, 45, messages);
                     return;
                 }
 
@@ -209,12 +202,7 @@ public class OptsCmd {
                     }
 
                     var splitFields = DiscordUtils.divideFields(6, fields);
-                    if (ctx.hasReactionPerms()) {
-                        DiscordUtils.list(ctx.getEvent(), 200, false, embedBuilder, splitFields);
-                    }
-                    else {
-                        DiscordUtils.listText(ctx.getEvent(), 200, false, embedBuilder, splitFields);
-                    }
+                    DiscordUtils.listButtons(ctx, 200, embedBuilder, splitFields);
                 }).setShortDescription("Checks the data values you have set on this server.")
         ).addOption("reset:all", new Option("Options reset.",
                 "Resets all options set on this server.", OptionType.GENERAL).setAction((ctx) -> {

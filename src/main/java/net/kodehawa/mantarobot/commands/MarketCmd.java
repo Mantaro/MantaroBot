@@ -718,23 +718,12 @@ public class MarketCmd {
         var user = ctx.getDBUser();
 
         var splitFields = DiscordUtils.divideFields(4, fields);
-        var hasReactionPerms = ctx.hasReactionPerms();
-        embed.setColor(Color.MAGENTA).setAuthor("Mantaro's Market", null, ctx.getAuthor().getEffectiveAvatarUrl());
+        embed.setColor(Color.MAGENTA).setAuthor("Mantaro's Market", null, ctx.getAuthor().getEffectiveAvatarUrl())
+                .setDescription(String.format(languageContext.get("general.buy_sell_paged_react"),
+                        String.format(languageContext.get("general.reaction_timeout"), 200) + "\n")
+                        + (user.isPremium() ? "" : languageContext.get("general.sellout")) + languageContext.get("commands.market.reference")
+        );
 
-        if (hasReactionPerms) {
-            embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"),
-                   String.format(languageContext.get("general.reaction_timeout"), 200) + "\n")
-                    + (user.isPremium() ? "" : languageContext.get("general.sellout")) + languageContext.get("commands.market.reference")
-            );
-
-            DiscordUtils.list(ctx.getEvent(), 200, false, embed, splitFields);
-        } else {
-            embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"),
-                    String.format(languageContext.get("general.reaction_timeout"), 200) + "\n")
-                    + (user.isPremium() ? "" : languageContext.get("general.sellout")) + languageContext.get("commands.market.reference")
-            );
-
-            DiscordUtils.listText(ctx.getEvent(), 200, false, embed, splitFields);
-        }
+        DiscordUtils.listButtons(ctx, 200, embed, splitFields);
     }
 }

@@ -239,15 +239,9 @@ public class CustomCmds {
                                 ctx.getAuthor().getEffectiveAvatarUrl()
                         );
 
-                if (ctx.hasReactionPerms()) {
-                    DiscordUtils.list(ctx.getEvent(), 120, false, 900,
-                            (p, total) -> builder.setFooter(String.format("Commands: %,d | Total Pages: %s | Current: %s", commands.size(), total, p)), cmds
-                    );
-                } else {
-                    DiscordUtils.listText(ctx.getEvent(), 120, false, 900,
-                            (p, total) -> builder.setFooter(String.format("Commands: %,d | Total Pages: %s | Current: %s", commands.size(),  total, p)), cmds
-                    );
-                }
+                DiscordUtils.listButtons(ctx, 120, 900,
+                        (p, total) -> builder.setFooter(String.format("Commands: %,d | Total Pages: %s | Current: %s", commands.size(), total, p)), cmds
+                );
             }
         }).createSubCommandAlias("list", "ls");
 

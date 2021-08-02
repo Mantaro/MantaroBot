@@ -42,6 +42,7 @@ import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
 import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
+import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -218,7 +219,7 @@ public class MantaroCore {
                     .addEventListeners(
                             VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
                             ReactionOperations.listener(), MantaroBot.getInstance().getLavaLink(),
-                            shardStartListener
+                            ButtonOperations.listener(), shardStartListener
                     )
                     .addEventListenerProviders(List.of(
                             id -> new CommandListener(commandProcessor, threadPool, getShard(id).getMessageCache()),

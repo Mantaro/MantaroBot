@@ -663,23 +663,11 @@ public class ProfileCmd {
                             .setAuthor(languageContext.get("commands.profile.stats.header").formatted(toLookup.getName()),
                                     null, toLookup.getEffectiveAvatarUrl()
                             )
+                            .setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), String.format(languageContext.get("general.reaction_timeout"), 200)))
                             .setColor(ctx.getMemberColor())
                             .setFooter("Thanks for using Mantaro! %s".formatted(EmoteReference.HEART), ctx.getGuild().getIconUrl());
 
-                    var hasReactionPerms = ctx.hasReactionPerms();
-                    if (hasReactionPerms) {
-                        embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"),
-                                String.format(languageContext.get("general.reaction_timeout"), 200))
-                        );
-
-                        DiscordUtils.list(ctx.getEvent(), 200, false, embed, splitFields);
-                    } else {
-                        embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"),
-                                String.format(languageContext.get("general.reaction_timeout"), 200))
-                        );
-
-                        DiscordUtils.listText(ctx.getEvent(), 200, false, embed, splitFields);
-                    }
+                    DiscordUtils.listButtons(ctx, 200, embed, splitFields);
                 });
             }
         });

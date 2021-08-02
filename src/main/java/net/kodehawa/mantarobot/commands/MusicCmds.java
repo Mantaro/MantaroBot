@@ -282,7 +282,7 @@ public class MusicCmds {
                         }
 
                         var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
-                        embedForQueue(ctx.getEvent(), musicManager, ctx.getLanguageContext());
+                        embedForQueue(ctx, musicManager, ctx.getLanguageContext());
                         TextChannelGround.of(ctx.getEvent()).dropItemWithChance(0, 10);
                     }
                 };
@@ -717,7 +717,7 @@ public class MusicCmds {
                 var divided = DiscordUtils.divideString(500, lyrics.trim());
                 var languageContext = ctx.getLanguageContext();
 
-                DiscordUtils.list(ctx.getEvent(), 30, false, 900, (p, total) -> {
+                DiscordUtils.listButtons(ctx, 30, 900, (p, total) -> {
                     EmbedBuilder embed = new EmbedBuilder();
                     embed.setTitle(languageContext.get("commands.lyrics.header").formatted(EmoteReference.HEART, fullTitle))
                             .setThumbnail(icon)

@@ -20,10 +20,14 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.InteractionHook;
+import net.dv8tion.jda.api.interactions.components.Button;
+import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.IntIntObjectFunction;
@@ -40,6 +44,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.IntConsumer;
 
+// TODO: rewrite this cursedness! We don't need anything but buttons now, probably?
 public class DiscordUtils {
     private static final Config config = MantaroData.config().get();
 
@@ -387,6 +392,186 @@ public class DiscordUtils {
 
             return Operation.IGNORED;
         }, "\u2b05", "\u27a1", "\u274c");
+    }
+
+    public static Future<Void> listButtons(Context ctx, int timeoutSeconds, int length,
+                                    IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
+
+        if (parts.length == 0) {
+            return null;
+        }
+
+        List<MessageEmbed> embeds = buildSplitEmbed(supplier, length, parts);
+        if (embeds.size() == 1) {
+            ctx.getChannel().sendMessageEmbeds(embeds.get(0)).queue();
+            return null;
+        }
+
+        var index = new AtomicInteger();
+        var message = ctx.getChannel().sendMessageEmbeds(embeds.get(0)).complete();
+        var i18n = ctx.getLanguageContext();
+
+        return ButtonOperations.create(message, timeoutSeconds, (e) -> {
+            if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong())
+                return Operation.IGNORED;
+
+            var button = e.getButton();
+            if (button == null)
+                return Operation.IGNORED;
+
+            switch (button.getId()) {
+                case "button_right" -> {
+                    if (index.get() == 0) {
+                        break;
+                    }
+
+                    e.getHook().editOriginalEmbeds(embeds.get(index.decrementAndGet())).queue();
+                }
+
+                case "button_left" -> {
+                    if (index.get() + 1 >= embeds.size()) {
+                        break;
+                    }
+
+                    e.getHook().editOriginalEmbeds(embeds.get(index.incrementAndGet())).queue();
+                }
+                default -> {
+                    return Operation.IGNORED;
+                }
+            }
+
+            return Operation.IGNORED;
+        }, Button.primary("button_right", i18n.get("general.buttons.previous")), Button.primary("button_left", i18n.get("general.buttons.next")));
+    }
+
+    public static Future<Void> listButtons(Context ctx, int timeoutSeconds, List<String> parts) {
+        if (parts.size() == 0) {
+            return null;
+        }
+
+        if (parts.size() == 1) {
+            ctx.getChannel().sendMessage(parts.get(0)).queue();
+            return null;
+        }
+
+        var index = new AtomicInteger();
+        var m = ctx.getChannel().sendMessage(parts.get(0)).complete();
+        var i18n = ctx.getLanguageContext();
+
+        return ButtonOperations.create(m, timeoutSeconds, (e) -> {
+            if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong())
+                return Operation.IGNORED;
+
+            var hook = e.getHook();
+            var button = e.getButton();
+            if (button == null)
+                return Operation.IGNORED;
+
+            switch (button.getId()) {
+                case "button_right" -> {
+                    if (index.get() == 0) {
+                        break;
+                    }
+
+                    hook.editOriginal(String.format("%s\n**Page: %d**", parts.get(index.decrementAndGet()), index.get() + 1)).queue();
+                }
+
+                case "button_left" -> {
+                    if (index.get() + 1 >= parts.size()) {
+                        break;
+                    }
+
+                    hook.editOriginal(String.format("%s\n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();
+                }
+                case "button_close" -> {
+                    hook.deleteOriginal().queue();
+                    return Operation.COMPLETED;
+                }
+                default -> {
+                    return Operation.IGNORED;
+                }
+            }
+
+            return Operation.IGNORED;
+        }, Button.primary("button_right", i18n.get("general.buttons.previous")),
+                Button.secondary("button_close", i18n.get("general.buttons.close")),
+                Button.primary("button_left", i18n.get("general.buttons.left")));
+    }
+
+    public static Future<Void> listButtons(Context ctx, int timeoutSeconds, int length,
+                                    IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
+        return listButtons(ctx, timeoutSeconds, length, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
+    }
+
+    public static Future<Void> listButtons(Context ctx, int timeoutSeconds,
+                                    IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
+        // Passing an empty String[] array to List#toArray makes it convert to a array of strings, god knows why.
+        // Javadoc below just so I don't forget:
+        // (...) If the list fits in the specified array, it is returned therein.
+        // Otherwise, a new array is allocated with the runtime type of the specified array and the size of this list.
+        return listButtons(ctx, timeoutSeconds, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
+    }
+
+    public static Future<Void> listButtons(Context ctx, int timeoutSeconds, EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
+        if (parts.size() == 0) {
+            return null;
+        }
+
+        for (MessageEmbed.Field f : parts.get(0)) {
+            base.addField(f);
+        }
+
+        if (parts.size() == 1) {
+            ctx.getChannel().sendMessageEmbeds(base.build()).queue();
+            return null;
+        }
+
+        base.setFooter("Total Pages: %s | Thanks for using Mantaro ❤️".formatted(parts.size()), ctx.getAuthor().getEffectiveAvatarUrl());
+        var i18n = ctx.getLanguageContext();
+        var index = new AtomicInteger();
+        var message = ctx.getChannel().sendMessageEmbeds(base.build()).complete();
+        return ButtonOperations.create(message, timeoutSeconds, (e) -> {
+            if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
+                return Operation.IGNORED;
+            }
+
+            var button = e.getButton();
+            if (button == null)
+                return Operation.IGNORED;
+
+            switch (button.getId()) {
+                case "button_right" -> {
+                    if (index.get() == 0) {
+                        break;
+                    }
+
+                    var toSend = addAllFields(base, parts.get(index.decrementAndGet()));
+                    toSend.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
+                            ctx.getAuthor().getEffectiveAvatarUrl()
+                    );
+
+                    e.getHook().editOriginalEmbeds(toSend.build()).queue();
+                }
+
+                case "button_left" -> {
+                    if (index.get() + 1 >= parts.size()) {
+                        break;
+                    }
+
+                    var toSend1 = addAllFields(base, parts.get(index.incrementAndGet()));
+                    toSend1.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
+                            ctx.getAuthor().getEffectiveAvatarUrl()
+                    );
+
+                    e.getHook().editOriginalEmbeds(toSend1.build()).queue();
+                }
+                default -> {
+                    return Operation.IGNORED;
+                }
+            }
+
+            return Operation.IGNORED;
+        }, Button.primary("button_right", i18n.get("general.buttons.previous")), Button.primary("button_left", i18n.get("general.buttons.next")));
     }
 
     public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,

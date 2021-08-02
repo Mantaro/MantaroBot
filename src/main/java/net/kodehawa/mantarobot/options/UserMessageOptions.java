@@ -315,17 +315,11 @@ public class UserMessageOptions extends OptionHandler {
             List<String> m = DiscordUtils.divideString(builder);
             List<String> messages = new LinkedList<>();
             var lang = ctx.getLanguageContext();
-            boolean hasReactionPerms = ctx.hasReactionPerms();
             for (String s1 : m) {
-                messages.add(String.format(lang.get("options.usermessage_joinmessage_list.header"),
-                        hasReactionPerms ? lang.get("general.text_menu") + " " : lang.get("general.arrow_react"), String.format("```prolog\n%s```", s1)));
+                messages.add(String.format(lang.get("options.usermessage_joinmessage_list.header"), lang.get("general.button_react"), String.format("```prolog\n%s```", s1)));
             }
 
-            if (hasReactionPerms) {
-                DiscordUtils.list(ctx.getEvent(), 45, false, messages);
-            } else {
-                DiscordUtils.listText(ctx.getEvent(), 45, false, messages);
-            }
+            DiscordUtils.listButtons(ctx, 45, messages);
         }));
 
         registerOption("usermessage:leavemessages:add", "Leave Message extra messages add", """
@@ -414,17 +408,12 @@ public class UserMessageOptions extends OptionHandler {
             List<String> messages = new LinkedList<>();
             var lang = ctx.getLanguageContext();
 
-            boolean hasReactionPerms = ctx.hasReactionPerms();
             for (String s1 : m) {
                 messages.add(String.format(lang.get("options.usermessage_leavemessage_list.header"),
-                        hasReactionPerms ? lang.get("general.text_menu") + " " : lang.get("general.arrow_react"), String.format("```prolog\n%s```", s1)));
+                        lang.get("general.button_react"), String.format("```prolog\n%s```", s1)));
             }
-
-            if (hasReactionPerms) {
-                DiscordUtils.list(ctx.getEvent(), 45, false, messages);
-            } else {
-                DiscordUtils.listText(ctx.getEvent(), 45, false, messages);
-            }
+            
+            DiscordUtils.listButtons(ctx, 45, messages);
         }));
     }
 

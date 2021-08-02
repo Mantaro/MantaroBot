@@ -29,6 +29,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.utils.MarkdownSanitizer;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.IntIntObjectFunction;
@@ -39,7 +40,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -52,13 +53,13 @@ public class AudioCmdUtils {
     private static final Logger log = LoggerFactory.getLogger(AudioCmdUtils.class);
     private static final String icon = "https://i.imgur.com/FWKIR7N.png";
 
-    public static void embedForQueue(GuildMessageReceivedEvent event, GuildMusicManager musicManager, I18nContext lang) {
-        final var guild = event.getGuild();
-        final var selfMember = guild.getSelfMember();
-        final var channel = event.getChannel();
+    public static void embedForQueue(Context ctx, GuildMusicManager musicManager, I18nContext lang) {
+        final var guild = ctx.getGuild();
+        final var selfMember = ctx.getSelfMember();
+        final var channel = ctx.getChannel();
 
         if (!selfMember.hasPermission(channel, Permission.MESSAGE_EMBED_LINKS)) {
-            channel.sendMessageFormat(lang.get("commands.music_general.queue.no_embed"), EmoteReference.ERROR).queue();
+            ctx.sendFormat(lang.get("commands.music_general.queue.no_embed"), EmoteReference.ERROR);
             return;
         }
 
@@ -116,22 +117,12 @@ public class AudioCmdUtils {
         // error: local variables referenced from a lambda expression must be final or effectively final
         // sob
         final var np = nowPlaying;
-        final var hasReactionPerms = selfMember.hasPermission(channel, Permission.MESSAGE_ADD_REACTION);
-
         IntIntObjectFunction<EmbedBuilder> supplier = (p, total) ->{
             // Cursed, but should work?
             // Fields were getting duplicated since the supplier was called everytime
             // obviously, but we need a clean field state here.
             // So just reset it.
             builder.clearFields();
-
-            // Instructions in case there's no reaction perms.
-            if (!hasReactionPerms) {
-                builder.addField(EmoteReference.PENCIL.toHeaderString() + lang.get("commands.music_general.queue.header_field"),
-                        lang.get("commands.music_general.queue.header_noreact"),
-                        false
-                );
-            }
 
             // Build the queue embed.
             // Description is then added on DiscordUtils.list/listText, as we have to
@@ -159,16 +150,12 @@ public class AudioCmdUtils {
                             true
                     )
                     .setFooter(String.format("Total Pages: %s | Current: %s", total, p),
-                            event.getAuthor().getEffectiveAvatarUrl());
+                            ctx.getAuthor().getEffectiveAvatarUrl());
         };
 
         // Too long otherwise, so substract 800 from TEXT_MAX_LENGTH
         var split = DiscordUtils.divideString(MessageEmbed.TEXT_MAX_LENGTH - 800, toSend);
-        if (hasReactionPerms) {
-            DiscordUtils.list(event, 150, false, supplier, split);
-        } else {
-            DiscordUtils.listText(event, 150, false, supplier, split);
-        }
+        DiscordUtils.listButtons(ctx, 150, supplier, split);
     }
 
     public static CompletionStage<Void> openAudioConnection(GuildMessageReceivedEvent event, JdaLink link,
