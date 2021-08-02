@@ -13,6 +13,7 @@
     "daily": "Harian",
     "total": "Jumlah",
     "arrow_react": "Gunakan reaksi anak panah untuk menukar halaman.",
+    "button_react": "Use the arrow buttons to change pages.",
     "text_menu": "Gunakan &p >> dan &p << untuk menukar halaman dan &cancel untuk menamatkan.",
     "not_found": "Tidak dijumpai",
     "no_results": "Tiada keputusan.",
@@ -67,7 +68,7 @@
     "invalid_character": "%1$sItu bukan aksara yang dibenarkan.",
     "invalid_action": "Awak tidak boleh melakukan itu, bodoh.",
     "interactive_running": "%1$sSudah ada Operasi Interaktif (milik anda) di saluran ini.",
-    "buy_sell_paged_react": "Gunakan reaksi mesej untuk bergerak di antara halaman.\n%1$s",
+    "buy_sell_paged_react": "Use the message buttons to move between pages.\n%1$s",
     "buy_sell_paged_text": "Gunakan **&p >>** dan **&p <<** untuk bergerak di antara halaman.\n%1$s",
     "buy_sell_paged_reference": "**Rujukan %1$s Beli %2$s Jual.**",
     "cancelled": "%1$sPermintaan dibatalkan.",
@@ -81,6 +82,11 @@
       "spam_2": "\nSaya rasa berhenti adalah pilihan yang terbaik buat masa ini...",
       "spam_3": "\nBukankah lebih baik jika awak keluar sebentar?",
       "spam_4": "\nBenda ini hidup ke?"
+    },
+    "buttons": {
+      "previous": "Previous",
+      "next": "Next",
+      "close": "Close"
     },
     "generic_error": "Sekiranya anda mahu, sertailah **pelayan sokongan** kami (`https://support.mantaro.site`), atau lihat halaman GitHub kami (`https://github.com/Kodehawa/MantaroBot`). Tolong beritahu mereka untuk berhenti meletupkan saya dan tolong jangan lupa ID Ralat, arahan yang anda gunakan dan node anda (dilihat dalam `~>shard`) semasa melaporkan!",
     "boom_quotes": [
