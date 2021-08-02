@@ -13,6 +13,7 @@
     "daily": "روزانہ",
     "total": "پورا",
     "arrow_react": "صفحات کو تبدیل کرنے کے لئے تیر والے رد عمل کا استعمال کریں۔",
+    "button_react": "Use the arrow buttons to change pages.",
     "text_menu": "صفحات کو تبدیل کرنے اور ختم کرنے کے لئے << p& اور  >> p& استعمال کریں۔",
     "not_found": "نہیں ملا",
     "no_results": "کوئی نتائج نہیں۔",
@@ -67,7 +68,7 @@
     "invalid_character": "%1$sThat is not an allowed character.",
     "invalid_action": "آپ ایسا نہیں کرسکتے ، بے وقوف۔",
     "interactive_running": "%1$sThere's already an Interactive Operation (owned by you) on this channel.",
-    "buy_sell_paged_react": "Use the message reactions to move between pages.\n%1$s",
+    "buy_sell_paged_react": "Use the message buttons to move between pages.\n%1$s",
     "buy_sell_paged_text": "Use **&p >>** and **&p <<** to move across pages.\n%1$s",
     "buy_sell_paged_reference": "**Reference %1$s Buy %2$s Sell.**",
     "cancelled": "%1$sCancelled request.",
@@ -81,6 +82,11 @@
       "spam_2": "\nI think stopping is the best option for now...",
       "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
       "spam_4": "\nIs this thing even on?"
+    },
+    "buttons": {
+      "previous": "Previous",
+      "next": "Next",
+      "close": "Close"
     },
     "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `~>shard`) when reporting!",
     "boom_quotes": [

@@ -13,6 +13,7 @@
     "daily": "Diario",
     "total": "Total",
     "arrow_react": "Usa las flechas para cambiar de página.",
+    "button_react": "Use the arrow buttons to change pages.",
     "text_menu": "Usa &p >> y &p << para cambiar de página y &cancel para terminar el menú.",
     "not_found": "No encontrado",
     "no_results": "No hay resultados.",
@@ -67,7 +68,7 @@
     "invalid_character": "%1$sEse no es un carácter válido.",
     "invalid_action": "Hey, no puedes hacer eso!",
     "interactive_running": "%1$sYa hay una operación interactiva (empezada por tí) en este canal.",
-    "buy_sell_paged_react": "Usa las reacciones del mensaje para moverte entre páginas.\n%1$s",
+    "buy_sell_paged_react": "Use the message buttons to move between pages.\n%1$s",
     "buy_sell_paged_text": "Usa **&p >>** y **&p <<** para moverte entre páginas\n%1$s",
     "buy_sell_paged_reference": "**Referencia %1$s Compra %2$s Venta.**",
     "cancelled": "%1$sOperación cancelada.",
@@ -81,6 +82,11 @@
       "spam_2": "\nCreo que la mejor opción sería tomar un descanso...",
       "spam_3": "\n¿No sería mejor si fueras afuera un rato?",
       "spam_4": "\n¿Acaso está encendida esta cosa?"
+    },
+    "buttons": {
+      "previous": "Previous",
+      "next": "Next",
+      "close": "Close"
     },
     "generic_error": "Si lo deseas, únete a nuestro **servidor de soporte** (`https://support.mantaro.site`), o mira nuestra página de GitHub (`https://github.com/Kodehawa/MantaroBot`). ¡Por favor diles que dejen de romperme y no olvides el código de error, el comando que usaste, y tu nodo (Visto en `~>shard`) cuando reportes!",
     "boom_quotes": [

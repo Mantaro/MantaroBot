@@ -13,6 +13,7 @@
     "daily": "يومياََ",
     "total": "الإجمالي",
     "arrow_react": "أستعمل علامة السهم لتغيير الصفحة.",
+    "button_react": "Use the arrow buttons to change pages.",
     "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
     "not_found": "غير موجود",
     "no_results": "لا نتائج.",
@@ -67,7 +68,7 @@
     "invalid_character": "%1$sهذا حرف غير مسموح به.",
     "invalid_action": "لايمكنك فعل ذلك, يا للسخف.",
     "interactive_running": "%1$sهناك بالفعل عملية مفعله (مملوكة من قبلك) على هذا الروم.",
-    "buy_sell_paged_react": "استخدم الرياكشنات أدنى الرسالة للتنقل بين الصفحات.\n%1$s",
+    "buy_sell_paged_react": "Use the message buttons to move between pages.\n%1$s",
     "buy_sell_paged_text": "استخدم **&p >>** و **&p <<** للتنقل بين الصفحات.\n%1$s",
     "buy_sell_paged_reference": "**المرجع %1$s شراء %2$s بيع.**",
     "cancelled": "%1$sطلب مُلغى.",
@@ -81,6 +82,11 @@
       "spam_2": "أظن التوقف هو أفضل حل للان.....",
       "spam_3": "ألن يكون من الأفضل أن تخرج قليلاً؟",
       "spam_4": "\nهل هذا الشيء حتى على قيد التشغيل؟"
+    },
+    "buttons": {
+      "previous": "Previous",
+      "next": "Next",
+      "close": "Close"
     },
     "generic_error": "اذا أردت الدخول الى ** سيرفر الدعم الفني** الخاص بنا (`https://support.mantaro.site`), او زيارة صفحتنا على قيت هب (`https://github.com/Kodehawa/MantaroBot`). من فضلك اخبرهم ان يتوقفوا عن ازعاجي ورجاءً عند الابلاغ عن خطأ لاتنسى ارسال ID الخطأ والأمر الذي استخدمته وال Node الخاص بك (يمكنك رؤيته في عن طريق `~>shard`) عند ارسال البلاغ!",
     "boom_quotes": [
