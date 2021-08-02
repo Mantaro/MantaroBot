@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.utils.commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Emoji;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.Button;
@@ -45,7 +46,6 @@ import java.util.function.IntConsumer;
 // TODO: rewrite this cursedness! We don't need anything but buttons now, probably?
 public class DiscordUtils {
     private static final Config config = MantaroData.config().get();
-
     public static <T> Pair<String, Integer> embedList(List<T> list, Function<T, String> toString) {
         var builder = new StringBuilder();
         for (var i = 0; i < list.size(); i++) {
@@ -407,8 +407,6 @@ public class DiscordUtils {
 
         var index = new AtomicInteger();
         var message = ctx.getChannel().sendMessageEmbeds(embeds.get(0)).complete();
-        var i18n = ctx.getLanguageContext();
-
         return ButtonOperations.create(message, timeoutSeconds, (e) -> {
             if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong())
                 return Operation.IGNORED;
@@ -419,6 +417,14 @@ public class DiscordUtils {
 
             var hook = e.getHook();
             switch (button.getId()) {
+                case "button_first" -> {
+                    index.set(0);
+                    hook.editOriginalEmbeds(embeds.get(0)).queue();
+                }
+                case "button_last" -> {
+                    index.set(embeds.size() - 1);
+                    hook.editOriginalEmbeds(embeds.get(embeds.size() - 1)).queue();
+                }
                 case "button_right" -> {
                     if (index.get() == 0) {
                         break;
@@ -440,7 +446,10 @@ public class DiscordUtils {
             }
 
             return Operation.IGNORED;
-        }, Button.primary("button_right", i18n.get("general.buttons.previous")), Button.primary("button_left", i18n.get("general.buttons.next")));
+        }, Button.primary("button_first", Emoji.fromUnicode("⏪")),
+                Button.primary("button_right", Emoji.fromUnicode("◀️")),
+                Button.primary("button_left", Emoji.fromUnicode("▶️")),
+                Button.primary("button_last", Emoji.fromUnicode("⏩")));
     }
 
     public static Future<Void> listButtons(Context ctx, int timeoutSeconds, List<String> parts) {
@@ -455,8 +464,6 @@ public class DiscordUtils {
 
         var index = new AtomicInteger();
         var m = ctx.getChannel().sendMessage(parts.get(0)).complete();
-        var i18n = ctx.getLanguageContext();
-
         return ButtonOperations.create(m, timeoutSeconds, (e) -> {
             if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong())
                 return Operation.IGNORED;
@@ -467,6 +474,14 @@ public class DiscordUtils {
                 return Operation.IGNORED;
 
             switch (button.getId()) {
+                case "button_first" -> {
+                    index.set(0);
+                    hook.editOriginal(String.format("%s\n**Page: %d**", parts.get(index.get()), 1)).queue();
+                }
+                case "button_last" -> {
+                    index.set(parts.size() - 1);
+                    hook.editOriginal(String.format("%s\n**Page: %d**", parts.get(parts.size() - 1), parts.size())).queue();
+                }
                 case "button_right" -> {
                     if (index.get() == 0) {
                         break;
@@ -492,9 +507,11 @@ public class DiscordUtils {
             }
 
             return Operation.IGNORED;
-        }, Button.primary("button_right", i18n.get("general.buttons.previous")),
-                Button.secondary("button_close", i18n.get("general.buttons.close")),
-                Button.primary("button_left", i18n.get("general.buttons.left")));
+        }, Button.primary("button_first", Emoji.fromUnicode("⏪")),
+                Button.primary("button_right", Emoji.fromUnicode("◀️")),
+                Button.primary("button_close", Emoji.fromUnicode("❌")),
+                Button.primary("button_left", Emoji.fromUnicode("▶️")),
+                Button.primary("button_last", Emoji.fromUnicode("⏩")));
     }
 
     public static Future<Void> listButtons(Context ctx, int timeoutSeconds, int length,
@@ -526,7 +543,6 @@ public class DiscordUtils {
         }
 
         base.setFooter("Total Pages: %s | Thanks for using Mantaro ❤️".formatted(parts.size()), ctx.getAuthor().getEffectiveAvatarUrl());
-        var i18n = ctx.getLanguageContext();
         var index = new AtomicInteger();
         var message = ctx.getChannel().sendMessageEmbeds(base.build()).complete();
         return ButtonOperations.create(message, timeoutSeconds, (e) -> {
@@ -540,6 +556,25 @@ public class DiscordUtils {
 
             var hook = e.getHook();
             switch (button.getId()) {
+                case "button_first" -> {
+                    index.set(0);
+                    var toSend = addAllFields(base, parts.get(index.get()));
+                    toSend.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
+                            ctx.getAuthor().getEffectiveAvatarUrl()
+                    );
+
+                    hook.editOriginalEmbeds(toSend.build()).queue();
+                }
+                case "button_last" -> {
+                    index.set(parts.size() - 1);
+                    var toSend = addAllFields(base, parts.get(index.get()));
+                    toSend.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
+                            ctx.getAuthor().getEffectiveAvatarUrl()
+                    );
+
+                    hook.editOriginalEmbeds(toSend.build()).queue();
+                }
+
                 case "button_right" -> {
                     if (index.get() == 0) {
                         break;
@@ -571,7 +606,10 @@ public class DiscordUtils {
             }
 
             return Operation.IGNORED;
-        }, Button.primary("button_right", i18n.get("general.buttons.previous")), Button.primary("button_left", i18n.get("general.buttons.next")));
+        }, Button.primary("button_first", Emoji.fromUnicode("⏪")),
+                Button.primary("button_right", Emoji.fromUnicode("◀️")),
+                Button.primary("button_left", Emoji.fromUnicode("▶️")),
+                Button.primary("button_last", Emoji.fromUnicode("⏩")));
     }
 
     public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
