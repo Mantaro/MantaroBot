@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.core.shard.jda;
 
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.utils.SessionController;
 import net.dv8tion.jda.api.utils.SessionControllerAdapter;
 
@@ -24,6 +25,8 @@ import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 
 public class BucketedController extends SessionControllerAdapter {
+    // Discord said only one gateway would ever exist, so, let's go with it instead.
+    private static final String GATEWAY = "wss://gateway.discord.gg";
     private final SessionController[] shardControllers;
 
     public BucketedController(@Nonnegative int bucketFactor, long homeGuildId) {
@@ -54,5 +57,10 @@ public class BucketedController extends SessionControllerAdapter {
     @CheckReturnValue
     private SessionController controllerFor(@Nonnull SessionConnectNode node) {
         return shardControllers[node.getShardInfo().getShardId() % shardControllers.length];
+    }
+
+    @Override
+    public String getGateway(@Nonnull JDA api) {
+        return GATEWAY;
     }
 }
