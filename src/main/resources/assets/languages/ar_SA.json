@@ -18,7 +18,7 @@
     "not_found": "غير موجود",
     "no_results": "لا نتائج.",
     "timeout": "سينتهي الوقت في %1$d ثواني.",
-    "reaction_timeout": "الايموجيز ستنتهي في %1$d ثواني.",
+    "reaction_timeout": "Buttons will timeout in %1$d seconds.",
     "example": "مثال",
     "definition": "تعريف",
     "name": "الاسم",
@@ -787,7 +787,7 @@
         "success_breakable_upgrade": "You can check <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> for more information on how to upgrade your tools!"
       },
       "header": "سوق مونتارو ",
-      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`",
+      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>` respectively. Check `~>help market` for more info.",
       "sell_price": "-**سعر البيع:**",
       "buy_price": "-**سعر الشراء:**"
     },
