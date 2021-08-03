@@ -18,7 +18,7 @@
     "not_found": "沒有找到",
     "no_results": "查無結果",
     "timeout": "這將在%1$d秒內超時",
-    "reaction_timeout": "反應將在%1$d秒內超時",
+    "reaction_timeout": "Buttons will timeout in %1$d seconds.",
     "example": "範例",
     "definition": "定義",
     "name": "名稱",
@@ -787,7 +787,7 @@
         "success_breakable_upgrade": "你可以查看 <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> 獲得更多有關工具升級的資訊！"
       },
       "header": "Mantaro市場",
-      "reference": "\n你可以使用 `~>buy <物品名稱>` 和 `~>sell <物品名稱>` 來購買和出售物品至市場。查看 `~>help market` 獲得更多資訊，你也可以用 `~>market tools` 等指令取得更簡短的清單。",
+      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>` respectively. Check `~>help market` for more info.",
       "sell_price": "- **出售價格：**",
       "buy_price": "- **購買價格：**"
     },
