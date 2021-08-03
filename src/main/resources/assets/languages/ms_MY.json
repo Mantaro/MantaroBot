@@ -18,7 +18,7 @@
     "not_found": "Tidak dijumpai",
     "no_results": "Tiada keputusan.",
     "timeout": "Masa ini akan tamat dalam %1$d saat.",
-    "reaction_timeout": "Reaksi ini akan tamat dalam %1$d saat.",
+    "reaction_timeout": "Buttons will timeout in %1$d seconds.",
     "example": "Contoh",
     "definition": "Definisi",
     "name": "Nama",
@@ -787,7 +787,7 @@
         "success_breakable_upgrade": "Anda boleh melihat <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> untuk maklumat lanjut tentang cara menaik taraf peralatan anda!"
       },
       "header": "Pasar Mantaro",
-      "reference": "\nAnda boleh membeli dan menjual item menggunakan `~>buy <item>` dan `~>sell <item>`. Periksa `~>help market` untuk mendapatkan maklumat lanjut, anda juga boleh melihat senarai pasaran yang pendek, misalnya `~>market tools`",
+      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>` respectively. Check `~>help market` for more info.",
       "sell_price": "- **Harga Menjual:**",
       "buy_price": "- **Harga Membeli:**"
     },
