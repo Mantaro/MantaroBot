@@ -18,7 +18,7 @@
     "not_found": "Không tìm thấy",
     "no_results": "Không có kết quả.",
     "timeout": "Sẽ hết thời gian trong %1$d giây nữa.",
-    "reaction_timeout": "Biểu cảm sẽ mất hiệu lực trong %1$d giây nữa.",
+    "reaction_timeout": "Buttons will timeout in %1$d seconds.",
     "example": "Ví dụ",
     "definition": "Định nghĩa",
     "name": "Tên",
@@ -787,7 +787,7 @@
         "success_breakable_upgrade": "You can check <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> for more information on how to upgrade your tools!"
       },
       "header": "Chợ Mantaro",
-      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`",
+      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>` respectively. Check `~>help market` for more info.",
       "sell_price": "- **Giá bán:**",
       "buy_price": "- **Giá mua:**"
     },
