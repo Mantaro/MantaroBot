@@ -18,7 +18,7 @@
     "not_found": "No encontrado",
     "no_results": "No hay resultados.",
     "timeout": "Esta operación caduca en %1$d segundos.",
-    "reaction_timeout": "Las reacciones van a dejar de responder en %1$d segundos.",
+    "reaction_timeout": "Buttons will timeout in %1$d seconds.",
     "example": "Ejemplo",
     "definition": "Definición",
     "name": "Nombre",
@@ -787,7 +787,7 @@
         "success_breakable_upgrade": "You can check <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> for more information on how to upgrade your tools!"
       },
       "header": "La tiendita de Mantaro",
-      "reference": "\nPuedes comprar y vender items usando `~>buy <item>` y `~>sell <item>`. Revisa `~>help market` para maś información. Además, puedes ver listas categorizadas ahí, tal como `~>market tools`",
+      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>` respectively. Check `~>help market` for more info.",
       "sell_price": "- **Precio de venta:**",
       "buy_price": "- **Precio de compra:**"
     },
