@@ -18,7 +18,7 @@
     "not_found": "Не найдено",
     "no_results": "Не дало результата.",
     "timeout": "Пропадет через %1$d секунд.",
-    "reaction_timeout": "Реакции пропадут через %1$d секунд.",
+    "reaction_timeout": "Buttons will timeout in %1$d seconds.",
     "example": "Пример",
     "definition": "Значение",
     "name": "Имя",
@@ -787,7 +787,7 @@
         "success_breakable_upgrade": "You can check <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> for more information on how to upgrade your tools!"
       },
       "header": "Магазин Mantaro",
-      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`",
+      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>` respectively. Check `~>help market` for more info.",
       "sell_price": "- **Цена Продажи:**",
       "buy_price": "- **Цена Покупки:**"
     },
