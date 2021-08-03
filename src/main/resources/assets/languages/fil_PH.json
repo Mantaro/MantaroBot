@@ -18,7 +18,7 @@
     "not_found": "Hindi Mahanap",
     "no_results": "Walang mga Resulta.",
     "timeout": "Lilipas ito sa loob ng %1$d segundo.",
-    "reaction_timeout": "Lilipas ang mga reaksyon sa loob ng %1$d segundo.",
+    "reaction_timeout": "Buttons will timeout in %1$d seconds.",
     "example": "Halimbawa",
     "definition": "Kahulugan",
     "name": "Pangalan",
@@ -787,7 +787,7 @@
         "success_breakable_upgrade": "You can check <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> for more information on how to upgrade your tools!"
       },
       "header": "Mantaro's Market",
-      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`",
+      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>` respectively. Check `~>help market` for more info.",
       "sell_price": "- **Sell Price:**",
       "buy_price": "- **Buy Price:**"
     },
