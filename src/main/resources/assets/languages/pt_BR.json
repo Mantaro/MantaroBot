@@ -13,12 +13,12 @@
     "daily": "Diário",
     "total": "Total",
     "arrow_react": "Use as reações das setas para mudar as páginas.",
-    "button_react": "Use the arrow buttons to change pages.",
+    "button_react": "Use os botões de seta para mudar as páginas.",
     "text_menu": "Use &p >> e &p << para mudar as páginas e &cancel para terminar.",
     "not_found": "Não encontrado",
     "no_results": "Sem resultados.",
     "timeout": "Isso esgota em %1$d seconds.",
-    "reaction_timeout": "Reações serão esgotadas em %1$d segundos.",
+    "reaction_timeout": "Buttons will timeout in %1$d seconds.",
     "example": "Exemplo",
     "definition": "Definição",
     "name": "Nome",
@@ -68,7 +68,7 @@
     "invalid_character": "%1$sIsso não é um personagem permitido.",
     "invalid_action": "Você não pode fazer isso, bobo.",
     "interactive_running": "%1$sJá tem uma Operação Interativa (feita por você) nesse canal.",
-    "buy_sell_paged_react": "Use the message buttons to move between pages.\n%1$s",
+    "buy_sell_paged_react": "Use os botões na mensagem para se mover entre páginas.\n%1$s",
     "buy_sell_paged_text": "Use **&p >>** e **&p <<** para mover entre as páginas.\n%1$s",
     "buy_sell_paged_reference": "**Refêrencia %1$s Comprar %2$s Vender.**",
     "cancelled": "%1$sPedido cancelado.",
@@ -84,9 +84,9 @@
       "spam_4": "\nEssa coisa está ligada?"
     },
     "buttons": {
-      "previous": "Previous",
-      "next": "Next",
-      "close": "Close"
+      "previous": "Anterior",
+      "next": "Próximo",
+      "close": "Fechar"
     },
     "generic_error": "Se você quiser, entre em nosso **servidor de suporte** (`https://support.mantaro.site`), ou cheque nossa página no GitHub (`https://github.com/Kodehawa/MantaroBot`). Por favor fale pra eles pararem de me explodir e por favor não se esqueça do Error ID, o comando que você usou e o node (veja em `~>shard`) quando reportar!",
     "boom_quotes": [
@@ -787,7 +787,7 @@
         "success_breakable_upgrade": "Você pode checar <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> para mais informações de como melhorar seus equipamentos!"
       },
       "header": "Mercado da Mantaro",
-      "reference": "\nVocê pode comprar e vender itens usando `~>buy <item>` e `~>sell <item>`. Cheque `~>help market` para mais informações, você também pode ver listas menores do mercado, tipo `~>market tools`",
+      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>` respectively. Check `~>help market` for more info.",
       "sell_price": "-**Preço de Venda:**",
       "buy_price": "-**Preço de Compra:**"
     },
