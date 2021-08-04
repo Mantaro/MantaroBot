@@ -21,6 +21,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Emoji;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.Button;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -46,6 +47,28 @@ import java.util.function.IntConsumer;
 // TODO: rewrite this cursedness! We don't need anything but buttons now, probably?
 public class DiscordUtils {
     private static final Config config = MantaroData.config().get();
+
+    private static final Button[] DEFAULT_COMPONENTS_FIRST = {
+            Button.primary("button_first", Emoji.fromUnicode("⏪")).asDisabled(),
+            Button.primary("button_right", Emoji.fromUnicode("◀️")).asDisabled(),
+            Button.primary("button_left", Emoji.fromUnicode("▶️")),
+            Button.primary("button_last", Emoji.fromUnicode("⏩"))
+    };
+
+    private static final Button[] DEFAULT_COMPONENTS_LAST = {
+            Button.primary("button_first", Emoji.fromUnicode("⏪")),
+            Button.primary("button_right", Emoji.fromUnicode("◀️")),
+            Button.primary("button_left", Emoji.fromUnicode("▶️")).asDisabled(),
+            Button.primary("button_last", Emoji.fromUnicode("⏩")).asDisabled()
+    };
+
+    private static final Button[] DEFAULT_COMPONENTS_ALL = {
+            Button.primary("button_first", Emoji.fromUnicode("⏪")),
+            Button.primary("button_right", Emoji.fromUnicode("◀️")),
+            Button.primary("button_left", Emoji.fromUnicode("▶️")),
+            Button.primary("button_last", Emoji.fromUnicode("⏩"))
+    };
+
     public static <T> Pair<String, Integer> embedList(List<T> list, Function<T, String> toString) {
         var builder = new StringBuilder();
         for (var i = 0; i < list.size(); i++) {
@@ -420,14 +443,23 @@ public class DiscordUtils {
                 case "button_first" -> {
                     index.set(0);
                     hook.editOriginalEmbeds(embeds.get(0)).queue();
+                    hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_FIRST)).queue();
                 }
                 case "button_last" -> {
                     index.set(embeds.size() - 1);
                     hook.editOriginalEmbeds(embeds.get(embeds.size() - 1)).queue();
+                    hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_LAST)).queue();
                 }
+
                 case "button_right" -> {
                     if (index.get() == 0) {
                         break;
+                    }
+
+                    if (index.get() == 0) {
+                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_FIRST)).queue();
+                    } else {
+                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_ALL)).queue();
                     }
 
                     hook.editOriginalEmbeds(embeds.get(index.decrementAndGet())).queue();
@@ -438,6 +470,12 @@ public class DiscordUtils {
                         break;
                     }
 
+                    if (index.get() == embeds.size() - 1) {
+                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_LAST)).queue();
+                    } else {
+                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_ALL)).queue();
+                    }
+
                     hook.editOriginalEmbeds(embeds.get(index.incrementAndGet())).queue();
                 }
                 default -> {
@@ -446,10 +484,7 @@ public class DiscordUtils {
             }
 
             return Operation.IGNORED;
-        }, Button.primary("button_first", Emoji.fromUnicode("⏪")),
-                Button.primary("button_right", Emoji.fromUnicode("◀️")),
-                Button.primary("button_left", Emoji.fromUnicode("▶️")),
-                Button.primary("button_last", Emoji.fromUnicode("⏩")));
+        }, DEFAULT_COMPONENTS_FIRST);
     }
 
     public static Future<Void> listButtons(Context ctx, int timeoutSeconds, List<String> parts) {
@@ -477,14 +512,22 @@ public class DiscordUtils {
                 case "button_first" -> {
                     index.set(0);
                     hook.editOriginal(String.format("%s\n**Page: %d**", parts.get(index.get()), 1)).queue();
+                    hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_FIRST)).queue();
                 }
                 case "button_last" -> {
                     index.set(parts.size() - 1);
                     hook.editOriginal(String.format("%s\n**Page: %d**", parts.get(parts.size() - 1), parts.size())).queue();
+                    hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_LAST)).queue();
                 }
                 case "button_right" -> {
                     if (index.get() == 0) {
                         break;
+                    }
+
+                    if (index.get() == 0) {
+                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_FIRST)).queue();
+                    } else {
+                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_ALL)).queue();
                     }
 
                     hook.editOriginal(String.format("%s\n**Page: %d**", parts.get(index.decrementAndGet()), index.get() + 1)).queue();
@@ -495,23 +538,22 @@ public class DiscordUtils {
                         break;
                     }
 
+                    if (index.get() == parts.size() - 1) {
+                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_LAST)).queue();
+                    } else {
+                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_ALL)).queue();
+                    }
+
                     hook.editOriginal(String.format("%s\n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();
                 }
-                case "button_close" -> {
-                    hook.deleteOriginal().queue();
-                    return Operation.COMPLETED;
-                }
+
                 default -> {
                     return Operation.IGNORED;
                 }
             }
 
             return Operation.IGNORED;
-        }, Button.primary("button_first", Emoji.fromUnicode("⏪")),
-                Button.primary("button_right", Emoji.fromUnicode("◀️")),
-                Button.primary("button_close", Emoji.fromUnicode("❌")),
-                Button.primary("button_left", Emoji.fromUnicode("▶️")),
-                Button.primary("button_last", Emoji.fromUnicode("⏩")));
+        }, DEFAULT_COMPONENTS_FIRST);
     }
 
     public static Future<Void> listButtons(Context ctx, int timeoutSeconds, int length,
@@ -564,6 +606,7 @@ public class DiscordUtils {
                     );
 
                     hook.editOriginalEmbeds(toSend.build()).queue();
+                    hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_FIRST)).queue();
                 }
                 case "button_last" -> {
                     index.set(parts.size() - 1);
@@ -573,6 +616,7 @@ public class DiscordUtils {
                     );
 
                     hook.editOriginalEmbeds(toSend.build()).queue();
+                    hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_LAST)).queue();
                 }
 
                 case "button_right" -> {
@@ -584,6 +628,12 @@ public class DiscordUtils {
                     toSend.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
                             ctx.getAuthor().getEffectiveAvatarUrl()
                     );
+
+                    if (index.get() == 0) {
+                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_FIRST)).queue();
+                    } else {
+                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_ALL)).queue();
+                    }
 
                     hook.editOriginalEmbeds(toSend.build()).queue();
                 }
@@ -598,6 +648,12 @@ public class DiscordUtils {
                             ctx.getAuthor().getEffectiveAvatarUrl()
                     );
 
+                    if (index.get() == parts.size() - 1) {
+                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_LAST)).queue();
+                    } else {
+                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_ALL)).queue();
+                    }
+
                     hook.editOriginalEmbeds(toSend1.build()).queue();
                 }
                 default -> {
@@ -606,10 +662,7 @@ public class DiscordUtils {
             }
 
             return Operation.IGNORED;
-        }, Button.primary("button_first", Emoji.fromUnicode("⏪")),
-                Button.primary("button_right", Emoji.fromUnicode("◀️")),
-                Button.primary("button_left", Emoji.fromUnicode("▶️")),
-                Button.primary("button_last", Emoji.fromUnicode("⏩")));
+        }, DEFAULT_COMPONENTS_FIRST);
     }
 
     public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
