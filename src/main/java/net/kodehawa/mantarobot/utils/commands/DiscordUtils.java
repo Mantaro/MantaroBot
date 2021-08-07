@@ -203,7 +203,7 @@ public class DiscordUtils {
                 default -> { } // Do nothing, but make codefactor happy lol
             }
 
-            if (event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {
+            if (e.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE) && e.getUser() != null) {
                 e.getReaction().removeReaction(e.getUser()).queue();
             }
 
@@ -407,7 +407,7 @@ public class DiscordUtils {
                 default -> { } // Do nothing, but make codefactor happy lol
             }
 
-            if (event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {
+            if (e.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE) && e.getUser() != null) {
                 e.getReaction().removeReaction(e.getUser()).queue();
             }
 
@@ -732,7 +732,7 @@ public class DiscordUtils {
                 default -> { } // Do nothing, but make codefactor happy lol
             }
 
-            if (event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {
+            if (e.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE) && e.getUser() != null) {
                 e.getReaction().removeReaction(e.getUser()).queue();
             }
 
