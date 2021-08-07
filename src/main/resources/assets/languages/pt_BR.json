@@ -18,7 +18,7 @@
     "not_found": "Não encontrado",
     "no_results": "Sem resultados.",
     "timeout": "Isso esgota em %1$d seconds.",
-    "reaction_timeout": "Buttons will timeout in %1$d seconds.",
+    "reaction_timeout": "Os botões irão se esgotar em %1$d segundos.",
     "example": "Exemplo",
     "definition": "Definição",
     "name": "Nome",
@@ -787,7 +787,7 @@
         "success_breakable_upgrade": "Você pode checar <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> para mais informações de como melhorar seus equipamentos!"
       },
       "header": "Mercado da Mantaro",
-      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>` respectively. Check `~>help market` for more info.",
+      "reference": "\nVocê pode comprar e vender itens usando `~>buy <item>` e `~>sell <item>` respectivamente. Cheque `~>help market` para mais informações.",
       "sell_price": "-**Preço de Venda:**",
       "buy_price": "-**Preço de Compra:**"
     },
@@ -1548,7 +1548,7 @@
     },
     "avatar": {
       "result": "Avatar de %1$s",
-      "footer": "Um muito bonito, ainda bem."
+      "footer": "Um avatar muito bonito, ainda bem."
     },
     "serverinfo": {
       "header": "Informação do Servidor",
