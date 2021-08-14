@@ -1348,7 +1348,8 @@
       "konachan_nsfw_notice": "%1$sKonachan, danbooru et safebooru sont des termes exclusifs aux salons NSFW à cause de l'inconsistance dans leur notation. Réessaie dans un salon NSFW (tu peux rendre un salon NSFW dans ses paramètres si tu en as la permission).",
       "e621_nsfw_notice": "%1$sLa commande e621 ne peut être utilisée que sur les canaux NSFW.",
       "e926_nsfw_notice": "%1$sLa commande e926 ne peut être utilisée que dans les canaux NSFW. Les images sont majoritairement saines, mais les classements sont inconstants.",
-      "open_in_browser_link": "Ouvrir l'image dans votre navigateur"
+      "open_in_browser_link": "Ouvrir l'image dans votre navigateur",
+      "disabled_explicit": "%1$sThis server has disabled explicit/questionable imageboard searches regardless of the channel being marked as NSFW."
     },
     "pet": {
       "explanation": "Les animaux sont d'utiles compagnon pécuniaires!\nIls t'aident à accumuler plus d'argent, plus de loot, trouver plus d'objets dans 'mine', dans 'chop' et dans 'fish'. Plus ils sont haut niveaux, plus il y a de récompenses.\nChoisir le meilleur animal pour tes activités est très important, donc vérifie bien le type et les capacités de l'animal que tu désires.\nN'oublie pas que tu dois nourrir ton animal et lui donner de l'eau, ainsi que le laisser se reposer pour recharger son énergie, comme un vrai animal de compagnie! Tu peux même le caresser :)\nTu peux créer deux type de lien avec ton animal: personnel (pour toi) et de mariage (partagé avec ton-ta partenaire). Choisis son lien avec toi en utilisant `~>pet choice`. Le lien par défaut est personnel.\nPour plus d'aide, utilise `~>help pet` et `~>pet list` pour une liste de tous les animaux.",
@@ -2262,6 +2263,13 @@
       "remove": {
         "success": "%1$sRetrait de %2$s (%3$s) de la liste noire des anniversdaires de ce serveur."
       }
+    },
+    "imageboard_disableexplicit": {
+      "success": "%1$sDisabled explicit/questionable imageboard searches regardless of channel type."
+    },
+    "imageboard_enableexplicit": {
+      "already_enabled": "%1$sExplicit/questionable imageboard searches are already enabled. Keep in mind they only work in NSFW channels.",
+      "success": "%1$sRe-enabled explicit/questionable imageboard searches."
     },
     "lobby": {
       "disable": {
