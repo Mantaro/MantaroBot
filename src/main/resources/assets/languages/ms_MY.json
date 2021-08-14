@@ -1348,7 +1348,8 @@
       "konachan_nsfw_notice": "%1$sKonachan, danbooru and safebooru hanya boleh digunakan dalam saluran NSFW disebabkan penilaiannya yang tidak konsisten. Jadi, sila gunakan arahan ini dalam saluran NSFW (anda boleh menanda sesebuah saluran sebagai NSFW pada tetapan saluran tersebut).",
       "e621_nsfw_notice": "%1$sArahan e621 hanya boleh digunakan di saluran NSFW.",
       "e926_nsfw_notice": "%1$sArahan e926 hanya boleh digunakan pada saluran NSFW. Sebilangan besar gambarnya sebenarnya selamat, tetapi penilaiannya tidak konsisten.",
-      "open_in_browser_link": "Open image in your browser"
+      "open_in_browser_link": "Open image in your browser",
+      "disabled_explicit": "%1$sThis server has disabled explicit/questionable imageboard searches regardless of the channel being marked as NSFW."
     },
     "pet": {
       "explanation": "Haiwan peliharaan amat berguna dalam mata wang!\nIa membantu anda menguntungkan lebih banyak wang, loot lebih banyak, mencari benda rawak semasa perlombongan, penebangan pokok, dan juga memancing. Semakin tinggi levelnya, semakin lumayan ganjarannya!\nPilihan haiwan peliharaan yang sesuai untuk aktiviti anda adalah penting, jadi pastikan anda memeriksa jenis dan keupayaan haiwan peliharaan keinginan anda!\nIngat bahawa anda perlulah memberi makan dan minum kepada haiwan peliharaan anda, serta membiarkan ia berehat dan cas semula tenaganya sekali-sekala, sama seperti haiwan peliharaan yang sebenar! Anda juga boleh belainya :)\nTerdapat dua jenis: Peribadi (untuk diri anda) dan Perkahwinan (dikongsi bersama pasangan anda). Pilih satu dengan `~>pet choice`. Yang default adalah Peribadi.\nUntuk bantuan lebih lanjut, gunakan `~>help pet` dan `~>pet list` untuk mendapatkan senarai haiwan peliharaan.",
@@ -2262,6 +2263,13 @@
       "remove": {
         "success": "%1$sBerjaya memadamkan %2$s (%3$s) daripada senarai hitam pengumuman hari jadi untuk pelayan ini."
       }
+    },
+    "imageboard_disableexplicit": {
+      "success": "%1$sDisabled explicit/questionable imageboard searches regardless of channel type."
+    },
+    "imageboard_enableexplicit": {
+      "already_enabled": "%1$sExplicit/questionable imageboard searches are already enabled. Keep in mind they only work in NSFW channels.",
+      "success": "%1$sRe-enabled explicit/questionable imageboard searches."
     },
     "lobby": {
       "disable": {
