@@ -87,6 +87,13 @@ public class ImageboardUtils {
             return;
         }
 
+        final var dbGuild = ctx.getDBGuild();
+        final var data = dbGuild.getData();
+        if ((finalRating == Rating.EXPLICIT || finalRating == Rating.QUESTIONABLE) && data.isDisableExplicit()) {
+            ctx.sendLocalized("commands.imageboard.disabled_explicit", EmoteReference.ERROR);
+            return;
+        }
+
         if (!Optional.ofNullable(imageboardUsesRating.get(api)).orElse(true)) {
             finalRating = null;
         }
@@ -97,10 +104,7 @@ public class ImageboardUtils {
             return;
         }
 
-        final var dbGuild = ctx.getDBGuild();
-        final var data = dbGuild.getData();
         final var blackListedImageTags = data.getBlackListedImageTags();
-
         if (list.stream().anyMatch(blackListedImageTags::contains)) {
             ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
             return;

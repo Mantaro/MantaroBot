@@ -369,6 +369,31 @@ public class GuildOptions extends OptionHandler {
             ctx.sendLocalized("options.djrole_reset.success", EmoteReference.CORRECT);
         });
 
+        registerOption("imageboard:disableexplicit", "Disables explicit searches",
+            "Disables explicit/questionable searches, regardless of the channel type.",
+            "Disables explicit searches.", (ctx, args) -> {
+                DBGuild dbGuild = ctx.getDBGuild();
+                GuildData guildData = dbGuild.getData();
+
+                guildData.setDisableExplicit(true);
+                dbGuild.save();
+                ctx.sendLocalized("options.imageboard_disableexplicit.success", EmoteReference.CORRECT);
+        });
+
+        registerOption("imageboard:disableexplicit", "Re-enables explicit searches",
+            "Re-enables explicit/questionable searches",
+            "Re-enables explicit searches.", (ctx, args) -> {
+                DBGuild dbGuild = ctx.getDBGuild();
+                GuildData guildData = dbGuild.getData();
+
+                if (!guildData.isDisableExplicit()) {
+                    ctx.sendLocalized("options.imageboard_enableexplicit.already_enabled", EmoteReference.ERROR);
+                    return;
+                }
+                guildData.setDisableExplicit(false);
+                dbGuild.save();
+                ctx.sendLocalized("options.imageboard_enableexplicit.success", EmoteReference.CORRECT);
+        });
     }
 
     @Override

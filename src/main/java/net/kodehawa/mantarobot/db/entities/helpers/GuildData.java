@@ -232,6 +232,9 @@ public class GuildData {
     @ConfigName("The custom DJ role.")
     private String djRoleId;
 
+    @ConfigName("Disable questionable/explicit imageboard search")
+    private boolean disableExplicit = false;
+
     public GuildData() { }
 
     public boolean isHasReceivedGreet() {
@@ -900,5 +903,13 @@ public class GuildData {
 
     public void setLogTimezone(String logTimezone) {
         this.logTimezone = logTimezone;
+    }
+
+    public boolean isDisableExplicit() {
+        return disableExplicit;
+    }
+
+    public void setDisableExplicit(boolean disableExplicit) {
+        this.disableExplicit = disableExplicit;
     }
 }
