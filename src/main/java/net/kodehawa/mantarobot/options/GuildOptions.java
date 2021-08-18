@@ -380,7 +380,7 @@ public class GuildOptions extends OptionHandler {
                 ctx.sendLocalized("options.imageboard_disableexplicit.success", EmoteReference.CORRECT);
         });
 
-        registerOption("imageboard:disableexplicit", "Re-enables explicit searches",
+        registerOption("imageboard:enableexplicit", "Re-enables explicit searches",
             "Re-enables explicit/questionable searches",
             "Re-enables explicit searches.", (ctx, args) -> {
                 DBGuild dbGuild = ctx.getDBGuild();

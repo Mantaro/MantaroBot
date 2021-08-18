@@ -89,7 +89,7 @@ public class ImageboardUtils {
 
         final var dbGuild = ctx.getDBGuild();
         final var data = dbGuild.getData();
-        if ((finalRating == Rating.EXPLICIT || finalRating == Rating.QUESTIONABLE) && data.isDisableExplicit()) {
+        if ((finalRating == Rating.EXPLICIT || finalRating == Rating.QUESTIONABLE || nsfwOnly) && data.isDisableExplicit()) {
             ctx.sendLocalized("commands.imageboard.disabled_explicit", EmoteReference.ERROR);
             return;
         }
