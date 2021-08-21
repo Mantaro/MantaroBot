@@ -1032,7 +1032,7 @@
       "ls": {
         "header": "Lista de Insígnias Obteníveis",
         "desc": "Essa é uma lista de todas as insígnias obteníveis na Mantaro. Essa lista contém o nome e a descrição da insígnia, que deve dar uma visão geral do que você precisa para alcançá-lo.\nSe você acha que você ganhou uma insígnia e você não vê ela na sua lista pessoal de insígnia, use `~>profile` e depois use `~>badges` de novo.\nBoa sorte, caçadores de insígnias!",
-        "obtained": "**Obtidas:** %s"
+        "obtained": "**Obtida:** %s"
       },
       "brief_success": "**Insígnias de **%1$s:**\n%2$s",
       "profile_notice": "Se você acha que ganhou uma insígnia nova e não aparece aqui, por favor use `~>profile` em seguida, use esse comando novamente.\n",
