@@ -20,9 +20,9 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.*;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
@@ -41,11 +41,11 @@ import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.BirthdayCmd;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
+import net.kodehawa.mantarobot.core.listeners.helpers.WelcomeUtils;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
@@ -53,7 +53,6 @@ import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -61,21 +60,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
-import java.security.SecureRandom;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
-import java.util.regex.Pattern;
 
 public class MantaroListener implements EventListener {
     private static final Logger LOG = LoggerFactory.getLogger(MantaroListener.class);
     private static final Config CONFIG = MantaroData.config().get();
     private static final ManagedDatabase DATABASE = MantaroData.db();
-    private static final SecureRandom RANDOM = new SecureRandom();
-    private static final Pattern MODIFIER_PATTERN = Pattern.compile("\\b\\p{L}*:\\b");
     // Channels we could send the greet message to.
     private static final List<String> CHANNEL_NAMES = List.of("general", "general-chat", "chat", "lounge", "main-chat", "main");
 
@@ -585,7 +579,7 @@ public class MantaroListener implements EventListener {
             }
 
             final var joinMessage = guildData.getJoinMessage();
-            sendJoinLeaveMessage(event.getUser(), guild, guild.getTextChannelById(joinChannel), guildData.getExtraJoinMessages(), joinMessage);
+            WelcomeUtils.sendJoinLeaveMessage(event.getUser(), guild, guild.getTextChannelById(joinChannel), guildData.getExtraJoinMessages(), joinMessage);
             Metrics.ACTIONS.labels("join_messages").inc();
         } catch (Exception e) {
             LOG.error("Failed to send join message!", e);
@@ -634,7 +628,7 @@ public class MantaroListener implements EventListener {
             }
 
             final var leaveMessage = guildData.getLeaveMessage();
-            sendJoinLeaveMessage(user, guild, guild.getTextChannelById(leaveChannel), guildData.getExtraLeaveMessages(), leaveMessage);
+            WelcomeUtils.sendJoinLeaveMessage(user, guild, guild.getTextChannelById(leaveChannel), guildData.getExtraLeaveMessages(), leaveMessage);
             Metrics.ACTIONS.labels("leave_messages").inc();
         } catch (Exception e) {
             LOG.error("Failed to send leave message!", e);
@@ -652,79 +646,6 @@ public class MantaroListener implements EventListener {
         }
     }
 
-    private void sendJoinLeaveMessage(User user, Guild guild, TextChannel tc, List<String> extraMessages, String msg) {
-        var select = extraMessages.isEmpty() ? 0 : RANDOM.nextInt(extraMessages.size());
-        var message = RANDOM.nextBoolean() ? msg : extraMessages.isEmpty() ? msg : extraMessages.get(select);
-
-        if (tc != null && message != null) {
-            if (!tc.canTalk()) {
-                return;
-            }
-
-            if (message.contains("$(")) {
-                message = new DynamicModifiers()
-                        .mapFromJoinLeave("event", tc, user, guild)
-                        .resolve(message);
-            }
-
-            var modIndex = message.indexOf(':');
-            if (modIndex != -1) {
-                // Wonky?
-                var matcher = MODIFIER_PATTERN.matcher(message);
-                var modifier = "none";
-                // Find the first occurrence of a modifier (word:)
-                if (matcher.find()) {
-                    modifier = matcher.group().replace(":", "");
-                }
-
-                var json = message.substring(modIndex + 1);
-                var extra = "";
-
-                // Somehow (?) this fails sometimes? I really dunno how, but sure.
-                try {
-                    extra = message.substring(0, modIndex - modifier.length()).trim();
-                } catch (Exception ignored) { }
-
-                try {
-                    if (modifier.equals("embed")) {
-                        EmbedJSON embed;
-                        try {
-                            embed = JsonDataManager.fromJson('{' + json + '}', EmbedJSON.class);
-                        } catch (Exception e) {
-                            tc.sendMessage(EmoteReference.ERROR2 +
-                                    "The string\n```json\n{" + json + "}```\nIs not a valid JSON (failed to Convert to EmbedJSON).").queue();
-                            e.printStackTrace();
-                            return;
-                        }
-
-                        var builder = new MessageBuilder().setEmbeds(embed.gen(null));
-                        if (!extra.isEmpty()) {
-                            builder.append(extra);
-                        }
-
-                        tc.sendMessage(builder.build())
-                                // Allow role mentions here, per popular request :P
-                                .allowedMentions(EnumSet.of(Message.MentionType.USER, Message.MentionType.ROLE))
-                                .queue(success -> { }, error -> tc.sendMessage("Failed to send join/leave message.").queue()
-                        );
-
-                        return;
-                    }
-                } catch (Exception e) {
-                    if (e.getMessage().toLowerCase().contains("url must be a valid")) {
-                        tc.sendMessage("Failed to send join/leave message: Wrong image URL in thumbnail, image, footer and/or author.").queue();
-                    } else {
-                        tc.sendMessage("Failed to send join/leave message: Unknown error, try checking your message.").queue();
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            tc.sendMessage(message)
-                    .allowedMentions(EnumSet.of(Message.MentionType.USER, Message.MentionType.ROLE))
-                    .queue(success -> { }, failure -> tc.sendMessage("Failed to send join/leave message.").queue());
-        }
-    }
 
     private void updateStats(JDA jda) {
         // This screws up with our shard stats, so we just need to ignore it.
