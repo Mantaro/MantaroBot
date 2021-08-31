@@ -2084,6 +2084,22 @@
     "usermessage_leavemessage_reset": {
       "success": "%1$sاعادة ضبط رسالة مغادرة السيرفر."
     },
+    "usermessage_joinmessage_test": {
+      "success": "%1$sSent test join message.",
+      "error_missing_mention": "%1$sYou need to mention a member to test this with.",
+      "error_text_missing": "%1$sYou haven't set a join message.",
+      "error_channel_perms": "%1$sI can't send messages on your join channel.",
+      "error_no_channel": "%1$sYou have no join channel set.",
+      "error_channel_missing": "%1$sThe join channel you set is not existent on this server. Please set another channel."
+    },
+    "usermessage_leavemessage_test": {
+      "success": "%1$sSent test leave message.",
+      "error_missing_mention": "%1$sYou need to mention a member to test this with.",
+      "error_text_missing": "%1$sYou haven't set a leave message.",
+      "error_channel_perms": "%1$sI can't send messages on your leave channel.",
+      "error_no_channel": "%1$sYou have no leave channel set.",
+      "error_channel_missing": "%1$sThe leave channel you set is not existent on this server. Please set another channel."
+    },
     "autoroles_add": {
       "too_long": "%1$sThe autorole name needs to be at most 40 characters long.",
       "no_args": "%1$sيجب ان تحدد الاسم الخاص بال iam واسم الرتبة.",
