@@ -18,7 +18,7 @@
     "not_found": "Tidak ditemukan",
     "no_results": "Tak ada hasil.",
     "timeout": "Akan berakhir dalam %1$d detik.",
-    "reaction_timeout": "Batas waktu adalah %1$d detik.",
+    "reaction_timeout": "Buttons will timeout in %1$d seconds.",
     "example": "Contoh",
     "definition": "Pengertian",
     "name": "Nama",
@@ -787,7 +787,7 @@
         "success_breakable_upgrade": "Silakan cek <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> untuk info lebih lanjut soal cara upgrade peralatanmu!"
       },
       "header": "Pasar Mantaro",
-      "reference": "\nKamu bisa melakukan jual beli dengan `~>sell <item>` dan `~>buy <item>`. Cek `~>help market` untuk info lebih lanjut, kamu juga bisa melihat daftar item pasar yang lebih singkat, seperti `~>market tools`",
+      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>` respectively. Check `~>help market` for more info.",
       "sell_price": "- **Harga Jual:**",
       "buy_price": "- **Harga Beli:**"
     },
@@ -1348,7 +1348,8 @@
       "konachan_nsfw_notice": "%1$sKonachan, danbooru, dan safebooru hanya bisa dipakai di Channel NSFW karena penandaan yang non-konsisten. Gunakan perintah ini di channel NSFW saja (kamu bisa mengubah pengaturan channel sebagai NSFW di channel setting).",
       "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels.",
       "e926_nsfw_notice": "%1$sThe e926 command can only be used on NSFW channels. The images should be mostly safe, but the rating is inconsistent.",
-      "open_in_browser_link": "Buka gambar di browser"
+      "open_in_browser_link": "Buka gambar di browser",
+      "disabled_explicit": "%1$sThis server has disabled explicit/questionable imageboard searches regardless of the channel being marked as NSFW."
     },
     "pet": {
       "explanation": "Peliharaan adalah rekan yang berguna dalam mencari uang!\nMereka bisa membantumu dapat uang lebih, dapat jarahan lebih, menemukan barang di tambang, menebang pohon, dan bahkan menangkap ikan. Semakin tinggi levelnya, semakin tinggi hadiahnya!\nMemilih peliharaan yang tepat untuk aktivitasmu itu penting, jadi pastikan untuk memeriksa jenis dan kemampuan peliharaan yang ingin kamu pilih!\nIngatlah bahwa peliharaan perlu diberi makan dan minum, serta sesekali beristirahat untuk mengisi energinya, seperti peliharaan sungguhan! Kamu juga bisa mengelus-elusnya :)\nAda dua jenis: Pribadi (untuk diri sendiri) dan Pernikahan (dibagi antara kamu dan pasanganmu). Pilih dengan `~> pet choice`. Defaultnya adalah Pribadi.\nUntuk bantuan lebih lanjut, gunakan `~> help pet` dan` ~> pet list` untuk lihat daftar hewan peliharaan.",
@@ -2262,6 +2263,13 @@
       "remove": {
         "success": "%1$sSuccessfully removed %2$s (%3$s) from the birthday announcement blacklist for this server."
       }
+    },
+    "imageboard_disableexplicit": {
+      "success": "%1$sDisabled explicit/questionable imageboard searches regardless of channel type."
+    },
+    "imageboard_enableexplicit": {
+      "already_enabled": "%1$sExplicit/questionable imageboard searches are already enabled. Keep in mind they only work in NSFW channels.",
+      "success": "%1$sRe-enabled explicit/questionable imageboard searches."
     },
     "lobby": {
       "disable": {
