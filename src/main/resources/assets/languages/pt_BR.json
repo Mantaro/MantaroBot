@@ -2085,17 +2085,17 @@
       "success": "%1$sMensagem de sair do servidor resetada."
     },
     "usermessage_joinmessage_test": {
-      "success": "%1$sSent test join message.",
-      "error_missing_mention": "%1$sYou need to mention a member to test this with.",
-      "error_text_missing": "%1$sYou haven't set a join message.",
-      "error_channel_perms": "%1$sI can't send messages on your join channel.",
-      "error_no_channel": "%1$sYou have no join channel set.",
-      "error_channel_missing": "%1$sThe join channel you set is not existent on this server. Please set another channel."
+      "success": "%1$sMensagem de teste de bem-vindo enviada.",
+      "error_missing_mention": "%1$sVocê precisa mencionar um membro pra testar isso.",
+      "error_text_missing": "%1$sVocê não definiu uma mensagem de bem-vindo.",
+      "error_channel_perms": "%1$sEu não posso enviar mensagens no seu canal de bem-vindo.",
+      "error_no_channel": "%1$sVocê não definiu um canal de bem-vindo.",
+      "error_channel_missing": "%1$sO canal de bem-vindo que você definiu não existe nesse servidor. Por favor defina outro canal."
     },
     "usermessage_leavemessage_test": {
-      "success": "%1$sSent test leave message.",
-      "error_missing_mention": "%1$sYou need to mention a member to test this with.",
-      "error_text_missing": "%1$sYou haven't set a leave message.",
+      "success": "%1$sMensagem de teste de saída enviada.",
+      "error_missing_mention": "%1$sVocê precisa mencionar um membro pra testar isso.",
+      "error_text_missing": "%1$sVocê não definiu uma mensagem de saída.",
       "error_channel_perms": "%1$sI can't send messages on your leave channel.",
       "error_no_channel": "%1$sYou have no leave channel set.",
       "error_channel_missing": "%1$sThe leave channel you set is not existent on this server. Please set another channel."
