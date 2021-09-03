@@ -2096,9 +2096,9 @@
       "success": "%1$sMensagem de teste de saída enviada.",
       "error_missing_mention": "%1$sVocê precisa mencionar um membro pra testar isso.",
       "error_text_missing": "%1$sVocê não definiu uma mensagem de saída.",
-      "error_channel_perms": "%1$sI can't send messages on your leave channel.",
-      "error_no_channel": "%1$sYou have no leave channel set.",
-      "error_channel_missing": "%1$sThe leave channel you set is not existent on this server. Please set another channel."
+      "error_channel_perms": "%1$sEu não posso enviar mensagens no seu canal de saída.",
+      "error_no_channel": "%1$sVocê não definiu um canal de saída.",
+      "error_channel_missing": "%1$sO canal de saída que você definiu não existe nesse servidor. Por favor defina outro canal."
     },
     "autoroles_add": {
       "too_long": "%1$sO nome do autorole pode ter no máximo 40 caracteres.",
