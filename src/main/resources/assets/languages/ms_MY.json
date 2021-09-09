@@ -13,12 +13,12 @@
     "daily": "Harian",
     "total": "Jumlah",
     "arrow_react": "Gunakan reaksi anak panah untuk menukar halaman.",
-    "button_react": "Use the arrow buttons to change pages.",
+    "button_react": "Tekan butang anak panah untuk menukar halaman.",
     "text_menu": "Gunakan &p >> dan &p << untuk menukar halaman dan &cancel untuk menamatkan.",
     "not_found": "Tidak dijumpai",
     "no_results": "Tiada keputusan.",
     "timeout": "Masa ini akan tamat dalam %1$d saat.",
-    "reaction_timeout": "Buttons will timeout in %1$d seconds.",
+    "reaction_timeout": "Butang ini akan tamat dalam %1$d saat.",
     "example": "Contoh",
     "definition": "Definisi",
     "name": "Nama",
@@ -68,7 +68,7 @@
     "invalid_character": "%1$sItu bukan aksara yang dibenarkan.",
     "invalid_action": "Awak tidak boleh melakukan itu, bodoh.",
     "interactive_running": "%1$sSudah ada Operasi Interaktif (milik anda) di saluran ini.",
-    "buy_sell_paged_react": "Use the message buttons to move between pages.\n%1$s",
+    "buy_sell_paged_react": "Gunakan butang mesej untuk bergerak di antara halaman.\n%1$s",
     "buy_sell_paged_text": "Gunakan **&p >>** dan **&p <<** untuk bergerak di antara halaman.\n%1$s",
     "buy_sell_paged_reference": "**Rujukan %1$s Beli %2$s Jual.**",
     "cancelled": "%1$sPermintaan dibatalkan.",
@@ -84,9 +84,9 @@
       "spam_4": "\nBenda ini hidup ke?"
     },
     "buttons": {
-      "previous": "Previous",
-      "next": "Next",
-      "close": "Close"
+      "previous": "Sebelumnya",
+      "next": "Seterusnya",
+      "close": "Tutup"
     },
     "generic_error": "Sekiranya anda mahu, sertailah **pelayan sokongan** kami (`https://support.mantaro.site`), atau lihat halaman GitHub kami (`https://github.com/Kodehawa/MantaroBot`). Tolong beritahu mereka untuk berhenti meletupkan saya dan tolong jangan lupa ID Ralat, arahan yang anda gunakan dan node anda (dilihat dalam `~>shard`) semasa melaporkan!",
     "boom_quotes": [
@@ -209,7 +209,7 @@
       "7": "- Untuk **menghentikan atau melanjutkan** hanya gunakan `~>pause`",
       "8": "- Untuk **menghentikan muzik dan melepaskan ikatan pemain** gunakan `~>stop`",
       "9": "- Untuk **menggeser antrian** hanya gunakan `~>shuffle`",
-      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeatqueue`. Using `~>repeat` while repeat is on, turns it off, the same is true for `~>repeatqueue`\n",
+      "10": "- Dan yang terakhir, untuk **mengulangi lagu** gunakan `~>repeat` dan untuk **mengulangi antrian** gunakan` ~>repeatqueue`. Penggunaan `~>repeat` semasa pengulangan masih hidup akan mematikannya. Penggunaan `~>repeatqueue` adalah sama\n",
       "11": "Untuk maklumat lebih lanjut sila gunakan `~>help <nama arahan>` (tanpa <> dan ganti command name dengan nama arahan yang anda mahukan)",
       "12": "Nikmati muzik anda dan terima kasih kerana menggunakan Mantaro!"
     },
@@ -480,7 +480,7 @@
         "no_command": "%1$sAnda perlu menyatakan arahan yang ingin anda tambahkan.",
         "not_enough_args": "%1$sAnda harus menyatakan nama arahan dan respons arahan yang ingin anda tambahkan.",
         "empty_content": "%1$sAnda perlu menyatakan kandungan arahan kustom ini",
-        "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
+        "too_long": "%1$sKandungan arahan ini terlalu panjang dan bot tidak akan dapat memaparkannya. Pastikan arahan tersebut tidak melebihi %2$,d aksara.",
         "success": "%1$sDisimpan ke arahan `%2$s`",
         "too_many_responses": "%1$sTerlalu banyak respons (%2$s) dalam arahan ini. Had ini adalah dua kali ganda (sebanyak 100) bagi pelayan premium (Periksa <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sTerlalu banyak arahan dalam pelayan ini, jadi anda tidak dapat menambah lagi (+100). Had ini boleh diabaikan oleh pelayan premium (Periksa <https://patreon.com/mantaro>)."
@@ -719,7 +719,7 @@
       "no_item_found": "%1$sSaya tidak dapat mencari sebarang item yang berkaitan dengan carian tersebut. Pastikan anda menaip nama penuh item untuk mengelakkan ketidakcocokan, ataupun menggunakan emoji jika boleh. Contoh: `~>cast star pick`",
       "item_not_cast": "%1$sAnda tidak boleh mencipta alatan ini. Anda boleh periksa `~>cast ls` untuk mendapatkan senarai alatan yang boleh dicipta. Cuba menggunakan nama penuh jika anda yakin bahawa item tersebut adalah betul.",
       "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk mencipta alatan ini **(Kos: %2$s)**",
-      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast. You need %3$,d of them.",
+      "no_item": "%1$sAnda tidak mempunyai item *%2$s* yang diperlukan untuk meneruskan penciptaan ini. Anda memerlukan %3$,d lagi.",
       "not_enough_items": "%1$sAnda tidak mempunyai item *%2$s* yang mencukupi untuk meneruskan penciptaan **%3$s**. **(Diperlukan: %4$s, Semasa: %5$s)**",
       "success": "%1$sAnda berjaya mencipta %2$,dx %3$s **%4$s** untuk harga %5$,d kredit. *Penciptaan menggunakan: %6$s*",
       "no_tool": "%1$sAnda memerlukan %2$s untuk meneruskan penciptaan ini!",
@@ -787,7 +787,7 @@
         "success_breakable_upgrade": "Anda boleh melihat <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> untuk maklumat lanjut tentang cara menaik taraf peralatan anda!"
       },
       "header": "Pasar Mantaro",
-      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>` respectively. Check `~>help market` for more info.",
+      "reference": "\nAnda boleh membeli dan menjual item menggunakan `~>buy <item>` dan `~>sell <item>`. Periksa `~>help market` untuk mendapatkan maklumat lanjut.",
       "sell_price": "- **Harga Menjual:**",
       "buy_price": "- **Harga Membeli:**"
     },
