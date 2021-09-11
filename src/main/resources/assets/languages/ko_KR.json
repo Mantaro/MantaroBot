@@ -709,7 +709,7 @@
       "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s will get **%3$,d credits** if all of the items are sold.",
       "header": "%1$s의 보관함",
-      "format": "**Price**: 📥 %1$,d 📤 %2$,d\n%3$s",
+      "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$s이 보관함은 비어있어요! :(",
       "brief_notice": "You can use `~>inventory -brief` to get a mobile friendly version.",
       "sorted_by": " *(sorted by: %1$s)*"
