@@ -110,6 +110,16 @@ public class ItemHelper {
             ctx.sendLocalized("general.misc_item_usage.milk", EmoteReference.CORRECT);
             return true;
         });
+
+        // This tends to be an issue: the name doesn't match the emoji name.
+        // I don't want to match all of them by emoji name, as that can lead to bad results and conflicts,
+        // so alias them to the emoji name, so people can open them more easily.
+        ItemReference.MINE_CRATE.registerItemAlias("mine lootbox");
+        ItemReference.FISH_CRATE.registerItemAlias("fish lootbox");
+        ItemReference.CHOP_CRATE.registerItemAlias("chop lootbox");
+        ItemReference.MINE_PREMIUM_CRATE.registerItemAlias("premium mine lootbox");
+        ItemReference.FISH_PREMIUM_CRATE.registerItemAlias("premium fish lootbox");
+        ItemReference.CHOP_PREMIUM_CRATE.registerItemAlias("premium chop lootbox");
     }
 
     public static Optional<Item> fromAny(String any, I18nContext languageContext) {
@@ -133,6 +143,11 @@ public class ItemHelper {
         }
 
         itemOptional = fromAlias(any);
+        if (itemOptional.isPresent()) {
+            return itemOptional;
+        }
+
+        itemOptional = fromAliasList(any);
         if (itemOptional.isPresent()) {
             return itemOptional;
         }
@@ -182,6 +197,17 @@ public class ItemHelper {
                     .toLowerCase()
                     .trim()
                     .equals(name.toLowerCase().trim());
+        }).findFirst();
+    }
+
+    public static Optional<Item> fromAliasList(String name) {
+        return Arrays.stream(ItemReference.ALL).filter(item -> {
+            if (item.getAliases().isEmpty()) {
+                return false;
+            }
+
+            final var lookup = name.toLowerCase().trim();
+            return item.getAliases().stream().anyMatch(lookup::equals);
         }).findFirst();
     }
 

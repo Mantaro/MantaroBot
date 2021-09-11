@@ -20,6 +20,8 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiPredicate;
 
 public class Item {
@@ -41,6 +43,7 @@ public class Item {
     private final String translatedName;
     private final String alias;
     private final boolean petOnly;
+    private List<String> aliases = new ArrayList<>();
 
     public Item(ItemType type, String emoji, String name, String alias, String translatedName,
                 String desc, long value, boolean sellable, boolean buyable, boolean hidden, long maxSize,
@@ -291,6 +294,14 @@ public class Item {
 
     public String getAlias() {
         return this.alias;
+    }
+
+    public List<String> getAliases() {
+        return aliases;
+    }
+
+    public void registerItemAlias(String alias) {
+        aliases.add(alias);
     }
 
     public boolean isPetOnly() {
