@@ -209,7 +209,7 @@ public class ItemCmds {
                             }
 
                             castMap.put(item, amount);
-                            recipeString.append(amount).append("x ").append(item.getEmojiDisplay()).append(item.getName()).append(" ");
+                            recipeString.append(amount).append("x \u2009").append(item.getEmojiDisplay()).append(item.getName()).append(" ");
                             increment++;
                         }
 

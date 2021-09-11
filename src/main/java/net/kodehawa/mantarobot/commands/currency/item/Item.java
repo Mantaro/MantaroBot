@@ -238,7 +238,7 @@ public class Item {
     }
 
     public String getEmojiDisplay() {
-        return emoji + " ";
+        return emoji + " \u2009";
     }
 
     public String getName() {
