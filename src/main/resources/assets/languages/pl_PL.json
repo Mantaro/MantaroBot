@@ -709,7 +709,7 @@
       "brief": "**%1$s`s Kolekcja przedmiotów** %2$s\n\n*Aby uzyskać szczegółową wersję, użyj `~>inventory -info`. Ciesz się dniem!*",
       "calculate": "%1$s%2$s dostanie **%3$,d kredytów** jeśli wszystkie przedmioty zostaną sprzedane.",
       "header": "Ekwipunek %1$s",
-      "format": "**Cena**: 📥 %1$,d 📤 %2$,d\n%3$s",
+      "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sTen ekwipunek jest pusty! :(",
       "brief_notice": "Możesz użyć `~>inventory -brief` aby uzyskać wersję przyjazną dla telefonów komórkowych.",
       "sorted_by": " *(posortowane według: %1$s)*"
