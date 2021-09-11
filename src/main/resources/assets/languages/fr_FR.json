@@ -709,7 +709,7 @@
       "brief": "**Inventaire de %1$s** %2$s\n\n*Pour une version détaillée, utilise la commande `~>inventory -info`. Belle journée!*",
       "calculate": "%1$s%2$s recevra **%3$,d crédits** si tous les objets sont vendus.",
       "header": "inventaire de %1$s",
-      "format": "**Prix**: 📥 %1$d 📤 %2$d\n%3$s",
+      "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sCet inventaire est vide! :(",
       "brief_notice": "Tu peux utiliser `~>inventory -brief` pour avoir une meilleure version pour mobile.",
       "sorted_by": " *(classé par: %1$s)*"
