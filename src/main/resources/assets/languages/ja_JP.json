@@ -709,7 +709,7 @@
       "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s はもしもすべてを売却した場合 ``%3$,d クレジット** を入手できます。",
       "header": "%1$sのインベントリー",
-      "format": "**価格**: 📥 %1$,d 📤 %2$,d\n%3$s",
+      "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sこのインベントリーは空です！(´·ω·`)",
       "brief_notice": "`~>inventory -brief`を実行すると、モバイル機器に最適化されたインベントリを見れます。",
       "sorted_by": " *(sorted by: %1$s)*"
