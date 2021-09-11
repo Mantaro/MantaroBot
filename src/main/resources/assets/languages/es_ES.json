@@ -709,7 +709,7 @@
       "brief": "**Colección de ítems de %1$s** %2$s\n\n*Para una versión detallada, usa `~>inventory -info`. ¡Disfruta tu día!*",
       "calculate": "%1$s%2$s conseguirá **%3$d creditos** si vende todos los items!",
       "header": "Inventario de %1$s",
-      "format": "**Precio**: 📥 %1$d 📤 %2$d\n%3$s",
+      "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sEste inventario está vacío! :(",
       "brief_notice": "Puedes usar `~>inventory -brief` para ver una versión mas compacta.",
       "sorted_by": " *(ordenado por: %1$s)*"
