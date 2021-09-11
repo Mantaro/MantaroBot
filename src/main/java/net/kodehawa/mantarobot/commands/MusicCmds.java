@@ -697,7 +697,7 @@ public class MusicCmds {
                     search = currentTrack.getInfo().title;
                 }
 
-                var result = Utils.httpRequest("https://lyrics.tsu.sh/v1/?q=" + URLEncoder.encode(search, StandardCharsets.UTF_8));
+                var result = Utils.httpRequest("https://evan.lol/lyrics/search/top?q=" + URLEncoder.encode(search, StandardCharsets.UTF_8));
                 if (result == null) {
                     ctx.sendLocalized("commands.lyrics.error_searching", EmoteReference.ERROR);
                     return;
@@ -710,21 +710,28 @@ public class MusicCmds {
                 }
 
                 // Replace more than 2 line breaks with 2 line breaks.
-                var lyrics = StringEscapeUtils.unescapeHtml4(results.getString("content").replaceAll("\n{2,}", "\n\n"));
-                var songObject = results.getJSONObject("song");
-                var fullTitle = songObject.getString("full_title");
-                var icon = songObject.getString("icon");
-                var divided = DiscordUtils.divideString(500, lyrics.trim());
+                var lyrics = StringEscapeUtils.unescapeHtml4(results.getString("lyrics")
+                        .replaceAll("\n{2,}", "\n\n"));
+
+                var title = results.getString("name");
+                var albumObject = results.getJSONObject("album");
+                var artistArray = results.getJSONArray("artists");
+                var artistName = "Unknown";
+                var artistObject = artistArray.getJSONObject(0);
+                if (artistObject != null) {
+                    artistName = artistObject.getString("name");
+                }
+                var icon = albumObject.getJSONObject("icon").getString("url");
+
+                var divided = DiscordUtils.divideString(600, lyrics.trim());
                 var languageContext = ctx.getLanguageContext();
 
-                DiscordUtils.listButtons(ctx, 30, 900, (p, total) -> {
-                    EmbedBuilder embed = new EmbedBuilder();
-                    embed.setTitle(languageContext.get("commands.lyrics.header").formatted(EmoteReference.HEART, fullTitle))
-                            .setThumbnail(icon)
-                            .setFooter(languageContext.get("commands.lyrics.footer").formatted(p, total));
-
-                    return embed;
-                }, divided);
+                var header = "%s - %s".formatted(artistName, title);
+                DiscordUtils.listButtons(ctx, 60, 900, (p, total) -> new EmbedBuilder()
+                        .setTitle(languageContext.get("commands.lyrics.header")
+                                .formatted(EmoteReference.MUSICAL_NOTE.toHeaderString() + " ", header))
+                        .setThumbnail(icon)
+                        .setFooter(languageContext.get("commands.lyrics.footer").formatted(p, total)), divided);
             }
 
             @Override
