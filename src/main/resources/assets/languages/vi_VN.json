@@ -709,7 +709,7 @@
       "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s sẽ được **%3$,d tín** nếu tất cả các đồ trong tủ được bán.",
       "header": "Tủ đồ của %1$s",
-      "format": "**Giá cả**: 📥 %1$,d 📤 %2$,d\n%3$s",
+      "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sTủ đồ này đang trống! :(",
       "brief_notice": "Bạn có thể ra lệnh `~>inventory -brief` để lấy bản phù hợp với điện thoại.",
       "sorted_by": " *(sorted by: %1$s)*"
