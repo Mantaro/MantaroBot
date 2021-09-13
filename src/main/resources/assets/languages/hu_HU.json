@@ -13,12 +13,12 @@
     "daily": "Napi",
     "total": "Összesen",
     "arrow_react": "Az oldalváltáshoz használd a nyíl reakciókat.",
-    "button_react": "Use the arrow buttons to change pages.",
+    "button_react": "Az oldalváltáshoz használd a nyilakat.",
     "text_menu": "Használd a &p >> és &p << reakciókat, hogy oldalt válts és &cancel, hogy kilépj.",
     "not_found": "Nincs találat",
     "no_results": "Nincs találat.",
     "timeout": "Ez %1$d másodperc múlva lejár.",
-    "reaction_timeout": "Buttons will timeout in %1$d seconds.",
+    "reaction_timeout": "A gombok %1$d másodperc múlva eltűnnek.",
     "example": "Példa",
     "definition": "Definíció",
     "name": "Név",
@@ -210,8 +210,8 @@
       "8": "- To **stop the music and unbind the player** use `~>stop`",
       "9": "- To **shuffle the queue** just use `~>shuffle`",
       "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeatqueue`. Using `~>repeat` while repeat is on, turns it off, the same is true for `~>repeatqueue`\n",
-      "11": "For more info please use `~>help <command name>` (without the <> and replace command name with the name of the command you want)",
-      "12": "Enjoy your music and thanks for using Mantaro!"
+      "11": "További információért kérlek, használd ezt: `~>help <parancs neve>` (a < > nélkül, és cseréld le a parancs nevét a kívánt parancs nevére)",
+      "12": "Élvezd a zenét, és köszi, hogy használod a Mantaro-t!"
     },
     "lang": {
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `~>profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
@@ -223,12 +223,12 @@
     "music_general": {
       "music_error": {
         "timeout": "%1$sUnable to connect to %2$s: connection timed out. Try changing the server region and running the command again.",
-        "unknown": "%1$sUnable to connect to %2$s: unknown error."
+        "unknown": "%1$sNem sikerült csatlakozni a következőhöz: %2$s: ismeretlen hiba."
       },
-      "not_working": "%1$sMusic is currently not working due to Youtube blocking traffic from most big bots. Our Patreon bot still is working, so you can try it if you wish by donating $4/month to Mantaro. This will also help us redirect our efforts towards fixing music as a whole.\nPlease check <https://patreon.com/mantaro>\n\nWe're sorry for the inconveniences. Try using soundcloud search! (`~>play soundcloud <search term>)`",
-      "no_song": "%1$sYou need to tell me what song you want to play! *(YouTube, Soundcloud, Twitch URL or search queries are allowed)*",
-      "not_playing": "%1$sI'm not currently playing anything. If you believe this is an error, please report this at <https://support.mantaro.site>",
-      "dj_only": "%1$sYou need to be a DJ to use this command.",
+      "not_working": "%1$sA zeneparancsok jelenleg nem működnek, mivel a Youtube blokkolja a legtöbb nagy bot forgalmát. Patreon botunk továbbra is működik, így ha szeretnéd, kipróbálhatod, havi 4 dollárért. Ez a zene minőségének javításában is segít.\nLesd meg a <https://patreon.com/mantaro> webhelyet\n\nSajnáljuk a kellemetlenségeket. Próbáld meg használni a soundcloud keresést! (`~>play soundcloud <search term> `)",
+      "no_song": "%1$sEl kell mondanod, mit akarsz lejátszani! *(írj be YouTube, Soundcloud vagy Twitch linket, vagy keress rá a dal címére/előadójára)*",
+      "not_playing": "%1$sJelenleg nem játszok semmit. Ha úgy gondolod, hogy ez egy hiba, kérlek jelezd ezt a következő címen: <https://support.mantaro.site>!",
+      "dj_only": "%1$sEme parancs futtatásához dj rang szükséges.",
       "enjoy_note": "Élvezd a zenét! <3",
       "no_player": "%1$sNem találok itt zenelejátszót... (próbálj meg újra lejátszani valamit?)",
       "not_connected": "%1$sNem csatlakoztál ahhoz a hangcsatornához, amelyben éppen játszom! (Ha úgy gondolod, hogy ez hiba, kérjük, jelezd ezt a <https://support.mantaro.site> oldalon)",
@@ -287,43 +287,43 @@
         "error_loading": "%1$sHiba a %2$s zene lekérése közben. Próbáld újra, vagy esetleg egy másik linket?",
         "unknown_error_loading": "%1$sHiba a zene lekérése közben. Próbáld újra, vagy esetleg egy másik linket?",
         "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
-        "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
+        "over_32_minutes": "%1$s**Nem játszhatom le a következőt: `%2$s`, mert ez a zene hosszabb, mint %3$s.** (%4$s hosszú).\nMantaro Premiummal le tudnál játszani hosszabb számokat is, illetve még élő adást is. További infóért látogass el a <https://patreon.com/mantaro> oldalra.",
         "fair_queue_limit_reached": "%1$s**Surpassed fair queue level of %2$d (Too many songs which are exactly equal)**",
         "loaded_song": "%1$sHozzáadva a lejátszási listához -> **%2$s** *(%3$s)*",
         "selection_text": "Zeneválasztó. Írd be a dal sorszámát a folytatáshoz.",
         "timeout_text": "Ezt 30 másodpercig teheted meg."
       },
-      "premium_beg": "%1$sConsider donating on <https://patreon.com/mantaro> if you like me, even a small donation will help towards keeping the bot alive (Check `~>donate` for more info!)",
-      "closed_connection": "%1$sClosed audio connection, unbinding player..."
+      "premium_beg": "%1$sHa kedvelsz, támogass a <https://patreon.com/mantaro> oldalon. Már egy egész kevéske összeggel is segíthetsz, hogy a jövőben is sokáig zenélhessek neked. (`~>donate`)",
+      "closed_connection": "%1$sMegszakította a hangkapcsolatot, lejátszó leválasztása..."
     },
     "forceskip": {
-      "success": "%1$sAn admin or Bot Commander decided to skip this song."
+      "success": "%1$sEgy admin úgy döntött, hogy ugorjuk át ezt a dalt."
     },
     "np": {
       "no_track": "%1$sThere either isn't track playing or we cannot seem to find it, try playing a song",
       "header": "Most hallható"
     },
     "pause": {
-      "paused": "Player paused. *(Player was un-paused previously)*",
-      "unpaused": "Player un-paused. *(Player was paused previously)*"
+      "paused": "Lejátszás szüneteltetve. *(A lejátszás korábban folytatva lett)*",
+      "unpaused": "Lejátszás folytatva. *(A lejátszás meg lett állítva korábban)*"
     },
     "rewind": {
       "no_time": "%1$sYou need to tell me how much you want to rewind the song. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
       "negative": "%1$sPositive numbers only",
       "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
       "before_beginning": "%1$sYou can't skip to before the beginning of a song",
-      "success": "%1$sRewound song to: %2$s."
+      "success": "%1$sVisszatekerte a dalt ide: %2$s."
     },
     "restartsong": {
-      "success": "%1$sRestarted current song."
+      "success": "%1$sÚjraindította a dalt."
     },
     "skipahead": {
       "no_time": "%1$sYou need to tell me how much you want to skip ahead in the song. *(Example: `~>skipahead 1m45s` will skip 1 minutes and 45 seconds from where you are on the song)*",
       "past_duration": "%1$sYou can't skip past the duration of a song",
-      "success": "%1$sSkipped ahead to %2$s."
+      "success": "%1$sElőre léptetett %2$s-ig."
     },
     "move": {
-      "no_voice": "%1$sYou're not in a voice channel, or the bot isn't in one.",
+      "no_voice": "%1$sNem vagy bent egy hangcsatornában sem.",
       "attempt": "%1$sI will try to move to the channel you're in",
       "error_moving": "%1$sFailed to switch voice channels.",
       "cannot_connect": "%1$sCannot connect: I either don't have permission to talk or to move channels.",
@@ -342,22 +342,22 @@
       }
     },
     "repeat": {
-      "queue_cancel": "%1$sContinuing with the current queue.",
-      "queue_repeat": "%1$sRepeating the current queue.",
+      "queue_cancel": "%1$sFolytatom a lejátszást.",
+      "queue_repeat": "%1$sLejátszási lista megismétlése.",
       "song_cancel": "%1$sContinuing with the normal queue.",
-      "song_repeat": "%1$sRepeating the current song. Run this command again to disable it."
+      "song_repeat": "%1$sÚjra és újra le fogom játszani ezt a dalt. Add meg megint ezt a parancsot, hogy kilépj ebből."
     },
     "nextsong": {
-      "no_song_next": "%1$sOw, there isn't any song coming next.",
-      "format": "%1$sNext song in queue: **%2$s** (%3$s) | *Total songs in queue: %4$,d*"
+      "no_song_next": "%1$sÓó, már nincs több szám, ami következhetne.",
+      "format": "%1$sKövetkező dal a lejátszási listában: **%2$s** (%3$s) | *Összesen %4$,d dal*"
     },
     "shuffle": {
-      "success": "%1$sRandomized the order of the current queue."
+      "success": "%1$sÖsszekevertem a lejátszási listán levő dalok sorrendjét."
     },
     "skip": {
-      "dj_skip": "%1$sThe DJ has decided to skip this song.",
+      "dj_skip": "%1$sÁtléptettem ezt a számot.",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!",
+        "submit": "%1$s**Szavaztál.** Még %2$d szavat kell, hogy a következő számra ugorjunk!",
         "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to skip!"
       },
       "success": "%1$sReached the required amount of votes, skipping song...",
