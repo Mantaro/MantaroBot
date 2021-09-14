@@ -205,24 +205,24 @@
       "3": "- **Dal kereséséhez a youtube-on** használd a `~>play <keresett szám>` (< és > nélkül). Például: `~>play see you again` (Ki kell választanod a számot, csak *írjd be a számot*, miután a választó menü felbukkan!)",
       "4": "- Ha zeneszámot szeretnél a soundcloudról lejátszani**, írd be: `~>play soundcloud <keresett szám>` Például `~>play soundcloud hot milk`",
       "5": "- A **várólista** megtekintéséhez csak írd be a `~>queue` parancsot",
-      "6": "- To **remove a track from the queue** you just need to use `~>removetrack` It takes as an argument the position the song is queued at (you can check in on queue)",
-      "7": "- To **pause or unpause** just use `~>pause`",
-      "8": "- To **stop the music and unbind the player** use `~>stop`",
-      "9": "- To **shuffle the queue** just use `~>shuffle`",
-      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeatqueue`. Using `~>repeat` while repeat is on, turns it off, the same is true for `~>repeatqueue`\n",
+      "6": "- A zene **eltávolításához a várólistábol** használd a `~> removetrack` -ot. Meg kell adnod, hogy hányadik zene a pozicióban!",
+      "7": "-A **megállításhoz vagy a folytatáshoz** használd a `~>pause` parancsot",
+      "8": "-Zene megállításához használd a `~>stop` parancsot",
+      "9": "-Keveréshez használd a `~>shuffle` parancsot",
+      "10": "- És végül, hogy **megismételj egy dalt**, használd a `~>repeat` parancsot. A **várólista ismétléséhez** használd a `~>repeatqueue` parancsot. Ha az ismétlés be van kapcsolva, a `~> repeat` használatával kikapcsolhatod\n",
       "11": "További információért kérlek, használd ezt: `~>help <parancs neve>` (a < > nélkül, és cseréld le a parancs nevét a kívánt parancs nevére)",
       "12": "Élvezd a zenét, és köszi, hogy használod a Mantaro-t!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `~>profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
+      "info": "%1$s A szerver nyelvét megváltoztathatod a(z) `~>opts language set <language code>` parancsal. Személyes nyelvi beállításai a `~> profile lang <language code>` segítségével módosíthatók.\n**elérhető nyelvek:** `%2$s`\nHa a kívánt nyelv nincs itt, és segíteni szeretnél, nyugodtan csatlakozz a support szerverhez, és csatlakozz a fordító csapathoz, szívesen várunk!"
     },
     "season": {
-      "info": "A *season* is the span of time, of usually 6 months where players compete for the top 10 slots on the money or reputation leaderboard. The winners will get badges and prizes based on their seasonal performance.\nThis is to allow a more competitive frame (before, money was pretty much stale) and to make the game a bit more fun.\nYou can access seasonal stuff using `-season`. Commands like profile, mine, fish and balance will require it, while games, loot, daily and reputation will give money/rep to both your global and seasonal profile.",
-      "info_2": "\n\nThe current season is **%1$s** and **%2$s** players are currently taking part on it!\n\nThe fun begins, check `~>leaderboard money -season`; `~>leaderboard rep -season` and `~>leaderboard games -season`.\nGame on! <3\nThanks for enjoying Mantaro."
+      "info": "Egy *szezon* az az időtartam, általában 6 hónap, amikor a játékosok versenyeznek a pénz vagy hírnév ranglistáján az első 10 helyért.\n A nyertesek az évszakos teljesítményük alapján kitűzőket és díjakat kapnak.\nEz lehetővé teszi a versenyképesebb keret kialakítását, és egy kicsit szórakoztatóbbá teszi a játékot.\nA szezonális dolgokat a `-szezon` használatával érheti el. Az olyan parancsok, mint a profile, mine, fish és balance megkövetelik, míg a games, loot, daily és reputation pénzt / reputációt adnak mind a globális, mind a szezonális profilnak.",
+      "info_2": "\n\nA jelenlegi szezon **%1$s** és **%2$s** játékos vesz részt rajta!\nKezdődik a móka, csekkold a `~>leaderboard money -season`;`~>leaderboard rep -season` és`~>leaderboard games -season` parancsokat.\nKezdődjön a játék! <3\nKöszönjük, hogy Mantarót használod."
     },
     "music_general": {
       "music_error": {
-        "timeout": "%1$sUnable to connect to %2$s: connection timed out. Try changing the server region and running the command again.",
+        "timeout": "%1$s Nem sikerült csatlakozni a: %2$s: kapcsolati időtúlépés. \nPróbáld meg megváltoztatni a szerver régióját, és futtasd a parancsot újra.",
         "unknown": "%1$sNem sikerült csatlakozni a következőhöz: %2$s: ismeretlen hiba."
       },
       "not_working": "%1$sA zeneparancsok jelenleg nem működnek, mivel a Youtube blokkolja a legtöbb nagy bot forgalmát. Patreon botunk továbbra is működik, így ha szeretnéd, kipróbálhatod, havi 4 dollárért. Ez a zene minőségének javításában is segít.\nLesd meg a <https://patreon.com/mantaro> webhelyet\n\nSajnáljuk a kellemetlenségeket. Próbáld meg használni a soundcloud keresést! (`~>play soundcloud <search term> `)",
@@ -391,8 +391,8 @@
     "lyrics": {
       "no_current_track": "%1$sThere's no song currently playing on this server!",
       "error_searching": "%1$sThere was an error searching for this track or there was no results found.",
-      "header": "%1$sLyrics for %2$s",
-      "footer": "Thanks for using Mantaro! Page: %1$d, Total: %2$d."
+      "header": "%1$s%2$s Dalszövege",
+      "footer": "Köszönöm, hogy Mantarót használod! Oldal: %1$d, Összesen: %2$d."
     },
     "prefix": {
       "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). %3$s.\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nTo reset the server prefix run `~>opts prefix clear`\nIf you have any questions, you can join <https://support.mantaro.site>",
