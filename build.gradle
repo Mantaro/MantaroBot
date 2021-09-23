@@ -99,7 +99,7 @@ dependencies {
     implementation 'io.prometheus:simpleclient_httpserver:0.9.0'
 
     //Unit tests
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
 task copyFileToAssets(type: Copy) {
