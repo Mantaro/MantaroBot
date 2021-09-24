@@ -60,11 +60,10 @@ public class CurrencyCmds {
             public void call(Context ctx, String content, String[] args) {
                 var arguments = ctx.getOptionalArguments();
                 content = Utils.replaceArguments(arguments, content,
-                        "brief", "calculate", "calc", "c", "info", "full", "season", "s");
+                        "brief", "calculate", "calc", "c", "info", "full", "season", "s", "mobile");
 
                 // Lambda memes lol
                 var finalContent = content;
-
                 ctx.findMember(content, members -> {
                     var member = CustomFinderUtil.findMemberDefault(finalContent, members, ctx, ctx.getMember());
                     if (member == null)
@@ -81,7 +80,6 @@ public class CurrencyCmds {
                     final var seasonPlayer = ctx.getSeasonPlayer(member);
                     final var languageContext = ctx.getLanguageContext();
                     var playerInventory = player.getInventory();
-
                     if (ctx.isSeasonal()) {
                         playerInventory = seasonPlayer.getInventory();
                     }
@@ -103,64 +101,67 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    if (arguments.containsKey("info") || arguments.containsKey("full")) {
-                        if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
-                            ctx.sendLocalized("general.missing_embed_permissions");
-                            return;
-                        }
+                    if (arguments.containsKey("brief") || arguments.containsKey("mobile")) {
+                        var inventory = languageContext.get("commands.inventory.sorted_by")
+                                .formatted(playerData
+                                        .getInventorySortType()
+                                        .toString()
+                                        .toLowerCase()
+                                        .replace("_", " ")
+                                ) + "\n\n" +
+                                inventoryList.stream()
+                                        .sorted(playerData.getInventorySortType().getSort().getComparator())
+                                        .map(is -> is.getItem().getEmoji() + "\u2009 x" + is.getAmount() + " \u2009\u2009")
+                                        .collect(Collectors.joining(" "));
 
-                        EmbedBuilder builder = baseEmbed(ctx,
-                                languageContext.get("commands.inventory.header").formatted(member.getEffectiveName()),
-                                member.getUser().getEffectiveAvatarUrl()
-                        );
+                        var message = ctx.getLanguageContext().get("commands.inventory.brief")
+                                .formatted(member.getEffectiveName(), inventory);
 
-                        List<MessageEmbed.Field> fields = new LinkedList<>();
-                        if (inventoryList.isEmpty())
-                            builder.setDescription(languageContext.get("general.dust"));
-                        else {
-                            playerInventory.asList()
-                                    .stream()
-                                    .sorted(playerData.getInventorySortType().getSort().getComparator())
-                                    .forEach(stack -> {
-                                        long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
-                                        long sellValue = stack.getItem().isSellable() ? Math.round(stack.getItem().getValue() * 0.9) : 0;
-                                        fields.add(new MessageEmbed.Field(
-                                                "%s %s x %d".formatted(
-                                                        stack.getItem().getEmoji(),
-                                                        stack.getItem().getName(),
-                                                        stack.getAmount()),
-                                                languageContext.get("commands.inventory.format").formatted(
-                                                        buyValue, sellValue,
-                                                        languageContext.get(stack.getItem().getDesc())
-                                                ), false)
-                                        );
-                                    });
-                        }
-
-                        var toShow = languageContext.get("commands.inventory.brief_notice") +
-                                (r.nextInt(3) == 0 && !user.isPremium() ? languageContext.get("general.sellout") : "");
-
-                        DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(6, fields), toShow);
+                        var toSend = new MessageBuilder().append(message).buildAll(MessageBuilder.SplitPolicy.SPACE);
+                        toSend.forEach(ctx::send);
                         return;
                     }
 
-                    var inventory = languageContext.get("commands.inventory.sorted_by")
-                            .formatted(playerData
-                                    .getInventorySortType()
-                                    .toString()
-                                    .toLowerCase()
-                                    .replace("_", " ")
-                            ) + "\n\n" +
-                            inventoryList.stream()
-                                    .sorted(playerData.getInventorySortType().getSort().getComparator())
-                                    .map(is -> is.getItem().getEmoji() + " x" + is.getAmount() + " \u2009\u2009")
-                                    .collect(Collectors.joining(" "));
+                    if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+                        ctx.sendLocalized("general.missing_embed_permissions");
+                        return;
+                    }
 
-                    var message = ctx.getLanguageContext().get("commands.inventory.brief")
-                            .formatted(member.getEffectiveName(), inventory);
+                    EmbedBuilder builder = baseEmbed(ctx,
+                            languageContext.get("commands.inventory.header").formatted(member.getEffectiveName()),
+                            member.getUser().getEffectiveAvatarUrl()
+                    );
 
-                    var toSend = new MessageBuilder().append(message).buildAll(MessageBuilder.SplitPolicy.SPACE);
-                    toSend.forEach(ctx::send);
+                    List<MessageEmbed.Field> fields = new LinkedList<>();
+                    if (inventoryList.isEmpty())
+                        builder.setDescription(languageContext.get("general.dust"));
+                    else {
+                        playerInventory.asList()
+                                .stream()
+                                .sorted(playerData.getInventorySortType().getSort().getComparator())
+                                .forEach(stack -> {
+                                    long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
+                                    long sellValue = stack.getItem().isSellable() ? Math.round(stack.getItem().getValue() * 0.9) : 0;
+                                    // Thin spaces are gonna haunt me.
+                                    fields.add(new MessageEmbed.Field(
+                                            "%s\u2009 %s\u2009 x %d".formatted(
+                                                    stack.getItem().getEmoji() + "\u2009",
+                                                    stack.getItem().getName(),
+                                                    stack.getAmount()),
+                                            languageContext.get("commands.inventory.format").formatted(
+                                                    EmoteReference.MONEY.toHeaderString() + "\u2009",
+                                                    "\u2009", buyValue, "\u2009", sellValue,
+                                                    EmoteReference.TALKING.toHeaderString() + "\u2009",
+                                                    languageContext.get(stack.getItem().getDesc())
+                                            ), false)
+                                    );
+                                });
+                    }
+
+                    var toShow = languageContext.get("commands.inventory.brief_notice") +
+                            (r.nextInt(3) == 0 && !user.isPremium() ? languageContext.get("general.sellout") : "");
+
+                    DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(7, fields), toShow);
                 });
             }
 
@@ -170,7 +171,7 @@ public class CurrencyCmds {
                         .setDescription("Shows your current inventory.")
                         .setUsage("""
                                 You can mention someone on this command to see their inventory.
-                                You can use `~>inventory -full` to a more detailed version.
+                                You can use `~>inventory -brief` to see a brief/mobile-friendly version.
                                 Use `~>inventory -calculate` to see how much you'd get if you sell every sellable item on your inventory.""")
                         .setSeasonal(true)
                         .build();

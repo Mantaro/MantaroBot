@@ -867,7 +867,7 @@ public class DiscordUtils {
     public static void sendPaginatedEmbed(final Context ctx, EmbedBuilder builder,
                                           List<List<MessageEmbed.Field>> splitFields, final String str) {
         final var languageContext = ctx.getLanguageContext();
-        final var show =  str.isEmpty() ? "" : EmoteReference.TALKING + str + "\n";
+        final var show =  str.isEmpty() ? "" : EmoteReference.TALKING.toHeaderString() + str + "\n";
         final var newLine = builder.getDescriptionBuilder().length() > 0 ? "\n" : "";
 
         if (splitFields.size() > 1) {

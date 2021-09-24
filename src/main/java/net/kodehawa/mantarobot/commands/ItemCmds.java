@@ -209,7 +209,7 @@ public class ItemCmds {
                             }
 
                             castMap.put(item, amount);
-                            recipeString.append(amount).append("x ").append(item.getName()).append(" ");
+                            recipeString.append(amount).append("x \u2009").append(item.getEmojiDisplay()).append(item.getName()).append(" ");
                             increment++;
                         }
 
@@ -468,7 +468,7 @@ public class ItemCmds {
                             }
 
                             recipeMap.put(needed, amount);
-                            recipeString.append(amount).append("x ").append(needed.getName()).append(" ");
+                            recipeString.append(amount).append("x ").append(needed.getEmojiDisplay()).append(needed.getName()).append(" ");
                         }
 
                         for (var entry : recipeMap.entrySet()) {

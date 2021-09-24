@@ -61,7 +61,7 @@ task generateLanguageList {
 
 dependencies {
     // Base
-    implementation 'net.dv8tion:JDA:4.3.0_309'
+    implementation 'net.dv8tion:JDA:4.3.0_313'
     implementation 'club.minnced:discord-webhooks:0.5.8'
 
     // Music
@@ -72,8 +72,8 @@ dependencies {
     implementation 'com.sedmelluq:lavaplayer-ext-youtube-rotator:0.2.3'
 
     // JSON
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.12.4'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.12.5'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.5'
 
     // Core
     implementation 'io.github.classgraph:classgraph:4.8.115'
@@ -82,7 +82,7 @@ dependencies {
 
     // Database
     implementation 'com.rethinkdb:rethinkdb-driver:2.4.4'
-    implementation 'redis.clients:jedis:3.6.3'
+    implementation 'redis.clients:jedis:3.7.0'
 
     // Utilities
     implementation 'net.jodah:expiringmap:0.5.10'
