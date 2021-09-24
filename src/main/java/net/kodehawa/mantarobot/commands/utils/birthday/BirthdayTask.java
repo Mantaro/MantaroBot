@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -79,11 +80,9 @@ public class BirthdayTask {
 
             log.info("Checking birthdays in shard {} to assign roles...", jda.getShardInfo().getShardId());
 
-            // Isn't Calendar old aswell? Maybe use Instant?
-            final var cal = Calendar.getInstance();
             // Well, fuck, this was a day off. NYC time was 23:00 when Chicago time was at 00:00, so it checked the
             // birthdays for THE WRONG DAY. Heck.
-            cal.setTimeZone(TimeZone.getTimeZone(ZoneId.of("America/Chicago")));
+            final var cal = GregorianCalendar.from(ZonedDateTime.now(ZoneId.of("America/Chicago")));
             // Example: 25-02
             final var now = dateFormat.format(cal.getTime()).substring(0, 5);
             // Example: 02
