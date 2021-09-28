@@ -57,10 +57,10 @@
     },
     "campaigns": {
       "premium": {
-        "generic_sellout": "We need your help to keep Mantaro alive and improve Mantaro's servers!\nYou can get amazing perks and **up to double the credits with Mantaro Premium**! Memberships start at $2 per month, the price of a snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
-        "daily_sellout": "We need your help to keep Mantaro alive!\nYou can get amazing perks and **double the daily credits** and access to `~>dailycrate`! Memberships start at only $2 per month, check out more at <https://patreon.com/mantaro>.",
+        "generic_sellout": "Chúng tôi cần sự giúp đỡ của bạn để giữ cho Mantaro hoạt động và để phát triển máy chủ của Mantaro! Bạn có thể có được những đặc quyền tuyệt vời và **có thể lên đến gấp đôi số đồng mà bạn có thể thu được với Mantaro Premium**! Mọi hội viên sẽ bắt đầu chỉ với $2 mỗi tháng, rất chi là rẻ! Xem thông tin chi tiết tại <https://patreon.com/mantaro>. Cũng như việc lan truyền lời cầu xin của chúng tôi :heart:",
+        "daily_sellout": "Chúng tôi cần sự giúp đỡ của bạn để giữ cho Mantaro hoạt động!\nBạn có thể có được những đặc quyền tuyệt vời và **gấp đôi phần thưởng hằng ngày** và được quyền sử dụng `~>dailycrate`! Hội viên bắt đầu với $2 mỗi tháng, xem thông tin chi tiết tại <https://patreon.com/mantaro>.",
         "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
-        "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
+        "thanks_message_daily": "Chúng tôi rất trân trọng sự giúp đỡ của bạn. Nếu không có sự giúp đỡ của mọi người, chúng tôi khó mà giữ cho Mantaro hoạt động được :heart:\nBạn cũng nhận được gấp đôi số đồng như là một món quà nhỏ!"
       },
       "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
     },
@@ -153,8 +153,8 @@
       },
       "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
       "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
-      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
-      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
+      "success_money": "%1$sTrong lúc điềm tĩnh ngồi câu cá, bạn câu được %2$s và **$%3$,d đồng** bằng *%4$s* và cho số cá vào trong xô. %5$s",
+      "success_money_noitem": "%1$sTrong khi điềm tĩnh ngồi câu, bạn tìm được **$%2$,d đồng** bằng *%3$s* và cho chúng vào ví.",
       "rod_broke": "%1$sCần câu của bạn đã bị gãy trong lúc vật lộn với cá :(",
       "waifu_help": "Waifu của bạn đã tham gia hành trình câu của bạn và cả hai đều được một mẻ cá lớn!",
       "not_suitable": "%1$sBạn không thể dùng thứ này để câu.",
@@ -600,18 +600,18 @@
       "buyhouse": {
         "not_married": "%1$sYou can only buy a house while you're married. This might change in the future.",
         "no_house": "%1$sYou need a house item in your inventory. Use `~>buy house` to get one.",
-        "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d credits)",
+        "not_enough_money": "%1$sBạn không có đủ tiền để mua nhà. (Giá hiện tại của căn nhà: %2$d đồng)",
         "no_name": "%1$sYou need to give your house a name! For example, `~>marry house cozy house`",
         "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Type `yes` to confirm and `no` to cancel.",
-        "success": "%1$sYou successfully bought a house for %2$d credits. The name of your new cozy house is %3$s, enjoy!",
+        "success": "%1$sBạn đã mua thành công căn nhà này với giá %2$d đồng. Tên của ngôi nhà mới đầy ấm cúng này là %3$s!",
         "cancel_success": "%1$sCancelled operation."
       },
       "buycar": {
         "no_car": "%1$sYou need to buy a car first! Use `~>buy car` to get one.",
-        "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d credits)",
+        "not_enough_money": "%1$sBạn không có đủ tiền để mua xe. (Giá hiện tại của chiếc xe: %2$d đồng)",
         "no_name": "%1$sYou need to give your car a name! For example, `~>marry car vroom`",
         "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Type `yes` to confirm and `no` to cancel.",
-        "success": "%1$sYou successfully bought a car for %2$d credits. The name of your new fast car is %3$s, enjoy!",
+        "success": "%1$sBạn đã mua thành công chiếc xe này với giá %2$d đồng. Tên của chiếc xe mới nhanh nhẹn này là %3$s!",
         "cancel_success": "%1$sCancelled operation."
       },
       "no_mention": "%1$sHãy đề cập người bạn muốn cưới.",
@@ -632,7 +632,7 @@
       "cancelled": "%1$sCancelled divorce.",
       "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?\nWanna unclaim a Waifu? Use `~>waifu unclaim` instead.",
       "success": "%1$sNow you're single. That's nice I guess.\n%2$s",
-      "split": "The money left was split between the two parties by selling their assets (pet, house, car). Each one got **%1$d** credits on their wallet."
+      "split": "Số tiền còn lại được chia ra thành hai nhóm từ việc bán đi số tài sản hữu hình (thú nuôi, nhà cửa, xe cộ). Mỗi người nhận được **%1$d** đồng vào ví riêng."
     },
     "waifu": {
       "bot": "%1$sMột bot không thể là waifu, cho dù bạn có muốn thế...",
@@ -643,7 +643,7 @@
         "header_other": "Tình trạng waifu của %1$s",
         "format": "%1$s **Giá trị trọng lượng tiền:**%2$,d\n%1$s **Giá trị trọng lượng huy hiệu:** %3$,d\n%1$s **Giá trị sức nặng kinh nghiệm:** %4$,d\n%1$s **Giá trị sức nặng thu thập:** %5$,d\n%1$s **Hệ số nhân danh tiếng:** %6$.2fx",
         "value": "Tổng giá trị waifu",
-        "credits": "%1$,d tín",
+        "credits": "%1$,d đồng",
         "performance": "Điểm thể hiện Waifu"
       },
       "claim": {
@@ -652,7 +652,7 @@
         "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `~>profile claimlock remove` if they wish to do so.",
         "not_enough_money": "%1$sBạn không có đủ tiền để thu thập waifu này **(Cần: %2$s đồng)**",
         "not_enough_slots": "%1$sBạn không còn đủ chỗ trống để thu thập waifu này. (Tổng số vị trí:%2$s, đã dùng:%3$s)",
-        "success": "%1$sSuccessfully claimed `%2$s` for %3$,d credits. Slots used: %4$s",
+        "success": "%1$sĐã nhận `%2$s` thành công với giá %3$,d đồng. Số chỗ đã sử dụng: %4$s",
         "yourself": "%1$sBạn không thể tự nhận bản thân làm waifu!",
         "already_claimed": "%1$sNgười này vốn đã là waifu của bạn rồi.",
         "not_found": "%1$sTôi không thể tìm thấy ai với đề cập này. "
@@ -670,7 +670,7 @@
       "buyslot": {
         "locked": "%1$sBạn tạm thời không thể thực hiện hành động này.",
         "not_enough_money": "%1$sBạn không có đủ tiền để mua thêm chỗ cho waifu! Bạn cần %2$,d đồng.",
-        "success": "%1$sSuccessfully bought this slot for %2$s credits, you currently have %3$s total slots and %4$s available slots.",
+        "success": "%1$sMua thành công chỗ này với giá %2$s đồng, bạn hiện tại có tổng cộng %3$s chỗ và bạn còn lại %4$s chỗ trống.",
         "too_many": "%1$sYou already have too many slots! The maximum is 30 slots."
       },
       "optout": {
@@ -687,7 +687,7 @@
       "footer": "Tổng số waifu: %1$,d - còn trống: %2$s chỗ",
       "value_format": "**Giá trị:**",
       "value_b_format": "**Đã mua với giá:**",
-      "credits_format": " tín.",
+      "credits_format": " đồng.",
       "waifu_header": "**Waifu của bạn:**",
       "not_claimed": "%1$sBạn chưa nhận người này làm waifu."
     },
@@ -721,7 +721,7 @@
       "not_enough_money": "%1$sBạn không có đủ tiền để chế tạo món đồ này. **(Cần: %2$s)**",
       "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast. You need %3$,d of them.",
       "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed the cast of a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
-      "success": "%1$sYou successfully casted %2$,dx %3$s **%4$s** for %5$,d credits. *Cast used: %6$s*",
+      "success": "%1$sBạn đã chế tạo thành công %2$,dx %3$s**%4$s** và tiêu %5$,d đồng. *Quá trình chế tạo tốn %6$s*",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
       "not_equipped": "%1$sYou don't have any equipped wrench. Use `~>equip <wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `~>buy wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `~>cast 5 star pick`",
       "too_many": "%1$sYou'd have more than 5,000 of this item if you proceed. Try casting less of this object?",
@@ -781,9 +781,9 @@
         "no_buy_price": "%1$sBạn không thể mua đồ không được bán.",
         "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
         "success": "%1$sĐã mua thành công %2$,d %3$s với giá %4$,d đồng. Giờ bạn còn %5$,d đồng.",
-        "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
-        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `~>useitem <item name>`",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits.",
+        "success_breakable": "%1$sMua thành công %2$,d %3$s với giá %4$,d đồng. Bạn còn %5$,d đồng. Bạn có thể trang bị món đồ này bằng cách sử dụng `~>equip <item name>`",
+        "success_potion": "%1$sMua thành công %2$,d %3$s với giá %4$,d đồng. Bạn còn %5$,d đồng. Bạn có thể sử dụng lọ thuốc hoặc buff này bằng cách sử dụng `~>useitem <item name>`",
+        "not_enough_money": "%1$sBạn không có đủ tiền để mua món đồ này. Tài sản của bạn: %2$,d đồng, Cần: %3$,d đồng.",
         "success_breakable_upgrade": "You can check <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> for more information on how to upgrade your tools!"
       },
       "header": "Chợ Mantaro",
@@ -988,7 +988,7 @@
         "success": "%1$sSuccessfully set your new profile layout. New layout is `%2$s`",
         "ls": "%1$sList of profile components:\n%2$s **Widgets in Default Order:** `%3$s`\n%2$s **Your widgets:** `%4$s`\nYou can use `~>profile widgets reset` to reset your profile display references",
         "reset": "%1$sSuccessfully reset profile widget order.",
-        "example": "\nExample: `~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
+        "example": "\nVí dụ: `~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*Bất kỳ việc sắp xếp trật tự nào, trật tự ở đây là thứ sẽ làm chúng xuất hiện trên hồ sơ của bạn*"
       },
       "claimlock": {
         "removed": "%1$sSuccesfully reset your claim lock status.",
@@ -1004,8 +1004,8 @@
       "bot_notice": "%1$sBot không có hồ sơ.",
       "header": "Hồ sơ của %1$s",
       "no_desc": "No description set. You can set one with `~>profile description`",
-      "credits": "Tín",
-      "old_credits": "Legacy Credits",
+      "credits": "Đồng",
+      "old_credits": "Di sản",
       "level": "Cấp",
       "xp": "Kinh nghiệm",
       "rep": "Độ uy tín",
@@ -1020,7 +1020,7 @@
       "not_specified": "Chưa rõ.",
       "potion": "Thuốc đang hoạt động",
       "no_potion": "Không có thuốc đang hoạt động.",
-      "hidelegacy": "%1$sLegacy credits hide status is now: `%2$s`"
+      "hidelegacy": "%1$sTrạng thái thể hiện di sản hiện tại: `%2$s`"
     },
     "badges": {
       "info": {
@@ -1370,19 +1370,19 @@
         "stamina": "Stamina",
         "dust": "Dust (%)",
         "pet": "Pats",
-        "buildup": "Đồng / Bộ vật phẩm",
-        "buildup_coin": "Bộ tín dụng",
-        "buildup_stats": "%1$,d credits / %2$,d items",
-        "buildup_stats_credits": "%1$,d credits",
+        "buildup": "Đồng / Vật phẩm tăng lên",
+        "buildup_coin": "Tiền tăng lên",
+        "buildup_stats": "%1$,d đồng / %2$,d vật phẩm",
+        "buildup_stats_credits": "%1$,d đồng",
         "footer": "Thanks you for using Mantaro! <3"
       },
       "check": {
         "success": "**Pet status for %1$s:**\n\n%2$s Thirst: **%3$s / 100** | %4$s Hunger: **%5$s / 100** | %6$s Dust: **%7$s%%**"
       },
       "clean": {
-        "not_enough_money": "%1$sYou need at least %2$,d credits to clean **%3$s**.",
+        "not_enough_money": "%1$s Bạn cần ít nhất %2$,d đồng để rửa sạch cho **%3$s**.",
         "not_dusty": "%1$s**%2$s** is not dusty. (Current dust level: %3$,d%%)",
-        "success": "%1$s**%2$s** is now sparkly clean! The cost to clean your pet was %3$,d credits."
+        "success": "%1$s**%2$s** bây giờ đã lấp lánh sạch sẽ! Chi phí để làm sạch thú cưng của bạn là %3$,d đồng."
       },
       "choice": {
         "no_choice": "%1$sYou need to specify a choice (Personal or Marriage).",
@@ -1395,7 +1395,7 @@
         "success": "%1$s**%2$s**'s level: **%3$,d** (%4$,d XP / %5$,d XP)"
       },
       "list": {
-        "summary": "%1$s **Name:** %2$s, **Abilities:** `%3$s`, **Value:** %4$,d credits",
+        "summary": "%1$s **Tên:** %2$s, **Khả năng:** `%3$s`, **Trị giá:** %4$,d đồng",
         "abilities": "*Fish*: Useful for `~>fish`\n*Catch*: Useful for `~>mine`\n*Chop*: Useful for `~>chop`\n*Cheer*: Gives you a nice morale boost.",
         "header": "%1$s**Current available Pets**\n\n%2$s\n\n%3$s**Ability explanation:**\n%4$s"
       },
@@ -1421,10 +1421,10 @@
         "no_egg": "%1$sYou need to have a Incubator Egg on your inventory to do this. You can cast it, check `~>cast ls`",
         "already_has_pet": "%1$sYou already have a pet. (Current choice: %2$s)",
         "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
-        "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
-        "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Choice: %5$s. Type `yes` to continue, `no` otherwise.",
-        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
-        "success_personal": "%1$sCongratulations! You're now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
+        "not_enough_money": "%1$sBạn không có đủ tiền để mua thú nuôi này. Cần: %2$,d đồng, Tài sản của bạn: %3$,d đồng",
+        "confirm": "%1$sBạn có chắc là muốn mua thú nuôi này chứ? Tên: %2$s, Loại: %3$s, Giá: %4$,d đồng. Lựa chọn: %5$s. Gõ `yes` để đồng ý, nếu không thì gõ `no`.",
+        "success": "%1$sChúc mừng! Bây giờ hai bạn đã là người chủ đáng quý của `%2$s%3$s` với cái tên mà hai bạn đặt là `%4$s`. Giá để mua thú nuôi này là %5$,d đồng và sự lựa chọn là: %6$s",
+        "success_personal": "%1$sChúc mừng! Bây giờ bạn đã là người chủ đáng quý của `%2$s%3$s` với cái tên mà bạn đặt là `%4$s`. Giá để mua thú nuôi này là %5$,d đồng và sự lựa chọn là: %6$s",
         "cancel_success": "%1$sCancelled operation.",
         "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters.",
         "no_marriage_marry": "%1$sI don't see any marriage here..."
@@ -1455,9 +1455,9 @@
         "low_thirst": "%1$s**%2$s** is too thirsty to do anything right now.",
         "low_mood": "%1$s**%2$s** has too low of a mood. You might wanna play with them!",
         "dusty": "%1$s**%2$s** is too dusty. Clean your pet to clear the dust.",
-        "success_fish": "%1$s**%2$s** successfully helped you catch fish! **You got an extra %3$,d credits and %4$,d items** thanks to the extra work your pet was able to do for you! *included on what you got*",
-        "success_chop": "%1$s**%2$s** successfully helped you chop a tree! **You got an extra %3$,d credits and %4$,d items** thanks to the extra work your pet was able to do for you! *included on what you got*",
-        "success_mine": "%1$s**%2$s** successfully helped you mine! **You got an extra %3$,d credits and more item drop chances** thanks to the extra work your pet was able to do for you! *included on what you got*"
+        "success_fish": "%1$s**%2$s** đã thành công giúp bạn bắt cá! **Bạn nhận được thêm %3$,d đồng và %4$,d vật phẩm** đều là nhờ vào những gì thú cưng có thể làm được cho bạn *thêm cả những gì bạn có được*",
+        "success_chop": "%1$s**%2$s** đã thành công giúp bạn chặt cây! **Bạn nhận được thêm %3$,d đồng và %4$,d vật phẩm** đều là nhờ vào những gì thú cưng có thể làm được cho bạn *thêm cả những gì bạn có được*",
+        "success_mine": "%1$s**%2$s** đã thành công giúp bạn đào! **Bạn nhận được thêm %3$,d đồng và nhiều cơ hội rơi đồ hơn** đều là nhờ vào những gì thú cưng có thể làm được cho bạn *thêm cả những gì bạn có được*"
       },
       "rename": {
         "no_pet": "%1$sYou don't have a pet to rename. (Choice: %2$s)%3$s",
@@ -1469,10 +1469,10 @@
       "remove": {
         "no_pet": "%1$sYou don't have a pet to remove. (Choice: %2$s)%3$s",
         "no_pet_confirm": "%1$sI don't see any pet here...",
-        "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$,d credits, and you will receive %2$,d credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
-        "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$,d credits.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
-        "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund.",
-        "success_personal": "%1$sSuccessfully removed pet. You received %2$s credits as a refund."
+        "confirm": "%1$sBạn có chắc chắn là muốn xoá thú nuôi này không? Nửa kia của bạn sẽ nhận được %2$,d đồng, và bạn cũng nhận được %2$,d đồng.\nGõ `yes` để đồng ý hoặc `no` để từ chối. Hãy nhận thức được rằng sự hoàn trả không đi kèm với cấp độ hay bất kì thứ gì khác, nó giống như mua một tomagotchi mới hoặc tương tự như vậy.",
+        "confirm_personal": "%1$sBạn có chắc chắn là muốn xoá thú nuôi này không? Bạn sẽ được hoàn lại %2$,d đồng.\nGõ `yes` để đồng ý hoặc `no` để từ chối. Hãy nhận thức được rằng sự hoàn trả không đi kèm với cấp độ hay bất kì thứ gì khác, nó giống như mua một tomagotchi mới hoặc tương tự như vậy.",
+        "success": "%1$sĐã bán thú nuôi thành công. Cả hai bên sẽ nhận được %2$s đồng như là sự hoàn trả.",
+        "success_personal": "%1$sĐã bán thú nuôi thành công. Bạn sẽ nhận được %2$s đồng như là sự hoàn trả."
       },
       "info": {
         "not_found": "%1$sI can't find the pet type you're looking for. Use `~>pet list` for a list of pet types.",
@@ -1480,9 +1480,9 @@
         "name": "Pet Name",
         "cost": "Pet Cost",
         "abilities": "Abilities",
-        "food": "Edibles",
-        "coin_buildup": "Credit Buildup (Lvl. 1 / 100)",
-        "item_buildup": "Item Buildup (Lvl. 1 / 100)"
+        "food": "Đồ ăn",
+        "coin_buildup": "Tiền tăng lên (Lvl. 1 / 100)",
+        "item_buildup": "Vật phẩm tăng lên (Lvl. 1 / 100)"
       },
       "locked_notice": "%1$sYou can't buy/sell a pet when the transaction is locked. If this is an error, try again in a few minutes."
     },
@@ -1512,7 +1512,7 @@
       "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
       "no_returnables": "%1$sThis item has no returnable salvage elements.",
       "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
-      "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.",
+      "success": "%1$sĐã thành công phân rã %2$s và nhận lại %3$s. Chi phí là %4$s đồng.",
       "ls": {
         "header": "Salvageable Item List",
         "cost": "Salvage Cost: ",
@@ -1622,7 +1622,7 @@
       "no_item_recipe": "%1$sBạn không có *%2$s* để thực hiện quá trình sửa chữa này.",
       "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair on a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
       "item_broke": "%1$sSadly, your wrench (%1$s) broke while repairing this item, but you still got your item!",
-      "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
+      "success": "%1$sSửa đồ thành công! Đã sửa từ %2$s **%3$s** -> %4$s **%5$s**. Sửa chữa mất *%6$s* đồng và nguyên liệu để sửa nó là *%7$s*.",
       "ls": {
         "header": "Danh sách đồ có thể sửa chữa",
         "cost": "Giá sửa chữa: ",
@@ -1665,7 +1665,7 @@
     "balance": {
       "bot_notice": "%1$sBot không có tiền.",
       "external_balance": "Số tiền của %1$s là **$%2$,d đồng.**",
-      "own_balance": "Your balance is **$%1$,d credits.**%2$s",
+      "own_balance": "Số tiền của bạn là **$%1$,d đồng.**%2$s",
       "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
       "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
     },
@@ -1696,7 +1696,7 @@
       "given_credits": "%1$sTôi đã đưa **$%2$,d** đồng của ngày hôm nay cho %3$s",
       "credits": "%1$sBạn nhận được **$%2$,d** đồng ngày hôm nay.",
       "sellout": {
-        "get_premium": "We need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info. **You can get up to twice as many credits with Premium!** Memberships start at only $2/month, the price of cheap snack!",
+        "get_premium": "Chúng tôi cần sự giúp đỡ của bạn để giữ cho Mantaro hoạt động! Xem <https://patreon.com/mantaro> để biết thông tin chi tiết. **Bạn có thể nhận được số tiền nhiều gấp đôi với Premium!** Mọi hội viên sẽ bắt đầu chỉ với $2 mỗi tháng, rất chi là rẻ!",
         "already_premium": "Cảm ơn bạn vì đã hỗ trợ Mantaro. Nếu không có sự giúp đỡ từ những người như bạn, chúng tôi đã không thể giữ Mantaro hoạt động được :heart:"
       },
       "crate": "Bạn đã nhận được một hòm lục đồ do chuỗi nhận daily của bạn đạt bội số của 20! Chúc vui vẻ.",
@@ -1705,17 +1705,17 @@
     "gamble": {
       "no_credits": "%1$sBạn đã phá sản. Hãy thử kiếm vài đồng.",
       "too_much_money": "%1$sBạn có quá nhiều tiền! Hay là chuyển cho ai đó hoặc mua thêm đồ? Bạn thậm chí còn có thể dùng lệnh `~>slots` để thoả mãn nhu cầu bài bạc của bạn! Cảm ơn vì đã không làm hỏng ngân hàng địa phương. *(Giới hạn cược tiền tuyệt đối: %2$d đồng)*",
-      "invalid_money_or_modifier": "%1$sPlease type a valid number less than or equal to your current balance or `all` to gamble all your credits.",
+      "invalid_money_or_modifier": "%1$sVui lòng nhập một số hợp lệ nhỏ hơn hoặc bằng số dư hiện tại của bạn hoặc `all` để đánh bạc tất cả tiền có trong tài khoản của bạn.",
       "not_enough_money": "%1$sPlease type a value within your balance.",
       "invalid_percentage": "%1$sPlease type a valid percentage value.",
-      "confirmation_message": "%1$sYou're about to bet **%2$,d** credits (which seems to be a lot). Are you sure? Type **yes** to continue and **no** otherwise.",
+      "confirmation_message": "%1$sBạn đang cược **%2$,d* đồng (có vẻ là rất nhiều). Bạn có chắc với quyết định của mình chứ? Nhấn **yes** để đồng ý và **no** để từ chối.",
       "cancelled_bet": "%1$sCancelled bet.",
-      "win": "%1$sCongrats, you won %2$,d credits and got to keep what you had.",
-      "win_overflow": "%1$sCongrats, you won %2$,d credits. But you already had too many credits. Your bag overflowed.",
-      "lose": "%1$sSadly, you lost %2$s credits. %3$s",
+      "win": "%1$sChúc mừng, bạn đã thắng %2$,d đồng và giữ lại được số tiền bạn đặt cược.",
+      "win_overflow": "%1$sChúc mừng, bạn đã thắng %2$,d đồng. Nhưng vì bạn đã có quá nhiều tiền. Nên túi tiền bị tràn ra.",
+      "lose": "%1$sRất tiếc, bạn lỗ mất %2$s đồng rồi. %3$s",
       "lose_all": "all of your",
       "credits": "đồng",
-      "too_much": "%1$sYou can only gamble up so much at once. You don't want to go full broke do you? *(Gamble single limit: %2$,d credits)*",
+      "too_much": "%1$sBạn không thể đặt nhiều như thế được. Bạn không muốn phá sản, đúng chứ? *(Giới hạn mỗi lần đánh bạc: %2$,d đồng)*",
       "too_little": "%1$sBạn không thể cược ít tiền như thế được (Ít nhất: 100 đồng)"
     },
     "loot": {
@@ -1727,7 +1727,7 @@
         "found_only_item_but_overflow": "%1$sLục qua các tin nhắn, bạn đã tìm được %2$s. %3$s"
       },
       "without_item": {
-        "found": "%1$sDigging through messages, you found **$%2$s credits!**%3$s",
+        "found": "%1$sLục qua các dòng tin nhắn, bạn đã tìm được **$%2$s đồng!**%3$s",
         "found_but_overflow_no_item": "%1$sLục qua các dòng tin nhắn, bạn đã tìm được **$%2$,d đồng.** Nhưng do bạn đã có quá nhiều tiền, nên tôi đã quyên góp phần thừa."
       },
       "dust": "Lục qua các tin nhắn, bạn đã không kiếm được gì ngoài bụi (Bụi cấp %1$s%%)",
@@ -1779,8 +1779,8 @@
       },
       "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
       "success_only_item": "%1$sWhile chopping trees, you found %2$s using a *%3$s* and proceed to save them into your inventory.",
-      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$,d credits** using a *%4$s* and proceed to save them into your inventory.",
-      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$,d credits** using a *%3$s* and proceed to save them into your pocket."
+      "success": "%1$sTrong lúc chặt cây, bạn tìm được %2$s và **$%3$,d đồng** bằng *%4$s* và cho chúng vào túi đồ.",
+      "success_money_noitem": "%1$sTrong lúc chặt cây, bạn tìm được **$%2$,d đồng** bằng *%3$s* và cho chúng vào ví."
     },
     "slots": {
       "errors": {
@@ -1788,7 +1788,7 @@
         "not_enough_tickets": "%1$sYou don't have enough slots tickets.",
         "too_much_money": "%1$sThis machine cannot dispense that much money!",
         "not_enough_money": "%1$sYou don't have enough money to play the slots machine!",
-        "below_minimum": "%1$sThe minimum amount is 25 credits",
+        "below_minimum": "%1$sSố tiền tối thiểu là 25 đồng",
         "no_tickets": "%1$sYou wanted to use tickets but you don't have any :<",
         "no_amount": "%1$sYou didn't specify the amount!",
         "no_valid_amount": "%1$sThat's not a valid amount of money! (Example of valid amounts: 1000, 1k, 14000)",
