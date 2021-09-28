@@ -1703,7 +1703,7 @@
       "watch_get": "Bạn đã nhận được một `Đồng hồ thần kì` do chuỗi nhận daily của bạn đạt bội số của 50! Chúc vui vẻ."
     },
     "gamble": {
-      "no_credits": "%1$sYou're broke. Maybe search for some credits first.",
+      "no_credits": "%1$sBạn đã phá sản. Hãy thử kiếm vài đồng.",
       "too_much_money": "%1$sBạn có quá nhiều tiền! Hay là chuyển cho ai đó hoặc mua thêm đồ? Giờ bạn thậm chí còn có thể dùng lệnh `~>slots` để thoả mãn nhu cầu bài bạc của bạn! Cảm ơn vì đã không làm hỏng ngân hàng địa phương. *(Giới hạn cược tiền tuyệt đối: %2$d tín)*",
       "invalid_money_or_modifier": "%1$sPlease type a valid number less than or equal to your current balance or `all` to gamble all your credits.",
       "not_enough_money": "%1$sPlease type a value within your balance.",
