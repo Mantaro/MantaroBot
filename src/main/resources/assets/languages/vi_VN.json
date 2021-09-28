@@ -650,7 +650,7 @@
         "no_user": "%1$sBạn chưa đề cập đến người dùng bạn muốn nhận.",
         "locked": "%1$sBạn không thể thực hiện hành động này.",
         "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `~>profile claimlock remove` if they wish to do so.",
-        "not_enough_money": "%1$sBạn không có đủ tiền để thu thập waifu này **(Cần: %2$s tín)**",
+        "not_enough_money": "%1$sBạn không có đủ tiền để thu thập waifu này **(Cần: %2$s đồng)**",
         "not_enough_slots": "%1$sBạn không còn đủ chỗ trống để thu thập waifu này. (Tổng số vị trí:%2$s, đã dùng:%3$s)",
         "success": "%1$sSuccessfully claimed `%2$s` for %3$,d credits. Slots used: %4$s",
         "yourself": "%1$sBạn không thể tự nhận bản thân làm waifu!",
@@ -660,16 +660,16 @@
       "unclaim": {
         "no_user": "%1$sBạn cần đề cập đến một waifu để bỏ.",
         "not_claimed": "%1$sNgười dùng này không phải waifu của bạn!",
-        "confirmation": "%1$sBạn có *chắc chắn* muốn bỏ %2$s không? Giá phải trả để bỏ waifu này là **%3$s tín**. Gõ *yes* để xác nhận hoặc *no* để huỷ\n%4$sCó hiệu lực trong vòng 1 phút.",
+        "confirmation": "%1$sBạn có *chắc chắn* muốn bỏ %2$s không? Giá phải trả để bỏ waifu này là **%3$s đồng**. Gõ *yes* để xác nhận hoặc *no* để huỷ\n%4$sCó hiệu lực trong vòng 1 phút.",
         "not_enough_money": "%1$sBạn không có đủ tiền để bỏ waifu này!",
         "player_locked": "%1$sBạn không thể làm điều đó hiện tại.",
         "scrapped": "%1$sĐã huỷ ý định bỏ waifu.",
-        "success": "%1$sĐã bỏ thành công `%2$s` với giá **%3$s tín**.",
+        "success": "%1$sĐã bỏ thành công `%2$s` với giá **%3$s đồng**.",
         "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID (`~>waifu -id`) and append `-unknown` at the end."
       },
       "buyslot": {
         "locked": "%1$sBạn tạm thời không thể thực hiện hành động này.",
-        "not_enough_money": "%1$sBạn không có đủ tiền để mua thêm chỗ cho waifu! Bạn cần %2$,d tín.",
+        "not_enough_money": "%1$sBạn không có đủ tiền để mua thêm chỗ cho waifu! Bạn cần %2$,d đồng.",
         "success": "%1$sSuccessfully bought this slot for %2$s credits, you currently have %3$s total slots and %4$s available slots.",
         "too_many": "%1$sYou already have too many slots! The maximum is 30 slots."
       },
@@ -707,7 +707,7 @@
     "inventory": {
       "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>dump`",
       "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
-      "calculate": "%1$s%2$s sẽ được **%3$,d tín** nếu tất cả các đồ trong tủ được bán.",
+      "calculate": "%1$s%2$s sẽ nhận được **%3$,d đồng** nếu bán tất cả mọi thứ trong túi đồ.",
       "header": "Tủ đồ của %1$s",
       "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sTủ đồ này đang trống! :(",
@@ -753,8 +753,8 @@
         "no_item": "%1$sYou need to specify the item you want to check the price of.",
         "non_existent": "%1$sKhông thể xem giá của đồ vật không tồn tại. Nếu bạn đang lúng túng, bạn có thể thử dùng tên viết tắt của đồ hoặc cho tên đồ vào trong ngoặc kép.",
         "no_price": "%1$sMón đồ này không thịnh hành trên chợ để có thể bán hoặc mua (có thể là một hàng sưu tầm độc)",
-        "collectible": "%1$sĐây là một đồ sưu tầm. (Giá bán đi: %2$,d tín)",
-        "success": "%1$sGiá bán của chợ cho %2$s**%3$s** là %4$s tín và giá chợ nhận mua là %5$s tín."
+        "collectible": "%1$sĐây là một đồ sưu tầm. (Giá bán: %2$,d đồng)",
+        "success": "%1$sGiá mua thị trường cho %2$s**%3$s** là %4$s đồng và giá bán thị trường là %5$s đồng."
       },
       "sell": {
         "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
@@ -763,14 +763,14 @@
         "invalid": "%1$sSố không hợp lệ để có thể bán.",
         "all": {
           "confirmation": "%1$sBạn có chắc chắn muốn bán **tất cả** đồ của bạn? Điều này sẽ làm *mọi* đồ vật trong tủ đồ của bạn biến mất. Nếu bạn muốn bán một loại đồ đơn lẻ, hãy gõ số lượng. Gõ *yes* để đồng ý và *no* để huỷ",
-          "success": "%1$sBạn đã bán hết đồ trong tủ đồ của bạn và tăng %2$,d tín!",
+          "success": "%1$sBạn đã bán hết đồ trong túi đồ của bạn và nhận được %2$,d đồng!",
           "cancelled": "%1$sĐã huỷ thành công."
         },
         "non_existent": "%1$sBạn không thể bán đồ không tồn tại. Nếu bạn đang lúng túng, bạn có thể thử tên viết tắt của đồ hoặc cho tên đồ vào trong dấu ngoặc kép.",
         "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>dump` it)",
         "no_item_player": "%1$sBạn không thể bán đồ bạn không có.",
         "more_items_than_player": "%1$sBạn không thể bán nhiều hơn số lượng bạn đang có.",
-        "success": "%1$sBạn đã bán %2$,d **%3$s** và nhận được %4$,d tín!"
+        "success": "%1$sBạn đã bán %2$,d **%3$s** và nhận được %4$,d đồng!"
       },
       "buy": {
         "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
@@ -780,7 +780,7 @@
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
         "no_buy_price": "%1$sBạn không thể mua đồ không được bán.",
         "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
-        "success": "%1$sĐã mua thành công %2$,d %3$s với giá %4$,d tín. Giờ bạn còn %5$,d tín.",
+        "success": "%1$sĐã mua thành công %2$,d %3$s với giá %4$,d đồng. Giờ bạn còn %5$,d đồng.",
         "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
         "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `~>useitem <item name>`",
         "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits.",
@@ -810,7 +810,7 @@
       "bot_notice": "%1$sBạn không thể chuyển tiền cho một bot.",
       "no_amount": "%1$sYou need to specify the amount. Use the `transferitems` command instead if you meant to transfer an item.",
       "no_money_specified_notice": "%1$sBạn không thể chuyển số tiền bằng không :P",
-      "over_transfer_limit": "%1$sBạn không thể chuyển nhiều tiền đến vậy. (Giới hạn: %2$,d tín)",
+      "over_transfer_limit": "%1$sBạn không thể chuyển nhiều tiền đến vậy. (Giới hạn: %2$,d đồng)",
       "own_locked_notice": "%1$sBạn hiện không thể chuyển tiền.",
       "receipt_overflow_notice": "Không thể chuyển tiền cho người chơi này.",
       "no_money_notice": "%1$sBạn không thể chuyển số tiền mà bạn không có.",
@@ -979,7 +979,7 @@
         "success": "%1$sĐã tháo trang bị thành công %2$s.",
         "equipment_recover": "\nDo bạn chưa từng sử dụng đồ trang bị này, nên bạn đã có lại được %1$s!",
         "broken_equipment_recover": "\nBạn đã sử dụng đồ trang bị này, nhưng bạn có lại được %1$s, bạn có thể sửa chữa nếu bạn cần sau này!",
-        "broken_equipment_recover_none": "\nLoại đồ trang bị này không có loại đồ hỏng, và đã được sử dụng, nên nó đã tan biến vào hư vô, nhưng bạn nhận lại được %1$s tín.",
+        "broken_equipment_recover_none": "\nLoại trang bị này không có dạng hỏng, và đã được sử dụng, nên nó đã tan biến vào hư vô, nhưng bạn nhận lại được %1$s đồng.",
         "cancelled": "%1$sCancelled operation."
       },
       "display": {
@@ -1271,7 +1271,7 @@
         "ended_lobby": "%1$sEnded lobby correctly! Thanks for playing.",
         "all_attempts_used": "%1$sĐã dùng hết lượt chơi, đang kết thúc. Những câu trả lời phù hợp là: %2$s",
         "incorrect_answer": "%1$sĐó không phải đáp án, bạn còn %2$d lượt nữa.",
-        "won_game": "%1$s**%2$s** đã trả lời đúng và nhận được $%3$,d tín!"
+        "won_game": "%1$s**%2$s** đã trả lời đúng và nhận được $%3$,d đồng!"
       },
       "lobby_time_out": "%1$sĐã hết giờ! Đáp án đúng là: %2$s",
       "end_footer": "Bạn có 5 lần đoán với 60 giây. (Gõ \"end\" để kết thúc trò chơi)",
@@ -1370,8 +1370,8 @@
         "stamina": "Stamina",
         "dust": "Dust (%)",
         "pet": "Pats",
-        "buildup": "Credit / Item Buildup",
-        "buildup_coin": "Credit Buildup",
+        "buildup": "Đồng / Bộ vật phẩm",
+        "buildup_coin": "Bộ tín dụng",
         "buildup_stats": "%1$,d credits / %2$,d items",
         "buildup_stats_credits": "%1$,d credits",
         "footer": "Thanks you for using Mantaro! <3"
@@ -1664,7 +1664,7 @@
     },
     "balance": {
       "bot_notice": "%1$sBot không có tiền.",
-      "external_balance": "Số tiền của %1$s là **$%2$,d tín.**",
+      "external_balance": "Số tiền của %1$s là **$%2$,d đồng.**",
       "own_balance": "Your balance is **$%1$,d credits.**%2$s",
       "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
       "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
@@ -1675,7 +1675,7 @@
       "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `~>daily -check`. Enjoy!",
       "errors": {
         "bot": "%1$sBạn không thể chuyển daily cho một bot.",
-        "receipt_locked": "Người dùng đó không thể nhận tiền daily lúc này.",
+        "receipt_locked": "Người chơi đó không thể nhận tiền hàng ngày vào lúc này.",
         "own_locked": "Bạn hiện không thể nhận daily.",
         "same_user": "%1$sHãy dùng daily mà không đề cập đến bản thân nếu bạn định đề cập đến bản thân :P"
       },
@@ -1693,8 +1693,8 @@
         },
         "watch_used": "`Đồng hồ thần kì` của bạn đã giữ chuỗi ngày nhận! Bạn đã dùng `%1$d` chiếc để kéo dài thời gian giữ chuỗi ngày nhận đến %2$dx, bạn còn `%3$d` chiếc!"
       },
-      "given_credits": "%1$sTôi đã đưa **$%2$,d** tín của ngày hôm nay cho %3$s",
-      "credits": "%1$sBạn nhận được **$%2$,d** tín ngày hôm nay.",
+      "given_credits": "%1$sTôi đã đưa **$%2$,d** đồng của ngày hôm nay cho %3$s",
+      "credits": "%1$sBạn nhận được **$%2$,d** đồng ngày hôm nay.",
       "sellout": {
         "get_premium": "We need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info. **You can get up to twice as many credits with Premium!** Memberships start at only $2/month, the price of cheap snack!",
         "already_premium": "Cảm ơn bạn vì đã hỗ trợ Mantaro. Nếu không có sự giúp đỡ từ những người như bạn, chúng tôi đã không thể giữ Mantaro hoạt động được :heart:"
@@ -1704,7 +1704,7 @@
     },
     "gamble": {
       "no_credits": "%1$sBạn đã phá sản. Hãy thử kiếm vài đồng.",
-      "too_much_money": "%1$sBạn có quá nhiều tiền! Hay là chuyển cho ai đó hoặc mua thêm đồ? Giờ bạn thậm chí còn có thể dùng lệnh `~>slots` để thoả mãn nhu cầu bài bạc của bạn! Cảm ơn vì đã không làm hỏng ngân hàng địa phương. *(Giới hạn cược tiền tuyệt đối: %2$d tín)*",
+      "too_much_money": "%1$sBạn có quá nhiều tiền! Hay là chuyển cho ai đó hoặc mua thêm đồ? Bạn thậm chí còn có thể dùng lệnh `~>slots` để thoả mãn nhu cầu bài bạc của bạn! Cảm ơn vì đã không làm hỏng ngân hàng địa phương. *(Giới hạn cược tiền tuyệt đối: %2$d đồng)*",
       "invalid_money_or_modifier": "%1$sPlease type a valid number less than or equal to your current balance or `all` to gamble all your credits.",
       "not_enough_money": "%1$sPlease type a value within your balance.",
       "invalid_percentage": "%1$sPlease type a valid percentage value.",
@@ -1714,21 +1714,21 @@
       "win_overflow": "%1$sCongrats, you won %2$,d credits. But you already had too many credits. Your bag overflowed.",
       "lose": "%1$sSadly, you lost %2$s credits. %3$s",
       "lose_all": "all of your",
-      "credits": "tín",
+      "credits": "đồng",
       "too_much": "%1$sYou can only gamble up so much at once. You don't want to go full broke do you? *(Gamble single limit: %2$,d credits)*",
-      "too_little": "%1$sBạn không thể cược ít tiền như thế được (Ít nhất: 100 tín)"
+      "too_little": "%1$sBạn không thể cược ít tiền như thế được (Ít nhất: 100 đồng)"
     },
     "loot": {
       "player_locked": "%1$sBạn hiện chưa thể lục được.",
       "item_overflow": "Nhưng bạn đã có quá nhiều đồ, vì vậy bạn đã quyết định vứt đồ thừa đi.",
       "with_item": {
-        "found": "%1$sLục qua các tin nhắn, bạn đã tìm được %2$s, cùng với **$%3$,d tín!** %4$s",
-        "found_but_overflow": "%1$sLục qua các tin nhắn, bạn đã tìm được %2$s, cùng với **$%3$,d tín.**%4$sNhưng do bạn đã có quá nhiều tiền, nên tôi đã quyên góp phần thừa.",
+        "found": "%1$sLục qua các dòng tin nhắn, bạn đã tìm được %2$s, cùng với **$%3$,d đồng!** %4$s",
+        "found_but_overflow": "%1$sLục qua các dòng tin nhắn, bạn đã tìm được %2$s, cùng với **$%3$,d đồng.**%4$sNhưng do bạn đã có quá nhiều tiền, nên tôi đã quyên góp phần thừa.",
         "found_only_item_but_overflow": "%1$sLục qua các tin nhắn, bạn đã tìm được %2$s. %3$s"
       },
       "without_item": {
         "found": "%1$sDigging through messages, you found **$%2$s credits!**%3$s",
-        "found_but_overflow_no_item": "%1$sLục qua các tin nhắn, bạn đã tìm được **$%2$,d tín.** Nhưng do bạn đã có quá nhiều tiền, nên tôi đã quyên góp phần thừa."
+        "found_but_overflow_no_item": "%1$sLục qua các dòng tin nhắn, bạn đã tìm được **$%2$,d đồng.** Nhưng do bạn đã có quá nhiều tiền, nên tôi đã quyên góp phần thừa."
       },
       "dust": "Lục qua các tin nhắn, bạn đã không kiếm được gì ngoài bụi (Bụi cấp %1$s%%)",
       "easter": "\nCó vẻ như bạn đang có quá nhiều bụi ở đây... Có thể bạn sẽ muốn dọn nó trước khi nó trở thành một mớ hỗn độn đấy!"
@@ -1738,7 +1738,7 @@
       "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`",
       "not_suitable": "%1$sĐây không phải là một cây cuốc bạn có thể dùng để đào!",
       "not_in_inventory": "%1$sBạn không có cây cuốc này trong tủ đồ của bạn, đang đổi sang cây cuốc mặc định.",
-      "success": "%1$sBạn đào được khoáng chất trị giá **$%2$,d tín**, dùng *%3$s*",
+      "success": "\"%1$sBạn đào được khoáng chất trị giá **$%2$,d đồng**, bằng *%3$s*\"",
       "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
         "overflow": "Ủa, bạn nhặt được một viên kim cương trong lúc đào, nhưng bạn đã có quá nhiều, nên tôi đã bán nó cho bạn.",
@@ -1795,10 +1795,10 @@
         "too_many_tickets": "%1$sYou're trying to use too many slot tickets. Maximum allowed is %2$d"
       },
       "roll": "%1$s**Bạn đã dùng %2$s và quay máy sổ xố**\n",
-      "win": "Và bạn đã thắng **%1$,d** tín và giữ được số tiền bạn cược (%2$,d tín)! Thật may mắn!",
+      "win": "Và bạn đã thắng **%1$,d** đồng và giữ được số tiền bạn cược (%2$,d đồng)! Thật may mắn!",
       "lose": "Và bạn đã mất %1$s\nTôi hy vọng lần tới bạn sẽ làm tốt hơn!",
       "tickets": "(một số) vé xổ số",
-      "credits": "tín"
+      "credits": "đồng"
     },
     "leaderboard": {
       "main_page_redirect": "You can see `~>help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `~>leaderboard money`",
