@@ -13,12 +13,12 @@
     "daily": "Hàng ngày",
     "total": "Tổng",
     "arrow_react": "Sử dụng các biểu tượng cảm xúc hình mũi tên để chuyển trang.",
-    "button_react": "Use the arrow buttons to change pages.",
+    "button_react": "Sử dụng các nút nhấn hình mũi tên để chuyển trang.",
     "text_menu": "Dùng &p>> và &p<< để chuyển trang và &cancel để kết thúc.",
     "not_found": "Không tìm thấy",
     "no_results": "Không có kết quả.",
     "timeout": "Sẽ hết thời gian trong %1$d giây nữa.",
-    "reaction_timeout": "Buttons will timeout in %1$d seconds.",
+    "reaction_timeout": "Nút nhấn sẽ mất hiệu lực trong %1$d giây.",
     "example": "Ví dụ",
     "definition": "Định nghĩa",
     "name": "Tên",
@@ -44,7 +44,7 @@
         "no_key": "%1$sBạn cần có 1 chiếc chìa khóa để mở cái hòm này. Nó bị khóa rồi! Bạn có thể mua một cái bằng lệnh `~>buy key`",
         "no_crate": "%1$sBạn cần phải có hòm! Bạn thường sẽ nhận được hòm từ các lệnh tiền tệ.",
         "success": "%1$s Bạn đã mở hòm và nhận được: %2$s%3$s. Chúc mừng!",
-        "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
+        "success_high": "%1$sChúc mừng bạn đã thu được vật phẩm với độ hiếm trên 3 sao này: %2$s. Số lượng vật phẩm thu được đã được thể hiện qua dòng tin nhắn trên",
         "overflow": "Nhưng bạn đã có quá nhiều đồ, vì vậy bạn cần quyết định vứt đồ thừa đi"
       },
       "potion_active": "%1$s Bạn đã có một **%2$s** hiệu ứng thuốc đang hoạt động. Số lượng có thể đang đang ở mức tối đa!",
@@ -309,7 +309,7 @@
     },
     "rewind": {
       "no_time": "%1$sBạn cần phải nói cho tôi biết rằng bạn muốn tua lại bao nhiêu phút trong bài hát: *(Ví dụ `~>rewind 1m45s` sẽ tua lại 1 phút 45s của bài hát)*",
-      "negative": "%1$sPositive numbers only",
+      "negative": "%1$sChỉ dùng số nguyên dương",
       "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
       "before_beginning": "%1$sBạn không thể bỏ qua một bài hát trước khi nó bắt đầu",
       "success": "%1$sĐã tua lại bài hát đến: %2$s."
@@ -612,7 +612,7 @@
         "no_name": "%1$sYou need to give your car a name! For example, `~>marry car vroom`",
         "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Type `yes` to confirm and `no` to cancel.",
         "success": "%1$sBạn đã mua thành công chiếc xe này với giá %2$d đồng. Tên của chiếc xe mới nhanh nhẹn này là %3$s!",
-        "cancel_success": "%1$sCancelled operation."
+        "cancel_success": "%1$sĐã huỷ câu lệnh."
       },
       "no_mention": "%1$sHãy đề cập người bạn muốn cưới.",
       "marry_yourself_notice": "%1$sBạn không thể cưới bản thân, dù cho rằng bạn có thể rất muốn thế.",
@@ -1835,7 +1835,7 @@
         "header": "Item Information for %1$s",
         "type": "Type",
         "usefulness": "Usefulness",
-        "attributes": "Attributes",
+        "attributes": "Thuộc tính",
         "tier": "Tier",
         "durability": "Durability",
         "desc": "Description",
