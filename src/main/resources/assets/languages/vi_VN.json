@@ -1,9 +1,9 @@
 {
   "general": {
-    "invalid_number": "%1$s Số này không tồn tại!",
+    "invalid_number": "%1$sĐó không phải là một số hợp lệ!",
     "requested_by": "Được yêu cầu bởi %1$s.",
     "operation_timed_out": "%1$sThời gian để trả lời cho hoạt động này đã kết thúc.",
-    "too_many_users_found": "%1$s Tìm thấy quá nhiều người dùng, bạn có muốn sửa từ khóa tìm kiếm không? (ví dụ: tên người dùng#số hiệu)\n**số người được tìm thấy:** %2$s",
+    "too_many_users_found": "%1$sTìm thấy quá nhiều người dùng, bạn có muốn sửa từ khóa tìm kiếm không? (ví dụ: tên người dùng#số hiệu)\n**Số người được tìm thấy:** %2$s",
     "search_no_result": "%1$sKhông có kết quả tìm kiếm :(",
     "unknown": "Không xác định",
     "days": "ngày",
@@ -24,21 +24,21 @@
     "name": "Tên",
     "description": "Mô tả",
     "options": "Tuỳ chọn",
-    "find_members_failure": "%1$sKhông tìm thấy thành viên nào với tiêu chí tìm kiếm của bạn :(",
-    "too_many_members": "%1$s Tìm thấy quá nhiều người dùng, bạn có muốn sửa từ khóa tìm kiếm không? (ví dụ: tên người dùng#số hiệu)\n**số người được tìm thấy:** %2$s",
-    "too_many_mentions": "%1$sHãy chỉ nhắc đến một người khi tra cứu thành viên.",
-    "query_too_small": "%1$s Câu tìm kiếm của bạn quá ngắn. Hãy chắc chắn rằng yêu cầu của bạn có ít nhất 4 kí tự. Nếu tên người dùng quá ngắn, tốt nhất bạn nên dùng tên người dùng #số phân biệt hoặc dùng id người dùng.",
-    "dust": "Ở đây chỉ có bụi.",
+    "find_members_failure": "%1$sKhông tìm thấy bất kì thành viên nào với tiêu chí tìm kiếm của bạn :(",
+    "too_many_members": "%1$sTìm thấy quá nhiều người dùng, bạn có muốn sửa từ khóa tìm kiếm không? (ví dụ: tên người dùng#số hiệu)\n**Số người được tìm thấy:** %2$s",
+    "too_many_mentions": "%1$sVui lòng chỉ đề cập đến một người khi tìm kiếm thành viên.",
+    "query_too_small": "%1$sCâu tìm kiếm của bạn quá ngắn. Hãy đảm bảo rằng bạn đang tìm kiếm ít nhất 4 ký tự. Nếu tên người dùng quá ngắn, tốt nhất bạn nên ghi rõ `tên người dùng#số hiệu` hoặc id của người dùng.",
+    "dust": "Ở đây chỉ có mỗi bụi.",
     "invalid_syntax": "Cú pháp không hợp lệ.",
     "item_lookup": {
-      "no_item_emoji": "Không có đồ nào phù hợp với biểu biểu tượng này.",
-      "no_item_name": "Không có đồ nào phù hợp với tên này.",
-      "not_found": "Không thể tìm thấy bất kì vật nào liên quan đến tìm kiếm của bạn.\nNếu bạn đang lúng túng, hãy thử sử dụng tên ngắn, ví dụ như với `Nước tăng lực`, hãy dùng `tăng lực`. Hoặc cho tên vào ngoặc kép.",
+      "no_item_emoji": "Không có vật phẩm nào phù hợp với biểu tượng này.",
+      "no_item_name": "Không có vật phẩm nào phù hợp với tên này.",
+      "not_found": "Không thể tìm thấy bất kì vật nào liên quan đến tìm kiếm của bạn.\nNếu bạn đang lúng túng, hãy thử sử dụng tên ngắn, ví dụ như với `Energy Beverage`, hãy dùng `energy`. Hoặc cho tên vào ngoặc kép.",
       "claim_key": "Bạn không thể chuyển giao chìa khoá xác nhận."
     },
     "misc_item_usage": {
-      "mop": "%1$sBạn đã dọn sạch được toàn bộ lượng bụi mà bạn tích lũy từ những lần khai thác trước.",
-      "mop_not_enough": "%1$sMức độ bám bụi của bạn ít hơn 5%%, vì vậy lau dọn sẽ không quá hữu ích.",
+      "mop": "%1$sBạn đã làm sạch toàn bộ lượng bụi mà bạn tích lũy từ những lần khai thác trước.",
+      "mop_not_enough": "%1$sMức độ bám bụi của bạn ít hơn 5%, vì vậy lau dọn sẽ không quá hữu ích.",
       "milk": "%1$sXóa bỏ hết tất cả các công dụng của thuốc.",
       "crate": {
         "no_key": "%1$sBạn cần có 1 chiếc chìa khóa để mở cái hòm này. Nó bị khóa rồi! Bạn có thể mua một cái bằng lệnh `~>buy key`",
