@@ -39,95 +39,95 @@
     "misc_item_usage": {
       "mop": "%1$sBạn đã làm sạch toàn bộ lượng bụi mà bạn tích lũy từ những lần khai thác trước.",
       "mop_not_enough": "%1$sMức độ bám bụi của bạn ít hơn 5%, vì vậy lau dọn sẽ không quá hữu ích.",
-      "milk": "%1$sXóa bỏ hết tất cả các công dụng của thuốc.",
+      "milk": "%1$sĐã xóa bỏ hết tất cả các hiệu ứng của thuốc.",
       "crate": {
-        "no_key": "%1$sBạn cần có 1 chiếc chìa khóa để mở cái hòm này. Nó bị khóa rồi! Bạn có thể mua một cái bằng lệnh `~>buy key`",
-        "no_crate": "%1$sBạn cần phải có hòm! Bạn thường sẽ nhận được hòm từ các lệnh tiền tệ.",
-        "success": "%1$s Bạn đã mở hòm và nhận được: %2$s%3$s. Chúc mừng!",
+        "no_key": "%1$sBạn cần có một cái chìa khóa để mở hòm. Nó đã bị khóa! Hãy mua chìa khoá ngay bằng lệnh `~>buy key`",
+        "no_crate": "%1$sBạn cần phải có hòm để mở! Bạn sẽ thường nhận được hòm từ các lệnh tiền tệ.",
+        "success": "%1$sBạn đã mở hòm và nhận được: %2$s%3$s. Chúc mừng!",
         "success_high": "%1$sChúc mừng bạn đã thu được vật phẩm với độ hiếm trên 3 sao này: %2$s. Số lượng vật phẩm thu được đã được thể hiện qua dòng tin nhắn trên",
-        "overflow": "Nhưng bạn đã có quá nhiều đồ, vì vậy bạn cần quyết định vứt đồ thừa đi"
+        "overflow": "Cơ mà do bạn có quá nhiều đồ, vì vậy bạn đã quyết định vứt đồ thừa đi"
       },
-      "potion_active": "%1$s Bạn đã có một **%2$s** hiệu ứng thuốc đang hoạt động. Số lượng có thể đang đang ở mức tối đa!",
-      "potion_not_found": "%1$s Tôi không tìm thấy thuốc hay loại trang bị đó!",
-      "potion_applied": "%1$s Áp dụng thành công hiệu ứng **%2$s** của loại *%3$s* (%4$dx). Xem hiệu ứng mới đẹp đẽ của bạn tại `~>profile stats`",
+      "potion_active": "%1$sBạn đã có sẵn hiệu ứng **%2$s** đang hoạt động và có số lượng tối đa có thể của nó!",
+      "potion_not_found": "%1$sTôi không tìm thấy thuốc hay loại trang bị đó!",
+      "potion_applied": "%1$sÁp dụng thành công hiệu ứng **%2$s** thuộc loại *%3$s* (%4$dx). Xem hiệu ứng mới của bạn tại `~>profile stats`",
       "potion_applied_multiple": "%1$s Áp dụng thành công hiệu ứng **%2$s** của loại *%3$s*.\nBạn đã sử dụng hiệu ứng này, vì vậy chúng tôi sẽ xếp chồng nó lên. Kích thước hiện tại của chồng hiệu ứng là:%4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
-      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15, Attempted: %3$s)",
-      "not_same_potion": "%1$s Thuốc loại %2$s đã được bạn dùng và xếp chồng lên, vì vậy bạn không thể xếp chồng thuốc loại %3$s lên đó."
+      "max_stack_size": "%1$sBạn đã xếp chồng đầy tối đa %2$s mà bạn có thể. (Giới hạn tối đa: 15, Sau khi xếp chồng: %3$s)",
+      "max_stack_size_2": "%1$sBạn không thể xếp chồng quá nhiều %2$s. (Giới hạn tối đa: 15, Số lượng vừa được xếp chồng: %3$s)",
+      "not_same_potion": "%1$sThuốc loại %2$s đã được bạn dùng và xếp chồng lên, vì vậy bạn không thể xếp chồng thuốc loại %3$s lên đó."
     },
     "campaigns": {
       "premium": {
         "generic_sellout": "Chúng tôi cần sự giúp đỡ của bạn để giữ cho Mantaro hoạt động và để phát triển máy chủ của Mantaro! Bạn có thể có được những đặc quyền tuyệt vời và **có thể lên đến gấp đôi số đồng mà bạn có thể thu được với Mantaro Premium**! Mọi hội viên sẽ bắt đầu chỉ với $2 mỗi tháng, rất chi là rẻ! Xem thông tin chi tiết tại <https://patreon.com/mantaro>. Cũng như việc lan truyền lời cầu xin của chúng tôi :heart:",
-        "daily_sellout": "Chúng tôi cần sự giúp đỡ của bạn để giữ cho Mantaro hoạt động!\nBạn có thể có được những đặc quyền tuyệt vời và **gấp đôi phần thưởng hằng ngày** và được quyền sử dụng `~>dailycrate`! Hội viên bắt đầu với $2 mỗi tháng, xem thông tin chi tiết tại <https://patreon.com/mantaro>.",
-        "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
+        "daily_sellout": "Chúng tôi cần sự giúp đỡ của bạn để giữ cho Mantaro hoạt động!\nBạn có thể có được những đặc quyền tuyệt vời, **gấp đôi phần thưởng hằng ngày** và quyền sử dụng `~>dailycrate`! Hội viên bắt đầu với $2 mỗi tháng, xem thông tin chi tiết tại <https://patreon.com/mantaro>.",
+        "thanks_message": "Chúng tôi rất trân trọng sự giúp đỡ của bạn. Nếu không có sự giúp đỡ của mọi người, chúng tôi khó mà giữ cho Mantaro tiếp tục hoạt động được :heart:",
         "thanks_message_daily": "Chúng tôi rất trân trọng sự giúp đỡ của bạn. Nếu không có sự giúp đỡ của mọi người, chúng tôi khó mà giữ cho Mantaro hoạt động được :heart:\nBạn cũng nhận được gấp đôi số đồng như là một món quà nhỏ!"
       },
-      "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
+      "twitter": "Bạn có biết rằng chúng tôi có tài khoản Twitter? Đúng vậy! Theo dõi chúng tôi (tại)mantarodiscord <https://twitter.com/mantarodiscord> về các bản cập nhật và vài thứ linh tinh khác."
     },
-    "mention_user_required": "%1$sBạn cần phải nhắc đến 1 ai đó.",
-    "invalid_character": "%1$s Đó không phải là một kí tự hợp lệ.",
+    "mention_user_required": "%1$sBạn cần phải đề cập đến một ai đó.",
+    "invalid_character": "%1$sĐó không phải là một kí tự hợp lệ.",
     "invalid_action": "Bạn không thể làm điều đó, đồ ngốc.",
-    "interactive_running": "%1$s Đã có sẵn một Hoạt động Tương tác (sở hữu bởi bạn) ở kênh này.",
-    "buy_sell_paged_react": "Use the message buttons to move between pages.\n%1$s",
-    "buy_sell_paged_text": "Use **&p >>** and **&p <<** to move across pages.\n%1$s",
-    "buy_sell_paged_reference": "**Hướng dẫn: %1$s giá mua %2$s giá bán.**",
+    "interactive_running": "%1$sĐã có sẵn Interactive Operation (sở hữu bởi bạn) ở kênh này.",
+    "buy_sell_paged_react": "Sử dụng các biểu tượng nút nhấn để di chuyển giữa các trang.\n%1$s",
+    "buy_sell_paged_text": "Sử dụng các biểu tượng **&p >>** and **&p <<** để di chuyển giữa các trang.\n%1$s",
+    "buy_sell_paged_reference": "**Hướng dẫn: %1$s Giá mua %2$s Giá bán.**",
     "cancelled": "%1$sĐã huỷ yêu cầu.",
-    "sellout": "Cân nhắc việc quyên góp trên [Patreon](https://www.patreon.com/mantaro). Nếu bạn thích tôi, thậm chí một khoản tiền quyên góp bé xíu cũng sẽ giúp con bot này còn sống!",
+    "sellout": "Nếu bạn thích tui thì hãy ccân nhắc việc ủng hộ trên [Patreon](https://www.patreon.com/mantaro). Ngay cả một khoản ủng hộ nhỏ cũng sẽ giúp tui tiếp tục hoạt động đó!",
     "deprecated": "Không còn được sử dụng",
-    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
-    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://wiki.mantaro.site> for more information about the bot.",
+    "space_notice": "Nếu tên của vật phẩm có bao gồm khoảng trống, hãy thử \"đặt nó trong ngoặc kép\". Có lẽ sử dụng câu lệnh trợ giúp có thể sẽ hỗ trợ nhiều hơn cho bạn.",
+    "missing_embed_permissions": "Tôi không có quyền Đính Kèm Liên Kết để thực hiện câu lệnh này. Làm ơn hãy cho tôi những quyền hạn cần thiết đó (Hãy chắn chắc rằng bạn sẽ kiểm tra thiết lập quyền hạn của các kênh và các mục). Nếu bạn cần sự hỗ trợ thì hãy đến <https://support.mantaro.site>. Bạn cũng có thể kiểm tra wiki tại <https://wiki.mantaro.site> về thông tin của tôi.",
     "ratelimit": {
-      "header": "%1$s%2$s (lệnh có thời gian chờ)\n**Bạn có thể sử dụng lệnh này sau %3$s.**",
-      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
-      "spam_2": "\nTôi nghĩ rằng dừng lại là lựa chọn tốt nhất bây giờ...",
-      "spam_3": "\nLiệu có tốt hơn không nếu bạn ra ngoài một chút?",
+      "header": "%1$s%2$s (lệnh có thời gian chờ)\n **Bạn có thể sử dụng lệnh này sau %3$s.**",
+      "spam_1": "Nghỉ ngơi đi, nó sẽ tốt cho sức khỏe của bạn. *Hãy nhớ rằng thời gian chờ sẽ tăng nếu bạn cứ cố thử lại trước khi nó được đặt lại!*",
+      "spam_2": "\nTôi nghĩ rằng dừng lại là sự lựa chọn tốt nhất lúc này...",
+      "spam_3": "\nLiệu có tốt hơn không nếu bạn chỉ đi ra ngoài một chút?",
       "spam_4": "\nCái này còn bật được không đấy?"
     },
     "buttons": {
-      "previous": "Previous",
-      "next": "Next",
-      "close": "Close"
+      "previous": "Trước",
+      "next": "Kế tiếp",
+      "close": "Đóng"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `~>shard`) when reporting!",
+    "generic_error": "Nếu bạn cần, hãy tham gia **máy chủ hỗ trợ** (`https://support.mantaro.site`), hoặc xem qua trang GitHub của chúng tôi (`https://github.com/Kodehawa/MantaroBot`). Hãy kêu gọi bọn họ ngừng phá hoại tôi và đừng quên ID lỗi, câu lệnh mà bạn đã sử dụng và số điểm phân phối (node) (Xem trong `~>shard) khi bạn báo cáo!",
     "boom_quotes": [
       "Dường như Megumin đã làm nổ lâu đài của chúng ta...",
-      "Ớ ớ, hình như chủ nhân của tôi đã để quên một vào số 0 và số 1 trên sàn nhà rồi :<",
-      "Ch.. chờ đã, cái gì vừa xảy ra đếy?",
+      "Ớ ớ, hình như chủ nhân của tôi đã để quên vài số 0 và số 1 trên sàn nhà rồi :<",
+      "Ch.. chờ đã, cái gì vừa xảy ra đấy?",
       "T.. tôi nghĩ là có vài đốm lửa ở đây... bạn có thể sẽ muốn báo cho chủ nhân tôi để ông ấy ngó qua đó.",
-      "Tôi rất thành thạo phép nổ đấy. Bạn muốn xem không?",
-      "Có thể đã có cái gì đó sai sai ở đây. Nhưng... ờ, bạn có thể sửa chữa nó!",
-      "Ờ-Ờm.. Bạn muốn gì thế?"
+      "Tôi rất thành thạo phép thuật nổ đấy. Bạn muốn xem không?",
+      "Có thể đã có cái gì đó sai sai ở đây. Nhưng... um, bạn có thể sửa nó mà!",
+      "Um-anou... Bạn muốn gì thế?"
     ],
     "ratelimit_quotes": [
       "Ôi... bạn gọi tôi hơi sớm đó... Tôi sẽ chóng mặt mất!",
       "Đừng tham lam thế chứ!",
-      "B-Bạn gọi tôi hơi nhanh và khiến tôi đang chóng chóng mặt...",
+      "B-Bạn gọi tôi hơi nhanh và khiến tôi chóng mặt...",
       "Đợi đã người anh em!",
       "Đợi thêm một chútttt xíu nữa nữa thôi uwu",
       "Có thể chúng ta sắp bị bắn tốc độ nếu chúng ta cứ đi nhanh thế này đấy!",
-      "Tôi rất muốn làm theo lời bạn... nhưng ngừng lại một tí được hơm.",
-      "Hey, chờ đã. Tôi chưa nghỉ xong mà!",
+      "Tôi cũng muốn làm chứ... nhưng ngừng lại một tí được không nè.",
+      "Này, chờ đã! Tôi chưa nghỉ ngơi xong mà!",
       "Bạn có thể chậm lại một tí được không?"
     ],
     "mod_quotes": [
-      "Áu áu, hình như ai đó vừa bị đánh mạnh!",
-      "Chỉ là một vài công việc admin lành mạnh đang diễn ra ở đây thôi...",
+      "Uh-oh, có vẻ như ai đó vừa bị đánh kìa!",
+      "Chỉ là một vài công việc lành mạnh của quản trị viên đang diễn ra ở đây thôi...",
       "Thế là chiếc ủng đã bị ném đi!",
-      "Bạn sẽ bị bỏ lỡ mất... không hẳn",
+      "Bạn sẽ bị lãng quên mất... mà, cũng không hẳn",
       "Tui mong là tui đã làm việc đúng đắn...",
-      "Uầy, mod lên tiếng kìa bây ơi!",
+      "Uầy, người điều hành lên tiếng kìa bây ơi!",
       "Ơ..ờ quèo, ai đó vừa đi ngang qua cửa."
     ]
   },
   "categories": {
     "music": "Âm thanh",
     "action": "Hành động",
-    "misc": "Hỗn hợp",
+    "misc": "Linh tinh",
     "moderation": "Quản lí",
     "owner": "Quản trị viên",
     "image": "Hình ảnh",
     "utils": "Tiện ích",
-    "fun": "Vui",
+    "fun": "Giải trí",
     "games": "Trò chơi",
     "info": "Thông tin",
     "currency": "Tiền tệ",
@@ -136,52 +136,52 @@
   "commands": {
     "fish": {
       "dust": "%1$sMột ngày đã trôi qua, và xô cá của bạn chỉ lấy được chút bụi. (Bụi cấp %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>buy rod`",
+      "no_rod": "%1$sBạn không trang bị bất kì cái cần nào. Sử dụng lệnh `~>equip <tên cần câu>` để trang bị một cây và bắt đầu cuộc hành trình câu cá của bạn! Nếu bạn không có cây cần câu nào, đầu tiên hãy xài `~>buy rod`",
       "trash": {
-        "overflow": "%1$sBạn nhặt được một vài mẩu rác trong lúc câu, nhưng do tủ đồ của bạn đã đầy, nên chúng tôi đành phải vứt chúng lại xuống dưới nước...",
+        "overflow": "%1$sBạn nhặt được một vài mẩu rác trong lúc câu, nhưng do túi đồ của bạn đã đầy, nên chúng tôi đành phải vứt nó đi...",
         "success": "%1$sTrong lúc ngồi điềm tĩnh câu, bạn nhặt được một %2$s trôi trên mặt nước nhưng có vẻ nó chỉ là rác :("
       },
       "tier3": {
         "extra": "Và bạn cũng nhặt được %1$s, may mắn đó!"
       },
       "crate": {
-        "overflow": "Bạn tìm thấy một **%1$s** trong khi câu, nhưng vì bạn đã có quá nhiều, nên chúng tôi đã vứt nó lại xuống dưới đáy đại dương...",
-        "success": "Bạn tìm thấy một %1$s **%2$s** trong lúc câu và đã nhặt nó lên. Hãy thử mở nó bằng lệnh `~>opencrate <tên hòm>`. Bạn sẽ cần đến một chiếc chìa mở hòm!"
+        "overflow": "Bạn tìm thấy **%1$s** trong lúc câu, nhưng vì bạn đã có quá nhiều, nên chúng tôi đã vứt nó lại xuống dưới đáy đại dương...",
+        "success": "Bạn tìm thấy %1$s **%2$s** trong lúc câu và đã nhặt nó lên. Hãy thử mở nó bằng lệnh `~>opencrate <tên hòm>`. Bạn sẽ cần đến một chiếc chìa khoá để mở!"
       },
       "autoequip": {
-        "success": "%1$sĐã tự động trang bị một **%2$s** từ bộ cần câu của bạn."
+        "success": "%1$sĐã tự động trang bị **%2$s** từ bộ cần câu của bạn."
       },
-      "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
-      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
+      "overflow": "%1$sBạn câu được vài chú cá, nhưng túi đồ của bạn đã đầy nên chúng tôi đành thả chúng đi.",
+      "success": "%1$sTrong lúc ngồi điềm tĩnh câu, bạn câu được %2$s bằng *%3$s* và cho chúng vào trong xô cá.",
       "success_money": "%1$sTrong lúc điềm tĩnh ngồi câu cá, bạn câu được %2$s và **$%3$,d đồng** bằng *%4$s* và cho số cá vào trong xô. %5$s",
-      "success_money_noitem": "%1$sTrong khi điềm tĩnh ngồi câu, bạn tìm được **$%2$,d đồng** bằng *%3$s* và cho chúng vào ví.",
+      "success_money_noitem": "%1$sTrong lúc điềm tĩnh ngồi câu, bạn tìm được **$%2$,d đồng** bằng *%3$s* và cho chúng vào ví.",
       "rod_broke": "%1$sCần câu của bạn đã bị gãy trong lúc vật lộn với cá :(",
-      "waifu_help": "Waifu của bạn đã tham gia hành trình câu của bạn và cả hai đều được một mẻ cá lớn!",
+      "waifu_help": "Waifu của bạn đã tham gia vào hành trình câu cá và cả hai đều được một mẻ cá lớn!",
       "not_suitable": "%1$sBạn không thể dùng thứ này để câu.",
       "shark_success": "%1$sBằng một cách nào đó, bạn đã bắt được một con cá mập. Thật đúng là một chiếc cần kỳ diệu, phải không?",
-      "fossil_success": "%1$sBạn nhặt được một vỏ ốc trong lúc câu cá. Cái này có thể đáng một giá tiền hời hoặc hữu dụng cho việc chế tạo đồ, tôi tin là vậy.",
+      "fossil_success": "%1$sBạn nhặt được một vỏ ốc trong lúc câu cá. Cái này có thể đáng một giá tiền hoặc hữu dụng cho việc chế tạo đồ, tôi tin là vậy.",
       "bait": "Bọn cá đã ăn mất con mồi của bạn trong quá trình câu!",
-      "missing_equipped": "%1$sBạn đã trang bị %2$s cần câu, nhưng không còn cái nào loại này trong tủ đồ của bạn! Cần câu được trang bị đã được điều chỉnh lại.",
-      "broken_drop": "%1$sCần câu của bạn đã hỏng, nhưng bạn có thể sửa nó. Bạn được nhận lại đồ hỏng: %2$s*%3$s*",
+      "missing_equipped": "%1$sBạn đã trang bị %2$s, nhưng không còn cái nào loại này trong tủ đồ của bạn! Cần câu được trang bị đã được đặt lại.",
+      "broken_drop": "%1$sCần câu của bạn đã gãy mất rồi, nhưng bạn có thể sửa nó. Bạn nhận lại đồ hỏng: %2$s*%3$s*",
       "no_rod_equipped": "%1$sBạn chưa trang bị cần câu. Để trang bị, bạn cần gõ lệnh `~>equip <tên cần câu>` để bắt đầu hành trình đi câu!"
     },
     "softban": {
-      "no_permission": "%1$sKhông thể cấm tạm thời: Bạn khng có quyền ban thành viên.",
-      "no_permission_self": "%1$sXin lỗi! Tôi không có quyền ban thành viên ở máy chủ này.",
+      "no_permission": "%1$sKhông thể cấm tạm thời: Bạn không có quyền cấm thành viên.",
+      "no_permission_self": "%1$sXin lỗi! Tôi không có quyền cấm thành viên ở máy chủ này.",
       "no_users": "%1$sBạn cần cho tôi một cái tên để cấm tạm thời.",
       "hierarchy_conflict": "%1$sBạn không thể cấm tạm thời người dùng có vai trò cao hơn bạn",
       "yourself_note": "%1$sTại sao bạn lại tự đi cấm tạm thời bản thân?",
       "self_hierarchy_conflict": "%1$sKhông thể cấm tạm thời thành viên: %2$s, họ có vai trò cao hơn hoặc ngang bằng tôi!",
       "success": "%1$s%2$s. **(%3$s đã bị cấm tạm thời)**",
       "error": "%1$sLỗi cấm tạm thời [%2$s]: (Không được cấp quyền: %3$s)",
-      "unknown_error": "%1$sLỗi cấm tạm thời không xác định %2$s: *(Có đúng là lỗi không nhỉ? %3$s: %4$s)*"
+      "unknown_error": "%1$sLỗi không xác định xảy ra khi đang cố cấm tạm thời %2$s: *(Có đúng là lỗi không nhỉ? %3$s: %4$s)*"
     },
     "ban": {
-      "no_permission": "%1$sBạn không thể cấm: Bạn cần quyền `Ban Users` (ban người dùng).",
+      "no_permission": "%1$sBạn không thể cấm: Bạn cần quyền `Ban Users` (cấm người dùng).",
       "no_users": "%1$sBạn cần cho tôi một cái tên để cấm.",
       "no_permission_self": "%1$sXin lỗi! Tôi không có quyền cấm thành viên trong máy chủ này.",
       "hierarchy_conflict": "%1$sBạn không thể cấm ai đó có vai trò cao hơn bạn trong máy chủ! Có cố gắng đó %2$s",
-      "yourself_note": "%1$sTại sao bạn lại tự đi cấm bản thân? Đồ ngốc.",
+      "yourself_note": "%1$sTại sao bạn lại đi cấm bản thân? Đồ ngốc!",
       "self_hierarchy_conflict": "%1$sKhông thể cấm thành viên: %2$s, họ có vai trò cao hơn hoặc ngang bằng tôi!",
       "success": "%1$s%2$s (%3$s đã bị cấm)",
       "success_multiple": "%1$s%2$s (%3$s người đã bị cấm)",
@@ -189,36 +189,36 @@
       "unknown_error": "%1$sGì thế này? Tôi gặp phải một lỗi không mong muốn trong lúc cấm %2$s"
     },
     "kick": {
-      "no_permission": "%1$sKhông thể đá: Bạn không có quyền đá thành viên.",
-      "no_users": "%1$sBạn cần cho tôi một cái tên để đá.",
-      "no_permission_self": "%1$sXin lỗi! Tôi không có quyền đá thành viên trong máy chủ này.",
-      "hierarchy_conflict": "%1$sBạn không thể đá người dùng có vai trò cao hơn bạn",
-      "yourself_note": "%1$sTại sao bạn lại tự đi đá bản thân? Đồ ngốc.",
-      "self_hierarchy_conflict": "%1$sKhông thể đá thành viên: %2$s, họ có vai trò cao hơn hoặc ngang bằng tôi!",
-      "success": "%1$s%2$s (%3$s đã bị đá)",
-      "error": "%1$sLỗi đá %2$s: (Không được cấp quyền: %3$s)",
-      "unknown_error": "%1$sLỗi không xác định khi cố gắng đá %2$s"
+      "no_permission": "%1$sKhông thể đuổi: Bạn không có quyền đuổi thành viên.",
+      "no_users": "%1$sBạn cần cho tôi một cái tên để đuổi.",
+      "no_permission_self": "%1$sXin lỗi! Tôi không có quyền đuổi thành viên trong máy chủ này.",
+      "hierarchy_conflict": "%1$sBạn không thể đuổi người dùng có vai trò cao hơn bạn",
+      "yourself_note": "%1$sTại sao bạn lại đuổi bản thân? Đồ ngốc!",
+      "self_hierarchy_conflict": "%1$sKhông thể đuổi thành viên: %2$s, họ có vai trò cao hơn hoặc ngang bằng tôi!",
+      "success": "%1$s%2$s (%3$s đã bị đuổi)",
+      "error": "%1$sLỗi đuổi %2$s: (Không được cấp quyền: %3$s)",
+      "unknown_error": "%1$sLỗi không xác định khi đang cố gắng đuổi %2$s"
     },
     "music_usage": {
       "1": "*Làm thế nào để sử dụng chức năng âm nhạc trong Mantaro?*",
-      "2": "- Để **nghe những bài hát từ youtube hay soundcloud** dùng lệnh `~>play`. Ví dụ: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs`*Nó sẽ tự động kết nối với kênh thoại mà bạn đang tham gia*",
-      "3": "- Để **tìm một bài hát trên youtube** sử dụng `~>play<tên bài hát>` (nhớ bỏ hai dấu < và >). Ví dụ: `~>play see you again` (Bạn cần phải chọn số, chỉ cần *gõ con số bạn muốn* sau khi trang lựa chọn nhảy ra!)",
+      "2": "- Để **nghe những bài hát từ youtube hay soundcloud** dùng lệnh `~>play`. Ví dụ: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *Mantaro sẽ tự động kết nối với kênh thoại mà bạn đang tham gia*",
+      "3": "- Để **tìm một bài hát trên youtube** sử dụng `~>play <tên bài hát>` (nhớ bỏ hai dấu < và >). Ví dụ: `~>play see you again` (Bạn cần phải chọn số, chỉ cần *gõ số bạn muốn* sau khi trang lựa chọn nhảy ra!)",
       "4": "- Để **tìm một bài hát trên soundcloud** dùng `~>play soundcloud <tên bài hát>` Ví dụ `~>play soundcloud hot milk`",
       "5": "-Để **xem danh sách phát** bạn chỉ cần gõ `~>queue`",
-      "6": "- Để **xóa một bài khỏi danh sách phát** bạn chỉ cần dùng `~>removetrack` Nó sẽ gây ra một vài tranh cãi về vị trí các bài hát trong danh sách phát (bạn có thể kiểm tra nó trong danh sách)",
+      "6": "- Để **xóa một bài khỏi danh sách phát** bạn chỉ cần dùng `~>removetrack` Nó sẽ lấy số thứ tự trong hàng chờ để xoá bài hát đó (bạn có thể kiểm tra nó trong danh sách)",
       "7": "- Để \"tạm dừng hoặc tiếp tục\" chỉ cần dùng `~>pause`",
       "8": "- Để **dừng nghe nhạc và tắt nhạc** dùng `~>stop`",
-      "9": "- Để **nghe ngẫu nhiên bài hát trong danh sách** chỉ cần dùng `~>shuffle`",
-      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeatqueue`. Using `~>repeat` while repeat is on, turns it off, the same is true for `~>repeatqueue`\n",
+      "9": "- Để **nghe xáo trộn bài hát trong danh sách** chỉ cần dùng `~>shuffle`",
+      "10": "- Và cuối cùng, để **lặp lại một bài hát**, hãy dùng `~>repeat` và để **để lặp lại một danh sách phát**, hãy dùng `~>repeat queue`. Sử dụng `~>repeat` một lần nữa để dừng việc lặp lại\n",
       "11": "Để biết thêm thông tin về lệnh, hãy sử dụng `~>help <tên lệnh>` (nhớ bỏ <> và thay tên lệnh bằng tên của lệnh mà bạn cần)",
-      "12": "Hãy tận hưởng âm nhạc và cảm ơn vì đã sử dụng Mantaro!"
+      "12": "Tận hưởng âm nhạc và cảm ơn vì đã sử dụng Mantaro!"
     },
     "lang": {
-      "info": "%1$sBạn có thể thay đổi ngôn ngữ của máy chủ (nếu có) bằng lệnh `~>opts language set <mã ngôn ngữ>`. Bạn cũng có thể đổi ngôn ngữ cá nhân yêu thích bằng cách dùng `~>profile lang <mã ngôn ngữ>`\n**Những ngôn ngữ hiện đang có sẵn:** `%2$s`\nNếu ngôn ngữ của bạn không có ở đây và bạn muốn giúp đỡ, vui lòng tham gia vào máy chủ hỗ trợ và tham gia vào đội dịch thuật!"
+      "info": "%1$sBạn có thể thay đổi ngôn ngữ của máy chủ (nếu có) bằng lệnh `~>opts language set <mã ngôn ngữ>`. Tùy chọn ngôn ngữ cá nhân của bạn có thể thay đổi bằng cách sử dụng `~>profile lang <mã ngôn ngữ>`\n**Những ngôn ngữ hiện đang có sẵn:** `%2$s`\nNếu ngôn ngữ của bạn không có ở đây và bạn muốn giúp đỡ, vui lòng tham gia vào máy chủ hỗ trợ và tham gia vào đội dịch thuật!"
     },
     "season": {
       "info": "Một *mùa* là một khoảng thời gian thông thường là khoảng 6 tháng để những người chơi có thể cạnh tranh cho 10 vị trí đầu bảng xếp hạng về tiền hoặc danh tiếng. Người thắng cuộc sẽ được nhận huy hiệu và giải thưởng dựa trên sự thể hiện của họ trong mùa đó.\nĐiều này đưa ra một khung cạnh tranh hơn (trước đây thì tiền khá là cũ) và nó khiến trò chơi trở nên vui hơn-\nBạn có thể biết được những thông tin theo mùa bằng cách dùng `-season`. Những lệnh như profile, mine, fish hay balance sẽ cần nó, trong khi những lệnh games, loot, daily và reputation sẽ tính tiền/danh tiếng cho cả hồ sơ toàn cầu và hồ sơ theo mùa của bạn.",
-      "info_2": "\n\nMùa giải hiện tại là **%1$s** và **%2$s** người chơi sẽ tham gia.\n\n Để cuộc vui được bắt đầu, kiểm tra `~>leaderboard money -season` `~>leaderboard rep -season` và `~>leaderboard games -season`. Mùa giải bắt đầu! <3\nCảm ơn vì đã tham gia Mantaro."
+      "info_2": "\n\nMùa giải hiện tại là **%1$s** và **%2$s** người chơi đang tham gia.\n\n Để cuộc vui được bắt đầu, kiểm tra `~>leaderboard money -season` `~>leaderboard rep -season` và `~>leaderboard games -season`. Mùa giải bắt đầu! <3\nCảm ơn vì đã tham gia Mantaro."
     },
     "music_general": {
       "music_error": {
