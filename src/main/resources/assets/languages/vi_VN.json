@@ -408,9 +408,9 @@
       "nsfw_enabled": "%1$sLệnh này đã được đánh dấu thành công là NSFW.",
       "nsfw_disabled": "%1$sLệnh này được đánh dấu là SFW thành công.",
       "nsfw_not_nsfw": "%1$sLệnh này được đánh dấu là NSFW vì thế nó chỉ có thể được dùng ở kênh NSFW.",
-      "new_error": "%1$sLệnh tùy chỉnh mà bạn đang cố tạo ra có một lỗi (v3, kiểm tra nội dung).\n**Lỗi:**\n```%2$s```",
+      "new_error": "%1$sLệnh tùy chỉnh mà bạn đang cố tạo ra có lỗi (v3, kiểm tra nội dung).\n**Lỗi:**\n```%2$s```",
       "ls": {
-        "header": "Các lệnh cho máy chủ này.",
+        "header": "Các lệnh của máy chủ này.",
         "description": "**Mục này cho thấy tất cả các lệnh tùy chỉnh (do người dùng tạo ra) của máy chủ này** Tất cả các lệnh ở đây không được liên hệ với bot chính ở bất kì hình thức nào\n\nLệnh tùy chỉnh là các lệnh được tạo bởi  người dùng (thường là quản lý máy chủ) nó có thể xử lý các tình huống khác nhau như là mô các lệnh hành động.\nĐể biết thêm thông tin chi tiết về cách tạo các lệnh tùy chỉnh, hãy tham khảo [trang wiki này.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n\n**List:**",
         "footer": "Tổng số lệnh tùy chỉnh trong máy chủ: %1$s"
       },
