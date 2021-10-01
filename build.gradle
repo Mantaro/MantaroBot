@@ -24,8 +24,6 @@ plugins {
     id 'application'
     //Creates FatJars
     id 'com.github.johnrengelman.shadow' version '7.0.0'
-    //Builds docker images
-    id 'com.palantir.docker' version '0.28.0'
 }
 
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
@@ -61,7 +59,7 @@ task generateLanguageList {
 
 dependencies {
     // Base
-    implementation 'net.dv8tion:JDA:4.3.0_313'
+    implementation 'net.dv8tion:JDA:4.3.0_331'
     implementation 'club.minnced:discord-webhooks:0.5.8'
 
     // Music
@@ -76,9 +74,9 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.5'
 
     // Core
-    implementation 'io.github.classgraph:classgraph:4.8.115'
-    implementation 'ch.qos.logback:logback-classic:1.2.5'
-    implementation 'com.google.guava:guava:30.1.1-jre'
+    implementation 'io.github.classgraph:classgraph:4.8.117'
+    implementation 'ch.qos.logback:logback-classic:1.2.6'
+    implementation 'com.google.guava:guava:31.0.1-jre'
 
     // Database
     implementation 'com.rethinkdb:rethinkdb-driver:2.4.4'
@@ -99,34 +97,13 @@ dependencies {
     implementation 'io.prometheus:simpleclient_httpserver:0.9.0'
 
     //Unit tests
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
-
-task copyFileToAssets(type: Copy) {
-    from shadowJar.outputs
-    into file('assets')
-}
-
-copyFileToAssets.dependsOn shadowJar
-
-docker {
-    name "mantaro/mantaro:$ver"
-    tag "latest", "mantaro/mantaro:latest"
-    copySpec.from("assets").into("assets")
-    buildArgs([
-        version: ver.toString(),
-        jattachVersion: "v1.5"
-    ])
-}
-
-docker.dependsOn shadowJar as Task
-docker.dependsOn copyFileToAssets
 
 compileJava.dependsOn generateLanguageList
 
 task ci {
     dependsOn shadowJar
-    dependsOn tasks.docker
 }
 
 //This doesn't work?
