@@ -71,7 +71,7 @@ dependencies {
 
     // JSON
     implementation 'com.fasterxml.jackson.core:jackson-core:2.12.5'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.5'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
 
     // Core
     implementation 'io.github.classgraph:classgraph:4.8.117'
