@@ -72,7 +72,7 @@
     "buy_sell_paged_text": "Sử dụng các biểu tượng **&p >>** and **&p <<** để di chuyển giữa các trang.\n%1$s",
     "buy_sell_paged_reference": "**Hướng dẫn: %1$s Giá mua %2$s Giá bán.**",
     "cancelled": "%1$sĐã huỷ yêu cầu.",
-    "sellout": "Nếu bạn thích tui thì hãy ccân nhắc việc ủng hộ trên [Patreon](https://www.patreon.com/mantaro). Ngay cả một khoản ủng hộ nhỏ cũng sẽ giúp tui tiếp tục hoạt động đó!",
+    "sellout": "Nếu bạn thích tui thì hãy cân nhắc việc ủng hộ trên [Patreon](https://www.patreon.com/mantaro). Ngay cả một khoản ủng hộ nhỏ cũng sẽ giúp tui tiếp tục hoạt động đó!",
     "deprecated": "Không còn được sử dụng",
     "space_notice": "Nếu tên của vật phẩm có bao gồm khoảng trống, hãy thử \"đặt nó trong ngoặc kép\". Có lẽ sử dụng câu lệnh trợ giúp có thể sẽ hỗ trợ nhiều hơn cho bạn.",
     "missing_embed_permissions": "Tôi không có quyền Đính Kèm Liên Kết để thực hiện câu lệnh này. Làm ơn hãy cho tôi những quyền hạn cần thiết đó (Hãy chắn chắc rằng bạn sẽ kiểm tra thiết lập quyền hạn của các kênh và các mục). Nếu bạn cần sự hỗ trợ thì hãy đến <https://support.mantaro.site>. Bạn cũng có thể kiểm tra wiki tại <https://wiki.mantaro.site> về thông tin của tôi.",
@@ -217,100 +217,100 @@
       "info": "%1$sBạn có thể thay đổi ngôn ngữ của máy chủ (nếu có) bằng lệnh `~>opts language set <mã ngôn ngữ>`. Tùy chọn ngôn ngữ cá nhân của bạn có thể thay đổi bằng cách sử dụng `~>profile lang <mã ngôn ngữ>`\n**Những ngôn ngữ hiện đang có sẵn:** `%2$s`\nNếu ngôn ngữ của bạn không có ở đây và bạn muốn giúp đỡ, vui lòng tham gia vào máy chủ hỗ trợ và tham gia vào đội dịch thuật!"
     },
     "season": {
-      "info": "Một *mùa* là một khoảng thời gian thông thường là khoảng 6 tháng để những người chơi có thể cạnh tranh cho 10 vị trí đầu bảng xếp hạng về tiền hoặc danh tiếng. Người thắng cuộc sẽ được nhận huy hiệu và giải thưởng dựa trên sự thể hiện của họ trong mùa đó.\nĐiều này đưa ra một khung cạnh tranh hơn (trước đây thì tiền khá là cũ) và nó khiến trò chơi trở nên vui hơn-\nBạn có thể biết được những thông tin theo mùa bằng cách dùng `-season`. Những lệnh như profile, mine, fish hay balance sẽ cần nó, trong khi những lệnh games, loot, daily và reputation sẽ tính tiền/danh tiếng cho cả hồ sơ toàn cầu và hồ sơ theo mùa của bạn.",
+      "info": "Một *mùa* là một khoảng thời gian dài, thông thường là khoảng 6 tháng để những người chơi có thể cạnh tranh cho 10 vị trí đầu bảng xếp hạng về tiền hoặc danh tiếng. Người thắng cuộc sẽ được nhận huy hiệu và giải thưởng dựa trên sự thể hiện của họ trong mùa đó.\nĐiều này là để cho có tính cạnh tranh hơn (trước đây thì tiền khá là cũ) và đồng thời khiến trò chơi trở nên vui hơn.\nBạn có thể biết được những thông tin theo mùa bằng cách dùng `-season`. Những lệnh như profile, mine, fish hay balance sẽ cần nó, trong khi những lệnh games, loot, daily và reputation sẽ tính tiền/danh tiếng cho cả hồ sơ toàn cầu và hồ sơ theo mùa của bạn.",
       "info_2": "\n\nMùa giải hiện tại là **%1$s** và **%2$s** người chơi đang tham gia.\n\n Để cuộc vui được bắt đầu, kiểm tra `~>leaderboard money -season` `~>leaderboard rep -season` và `~>leaderboard games -season`. Mùa giải bắt đầu! <3\nCảm ơn vì đã tham gia Mantaro."
     },
     "music_general": {
       "music_error": {
-        "timeout": "%1$sKhông thể kết nối với %2$s: kết nối hết giờ. Hãy thử đổi vùng máy chủ và chạy lại lệnh một lần nữa.",
-        "unknown": "%1$sUnable to connect to %2$s: unknown error."
+        "timeout": "%1$sKhông thể kết nối với %2$s: hết giờ kết nối. Hãy thử đổi vùng máy chủ và chạy lại lệnh một lần nữa.",
+        "unknown": "%1$sKhông thể kết nối đến kênh %2$s: Lỗi không xác định."
       },
       "not_working": "%1$sKhông thể nghe nhạc vì Youtube đang chặn lượng truy cập từ các bot lớn. Tuy nhiên bot Mantaro Patreon của chúng tôi vẫn nghe nhạc được, vì vậy bạn có thể thử nó nếu bạn đóng góp cho Mantaro 93.770 VND (4$) một tháng. Điều này sẽ chuyển hướng những nỗ lực của chúng tôi trong việc sửa chữa tính năng nghe nhạc nói chung.\nHãy vào <https://patreon.com/mantaro> để biết thêm thông tin\n\nChúng tôi rất xin lỗi vì sự bất tiện này. Hãy thử nghe nhạc trên soundcloud! `(~>play soundcloud <tên bài hát>)`",
-      "no_song": "%1$sBạn cần phải nói cho tôi biết bạn muốn nghe bài nào! *(Youtube, Soundcloud, Twitch URL hoặc các câu hỏi tìm kiếm đều được)*",
-      "not_playing": "%1$sTôi đang không phát bài nào cả. Nếu bạn nghĩ điều này là lỗi, hãy báo cáo nó cho chúng tôi tại <https://support.mantaro.site>",
-      "dj_only": "%1$sBạn cần phải là một DJ để có thể sử dụng lệnh này.",
+      "no_song": "%1$sBạn cần phải nói cho tôi biết bạn muốn nghe bài nào! *(Youtube, Soundcloud, Twitch URL hoặc các từ khoá tìm kiếm đều được)*",
+      "not_playing": "%1$sTôi đang không phát bài nào cả. Nếu bạn nghĩ đây là lỗi, hãy báo cáo lại cho chúng tôi tại <https://support.mantaro.site>",
+      "dj_only": "%1$sBạn cần phải là DJ để có thể sử dụng lệnh này.",
       "enjoy_note": "Hãy tận hưởng âm nhạc! <3",
       "no_player": "%1$sTôi không thể tìm thấy bất kì bài hát nào ở đây.... (muốn thử lại với cái khác không?)",
-      "not_connected": "%1$sBạn đang không ở trong kênh thoại mà tôi đang phát nhạc! (Nếu bạn nghĩ đây là một lỗi, hãy báo cho chúng tôi tại <https://support.mantaro.site>)",
-      "np_message": "%1$s Đang phát **%2$s** (%3$s) ở **%4$s** | %5$s",
-      "track_error": "%1$sÚi, có vấn đề khi phát bài này rồi! Chin nhỗi nha. Tôi sẽ phát bài tiếp theo ngay đây nếu đằng sau có bài đang chờ.",
-      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
-      "soundcloud_no_args": "%1$sBạn cần phải cho cái tên bài hát chứ. Tui có phải ảo thuật gia đâu mà đoán được :(",
-      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
-      "no_vc_found": "%1$sTôi không được kết nối với bất kì kênh thoại nào mặc dù tôi cần phải thể? Thử lại đê.",
+      "not_connected": "%1$sBạn đang không ở trong kênh thoại mà tôi đang phát nhạc! (Nếu bạn nghĩ đây là lỗi, hãy báo lại cho chúng tôi tại <https://support.mantaro.site>)",
+      "np_message": "%1$s Đang phát **%2$s** (%3$s) tại **%4$s** | %5$s",
+      "track_error": "%1$sÚi, có vấn đề khi phát bài này rồi! Xin nhỗi nha. Tôi sẽ phát bài tiếp theo ngay đây nếu có.",
+      "queue_finished": "%1$sĐã hoàn tất danh sách phát! Tôi mong là bạn đã thưởng thức nó :heart:",
+      "soundcloud_no_args": "%1$sBạn cần phải cho tui cái tên bài hát chứ. Tui có phải ảo thuật gia đâu mà đoán được :(",
+      "missing_embed_permissions": "%1$sBạn cần cho tôi quyền Đính Kèm Liên Kết hiển thị danh sách. Nếu bạn muốn bỏ qua danh sách thì dùng `~>forceplay`, nó sẽ phát kết quả thu được đầu tiên.",
+      "no_vc_found": "%1$sTôi không được kết nối với bất kì kênh thoại nào mặc dù tôi cần phải làm như thế? Thử lại đii.",
       "queue": {
-        "header_field": "Instructions",
-        "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
-        "no_track_found_np": "Không có gì hoặc không thể tìm thấy tên/thời lượng",
+        "header_field": "Hướng dẫn",
+        "header_noreact": "Sử dụng &p >>` và `&p <<` để di chuyển vòng quanh các trang.",
+        "no_track_found_np": "Không có gì hoặc không thể tìm thấy tiêu đề/thời lượng",
         "header": "Danh sách phát cho máy chủ %1$s",
-        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`",
-        "nothing_playing_2": "**Nếu chỉ có duy nhất bài hát đang bật và bạn không thêm nhiều bài nữa thì thực sự sẽ chỉ còn bụi ở đâu thôi. Bạn có thể xếp nhiều bài hát hơn nếu bạn muốn!**",
+        "nothing_playing": "Không có gì ở đây cả, trừ bụi bặm. Tại sao lại không đặt vào vài bài hát? Nếu bạn nghĩ rằng có vài bài hát ở đây mà chúng không xuất hiện, thử dùng lệnh `~>queue 1`",
+        "nothing_playing_2": "**Nếu chỉ có duy nhất bài hát đang bật và bạn không thêm bài nữa thì thực sự sẽ chỉ còn cái dây thun ở đây thôi. Bạn có thể thêm nhiều bài hát hơn nếu bạn muốn!**",
         "np": "Đang phát",
-        "dj_np": "**Queued by:** ",
+        "dj_np": "**Được đặt hàng bởi:** ",
         "page_overflow": "Chả có gì ở đây hớt, toàn bụi. Sao bạn không quay lại mấy trang trước?",
-        "page_overflow_2": "If you think there are songs here but they don't appear, try using `~>queue 1`",
+        "page_overflow_2": "Nếu bạn nghĩ rằng có vài bài hát ở đây mà chúng không xuất hiện, hãy thử dùng lệnh `~>queue 1`",
         "total_queue_time": "Tổng thời gian của danh sách phát",
         "total_size": "Tổng số bài trong danh sách phát",
         "togglers": "Lặp lại / Tạm dừng",
-        "playing_in": "Đang phát",
+        "playing_in": "Đang phát trong",
         "footer": "Tổng số trang: %1$d%2$s. Đang ở trang %3$d",
-        "multiple_pages": " ->dùng ~>queue <số trang> để chuyển trang",
-        "page_react": " -> Bấm vào các phản ứng để thay đổi trang",
+        "multiple_pages": " -> Dùng ~>queue <số trang> để chuyển trang",
+        "page_react": " -> Bấm vào các nút để chuyển trang",
         "no_channel": "Không có kênh :(",
-        "songs": "các bài hát",
+        "songs": "bài hát",
         "clear_error": "%1$sBạn không ở trong kênh thoại và bạn không phải DJ.",
-        "clear_success": "%1$sĐã xoá thành công danh sách phát hiện tại. Kích cỡ cũ của danh sách phát là %2$s",
-        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
+        "clear_success": "%1$sĐã xoá thành công danh sách phát hiện tại. Tổng số bài trong danh sách phát là %2$s",
+        "no_embed": "%1$sBạn cần cho tôi quyền Đính Kèm Liên Kết để tôi có thể hiển thị bảng danh sách bài hát được đặt sẵn."
       },
       "connect": {
         "success": "%1$sKết nối thành công vào kênh **%2$s**!",
         "full_channel": "%1$sTôi không thể vào được kênh đó vì nó đã đầy người!",
-        "non_existent_channel": "%1$sTôi nhận được phản hồi là kênh này không tồn tại. Nếu bạn tạo một kênh thoại và xóa nó đi thì điều này có thể là lý do. Chúng tôi đã cài đặt lại kênh nhạc cho bạn, hãy thử bật lại nhạc.",
-        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
-        "missing_permissions_connect": "%1$sTôi không thể kết nối vào kênh này vì thiếu sợ cho phép (%2$s).",
+        "non_existent_channel": "%1$sTôi nhận được phản hồi là kênh này không tồn tại. Nếu bạn tạo một kênh thoại và xóa nó đi thì điều này có thể là lý do.\n Chúng tôi đã cài đặt lại kênh nhạc cho bạn, hãy thử bật lại nhạc.",
+        "user_no_vc": "%1$s**Hãy vào một kênh thoại**. Nếu bạn đang trong một kênh thoại mà tôi vừa đăng xuất ra thì hãy tham gia lại kênh thoại đó.",
+        "missing_permissions_connect": "%1$sTui không thể kết nối vào kênh này vì thiếu sự cho phép (%2$s).",
         "missing_permission_speak": "%1$sTôi không thể phát âm thanh trong kênh này vì thiếu sự cho phép (%2$s).",
-        "channel_locked": "%1$sTôi chỉ có thể chơi nhạc ở kênh này **%2$s**.",
+        "channel_locked": "%1$sTôi chỉ có thể chơi nhạc tại kênh **%2$s**.",
         "already_connected": "%1$sTôi đang kết nối đến kênh **%2$s**! (Dùng lệnh `move` để chuyển tôi đến kênh khác)",
         "attempting_to_connect": "%1$sTôi đã cố gắng kết nối với kênh **%2$s**! (Dùng lệnh `move` để chuyển tôi đến kênh khác)"
       },
       "listener": {
         "paused": "%1$sTạm dừng chơi nhạc bởi vì tôi bị tắt tiếng :(",
         "resumed": "%1$sTiếp tục phát nhạc bởi vì có người tham gia!",
-        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `~>resume` to manually resume playback.",
+        "not_resumed": "%1$sAi đó đã vào, nhưng tôi không tiếp tục bản phát lại vì tôi bị dừng thủ công! Sử dụng `~>resume` để phát tiếp.",
         "left_alone": "%1$sTôi sẽ rời **%2$s** trong 2 phút vì tôi bị mọi người bỏ rơi :(",
         "leave": "%1$sTôi quyết định rời **%2$s** bởi vì mọi người bỏ tui một mình :("
       },
       "loader": {
         "over_limit": "%1$sDanh sách phát mà bạn thêm vào đã nhiều hơn %2$d bài hát, vì vậy chúng tôi sẽ thêm các bài hát cho đến giới hạn và bỏ những bài còn lại đi.",
         "loaded_playlist": "%1$sThêm **%2$d bài hát** để xếp hàng trong danh sách phát: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sTìm kiếm không có kết quả. Nếu điều này xảy ra với *tất cả các bài hát* mà bạn cố tìm kiếm, bạn có thể muốn dùng `~>play soundcloud <tên bài hát>` để thay thế trong lúc này. Dẫn link trực tiếp từ youtube cũng sẽ hoạt động.",
-        "error_loading": "%1$sError while fetching music: %2$s. Maybe give it a try again or try another link?",
-        "unknown_error_loading": "%1$sUnknown error while fetching music. Maybe give it a try again or try another link?",
-        "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
-        "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
-        "fair_queue_limit_reached": "%1$s**Vượt quá mức xếp hàng công bằng của %2$d (Quá nhiều bài hát giống hệt nhau)**",
-        "loaded_song": "%1$sAdded to queue -> **%2$s** *(%3$s)*",
+        "no_matches": "%1$sTìm kiếm không có kết quả. Nếu điều này xảy ra với *tất cả các bài hát* mà bạn cố tìm kiếm, bạn có thể muốn dùng `~>play soundcloud <tên bài hát>` để thay thế trong lúc này. Dẫn liên kết trực tiếp từ youtube cũng sẽ hoạt động.",
+        "error_loading": "%1$sLỗi xảy ra trong khi tìm kiếm nhạc: %2$s. Có lẽ bạn nên thử một lần nữa hoặc sử dụng một liên kết khác?",
+        "unknown_error_loading": "%1$sLỗi không xác định xảy ra trong khi tìm kiếm nhạc. Có lẽ bạn thử lại một lần nữa hoặc sử dụng một liên kết khác?",
+        "over_queue_limit": "%1$s**Không thể đặt bài hát chờ `%2$s`: Số bài hát trong danh sách phát đã vượt quá giới hạn (%3$s)**",
+        "over_32_minutes": "%1$s**Không thể đặt bài hát chờ `%2$s`: Bản âm thanh dài hơn %3$s. **(Bản âm thanh đã bị báo cáo có độ dài %4$s).\nBạn có thể có được giới hạn phát lại các bản âm thanh, phát lại livestream dài hơn với Mantaro Premium! Xem thông tin chi tiết tại <https://patreon.com/mantaro>.",
+        "fair_queue_limit_reached": "%1$s**Vượt quá mức xếp hàng chờ của %2$d (Quá nhiều bài hát giống hệt nhau)**",
+        "loaded_song": "%1$sĐã thêm vào danh sách phát -> **%2$s** *(%3$s)*",
         "selection_text": "Lựa chọn bài hát. Nhập số của bài hát để tiếp tục.",
         "timeout_text": "Thời gian chờ là 30 giây. Gõ &cancel để hủy."
       },
-      "premium_beg": "%1$sHãy suy nghĩ về việc ủng hộ tại <https://patreon.com/mantaro>. Nếu bạn thích tôi, thậm chí cả một khoản tiền ủng hộ bé xíu của bạn cũng sẽ giúp con bot sống vui vẻ. (Gõ `~>donate` để biết thêm thông tin chi tiết!)",
+      "premium_beg": "%1$sNếu bạn thích tui thì hãy cân nhắc việc ủng hộ tại <https://patreon.com/mantaro>. Ngay cả một khoản ủng hộ nhỏ cũng sẽ giúp tui tiếp tục hoạt động đó (Gõ `~>donate` để biết thêm thông tin chi tiết!)",
       "closed_connection": "%1$sĐóng kết nối âm thanh, tắt trình phát nhạc liên kết..."
     },
     "forceskip": {
-      "success": "%1$sMột Admin hoặc một Bot Chỉ Huy quyết định bỏ qua bài hát này."
+      "success": "%1$sMột quản trị viên hoặc một người quản lí bot đã quyết định bỏ qua bài hát này."
     },
     "np": {
       "no_track": "%1$sĐây không phải là một bản âm thanh hoặc dường như chúng tôi không tìm thấy nó, thử phát một bài hát xem",
       "header": "Đang phát"
     },
     "pause": {
-      "paused": "Tạm dừng phát nhạc. *(trình phát nhạc vẫn phát bình thường trước đó)*",
-      "unpaused": "Player un-paused. *(Player was paused previously)*"
+      "paused": "Tạm dừng phát nhạc. *(Trình phát nhạc vẫn bình thường trước đó)*",
+      "unpaused": "Tiếp tục phát. *(Trình phát bị tạm dừng trước đó)*"
     },
     "rewind": {
-      "no_time": "%1$sBạn cần phải nói cho tôi biết rằng bạn muốn tua lại bao nhiêu phút trong bài hát: *(Ví dụ `~>rewind 1m45s` sẽ tua lại 1 phút 45s của bài hát)*",
+      "no_time": "%1$sBạn cần phải nói cho tôi biết rằng bạn muốn tua lại bài hát đến chỗ nào. *(Ví dụ `~>rewind 1m45s` sẽ tua lại 1 phút 45 giây của bài hát)*",
       "negative": "%1$sChỉ dùng số nguyên dương",
-      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
+      "too_little": "%1$sBạn cần sử dụng đúng định dạng lệnh. Hãy kiểm tra chỉ dẫn. *(Ví dụ `~>rewind 1m45s` sẽ tua lại 1 phút 45 giây của bài hát)*",
       "before_beginning": "%1$sBạn không thể bỏ qua một bài hát trước khi nó bắt đầu",
       "success": "%1$sĐã tua lại bài hát đến: %2$s."
     },
@@ -318,12 +318,12 @@
       "success": "%1$sBắt đầu lại bài hát đang phát."
     },
     "skipahead": {
-      "no_time": "%1$sBạn cần phải cho tôi biết bạn muốn bỏ qua bao nhiêu trong bài hát. *(Ví dụ: `~>skipahead 1m45s` sẽ bỏ qua 1 phút 45s từ chỗ bạn đang ở trong bài hát)*",
+      "no_time": "%1$sBạn cần phải cho tôi biết bạn muốn bỏ qua bao nhiêu trong bài hát. *(Ví dụ: `~>skipahead 1m45s` sẽ bỏ qua 1 phút 45 giây từ chỗ bạn đang ở trong bài hát)*",
       "past_duration": "%1$sBạn không thể bỏ qua quá thời lượng của một bài hát",
       "success": "%1$sBỏ qua phía trước đến %2$s."
     },
     "move": {
-      "no_voice": "%1$sYou're not in a voice channel, or the bot isn't in one.",
+      "no_voice": "%1$sBạn không ở trong một kênh thoại, hoặc là tôi.",
       "attempt": "%1$sTôi sẽ cố gắng chuyển đến kênh thoại bạn đang ở",
       "error_moving": "%1$sKhông thể chuyển kênh thoại.",
       "cannot_connect": "%1$sKhông thể kết nối: Tôi không có quyền được nói hay được chuyển kênh.",
@@ -332,12 +332,12 @@
       "vc_not_found": "%1$sKhông tìm thấy kênh thoại hoặc bạn không chỉ định một kênh!"
     },
     "shard": {
-      "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
+      "info": "**Tôi đang nằm ở Shard %1$d/%2$d** (Node %3$d/%4$d)\n\n**Hội Shard:** %5$,d máy chủ\n**Người dùng được lưu:** %6$,d người dùng\n**Thành viên được lưu:** %7$,d thành viên\n\nNếu bạn cần hỗ trợ, hãy đến <https://support.mantaro.site>. Cảm ơn vì đã tin tưởng sử dụng Mantaro!"
     },
     "queue": {
       "clear": {
         "header": "%1$sDJ của máy chủ quyết định xóa danh sách bài hát chờ!",
-        "success": "%1$sXóa **%2$dbài hát** khỏi danh sách chờ.",
+        "success": "%1$sXóa **%2$d bài hát** ra khỏi danh sách chờ.",
         "error": "%1$sBạn không ở trong kênh thoại và bạn cũng không phải DJ."
       }
     },
@@ -345,17 +345,17 @@
       "queue_cancel": "%1$sTiếp tục với danh sách phát hiện tại.",
       "queue_repeat": "%1$sLặp lại danh sách bài hát chờ hiện tại.",
       "song_cancel": "%1$sTiếp tục với danh sách bài hát chờ bình thường.",
-      "song_repeat": "%1$sLặp lại bài hát đang phát. Chạy lại lệnh này một lần nữa nếu muốn vô hiệu hóa nó."
+      "song_repeat": "%1$sLặp lại bài hát đang phát. Chạy lại lệnh này một lần nữa nếu muốn vô hiệu hóa."
     },
     "nextsong": {
       "no_song_next": "%1$sÚi, không còn bài hát nào tiếp theo.",
-      "format": "%1$sBài tiếp theo trong danh sách đợi: **%2$s** (%3$s) | *Tổng số bài trong danh sách phát: %4$,d*"
+      "format": "%1$sBài tiếp theo trong danh sách chờ: **%2$s** (%3$s) | *Tổng số bài trong danh sách phát: %4$,d*"
     },
     "shuffle": {
       "success": "%1$sĐã xáo trộn thứ tự của danh sách chờ."
     },
     "skip": {
-      "dj_skip": "%1$s DJ quyết định bỏ qua bài hát này.",
+      "dj_skip": "%1$sDJ quyết định bỏ qua bài hát này.",
       "vote": {
         "submit": "%1$s**Phiếu bầu của bạn đã được gửi đi** Bạn cần %2$d phiều bầu nữa để bỏ qua!",
         "remove": "%1$s**Phiếu bầu của bạn đã bị xóa** Bạn cần %2$d phiều bầu nữa để bỏ qua!"
@@ -369,7 +369,7 @@
       "invalid_number": "(%1$s`%2$s`) Một trong những dãy số là số không hợp lệ!",
       "invalid_number_range": "%1$s`%2$s` không phải là một số hợp lệ hoặc một dãy số!",
       "success": "%1$sĐã xóa **%2$d** bài hát từ danh sách chờ.",
-      "not_dj": "%1$sBạn cần phải là 1 DJ để thực hiện hành động này."
+      "not_dj": "%1$sBạn cần phải là DJ để thực hiện hành động này."
     },
     "stop": {
       "dj_stop": "%1$sDJ của máy chủ quyết định dừng danh sách phát hiện tại.",
@@ -382,27 +382,27 @@
       "cleanup": "%1$sĐã xóa **%2$d bài hát** khỏi danh sách chờ."
     },
     "volume": {
-      "no_player": "%1$sThere's nothing playing here.",
+      "no_player": "%1$sKhông có gì được phát ở đây cả.",
       "check": "%1$sÂm lượng hiện tại là: %2$d\n\n%3$s",
       "success": "%1$sÂm lượng được đặt thành %2$d\n\n%3$s",
-      "no_args": "%1$sBạn cần phải nói cho tôi biết âm lượng mà bạn muốn tôi đặt nhạc là gì (từ 5 đến 100).",
-      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to a user or a server, please, if you donate, join the support guild and ask for it."
+      "no_args": "%1$sBạn cần phải nói cho tôi biết âm lượng mà bạn muốn tôi đặt là gì (từ 5 đến 100).",
+      "premium_only": "%1$sĐây là tính năng chỉ có ở tài khoản cao cấp. Để có được những tiện ích này bạn có thể đăng kí trên patreon (https://www.patreon.com/mantaro). Cảm ơn vì đã hiểu.\nCác tính năng cao cấp có thể được gắn vào người dùng hoặc máy chủ. Nếu bạn đã ủng hộ, vui lòng tham gia máy chủ hỗ trợ và hỏi thêm về nó."
     },
     "lyrics": {
-      "no_current_track": "%1$sKhông có bài hát nào đang được chơi ở máy chủ này!",
+      "no_current_track": "%1$sKhông có bài hát nào đang được phát ở máy chủ này!",
       "error_searching": "%1$sCó lỗi khi tìm bản nhạc này hoặc không thể tìm thấy kết quả nào.",
       "header": "%1$sLời bài hát cho %2$s",
       "footer": "Cảm ơn vì đã sử dụng Mantaro! Trang: %1$d, Tổng số trang: %2$d."
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). %3$s.\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nTo reset the server prefix run `~>opts prefix clear`\nIf you have any questions, you can join <https://support.mantaro.site>",
-      "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
-      "none": "Không có tiền tố tùy chỉnh cho máy chủ này."
+      "header": "%1$sTiếp đầu ngữ (Ký hiệu được sử dụng trước câu lệnh) được mặc định là %2$s và tính cả đề cập đến tôi (Tôi sẽ phản hồi bất kỳ sự đề cập nào!). %3$s.\nBạn có thể thay tiếp đầu ngữ mới bằng cách sử dụng `~>opts prefix set <prefix>`. Không bao gồm <>. Để tái thiết lập tiếp đầu ngữ của máy chủ, dùng `~>opts prefix clear`.\nNếu bạn có bất kỳ câu hỏi nào, hãy tham gia <https://support.mantaro.site>",
+      "guild_prefix": "Tiếp đầu ngữ của máy chủ này là `%1$s` (Chỉ hoạt động trong máy chủ này)",
+      "none": "Không có tiền tố (prefix) tùy chỉnh cho máy chủ này."
     },
     "custom": {
-      "no_args": "%1$sBạn cần phải xác định bạn muốn làm gì với lệnh này. Kiểm tra trợ giúp lệnh để biết thêm thông tin!",
-      "incorrect_args": "%1$sLập luận không chính xác. Kiểm tra `~>help custom` hoặc https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands để được trợ giúp thêm về cách sử dụng. Nếu bạn muốn biết thêm thông tin xa hơn sau khi đọc wiki, bạn có thể tìm hiểu tại <https://support.mantaro.site>",
-      "error_running": "%1$sLỗi trong khi chạy lệnh tùy chỉnh... vui lòng kiểm tra lại nội dung phản hồi và độ dài (không quá 2000 kí tự).",
+      "no_args": "%1$sBạn cần phải xác định bạn muốn làm gì với lệnh này. Kiểm tra lệnh trợ giúp để biết thêm thông tin!",
+      "incorrect_args": "%1$sĐối số không chính xác. Kiểm tra `~>help custom` hoặc https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands để được trợ giúp thêm về cách sử dụng. Nếu bạn muốn biết thêm thông tin nhiều hơn sau khi đọc wiki, bạn có thể tìm hiểu tại <https://support.mantaro.site>",
+      "error_running": "%1$sLỗi trong khi chạy lệnh tùy chỉnh... vui lòng kiểm tra lại độ dài và nội dung phản hồi (không quá 2000 kí tự).",
       "error_running_new": "%1$sLỗi khi chạy lệnh tùy chỉnh. Kiểm tra phản hồi, nội dung và độ dài.\n **Lỗi**\n```%2$s```",
       "not_loaded": "Bot vẫn chưa được khởi động đầy đủ... các lệnh tùy chỉnh sẽ xuất hiện trong thời gian sớm nhất!",
       "nsfw_enabled": "%1$sLệnh này đã được đánh dấu thành công là NSFW.",
@@ -604,7 +604,7 @@
         "no_name": "%1$sYou need to give your house a name! For example, `~>marry house cozy house`",
         "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Type `yes` to confirm and `no` to cancel.",
         "success": "%1$sBạn đã mua thành công căn nhà này với giá %2$d đồng. Tên của ngôi nhà mới đầy ấm cúng này là %3$s!",
-        "cancel_success": "%1$sCancelled operation."
+        "cancel_success": "%1$sĐã huỷ câu lệnh."
       },
       "buycar": {
         "no_car": "%1$sYou need to buy a car first! Use `~>buy car` to get one.",
@@ -980,7 +980,7 @@
         "equipment_recover": "\nDo bạn chưa từng sử dụng đồ trang bị này, nên bạn đã có lại được %1$s!",
         "broken_equipment_recover": "\nBạn đã sử dụng đồ trang bị này, nhưng bạn có lại được %1$s, bạn có thể sửa chữa nếu bạn cần sau này!",
         "broken_equipment_recover_none": "\nLoại trang bị này không có dạng hỏng, và đã được sử dụng, nên nó đã tan biến vào hư vô, nhưng bạn nhận lại được %1$s đồng.",
-        "cancelled": "%1$sCancelled operation."
+        "cancelled": "%1$sĐã huỷ câu lệnh."
       },
       "display": {
         "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
@@ -1425,7 +1425,7 @@
         "confirm": "%1$sBạn có chắc là muốn mua thú nuôi này chứ? Tên: %2$s, Loại: %3$s, Giá: %4$,d đồng. Lựa chọn: %5$s. Gõ `yes` để đồng ý, nếu không thì gõ `no`.",
         "success": "%1$sChúc mừng! Bây giờ hai bạn đã là người chủ đáng quý của `%2$s%3$s` với cái tên mà hai bạn đặt là `%4$s`. Giá để mua thú nuôi này là %5$,d đồng và sự lựa chọn là: %6$s",
         "success_personal": "%1$sChúc mừng! Bây giờ bạn đã là người chủ đáng quý của `%2$s%3$s` với cái tên mà bạn đặt là `%4$s`. Giá để mua thú nuôi này là %5$,d đồng và sự lựa chọn là: %6$s",
-        "cancel_success": "%1$sCancelled operation.",
+        "cancel_success": "%1$sĐã huỷ câu lệnh.",
         "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters.",
         "no_marriage_marry": "%1$sI don't see any marriage here..."
       },
@@ -2315,7 +2315,7 @@
     "message_write": "Gửi tin nhắn",
     "message_tts": "Gửi tin nhắn TTS",
     "message_manage": "Quản lý tin nhắn",
-    "message_embed_links": "Nhúng liên kết",
+    "message_embed_links": "Đính kèm liên kết",
     "message_attach_files": "Đính kèm tập tin",
     "message_history": "Đọc lịch sử",
     "message_mention_everyone": "Đề cập mọi người",
