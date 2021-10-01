@@ -405,16 +405,16 @@
       "error_running": "%1$sLỗi trong khi chạy lệnh tùy chỉnh... vui lòng kiểm tra lại độ dài và nội dung phản hồi (không quá 2000 kí tự).",
       "error_running_new": "%1$sLỗi khi chạy lệnh tùy chỉnh. Kiểm tra phản hồi, nội dung và độ dài.\n **Lỗi**\n```%2$s```",
       "not_loaded": "Bot vẫn chưa được khởi động đầy đủ... các lệnh tùy chỉnh sẽ xuất hiện trong thời gian sớm nhất!",
-      "nsfw_enabled": "%1$sLệnh này đã được đánh dấu thành công là NSFW.",
-      "nsfw_disabled": "%1$sLệnh này được đánh dấu là SFW thành công.",
+      "nsfw_enabled": "%1$sLệnh này đã được đánh dấu NSFW thành công.",
+      "nsfw_disabled": "%1$sLệnh này đã được đánh dấu SFW thành công.",
       "nsfw_not_nsfw": "%1$sLệnh này được đánh dấu là NSFW vì thế nó chỉ có thể được dùng ở kênh NSFW.",
       "new_error": "%1$sLệnh tùy chỉnh mà bạn đang cố tạo ra có lỗi (v3, kiểm tra nội dung).\n**Lỗi:**\n```%2$s```",
       "ls": {
         "header": "Các lệnh của máy chủ này.",
-        "description": "**Mục này cho thấy tất cả các lệnh tùy chỉnh (do người dùng tạo ra) của máy chủ này** Tất cả các lệnh ở đây không được liên hệ với bot chính ở bất kì hình thức nào\n\nLệnh tùy chỉnh là các lệnh được tạo bởi  người dùng (thường là quản lý máy chủ) nó có thể xử lý các tình huống khác nhau như là mô các lệnh hành động.\nĐể biết thêm thông tin chi tiết về cách tạo các lệnh tùy chỉnh, hãy tham khảo [trang wiki này.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n\n**List:**",
+        "description": "**Mục này cho thấy tất cả các lệnh tùy chỉnh (do người dùng tạo ra) của máy chủ này.** Tất cả các lệnh ở đây không có liên kết với bot chính ở bất kì hình thức nào\n\nLệnh tùy chỉnh là các lệnh được tạo bởi người dùng (thường là quản lý máy chủ) nó có thể xử lý các tình huống khác nhau như là mô phỏng lại các lệnh hành động.\nĐể biết thêm thông tin chi tiết về cách tạo các lệnh tùy chỉnh, hãy tham khảo [trang wiki này.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n\n**Danh sách:**",
         "footer": "Tổng số lệnh tùy chỉnh trong máy chủ: %1$s"
       },
-      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
+      "invalid": "%1$sSự lựa chọn câu lệnh bất hợp lệ. Có lẽ bạn nên xem qua trang wiki tại <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
       "view": {
         "invalid": "%1$sBạn cần chỉ định lệnh và số phản hồi!",
         "not_found": "%1$sKhông có lệnh tùy chỉnh với tên đó ở đây.",
@@ -424,135 +424,135 @@
       "raw": {
         "no_command": "%1$sBạn cần phải cho tôi biết bạn muốn xem lệnh nào.",
         "not_found": "%1$sTôi không thể tìm thấy lệnh này.",
-        "header": "Lệnh tùy chỉnh thô: %1$s",
+        "header": "Lệnh tùy chỉnh gốc: %1$s",
         "amount": "(Hiển thị phản hồi %1$d của %2$d)",
-        "too_large_view": "Too large to view here, use `~>custom view %1$s %2$s`",
-        "description": "Đây là danh sách tất cả các phản hồi của lệnh này ở định dạng thô (những gì bạn đưa vào lệnh)."
+        "too_large_view": "Quá lớn để xem ở đây, hãy dùng `~>custom view %1$s %2$s`",
+        "description": "Đây là danh sách tất cả các phản hồi của lệnh này ở định dạng nguyên mẫu (những gì bạn đưa vào lệnh)."
       },
       "clear": {
-        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
+        "success": "%1$s**Đã dọn %2$d câu lệnh tuỳ chỉnh**. Không xoá các câu lệnh đã được khoá/ghim, hãy mở khoá chúng trước tiên nếu bạn muốn."
       },
       "make": {
-        "start_text": "%1$sBắt đầu **\"Tạo lệnh tùy chỉnh `%2$s`\"**!\nNhắn `&~>stop`để ngừng tạo **nhưng không lưu **.\nNhắn `&~>save` để ngừng tạo **lưu lệnh mới**. Nhắn bất kỳ tin nào bắt đầu với `&` để thêm vào phản hồi của lệnh. Dùng `~>nsfw`để đanh dấu lệnh này là NSFW và `~>sfw` để ngược lại.\nHoạt động tương tác này sẽ kết thúc và không được lưu sau 60 giây không hoạt động.",
+        "start_text": "%1$sBắt đầu **\"Tạo lệnh tùy chỉnh `%2$s`\"**!\nNhắn `&~>stop`để ngừng tạo **nhưng không lưu **.\nNhắn `&~>save` để ngừng tạo và **lưu lệnh mới**. Nhắn bất kỳ tin nào bắt đầu với `&` để thêm vào phản hồi của lệnh. Dùng `~>nsfw` để đánh dấu lệnh này là NSFW và `~>sfw` để ngược lại.\nInteractive Operation này sẽ kết thúc và không được lưu sau 60 giây không phản hồi.",
         "cancel": "%1$sTạo lệnh bị hủy bỏ.",
-        "no_responses_added": "%1$sKhông có phản hồi nào được thêm vào. Dừng tạo mới mà không sao lưu...",
-        "success": "%1$sSaved to command `%2$s`",
+        "no_responses_added": "%1$sKhông có phản hồi nào được thêm vào. Dừng tạo mới và không sao lưu...",
+        "success": "%1$s Đã lưu vào lệnh `%2$s`",
         "no_name_specified": "%1$sBạn không đưa ra tên của lệnh tùy chỉnh để tạo!"
       },
       "eval": {
         "not_specified": "Bạn không chỉ định bất cứ thứ gì để đánh giá.",
         "new_error": "%1$sCó lỗi trong việc đánh giá lệnh tùy chỉnh này.\n**Lỗi**:\n```%2$s```",
-        "error": "%1$sCó một lỗi trong việc đánh giá lênh tùy chỉnh này!\n%2$s"
+        "error": "%1$sCó lỗi trong việc đánh giá lệnh tùy chỉnh này!\n%2$s"
       },
       "remove": {
-        "no_command": "%1$sBnaj cần phả cho tôi biết bạn muốn xóa bỏ lệnh nào.",
-        "success": "%1$sRemoved Custom Command `%2$s`"
+        "no_command": "%1$sBạn cần phải cho tôi biết bạn muốn xóa lệnh nào.",
+        "success": "%1$sĐã xóa bỏ lệnh tùy chỉnh `%2$s`"
       },
       "import": {
-        "no_command": "%1$sBạn phải nói cho tôi biết bạn muốn sao chép về cái lệnh nào.",
-        "not_found": "%1$sThere are no custom commands matching your search query.\n**This command might not work properly!**\nIn such cases, you can manually copy the command using the output of `~>custom raw` instead.",
+        "no_command": "%1$sBạn phải nói cho tôi biết bạn muốn sao chép về máy chủ này lệnh nào.",
+        "not_found": "%1$sKhông có câu lệnh tuỳ chỉnh nào thích hợp với sự truy cứu của bạn.\n**Câu lệnh này có thể không hoạt động bình thường!** \nVới những trường hợp như thế này, bạn có thể sao chép thủ công câu lệnh bằng cách sử dụng đầu ra của `~>custom raw`.",
         "header": "`%1$s` (Số phản hồi: %2$s) - Máy chủ: `%3$s`",
-        "selection": "Chọn Lệnh:",
+        "selection": "Chọn lệnh:",
         "note": "(Bạn chỉ có thể chọn lệnh tùy chỉnh từ máy chủ mà bạn đang là thành viên)",
         "success": "Sao chép lệnh tùy chỉnh `%1$s` từ máy chủ `%2$s` với tổng %3$d phản hồi."
       },
       "edit": {
-        "no_command": "%1$sBạn cần phải nói rõ ra lệnh nào mà bạn muốn sửa.",
+        "no_command": "%1$sBạn cần phải ghi rõ ra lệnh nào mà bạn muốn sửa.",
         "invalid_number": "%1$sBạn cần phải đưa ra một số chính xác để thay đổi.",
-        "no_index": "%1$sBạn không thể sửa một chỉ số không tồn tại.",
-        "empty_response": "%1$sBạn không thể sửa một phản hồi trống",
+        "no_index": "%1$sBạn không thể sửa đổi một số không tồn tại.",
+        "empty_response": "%1$sBạn không thể sửa thành một phản hồi trống",
         "not_enough_args": "%1$sBạn cần phải đưa ra chính xác lệnh, chỉ số và phản hồi mới",
-        "success": "%1$sChỉnh sửa phản hồi **#%2$d** của lệnh `%3$s` chính xác"
+        "success": "%1$sChỉnh sửa phản hồi **#%2$d** của lệnh `%3$s` thành công"
       },
       "deleteresponse": {
-        "no_command": "%1$sBạn cần phải chỉ ra chính xác lệnh mà bạn muốn xóa một phản hồi.",
+        "no_command": "%1$sBạn cần phải chỉ ra chính xác lệnh mà bạn muốn xóa phản hồi.",
         "invalid_number": "%1$sBạn cần phải chỉ ra chính xác một số để thay đổi.",
         "no_index": "%1$sBạn không thể xóa một chỉ số không tồn tại.",
         "not_enough_args": "%1$sBạn cần chỉ ra chính xác lệnh và chỉ số mà bạn muốn xóa.",
-        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
+        "no_responses_left": "%1$sKhông còn bất kì phản hồi nào, nên tôi đã xoá câu lệnh đi.",
         "success": "%1$sĐã xóa phản hồi **#%2$d** của lệnh `%3$s` thành công"
       },
       "rename": {
         "success": "%1$sĐã đổi tên lệnh `%2$s` thành `%3$s`",
-        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
+        "not_enough_args": "%1$sBạn cần phải ghi rõ câu lệnh bạn muốn sửa tên và cái tên mới của nó."
       },
       "add": {
         "no_command": "%1$sBạn cần phải chỉ ra lệnh mà bạn muốn thêm vào.",
         "not_enough_args": "%1$sBạn cần phải đưa ra tên lệnh và cách phản hồi của lệnh mà bạn muốn thêm vào.",
         "empty_content": "%1$sBạn cần phải đưa ra nội dung của lệnh tùy chỉnh này",
-        "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
+        "too_long": "%1$sNội dung của lệnh này quá dài nên tui không thể hiển thị nó. Hãy đảm bảo rằng lệnh có ít hơn %2$,d ký tự.",
         "success": "%1$sĐã lưu lệnh `%2$s`",
-        "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
+        "too_many_responses": "%1$sCó quá nhiều phản hồi (%2$s) cho câu lệnh này. Giới hạn này được nhân đôi (lên đến 100) cho các máy chủ cao cấp (Xem qua <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sĐã có quá nhiều lệnh ở máy chủ này, nên bạn không thể tạo thêm được nữa (+100). Điều này có thể được bỏ qua với máy chủ cao cấp (Chi tiết tại <https://patreon.com/mantaro>)."
       },
       "lockcommand": {
-        "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
-        "no_command": "%1$sYou need to specify the command you want to lock.",
-        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+        "no_permission": "%1$sBạn cần quyền quản lý máy chủ (Manage Server) để khoá và mở khoá câu lệnh trên.",
+        "no_command": "%1$sBạn cần ghi rõ câu lệnh mà bạn muốn khoá.",
+        "success": "%1$sKhoá thành công câu lệnh `%2$s`. Bạn sẽ cần mở khoá nó trước khi thực hiện các thao tác khác."
       },
       "unlockcommand": {
-        "no_command": "%1$sYou need to specify the command you want to unlock.",
-        "not_locked": "%1$sThis command isn't locked.",
-        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+        "no_command": "%1$sBạn cần phải ghi rõ ra câu lệnh mà bạn muốn mở khoá.",
+        "not_locked": "%1$sCâu lệnh này không bị khoá.",
+        "success": "%1$sMở khoá thành công câu lệnh `%2$s`. Bạn sẽ cần khoá nó sau này nếu bạn muốn tránh thực hiện các thao tác khác."
       },
       "character_not_allowed": "%1$sKý tự này không được phép có ở tên của lệnh tùy chỉnh.",
       "already_exists": "%1$sLệnh `%2$s` đã tồn tại và nó là lệnh mặc định của bot.",
       "name_too_long": "%1$sTên quá dài.",
-      "no_cc": "%1$sKhông có lệnh tùy chỉnh nào được đăng ký ở máy chủ này, chỉ toàn bụi thoi.",
-      "admin_only": "Máy chủ này chỉ chấp nhận tạo mới, sửa, sao chép, và đánh giá lệnh tùy chỉnh từ admin.\n**Đây là cài đặt MẶC ĐỊNH.**\n- Nếu bạn là admin (có vai trò Chỉ Huy bot hoặc quyền quản lý máy chủ) và bạn muốn tất cả đều sử dụng được tính năng này, hãy gõ lệnh `~>opts admincustom false`",
+      "no_cc": "%1$sKhông có lệnh tùy chỉnh nào được đăng ký ở máy chủ này, chỉ toàn bụi thôi.",
+      "admin_only": "Máy chủ này chỉ chấp nhận tạo mới, sửa, sao chép, và đánh giá lệnh tùy chỉnh từ người quản lý.\n**Đây là cài đặt MẶC ĐỊNH.**\n- Nếu bạn là người quản lý (có vai trò chỉ huy bot hoặc quyền quản lý máy chủ) và bạn muốn tất cả đều sử dụng được tính năng này, hãy gõ lệnh `~>opts admincustom false`",
       "not_found": "%1$sKhông có lệnh `%2$s` ở máy chủ này.",
-      "invalid_image": "%1$sLệnh này bao gồm hình ảnh không tồn tại, hãy sửa lại...",
+      "invalid_image": "%1$sLệnh này bao gồm hình ảnh không hợp lệ, hãy sửa lại...",
       "invalid_string": "%1$sChuỗi `{%2$s}` không hợp lệ hoặc đầu ra dài hơn 2000 ký tự.",
       "invalid_json": "%1$sChuỗi `{%2$s}` không phải là một JSON hợp lệ.",
       "invalid_link": "%1$sChuỗi `%2$s` không phải là một đường dẫn hợp lệ.",
-      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
+      "locked_command": "%1$sBạn không thể thực hiện các thao tác chỉnh sửa hoặc xoá trong khi nó đang bị khoá, hãy dùng `~>custom unlockcommand <command name>` để mở khoá nó."
     },
     "mute": {
-      "no_permissions": "%1$sBạn cần có quyền cấm hoặc quyền đá thành viên để tắt tiếng.",
-      "no_mute_role": "%1$sChức năng tắt tiếng vai trò chưa được đặt trong máy chủ này, Bạn có thể đăt bằng cách gõ `~>opts muterole set <vai trò>`",
-      "null_mute_role": "%1$sVai trò bị tắt tiếng trước đây ở máy chủ bây giờ đã không tồn tại.",
-      "no_users": "%1$sBạn cần cho tôi một cái tên để tắt tiếng.",
+      "no_permissions": "%1$sBạn cần có quyền cấm hoặc quyền đuổi thành viên để làm người khác câm lặng.",
+      "no_mute_role": "%1$sChức năng \"câm lặng\" chưa được đặt trong máy chủ này, Bạn có thể đặt bằng cách gõ `~>opts muterole set <vai trò>`",
+      "null_mute_role": "%1$sVai trò bị câm trước đây ở máy chủ bây giờ đã không còn tồn tại.",
+      "no_users": "%1$sHãy đề cập tên, và tôi sẽ cho người đó ăn câm lặng.",
       "no_manage_roles": "%1$sTôi không có quyền quản lý vai trò trong máy chủ này.",
       "time_not_specified": "%1$sBạn muốn có thời gian nhưng bạn lại không chỉ rõ thời gian bao lâu.",
-      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `~>mute 20m @mention reason goes here`, for example.",
-      "negative_time_notice": "%1$sBạn không thể tắt tiếng ai đó trong thời gian âm. Trừ khi bạn có thể uốn cong không gian và thời gian.",
-      "default_time_too_long": "%1$sThời gian chờ tắt tiếng quá dài (Tối đa 10 ngày)...",
-      "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
-      "time_too_long": "%1$sThời gian tắt tiếng được chỉ định quá dài (Tối đa 10 ngày)...",
-      "already_muted": "%1$sNgười dùng này đã được gắn một vai trò bị tắt tiếng. Vui lòng dùng `~>unmute` để gỡ bỏ nó.",
-      "self_hierarchy_error": "%1$sTôi không thể gán vai trò bị tắt tiếng vì người này có vai trò cao hơn tôi hoặc vai trò này cao hơn tôi!",
-      "user_hierarchy_error": "%1$sTôi không thể gán vai trò bị tắt tiếng người này vì họ có vai trò cao hơn tôi, hoặc vai trò đó ở phân cấp cao hơn bạn!",
-      "success": "%1$sAdded mute role to **%2$s** for %3$s",
-      "success_reason": "%1$sAdded mute role to **%2$s** for %3$s because of the following reason: %4$s"
+      "time_not_specified_generic": "%1$sBạn đã không ghi rõ mốc thời gian. Ví dụ này, nếu bạn muốn câm lặng người khác trong 20 phút, bạn thực hiện `~>mute 20m @mention ghi lí do ở đây`.",
+      "negative_time_notice": "%1$sBạn không thể câm lặng ai đó trong thời gian âm. Trừ khi bạn có thể uốn cong không gian và thời gian.",
+      "default_time_too_long": "%1$sThời gian câm lặng quá dài (Tối đa: 10 ngày)...",
+      "time_too_little": "%1$sKhoảng thời gian làm câm được chỉ định nhỏ hơn 10 giây.\nBạn có chắc là bạn sử đụng đúng định dạng không đấy? Cho 20 phút, ghi là 20m, cho 1 tiếng, ghi là 1h, hoặc là một dạng kết hợp cả hai như (1h45m) chẳng hạn.",
+      "time_too_long": "%1$sThời gian câm lặng quá dài (Tối đa: 10 ngày)...",
+      "already_muted": "%1$sNgười dùng này đã bị câm lặng. Vui lòng dùng `~>unmute` để gỡ bỏ.",
+      "self_hierarchy_error": "%1$sTôi không thể gán vai trò câm lặng vì người này có thứ bậc cao hơn tôi, hoặc vai trò người đó có cao hơn tôi!",
+      "user_hierarchy_error": "%1$sTôi không thể câm lặng người này vì họ có vai trò cao hơn tôi, hoặc vai trò đó ở phân cấp cao hơn bạn!",
+      "success": "%1$sĐã gửi câm lặng đến **%2$s** trong vòng %3$s",
+      "success_reason": "%1$sĐã gửi câm lặng đến **%2$s** trong vòng %3$s vì lý do sau: %4$s"
     },
     "unmute": {
-      "no_permissions": "%1$sBạn cần phải có quyền cấm hoặc đuổi thành viên để gỡ tắt tiếng!",
-      "no_mentions": "%1$sBạn cần phải đề cập đến ít nhất một người dùng bạn muốn gỡ tắt tiếng.",
-      "success": "%1$sĐã gỡ vai trò tắt tiếng khỏi **%2$s**",
-      "no_role_assigned": "%1$sNgười dùng này không bị tắt tiếng."
+      "no_permissions": "%1$sBạn cần phải có quyền cấm hoặc đuổi thành viên để huỷ câm!",
+      "no_mentions": "%1$sBạn cần phải đề cập đến ít nhất một người dùng bạn muốn gỡ câm.",
+      "success": "%1$sĐã bỏ câm lặng khỏi **%2$s**",
+      "no_role_assigned": "%1$sNgười dùng này không bị câm lặng."
     },
     "ping": {
       "display": [
         "Đ...đủ nhanh chưa?",
         "Bạn đang làm gì thế?",
-        "B-Bạn đang nhìn gì thế?!",
+        "B-Bạn đang nhìn gì thế hả?!",
         "Hả.",
         "Tôi đã làm tốt chưa?",
         "Bạn nghĩ sao?",
         "Điều này có xảy ra thường xuyên không?",
-        "Tôi đang thể hiện t...tốt chứ?",
+        "T-tôi đang thể hiện t-t-tốt chứ?",
         "<3",
-        "pat pat",
+        "xoa đầu uwu",
         "Pong.",
         "Pang.",
         "Pung.",
         "Peng.",
-        "Wondering how I'd do",
-        "Any issue?",
-        "Ping-pong? Yay!",
-        "U-Uh... h-hi"
+        "Tự hỏi rằng làm sao tôi có thể làm được",
+        "Có vấn đề gì không thế?",
+        "Ping-pong? Yayyy!",
+        "À-ừm... C-chào"
       ],
-      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
+      "text": "%1$s*%2$s* -- **Ping của tôi: %3$,d ms** (Websocket: %4$,d ms)"
     },
     "love": {
       "no_mention": "%1$sBạn phải đề cập đến ít nhất 1 người dùng.",
@@ -566,92 +566,92 @@
     },
     "marry": {
       "loveletter": {
-        "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on. A love letter is given to you upon marriage.",
+        "no_letter": "%1$sBạn không có bức thư tình nào trong kho cả, nên là bạn không có bất kỳ thứ gì để viết lên dòng tin nhắn của bạn. Một chiếc thư tình sẽ được gửi cho bạn khi bạn cưới.",
         "empty": "%1$sBạn không thể để trống bức thư tình.",
         "no_marriage": "%1$sBạn chưa cưới, bạn không thể viết thư tình cho bản thân được...",
         "not_proposing_player": "%1$sBạn không phải là người được cầu hôn ở đây!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `~>marry status`",
+        "already_done": "%1$sCuộc hôn nhân này đã có một bức thư tình được gửi đi. Kiểm tra trong `marry status`",
         "too_long": "%1$sBức thư này quá dài (tối đa 500 ký tự)",
         "cannot_see": "%1$sTôi không thể tìm thấy người mà bạn đã cưới... Có lẽ là do họ không cùng trong máy chủ nào với tôi.",
-        "confirmation": "%1$sBạn có *chắc chắn* muốn gửi bức thư này để tỏ tình với **%2$s#%3$s**?\nBức thư này sẽ được giữ trong suốt cuộc hôn nhân. *Nội dung:*%4$s",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `~>marry status`",
-        "scrapped": "%1$sBạn vẫn có thời gian để suy nghĩ viết, không cần phải vội!"
+        "confirmation": "%1$sBạn có *chắc chắn* muốn gửi bức thư này để tỏ tình với **%2$s#%3$s**?\nBức thư này sẽ được giữ MÃI MÃI trong hôn nhân. *Nội dung:*%4$s",
+        "confirmed": "%1$sĐã gửi thành công bức thư tình đến người bạn yêu! Kiểm tra bằng `marry status`",
+        "scrapped": "%1$sBạn vẫn có thời gian để suy nghĩ và để viết, không cần phải vội!"
       },
       "status": {
-        "no_marriage": "%1$sBạn chưa cưới, nên tình trạng hôn nhân của bạn chắc là ờm... \"độc thân\" (Nếu bạn thấy một cuộc hôn nhân trong hồ sơ của bạn thì nghĩa là bạn đang trong hệ thống cũ, hãy thử tái hôn)",
+        "no_marriage": "%1$sBạn chưa cưới, nên tình trạng hôn nhân của bạn chắc là um... \"độc thân\" (Nếu bạn thấy một cuộc hôn nhân trong hồ sơ của bạn thì nghĩa là bạn đang trong hệ thống cũ, hãy thử tái hôn)",
         "header": "Tình trạng hôn nhân hiện tại",
-        "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
+        "description_format": "%1$sTình trạng hôn nhân giữa **%2$s** và **%3$s**",
         "date": "Ngày cưới",
-        "age": "Marriage Age",
+        "age": "Thời gian yêu nhau",
         "love_letter": "Thư tình",
         "waifus": "Quyền sở hữu Waifu",
-        "house": "House Name",
-        "car": "Car Name",
-        "pet": "Pet Name (Type)"
+        "house": "Tên nhà",
+        "car": "Tên xe",
+        "pet": "Tên thú nuôi (Loại)"
       },
       "timezone": {
-        "no_content": "%1$sYou need to specify what timezone you want this marriage to track.",
-        "invalid": "%1$sNot a valid timezone or Zone ID.",
-        "success": "%1$sSuccessfully set marriage timezone to %2$s. Pet time will be the same as the marriage timezone."
+        "no_content": "%1$sBạn cần phải nêu rõ múi giờ mà bạn muốn cho cuộc hôn nhân này.",
+        "invalid": "%1$sMúi giờ hoặc mã vùng không hợp lệ.",
+        "success": "%1$sĐã chỉnh múi giờ cho hôn nhân là %2$s. Thời gian hoạt động của thú nuôi cũng như tương tự."
       },
       "general": {
-        "not_married": "%1$sYou're not married."
+        "not_married": "%1$sBạn chưa cưới."
       },
       "buyhouse": {
-        "not_married": "%1$sYou can only buy a house while you're married. This might change in the future.",
-        "no_house": "%1$sYou need a house item in your inventory. Use `~>buy house` to get one.",
-        "not_enough_money": "%1$sBạn không có đủ tiền để mua nhà. (Giá hiện tại của căn nhà: %2$d đồng)",
-        "no_name": "%1$sYou need to give your house a name! For example, `~>marry house cozy house`",
-        "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Type `yes` to confirm and `no` to cancel.",
+        "not_married": "%1$sBạn chỉ có thể mua nhà khi đã cưới. Việc này có thể thay đổi trong tương lai.",
+        "no_house": "%1$sĐầu tiên bạn cần có một căn nhà. Hãy dùng lệnh `~>buy house` để mua.",
+        "not_enough_money": "%1$s Bạn không có đủ tiền để mua căn nhà. (Giá hiện tại của căn nhà: %2$d đồng)",
+        "no_name": "%1$sBạn cần đặt một cái tên cho căn nhà này! Ví dụ: `~>marry house túp lều lý tưởng`",
+        "confirm": "%1$sBạn có chắc là bạn muốn mua căn nhà này? Số tiền sẽ bị trừ đi trong ví bạn là %2$d và căn nhà được đặt tên là %3$s. Nhấn `yes` để xác nhận và `no` để huỷ.",
         "success": "%1$sBạn đã mua thành công căn nhà này với giá %2$d đồng. Tên của ngôi nhà mới đầy ấm cúng này là %3$s!",
         "cancel_success": "%1$sĐã huỷ câu lệnh."
       },
       "buycar": {
-        "no_car": "%1$sYou need to buy a car first! Use `~>buy car` to get one.",
+        "no_car": "%1$sTrước tiên bạn cần có một chiếc xe. Hãy dùng lệnh `~>buy car` để mua.",
         "not_enough_money": "%1$sBạn không có đủ tiền để mua xe. (Giá hiện tại của chiếc xe: %2$d đồng)",
-        "no_name": "%1$sYou need to give your car a name! For example, `~>marry car vroom`",
-        "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Type `yes` to confirm and `no` to cancel.",
+        "no_name": "%1$sBạn cần đặt một cái tên cho chiếc xe này! Ví dụ: `~>marry car xe lăn`",
+        "confirm": "%1$sBạn có chắc bạn đang mua chiếc xe này? Số tiền sẽ bị trừ đi trong ví bạn là %2$d và chiếc xe được đặt tên là %3$s. Nhấn `yes` để xác nhận và `no` để huỷ.",
         "success": "%1$sBạn đã mua thành công chiếc xe này với giá %2$d đồng. Tên của chiếc xe mới nhanh nhẹn này là %3$s!",
         "cancel_success": "%1$sĐã huỷ câu lệnh."
       },
       "no_mention": "%1$sHãy đề cập người bạn muốn cưới.",
-      "marry_yourself_notice": "%1$sBạn không thể cưới bản thân, dù cho rằng bạn có thể rất muốn thế.",
+      "marry_yourself_notice": "%1$sBạn không thể cưới bản thân, dù cho rằng bạn có thể rất muốn.",
       "marry_bot_notice": "%1$sBạn không thể cưới một bot. Đây không phải là phim viễn tưởng... ít nhất là chưa phải. Từ từ, bot và người có thể cưới nhau được á?",
       "already_married_receipt": "%1$sBạn vốn đã kết hôn với họ, ỏoo.",
       "already_married": "%1$sBạn vốn đã kết hôn rồi.",
       "receipt_married": "%1$sNgười dùng đó đã kết hôn với người khác.",
-      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `~>buy 2 ring` and then try proposing again <3",
-      "confirmation": "%1$s%2$s, hãy gõ **yes** (đồng ý) hoặc **no** (không đồng ý) cho lời cầu hôn của %3$s%4$sHết hiệu lực sau 120 giây.",
-      "ring_check_fail": "%1$sBạn không thể cưới khi có ít hơn hai chiếc nhẫn trong tủ đồ của bạn :(",
+      "no_ring": "%1$sBạn không thể cầu hôn mà không có hai chiếc nhẫn! Bạn có thể mua chúng bằng `~>market buy 2 ring` và sau đó hãy thử cầu hôn lại <3",
+      "confirmation": "%1$s%2$s, hãy gõ **yes** (đồng ý) hoặc **no** (không đồng ý) cho lời cầu hôn của %3$s\n%4$sHết hiệu lực sau 120 giây.",
+      "ring_check_fail": "%1$sBạn không thể cưới khi có ít hơn hai chiếc nhẫn trong túi đồ của bạn :(",
       "accepted": "%1$s**%2$s#%3$s** đã chấp nhận lời cầu hôn của **%4$s#%5$s**!",
       "denied": "%1$sĐã từ chối lời cầu hôn từ **%2$s**",
-      "ratelimit_message": "Why would you want to marry this much?"
+      "ratelimit_message": "Tại sao bạn lại muốn cưới đến mức này cơ chứ?"
     },
     "divorce": {
-      "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Type `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
-      "cancelled": "%1$sCancelled divorce.",
-      "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?\nWanna unclaim a Waifu? Use `~>waifu unclaim` instead.",
-      "success": "%1$sNow you're single. That's nice I guess.\n%2$s",
-      "split": "Số tiền còn lại được chia ra thành hai nhóm từ việc bán đi số tài sản hữu hình (thú nuôi, nhà cửa, xe cộ). Mỗi người nhận được **%1$d** đồng vào ví riêng."
+      "confirm": "%1$sBạn có chắc bạn muốn kết thúc cuộc hôn nhân này không? Số tiền bỏ ra cho thú nuôi, nhà cửa và xe cộ sẽ được chia làm hai phần. Nhấn `yes` để xác nhận và `no` để huỷ. **Thú nuôi của bạn sẽ biến mất vì nó gắn với cuộc hôn nhân**",
+      "cancelled": "%1$sHuỷ ly hôn.",
+      "not_married": "%1$sBạn chưa cưới với ai cả, sao lại không tìm kiếm người đặc biệt đó? Hay bạn muốn huỷ công nhận một Waifu? Dùng `~>waifu unclaim` thay vào đó.",
+      "success": "%1$sGiờ bạn đã là một người độc thân. Có lẽ đó là một điều tốt.\n%2$s",
+      "split": "Số tiền còn lại được chia ra thành hai từ việc bán đi số tài sản hữu hình (thú nuôi, nhà cửa, xe cộ). Mỗi người nhận được **%1$d** đồng vào ví riêng."
     },
     "waifu": {
-      "bot": "%1$sMột bot không thể là waifu, cho dù bạn có muốn thế...",
+      "bot": "%1$sBot không thể là waifu, cho dù bạn có muốn thế...",
       "notice": "Tính năng này không có nghĩa là bạn có bất kì một mối quan hệ nào, bất kể là kín đáo hay công khai ở ngoài đời thực.",
       "id": "**ID:**",
       "stats": {
         "header": "Tình trạng waifu của bạn",
         "header_other": "Tình trạng waifu của %1$s",
-        "format": "%1$s **Giá trị trọng lượng tiền:**%2$,d\n%1$s **Giá trị trọng lượng huy hiệu:** %3$,d\n%1$s **Giá trị sức nặng kinh nghiệm:** %4$,d\n%1$s **Giá trị sức nặng thu thập:** %5$,d\n%1$s **Hệ số nhân danh tiếng:** %6$.2fx",
+        "format": "%1$s **Giá trị tiền:**%2$,d\n%1$s **Giá trị huy hiệu:** %3$,d\n%1$s **Giá trị kinh nghiệm:** %4$,d\n%1$s **Giá trị thu thập:** %5$,d\n%1$s **Hệ số nhân danh tiếng:** %6$.2fx",
         "value": "Tổng giá trị waifu",
         "credits": "%1$,d đồng",
-        "performance": "Điểm thể hiện Waifu"
+        "performance": "Điểm hiệu suất Waifu"
       },
       "claim": {
         "no_user": "%1$sBạn chưa đề cập đến người dùng bạn muốn nhận.",
         "locked": "%1$sBạn không thể thực hiện hành động này.",
-        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `~>profile claimlock remove` if they wish to do so.",
+        "key_locked": "%1$sNgười mà bạn muốn có được đã mã-khoá và không thể được nhận. Họ có thể bỏ nó đi bằng cách dùng `~>profile claimlock remove` nếu họ muốn.",
         "not_enough_money": "%1$sBạn không có đủ tiền để thu thập waifu này **(Cần: %2$s đồng)**",
-        "not_enough_slots": "%1$sBạn không còn đủ chỗ trống để thu thập waifu này. (Tổng số vị trí:%2$s, đã dùng:%3$s)",
+        "not_enough_slots": "%1$sBạn không còn đủ chỗ trống để thu thập waifu này. (Tổng số vị trí: %2$s, đã dùng: %3$s)",
         "success": "%1$sĐã nhận `%2$s` thành công với giá %3$,d đồng. Số chỗ đã sử dụng: %4$s",
         "yourself": "%1$sBạn không thể tự nhận bản thân làm waifu!",
         "already_claimed": "%1$sNgười này vốn đã là waifu của bạn rồi.",
@@ -662,28 +662,28 @@
         "not_claimed": "%1$sNgười dùng này không phải waifu của bạn!",
         "confirmation": "%1$sBạn có *chắc chắn* muốn bỏ %2$s không? Giá phải trả để bỏ waifu này là **%3$s đồng**. Gõ *yes* để xác nhận hoặc *no* để huỷ\n%4$sCó hiệu lực trong vòng 1 phút.",
         "not_enough_money": "%1$sBạn không có đủ tiền để bỏ waifu này!",
-        "player_locked": "%1$sBạn không thể làm điều đó hiện tại.",
+        "player_locked": "%1$sBạn không thể làm điều đó vào lúc này.",
         "scrapped": "%1$sĐã huỷ ý định bỏ waifu.",
         "success": "%1$sĐã bỏ thành công `%2$s` với giá **%3$s đồng**.",
-        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID (`~>waifu -id`) and append `-unknown` at the end."
+        "not_found": "%1$sTôi không tìm thấy ai với sự truy cứu này. Nếu bạn cần bỏ một người dùng mà bạn không biết, dùng ID của họ (`~>waifu -id`) và thêm `-unknown` ở đằng sau."
       },
       "buyslot": {
         "locked": "%1$sBạn tạm thời không thể thực hiện hành động này.",
         "not_enough_money": "%1$sBạn không có đủ tiền để mua thêm chỗ cho waifu! Bạn cần %2$,d đồng.",
         "success": "%1$sMua thành công chỗ này với giá %2$s đồng, bạn hiện tại có tổng cộng %3$s chỗ và bạn còn lại %4$s chỗ trống.",
-        "too_many": "%1$sYou already have too many slots! The maximum is 30 slots."
+        "too_many": "%1$sBạn đã có quá nhiều vị trí! Tối đa 30 cái thôi!!!"
       },
       "optout": {
-        "notice": "%1$sBạn đã chọn bỏ toàn bộ hệ thống waifu, nên bạn không thể dùng nó.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
+        "notice": "%1$sBạn không thể dùng nó vì bạn đã chọn bỏ toàn bộ hệ thống waifu.",
+        "warning": "%1$sBạn có muốn chặn hoàn toàn hệ thống waifu? QUÁ TRÌNH NÀY LÀ VĨNH VIỄN VÀ SẼ KHÔNG THỂ KHÔI PHỤC ĐƯỢC.\nNghiêm túc đấy.\nNếu bạn chỉ muốn chặn bị nhận làm waifu và dùng các lệnh khác của hệ thống này như thường lệ, hãy dùng `~>profile claimlock`.\nBạn sẽ không thể nhận hoặc bị nhận làm waifu, và tất cả những người nhận bạn sẽ được gỡ bỏ.\nGõ `Yes, I want to opt out of the waifu system completely and irreversibly` hoặc là `no`. Ghi ra câu xác nhận sẽ thực hiện câu lệnh này, hoặc là không để huỷ.",
         "success": "%1$sBạn đã bỏ thành công toàn bộ hệ thống waifu.",
         "cancelled": "%1$sĐã huỷ lệnh bỏ hệ thống.",
         "claim_notice": "%1$sNgười dùng bạn đang cố nhận làm waifu đã bỏ hệ thống.",
-        "lookup_notice": "%1$sThe user you're trying to lookup opted out."
+        "lookup_notice": "%1$sNgười dùng bạn đang cố nhận làm waifu đã rời khỏi hệ thống này."
       },
       "header": "Danh sách Waifu",
       "description_header": "Đây là danh sách tất cả những waifu đáng yêu của bạn, được sắp xếp theo ngày bạn nhận.\n*Bạn có thể có nhiều nhất %1$,d waifu ở thời điểm hiện tại.*\n\nNếu bạn có mong muốn xem chỉ số waifu của bạn, hãy dùng `~>waifu stats`\n\n",
-      "no_waifu": "Không có waifu, đây chỉ có mỗi bụi bẩn thôi :(\nBạn có thể có waifu bằng cách nhận ai đó! Dùng `~>waifu claim` để bắt đầu.",
+      "no_waifu": "Ở đây không có waifu, chỉ có mỗi bụi bẩn thôi :(\nBạn có thể có waifu bằng cách nhận ai đó! Dùng `~>waifu claim` để bắt đầu.",
       "footer": "Tổng số waifu: %1$,d - còn trống: %2$s chỗ",
       "value_format": "**Giá trị:**",
       "value_b_format": "**Đã mua với giá:**",
@@ -693,7 +693,7 @@
     },
     "ratewaifu": {
       "nothing_specified": "%1$sCho tôi một waifu để đánh giá!",
-      "success": "%1$sI rate your waifu with a **%2$,d/100**"
+      "success": "%1$sTôi đánh giá waifu của bạn **%2$,d/100**"
     },
     "roll": {
       "success": "%1$sBạn lắc được **%2$,d**%3$s",
@@ -701,29 +701,29 @@
     },
     "coinflip": {
       "over_limit": "%1$sDừng ở đó! Giới hạn là 1,000 lần tung",
-      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions (For example, `~>roll 100`)",
-      "success": "%1$s Kết quả sau khi tung **%2$,d** lần là **%3$,d** mặt ngửa và **%4$,d** mặt sấp"
+      "no_repetitions": "%1$sBạn cần một số nguyên dương cho số lượng lặp lại (Ví dụ nè, `~>roll 100`)",
+      "success": "%1$s Kết quả sau **%2$,d** lần tung gồm **%3$,d** mặt ngửa và **%4$,d** mặt sấp"
     },
     "inventory": {
-      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>dump`",
-      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
+      "bot_notice": "%1$sĐây, tôi không có túi đồ. Ừ thì, có thể bạn ước rằng nó có, nhưng nếu vậy nó sẽ là `~>dump` (đồ bỏ đi)",
+      "brief": "**Bộ vật phẩm của %1$s** %2$s\n\n*Về phiên bản chi tiết, dùng `~>inventory -info`. Chúc bạn có một ngày tốt lành!*",
       "calculate": "%1$s%2$s sẽ nhận được **%3$,d đồng** nếu bán tất cả mọi thứ trong túi đồ.",
-      "header": "Tủ đồ của %1$s",
-      "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
-      "empty": "%1$sTủ đồ này đang trống! :(",
-      "brief_notice": "Bạn có thể ra lệnh `~>inventory -brief` để lấy bản phù hợp với điện thoại.",
-      "sorted_by": " *(sorted by: %1$s)*"
+      "header": "Túi đồ của %1$s",
+      "format": "%1$sGiá cả:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
+      "empty": "%1$sTúi đồ này chẳng có gì cả! :(",
+      "brief_notice": "Bạn có thể sử dụng `~>inventory -brief` để xài phiên bản thân thiện với điện thoại.",
+      "sorted_by": " *(được sắp xếp theo: %1$s)*"
     },
     "cast": {
-      "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
-      "no_item_found": "%1$sI didn't find any item matching that. Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast star pick`",
-      "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items. Try using the full name if you think you have the correct item.",
+      "no_item_specified": "%1$sBạn chưa ghi rõ bất kỳ vật phẩm nào. Để có một danh sách cụ thể, hãy dùng `~>cast ls`",
+      "no_item_found": "%1$sTôi không tìm thấy vật phẩm nào tương ứng cả. Hãy chắc chắn bạn sẽ ghi cả tên đầy đủ của vật phẩm để tránh nhầm lẫn, hoặc dùng biểu tượng nếu bạn muốn. Ví dụ: `~>cast star pick`",
+      "item_not_cast": "%1$sBạn không thể chế tạo vật phẩm này. Có thể xem qua `~>cast ls` để có được danh sách những món đồ có thể chế tạo. Thử sử dụng tên đầy đủ của vật phẩm nếu bạn nghĩ là bạn có đúng vật phẩm.",
       "not_enough_money": "%1$sBạn không có đủ tiền để chế tạo món đồ này. **(Cần: %2$s)**",
-      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast. You need %3$,d of them.",
-      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed the cast of a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
+      "no_item": "%1$sBạn không có *%2$s* để thực hiện quá trình chế tạo này. Bạn cần %3$,d vật phẩm tương tự.",
+      "not_enough_items": "%1$sBạn không có đủ số lượng của *%2$s* để chế tạo **%3$s**.**(Cần: %4$s, Hiện có: %5$s)**",
       "success": "%1$sBạn đã chế tạo thành công %2$,dx %3$s**%4$s** và tiêu %5$,d đồng. *Quá trình chế tạo tốn %6$s*",
-      "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
-      "not_equipped": "%1$sYou don't have any equipped wrench. Use `~>equip <wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `~>buy wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `~>cast 5 star pick`",
+      "no_tool": "%1$sBạn cần %2$s để thực hiện quá trình chế tạo này!",
+      "not_equipped": "%1$sBạn không trang bị chiếc cờ lê nào. Dùng `~>equip <tên cờ lê>` để trang bị một chiếc và bắt đầu cuộc hành trình của bạn! Còn... Nếu bạn không có cái nào, hãy sử dụng `~>buy wrench`.\nBạn không cần phải ghi rõ cây cờ lê nào được nhắc đến trong câu lệnh này. Để chế tạo nhiều vật phẩm cùng lúc, hãy thêm vào số lượng chế tạo trước tên vật phẩm, ví dụ là `~>cast 5 star pick`",
       "too_many": "%1$sYou'd have more than 5,000 of this item if you proceed. Try casting less of this object?",
       "low_tier": "%1$sYou need at least a Tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a Tier %2$s wrench equipped.",
       "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe equip a more powerful one? (*Wrench level: %2$s, Required level: %3$s*)",
@@ -1469,8 +1469,8 @@
       "remove": {
         "no_pet": "%1$sYou don't have a pet to remove. (Choice: %2$s)%3$s",
         "no_pet_confirm": "%1$sI don't see any pet here...",
-        "confirm": "%1$sBạn có chắc chắn là muốn xoá thú nuôi này không? Nửa kia của bạn sẽ nhận được %2$,d đồng, và bạn cũng nhận được %2$,d đồng.\nGõ `yes` để đồng ý hoặc `no` để từ chối. Hãy nhận thức được rằng sự hoàn trả không đi kèm với cấp độ hay bất kì thứ gì khác, nó giống như mua một tomagotchi mới hoặc tương tự như vậy.",
-        "confirm_personal": "%1$sBạn có chắc chắn là muốn xoá thú nuôi này không? Bạn sẽ được hoàn lại %2$,d đồng.\nGõ `yes` để đồng ý hoặc `no` để từ chối. Hãy nhận thức được rằng sự hoàn trả không đi kèm với cấp độ hay bất kì thứ gì khác, nó giống như mua một tomagotchi mới hoặc tương tự như vậy.",
+        "confirm": "%1$sBạn có chắc chắn là muốn xoá thú nuôi này không? Nửa kia của bạn sẽ nhận được %2$,d đồng, và bạn cũng nhận được %2$,d đồng.\nGõ `yes` để đồng ý hoặc `no` để huỷ. Hãy nhận thức được rằng sự hoàn trả không đi kèm với cấp độ hay bất kì thứ gì khác, nó giống như mua một tomagotchi mới hoặc tương tự như vậy.",
+        "confirm_personal": "%1$sBạn có chắc chắn là muốn xoá thú nuôi này không? Bạn sẽ được hoàn lại %2$,d đồng.\nGõ `yes` để đồng ý hoặc `no` để huỷ. Hãy nhận thức được rằng sự hoàn trả không đi kèm với cấp độ hay bất kì thứ gì khác, nó giống như mua một tomagotchi mới hoặc tương tự như vậy.",
         "success": "%1$sĐã bán thú nuôi thành công. Cả hai bên sẽ nhận được %2$s đồng như là sự hoàn trả.",
         "success_personal": "%1$sĐã bán thú nuôi thành công. Bạn sẽ nhận được %2$s đồng như là sự hoàn trả."
       },
@@ -1708,7 +1708,7 @@
       "invalid_money_or_modifier": "%1$sVui lòng nhập một số hợp lệ nhỏ hơn hoặc bằng số dư hiện tại của bạn hoặc `all` để đánh bạc tất cả tiền có trong tài khoản của bạn.",
       "not_enough_money": "%1$sPlease type a value within your balance.",
       "invalid_percentage": "%1$sPlease type a valid percentage value.",
-      "confirmation_message": "%1$sBạn đang cược **%2$,d* đồng (có vẻ là rất nhiều). Bạn có chắc với quyết định của mình chứ? Nhấn **yes** để đồng ý và **no** để từ chối.",
+      "confirmation_message": "%1$sBạn đang cược **%2$,d* đồng (có vẻ là rất nhiều). Bạn có chắc với quyết định của mình chứ? Nhấn **yes** để đồng ý và **no** để huỷ.",
       "cancelled_bet": "%1$sCancelled bet.",
       "win": "%1$sChúc mừng, bạn đã thắng %2$,d đồng và giữ lại được số tiền bạn đặt cược.",
       "win_overflow": "%1$sChúc mừng, bạn đã thắng %2$,d đồng. Nhưng vì bạn đã có quá nhiều tiền. Nên túi tiền bị tràn ra.",
