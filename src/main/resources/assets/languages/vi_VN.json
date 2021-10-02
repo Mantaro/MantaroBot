@@ -880,12 +880,12 @@
       "time": "Bạn có %1$s để bình chọn.",
       "error": "%1$sĐã xảy ra lỗi không xác định trong khi thiết lập cuộc khảo sát. Hay là thử lại lần nữa? (Lỗi bên trong)",
       "result_header": "Kết quả cuộc khảo sát",
-      "result_screen": "**Showing results for the poll started by %1$s** with name: *%2$s*",
-      "vote_results": "+Registered %1$d votes for option %2$s",
-      "thank_note": "Cảm ơn bạn đã biểu quyết",
-      "results": "Kết quả khảo sát",
+      "result_screen": "**Hiển thị kết quả cho cuộc khảo sát được bắt đầu bởi %1$s** với tên: *%2$s*",
+      "vote_results": "+Có %1$d phiếu bầu cho bình chọn %2$s",
+      "thank_note": "Cảm ơn bạn đã bình chọn",
+      "results": "Kết quả",
       "cancelled": "%1$sĐã huỷ khảo sát",
-      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds). Example: `-time 40m`"
+      "incorrect_time_format": "%1$sĐịnh dạng thời gian không hợp lệ. Hãy nhớ rằng, định dạng thời gian thích hợp đó là một số theo sau là `h, m hoặc s` (giờ, phút hoặc giây). Ví dụ: `-time 40m`"
     },
     "profile": {
       "timezone": {
