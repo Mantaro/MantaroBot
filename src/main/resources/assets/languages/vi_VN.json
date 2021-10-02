@@ -729,97 +729,97 @@
       "not_enough_wrench_level": "%1$sChiếc cờ lê của bạn không đủ độ bền để có thể chế tạo vật phẩm này. Có lẽ bạn nên trang bị một chiếc bền hơn chăng? (*Cờ lê cấp:* %2$s, Cấp độ cần thiết: %3$s)",
       "too_many_amount": "%1$sBạn không thể chế tạo quá nhiều món đồ này cùng một lúc như thế! Giới hạn: %2$s, Số lượng bạn đưa ra: %3$s. Một cờ lê lấp lánh có thể tăng giới hạn lên gấp đôi! Trừ khi bạn đang dùng nó.",
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your wrench slot."
+        "success": "%1$sĐã tự động trang bị **%2$s** từ bộ cờ lê của bạn."
       },
       "ls": {
         "header": "Danh sách các món đồ có thể chế tạo",
         "cost": "Giá chế tạo: ",
-        "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "desc": "Dưới đây là danh sách những món đồ bạn có thể chế tạo bằng cách sử dụng `~>cast`.\nBạn có thể dùng tên đầy đủ hoặc tên viết tắt của chúng (ví dụ: `~>cast \"diamond pickaxe\"`, hoặc `~>cast diamond p\"`, đều có thể dùng được)\n**Khi chế tạo sẽ tiêu tốn ít nhất phân nửa số vật phẩm cần thiết được thế hiện bên dưới.**\nCờ lê Bậc 2 và Bậc 3 lần lượt là Sao Chổi (comet) và Lấp Lánh (sparkle)."
       },
       "dust": "%1$sBạn không thể chế tạo đồ với một tủ đồ bụi bặm như vậy! *(Bụi cấp: %2$s%%)*. Sao bạn không thử dọn sạch nó bằng `~>useitem mop`?",
       "wrench_multiple_use": "Lời khuyên: *Bạn không thể sử dụng chiếc cờ lê bạn đang cố dùng để chế tạo như một nguyên liệu được!*"
     },
     "market": {
       "dump": {
-        "replacement": "You can use `~>dump` now. For example, instead of `~>market dump floppy` you can do `~>dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
-        "no_item": "%1$sBạn cần nói rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải nói) và tên của đồ vật bạn muốn vứt.",
+        "replacement": "Bạn có thể sử dụng lệnh `~>dump`. Ví dụ này, thay vì xài `~>market dump floppy`, bạn có thể xài `~>dump floppy`. Vui lòng hãy sử dụng câu lệnh mới... Và tôi tự hỏi rằng chuyện gì đã xảy ra với những chiếc dĩa mềm mà bạn vứt trước đó?",
+        "no_item": "%1$sBạn cần ghi rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải ghi ra) và tên của đồ vật bạn muốn vứt.",
         "invalid": "%1$sSố lượng bạn nhập không hợp lệ để vứt.",
-        "non_existent": "%1$sKhông thể vứt đồ không tồn tại! Nếu bạn đang lúng túng, bạn có thể thử dùng tên viết tắt của đồ hoặc cho tên đồ vào trong ngoặc kép.",
-        "player_no_item": "%1$sKhông thể vứt đồ bạn không có!",
-        "more_items_than_player": "%1$sBạn không thể vứt đi nhiều hơn số lượng đồ bạn có.",
+        "non_existent": "%1$sKhông thể vứt đồ không tồn tại! Nếu bạn đang lúng túng, bạn có thể thử dùng tên viết tắt hoặc cho tên vào trong ngoặc kép.",
+        "player_no_item": "%1$sKhông thể vứt vật phẩm bạn không có!",
+        "more_items_than_player": "%1$sBạn không thể vứt đi nhiều hơn số lượng vật phẩm bạn có.",
         "success": "%1$sĐã ném %2$,dx **%3$s %4$s** vào thùng rác."
       },
       "price": {
-        "no_item": "%1$sYou need to specify the item you want to check the price of.",
-        "non_existent": "%1$sKhông thể xem giá của đồ vật không tồn tại. Nếu bạn đang lúng túng, bạn có thể thử dùng tên viết tắt của đồ hoặc cho tên đồ vào trong ngoặc kép.",
+        "no_item": "%1$sBạn cần ghi rõ món vật phẩm mà bạn muốn xem giá.",
+        "non_existent": "%1$sKhông thể xem giá của vật không tồn tại. Nếu bạn đang lúng túng, bạn có thể thử dùng tên viết tắt hoặc cho tên vào ngoặc kép.",
         "no_price": "%1$sMón đồ này không thịnh hành trên chợ để có thể bán hoặc mua (có thể là một hàng sưu tầm độc)",
         "collectible": "%1$sĐây là một đồ sưu tầm. (Giá bán: %2$,d đồng)",
-        "success": "%1$sGiá mua thị trường cho %2$s**%3$s** là %4$s đồng và giá bán thị trường là %5$s đồng."
+        "success": "%1$sGiá mua cho %2$s**%3$s** là %4$s đồng và giá bán là %5$s đồng."
       },
       "sell": {
-        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
-        "no_item": "%1$sYou need to specify the item to sell.",
-        "no_item_amount": "%1$sBạn cần nói rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải nói) và tên của đồ vật bạn muốn bán.",
+        "replacement": "Bây giờ bạn có thể xài `~>sell`. Ví dụ, thay vì xài `~>market sell pick` thì bây giờ bạn chỉ việc `~>sell pick`. Làm ơn hãy sử dụng lệnh mới nhé.",
+        "no_item": "%1$sBạn cần ghi rõ vật phẩm mà bạn muốn bán.",
+        "no_item_amount": "%1$sBạn cần ghi rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải ghi ra) và tên của đồ vật bạn muốn bán.",
         "invalid": "%1$sSố không hợp lệ để có thể bán.",
         "all": {
-          "confirmation": "%1$sBạn có chắc chắn muốn bán **tất cả** đồ của bạn? Điều này sẽ làm *mọi* đồ vật trong tủ đồ của bạn biến mất. Nếu bạn muốn bán một loại đồ đơn lẻ, hãy gõ số lượng. Gõ *yes* để đồng ý và *no* để huỷ",
+          "confirmation": "%1$sBạn có chắc chắn muốn bán **tất cả** đồ của bạn? Điều này sẽ làm *mọi đồ vật* trong túi đồ của bạn biến mất. Nếu bạn muốn bán một món đồ đơn lẻ, hãy gõ số lượng. Gõ *yes* để đồng ý và *no* để huỷ",
           "success": "%1$sBạn đã bán hết đồ trong túi đồ của bạn và nhận được %2$,d đồng!",
           "cancelled": "%1$sĐã huỷ thành công."
         },
-        "non_existent": "%1$sBạn không thể bán đồ không tồn tại. Nếu bạn đang lúng túng, bạn có thể thử tên viết tắt của đồ hoặc cho tên đồ vào trong dấu ngoặc kép.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>dump` it)",
+        "non_existent": "%1$sBạn không thể bán đồ không tồn tại. Nếu bạn đang lúng túng, bạn có thể thử tên viết tắt hoặc cho tên vào trong dấu ngoặc kép.",
+        "no_sell_price": "%1$sMón đồ đó không thể bán. (Nhưng bạn có thể `~>dump` để bỏ)",
         "no_item_player": "%1$sBạn không thể bán đồ bạn không có.",
         "more_items_than_player": "%1$sBạn không thể bán nhiều hơn số lượng bạn đang có.",
         "success": "%1$sBạn đã bán %2$,d **%3$s** và nhận được %4$,d đồng!"
       },
       "buy": {
-        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
-        "no_item": "%1$sYou need to specify the item to buy.",
-        "no_item_amount": "%1$sBạn cần nói rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải nói) và tên của đồ vật bạn muốn mua.",
+        "replacement": "Bây giờ bạn có thể xài `~>buy`. Ví dụ, thay vì xài `~>market buy pick` thì bây giờ bạn chỉ việc `~>buy pick`. Làm ơn hãy sử dụng lệnh mới nhé.",
+        "no_item": "%1$sBạn cần ghi rõ vật phẩm bạn muốn mua.",
+        "no_item_amount": "%1$sBạn cần ghi rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải ghi ra) và tên của vật phẩm bạn muốn mua.",
         "invalid": "%1$sSố lượng bạn nhập không hợp lệ để mua.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
+        "non_existent": "%1$sBạn không thể mua một mặt hàng không tồn tại. Nếu bạn không biết phải làm gì, hãy thử nhập tên ngắn hoặc đặt tên trong dấu ngoặc kép. Ngoài ra, phải ghi số lượng trước tên vật phẩm, ví dụ: `~>buy 15 energy`",
         "no_buy_price": "%1$sBạn không thể mua đồ không được bán.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
+        "item_limit_reached": "%1$sBạn không thể mua nhiều hơn nữa. Bạn chỉ có thể có tối đa 5000 cho mỗi vật phẩm bất kì.",
         "success": "%1$sĐã mua thành công %2$,d %3$s với giá %4$,d đồng. Giờ bạn còn %5$,d đồng.",
         "success_breakable": "%1$sMua thành công %2$,d %3$s với giá %4$,d đồng. Bạn còn %5$,d đồng. Bạn có thể trang bị món đồ này bằng cách sử dụng `~>equip <item name>`",
         "success_potion": "%1$sMua thành công %2$,d %3$s với giá %4$,d đồng. Bạn còn %5$,d đồng. Bạn có thể sử dụng lọ thuốc hoặc buff này bằng cách sử dụng `~>useitem <item name>`",
         "not_enough_money": "%1$sBạn không có đủ tiền để mua món đồ này. Tài sản của bạn: %2$,d đồng, Cần: %3$,d đồng.",
-        "success_breakable_upgrade": "You can check <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> for more information on how to upgrade your tools!"
+        "success_breakable_upgrade": "Hãy ghé qua <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> để biết thêm thông tin chi tiết về cách nâng cấp các dụng cụ nhé!"
       },
       "header": "Chợ Mantaro",
-      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>` respectively. Check `~>help market` for more info.",
+      "reference": "\nBạn có thể mua và bán bằng lệnh `~>buy <item>` và `~>sell <item>`. Xem qua `~>help market` để biết thêm thông tin chi tiết.",
       "sell_price": "- **Giá bán:**",
       "buy_price": "- **Giá mua:**"
     },
     "itemtransfer": {
       "transfer_yourself_note": "%1$sBạn không thể tự chuyển đồ cho bản thân.",
-      "bot_notice": "%1$sBạn không thể chuyển đồ cho một bot.",
+      "bot_notice": "%1$sBạn không thể chuyển đồ cho bot.",
       "locked_notice": "%1$sBạn hiện không thể chuyển đồ được. (Người chơi bị khoá)",
       "hidden_item": "%1$sBạn không thể chuyển món đồ này!",
-      "overflow": "%1$sThis player has the maximum amount (5000) of this item.",
-      "overflow_after": "%1$sAfter transferring the item, the player would have more than the maximum amount (5000) of this item.",
+      "overflow": "%1$sNgười này đã đạt đến số lượng tối đa (5000) của vật phẩm này.",
+      "overflow_after": "%1$sSau khi chuyển vật phẩm, người chơi sẽ có nhiều hơn số lượng tối đa (5000) của vật phẩm này.",
       "success": "%1$s%2$s đã chuyển **%3$s** **%4$s** tới %5$s",
-      "multiple_items_error": "%1$sBạn không có món đồ này trong tủ đồ của bạn",
-      "error": "%1$sBạn không có đủ số lượng của món đồ này để thực hiện giao dịch!",
-      "no_item_mention": "%1$sYou need to specify the person to transfer the item to and the item to transfer."
+      "multiple_items_error": "%1$sBạn không có vật phẩm này trong túi đồ của bạn",
+      "error": "%1$sBạn không có đủ số lượng của vật phẩm này để thực hiện giao dịch!",
+      "no_item_mention": "%1$sBạn cần đề cập đến người nhận và tên vật phẩm mà bạn muốn chuyển."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
+      "new_account_notice_yourself": "%1$sTài khoản của bạn phải đủ ít nhất 14 ngày tuổi để chuyển tiền.",
+      "new_account_notice_other": "%1$sTài khoản bạn đang chuyển đến phải có ít nhất 14 ngày tuổi.",
       "transfer_yourself_note": "%1$sBạn không thể tự chuyển tiền cho bản thân.",
-      "bot_notice": "%1$sBạn không thể chuyển tiền cho một bot.",
-      "no_amount": "%1$sYou need to specify the amount. Use the `transferitems` command instead if you meant to transfer an item.",
+      "bot_notice": "%1$sBạn không thể chuyển tiền cho bot.",
+      "no_amount": "%1$sBạn cần xác định số tiền muốn chuyển. Thay vào đó, hãy sử dụng lệnh `transferitems` nếu bạn muốn chuyển vật phẩm.",
       "no_money_specified_notice": "%1$sBạn không thể chuyển số tiền bằng không :P",
       "over_transfer_limit": "%1$sBạn không thể chuyển nhiều tiền đến vậy. (Giới hạn: %2$,d đồng)",
       "own_locked_notice": "%1$sBạn hiện không thể chuyển tiền.",
-      "receipt_overflow_notice": "Không thể chuyển tiền cho người chơi này.",
+      "receipt_overflow_notice": "Không thể chuyển tiền cho người này.",
       "no_money_notice": "%1$sBạn không thể chuyển số tiền mà bạn không có.",
-      "receipt_locked_notice": "%1$sThat user cannot receive money now.",
-      "receipt_over_limit": "%1$sNgười chơi này có quá nhiều tiền...",
+      "receipt_locked_notice": "%1$sNgười đó hiện không thể nhận tiền.",
+      "receipt_over_limit": "%1$sNgười này có quá nhiều tiền...",
       "success": "%1$sĐã chuyển thành công **%2$,d** *(%3$,d sau khi trừ 8%% thuế)* tới **%4$s**.",
-      "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
-      "party": "You can only transfer to the same person (%1$s) once every 10 minutes.",
-      "blacklisted_transfer": "%1$sYou can't transfer to blacklisted users."
+      "item_transfer": "%1$sBạn không thể dùng lệnh chuyển tiền để chuyển đồ, hãy dùng `transferitems`.",
+      "party": "Bạn chỉ có thể chuyển tiền cho cùng một người (%1$s) 10 phút một lần.",
+      "blacklisted_transfer": "%1$sBạn không thể chuyển cho người trong danh sách đen."
     },
     "useitem": {
       "ls": {
@@ -827,16 +827,16 @@
         "desc": "Đây là danh sách những món đồ tương tác trong Mantaro. Để biết thêm thông tin chi tiết, xin vui lòng truy cập wiki!"
       },
       "use_command": "%1$sVới đồ này bạn cần dùng lệnh đi liền với nó! (mine cho cuốc, fish cho cần câu)",
-      "no_items_specified": "%1$sBạn cần nói rõ đồ bạn muốn dùng.",
-      "not_interactive": "%1$sBạn không thể tương tác với đồ này.",
-      "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set. This item might use its own command? For example, picks use `~>mine`",
-      "no_item": "%1$sBạn không có đồ này trong tủ đồ của bạn.",
+      "no_items_specified": "%1$sBạn cần ghi rõ đồ bạn muốn dùng.",
+      "not_interactive": "%1$sBạn không thể tương tác với vật phẩm này.",
+      "interactive_no_action": "%1$sVật phẩm này được đánh dấu là có sự tương tác, nhưng chưa được đặt lệnh sử dụng. Hoặc có thể nó có lệnh riêng chăng? Chẳng hạn như, đào thì dùng `~>mine`",
+      "no_item": "%1$sKhông có vật phẩm này trong túi đồ của bạn.",
       "not_enough_items": "%1$sBạn không có đủ số lượng đồ bạn đưa ra.",
-      "too_little": "%1$sBạn không thể dùng một món đồ với số lượng ít hơn một.",
-      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `15`!"
+      "too_little": "%1$sBạn không thể dùng vật phẩm với số lượng ít hơn một.",
+      "invalid_amount": "%1$sSố lượng sử dụng cần ở trong khoảng từ `1` đến `15`!"
     },
     "opts": {
-      "note": "%1$sNày, nếu bạn đang lúng túng hoặc muốn được trợ giúp trong việc sử dụng lệnh cài đặt, hãy truy cập <https://github.com/Mantaro/MantaroBot/wiki/Configuration> để được hướng dẫn.\nLưu ý: Chỉ những được cấp quyền Người Quản Lý, Quản Lý Phòng hoặc những người có vai trò Quản Lý Bot mới được dùng lệnh này!",
+      "note": "%1$sNày, nếu bạn đang lúng túng hoặc muốn được trợ giúp trong việc sử dụng lệnh cài đặt, hãy truy cập <https://github.com/Mantaro/MantaroBot/wiki/Configuration> để được hướng dẫn.\nLưu ý: Chỉ những được cấp quyền người quản lý (Administrator), quản lý máy chủ (Manage Server) hoặc những người có vai trò quản lý bot mới được dùng lệnh này!",
       "list": {
         "header": "**Danh sách các lệnh cài đặt trong Mantaro**\n%1$s*Tất cả các lệnh cài đặt đều phải được đặt sau `~>opts` khi dùng*\n%2$s"
       },
@@ -845,7 +845,7 @@
     },
     "8ball": {
       "no_args": "%1$sBạn cần phải chỉ ra chính xác bạn muốn 8ball trả lời gì.",
-      "error": "%1$sTôi đã va phải một lỗi khi đi lấy kết quả của 8ball."
+      "error": "%1$sTôi đã va phải lỗi khi đi lấy kết quả của 8ball."
     },
     "iam": {
       "list": {
@@ -853,28 +853,28 @@
         "role": "Vai trò:",
         "category": "Danh mục: ",
         "header": "Danh sách vai trò tự động",
-        "role_give": "Gives role:",
-        "no_autoroles": "Chưa có bất ký một vai trò tự động nào trong máy chủ này.",
-        "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`"
+        "role_give": "Đưa vai trò:",
+        "no_autoroles": "Chưa có bất kỳ vai trò tự động nào trong máy chủ này.",
+        "description": "Đây là các vai trò tự động có thể gán cho người dùng ở máy chủ này. Bạn có thể sử dụng chúng bằng cách gõ `~>iam <tên vai trò>`"
       },
       "deleted_role": "%1$sVai trò tương ứng với vai trò tự động này đã bị xóa",
       "already_assigned": "%1$sBạn vốn đã có vai trò này rồi, đồ ngốc!",
       "success": "%1$s%2$s, bạn đã được cấp vai trò **%3$s**",
-      "error": "%1$sI couldn't take **%2$s** from you. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the specified name.",
+      "error": "%1$sTôi không thể đưa **%2$s** cho bạn. Hãy chắc chắn rằng tôi có quyền thêm vai trò (Manage Roles) và vai trò của tôi phải cao hơn **%2$s** nhé!",
+      "no_role": "%1$sKhông có vai trò tự động với tên được chỉ định.",
       "no_iam": "%1$sBạn cần phải chỉ ra vai trò mà bạn muốn gắn!"
     },
     "iamnot": {
       "no_args": "%1$sBạn cần phải chỉ rõ ra vai trò mà bạn muốn tôi bỏ đi, ngốc ạ.",
       "not_assigned": "%1$sBạn không có vai trò này, đồ ngốc!",
-      "success": "%1$s%2$s, the role **%3$s** has been taken from you."
+      "success": "%1$s%2$s, đã gỡ vai trò **%3$s**."
     },
     "poll": {
-      "missing": "%1$sYou didn't include either the %2$s argument or it was empty!\n%3$s",
-      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `~>help poll`",
-      "other_poll_running": "%1$sThere seems to be another poll running here...",
-      "no_reaction_perms": "%1$sSeems like I cannot add reactions here...",
-      "too_long": "%1$sThis was too long to show. Try with less options?",
+      "missing": "%1$sBạn không bao gồm đối số %2$s hoặc đối số này trống!\n%3$s",
+      "invalid": "%1$sKhông thể tạo cuộc thăm dò này. **Hãy nhớ rằng các tùy chọn có tối đa là 9 và có tối thiểu là 2, thời gian chờ tối đa là 45 phút và tối thiểu là 30 giây.**\nCác tùy chọn được phân tách bằng dấu phẩy, ví dụ: `1,2,3` (không có dấu cách!). Đối với những thứ có khoảng cách, hãy sử dụng dấu ngoặc kép ở đầu và cuối câu. Nếu bạn đang lạc lúi, bạn có thể xem ví dụ trong `~>help poll`",
+      "other_poll_running": "%1$sCó vẻ như có một cuộc thăm dò khác đang chạy ở đây...",
+      "no_reaction_perms": "%1$sXem ra tôi không thể thêm các biểu tượng phản hồi tại đây...",
+      "too_long": "%1$sCái này quá dài để hiển thị. Thử với ít tùy chọn hơn thì sao?",
       "header": "Cuộc khảo sát #%1$d được tạo bởi %2$s",
       "success": "**Poll started. React to the number to vote.**\n*%1$s*\nType &cancelpoll to cancel a running poll.",
       "time": "Bạn có %1$s để bình chọn.",
@@ -925,8 +925,8 @@
         "disabled": "%1$sDisabled actions from being done to you."
       },
       "pet": {
-        "header": "Active Pet",
-        "none": "No active pet"
+        "header": "Thú cưng đang hoạt động",
+        "none": "Không có thú cưng nào"
       },
       "stats": {
         "header": "Hồ sơ thống kê cho %1$s",
