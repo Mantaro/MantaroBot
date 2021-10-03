@@ -992,78 +992,78 @@
       },
       "claimlock": {
         "removed": "%1$sĐặt lại thành công trạng thái khóa xác nhận quyền sở hữu của bạn.",
-        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `~>profile claimlock remove` to remove it later.",
-        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `~>buy \"claim key\"`",
-        "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
+        "success": "%1$sBạn không thể được nhận làm waifu thêm lần nào nữa. Điều này xài một chìa khoá sở hữu. Sử dụng `~>profile claimlock remove` để mở khoá nếu bạn thay đổi ý định.",
+        "no_key": "%1$sBạn không có chìa khoá sở hữu (claim key) để làm điều này. Bạn có thể mua từ cửa hàng bằng lệnh `~>buy \"claim key\"`",
+        "already_locked": "%1$sBạn đã khoá sẵn rồi. Sử dụng `~>profile claimlock remove` để mở khoá."
       },
       "autoequip": {
-        "disable": "%1$sĐã vô hiệu hoá trang bị tự động thành công.",
-        "success": "%1$sĐã đặt trang bị tự động."
+        "disable": "%1$sĐã vô hiệu hoá tự động trang bị thành công.",
+        "success": "%1$sĐã bật chức năng tự động trang bị."
       },
-      "badge_header": "%1$s Display Badge",
+      "badge_header": "%1$sHuy hiệu hiển thị",
       "bot_notice": "%1$sBot không có hồ sơ.",
       "header": "Hồ sơ của %1$s",
-      "no_desc": "No description set. You can set one with `~>profile description`",
+      "no_desc": "Không có mô tả. Bạn có thể đặt mô tả với `~>profile description`",
       "credits": "Đồng",
       "old_credits": "Di sản",
-      "level": "Cấp",
+      "level": "Cấp độ",
       "xp": "Kinh nghiệm",
       "rep": "Độ uy tín",
       "birthday": "Ngày sinh",
       "married": "Kết hôn với",
-      "nobody": "Không ai",
-      "inventory": "Item Collection (Top 10)",
-      "badges": "Badge Collection (Top 5)",
+      "nobody": "Không một ai",
+      "inventory": "Bộ sưu tập vật phẩm (Top 10)",
+      "badges": "Bộ sưu tập huy hiệu (Top 5)",
       "no_badges": "Không có huy hiệu (hoặc chưa có!)",
       "no_timezone": "Chưa đặt",
       "timezone_user": "Múi giờ người dùng: %1$s",
       "not_specified": "Chưa rõ.",
       "potion": "Thuốc đang hoạt động",
-      "no_potion": "Không có thuốc đang hoạt động.",
+      "no_potion": "Không sử dụng thuốc.",
       "hidelegacy": "%1$sTrạng thái thể hiện di sản hiện tại: `%2$s`"
     },
     "badges": {
       "info": {
-        "not_specified": "%1$sYou need to specify a badge to see the info of. For example, `~>badge info claimer`",
+        "not_specified": "%1$sBạn cần ghi rõ huy hiệu mà bạn muốn xem thông tin. Ví dụ như, `~>badge info claimer`",
         "not_found": "%1$sKhông có huy hiệu nào như vậy cả...",
         "header": "Thông tin cho huy hiệu %1$s",
-        "achieved": "Đã đạt được"
+        "achieved": "Đã nhận được"
       },
       "ls": {
-        "header": "Obtainable Badges List",
-        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!",
-        "obtained": "**Obtained:** %s"
+        "header": "Danh sách huy hiệu có thể nhận được",
+        "desc": "Đây là danh sách tất cả các huy hiệu hiện có thể nhận được của Mantaro. Danh sách này chứa tên và mô tả của huy hiệu, cung cấp cho bạn bức tranh tổng thể về những gì bạn cần để có được nó.\nNếu bạn nghĩ rằng bạn đã nhận được một huy hiệu và bạn không thấy nó trong danh sách huy hiệu cá nhân của mình, hãy sử dụng `~>profile` và sau đó xem lại `~>badges`.\nChúc may mắn, thợ săn huy hiệu!",
+        "obtained": "**Nhận được:**%s"
       },
       "brief_success": "**Huy hiệu của %1$s:**\n%2$s",
       "profile_notice": "Nếu bạn nghĩ mình đã đạt được một huy hiệu mới nhưng nó không xuất hiện ở đây, hãy dùng `~>profile` rồi sau đó dùng lại lệnh này.\n",
-      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "info_notice": "Dùng `~>badges info <tên huy hiệu>` để biết thêm thông tin của huy hiệu. [Bạn cũng có thể xem tại wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**Bạn có thể nhận được huy hiệu cho việc [hỗ trợ phát triển Mantaro!](https://patreon.com/mantaro)!** (Việc nhận huy hiệu có thể sẽ mất chút thời gian)\n\n",
       "no_badges": "Không có huy hiệu để xem (hoặc chưa có!)",
       "header": "Thành tích huy hiệu của %1$s",
       "total_badges": "**Tổng số huy hiệu nhận được:** %1$s",
-      "footer": "Huy hiệu như một loại thành tích, và chúng được tăng lên qua sự tiến triển trong trò chơi của Mantaro hoặc đơn giản bằng cách dùng bot."
+      "footer": "Huy hiệu như một loại thành tích, và chúng được tăng lên qua tiến trình trong trò chơi của Mantaro hoặc đơn giản bằng cách dùng bot."
     },
     "rep": {
-      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
+      "new_account_notice": "%1$sTuổi thọ của tài khoản (tính từ thời điểm tài khoản được tạo trên discord) phải lớn hơn 30 ngày tuổi để có thể gửi hoặc nhận uy tín. Hãy thử lại sau.",
       "no_mentions": "%1$sBạn cần đề cập hoặc đưa ra tên của một người dùng.\n%2$s",
       "more_than_one": "%1$sBạn chỉ có thể gửi sự uy tín tới một người",
       "rep_bot": "%1$sBạn không thể tăng uy tín cho bot.\n%2$s",
       "rep_yourself": "%1$sBạn không thể tăng uy tín cho bản thân.\n%2$s",
-      "blacklisted_rep": "%1$sYou cannot rep a blacklisted account.",
+      "blacklisted_rep": "%1$sBạn không thể tăng uy tín cho người nằm trong danh sách đen.",
       "cooldown": {
         "waiting": "**Bạn sẽ được dùng lại lệnh này sau %1$s**",
-        "pass": "Giờ bạn đã có thể tăng uy tín cho ai đó.",
-        "explanation": "You can give reputation to one person every 12 hours. Please wait the time above before you can give reputation to someone else."
+        "pass": "Bây giờ bạn đã có thể tăng uy tín cho ai đó.",
+        "explanation": "Bạn có thể tăng danh tiếng cho một người sau mỗi 12 giờ. Vui lòng đợi khoảng thời gian trên trước khi bạn có thể trao danh tiếng cho người khác."
       },
       "success": "%1$sĐã tăng uy tín cho **%2$s**"
     },
     "birthday": {
-      "reset": "%1$sĐã đặt lại chính xác ngày sinh.",
-      "no_guild_birthdays": "%1$sThings seems a bit empty here.\nRemember that cache refreshes every 23h and that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
-      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
-      "cache_not_running": "%1$sDữ liệu sinh nhật không có vẻ là đang được chạy (lỗi chạy phần mềm) :(",
+      "reset": "%1$sĐã đặt lại ngày sinh.",
+      "no_guild_birthdays": "%1$sHình như cả có gì ở đây cả.\nHãy nhớ rằng bộ nhớ cache làm mới sau mỗi 23h và bây giờ mọi người phải chạy `~>birthday allowerver` để cho phép máy chủ này thông báo sinh nhật của họ.",
+      "no_guild_month_birthdays": "%1$sKhông có sinh nhật nào trong tháng này (%2$s) hết :(\n%3$sNếu bạn mới cài đặt thông báo ngày sinh, làm ơn hãy chờ một lúc cho đến khi chạy lại. (Bộ nhớ đệm làm mới sau mỗi 23h)\nCòn một điều nữa là bạn phải chạy `~>birthday allowserver` để cho phép máy chủ này thông báo sinh nhật của họ.",
+      "cache_not_running": "%1$sDữ liệu sinh nhật không dường như không hoạt động (lỗi phần mềm) :(",
       "error": "%1$sCó gì đó đã bị sai sót trong quá trình cập nhật ngày sinh (lỗi phần mềm) :(",
-      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out. Showing up to 100 results.\n",
+      "header": "**Sinh nhật của máy chủ %1$s trong %2$s**\nBộ nhớ đệm sinh nhật được cập nhật 23 giờ một lần, vì vậy nếu ngày sinh của bạn không xuất hiện ở đây, đừng lo lắng quá, hãy chờ đợi. Hiển thị tối đa 100 kết quả.\n",
       "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`. Showing up to 100 results.",
       "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November).\nIf the month or day has only one digit you need to append a 0 to it. For example, 14/7 would become 14/07 and 7/12 would become 07/12.",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`%3$s",
