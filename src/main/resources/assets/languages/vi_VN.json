@@ -889,15 +889,15 @@
     },
     "profile": {
       "timezone": {
-        "not_specified": "%1$sYou need to specify the timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId).",
+        "not_specified": "%1$sBạn cần ghi rõ múi giờ. Múi giờ hợp lệ như `GMT-3` hoặc `America/Chicago` (ZoneId).",
         "reset": "%1$sĐã đặt lại múi giờ.",
-        "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking up \"what timezone am I in\"",
+        "invalid": "%1$sMúi giờ không hợp lệ. Múi giờ hợp lệ dụ như `GMT-3` hoặc `America/Chicago` (ZoneId). Thông thường, nếu bạn không biết múi giờ của mình thì có thể tìm \"tôi đang ở múi giờ nào\"",
         "success": "%1$sĐã lưu múi giờ, múi giờ cho hồ sơ của bạn giờ là: **%2$s**",
         "reset_success": "%1$sĐã đặt lại múi giờ thành công."
       },
       "description": {
-        "no_argument": "%1$sYou need to provide an argument! (set or remove). For example, `~>profile description set Hi there!`",
-        "no_content": "%1$sYou didn't specify what you want on your description. For example, `~>profile description set Hi there!`",
+        "no_argument": "%1$sBạn cần cung cấp biến! (set hoặc remove). Ví dụ: `~>profile description set Chào bạn!`",
+        "no_content": "%1$sBạn không ghi rõ câu bạn muốn đặt vào phần mô tả. Ví dụ: `~>profile description set Chào bạn nhá!`",
         "too_long": "%1$sThe description is too long! (Limit of 300 characters for everyone and 500 for premium users)",
         "success": "%1$sI set your profile description successfully. Check your shiny new profile with `~>profile`",
         "clear_success": "%1$sĐã xoá thành công lời giới thiệu."
