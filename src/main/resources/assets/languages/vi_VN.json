@@ -898,31 +898,31 @@
       "description": {
         "no_argument": "%1$sBạn cần cung cấp biến! (set hoặc remove). Ví dụ: `~>profile description set Chào bạn!`",
         "no_content": "%1$sBạn không ghi rõ câu bạn muốn đặt vào phần mô tả. Ví dụ: `~>profile description set Chào bạn nhá!`",
-        "too_long": "%1$sThe description is too long! (Limit of 300 characters for everyone and 500 for premium users)",
-        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `~>profile`",
-        "clear_success": "%1$sĐã xoá thành công lời giới thiệu."
+        "too_long": "%1$sPhần mô tả của bạn quá dài! `(Giới hạn trong 300 kí tự cho mọi người và 500 kí tự cho người dùng cao cấp)`",
+        "success": "%1$sĐã đặt phần mô tả thành công. Hãy cùng xem thông tin cá nhân mới của bạn bằng `~>profile`",
+        "clear_success": "%1$sĐã xoá thành công phần mô tả."
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge! For example, `~>profile displaybadge claimer`",
+        "not_specified": "%1$sBạn cần ghi rõ huy hiệu chính! Ví dụ như, `~>profile displaybadge claimer`",
         "reset_success": "%1$sGiờ không còn huy hiệu nào được đặt ở đầu hồ sơ của bạn!",
-        "important_success": "%1$sGiờ huy hiệu hiển thị của bạn đã là huy hiệu quan trọng nhất.",
+        "important_success": "%1$sBây giờ huy hiệu hiển thị của bạn được tự động đặt là huy hiệu quan trọng nhất.",
         "no_such_badge": "%1$sKhông có huy hiệu nào như vậy cả...\nNhững huy hiệu bạn hiện có: %2$s",
         "player_missing_badge": "%1$sBạn không có huy hiệu này.\nNhững huy hiệu bạn hiện có: %2$s",
         "success": "%1$sHuy hiệu hiển thị của bạn giờ là: **%2$s**"
       },
       "lang": {
-        "nothing_specified": "%1$sBạn cần nói rõ một ngôn ngữ để sử dụng hoặc dùng `reset` để đặt lại cài đặt ngôn ngữ.",
-        "reset_success": "%1$sĐã đặt lại thành công cài đặt ngôn ngữ cá nhân.",
+        "nothing_specified": "%1$sBạn cần ghi rõ một ngôn ngữ để sử dụng hoặc dùng `reset` để cài đặt lại ngôn ngữ.",
+        "reset_success": "%1$sCài đặt lại ngôn ngữ cá nhân thành công.",
         "success": "%1$sMantaro sẽ nói chuyện với bạn bằng tiếng `%2$s` kể từ lúc này",
-        "invalid": "%1$sNgôn ngữ này hiện chưa có! Bạn có thể dùng `reset` để đặt lại cài đặt ngôn ngữ."
+        "invalid": "%1$sNgôn ngữ này hiện chưa có! Bạn có thể dùng `reset` để cài đặt lại ngôn ngữ."
       },
       "inventorysort": {
-        "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
-        "success": "%1$sSuccessfully changed your inventory sort type, now it is: **%2$s**"
+        "not_valid": "%1$sLoại sắp xếp này không hợp lệ. Các loại có sẵn: `%2$s`",
+        "success": "%1$sĐã thay đổi thành công loại sắp xếp túi đồ của bạn, bây giờ là: **%2$s**"
       },
       "toggleaction": {
-        "enabled": "%1$sEnabled actions to be done to you.",
-        "disabled": "%1$sDisabled actions from being done to you."
+        "enabled": "%1$sHiển thị các hành động được thực hiện từ bạn.",
+        "disabled": "%1$sVô hiệu hoá các hành động được thực hiện từ bạn."
       },
       "pet": {
         "header": "Thú cưng đang hoạt động",
@@ -934,64 +934,64 @@
         "market": "Số lần mua bán",
         "potion": "Thuốc đang hoạt động",
         "potion_type": "Loại thuốc",
-        "buff": "Tăng cường",
-        "buff_type": "Loại tăng cường",
+        "buff": "Buff",
+        "buff_type": "Loại Buff",
         "experience": "Kinh nghiệm",
-        "mine_xp": "Kinh nghiệm đào tiền",
+        "mine_xp": "Kinh nghiệm khai thác",
         "fish_xp": "Kinh nghiệm câu cá",
-        "chop_xp": "Chopping Experience",
-        "activity_xp": "Activity Experience",
+        "chop_xp": "Kinh nghiệm chặt cây",
+        "activity_xp": "Kinh nghiệm hoạt động",
         "sharks_caught": "Số cá mập câu được",
         "crates_open": "Số hòm đã mở",
         "times_mop": "Số lần lau bụi",
-        "daily": "Chuỗi ngày nhận daily",
-        "daily_at": "Lần cuối cùng nhận daily",
+        "daily": "Chuỗi nhận phần thưởng hàng ngày",
+        "daily_at": "Lần cuối cùng nhận phần thưởng hàng ngày",
         "waifu_claimed": "Số lần được nhận làm Waifu",
         "waifu_locked": "Khoá waifu",
-        "dust": "Cấp độ bụi bặm",
+        "dust": "Mức độ bụi bặm",
         "lang": "Ngôn ngữ hiển thị",
         "reminders": "Số lần hẹn ghi chú",
         "times": "lần",
         "days": "ngày",
         "times_used": "Số lần đã sử dụng",
-        "equipment": "Đồ trang bị",
-        "seasonal_equipment": "Đồ trang bị theo mùa",
+        "equipment": "Bộ dụng cụ",
+        "seasonal_equipment": "Bộ dụng cụ theo mùa",
         "autoequip": "Tự động trang bị",
         "never": "Không bao giờ"
       },
       "hide_tag": {
-        "success": "%1$sTrạng thái ẩn đề cập giờ là: `%2$s`"
+        "success": "%1$sTrạng thái ẩn thẻ hiện giờ là: `%2$s`"
       },
       "equip": {
-        "no_content": "%1$sBạn cần nói rõ đồ bạn muốn trang bị!",
-        "no_item": "%1$sMón đồ này không tồn tại",
-        "not_owned": "%1$sBạn không sở hữu món đồ này!",
-        "success": "%1$sBạn đã trang bị thành công %2$s *%3$s*, và sẽ được ghi nhớ vào lần tiếp theo bạn sử dụng lệnh liên quan đến món đồ này.",
-        "not_suitable": "%1$sBạn không thể trang bị đồ này.",
-        "not_equipped": "%1$sBạn không có đồ trang bị này.",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe, pick or wrench) if you wanna unequip it."
+        "no_content": "%1$sBạn cần ghi rõ dụng cụ mà bạn muốn trang bị!",
+        "no_item": "%1$sDụng cụ này không tồn tại",
+        "not_owned": "%1$sBạn không sở hữu dụng cụ này!",
+        "success": "%1$sĐã trang bị thành công %2$s *%3$s*, và sẽ được ghi nhớ vào lần tiếp theo bạn sử dụng lệnh liên quan đến dụng cụ này.",
+        "not_suitable": "%1$sBạn không thể trang bị dụng cụ này.",
+        "not_equipped": "%1$sBạn không có dụng cụ này.",
+        "already_equipped": "%1$sBạn đã trang bị dụng cụ loại này! Thử `~>unequip <loại>` (Loại có thể là rod, axe, pick hoặc wrench) nếu bạn muốn tháo chúng."
       },
       "unequip": {
-        "not_equipped": "%1$sYou don't have anything equipped on this slot.",
-        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod, wrench`",
-        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod, wrench`",
-        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool, which means your currently equipped tool will break.",
-        "success": "%1$sĐã tháo trang bị thành công %2$s.",
-        "equipment_recover": "\nDo bạn chưa từng sử dụng đồ trang bị này, nên bạn đã có lại được %1$s!",
-        "broken_equipment_recover": "\nBạn đã sử dụng đồ trang bị này, nhưng bạn có lại được %1$s, bạn có thể sửa chữa nếu bạn cần sau này!",
-        "broken_equipment_recover_none": "\nLoại trang bị này không có dạng hỏng, và đã được sử dụng, nên nó đã tan biến vào hư vô, nhưng bạn nhận lại được %1$s đồng.",
+        "not_equipped": "%1$sBạn không trang bị bất kì thứ gì tại ô này.",
+        "no_content": "%1$sBạn cần ghi rõ loại dụng cụ bạn muốn tháo, có thể là `pick, rod, axe, wrench`",
+        "invalid_type": "%1$sLoại không hợp lệ. Những loại đồ hợp lệ là `pick, axe, rod, wrench`",
+        "confirm": "%1$sBạn có chắc là bạn muốn **tháo** %2$s %3$s? Gõ `yes` để đồng ý, `no` để huỷ. Điều này sẽ trả lại bạn phiên bản bị hỏng của công cụ hiện được trang bị, đồng nghĩa với việc công cụ hiện được trang bị của bạn sẽ bị hỏng.",
+        "success": "%1$sĐã tháo %2$s thành công.",
+        "equipment_recover": "\nDo bạn chưa từng xài dụng cụ này, nên bạn đã nhận lại %1$s!",
+        "broken_equipment_recover": "\nDo bạn đã từng xài dụng cụ này, nên bạn nhận lại %1$s, bạn có thể sửa chữa nếu bạn cần sau này!",
+        "broken_equipment_recover_none": "\nLoại dụng cụ này không có dạng hỏng, và đã được sử dụng, nên nó đã tan biến vào hư vô, nhưng bạn nhận lại được %1$s đồng.",
         "cancelled": "%1$sĐã huỷ câu lệnh."
       },
       "display": {
-        "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
-        "not_enough": "%1$sNot enough valid widgets to put on your profile (minimum: 3). If you're lost, check `~>profile widgets ls`",
-        "success": "%1$sSuccessfully set your new profile layout. New layout is `%2$s`",
-        "ls": "%1$sList of profile components:\n%2$s **Widgets in Default Order:** `%3$s`\n%2$s **Your widgets:** `%4$s`\nYou can use `~>profile widgets reset` to reset your profile display references",
-        "reset": "%1$sSuccessfully reset profile widget order.",
+        "not_premium": "%1$sCá nhân hóa hồ sơ chỉ có sẵn cho người dùng cao cấp. Để biết thêm các đặc quyền, bạn có thể xem tại <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
+        "not_enough": "%1$sKhông đủ thành phần để đặt trên hồ sơ của bạn (tối thiểu là 3). Nếu bạn đang lạc lúi, hãy kiểm tra `~>profile widgets ls`",
+        "success": "%1$sĐã đặt thành công bố cục mới cho hồ sơ của bạn. Bố cục mới là `%2$s`",
+        "ls": "%1$sDanh sách các thành phần hồ sơ:\n%2$s**Các thành phần theo thứ tự mặc định**: `%3$s`\n%2$s**Các thành phần bạn đặt:** `%4$s`\nBạn có thể sử dụng `~>profile widgets reset` để đặt lại các thành phần hồ sơ về mặc định",
+        "reset": "%1$sĐặt lại thành công thứ tự thành phần con trong hồ sơ.",
         "example": "\nVí dụ: `~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*Bất kỳ việc sắp xếp trật tự nào, trật tự ở đây là thứ sẽ làm chúng xuất hiện trên hồ sơ của bạn*"
       },
       "claimlock": {
-        "removed": "%1$sSuccesfully reset your claim lock status.",
+        "removed": "%1$sĐặt lại thành công trạng thái khóa xác nhận quyền sở hữu của bạn.",
         "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `~>profile claimlock remove` to remove it later.",
         "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `~>buy \"claim key\"`",
         "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
