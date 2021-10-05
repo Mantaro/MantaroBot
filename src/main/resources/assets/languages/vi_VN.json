@@ -1065,27 +1065,27 @@
       "error": "%1$sCó gì đó đã bị sai sót trong quá trình cập nhật ngày sinh (lỗi phần mềm) :(",
       "header": "**Sinh nhật của máy chủ %1$s trong %2$s**\nBộ nhớ đệm sinh nhật được cập nhật 23 giờ một lần, vì vậy nếu ngày sinh của bạn không xuất hiện ở đây, đừng lo lắng quá, hãy chờ đợi. Hiển thị tối đa 100 kết quả.\n",
       "full_header": "**Sinh nhật trong máy chủ %1$s**\n%2$s\nHãy nhớ rằng sinh nhật được lưu vào bộ nhớ đệm cứ sau 23 giờ và phải chạy `~>birthday allowerver`. Hiển thị tối đa 100 kết quả.",
-      "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November).\nIf the month or day has only one digit you need to append a 0 to it. For example, 14/7 would become 14/07 and 7/12 would become 07/12.",
-      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`%3$s",
-      "invalid_month": "%1$sĐó không phải là một số tháng hợp lệ! (Số tháng hợp lệ trong khoảng từ 1 đến 12)",
-      "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `~>birthday allowserver`",
-      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part.",
-      "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `~>birthday denyserver` on this server.",
-      "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `~>birthday allowserver` on this server.",
-      "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `~>birthday allowserver` instead. This is the default.",
-      "leap": "Your birthday is on the 29th of February, which means it'll get announced on the 29th on leap years, and on the 28th of February on non-leap years.",
-      "already_allowed": "%1$sYou already allowed this server to show your birthday."
+      "error_date": "%1$sNgày bạn đã nhập không phải là ngày hợp lệ hoặc tôi không thể phân tích cú pháp chính xác. Vui lòng thử với định dạng chính xác.\nHãy nhớ rằng định dạng là `dd/mm` (Ví dụ: sử dụng` ~>birthday 16-11` cho ngày 16 tháng 11).\nNếu tháng hoặc ngày chỉ có một chữ số, bạn cần thêm số 0 vào đó. Ví dụ,\n14/7 sẽ trở thành 14/07 và 7/12 sẽ trở thành 07/12.",
+      "added_birthdate": "%1$sĐã thêm ngày sinh thành công. Ngày sinh nhật mới: %2$s *(Định dạng: dd-MM) * [ngày-tháng]. Để máy chủ này thông báo sinh nhật của bạn, bây giờ bạn phải chạy `~>birthday allowerver`%3$s",
+      "invalid_month": "%1$sMột năm có hơn 12 tháng sao...? (Số tháng hợp lệ cần trong khoảng từ 1 đến 12)",
+      "no_content": "%1$sBạn cần ghi rõ chỉ định ngày sinh của mình, `remove` để đặt lại ngày sinh của bạn hoặc` month` để kiểm tra danh sách tháng sinh nhật. Sau đó, để máy chủ này thông báo sinh nhật của bạn, bạn phải chạy `~> birthday allowerver`",
+      "new_format": "%1$sĐịnh dạng ngày mới là `dd-mm` (ngày-tháng, ví dụ: 20-10 là cho ngày 20 tháng 10). Không cần nhập năm của bạn nữa, vì vậy bạn có thể bỏ qua phần đó.",
+      "allowed_server": "%1$sĐã cho phép máy chủ hiện tại thông báo sinh nhật của bạn. Để từ chối trong tương lai, chỉ cần chạy `~> birthday denyserver` trên máy chủ này.",
+      "denied": "%1$sĐã từ chối máy chủ hiện tại thông báo sinh nhật của bạn. Để cho phép trong tương lai, chỉ cần chạy `~> birthday denyserver` trên máy chủ này.",
+      "already_denied": "%1$sMáy chủ này không thể thông báo ngày sinh của bạn. Nếu bạn muốn cho phép, hãy chạy `~> birthday allowerver`. Đây là mặc định.",
+      "leap": "Sinh nhật của bạn là vào ngày 29 tháng 2, có nghĩa là nó sẽ được công bố vào ngày 29 vào các năm nhuận và vào ngày 28 tháng 2 vào các năm không nhuận.",
+      "already_allowed": "%1$sBạn đã cho phép máy chủ này hiển thị ngày sinh của bạn."
     },
     "choose": {
-      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga \"sleeping out\"`)",
+      "nothing_to": "%1$sBạn cần phải cho tôi biết những gì để lựa chọn. (ví dụ: `~>choose anime manga \"đi ngủ\"`)",
       "success": "%1$sTôi chọn `%2$s`"
     },
     "remindme": {
-      "nothing_specified": "%1$sTôi có thể nhắc bạn điều gì nếu bạn không cho tôi một lời nhắc? À, phải rồi! Để tôi nhắc bạn đặt một lời nhắc chăng!",
-      "no_reminders": "%1$sBạn không có ghi nhớ nào được đặt.",
+      "nothing_specified": "%1$sKhông đặt lời nhắc mà đòi tôi nhắc à? Hay là cậu muốn tôi nhắc cậu đặt lời nhắc chăng?!",
+      "no_reminders": "%1$sBạn không có đặt lời nhắc nào cả.",
       "cancel": {
-        "success": "%1$sĐã xoá ghi chú của bạn.",
-        "select": "Chọn ghi chú bạn muốn xoá."
+        "success": "%1$sĐã xoá lời nhắc của bạn.",
+        "select": "Chọn lời nhắc mà bạn muốn xoá."
       },
       "no_time": "%1$sYou didn't specify the time. Try specifying it at the start of the command, for example, `~>remindme 1h do the dishes`. The format is a number followed by either d (days), h (hours), m (minutes) or s (seconds). Check `~>help mute` for an example.",
       "no_time_arg": "%1$sYou didn't give me a time on the `-time` argument.",
