@@ -1087,27 +1087,27 @@
         "success": "%1$sĐã xoá lời nhắc của bạn.",
         "select": "Chọn lời nhắc mà bạn muốn xoá."
       },
-      "no_time": "%1$sYou didn't specify the time. Try specifying it at the start of the command, for example, `~>remindme 1h do the dishes`. The format is a number followed by either d (days), h (hours), m (minutes) or s (seconds). Check `~>help mute` for an example.",
-      "no_time_arg": "%1$sYou didn't give me a time on the `-time` argument.",
-      "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `~>remindme 1m do the dishes`)",
-      "too_long": "That's too much time... (Maximum: 180 days)",
+      "no_time": "%1$sBạn không ghi rõ thời gian. Hãy thử thêm vào khi bắt đầu lệnh, ví dụ: `~>remind 1h đi làm đồ ăn`. Định dạng là một số theo sau là d (ngày), h (giờ), m (phút) hoặc s (giây). Chọn `~>help mute` để xem ví dụ.",
+      "no_time_arg": "%1$sBạn đã không đưa tôi thời gian trong đối số `-time`.",
+      "too_little_time": "%1$sThời gian đó quá ngắn (Tối thiểu: 1 phút, ví dụ: `~>remindme 1m làm đồ ăn`)",
+      "too_long": "Thời gian đó quá dài... (Tối đa: 180 ngày)",
       "success": "%1$sTôi sẽ nhắc bạn (%2$s#%3$s) để `%4$s` trong %5$s nữa",
-      "too_many_reminders": "%1$sBạn có quá nhiều lời nhắc! Thử huỷ một vài cái không?"
+      "too_many_reminders": "%1$sNhiều lời nhắc quá đó! Sao không bỏ một vài cái đi?"
     },
     "time": {
       "invalid_timezone": "%1$sĐó không phải là một múi giờ hợp lệ.",
-      "success": "%1$s%2$s đang ở múi giờ của %3$s.",
-      "error": "%1$sI found an error while looking for the timezone in the big book over there... or it could be invalid.",
-      "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
+      "success": "Bây giờ là %1$s, ngày %2$s tại múi giờ %3$s.",
+      "error": "%1$sTôi đã tìm thấy lỗi khi tìm kiếm múi giờ trong cuốn sách lớn ở đó... hoặc có thể là múi giờ không hợp lệ.",
+      "user_no_timezone": "%1$sNgười mà bạn đề cập đến không có đặt múi giờ."
     },
     "urban": {
-      "no_args": "%1$sYou need to tell me what term to look for in Urban Dictionary.",
-      "header": "Định nghĩa của Urban Dictionary cho %1$s",
-      "too_many_args": "%1$sToo many arguments! Page format is `name->page number`",
+      "no_args": "%1$sBạn cần phải ghi cho tôi biết bạn muốn tìm gì trên Từ điển Urban chứ.",
+      "header": "Định nghĩa của %1$s trên Từ điển Urban",
+      "too_many_args": "%1$sQuá nhiều đối số! Định dạng trang là `tên->số trang`",
       "main_def": "Định nghĩa chính.",
-      "footer": "Thông tin được cung cấp bởi Urban Dictionary",
-      "nsfw_notice": "%1$sThis command can only be used in NSFW channels due to the nature of its results.",
-      "error": "%1$sThere was an error processing the response from UD. Try again?"
+      "footer": "Thông tin được cung cấp bởi Từ điển Urban",
+      "nsfw_notice": "%1$sLệnh này chỉ có thể được sử dụng trong các kênh NSFW do bản chất các kết quả của nó.",
+      "error": "%1$sĐã xảy ra lỗi khi xử lý phản hồi từ UD. Thử lại?"
     },
     "activatekey": {
       "check": {
