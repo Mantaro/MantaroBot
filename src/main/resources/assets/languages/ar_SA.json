@@ -1606,7 +1606,8 @@
       "extended": {
         "no_help": "%1$sلا يوجد تعليمات إضافية لهذا الأمر.",
         "not_found": "%1$sلا يوجد أمر ب هذا الأسم"
-      }
+      },
+      "too_long": "Error displaying sub-command help. Check the [wiki](https://github.com/Mantaro/MantaroBot/wiki) for more information on this specific command."
     },
     "repair": {
       "no_item": "%1$sYou didn't specify any item to repair. If you think you have the correct item, try using the full name.",
