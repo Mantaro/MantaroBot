@@ -1606,7 +1606,8 @@
       "extended": {
         "no_help": "%1$sIl n'y a pas d'aide supplémentaire implémentée pour cette commande.",
         "not_found": "%1$sUne commande de ce nom n'existe pas"
-      }
+      },
+      "too_long": "Error displaying sub-command help. Check the [wiki](https://github.com/Mantaro/MantaroBot/wiki) for more information on this specific command."
     },
     "repair": {
       "no_item": "%1$sTu n'as spécifié aucun objet à réparer. Si tu penses avoir mentionné le bon objet, essaie avec son nom complet.",
