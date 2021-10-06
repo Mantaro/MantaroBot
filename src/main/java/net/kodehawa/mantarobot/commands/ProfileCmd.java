@@ -257,7 +257,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("toggleaction", new SubCommand() {
             @Override
             public String description() {
-                return "Disables or enables action commands to be done to you.";
+                return "Toggles the ability to do action commands to you.";
             }
 
             @Override
@@ -281,7 +281,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("claimlock", new SubCommand() {
             @Override
             public String description() {
-                return "Locks you from being waifu claimed. Needs a claim key. Use `remove` to remove it.";
+                return "Locks you from being claimed. Use `remove` to remove it.";
             }
 
             @Override
@@ -318,7 +318,7 @@ public class ProfileCmd {
             profileCommand.addSubCommand("togglelegacy", new SubCommand() {
                 @Override
                 public String description() {
-                    return "Hides/unhides legacy credits.";
+                    return "Toggles legacy credit display.";
                 }
 
                 @Override
@@ -337,7 +337,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("inventorysort", new SubCommand() {
             @Override
             public String description() {
-                return "Sets how you wanna sort your inventory. Possible values: `VALUE, VALUE_TOTAL, AMOUNT, TYPE, RANDOM`.";
+                return "Sort your inventory. Possible values: `VALUE, VALUE_TOTAL, AMOUNT, TYPE, RANDOM`.";
             }
 
             @Override
@@ -366,7 +366,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("autoequip", new SubCommand() {
             @Override
             public String description() {
-                return "Sets whether you want or not to autoequip a new tool on break. Use `disable` to disable it.";
+                return "Toggles auto-equipping a new tool on break. Use `disable` to disable it.";
             }
 
             @Override
@@ -391,7 +391,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("hidetag", new SubCommand() {
             @Override
             public String description() {
-                return "Hide the member tags (and IDs) from profile/waifu ls. This is a switch.";
+                return "Hide or show the member id/tag from profile/waifu ls.";
             }
 
             @Override
@@ -409,7 +409,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("timezone", new SubCommand() {
             @Override
             public String description() {
-                return "Sets the profile timezone.";
+                return "Set your profile timezone.";
             }
 
             @Override
@@ -465,7 +465,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("description", new SubCommand() {
             @Override
             public String description() {
-                return "Sets your profile description. Use `reset` to reset it.";
+                return "Set your profile description. Use `reset` to reset it.";
             }
 
             @Override
@@ -528,10 +528,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("displaybadge", new SubCommand() {
             @Override
             public String description() {
-                return """
-                        Sets your profile badge.
-                        Reset with `~>profile displaybadge reset`
-                        No badge: `~>profile displaybadge none`""";
+                return "Set your profile badge. Use `reset` to reset and `none` to show no badge.";
             }
 
             @Override
@@ -593,7 +590,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("language", new SubCommand() {
             @Override
             public String description() {
-                return "Sets your profile language. Available langs: `~>lang`";
+                return "Set your profile language. Available langs: `~>lang`";
             }
 
             @Override
@@ -628,7 +625,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("stats", new SubCommand() {
             @Override
             public String description() {
-                return "Checks profile statistics.";
+                return "Check profile statistics.";
             }
 
             @Override
@@ -675,7 +672,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("widgets", new SubCommand() {
             @Override
             public String description() {
-                return "Sets profile widgets and order. Arguments: widget, ls or reset";
+                return "Set profile widgets and order. Arguments: `widget`, `ls` or `reset`";
             }
 
             @Override

@@ -249,17 +249,19 @@ public class HelpCmd {
 
                             if (inner.description() != null) {
                                 stringBuilder.append("""
-                                        %s`%s` - %s
-                                        """.formatted(BLUE_SMALL_MARKER, name, inner.description())
+                                        %s`%s%s` - %s
+                                        """.formatted(BLUE_SMALL_MARKER, ctx.getConfig().prefix[0] + content, name, inner.description())
                                 );
                             }
                         }
 
                         if (stringBuilder.length() > 0) {
-                            builder.addField(EmoteReference.ZAP.toHeaderString() + "Sub-commands",
-                                    "**Prepend the main command to use any of this.**\n" + stringBuilder,
-                                    false
-                            );
+                            var value = stringBuilder.toString();
+                            if (value.length() > 1024) {
+                                value = languageContext.get("commands.help.too_long");
+                            }
+
+                            builder.addField(EmoteReference.ZAP.toHeaderString() + "Sub-commands", value, false);
                         }
                     }
 
