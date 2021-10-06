@@ -1607,7 +1607,7 @@
         "no_help": "%1$sNão tem uma ajuda extendida para esse comando.",
         "not_found": "%1$sUm comando com esse nome não existe"
       },
-      "too_long": "Error displaying sub-command help. Check the [wiki](https://github.com/Mantaro/MantaroBot/wiki) for more information on this specific command."
+      "too_long": "Erro ao exibir a ajuda do sub-comando. Cheque a [wiki]\n(https://github.com/Mantaro/MantaroBot/wiki) para mais informações nesse comando específico."
     },
     "repair": {
       "no_item": "%1$sVocê não especificou nenhum item para consertar. Se você acha que tem o item correto, tente usar o nome completo.",
