@@ -1606,7 +1606,8 @@
       "extended": {
         "no_help": "%1$s此指令沒有個別的幫助。",
         "not_found": "%1$s此指令不存在"
-      }
+      },
+      "too_long": "Error displaying sub-command help. Check the [wiki](https://github.com/Mantaro/MantaroBot/wiki) for more information on this specific command."
     },
     "repair": {
       "no_item": "%1$s你需要指出你想修復的物品。如果你確定那是正確的，請輸入該物品的全名。",
