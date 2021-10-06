@@ -20,12 +20,14 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Emoji;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.Button;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.ButtonOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.data.Config;
@@ -67,6 +69,13 @@ public class DiscordUtils {
             Button.primary("button_right", Emoji.fromUnicode("◀️")),
             Button.primary("button_left", Emoji.fromUnicode("▶️")),
             Button.primary("button_last", Emoji.fromUnicode("⏩"))
+    };
+
+    private static final Button[] DEFAULT_COMPONENTS_DISABLED = {
+            Button.primary("button_first", Emoji.fromUnicode("⏪")).asDisabled(),
+            Button.primary("button_right", Emoji.fromUnicode("◀️")).asDisabled(),
+            Button.primary("button_left", Emoji.fromUnicode("▶️")).asDisabled(),
+            Button.primary("button_last", Emoji.fromUnicode("⏩")).asDisabled()
     };
 
     public static <T> Pair<String, Integer> embedList(List<T> list, Function<T, String> toString) {
@@ -430,60 +439,67 @@ public class DiscordUtils {
 
         var index = new AtomicInteger();
         var message = ctx.getChannel().sendMessageEmbeds(embeds.get(0)).complete();
-        return ButtonOperations.create(message, timeoutSeconds, (e) -> {
-            if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong())
-                return Operation.IGNORED;
-
-            var button = e.getButton();
-            if (button == null)
-                return Operation.IGNORED;
-
-            var hook = e.getHook();
-            switch (button.getId()) {
-                case "button_first" -> {
-                    index.set(0);
-                    hook.editOriginalEmbeds(embeds.get(0)).queue();
-                    hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_FIRST)).queue();
-                }
-                case "button_last" -> {
-                    index.set(embeds.size() - 1);
-                    hook.editOriginalEmbeds(embeds.get(embeds.size() - 1)).queue();
-                    hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_LAST)).queue();
-                }
-
-                case "button_right" -> {
-                    if (index.get() == 0) {
-                        break;
-                    }
-
-                    if (index.get() == 0) {
-                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_FIRST)).queue();
-                    } else {
-                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_ALL)).queue();
-                    }
-
-                    hook.editOriginalEmbeds(embeds.get(index.decrementAndGet())).queue();
-                }
-
-                case "button_left" -> {
-                    if (index.get() + 1 >= embeds.size()) {
-                        break;
-                    }
-
-                    if (index.get() == embeds.size() - 1) {
-                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_LAST)).queue();
-                    } else {
-                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_ALL)).queue();
-                    }
-
-                    hook.editOriginalEmbeds(embeds.get(index.incrementAndGet())).queue();
-                }
-                default -> {
+        return ButtonOperations.create(message, timeoutSeconds, new ButtonOperation() {
+            @Override
+            public int click(ButtonClickEvent e) {
+                if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong())
                     return Operation.IGNORED;
-                }
-            }
 
-            return Operation.IGNORED;
+                var button = e.getButton();
+                if (button == null)
+                    return Operation.IGNORED;
+
+                var hook = e.getHook();
+                switch (button.getId()) {
+                    case "button_first" -> {
+                        index.set(0);
+                        hook.editOriginalEmbeds(embeds.get(0)).queue();
+                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_FIRST)).queue();
+                    }
+                    case "button_last" -> {
+                        index.set(embeds.size() - 1);
+                        hook.editOriginalEmbeds(embeds.get(embeds.size() - 1)).queue();
+                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_LAST)).queue();
+                    }
+
+                    case "button_right" -> {
+                        if (index.get() == 0) {
+                            break;
+                        }
+
+                        if (index.get() == 0) {
+                            hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_FIRST)).queue();
+                        } else {
+                            hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_ALL)).queue();
+                        }
+
+                        hook.editOriginalEmbeds(embeds.get(index.decrementAndGet())).queue();
+                    }
+
+                    case "button_left" -> {
+                        if (index.get() + 1 >= embeds.size()) {
+                            break;
+                        }
+
+                        if (index.get() == embeds.size() - 1) {
+                            hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_LAST)).queue();
+                        } else {
+                            hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_ALL)).queue();
+                        }
+
+                        hook.editOriginalEmbeds(embeds.get(index.incrementAndGet())).queue();
+                    }
+                    default -> {
+                        return Operation.IGNORED;
+                    }
+                }
+
+                return Operation.IGNORED;
+            }
+            @Override
+            public void onExpire() {
+                message.editMessageComponents(ActionRow.of(DEFAULT_COMPONENTS_DISABLED)).queue();
+            }
         }, DEFAULT_COMPONENTS_FIRST);
     }
 
@@ -499,60 +515,68 @@ public class DiscordUtils {
 
         var index = new AtomicInteger();
         var m = ctx.getChannel().sendMessage(parts.get(0)).complete();
-        return ButtonOperations.create(m, timeoutSeconds, (e) -> {
-            if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong())
-                return Operation.IGNORED;
-
-            var hook = e.getHook();
-            var button = e.getButton();
-            if (button == null)
-                return Operation.IGNORED;
-
-            switch (button.getId()) {
-                case "button_first" -> {
-                    index.set(0);
-                    hook.editOriginal(String.format("%s\n**Page: %d**", parts.get(index.get()), 1)).queue();
-                    hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_FIRST)).queue();
-                }
-                case "button_last" -> {
-                    index.set(parts.size() - 1);
-                    hook.editOriginal(String.format("%s\n**Page: %d**", parts.get(parts.size() - 1), parts.size())).queue();
-                    hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_LAST)).queue();
-                }
-                case "button_right" -> {
-                    if (index.get() == 0) {
-                        break;
-                    }
-
-                    if (index.get() == 0) {
-                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_FIRST)).queue();
-                    } else {
-                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_ALL)).queue();
-                    }
-
-                    hook.editOriginal(String.format("%s\n**Page: %d**", parts.get(index.decrementAndGet()), index.get() + 1)).queue();
-                }
-
-                case "button_left" -> {
-                    if (index.get() + 1 >= parts.size()) {
-                        break;
-                    }
-
-                    if (index.get() == parts.size() - 1) {
-                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_LAST)).queue();
-                    } else {
-                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_ALL)).queue();
-                    }
-
-                    hook.editOriginal(String.format("%s\n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();
-                }
-
-                default -> {
+        return ButtonOperations.create(m, timeoutSeconds, new ButtonOperation() {
+            @Override
+            public int click(ButtonClickEvent e) {
+                if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong())
                     return Operation.IGNORED;
+
+                var hook = e.getHook();
+                var button = e.getButton();
+                if (button == null)
+                    return Operation.IGNORED;
+
+                switch (button.getId()) {
+                    case "button_first" -> {
+                        index.set(0);
+                        hook.editOriginal(String.format("%s\n**Page: %d**", parts.get(index.get()), 1)).queue();
+                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_FIRST)).queue();
+                    }
+                    case "button_last" -> {
+                        index.set(parts.size() - 1);
+                        hook.editOriginal(String.format("%s\n**Page: %d**", parts.get(parts.size() - 1), parts.size())).queue();
+                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_LAST)).queue();
+                    }
+                    case "button_right" -> {
+                        if (index.get() == 0) {
+                            break;
+                        }
+
+                        if (index.get() == 0) {
+                            hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_FIRST)).queue();
+                        } else {
+                            hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_ALL)).queue();
+                        }
+
+                        hook.editOriginal(String.format("%s\n**Page: %d**", parts.get(index.decrementAndGet()), index.get() + 1)).queue();
+                    }
+
+                    case "button_left" -> {
+                        if (index.get() + 1 >= parts.size()) {
+                            break;
+                        }
+
+                        if (index.get() == parts.size() - 1) {
+                            hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_LAST)).queue();
+                        } else {
+                            hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_ALL)).queue();
+                        }
+
+                        hook.editOriginal(String.format("%s\n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();
+                    }
+
+                    default -> {
+                        return Operation.IGNORED;
+                    }
                 }
+
+                return Operation.IGNORED;
             }
 
-            return Operation.IGNORED;
+            @Override
+            public void onExpire() {
+                m.editMessageComponents(ActionRow.of(DEFAULT_COMPONENTS_DISABLED)).queue();
+            }
         }, DEFAULT_COMPONENTS_FIRST);
     }
 
@@ -587,81 +611,89 @@ public class DiscordUtils {
         base.setFooter("Total Pages: %s | Thanks for using Mantaro ❤️".formatted(parts.size()), ctx.getAuthor().getEffectiveAvatarUrl());
         var index = new AtomicInteger();
         var message = ctx.getChannel().sendMessageEmbeds(base.build()).complete();
-        return ButtonOperations.create(message, timeoutSeconds, (e) -> {
-            if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
-                return Operation.IGNORED;
-            }
-
-            var button = e.getButton();
-            if (button == null)
-                return Operation.IGNORED;
-
-            var hook = e.getHook();
-            switch (button.getId()) {
-                case "button_first" -> {
-                    index.set(0);
-                    var toSend = addAllFields(base, parts.get(index.get()));
-                    toSend.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
-                            ctx.getAuthor().getEffectiveAvatarUrl()
-                    );
-
-                    hook.editOriginalEmbeds(toSend.build()).queue();
-                    hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_FIRST)).queue();
-                }
-                case "button_last" -> {
-                    index.set(parts.size() - 1);
-                    var toSend = addAllFields(base, parts.get(index.get()));
-                    toSend.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
-                            ctx.getAuthor().getEffectiveAvatarUrl()
-                    );
-
-                    hook.editOriginalEmbeds(toSend.build()).queue();
-                    hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_LAST)).queue();
-                }
-
-                case "button_right" -> {
-                    if (index.get() == 0) {
-                        break;
-                    }
-
-                    var toSend = addAllFields(base, parts.get(index.decrementAndGet()));
-                    toSend.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
-                            ctx.getAuthor().getEffectiveAvatarUrl()
-                    );
-
-                    if (index.get() == 0) {
-                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_FIRST)).queue();
-                    } else {
-                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_ALL)).queue();
-                    }
-
-                    hook.editOriginalEmbeds(toSend.build()).queue();
-                }
-
-                case "button_left" -> {
-                    if (index.get() + 1 >= parts.size()) {
-                        break;
-                    }
-
-                    var toSend1 = addAllFields(base, parts.get(index.incrementAndGet()));
-                    toSend1.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
-                            ctx.getAuthor().getEffectiveAvatarUrl()
-                    );
-
-                    if (index.get() == parts.size() - 1) {
-                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_LAST)).queue();
-                    } else {
-                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_ALL)).queue();
-                    }
-
-                    hook.editOriginalEmbeds(toSend1.build()).queue();
-                }
-                default -> {
+        return ButtonOperations.create(message, timeoutSeconds, new ButtonOperation() {
+            @Override
+            public int click(ButtonClickEvent e) {
+                if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                     return Operation.IGNORED;
                 }
+
+                var button = e.getButton();
+                if (button == null)
+                    return Operation.IGNORED;
+
+                var hook = e.getHook();
+                switch (button.getId()) {
+                    case "button_first" -> {
+                        index.set(0);
+                        var toSend = addAllFields(base, parts.get(index.get()));
+                        toSend.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
+                                ctx.getAuthor().getEffectiveAvatarUrl()
+                        );
+
+                        hook.editOriginalEmbeds(toSend.build()).queue();
+                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_FIRST)).queue();
+                    }
+                    case "button_last" -> {
+                        index.set(parts.size() - 1);
+                        var toSend = addAllFields(base, parts.get(index.get()));
+                        toSend.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
+                                ctx.getAuthor().getEffectiveAvatarUrl()
+                        );
+
+                        hook.editOriginalEmbeds(toSend.build()).queue();
+                        hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_LAST)).queue();
+                    }
+
+                    case "button_right" -> {
+                        if (index.get() == 0) {
+                            break;
+                        }
+
+                        var toSend = addAllFields(base, parts.get(index.decrementAndGet()));
+                        toSend.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
+                                ctx.getAuthor().getEffectiveAvatarUrl()
+                        );
+
+                        if (index.get() == 0) {
+                            hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_FIRST)).queue();
+                        } else {
+                            hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_ALL)).queue();
+                        }
+
+                        hook.editOriginalEmbeds(toSend.build()).queue();
+                    }
+
+                    case "button_left" -> {
+                        if (index.get() + 1 >= parts.size()) {
+                            break;
+                        }
+
+                        var toSend1 = addAllFields(base, parts.get(index.incrementAndGet()));
+                        toSend1.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
+                                ctx.getAuthor().getEffectiveAvatarUrl()
+                        );
+
+                        if (index.get() == parts.size() - 1) {
+                            hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_LAST)).queue();
+                        } else {
+                            hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_ALL)).queue();
+                        }
+
+                        hook.editOriginalEmbeds(toSend1.build()).queue();
+                    }
+                    default -> {
+                        return Operation.IGNORED;
+                    }
+                }
+
+                return Operation.IGNORED;
             }
 
-            return Operation.IGNORED;
+            @Override
+            public void onExpire() {
+                message.editMessageComponents(ActionRow.of(DEFAULT_COMPONENTS_DISABLED)).queue();
+            }
         }, DEFAULT_COMPONENTS_FIRST);
     }
 
