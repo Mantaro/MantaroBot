@@ -1111,38 +1111,38 @@
     },
     "activatekey": {
       "check": {
-        "key_valid_for": "%1$sChìa khoá của bạn có giá trị trong %2$s ngày nữa :heart:",
-        "no_key_found": "%1$sYou don't have a key enabled... If you're a premium from the old system you should still have your rewards, though!"
+        "key_valid_for": "%1$sKey của bạn có giá trị trong %2$s ngày nữa :heart:",
+        "no_key_found": "%1$sKey của bạn chưa được kích hoạt.. Tuy nhiên, nếu bạn là người trả phí từ hệ thống cũ, bạn vẫn có phần thưởng của mình!"
       },
-      "no_key_provided": "%1$sI cannot enable a premium key if you don't give me one",
-      "invalid_key": "%1$sYou provided an invalid or already enabled key",
+      "no_key_provided": "%1$sTôi không thể kích key cao cấp nếu bạn không đưa cho tôi",
+      "invalid_key": "%1$sBạn đã cung cấp một key không hợp lệ hoặc đã được kích hoạt",
       "guild_already_premium": "%1$sMáy chủ này vốn đã được đăng ký dùng cao cấp",
-      "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)\nIf you're pledging in Patreon, this key is linked to your pledge.",
+      "guild_successful": "%1$sMáy chủ này hiện là **Premium** :heart: (Trong: %2$d ngày)\nNếu bạn đang đăng kí ở Patreon, chìa khóa này sẽ được liên kết với đăng kí của bạn.",
       "user_already_premium": "%1$sTài khoản của bạn vốn đã là cao cấp :heart:",
-      "user_successful": "%1$sYou're now **Premium** :heart:\nIf you're pledging in Patreon, this key is linked to your pledge.",
-      "mp": "Mantaro Patreon uses no keys, instead, it's a given that it's premium by the fact that the bot itself works."
+      "user_successful": "%1$sBạn hiện là **Premium** :heart:\nNếu bạn đang đăng kí ở Patreon, chìa khóa này sẽ được liên kết với đăng kí của bạn.",
+      "mp": "Mantaro Patreon không sử dụng key, thay vào đó nó là cao cấp sẵn và tự hoạt động."
     },
     "claimkey": {
-      "not_patron": "%1$sYou're not a patron, so you can't do this. If you want to support Mantaro and get perks along with it, head over to <https://www.patreon.com/mantaro>\nIf you're currently pledging and you see this message, it means you don't have an active key. Please double-check that you enabled the key Mantaro should've DM'd you.",
-      "already_top": "%1$sYou already claimed all the keys you had. If any of them expired, please head over to the support server at <https://support.mantaro.site> (Though they should renew automatically)",
-      "successful": "%1$sSuccessfully claimed key `%2$s`. You have claimed a total of %3$s keys and have %4$s left keys to claim. This key is of type %5$s. (If this is a guild key, use it on the server where you want it on)",
-      "cant_dm": "%1%sTôi không thể gửi tin nhắn trực tiếp chìa khoá cho bạn vì cài đặt bảo mật của bạn, có vẻ thế, nên nó đã không được tạo ra.",
-      "success": "%1$sĐã gửi thông tin qua tin nhắn trực tiếp.",
-      "invalid_scope": "%1$sInvalid key scope! Valid are `user` and `guild`. Without any arguments, this command defaults to `user`. Example: `~>claimkey guild` or `~>claimkey user`"
+      "not_patron": "%1$sBạn không phải là patron, thế nên bạn không thể làm điều này. Nếu bạn muốn ủng hộ Mantaro và đặc quyền kèm theo đó, hãy nhấn vào <https://www.patreon.com/mantaro>\nNếu bạn đã đăng ký và nhìn thấy tin nhắn này, có nghĩa là bạn chưa kích hoạt key. Làm ơn kiểm tra kĩ lại và chắc chắn rằng bạn đã kích hoạt key Mantaro nhắn riêng cho bạn.",
+      "already_top": "%1$sBạn đã nhận tất cả các chìa khóa bạn có. Nếu bất kỳ chìa khoá nào trong số chúng đã hết hạn, vui lòng truy cập máy chủ hỗ trợ tại <https://support.mantaro.site> (Mặc dù chúng sẽ tự động gia hạn)",
+      "successful": "%1$sThành công nhận key với mã `%2$s`. Bạn đã nhận tổng cộng %3$s key trong số %4$s chưa nhận. Đây là key thuộc loại %5$s (Nếu đây là key của máy chủ, bạn có thể sử dụng lên bất cứ máy chủ nào bạn muốn)",
+      "cant_dm": "%1%sTôi không thể gửi key vào tin nhắn riêng của bạn vì cài đặt bảo mật, có lẽ vậy, nên key đã không được tạo.",
+      "success": "%1$sĐã gửi thông tin qua tin nhắn riêng.",
+      "invalid_scope": "%1$sPhạm vi khóa không hợp lệ! Hợp lệ là `user` và` guild`. Mặc định là `user` nếu không có bất kì đối số nào. Ví dụ: `~>claimkey guild` hoặc` ~>claimkey user`"
     },
     "vipstatus": {
       "user": {
-        "header": "Thông tin tài khoản cao cấp của bạn",
+        "header": "Trạng thái tài khoản cao cấp của bạn",
         "header_other": "Thông tin tài khoản cao cấp của %1$s",
-        "not_premium": "%1$s%2$s is not premium :c",
+        "not_premium": "%1$s%2$s không phải là người dùng cao cấp :c",
         "premium": "**Người dùng cao cấp! <3**",
-        "old_system": "**Premium user under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
+        "old_system": "**Người dùng cao cấp theo hệ thống cũ! Đừng lo lắng, bạn đã trả phí nên các quyền lợi của bạn vẫn sẽ hoạt động bình thường!**"
       },
       "guild": {
         "header": "Thông tin tài khoản cao cấp của %1$s",
         "not_premium": "%1$sMáy chủ này chưa đăng ký dùng cao cấp :c",
         "premium": "**Máy chủ cao cấp! <3**",
-        "old_system": "**Premium guild under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
+        "old_system": "**Máy chủ cao cấp theo hệ thống cũ! Đừng lo lắng, bạn đã trả phí nên các quyền lợi của bạn vẫn sẽ hoạt động bình thường!**"
       },
       "description": "Keys are valid for as long as your pledge is active, unless stated otherwise. Thanks for donating or pledging <3",
       "valid_for_old": "Valid for",
