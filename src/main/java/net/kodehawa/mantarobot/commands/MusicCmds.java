@@ -266,6 +266,8 @@ public class MusicCmds {
                         ).build();
             }
         });
+
+        cr.registerAlias("forceplay", "fr");
     }
 
     @Subscribe
