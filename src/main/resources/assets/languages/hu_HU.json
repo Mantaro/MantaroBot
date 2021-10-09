@@ -318,33 +318,33 @@
       "success": "%1$sÚjraindította a dalt."
     },
     "skipahead": {
-      "no_time": "%1$sYou need to tell me how much you want to skip ahead in the song. *(Example: `~>skipahead 1m45s` will skip 1 minutes and 45 seconds from where you are on the song)*",
-      "past_duration": "%1$sYou can't skip past the duration of a song",
+      "no_time": "%1$sMeg kell adnod, hogy mennyit szeretnél előre ugrani. *(Példa: `~>skipahead 4m20s` előre ugrik 4 perc 20 másodpercet az akkori ponttól számítva)*",
+      "past_duration": "%1$sNem ugorhatsz a zene hosszánál tovább",
       "success": "%1$sElőre léptetett %2$s-ig."
     },
     "move": {
       "no_voice": "%1$sNem vagy bent egy hangcsatornában sem.",
-      "attempt": "%1$sI will try to move to the channel you're in",
-      "error_moving": "%1$sFailed to switch voice channels.",
-      "cannot_connect": "%1$sCannot connect: I either don't have permission to talk or to move channels.",
-      "non_existent_channel": "%1$sI can't move to a non-existent channel!",
-      "success": "%1$sMoved bot to channel `%2$s`",
-      "vc_not_found": "%1$sVoice channel not found or you didn't specify one!"
+      "attempt": "%1$sMegpróbálok belépni abba csatornába ahol vagy",
+      "error_moving": "%1$sNem tudtam hangcsatornát váltani.",
+      "cannot_connect": "%1$sCsatlakozás sikertelen: Nincs jogom beszélni vagy átmenni másik csatornába.",
+      "non_existent_channel": "%1$sNem tudok beléni egy nem létező csatornába!",
+      "success": "%1$sÁtléptem a(z) `%2$s` csatornába",
+      "vc_not_found": "%1$sNem találtam a csatornát vagy nem adtál meg egyet!"
     },
     "shard": {
-      "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
+      "info": "**Jelenleg a %1$d es/os shardon vagyok a %2$d** ból (Node %3$d / %4$d)\n\n**Ezen a shardon lévő szerverek:** %5$,d szerver\n**Gyorsítótárazott felhasználók:** %6$,d felhasználó\n**Gyorsítótárazott tagok:** %7$,d felhasználó\nHa segítségre van szükséged látogasd meg a bot support oldalát (<https://support.mantaro.site>). Köszönjük, hogy a Mantaro -t használod!"
     },
     "queue": {
       "clear": {
-        "header": "%1$sThe server DJ has decided to clear the queue!",
-        "success": "%1$sRemoved **%2$d songs** from the queue.",
-        "error": "%1$sEither you're not connected to the VC or you're not the DJ."
+        "header": "%1$sA szerver DJ törölte a várólistát!",
+        "success": "%1$sTöröltem **%2$d zenét** a listából.",
+        "error": "%1$sNem vagy csatlakozva egy hangcsatornához sem, vagy nem vagy DJ."
       }
     },
     "repeat": {
       "queue_cancel": "%1$sFolytatom a lejátszást.",
       "queue_repeat": "%1$sLejátszási lista megismétlése.",
-      "song_cancel": "%1$sContinuing with the normal queue.",
+      "song_cancel": "%1$sFolytatom a lejátszást.",
       "song_repeat": "%1$sÚjra és újra le fogom játszani ezt a dalt. Add meg megint ezt a parancsot, hogy kilépj ebből."
     },
     "nextsong": {
@@ -358,33 +358,33 @@
       "dj_skip": "%1$sÁtléptettem ezt a számot.",
       "vote": {
         "submit": "%1$s**Szavaztál.** Még %2$d szavat kell, hogy a következő számra ugorjunk!",
-        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to skip!"
+        "remove": "%1$s**A szavazatod törölve lett.** Még %2$d szavat kell, hogy a következő számra ugorjunk!"
       },
-      "success": "%1$sReached the required amount of votes, skipping song...",
-      "no_track": "%1$sThere seems to be no track to skip, so I cannot do anything..."
+      "success": "%1$sElértem a kívánt szavazatszámot, zene átugrása...",
+      "no_track": "%1$sNem találtam mit átugrani, Nem tudok csinálni semmit..."
     },
     "removetrack": {
-      "invalid_range": "%1$s`%2$s` is not a valid range.",
-      "no_track": "%1$sThere isn't a queued track at the position `%2$d`!",
-      "invalid_number": "(%1$s`%2$s`) One of the ranges is not a valid number!",
-      "invalid_number_range": "%1$s`%2$s` is not a valid number or range!",
-      "success": "%1$sRemoved **%2$d** track(s) from the queue.",
-      "not_dj": "%1$sYou need to be a DJ to perform this action."
+      "invalid_range": "%1$s`%2$s` nem érvényes tartomány.",
+      "no_track": "%1$sA következő sorszámon nincs zene: `%2$d`!",
+      "invalid_number": "(%1$s`%2$s`) Az egyik nem érvényes szám!",
+      "invalid_number_range": "%1$s`%2$s` nem érvényes szám vagy tartomány!",
+      "success": "%1$sTörölve **%2$d** szám a listából.",
+      "not_dj": "%1$sDJ rang szükséges ennek a parancsnak a végrehajtásához."
     },
     "stop": {
-      "dj_stop": "%1$sThe server DJ has decided to stop the current queue.",
+      "dj_stop": "%1$sA DJ megállította a várólistát.",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to stop!",
-        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to stop!"
+        "submit": "%1$s**szavazatod rögzítve** Kell még %2$d szavazat a megállításhoz!",
+        "remove": "%1$s**A szavazatod törölve lett.** Még %2$d szavat kell a megállításhoz!"
       },
-      "success": "%1$sReached the required amount of votes, stopping player...",
-      "no_player": "%1$sThere seems to be no player to stop, so I cannot do anything...",
-      "cleanup": "%1$sRemoved **%2$d songs** from the queue."
+      "success": "%1$sSzükséges szavazatszám elérve, megállítás...",
+      "no_player": "%1$sNem találtam semmit amit megállíthatnék, Nem tudok mit csinálni...",
+      "cleanup": "%1$sTöröltem **%2$d zenét** a listából."
     },
     "volume": {
-      "no_player": "%1$sThere's nothing playing here.",
-      "check": "%1$sThe current volume for this session is: %2$d\n\n%3$s",
-      "success": "%1$sVolume set to %2$d\n\n%3$s",
+      "no_player": "%1$sJelenleg semmi nem megy.",
+      "check": "%1$sA hangerő: %2$d\n\n%3$s",
+      "success": "%1$sHangerő beállítva %2$d\n\n%3$s",
       "no_args": "%1$sYou need to tell me what volume you want me to set the music to (5 to 100).",
       "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to a user or a server, please, if you donate, join the support guild and ask for it."
     },
