@@ -247,11 +247,6 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
     private void onStop() {
         final var managedDatabase = MantaroData.db();
         final var lavalinkPlayer = getAudioPlayer().getPlayer();
-        // Stop the track.
-        if (lavalinkPlayer.getPlayingTrack() != null) {
-            lavalinkPlayer.stopTrack();
-        }
-
         getVoteStop().clear();
         getVoteSkips().clear();
 
@@ -287,7 +282,11 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         currentTrack = null;
         previousTrack = null;
 
-        // Disconnect this audio player.
+        // Stop the track and disconnect
+        if (lavalinkPlayer.getPlayingTrack() != null) {
+            lavalinkPlayer.stopTrack();
+        }
+
         MantaroBot.getInstance().getAudioManager().resetMusicManagerFor(guildId);
     }
 
