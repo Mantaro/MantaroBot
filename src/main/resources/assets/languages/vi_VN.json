@@ -1400,15 +1400,15 @@
         "header": "%1$s**Thú nuôi hiện có sẵn**\n\n%2$s\n\n%3$s**Giải thích về khả năng:**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)",
-        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
-        "personal_pet_other": "%1$sYou can't pet other people's personal pets. For now.",
-        "ratelimit_message": "You can pat your pet up to 25 times. After this you'll have to wait the time above for 25 more pats.",
-        "too_many": "How did you even get this many pats?"
+        "no_pet": "%1$sBạn không có thú nuôi nào để xoa đầu. Xem `~>pet` để biết thêm. (Lựa chọn: %2$s)",
+        "no_pet_other": "%1$s%2$s không có thú nuôi để xoa đầu. Xem `~>pet` để biết thêm.",
+        "personal_pet_other": "%1$sBạn không thể xoa đầu thú cưng của người khác vào lúc này.",
+        "ratelimit_message": "Bạn có thể vỗ về thú cưng của mình tối đa 25 lần. Sau đó, bạn sẽ phải đợi khoảng thời gian trên cho 25 lần vỗ nữa.",
+        "too_many": "Làm thế nào mà bạn thậm chí xoa đầu nhiều như thế này?"
       },
       "pet_reactions": {
-        "cute": "%1$s**%2$s** happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
-        "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head. **Pat counter: %3$s**.%4$s",
+        "cute": "%1$s**%2$s** vui vẻ vẫy đuôi khi bạn vuốt ve đầu nó. **Số lần xoa đầu: %3$s**.%4$s",
+        "cute_not_animal": "%1$s**%2$s** hạnh phúc mỉm cười khi bạn xoa đầu nó. **Số lần xoa đầu: %3$s**.%4$s",
         "nothing": "%1$s**%2$s** just sits there, doing nothing. **Pat counter: %3$s**.%4$s",
         "cheer": "%1$s**%2$s**'s reaction was so cute it managed to cheer you up. **Pat counter: %3$s**.%4$s",
         "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
