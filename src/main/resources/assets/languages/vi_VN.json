@@ -1415,155 +1415,155 @@
         "counter_100": "%1$sCó vẻ như đầu của nó sẽ trở nên sáng bóng sau nhiều lần xoa."
       },
       "buy": {
-        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`). If you want a personal pet, first run `~>pet choice personal`.",
-        "no_requirements": "%1$sYou need both a car and a house to go buy a pet! House: %2$s, Car: %3$s\nTo buy a house and a car use `~>marry buyhouse` and `~>marry buycar` :heart:",
-        "no_house": "%1$sYou need to have a pet house in your inventory to do this. You can buy it on the market.",
-        "no_egg": "%1$sYou need to have a Incubator Egg on your inventory to do this. You can cast it, check `~>cast ls`",
-        "already_has_pet": "%1$sYou already have a pet. (Current choice: %2$s)",
-        "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
+        "not_enough_arguments": "%1$sBạn cần ghi rõ tên vật nuôi và loại vật nuôi bạn muốn mua. (Ví dụ: `~> pet buy hello dog`). Nếu bạn muốn có thú cưng cá nhân, hãy chạy `~>pet choice personal`.",
+        "no_requirements": "%1$sBạn cần cả một chiếc xe và một ngôi nhà để mua thú cưng! Nhà: %2$s, Xe: %3$s\nĐể mua nhà và xe thì dùng `~>marry buyhouse` và` ~>marry buycar` :heart:",
+        "no_house": "%1$sBạn cần phải có một ngôi nhà cho thú cưng trong túi đồ để thực hiện điều này. Bạn có thể mua trên cửa hàng.",
+        "no_egg": "%1$sBạn cần có Trứng ấp trong hành trang của mình để thực hiện việc này. Bạn có thể tạo nó, kiểm tra `~> cast ls`",
+        "already_has_pet": "%1$sBạn đã có sẵn thú cưng. (Lựa chọn hiện tại: %2$s)",
+        "nothing_found": "%1$sKhông thể tìm thấy loại vật nuôi bạn đã chỉ định. Bạn đã chỉ định: `%2$s`, Loại hợp lệ: `%3$s`",
         "not_enough_money": "%1$sBạn không có đủ tiền để mua thú nuôi này. Cần: %2$,d đồng, Tài sản của bạn: %3$,d đồng",
         "confirm": "%1$sBạn có chắc là muốn mua thú nuôi này chứ? Tên: %2$s, Loại: %3$s, Giá: %4$,d đồng. Lựa chọn: %5$s. Gõ `yes` để đồng ý, nếu không thì gõ `no`.",
         "success": "%1$sChúc mừng! Bây giờ hai bạn đã là người chủ đáng quý của `%2$s%3$s` với cái tên mà hai bạn đặt là `%4$s`. Giá để mua thú nuôi này là %5$,d đồng và sự lựa chọn là: %6$s",
         "success_personal": "%1$sChúc mừng! Bây giờ bạn đã là người chủ đáng quý của `%2$s%3$s` với cái tên mà bạn đặt là `%4$s`. Giá để mua thú nuôi này là %5$,d đồng và sự lựa chọn là: %6$s",
         "cancel_success": "%1$sĐã huỷ câu lệnh.",
-        "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters.",
-        "no_marriage_marry": "%1$sI don't see any marriage here..."
+        "too_long": "%1$sTên này quá dài. Tên bắt buộc phải ngắn hơn 150 ký tự.",
+        "no_marriage_marry": "%1$sTôi không thấy cuộc hôn nhân nào ở đây..."
       },
       "feed": {
-        "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
-        "no_content": "%1$sYou need to specify what you want to feed your pet with. For example, `~>pet feed steak`",
-        "no_item": "%1$sI didn't find the item you specified.",
-        "not_food": "%1$sWoah there! This isn't food, nor is it emergency food!",
-        "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
-        "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
-        "not_applicable": "%1$sYou can't feed this food to your pet type.",
-        "success": "%1$sYay! Succesfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now %5$s%% satisfied.",
-        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (The amount used would surpass 100%% hunger)"
+        "no_pet": "%1$sBạn không có bất kì thú cưng nào để bón cho nó. Xem `~>pet` để biết thêm. (Lựa chọn: %2$s)%3$s",
+        "no_content": "%1$sBạn cần ghi rõ đồ ăn mà bạn muốn cho thú cưng của mình ăn. Ví dụ như, `~>pet feed steak`",
+        "no_item": "%1$sTôi không tìm thấy vật phẩm mà bạn chỉ ra.",
+        "not_food": "%1$sỒ nhìn kìa! Đây không phải là đồ ăn, cũng không phải đồ tiếp tế!",
+        "no_need": "%1$sThú cưng của bạn không đói, nên có lẽ hiện giờ nó không muốn ăn.",
+        "not_inventory": "%1$sBạn không có đồ ăn mà bạn muốn cho thú cưng của mình ăn. Hãy chắc chắn rằng nó trong túi đồ của bạn và bạn nhập đúng số lượng (%2$s).",
+        "not_applicable": "%1$sBạn không thể cho thú cưng ăn đồ ăn không cùng loại này được.",
+        "success": "%1$sYay! Thành công cho thú cưng của bạn ăn `%3$s %2$s` và hồi được %4$s%% thanh thức ăn. Thanh thức ăn của thú cưng hiện giờ là %5$s%%.",
+        "too_much": "%1$sHay là cho nó ít thức ăn hơn đi? Bạn đang lãng phí thức ăn đó! (Số lượng bạn đưa ra vượt quá 100%% thanh thức ăn)"
       },
       "water": {
-        "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
-        "no_need": "%1$sYour pet isn't thirsty, so they don't want to drink right now.",
-        "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
-        "not_enough_inventory": "%1$sYou don't have enough water bottles in your inventory! You need %2$s.",
-        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (The amount used would surpass 100%% thirst)",
-        "success": "%1$sYay! Succesfully gave your pet %2$d water and it recovered %3$s%% of their thirst. Their thirst is now %4$s%% quenched."
+        "no_pet": "%1$sBạn không có thú nuôi nào để cho nó uống. Xem `~>pet` để biết thêm. (Lựa chọn: %2$s)%3$s",
+        "no_need": "%1$sThú cưng của bạn không khát, nên có lẽ hiện giờ nó không muốn uống.",
+        "not_inventory": "%1$sBạn không có chai nước. Hãy chắc chắn rằng nó nằm trong túi đồ của bạn.",
+        "not_enough_inventory": "%1$sKhông đủ chai nước có trong túi đồ của bạn. Bạn cần %2$s.",
+        "too_much": "%1$sHay là cho nó ít thức uống hơn đi? Bạn đang lãng phí đồ uống đó! (Số lượng bạn đưa ra vượt quá 100%% thanh khát)",
+        "success": "%1$sYay! Thành công cho thú cưng của bạn uống %2$d và hồi được %3$s%% thanh khát. Thanh khát của thú cưng hiện giờ là %4$s%%."
       },
       "activity": {
-        "low_stamina": "%1$s**%2$s** has a really low stamina. Give it food/water to replenish.",
-        "low_health": "%1$s**%2$s** has really low health. Give it food/water and let it rest for a while to replenish.",
-        "low_hunger": "%1$s**%2$s** is too hungry to do anything right now. *Fooood~*",
-        "low_thirst": "%1$s**%2$s** is too thirsty to do anything right now.",
-        "low_mood": "%1$s**%2$s** has too low of a mood. You might wanna play with them!",
-        "dusty": "%1$s**%2$s** is too dusty. Clean your pet to clear the dust.",
+        "low_stamina": "%1$sThể lực hiện tại của **%2$s** thực sự rất thấp. Hãy cho nó ăn/uống để hồi phục.",
+        "low_health": "%1$sSức khoẻ hiện tại của **%2$s** thực sự rất thấp. Hãy cho nó ăn/uống và để nó nghỉ ngơi để hồi phục.",
+        "low_hunger": "%1$s**%2$s** đang đói lắm luôn nên chả làm được gì cả. *Đồ ănnnnnn~*",
+        "low_thirst": "%1$s**%2$s** đang khát lắm luôn nên chả làm được gì cả.",
+        "low_mood": "%1$s**%2$s** chả có hứng thú gì nữa. Còn không mau chơi với thú cưng của bạn đi!",
+        "dusty": "%1$s**%2$s** đang rất bẩn. Bạn tắm rửa giúp nó đi.",
         "success_fish": "%1$s**%2$s** đã thành công giúp bạn bắt cá! **Bạn nhận được thêm %3$,d đồng và %4$,d vật phẩm** đều là nhờ vào những gì thú cưng có thể làm được cho bạn *thêm cả những gì bạn có được*",
         "success_chop": "%1$s**%2$s** đã thành công giúp bạn chặt cây! **Bạn nhận được thêm %3$,d đồng và %4$,d vật phẩm** đều là nhờ vào những gì thú cưng có thể làm được cho bạn *thêm cả những gì bạn có được*",
         "success_mine": "%1$s**%2$s** đã thành công giúp bạn đào! **Bạn nhận được thêm %3$,d đồng và nhiều cơ hội rơi đồ hơn** đều là nhờ vào những gì thú cưng có thể làm được cho bạn *thêm cả những gì bạn có được*"
       },
       "rename": {
-        "no_pet": "%1$sYou don't have a pet to rename. (Choice: %2$s)%3$s",
-        "same_name": "%1$sThe name you gave me is the same as the current name of your pet.",
-        "no_content": "%1$sYou need to give me the new name of your pet.",
-        "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2%s, Current: %3$s.",
-        "success": "%1$sSuccessfully renamed your pet from `%2$s` to `%3$s`. %4$s has been deducted from your wallet. Enjoy!"
+        "no_pet": "%1$sBạn không có thú cưng để đổi tên. (Lựa chọn %2$s)%3$s",
+        "same_name": "%1$sTên bạn đặt lại cho thú cưng giống với tên hiện giờ của nó.",
+        "no_content": "%1$sBạn cần đặt tên mới cho thú cưng của bạn.",
+        "not_enough_money": "%1$sBạn không đủ tiền để thực hiện hành động này. Ngân sách: %3$s. Tốn: %2%s.",
+        "success": "%1$sĐã đổi tên thú cưng của bạn từ `%2$s` thành `%3$s`. Đã trừ %4$s từ ví của bạn!"
       },
       "remove": {
-        "no_pet": "%1$sYou don't have a pet to remove. (Choice: %2$s)%3$s",
-        "no_pet_confirm": "%1$sI don't see any pet here...",
+        "no_pet": "%1$sBạn không có thú cưng để xoá. (Lựa chọn %2$s)%3$s",
+        "no_pet_confirm": "%1$sTôi không thấy con vật nào cả...",
         "confirm": "%1$sBạn có chắc chắn là muốn xoá thú nuôi này không? Nửa kia của bạn sẽ nhận được %2$,d đồng, và bạn cũng nhận được %2$,d đồng.\nGõ `yes` để đồng ý hoặc `no` để huỷ. Hãy nhận thức được rằng sự hoàn trả không đi kèm với cấp độ hay bất kì thứ gì khác, nó giống như mua một tomagotchi mới hoặc tương tự như vậy.",
         "confirm_personal": "%1$sBạn có chắc chắn là muốn xoá thú nuôi này không? Bạn sẽ được hoàn lại %2$,d đồng.\nGõ `yes` để đồng ý hoặc `no` để huỷ. Hãy nhận thức được rằng sự hoàn trả không đi kèm với cấp độ hay bất kì thứ gì khác, nó giống như mua một tomagotchi mới hoặc tương tự như vậy.",
         "success": "%1$sĐã bán thú nuôi thành công. Cả hai bên sẽ nhận được %2$s đồng như là sự hoàn trả.",
         "success_personal": "%1$sĐã bán thú nuôi thành công. Bạn sẽ nhận được %2$s đồng như là sự hoàn trả."
       },
       "info": {
-        "not_found": "%1$sI can't find the pet type you're looking for. Use `~>pet list` for a list of pet types.",
-        "author": "Pet information for type %1$s%2$s",
-        "name": "Pet Name",
-        "cost": "Pet Cost",
-        "abilities": "Abilities",
-        "food": "Đồ ăn",
+        "not_found": "%1$sTôi không tìm thấy thú cưng mà bạn đang tìm. Sử dụng `~>pet list` để xem danh sách thú cưng.",
+        "author": "Thông tin thú cưng thuộc loại %1$s%2$s",
+        "name": "Tên thú cưng",
+        "cost": "Giá thú cưng",
+        "abilities": "Khả năng",
+        "food": "Ăn được",
         "coin_buildup": "Tiền tăng lên (Lvl. 1 / 100)",
         "item_buildup": "Vật phẩm tăng lên (Lvl. 1 / 100)"
       },
-      "locked_notice": "%1$sYou can't buy/sell a pet when the transaction is locked. If this is an error, try again in a few minutes."
+      "locked_notice": "%1$sBạn không thể mua/bán thú cưng khi giao dịch bị khoá. Nếu đây là lỗi, thì hãy thử lại sau vài phút."
     },
     "invite": {
-      "url": "Invite URL",
+      "url": "Lời mời",
       "server": "Máy chủ hỗ trợ",
-      "patreon": "Patreon URL",
+      "patreon": "Patreon",
       "description": {
-        "1": "Here are some useful links!",
-        "2": "**If you have any questions about the bot, feel free to join the support guild and ask**!.",
-        "3": "We provided a patreon link in case you would like to help Mantaro keep running by donating [and getting perks by doing so!].",
-        "4": "Thanks you for using the bot! **<3 from the developers and the Mantaro team**"
+        "1": "Dưới đây là một số liên kết hữu dụng!",
+        "2": "**Nếu bạn có bất kì câu hỏi nào về Mantaro, đừng ngần ngại mà hãy vào máy chủ hỗ trợ để hỏi!**.",
+        "3": "Chúng tôi cũng cung cấp liên kết patreon trong trường hợp bạn muốn giúp Mantaro tiếp tục hoạt động bằng cách quyên góp [và nhận đặc quyền khi làm như vậy!].",
+        "4": "Cảm ơn bạn đã sử dụng bot **<3 từ các lập trình viên và đội ngũ Mantaro**"
       },
-      "footer": "We hope you have fun with the bot."
+      "footer": "Hy vọng bạn có nhiều niềm vui với bot."
     },
     "salvage": {
-      "not_broken": "%1$sYou can only salvage broken tools.",
-      "no_item": "%1$sYou need to specify the item you want to salvage.",
-      "no_item_found": "%1$sI can't find the item you specified.",
-      "cant_salvage": "%1$sYou can't salvage this item.",
-      "not_wrench": "%1$sYou need a wrench to salvage an item. You might need to specify it manually after the item.",
-      "not_enough_level": "%1$sYou need at least a level 2 wrench to salvage this item.",
-      "no_main_item": "%1$sYou don't appear to have the item you're trying to salvage.",
-      "no_tool": "%1$sYou don't have this wrench. Try specifying it, or specifying another wrench.",
-      "no_tool_default": "%1$sYou need at least a Comet Wrench in your inventory to do this, but you can also specify a higher one if you want to.",
-      "not_enough_money": "%1$sYou don't have enough money to salvage this item. *(Wallet: %2$,d, Needed: %3$,d)*",
-      "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
-      "no_returnables": "%1$sThis item has no returnable salvage elements.",
-      "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
-      "success": "%1$sĐã thành công phân rã %2$s và nhận lại %3$s. Chi phí là %4$s đồng.",
+      "not_broken": "%1$sBạn chỉ có thể vớt các công cụ bị hỏng.",
+      "no_item": "%1$sBạn cần phải ghi rõ vật phẩm bạn muốn phân rã.",
+      "no_item_found": "%1$sTôi không tìm thấy vật phẩm mà bạn chỉ ra.",
+      "cant_salvage": "%1$sBạn không thể phân rã món đồ này.",
+      "not_wrench": "%1$sBạn cần một cái cờ lê để phân rã vật phẩm. Bạn có lẽ cần chỉ định nó theo cách thủ công sau vật phẩm.",
+      "not_enough_level": "%1$sBạn cần ít nhất một cái cờ lê cấp độ 2 để phân rã vật phẩm này.",
+      "no_main_item": "%1$sDường như bạn không có vật phẩm mà bạn đang cố gắng phân rã.",
+      "no_tool": "%1$sBạn không có cái cờ lê này. Hãy thử chỉ định nó hoặc chỉ định một cờ lê khác.",
+      "no_tool_default": "%1$sBạn cần ít nhất là một cái cờ lê sao chổi trong túi đồ để làm điều này, nhưng bạn cũng có thể chỉ định cờ lê cấp độ cao hơn nếu bạn muốn.",
+      "not_enough_money": "%1$sBạn không có đủ tiền để phân rã vật phẩm này. *(Ví của bạn có: %2$,d, Cần: %3$,d)*",
+      "dust": "%1$sTúi đồ của bạn không sạch sẽ để phân rã vật phẩm này, hãy thử lau dọn bằng chổi.",
+      "no_returnables": "%1$sVật phẩm này không có gì để có thể trả lại.",
+      "item_broke": "%1$sCờ lê của bạn (%1$s) đã vỡ khi đang cố gắng phân rã vật phẩm này :(",
+      "success": "%1$sĐã phân rã thành công %2$s và nhận lại %3$s. Chi phí là %4$s đồng.",
       "ls": {
-        "header": "Salvageable Item List",
-        "cost": "Salvage Cost: ",
-        "return": "Could Return: ",
-        "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name, short name or the emoji\nSalvaging has a cost of 1/3rd the price of the item, which is shown below.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "header": "Danh sách các món đồ có thể phân rã",
+        "cost": "Giá phân rã: ",
+        "return": "Có thể hoàn lại: ",
+        "desc": "Đây là danh sách các vật bạn có thể phân rã bằng cách sử dụng `~>salvage`.\nBạn có thể sử dụng tên đầy đủ, tên viết tắt hoặc biểu tượng cảm xúc\nViệc phân rã có chi phí bằng 1/3 giá của vật phẩm, được hiển thị bên dưới.\nBạn sẽ chỉ nhận được một vật trong danh sách ở đây, và nó là ngẫu nhiên.\nCờ lê bậc 2 và bậc 3 lần lượt là sao chổi và lấp lánh."
       }
     },
     "stats": {
       "header": "Các thông số của Mantaro",
-      "description": "Ừ thì... Tôi đã làm toán của tôi!",
+      "description": "Ừ thì... Tôi đã làm toán!",
       "usage": {
-        "header": "Mantaro's usage information",
-        "description": "Hardware and usage information.",
+        "header": "Thông tin sử dụng của Mantaro",
+        "description": "Phần cứng và thông tin sử dụng.",
         "threads": "Các chủ đề",
         "memory_usage": "Bộ nhớ sử dụng",
         "cores": "Số lõi CPU",
         "cpu_usage": "Tình trạng CPU",
-        "assigned_mem": "Assigned Memory",
-        "assigned_remaining": "Remaining from assigned"
+        "assigned_mem": "Bộ nhớ được chỉ định",
+        "assigned_remaining": "Còn lại sau chỉ định"
       },
       "server": {
-        "header": "Mantaro's server usage information",
+        "header": "Thông tin sử dụng máy chủ của Mantaro",
         "cpu_usage": "Tình trạng CPU",
         "rem": "RAM (TỔNG/CÒN TRỐNG/ĐÃ SỬ DỤNG)"
       }
     },
     "social": {
-      "header": "%1$sO-Oh, I see you're interested on seeing my social networks!\n\n",
+      "header": "%1$sỚ-âu, bạn có vẻ quan tâm đến việc xem các mạng xã hội của tôi!\n\n",
       "description": {
-        "1": "W-Well, here we go!",
+        "1": "V-Vậy thì, chúng đây!",
         "2": "**- Website:** <%1$s>"
       },
-      "note": "**If you like Mantaro, please up-vote on** <https://discordbots.org/bot/mantaro> **and/or consider donating on Patreon or Paypal! Thanks you~**"
+      "note": "**Nếu bạn thích Mantaro, thì hãy up-vote tại** <https://discordbots.org/bot/mantaro> **và/hoặc ủng hộ trên Patreon hoặc Paypal! Cảm ơn nhìu~**"
     },
     "avatar": {
-      "result": "Avatar for %1$s",
-      "footer": "Hopefully a very pretty one."
+      "result": "Ảnh đại diện của %1$s",
+      "footer": "Hy vọng là một ảnh rất đẹp."
     },
     "serverinfo": {
       "header": "Thông tin máy chủ",
-      "description": "Thông tin cho máy chủ %1$s",
-      "users": "Users",
+      "description": "Thông tin của máy chủ %1$s",
+      "users": "Số thành viên",
       "created": "Ngày tạo",
-      "channels": "Kênh thoại/Văn Bản",
+      "channels": "Kênh thoại/Kênh văn bản",
       "owner": "Chủ sở hữu",
       "region": "Vùng",
       "roles": "Vai trò (%1$,d)",
       "id_show": "ID máy chủ: %1$s"
     },
     "userinfo": {
-      "header": "Thông tin người dùng cho %1$s#%2$s",
+      "header": "Thông tin của người dùng %1$s#%2$s",
       "roles": "Vai trò: [%1$,d]",
       "id": "ID người dùng",
       "join_date": "Ngày tham gia",
@@ -1577,87 +1577,87 @@
       "default": "Mặc định"
     },
     "roleinfo": {
-      "header": "Thông tin vai trò cho %1$s",
+      "header": "Thông tin của vai trò %1$s",
       "id": "ID vai trò",
       "created": "Ngày tạo vai trò",
       "age": "Tuổi thọ vai trò",
       "color": "Màu",
       "members": "Thành viên",
       "position": "Vị trí",
-      "hoisted": "Hoisted",
+      "hoisted": "Riêng biệt",
       "managed": "Quản lý",
       "permissions": "Quyền hạn: [%1$,d]",
-      "no_content": "%1$sYou need to specify the name of the role to look for."
+      "no_content": "%1$sBạn cần đưa ra tên vai trò mà bạn muốn xem."
     },
     "donate": {
-      "beg": "%1$sOh hi! If you are interested in donating, please check the links below. Running Mantaro takes time and money, and every dollar is highly appreciated!\n\n%2$s",
-      "methods": "**Donation Methods**\n**- Patreon:** <%1$s>\n**- Paypal:** <%2$s>"
+      "beg": "%1$sXin chào! Nếu bạn quan tâm đến việc ủng hộ, vui lòng kiểm tra các liên kết bên dưới. Để Mantaro hoạt động thực sự tốn thời gian và tiền bạc, mỗi đồng tiền của bạn đều cao quý!\n\n%2$s",
+      "methods": "**Phương pháp ủng hộ**\n**- Patreon:** <%1$s>\n**- Paypal:** <%2$s>"
     },
     "help": {
       "title": "Trợ giúp Mantaro",
-      "base_category": "Danh sách lệnh cho loại lệnh %1$s. Để được hướng dẫn cụ thể, hãy xem [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Hướng dẫn mua bán](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>`\n",
-      "support": "If you're still lost you can join the [support server](https://support.mantaro.site). You can also follow me on [Twitter](https://twitter.com/mantarodiscord) for updates.\n",
-      "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
-      "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
-      "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
-      "footer": "Thanks for using Mantaro %1$s (Total Commands: %2$s)",
+      "base_category": "Danh sách lệnh cho loại lệnh %1$s. Để được hướng dẫn cụ thể, hãy xem [wiki](https://github.com/Mantaro/MantaroBot/wiki) và [Hướng dẫn mua bán](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
+      "base": "**Toàn bộ tất cả các lệnh**. Nếu bạn muốn phiên bản chi tiết hơn, hãy xem tại [wiki](https://github.com/Mantaro/MantaroBot/wiki). Và nhớ rằng nếu bạn có thể xem chi tiết hơn một lệnh bằng việc sử dụng `~>help <tên lệnh>`\n",
+      "support": "Nếu bạn vẫn không biết làm gì thì có thể tham gia [máy chủ hỗ trợ](https://support.mantaro.site). Bạn cũng có thể theo dõi chúng tôi trên [Twitter](https://twitter.com/mantarodiscord) về cập nhật.\n",
+      "patreon": "**[Chúng tôi cần sự giúp đỡ của bạn để Mantaro tiếp tục hoạt động! Nhấn vào đây để biết thêm.](https://www.patreon.com/mantaro)**",
+      "disabled_commands": "Chỉ hiển thị các lệnh không bị vô hiệu hóa. Tổng số lệnh bị vô hiệu hóa: %1$s",
+      "channel_specific_disabled_commands": "\nChỉ hiển thị các lệnh không bị vô hiệu hóa. Tổng số lệnh bị tắt theo kênh cụ thể: %1$s",
+      "footer": "Cảm ơn vì đã sử dụng Mantaro %1$s (Tổng số lệnh: %2$s)",
       "commands": "Các lệnh",
       "extended": {
-        "no_help": "%1$sThere's no extended help set for this command.",
-        "not_found": "%1$sA command with this name doesn't exist"
+        "no_help": "%1$sKhông có trợ giúp mở rộng nào được đặt cho lệnh này.",
+        "not_found": "%1$sLệnh với tên này không tồn tại"
       },
-      "too_long": "Error displaying sub-command help. Check the [wiki](https://github.com/Mantaro/MantaroBot/wiki) for more information on this specific command."
+      "too_long": "Lỗi khi hiển thị trợ giúp lệnh phụ. Kiểm tra [wiki](https://github.com/Mantaro/MantaroBot/wiki) để biết thêm thông tin về lệnh này."
     },
     "repair": {
-      "no_item": "%1$sYou didn't specify any item to repair. If you think you have the correct item, try using the full name.",
-      "no_item_found": "%1$sI can't find that item. If you think you have the correct item, try using the full name.",
-      "no_main_item": "%1$sYou don't have the item you're trying to repair (%2$s)",
-      "cant_repair": "%1$s**%2$s** không phải là một món đồ bạn có thể sửa. Bạn chỉ có thể sửa đồ đã hỏng (broken).",
-      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can equip one if needed (`~>equip Comet Wrench`, for example)",
-      "no_tool_specified": "%1$sYou specified a wrench you don't have (%2$s). Please use a tool you have or cast it. If you think you have the correct item, try using the full name.",
-      "dust": "%1$sTủ đồ của bạn quá bẩn để thực hiện một sửa chữa. Bụi cấp: %2$s",
+      "no_item": "%1$sBạn không ghi rõ vật phẩm để sửa. Nếu bạn nghĩ là bạn đã có vật phẩm, hãy thử sử dụng tên đầy đủ.",
+      "no_item_found": "%1$sTôi không tìm thấy vật phẩm đó. Nếu bạn nghĩ là bạn đã có vật phẩm, hãy thử sử dụng tên đầy đủ.",
+      "no_main_item": "%1$sBạn không có vật phẩm mà bạn đang cố sửa chữa (%2$s)",
+      "cant_repair": "%1$s**%2$s** không phải là một món đồ bạn có thể sửa. Bạn chỉ có thể sửa đồ đã hỏng.",
+      "no_tool": "%1$sBạn cần cờ lê bậc 2 (ít nhất là cờ lê sao chổi) hoặc bậc cao hơn để sửa vật phẩm này. Bạn có thể trang bị nó nếu bạn cần (ví dụ: `~>equip Comet Wrench`)",
+      "no_tool_specified": "%1$sBạn đã chỉ ra một cờ lê mà bạn không có (%2$s). Làm ơn hãy sử dụng dụng cụ bạn có hoặc chế tạo chúng. Nếu bạn nghĩ là bạn đã có vật phẩm, hãy thử sử dụng tên đầy đủ.",
+      "dust": "%1$sTúi đồ của bạn quá bẩn để thực hiện việc sửa chữa. Bụi cấp: %2$s",
       "not_wrench": "%1$sBạn không thể dùng đồ này làm cờ lê. Nhớ dùng ngoặc kép nếu tên của đồ có chứa dấu cách.",
-      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. You can equip one if needed (`~>equip Comet Wrench`, for example)",
-      "not_enough_money": "%1$sYou don't have enough money to repair this item. *(Wallet: %2$,d, Needed: %3$,d)*",
+      "not_enough_level": "%1$sBạn cần cờ lê bậc cao hơn để thực hiện việc sửa chữa này. Bạn có thể trang bị nó nếu bạn cần (ví dụ: `~>equip Comet Wrench`)",
+      "not_enough_money": "%1$sBạn không có đủ tiền để sửa chữa vật phẩm này. *(Ví của bạn có: %2$,d, Cần: %3$,d)*",
       "no_item_recipe": "%1$sBạn không có *%2$s* để thực hiện quá trình sửa chữa này.",
-      "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair on a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
-      "item_broke": "%1$sSadly, your wrench (%1$s) broke while repairing this item, but you still got your item!",
+      "not_enough_items": "%1$sBạn không có đủ *%2$s* để thực hiện sửa chữa lên **%3$s**. **(Cần: %4$s, Hiện có: %5$s)**",
+      "item_broke": "%1$sĐáng buồn, cờ lê của bạn (%1$s) đã vỡ khi đang sửa chữa vật phẩm, nhưng bạn vẫn nhận được vật phẩm!",
       "success": "%1$sSửa đồ thành công! Đã sửa từ %2$s **%3$s** -> %4$s **%5$s**. Sửa chữa mất *%6$s* đồng và nguyên liệu để sửa nó là *%7$s*.",
       "ls": {
         "header": "Danh sách đồ có thể sửa chữa",
         "cost": "Giá sửa chữa: ",
-        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost, which is shown below alongside the needed materials. You need at least a Comet Wrench to repair something."
+        "desc": "Đây là danh sách các món đồ bạn có thể sửa chữa bằng lệnh `~>repair`.\nBạn có thể dùng tên đầy đủ, tên viết tắt hoặc biểu tượng cảm xúc.\nViệc sửa chữa có chi phí tối thiểu bằng 1/3 chi phí vật phẩm, được hiển thị bên dưới cùng với các vật liệu cần thiết. Bạn cần ít nhất một Cờ lê sao chổi để sửa chữa một cái gì đó."
       }
     },
     "anime": {
-      "no_args": "%1$sYou need to tell me what anime to look for.",
+      "no_args": "%1$sBạn cần phải cho tôi biết bạn muốn xem anime nào.",
       "selection_start": "Gõ số của anime bạn muốn chọn.",
       "information_footer": "Thông tin được cung cấp bởi Kitsu.io. Gõ &cancel để huỷ.",
       "no_results": "%1$sKhông có kết quả...",
-      "malformed_result": "%1$sI got a wrong API result for this specific search. Maybe try with another search term?",
-      "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a `%2$s` while trying to process the command. (internal error)",
-      "timeout": "%1$sWe tried to look for this anime, but the request timed out on Kitsu's end. Try again later?",
-      "information_header": "Thông tin anime cho %1$s",
+      "malformed_result": "%1$sTôi nhận được kết quả API sai cho tìm kiếm này. Có thể thử với một cụm từ tìm kiếm khác?",
+      "error": "%1$s**Tôi thề là tôi không làm rơi bộ anime yêu thích của bạn!**\nTôi nhận được `%2$s` khi đang cố gắng chạy lệnh. (lỗi bên trong)",
+      "timeout": "%1$sChúng tôi đã cố gắng tìm kiếm anime này, nhưng thời gian chờ Kitsu của đã kết thúc. Thử lại sau?",
+      "information_header": "Thông tin của anime %1$s",
       "information_notice": "Thông tin được cung cấp bởi Kitsu.io.",
-      "airing": "Airing",
+      "airing": "Vẫn đang phát",
       "release_date": "Ngày phát hành",
-      "favorite_count": "Favorite Count",
+      "favorite_count": "Số lượt yêu thích",
       "end_date": "Ngày kết thúc",
       "average_score": "Điểm trung bình",
       "type": "Dạng",
       "episodes": "Số tập",
-      "episode_duration": "Duration",
+      "episode_duration": "Thời gian",
       "genres": "Thể loại",
       "minutes": "phút",
       "description": "Mô tả",
-      "external_link_text": "Check it out!"
+      "external_link_text": "Hãy khám phá!"
     },
     "character": {
-      "no_args": "%1$sYou need to tell me what character you want to look for.",
+      "no_args": "%1$sBạn cần phải cho tôi biết bạn muốn tìm kiếm nhân vật nào.",
       "selection_start": "Gõ số của nhân vật bạn muốn chọn.",
-      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got `%2$s` while trying to process this command. (internal error)",
-      "information_header": "Thông tin cho nhân vật %1$s",
+      "error": "%1$s**Tôi thề là tôi không làm rơi waifu của bạn, làm ơn tha cho tui TwT!**\nTôi nhận được `%2$s` khi đang cố gắng chạy lệnh. (lỗi bên trong)",
+      "information_header": "Thông tin của nhân vật %1$s",
       "information": "Thông tin",
       "no_aliases": "Không có lệnh tương đồng",
       "alias_start": "Còn được biết đến như:",
@@ -1667,54 +1667,54 @@
       "bot_notice": "%1$sBot không có tiền.",
       "external_balance": "Số tiền của %1$s là **$%2$,d đồng.**",
       "own_balance": "Số tiền của bạn là **$%1$,d đồng.**%2$s",
-      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
-      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
+      "new_player": "\nXin chào! Tôi thấy bạn có vẻ là chiếu mới ở đây. Hướng dẫn này sẽ giúp bạn rất nhiều: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. Dòng này chỉ hiển thị một lần.",
+      "reset_notice": "\nNếu bạn muốn biết điều gì đã xảy ra với số tiền trước đó của mình, hãy đọc <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nBạn không bị mất hoàn toàn số tiền cũ của mình, nó vẫn hiển thị trên `~> profile` :heart:\nTúi đồ của bạn vẫn được giữ lại, hay là bán một ít để kiếm tiền?\nĐiều này sẽ chỉ được hiển thị một lần. Đọc trang được liên kết để biết thêm chi tiết."
     },
     "daily": {
-      "check": "%1$sBạn sẽ nhận được daily trong vòng: **%2$s.**",
+      "check": "%1$sBạn sẽ nhận được phần thưởng hàng ngày trong vòng: **%2$s.**",
       "about_now": "khoảng từ bây giờ",
-      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `~>daily -check`. Enjoy!",
+      "ratelimit_message": "Bạn có thể chạy phần thưởng hàng ngày mỗi ngày một lần. Nếu bạn cần kiểm tra, bạn cũng có thể sử dụng `~> daily -check`. Tận hưởng nhé!",
       "errors": {
-        "bot": "%1$sBạn không thể chuyển daily cho một bot.",
+        "bot": "%1$sBạn không thể chuyển daily cho bot.",
         "receipt_locked": "Người chơi đó không thể nhận tiền hàng ngày vào lúc này.",
-        "own_locked": "Bạn hiện không thể nhận daily.",
-        "same_user": "%1$sHãy dùng daily mà không đề cập đến bản thân nếu bạn định đề cập đến bản thân :P"
+        "own_locked": "Bạn hiện không thể nhận phần thưởng hàng ngày.",
+        "same_user": "%1$sHãy dùng phần thưởng hàng ngày mà không đề cập đến bản thân nếu bạn định đề cập đến bản thân :P"
       },
       "streak": {
         "up": "Tăng chuỗi ngày nhận! Chuỗi ngày nhận hiện tại: `%1$,dx`",
-        "first_time": "Lần đầu nhận daily, chúc vui vẻ! (Quay lại để tăng chuỗi nhận vào ngày mai)",
+        "first_time": "Lần đầu nhận phần thưởng hàng ngày, chúc vui vẻ! (Quay lại để tăng chuỗi nhận vào ngày mai)",
         "lost_streak": {
-          "normal": "Hơn 2 ngày đã trôi qua kể từ lần cuối bạn nhận tiền daily, nên chuỗi ngày `%1$dx` của bạn đã bị đặt lại :(",
-          "watch": "Even your `Magical Watches` could not stop the flow for this long. Even after using all your owned magic watches your streak of `%1$dx` still ran out of time and got reset :("
+          "normal": "Hơn 2 ngày đã trôi qua kể từ lần cuối bạn nhận phần thưởng hàng ngày, nên chuỗi `%1$dx` ngày của bạn đã bị đặt lại :(",
+          "watch": "Ngay cả `Đồng hồ ma thuật` cũng không thể ngăn dòng chảy trong thời gian dài đến vậy. Ngay cả sau khi sử dụng tất cả ma thuật của bạn, đồng hồ tiếp tục chạy và chuỗi `%1$d ngày` đã được đặt lại :("
         },
         "bonus": "Bạn nhận được thêm $%1$s do có chuỗi ngày nhận bằng 5 hoặc hơn! (Đã được thêm vào số tiền hiển thị trên!)",
         "given": {
           "up": "Tăng chuỗi ngày nhận! Chuỗi ngày nhận hiện tại: `%1$,dx`.\n*Chuỗi ngày nhận đã được cập nhật vào hồ sơ của bạn!*",
           "bonus": "%1$s nhận được thêm $%2$,d do có chuỗi ngày nhận bằng 5 hoặc hơn! (Đã được thêm vào số tiền hiển thị trên!)"
         },
-        "watch_used": "`Đồng hồ thần kì` của bạn đã giữ chuỗi ngày nhận! Bạn đã dùng `%1$d` chiếc để kéo dài thời gian giữ chuỗi ngày nhận đến %2$dx, bạn còn `%3$d` chiếc!"
+        "watch_used": "`Đồng hồ ma thuật` của bạn đã giữ chuỗi ngày nhận! Bạn đã dùng `%1$d` chiếc để kéo dài thời gian giữ chuỗi ngày nhận đến %2$dx, bạn còn `%3$d` chiếc!"
       },
-      "given_credits": "%1$sTôi đã đưa **$%2$,d** đồng của ngày hôm nay cho %3$s",
+      "given_credits": "%1$sTôi đã đưa **$%2$,d** đồng của bạn ngày hôm nay cho %3$s",
       "credits": "%1$sBạn nhận được **$%2$,d** đồng ngày hôm nay.",
       "sellout": {
         "get_premium": "Chúng tôi cần sự giúp đỡ của bạn để giữ cho Mantaro hoạt động! Xem <https://patreon.com/mantaro> để biết thông tin chi tiết. **Bạn có thể nhận được số tiền nhiều gấp đôi với Premium!** Mọi hội viên sẽ bắt đầu chỉ với $2 mỗi tháng, rất chi là rẻ!",
         "already_premium": "Cảm ơn bạn vì đã hỗ trợ Mantaro. Nếu không có sự giúp đỡ từ những người như bạn, chúng tôi đã không thể giữ Mantaro hoạt động được :heart:"
       },
-      "crate": "Bạn đã nhận được một hòm lục đồ do chuỗi nhận daily của bạn đạt bội số của 20! Chúc vui vẻ.",
-      "watch_get": "Bạn đã nhận được một `Đồng hồ thần kì` do chuỗi nhận daily của bạn đạt bội số của 50! Chúc vui vẻ."
+      "crate": "Bạn đã nhận được một hòm lục đồ do chuỗi phần thưởng hàng ngày của bạn đạt bội số của 20! Chúc vui vẻ.",
+      "watch_get": "Bạn đã nhận được một `Đồng hồ ma thuật` do chuỗi phần thưởng hàng ngày của bạn đạt bội số của 50! Chúc vui vẻ."
     },
     "gamble": {
       "no_credits": "%1$sBạn đã phá sản. Hãy thử kiếm vài đồng.",
       "too_much_money": "%1$sBạn có quá nhiều tiền! Hay là chuyển cho ai đó hoặc mua thêm đồ? Bạn thậm chí còn có thể dùng lệnh `~>slots` để thoả mãn nhu cầu bài bạc của bạn! Cảm ơn vì đã không làm hỏng ngân hàng địa phương. *(Giới hạn cược tiền tuyệt đối: %2$d đồng)*",
       "invalid_money_or_modifier": "%1$sVui lòng nhập một số hợp lệ nhỏ hơn hoặc bằng số dư hiện tại của bạn hoặc `all` để đánh bạc tất cả tiền có trong tài khoản của bạn.",
-      "not_enough_money": "%1$sPlease type a value within your balance.",
-      "invalid_percentage": "%1$sPlease type a valid percentage value.",
+      "not_enough_money": "%1$sLàm ơn hãy nhập một số trong đủ khả năng chi trả của bạn.",
+      "invalid_percentage": "%1$sVui lòng nhập giá trị phần trăm hợp lệ.",
       "confirmation_message": "%1$sBạn đang cược **%2$,d* đồng (có vẻ là rất nhiều). Bạn có chắc với quyết định của mình chứ? Nhấn **yes** để đồng ý và **no** để huỷ.",
-      "cancelled_bet": "%1$sCancelled bet.",
+      "cancelled_bet": "%1$sĐã huỷ cược.",
       "win": "%1$sChúc mừng, bạn đã thắng %2$,d đồng và giữ lại được số tiền bạn đặt cược.",
       "win_overflow": "%1$sChúc mừng, bạn đã thắng %2$,d đồng. Nhưng vì bạn đã có quá nhiều tiền. Nên túi tiền bị tràn ra.",
       "lose": "%1$sRất tiếc, bạn lỗ mất %2$s đồng rồi. %3$s",
-      "lose_all": "all of your",
+      "lose_all": "tất cả của bạn",
       "credits": "đồng",
       "too_much": "%1$sBạn không thể đặt nhiều như thế được. Bạn không muốn phá sản, đúng chứ? *(Giới hạn mỗi lần đánh bạc: %2$,d đồng)*",
       "too_little": "%1$sBạn không thể cược ít tiền như thế được (Ít nhất: 100 đồng)"
@@ -1735,94 +1735,94 @@
       "easter": "\nCó vẻ như bạn đang có quá nhiều bụi ở đây... Có thể bạn sẽ muốn dọn nó trước khi nó trở thành một mớ hỗn độn đấy!"
     },
     "mine": {
-      "not_equipped": "%1$sYou don't have any equipped pick. Use `~>equip <pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `~>buy pick`",
-      "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`",
+      "not_equipped": "%1$sBạn không trang bị bất kì cây cúp nào. Sử dụng lệnh `~>equip <tên cúp>` để trang bị một cây và bắt đầu cuộc hành trình câu cá của bạn! Nếu bạn không có cây cần câu nào, đầu tiên hãy xài `~>buy pick`",
+      "no_pick": "%1$sBạn không có cuốc để đào. Nếu bạn muốn dùng bất kỳ cây cuốc nào hãy dùng lệnh `~>mine <tên cuốc>`",
       "not_suitable": "%1$sĐây không phải là một cây cuốc bạn có thể dùng để đào!",
       "not_in_inventory": "%1$sBạn không có cây cuốc này trong tủ đồ của bạn, đang đổi sang cây cuốc mặc định.",
       "success": "\"%1$sBạn đào được khoáng chất trị giá **$%2$,d đồng**, bằng *%3$s*\"",
-      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
+      "reminder": "\n*Bạn có thể có cây cúp tốt hơn bằng cách sử dụng đá quý bạn nhận được khi khai thác. Kiểm tra `~>cast ls` để biết danh sách những thứ bạn có thể chế tạo*\nĐể có hướng dẫn về cách nâng cấp các công cụ của bạn, hãy đọc phần này:\n<https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
         "overflow": "Ủa, bạn nhặt được một viên kim cương trong lúc đào, nhưng bạn đã có quá nhiều, nên tôi đã bán nó cho bạn.",
-        "success": "Ủa! Bạn may mắn nhặt được %1$s kim cương trong lúc đào, hãy xem tủ đồ của bạn!"
+        "success": "Ủa! Bạn may mắn nhặt được %1$s kim cương trong lúc đào, hãy xem túi đồ của bạn!"
       },
       "gem": {
         "overflow": "Ủa, bạn nhặt được *%1$s* trong lúc đào, nhưng bạn đã có quá nhiều loại ngọc này, nên tôi đã bán nó cho bạn.",
-        "success": "Ủa! Bạn may mắn nhặt được *%1$s* trong lúc đào, hãy xem tủ đồ của bạn.",
-        "success_extra": "Hurray! You got extra lucky and found *%1$s* and *%2$s* while mining, check your inventory."
+        "success": "Ủa! Bạn may mắn nhặt được *%1$s* trong lúc đào, hãy xem túi đồ của bạn.",
+        "success_extra": "Hoan hô! Bạn thật may mắn khi tìm thấy *%1$s* và *%2$s* trong lúc đào, hãy xem túi đồ của bạn."
       },
       "sparkle": {
-        "overflow": "You found a sparkling gem, but it seems like you had too much of it already, so we sold it for you.",
-        "success": "Hurray! You found one %1$s sparkling gem. Make sure to keep it around, check your inventory."
+        "overflow": "Bạn đã tìm thấy một viên đá quý lấp lánh, nhưng có vẻ như bạn đã có quá nhiều, vì vậy chúng tôi đã bán nó cho bạn.",
+        "success": "Hoan hô! Bạn tìm được %1$s viên đá quý lấp lánh. Hãy cất nó cẩn thận nhé, có thể xem trong túi đồ của bạn."
       },
       "crate": {
-        "overflow": "Bạn đã tìm thấy một **%1$s** trong lúc đào, nhưng đã bỏ nó lại do có quá nhiều...",
-        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key, which you can buy using `~>buy key`!"
+        "overflow": "Bạn đã tìm thấy **%1$s** trong lúc đào, nhưng đã bỏ nó lại do có quá nhiều...",
+        "success": "Bạn tìm được %1$s **%2$s** trong lúc đào. Mở nó bằng `~>opencrate <tên hòm>`. Bạn sẽ cần chìa khoá mở hòm, có thể mua bằng `~>buy key`!"
       },
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your pick slot."
+        "success": "%1$sĐã tự động trang bị **%2$s** từ bộ cúp của bạn."
       },
       "item_broke": "%1$s%2$s của bạn đã gãy trong quá trình sử dụng :( %3$s",
-      "item_broke_autoequip": "*Gợi ý: bạn có thể dùng lệnh `~>profile autoequip` để được trang bị tự động khi đồ bị gãy, giả sử rằng bạn có một cái trong tủ đồ.*",
-      "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!",
-      "missing_equipped": "%1$sYou had an equipped %2$s pick, but you no longer have any of its kind on your inventory! Equipped pick has been reset.",
+      "item_broke_autoequip": "*Gợi ý: bạn có thể dùng lệnh `~>profile autoequip` để được trang bị tự động khi đồ bị gãy, nếu bạn có một cái trong tủ đồ.*",
+      "waifu_help": "Waifu của bạn đã tham gia vào hành trình câu cá và cả hai đều được một mẻ cá lớn!",
+      "missing_equipped": "%1$sBạn đã trang bị %2$s, nhưng không còn cái nào loại này trong túi đồ của bạn! Cúp được trang bị đã được đặt lại.",
       "broken_drop": "%1$sCông cụ của bạn đã hỏng, nhưng bạn có thể sửa nó. Bạn được nhận lại đồ hỏng: %2$s*%3$s*",
-      "broken_drop_miss": "%1$sYour tool broke and you didn't quite manage to get it back."
+      "broken_drop_miss": "%1$sCông cụ của bạn bị hỏng và bạn không thể lấy lại được."
     },
     "chop": {
-      "not_equipped": "%1$sYou don't have any equipped axe. Use `~>equip <axe name>` to equip a axe and start your adventure! If you don't have any, first run `~>buy axe`",
-      "dust": "%1$sThe tree was too brittle and you only got sawdust out of it (Dust level: %2$d%%)",
+      "not_equipped": "%1$sBạn không trang bị bất kì cái rìu nào. Sử dụng lệnh `~>equip <tên rìu>` để trang bị một cây và bắt đầu cuộc hành trình câu cá của bạn! Nếu bạn không có cây cần câu nào, đầu tiên hãy xài `~>buy axe`",
+      "dust": "%1$sCây quá giòn và bạn chỉ lấy được mùn cưa từ nó (Bụi cấp độ: %2$d%%)",
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
+        "success": "%1$sĐã tự động trang bị **%2$s** từ bộ rìu của bạn."
       },
       "crate": {
-        "overflow": "You found a **%1$s** while chopping trees, but you had too many already, so we threw it back into the ocean...",
-        "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+        "overflow": "Bạn tìm thấy **%1$s** trong lúc chặt cây, nhưng vì bạn đã có quá nhiều, nên chúng tôi đã vứt nó lại xuống dưới đáy đại dương...",
+        "success": "Bạn tìm thấy %1$s **%2$s** trong lúc chặt cây và đã nhặt nó lên. Hãy thử mở nó bằng lệnh `~>opencrate <tên hòm>`. Bạn sẽ cần đến một chiếc chìa khoá để mở!"
       },
-      "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
-      "success_only_item": "%1$sWhile chopping trees, you found %2$s using a *%3$s* and proceed to save them into your inventory.",
+      "overflow": "%1$sBạn đã tìm thấy một số đồ khi chặt, nhưng bạn không thể chứa thêm nữa, vì vậy chúng tôi phải bỏ một số đồ đó đi.",
+      "success_only_item": "%1$sTrong lúc chặt cây, bạn tìm được %2$s bằng *%3$s* và cho chúng vào túi đồ.",
       "success": "%1$sTrong lúc chặt cây, bạn tìm được %2$s và **$%3$,d đồng** bằng *%4$s* và cho chúng vào túi đồ.",
       "success_money_noitem": "%1$sTrong lúc chặt cây, bạn tìm được **$%2$,d đồng** bằng *%3$s* và cho chúng vào ví."
     },
     "slots": {
       "errors": {
-        "amount_not_ticket": "%1$sYou cannot specify how many tickets you're gonna use if you're not using tickets!",
-        "not_enough_tickets": "%1$sYou don't have enough slots tickets.",
-        "too_much_money": "%1$sThis machine cannot dispense that much money!",
-        "not_enough_money": "%1$sYou don't have enough money to play the slots machine!",
+        "amount_not_ticket": "%1$sBạn không thể chỉ định số lượng vé bạn sẽ sử dụng nếu bạn không sử dụng chúng!",
+        "not_enough_tickets": "%1$sBạn không có đủ số lượng vé chơi đánh bạc.",
+        "too_much_money": "%1$sMáy này không thể phân phát nhiều tiền như vậy!",
+        "not_enough_money": "%1$sBạn không có đủ tiền để chơi máy đánh bạc!",
         "below_minimum": "%1$sSố tiền tối thiểu là 25 đồng",
-        "no_tickets": "%1$sYou wanted to use tickets but you don't have any :<",
-        "no_amount": "%1$sYou didn't specify the amount!",
-        "no_valid_amount": "%1$sThat's not a valid amount of money! (Example of valid amounts: 1000, 1k, 14000)",
-        "too_many_tickets": "%1$sYou're trying to use too many slot tickets. Maximum allowed is %2$d"
+        "no_tickets": "%1$sBạn muốn sử dụng vé nhưng bạn không có cái nào :<",
+        "no_amount": "%1$sBạn không ghi rõ số lượng cụ thể!",
+        "no_valid_amount": "%1$sĐó không phải là một số tiền hợp lệ! (Ví dụ về số tiền hợp lệ: 1000, 1k, 14000)",
+        "too_many_tickets": "%1$sBạn đang cố gắng sử dụng quá nhiều vé đánh bạc. Số lượng tối đa được phép là %2$d"
       },
       "roll": "%1$s**Bạn đã dùng %2$s và quay máy sổ xố**\n",
       "win": "Và bạn đã thắng **%1$,d** đồng và giữ được số tiền bạn cược (%2$,d đồng)! Thật may mắn!",
       "lose": "Và bạn đã mất %1$s\nTôi hy vọng lần tới bạn sẽ làm tốt hơn!",
-      "tickets": "(một số) vé xổ số",
+      "tickets": "(một số) vé đánh bạc",
       "credits": "đồng"
     },
     "leaderboard": {
-      "main_page_redirect": "You can see `~>help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `~>leaderboard money`",
+      "main_page_redirect": "Bạn có thể xem `~> help leaderboard` để biết danh sách các bảng thành tích có sẵn.\nNếu bạn đang tìm kiếm bảng thành tích về tiền, hãy chạy `~>leaderboard money`",
       "header": "Bảng xếp hạng của Mantaro",
       "header_seasonal": "Bảng xếp hạng mùa %1$s của Mantaro",
       "money": "Bảng xếp hạng độ giàu",
       "reputation": "Bảng xếp hạng độ uy tín",
       "gamble": "Bảng xếp hạng thắng cược",
-      "slots": "Bảng xếp hạng xổ số",
-      "daily": "Bảng xếp hạng chuỗi daily",
-      "level": "Bảng xếp hạng cấp",
-      "game": "Bảng xếp hạng trò chơi",
+      "slots": "Bảng xếp hạng chơi đánh bạc",
+      "daily": "Bảng xếp hạng chuỗi nhận phần thưởng hàng ngày",
+      "level": "Bảng xếp hạng cấp độ",
+      "game": "Bảng xếp hạng thắng trò chơi",
       "waifu": "Bảng xếp hạng giá trị Waifu",
       "claim": "Bảng xếp hạng số lần được nhận làm Waifu",
       "inner": {
         "experience": "Kinh nghiệm",
-        "game": "%1sThis page shows the top 10 people who have won the most games.\n\nCheck out `~>help game` or `~>help trivia` for details on how games work!",
-        "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `~>help waifu` for details on the waifu system.",
-        "money_old": "%1$sThis page shows the top 10 richest people on Mantaro (before the reset).\n",
-        "money": "%1$sThis page shows the top 10 richest people on Mantaro. Grinding is hard!",
-        "seasonal_money": "%1$sThis page shows the top 10 richest people on Mantaro for this season.",
-        "rep": "%1sThis page shows the top 10 people with the most reputation.",
-        "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `~>help daily` for more info",
+        "game": "%1sTrang này hiển thị top 10 người đã thắng nhiều trò chơi nhất.\n\nKiểm tra `~>help game` hoặc `~>help trivia` để biết chi tiết về cách trò chơi hoạt động!",
+        "claim": "%1sTrang này hiển thị top 10 người được nhận làm waifu nhiều nhất.\n\nKiểm tra `~>help waifu` để biết chi tiết về hệ thống waifu.",
+        "money_old": "%1$sTrang này hiển thị top 10 người giàu nhất trên Mantaro (trước khi đặt lại hệ thống tiền).\n",
+        "money": "%1$sTrang này hiển thị top 10 người giàu nhất trên Mantaro. Cày là khó!",
+        "seasonal_money": "%1$sTrang này hiển thị top 10 người giàu nhất trên Mantaro mùa này.",
+        "rep": "%1sTrang này hiển thị top 10 người có độ uy tín cao nhất.",
+        "streak": "%1sTrang này hiển thị top 10 người nhận chuỗi phần thưởng hàng ngày nhiều nhất.\n\nKiểm tra `~>help daily` để biết chi tiết",
         "lvl": "%1sThis page shows the top 10 people with the most level.\n\nLevel is earning through talking. Command usage doesn't contribute to experience, and XP has a 30 seconds cooldown.",
         "waifu": "%1sThis page shows the top 10 people with the most weighted waifu value.\n\nCheck out `~>help waifu` for details on the waifu system.",
         "gamble": "%1sThis page shows the top 10 people with the most gamble runs won.\n\nCheck out `~>help gamble` for details on gamble.",
