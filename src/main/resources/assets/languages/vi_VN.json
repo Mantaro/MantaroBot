@@ -1823,37 +1823,37 @@
         "seasonal_money": "%1$sTrang này hiển thị top 10 người giàu nhất trên Mantaro mùa này.",
         "rep": "%1sTrang này hiển thị top 10 người có độ uy tín cao nhất.",
         "streak": "%1sTrang này hiển thị top 10 người nhận chuỗi phần thưởng hàng ngày nhiều nhất.\n\nKiểm tra `~>help daily` để biết chi tiết",
-        "lvl": "%1sThis page shows the top 10 people with the most level.\n\nLevel is earning through talking. Command usage doesn't contribute to experience, and XP has a 30 seconds cooldown.",
-        "waifu": "%1sThis page shows the top 10 people with the most weighted waifu value.\n\nCheck out `~>help waifu` for details on the waifu system.",
-        "gamble": "%1sThis page shows the top 10 people with the most gamble runs won.\n\nCheck out `~>help gamble` for details on gamble.",
-        "slots": "%1sThis page shows the top 10 people with the most slots runs won.\n\nCheck out `~>help slots` for details on slots."
+        "lvl": "%1sTrang này hiển thị top 10 người có cấp độ cao nhất.\n\nCấp độ kiếm được thông qua việc nói chuyện. Việc sử dụng lệnh không ảnh hưởng đến kinh nghiệm và XP có thời gian hồi là 30 giây.",
+        "waifu": "%1sTrang này hiển thị top 10 người có giá trị waifu đỉnh nhất.\n\nKiểm tra `~>help waifu` để biết chi tiết về hệ thống waifu.",
+        "gamble": "%1sTrang này hiển thị top 10 người có số lần chơi cờ bạc thắng nhiều nhất.\n\nKiểm tra `~>help gamble` để biết thêm chi tiết về đánh cược.",
+        "slots": "%1sTrang này hiển thị top 10 người có số lần chơi máy đánh bạc thắng nhiều nhất.\n\nKiểm tra `~>help slots` để biết thêm chi tiết về đánh bạc."
       }
     },
     "iteminfo": {
-      "no_content": "%1$sYou didn't specify any item to look for! You can search it with emoji or the name.",
+      "no_content": "%1$sBạn không chỉ định bất kỳ vật phẩm nào để tìm kiếm! Bạn có thể tìm kiếm nó bằng biểu tượng cảm xúc hoặc tên.",
       "no_item": "%1$sKhông có món đồ nào khớp với tìm kiếm của bạn.",
       "embed": {
-        "header": "Item Information for %1$s",
-        "type": "Type",
-        "usefulness": "Usefulness",
+        "header": "Thông tin của vật phẩm %1$s",
+        "type": "Loại",
+        "usefulness": "Hữu ích cho",
         "attributes": "Thuộc tính",
-        "tier": "Tier",
-        "durability": "Durability",
-        "desc": "Description",
-        "upgrade": "Looking to upgrade?",
-        "upgrade_content": "Click [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
+        "tier": "Cấp bậc",
+        "durability": "Độ bền",
+        "desc": "Mô tả",
+        "upgrade": "Bạn muốn nâng cấp?",
+        "upgrade_content": "Nhấn vào [đây](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) để biết thêm thông tin chi tiết về cách nâng cấp các dụng cụ nhé!"
       },
-      "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s\n%1$s**Buy Price:** %8$s %9$s\n%1$s**Sell Price:** %10$s %11$s",
-      "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Buy Price:** %7$s %8$s\n%1$s**Sell Price:** %9$s %10$s"
+      "success_tiered": "**Thông tin về** %2$s **%3$s** (%4$s)\n%1$s**Loại:** %5$s\n%1$s**Mô tả:** *%6$s*\n%1$s**Bậc:** %7$s\n%1$s**Giá mua:** %8$s %9$s\n%1$s**Giá bán:** %10$s %11$s",
+      "success": "**Thông tin về** %2$s **%3$s** (%4$s)\n%1$s**Loại:** %5$s\n%1$s**Mô tả:** *%6$s*\n%1$s**Giá mua:** %7$s %8$s\n%1$s**Giá bán:** %9$s %10$s"
     },
     "level": {
-      "bot_notice": "%1$sBots don't have level.",
+      "bot_notice": "%1$sBot không có cấp độ.",
       "own_success": "%1$sBạn đang ở cấp %2$s. (Kinh nghiệm:%3$s/%4$s)",
-      "success_other": "%1$s%2$s đang ở cấp %3$s. (Kinh nghiệm: %4$s/%5$s)"
+      "success_other": "%1$s%2$s đang ở cấp độ %3$s. (Kinh nghiệm: %4$s/%5$s)"
     }
   },
   "options": {
-    "options": "Mantaro Options",
+    "options": "Tùy chọn Mantaro",
     "error_general": "%1$sIncorrect usage or missing arguments. Make sure the first argument doesn't start with a new line!\nIf you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sCannot retrieve values. Weird thing...",
@@ -2604,18 +2604,18 @@
       "broken_comet_rod": "Một chiếc cần câu sao chổi đã bị gãy trong khi câu cá. Vẫn cứu vãn được.",
       "broken_sparkle_rod": "Một cần câu lấp lánh đã bị gãy trong khi câu cá. Vẫn còn cứu vãn được.",
       "broken_star_rod": "Một chiếc cần câu sao băng đã bị gãy trong khi câu cá. Những vẫn cứu vãn được.",
-      "incubator_egg": "The one catalyst you need to call your personal pet home.",
-      "water_bottle": "An item that magically heals your pet's thirst.",
-      "magic_watch": "Một chiếc đồng hồ ma thuật sẽ làm chậm thời gian khi bạn cần. Nó sẽ tự động kích hoạt để bảo vệ chuỗi ngày nhận daily!",
-      "pet_house": "A house where your pet lives. Maybe. Sometimes they just like to flop outside.",
-      "steak": "Very yummy if you're not vegetarian.",
-      "chicken": "Very yummy if you're not vegetarian, but it comes from a chicken instead.",
-      "milk_3": "Very good food for cats, I've heard.",
-      "dog_food": "Food your dog might like a lot. Or they might like bread more, like mines.",
-      "cat_food": "Food your cat might like a lot.",
-      "hamster_food": "Food your hamster might enjoy.",
-      "wood": "Common drop from trees. Useful for casting.",
-      "moon_pick": "A very much stronger pick.",
+      "incubator_egg": "Một vật xúc tác mà bạn cần để gọi thú cưng về nhà.",
+      "water_bottle": "Một vật phẩm có thể chữa lành cơn khát cho thú cưng của bạn một cách thần kỳ.",
+      "magic_watch": "Một chiếc đồng hồ ma thuật sẽ làm chậm thời gian khi bạn cần. Nó sẽ tự động kích hoạt để bảo vệ chuỗi ngày nhận phần thưởng hàng ngày!",
+      "pet_house": "Ngôi nhà dành cho thú cưng của bạn ở. Có lẽ, đôi khi nó chỉ thích lao ra bên ngoài.",
+      "steak": "Rất ngon nếu bạn không ăn chay.",
+      "chicken": "Rất ngon nếu bạn không ăn chay, nhưng thay vào đó nó đến từ gà.",
+      "milk_3": "Thức ăn rất tốt cho mèo tôi từng được biết.",
+      "dog_food": "Thức ăn mà chó của bạn sẽ rất thích. Hoặc nó có thể thích bánh mì hơn.",
+      "cat_food": "Thức ăn mà mèo của bạn có thể rất thích.",
+      "hamster_food": "Thức ăn mà chuột của bạn có thể thích.",
+      "wood": "Thường rơi từ việc chặt cây. Hữu ích cho chế tạo.",
+      "moon_pick": "Một chiếc cúp cực khoẻ.",
       "hellfire_pick": "Way too OP pick.",
       "axe": "A normal, middle-of-the-road axe.",
       "comet_axe": "A stronger axe.",
