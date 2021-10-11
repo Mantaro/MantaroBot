@@ -1411,8 +1411,8 @@
         "cute_not_animal": "%1$s**%2$s** hạnh phúc mỉm cười khi bạn xoa đầu nó. **Số lần xoa đầu: %3$s**.%4$s",
         "nothing": "%1$s**%2$s** chỉ ngồi đó, và không làm gì cả. **Số lần xoa đầu: %3$s**.%4$s",
         "cheer": "Phản ứng của %1$s**%2$s** quá dễ thương nên nó đã làm bạn vui lên. **Số lần xoa đầu: %3$s**.%4$s",
-        "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
-        "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
+        "scare": "%1$sThú cưng sợ hãi khi bạn vỗ về chúng. Có lẽ là do quá đột ngột chăng? **Số lần xoa đầu: %3$s**.%4$s",
+        "counter_100": "%1$sCó vẻ như đầu của nó sẽ trở nên sáng bóng sau nhiều lần xoa."
       },
       "buy": {
         "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`). If you want a personal pet, first run `~>pet choice personal`.",
