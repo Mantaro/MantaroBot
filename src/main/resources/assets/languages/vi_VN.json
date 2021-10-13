@@ -50,7 +50,7 @@
       "potion_active": "%1$sBạn đã có sẵn hiệu ứng **%2$s** đang hoạt động và có số lượng tối đa có thể của nó!",
       "potion_not_found": "%1$sTôi không tìm thấy thuốc hay loại trang bị đó!",
       "potion_applied": "%1$sÁp dụng thành công hiệu ứng **%2$s** thuộc loại *%3$s* (%4$dx). Xem hiệu ứng mới của bạn tại `~>profile stats`",
-      "potion_applied_multiple": "%1$s Áp dụng thành công hiệu ứng **%2$s** của loại *%3$s*.\nBạn đã sử dụng hiệu ứng này, vì vậy chúng tôi sẽ xếp chồng nó lên. Kích thước hiện tại của chồng hiệu ứng là:%4$s",
+      "potion_applied_multiple": "%1$sÁp dụng thành công **%2$s** của loại *%3$s*.\nBạn đã sử dụng hiệu ứng này, vì vậy chúng tôi sẽ xếp chồng nó lên. Kích thước xếp chồng hiện tại: %4$s",
       "max_stack_size": "%1$sBạn đã xếp chồng đầy tối đa %2$s mà bạn có thể. (Giới hạn tối đa: 15, Sau khi xếp chồng: %3$s)",
       "max_stack_size_2": "%1$sBạn không thể xếp chồng quá nhiều %2$s. (Giới hạn tối đa: 15, Số lượng vừa được xếp chồng: %3$s)",
       "not_same_potion": "%1$sThuốc loại %2$s đã được bạn dùng và xếp chồng lên, vì vậy bạn không thể xếp chồng thuốc loại %3$s lên đó."
@@ -1858,17 +1858,17 @@
     "check_data": {
       "retrieve_failure": "%1$sKhông thể truy xuất giá trị. Kỳ thật...",
       "header": "Tuỳ chọn được đặt cho máy chủ **%1$s**.",
-      "terminology": "\n\n**Useful terminology:** [] = empty list, null = not set, {} = empty object. If you see numbers=[...] it means that for that id, it applies what's inside the brackets. Objects are usually comma-separated",
-      "footer": "This is a debug command, therefore it's not 100% user-friendly",
-      "null_set": "is not set to anything.",
-      "set_to": "is set to:"
+      "terminology": "\n\n**Thuật ngữ hữu ích:** [] = danh sách trống, null = chưa đặt, {} = đối tượng trống. Nếu bạn thấy số=[...] có nghĩa là đối với id đó, nó áp dụng cho những gì bên trong ngoặc. Các đối tượng thường được phân tách bằng dấu phẩy",
+      "footer": "Đây là lệnh gỡ lỗi, do đó nó không thân thiện với người dùng tí nào đâu",
+      "null_set": "không được đặt thành cái gì cả.",
+      "set_to": "được đặt thành:"
     },
     "reset_all": {
-      "success": "%1$sCorrectly reset your options!"
+      "success": "%1$sĐặt lại các tuỳ chọn của bạn!"
     },
     "server_command_disallow": {
-      "no_command": "%1$sYou need to specify the command you want to disable on this server.",
-      "success": "%1$sDisabled %2$s on this server."
+      "no_command": "%1$sBạn cần chỉ ra lệnh bạn muốn tắt trên máy chủ này.",
+      "success": "%1$sĐã vô hiệu hoá %2$s trên máy chủ này."
     },
     "server_command_allow": {
       "no_command": "%1$sYou need to specify the command you want to enable on this server.",
@@ -1876,7 +1876,7 @@
     },
     "server_command_specific_disallow": {
       "invalid": "%1$sYou need to specify the channel name and the command to disallow.",
-      "success": "%1$sĐã vô hiệu hoá lệnh %2$s ở kênh #%3$s."
+      "success": "%1$sĐã vô hiệu hoá %2$s tại kênh #%3$s."
     },
     "server_command_specific_allow": {
       "invalid": "%1$sYou need to specify the channel name and the command to allow.",
