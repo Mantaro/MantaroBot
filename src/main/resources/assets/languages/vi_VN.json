@@ -1871,19 +1871,19 @@
       "success": "%1$sĐã vô hiệu hoá %2$s trên máy chủ này."
     },
     "server_command_allow": {
-      "no_command": "%1$sYou need to specify the command you want to enable on this server.",
-      "success": "%1$sEnabled %2$s on this server."
+      "no_command": "%1$sBạn cần chỉ ra lệnh bạn muốn bật trên máy chủ này.",
+      "success": "%1$sĐã bật lại %2$s trên máy chủ này."
     },
     "server_command_specific_disallow": {
-      "invalid": "%1$sYou need to specify the channel name and the command to disallow.",
+      "invalid": "%1$sBạn cần chỉ ra tên kênh và lệnh mà bạn muốn vô hiệu hoá.",
       "success": "%1$sĐã vô hiệu hoá %2$s tại kênh #%3$s."
     },
     "server_command_specific_allow": {
-      "invalid": "%1$sYou need to specify the channel name and the command to allow.",
-      "success": "%1$sEnabled %2$s on channel #%3$s."
+      "invalid": "%1$sBạn cần chỉ ra tên kênh và lệnh mà bạn muốn bật.",
+      "success": "%1$sĐã bật lại %2$s tại kênh #%3$s."
     },
     "server_channel_disallow": {
-      "no_channel": "%1$sYou need to specify the channel where you want the bot not to listen to commands.",
+      "no_channel": "%1$sBạn cần chỉ ra kênh mà bạn muốn bot không nghe lệnh.",
       "too_many": "%1$sYou cannot disable more channels since the bot wouldn't be able to talk otherwise :(",
       "success": "%1$sChannel %2$s will no longer listen to commands."
     },
