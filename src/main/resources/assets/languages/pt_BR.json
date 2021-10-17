@@ -514,7 +514,7 @@
       "no_users": "%1$sVocê tem que me dar um usuário para silenciar.",
       "no_manage_roles": "%1$sEu não tenho permissão para administrar cargos nesse servidor.",
       "time_not_specified": "%1$sVocê queria um tempo mas não especificou quanto.",
-      "time_not_specified_generic": "%1$sVocê não especificou o tempo. Por exemplo, se você quer silenciar por 20 minutos você tem que fazer `~>mute 20m @menção a razão vai aqui`, por exemplo.",
+      "time_not_specified_generic": "%1$sVocê não especificou o tempo. Por exemplo, se você quer silenciar por 20 minutos você tem que escrever `~>mute 20m @menção a razão vai aqui`, por exemplo.",
       "negative_time_notice": "%1$sVocê não pode silenciar alguém por tempo negativo. A menos que você possa dobrar o espaço-tempo que aí assim.",
       "default_time_too_long": "%1$sO tempo atual de silenciado é muito longo (Máximo: 10 dias)...",
       "time_too_little": "%1$sO tamanho do tempo de mute especificado é menor que 10 segundos.\nVocê tem certeza de que usou o formato certo? Para 20 minutos, use 20m, para 1 hora, use 1h, ou qualquer combinação de ambos (1h45m) por exemplo.",
@@ -528,7 +528,7 @@
     "unmute": {
       "no_permissions": "%1$sVocê precisa ter permissão para banir ou expulsar membros para reativar o silenciado!",
       "no_mentions": "%1$sVocê precisa mencionar pelo menos um usuário para reativar.",
-      "success": "%1$sCargo de silenciado removido dom **%2$s**",
+      "success": "%1$sCargo de silenciado removido do **%2$s**",
       "no_role_assigned": "%1$sEsse usuário não tem o cargo de silenciado atribuído a ele."
     },
     "ping": {
