@@ -1903,50 +1903,50 @@
     },
     "category_specific_disable": {
       "invalid": "%1$sBạn cần ghi rõ danh mục bạn muốn vô hiệu hoá và kênh để làm việc đó.",
-      "already_disabled": "%1$sNhóm lệnh này vốn đã được vô hiệu hoá.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it would disable the opts command.",
+      "already_disabled": "%1$sDanh mục này vốn đã được vô hiệu hoá.",
+      "moderation_notice": "%1$sBạn không thể tắt kiểm duyệt vì nó sẽ vô hiệu hóa luôn cả lệnh opts.",
       "success": "%1$sĐã vô hiệu hoá nhóm lệnh `%2$s` ở kênh %3$s"
     },
     "category_specific_enable": {
-      "invalid": "%1$sYou need to specify a category to enable and the channel where.",
-      "invalid_channel": "%1$sThat's not a valid channel!",
-      "not_disabled": "%1$sNhóm lệnh này không bị vô hiệu hoá.",
-      "success": "%1$sEnabled category `%2$s` on channel %3$s"
+      "invalid": "%1$sBạn cần ghi rõ danh mục bạn muốn kích hoạt lại và kênh để làm việc đó.",
+      "invalid_channel": "%1$sĐó không phải là một kênh hợp lệ!",
+      "not_disabled": "%1$sDanh mục này không bị vô hiệu hoá.",
+      "success": "%1$sĐã kích hoạt danh mục `%2$s` tại kênh %3$s"
     },
     "server_role_specific_disallow": {
-      "invalid": "%1$sYou need the role and the command to disallow!",
+      "invalid": "%1$sBạn cần vai trò và lệnh để vô hiệu hoá!",
       "already_disabled": "%1$sLệnh này vốn đã bị vô hiệu hoá đối với vai trò được nhắc tới.",
-      "success": "%1$sSuccessfully restricted command `%2$s` for role `%3$s`"
+      "success": "%1$sĐã hạn chế lệnh `%2$s` cho vai trò `%3$s`"
     },
     "server_role_specific_allow": {
-      "invalid": "%1$sYou need the role and the command to allow!",
+      "invalid": "%1$sBạn cần vai trò và lệnh để kích hoạt lại!",
       "not_disabled": "%1$sLệnh này vốn không bị vô hiệu hoá đối với vai trò này.",
-      "success": "%1$sSuccessfully un-restricted command `%2$s` for role `%3$s`"
+      "success": "%1$sĐã gỡ hạn chế lệnh `%2$s` cho vai trò `%3$s`"
     },
     "category_role_specific_disable": {
       "invalid": "%1$sBạn cần nói rõ nhóm lệnh bạn muốn vô hiệu hoá và vai trò để làm việc đó.",
-      "already_disabled": "%1$sNhóm lệnh này vốn đã được vô hiệu hoá.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it contains this command.",
-      "success": "%1$sĐã vô hiệu hoá nhóm lệnh `%2$s` đối với vai trò %3$s"
+      "already_disabled": "%1$sDanh mục này vốn đã bị vô hiệu hoá.",
+      "moderation_notice": "%1$sBạn không thể tắt kiểm duyệt vì nó chứa lệnh này.",
+      "success": "%1$sĐã vô hiệu hoá danh mục `%2$s` đối với vai trò %3$s"
     },
     "category_role_specific_enable": {
-      "invalid": "%1$sYou need to specify a role to enable and the channel where.",
-      "not_disabled": "%1$sNhóm lệnh này vốn không bị vô hiệu hoá.",
-      "success": "%1$sEnabled category `%2$s` for role %3$s"
+      "invalid": "%1$sBạn cần ghi rõ vai trò bạn muốn kích hoạt lại và kênh để làm việc đó.",
+      "not_disabled": "%1$sDanh mục này vốn không bị vô hiệu hoá.",
+      "success": "%1$sĐã kích hoạt danh mục `%2$s` cho vai trò %3$s"
     },
     "fairqueue_max": {
-      "invalid": "%1$sYou need to specify a positive integer.",
-      "success": "%1$sSet max fair queue (max duplicated songs) size to %2$d"
+      "invalid": "%1$sBạn cần chỉ ra một số nguyên dương.",
+      "success": "%1$sĐặt kích thước hàng đợi hợp lý tối đa (các bài hát trùng lặp tối đa) thành %2$d"
     },
     "musicannounce_toggle": {
-      "success": "%1$sSet music announce to **%2$s**"
+      "success": "%1$sĐặt thông báo nhạc thành **%2$s**"
     },
     "music_channel": {
-      "no_channel": "%1$sYou need to specify what voice channel you want to bind the music player to.",
-      "success": "%1$sMusic Channel set to: %2$s"
+      "no_channel": "%1$sBạn cần chỉ ra kênh thoại mà bạn muốn liên kết với trình phát nhạc.",
+      "success": "%1$sKênh âm nhạc được đặt tại: %2$s"
     },
     "music_queuelimit": {
-      "no_args": "%1$sYou need to specify what's the queue limit you want to use. *(Default: 350)*",
+      "no_args": "%1$sBạn cần chỉ ra giới hạn hàng đợi bạn mà bạn muốn. *(Mặc định: 350)*",
       "success": "%1$sThe queue limit on this server is now **%2$d** songs.",
       "invalid": "%1$sYou're trying to set too high of a number (which won't be applied anyway), silly"
     },
