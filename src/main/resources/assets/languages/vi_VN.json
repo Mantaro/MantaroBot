@@ -1884,25 +1884,25 @@
     },
     "server_channel_disallow": {
       "no_channel": "%1$sBạn cần chỉ ra kênh mà bạn muốn bot không nghe lệnh.",
-      "too_many": "%1$sYou cannot disable more channels since the bot wouldn't be able to talk otherwise :(",
-      "success": "%1$sChannel %2$s will no longer listen to commands."
+      "too_many": "%1$sBạn không thể vô hiệu hoá thêm kênh nữa vì bot sẽ không thể lên tiếng luôn đó :(",
+      "success": "%1$sKênh %2$s sẽ không nghe lệnh nữa."
     },
     "server_channel_allow": {
-      "no_channel": "%1$sYou need to specify the channel where you want the bot to listen to commands. (All channels by default)",
-      "success": "%1$sChannel %2$s will now listen to commands."
+      "no_channel": "%1$sBạn cần chỉ định kênh mà bạn muốn bot nghe lệnh. (Tất cả các kênh theo mặc định)",
+      "success": "%1$sKênh %2$s sẽ nghe lệnh từ bây giờ."
     },
     "category_disable": {
-      "no_category": "%1$sYou need to specify a category to disable.",
+      "no_category": "%1$sBạn cần ghi rõ một danh mục để vô hiệu hóa.",
       "already_disabled": "%1$sNhóm lệnh này vốn đã được vô hiệu hoá.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it would disable the opts command.",
-      "success": "%1$sĐã vô hiệu hoá nhóm lệnh `%2$s`"
+      "moderation_notice": "%1$sBạn không thể tắt kiểm duyệt vì nó sẽ vô hiệu hóa luôn cả lệnh opts.",
+      "success": "%1$sĐã vô hiệu hoá danh mục `%2$s`"
     },
     "category_enable": {
-      "no_category": "%1$sYou need to specify a category to enable.",
-      "success": "%1$sEnabled category `%2$s`"
+      "no_category": "%1$sBạn cần ghi rõ một danh mục để bật lại.",
+      "success": "%1$sĐã kích hoạt danh mục `%2$s`"
     },
     "category_specific_disable": {
-      "invalid": "%1$sBạn cần nói rõ nhóm lệnh bạn muốn vô hiệu hoá và kênh để làm việc đó.",
+      "invalid": "%1$sBạn cần ghi rõ danh mục bạn muốn vô hiệu hoá và kênh để làm việc đó.",
       "already_disabled": "%1$sNhóm lệnh này vốn đã được vô hiệu hoá.",
       "moderation_notice": "%1$sYou cannot disable moderation since it would disable the opts command.",
       "success": "%1$sĐã vô hiệu hoá nhóm lệnh `%2$s` ở kênh %3$s"
