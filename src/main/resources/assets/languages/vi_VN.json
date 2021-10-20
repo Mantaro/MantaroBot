@@ -1947,19 +1947,19 @@
     },
     "music_queuelimit": {
       "no_args": "%1$sBạn cần chỉ ra giới hạn hàng đợi bạn mà bạn muốn. *(Mặc định: 350)*",
-      "success": "%1$sThe queue limit on this server is now **%2$d** songs.",
-      "invalid": "%1$sYou're trying to set too high of a number (which won't be applied anyway), silly"
+      "success": "%1$sGiới hạn hàng đợi của máy chủ này hiện tại là **%2$d** bài.",
+      "invalid": "%1$sBạn đang cố đặt một con số quá cao (con số này không được áp dụng), đồ ngốc"
     },
     "music_clearchannel": {
-      "success": "%1$sI can play music on all channels now."
+      "success": "%1$sBây giờ ttôi có thể phát nhạc ở bất cứ kênh thoại nào."
     },
     "music_vote_toggle": {
-      "success": "%1$sVoting (to stop/skip) is now set to %2$s"
+      "success": "%1$sBỏ phiếu (để dừng/bỏ qua) được chỉnh thành %2$s"
     },
     "localblacklist_add": {
-      "invalid": "%1$s**You need to specify the users to locally blacklist.**",
-      "yourself_notice": "%1$sWhy are you trying to blacklist yourself?...",
-      "admin_notice": "%1$sOne (or more) of the users you're trying to blacklist are admins or Bot Commanders!",
+      "invalid": "%1$s**Bạn cần ghi rõ người dùng mà bạn muốn cho vào danh sách đen tại đây.**",
+      "yourself_notice": "%1$sTại sao bạn lại cho bản thân vào danh sách đen?...",
+      "admin_notice": "%1$sMột (hoặc nhiều) người dùng mà bạn cố đưa vào danh sách đen là admin hoặc Người quản lý Bot!",
       "bot_notice": "%1$sYou can't blacklist a bot. The bot will never reply to any bots.",
       "success": "%1$sLocally blacklisted users: **%2$s**"
     },
