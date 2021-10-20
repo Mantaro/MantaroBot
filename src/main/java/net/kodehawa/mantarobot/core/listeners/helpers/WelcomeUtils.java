@@ -24,8 +24,11 @@ public class WelcomeUtils {
     }
 
     public static void sendJoinLeaveMessage(User user, Guild guild, TextChannel tc, List<String> extraMessages, String msg, boolean test) {
-        var select = extraMessages.isEmpty() ? 0 : RANDOM.nextInt(extraMessages.size());
-        var message = RANDOM.nextBoolean() ? msg : extraMessages.isEmpty() ? msg : extraMessages.get(select);
+        var message = msg;
+        if (!extraMessages.isEmpty()) {
+            extraMessages.add(msg);
+            message = extraMessages.get(RANDOM.nextInt(extraMessages.size()));;
+        }
 
         if (tc != null && message != null) {
             if (!tc.canTalk()) {
