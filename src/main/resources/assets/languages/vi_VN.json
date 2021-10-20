@@ -1957,33 +1957,33 @@
       "success": "%1$sBỏ phiếu (để dừng/bỏ qua) được chỉnh thành %2$s"
     },
     "localblacklist_add": {
-      "invalid": "%1$s**Bạn cần ghi rõ người dùng mà bạn muốn cho vào danh sách đen tại đây.**",
+      "invalid": "%1$s**Bạn cần ghi rõ người dùng mà bạn muốn cho vào danh sách đen tại máy chủ này.**",
       "yourself_notice": "%1$sTại sao bạn lại cho bản thân vào danh sách đen?...",
       "admin_notice": "%1$sMột (hoặc nhiều) người dùng mà bạn cố đưa vào danh sách đen là admin hoặc Người quản lý Bot!",
-      "bot_notice": "%1$sYou can't blacklist a bot. The bot will never reply to any bots.",
-      "success": "%1$sLocally blacklisted users: **%2$s**"
+      "bot_notice": "%1$sBạn không thể đưa bot vào danh sách đen. Vì bot chẳng sẽ bao giờ nghe bot.",
+      "success": "%1$sNgười dùng nằm trong danh sách đen cục bộ: **%2$s**"
     },
     "localblacklist_remove": {
-      "invalid": "%1$s**You need to specify the users to locally un-blacklist.**",
-      "success": "%1$sLocally un-blacklisted users: **%2$s**"
+      "invalid": "%1$s**Bạn cần ghi rõ người dùng mà bạn muốn gỡ ra trong danh sách đen của máy chủ này.**",
+      "success": "%1$sNgười dùng không nằm trong danh sách đen cục bộ: **%2$s**"
     },
     "logs_enable": {
-      "no_channel": "%1$sYou need to specify which channel to use as the log channel.",
-      "success": "%1$sMessage logging has been enabled with parameters -> `Channel #%2$s (%3$s)`"
+      "no_channel": "%1$sBạn cần chỉ ra kênh nào sẽ sử dụng làm kênh nhật ký.",
+      "success": "%1$sGhi nhật kí tin nhắn đã được bật với các tham số -> `Kênh #%2$s (%3$s)`"
     },
     "logs_disable": {
-      "success": "%1$sMessage logging has been disabled."
+      "success": "%1$sGhi nhật ký tin nhắn đã bị vô hiệu hóa."
     },
     "logs_exclude": {
-      "no_args": "%1$sYou need to specify which channel to exclude, or `clearchannels` to clear all exceptions, or `remove` to remove a single channel from the exception list.",
+      "no_args": "%1$sBạn cần ghi tên kênh để loại trừ hoặc `clearchannels` để xóa tất cả các ngoại lệ, hoặc `remove` để xóa một kênh khỏi danh sách ngoại lệ.",
       "clearchannels": {
-        "success": "%1$sCleared log exceptions!"
+        "success": "%1$sĐã xóa ngoại lệ nhật ký!"
       },
       "remove": {
-        "success": "%1$sRemoved logs exception on channel: %2$s"
+        "success": "%1$sĐã xoá ngoại lệ nhật ký trên kênh: %2$s"
       },
-      "success": "%1$sAdded logs exception on channel: %2$s",
-      "invalid": "%1$sIncorrect argument length."
+      "success": "%1$sĐã thêm ngoại lệ nhật ký vào kênh: %2$s",
+      "invalid": "%1$sĐộ dài đối số không chính xác."
     },
     "logs_timezone": {
       "not_specified": "%1$sYou need to specify a timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
