@@ -1742,7 +1742,7 @@
       "success": "%1$sTu iškasei mineralus, vertus **$%2$s kreditų**, naudojant *%3$s*",
       "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
-        "overflow": "Huh, kasinėjant %1$s deimantą, bet tu jų ir taip turėjai per daug, tad aš tą rastą deimantą pardaviau.",
+        "overflow": "Huh, you found %1$,d diamond(s) while mining, but you already had too much, so I sold them for you.",
         "success": "Huh! Tau nusišypsojo sėkmė ir kasinėjantis tu radai deimantą! Patikrink savo inventorių!"
       },
       "gem": {
