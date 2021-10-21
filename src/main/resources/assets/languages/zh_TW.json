@@ -1742,7 +1742,7 @@
       "success": "%1$s你用 *%3$s* 開採了價值 **%2$,d 元** 的礦物",
       "reminder": "\n*你能使用採礦時找到的寶石來鑄造更好的鎬子。使用 `~>cast ls` 來查看你能鑄造的東西*\n別忘了你能到 <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> 查看我們的工具指南 (英文)",
       "diamond": {
-        "overflow": "你在採礦時時發現了一顆鑽石，但是你已經擁有太多了，所以我為你出售了。",
+        "overflow": "Huh, you found %1$,d diamond(s) while mining, but you already had too much, so I sold them for you.",
         "success": "你在採礦時幸運的找到了 %1$s 顆鑽石，檢查你的背包！"
       },
       "gem": {
