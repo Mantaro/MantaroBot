@@ -1742,7 +1742,7 @@
       "success": "%1$sYou mined minerals worth **$%2$,d credits**, using a *%3$s*",
       "reminder": "\n*Kamu bisa membuat belencong lebih bagus dengan permata yang kamu dapat saat menambang. Cek `~>cast ls` untuk melihat daftar item yang bisa kamu buat*\nUntuk petunjuk cara meningkatkat peralatanmu, coba baca ini: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
-        "overflow": "Wah, kamu menemukan sebuah berlian saat menambang, tapi kamu sudah punya banyak, jadi aku menjualnya untukmu.",
+        "overflow": "Huh, you found %1$,d diamond(s) while mining, but you already had too much, so I sold them for you.",
         "success": "Wah! Kamu beruntung dan menemukan %1$s Berlian saat menambang, cek inventarismu!"
       },
       "gem": {
