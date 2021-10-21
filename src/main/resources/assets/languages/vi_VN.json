@@ -1742,7 +1742,7 @@
       "success": "\"%1$sBạn đào được khoáng chất trị giá **$%2$,d đồng**, bằng *%3$s*\"",
       "reminder": "\n*Bạn có thể có cây cúp tốt hơn bằng cách sử dụng đá quý bạn nhận được khi khai thác. Kiểm tra `~>cast ls` để biết danh sách những thứ bạn có thể chế tạo*\nĐể có hướng dẫn về cách nâng cấp các công cụ của bạn, hãy đọc phần này:\n<https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
-        "overflow": "Ủa, bạn nhặt được một viên kim cương trong lúc đào, nhưng bạn đã có quá nhiều, nên tôi đã bán nó cho bạn.",
+        "overflow": "Huh, you found %1$,d diamond(s) while mining, but you already had too much, so I sold them for you.",
         "success": "Ủa! Bạn may mắn nhặt được %1$s kim cương trong lúc đào, hãy xem túi đồ của bạn!"
       },
       "gem": {
