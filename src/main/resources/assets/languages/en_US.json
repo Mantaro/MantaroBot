@@ -1743,7 +1743,7 @@
       "success": "%1$sYou mined minerals worth **$%2$,d credits**, using a *%3$s*",
       "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
-        "overflow": "Huh, you found a diamond while mining, but you already had too much, so I sold it for you.",
+        "overflow": "Huh, you found %1$,d diamond(s) while mining, but you already had too much, so I sold them for you.",
         "success": "Huh! You got lucky and found %1$s diamond(s) while mining, check your inventory!"
       },
       "gem": {
