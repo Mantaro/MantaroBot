@@ -385,7 +385,7 @@
       "no_player": "%1$sJelenleg semmi nem megy.",
       "check": "%1$sA hangerő: %2$d\n\n%3$s",
       "success": "%1$sHangerő beállítva %2$d\n\n%3$s",
-      "no_args": "%1$sYou need to tell me what volume you want me to set the music to (5 to 100).",
+      "no_args": "%1$sAdd meg mire szeretnéd megváltoztatni a hangerőt! (5 - 100)",
       "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to a user or a server, please, if you donate, join the support guild and ask for it."
     },
     "lyrics": {
