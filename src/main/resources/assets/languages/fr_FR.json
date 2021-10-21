@@ -1742,7 +1742,7 @@
       "success": "%1$sTu as miné des minerais valant **$%2$,d crédits** avec ta *%3$s*",
       "reminder": "\nTu peux fabriquer de meilleures pioches en utilisant les gemmes obtenues en minant. Tu peux trouver la liste des objet fabricables avec `~>cast ls`. Pour le guide complet des améliorations d'outils, ça se passe ici: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> (Attention, c'est en anglais)",
       "diamond": {
-        "overflow": "Huh, Tu as trouvé un diamant mais tu en avais déjà trop donc je l'ai vendu pour toi.",
+        "overflow": "Huh, you found %1$,d diamond(s) while mining, but you already had too much, so I sold them for you.",
         "success": "Huh! Quelle chance, tu as trouvé un diamant en minant ! Regarde dans ton inventaire !"
       },
       "gem": {
