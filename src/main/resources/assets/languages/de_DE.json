@@ -1742,7 +1742,7 @@
       "success": "%1$sDu hast mit einer *%3$s* Mineralien im Wert von **%2$,d Credits** abgebaut",
       "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
-        "overflow": "Huch, du hast einen Diamanten während des Abbauens gefunden, aber du hattest schon zu viele, also habe ich ihn für dich verkauft.",
+        "overflow": "Huh, you found %1$,d diamond(s) while mining, but you already had too much, so I sold them for you.",
         "success": "Huch! Du hattest Glück und hast beim Abbauen %1$s Diamant(en) gefunden, schau in dein Inventar!"
       },
       "gem": {
