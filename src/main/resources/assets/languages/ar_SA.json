@@ -1742,7 +1742,7 @@
       "success": "%1$sلقد استخرجت معادن بقيمة **$%2$,d كريدت**, باستخدام *%3$s*",
       "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
-        "overflow": "لقد عثرت على الماس أثناء التعدين ، لكنك بالفعل تمتلك الكثير ، لذلك بعته لك.",
+        "overflow": "Huh, you found %1$,d diamond(s) while mining, but you already had too much, so I sold them for you.",
         "success": "هاه! لقد حالفك الحظ ووجدت %1$s ماس/ة أثناء التعدين ، تحقق من مخزونك!"
       },
       "gem": {
