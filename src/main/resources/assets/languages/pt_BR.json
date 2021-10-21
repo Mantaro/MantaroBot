@@ -1742,7 +1742,7 @@
       "success": "%1$sVocê minerou minerais que valem **$%2$s créditos**, usando uma *%3$s*",
       "reminder": "\n*Você pode confeccionar melhores picaretas usando as gemas que você ganhou enquanto minerava. Cheque `~>cast ls` para uma lista de coisas que você pode confeccionar*\nPara um guia de como melhorar suas ferramentas, dê uma olhada:<https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
-        "overflow": "Huh, você encontrou %1$s diamante(s) enquanto minerava, mas você já tem muito, então eu vendi para você.",
+        "overflow": "Huh, you found %1$,d diamond(s) while mining, but you already had too much, so I sold them for you.",
         "success": "Huh! Você teve sorte e encontrou %1$s diamante(s) enquanto minerava, cheque seu inventário!"
       },
       "gem": {
