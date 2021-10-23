@@ -23,7 +23,7 @@ plugins {
     //Adds an Executable Manifest
     id 'application'
     //Creates FatJars
-    id 'com.github.johnrengelman.shadow' version '7.0.0'
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
 }
 
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
@@ -59,8 +59,8 @@ task generateLanguageList {
 
 dependencies {
     // Base
-    implementation 'net.dv8tion:JDA:4.3.0_331'
-    implementation 'club.minnced:discord-webhooks:0.5.8'
+    implementation 'net.dv8tion:JDA:4.3.0_335'
+    implementation 'club.minnced:discord-webhooks:0.7.2'
 
     // Music
     implementation ('com.github.freyacodes:Lavalink-Client:fac5a3caf8') {
@@ -71,10 +71,10 @@ dependencies {
 
     // JSON
     implementation 'com.fasterxml.jackson.core:jackson-core:2.12.5'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.5'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
 
     // Core
-    implementation 'io.github.classgraph:classgraph:4.8.117'
+    implementation 'io.github.classgraph:classgraph:4.8.128'
     implementation 'ch.qos.logback:logback-classic:1.2.6'
     implementation 'com.google.guava:guava:31.0.1-jre'
 

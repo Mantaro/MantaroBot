@@ -709,7 +709,7 @@
       "brief": "**Koleksi item %1$s** %2$s\n\n*Untuk versi lebih rinci, pakai `~>inventory -info`. Semoga harimu menyenangkan!*",
       "calculate": "%1$s%2$s akan dapat **%3$,d kredit** kalau semua item dijual.",
       "header": "Inventaris %1$s",
-      "format": "**Harga**: 📥 %1$,d 📤 %2$,d\n%3$s",
+      "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sInventaris kosong! :(",
       "brief_notice": "Kamu bisa pakai `~>inventory -brief` untuk versi yang ramah buat ponsel.",
       "sorted_by": " *(disortir berdasarkan: %1$s)*"
@@ -1606,7 +1606,8 @@
       "extended": {
         "no_help": "%1$sThere's no extended help set for this command.",
         "not_found": "%1$sA command with this name doesn't exist"
-      }
+      },
+      "too_long": "Error displaying sub-command help. Check the [wiki](https://github.com/Mantaro/MantaroBot/wiki) for more information on this specific command."
     },
     "repair": {
       "no_item": "%1$sKamu tidak menulis nama item yang mau diperbaiki. Kalau menurutmu namanya sudah benar, coba pakai nama lengkapnya.",
@@ -1741,7 +1742,7 @@
       "success": "%1$sYou mined minerals worth **$%2$,d credits**, using a *%3$s*",
       "reminder": "\n*Kamu bisa membuat belencong lebih bagus dengan permata yang kamu dapat saat menambang. Cek `~>cast ls` untuk melihat daftar item yang bisa kamu buat*\nUntuk petunjuk cara meningkatkat peralatanmu, coba baca ini: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
-        "overflow": "Wah, kamu menemukan sebuah berlian saat menambang, tapi kamu sudah punya banyak, jadi aku menjualnya untukmu.",
+        "overflow": "Huh, you found %1$,d diamond(s) while mining, but you already had too much, so I sold them for you.",
         "success": "Wah! Kamu beruntung dan menemukan %1$s Berlian saat menambang, cek inventarismu!"
       },
       "gem": {
@@ -2083,6 +2084,22 @@
     },
     "usermessage_leavemessage_reset": {
       "success": "%1$sReset server leave message."
+    },
+    "usermessage_joinmessage_test": {
+      "success": "%1$sSent test join message.",
+      "error_missing_mention": "%1$sYou need to mention a member to test this with.",
+      "error_text_missing": "%1$sYou haven't set a join message.",
+      "error_channel_perms": "%1$sI can't send messages on your join channel.",
+      "error_no_channel": "%1$sYou have no join channel set.",
+      "error_channel_missing": "%1$sThe join channel you set is not existent on this server. Please set another channel."
+    },
+    "usermessage_leavemessage_test": {
+      "success": "%1$sSent test leave message.",
+      "error_missing_mention": "%1$sYou need to mention a member to test this with.",
+      "error_text_missing": "%1$sYou haven't set a leave message.",
+      "error_channel_perms": "%1$sI can't send messages on your leave channel.",
+      "error_no_channel": "%1$sYou have no leave channel set.",
+      "error_channel_missing": "%1$sThe leave channel you set is not existent on this server. Please set another channel."
     },
     "autoroles_add": {
       "too_long": "%1$sThe autorole name needs to be at most 40 characters long.",

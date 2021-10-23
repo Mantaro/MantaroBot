@@ -13,12 +13,12 @@
     "daily": "Quotidien",
     "total": "Total",
     "arrow_react": "Utilise les flèches de réaction pour changer de page.",
-    "button_react": "Use the arrow buttons to change pages.",
+    "button_react": "Utilise les flèches pour changer de page.",
     "text_menu": "Utilise &p >> et &p << pour changer de page et &cancel pour terminer.",
     "not_found": "Non trouvé",
     "no_results": "Pas de résultats.",
     "timeout": "Cela expire dans %1$d secondes.",
-    "reaction_timeout": "Buttons will timeout in %1$d seconds.",
+    "reaction_timeout": "Les boutons expireront dans %1$d secondes.",
     "example": "Exemple",
     "definition": "Définition",
     "name": "Nom",
@@ -68,7 +68,7 @@
     "invalid_character": "%1$sCe n'est pas un caractère valide.",
     "invalid_action": "Tu ne peux pas faire ça, idiot.",
     "interactive_running": "%1$sIl y a déjà une opération interactive (qui t'appartient) sur ce salon.",
-    "buy_sell_paged_react": "Use the message buttons to move between pages.\n%1$s",
+    "buy_sell_paged_react": "Utilise les boutons pour naviguer entre les pages.\n%1$s",
     "buy_sell_paged_text": "Utilise **&p >>** et **&p <<** pour naviguer à travers les pages.\n%1$s",
     "buy_sell_paged_reference": "**Référence %1$s Acheter %2$s Vendre.**",
     "cancelled": "%1$sDemande annulée.",
@@ -84,9 +84,9 @@
       "spam_4": "\nEst-ce que ce truc est allumé au moins?"
     },
     "buttons": {
-      "previous": "Previous",
-      "next": "Next",
-      "close": "Close"
+      "previous": "Précédent",
+      "next": "Suivant",
+      "close": "Fermer"
     },
     "generic_error": "Si tu veux, rejoins notre **serveur de support**, (`https://support.mantaro.site`), ou va voir notre page GitHub (`https://github.com/Kodehawa/MantaroBot`). Dis leur de cesser de me faire imploser s'il te plait et n'oublie pas l'ID de l'erreur, la commande que tu as utilisée et ta node (vue grâce à `~>shard`) lorsque tu remontes un souci!",
     "boom_quotes": [
@@ -709,7 +709,7 @@
       "brief": "**Inventaire de %1$s** %2$s\n\n*Pour une version détaillée, utilise la commande `~>inventory -info`. Belle journée!*",
       "calculate": "%1$s%2$s recevra **%3$,d crédits** si tous les objets sont vendus.",
       "header": "inventaire de %1$s",
-      "format": "**Prix**: 📥 %1$d 📤 %2$d\n%3$s",
+      "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sCet inventaire est vide! :(",
       "brief_notice": "Tu peux utiliser `~>inventory -brief` pour avoir une meilleure version pour mobile.",
       "sorted_by": " *(classé par: %1$s)*"
@@ -787,7 +787,7 @@
         "success_breakable_upgrade": "Clique ici <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> pour plus d'informations sur les améliorations d'outils!"
       },
       "header": "Marché de Mantaro",
-      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>` respectively. Check `~>help market` for more info.",
+      "reference": "\nTu peux acheter et vendre des objets en utilisant `~>buy <item>` et `~>sell <item>`. Utilise `~>help market` pour plus d'infos.",
       "sell_price": "- **Prix de vente:**",
       "buy_price": "- **Prix d'achat:**"
     },
@@ -1349,7 +1349,7 @@
       "e621_nsfw_notice": "%1$sLa commande e621 ne peut être utilisée que sur les canaux NSFW.",
       "e926_nsfw_notice": "%1$sLa commande e926 ne peut être utilisée que dans les canaux NSFW. Les images sont majoritairement saines, mais les classements sont inconstants.",
       "open_in_browser_link": "Ouvrir l'image dans votre navigateur",
-      "disabled_explicit": "%1$sThis server has disabled explicit/questionable imageboard searches regardless of the channel being marked as NSFW."
+      "disabled_explicit": "%1$sCe serveur a désactivé la recherche de contenu explicite/discutable en dehors des salons NSFW."
     },
     "pet": {
       "explanation": "Les animaux sont d'utiles compagnon pécuniaires!\nIls t'aident à accumuler plus d'argent, plus de loot, trouver plus d'objets dans 'mine', dans 'chop' et dans 'fish'. Plus ils sont haut niveaux, plus il y a de récompenses.\nChoisir le meilleur animal pour tes activités est très important, donc vérifie bien le type et les capacités de l'animal que tu désires.\nN'oublie pas que tu dois nourrir ton animal et lui donner de l'eau, ainsi que le laisser se reposer pour recharger son énergie, comme un vrai animal de compagnie! Tu peux même le caresser :)\nTu peux créer deux type de lien avec ton animal: personnel (pour toi) et de mariage (partagé avec ton-ta partenaire). Choisis son lien avec toi en utilisant `~>pet choice`. Le lien par défaut est personnel.\nPour plus d'aide, utilise `~>help pet` et `~>pet list` pour une liste de tous les animaux.",
@@ -1455,7 +1455,7 @@
         "low_thirst": "%1$s**%2$s** est trop assoiffé pour faire quoique ce soit.",
         "low_mood": "%1$s**%2$s** déprime un peu. Tu voudrais peut-être jouer avec?!",
         "dusty": "%1$s**%2$s** est trop sale. Toilette ton animal de compagnie pour enlever la poussière.",
-        "success_fish": "%1$s**%2$s** successfully helped you catch fish! **You got an extra %3$,d credits and %4$,d items** thanks to the extra work your pet was able to do for you! *included on what you got*",
+        "success_fish": "%1$s**%2$s** t'a aidé à pêcher avec succès! **Tu as eu %3$,d crédits en plus et %4$,d objets** grâce au travail supplémentaire que ton animal a pu faire pour toi! *inclus dans ce que tu as obtenu*",
         "success_chop": "%1$s**%2$s** successfully helped you chop a tree! **You got an extra %3$,d credits and %4$,d items** thanks to the extra work your pet was able to do for you! *included on what you got*",
         "success_mine": "%1$s**%2$s** successfully helped you mine! **You got an extra %3$,d credits and more item drop chances** thanks to the extra work your pet was able to do for you! *included on what you got*"
       },
@@ -1606,7 +1606,8 @@
       "extended": {
         "no_help": "%1$sIl n'y a pas d'aide supplémentaire implémentée pour cette commande.",
         "not_found": "%1$sUne commande de ce nom n'existe pas"
-      }
+      },
+      "too_long": "Error displaying sub-command help. Check the [wiki](https://github.com/Mantaro/MantaroBot/wiki) for more information on this specific command."
     },
     "repair": {
       "no_item": "%1$sTu n'as spécifié aucun objet à réparer. Si tu penses avoir mentionné le bon objet, essaie avec son nom complet.",
@@ -1741,7 +1742,7 @@
       "success": "%1$sTu as miné des minerais valant **$%2$,d crédits** avec ta *%3$s*",
       "reminder": "\nTu peux fabriquer de meilleures pioches en utilisant les gemmes obtenues en minant. Tu peux trouver la liste des objet fabricables avec `~>cast ls`. Pour le guide complet des améliorations d'outils, ça se passe ici: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> (Attention, c'est en anglais)",
       "diamond": {
-        "overflow": "Huh, Tu as trouvé un diamant mais tu en avais déjà trop donc je l'ai vendu pour toi.",
+        "overflow": "Huh, you found %1$,d diamond(s) while mining, but you already had too much, so I sold them for you.",
         "success": "Huh! Quelle chance, tu as trouvé un diamant en minant ! Regarde dans ton inventaire !"
       },
       "gem": {
@@ -2083,6 +2084,22 @@
     },
     "usermessage_leavemessage_reset": {
       "success": "%1$sLe message d' au revoir a été réinitialisé."
+    },
+    "usermessage_joinmessage_test": {
+      "success": "%1$sSent test join message.",
+      "error_missing_mention": "%1$sYou need to mention a member to test this with.",
+      "error_text_missing": "%1$sYou haven't set a join message.",
+      "error_channel_perms": "%1$sI can't send messages on your join channel.",
+      "error_no_channel": "%1$sYou have no join channel set.",
+      "error_channel_missing": "%1$sThe join channel you set is not existent on this server. Please set another channel."
+    },
+    "usermessage_leavemessage_test": {
+      "success": "%1$sSent test leave message.",
+      "error_missing_mention": "%1$sYou need to mention a member to test this with.",
+      "error_text_missing": "%1$sYou haven't set a leave message.",
+      "error_channel_perms": "%1$sI can't send messages on your leave channel.",
+      "error_no_channel": "%1$sYou have no leave channel set.",
+      "error_channel_missing": "%1$sThe leave channel you set is not existent on this server. Please set another channel."
     },
     "autoroles_add": {
       "too_long": "%1$sLe rôle automatique doit comporter au maximum 40 caractères.",
