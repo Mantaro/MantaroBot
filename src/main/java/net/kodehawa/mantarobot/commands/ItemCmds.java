@@ -311,12 +311,12 @@ public class ItemCmds {
 
                     var recipe = Arrays.stream(item.getRecipeTypes()).mapToObj((i) -> {
                         var recipeItem = ItemHelper.fromId(i);
-                        return "%s %sx\u2009*%s*".formatted(
-                                recipeItem.getEmoji(),
+                        return "%sx \u2009%s\u2009 *%s*".formatted(
                                 recipeAmount[ai.getAndIncrement()],
+                                recipeItem.getEmoji(),
                                 recipeItem.getName()
                         );
-                    }).collect(Collectors.joining(", "));
+                    }).collect(Collectors.joining(",\u2009 "));
                     // End of build recipe explanation
 
                     var castLevel = (item instanceof Castable) ? ((Castable) item).getCastLevelRequired() : 1;
@@ -553,10 +553,9 @@ public class ItemCmds {
                         var amount = Integer.parseInt(split[0]);
                         var needed = ItemHelper.fromId(Integer.parseInt(split[1]));
 
-                        recipeString.append(needed.getEmoji())
-                                .append(" ")
-                                .append(amount).append("x ")
-                                .append(" *")
+                        recipeString.append(amount).append("x \u2009")
+                                .append(needed.getEmoji())
+                                .append("\u2009 *")
                                 .append(needed.getName())
                                 .append("*|");
                     }

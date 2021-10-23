@@ -161,8 +161,7 @@ public class CurrencyActionCmds {
                         money += ItemReference.DIAMOND.getValue() * 0.9;
                     } else {
                         inventory.process(new ItemStack(ItemReference.DIAMOND, amount));
-                        message += "\n" + EmoteReference.DIAMOND +
-                                languageContext.get("commands.mine.diamond.success").formatted(amount);
+                        message += "\n" + EmoteReference.DIAMOND + languageContext.get("commands.mine.diamond.success").formatted(amount);
                     }
 
                     playerData.addBadgeIfAbsent(Badge.MINER);
