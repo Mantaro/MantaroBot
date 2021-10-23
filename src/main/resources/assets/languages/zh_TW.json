@@ -709,7 +709,7 @@
       "brief": "**%1$s 的所有物品** %2$s\n\n*使用 `~>inventory -info` 取得更詳細的版本。祝你玩得開心！*",
       "calculate": "%1$s%2$s 的所有物品價值 **%3$,d 元**。",
       "header": "%1$s 的背包",
-      "format": "**價格**：📥 %1$,d 📤 %2$,d\n%3$s",
+      "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$s這個背包是空的！:(",
       "brief_notice": "你可以使用 `~>inventory -brief` 取得較適合手機的版本。",
       "sorted_by": " *(以 %1$s 排序)*"
@@ -1606,7 +1606,8 @@
       "extended": {
         "no_help": "%1$s此指令沒有個別的幫助。",
         "not_found": "%1$s此指令不存在"
-      }
+      },
+      "too_long": "Error displaying sub-command help. Check the [wiki](https://github.com/Mantaro/MantaroBot/wiki) for more information on this specific command."
     },
     "repair": {
       "no_item": "%1$s你需要指出你想修復的物品。如果你確定那是正確的，請輸入該物品的全名。",
@@ -1741,7 +1742,7 @@
       "success": "%1$s你用 *%3$s* 開採了價值 **%2$,d 元** 的礦物",
       "reminder": "\n*你能使用採礦時找到的寶石來鑄造更好的鎬子。使用 `~>cast ls` 來查看你能鑄造的東西*\n別忘了你能到 <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> 查看我們的工具指南 (英文)",
       "diamond": {
-        "overflow": "你在採礦時時發現了一顆鑽石，但是你已經擁有太多了，所以我為你出售了。",
+        "overflow": "Huh, you found %1$,d diamond(s) while mining, but you already had too much, so I sold them for you.",
         "success": "你在採礦時幸運的找到了 %1$s 顆鑽石，檢查你的背包！"
       },
       "gem": {
@@ -2083,6 +2084,22 @@
     },
     "usermessage_leavemessage_reset": {
       "success": "%1$s已重設伺服離開訊息。"
+    },
+    "usermessage_joinmessage_test": {
+      "success": "%1$sSent test join message.",
+      "error_missing_mention": "%1$sYou need to mention a member to test this with.",
+      "error_text_missing": "%1$sYou haven't set a join message.",
+      "error_channel_perms": "%1$sI can't send messages on your join channel.",
+      "error_no_channel": "%1$sYou have no join channel set.",
+      "error_channel_missing": "%1$sThe join channel you set is not existent on this server. Please set another channel."
+    },
+    "usermessage_leavemessage_test": {
+      "success": "%1$sSent test leave message.",
+      "error_missing_mention": "%1$sYou need to mention a member to test this with.",
+      "error_text_missing": "%1$sYou haven't set a leave message.",
+      "error_channel_perms": "%1$sI can't send messages on your leave channel.",
+      "error_no_channel": "%1$sYou have no leave channel set.",
+      "error_channel_missing": "%1$sThe leave channel you set is not existent on this server. Please set another channel."
     },
     "autoroles_add": {
       "too_long": "%1$s自動身分組名稱的長度最多為40個字。",

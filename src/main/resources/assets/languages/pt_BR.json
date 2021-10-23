@@ -514,7 +514,7 @@
       "no_users": "%1$sVocê tem que me dar um usuário para silenciar.",
       "no_manage_roles": "%1$sEu não tenho permissão para administrar cargos nesse servidor.",
       "time_not_specified": "%1$sVocê queria um tempo mas não especificou quanto.",
-      "time_not_specified_generic": "%1$sVocê não especificou o tempo. Por exemplo, se você quer silenciar por 20 minutos você tem que fazer `~>mute 20m @menção a razão vai aqui`, por exemplo.",
+      "time_not_specified_generic": "%1$sVocê não especificou o tempo. Por exemplo, se você quer silenciar por 20 minutos você tem que escrever `~>mute 20m @menção a razão vai aqui`, por exemplo.",
       "negative_time_notice": "%1$sVocê não pode silenciar alguém por tempo negativo. A menos que você possa dobrar o espaço-tempo que aí assim.",
       "default_time_too_long": "%1$sO tempo atual de silenciado é muito longo (Máximo: 10 dias)...",
       "time_too_little": "%1$sO tamanho do tempo de mute especificado é menor que 10 segundos.\nVocê tem certeza de que usou o formato certo? Para 20 minutos, use 20m, para 1 hora, use 1h, ou qualquer combinação de ambos (1h45m) por exemplo.",
@@ -528,7 +528,7 @@
     "unmute": {
       "no_permissions": "%1$sVocê precisa ter permissão para banir ou expulsar membros para reativar o silenciado!",
       "no_mentions": "%1$sVocê precisa mencionar pelo menos um usuário para reativar.",
-      "success": "%1$sCargo de silenciado removido dom **%2$s**",
+      "success": "%1$sCargo de silenciado removido do **%2$s**",
       "no_role_assigned": "%1$sEsse usuário não tem o cargo de silenciado atribuído a ele."
     },
     "ping": {
@@ -709,7 +709,7 @@
       "brief": "**Coleção de itens de %1$s** %2$s\n\n*Para uma versão detalhada, use `~>inventory -info`. Aprecie seu dia!*",
       "calculate": "%1$s%2$s irá ganhar **%3$d créditos** se todos os seus itens forem vendidos.",
       "header": "Inventário de %1$s",
-      "format": "**Preço**: 📥 %1$d 📤 %2$d\n%3$s",
+      "format": "%1$sPreço:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sEsse inventário está vazio! :(",
       "brief_notice": "Você pode usar `~>inventory -brief` para obter uma versão otimizada para dispositivos móveis.",
       "sorted_by": " *(Classificado por: %1$s)*"
@@ -1032,7 +1032,7 @@
       "ls": {
         "header": "Lista de Insígnias Obteníveis",
         "desc": "Essa é uma lista de todas as insígnias obteníveis na Mantaro. Essa lista contém o nome e a descrição da insígnia, que deve dar uma visão geral do que você precisa para alcançá-lo.\nSe você acha que você ganhou uma insígnia e você não vê ela na sua lista pessoal de insígnia, use `~>profile` e depois use `~>badges` de novo.\nBoa sorte, caçadores de insígnias!",
-        "obtained": "**Obtidas:** %s"
+        "obtained": "**Obtida:** %s"
       },
       "brief_success": "**Insígnias de **%1$s:**\n%2$s",
       "profile_notice": "Se você acha que ganhou uma insígnia nova e não aparece aqui, por favor use `~>profile` em seguida, use esse comando novamente.\n",
@@ -1606,7 +1606,8 @@
       "extended": {
         "no_help": "%1$sNão tem uma ajuda extendida para esse comando.",
         "not_found": "%1$sUm comando com esse nome não existe"
-      }
+      },
+      "too_long": "Erro ao exibir a ajuda do sub-comando. Cheque a [wiki]\n(https://github.com/Mantaro/MantaroBot/wiki) para mais informações nesse comando específico."
     },
     "repair": {
       "no_item": "%1$sVocê não especificou nenhum item para consertar. Se você acha que tem o item correto, tente usar o nome completo.",
@@ -1741,7 +1742,7 @@
       "success": "%1$sVocê minerou minerais que valem **$%2$s créditos**, usando uma *%3$s*",
       "reminder": "\n*Você pode confeccionar melhores picaretas usando as gemas que você ganhou enquanto minerava. Cheque `~>cast ls` para uma lista de coisas que você pode confeccionar*\nPara um guia de como melhorar suas ferramentas, dê uma olhada:<https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
-        "overflow": "Huh, você encontrou %1$s diamante(s) enquanto minerava, mas você já tem muito, então eu vendi para você.",
+        "overflow": "Huh, você encontrou %1$,d diamante(s) enquanto minerava, mas você já tem muitos, então eu vendi para você.",
         "success": "Huh! Você teve sorte e encontrou %1$s diamante(s) enquanto minerava, cheque seu inventário!"
       },
       "gem": {
@@ -2083,6 +2084,22 @@
     },
     "usermessage_leavemessage_reset": {
       "success": "%1$sMensagem de sair do servidor resetada."
+    },
+    "usermessage_joinmessage_test": {
+      "success": "%1$sMensagem de teste de bem-vindo enviada.",
+      "error_missing_mention": "%1$sVocê precisa mencionar um membro pra testar isso.",
+      "error_text_missing": "%1$sVocê não definiu uma mensagem de bem-vindo.",
+      "error_channel_perms": "%1$sEu não posso enviar mensagens no seu canal de bem-vindo.",
+      "error_no_channel": "%1$sVocê não definiu um canal de bem-vindo.",
+      "error_channel_missing": "%1$sO canal de bem-vindo que você definiu não existe nesse servidor. Por favor defina outro canal."
+    },
+    "usermessage_leavemessage_test": {
+      "success": "%1$sMensagem de teste de saída enviada.",
+      "error_missing_mention": "%1$sVocê precisa mencionar um membro pra testar isso.",
+      "error_text_missing": "%1$sVocê não definiu uma mensagem de saída.",
+      "error_channel_perms": "%1$sEu não posso enviar mensagens no seu canal de saída.",
+      "error_no_channel": "%1$sVocê não definiu um canal de saída.",
+      "error_channel_missing": "%1$sO canal de saída que você definiu não existe nesse servidor. Por favor defina outro canal."
     },
     "autoroles_add": {
       "too_long": "%1$sO nome do autorole pode ter no máximo 40 caracteres.",
