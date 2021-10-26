@@ -250,7 +250,7 @@ public class HelpCmd {
                             if (inner.description() != null) {
                                 stringBuilder.append("""
                                         %s`%s%s` - %s
-                                        """.formatted(BLUE_SMALL_MARKER, ctx.getConfig().prefix[0] + content, name, inner.description())
+                                        """.formatted(BLUE_SMALL_MARKER, ctx.getConfig().prefix[0] + " " + content, name, inner.description())
                                 );
                             }
                         }
