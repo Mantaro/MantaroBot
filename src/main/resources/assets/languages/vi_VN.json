@@ -1986,9 +1986,9 @@
       "invalid": "%1$sĐộ dài đối số không chính xác."
     },
     "logs_timezone": {
-      "not_specified": "%1$sYou need to specify a timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
-      "invalid": "%1$sNot a valid timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
-      "success": "%1$sSet logs timezone to `%2$s`. This timezone will be used to display the time on moderation logs."
+      "not_specified": "%1$sBạn cần ghi rõ múi giờ. Múi giờ hợp lệ sẽ là, mhmm... ví dụ như: America/Chicago hoặc GMT+7. Bạn có thể tìm thấy danh sách tại <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Sử dụng tên dữ liệu của TZ)",
+      "invalid": "%1$sBạn cần ghi rõ múi giờ. Múi giờ hợp lệ sẽ là, mhmm... ví dụ như: America/Chicago hoặc GMT+7. Bạn có thể tìm thấy danh sách tại <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Sử dụng tên dữ liệu của TZ)",
+      "success": "%1$sChỉnh múi giờ nhật kí thành `%2$s`. Múi giờ này sẽ được sử dụng để hiển thị thời gian trên nhật ký chỉnh sửa."
     },
     "logs_timezonereset": {
       "success": "%1$sSuccesfully reset log timezone."
