@@ -1991,18 +1991,18 @@
       "success": "%1$sChỉnh múi giờ nhật kí thành `%2$s`. Múi giờ này sẽ được sử dụng để hiển thị thời gian trên nhật ký chỉnh sửa."
     },
     "logs_timezonereset": {
-      "success": "%1$sSuccesfully reset log timezone."
+      "success": "%1$sĐã đặt lại múi giờ nhật kí thành công."
     },
     "lobby_reset": {
-      "success": "%1$sReset the lobby correctly."
+      "success": "%1$sĐã đặt lại sảnh."
     },
     "modlog_blacklist": {
-      "no_mentions": "%1$s**You need to specify the users to locally blacklist from mod logs.**",
-      "success": "%1$sLocally blacklisted users from mod-log: **%2$s**"
+      "no_mentions": "%1$s**Bạn cần chỉ rõ người dùng muốn đưa vào danh sách đen của mod-log trong máy chủ này.**",
+      "success": "%1$sNgười dùng nằm trong danh sách đen mod-log: **%2$s**"
     },
     "modlog_whitelist": {
-      "no_mentions": "%1$s**You need to specify the users to locally whitelist from mod logs.**",
-      "success": "%1$sLocally un-blacklisted users from mod-log: **%2$s**"
+      "no_mentions": "%1$s**Bạn cần chỉ rõ người dùng muốn đưa vào danh sách trắng của mod-log trong máy chủ này.**",
+      "success": "%1$sNgười dùng không nằm trong danh sách đen mod-log: **%2$s**"
     },
     "imageboard_tags_blacklist_add": {
       "no_tag": "%1$sYou need to specify at least a tag to blacklist!",
