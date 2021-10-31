@@ -2005,16 +2005,16 @@
       "success": "%1$sNgười dùng không nằm trong danh sách đen mod-log: **%2$s**"
     },
     "imageboard_tags_blacklist_add": {
-      "no_tag": "%1$sYou need to specify at least a tag to blacklist!",
-      "success": "%1$sSuccessfully blacklisted %2$s from image search."
+      "no_tag": "%1$sBạn cần ghi ra ít nhất một thẻ để đưa vào danh sách đen!",
+      "success": "%1$sĐã thêm %2$s vào danh sách đen tìm kiếm hình ảnh thành công."
     },
     "imageboard_tags_blacklist_remove": {
-      "no_tag": "%1$sYou need to specify at least a tag to un-blacklist!",
-      "success": "%1$sSuccessfully un-blacklisted %2$s from image search."
+      "no_tag": "%1$sBạn cần ghi ra ít nhất một thẻ để gỡ khỏi danh sách đen!",
+      "success": "%1$sĐã gỡ %2$s trong danh sách đen tìm kiếm hình ảnh thành công."
     },
     "birthday_enable": {
-      "no_args": "%1$sYou need to specify the channel name and the role name.",
-      "public_role": "%1$sYou cannot set the everyone role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
+      "no_args": "%1$sBạn cần ghi ra tên kênh và tên của vai trò.",
+      "public_role": "%1$sBạn không thể đặt vai trò của tất cả mọi người thành vai trò sinh nhật! Hãy nhớ rằng vai trò sinh nhật là một vai trò tự động đưa cho người đó khi sinh nhật họ tới, và bị gỡ sau ngày đó.",
       "autorole": "%1$sYou cannot set the autorole role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
       "warning": "%1$sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
       "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and un-assigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
