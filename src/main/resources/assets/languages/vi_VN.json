@@ -2016,36 +2016,36 @@
       "no_args": "%1$sBạn cần ghi ra tên kênh và tên của vai trò.",
       "public_role": "%1$sBạn không thể đặt vai trò của tất cả mọi người thành vai trò sinh nhật! Hãy nhớ rằng vai trò sinh nhật là một vai trò tự động đưa cho người đó khi sinh nhật họ tới, và bị gỡ sau ngày đó.",
       "autorole": "%1$sBạn không thể đặt vai trò của tất cả mọi người thành vai trò sinh nhật! Hãy nhớ rằng vai trò sinh nhật là một vai trò tự động đưa cho người đó khi sinh nhật họ tới, và bị gỡ sau ngày đó.",
-      "warning": "%1$sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
-      "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and un-assigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `~>birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
-      "warning_3": "Additionally the birthday cache (what is used to store them) is only updated every 23 hours. Meaning if you set your birthday today to tomorrow to test this announcer it will **not** work.",
-      "warning_4": "Type **yes** if you agree to set the role %2$s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
-      "success": "%1$sBirthday logging enabled on this server with parameters -> Channel: `%2$s (%3$s)` and role: `%4$s (%5$s)`",
-      "error_channel_1": "%1$sI didn't find a channel or role!",
-      "error_channel_2": "*Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".* If the role contains spaces \"wrap it in quotes like this\""
+      "warning": "%1$sHãy nhớ rằng vai trò sinh nhật là một vai trò được gắn cho người đó khi sinh nhật sinh nhật họ tới, và bị gỡ sau khi ngày đó qua đi. Bạn cũng có thể ghi `~>opts help birthday enable` để làm ví dụ.",
+      "warning_1": "Điều này là do cách thức hoạt động của công cụ gắn ngày sinh: Nó gắn một vai trò tạm thời cho người có ngày sinh và gỡ khi ngày sinh nhật trôi qua. **Điều này có nghĩa là tất cả mọi người có vai trò trong ngày sinh nhật sẽ bị xóa vai trò ngày vào ngày hôm sau**. Hãy cẩn thận khi chọn vai trò, vì sai một li là đi luôn cái máy chủ đấy (không đùa đâu)!",
+      "warning_2": "Vai trò *phải là vai trò mới được tạo hoặc vai trò mà bạn không sử dụng cho bất kỳ ai khác*. Vai trò đó KHÔNG PHẢI là một vai trò mà bạn đã gắn cho người dùng. Người dùng sẽ cần cho phép máy chủ này thông báo sinh nhật của họ bằng cách sử dụng `~> birthday allowerver` nếu không sinh nhật của họ sẽ không được thông báo! Đọc <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> để biết thêm thông tin.",
+      "warning_3": "Ngoài ra, bộ nhớ đệm sinh nhật (những gì được sử dụng để lưu trữ) chỉ được cập nhật sau mỗi 23 giờ. Có nghĩa là nếu bạn đặt ngày sinh của mình từ hôm nay sang ngày mai để kiểm tra thì nó sẽ **không** hoạt động.",
+      "warning_4": "Nhấn **yes** nếu bạn đồng ý đặt vai trò %2$s làm vai trò sinh nhật, và **no** để huỷ. Thời gian chờ là 45 giây.",
+      "success": "%1$sNhật kí thông báo ngày sinh trên máy chủ này với biến -> Kênh: `%2$s (%3$s)` và vai trò: `%4$s (%5$s)`",
+      "error_channel_1": "%1$sTôi không tìm thấy kênh hoặc vai trò!",
+      "error_channel_2": "*Nghe nè, bạn không cần phải đề cập đến vai trò hay kênh đâu, ghi tên ra là được, thứ tự là <channel> <role>, không có \"<>\" ở đầu.* Nếu vai trò có dấu cách thì \"ngoặc nó lại như này là được\""
     },
     "birthday_disable": {
-      "success": "%1$sBirthday logging has been disabled on this server"
+      "success": "%1$sNhật kí sinh nhật đã bị vô hiệu hoá trên máy chủ này"
     },
     "prefix_set": {
-      "no_prefix": "%1$sYou need to tell me what prefix you want to use.",
-      "too_long": "%1$sDon't you think that's a bit too long?",
-      "empty_prefix": "%1$sCannot set the guild prefix to nothing...",
-      "success": "%1$sYour server's custom prefix has been set to %2$s"
+      "no_prefix": "%1$sNè, bạn phải nói mình biết prefix mà bạn muốn sử dụng là gì chứ.",
+      "too_long": "%1$sHình như có hơi quá dài nhỉ?",
+      "empty_prefix": "%1$sNày... làm thế là tui mất tích thiệt á...",
+      "success": "%1$sPrefix tuỳ chọn cho máy chủ của bạn đã được đặt thành %2$s"
     },
     "prefix_clear": {
-      "success": "%1$sYour server's custom prefix has been disabled"
+      "success": "%1$sPrefix tuỳ chọn của máy chủ này đã bị vô hiệu hoá"
     },
     "autorole_set": {
-      "no_role": "%1$sYou didn't tell me what role to look for!",
-      "no_role_found": "%1$sI couldn't find a role with that name. If the role has spaces, try wrapping it in quotes.",
-      "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as autorole!",
-      "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as autorole!",
-      "success": "%1$sThe server autorole is now set to: **%2$s** (Position: %3$d)"
+      "no_role": "%1$sPhải nói tui biết vai trò bạn muốn tìm kiếm chứ!",
+      "no_role_found": "%1$sTui không tìm thấy vai trò nào với tên đó hết. Nếu vai trò có dấu cách thì nhớ \"ngoặc nó lại trong dấu ngoặc kép\".",
+      "hierarchy_conflict": "%1$sVai trò này cao hơn vai trò cao nhất bạn có, nên bạn không thể đặt nó thành vai trò tự động được!",
+      "self_hierarchy_conflict": "%1$sVai trò này cao hơn vai trò cao nhất mà tui có, nên tui không thể đặt nó thành vai trò tự động được!",
+      "success": "%1$sVai trò tự động của máy chủ được đặt thành: **%2$s** (Vị trí: %3$d)"
     },
     "autorole_unbind": {
-      "success": "%1$sThe autorole for this server has been removed."
+      "success": "%1$sĐã xoá vai trò tự động của máy chủ này."
     },
     "usermessage_resetchannel": {
       "success": "%1$sSuccessfully reset the join/leave channel."
@@ -2094,7 +2094,7 @@
       "error_channel_missing": "%1$sThe join channel you set is not existent on this server. Please set another channel."
     },
     "usermessage_leavemessage_test": {
-      "success": "%1$sSent test leave message.",
+      "success": "%1$sĐã gửi test tin nhắn khi rời.",
       "error_missing_mention": "%1$sYou need to mention a member to test this with.",
       "error_text_missing": "%1$sYou haven't set a leave message.",
       "error_channel_perms": "%1$sI can't send messages on your leave channel.",
