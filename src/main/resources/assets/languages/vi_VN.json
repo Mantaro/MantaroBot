@@ -2094,7 +2094,7 @@
       "error_channel_missing": "%1$sThe join channel you set is not existent on this server. Please set another channel."
     },
     "usermessage_leavemessage_test": {
-      "success": "%1$sĐã gửi test tin nhắn khi rời.",
+      "success": "%1$sĐã gửi tin nhắn khi rời (test).",
       "error_missing_mention": "%1$sYou need to mention a member to test this with.",
       "error_text_missing": "%1$sYou haven't set a leave message.",
       "error_channel_perms": "%1$sI can't send messages on your leave channel.",
