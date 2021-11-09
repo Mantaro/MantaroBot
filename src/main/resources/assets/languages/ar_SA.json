@@ -711,7 +711,7 @@
       "header": "مخزون %1$s",
       "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sالمخزون هذا فاضي! :(",
-      "brief_notice": "يمكنك إستخدام `~>inventory -brief` للحصول على نسخة صديقة للهاتف.",
+      "brief_notice": "You can use `~>inventory brief` to get a mobile friendly version.",
       "sorted_by": " *(ترتيب حسب:%1$s)*"
     },
     "cast": {
