@@ -711,7 +711,7 @@
       "header": "Inventário de %1$s",
       "format": "%1$sPreço:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sEsse inventário está vazio! :(",
-      "brief_notice": "Você pode usar `~>inventory -brief` para obter uma versão otimizada para dispositivos móveis.",
+      "brief_notice": "You can use `~>inventory brief` to get a mobile friendly version.",
       "sorted_by": " *(Classificado por: %1$s)*"
     },
     "cast": {
