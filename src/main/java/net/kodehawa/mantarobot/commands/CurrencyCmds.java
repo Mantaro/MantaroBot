@@ -55,17 +55,121 @@ public class CurrencyCmds {
     @Subscribe
     public void inventory(CommandRegistry cr) {
         final Random r = new Random();
-        cr.register("inventory", new SimpleCommand(CommandCategory.CURRENCY) {
+        var inv = (TreeCommand) cr.register("inventory", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
-            public void call(Context ctx, String content, String[] args) {
-                var arguments = ctx.getOptionalArguments();
-                content = Utils.replaceArguments(arguments, content,
-                        "brief", "calculate", "calc", "c", "info", "full", "season", "s", "mobile");
+            public Command defaultTrigger(Context context, String mainCommand, String commandName) {
+                return new SubCommand() {
+                    @Override
+                    protected void call(Context ctx, I18nContext lang, String content) {
+                        var arguments = ctx.getOptionalArguments();
+                        content = Utils.replaceArguments(arguments, content, "calculate", "calc", "c", "season", "s");
 
-                // Lambda memes lol
-                var finalContent = content;
+                        // Lambda memes lol
+                        var finalContent = content;
+                        ctx.findMember(content, members -> {
+                            var member = CustomFinderUtil.findMemberDefault(finalContent, members, ctx, ctx.getMember());
+                            if (member == null)
+                                return;
+
+                            if (member.getUser().isBot()) {
+                                ctx.sendLocalized("commands.inventory.bot_notice", EmoteReference.ERROR);
+                                return;
+                            }
+
+                            final var player = ctx.getPlayer(member);
+                            final var playerData = player.getData();
+                            final var user = ctx.getDBUser(member);
+                            final var seasonPlayer = ctx.getSeasonPlayer(member);
+                            var playerInventory = player.getInventory();
+                            if (ctx.isSeasonal()) {
+                                playerInventory = seasonPlayer.getInventory();
+                            }
+
+                            final var inventoryList = playerInventory.asList();
+                            if (inventoryList.isEmpty()) {
+                                ctx.sendLocalized("commands.inventory.empty", EmoteReference.WARNING);
+                                return;
+                            }
+
+                            if (arguments.containsKey("calculate") || arguments.containsKey("calc") || arguments.containsKey("c")) {
+                                long all = playerInventory.asList().stream()
+                                        .filter(item -> item.getItem().isSellable())
+                                        .mapToLong(value -> Math.round(value.getItem().getValue() * value.getAmount() * 0.9d))
+                                        .sum();
+
+                                ctx.sendLocalized("commands.inventory.calculate",
+                                        EmoteReference.DIAMOND, member.getUser().getName(), all
+                                );
+
+                                return;
+                            }
+
+                            if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+                                ctx.sendLocalized("general.missing_embed_permissions");
+                                return;
+                            }
+
+                            EmbedBuilder builder = baseEmbed(ctx,
+                                    lang.get("commands.inventory.header").formatted(member.getEffectiveName()),
+                                    member.getUser().getEffectiveAvatarUrl()
+                            );
+
+                            List<MessageEmbed.Field> fields = new LinkedList<>();
+                            if (inventoryList.isEmpty())
+                                builder.setDescription(lang.get("general.dust"));
+                            else {
+                                playerInventory.asList()
+                                        .stream()
+                                        .sorted(playerData.getInventorySortType().getSort().getComparator())
+                                        .forEach(stack -> {
+                                            long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
+                                            long sellValue = stack.getItem().isSellable() ? Math.round(stack.getItem().getValue() * 0.9) : 0;
+                                            // Thin spaces are gonna haunt me.
+                                            fields.add(new MessageEmbed.Field(
+                                                    "%s\u2009 %s\u2009 x %d".formatted(
+                                                            stack.getItem().getEmoji() + "\u2009",
+                                                            stack.getItem().getName(),
+                                                            stack.getAmount()),
+                                                    lang.get("commands.inventory.format").formatted(
+                                                            EmoteReference.MONEY.toHeaderString() + "\u2009",
+                                                            "\u2009", buyValue, "\u2009", sellValue,
+                                                            EmoteReference.TALKING.toHeaderString() + "\u2009",
+                                                            lang.get(stack.getItem().getDesc())
+                                                    ), false)
+                                            );
+                                        });
+                            }
+
+                            var toShow = lang.get("commands.inventory.brief_notice") +
+                                    (r.nextInt(3) == 0 && !user.isPremium() ? lang.get("general.sellout") : "");
+
+                            DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(7, fields), toShow);
+                        });
+                    }
+                };
+            }
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows your current inventory.")
+                        .setUsage("""
+                                        You can mention someone on this command to see their inventory.
+                                        Use `~>inventory -calculate` to see how much you'd get if you sell every sellable item on your inventory.""")
+                        .setSeasonal(true)
+                        .build();
+            }
+        });
+
+        inv.addSubCommand("brief", new SubCommand() {
+            @Override
+            public String description() {
+                return "Gives a brief view of your inventory in a single message.";
+            }
+
+            @Override
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 ctx.findMember(content, members -> {
-                    var member = CustomFinderUtil.findMemberDefault(finalContent, members, ctx, ctx.getMember());
+                    var member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                     if (member == null)
                         return;
 
@@ -78,107 +182,43 @@ public class CurrencyCmds {
                     final var playerData = player.getData();
                     final var user = ctx.getDBUser(member);
                     final var seasonPlayer = ctx.getSeasonPlayer(member);
-                    final var languageContext = ctx.getLanguageContext();
                     var playerInventory = player.getInventory();
                     if (ctx.isSeasonal()) {
                         playerInventory = seasonPlayer.getInventory();
                     }
 
                     final var inventoryList = playerInventory.asList();
-
-                    if (arguments.containsKey("calculate") || arguments.containsKey("calc") || arguments.containsKey("c")) {
-                        long all = playerInventory.asList().stream()
-                                .filter(item -> item.getItem().isSellable())
-                                .mapToLong(value -> Math.round(value.getItem().getValue() * value.getAmount() * 0.9d))
-                                .sum();
-
-                        ctx.sendLocalized("commands.inventory.calculate", EmoteReference.DIAMOND, member.getUser().getName(), all);
-                        return;
-                    }
-
                     if (inventoryList.isEmpty()) {
                         ctx.sendLocalized("commands.inventory.empty", EmoteReference.WARNING);
                         return;
                     }
 
-                    if (arguments.containsKey("brief") || arguments.containsKey("mobile")) {
-                        var inventory = languageContext.get("commands.inventory.sorted_by")
-                                .formatted(playerData
-                                        .getInventorySortType()
-                                        .toString()
-                                        .toLowerCase()
-                                        .replace("_", " ")
-                                ) + "\n\n" +
-                                inventoryList.stream()
-                                        .sorted(playerData.getInventorySortType().getSort().getComparator())
-                                        .map(is -> is.getItem().getEmoji() + "\u2009 x" + is.getAmount() + " \u2009\u2009")
-                                        .collect(Collectors.joining(" "));
+                    var inventory = languageContext.get("commands.inventory.sorted_by")
+                            .formatted(playerData
+                                    .getInventorySortType()
+                                    .toString()
+                                    .toLowerCase()
+                                    .replace("_", " ")
+                            ) + "\n\n" +
+                            inventoryList.stream()
+                                    .sorted(playerData.getInventorySortType().getSort().getComparator())
+                                    .map(is -> is.getItem().getEmoji() + "\u2009 x" + is.getAmount() + " \u2009\u2009")
+                                    .collect(Collectors.joining(" "));
 
-                        var message = ctx.getLanguageContext().get("commands.inventory.brief")
-                                .formatted(member.getEffectiveName(), inventory);
+                    var message = ctx.getLanguageContext().get("commands.inventory.brief")
+                            .formatted(member.getEffectiveName(), inventory);
 
-                        var toSend = new MessageBuilder().append(message).buildAll(MessageBuilder.SplitPolicy.SPACE);
-                        toSend.forEach(ctx::send);
-                        return;
-                    }
-
-                    if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
-                        ctx.sendLocalized("general.missing_embed_permissions");
-                        return;
-                    }
-
-                    EmbedBuilder builder = baseEmbed(ctx,
-                            languageContext.get("commands.inventory.header").formatted(member.getEffectiveName()),
-                            member.getUser().getEffectiveAvatarUrl()
-                    );
-
-                    List<MessageEmbed.Field> fields = new LinkedList<>();
-                    if (inventoryList.isEmpty())
-                        builder.setDescription(languageContext.get("general.dust"));
-                    else {
-                        playerInventory.asList()
-                                .stream()
-                                .sorted(playerData.getInventorySortType().getSort().getComparator())
-                                .forEach(stack -> {
-                                    long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
-                                    long sellValue = stack.getItem().isSellable() ? Math.round(stack.getItem().getValue() * 0.9) : 0;
-                                    // Thin spaces are gonna haunt me.
-                                    fields.add(new MessageEmbed.Field(
-                                            "%s\u2009 %s\u2009 x %d".formatted(
-                                                    stack.getItem().getEmoji() + "\u2009",
-                                                    stack.getItem().getName(),
-                                                    stack.getAmount()),
-                                            languageContext.get("commands.inventory.format").formatted(
-                                                    EmoteReference.MONEY.toHeaderString() + "\u2009",
-                                                    "\u2009", buyValue, "\u2009", sellValue,
-                                                    EmoteReference.TALKING.toHeaderString() + "\u2009",
-                                                    languageContext.get(stack.getItem().getDesc())
-                                            ), false)
-                                    );
-                                });
-                    }
-
-                    var toShow = languageContext.get("commands.inventory.brief_notice") +
-                            (r.nextInt(3) == 0 && !user.isPremium() ? languageContext.get("general.sellout") : "");
-
-                    DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(7, fields), toShow);
+                    var toSend = new MessageBuilder().append(message).buildAll(MessageBuilder.SplitPolicy.SPACE);
+                    toSend.forEach(ctx::send);
                 });
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Shows your current inventory.")
-                        .setUsage("""
-                                You can mention someone on this command to see their inventory.
-                                You can use `~>inventory -brief` to see a brief/mobile-friendly version.
-                                Use `~>inventory -calculate` to see how much you'd get if you sell every sellable item on your inventory.""")
-                        .setSeasonal(true)
-                        .build();
             }
         });
 
+        inv.createSubCommandAlias("brief", "mobile");
+        inv.createSubCommandAlias("brief", "b");
+
         cr.registerAlias("inventory", "inv");
+        cr.registerAlias("inventory", "backpack");
     }
 
     @Subscribe

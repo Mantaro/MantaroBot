@@ -80,7 +80,7 @@ public class AudioCmdUtils {
             }
 
             nowPlaying = String.format("**[%s](%s)** (%s)\n%s",
-                    playingTrack.getInfo().title,
+                    MarkdownSanitizer.escape(playingTrack.getInfo().title, true),
                     playingTrack.getInfo().uri,
                     getDurationMinutes(playingTrack.getInfo().length),
                     dj != null ? lang.get("commands.music_general.queue.dj_np") + dj.getUser().getAsTag() : ""
@@ -382,7 +382,7 @@ public class AudioCmdUtils {
 
     private static String formatTitle(String title) {
         // Sanitizing markdown doesn't remove [ and ], and that breaks queue.
-        return MarkdownSanitizer.escape(StringUtils.limit(title, 33))
+        return MarkdownSanitizer.escape(StringUtils.limit(title, 33), true)
                 .replace("[", "")
                 .replace("]", "")
                 .strip();
