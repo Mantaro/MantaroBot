@@ -109,10 +109,10 @@ public class InfoCmds {
                             .setColor(ctx.getMemberColor())
                             .setAuthor(
                                     languageContext.get("commands.avatar.result").formatted(user.getName()),
-                                    null, user.getEffectiveAvatarUrl()
+                                    null, member.getEffectiveAvatarUrl()
                             )
-                            .setImage(user.getEffectiveAvatarUrl() + "?size=1024")
-                            .setFooter(languageContext.get("commands.avatar.footer"), user.getEffectiveAvatarUrl());
+                            .setImage(member.getEffectiveAvatarUrl() + "?size=1024")
+                            .setFooter(languageContext.get("commands.avatar.footer"), member.getEffectiveAvatarUrl());
 
                     ctx.send(embed.build());
                 });
