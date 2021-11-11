@@ -711,7 +711,7 @@
       "header": "%1$sのインベントリー",
       "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sこのインベントリーは空です！(´·ω·`)",
-      "brief_notice": "`~>inventory -brief`を実行すると、モバイル機器に最適化されたインベントリを見れます。",
+      "brief_notice": "You can use `~>inventory brief` to get a mobile friendly version.",
       "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {

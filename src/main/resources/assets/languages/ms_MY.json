@@ -711,7 +711,7 @@
       "header": "Inventori %1$s",
       "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sInventori ini kosong! :(",
-      "brief_notice": "Anda boleh menggunakan `~>inventory -brief` untuk mendapatkan versi yang mudah alih.",
+      "brief_notice": "You can use `~>inventory brief` to get a mobile friendly version.",
       "sorted_by": " *(disusun mengikut: %1$s)*"
     },
     "cast": {

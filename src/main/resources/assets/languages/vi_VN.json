@@ -711,7 +711,7 @@
       "header": "Túi đồ của %1$s",
       "format": "%1$sGiá cả:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sTúi đồ này chẳng có gì cả! :(",
-      "brief_notice": "Bạn có thể sử dụng `~>inventory -brief` để xài phiên bản thân thiện với điện thoại.",
+      "brief_notice": "You can use `~>inventory brief` to get a mobile friendly version.",
       "sorted_by": " *(được sắp xếp theo: %1$s)*"
     },
     "cast": {
@@ -2048,82 +2048,82 @@
       "success": "%1$sĐã xoá vai trò tự động của máy chủ này."
     },
     "usermessage_resetchannel": {
-      "success": "%1$sSuccessfully reset the join/leave channel."
+      "success": "%1$sĐã đặt lại kênh ra/vào."
     },
     "usermessage_resetdata": {
-      "success": "%1$sSuccessfully reset the join/leave data."
+      "success": "%1$sĐã thành công xoá dữ liệu ra/vào."
     },
     "usermessage_join_channel": {
-      "no_channel": "%1$sYou need to specify what channel you want me to send the join message.",
-      "success": "%1$sThe user join log channel is now set to: %2$s"
+      "no_channel": "%1$sBạn phải ghi ra kênh bạn muốn gửi tin nhắn khi ai đó vào chứ.",
+      "success": "%1$sKênh nhật kí người dùng vào máy chủ được đặt tại: %2$s"
     },
     "usermessage_join_resetchannel": {
-      "success": "%1$sSuccessfully reset log join channel!"
+      "success": "%1$sĐã đặt lại kênh nhật kí người dùng tham gia!"
     },
     "usermessage_leave_channel": {
-      "no_channel": "%1$sYou need to specify what channel you want me to send the leave message.",
-      "success": "%1$sThe user leave log channel is now set to: %2$s"
+      "no_channel": "%1$sBạn phải ghi ra kênh bạn muốn gửi tin nhắn khi ai đó thoát chứ.",
+      "success": "%1$sKênh nhật kí người dùng rời khỏi máy chủ được đặt tại: %2$s"
     },
     "usermessage_leave_resetchannel": {
-      "success": "%1$sSuccessfully reset log leave channel!"
+      "success": "%1$sĐã đặt lại kênh nhật kí người dùng rời đi!"
     },
     "usermessage_channel": {
-      "no_channel": "%1$sYou need to specify what channel you want me to send the join and leave messages.",
-      "success": "%1$sThe logging Join/Leave channel is set to: %2$s"
+      "no_channel": "%1$sBạn phải ghi ra kênh bạn muốn gửi tin nhắn khi ai đó vào và thoát chứ.",
+      "success": "%1$sKênh nhật kí ra/vào được đặt tại: %2$s"
     },
     "usermessage_joinmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone joins!",
-      "success": "%1$sServer join message set to: `%2$s`"
+      "no_message": "%1$sBạn phải ghi rõ tin nhắn bạn muốn tui nói khi ai đó vào chứ!",
+      "success": "%1$sTin nhắn khi có người tham gia máy chủ được đặt thành: `%2$s`"
     },
     "usermessage_leavemessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone leaves!",
-      "success": "%1$sServer leave message set to: `%2$s`"
+      "no_message": "%1$sBạn phải ghi rõ tin nhắn bạn muốn tui nói khi ai đó rời đi chứ!",
+      "success": "%1$sTin nhắn khi có người rời máy chủ được đặt thành: `%2$s`"
     },
     "usermessage_joinmessage_reset": {
-      "success": "%1$sReset server join message."
+      "success": "%1$sĐã đặt lại tin nhắn vào."
     },
     "usermessage_leavemessage_reset": {
-      "success": "%1$sReset server leave message."
+      "success": "%1$sĐã đặt lại tin nhắn ra."
     },
     "usermessage_joinmessage_test": {
-      "success": "%1$sSent test join message.",
-      "error_missing_mention": "%1$sYou need to mention a member to test this with.",
-      "error_text_missing": "%1$sYou haven't set a join message.",
-      "error_channel_perms": "%1$sI can't send messages on your join channel.",
-      "error_no_channel": "%1$sYou have no join channel set.",
-      "error_channel_missing": "%1$sThe join channel you set is not existent on this server. Please set another channel."
+      "success": "%1$sĐã gửi tin nhắn khi vào (test).",
+      "error_missing_mention": "%1$sBạn phải đề cập đến thành viên nào đó để thử chứ.",
+      "error_text_missing": "%1$sBạn chưa đặt tin nhắn vào mà.",
+      "error_channel_perms": "%1$sTui không thể gửi tin nhắn qua kênh tham gia của bạn.",
+      "error_no_channel": "%1$sBạn chưa đặt kênh vào nào cả.",
+      "error_channel_missing": "%1$sKênh vào mà bạn đặt không tồn tại trên máy chủ này. Làm ơn đặt kênh khác."
     },
     "usermessage_leavemessage_test": {
       "success": "%1$sĐã gửi tin nhắn khi rời (test).",
-      "error_missing_mention": "%1$sYou need to mention a member to test this with.",
-      "error_text_missing": "%1$sYou haven't set a leave message.",
-      "error_channel_perms": "%1$sI can't send messages on your leave channel.",
-      "error_no_channel": "%1$sYou have no leave channel set.",
-      "error_channel_missing": "%1$sThe leave channel you set is not existent on this server. Please set another channel."
+      "error_missing_mention": "%1$sBạn phải đề cập đến thành viên nào đó để thử chứ.",
+      "error_text_missing": "%1$sBạn chưa đặt tin nhắn rời mà.",
+      "error_channel_perms": "%1$sTui không thể gửi tin nhắn qua kênh thoát ra của bạn.",
+      "error_no_channel": "%1$sBạn chưa đặt kênh rời nào cả.",
+      "error_channel_missing": "%1$sKênh rời mà bạn đặt không tồn tại trên máy chủ này. Làm ơn đặt kênh khác."
     },
     "autoroles_add": {
-      "too_long": "%1$sThe autorole name needs to be at most 40 characters long.",
-      "no_args": "%1$sYou need to specify the name of the iam and the name of the role.",
-      "no_role_found": "%1$sI didn't find a role with that name!\nIf the role name has spaces wrap it in quotes like this: \"Role Name\"",
-      "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as an auto-assignable role!",
-      "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as an auto-assignable role!",
-      "success": "%1$sAdded auto-assignable role **%2$s**, which gives the role **%3$s**"
+      "too_long": "%1$sTên của vai trò tự động phải dài tối đa 40 ký tự.",
+      "no_args": "%1$sBạn cần chỉ ra tên của iam và tên của vai trò.",
+      "no_role_found": "%1$sTui không tìm thấy vai trò nào có tên như vậy cả!\nNếu tên ai trò có dấu cách thì làm ơn hãy \"đóng nó lại như thế này\"",
+      "hierarchy_conflict": "%1$sVai trò này cao hơn vai trò cao nhất bạn có, nên bạn không thể đặt nó thành vai trò tự gắn được!",
+      "self_hierarchy_conflict": "%1$sVai trò này cao hơn vai trò cao nhất tui có, nên tui không thể đặt nó thành vai trò tự gắn được!",
+      "success": "%1$sVai trò **%3$s** đã được thêm vào với tên tự gắn là **%2$s**"
     },
     "autoroles_category_add": {
-      "no_args": "%1$sYou need to specify the name of the category (and the name of the iam role if you want to add one to an existing category).",
-      "success_new": "%1$sAdded auto-assignable list category **%2$s**",
-      "success": "%1$sAdded auto-assignable role **%2$s** to list category **%3$s**",
-      "already_exists": "%1$sThis category already exists and you didn't specify a role to add to it.",
-      "no_role": "%1$sThere's no autorole **%2$s**, so I can't add it."
+      "no_args": "%1$sBạn cần ghi rõ tên của danh mục (và tên của vai trò iam nếu bạn muốn thêm vào danh mục hiện có).",
+      "success_new": "%1$sĐã thêm loại danh sách có thể tự gắn **%2$s**",
+      "success": "%1$sĐã thêm vai trò tự gắn **%2$s** vào danh mục **%3$s**",
+      "already_exists": "%1$sDanh mục này đã tồn tại và nhưng bạn không ghi rõ vai trò để thêm vào.",
+      "no_role": "%1$sKhông có vai trò tự động nào là **%2$s**, nên tui cũng chẳng thêm vào được."
     },
     "autoroles_category_remove": {
-      "no_args": "%1$sYou need to specify the name of the category (and the name of the iam role if you want to remove one from an existing category).",
-      "success_new": "%1$sRemoved auto-assignable list category **%2$s**",
-      "success": "%1$sRemoved auto-assignable role **%2$s** from list category **%3$s**",
-      "no_category": "%1$sThere's no category **%2$s**"
+      "no_args": "%1$sBạn cần ghi rõ tên của danh mục (và tên của vai trò iam nếu bạn muốn xóa một vai trò khỏi danh mục hiện có).",
+      "success_new": "%1$sĐã xoá loại danh sách có thể tự gắn **%2$s**",
+      "success": "%1$sĐã xoá vai trò tự gắn **%2$s** vào danh mục **%3$s**",
+      "no_category": "%1$sỞ đây không có danh mục nào là **%2$s** cả"
     },
     "autoroles_remove": {
-      "no_args": "%1$sYou need to specify the name of the iam you want to remove.",
+      "no_args": "%1$sBạn cần chỉ ra tên của iam và tên của vai trò bạn muốn xoá.",
       "not_found": "%1$sI couldn't find an auto-assignable role with that name",
       "success": "%1$sRemoved auto-assignable role %2$s"
     },
