@@ -396,7 +396,7 @@
     },
     "prefix": {
       "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). %3$s.\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nTo reset the server prefix run `~>opts prefix clear`\nIf you have any questions, you can join <https://support.mantaro.site>",
-      "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
+      "guild_prefix": "البريفكس الخاص بالسيرفر هو `%1$s` (يعمل فقط في هذا السيرفر)",
       "none": "لم يتم تعيين رمز مخصص على هذا السيرفر."
     },
     "custom": {

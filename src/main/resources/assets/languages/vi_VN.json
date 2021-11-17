@@ -2124,142 +2124,142 @@
     },
     "autoroles_remove": {
       "no_args": "%1$sBạn cần chỉ ra tên của iam và tên của vai trò bạn muốn xoá.",
-      "not_found": "%1$sI couldn't find an auto-assignable role with that name",
-      "success": "%1$sRemoved auto-assignable role %2$s"
+      "not_found": "%1$sTôi không thể tìm thấy vai trò tự gắn với tên đó",
+      "success": "%1$sĐã xoá vai trò tự gắn %2$s"
     },
     "autoroles_clear": {
-      "success": "%1$sCleared all auto-assignable roles!"
+      "success": "%1$sĐã xoá hết tất cả các vai trò tự gắn!"
     },
     "admincustom": {
-      "no_args": "%1$sYou need to specify if you want it to be true or false (true to lock CC creation to Admins/Bot Commander only)",
-      "admin_only": "Custom command creation is now admin only.",
-      "everyone": "Custom command creation can now be done by anyone.",
-      "not_bool": "%1$sSilly, that's not a boolean value (true or false)!"
+      "no_args": "%1$sBạn phải ghi rõ nếu bạn muốn nó là true hay false chứ (true để khoá tạo lệnh cho admin/người quản lý bot)",
+      "admin_only": "Bây giờ chỉ có admin mới có thể tạo lệnh tùy chỉnh.",
+      "everyone": "Tất cả mọi người đều có thể tạo lệnh tùy chỉnh từ bây giờ.",
+      "not_bool": "%1$sĐồ ngốc, đó không phải là biến boolean (true hoặc false)!"
     },
     "timedisplay_set": {
-      "mode_not_specified": "%1$sYou need to specify a mode (12h or 24h)",
-      "12h": "%1$sSet time display mode to 12h",
-      "24h": "%1$sSet time display mode to 24h",
-      "invalid": "%1$sNot a valid choice. Valid choices: **24h**, **12h**"
+      "mode_not_specified": "%1$sBạn phải ghi rõ chế độ hiển thị chứ (12h hoặc 24h)",
+      "12h": "%1$sChế độ hiển thị được đặt thành 12h",
+      "24h": "%1$sChế độ hiển thị được đặt thành 24h",
+      "invalid": "%1$sKhông hợp lệ nha. Tui chỉ nhận **24h** hoặc **12h** thôi"
     },
     "server_role_disallow": {
-      "no_name": "%1$sYou need to specify the name of the role!",
-      "public_role": "%1$sYou cannot disable the everyone role from using commands!",
-      "success": "%1$sDisabled role %2$s from executing commands."
+      "no_name": "%1$sBạn cần ghi rõ tên vai trò!",
+      "public_role": "%1$sBạn không thể vô hiệu hoá vai trò everyone!",
+      "success": "%1$sĐã vô hiệu hoá vai trò %2$s từ việc sử dụng lệnh."
     },
     "server_role_allow": {
-      "no_name": "%1$sYou need to specify the name of the role you want to allow (has to be disallowed already for this to do anything, since allow is default)!",
-      "not_disabled": "%1$sThis role isn't disabled! (All roles are enabled by default)",
-      "success": "%1$sAllowed role %2$s to execute commands."
+      "no_name": "%1$sBạn phải ghi rõ tên vai trò bạn muốn kích hoạt lại chứ (vai trò đó phải bị vô hiệu hoá tuyệt đối, vì được kích hoạt là mặc định)!",
+      "not_disabled": "%1$sVai trò này có bị vô hiệu hoá đâu! (Mặc định bật sẵn cho tất cả các vai trò)",
+      "success": "%1$sĐã kích hoạt lại vai trò %2$s từ việc sử dụng lệnh."
     },
     "server_ignorebots_autoroles_toggle": {
-      "success": "%1$sSet bot autorole ignore to: **%2$s**"
+      "success": "%1$sĐặt bot bỏ qua vai trò tự động: **%2$s**"
     },
     "server_ignorebots_joinleave_toggle": {
-      "success": "%1$sSet bot join/leave ignore to: **%2$s**"
+      "success": "%1$sĐặt bot bỏ qua kênh ra/vào: **%2$s**"
     },
     "levelupmessages_channel_set": {
-      "no_channel": "%1$sYou need to specify a channel to show level-up messages!",
-      "success": "%1$sThe level-up channel has been set to: %2$s"
+      "no_channel": "%1$sBạn cần ghi ra một kênh để hiển thị thông báo lên cấp chứ!",
+      "success": "%1$sKênh lên cấp được đặt thành: %2$s"
     },
     "birthday_message_set": {
-      "no_message": "%1$sYou need to specify the message you want to show on birthday. *Tip: The username of the person is done using the $(user) argument on the message*",
-      "success": "%1$sServer birthday message set to: %2$s"
+      "no_message": "%1$sBạn cần ghi thông điệp bạn muốn hiển thị vào ngày sinh nhật. *Mẹo: Tên người dùng của người được thực hiện bằng cách sử dụng đối số $(user) trên tin nhắn*",
+      "success": "%1$sLời chúc khi có sinh nhật trong máy chủ được đặt thành: %2$s"
     },
     "birthday_message_clear": {
-      "success": "%1$sCleared birthday message!"
+      "success": "%1$sĐã xoá lời chúc sinh nhật!"
     },
     "defaultmutetimeout_set": {
-      "too_short": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
-      "not_specified": "%1$sYou have to specify a mute timeout in the format of 1m20s, for example.",
-      "wrong_format": "%1$sWrong time format. You have to specify a mute timeout in the format of 1m20s, for example.",
-      "too_long": "%1$sThe time specified is too long...",
-      "negative_notice": "You cannot mute someone for negative time!",
-      "success": "%1$sSuccessfully set default mute timeout to *%2$s* (%3$dms)"
+      "too_short": "%1$sKhoảng thời gian câm lặng được ghi ra nhỏ hơn 10 giây.\nBạn có chắc là bạn sử đụng đúng định dạng không đấy? Cho 20 phút, ghi là 20m, cho 1 tiếng, ghi là 1h, hoặc là một dạng kết hợp cả hai như (1h45m) chẳng hạn.",
+      "not_specified": "%1$sBạn phải ghi ra thời gian câm lặng dưới định dạng như là 1m20s chẳng hạn.",
+      "wrong_format": "%1$sĐịnh dạng thời gian không hợp lệ. Bạn phải ghi ra thời gian câm lặng dưới định dạng như là 1m20s chẳng hạn.",
+      "too_long": "%1$sThời gian bạn ghi ra thực sự quá dài...",
+      "negative_notice": "Làm sao mà bạn câm lặng ai đó bằng khoảng thời gian âm được!",
+      "success": "%1$sThành công đặt thời gian câm lặng mặc định là *%2$s* (%3$dms)"
     },
     "defaultmutetimeout_reset": {
-      "success": "%1$sSuccessfully reset timeout."
+      "success": "%1$sĐã đặt lại thời gian thành công."
     },
     "muterole_unbind": {
-      "success": "%1$sCorrectly reset the mute role."
+      "success": "%1$sĐã đặt lại vai trò câm lặng."
     },
     "muterole_set": {
-      "no_role": "%1$sYou need to specify the role you want to use as the mute role. If the name has spaces try wrapping it in quotes.",
-      "success": "%1$sSet mute role to **%2$s**"
+      "no_role": "%1$sBạn cần ghi rõ tên vai trò bạn muốn biến nó thành vai trò câm lặng. Nếu tên của vai trò có khoảng cách, hãy thử \"ngoặc nó lại như thế này\".",
+      "success": "%1$sĐã đặt vai trò câm lặng thành **%2$s**"
     },
     "reset:all": {
-      "success": "%1$sCorrectly reset your options!"
+      "success": "%1$sĐặt lại các tuỳ chọn của bạn!"
     },
     "birthday_test": {
-      "no_user": "%1$sYou need to specify an user to test the assigner with. Just mention them.",
-      "no_bd_channel": "%1$sYou don't have any birthday channel set!",
-      "no_bd_role": "%1$sYou don't have any role set for the birthday setter! Make sure you create a new role for it.",
-      "no_talk_permission": "%1$sThe bot cannot speak on the birthday channel. Check channel permissions.",
-      "cannot_interact": "%1$sThe bot is unable to interact with the birthday role. (This means the birthday role is higher than the bot's highest role on the role hierarchy, put it below and try again)",
-      "no_role_permission": "%1$sThe bot is missing the Manage Roles permission.",
-      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role **%4$s**\nKeep in mind the birthday testing message won't ping anyone nor any roles. The actual message can ping users and roles, but can't ping everyone or here.",
-      "error": "%1$sOw... There was an error while sending the message on channel %2$s for user **%3$s** and role %4$s"
+      "no_user": "%1$sBạn cần đề cập một người dùng để kiểm tra.",
+      "no_bd_channel": "%1$sBạn không đặt kênh chúc sinh nhật nào cả!",
+      "no_bd_role": "%1$sBạn chưa đặt vai trò nào hết! Hãy chắc rằng bạn đã tạo vai trò mới cho nó.",
+      "no_talk_permission": "%1$sTui không có quyền phát ngôn trong kênh sinh nhật. Hãy kiểm tra quyền hạn.",
+      "cannot_interact": "%1$sTui bất lực với cái vai trò sinh nhật á. (Đồng nghĩa với vai trò sinh nhật cao hơn hoặc bằng vai trò của tui, làm ơn đặt nó xuống và thử lại)",
+      "no_role_permission": "%1$sTui không có quyền Quản Lý Vai Trò.",
+      "success": "%1$sThành công! Tin nhắn đã được gửi tại kênh %2$s cho người dùng **%3$s**. Đồng thời họ cũng nhận được vai trò **%4$s**\nHãy nhớ rằng thông báo kiểm tra ngày sinh sẽ không đề cập đến bất kỳ ai cũng như bất kỳ vai trò nào. Thông báo thực tế có thể đề cập người dùng và vai trò, nhưng không thể đề cập `everyone` hoặc `here`.",
+      "error": "%1$sUi da... Đã có lỗi xảy ra trong quá trình gửi tin nhắn vào kênh %2$s cho người dùng **%3$s** và vai trò %4$s"
     },
     "usermessage_joinmessage_add": {
-      "no_message": "%1$sYou need to specify what extra message you want me to say when someone joins!",
-      "success": "%1$sAdded `%2$s` to the extra join messages successfully."
+      "no_message": "%1$sBạn phải ghi rõ tin nhắn bổ sung bạn muốn tui nói khi ai đó vào chứ!",
+      "success": "%1$sĐã thêm `%2$s` thành tin nhắn bổ sung khi ai đó vào."
     },
     "usermessage_joinmessage_remove": {
-      "no_message": "%1$sYou need to specify the index of the message you want to remove!",
-      "success": "%1$sRemoved `%2$s (index %3$d)` from the extra join messages successfully.",
-      "wrong_index": "%1$sThat index doesn't exist! Use `~>opts usermessage joinmessage list` to see all of the available indexes"
+      "no_message": "%1$sBạn cần chỉ ra mục của tin nhắn mà bạn muốn xóa!",
+      "success": "%1$sĐã xoá `%2$s (mục %3$d)` thành tin nhắn bổ sung khi ai đó vào.",
+      "wrong_index": "%1$sMục đó không tồn tại! Sử dụng `~>opts usermessage joinmessage list` để xem danh sách tất cả các mục"
     },
     "usermessage_joinmessage_clear": {
-      "success": "%1$sCleared all extra join messages."
+      "success": "%1$sĐã xoá hết tất cả tin nhắn bổ sung khi vào."
     },
     "usermessage_joinmessage_list": {
-      "header": "Extra join messages list. %1$s\n%2$s",
-      "no_extras": "%1$sThere isn't any extra join messages here..."
+      "header": "Danh sách tin nhắn bổ sung. %1$s\n%2$s",
+      "no_extras": "%1$sỞ đây không có tin nhắn vào bổ sung nào cả..."
     },
     "usermessage_leavemessage_add": {
-      "no_message": "%1$sYou need to specify what extra message you want me to say when someone leaves!",
-      "success": "%1$sAdded `%2$s` to the extra leave messages successfully."
+      "no_message": "%1$sBạn phải ghi rõ tin nhắn bổ sung bạn muốn tui nói khi ai đó rời chứ!",
+      "success": "%1$sĐã thêm `%2$s` thành tin nhắn bổ sung khi ai đó rời."
     },
     "usermessage_leavemessage_remove": {
-      "no_message": "%1$sYou need to specify the index of the message you want to remove!",
-      "success": "%1$sRemoved `%2$s (index %3$d)` from the extra leave messages successfully.",
-      "wrong_index": "%1$sThat index doesn't exist! Use `~>opts usermessage leavemessage list` to see all of the available indexes"
+      "no_message": "%1$sBạn cần chỉ ra mục của tin nhắn mà bạn muốn xóa!",
+      "success": "%1$sĐã xoá `%2$s (mục %3$d)` thành tin nhắn bổ sung khi ai đó rời.",
+      "wrong_index": "%1$sMục đó không tồn tại! Sử dụng `~>opts usermessage leavemessage list` để xem danh sách tất cả các mục"
     },
     "usermessage_leavemessage_clear": {
-      "success": "%1$sCleared all extra leave messages."
+      "success": "%1$sĐã xoá hết tất cả tin nhắn bổ sung khi rời."
     },
     "usermessage_leavemessage_list": {
-      "header": "Extra leave messages list. %1$s\n%2$s",
-      "no_extras": "%1$sThere isn't any extra leave messages here..."
+      "header": "Danh sách tin nhắn rời bổ sung. %1$s\n%2$s",
+      "no_extras": "%1$sỞ đây không có tin nhắn rời bổ sung nào cả..."
     },
     "modlog_blacklistwords_add": {
-      "no_word": "%1$sYou didn't specify any word to add to the modlog blacklist.",
-      "success": "%1$sWord `%2$s` successfully added to the modlog blacklist.",
-      "too_many": "%1$sThere are already too many words on the blacklist (more than 20)."
+      "no_word": "%1$sBạn chưa ghi ra bất kì từ nào để thêm vào danh sách đen modlog.",
+      "success": "%1$sTừ `%2$s` đã được thêm vào danh sách đen modlog.",
+      "too_many": "%1$sĐã có quá nhiều từ nằm trong danh sách đen (hơn 20 từ)."
     },
     "modlog_blacklistwords_remove": {
-      "not_in": "%1$sWord `%2$s` isn't in the blacklist.",
-      "success": "%1$sSuccesfully removed word `%2$s` from the modlog blacklist."
+      "not_in": "%1$sTừ `%2$s` không nằm trong danh sách đen.",
+      "success": "%1$sĐã loại bỏ từ `%2$s` ra khỏi danh sách đen modlog."
     },
     "logs_editmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone edits a message!",
-      "success": "%1$sMessage edit message set to: `%2$s`",
+      "no_message": "%1$sBạn phải ghi rõ tin nhắn bạn muốn tui nói khi ai đó chỉnh sửa tin nhắn chứ!",
+      "success": "%1$sTin nhắn chỉnh sửa tin nhắn được đặt thành: `%2$s`",
       "reset_success": "%1$sĐã đặt lại cài đặt ghi chép chỉnh sửa tin nhắn."
     },
     "logs_deletemessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone deletes a message!",
-      "success": "%1$sMessage delete message set to: `%2$s`",
+      "no_message": "%1$sBạn phải ghi rõ tin nhắn bạn muốn tui nói khi ai đó xoá tin nhắn chứ!",
+      "success": "%1$sTin nhắn xóa tin nhắn được đặt thành: `%2$s`",
       "reset_success": "%1$sĐã đặt lại cài đặt ghi chép xoá tin nhắn."
     },
     "logs_banmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone gets banned!",
-      "success": "%1$sTin nhắn ban được đặt thành: `%2$s`",
-      "reset_success": "%1$sĐã đặt lại cài đặt ghi chép tin nhắn ban thành viên."
+      "no_message": "%1$sBạn phải ghi rõ tin nhắn bạn muốn tui nói khi ai đó bị ăn búa chứ!",
+      "success": "%1$sTin nhắn ăn búa được đặt thành: `%2$s`",
+      "reset_success": "%1$sĐã đặt lại ghi chép tin nhắn thành viên ăn búa."
     },
     "logs_unbanmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone gets unbanned!",
-      "success": "%1$sTin nhắn gỡ lệnh ban được đặt thành: `%2$s`",
-      "reset_success": "%1$sĐã đặt lại cài đặt ghi chép tin nhắn huỷ ban thành viên."
+      "no_message": "%1$sBạn phải ghi rõ tin nhắn bạn muốn tui nói khi ai đó được gỡ cấm chứ!",
+      "success": "%1$sTin nhắn gỡ cấm được đặt thành: `%2$s`",
+      "reset_success": "%1$sĐã đặt lại ghi chép tin nhắn gỡ cấm thành viên."
     },
     "djrole_set": {
       "no_role": "%1$sYou need to give me a role to use as the DJ role.",
