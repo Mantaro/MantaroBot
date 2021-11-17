@@ -88,7 +88,7 @@ public class BirthdayTask {
             // Example: 02
             final var month = monthFormat.format(cal.getTime());
             // Example: 01
-            final var lastMonthCal = Calendar.getInstance();
+            final var lastMonthCal = GregorianCalendar.from(ZonedDateTime.now(ZoneId.of("America/Chicago")));
             lastMonthCal.add(Calendar.MONTH, -1);
             final var lastMonth = monthFormat.format(lastMonthCal.getTime());
 
