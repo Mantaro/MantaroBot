@@ -57,7 +57,7 @@
     },
     "campaigns": {
       "premium": {
-        "generic_sellout": "Chúng tôi cần sự giúp đỡ của bạn để giữ cho Mantaro hoạt động và để phát triển máy chủ của Mantaro! Bạn có thể có được những đặc quyền tuyệt vời và **có thể lên đến gấp đôi số đồng mà bạn có thể thu được với Mantaro Premium**! Mọi hội viên sẽ bắt đầu chỉ với $2 mỗi tháng, rất chi là rẻ! Xem thông tin chi tiết tại <https://patreon.com/mantaro>. Cũng như việc lan truyền lời cầu xin của chúng tôi :heart:",
+        "generic_sellout": "Chúng tôi cần sự giúp đỡ của bạn để giữ cho Mantaro hoạt động và để phát triển máy chủ của Mantaro! Bạn có thể có được những đặc quyền tuyệt vời và **có thể lên đến gấp đôi số đồng mà bạn có thể thu được với Mantaro Premium**! Mọi hội viên sẽ bắt đầu chỉ với $2 mỗi tháng, rất chi là rẻ! Xem thông tin chi tiết tại <https://patreon.com/mantaro>. Cũng như việc lan truyền lời gọi của chúng tôi :heart:",
         "daily_sellout": "Chúng tôi cần sự giúp đỡ của bạn để giữ cho Mantaro hoạt động!\nBạn có thể có được những đặc quyền tuyệt vời, **gấp đôi phần thưởng hằng ngày** và quyền sử dụng `~>dailycrate`! Hội viên bắt đầu với $2 mỗi tháng, xem thông tin chi tiết tại <https://patreon.com/mantaro>.",
         "thanks_message": "Chúng tôi rất trân trọng sự giúp đỡ của bạn. Nếu không có sự giúp đỡ của mọi người, chúng tôi khó mà giữ cho Mantaro tiếp tục hoạt động được :heart:",
         "thanks_message_daily": "Chúng tôi rất trân trọng sự giúp đỡ của bạn. Nếu không có sự giúp đỡ của mọi người, chúng tôi khó mà giữ cho Mantaro hoạt động được :heart:\nBạn cũng nhận được gấp đôi số đồng như là một món quà nhỏ!"
@@ -2262,44 +2262,44 @@
       "reset_success": "%1$sĐã đặt lại ghi chép tin nhắn gỡ cấm thành viên."
     },
     "djrole_set": {
-      "no_role": "%1$sYou need to give me a role to use as the DJ role.",
-      "success": "%1$sSuccessfully set the DJ role to %2$s."
+      "no_role": "%1$sĐưa tui cái vai trò bạn muốn sử dụng làm vai trò DJ chứ.",
+      "success": "%1$sĐã đặt thành công %2$s làm vai trò DJ."
     },
     "djrole_reset": {
-      "not_set": "%1$sYou have no custom DJ role set.",
-      "success": "%1$sSuccessfully reset the DJ role."
+      "not_set": "%1$sBạn không có vai trò DJ tuỳ chỉnh nào.",
+      "success": "%1$sĐã đặt lại vai trò DJ thành công."
     },
     "showdisablewarning": {
-      "success": "%1$sDisplay warning on disabled command is set to: %2$s"
+      "success": "%1$sHiển thị cảnh báo cho lệnh đã tắt được đặt thành: %2$s"
     },
     "birthdayblacklist": {
-      "no_args": "%1$sYou need to specify who to blacklist from birthday announcements.",
+      "no_args": "%1$sBạn cần ghi ra người mà bạn muốn đưa vào danh sách đen từ thông báo sinh nhật.",
       "add": {
-        "success": "%1$sSuccessfully added %2$s (%3$s) to the birthday announcement blacklist for this server."
+        "success": "%1$sĐã thêm thành công %2$s (%3$s) vào danh sách đen từ việc thông báo sinh nhật của máy chủ này."
       },
       "remove": {
-        "success": "%1$sSuccessfully removed %2$s (%3$s) from the birthday announcement blacklist for this server."
+        "success": "%1$sĐã xoá thành công %2$s (%3$s) ra khỏi danh sách đen từ việc thông báo sinh nhật của máy chủ này."
       }
     },
     "imageboard_disableexplicit": {
-      "success": "%1$sDisabled explicit/questionable imageboard searches regardless of channel type."
+      "success": "%1$sĐã vô hiệu hóa các tìm kiếm trên bảng về hình ảnh khiêu dâm/có vấn đề tại bất cứ kênh nào."
     },
     "imageboard_enableexplicit": {
-      "already_enabled": "%1$sExplicit/questionable imageboard searches are already enabled. Keep in mind they only work in NSFW channels.",
-      "success": "%1$sRe-enabled explicit/questionable imageboard searches."
+      "already_enabled": "%1$sTìm kiếm trên bảng hình ảnh khiêu dâm/có vấn đề đã được bật. Hãy nhớ rằng chúng chỉ hoạt động trong các kênh NSFW.",
+      "success": "%1$sĐã bật lại các tìm kiếm trên bảng hình ảnh khiêu dâm/có vấn đề."
     },
     "lobby": {
       "disable": {
-        "success": "%1$sSuccessfully disabled game lobby/multiple."
+        "success": "%1$sĐã vô hiệu hoá thành công sảnh chờ/chơi chung các trò chơi."
       },
       "enable": {
-        "already_enabled": "%1$sGame lobby/multiple isn't disabled on this server.",
-        "success": "%1$sSuccessfully enabled game lobby/multiple. (If it was previously disabled)"
+        "already_enabled": "%1$sSảnh chờ/chơi chung trò chơi không bị vô hiệu hoá trên máy chủ này.",
+        "success": "%1$sĐã kích hoạt sảnh chờ/chơi chung các trò chơi. (Nếu trước đó nó bị vô hiệu hoá)"
       }
     },
-    "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
-    "help_opts_notice": "%1$sYou cannot disable the options or the help command.",
-    "no_command": "%1$sKhông có lệnh %2$s",
+    "invalid_category": "%1$sBạn đã nhập một danh mục không hợp lệ. Danh sách các danh mục hợp lệ để tắt (phân biệt chữ hoa chữ thường) sẽ được hiển thị bên dưới```md\n%2$s```",
+    "help_opts_notice": "%1$sBạn không thể tắt tuỳ chọn hoặc câu lệnh trợ giúp.",
+    "no_command": "%1$sKhông có lệnh nào là %2$s cả",
     "invalid_role": "%1$sĐó không phải là một vai trò hợp lệ!"
   },
   "discord_permissions": {
@@ -2309,7 +2309,7 @@
     "administrator": "Người Quản Lý",
     "manage_channel": "Quản Lý Kênh",
     "manage_server": "Quản lý phòng",
-    "message_add_reaction": "Thêm biểu cảm",
+    "message_add_reaction": "Thêm Biểu Cảm",
     "view_audit_logs": "Xem Nhật Ký Chỉnh Sửa",
     "view_channel": "Đọc Kênh Văn Bản Và Xem Kênh Giọng Nói",
     "message_read": "Đọc tin nhắn",
@@ -2320,7 +2320,7 @@
     "message_attach_files": "Đính kèm tập tin",
     "message_history": "Đọc lịch sử",
     "message_mention_everyone": "Đề cập mọi người",
-    "message_ext_emoji": "Sử dụng emoji ngoài máy chủ",
+    "message_ext_emoji": "Dùng Emoji Mở Rộng",
     "voice_connect": "Kết nối",
     "voice_speak": "Nói",
     "voice_mute_others": "Tắt tiếng thành viên",
@@ -2334,43 +2334,43 @@
     "manage_webhooks": "Quản lý Webhook",
     "manage_emotes": "Quản lý Emoji",
     "priority_speaker": "Người Nói Ưu Tiên",
-    "request_to_speak": "Request to Speak"
+    "request_to_speak": "Yêu cầu Nói"
   },
   "items": {
     "categories": {
-      "collectable": "Collectible Item",
-      "common": "Common Item",
-      "rare": "Rare Item",
-      "premium": "Premium Item",
-      "cast_mine": "Casted Mine Item",
-      "mine": "Mined Item",
-      "fish": "Fished Item",
+      "collectable": "Vật sưu tầm",
+      "common": "Vật phẩm Thường",
+      "rare": "Vật phẩm Hiếm",
+      "premium": "Vật phẩm Cao cấp",
+      "cast_mine": "Vật phẩm Chế tạo được",
+      "mine": "Vật phẩm Đào được",
+      "fish": "Vật phẩm Câu được",
       "fish_rare": "Fished Item (Rare)",
       "mine_rare": "Mined Item (Rare)",
-      "crate": "Loot Crate",
-      "chop_drop": "Chopped Item",
-      "potion": "Potion",
+      "crate": "Hòm",
+      "chop_drop": "Vật phẩm Chặt được",
+      "potion": "Thuốc",
       "buff": "Buff",
-      "wrench": "Wrench",
-      "waifu": "Waifu Item",
-      "mine_pick": "Pickaxe",
-      "mine_rare_pick": "Pickaxe (Rare)",
-      "fish_rod": "Fishing Rod",
-      "fish_rod_rare": "Fishing Rod (Rare)",
-      "chop_axe": "Axe",
-      "chop_axe_rare": "Axe (Rare)",
-      "broken": "Broken Item",
-      "pet": "Pet Item",
-      "pet_food": "Pet Food",
-      "deprecated": "Deprecated",
-      "interactive": "Interactive Item"
+      "wrench": "Cờ lê",
+      "waifu": "Vật phẩm Waifu",
+      "mine_pick": "Cuốc chim",
+      "mine_rare_pick": "Cuốc chim (Hiếm)",
+      "fish_rod": "Cần câu",
+      "fish_rod_rare": "Cần câu (Hiếm)",
+      "chop_axe": "Rìu",
+      "chop_axe_rare": "Rìu (Hiếm)",
+      "broken": "Vật phẩm Bị hỏng",
+      "pet": "Vật phẩm Thú cưng",
+      "pet_food": "Đồ ăn cho Thú cưng",
+      "deprecated": "Ngừng sử dụng",
+      "interactive": "Vật phẩm có thể Tương tác"
     },
     "headphones": "Tai nghe",
     "ban_hammer": "Búa phán xử",
     "die": "Xúc xắc",
     "kick_boot": "Giày đá",
     "floppy": "Đĩa mềm",
-    "maths": "Tính toán của tôi",
+    "maths": "Bài toán của tôi",
     "racket": "Vợt bóng bàn",
     "loaded_die": "Xúc xắc",
     "forgotten": "Bản nhạc bị lãng quên",
@@ -2379,7 +2379,7 @@
     "pick": "Cuốc kẽm",
     "milk": "Sữa",
     "beverage": "Đồ uống",
-    "lewd": "Tạp chí 18+",
+    "lewd": "Tạp chí người lớn",
     "ring": "Nhẫn cưới",
     "letter": "Thư tình",
     "key": "Chìa khoá hòm",
@@ -2387,17 +2387,17 @@
     "diamond": "Kim cương",
     "dress": "Váy cưới",
     "necklace": "Vòng cổ",
-    "tuxedo": "Bộ Tuxedo",
+    "tuxedo": "Tuxedo",
     "shoes": "Giày",
     "rose": "Hoa hồng",
-    "chocolate": "Sô-cô-la",
+    "chocolate": "Sô cô la",
     "cookie": "Bánh quy",
     "die_2": "Xúc xắc đặc biệt",
-    "booster": "Máy gia tốc",
-    "berserk": "Berserk",
+    "booster": "Gia tốc",
+    "berserk": "Cuồng bạo",
     "Companion": "Thú nuôi",
-    "special_ring": "Vòng đặc biệt",
-    "enchancer": "Enchancer",
+    "special_ring": "Nhẫn đặc biệt",
+    "enchancer": "Kính phù phép",
     "prize": "Phần thưởng",
     "crate": "Hòm lục đồ",
     "prize_2": "Phần thưởng 2",
@@ -2407,9 +2407,9 @@
     "bell": "Chuông Giáng sinh",
     "tree": "Cây thông Giáng sinh",
     "pants": "Quần",
-    "haste": "Thuốc lục đồ",
-    "milky": "Thuốc vô hiệu hoá",
-    "energy": "Vò năng lượng",
+    "haste": "Thuốc Vội vã",
+    "milky": "Sữa",
+    "energy": "Nước tăng lực",
     "rod": "Cần câu",
     "fish": "Cá",
     "tropical_fish": "Cá nhiệt đới",
@@ -2418,28 +2418,28 @@
     "star_gem": "Ngọc sao băng",
     "cobweb": "Mạng nhện",
     "fragment": "Mảnh ngọc vỡ",
-    "mop": "Chổi lau nhà",
-    "claim_key": "Chìa khoá nhận",
+    "mop": "Cây lau",
+    "claim_key": "Chìa khoá sở hữu",
     "coffee": "Cà phê",
-    "waifu_pill": "Viên Waifu con nhộng",
+    "waifu_pill": "Viên Waifu",
     "bait": "Mồi câu cá",
     "diamond_pick": "Cuốc kim cương",
     "tv": "Tivi",
     "wrench": "Cờ lê",
     "star_wrench": "Cờ lê sao băng",
-    "sparkle_wrench": "Cơ lê lấp lánh",
-    "motorcycle": "Xe máy",
-    "comet_pick": "Comet Pickaxe",
-    "star_pick": "Star Pickaxe",
+    "sparkle_wrench": "Cờ lê lấp lánh",
+    "motorcycle": "Xe mô tô",
+    "comet_pick": "Cuốc sao chổi",
+    "star_pick": "Cuốc Sao băng",
     "sparkle": "Vật chất lấp lánh",
     "sparkle_pick": "Cuốc lấp lánh",
-    "pizza": "Bánh pizza",
+    "pizza": "Pizza",
     "mine_crate": "Hòm ngọc",
     "fish_crate": "Hòm câu cá",
-    "chop_crate": "Chop Crate",
+    "chop_crate": "Hòm chặt cây",
     "mine_premium_crate": "Hòm ngọc cao cấp",
     "fish_premium_crate": "Hòm câu cá cao cấp",
-    "chop_premium_crate": "Chop Premium Crate",
+    "chop_premium_crate": "Hòm chặt cao cấp",
     "comet_rod": "Cần câu sao chổi",
     "star_rod": "Cần câu sao băng",
     "sparkle_rod": "Cần câu lấp lánh",
@@ -2448,17 +2448,17 @@
     "crab": "Cua",
     "squid": "Mực",
     "shrimp": "Tôm",
-    "moon": "Dấu mặt trăng",
+    "moon": "Dấu ấn mặt trăng",
     "flake": "Bông tuyết",
-    "broken_comet_pick": "Broken Comet Pickaxe",
-    "broken_sparkle_pick": "Broken Sparkle Pickaxe",
-    "broken_star_pick": "Broken Star Pickaxe",
+    "broken_comet_pick": "Cuốc sao chổi hỏng",
+    "broken_sparkle_pick": "Cuốc lấp lánh hỏng",
+    "broken_star_pick": "Cuốc sao băng hỏng",
     "broken_comet_rod": "Cần câu sao chổi hỏng",
     "broken_sparkle_rod": "Cần câu lấp lánh hỏng",
     "broken_star_rod": "Cần câu sao băng hỏng",
     "incubator_egg": "Trứng ấp",
     "water_bottle": "Chai nước",
-    "magic_watch": "Đồng hồ thần kì",
+    "magic_watch": "Đồng hồ ma thuật",
     "pet_house": "Pet House",
     "steak": "Steak",
     "chicken": "Chicken",
