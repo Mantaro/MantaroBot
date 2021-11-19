@@ -1004,7 +1004,7 @@
       "bot_notice": "%1$sBot không có hồ sơ.",
       "header": "Hồ sơ của %1$s",
       "no_desc": "Không có mô tả. Bạn có thể đặt mô tả với `~>profile description`",
-      "credits": "Đồng",
+      "credits": "Tiền",
       "old_credits": "Di sản",
       "level": "Cấp độ",
       "xp": "Kinh nghiệm",
@@ -1446,7 +1446,7 @@
         "not_inventory": "%1$sBạn không có chai nước. Hãy chắc chắn rằng nó nằm trong túi đồ của bạn.",
         "not_enough_inventory": "%1$sKhông đủ chai nước có trong túi đồ của bạn. Bạn cần %2$s.",
         "too_much": "%1$sHay là cho nó ít thức uống hơn đi? Bạn đang lãng phí đồ uống đó! (Số lượng bạn đưa ra vượt quá 100%% thanh khát)",
-        "success": "%1$sYay! Thành công cho thú cưng của bạn uống %2$d và hồi được %3$s%% thanh khát. Thanh khát của thú cưng hiện giờ là %4$s%%."
+        "success": "%1$sYay! Thành công cho thú cưng của bạn uống %2$d chai nước và hồi được %3$s%% độ khát. Thanh khát của thú cưng hiện giờ là %4$s%%."
       },
       "activity": {
         "low_stamina": "%1$sThể lực hiện tại của **%2$s** thực sự rất thấp. Hãy cho nó ăn/uống để hồi phục.",
@@ -2631,14 +2631,14 @@
       "cherry_blossom": "Rơi một cách chậm rãi từ cây anh đào. Lãng mạn chứ, nhỉ?",
       "rock": "Một hòn đá. Chuẩn rồi. Rất khó đào, phải không?",
       "broken_moon_pick": "Một chiếc cuốc mặt trăng bị gãy trong khi đào. Nhưng vẫn sửa lại được.",
-      "broken_moon_axe": "Một chiếc rìu mặt trăng đã bị gãy trong khi đào. Nhưng vẫn sửa lại được.",
+      "broken_moon_axe": "Một chiếc rìu mặt trăng đã bị gãy trong lúc đang chặt. Nhưng vẫn sửa lại được.",
       "broken_moon_rod": "Một chiếc cần câu mặt trăng đã bị gãy trong khi câu cá. Vẫn sửa lại được.",
-      "broken_star_axe": "Một chiếc rìu sao đã bị gãy trong khi đào. Nhưng vẫn sửa lại được.",
-      "broken_comet_axe": "Một chiếc rìu sao chổi đã bị gãy trong khi đào. Nhưng vẫn sửa lại được.",
-      "broken_sparkle_axe": "Một chiếc rìu lấp lánh đã bị gãy trong khi đào. Nhưng vẫn sửa lại được.",
+      "broken_star_axe": "Một chiếc rìu sao đã bị gãy trong lúc đang chặt. Nhưng vẫn sửa lại được.",
+      "broken_comet_axe": "Một chiếc rìu sao chổi đã bị gãy trong lúc đang chặt. Nhưng vẫn sửa lại được.",
+      "broken_sparkle_axe": "Một chiếc rìu lấp lánh đã bị gãy trong lúc đang chặt. Nhưng vẫn sửa lại được.",
       "broken_hellfire_pick": "Một chiếc cuốc lửa địa ngục đã bị gãy trong khi đào. Vẫn sửa lại được.",
-      "broken_hellfire_axe": "Một cái rìu lửa địa ngục đã bị gãy trong khi đào. Vẫn sửa lại được.",
-      "broken_hellfire_rod": "Một chiếc cần câu lửa địa ngục đã bị gãy trong khi đào. Vẫn sửa lại được.",
+      "broken_hellfire_axe": "Một cái rìu lửa địa ngục đã bị gãy trong lúc đang chặt. Vẫn sửa lại được.",
+      "broken_hellfire_rod": "Một chiếc cần câu lửa địa ngục đã bị gãy trong khi đang câu. Vẫn sửa lại được.",
       "chop_crate": "Một cái rương bạn tìm thấy trong lúc chặt cây. Có lẽ sẽ có đồ ngon trong đó đây. Có thể mở bằng `~>opencrate chop crate`",
       "chop_premium_crate": "Một cái rương bạn tìm thấy trong lúc chặt cây. Có lẽ sẽ có đồ ngon trong đó đây. Có thể mở bằng `~>opencrate chop premium crate`"
     }
