@@ -586,8 +586,8 @@
         "love_letter": "Love Letter",
         "waifus": "Waifu Ownership",
         "house": "Pangalan ng Bahay",
-        "car": "Car Name",
-        "pet": "Pet Name (Type)"
+        "car": "Pangalan ng Kotse",
+        "pet": "Pangalan ng Alaga (Uri)"
       },
       "timezone": {
         "no_content": "%1$sYou need to specify what timezone you want this marriage to track.",
@@ -595,7 +595,7 @@
         "success": "%1$sSuccessfully set marriage timezone to %2$s. Pet time will be the same as the marriage timezone."
       },
       "general": {
-        "not_married": "%1$sYou're not married."
+        "not_married": "%1$sHindi ka kasal."
       },
       "buyhouse": {
         "not_married": "%1$sYou can only buy a house while you're married. This might change in the future.",
@@ -618,7 +618,7 @@
       "marry_yourself_notice": "%1$sYou cannot marry yourself, as much as you may want to.",
       "marry_bot_notice": "%1$sYou cannot marry a bot. I don't think this is Futurama... yet. Wait, could bots and humans marry there?",
       "already_married_receipt": "%1$sYou're married with them already, aww.",
-      "already_married": "%1$sYou're married already.",
+      "already_married": "%1$sIkaw ay naikasal na.",
       "receipt_married": "%1$sThat user is married already.",
       "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `~>buy 2 ring` and then try proposing again <3",
       "confirmation": "%1$s%2$s, type with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
@@ -685,7 +685,7 @@
       "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$,d waifus as of now.*\n\nIf you wish to check your waifu stats, use `~>waifu stats`\n\n",
       "no_waifu": "No waifus to see here, just dust :(\nYou can get waifus by claiming someone! Use `~>waifu claim` to get started.",
       "footer": "Total waifus: %1$,d - available slots: %2$s",
-      "value_format": "**Value:**",
+      "value_format": "**Halaga:**",
       "value_b_format": "**Bought for:**",
       "credits_format": " credits.",
       "waifu_header": "**Your waifus:**",
