@@ -288,6 +288,7 @@ public class GambleCmds {
                 }
 
                 if (coinSelect) {
+                    // Substract slot tickets.
                     playerInventory.process(new ItemStack(ItemReference.SLOT_COIN, -coinAmount));
                     slotsChance = slotsChance + Math.max(6, random.nextInt(12) + 1);
                     money = 70L * coinAmount;
@@ -359,10 +360,18 @@ public class GambleCmds {
                     );
 
                     if (season) {
-                        seasonalPlayer.removeMoney(money);
+                        if (!coinSelect) { // We already substracted the gained amount, in slot tickets.
+                            seasonalPlayer.removeMoney(money);
+                        }
+
+                        // We need to save anyway.
                         seasonalPlayer.save();
                     } else {
-                        player.removeMoney(money);
+                        if (!coinSelect) { // We already substracted the gained amount, in slot tickets.
+                            player.removeMoney(money);
+                        }
+
+                        // We need to save anyway.
                         player.save();
                     }
                 }
