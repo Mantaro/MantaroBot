@@ -1194,7 +1194,7 @@
         "kiss": "*blushes*... I- uh... don't think you should be kissing a bot but...",
         "poke": "O-Oh! Anong kailangan mo?",
         "slap": ":(",
-        "bite": "T-That hurts!",
+        "bite": "M-masakit!",
         "lick": "How does metal taste? I don't believe it's too great...",
         "tickle": "hahahaha... oh god stop >u<",
         "highfive": "*highfives*",
@@ -1254,8 +1254,8 @@
         "ended_game": "%1$sEnded game. The number was: %2$d",
         "all_attempts_used": "%1$sAlready used all attempts, ending game. The number was: %2$d",
         "hint": "Hint: The number is %1$s than your input number.",
-        "higher": "higher",
-        "lower": "lower"
+        "higher": "mas mataas",
+        "lower": "mas mababa"
       },
       "pokemon": {
         "header": "Who's that pokemon?",
