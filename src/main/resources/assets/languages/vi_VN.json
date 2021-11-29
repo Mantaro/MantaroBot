@@ -1418,7 +1418,7 @@
         "not_enough_arguments": "%1$sBạn cần ghi rõ tên vật nuôi và loại vật nuôi bạn muốn mua. (Ví dụ: `~> pet buy hello dog`). Nếu bạn muốn có thú cưng cá nhân, hãy chạy `~>pet choice personal`.",
         "no_requirements": "%1$sBạn cần cả một chiếc xe và một ngôi nhà để mua thú cưng! Nhà: %2$s, Xe: %3$s\nĐể mua nhà và xe thì dùng `~>marry buyhouse` và` ~>marry buycar` :heart:",
         "no_house": "%1$sBạn cần phải có một ngôi nhà cho thú cưng trong túi đồ để thực hiện điều này. Bạn có thể mua trên cửa hàng.",
-        "no_egg": "%1$sBạn cần có Trứng ấp trong hành trang của mình để thực hiện việc này. Bạn có thể tạo nó, kiểm tra `~> cast ls`",
+        "no_egg": "%1$sBạn cần có Trứng ấp trong hành trang của mình để thực hiện việc này. Bạn có thể tạo nó, kiểm tra `~>cast ls`",
         "already_has_pet": "%1$sBạn đã có sẵn thú cưng. (Lựa chọn hiện tại: %2$s)",
         "nothing_found": "%1$sKhông thể tìm thấy loại vật nuôi bạn đã chỉ định. Bạn đã chỉ định: `%2$s`, Loại hợp lệ: `%3$s`",
         "not_enough_money": "%1$sBạn không có đủ tiền để mua thú nuôi này. Cần: %2$,d đồng, Tài sản của bạn: %3$,d đồng",
