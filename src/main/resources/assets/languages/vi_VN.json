@@ -1356,7 +1356,7 @@
       "no_marriage": "%1$sBạn cần phải kết hôn để có thú cưng. Còn bây giờ. Kiểm tra `~>help marry` và `~>pet`",
       "no_marriage_other": "%1$s%2$s cần phải kết hôn để có thú cưng. Còn bây giờ. Kiểm tra `~>help marry` và `~>pet`",
       "status": {
-        "no_pet": "%1$sBạn không có bất kỳ vật nuôi nào để kiểm tra trạng thái của chúng. Xem tại `~> pet` để biết thêm về phần giải thích. (Sự lựa chọn: %2$s)%3$s",
+        "no_pet": "%1$sBạn không có bất kỳ vật nuôi nào để kiểm tra trạng thái của chúng. Xem tại `~>pet` để biết thêm về phần giải thích. (Sự lựa chọn: %2$s)%3$s",
         "pet_in_other_category": "\n%1$sBạn đang có thú nuôi ở lựa chọn %2$s (%3$s). Bạn có thể chuyển qua nó bằng `~>pet choice %2$s`",
         "header": "Trạng thái của %1$s",
         "description": "Nhớ chăm sóc và yêu thương thú cưng của mình nhé :heart:\nXem `~>pet` và `~>help pet` để biết thêm về phần giải thích.",
