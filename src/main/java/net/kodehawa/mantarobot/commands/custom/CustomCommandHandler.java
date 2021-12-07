@@ -19,6 +19,8 @@ package net.kodehawa.mantarobot.commands.custom;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.Button;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.MiscCmds;
 import net.kodehawa.mantarobot.commands.custom.legacy.ConditionalCustoms;
@@ -151,6 +153,8 @@ public class CustomCommandHandler {
         }
 
         MessageBuilder builder = new MessageBuilder().setContent(filtered.matcher(response).replaceAll("-filtered regex-"));
+        builder.setActionRows(ActionRow.of(Button.primary("yes", "This is a custom command.").asDisabled()));
+
         if (preview) {
             builder.append("\n\n")
                     .append(EmoteReference.WARNING)
