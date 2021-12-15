@@ -23,7 +23,7 @@ plugins {
     //Adds an Executable Manifest
     id 'application'
     //Creates FatJars
-    id 'com.github.johnrengelman.shadow' version '7.1.0'
+    id 'com.github.johnrengelman.shadow' version '7.1.1'
 }
 
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
