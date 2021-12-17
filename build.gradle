@@ -75,7 +75,7 @@ dependencies {
 
     // Core
     implementation 'io.github.classgraph:classgraph:4.8.138'
-    implementation 'ch.qos.logback:logback-classic:1.2.8'
+    implementation 'ch.qos.logback:logback-classic:1.2.9'
     implementation 'com.google.guava:guava:31.0.1-jre'
 
     // Database
