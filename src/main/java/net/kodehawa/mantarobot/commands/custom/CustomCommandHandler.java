@@ -79,9 +79,12 @@ public class CustomCommandHandler {
             try {
                 // Matcher: Replace all \ with \\.
                 var json = escape.matcher(value).replaceAll("\\\\\\\\");
-                EmbedJSON embed = JsonDataManager.fromJson('{' + json + '}', EmbedJSON.class);
+                var embed = JsonDataManager.fromJson('{' + json + '}', EmbedJSON.class);
+                var builder = new MessageBuilder();
+                builder.setEmbeds(embed.gen(ctx.getMember()));
+                builder.setActionRows(ActionRow.of(Button.primary("yes", "This is a custom command.").asDisabled()));
 
-                ctx.send(embed.gen(ctx.getMember()));
+                ctx.send(builder.build());
             } catch (IllegalArgumentException invalid) {
                 if (invalid.getMessage().contains("URL must be a valid http or https url")) {
                     ctx.sendLocalized("commands.custom.invalid_image", EmoteReference.ERROR2);
@@ -101,8 +104,11 @@ public class CustomCommandHandler {
                     return;
                 }
 
-                ctx.send(new EmbedBuilder().setImage(value).setColor(ctx.getMember().getColor()).build());
+                var builder = new MessageBuilder();
+                builder.setEmbeds(new EmbedBuilder().setImage(value).setColor(ctx.getMember().getColor()).build());
+                builder.setActionRows(ActionRow.of(Button.primary("yes", "This is a custom command.").asDisabled()));
 
+                ctx.send(builder.build());
             } catch (IllegalArgumentException invalid) {
                 ctx.sendLocalized("commands.custom.invalid_image", EmoteReference.ERROR2);
             }
