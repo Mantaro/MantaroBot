@@ -19,6 +19,8 @@ package net.kodehawa.mantarobot.commands.custom.v3;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.Button;
 import net.kodehawa.mantarobot.commands.MiscCmds;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
@@ -363,6 +365,7 @@ public class CCv3 {
                     .append("`");
         }
 
+        builder.setActionRows(ActionRow.of(Button.primary("yes", "This is a custom command.").asDisabled()));
         builder.denyMentions(Message.MentionType.ROLE, Message.MentionType.EVERYONE, Message.MentionType.HERE);
         if (embed != null) {
             builder.setEmbeds(embed.gen(ctx.getMember()));
