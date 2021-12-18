@@ -484,18 +484,18 @@ public class MarketCmd {
                     }
 
                     String c = e.getMessage().getContentRaw();
-
+                    var playerConfirm = ctx.getPlayer();
                     if (c.equalsIgnoreCase("yes")) {
-                        long all = player.getInventory().asList().stream()
+                        long all = playerConfirm.getInventory().asList().stream()
                                 .filter(item -> item.getItem().isSellable())
                                 .mapToLong(value -> Math.round(value.getItem().getValue() * value.getAmount() * 0.9d))
                                 .sum();
 
-                        player.getInventory().clearOnlySellables();
-                        player.addMoney(all);
+                        playerConfirm.getInventory().clearOnlySellables();
+                        playerConfirm.addMoney(all);
 
                         ctx.sendLocalized("commands.market.sell.all.success", warn + EmoteReference.MONEY, all);
-                        player.save();
+                        playerConfirm.save();
                         return Operation.COMPLETED;
                     } else if (c.equalsIgnoreCase("no")) {
                         ctx.sendLocalized("commands.market.sell.all.cancelled", warn + EmoteReference.CORRECT);
