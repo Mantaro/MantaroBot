@@ -957,7 +957,7 @@
         "equipment": "Equipment",
         "seasonal_equipment": "Season Equipment",
         "autoequip": "Auto Equip",
-        "never": "Never"
+        "never": "Hindi kailanman"
       },
       "hide_tag": {
         "success": "%1$sTag hidden status is now: `%2$s`"
@@ -1011,7 +1011,7 @@
       "rep": "Reputasyon",
       "birthday": "Kaarawan",
       "married": "Ikinasal kay",
-      "nobody": "Nobody",
+      "nobody": "Walang sinuman",
       "inventory": "Item Collection (Top 10)",
       "badges": "Badge Collection (Top 5)",
       "no_badges": "No badges (yet!)",
@@ -1078,7 +1078,7 @@
     },
     "choose": {
       "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga \"sleeping out\"`)",
-      "success": "%1$sI choose `%2$s`"
+      "success": "%1$sAng pinili ko ay `%2$s`"
     },
     "remindme": {
       "nothing_specified": "%1$sWhat could I remind you of if you don't give me what to remind you? Oh! Lemme remind you of setting a reminder!",
@@ -1090,7 +1090,7 @@
       "no_time": "%1$sYou didn't specify the time. Try specifying it at the start of the command, for example, `~>remindme 1h do the dishes`. The format is a number followed by either d (days), h (hours), m (minutes) or s (seconds). Check `~>help mute` for an example.",
       "no_time_arg": "%1$sYou didn't give me a time on the `-time` argument.",
       "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `~>remindme 1m do the dishes`)",
-      "too_long": "That's too much time... (Maximum: 180 days)",
+      "too_long": "Masyadong matagal iyan... (Pinakamarami: 180 na araw)",
       "success": "%1$sI'll remind you (%2$s#%3$s) of `%4$s` in %5$s",
       "too_many_reminders": "%1$sYou have too many reminders! Try cancelling some?"
     },
@@ -1181,7 +1181,7 @@
         "pout": "*pouts, hmph*",
         "teehee": "*teases you*",
         "smile": "*Nginitian ikaw*",
-        "stare": "*stares at you*",
+        "stare": "*Tumitig sa iyo*",
         "holdhands": "*hinawakan ang iyong kamay*",
         "cuddle": "*cuddles you*",
         "nuzzle": "*nuzzles you*",
@@ -1212,8 +1212,8 @@
       "hug": "%1$s you have been hugged by %2$s",
       "kiss": "%1$s you have been kissed by %2$s",
       "poke": "%1$s you have been poked by %2$s :eyes:",
-      "slap": "%1$s you have been slapped by %2$s!",
-      "bite": "%1$s you have been bitten by %2$s :eyes:",
+      "slap": "%1$s ikaw ay sinampal ni %2$s!",
+      "bite": "%1$s ikaw ay kinagat ni %2$s :eyes:",
       "tickle": "%1$s you have been tickled by %2$s",
       "lick": "%1$s you have been licked by %2$s",
       "highfive": "%1$s highfives %2$s :heart:",
@@ -1246,7 +1246,7 @@
         "fetch_error": "%1$sError while starting trivia. Seemingly Open Trivia DB is having trouble.",
         "possibilities": "Possibilities",
         "difficulty": "Difficulty",
-        "category": "Category"
+        "category": "Kategorya"
       },
       "number": {
         "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
@@ -2384,7 +2384,7 @@
     "letter": "Love Letter",
     "key": "Crate Key",
     "clothes": "Clothes",
-    "diamond": "Diamond",
+    "diamond": "Diyamante",
     "dress": "Wedding Dress",
     "necklace": "Necklace",
     "tuxedo": "Tuxedo",
@@ -2445,9 +2445,9 @@
     "sparkle_rod": "Sparkle Rod",
     "shell": "Shell",
     "shark": "Shark",
-    "crab": "Crab",
+    "crab": "Alimango",
     "squid": "Squid",
-    "shrimp": "Shrimp",
+    "shrimp": "Hipon",
     "moon": "Moon Rune",
     "flake": "Snowflake",
     "broken_comet_pick": "Broken Comet Pickaxe",
