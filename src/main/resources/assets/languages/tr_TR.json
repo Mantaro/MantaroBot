@@ -400,6 +400,7 @@
       "none": "Bu sunucu da özel bir ön ek yok, varsayılanı kullanabilirsin."
     },
     "custom": {
+      "custom_notice": "This is a custom command.",
       "no_args": "%1$sBu komutla tam olarak ne yapmak istediğini bana söylemelisin, help yazarak daha fazla bilgiye ulaşabilirsin!",
       "incorrect_args": "%1$sGeçersiz argumanlar. `~>help custom` veya https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands sitesini kontrol ederek daha fazla bilgiye ulaşabilirsin. Daha fazla sorun varsa, bu siteden yararlanabilirsin. <https://support.mantaro.site>",
       "error_running": "%1$sÖzel komut kullanırken hata... Lütfen cevapta bulunan içeriği ve uzunluğunu kontrol edin (2000'den uzun olamaz unutmayın).",
@@ -1377,7 +1378,7 @@
         "footer": "Thanks you for using Mantaro! <3"
       },
       "check": {
-        "success": "**Pet status for %1$s:**\n\n%2$s Thirst: **%3$s / 100** | %4$s Hunger: **%5$s / 100** | %6$s Dust: **%7$s%%**"
+        "success": "**Pet status for %1$s:**\n\n%2$s Thirst: **%3$s / 100** | %4$s Hunger: **%5$s / 100** | %6$s Dust: **%7$s%%** | Choice: **%8$s**"
       },
       "clean": {
         "not_enough_money": "%1$sYou need at least %2$,d credits to clean **%3$s**.",
