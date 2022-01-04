@@ -365,7 +365,7 @@ public class CCv3 {
                     .append("`");
         }
 
-        builder.setActionRows(ActionRow.of(Button.primary("yes", "This is a custom command.").asDisabled()));
+        builder.setActionRows(ActionRow.of(Button.primary("yes", ctx.getLanguageContext().get("commands.custom.custom_notice")).asDisabled()));
         builder.denyMentions(Message.MentionType.ROLE, Message.MentionType.EVERYONE, Message.MentionType.HERE);
         if (embed != null) {
             builder.setEmbeds(embed.gen(ctx.getMember()));

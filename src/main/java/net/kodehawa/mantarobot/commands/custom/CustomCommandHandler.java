@@ -82,7 +82,7 @@ public class CustomCommandHandler {
                 var embed = JsonDataManager.fromJson('{' + json + '}', EmbedJSON.class);
                 var builder = new MessageBuilder();
                 builder.setEmbeds(embed.gen(ctx.getMember()));
-                builder.setActionRows(ActionRow.of(Button.primary("yes", "This is a custom command.").asDisabled()));
+                builder.setActionRows(ActionRow.of(Button.primary("yes", ctx.getLanguageContext().get("commands.custom.custom_notice")).asDisabled()));
 
                 ctx.send(builder.build());
             } catch (IllegalArgumentException invalid) {
@@ -106,7 +106,7 @@ public class CustomCommandHandler {
 
                 var builder = new MessageBuilder();
                 builder.setEmbeds(new EmbedBuilder().setImage(value).setColor(ctx.getMember().getColor()).build());
-                builder.setActionRows(ActionRow.of(Button.primary("yes", "This is a custom command.").asDisabled()));
+                builder.setActionRows(ActionRow.of(Button.primary("yes", ctx.getLanguageContext().get("commands.custom.custom_notice")).asDisabled()));
 
                 ctx.send(builder.build());
             } catch (IllegalArgumentException invalid) {
@@ -159,7 +159,7 @@ public class CustomCommandHandler {
         }
 
         MessageBuilder builder = new MessageBuilder().setContent(filtered.matcher(response).replaceAll("-filtered regex-"));
-        builder.setActionRows(ActionRow.of(Button.primary("yes", "This is a custom command.").asDisabled()));
+        builder.setActionRows(ActionRow.of(Button.primary("yes", ctx.getLanguageContext().get("commands.custom.custom_notice")).asDisabled()));
 
         if (preview) {
             builder.append("\n\n")

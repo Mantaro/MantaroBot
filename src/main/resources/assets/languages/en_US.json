@@ -400,6 +400,7 @@
       "none": "There's no custom prefix set on this server."
     },
     "custom": {
+      "custom_notice": "This is a custom command.",
       "no_args": "%1$sYou need to specify what you want to do with this command. Check command help for more info!",
       "incorrect_args": "%1$sIncorrect arguments. Check `~>help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
       "error_running": "%1$sError while running custom command... please check the response content and length (cannot be more than 2000 chars).",
