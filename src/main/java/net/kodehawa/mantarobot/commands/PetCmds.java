@@ -325,7 +325,7 @@ public class PetCmds {
 
                 ctx.sendLocalized("commands.pet.check.success",
                         pet.getName(), EmoteReference.DROPLET, pet.getThirst(),
-                        EmoteReference.FORK, pet.getHunger(), EmoteReference.DUST, pet.getDust()
+                        EmoteReference.FORK, pet.getHunger(), EmoteReference.DUST, pet.getDust(), player.getData().getActiveChoice(marriage)
                 );
             }
         });
