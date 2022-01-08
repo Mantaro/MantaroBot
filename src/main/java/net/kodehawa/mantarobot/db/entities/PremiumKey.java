@@ -75,6 +75,17 @@ public class PremiumKey implements ManagedObject {
     }
 
     @JsonIgnore
+    public static PremiumKey generatePremiumKeyTimed(String owner, Type type, int days, boolean linked) {
+        String premiumId = UUID.randomUUID().toString();
+        PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days), currentTimeMillis() + TimeUnit.DAYS.toMillis(days), type, false, owner, new PremiumKeyData());
+        if (linked)
+            newKey.data.setLinkedTo(owner); //used for patreon checks in newly-activated keys (if applicable)
+
+        newKey.save();
+        return newKey;
+    }
+
+    @JsonIgnore
     public Type getParsedType() {
         return Type.values()[type];
     }
