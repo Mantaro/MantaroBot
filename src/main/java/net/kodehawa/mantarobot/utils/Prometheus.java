@@ -55,7 +55,8 @@ public class Prometheus {
             //ig we can keep this one for now
             new BufferPoolsExports().register();
             JFRExports.register();
-            server = new HTTPServer(MantaroData.config().get().prometheusPort);
+            var config = MantaroData.config().get();
+            server = new HTTPServer(config.prometheusHost, config.prometheusPort);
             STATE.set(State.ENABLED);
         }
     }

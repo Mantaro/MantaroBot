@@ -46,6 +46,7 @@ public class Config {
     public String weebapiKey;
     public String apiTwoUrl = "http://127.0.0.1:5874";
     public boolean needApi = true;
+    public String prometheusHost = "127.0.0.1";
     public int prometheusPort = 9091;
     public String apiAuthKey;
     public Season currentSeason = Season.FIRST;
