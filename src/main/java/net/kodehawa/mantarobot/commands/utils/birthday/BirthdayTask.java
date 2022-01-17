@@ -25,14 +25,11 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
-import org.apache.commons.lang3.time.FastDateFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.LocalDate;
-import java.time.Year;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -40,8 +37,9 @@ import java.util.stream.Collectors;
 
 public class BirthdayTask {
     private static final Logger log = LoggerFactory.getLogger(BirthdayTask.class);
-    private static final FastDateFormat dateFormat = FastDateFormat.getInstance("dd-MM-yyyy");
-    private static final FastDateFormat monthFormat = FastDateFormat.getInstance("MM");
+    private static final DateTimeFormatter dayMonthFormat = DateTimeFormatter.ofPattern("dd-MM");
+    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private static final DateTimeFormatter monthFormat = DateTimeFormatter.ofPattern("MM");
 
     private static final String modLogMessage = "Birthday assigner." +
             " If you see this happening for every member of your server, or in unintended ways, please do ~>opts birthday disable";
@@ -57,6 +55,7 @@ public class BirthdayTask {
 
     public static void handle(int shardId) {
         final var bot = MantaroBot.getInstance();
+        final var instant = Instant.now();
         try {
             final var cache = bot.getBirthdayCacher();
             // There's no cache to be seen here
@@ -82,15 +81,15 @@ public class BirthdayTask {
 
             // Well, fuck, this was a day off. NYC time was 23:00 when Chicago time was at 00:00, so it checked the
             // birthdays for THE WRONG DAY. Heck.
-            final var cal = GregorianCalendar.from(ZonedDateTime.now(ZoneId.of("America/Chicago")));
+            // 17-02-2022: Fuck again, I was using the wrong thing. Now it works, lol.
+            final var timezone = ZonedDateTime.ofInstant(instant, ZoneId.of("America/Chicago"));
             // Example: 25-02
-            final var now = dateFormat.format(cal.getTime()).substring(0, 5);
+            final var now = timezone.format(dayMonthFormat);
             // Example: 02
-            final var month = monthFormat.format(cal.getTime());
+            final var month = timezone.format(monthFormat);
             // Example: 01
-            final var lastMonthCal = GregorianCalendar.from(ZonedDateTime.now(ZoneId.of("America/Chicago")));
-            lastMonthCal.add(Calendar.MONTH, -1);
-            final var lastMonth = monthFormat.format(lastMonthCal.getTime());
+            final var lastMonthTz = ZonedDateTime.ofInstant(instant, ZoneId.of("America/Chicago")).minusMonths(1);
+            final var lastMonth = lastMonthTz.format(dateFormat);
 
             final var cached = cache.getCachedBirthdays();
             final var guilds = jda.getGuildCache();
