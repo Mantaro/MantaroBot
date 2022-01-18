@@ -400,6 +400,7 @@
       "none": "Không có tiền tố (prefix) tùy chỉnh cho máy chủ này."
     },
     "custom": {
+      "custom_notice": "Đây là một câu lệnh tuỳ chỉnh.",
       "no_args": "%1$sBạn cần phải xác định bạn muốn làm gì với lệnh này. Kiểm tra lệnh trợ giúp để biết thêm thông tin!",
       "incorrect_args": "%1$sĐối số không chính xác. Kiểm tra `~>help custom` hoặc https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands để được trợ giúp thêm về cách sử dụng. Nếu bạn muốn biết thêm thông tin nhiều hơn sau khi đọc wiki, bạn có thể tìm hiểu tại <https://support.mantaro.site>",
       "error_running": "%1$sLỗi trong khi chạy lệnh tùy chỉnh... vui lòng kiểm tra lại độ dài và nội dung phản hồi (không quá 2000 kí tự).",
@@ -1377,7 +1378,7 @@
         "footer": "Cảm ơn vì đã sử dụng Mantaro! <3"
       },
       "check": {
-        "success": "**Trạng thái thú cưng của %1$s**\n\n%2$s Khát: **%3$s / 100** | %4$s Đói: **%5$s / 100** | %6$s Độ bẩn: **%7$s%%**"
+        "success": "**Trạng thái thú cưng của %1$s**\n\n%2$s Khát: **%3$s / 100** | %4$s Đói: **%5$s / 100** | %6$s Độ bẩn: **%7$s%%** | Lựa chọn: **%8$s**"
       },
       "clean": {
         "not_enough_money": "%1$s Bạn cần ít nhất %2$,d đồng để rửa sạch cho **%3$s**.",

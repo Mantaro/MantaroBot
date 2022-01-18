@@ -400,6 +400,7 @@
       "none": "此伺服器暂时没有自订的指令词头。"
     },
     "custom": {
+      "custom_notice": "This is a custom command.",
       "no_args": "%1$s你需要说明你用此指令想做些甚么。运行指令 help 来看更多资讯！",
       "incorrect_args": "%1$s你输入了错误的参数。看看 `~>help custom` 或https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands 来获取如何使用这指令的资讯。如果在阅读Wiki之后还有其他问题，请参考<https://support.mantaro.site>",
       "error_running": "%1$s执行自订指令时發生错误... 请检查回应内容及长度 (无法超过2000字元)",
@@ -1377,7 +1378,7 @@
         "footer": "Thanks you for using Mantaro! <3"
       },
       "check": {
-        "success": "**Pet status for %1$s:**\n\n%2$s Thirst: **%3$s / 100** | %4$s Hunger: **%5$s / 100** | %6$s Dust: **%7$s%%**"
+        "success": "**Pet status for %1$s:**\n\n%2$s Thirst: **%3$s / 100** | %4$s Hunger: **%5$s / 100** | %6$s Dust: **%7$s%%** | Choice: **%8$s**"
       },
       "clean": {
         "not_enough_money": "%1$sYou need at least %2$,d credits to clean **%3$s**.",
