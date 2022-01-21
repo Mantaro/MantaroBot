@@ -1464,7 +1464,7 @@
         "no_pet": "%1$sBạn không có thú cưng để đổi tên. (Lựa chọn %2$s)%3$s",
         "same_name": "%1$sTên bạn đặt lại cho thú cưng giống với tên hiện giờ của nó.",
         "no_content": "%1$sBạn cần đặt tên mới cho thú cưng của bạn.",
-        "not_enough_money": "%1$sBạn không đủ tiền để thực hiện hành động này. Ngân sách: %3$s. Tốn: %2%s.",
+        "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2$s, Current: %3$s.",
         "success": "%1$sĐã đổi tên thú cưng của bạn từ `%2$s` thành `%3$s`. Đã trừ %4$s từ ví của bạn!"
       },
       "remove": {
