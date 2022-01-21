@@ -1464,7 +1464,7 @@
         "no_pet": "%1$s你沒有寵物可以重新命名。(寵物選擇為：%2$s)%3$s",
         "same_name": "%1$s你指定的名稱跟目前的一樣。",
         "no_content": "%1$s你需要指定你寵物的新名稱。",
-        "not_enough_money": "%1$s你沒有足夠的錢來這樣做。價格：%2%s，你擁有：%3$s。",
+        "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2$s, Current: %3$s.",
         "success": "%1$s成功將你的寵物 `%2$s` 重命名為 `%3$s`。已經從你的錢包扣除 %4$s 元，好好享受吧！"
       },
       "remove": {
