@@ -400,6 +400,7 @@
       "none": "Tiada prefiks kustom yang ditetapkan di pelayan ini."
     },
     "custom": {
+      "custom_notice": "This is a custom command.",
       "no_args": "%1$sAnda perlu menyatakan apa yang anda hendak buat dengan arahan ini. Periksa arahan help untuk mendapatkan maklumat lanjut!",
       "incorrect_args": "%1$sArgumen yang salah. Periksa `~>help custom` atau https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands untuk mendapatkan maklumat lanjut tentang cara menggunakan arahan ini. Jika anda mempunyai isu selanjutnya setelah membaca wiki tersebut, hubungi <https://support.mantaro.site>",
       "error_running": "%1$sRalat semasa menjalankan arahan kustom... Sila periksa kandungan respons dan panjangnya (tidak boleh melebihi 2000 aksara).",
@@ -1377,7 +1378,7 @@
         "footer": "Terima kasih kerana menggunakan Mantaro! <3"
       },
       "check": {
-        "success": "**Pet status for %1$s:**\n\n%2$s Thirst: **%3$s / 100** | %4$s Hunger: **%5$s / 100** | %6$s Dust: **%7$s%%**"
+        "success": "**Pet status for %1$s:**\n\n%2$s Thirst: **%3$s / 100** | %4$s Hunger: **%5$s / 100** | %6$s Dust: **%7$s%%** | Choice: **%8$s**"
       },
       "clean": {
         "not_enough_money": "%1$sAnda memerlukan sekurang-kurangnya %2$,d kredit untuk membersihkan **%3$s**.",

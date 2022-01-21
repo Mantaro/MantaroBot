@@ -23,7 +23,7 @@ plugins {
     //Adds an Executable Manifest
     id 'application'
     //Creates FatJars
-    id 'com.github.johnrengelman.shadow' version '7.1.1'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
@@ -59,8 +59,8 @@ task generateLanguageList {
 
 dependencies {
     // Base
-    implementation 'net.dv8tion:JDA:4.4.0_351'
-    implementation 'club.minnced:discord-webhooks:0.7.4'
+    implementation 'net.dv8tion:JDA:4.4.0_352'
+    implementation 'club.minnced:discord-webhooks:0.7.5'
 
     // Music
     implementation ('com.github.freyacodes:Lavalink-Client:fac5a3caf8') {
@@ -70,12 +70,12 @@ dependencies {
     implementation 'com.sedmelluq:lavaplayer-ext-youtube-rotator:0.2.3'
 
     // JSON
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.13.0'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.13.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.1'
 
     // Core
     implementation 'io.github.classgraph:classgraph:4.8.138'
-    implementation 'ch.qos.logback:logback-classic:1.2.8'
+    implementation 'ch.qos.logback:logback-classic:1.2.10'
     implementation 'com.google.guava:guava:31.0.1-jre'
 
     // Database
@@ -86,7 +86,7 @@ dependencies {
     implementation 'net.jodah:expiringmap:0.5.10'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'org.apache.commons:commons-text:1.9'
-    implementation 'com.github.Kodehawa:imageboard-api:c57a197f85'
+    implementation 'com.github.Kodehawa:imageboard-api:2.5.1'
 
     //Basically for FinderUtil
     implementation 'com.jagrosh:jda-utilities-commons:3.0.5'

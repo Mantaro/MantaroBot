@@ -26,7 +26,7 @@
     "options": "Opções",
     "find_members_failure": "%1$Nenhum membro encontrado com seus critérios de busca :(",
     "too_many_members": "%1$sMuitos membros encontrados, talvez melhore sua pesquisa? (ex. use nome#discriminador)\n**Membros encontrados:** %2$s",
-    "too_many_mentions": "%1$sPor favor apenas mencione uma pessoa no membro lookup.",
+    "too_many_mentions": "%1$sPor favor mencione apenas um membro pra procurar.",
     "query_too_small": "%1$sSeu critério de pesquisa é muito pequeno. Certifique-se de que você está procurando por pelo menos 4 personagens. Se o nome de usuário for muito pequeno, é melhor você usar o nome de usuário#discriminador ou o id do usuário.",
     "dust": "Há apenas poeira aqui.",
     "invalid_syntax": "Sintaxe inválido.",
@@ -400,6 +400,7 @@
       "none": "Não há prefixo personalizado definido neste servidor."
     },
     "custom": {
+      "custom_notice": "Esse é comando personalizado.",
       "no_args": "%1$sVocê precisa especificar o que você quer fazer com este comando. Cheque o comando de ajuda para mais informações!",
       "incorrect_args": "%1$sArgumentos incorretos. Cheque `~>help custom` ou https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands para mais ajuda sobre como usar isso. Se você tiver mais problemas depois de ler a wiki, recorra a <https://support.mantaro.site>",
       "error_running": "%1$sErro ao executar o comando personalizado... por favor, verifique o conteúdo da resposta e comprimento (não pode ter mais de 2000 caracteres).",
@@ -411,7 +412,7 @@
       "new_error": "%1$sO comando personalizado que você está tentando criar tem um erro (v3, cheque o conteúdo).\n**Erro:**\n```%2$s```",
       "ls": {
         "header": "Comandos para este servidor",
-        "description": "**Isso mostra todo o comandos (feito pelo usuário) customizados desse servidor.** Todo comando aqui não está associado com o bot em qualquer formato.\n\nComandos personalizados são comandos criados pelos usuários (geralmente admins do servidor) que podem lidar com um monte de situações diferentes, até emular comandos de ação.\nPara obter mais informações sobre como fazer comandos personalizados, consulte [essa página da wiki.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Lista:**",
+        "description": "**Isso mostra todo o comandos (feito pelo usuário) personalizados desse servidor.** Todo comando aqui não está associado com o bot em qualquer formato.\n\nComandos personalizados são comandos criados pelos usuários (geralmente admins do servidor) que podem lidar com um monte de situações diferentes, até emular comandos de ação.\nPara obter mais informações sobre como fazer comandos personalizados, consulte [essa página da wiki.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Lista:**",
         "footer": "Total de comandos personalizados neste servidor: %1$s"
       },
       "invalid": "%1$sSeleção de comando inválida. Talvez dê uma olhada na wiki em <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
@@ -1377,7 +1378,7 @@
         "footer": "Obrigado por usar a Mantaro! <3"
       },
       "check": {
-        "success": "**Status do pet %1$s:**\n\n%2$s Sede: **%3$s / 100** | %4$s Fome: **%5$s / 100** | %6$s Sujeira: **%7$s%%**"
+        "success": "**Status do Pet %1$s:**\n\n%2$s Sede: **%3$s / 100** | %4$s Fome: **%5$s / 100** | %6$s Sujeira: **%7$s%%** | Preferência: **%8$s**"
       },
       "clean": {
         "not_enough_money": "%1$sVocê precisa de pelo menos %2$,d créditos para limpar **%3$s**.",
@@ -2266,7 +2267,7 @@
       "success": "%1$sDefinido com sucesso o cargo de DJ para %2$s."
     },
     "djrole_reset": {
-      "not_set": "%1$sVocê não tem um cargo customizável de DJ definido.",
+      "not_set": "%1$sVocê não tem um cargo personalizado de DJ definido.",
       "success": "%1$sResetado com sucesso o cargo de DJ."
     },
     "showdisablewarning": {
