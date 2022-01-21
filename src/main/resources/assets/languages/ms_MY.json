@@ -1464,7 +1464,7 @@
         "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk dinamakan semula. (Pilihan: %2$s)%3$s",
         "same_name": "%1$sNama yang anda memberi saya sama dengan nama semasa haiwan peliharaan anda.",
         "no_content": "%1$sAnda perlu memberi saya nama baharu haiwan peliharaan anda.",
-        "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk melakukan ini. Kos: %2%s, Semasa: %3$s.",
+        "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2$s, Current: %3$s.",
         "success": "%1$sBerjaya menamakan semula haiwan peliharaan daripada `%2$s` kepada `%3$s`. %4$s telah ditolak dari dompet anda. Nikmatilah!"
       },
       "remove": {
