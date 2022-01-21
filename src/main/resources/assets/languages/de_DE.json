@@ -1464,7 +1464,7 @@
         "no_pet": "%1$sYou don't have a pet to rename. (Choice: %2$s)%3$s",
         "same_name": "%1$sDer Name, den du mir gegeben hast, ist schon der aktuelle Name deines Haustiers.",
         "no_content": "%1$sDu musst mir den neuen Namen deines Haustiers geben.",
-        "not_enough_money": "%1$sDu hast nicht genug Credits, um dies zu tun. Kosten: %2%s, Aktuell: %3$s.",
+        "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2$s, Current: %3$s.",
         "success": "%1$sDein Haustier wurde erfolgreich von `%2$s` in `%3$s` umbenannt. %4$s wurde von deinem Geldbeutel abgezogen. Viel Spaß!"
       },
       "remove": {
