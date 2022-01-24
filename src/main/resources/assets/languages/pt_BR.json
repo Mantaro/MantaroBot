@@ -1488,7 +1488,7 @@
       "locked_notice": "%1$sVocê não pode comprar/vender um pet quando a transação tá bloqueada. Se isso é um erro, tente novamente em alguns minutos."
     },
     "invite": {
-      "url": "URL de Convite ",
+      "url": "URL do Convite",
       "server": "Servidor de Suporte",
       "patreon": "URL do Patreon",
       "description": {
