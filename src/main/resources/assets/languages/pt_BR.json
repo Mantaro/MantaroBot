@@ -1464,7 +1464,7 @@
         "no_pet": "%1$sVocê não tem um pet para renomear. (Escolha: %2$s)%3$s",
         "same_name": "%1$sO nome que você me deu é igual ao nome atual do seu pet.",
         "no_content": "%1$sVocê tem que me dizer o novo nome do seu pet.",
-        "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2$s, Current: %3$s.",
+        "not_enough_money": "%1$sVocê não tem dinheiro suficiente pra isso. Custa: %2$s, Atual: %3$s.",
         "success": "%1$sRenomeado com sucesso o seu pet de `%2$s` para `%3$s`. %4$s foi deduzido da sua carteira. Aprecie!"
       },
       "remove": {
