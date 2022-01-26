@@ -707,7 +707,7 @@
     },
     "inventory": {
       "bot_notice": "%1$sĐây, tôi không có túi đồ. Ừ thì, có thể bạn ước rằng nó có, nhưng nếu vậy nó sẽ là `~>dump` (đồ bỏ đi)",
-      "brief": "**Túi đồ của %1$s** %2$s\n\n*Về phiên bản chi tiết, dùng `~>inventory -info`. Chúc bạn có một ngày tốt lành!*",
+      "brief": "**Túi đồ của %1$s** %2$s\n\n*Sử dụng phiên bản chi tiết bằng `~>inventory -info`. Chúc bạn có một ngày tốt lành!*",
       "calculate": "%1$s%2$s sẽ nhận được **%3$,d đồng** nếu bán tất cả mọi thứ trong túi đồ.",
       "header": "Túi đồ của %1$s",
       "format": "%1$sGiá cả:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
