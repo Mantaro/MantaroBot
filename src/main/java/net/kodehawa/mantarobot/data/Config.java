@@ -57,6 +57,8 @@ public class Config {
     public String lavalinkPass;
     public String ipv6Block = "";
     public String excludeAddress = "";
+    public String ytPapisId = "";
+    public String ytPSId = "";
     public int bucketFactor = 4;
     public long dailyMaxPeriodMilliseconds = TimeUnit.HOURS.toMillis(50);
     public boolean isSelfHost = false;
@@ -227,5 +229,13 @@ public class Config {
 
     public boolean isHandleRatelimits() {
         return handleRatelimits;
+    }
+
+    public String getYtPapisId() {
+        return ytPapisId;
+    }
+
+    public String getYtPSId() {
+        return ytPSId;
     }
 }
