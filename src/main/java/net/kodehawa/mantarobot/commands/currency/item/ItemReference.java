@@ -475,7 +475,7 @@ public class ItemReference {
 
             WRENCH_COMET = new Wrench(ItemType.WRENCH, 90,
                     3, 0.90d, EmoteReference.COMET_WRENCH.getDiscordNotation(),
-                    "Comet Wrench", "items.star_wrench", "items.description.star_wrench",
+                    "Comet Wrench", "items.comet_wrench", "items.description.comet_wrench",
                     "items.explanation.comet_wrench",
                     200, 80, 3,true, false,
                     "1;2;2", 59, 48, 83
