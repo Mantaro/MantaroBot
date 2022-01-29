@@ -62,11 +62,11 @@
         "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
         "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
       },
-      "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
+      "twitter": "ئایا دەزانی کە ئەژمێری تویتەرمان هەیە؟ بەڵێ هەمانە شوێنمان بکەون لە (at)mantarodiscord <https://twitter.com/mantarodiscord> بۆ نوێکردنەوە و شتی گەمژانە."
     },
     "mention_user_required": "%1$sYou need to mention one user.",
     "invalid_character": "%1$sThat is not an allowed character.",
-    "invalid_action": "You cannot do that, silly.",
+    "invalid_action": "تۆ ناتوانی ئەوە بکەیت، حیز.",
     "interactive_running": "%1$sThere's already an Interactive Operation (owned by you) on this channel.",
     "buy_sell_paged_react": "Use the message buttons to move between pages.\n%1$s",
     "buy_sell_paged_text": "Use **&p >>** and **&p <<** to move across pages.\n%1$s",
@@ -74,8 +74,8 @@
     "cancelled": "%1$sCancelled request.",
     "sellout": "Consider donating on [Patreon](https://www.patreon.com/mantaro) if you like me, even a small donation will help towards keeping the bot alive!",
     "deprecated": "No longer used",
-    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
-    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://wiki.mantaro.site> for more information about the bot.",
+    "space_notice": "ئەگەر ناوی بۆشایی تێدایە، هەوڵ بدە \"بە وتە پێچانەوە\". لەوانەیە فەرمانی یارمەتییەکە زیاترت پێ بڵێت.",
+    "missing_embed_permissions": "بۆتەکە مۆڵەتی لینکە چەسپێنراوەکانی پێویست بۆ پیشاندانی ئەم فەرمانە وونکردووە. تکایە مۆڵەتە پێویستەکان بە بۆتەکە بدە (دڵنیابە لەوەی کە ڕێگەپێدانەکانی کەناڵ و پۆلێنیش بپشکنە). ئەگەر پێویستت بە یارمەتی زیاتر هەیە تکایە بڕۆ بۆ <https://support.mantaro.site>. هەروەها دەتوانیت ویکیەکە بپشکنی لە <https://wiki.mantaro.site> بۆ زانیاری زیاتر دەربارەی بۆتەکە.",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **You'll be able to use this command again in %3$s.**",
       "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
@@ -88,29 +88,29 @@
       "next": "Next",
       "close": "Close"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `~>shard`) when reporting!",
+    "generic_error": "ئەگەر دەتەوێت، پەیوەندی بکە بە **سێرڤەری پشتیوانیەوە**\n(`https://support.mantaro.site`), یان سەیری لاپەڕەی گیت هاب بکە\n(`https://github.com/Kodehawa/MantaroBot`). \nتکایە پێیان بڵێ واز لە تەقاندنەوەی من بهێنن و تکایە ناسنامەی هەڵە، ئەو فەرمانەی بەکارت هێناوە و گرێی خۆت لەبیر مەکە (بینراوە لە `~>shard`) لە کاتی سکاڵاکردندا!",
     "boom_quotes": [
       "Seemingly Megumin exploded our castle...",
-      "Uh-oh, seemingly my master forgot some zeros and ones on the floor :<",
+      "وا دیارە مامۆستاکەم هەندێک سفر و یەکێکی لە زەوی بیرچووە: <",
       "W-Wait, what just happened?",
       "I-I think we got some fire going on here... you might want to tell my master to take a look.",
       "I've mastered explosion magic, you see?",
       "Maybe something just went wrong on here, but, u-uh, I can fix it!",
-      "U-Uhh.. What did you want?"
+      "ئاهوو.. چیت دەویست?"
     ],
     "ratelimit_quotes": [
-      "Woah... you're calling me a bit too fast... I might get dizzy!",
+      "ویو... تۆزێک بە خێرای بانگم دەکەیت لەوانەیە گێژ بم!",
       "Don't be greedy!",
-      "Y-You're calling me so fast that I'm getting dizzy...",
+      "زۆر خێرا بانگم دەکەیت کە من گێژ دەبم...",
       "Halt in there buddy!",
-      "Wait just a tiiiiny bit more uwu",
+      "تەنها کەمێکی تر چاوەڕێبە uwu",
       "Seems like we're gonna get a speed ticket if we continue going this fast!",
       "I wanna do this... but halt for a bit please.",
       "Hey, wait up, I'm not done with my break yet!",
       "Can you slow down a little bit?"
     ],
     "mod_quotes": [
-      "Uh-oh, seems like someone just got hit hard!",
+      "گونم, وا دیارە کەسێک بە سەختی لێی داوە!",
       "Just wholesome admin work happening over here...",
       "The boot has been thrown!",
       "You'll be missed... not really",
