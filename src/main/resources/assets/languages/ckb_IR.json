@@ -41,8 +41,8 @@
       "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$sCleared all potion effects.",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>buy key`",
-        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
+        "no_key": "%1$s تۆ پێویستت بە کلیلی قەفەس هەیە بۆ کردنەوەی قەفەزێک. ئەوە قوفڵکراوه! دەتوانیت یەکێک بکڕیت بە بەکارهێنانی `~>buy key`",
+        "no_crate": "%1$s تۆ پێویستت بە قەفەس هەیە تۆ عادەتەن لە فرمانەکانی دراوەوە قەفەز وەردەگریت.",
         "success": "%1$sYou opened a crate and won: %2$s%3$s. Congratulations!",
         "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
         "overflow": "But you already had too much, so you decided to throw away the excess"
