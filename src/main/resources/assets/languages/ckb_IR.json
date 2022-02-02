@@ -136,20 +136,20 @@
   "commands": {
     "fish": {
       "dust": "%1$s ڕۆژەکە تەواو بوو، سەتڵی ماسیەکەت تەنها توانی تۆز کۆبکاتەوە ( ئاستی خۆڵ %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>buy rod`",
+      "no_rod": "%1$s تۆ هیچ مەلێکی ئامادەت نیە. `~>equip <ناوی مەل>` بەکاربێنە بۆ ئەوەی مێلێک ڕێک بخەیت و گەشتی ماسی گرتنەکەت دەست پێبکەیت! ئەگەر هیچ مەلێکت نییە، یەکەم دەستبکە بە `~>buy rod`",
       "trash": {
-        "overflow": "%1$sYou found some trash while fishing, but your inventory was full, so we had to throw it back into the water...",
-        "success": "%1$sWhile calmly fishing, you found a floating %2$s but it seems to be only trash :("
+        "overflow": "%1$s تۆ هەندێ زبڵت دۆزیەوە لە کاتی ماسی گرتندا، بەڵام جانتاکەت پڕ بوو، بۆیە ناچاربووین فڕێی بدەینەوە ناو ئاوەکە...",
+        "success": "%1$s لە کاتی ڕاوەماسی بە هێمنی،%2$s سەرئاوکەوتووت دۆزییەوە بەڵام پێدەچێت تەنها زبڵ بێت :("
       },
       "tier3": {
-        "extra": "And you also found %1$s, lucky!"
+        "extra": "هەروەها تۆ %1$s دۆزییەوە, بەخت!"
       },
       "crate": {
         "overflow": "You found a **%1$s** while fishing, but you had too many already, so we threw it back into the ocean...",
         "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
       },
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your fish slot."
+        "success": "%1$s بە شێوەیەکی ئۆتۆماتیکی یەکی ئامادە کردووە *%2$s** لەسەر جێگای ماسیەکەت."
       },
       "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
       "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
