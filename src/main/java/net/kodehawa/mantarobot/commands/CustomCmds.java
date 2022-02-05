@@ -644,7 +644,7 @@ public class CustomCmds {
                 }
 
                 String[] args = StringUtils.splitArgs(content, -1);
-                if (args.length < 1) {
+                if (args.length < 2) {
                     ctx.sendLocalized("commands.custom.deleteresponse.not_enough_args", EmoteReference.ERROR);
                     return;
                 }
