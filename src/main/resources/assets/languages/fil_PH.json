@@ -884,7 +884,7 @@
       "result_screen": "**Showing results for the poll started by %1$s** with name: *%2$s*",
       "vote_results": "+Registered %1$d votes for option %2$s",
       "thank_note": "Salamat sa iyong pagboto",
-      "results": "Results",
+      "results": "Mga Resulta",
       "cancelled": "%1$sCancelled poll",
       "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds). Example: `-time 40m`"
     },
@@ -1028,7 +1028,7 @@
         "not_specified": "%1$sYou need to specify a badge to see the info of. For example, `~>badge info claimer`",
         "not_found": "%1$sThere's no such badge...",
         "header": "Badge information for %1$s",
-        "achieved": "Achieved"
+        "achieved": "Mga Nakamit"
       },
       "ls": {
         "header": "Obtainable Badges List",
@@ -1172,7 +1172,7 @@
       "lonely": {
         "pat": "Aww, I see you are lonely, take a pat <3",
         "hug": "Aww, I see you are lonely, take a hug <3",
-        "kiss": "Aww, I see you are lonely, *kisses*",
+        "kiss": "Aww, Nakita ko na nag-iisa ka, *Hinalikan*",
         "poke": "Aww, I see you are lonely, *pokes you*",
         "slap": "Hmm, why do you want this? Uh, I guess... *slaps you*",
         "bite": "*kinagat ka*",
@@ -1180,7 +1180,7 @@
         "tickle": "*kiniliti ka*",
         "highfive": "*highfives*",
         "pout": "*pouts, hmph*",
-        "teehee": "*teases you*",
+        "teehee": "*Inasar ka*",
         "smile": "*Nginitian ikaw*",
         "stare": "*Tumitig sa iyo*",
         "holdhands": "*hinawakan ang iyong kamay*",
@@ -1191,7 +1191,7 @@
       },
       "self": {
         "pat": "*is patted*",
-        "hug": "*blushes* o-oh... thanks you",
+        "hug": "*Namula* o-oh... salamat",
         "kiss": "*blushes*... I- uh... don't think you should be kissing a bot but...",
         "poke": "O-Oh! Anong kailangan mo?",
         "slap": ":(",
@@ -1215,14 +1215,14 @@
       "poke": "%1$s you have been poked by %2$s :eyes:",
       "slap": "%1$s ikaw ay sinampal ni %2$s!",
       "bite": "%1$s ikaw ay kinagat ni %2$s :eyes:",
-      "tickle": "%1$s you have been tickled by %2$s",
+      "tickle": "%1$s ikaw ay kiniliti ni %2$s",
       "lick": "%1$s you have been licked by %2$s",
       "highfive": "%1$s highfives %2$s :heart:",
       "pout": "%1$s pouts at %2$s *hmph*",
       "teehee": "%1$s is teasing %2$s",
       "smile": "%1$s is smiling at %2$s :heart:",
       "stare": "%1$s is staring at %2$s",
-      "holdhands": "%1$s is holding %2$s's hand",
+      "holdhands": "Si %1$s ay hinahawakan ang kamay ni %2$s",
       "cuddle": "%1$s you have been cuddled by %2$s",
       "nuzzle": "%1$s is nuzzling %2$s",
       "bloodsuck": "%1$s is sucking the blood of %2$s!",
@@ -1587,7 +1587,7 @@
       "position": "Posisyon",
       "hoisted": "Hoisted",
       "managed": "Managed",
-      "permissions": "Permissions: [%1$,d]",
+      "permissions": "Mga Permiso: [%1$,d]",
       "no_content": "%1$sYou need to specify the name of the role to look for."
     },
     "donate": {
@@ -2384,7 +2384,7 @@
     "ring": "Marriage Ring",
     "letter": "Love Letter",
     "key": "Crate Key",
-    "clothes": "Clothes",
+    "clothes": "Damit",
     "diamond": "Diyamante",
     "dress": "Wedding Dress",
     "necklace": "Necklace",
