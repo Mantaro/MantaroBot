@@ -17,6 +17,8 @@
 package net.kodehawa.mantarobot.commands.utils.reminders;
 
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.utils.TimeFormat;
+import net.dv8tion.jda.api.utils.Timestamp;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -75,10 +77,9 @@ public class ReminderTask {
                                                         %s**Reminder!**
                                                         
                                                         You asked me to remind you of: **%s**
-                                                        Asked at: %s (%s)%s""",
+                                                        Asked at: <t:%s>%s""",
                                                 EmoteReference.POPPER,
-                                                reminder.trim().isEmpty() ? "something" : reminder, Utils.formatDate(scheduledTime),
-                                                ZoneId.systemDefault().getDisplayName(TextStyle.SHORT, Locale.getDefault()),
+                                                reminder.trim().isEmpty() ? "something" : reminder, scheduledTime.toEpochSecond(),
                                                 (guild != null ? "\nAsked on: %s".formatted(guild.getName()) : "")
                                         )
                                 ).queue(success -> {
