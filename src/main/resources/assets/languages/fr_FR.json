@@ -2647,6 +2647,23 @@
       "chop_premium_crate": "Coffre au trésor trouvé en bucheronnant. Il y a peut-être des trucs intéressants dedans. Peut être ouvert avec `~> opencrate chop premium crate`"
     }
   },
+  "time": {
+    "day": "day",
+    "days": "days",
+    "week": "week",
+    "weeks": "weeks",
+    "month": "month",
+    "months": "months",
+    "year": "year",
+    "years": "years",
+    "hour": "hour",
+    "hours": "hours",
+    "minute": "minute",
+    "minutes": "minutes",
+    "second": "second",
+    "seconds": "seconds",
+    "little": "less than a second"
+  },
   "test": {
     "inherited": "owo"
   }
