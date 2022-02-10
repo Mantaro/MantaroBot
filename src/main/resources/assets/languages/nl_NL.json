@@ -2647,6 +2647,23 @@
       "chop_premium_crate": "Een kist die je vond tijdens het hakken. Kan goed spul bevatten. Kan geopend worden met `~>opencrate chop premium crate`"
     }
   },
+  "time": {
+    "day": "day",
+    "days": "days",
+    "week": "week",
+    "weeks": "weeks",
+    "month": "month",
+    "months": "months",
+    "year": "year",
+    "years": "years",
+    "hour": "hour",
+    "hours": "hours",
+    "minute": "minute",
+    "minutes": "minutes",
+    "second": "second",
+    "seconds": "seconds",
+    "little": "less than a second"
+  },
   "test": {
     "inherited": "owo"
   }
