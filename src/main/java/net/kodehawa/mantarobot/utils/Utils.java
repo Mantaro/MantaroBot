@@ -106,8 +106,10 @@ public class Utils {
         var seconds = TimeUnit.MILLISECONDS.toSeconds(time) % TimeUnit.MINUTES.toSeconds(1);
 
         var parts = Stream.of(
-                formatUnit(days, lang.get("time.day")), formatUnit(hours, lang.get("time.hour")),
-                formatUnit(minutes, lang.get("time.minute")), formatUnit(seconds, lang.get("time.second"))
+                formatUnit(days, lang.get("time.day"), lang.get("time.days")),
+                formatUnit(hours, lang.get("time.hour"), lang.get("time.hours")),
+                formatUnit(minutes, lang.get("time.minute"), lang.get("time.minutes")),
+                formatUnit(seconds, lang.get("time.second"), lang.get("time.seconds"))
         ).filter(i -> !i.isEmpty()).iterator();
 
         var sb = new StringBuilder();
@@ -148,7 +150,7 @@ public class Utils {
         return time[0];
     }
 
-    private static String formatUnit(long amount, String baseName) {
+    private static String formatUnit(long amount, String baseName, String pluralName) {
         if (amount == 0) {
             return "";
         }
@@ -157,7 +159,8 @@ public class Utils {
             return "1 " + baseName;
         }
 
-        return amount + " " + baseName + "s";
+        // Languages other than english do plurals differently, so :tada:
+        return amount + " " + pluralName;
     }
 
     public static Locale getLocaleFromLanguage(I18nContext context) {
