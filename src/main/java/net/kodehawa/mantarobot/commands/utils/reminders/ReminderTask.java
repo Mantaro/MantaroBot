@@ -17,11 +17,8 @@
 package net.kodehawa.mantarobot.commands.utils.reminders;
 
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.utils.TimeFormat;
-import net.dv8tion.jda.api.utils.Timestamp;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -31,8 +28,6 @@ import redis.clients.jedis.Jedis;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.time.format.TextStyle;
-import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
