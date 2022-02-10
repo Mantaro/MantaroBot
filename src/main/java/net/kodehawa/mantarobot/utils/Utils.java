@@ -91,9 +91,13 @@ public class Utils {
         return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
     }
 
-    public static String formatDuration(long time) {
+    public static String formatDuration(I18nContext lang, long time) {
+        if (lang == null) {
+            lang = new I18nContext(); // default to en_US
+        }
+
         if (time < 1000) {
-            return "less than a second";
+            return lang.get("time.little");
         }
 
         var days = TimeUnit.MILLISECONDS.toDays(time);
@@ -102,8 +106,8 @@ public class Utils {
         var seconds = TimeUnit.MILLISECONDS.toSeconds(time) % TimeUnit.MINUTES.toSeconds(1);
 
         var parts = Stream.of(
-                formatUnit(days, "day"), formatUnit(hours, "hour"),
-                formatUnit(minutes, "minute"), formatUnit(seconds, "second")
+                formatUnit(days, lang.get("time.day")), formatUnit(hours, lang.get("time.hour")),
+                formatUnit(minutes, lang.get("time.minute")), formatUnit(seconds, lang.get("time.second"))
         ).filter(i -> !i.isEmpty()).iterator();
 
         var sb = new StringBuilder();

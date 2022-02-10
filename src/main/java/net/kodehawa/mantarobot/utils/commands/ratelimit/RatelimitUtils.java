@@ -57,7 +57,7 @@ public class RatelimitUtils {
             event.getChannel().sendMessage(
                     String.format(i18nContext.get("general.ratelimit.header"),
                             EmoteReference.STOPWATCH, i18nContext.get("general.ratelimit_quotes"),
-                            Utils.formatDuration(rateLimit.getCooldown()))
+                            Utils.formatDuration(i18nContext, rateLimit.getCooldown()))
                             + (extraMessage == null ? "" : "\n " + extraMessage)
                             + ((rateLimit.getSpamAttempts() > 2 && spamAware) ?
                             "\n\n" + EmoteReference.STOP + i18nContext.get("general.ratelimit.spam_1") : "")

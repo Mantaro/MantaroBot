@@ -113,6 +113,10 @@ public class I18n {
         return LANGUAGE_MAP.containsKey(lang);
     }
 
+    public String getLanguage() {
+        return language;
+    }
+
     public static void root(String newRoot) {
         ROOT.set(newRoot);
     }

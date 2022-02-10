@@ -130,7 +130,7 @@ public class Poll extends Lobby {
                     )
                     .setColor(Color.CYAN)
                     .setThumbnail("https://i.imgur.com/7TITtHb.png")
-                    .setFooter(String.format(languageContext.get("commands.poll.time"), Utils.formatDuration(timeout)), user.getAvatarUrl());
+                    .setFooter(String.format(languageContext.get("commands.poll.time"), Utils.formatDuration(languageContext, timeout)), user.getAvatarUrl());
 
 
             if (image != null && EmbedBuilder.URL_PATTERN.asPredicate().test(image)) {

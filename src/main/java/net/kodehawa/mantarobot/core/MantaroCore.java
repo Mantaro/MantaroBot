@@ -329,7 +329,6 @@ public class MantaroCore {
         loadState = LOADED;
     }
 
-    @SuppressWarnings("UnstableApiUsage")
     public void start() {
         if (config == null) {
             throw new IllegalArgumentException("Config cannot be null!");
@@ -446,7 +445,7 @@ public class MantaroCore {
                 Took %s to start this node (%d). Total nodes: %d.
                 Cross-node shard count is %d.""".formatted(
                         shardManager.getShardsRunning(), CommandProcessor.REGISTRY.commands().size(),
-                        Utils.formatDuration(elapsed), bot.getNodeNumber(), clusterTotal,
+                        Utils.formatDuration(null, elapsed), bot.getNodeNumber(), clusterTotal,
                         shardManager.getShardsTotal()
                 )
         );

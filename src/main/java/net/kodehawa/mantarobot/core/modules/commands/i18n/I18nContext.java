@@ -23,10 +23,15 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 public class I18nContext {
     private GuildData guildData;
     private UserData userData;
+    private I18n i18n = null;
 
     public I18nContext(GuildData guildData, UserData userData) {
         this.guildData = guildData;
         this.userData = userData;
+    }
+
+    public I18nContext(I18n i18n) {
+        this.i18n = i18n;
     }
 
     public I18nContext() { }
@@ -43,6 +48,10 @@ public class I18nContext {
     }
 
     public String getContextLanguage() {
+        if (i18n != null) {
+            return i18n.getLanguage();
+        }
+
         if (guildData == null && userData == null) {
             return "en_US";
         }

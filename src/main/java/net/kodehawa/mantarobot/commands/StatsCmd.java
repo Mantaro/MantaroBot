@@ -92,7 +92,7 @@ public class StatsCmd {
                                **User Cache**: %,d
                                **Machine Memory**: %s
                                """.formatted(
-                                    Utils.formatDuration(nodeData.getLong("uptime")),
+                                    Utils.formatDuration(languageContext, nodeData.getLong("uptime")),
                                     nodeData.getLong("available_processors"),
                                     "%.2f%%".formatted(nodeData.getDouble("cpu_usage")),
                                     Utils.formatMemoryUsage(nodeData.getLong("used_memory"), nodeData.getLong("total_memory")),
@@ -147,7 +147,7 @@ public class StatsCmd {
                             **Players:** %s
                             **Players Playing**: %,d
                             """.formatted(
-                                    Utils.formatDuration(stats.getUptime()),
+                                    Utils.formatDuration(languageContext, stats.getUptime()),
                                     Utils.formatMemoryAmount(stats.getMemUsed()),
                                     Utils.formatMemoryAmount(stats.getMemFree()),
                                     stats.getPlayers(),

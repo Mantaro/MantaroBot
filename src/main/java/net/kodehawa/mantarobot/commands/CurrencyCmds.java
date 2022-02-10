@@ -356,7 +356,7 @@ public class CurrencyCmds {
                     long rl = rateLimiter.getRemaniningCooldown(ctx.getAuthor());
 
                     ctx.sendLocalized("commands.dailycrate.check", EmoteReference.TALKING,
-                            (rl) > 0 ? Utils.formatDuration(rl) :
+                            (rl) > 0 ? Utils.formatDuration(ctx.getLanguageContext(), rl) :
                                     //Yes, this is intended to be daily.about_now, just reusing strings.
                                     ctx.getLanguageContext().get("commands.daily.about_now")
                     );

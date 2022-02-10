@@ -124,7 +124,7 @@ public class DebugCmds {
 
                 ctx.send("```prolog\n"
                         + " --------- Technical Information --------- \n\n"
-                        + "Uptime: " + Utils.formatDuration(node.getLong("uptime")) + "\n"
+                        + "Uptime: " + Utils.formatDuration(ctx.getLanguageContext(), node.getLong("uptime")) + "\n"
                         + "Version: " + MantaroInfo.VERSION + " (Git: " + MantaroInfo.GIT_REVISION + ")\n"
                         + "Libraries: " + "[ JDA: %s, LP: %s ]".formatted(JDAInfo.VERSION, PlayerLibrary.VERSION) + "\n"
                         + "Commands: " +

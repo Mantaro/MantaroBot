@@ -43,7 +43,7 @@ import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import org.json.JSONObject;
 import redis.clients.jedis.Jedis;
 
-import java.awt.Color;
+import java.awt.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.DateTimeException;
@@ -129,7 +129,7 @@ public class UtilsCmds {
                         }
 
                         ctx.sendStrippedLocalized("commands.remindme.success", EmoteReference.CORRECT, ctx.getUser().getName(),
-                                ctx.getUser().getDiscriminator(), displayRemind, Utils.formatDuration(time));
+                                ctx.getUser().getDiscriminator(), displayRemind, Utils.formatDuration(languageContext, time));
 
                         new Reminder.Builder()
                                 .id(user.getId())
@@ -185,7 +185,7 @@ public class UtilsCmds {
                             .append("Content: *")
                             .append(rems.getReminder())
                             .append("*, Due in: **")
-                            .append(Utils.formatDuration(rems.getTime() - System.currentTimeMillis()))
+                            .append(Utils.formatDuration(languageContext, rems.getTime() - System.currentTimeMillis()))
                             .append("**").append("\n");
                 }
 
@@ -223,7 +223,7 @@ public class UtilsCmds {
                         List<ReminderObject> rems = getReminders(reminders);
                         rems = rems.stream().filter(reminder -> reminder.time - System.currentTimeMillis() > 3).collect(Collectors.toList());
                         DiscordUtils.selectList(ctx.getEvent(), rems,
-                                r -> "%s, Due in: %s".formatted(r.reminder, Utils.formatDuration(r.time - System.currentTimeMillis())),
+                                r -> "%s, Due in: %s".formatted(r.reminder, Utils.formatDuration(languageContext, r.time - System.currentTimeMillis())),
                                 r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle(ctx.getLanguageContext().get("commands.remindme.cancel.select"), null)
                                         .setDescription(r1)
                                         .setFooter(ctx.getLanguageContext().get("general.timeout").formatted(10), null).build(),

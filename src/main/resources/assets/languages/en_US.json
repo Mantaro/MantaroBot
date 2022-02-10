@@ -2648,6 +2648,16 @@
       "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop premium crate`"
     }
   },
+  "time": {
+    "day": "day",
+    "week": "week",
+    "month": "month",
+    "year": "year",
+    "hour": "hour",
+    "minute": "minute",
+    "second": "second",
+    "little": "less than a second"
+  },
   "test": {
     "inherited": "owo"
   }

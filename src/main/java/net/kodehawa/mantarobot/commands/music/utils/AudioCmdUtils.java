@@ -130,7 +130,7 @@ public class AudioCmdUtils {
             return builder.setThumbnail(icon)
                     .addField(EmoteReference.SATELLITE.toHeaderString() + lang.get("commands.music_general.queue.np"), np, false)
                     .addField(EmoteReference.CLOCK.toHeaderString() + lang.get("commands.music_general.queue.total_queue_time"),
-                            Utils.formatDuration(length),
+                            Utils.formatDuration(lang, length),
                             false
                     )
                     .addField(EmoteReference.STAR.toHeaderString() + lang.get("commands.music_general.queue.total_size"),

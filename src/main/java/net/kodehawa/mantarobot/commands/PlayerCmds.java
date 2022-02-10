@@ -85,7 +85,7 @@ public class PlayerCmds {
                 if (content.isEmpty()) {
                     ctx.send(String.format(languageContext.get("commands.rep.no_mentions"), EmoteReference.ERROR,
                             (rl > 0 ? String.format(languageContext.get("commands.rep.cooldown.waiting"),
-                                    Utils.formatDuration(rl)) : languageContext.get("commands.rep.cooldown.pass"))
+                                    Utils.formatDuration(languageContext, rl)) : languageContext.get("commands.rep.cooldown.pass"))
                             )
                     );
 
@@ -122,7 +122,7 @@ public class PlayerCmds {
 
                     if (usr.isBot()) {
                         ctx.send(String.format(languageContext.get("commands.rep.rep_bot"), EmoteReference.THINKING,
-                                (rl > 0 ? String.format(languageContext.get("commands.rep.cooldown.waiting"), Utils.formatDuration(rl))
+                                (rl > 0 ? String.format(languageContext.get("commands.rep.cooldown.waiting"), Utils.formatDuration(languageContext, rl))
                                         : languageContext.get("commands.rep.cooldown.pass"))
                                 )
                         );
@@ -132,7 +132,7 @@ public class PlayerCmds {
 
                     if (usr.equals(ctx.getAuthor())) {
                         ctx.send(String.format(languageContext.get("commands.rep.rep_yourself"), EmoteReference.THINKING,
-                                (rl > 0 ? String.format(languageContext.get("commands.rep.cooldown.waiting"), Utils.formatDuration(rl))
+                                (rl > 0 ? String.format(languageContext.get("commands.rep.cooldown.waiting"), Utils.formatDuration(languageContext, rl))
                                         : languageContext.get("commands.rep.cooldown.pass"))
                                 )
                         );

@@ -157,14 +157,14 @@ public class MuteCmds {
                     }
 
                     ctx.getGuild().addRoleToMember(member, mutedRole).reason(
-                            String.format("Muted by %#s for %s: %s", ctx.getAuthor(), Utils.formatDuration(finalTime), finalReason)
+                            String.format("Muted by %#s for %s: %s", ctx.getAuthor(), Utils.formatDuration(ctx.getLanguageContext(), finalTime), finalReason)
                     ).queue();
 
                     if (finalReason.isEmpty()) {
-                        ctx.sendLocalized("commands.mute.success", EmoteReference.CORRECT, member.getEffectiveName(), Utils.formatDuration(finalTime));
+                        ctx.sendLocalized("commands.mute.success", EmoteReference.CORRECT, member.getEffectiveName(), Utils.formatDuration(ctx.getLanguageContext(), finalTime));
                     } else {
                         ctx.sendLocalized("commands.mute.success_reason", EmoteReference.CORRECT,
-                                member.getEffectiveName(), Utils.formatDuration(finalTime), finalReason
+                                member.getEffectiveName(), Utils.formatDuration(ctx.getLanguageContext(), finalTime), finalReason
                         );
                     }
 

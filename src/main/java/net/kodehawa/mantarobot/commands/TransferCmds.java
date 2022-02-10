@@ -152,7 +152,7 @@ public class TransferCmds {
                             EmoteReference.STOPWATCH +
                                     ctx.getLanguageContext().get("commands.transfer.party").formatted(giveTo.getName()) +
                                     " (Ratelimited)\n **You'll be able to transfer to this user again in " +
-                                    Utils.formatDuration(partyRateLimiter.tryAgainIn(partyKey)) + ".**"
+                                    Utils.formatDuration(ctx.getLanguageContext(), partyRateLimiter.tryAgainIn(partyKey)) + ".**"
                     ).queue();
 
                     RatelimitUtils.ratelimitedUsers.computeIfAbsent(ctx.getAuthor().getIdLong(), __ -> new AtomicInteger()).incrementAndGet();
