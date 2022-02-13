@@ -707,7 +707,7 @@
     },
     "inventory": {
       "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>dump`",
-      "brief": "**%1$s`s Kolekcja przedmiotów** %2$s\n\n*Aby uzyskać szczegółową wersję, użyj `~>inventory -info`. Ciesz się dniem!*",
+      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory`. Enjoy your day!*",
       "calculate": "%1$s%2$s dostanie **%3$,d kredytów** jeśli wszystkie przedmioty zostaną sprzedane.",
       "header": "Ekwipunek %1$s",
       "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
@@ -776,9 +776,9 @@
       "buy": {
         "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
         "no_item": "%1$sYou need to specify the item to buy.",
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
-        "invalid": "%1$sNot a valid number of items to buy.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
+        "no_item_amount": "%1$sMusisz określić ilość tego przedmiotu (jeśli jest to tylko jeden, nie musisz określać kwoty) oraz element, który chcesz kupić.",
+        "invalid": "%1$sNieprawidłowa liczba elementów do kupienia.",
+        "non_existent": "%1$sNie możesz kupić nieistniejącego przedmiotu. Jeśli się zgubisz, możesz spróbować wpisać krótką nazwę lub zawinąć ją w cudzysłów. Ponadto kwota przedmiotu znajduje się przed nazwą przedmiotu, na przykład: `~>buy 15 energy`",
         "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
         "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
         "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
@@ -809,7 +809,7 @@
       "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
       "transfer_yourself_note": "%1$sYou cannot transfer money to yourself.",
       "bot_notice": "%1$sYou cannot transfer money to a bot.",
-      "no_amount": "%1$sYou need to specify the amount. Use the `transferitems` command instead if you meant to transfer an item.",
+      "no_amount": "%1$sYou need to specify the amount. Use the `~>transferitems` command instead if you meant to transfer an item.",
       "no_money_specified_notice": "%1$sYou cannot transfer no money :P",
       "over_transfer_limit": "%1$sYou cannot transfer this much money. (Limit: %2$,d credits)",
       "own_locked_notice": "%1$sYou cannot transfer money now.",
@@ -1393,6 +1393,7 @@
         "success": "%1$sSuccessfully set your choice to: %2$s %3$s"
       },
       "level": {
+        "no_pet": "%1$sYou don't have any pets to check the level of. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
         "success": "%1$s**%2$s**'s level: **%3$,d** (%4$,d XP / %5$,d XP)"
       },
       "list": {
@@ -1464,7 +1465,7 @@
         "no_pet": "%1$sYou don't have a pet to rename. (Choice: %2$s)%3$s",
         "same_name": "%1$sThe name you gave me is the same as the current name of your pet.",
         "no_content": "%1$sYou need to give me the new name of your pet.",
-        "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2%s, Current: %3$s.",
+        "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2$s, Current: %3$s.",
         "success": "%1$sSuccessfully renamed your pet from `%2$s` to `%3$s`. %4$s has been deducted from your wallet. Enjoy!"
       },
       "remove": {
@@ -2428,6 +2429,7 @@
     "tv": "Television",
     "wrench": "Wrench",
     "star_wrench": "Star Wrench",
+    "comet_wrench": "Comet Wrench",
     "sparkle_wrench": "Sparkle Wrench",
     "motorcycle": "Motorcycle",
     "comet_pick": "Comet Pickaxe",
@@ -2577,6 +2579,7 @@
       "diamond_pick": "A strong-ish pick.",
       "tv": "Must... watch... TV...",
       "wrench": "Casting tool. Useful to put stuff together.",
+      "comet_wrench": "Casting tool. Useful to put stuff together. A little less chance of breaking, needed to cast some items. Tier 3.",
       "star_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking, needed to cast multiple items at once. Tier 3.",
       "sparkle_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking. Less cost per cast. Tier 4.",
       "motorcycle": "Going around, the cool way.",
@@ -2643,6 +2646,23 @@
       "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop crate`",
       "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop premium crate`"
     }
+  },
+  "time": {
+    "day": "day",
+    "days": "days",
+    "week": "week",
+    "weeks": "weeks",
+    "month": "month",
+    "months": "months",
+    "year": "year",
+    "years": "years",
+    "hour": "hour",
+    "hours": "hours",
+    "minute": "minute",
+    "minutes": "minutes",
+    "second": "second",
+    "seconds": "seconds",
+    "little": "less than a second"
   },
   "test": {
     "inherited": "owo"
