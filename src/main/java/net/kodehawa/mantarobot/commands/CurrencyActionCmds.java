@@ -158,7 +158,7 @@ public class CurrencyActionCmds {
                     var amount = 1 + random.nextInt(item.getDiamondIncrease());
                     if (inventory.getAmount(ItemReference.DIAMOND) + amount > 5000) {
                         message += "\n" + languageContext.get("commands.mine.diamond.overflow").formatted(amount);
-                        money += (ItemReference.DIAMOND.getValue() * 0.9) * amount;
+                        money += Math.round((ItemReference.DIAMOND.getValue() * 0.9) * amount);
                     } else {
                         inventory.process(new ItemStack(ItemReference.DIAMOND, amount));
                         message += "\n" + EmoteReference.DIAMOND + languageContext.get("commands.mine.diamond.success").formatted(amount);
@@ -228,7 +228,7 @@ public class CurrencyActionCmds {
                     if (inventory.getAmount(itemGem) + selectedGem.getAmount() >= 5000) {
                         message += "\n" + languageContext.get("commands.mine.gem.overflow")
                                 .formatted(itemGem.getEmojiDisplay() + " x" + selectedGem.getAmount());
-                        money += (itemGem.getValue() * 0.9) * selectedGem.getAmount();
+                        money += Math.round((itemGem.getValue() * 0.9) * selectedGem.getAmount());
                     } else {
                         inventory.process(selectedGem);
 
@@ -268,7 +268,7 @@ public class CurrencyActionCmds {
 
                     if (inventory.getAmount(gem) + 1 >= 5000) {
                         message += "\n" + languageContext.get("commands.mine.sparkle.overflow");
-                        money += gem.getValue() * 0.9;
+                        money += Math.round(gem.getValue() * 0.9);
                     } else {
                         inventory.process(new ItemStack(gem, 1));
                         message += "\n" + EmoteReference.MEGA +
