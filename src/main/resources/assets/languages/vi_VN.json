@@ -713,7 +713,9 @@
       "format": "%1$sGiá cả:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sTúi đồ này chẳng có gì cả! :(",
       "brief_notice": "Bạn có thể sử dụng `~>inventory -brief` để xài phiên bản thân thiện với điện thoại.",
-      "sorted_by": " *(được sắp xếp theo: %1$s)*"
+      "sorted_by": " *(được sắp xếp theo: %1$s)*",
+      "new_brief_notice": "Please use `~>inventory brief` instead.",
+      "new_calc_notice": "Please use `~>inventory calc` instead."
     },
     "cast": {
       "no_item_specified": "%1$sBạn chưa ghi rõ bất kỳ vật phẩm nào. Để có một danh sách cụ thể, hãy dùng `~>cast ls`",
