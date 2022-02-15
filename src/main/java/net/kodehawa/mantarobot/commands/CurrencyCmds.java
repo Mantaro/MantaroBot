@@ -62,7 +62,8 @@ public class CurrencyCmds {
                     @Override
                     protected void call(Context ctx, I18nContext lang, String content) {
                         var arguments = ctx.getOptionalArguments();
-                        content = Utils.replaceArguments(arguments, content, "calculate", "calc", "c", "season", "s");
+                        // We don't really use most of them, but we kinda need to show a warning else users don't know what to do
+                        content = Utils.replaceArguments(arguments, content, "calculate", "calc", "c", "b", "brief", "season", "s");
 
                         // Lambda memes lol
                         var finalContent = content;
@@ -90,17 +91,13 @@ public class CurrencyCmds {
                                 ctx.sendLocalized("commands.inventory.empty", EmoteReference.WARNING);
                                 return;
                             }
+                            if (arguments.containsKey("brief") || arguments.containsKey("b")) {
+                                ctx.sendLocalized("commands.inventory.new_brief_notice");
+                                return;
+                            }
 
                             if (arguments.containsKey("calculate") || arguments.containsKey("calc") || arguments.containsKey("c")) {
-                                long all = playerInventory.asList().stream()
-                                        .filter(item -> item.getItem().isSellable())
-                                        .mapToLong(value -> Math.round(value.getItem().getValue() * value.getAmount() * 0.9d))
-                                        .sum();
-
-                                ctx.sendLocalized("commands.inventory.calculate",
-                                        EmoteReference.DIAMOND, member.getUser().getName(), all
-                                );
-
+                                ctx.sendLocalized("commands.inventory.new_calc_notice");
                                 return;
                             }
 
@@ -157,6 +154,38 @@ public class CurrencyCmds {
                                         Use `~>inventory -calculate` to see how much you'd get if you sell every sellable item on your inventory.""")
                         .setSeasonal(true)
                         .build();
+            }
+        });
+
+        inv.addSubCommand("calculate", new SubCommand() {
+            @Override
+            public String description() {
+                return "Calculates the value of your or someone's inventory.";
+            }
+
+            @Override
+            protected void call(Context ctx, I18nContext languageContext, String content) {
+                ctx.findMember(content, members -> {
+                    var member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
+                    if (member == null)
+                        return;
+
+                    if (member.getUser().isBot()) {
+                        ctx.sendLocalized("commands.inventory.bot_notice", EmoteReference.ERROR);
+                        return;
+                    }
+
+                    final var player = ctx.getPlayer(member);
+                    var playerInventory = player.getInventory();
+                    long all = playerInventory.asList().stream()
+                            .filter(item -> item.getItem().isSellable())
+                            .mapToLong(value -> Math.round(value.getItem().getValue() * value.getAmount() * 0.9d))
+                            .sum();
+
+                    ctx.sendLocalized("commands.inventory.calculate",
+                            EmoteReference.DIAMOND, member.getUser().getName(), all
+                    );
+                });
             }
         });
 
