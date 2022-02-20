@@ -21,14 +21,14 @@ import com.google.common.cache.CacheLoader;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.ChannelType;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.*;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
+import net.dv8tion.jda.api.events.guild.member.update.GuildMemberUpdatePendingEvent;
 import net.dv8tion.jda.api.events.http.HttpRequestEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -58,6 +58,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import redis.clients.jedis.params.SetParams;
 
 import java.awt.*;
 import java.time.OffsetDateTime;
@@ -96,8 +97,13 @@ public class MantaroListener implements EventListener {
         }
 
         // !! Member events start
-        if (event instanceof GuildMemberJoinEvent) {
-            threadPool.execute(() -> onUserJoin((GuildMemberJoinEvent) event));
+        if (event instanceof GuildMemberJoinEvent joinEvent) {
+            threadPool.execute(() -> onUserJoin(joinEvent.getGuild(), joinEvent.getMember(), joinEvent.getUser()));
+            return;
+        }
+
+        if (event instanceof GuildMemberUpdatePendingEvent updateEvent) {
+            threadPool.execute(() -> onUserJoin(updateEvent.getGuild(), updateEvent.getMember(), updateEvent.getUser()));
             return;
         }
 
@@ -531,15 +537,16 @@ public class MantaroListener implements EventListener {
         }
     }
 
-    private void onUserJoin(GuildMemberJoinEvent event) {
-        final var guild = event.getGuild();
+    private void onUserJoin(Guild guild, Member member, User user) {
         final var dbGuild = MantaroData.db().getGuild(guild);
         final var guildData = dbGuild.getData();
         final var role = guildData.getGuildAutoRole();
         final var hour = Utils.formatHours(OffsetDateTime.now(), guildData.getLogTimezone(), guildData.getLang());
-        final var user = event.getUser();
-        final var member = event.getMember();
         final var selfMember = guild.getSelfMember();
+
+        if (member.isPending()) {
+            return;
+        }
 
         try {
             if (role != null &&  !(user.isBot() && guildData.isIgnoreBotsAutoRole())) {
@@ -557,8 +564,7 @@ public class MantaroListener implements EventListener {
                 var tc = guild.getTextChannelById(logChannel);
                 if (tc != null && tc.canTalk()) {
                     tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(ID: %s)`",
-                            hour, event.getUser().getName(), event.getUser().getDiscriminator(),
-                            guild.getName(), event.getUser().getId())
+                            hour, user.getName(), user.getDiscriminator(), guild.getName(), user.getId())
                     ).queue();
                 }
             } catch (Exception ignored) { }
@@ -579,7 +585,7 @@ public class MantaroListener implements EventListener {
             }
 
             final var joinMessage = guildData.getJoinMessage();
-            WelcomeUtils.sendJoinLeaveMessage(event.getUser(), guild, guild.getTextChannelById(joinChannel), guildData.getExtraJoinMessages(), joinMessage);
+            WelcomeUtils.sendJoinLeaveMessage(user, guild, guild.getTextChannelById(joinChannel), guildData.getExtraJoinMessages(), joinMessage);
             Metrics.ACTIONS.labels("join_messages").inc();
         } catch (Exception e) {
             LOG.error("Failed to send join message!", e);

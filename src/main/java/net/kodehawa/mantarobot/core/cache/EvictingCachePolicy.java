@@ -72,8 +72,8 @@ public class EvictingCachePolicy implements MemberCachePolicy {
                     return;
                 }
 
-                // Only remove if voice state is null, or channel in the voice state is null.
-                if (evicted.getVoiceState() == null || evicted.getVoiceState().getChannel() == null) {
+                // Only remove if voice state is null, or channel in the voice state is null, or the member is not pending.
+                if (evicted.getVoiceState() == null || evicted.getVoiceState().getChannel() == null || !member.isPending()) {
                     g.unloadMember(evict);
                 }
             });
