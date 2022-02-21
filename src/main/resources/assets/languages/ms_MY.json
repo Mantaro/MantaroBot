@@ -713,7 +713,9 @@
       "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sInventori ini kosong! :(",
       "brief_notice": "You can use `~>inventory brief` to get a mobile friendly version.",
-      "sorted_by": " *(disusun mengikut: %1$s)*"
+      "sorted_by": " *(disusun mengikut: %1$s)*",
+      "new_brief_notice": "Please use `~>inventory brief` instead.",
+      "new_calc_notice": "Please use `~>inventory calc` instead."
     },
     "cast": {
       "no_item_specified": "%1$sAnda tidak menyatakan item. Untuk mendapatkan senarai, periksa `~>cast ls`",
