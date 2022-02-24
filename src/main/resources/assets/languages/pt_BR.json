@@ -714,8 +714,8 @@
       "empty": "%1$sEsse inventário está vazio! :(",
       "brief_notice": "Você pode usar `~>inventory brief` para obter uma versão otimizada para celulares.",
       "sorted_by": " *(Classificado por: %1$s)*",
-      "new_brief_notice": "Please use `~>inventory brief` instead.",
-      "new_calc_notice": "Please use `~>inventory calc` instead."
+      "new_brief_notice": "Por favor use `~>inventory brief` ao invés disso.",
+      "new_calc_notice": "Por favor use `~>inventory calc` ao invés disso."
     },
     "cast": {
       "no_item_specified": "%1$sVocê não especificou item algum. Para uma lista, cheque `~>cast ls`",
