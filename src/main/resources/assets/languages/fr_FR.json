@@ -400,7 +400,7 @@
       "none": "Il n'y a pas de préfixe personnalisé défini sur ce serveur."
     },
     "custom": {
-      "custom_notice": "This is a custom command.",
+      "custom_notice": "Ceci est une commande personnalisée.",
       "no_args": "%1$sTu dois préciser ce que tu veux faire avec cette commande. Consultes l'aide de la commande pour plus d'infos.!",
       "incorrect_args": "%1$sArguments incorrects. Regarde `~>help custom` ou sur https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands pour obtenir d'avantage d'aide sur comment utiliser cette commande. Si tu rencontres d'autres problèmes après avoir lu wiki, consultes <https://support.mantaro.site>",
       "error_running": "%1$sErreur lors de l'exécution de la commande personnalisée ... Vérifies le contenu et la longueur de la réponse (elle ne peut pas dépasser 2000 caractères)..",
@@ -707,12 +707,12 @@
     },
     "inventory": {
       "bot_notice": "%1$sIci, les bots n'ont pas d'inventaire. Eh bien, quelquefois tu peux souhaiter qu'ils en aient un mais alors ça serait seulement `~>dump`",
-      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory`. Enjoy your day!*",
+      "brief": "**Inventaire de %1$s** %2$s\n\n*Pour une version détaillée, utilise la commande `~>inventory -info`. Bonne journée !*",
       "calculate": "%1$s%2$s recevra **%3$,d crédits** si tous les objets sont vendus.",
       "header": "inventaire de %1$s",
-      "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
+      "format": "%1$sPrix:%2$s📥%3$,d %4$s📤%5$,d\n%6$s%7$s",
       "empty": "%1$sCet inventaire est vide! :(",
-      "brief_notice": "You can use `~>inventory brief` to get a mobile friendly version.",
+      "brief_notice": "Tu peux utiliser `~>inventory brief` pour avoir une version adaptée aux mobiles.",
       "sorted_by": " *(classé par: %1$s)*",
       "new_brief_notice": "Please use `~>inventory brief` instead.",
       "new_calc_notice": "Please use `~>inventory calc` instead."
