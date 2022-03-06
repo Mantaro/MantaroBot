@@ -304,7 +304,7 @@
       "header": "Сейчас играет"
     },
     "pause": {
-      "paused": "Воспроизведение приостановлено. *(Плеер был снят с паузы)*",
+      "paused": "Player paused. *(Player was un-paused previously)*",
       "unpaused": "Player un-paused. *(Player was paused previously)*"
     },
     "rewind": {
