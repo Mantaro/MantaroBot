@@ -1,6 +1,9 @@
 package net.kodehawa.mantarobot.core.command.slash;
 
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -29,7 +32,6 @@ public class SlashContext {
         return slash.getName();
     }
 
-
     public String getSubCommand() {
         return slash.getSubcommandName();
     }
@@ -43,8 +45,28 @@ public class SlashContext {
         return slash.getOptions();
     }
 
-    public TextChannel getChannel() {
+    public TextChannel getChannel() throws IllegalStateException {
         return slash.getTextChannel();
+    }
+
+    public Member getMember() {
+        return slash.getMember();
+    }
+
+    public User getAuthor() {
+        return slash.getUser();
+    }
+
+    public Guild getGuild() {
+        return getChannel().getGuild();
+    }
+
+    public void reply(String source, String... arguments) {
+        slash.reply(i18n.get(source).formatted(arguments)).queue();
+    }
+
+    public void reply(String text) {
+        slash.reply(text).queue();
     }
 
     public ManagedDatabase getDatabase() {
