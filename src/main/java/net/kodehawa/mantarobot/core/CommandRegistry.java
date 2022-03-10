@@ -251,21 +251,20 @@ public class CommandRegistry {
     }
 
     // Process slash commands.
-    public void process(SlashCommandEvent event, DBGuild dbGuild, String cmdName, String content) {
+    public void process(SlashCommandEvent event) {
         if (event.getGuild() == null) {
             return;
         }
 
-        final var managedDatabase = MantaroData.db();
         final var start = System.currentTimeMillis();
-        var command = slashCommands.get(cmdName.toLowerCase());
-        var guildData = dbGuild.getData();
+        var command = slashCommands.get(event.getName().toLowerCase());
 
         // Only process custom commands outside slash.
         if (command == null) {
             return;
         }
 
+        final var managedDatabase = MantaroData.db();
         final var author = event.getUser();
         final var channel = event.getChannel();
         // Variable used in lambda expression should be final or effectively final...
@@ -273,6 +272,8 @@ public class CommandRegistry {
         final var name = cmd.getName();
         final var guild = event.getGuild();
         final var mantaroData = managedDatabase.getMantaroData();
+        final var dbGuild = managedDatabase.getGuild(event.getGuild());
+        final var guildData = dbGuild.getData();
 
         if (mantaroData.getBlackListedGuilds().contains(guild.getId())) {
             log.debug("Got command from blacklisted guild {}, dropping", guild.getId());
@@ -378,7 +379,7 @@ public class CommandRegistry {
         cmd.execute(new SlashContext(event, new I18nContext(guildData, userData)));
 
         commandLog.debug("Slash command: {}, User: {} ({}), Guild: {}, Channel: {}" ,
-                cmdName, author.getAsTag(), author.getId(), guild.getId(), channel.getId()
+                cmd.getName(), author.getAsTag(), author.getId(), guild.getId(), channel.getId()
         );
 
         final var end = System.currentTimeMillis();

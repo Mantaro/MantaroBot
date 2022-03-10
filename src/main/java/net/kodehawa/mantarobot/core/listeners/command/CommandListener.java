@@ -20,6 +20,7 @@ import com.google.common.cache.Cache;
 import com.rethinkdb.gen.exc.ReqlError;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.GenericEvent;
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.hooks.EventListener;
@@ -87,6 +88,21 @@ public class CommandListener implements EventListener {
             }
 
             threadPool.execute(() -> onCommand(msg));
+        }
+
+        if (event instanceof SlashCommandEvent) {
+            threadPool.execute(() -> onSlash(((SlashCommandEvent) event)));
+        }
+    }
+
+    private void onSlash(SlashCommandEvent event) {
+        if (commandProcessor.runSlash(event)) {
+            // Remove running flag
+            try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
+                jedis.del("commands-running-" + event.getUser().getId());
+            }
+
+            commandTotal++;
         }
     }
 
