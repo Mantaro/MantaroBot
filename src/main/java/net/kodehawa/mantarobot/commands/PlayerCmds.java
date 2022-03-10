@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -97,7 +98,6 @@ public class PlayerCmds {
                     ctx.sendLocalized("commands.rep.more_than_one", EmoteReference.ERROR);
                     return;
                 }
-
 
                 ctx.findMember(content, members -> {
                     var member = CustomFinderUtil.findMember(content, members, ctx);
