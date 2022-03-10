@@ -463,6 +463,11 @@ public class CommandRegistry {
         return !CommandPermission.ADMIN.test(member);
     }
 
+    public CommandManager getNewCommands() {
+        return newCommands;
+    }
+
+
     public void sendDisabledNotice(GuildMessageReceivedEvent event, GuildData data, CommandDisableLevel level) {
         if (data.isCommandWarningDisplay() && level != CommandDisableLevel.NONE) {
             event.getChannel().sendMessageFormat("%sThis command is disabled on this server. Reason: %s",

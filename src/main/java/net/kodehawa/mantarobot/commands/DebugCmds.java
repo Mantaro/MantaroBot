@@ -61,6 +61,11 @@ import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 @Module
 public class DebugCmds {
     @Subscribe
+    public void register(CommandRegistry cr) {
+        cr.registerSlash(Ping.class);
+    }
+
+    @Subscribe
     public void info(CommandRegistry cr) {
         cr.register("info", new SimpleCommand(CommandCategory.INFO) {
             @Override

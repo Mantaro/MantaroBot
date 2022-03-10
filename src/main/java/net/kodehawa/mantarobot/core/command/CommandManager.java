@@ -24,13 +24,12 @@ import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Modifier;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class CommandManager {
     private final Map<String, NewCommand> commands = new HashMap<>();
     private final Map<String, SlashCommand> slashCommands = new HashMap<>();
+    private final static List<CommandData> slashCommandsList = new ArrayList<>();
     private final Map<String, String> aliases = new HashMap<>();
 
     public Map<String, NewCommand> commands() {
@@ -65,13 +64,21 @@ public class CommandManager {
             throw new IllegalArgumentException("Duplicate command " + command.getName());
         }
 
-        var commandData = new CommandData(command.getName(), command.getDescription())
-                .addOptions(command.getOptions())
-                .addSubcommands(command.getSubCommandsRaw())
-                .setDefaultEnabled(true);
+        // So you can't have root commands if you have subcommands, why?
+        CommandData commandData;
+        if (command.getOptions() != null) {
+            commandData = new CommandData(command.getName(), command.getDescription())
+                    .addOptions(command.getOptions())
+                    .setDefaultEnabled(true);
+
+        } else {
+            commandData = new CommandData(command.getName(), command.getDescription())
+                    .addSubcommands(command.getSubCommandsRaw())
+                    .setDefaultEnabled(true);
+        }
 
         slashCommands.put(command.getName(), command);
-        MantaroBot.getInstance().getCore().registerSlash(commandData);
+        slashCommandsList.add(commandData);
         return command;
     }
 
@@ -94,6 +101,10 @@ public class CommandManager {
             }
         }
         return false;
+    }
+
+    public List<CommandData> getSlashCommandsList() {
+        return slashCommandsList;
     }
 
     private static <T> T instantiate(Class<T> clazz) {

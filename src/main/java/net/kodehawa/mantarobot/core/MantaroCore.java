@@ -374,7 +374,6 @@ public class MantaroCore {
             log.info("Registering all commands (@Module)");
             shardEventBus.post(CommandProcessor.REGISTRY);
             log.info("Registered all commands (@Module)");
-
             log.info("Registering all options (@Option)");
             shardEventBus.post(new OptionRegistryEvent());
             log.info("Registered all options (@Option)");
@@ -398,9 +397,9 @@ public class MantaroCore {
     }
 
     // Is this how it should be done?
-    public void registerSlash(CommandData data) {
+    public void registerSlash(List<CommandData> data) {
         for (var shard : getShards()) {
-            shard.getJDA().upsertCommand(data).queue();
+            shard.getJDA().updateCommands().addCommands(data).queue();
         }
     }
 
@@ -470,6 +469,9 @@ public class MantaroCore {
         }
 
         bot.startCheckingBirthdays();
+        var slashList = CommandProcessor.REGISTRY.getNewCommands().getSlashCommandsList();
+        registerSlash(slashList);
+        log.info("Attempted to register slash commands (@Module). List size: {}", slashList.size());
     }
 
     private void startUpdaters() {

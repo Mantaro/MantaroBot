@@ -96,12 +96,14 @@ public class MantaroListener implements EventListener {
         }
 
         // !! Member events start
-        if (event instanceof GuildMemberJoinEvent joinEvent) {
+        if (event instanceof GuildMemberJoinEvent) {
+            var joinEvent = ((GuildMemberJoinEvent) event);
             threadPool.execute(() -> onUserJoin(joinEvent.getGuild(), joinEvent.getMember(), joinEvent.getUser()));
             return;
         }
 
-        if (event instanceof GuildMemberUpdatePendingEvent updateEvent) {
+        if (event instanceof GuildMemberUpdatePendingEvent) {
+            var updateEvent = ((GuildMemberUpdatePendingEvent) event);
             threadPool.execute(() -> onUserJoin(updateEvent.getGuild(), updateEvent.getMember(), updateEvent.getUser()));
             return;
         }
