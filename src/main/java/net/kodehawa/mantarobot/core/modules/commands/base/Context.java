@@ -36,6 +36,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
+import net.kodehawa.mantarobot.utils.commands.UtilsContext;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitContext;
 import redis.clients.jedis.JedisPool;
 
@@ -379,5 +380,9 @@ public class Context {
 
     public void setLanguageContext(I18nContext languageContext) {
         this.languageContext = languageContext;
+    }
+
+    public UtilsContext getUtilsContext() {
+        return new UtilsContext(getGuild(), getMember(), getChannel(), null);
     }
 }

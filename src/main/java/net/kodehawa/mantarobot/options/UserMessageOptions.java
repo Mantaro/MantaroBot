@@ -406,7 +406,7 @@ public class UserMessageOptions extends OptionHandler {
                 messages.add(String.format(lang.get("options.usermessage_joinmessage_list.header"), lang.get("general.button_react"), String.format("```prolog\n%s```", s1)));
             }
 
-            DiscordUtils.listButtons(ctx, 45, messages);
+            DiscordUtils.listButtons(ctx.getUtilsContext(), 45, messages);
         }));
 
         registerOption("usermessage:leavemessages:add", "Leave Message extra messages add", """
@@ -499,7 +499,7 @@ public class UserMessageOptions extends OptionHandler {
                         lang.get("general.button_react"), String.format("```prolog\n%s```", s1)));
             }
             
-            DiscordUtils.listButtons(ctx, 45, messages);
+            DiscordUtils.listButtons(ctx.getUtilsContext(), 45, messages);
         }));
     }
 

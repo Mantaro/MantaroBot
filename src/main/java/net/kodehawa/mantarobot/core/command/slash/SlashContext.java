@@ -5,11 +5,14 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.requests.restaction.interactions.ReplyAction;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
+import net.kodehawa.mantarobot.utils.commands.UtilsContext;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitContext;
+import redis.clients.jedis.JedisPool;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -100,5 +103,17 @@ public class SlashContext {
 
     public Config getConfig() {
         return config;
+    }
+
+    public JedisPool getJedisPool() {
+        return MantaroData.getDefaultJedisPool();
+    }
+
+    public MantaroBot getBot() {
+        return MantaroBot.getInstance();
+    }
+
+    public UtilsContext getUtilsContext() {
+        return new UtilsContext(getGuild(), getMember(), getChannel(), slash);
     }
 }

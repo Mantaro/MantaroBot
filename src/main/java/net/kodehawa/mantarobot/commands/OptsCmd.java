@@ -76,7 +76,7 @@ public class OptsCmd {
                         );
                     }
 
-                    DiscordUtils.listButtons(ctx, 45, messages);
+                    DiscordUtils.listButtons(ctx.getUtilsContext(), 45, messages);
                     return;
                 }
 

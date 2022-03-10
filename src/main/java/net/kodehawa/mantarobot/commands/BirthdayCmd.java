@@ -380,7 +380,7 @@ public class BirthdayCmd {
             ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
             return;
         }
-        DiscordUtils.listButtons(ctx, 45, messages);
+        DiscordUtils.listButtons(ctx.getUtilsContext(), 45, messages);
     }
 
     public static Cache<Long, ConcurrentHashMap<Long, BirthdayCacher.BirthdayData>> getGuildBirthdayCache() {

@@ -503,18 +503,18 @@ public class DiscordUtils {
         }, DEFAULT_COMPONENTS_FIRST);
     }
 
-    public static Future<Void> listButtons(Context ctx, int timeoutSeconds, List<String> parts) {
+    public static Future<Void> listButtons(UtilsContext ctx, int timeoutSeconds, List<String> parts) {
         if (parts.size() == 0) {
             return null;
         }
 
         if (parts.size() == 1) {
-            ctx.getChannel().sendMessage(parts.get(0)).queue();
+            ctx.send(parts.get(0));
             return null;
         }
 
         var index = new AtomicInteger();
-        var m = ctx.getChannel().sendMessage(parts.get(0)).complete();
+        var m = ctx.send(parts.get(0));
         return ButtonOperations.create(m, timeoutSeconds, new ButtonOperation() {
             @Override
             public int click(ButtonClickEvent e) {
