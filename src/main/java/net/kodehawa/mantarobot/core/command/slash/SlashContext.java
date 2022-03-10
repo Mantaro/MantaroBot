@@ -1,9 +1,6 @@
 package net.kodehawa.mantarobot.core.command.slash;
 
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -11,6 +8,7 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 
+import java.util.EnumSet;
 import java.util.List;
 
 public class SlashContext {
@@ -61,12 +59,16 @@ public class SlashContext {
         return getChannel().getGuild();
     }
 
-    public void reply(String source, String... arguments) {
-        slash.reply(i18n.get(source).formatted(arguments)).queue();
+    public void reply(String source, Object... args) {
+        slash.reply(i18n.get(source).formatted(args))
+                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                .queue();;
     }
 
     public void reply(String text) {
-        slash.reply(text).queue();
+        slash.reply(text)
+                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                .queue();
     }
 
     public ManagedDatabase getDatabase() {
