@@ -16,6 +16,12 @@
 
 package net.kodehawa.mantarobot.core.command;
 
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
+
 import javax.annotation.Nonnull;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
@@ -24,16 +30,19 @@ import java.util.Map;
 
 public class CommandManager {
     private final Map<String, NewCommand> commands = new HashMap<>();
+    private final Map<String, SlashCommand> slashCommands = new HashMap<>();
     private final Map<String, String> aliases = new HashMap<>();
 
     public Map<String, NewCommand> commands() {
         return Collections.unmodifiableMap(commands);
     }
+    public Map<String, SlashCommand> slashCommands() {
+        return Collections.unmodifiableMap(slashCommands);
+    }
 
     public <T extends NewCommand> T register(@Nonnull Class<T> clazz) {
         return register(instantiate(clazz));
     }
-
     public <T extends NewCommand> T register(@Nonnull T command) {
         if (commands.putIfAbsent(command.name(), command) != null) {
             throw new IllegalArgumentException("Duplicate command " + command.name());
@@ -45,6 +54,29 @@ public class CommandManager {
         }
         registerSubcommands(command);
         return command;
+    }
+
+    public <T extends SlashCommand> T registerSlash(@Nonnull Class<T> clazz) {
+        return registerSlash(instantiate(clazz));
+    }
+
+    public <T extends SlashCommand> T registerSlash(@Nonnull T command) {
+        if (slashCommands.putIfAbsent(command.getName(), command) != null) {
+            throw new IllegalArgumentException("Duplicate command " + command.getName());
+        }
+
+        var commandData = new CommandData(command.getName(), command.getDescription())
+                .addOptions(command.getOptions())
+                .addSubcommands(command.getSubCommandsRaw())
+                .setDefaultEnabled(true);
+
+        MantaroBot.getInstance().getCore().registerSlash(commandData);
+        return command;
+    }
+
+    // Surprisingly simple?
+    public void execute(@Nonnull SlashContext ctx) {
+        slashCommands.get(ctx.getName()).execute(ctx);
     }
 
     public boolean execute(@Nonnull NewContext ctx) {

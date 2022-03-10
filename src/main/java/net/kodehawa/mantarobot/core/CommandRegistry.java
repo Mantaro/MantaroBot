@@ -24,6 +24,7 @@ import net.kodehawa.mantarobot.core.command.CommandManager;
 import net.kodehawa.mantarobot.core.command.NewCommand;
 import net.kodehawa.mantarobot.core.command.NewContext;
 import net.kodehawa.mantarobot.core.command.argument.ArgumentParseError;
+import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
@@ -55,16 +56,18 @@ public class CommandRegistry {
     private static final Logger log = LoggerFactory.getLogger(CommandRegistry.class);
 
     private final Map<String, Command> commands;
+    private final Map<String, SlashCommand> slashCommands;
     private final Config config = MantaroData.config().get();
     private final CommandManager newCommands = new CommandManager();
     private final RateLimiter rl = new RateLimiter(TimeUnit.HOURS, 1);
 
-    public CommandRegistry(Map<String, Command> commands) {
+    public CommandRegistry(Map<String, Command> commands, Map<String, SlashCommand> slashCommands) {
         this.commands = Preconditions.checkNotNull(commands);
+        this.slashCommands = Preconditions.checkNotNull(slashCommands);
     }
 
     public CommandRegistry() {
-        this(new HashMap<>());
+        this(new HashMap<>(), new HashMap<>());
     }
 
     public Map<String, Command> commands() {
@@ -77,6 +80,8 @@ public class CommandRegistry {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
+    // Process non-slash commands.
+    // TODO: Generify non slash and slash command stuff.
     public void process(GuildMessageReceivedEvent event, DBGuild dbGuild, String cmdName, String content, String prefix, boolean isMention) {
         final var managedDatabase = MantaroData.db();
         final var start = System.currentTimeMillis();
@@ -274,6 +279,11 @@ public class CommandRegistry {
         var p = new ProxyCommand(cmd);
         commands.put(cmd.name(), p);
         cmd.aliases().forEach(a -> commands.put(a, new AliasProxyCommand(p)));
+    }
+
+    public void registerSlash(Class<? extends SlashCommand> clazz) {
+        var cmd = newCommands.registerSlash(clazz);
+        slashCommands.put(cmd.getName(), cmd);
     }
 
     public <T extends Command> T register(String name, T command) {

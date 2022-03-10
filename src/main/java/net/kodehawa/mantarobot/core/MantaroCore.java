@@ -26,6 +26,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
@@ -394,6 +395,13 @@ public class MantaroCore {
 
     public Collection<Shard> getShards() {
         return Collections.unmodifiableCollection(shards.values());
+    }
+
+    // Is this how it should be done?
+    public void registerSlash(CommandData data) {
+        for (var shard : getShards()) {
+            shard.getJDA().upsertCommand(data).queue();
+        }
     }
 
     private Set<Class<?>> lookForAnnotatedOn(String packageName, Class<? extends Annotation> annotation) {
