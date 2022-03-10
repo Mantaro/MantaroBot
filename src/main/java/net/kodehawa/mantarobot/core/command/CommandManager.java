@@ -70,6 +70,7 @@ public class CommandManager {
                 .addSubcommands(command.getSubCommandsRaw())
                 .setDefaultEnabled(true);
 
+        slashCommands.put(command.getName(), command);
         MantaroBot.getInstance().getCore().registerSlash(commandData);
         return command;
     }
