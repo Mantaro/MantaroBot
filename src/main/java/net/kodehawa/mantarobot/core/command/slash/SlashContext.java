@@ -1,12 +1,15 @@
 package net.kodehawa.mantarobot.core.command.slash;
 
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
+import net.dv8tion.jda.api.requests.restaction.interactions.ReplyAction;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitContext;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -38,6 +41,10 @@ public class SlashContext {
         return slash.getOption(name);
     }
 
+    public void defer() {
+        slash.deferReply().queue();
+    }
+
     // This is a little cursed, but I guess we can make do.
     public List<OptionMapping> getOptions() {
         return slash.getOptions();
@@ -59,16 +66,32 @@ public class SlashContext {
         return getChannel().getGuild();
     }
 
+    public RatelimitContext ratelimitContext() {
+        return new RatelimitContext(getGuild(), null, getChannel(), null, slash);
+    }
+
+    public JDA getJDA() {
+        return slash.getJDA();
+    }
+
     public void reply(String source, Object... args) {
         slash.reply(i18n.get(source).formatted(args))
                 .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();;
     }
 
+    public ReplyAction replyAction(String source, Object... args) {
+        return slash.reply(i18n.get(source).formatted(args)).allowedMentions(EnumSet.noneOf(Message.MentionType.class));
+    }
+
     public void reply(String text) {
         slash.reply(text)
                 .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
+    }
+
+    public ReplyAction replyAction(String text) {
+        return slash.reply(text).allowedMentions(EnumSet.noneOf(Message.MentionType.class));
     }
 
     public ManagedDatabase getDatabase() {

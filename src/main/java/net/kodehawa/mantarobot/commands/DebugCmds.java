@@ -23,7 +23,13 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.meta.Category;
+import net.kodehawa.mantarobot.core.command.meta.Description;
+import net.kodehawa.mantarobot.core.command.meta.GuildOnly;
+import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
+import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -190,6 +196,43 @@ public class DebugCmds {
                         .build();
             }
         });
+    }
+
+    @Name("ping")
+    @Description("Checks the response time of the bot.")
+    @Category(CommandCategory.FUN)
+    @GuildOnly
+    public static class Ping extends SlashCommand {
+        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                .limit(1)
+                .spamTolerance(2)
+                .cooldown(2, TimeUnit.SECONDS)
+                .maxCooldown(30, TimeUnit.SECONDS)
+                .randomIncrement(true)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("ping")
+                .build();
+
+        @Override
+        protected void process(SlashContext ctx) {
+            ctx.defer();
+            I18nContext languageContext = ctx.getI18nContext();
+            if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false))
+                return;
+
+            long start = System.currentTimeMillis();
+            ctx.replyAction("Pinging...").queue(v -> {
+                long ping = System.currentTimeMillis() - start;
+                v.editOriginal(
+                        String.format(
+                                Utils.getLocaleFromLanguage(ctx.getI18nContext()),
+                                languageContext.get("commands.ping.text"), EmoteReference.MEGA,
+                                languageContext.get("commands.ping.display"),
+                                ping, ctx.getJDA().getGatewayPing()
+                        )
+                ).queue();
+            });
+        }
     }
 
     @Subscribe

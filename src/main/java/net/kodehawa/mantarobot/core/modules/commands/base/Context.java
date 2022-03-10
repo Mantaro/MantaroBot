@@ -36,6 +36,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitContext;
 import redis.clients.jedis.JedisPool;
 
 import javax.swing.*;
@@ -107,6 +108,10 @@ public class Context {
         }
 
         return mentionedMembers;
+    }
+
+    public RatelimitContext ratelimitContext() {
+        return new RatelimitContext(getGuild(), getMessage(), getChannel(), getEvent(), null);
     }
 
     public Member getMember() {
