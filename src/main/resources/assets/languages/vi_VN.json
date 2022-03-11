@@ -1071,7 +1071,7 @@
       "error_date": "%1$sNgày bạn đã nhập không phải là ngày hợp lệ hoặc tôi không thể phân tích cú pháp chính xác. Vui lòng thử với định dạng chính xác.\nHãy nhớ rằng định dạng là `dd/mm` (Ví dụ: sử dụng` ~>birthday 16-11` cho ngày 16 tháng 11).\nNếu tháng hoặc ngày chỉ có một chữ số, bạn cần thêm số 0 vào đó. Ví dụ,\n14/7 sẽ trở thành 14/07 và 7/12 sẽ trở thành 07/12.",
       "added_birthdate": "%1$sĐã thêm ngày sinh thành công. Ngày sinh nhật mới: %2$s *(Định dạng: dd-MM) * [ngày-tháng]. Để máy chủ này thông báo sinh nhật của bạn, bây giờ bạn phải chạy `~>birthday allowerver`%3$s",
       "invalid_month": "%1$sMột năm có hơn 12 tháng sao...? (Số tháng hợp lệ cần trong khoảng từ 1 đến 12)",
-      "no_content": "%1$sBạn cần ghi rõ chỉ định ngày sinh của mình, `remove` để đặt lại ngày sinh của bạn hoặc` month` để kiểm tra danh sách tháng sinh nhật. Sau đó, để máy chủ này thông báo sinh nhật của bạn, bạn phải chạy `~> birthday allowerver`",
+      "no_content": "%1$sBạn cần ghi rõ chỉ định ngày sinh của mình, `remove` để đặt lại ngày sinh của bạn hoặc `month` để kiểm tra danh sách tháng sinh nhật. Sau đó, để máy chủ này thông báo sinh nhật của bạn, bạn phải chạy `~>birthday allowerver`",
       "new_format": "%1$sĐịnh dạng ngày mới là `dd-mm` (ngày-tháng, ví dụ: 20-10 là cho ngày 20 tháng 10). Không cần nhập năm của bạn nữa, vì vậy bạn có thể bỏ qua phần đó.",
       "allowed_server": "%1$sĐã cho phép máy chủ hiện tại thông báo sinh nhật của bạn. Để từ chối trong tương lai, chỉ cần chạy `~> birthday denyserver` trên máy chủ này.",
       "denied": "%1$sĐã từ chối máy chủ hiện tại thông báo sinh nhật của bạn. Để cho phép trong tương lai, chỉ cần chạy `~> birthday denyserver` trên máy chủ này.",
