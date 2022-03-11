@@ -32,7 +32,7 @@ public abstract class SlashCommand {
 
         // Basically the same as the one above.
         if (clazz.getAnnotation(Description.class) != null) {
-            this.description = clazz.getAnnotation(Name.class).value();
+            this.description = clazz.getAnnotation(Description.class).value();
         } else {
             this.description = clazz.getSimpleName().toLowerCase();
         }
