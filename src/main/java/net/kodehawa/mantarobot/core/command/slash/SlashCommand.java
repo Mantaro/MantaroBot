@@ -37,7 +37,7 @@ public abstract class SlashCommand {
             this.description = clazz.getSimpleName().toLowerCase();
         }
 
-        var c = clazz.getAnnotation(net.kodehawa.mantarobot.core.command.meta.Category.class);
+        var c = clazz.getAnnotation(Category.class);
         if (c == null) {
             this.category = null;
         } else {
@@ -49,6 +49,18 @@ public abstract class SlashCommand {
             this.permission = CommandPermission.USER;
         } else {
             this.permission = p.value();
+        }
+
+        var o = clazz.getAnnotation(Options.class);
+        if (o != null) {
+            for (var option : o.value()) {
+                types.add(
+                        new OptionData(option.type(), option.name(), option.description())
+                                .setMinValue(option.minValue())
+                                .setMaxValue(option.maxValue())
+                                .setRequired(option.required())
+                );
+            }
         }
 
         this.guildOnly = clazz.getAnnotation(GuildOnly.class) != null;
