@@ -335,29 +335,6 @@ public class InfoCmds {
     }
 
     @Subscribe
-    public void season(CommandRegistry registry) {
-        registry.register("season", new SimpleCommand(CommandCategory.INFO) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                I18nContext languageContext = ctx.getLanguageContext();
-
-                ctx.sendFormat(languageContext.get("commands.season.info") +
-                                languageContext.get("commands.season.info_2"),
-                        ctx.getConfig().getCurrentSeason().getDisplay(), ctx.db().getAmountSeasonalPlayers()
-                );
-            }
-
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Shows information about this season and about what's a season.")
-                        .build();
-            }
-        });
-    }
-
-    @Subscribe
     public void support(CommandRegistry registry) {
         registry.register("support", new SimpleCommand(CommandCategory.INFO) {
             @Override

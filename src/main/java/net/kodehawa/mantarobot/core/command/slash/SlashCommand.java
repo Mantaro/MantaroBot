@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.core.command.slash;
 
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.kodehawa.mantarobot.core.command.meta.*;
@@ -14,7 +15,7 @@ public abstract class SlashCommand {
     private final String description;
     private final List<OptionData> types = new ArrayList<>();
     // Slash sub-commands work a little differently from non-slash, though.
-    private final Map<String, SlashSubCommand> subCommands = new HashMap<>();
+    private final Map<String, SlashCommand> subCommands = new HashMap<>();
     private final CommandCategory category;
     private final CommandPermission permission;
     private final boolean guildOnly;
@@ -54,12 +55,15 @@ public abstract class SlashCommand {
         var o = clazz.getAnnotation(Options.class);
         if (o != null) {
             for (var option : o.value()) {
-                types.add(
-                        new OptionData(option.type(), option.name(), option.description())
-                                .setMinValue(option.minValue())
-                                .setMaxValue(option.maxValue())
-                                .setRequired(option.required())
-                );
+                OptionData data = new OptionData(option.type(), option.name(), option.description())
+                        .setRequired(option.required());
+
+                if (option.type() == OptionType.INTEGER || option.type() == OptionType.NUMBER) {
+                    data.setMinValue(option.minValue())
+                            .setMaxValue(option.maxValue());
+                }
+
+                types.add(data);
             }
         }
 
@@ -92,19 +96,26 @@ public abstract class SlashCommand {
         return description;
     }
 
-    public Map<String, SlashSubCommand> getSubCommands() {
+    public SlashCommand addSubCommand(String name, SlashCommand command) {
+        return subCommands.put(name, command);
+    }
+
+    public Map<String, SlashCommand> getSubCommands() {
         return subCommands;
     }
 
-    public List<SlashSubCommand> getSubCommandList() {
-        return new ArrayList<>(getSubCommands().values());
+    public List<SlashCommand> getSubCommandList() {
+        return new ArrayList<>(subCommands.values());
     }
 
     // This is slow, but it's only called once per command.
     public List<SubcommandData> getSubCommandsRaw() {
         List<SubcommandData> temp = new ArrayList<>();
-        for (var sub : getSubCommandList()) {
-            temp.add(sub.getData());
+        for (var sub : subCommands.values()) {
+            var subObj = new SubcommandData(sub.getName(), sub.getDescription())
+                    .addOptions(sub.getOptions());
+
+            temp.add(subObj);
         }
 
         return temp;

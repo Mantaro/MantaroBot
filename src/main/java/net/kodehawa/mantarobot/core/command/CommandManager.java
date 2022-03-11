@@ -16,9 +16,7 @@
 
 package net.kodehawa.mantarobot.core.command;
 
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 
@@ -64,9 +62,10 @@ public class CommandManager {
             throw new IllegalArgumentException("Duplicate command " + command.getName());
         }
 
-        // So you can't have root commands if you have subcommands, why?
+        registerSubcommands(command);
         CommandData commandData;
-        if (command.getOptions() != null) {
+        // So you can't have root commands if you have subcommands, why?
+        if (command.getSubCommands().isEmpty()) {
             commandData = new CommandData(command.getName(), command.getDescription())
                     .addOptions(command.getOptions())
                     .setDefaultEnabled(true);
@@ -114,7 +113,21 @@ public class CommandManager {
             throw new IllegalArgumentException("Unable to instantiate " + clazz, e);
         }
     }
-    
+
+    private static SlashCommand registerSubcommands(SlashCommand command) {
+        for (var inner : command.getClass().getDeclaredClasses()) {
+            if (!SlashCommand.class.isAssignableFrom(inner)) continue;
+            if (inner.isLocalClass() || inner.isAnonymousClass()) continue;
+            if (!Modifier.isStatic(inner.getModifiers())) continue;
+            if (Modifier.isAbstract(inner.getModifiers())) continue;
+
+            var sub = (SlashCommand)instantiate(inner);
+            command.addSubCommand(sub.getName(), sub);
+        }
+
+        return command;
+    }
+
     private static void registerSubcommands(NewCommand command) {
         for (var inner : command.getClass().getDeclaredClasses()) {
             if (!NewCommand.class.isAssignableFrom(inner)) continue;

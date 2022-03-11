@@ -20,10 +20,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.reminders.Reminder;
 import net.kodehawa.mantarobot.commands.utils.reminders.ReminderObject;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.meta.*;
+import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
@@ -60,6 +64,12 @@ import java.util.stream.Collectors;
 public class UtilsCmds {
     private static final Pattern rawTimePattern = Pattern.compile("^[(\\d)((?d|?h|(?m|(?s)]+$");
     private static final Pattern timePattern = Pattern.compile("-time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
+
+    @Subscribe
+    public void register(CommandRegistry cr) {
+        cr.registerSlash(Time.class);
+        cr.registerSlash(Test.class);
+    }
 
     @Subscribe
     public void remindme(CommandRegistry registry) {
@@ -264,59 +274,85 @@ public class UtilsCmds {
         }
     }
 
-    @Subscribe
-    public void time(CommandRegistry registry) {
+    @Name("subtest")
+    @Category(CommandCategory.UTILS)
+    @Description("Tests sub-commands.")
+    public static class Test extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) { } // Can't call main one, lol
+
+        @Name("actualsub1")
+        @Description("Tests the actual sub-commands 1.")
+        public static class TestSub extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                ctx.reply("test1");
+            }
+        }
+
+        @Name("actualsub2")
+        @Description("Tests the actual sub-commands 2.")
+        public static class TestSub2 extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                ctx.reply("test2");
+            }
+        }
+    }
+
+
+    @Name("time")
+    @Category(CommandCategory.UTILS)
+    @Description("Get the time in a specific timezone.")
+    @Help(description = "Get the time in a specific timezone (GMT).",
+            usage = "`~>time <timezone> [@user]`",
+            parameters = {
+                @Help.Parameter(name = "timezone", description = "The timezone in GMT or UTC offset (Example: GMT-3) or a ZoneId (such as Europe/London)"),
+                @Help.Parameter(name = "user", description = "The user to see the timezone of.")
+            }
+    )
+    @Options({
+            @Options.Option(type = OptionType.USER, name = "user", description = "The user to check the timezone of."),
+            @Options.Option(type = OptionType.STRING, name = "timezone", description = "The timezone to check.")
+    })
+    public static class Time extends SlashCommand {
         final Pattern offsetRegex = Pattern.compile("(?:UTC|GMT)[+-][0-9]{1,2}(:[0-9]{1,2})?", Pattern.CASE_INSENSITIVE);
-        registry.register("time", new SimpleCommand(CommandCategory.UTILS) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                var mentions = ctx.getMentionedMembers();
-                var isMention = !mentions.isEmpty();
-                var timezone = content.isEmpty() ? "" : args[0]; // Array out of bounds lol
 
-                if (offsetRegex.matcher(timezone).matches()) {
-                    timezone = timezone.toUpperCase().replace("UTC", "GMT");
-                }
-
-                var dbUser = !isMention ? ctx.getDBUser() : ctx.getDBUser(mentions.get(0));
-                var userData = dbUser.getData();
-
-                if (isMention && userData.getTimezone() == null) {
-                    ctx.sendLocalized("commands.time.user_no_timezone", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (userData.getTimezone() != null && (content.isEmpty() || isMention)) {
-                    timezone = userData.getTimezone();
-                }
-
-                if (!Utils.isValidTimeZone(timezone)) {
-                    ctx.sendLocalized("commands.time.invalid_timezone", EmoteReference.ERROR);
-                    return;
-                }
-
-                var dateformat = "";
-                try {
-                    dateformat = Utils.formatDate(LocalDateTime.now(Utils.timezoneToZoneID(timezone)), userData.getLang());
-                } catch (DateTimeException e) {
-                    ctx.sendLocalized("commands.time.invalid_timezone", EmoteReference.ERROR);
-                    return;
-                }
-
-                ctx.sendLocalized("commands.time.success", EmoteReference.CLOCK, dateformat, timezone);
+        @Override
+        protected void process(SlashContext ctx) {
+            var user = ctx.getOptionAsUser("user");
+            var timezone = ctx.getOptionAsString("timezone", "");
+            if (offsetRegex.matcher(timezone).matches()) {
+                timezone = timezone.toUpperCase().replace("UTC", "GMT");
             }
 
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Get the time in a specific timezone (GMT).")
-                        .setUsage("`~>time <timezone> [@user]`")
-                        .addParameter("timezone",
-                                "The timezone in GMT or UTC offset (Example: GMT-3) or a ZoneId (such as Europe/London)")
-                        .addParameter("@user", "The user to see the timezone of. Has to be a mention.")
-                        .build();
+            var dbUser = user == null ? ctx.getDBUser() : ctx.getDBUser(user.getId());
+            var userData = dbUser.getData();
+
+            if (user != null && userData.getTimezone() == null) {
+                ctx.reply("commands.time.user_no_timezone", EmoteReference.ERROR);
+                return;
             }
-        });
+
+            if (userData.getTimezone() != null && (timezone.isEmpty() || user != null)) {
+                timezone = userData.getTimezone();
+            }
+
+            if (!Utils.isValidTimeZone(timezone)) {
+                ctx.reply("commands.time.invalid_timezone", EmoteReference.ERROR);
+                return;
+            }
+
+            var dateFormat = "";
+            try {
+                dateFormat = Utils.formatDate(LocalDateTime.now(Utils.timezoneToZoneID(timezone)), userData.getLang());
+            } catch (DateTimeException e) {
+                ctx.reply("commands.time.invalid_timezone", EmoteReference.ERROR);
+                return;
+            }
+
+            ctx.reply("commands.time.success", EmoteReference.CLOCK, dateFormat, timezone);
+        }
     }
 
     @Subscribe

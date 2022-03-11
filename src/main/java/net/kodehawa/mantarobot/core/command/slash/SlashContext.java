@@ -10,6 +10,9 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.commands.UtilsContext;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitContext;
 import redis.clients.jedis.JedisPool;
@@ -80,7 +83,8 @@ public class SlashContext {
     public void reply(String source, Object... args) {
         slash.reply(i18n.get(source).formatted(args))
                 .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
-                .queue();;
+                .queue();
+        ;
     }
 
     public ReplyAction replyAction(String source, Object... args) {
@@ -116,4 +120,62 @@ public class SlashContext {
     public UtilsContext getUtilsContext() {
         return new UtilsContext(getGuild(), getMember(), getChannel(), slash);
     }
+
+    public DBUser getDBUser() {
+        return managedDatabase.getUser(getAuthor());
+    }
+
+    public DBUser getDBUser(String user) {
+        return managedDatabase.getUser(user);
+    }
+
+    public Player getPlayer(String user) {
+        return managedDatabase.getPlayer(user);
+    }
+
+    public DBGuild getGuildData(String user) {
+        return managedDatabase.getGuild(user);
+    }
+
+    // Cursed wrapper to get around null checks on getAsX
+    public User getOptionAsUser(String name) {
+        var option = getOption(name);
+        if (option == null) {
+            return null;
+        }
+        return option.getAsUser();
+    }
+
+    public String getOptionAsString(String name) {
+        var option = getOption(name);
+        if (option == null) {
+            return null;
+        }
+        return option.getAsString();
+    }
+
+    public String getOptionAsString(String name, String def) {
+        var option = getOption(name);
+        if (option == null) {
+            return def;
+        }
+        return option.getAsString();
+    }
+
+    public long getOptionAsLong(String name) {
+        var option = getOption(name);
+        if (option == null) {
+            return 0;
+        }
+        return option.getAsLong();
+    }
+
+    public boolean getOptionAsBoolean(String name) {
+        var option = getOption(name);
+        if (option == null) {
+            return false;
+        }
+        return option.getAsBoolean();
+    }
+
 }
