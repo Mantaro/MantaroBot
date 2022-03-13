@@ -158,7 +158,7 @@ public abstract class SlashCommand {
 
     public final void execute(SlashContext ctx) {
         var sub = getSubCommands().get(ctx.getSubCommand());
-        if (getPredicate().test(ctx)) return;
+        if (!getPredicate().test(ctx)) return;
 
         if (sub != null) {
             sub.process(ctx);

@@ -69,14 +69,26 @@ public class MessageCmds {
             var amount = ctx.getOptionAsLong("amount");
             var botOnly = ctx.getOptionAsBoolean("botonly");
             var skipPinned = ctx.getOptionAsBoolean("skippinned");
-            Predicate<Message> predicate = message ->
-                (user != null && user.getIdLong() == message.getAuthor().getIdLong()) // If user is not null, only pick the user.
-                        || (botOnly && message.getAuthor().isBot())  // If botOnly is true, pick only bots.
-                        || (skipPinned && !message.isPinned()); // If skipPinned is true, skip pinned messages.
+            Predicate<Message> predicate = message -> {
+                boolean bool = true;
+                if (user != null) {
+                    bool = user.getIdLong() == message.getAuthor().getIdLong();
+                }
+
+                if (botOnly) {
+                    bool = bool && message.getAuthor().isBot();
+                }
+
+                if (skipPinned) {
+                    bool = bool && message.isPinned();
+                }
+
+                return bool;
+            };
 
             ctx.getChannel().getHistory().retrievePast((int) amount)
                     .queue(
-                            messageHistory -> getMessageHistory(ctx, messageHistory, (int) amount, "commands.prune.mention_no_messages", predicate),
+                            messageHistory -> getMessageHistory(ctx, messageHistory, (int) amount, "commands.prune.no_messages", predicate),
                             error -> ctx.sendLocalized("commands.prune.error_retrieving", EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())
                     );
 
