@@ -253,7 +253,9 @@ public class CommandRegistry {
     // Process slash commands.
     public void process(SlashCommandEvent event) {
         if (event.getGuild() == null) {
-            event.deferReply(true).setContent("This bot does not accept commands in Private Messages.").queue();
+            event.deferReply(true)
+                    .setContent("This bot does not accept commands in Private Messages. You can add it to your server at https://add.mantaro.site")
+                    .queue();
             return;
         }
 
@@ -278,6 +280,9 @@ public class CommandRegistry {
 
         if (mantaroData.getBlackListedGuilds().contains(guild.getId())) {
             log.debug("Got command from blacklisted guild {}, dropping", guild.getId());
+            event.deferReply(true)
+                    .setContent("Not accepting commands from this server.")
+                    .queue();
             return;
         }
 
@@ -348,7 +353,7 @@ public class CommandRegistry {
                 return;
             }
 
-            event.reply("""
+            event.deferReply(true).setContent("""
                     :x: You have been blocked from using all of Mantaro's functions, likely for botting or hitting the spam filter.
                     If you wish to get more details on why or appeal the ban, send an email to `contact@mantaro.site`. Make sure to be sincere.
                     """
@@ -358,7 +363,7 @@ public class CommandRegistry {
 
         // If we are in the patreon bot, deny all requests from unknown guilds.
         if (config.isPremiumBot() && !config.isOwner(author) && !dbGuild.isPremium()) {
-            event.reply("""
+            event.deferReply(true).setContent("""
                             :x: Seems like you're trying to use the Patreon bot when this guild is **not** marked as premium.
                             **If you think this is an error please contact Kodehawa#3457 or poke me on #donators in the support guild**
                             If you didn't contact Kodehawa prior to adding this bot to this server, please do so so we can link it to your pledge.
@@ -368,7 +373,7 @@ public class CommandRegistry {
         }
 
         if (!cmd.getPermission().test(member)) {
-            event.reply(EmoteReference.STOP + "You have no permissions to trigger this command :(").queue();
+            event.deferReply(true).setContent(EmoteReference.STOP + "You have no permissions to trigger this command :(").queue();
             return;
         }
         // !! Permission check end
@@ -458,6 +463,22 @@ public class CommandRegistry {
         parent.getAliases().add(alias);
 
         register(alias, new AliasCommand(alias, command, parent));
+    }
+
+    public void registerAlias(String command, String... alias) {
+        if (!commands.containsKey(command)) {
+            log.error(command + " isn't in the command map...");
+        }
+
+        Command parent = commands.get(command);
+        if (parent instanceof ProxyCommand) {
+            throw new IllegalArgumentException("Use @Alias instead");
+        }
+
+        for (String s : alias) {
+            parent.getAliases().add(s);
+            register(s, new AliasCommand(s, command, parent));
+        }
     }
 
     private boolean isNotAdmin(Member member) {

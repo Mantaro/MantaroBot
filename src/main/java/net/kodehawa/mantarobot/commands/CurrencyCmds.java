@@ -544,6 +544,43 @@ public class CurrencyCmds {
         ui.createSubCommandAlias("list", "Is");
     }
 
+    @Subscribe
+    public void tools(CommandRegistry cr) {
+        final var rateLimiter = new IncreasingRateLimiter.Builder()
+                .spamTolerance(1)
+                .limit(1)
+                .cooldown(3, TimeUnit.SECONDS)
+                .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
+                .maxCooldown(5, TimeUnit.MINUTES)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("tools")
+                .build();
+
+        cr.register("tools", new SimpleCommand(CommandCategory.CURRENCY) {
+            @Override
+            protected void call(Context ctx, String content, String[] args) {
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
+                    return;
+                }
+
+                var dbUser = ctx.getDBUser();
+                var data = dbUser.getData();
+                var equippedItems = data.getEquippedItems();
+                // TODO: Make a common class for this instead of making static methods on unrelated classes, PLEASE
+                var equipment = ProfileCmd.parsePlayerEquipment(equippedItems, ctx.getLanguageContext());
+
+                ctx.send(equipment);
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Check the durability and status of your tools.")
+                        .build();
+            }
+        });
+    }
+
     public static void applyPotionEffect(Context ctx, Item item, Player player, Map<String, String> arguments) {
 
         if ((item.getItemType() == ItemType.POTION || item.getItemType() == ItemType.BUFF) && item instanceof Potion) {
@@ -648,42 +685,5 @@ public class CurrencyCmds {
         }
 
         item.getAction().test(ctx, false);
-    }
-
-    @Subscribe
-    public void tools(CommandRegistry cr) {
-        final var rateLimiter = new IncreasingRateLimiter.Builder()
-                .spamTolerance(1)
-                .limit(1)
-                .cooldown(3, TimeUnit.SECONDS)
-                .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
-                .maxCooldown(5, TimeUnit.MINUTES)
-                .pool(MantaroData.getDefaultJedisPool())
-                .prefix("tools")
-                .build();
-
-        cr.register("tools", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
-                    return;
-                }
-
-                var dbUser = ctx.getDBUser();
-                var data = dbUser.getData();
-                var equippedItems = data.getEquippedItems();
-                // TODO: Make a common class for this instead of making static methods on unrelated classes, PLEASE
-                var equipment = ProfileCmd.parsePlayerEquipment(equippedItems, ctx.getLanguageContext());
-
-                ctx.send(equipment);
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Check the durability and status of your tools.")
-                        .build();
-            }
-        });
     }
 }

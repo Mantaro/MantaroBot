@@ -72,6 +72,10 @@ public class SlashContext implements IContext {
         return getChannel().getGuild();
     }
 
+    public Member getSelfMember() {
+        return getGuild().getSelfMember();
+    }
+
     public RatelimitContext ratelimitContext() {
         return new RatelimitContext(getGuild(), null, getChannel(), null, slash);
     }

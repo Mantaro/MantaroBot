@@ -9,12 +9,12 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public abstract class SlashCommand {
     private final String name;
     private final String description;
     private final List<OptionData> types = new ArrayList<>();
-    // Slash sub-commands work a little differently from non-slash, though.
     private final Map<String, SlashCommand> subCommands = new HashMap<>();
     private final CommandCategory category;
     private final CommandPermission permission;
@@ -104,6 +104,10 @@ public abstract class SlashCommand {
         return subCommands;
     }
 
+    public boolean isOwnerCommand() {
+        return getPermission() == CommandPermission.OWNER;
+    }
+
     public List<SlashCommand> getSubCommandList() {
         return new ArrayList<>(subCommands.values());
     }
@@ -145,10 +149,17 @@ public abstract class SlashCommand {
         return types;
     }
 
+    // This is to be overriden.
+    protected Predicate<SlashContext> getPredicate() {
+        return c -> true;
+    }
+
     protected abstract void process(SlashContext ctx);
 
     public final void execute(SlashContext ctx) {
         var sub = getSubCommands().get(ctx.getSubCommand());
+        if (getPredicate().test(ctx)) return;
+
         if (sub != null) {
             sub.process(ctx);
         } else {
