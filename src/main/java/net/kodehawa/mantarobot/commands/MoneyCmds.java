@@ -18,13 +18,17 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.interactions.components.Button;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.meta.*;
+import net.kodehawa.mantarobot.core.command.slash.BridgeContext;
+import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
@@ -44,253 +48,40 @@ import java.time.Month;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 @Module
 public class MoneyCmds {
     private static final long DAILY_VALID_PERIOD_MILLIS = MantaroData.config().get().getDailyMaxPeriodMilliseconds();
+    private static final IncreasingRateLimiter dailyRatelimiter = new IncreasingRateLimiter.Builder()
+            .limit(1)
+            .cooldown(24, TimeUnit.HOURS)
+            .maxCooldown(24, TimeUnit.HOURS)
+            .randomIncrement(false)
+            .pool(MantaroData.getDefaultJedisPool())
+            .prefix("daily")
+            .build();
+    private static final SecureRandom random = new SecureRandom();
+
+    @Subscribe
+    public void register(CommandRegistry cr) {
+        cr.registerSlash(Daily.class);
+    }
 
     @Subscribe
     public void daily(CommandRegistry cr) {
-        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
-                .limit(1)
-                .cooldown(24, TimeUnit.HOURS)
-                .maxCooldown(24, TimeUnit.HOURS)
-                .randomIncrement(false)
-                .pool(MantaroData.getDefaultJedisPool())
-                .prefix("daily")
-                .build();
-
-        Random r = new Random();
         cr.register("daily", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             public void call(Context ctx, String content, String[] args) {
-                final var languageContext = ctx.getLanguageContext();
-
-                // Args: Check -check for duration
-                if (args.length > 0 && ctx.getMentionedUsers().isEmpty() && args[0].equalsIgnoreCase("-check")) {
-                    long rl = rateLimiter.getRemaniningCooldown(ctx.getAuthor());
-
-                    ctx.sendLocalized("commands.daily.check", EmoteReference.TALKING,
-                            (rl) > 0 ? Utils.formatDuration(ctx.getLanguageContext(), rl) :
-                                    languageContext.get("commands.daily.about_now")
-                    );
-                    return;
-                }
-
-                // Determine who gets the money
-                var dailyMoney = 150L;
                 final var mentionedUsers = ctx.getMentionedUsers();
-
-                final var author = ctx.getAuthor();
-                var authorPlayer = ctx.getPlayer();
-                var authorPlayerData = authorPlayer.getData();
-                final var authorDBUser = ctx.getDBUser();
-                final var authorUserData = authorDBUser.getData();
-
-                if (authorPlayer.isLocked()) {
-                    ctx.sendLocalized("commands.daily.errors.own_locked");
-                    return;
-                }
-
-                UnifiedPlayer toAddMoneyTo = UnifiedPlayer.of(author, ctx.getConfig().getCurrentSeason());
-                User otherUser = null;
-
-                boolean targetOther = !mentionedUsers.isEmpty();
+                final boolean targetOther = !mentionedUsers.isEmpty();
+                User toGive = null;
                 if (targetOther) {
-                    otherUser = mentionedUsers.get(0);
-                    // Bot check mentioned authorDBUser
-                    if (otherUser.isBot()){
-                        ctx.sendLocalized("commands.daily.errors.bot", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    if (otherUser.getIdLong() == author.getIdLong()) {
-                        ctx.sendLocalized("commands.daily.errors.same_user", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    var playerOtherUser = ctx.getPlayer(otherUser);
-                    if (playerOtherUser.isLocked()){
-                        ctx.sendLocalized("commands.daily.errors.receipt_locked");
-                        return;
-                    }
-
-                    if (ctx.isUserBlacklisted(otherUser.getId())) {
-                        ctx.sendLocalized("commands.transfer.blacklisted_transfer", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    // Why this is here I have no clue;;;
-                    dailyMoney += r.nextInt(90);
-
-                    var mentionedDBUser = ctx.getDBUser(otherUser.getId());
-                    var mentionedUserData = mentionedDBUser.getData();
-
-                    // Marriage bonus
-                    var marriage = authorUserData.getMarriage();
-                    if (marriage != null && otherUser.getId().equals(marriage.getOtherPlayer(ctx.getAuthor().getId())) &&
-                            playerOtherUser.getInventory().containsItem(ItemReference.RING)) {
-                        dailyMoney += Math.max(10, r.nextInt(100));
-                    }
-
-                    // Mutual waifu status.
-                    if (authorUserData.getWaifus().containsKey(otherUser.getId()) && mentionedUserData.getWaifus().containsKey(author.getId())) {
-                        dailyMoney +=Math.max(5, r.nextInt(100));
-                    }
-
-                    toAddMoneyTo = UnifiedPlayer.of(otherUser, ctx.getConfig().getCurrentSeason());
-
-
-                } else {
-                    // This is here so you dont overwrite yourself....
-                    authorPlayer = toAddMoneyTo.getPlayer();
-                    authorPlayerData = authorPlayer.getData();
+                    toGive = mentionedUsers.get(0);
                 }
 
-                // Check for rate limit
-                if (!RatelimitUtils.ratelimit(rateLimiter, ctx, languageContext.get("commands.daily.ratelimit_message"), false))
-                    return;
-
-                List<String> returnMessage = new ArrayList<>();
-                long currentTime = System.currentTimeMillis();
-                int amountStreaksavers = authorPlayer.getInventory().getAmount(ItemReference.MAGIC_WATCH);
-                // >=0 -> Valid  <0 -> Invalid
-                long currentDailyOffset = DAILY_VALID_PERIOD_MILLIS - (currentTime - authorPlayerData.getLastDailyAt()) ;
-
-                long streak = authorPlayerData.getDailyStreak();
-                var removedWatch = false;
-                // Not expired?
-                if (currentDailyOffset + amountStreaksavers * DAILY_VALID_PERIOD_MILLIS >= 0) {
-                    streak++;
-                    if (targetOther)
-                        returnMessage.add(languageContext.get("commands.daily.streak.given.up").formatted(streak));
-                    else
-                        returnMessage.add(languageContext.get("commands.daily.streak.up").formatted(streak));
-                    if (currentDailyOffset < 0){
-                        int streakSaversUsed = -1 * (int) Math.floor((double) currentDailyOffset / (double) DAILY_VALID_PERIOD_MILLIS);
-                        authorPlayer.getInventory().process(new ItemStack(ItemReference.MAGIC_WATCH, streakSaversUsed * -1));
-                        returnMessage.add(languageContext.get("commands.daily.streak.watch_used").formatted(
-                                streakSaversUsed, streakSaversUsed + 1,
-                                amountStreaksavers - streakSaversUsed)
-                        );
-
-                        removedWatch = true;
-                    }
-                } else {
-                    if (streak == 0) {
-                        returnMessage.add(languageContext.get("commands.daily.streak.first_time"));
-                    } else {
-                        if (amountStreaksavers > 0){
-                            returnMessage.add(
-                                    languageContext.get("commands.daily.streak.lost_streak.watch").formatted(streak)
-                            );
-
-                            authorPlayer.getInventory().process(
-                                    new ItemStack(ItemReference.MAGIC_WATCH, authorPlayer.getInventory().getAmount(ItemReference.MAGIC_WATCH) * -1)
-                            );
-
-                            removedWatch = true;
-
-                        } else {
-                            returnMessage.add(languageContext.get("commands.daily.streak.lost_streak.normal").formatted(streak));
-                        }
-                    }
-                    streak = 1;
-                }
-
-                if (streak > 5) {
-                    // Bonus money
-                    int bonus = 150;
-
-                    if (streak % 50 == 0){
-                        authorPlayer.getInventory().process(new ItemStack(ItemReference.MAGIC_WATCH,1));
-                        returnMessage.add(languageContext.get("commands.daily.watch_get"));
-                    }
-
-                    if (streak > 10) {
-                        authorPlayerData.addBadgeIfAbsent(Badge.CLAIMER);
-
-                        if (streak % 20 == 0 && authorPlayer.getInventory().getAmount(ItemReference.LOOT_CRATE) < 5000) {
-                            authorPlayer.getInventory().process(new ItemStack(ItemReference.LOOT_CRATE, 1));
-                            returnMessage.add(languageContext.get("commands.daily.crate"));
-                        }
-
-                        if (streak > 15){
-                            bonus += Math.min(targetOther ? 1700 : 700, Math.floor(150 * streak / (targetOther ? 10D : 15D)));
-
-                            if (streak >= 180) {
-                                authorPlayerData.addBadgeIfAbsent(Badge.BIG_CLAIMER);
-                            }
-
-                            if (streak >= 365) {
-                                authorPlayerData.addBadgeIfAbsent(Badge.YEARLY_CLAIMER);
-                            }
-
-                            if (streak >= 730) {
-                                authorPlayerData.addBadgeIfAbsent(Badge.BI_YEARLY_CLAIMER);
-                            }
-                        }
-                    }
-
-                    if (targetOther) {
-                        returnMessage.add(languageContext.get("commands.daily.streak.given.bonus").formatted(otherUser.getName(), bonus));
-                    } else {
-                        returnMessage.add(languageContext.get("commands.daily.streak.bonus").formatted(bonus));
-                    }
-
-                    dailyMoney += bonus;
-                }
-
-                // If the author is premium, make daily double.
-                if (authorDBUser.isPremium()) {
-                    dailyMoney *=2;
-                }
-
-                // Sellout + this is always a day apart, so we can just send campaign.
-                if (r.nextBoolean()) {
-                    returnMessage.add(Campaign.TWITTER.getStringFromCampaign(languageContext, true));
-                } else {
-                    returnMessage.add(Campaign.PREMIUM_DAILY.getStringFromCampaign(languageContext, authorDBUser.isPremium()));
-                }
-
-                // Careful not to overwrite yourself ;P
-                // Save streak and items
-                authorPlayerData.setLastDailyAt(currentTime);
-                authorPlayerData.setDailyStreak(streak);
-
-                // Critical not to call if author != mentioned because in this case
-                // toAdd is the unified player as referenced
-                if (targetOther) {
-                    authorPlayer.save();
-                }
-
-                toAddMoneyTo.addMoney(dailyMoney);
-                if (removedWatch) {
-                    toAddMoneyTo.save();
-                } else {
-                    // We can sort of avoid doing a full save here.
-                    // Since updating the fields is just fine unless we're removing something from a Map.
-                    // It's still annoying.
-                    toAddMoneyTo.saveUpdating();
-                }
-
-                // Build Message
-                var toSend = new StringBuilder((targetOther ?
-                        languageContext.get("commands.daily.given_credits")
-                                .formatted(EmoteReference.CORRECT, dailyMoney, otherUser.getName()) :
-                        languageContext.get("commands.daily.credits")
-                                .formatted(EmoteReference.CORRECT, dailyMoney)) + "\n"
-                );
-
-                for (var string : returnMessage) {
-                    toSend.append("\n").append(string);
-                }
-
-                // Send Message
-                ctx.send(toSend.toString());
-
+                boolean check = args.length > 0 && ctx.getMentionedUsers().isEmpty() && args[0].equalsIgnoreCase("-check");
+                daily(new BridgeContext(null, ctx), toGive, check);
             }
 
             @Override
@@ -307,6 +98,257 @@ public class MoneyCmds {
         });
 
         cr.registerAlias("daily", "dailies");
+    }
+
+    @Name("daily")
+    @Description("Gives you some credits per day and a reward for claiming it everyday.")
+    @Category(CommandCategory.CURRENCY)
+    @Options({
+            @Options.Option(type = OptionType.USER, name = "user", description = "User to give it to (optional)"),
+            @Options.Option(type = OptionType.BOOLEAN, name = "check", description = "Whether to check if your daily is ready (optional)")
+    })
+    @Help(
+            description = """
+                    Gives you $150 credits per day (or between 150 and 180 if you transfer it to another person). Maximum amount it can give is ~2000 credits (a bit more for shared dailies)
+                    This command gives a reward for claiming it every day (daily streak). You lose the streak if you miss two days in a row.
+                    """,
+            parameters = {
+                    @Help.Parameter(name = "user", description = "The user to give your daily to, without this it gives it to yourself.", optional = true),
+                    @Help.Parameter(name = "check", description = "Whether you want to check if you can claim your daily", optional = true)
+            }
+    )
+    public static class Daily extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {
+            // Kinda pain that I need a static method here, but at the same time it being static makes sense lol
+            daily(new BridgeContext(ctx, null), ctx.getOptionAsUser("user"), ctx.getOptionAsBoolean("check"));
+        }
+    }
+
+    private static void daily(BridgeContext ctx, User toGive, boolean check) {
+        final var languageContext = ctx.getLanguageContext();
+        if (check) {
+            long rl = dailyRatelimiter.getRemaniningCooldown(ctx.getAuthor());
+
+            ctx.sendLocalized("commands.daily.check", EmoteReference.TALKING,
+                    (rl) > 0 ? Utils.formatDuration(ctx.getLanguageContext(), rl) :
+                            languageContext.get("commands.daily.about_now")
+            );
+            return;
+        }
+
+        // Determine who gets the money
+        var dailyMoney = 150L;
+
+        final var author = ctx.getAuthor();
+        var authorPlayer = ctx.getPlayer();
+        var authorPlayerData = authorPlayer.getData();
+        final var authorDBUser = ctx.getDBUser();
+        final var authorUserData = authorDBUser.getData();
+
+        if (authorPlayer.isLocked()) {
+            ctx.sendLocalized("commands.daily.errors.own_locked");
+            return;
+        }
+
+        UnifiedPlayer toAddMoneyTo = UnifiedPlayer.of(author, ctx.getConfig().getCurrentSeason());
+        User otherUser = null;
+
+        boolean targetOther = toGive != null;
+        if (targetOther) {
+            otherUser = toGive;
+            // Bot check mentioned authorDBUser
+            if (otherUser.isBot()){
+                ctx.sendLocalized("commands.daily.errors.bot", EmoteReference.ERROR);
+                return;
+            }
+
+            if (otherUser.getIdLong() == author.getIdLong()) {
+                ctx.sendLocalized("commands.daily.errors.same_user", EmoteReference.ERROR);
+                return;
+            }
+
+            var playerOtherUser = ctx.getPlayer(otherUser);
+            if (playerOtherUser.isLocked()){
+                ctx.sendLocalized("commands.daily.errors.receipt_locked");
+                return;
+            }
+
+            if (ctx.isUserBlacklisted(otherUser.getId())) {
+                ctx.sendLocalized("commands.transfer.blacklisted_transfer", EmoteReference.ERROR);
+                return;
+            }
+
+            // Why this is here I have no clue;;;
+            dailyMoney += random.nextInt(90);
+
+            var mentionedDBUser = ctx.getDBUser(otherUser.getId());
+            var mentionedUserData = mentionedDBUser.getData();
+
+            // Marriage bonus
+            var marriage = authorUserData.getMarriage();
+            if (marriage != null && otherUser.getId().equals(marriage.getOtherPlayer(ctx.getAuthor().getId())) &&
+                    playerOtherUser.getInventory().containsItem(ItemReference.RING)) {
+                dailyMoney += Math.max(10, random.nextInt(100));
+            }
+
+            // Mutual waifu status.
+            if (authorUserData.getWaifus().containsKey(otherUser.getId()) && mentionedUserData.getWaifus().containsKey(author.getId())) {
+                dailyMoney +=Math.max(5, random.nextInt(100));
+            }
+
+            toAddMoneyTo = UnifiedPlayer.of(otherUser, ctx.getConfig().getCurrentSeason());
+
+
+        } else {
+            // This is here so you dont overwrite yourself....
+            authorPlayer = toAddMoneyTo.getPlayer();
+            authorPlayerData = authorPlayer.getData();
+        }
+
+        // Check for rate limit
+        if (!RatelimitUtils.ratelimit(dailyRatelimiter, ctx, languageContext.get("commands.daily.ratelimit_message"), false))
+            return;
+
+        List<String> returnMessage = new ArrayList<>();
+        final long currentTime = System.currentTimeMillis();
+        final var inventory = authorPlayer.getInventory();
+        final int amountStreakSavers = inventory.getAmount(ItemReference.MAGIC_WATCH);
+
+        // >=0 -> Valid  <0 -> Invalid
+        final long currentDailyOffset = DAILY_VALID_PERIOD_MILLIS - (currentTime - authorPlayerData.getLastDailyAt()) ;
+
+        long streak = authorPlayerData.getDailyStreak();
+        var removedWatch = false;
+        // Not expired?
+        if (currentDailyOffset + amountStreakSavers * DAILY_VALID_PERIOD_MILLIS >= 0) {
+            streak++;
+            if (targetOther)
+                returnMessage.add(languageContext.get("commands.daily.streak.given.up").formatted(streak));
+            else
+                returnMessage.add(languageContext.get("commands.daily.streak.up").formatted(streak));
+            if (currentDailyOffset < 0){
+                int streakSaversUsed = -1 * (int) Math.floor((double) currentDailyOffset / (double) DAILY_VALID_PERIOD_MILLIS);
+                inventory.process(new ItemStack(ItemReference.MAGIC_WATCH, streakSaversUsed * -1));
+                returnMessage.add(languageContext.get("commands.daily.streak.watch_used").formatted(
+                        streakSaversUsed, streakSaversUsed + 1,
+                        amountStreakSavers - streakSaversUsed)
+                );
+
+                removedWatch = true;
+            }
+        } else {
+            if (streak == 0) {
+                returnMessage.add(languageContext.get("commands.daily.streak.first_time"));
+            } else {
+                if (amountStreakSavers > 0){
+                    returnMessage.add(
+                            languageContext.get("commands.daily.streak.lost_streak.watch").formatted(streak)
+                    );
+
+                    inventory.process(
+                            new ItemStack(ItemReference.MAGIC_WATCH, inventory.getAmount(ItemReference.MAGIC_WATCH) * -1)
+                    );
+
+                    removedWatch = true;
+
+                } else {
+                    returnMessage.add(languageContext.get("commands.daily.streak.lost_streak.normal").formatted(streak));
+                }
+            }
+            streak = 1;
+        }
+
+        if (streak > 5) {
+            // Bonus money
+            int bonus = 150;
+
+            if (streak % 50 == 0){
+                inventory.process(new ItemStack(ItemReference.MAGIC_WATCH,1));
+                returnMessage.add(languageContext.get("commands.daily.watch_get"));
+            }
+
+            if (streak > 10) {
+                authorPlayerData.addBadgeIfAbsent(Badge.CLAIMER);
+
+                if (streak % 20 == 0 && inventory.getAmount(ItemReference.LOOT_CRATE) < 5000) {
+                    inventory.process(new ItemStack(ItemReference.LOOT_CRATE, 1));
+                    returnMessage.add(languageContext.get("commands.daily.crate"));
+                }
+
+                if (streak > 15){
+                    bonus += Math.min(targetOther ? 1700 : 700, Math.floor(150 * streak / (targetOther ? 10D : 15D)));
+
+                    if (streak >= 180) {
+                        authorPlayerData.addBadgeIfAbsent(Badge.BIG_CLAIMER);
+                    }
+
+                    if (streak >= 365) {
+                        authorPlayerData.addBadgeIfAbsent(Badge.YEARLY_CLAIMER);
+                    }
+
+                    if (streak >= 730) {
+                        authorPlayerData.addBadgeIfAbsent(Badge.BI_YEARLY_CLAIMER);
+                    }
+                }
+            }
+
+            if (targetOther) {
+                returnMessage.add(languageContext.get("commands.daily.streak.given.bonus").formatted(otherUser.getName(), bonus));
+            } else {
+                returnMessage.add(languageContext.get("commands.daily.streak.bonus").formatted(bonus));
+            }
+
+            dailyMoney += bonus;
+        }
+
+        // If the author is premium, make daily double.
+        if (authorDBUser.isPremium()) {
+            dailyMoney *=2;
+        }
+
+        // Sellout + this is always a day apart, so we can just send campaign.
+        if (random.nextBoolean()) {
+            returnMessage.add(Campaign.TWITTER.getStringFromCampaign(languageContext, true));
+        } else {
+            returnMessage.add(Campaign.PREMIUM_DAILY.getStringFromCampaign(languageContext, authorDBUser.isPremium()));
+        }
+
+        // Careful not to overwrite yourself ;P
+        // Save streak and items
+        authorPlayerData.setLastDailyAt(currentTime);
+        authorPlayerData.setDailyStreak(streak);
+
+        // Critical not to call if author != mentioned because in this case
+        // toAdd is the unified player as referenced
+        if (targetOther) {
+            authorPlayer.save();
+        }
+
+        toAddMoneyTo.addMoney(dailyMoney);
+        if (removedWatch) {
+            toAddMoneyTo.save();
+        } else {
+            // We can sort of avoid doing a full save here.
+            // Since updating the fields is just fine unless we're removing something from a Map.
+            // It's still annoying.
+            toAddMoneyTo.saveUpdating();
+        }
+
+        // Build Message
+        var toSend = new StringBuilder((targetOther ?
+                languageContext.get("commands.daily.given_credits")
+                        .formatted(EmoteReference.CORRECT, dailyMoney, otherUser.getName()) :
+                languageContext.get("commands.daily.credits")
+                        .formatted(EmoteReference.CORRECT, dailyMoney)) + "\n"
+        );
+
+        for (var string : returnMessage) {
+            toSend.append("\n").append(string);
+        }
+
+        // Send Message
+        ctx.send(toSend.toString());
     }
 
     @Subscribe

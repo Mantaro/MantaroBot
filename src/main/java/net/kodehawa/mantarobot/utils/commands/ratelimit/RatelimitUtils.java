@@ -18,6 +18,8 @@ package net.kodehawa.mantarobot.utils.commands.ratelimit;
 
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.core.command.slash.BridgeContext;
+import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -112,41 +114,33 @@ public class RatelimitUtils {
     }
 
     // Overloads
-    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, Context ctx) {
+    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, IContext ctx) {
         return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), ctx.getLanguageContext(), null, false);
     }
 
-    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, SlashContext ctx) {
-        return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), ctx.getI18nContext(), null, false);
-    }
-
-    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, Context ctx, I18nContext languageContext) {
+    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, IContext ctx, I18nContext languageContext) {
         return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), languageContext, null, false);
     }
 
-    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, Context ctx,
+    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, IContext ctx,
                                     I18nContext languageContext, String extra) {
         return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), languageContext, extra, false);
     }
 
-    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, Context ctx, boolean spamAware) {
+    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, IContext ctx, boolean spamAware) {
         return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), ctx.getLanguageContext(), null, spamAware);
     }
 
-    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, SlashContext ctx, boolean spamAware) {
-        return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), ctx.getI18nContext(), null, spamAware);
-    }
-
-    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, Context ctx, String extra, boolean spamAware) {
+    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, IContext ctx, String extra, boolean spamAware) {
         return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), ctx.getLanguageContext(), extra, spamAware);
     }
 
-    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, Context ctx,
+    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, IContext ctx,
                                     I18nContext languageContext, boolean spamAware) {
         return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), languageContext, null, spamAware);
     }
 
-    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, Context ctx,
+    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, IContext ctx,
                                     I18nContext languageContext, String extra, boolean spamAware) {
         return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), languageContext, extra, spamAware);
     }

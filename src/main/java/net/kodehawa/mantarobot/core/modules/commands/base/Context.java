@@ -21,12 +21,12 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.concurrent.Task;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
+import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -40,13 +40,12 @@ import net.kodehawa.mantarobot.utils.commands.UtilsContext;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitContext;
 import redis.clients.jedis.JedisPool;
 
-import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 
-public class Context {
+public class Context implements IContext {
     private final MantaroBot bot = MantaroBot.getInstance();
     private final ManagedDatabase managedDatabase = MantaroData.db();
     private final Config config = MantaroData.config().get();
