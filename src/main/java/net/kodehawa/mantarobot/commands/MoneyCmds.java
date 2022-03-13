@@ -53,7 +53,7 @@ import java.util.concurrent.TimeUnit;
 @Module
 public class MoneyCmds {
     private static final long DAILY_VALID_PERIOD_MILLIS = MantaroData.config().get().getDailyMaxPeriodMilliseconds();
-    private static final IncreasingRateLimiter dailyRatelimiter = new IncreasingRateLimiter.Builder()
+    private static final IncreasingRateLimiter dailyRateLimiter = new IncreasingRateLimiter.Builder()
             .limit(1)
             .cooldown(24, TimeUnit.HOURS)
             .maxCooldown(24, TimeUnit.HOURS)
@@ -61,13 +61,82 @@ public class MoneyCmds {
             .pool(MantaroData.getDefaultJedisPool())
             .prefix("daily")
             .build();
+    private static final IncreasingRateLimiter lootRateLimiter = new IncreasingRateLimiter.Builder()
+            .limit(1)
+            .spamTolerance(2)
+            .cooldown(3, TimeUnit.MINUTES)
+            .maxCooldown(3, TimeUnit.MINUTES)
+            .randomIncrement(false)
+            .premiumAware(true)
+            .pool(MantaroData.getDefaultJedisPool())
+            .prefix("loot")
+            .build();
     private static final SecureRandom random = new SecureRandom();
 
     @Subscribe
     public void register(CommandRegistry cr) {
         cr.registerSlash(Daily.class);
+        cr.registerSlash(Loot.class);
+        cr.registerSlash(Balance.class);
     }
 
+    @Name("daily")
+    @Description("Gives you some credits per day and a reward for claiming it everyday.")
+    @Category(CommandCategory.CURRENCY)
+    @Options({
+            @Options.Option(type = OptionType.USER, name = "user", description = "User to give it to (optional)"),
+            @Options.Option(type = OptionType.BOOLEAN, name = "check", description = "Whether to check if your daily is ready (optional)")
+    })
+    @Help(
+            description = """
+                    Gives you $150 credits per day (or between 150 and 180 if you transfer it to another person). Maximum amount it can give is ~2000 credits (a bit more for shared dailies)
+                    This command gives a reward for claiming it every day (daily streak). You lose the streak if you miss two days in a row.
+                    """,
+            parameters = {
+                    @Help.Parameter(name = "user", description = "The user to give your daily to, without this it gives it to yourself.", optional = true),
+                    @Help.Parameter(name = "check", description = "Whether you want to check if you can claim your daily", optional = true)
+            }
+    )
+    public static class Daily extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {
+            daily(new BridgeContext(ctx, null), ctx.getOptionAsUser("user"), ctx.getOptionAsBoolean("check"));
+        }
+    }
+
+    @Name("loot")
+    @Description("Loot the current chat for random items.")
+    @Category(CommandCategory.CURRENCY)
+    @Help(description =
+            "Loot the current chat for items, for usage in Mantaro's currency system. " +
+                    "You have a random chance of getting collectible items from here."
+    )
+    public static class Loot extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {
+            loot(new BridgeContext(ctx, null));
+        }
+    }
+
+    @Name("balance")
+    @Description("Shows your current balance or another person's balance.")
+    @Category(CommandCategory.CURRENCY)
+    @Options({
+            @Options.Option(type = OptionType.USER, name = "user", description = "The user to check the balance of.")
+    })
+    @Help(
+            description = "Shows your current balance or another person's balance",
+            usage = "/balance [user]",
+            parameters = { @Help.Parameter(name = "user", description = "The user to check the balance of.", optional = true) }
+    )
+    public static class Balance extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {
+            balance(new BridgeContext(ctx, null), ctx.getOptionAsUser("user"));
+        }
+    }
+
+    // Old command system start
     @Subscribe
     public void daily(CommandRegistry cr) {
         cr.register("daily", new SimpleCommand(CommandCategory.CURRENCY) {
@@ -100,35 +169,68 @@ public class MoneyCmds {
         cr.registerAlias("daily", "dailies");
     }
 
-    @Name("daily")
-    @Description("Gives you some credits per day and a reward for claiming it everyday.")
-    @Category(CommandCategory.CURRENCY)
-    @Options({
-            @Options.Option(type = OptionType.USER, name = "user", description = "User to give it to (optional)"),
-            @Options.Option(type = OptionType.BOOLEAN, name = "check", description = "Whether to check if your daily is ready (optional)")
-    })
-    @Help(
-            description = """
-                    Gives you $150 credits per day (or between 150 and 180 if you transfer it to another person). Maximum amount it can give is ~2000 credits (a bit more for shared dailies)
-                    This command gives a reward for claiming it every day (daily streak). You lose the streak if you miss two days in a row.
-                    """,
-            parameters = {
-                    @Help.Parameter(name = "user", description = "The user to give your daily to, without this it gives it to yourself.", optional = true),
-                    @Help.Parameter(name = "check", description = "Whether you want to check if you can claim your daily", optional = true)
+    @Subscribe
+    public void loot(CommandRegistry cr) {
+        cr.register("loot", new SimpleCommand(CommandCategory.CURRENCY) {
+            @Override
+            public void call(Context ctx, String content, String[] args) {
+                loot(new BridgeContext(null, ctx));
             }
-    )
-    public static class Daily extends SlashCommand {
-        @Override
-        protected void process(SlashContext ctx) {
-            // Kinda pain that I need a static method here, but at the same time it being static makes sense lol
-            daily(new BridgeContext(ctx, null), ctx.getOptionAsUser("user"), ctx.getOptionAsBoolean("check"));
-        }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Loot the current chat for items, for usage in Mantaro's currency system. " +
+                                "You have a random chance of getting collectible items from here.")
+                        .build();
+            }
+        });
     }
+
+
+    @Subscribe
+    public void balance(CommandRegistry cr) {
+        cr.register("balance", new SimpleCommand(CommandCategory.CURRENCY) {
+            @Override
+            protected void call(Context ctx, String content, String[] args) {
+                // Values on lambdas should be final or effectively final part 9999.
+                final var finalContent = content;
+                ctx.findMember(content, members -> {
+                    var user = ctx.getAuthor();
+                    boolean isExternal = false;
+
+                    var found = CustomFinderUtil.findMemberDefault(finalContent, members, ctx, ctx.getMember());
+                    if (found == null) {
+                        return;
+                    } else if (!finalContent.isEmpty()) {
+                        user = found.getUser();
+                        isExternal = true;
+                    }
+
+                    balance(new BridgeContext(null, ctx), isExternal ? user : null);
+                });
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows your current balance or another person's balance.")
+                        .setUsage("`~>balance [@user]`")
+                        .addParameter("@user", "The user to check the balance of. This is optional.")
+                        .setSeasonal(true)
+                        .build();
+            }
+        });
+
+        cr.registerAlias("balance", "credits");
+        cr.registerAlias("balance", "bal");
+    }
+    // Old command system end
 
     private static void daily(BridgeContext ctx, User toGive, boolean check) {
         final var languageContext = ctx.getLanguageContext();
         if (check) {
-            long rl = dailyRatelimiter.getRemaniningCooldown(ctx.getAuthor());
+            long rl = dailyRateLimiter.getRemaniningCooldown(ctx.getAuthor());
 
             ctx.sendLocalized("commands.daily.check", EmoteReference.TALKING,
                     (rl) > 0 ? Utils.formatDuration(ctx.getLanguageContext(), rl) :
@@ -207,7 +309,7 @@ public class MoneyCmds {
         }
 
         // Check for rate limit
-        if (!RatelimitUtils.ratelimit(dailyRatelimiter, ctx, languageContext.get("commands.daily.ratelimit_message"), false))
+        if (!RatelimitUtils.ratelimit(dailyRateLimiter, ctx, languageContext.get("commands.daily.ratelimit_message"), false))
             return;
 
         List<String> returnMessage = new ArrayList<>();
@@ -351,207 +453,144 @@ public class MoneyCmds {
         ctx.send(toSend.toString());
     }
 
-    @Subscribe
-    public void loot(CommandRegistry cr) {
-        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
-                .limit(1)
-                .spamTolerance(2)
-                .cooldown(3, TimeUnit.MINUTES)
-                .maxCooldown(3, TimeUnit.MINUTES)
-                .randomIncrement(false)
-                .premiumAware(true)
-                .pool(MantaroData.getDefaultJedisPool())
-                .prefix("loot")
-                .build();
+    private static void loot(BridgeContext ctx) {
+        var player = ctx.getPlayer();
+        var playerData = player.getData();
+        var dbUser = ctx.getDBUser();
+        var languageContext = ctx.getLanguageContext();
+        if (player.isLocked()) {
+            ctx.sendLocalized("commands.loot.player_locked", EmoteReference.ERROR);
+            return;
+        }
 
-        final ZoneId zoneId = ZoneId.systemDefault();
-        final SecureRandom random = new SecureRandom();
+        if (!RatelimitUtils.ratelimit(lootRateLimiter, ctx)) {
+            return;
+        }
 
-        cr.register("loot", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            public void call(Context ctx, String content, String[] args) {
-                var unifiedPlayer = UnifiedPlayer.of(ctx.getAuthor(), ctx.getConfig().getCurrentSeason());
+        var today = LocalDate.now(ZoneId.systemDefault());
+        var eventStart = today.withMonth(Month.DECEMBER.getValue()).withDayOfMonth(23);
+        var eventStop = eventStart.plusDays(3); //Up to the 25th
+        var ground = TextChannelGround.of(ctx.getChannel());
 
-                var player = unifiedPlayer.getPlayer();
-                var playerData = player.getData();
-                var dbUser = ctx.getDBUser();
-                var languageContext = ctx.getLanguageContext();
+        if (today.isEqual(eventStart) || (today.isAfter(eventStart) && today.isBefore(eventStop))) {
+            ground.dropItemWithChance(ItemReference.CHRISTMAS_TREE_SPECIAL, 4);
+            ground.dropItemWithChance(ItemReference.BELL_SPECIAL, 4);
+        }
 
-                if (player.isLocked()) {
-                    ctx.sendLocalized("commands.loot.player_locked", EmoteReference.ERROR);
-                    return;
-                }
+        if (random.nextInt(100) > 95) {
+            ground.dropItem(ItemReference.LOOT_CRATE);
+            if (playerData.addBadgeIfAbsent(Badge.LUCKY)) {
+                player.saveUpdating();
+            }
+        }
 
-                if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
-                    return;
-                }
+        var loot = ground.collectItems();
+        var moneyFound = ground.collectMoney() + Math.max(0, random.nextInt(70));
 
-                var today = LocalDate.now(zoneId);
-                var eventStart = today.withMonth(Month.DECEMBER.getValue()).withDayOfMonth(23);
-                var eventStop = eventStart.plusDays(3); //Up to the 25th
-                var ground = TextChannelGround.of(ctx.getEvent());
+        // Make the credits minimum 10, instead of... 1
+        if (moneyFound != 0) {
+            moneyFound = Math.max(10, moneyFound);
+        }
 
-                if (today.isEqual(eventStart) || (today.isAfter(eventStart) && today.isBefore(eventStop))) {
-                    ground.dropItemWithChance(ItemReference.CHRISTMAS_TREE_SPECIAL, 4);
-                    ground.dropItemWithChance(ItemReference.BELL_SPECIAL, 4);
-                }
+        if (dbUser.isPremium() && moneyFound > 0) {
+            int extra = (int) (moneyFound * 1.5);
+            moneyFound += random.nextInt(extra);
+        }
 
-                if (random.nextInt(100) > 95) {
-                    ground.dropItem(ItemReference.LOOT_CRATE);
-                    if (playerData.addBadgeIfAbsent(Badge.LUCKY)) {
-                        player.saveUpdating();
-                    }
-                }
+        var extraMessage = "";
 
-                var loot = ground.collectItems();
-                var moneyFound = ground.collectMoney() + Math.max(0, random.nextInt(70));
-
-                // Make the credits minimum 10, instead of... 1
-                if (moneyFound != 0) {
-                    moneyFound = Math.max(10, moneyFound);
-                }
-
-                if (dbUser.isPremium() && moneyFound > 0) {
-                    int extra = (int) (moneyFound * 1.5);
-                    moneyFound += random.nextInt(extra);
-                }
-
-                var extraMessage = "";
-
-                // Sellout
-                if (playerData.shouldSeeCampaign()){
-                    extraMessage += Campaign.PREMIUM.getStringFromCampaign(languageContext, dbUser.isPremium());
-                    playerData.markCampaignAsSeen();
-                }
+        // Sellout
+        if (playerData.shouldSeeCampaign()){
+            extraMessage += Campaign.PREMIUM.getStringFromCampaign(languageContext, dbUser.isPremium());
+            playerData.markCampaignAsSeen();
+        }
 
 
-                if (!loot.isEmpty()) {
-                    var stack = ItemStack.toString(ItemStack.reduce(loot));
+        if (!loot.isEmpty()) {
+            var stack = ItemStack.toString(ItemStack.reduce(loot));
 
-                    if (player.getInventory().merge(loot))
-                        extraMessage += languageContext.withRoot("commands", "loot.item_overflow");
+            if (player.getInventory().merge(loot))
+                extraMessage += languageContext.withRoot("commands", "loot.item_overflow");
 
-                    if (moneyFound != 0) {
-                        if (unifiedPlayer.addMoney(moneyFound)) {
-                            ctx.sendLocalized("commands.loot.with_item.found", EmoteReference.POPPER, stack, moneyFound, extraMessage);
-                        } else {
-                            ctx.sendLocalized("commands.loot.with_item.found_but_overflow", EmoteReference.POPPER, stack, moneyFound, extraMessage);
-                        }
-                    } else {
-                        ctx.sendLocalized("commands.loot.with_item.found_only_item_but_overflow", EmoteReference.MEGA, stack, extraMessage);
-                    }
-
+            if (moneyFound != 0) {
+                if (player.addMoney(moneyFound)) {
+                    ctx.sendLocalized("commands.loot.with_item.found", EmoteReference.POPPER, stack, moneyFound, extraMessage);
                 } else {
-                    if (moneyFound != 0) {
-                        if (unifiedPlayer.addMoney(moneyFound)) {
-                            ctx.sendLocalized("commands.loot.without_item.found", EmoteReference.POPPER, moneyFound, extraMessage);
-                        } else {
-                            ctx.sendLocalized("commands.loot.without_item.found_but_overflow", EmoteReference.POPPER, moneyFound);
-                        }
-                    } else {
-                        var dust = dbUser.getData().increaseDustLevel(random.nextInt(2));
-                        var msg = languageContext.withRoot("commands", "loot.dust").formatted(dust);
+                    ctx.sendLocalized("commands.loot.with_item.found_but_overflow", EmoteReference.POPPER, stack, moneyFound, extraMessage);
+                }
+            } else {
+                ctx.sendLocalized("commands.loot.with_item.found_only_item_but_overflow", EmoteReference.MEGA, stack, extraMessage);
+            }
 
-                        dbUser.save();
+        } else {
+            if (moneyFound != 0) {
+                if (player.addMoney(moneyFound)) {
+                    ctx.sendLocalized("commands.loot.without_item.found", EmoteReference.POPPER, moneyFound, extraMessage);
+                } else {
+                    ctx.sendLocalized("commands.loot.without_item.found_but_overflow", EmoteReference.POPPER, moneyFound);
+                }
+            } else {
+                var dust = dbUser.getData().increaseDustLevel(random.nextInt(2));
+                var msg = languageContext.withRoot("commands", "loot.dust").formatted(dust);
 
-                        if (random.nextInt(100) > 93) {
-                            msg += languageContext.withRoot("commands", "loot.easter");
-                        }
+                dbUser.save();
 
-                        ctx.send(EmoteReference.SAD + msg);
-                    }
+                if (random.nextInt(100) > 93) {
+                    msg += languageContext.withRoot("commands", "loot.easter");
                 }
 
-                unifiedPlayer.saveUpdating();
+                ctx.send(EmoteReference.SAD + msg);
             }
+        }
 
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Loot the current chat for items, for usage in Mantaro's currency system. " +
-                                "You have a random chance of getting collectible items from here.")
-                        .build();
-            }
-        });
+        player.saveUpdating();
     }
 
-    @Subscribe
-    public void balance(CommandRegistry cr) {
-        cr.register("balance", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                var optionalArguments = ctx.getOptionalArguments();
-                content = Utils.replaceArguments(optionalArguments, content, "season", "s").trim();
-                var isSeasonal = optionalArguments.containsKey("season") || optionalArguments.containsKey("s");
-                var languageContext = ctx.getLanguageContext();
+    private static void balance(BridgeContext ctx, User toCheck) {
+        var languageContext = ctx.getLanguageContext();
+        var user = ctx.getAuthor();
+        boolean isExternal = false;
 
-                // Values on lambdas should be final or effectively final part 9999.
-                final var finalContent = content;
-                ctx.findMember(content, members -> {
-                    var user = ctx.getAuthor();
-                    boolean isExternal = false;
+        if (toCheck != null) {
+            user = toCheck;
+            isExternal = true;
+        }
+        if (user.isBot()) {
+            ctx.sendLocalized("commands.balance.bot_notice", EmoteReference.ERROR);
+            return;
+        }
 
-                    var found = CustomFinderUtil.findMemberDefault(finalContent, members, ctx, ctx.getMember());
-                    if (found == null) {
-                        return;
-                    } else if (!finalContent.isEmpty()) {
-                        user = found.getUser();
-                        isExternal = true;
-                    }
+        var player = ctx.getPlayer(user);
+        var playerData = player.getData();
+        var balance = player.getCurrentMoney();
+        var extra = "";
 
-                    if (user.isBot()) {
-                        ctx.sendLocalized("commands.balance.bot_notice", EmoteReference.ERROR);
-                        return;
-                    }
+        if (!playerData.isResetWarning() && !ctx.getConfig().isPremiumBot() && ctx.getPlayer().getOldMoney() > 10_000) {
+            extra = languageContext.get("commands.balance.reset_notice");
+            playerData.setResetWarning(true);
+            player.saveUpdating();
+        }
 
-                    var player = ctx.getPlayer(user);
-                    var playerData = player.getData();
+        if (balance < 300 && playerData.getExperience() < 3400 && !playerData.isNewPlayerNotice()) {
+            extra += (extra.isEmpty() ? "" : "\n") + languageContext.get("commands.balance.new_player");
+            playerData.setNewPlayerNotice(true);
+            player.saveUpdating();
+        }
 
-                    var balance = isSeasonal ? ctx.getSeasonPlayer(user).getMoney() : player.getCurrentMoney();
-                    var extra = "";
+        var message = String.format(
+                Utils.getLocaleFromLanguage(ctx.getLanguageContext()),
+                languageContext.withRoot("commands", "balance.own_balance"),
+                balance, extra
+        );
 
-                    if (!playerData.isResetWarning() && !ctx.getConfig().isPremiumBot() && ctx.getPlayer().getOldMoney() > 10_000) {
-                        extra = languageContext.get("commands.balance.reset_notice");
-                        playerData.setResetWarning(true);
-                        player.saveUpdating();
-                    }
+        if (isExternal) {
+            message = String.format(
+                    Utils.getLocaleFromLanguage(ctx.getLanguageContext()),
+                    languageContext.withRoot("commands", "balance.external_balance"),
+                    user.getName(), balance
+            );
+        }
 
-                    if (balance < 300 && playerData.getExperience() < 3400 && !playerData.isNewPlayerNotice()) {
-                        extra += (extra.isEmpty() ? "" : "\n") + languageContext.get("commands.balance.new_player");
-                        playerData.setNewPlayerNotice(true);
-                        player.saveUpdating();
-                    }
-
-                    var message = String.format(
-                            Utils.getLocaleFromLanguage(ctx.getLanguageContext()),
-                            languageContext.withRoot("commands", "balance.own_balance"),
-                            balance, extra
-                    );
-
-                    if (isExternal) {
-                        message = String.format(
-                                Utils.getLocaleFromLanguage(ctx.getLanguageContext()),
-                                languageContext.withRoot("commands", "balance.external_balance"),
-                                user.getName(), balance
-                        );
-                    }
-
-                    ctx.send(EmoteReference.CREDITCARD + message);
-                });
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Shows your current balance or another person's balance.")
-                        .setUsage("`~>balance [@user]`")
-                        .addParameter("@user", "The user to check the balance of. This is optional.")
-                        .setSeasonal(true)
-                        .build();
-            }
-        });
-
-        cr.registerAlias("balance", "credits");
-        cr.registerAlias("balance", "bal");
+        ctx.send(EmoteReference.CREDITCARD + message);
     }
 }
