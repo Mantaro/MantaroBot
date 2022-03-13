@@ -31,6 +31,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
@@ -102,6 +103,7 @@ public class HelpCmd {
                         return true;
                     }
                 })
+                .filter(c -> c != CommandCategory.HIDDEN)
                 .filter(c -> c != CommandCategory.OWNER || CommandPermission.OWNER.test(ctx.getMember()))
                 .filter(c -> !CommandProcessor.REGISTRY.getCommandsForCategory(c).isEmpty())
                 .forEach(c ->
@@ -301,5 +303,28 @@ public class HelpCmd {
 
         cr.registerAlias("help", "commands");
         cr.registerAlias("help", "halp"); //why not
+    }
+
+    // Transitional command.
+    @Subscribe
+    public void slash(CommandRegistry cr) {
+        cr.register("slash", new SimpleCommand(CommandCategory.HIDDEN) {
+            @Override
+            protected void call(Context ctx, String content, String[] args) {
+                I18nContext i18nContext = ctx.getLanguageContext();
+                var builder = new EmbedBuilder();
+                builder.setAuthor(i18nContext.get("commands.slash.title"))
+                        .setDescription(i18nContext.get("commands.slash.description").formatted(EmoteReference.WARNING) + "\n" +
+                                i18nContext.get("commands.slash.description_2")
+                        )
+                        .setColor(Color.PINK)
+                        .setImage("https://i.imgur.com/LTbSRSV.png")
+                        .setFooter(i18nContext.get("commands.pet.status.footer"), ctx.getMember().getEffectiveAvatarUrl());
+
+                ctx.send(builder.build());
+            }
+        });
+
+        cr.registerAlias("slash", "info", "status", "shard", "shardinfo", "ping", "time", "prune");
     }
 }

@@ -131,9 +131,15 @@
     "games": "Games",
     "info": "Info",
     "currency": "Currency",
-    "pet": "Pet"
+    "pet": "Pet",
+    "hidden": "Hidden"
   },
   "commands": {
+    "slash": {
+      "title": "Slash commands transition",
+      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix.\n\nSlash Commands are the new way to use commands as per Discord's guidelines.\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
+      "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping`\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site"
+    },
     "fish": {
       "dust": "%1$sThe day is over, and your fish bucket only could collect dust. (Dust level %2$s%%)",
       "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>buy rod`",
