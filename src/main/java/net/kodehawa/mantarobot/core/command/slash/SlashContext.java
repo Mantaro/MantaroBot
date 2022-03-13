@@ -90,6 +90,13 @@ public class SlashContext implements IContext {
                 .queue();
     }
 
+    public void replyEphemeral(String source, Object... args) {
+        slash.deferReply(true)
+                .setContent(i18n.get(source).formatted(args))
+                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                .queue();
+    }
+
     public ReplyAction replyAction(String source, Object... args) {
         return slash.reply(i18n.get(source).formatted(args)).allowedMentions(EnumSet.noneOf(Message.MentionType.class));
     }

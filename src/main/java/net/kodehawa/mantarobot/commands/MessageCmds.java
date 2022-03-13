@@ -16,11 +16,13 @@
 
 package net.kodehawa.mantarobot.commands;
 
+import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
+import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
@@ -35,6 +37,11 @@ import java.util.stream.Collectors;
 
 @Module
 public class MessageCmds {
+    @Subscribe
+    public void register(CommandRegistry cr) {
+        cr.registerSlash(Prune.class);
+    }
+
     @Name("prune")
     @Description("Prunes X amount of messages from a channel. Requires Message Manage permission.")
     @Category(CommandCategory.MODERATION)
@@ -79,12 +86,12 @@ public class MessageCmds {
         protected Predicate<SlashContext> getPredicate() {
             return ctx -> {
                 if (!ctx.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {
-                    ctx.sendLocalized("commands.prune.no_permissions_user", EmoteReference.ERROR);
+                    ctx.replyEphemeral("commands.prune.no_permissions_user", EmoteReference.ERROR);
                     return false;
                 }
 
                 if (!ctx.getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
-                    ctx.sendLocalized("commands.prune.no_permissions", EmoteReference.ERROR);
+                    ctx.replyEphemeral("commands.prune.no_permissions", EmoteReference.ERROR);
                     return false;
                 }
 
