@@ -84,7 +84,6 @@ public class SlashContext implements IContext {
         slash.reply(i18n.get(source).formatted(args))
                 .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
-        ;
     }
 
     public ReplyAction replyAction(String source, Object... args) {

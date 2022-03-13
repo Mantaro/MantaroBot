@@ -253,6 +253,7 @@ public class CommandRegistry {
     // Process slash commands.
     public void process(SlashCommandEvent event) {
         if (event.getGuild() == null) {
+            event.deferReply(true).setContent("This bot does not accept commands in Private Messages.").queue();
             return;
         }
 
@@ -282,7 +283,7 @@ public class CommandRegistry {
 
         // !! Permission check start
         if (guildData.getDisabledCommands().contains(name)) {
-            sendDisabledNotice(event, guildData, CommandDisableLevel.COMMAND);
+            sendDisabledNotice(event, CommandDisableLevel.COMMAND);
             return;
         }
 
@@ -290,27 +291,27 @@ public class CommandRegistry {
         final var roles = member.getRoles();
         final var channelDisabledCommands = guildData.getChannelSpecificDisabledCommands().get(channel.getId());
         if (channelDisabledCommands != null && channelDisabledCommands.contains(name)) {
-            sendDisabledNotice(event, guildData, CommandDisableLevel.COMMAND_SPECIFIC);
+            sendDisabledNotice(event, CommandDisableLevel.COMMAND_SPECIFIC);
             return;
         }
 
         if (guildData.getDisabledUsers().contains(author.getId()) && isNotAdmin(member)) {
-            sendDisabledNotice(event, guildData, CommandDisableLevel.USER);
+            sendDisabledNotice(event, CommandDisableLevel.USER);
             return;
         }
         if (guildData.getDisabledChannels().contains(channel.getId())) {
-            sendDisabledNotice(event, guildData, CommandDisableLevel.CHANNEL);
+            sendDisabledNotice(event, CommandDisableLevel.CHANNEL);
             return;
         }
 
         if (guildData.getDisabledCategories().contains(cmd.getCategory())) {
-            sendDisabledNotice(event, guildData, CommandDisableLevel.CATEGORY);
+            sendDisabledNotice(event, CommandDisableLevel.CATEGORY);
             return;
         }
 
         if (guildData.getChannelSpecificDisabledCategories().computeIfAbsent(
                 channel.getId(), c -> new ArrayList<>()).contains(cmd.getCategory())) {
-            sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_CATEGORY);
+            sendDisabledNotice(event, CommandDisableLevel.SPECIFIC_CATEGORY);
             return;
         }
 
@@ -324,21 +325,21 @@ public class CommandRegistry {
 
         if (!guildData.getDisabledRoles().isEmpty() && roles.stream().anyMatch(
                 r -> guildData.getDisabledRoles().contains(r.getId())) && isNotAdmin(member)) {
-            sendDisabledNotice(event, guildData, CommandDisableLevel.ROLE);
+            sendDisabledNotice(event, CommandDisableLevel.ROLE);
             return;
         }
 
         final var roleSpecificDisabledCommands = guildData.getRoleSpecificDisabledCommands();
         if (roles.stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(
                 r.getId(), s -> new ArrayList<>()).contains(name)) && isNotAdmin(member)) {
-            sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_ROLE);
+            sendDisabledNotice(event, CommandDisableLevel.SPECIFIC_ROLE);
             return;
         }
 
         final var roleSpecificDisabledCategories = guildData.getRoleSpecificDisabledCategories();
         if (roles.stream().anyMatch(r -> roleSpecificDisabledCategories.computeIfAbsent(
                 r.getId(), s -> new ArrayList<>()).contains(cmd.getCategory())) && isNotAdmin(member)) {
-            sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_ROLE_CATEGORY);
+            sendDisabledNotice(event, CommandDisableLevel.SPECIFIC_ROLE_CATEGORY);
             return;
         }
 
@@ -476,12 +477,11 @@ public class CommandRegistry {
         } // else don't
     }
 
-    public void sendDisabledNotice(SlashCommandEvent event, GuildData data, CommandDisableLevel level) {
-        if (data.isCommandWarningDisplay() && level != CommandDisableLevel.NONE) {
-            event.reply("%sThis command is disabled on this server. Reason: %s"
-                    .formatted(EmoteReference.ERROR, Utils.capitalize(level.getName()))
-            ).queue();
-        } // else don't
+    public void sendDisabledNotice(SlashCommandEvent event, CommandDisableLevel level) {
+        event.deferReply(true)
+                .setContent("%sThis command is disabled on this server. Reason: %s"
+                        .formatted(EmoteReference.ERROR, Utils.capitalize(level.getName()))
+        ).queue();
     }
 
     private static String name(Command c, String userInput) {
