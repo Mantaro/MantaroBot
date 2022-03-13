@@ -47,8 +47,8 @@ public class MessageCmds {
     @Category(CommandCategory.MODERATION)
     @Options({
             @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of messages to prune", maxValue = 100, minValue = 5, required = true),
-            @Options.Option(type = OptionType.BOOLEAN, name = "botOnly", description = "Only prune messages from bots"),
-            @Options.Option(type = OptionType.BOOLEAN, name = "skipPinned", description = "Don't prune pinned messages"),
+            @Options.Option(type = OptionType.BOOLEAN, name = "botonly", description = "Only prune messages from bots"),
+            @Options.Option(type = OptionType.BOOLEAN, name = "skippinned", description = "Don't prune pinned messages"),
             @Options.Option(type = OptionType.USER, name = "user", description = "Only prune messages from the specified user")
     })
     @Help(
@@ -57,8 +57,8 @@ public class MessageCmds {
             parameters = {
                     @Help.Parameter(name = "amount", description = "The amount of messages to prune, from 5 to 100."),
                     @Help.Parameter(name = "user", description = "Only prune from this specific user."),
-                    @Help.Parameter(name = "botOnly", description = "Only prune bot messages."),
-                    @Help.Parameter(name = "skipPinned", description = "Don't prune pinned messages."),
+                    @Help.Parameter(name = "botonly", description = "Only prune bot messages."),
+                    @Help.Parameter(name = "skippinned", description = "Don't prune pinned messages."),
 
             }
     )
@@ -67,8 +67,8 @@ public class MessageCmds {
         protected void process(SlashContext ctx) {
             var user = ctx.getOptionAsUser("user");
             var amount = ctx.getOptionAsLong("amount");
-            var botOnly = ctx.getOptionAsBoolean("botOnly");
-            var skipPinned = ctx.getOptionAsBoolean("skipPinned");
+            var botOnly = ctx.getOptionAsBoolean("botonly");
+            var skipPinned = ctx.getOptionAsBoolean("skippinned");
             Predicate<Message> predicate = message ->
                 (user != null && user.getIdLong() == message.getAuthor().getIdLong()) // If user is not null, only pick the user.
                         || (botOnly && message.getAuthor().isBot())  // If botOnly is true, pick only bots.
