@@ -56,10 +56,9 @@ public class MessageCmds {
             usage = "/prune <amount> [user] [bot only] [skip pinned]`",
             parameters = {
                     @Help.Parameter(name = "amount", description = "The amount of messages to prune, from 5 to 100."),
-                    @Help.Parameter(name = "user", description = "Only prune from this specific user."),
-                    @Help.Parameter(name = "botonly", description = "Only prune bot messages."),
-                    @Help.Parameter(name = "skippinned", description = "Don't prune pinned messages."),
-
+                    @Help.Parameter(name = "user", description = "Only prune from this specific user.", optional = true),
+                    @Help.Parameter(name = "botonly", description = "Only prune bot messages.", optional = true),
+                    @Help.Parameter(name = "skippinned", description = "Don't prune pinned messages.", optional = true),
             }
     )
     public static class Prune extends SlashCommand {

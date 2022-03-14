@@ -82,4 +82,8 @@ public enum CommandCategory {
     public String toString() {
         return s;
     }
+
+    public String readableName() {
+        return Utils.capitalize(name().toLowerCase());
+    }
 }

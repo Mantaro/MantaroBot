@@ -66,12 +66,12 @@ public class CommandManager {
         CommandData commandData;
         // So you can't have root commands if you have subcommands, why?
         if (command.getSubCommands().isEmpty()) {
-            commandData = new CommandData(command.getName(), command.getDescription())
+            commandData = new CommandData(command.getName(), "[%s] %s".formatted(command.getCategory().readableName(), command.getDescription()))
                     .addOptions(command.getOptions())
                     .setDefaultEnabled(true);
 
         } else {
-            commandData = new CommandData(command.getName(), command.getDescription())
+            commandData = new CommandData(command.getName(), "[%s] %s".formatted(command.getCategory().readableName(), command.getDescription()))
                     .addSubcommands(command.getSubCommandsRaw())
                     .setDefaultEnabled(true);
         }

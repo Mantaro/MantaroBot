@@ -325,6 +325,9 @@ public class HelpCmd {
             }
         });
 
-        cr.registerAlias("slash", "info", "status", "shard", "shardinfo", "ping", "time", "prune");
+        cr.registerAlias("slash",
+                "info", "status", "shard", "shardinfo", "ping", "time", "prune",
+                "ban", "kick", "softban"
+        );
     }
 }
