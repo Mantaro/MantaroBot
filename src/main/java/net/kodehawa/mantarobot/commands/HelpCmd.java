@@ -327,7 +327,9 @@ public class HelpCmd {
 
         cr.registerAlias("slash",
                 "info", "status", "shard", "shardinfo", "ping", "time", "prune",
-                "ban", "kick", "softban"
+                "ban", "kick", "softban", "userinfo", "serverinfo", "avatar", "roleinfo",
+                "support", "donate", "language", "invite", "danbooru",
+                "e621", "e926", "yandere", "konachan", "gelbooru", "safebooru", "rule34"
         );
     }
 }

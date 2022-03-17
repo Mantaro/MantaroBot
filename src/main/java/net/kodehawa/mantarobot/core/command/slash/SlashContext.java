@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.requests.restaction.interactions.ReplyAction;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -39,6 +40,10 @@ public class SlashContext implements IContext {
 
     public String getName() {
         return slash.getName();
+    }
+
+    public SlashCommandEvent getEvent() {
+        return slash;
     }
 
     public String getSubCommand() {
@@ -99,7 +104,8 @@ public class SlashContext implements IContext {
     }
 
     public void reply(String source, Object... args) {
-        slash.reply(i18n.get(source).formatted(args))
+        slash.deferReply()
+                .setContent(i18n.get(source).formatted(args))
                 .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
     }
@@ -112,11 +118,14 @@ public class SlashContext implements IContext {
     }
 
     public ReplyAction replyAction(String source, Object... args) {
-        return slash.reply(i18n.get(source).formatted(args)).allowedMentions(EnumSet.noneOf(Message.MentionType.class));
+        return slash.deferReply()
+                .setContent(i18n.get(source).formatted(args))
+                .allowedMentions(EnumSet.noneOf(Message.MentionType.class));
     }
 
     public void reply(String text) {
-        slash.reply(text)
+        slash.deferReply()
+                .setContent(text)
                 .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
     }
@@ -124,22 +133,40 @@ public class SlashContext implements IContext {
     public void reply(MessageEmbed embed) {
         slash.deferReply().addEmbeds(embed)
                 .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
-                .queue();
+                .queue(success -> {}, Throwable::printStackTrace);
     }
 
     public void replyEphemeral(MessageEmbed embed) {
         slash.deferReply(true).addEmbeds(embed)
                 .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
-                .queue();
+                .queue(success -> {}, Throwable::printStackTrace);
     }
 
     public ReplyAction replyAction(String text) {
-        return slash.reply(text).allowedMentions(EnumSet.noneOf(Message.MentionType.class));
+        return slash.deferReply()
+                .setContent(text)
+                .allowedMentions(EnumSet.noneOf(Message.MentionType.class));
+    }
+
+    public void send(MessageEmbed embed, ActionRow... actionRow) {
+        // Sending embeds while supressing the failure callbacks leads to very hard
+        // to debug bugs, so enable it.
+        slash.deferReply()
+                .addEmbeds(embed)
+                .addActionRows(actionRow)
+                .queue(success -> {}, Throwable::printStackTrace);
     }
 
     @Override
     public void send(String s) {
         reply(s);
+    }
+
+    @Override
+    public void send(MessageEmbed embed) {
+        slash.deferReply().addEmbeds(embed)
+                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                .queue();
     }
 
     @Override

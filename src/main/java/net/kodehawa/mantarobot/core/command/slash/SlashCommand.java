@@ -121,7 +121,7 @@ public abstract class SlashCommand {
     public List<SubcommandData> getSubCommandsRaw() {
         List<SubcommandData> temp = new ArrayList<>();
         for (var sub : subCommands.values()) {
-            var subObj = new SubcommandData(sub.getName(), sub.getDescription())
+            var subObj = new SubcommandData(sub.getName(), "[%s] %s".formatted(sub.getCategory().readableName(), sub.getDescription()))
                     .addOptions(sub.getOptions());
 
             temp.add(subObj);

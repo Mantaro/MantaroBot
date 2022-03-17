@@ -1,9 +1,6 @@
 package net.kodehawa.mantarobot.core.command.slash;
 
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
@@ -108,6 +105,16 @@ public class BridgeContext implements IContext {
             prefixContext.send(source);
         }
     }
+
+    @Override
+    public void send(MessageEmbed embed) {
+        if (isSlash()) {
+            slashContext.send(embed);
+        } else {
+            prefixContext.send(embed);
+        }
+    }
+
 
     public RatelimitContext ratelimitContext() {
         if (isSlash()) {
