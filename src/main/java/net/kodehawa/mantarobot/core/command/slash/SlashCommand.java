@@ -16,7 +16,7 @@ public abstract class SlashCommand {
     private final String description;
     private final List<OptionData> types = new ArrayList<>();
     private final Map<String, SlashCommand> subCommands = new HashMap<>();
-    private final CommandCategory category;
+    private CommandCategory category;
     private final CommandPermission permission;
     private final boolean guildOnly;
     private final HelpContent help;
@@ -110,6 +110,11 @@ public abstract class SlashCommand {
 
     public List<SlashCommand> getSubCommandList() {
         return new ArrayList<>(subCommands.values());
+    }
+
+    // Needed for subcommands
+    public void setCategory(CommandCategory category) {
+        this.category = category;
     }
 
     // This is slow, but it's only called once per command.

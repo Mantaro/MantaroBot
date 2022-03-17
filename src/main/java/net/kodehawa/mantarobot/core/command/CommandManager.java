@@ -122,6 +122,8 @@ public class CommandManager {
             if (Modifier.isAbstract(inner.getModifiers())) continue;
 
             var sub = (SlashCommand)instantiate(inner);
+            sub.setCategory(command.getCategory());
+
             command.addSubCommand(sub.getName(), sub);
         }
 

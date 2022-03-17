@@ -68,7 +68,6 @@ public class UtilsCmds {
     @Subscribe
     public void register(CommandRegistry cr) {
         cr.registerSlash(Time.class);
-        cr.registerSlash(Test.class);
     }
 
     @Subscribe
@@ -273,33 +272,6 @@ public class UtilsCmds {
             return rems;
         }
     }
-
-    @Name("subtest")
-    @Category(CommandCategory.UTILS)
-    @Description("Tests sub-commands.")
-    public static class Test extends SlashCommand {
-        @Override
-        protected void process(SlashContext ctx) { } // Can't call main one, lol
-
-        @Name("actualsub1")
-        @Description("Tests the actual sub-commands 1.")
-        public static class TestSub extends SlashCommand {
-            @Override
-            protected void process(SlashContext ctx) {
-                ctx.reply("test1");
-            }
-        }
-
-        @Name("actualsub2")
-        @Description("Tests the actual sub-commands 2.")
-        public static class TestSub2 extends SlashCommand {
-            @Override
-            protected void process(SlashContext ctx) {
-                ctx.reply("test2");
-            }
-        }
-    }
-
 
     @Name("time")
     @Category(CommandCategory.UTILS)

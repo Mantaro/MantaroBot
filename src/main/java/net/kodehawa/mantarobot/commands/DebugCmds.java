@@ -30,10 +30,7 @@ import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.APIUtils;
@@ -61,15 +58,15 @@ public class DebugCmds {
     public void register(CommandRegistry cr) {
         cr.registerSlash(Ping.class);
         cr.registerSlash(ShardInfo.class);
-        cr.registerSlash(Info.class);
+        cr.registerSlash(Stats.class);
         cr.registerSlash(Shard.class);
     }
 
-    @Name("info")
+    @Name("stats")
     @Description("Gets the bot technical information. Nothing all that interesting, but shows cute stats.")
     @Category(CommandCategory.INFO)
     @Help(description = "Gets the bot technical information. Nothing all that interesting, but shows cute stats.")
-    public static class Info extends SlashCommand {
+    public static class Stats extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
             var config = ctx.getConfig();

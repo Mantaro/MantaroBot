@@ -172,7 +172,7 @@
       "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `~>equip <rod name>` to start your adventure!"
     },
     "softban": {
-      "no_permission": "%1$sCannot soft ban: You don't have the Ban Members permission.",
+      "no_permission": "%1$sYou can't soft-ban: You need the `Ban Users` permission.",
       "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server.",
       "no_users": "%1$sYou need to give me an user to soft-ban.",
       "hierarchy_conflict": "%1$sYou cannot soft-ban an user in a higher hierarchy than you",
@@ -195,7 +195,7 @@
       "unknown_error": "%1$sHuh, I encountered an unknown error while banning %2$s"
     },
     "kick": {
-      "no_permission": "%1$sCannot kick: You have no Kick Members permission.",
+      "no_permission": "%1$sYou can't ban: You need the `Kick Members` permission.",
       "no_users": "%1$sYou need to give me a user to kick.",
       "no_permission_self": "%1$sSorry! I don't have permission to kick members in this server.",
       "hierarchy_conflict": "%1$sYou cannot kick an user in a higher hierarchy than you",

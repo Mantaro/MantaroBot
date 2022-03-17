@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.core.command.slash;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
@@ -17,6 +18,7 @@ import net.kodehawa.mantarobot.utils.commands.UtilsContext;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitContext;
 import redis.clients.jedis.JedisPool;
 
+import java.awt.*;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -72,8 +74,20 @@ public class SlashContext implements IContext {
         return getChannel().getGuild();
     }
 
+    public User getSelfUser() {
+        return slash.getJDA().getSelfUser();
+    }
+
     public Member getSelfMember() {
         return getGuild().getSelfMember();
+    }
+
+    public Color getMemberColor(Member member) {
+        return member.getColor() == null ? Color.PINK : member.getColor();
+    }
+
+    public Color getMemberColor() {
+        return getMember().getColor() == null ? Color.PINK : getMember().getColor();
     }
 
     public RatelimitContext ratelimitContext() {
@@ -103,6 +117,18 @@ public class SlashContext implements IContext {
 
     public void reply(String text) {
         slash.reply(text)
+                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                .queue();
+    }
+
+    public void reply(MessageEmbed embed) {
+        slash.deferReply().addEmbeds(embed)
+                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                .queue();
+    }
+
+    public void replyEphemeral(MessageEmbed embed) {
+        slash.deferReply(true).addEmbeds(embed)
                 .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
     }
@@ -215,6 +241,15 @@ public class SlashContext implements IContext {
     }
 
     // Cursed wrapper to get around null checks on getAsX
+    public Role getOptionAsRole(String name) {
+        var option = getOption(name);
+        if (option == null) {
+            return null;
+        }
+
+        return option.getAsRole();
+    }
+
     public User getOptionAsUser(String name) {
         var option = getOption(name);
         if (option == null) {
@@ -254,5 +289,4 @@ public class SlashContext implements IContext {
         }
         return option.getAsBoolean();
     }
-
 }
