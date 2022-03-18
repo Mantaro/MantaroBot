@@ -166,7 +166,7 @@ public class SlashContext implements IContext {
             slash.replyEmbeds(embed)
                     .queue(success -> {}, Throwable::printStackTrace);
         } else {
-            slash.deferReply().addEmbeds(embed)
+            slash.deferReply(true).addEmbeds(embed)
                     .queue(success -> {}, Throwable::printStackTrace);
         }
     }
