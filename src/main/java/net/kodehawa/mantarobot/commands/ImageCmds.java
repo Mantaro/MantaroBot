@@ -147,8 +147,8 @@ public class ImageCmds {
 
         @Name("catgirl")
         @Description("Sends images of catgirl(s). Maybe.")
-        @Help(description = "Sends images of catgirl(s). Maybe.", usage =
-                """
+        @Help(description = "Sends images of catgirl(s). Maybe.",
+                usage = """
                 /catgirl` - Sends images of normal catgirls.
                 /catgirl nsfw` - Sends images of lewd catgirls. (Only works on NSFW channels)
                 """, parameters = {
@@ -188,8 +188,7 @@ public class ImageCmds {
     @Name("e621")
     @Description("Retrieves images from the e621 (furry) image board. (Only works on NSFW channels)")
     @Category(CommandCategory.IMAGE)
-    @Help(description =
-            """
+    @Help(description = """
             Retrieves images from the e621 (furry) image board.
             Keep in mind the only images you'll get from here are furry images.
             But if you're looking at this command you probably know already :)

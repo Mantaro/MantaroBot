@@ -22,6 +22,8 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
+import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
@@ -77,28 +79,21 @@ public class Poll extends Lobby {
         return new PollBuilder();
     }
 
-    public void startPoll(Context ctx) {
+    public void startPoll(SlashContext ctx) {
         try {
             if (!isCompliant) {
-                getChannel().sendMessageFormat(languageContext.get("commands.poll.invalid"),
-                        EmoteReference.WARNING
-                ).queue();
-
+                ctx.replyEphemeral(languageContext.get("commands.poll.invalid"), EmoteReference.WARNING);
                 getRunningPolls().remove(getChannel().getId());
                 return;
             }
 
             if (isPollAlreadyRunning(getChannel())) {
-                getChannel().sendMessageFormat(languageContext.get("commands.poll.other_poll_running"),
-                        EmoteReference.WARNING
-                ).queue();
+                ctx.replyEphemeral(languageContext.get("commands.poll.other_poll_running"), EmoteReference.WARNING);
                 return;
             }
 
             if (!getGuild().getSelfMember().hasPermission(getChannel(), Permission.MESSAGE_ADD_REACTION)) {
-                getChannel().sendMessageFormat(languageContext.get("commands.poll.no_reaction_perms"),
-                        EmoteReference.ERROR
-                ).queue();
+                ctx.replyEphemeral(languageContext.get("commands.poll.no_reaction_perms"), EmoteReference.ERROR);
                 getRunningPolls().remove(getChannel().getId());
                 return;
             }
@@ -115,7 +110,7 @@ public class Poll extends Lobby {
                     .collect(Collectors.joining("\n"));
 
             if (toShow.length() > 1014) {
-                getChannel().sendMessageFormat(languageContext.get("commands.poll.too_long"), EmoteReference.ERROR).queue();
+                ctx.replyEphemeral(languageContext.get("commands.poll.too_long"), EmoteReference.ERROR);
                 getRunningPolls().remove(getChannel().getId());
                 return;
             }
@@ -137,7 +132,12 @@ public class Poll extends Lobby {
                 builder.setImage(image);
             }
 
-            getChannel().sendMessageEmbeds(builder.build()).queue(message -> createPoll(ctx, message, languageContext));
+            // Pain peko.
+            ctx.getEvent().deferReply().queue();
+            ctx.getEvent()
+                    .getHook()
+                    .sendMessageEmbeds(builder.build())
+                    .queue(message -> createPoll(ctx, message, languageContext));
 
             InteractiveOperations.create(getChannel(), Long.parseLong(owner), timeout, e -> {
                 if (e.getAuthor().getId().equals(owner)) {
@@ -152,7 +152,7 @@ public class Poll extends Lobby {
             runningPolls.put(getChannel().getId(), this);
         } catch (Exception e) {
             e.printStackTrace();
-            getChannel().sendMessageFormat(languageContext.get("commands.poll.error"), EmoteReference.ERROR).queue();
+            ctx.replyEphemeral(languageContext.get("commands.poll.error"), EmoteReference.ERROR);
         }
     }
 
@@ -177,7 +177,7 @@ public class Poll extends Lobby {
         return r;
     }
 
-    private void createPoll(Context ctx, Message message, I18nContext languageContext) {
+    private void createPoll(SlashContext ctx, Message message, I18nContext languageContext) {
         runningPoll = ReactionOperations.create(message, TimeUnit.MILLISECONDS.toSeconds(timeout), new ReactionOperation() {
             @Override
             public int add(MessageReactionAddEvent e) {
@@ -207,7 +207,7 @@ public class Poll extends Lobby {
                             .collect(Collectors.joining("\n"));
 
                     embedBuilder.addField(languageContext.get("commands.poll.results"), "```diff\n" + votes + "```", false);
-                    getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
+                    ctx.reply(embedBuilder.build());
                 });
 
                 getRunningPolls().remove(getChannel().getId());
@@ -215,7 +215,7 @@ public class Poll extends Lobby {
 
             @Override
             public void onCancel() {
-                getChannel().sendMessageFormat(languageContext.get("commands.poll.cancelled"), EmoteReference.CORRECT).queue();
+                ctx.reply(languageContext.get("commands.poll.cancelled"), EmoteReference.CORRECT);
                 onExpire();
             }
 

@@ -82,9 +82,6 @@ public class CurrencyCmds {
                             final var user = ctx.getDBUser(member);
                             final var seasonPlayer = ctx.getSeasonPlayer(member);
                             var playerInventory = player.getInventory();
-                            if (ctx.isSeasonal()) {
-                                playerInventory = seasonPlayer.getInventory();
-                            }
 
                             final var inventoryList = playerInventory.asList();
                             if (inventoryList.isEmpty()) {
@@ -140,7 +137,7 @@ public class CurrencyCmds {
                             var toShow = lang.get("commands.inventory.brief_notice") +
                                     (r.nextInt(3) == 0 && !user.isPremium() ? lang.get("general.sellout") : "");
 
-                            DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(7, fields), toShow);
+                            DiscordUtils.sendPaginatedEmbed(ctx.getUtilsContext(), builder, DiscordUtils.divideFields(7, fields), toShow);
                         });
                     }
                 };
@@ -212,9 +209,6 @@ public class CurrencyCmds {
                     final var user = ctx.getDBUser(member);
                     final var seasonPlayer = ctx.getSeasonPlayer(member);
                     var playerInventory = player.getInventory();
-                    if (ctx.isSeasonal()) {
-                        playerInventory = seasonPlayer.getInventory();
-                    }
 
                     final var inventoryList = playerInventory.asList();
                     if (inventoryList.isEmpty()) {
@@ -309,9 +303,6 @@ public class CurrencyCmds {
             protected void call(Context ctx, String content, String[] args) {
                 var arguments = ctx.getOptionalArguments();
                 content = Utils.replaceArguments(arguments, content, "season", "s").trim();
-
-                var isSeasonal = ctx.isSeasonal();
-
                 var player = ctx.getPlayer();
                 var seasonPlayer = ctx.getSeasonPlayer();
                 var item = ItemHelper.fromAnyNoId(content.replace("\"", ""), ctx.getLanguageContext())
@@ -332,9 +323,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                var containsItem = isSeasonal ?
-                        seasonPlayer.getInventory().containsItem(item) :
-                        player.getInventory().containsItem(item);
+                var containsItem = player.getInventory().containsItem(item);
 
                 if (!containsItem) {
                     ctx.sendLocalized("commands.opencrate.no_crate", EmoteReference.SAD, item.getName());
@@ -343,7 +332,7 @@ public class CurrencyCmds {
 
                 //Ratelimit handled here
                 //Check ItemHelper.openLootCrate for implementation details.
-                item.getAction().test(ctx, isSeasonal);
+                item.getAction().test(ctx, false);
             }
 
             @Override
@@ -535,7 +524,7 @@ public class CurrencyCmds {
                         .setColor(Color.PINK)
                         .setFooter(languageContext.get("general.requested_by").formatted(ctx.getMember().getEffectiveName()), null);
 
-                DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(5, fields), languageContext.get("commands.useitem.ls.desc"));
+                DiscordUtils.sendPaginatedEmbed(ctx.getUtilsContext(), builder, DiscordUtils.divideFields(5, fields), languageContext.get("commands.useitem.ls.desc"));
             }
         });
 

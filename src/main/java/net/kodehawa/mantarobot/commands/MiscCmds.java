@@ -17,20 +17,19 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.exceptions.PermissionException;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.meta.*;
+import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -45,14 +44,14 @@ import java.util.regex.Pattern;
 
 @Module
 public class MiscCmds {
-    private final Pattern pollOptionSeparator = Pattern.compile(",\\s*");
+    private final static Pattern pollOptionSeparator = Pattern.compile(",\\s*");
 
-    public static void iamFunction(String autoroleName, Context ctx) {
+    public static void iamFunction(String autoroleName, IContext ctx) {
         iamFunction(autoroleName, ctx, null);
     }
 
-    public static void iamFunction(String autoroleName, Context ctx, String message) {
-        var dbGuild = ctx.getDBGuild();
+    public static void iamFunction(String autoroleName, IContext ctx, String message) {
+        var dbGuild = ctx.db().getGuild(ctx.getGuild());
         var autoroles = dbGuild.getData().getAutoroles();
 
         if (autoroles.containsKey(autoroleName)) {
@@ -76,23 +75,23 @@ public class MiscCmds {
                                     ctx.sendLocalized("commands.iam.success", EmoteReference.OK, ctx.getAuthor().getName(), role.getName());
                                 else
                                     //Simple stuff for custom commands. (iamcustom:)
-                                    ctx.sendStripped(message);
+                                    ctx.send(message);
                             });
                 } catch (PermissionException pex) {
                     ctx.sendLocalized("commands.iam.error", EmoteReference.ERROR, role.getName());
                 }
             }
         } else {
-            ctx.sendStrippedLocalized("commands.iam.no_role", EmoteReference.ERROR);
+            ctx.sendLocalized("commands.iam.no_role", EmoteReference.ERROR);
         }
     }
 
-    public static void iamnotFunction(String autoroleName, Context ctx) {
+    public static void iamnotFunction(String autoroleName, IContext ctx) {
         iamnotFunction(autoroleName, ctx, null);
     }
 
-    public static void iamnotFunction(String autoroleName, Context ctx, String message) {
-        var dbGuild = ctx.getDBGuild();
+    public static void iamnotFunction(String autoroleName, IContext ctx, String message) {
+        var dbGuild = ctx.db().getGuild(ctx.getGuild());
         var autoroles = dbGuild.getData().getAutoroles();
 
         if (autoroles.containsKey(autoroleName)) {
@@ -112,104 +111,116 @@ public class MiscCmds {
                         if (message == null || message.isEmpty())
                             ctx.sendLocalized("commands.iamnot.success", EmoteReference.OK, ctx.getAuthor().getName(), role.getName());
                         else
-                            ctx.sendStrippedLocalized(message);
+                            ctx.sendLocalized(message);
                     });
                 } catch (PermissionException pex) {
                     ctx.sendLocalized("commands.iam.error", EmoteReference.ERROR, role.getName());
                 }
             }
         } else {
-            ctx.sendStrippedLocalized("commands.iam.no_role", EmoteReference.ERROR);
+            ctx.sendLocalized("commands.iam.no_role", EmoteReference.ERROR);
         }
     }
 
     @Subscribe
-    public void eightBall(CommandRegistry cr) {
-        cr.register("8ball", new SimpleCommand(CommandCategory.FUN) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.8ball.no_args", EmoteReference.ERROR);
-                    return;
-                }
-
-                var textEncoded = URLEncoder.encode(content.replace("/", "|"), StandardCharsets.UTF_8);
-                var json = Utils.httpRequest("https://8ball.delegator.com/magic/JSON/%1s".formatted(textEncoded));
-
-                if (json == null) {
-                    ctx.sendLocalized("commands.8ball.error", EmoteReference.ERROR);
-                    return;
-                }
-
-                String answer = new JSONObject(json).getJSONObject("magic").getString("answer");
-                ctx.send("\uD83D\uDCAC " + answer + ".");
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Retrieves an answer from the almighty 8ball.")
-                        .setUsage("`~>8ball <question>` - Retrieves an answer from 8ball based on the question or sentence provided.")
-                        .addParameter("question", "The question to ask.")
-                        .build();
-            }
-        });
-
-        cr.registerAlias("8ball", "8b");
+    public void register(CommandRegistry cr) {
+        cr.registerSlash(EightBall.class);
+        cr.registerSlash(IAm.class);
+        cr.registerSlash(CreatePoll.class);
     }
 
-    @Subscribe
-    public void iam(CommandRegistry cr) {
-        TreeCommand iamCommand = cr.register("iam", new TreeCommand(CommandCategory.UTILS) {
-            @Override
-            public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(Context ctx, I18nContext languageContext, String content) {
-                        if (content.trim().isEmpty()) {
-                            ctx.sendLocalized("commands.iam.no_iam", EmoteReference.ERROR);
-                            return;
-                        }
+    @Name("8ball")
+    @Description("Retrieves an answer from the almighty 8ball.")
+    @Category(CommandCategory.FUN)
+    @Options({
+            @Options.Option(type = OptionType.STRING, name = "question", description = "The question to ask.", required = true)
+    })
+    @Help(
+            description = "Retrieves an answer from the almighty 8ball.",
+            usage = "`~>8ball <question>` - Retrieves an answer from 8ball based on the question or sentence provided.",
+            parameters = {
+                    @Help.Parameter(name = "question", description = "The question to ask.", optional = false)
+            }
+    )
+    public static class EightBall extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {
+            var content = ctx.getOptionAsString("question");
+            var textEncoded = URLEncoder.encode(content.replace("/", "|"), StandardCharsets.UTF_8);
+            var json = Utils.httpRequest("https://8ball.delegator.com/magic/JSON/%1s".formatted(textEncoded));
 
-                        iamFunction(content.trim().replace("\"", ""), ctx);
-                    }
-                };
+            if (json == null) {
+                ctx.sendLocalized("commands.8ball.error", EmoteReference.ERROR);
+                return;
             }
 
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Get an autorole that your server administrators have set up.")
-                        .setUsage("`~>iam <name>` - Get the role with the specified name.\n"
-                                + "`~>iam list` - List all the available autoroles in this server. Use this to check which autoroles you can get!")
-                        .addParameter("name", "The name of the autorole to get.")
-                        .build();
-            }
-        });
+            String answer = new JSONObject(json).getJSONObject("magic").getString("answer");
+            ctx.reply("\uD83D\uDCAC " + answer + ".");
+        }
+    }
 
-        iamCommand.addSubCommand("list", new SubCommand() {
-            @Override
-            public String description() {
-                return "Lists all the available autoroles for this server.";
-            }
+    @Name("iam")
+    @Description("Get or remove custom autoroles from you.")
+    @Category(CommandCategory.UTILS)
+    @Help(
+            description = "Get or remove an autorole that your server administrators have set up.",
+            usage = """
+                    /iam add [name] - Get the autorole with the specified name.
+                    /iam not [name] - Remove the autorole with the specified name.
+                    /iam list - Check the list of autoroles.
+                    """
+    )
+    public static class IAm extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {}
 
+        @Name("add")
+        @Description("Get an autorole assigned to you.")
+        @Options({
+                @Options.Option(type = OptionType.STRING, name = "role", description = "The role to assign.", required = true)
+        })
+        public static class Add extends SlashCommand {
             @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
+                iamFunction(ctx.getOptionAsString("role"), ctx);
+            }
+        }
+
+        @Name("not")
+        @Description("Remove an autorole from you.")
+        @Options({
+                @Options.Option(type = OptionType.STRING, name = "role", description = "The role to remove.", required = true)
+        })
+        public static class Not extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                iamnotFunction(ctx.getOptionAsString("role"), ctx);
+            }
+        }
+
+        @Name("list")
+        @Description("List all autoroles.")
+        public static class ListAll extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
                 List<MessageEmbed.Field> fields = new LinkedList<>();
-
                 var dbGuild = ctx.getDBGuild();
                 var guildData = dbGuild.getData();
-
+                var languageContext = ctx.getLanguageContext();
                 var autoroles = guildData.getAutoroles();
                 var autorolesCategories = guildData.getAutoroleCategories();
 
-                var embed = baseEmbed(ctx, languageContext.get("commands.iam.list.header"))
+                var embed = new EmbedBuilder()
+                        .setAuthor(languageContext.get("commands.iam.list.header"), null, ctx.getMember().getEffectiveAvatarUrl())
+                        .setColor(ctx.getMemberColor())
                         .setDescription(languageContext.get("commands.iam.list.description") + "")
                         .setThumbnail(ctx.getGuild().getIconUrl());
 
-                var emptyEmbed = baseEmbed(ctx, languageContext.get("commands.iam.list.header"))
-                        .setThumbnail(ctx.getGuild().getIconUrl())
-                        .setDescription(languageContext.get("commands.iam.list.no_autoroles"));
+                var emptyEmbed = new EmbedBuilder()
+                        .setAuthor(languageContext.get("commands.iam.list.header"), null, ctx.getMember().getEffectiveAvatarUrl())
+                        .setColor(ctx.getMemberColor())
+                        .setDescription(languageContext.get("commands.iam.list.no_autoroles"))
+                        .setThumbnail(ctx.getGuild().getIconUrl());
 
                 if (autoroles.size() > 0) {
                     var categorizedRoles = new ArrayList<>();
@@ -256,113 +267,68 @@ public class MiscCmds {
                     });
 
                     if (fields.isEmpty()) {
-                        ctx.send(emptyEmbed.build());
+                        ctx.reply(emptyEmbed.build());
                         return;
                     }
 
-                    DiscordUtils.sendPaginatedEmbed(ctx, embed, DiscordUtils.divideFields(6, fields));
+                    DiscordUtils.sendPaginatedEmbed(ctx.getUtilsContext(), embed, DiscordUtils.divideFields(6, fields));
                 } else {
-                    ctx.send(emptyEmbed.build());
+                    ctx.reply(emptyEmbed.build());
                 }
             }
-        });
-
-        cr.registerAlias("iam", "autoroles");
-        iamCommand.createSubCommandAlias("list", "1ist");
-        iamCommand.createSubCommandAlias("list", "ls");
-        iamCommand.createSubCommandAlias("list", "Is");
-        iamCommand.createSubCommandAlias("list", "1s");
+        }
     }
 
-    @Subscribe
-    public void iamnot(CommandRegistry cr) {
-        cr.register("iamnot", new SimpleCommand(CommandCategory.UTILS) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.iamnot.no_args", EmoteReference.ERROR);
-                    return;
-                }
+    @Name("poll")
+    @Description("Creates a poll.")
+    @Category(CommandCategory.UTILS)
+    @Options({
+            @Options.Option(type = OptionType.STRING, name = "name", description = "The poll name.", required = true),
+            @Options.Option(type = OptionType.STRING, name = "time", description = "The time the poll will run for. (Format example: 1m25s for 1 minute 25 seconds)", required = true),
+            @Options.Option(type = OptionType.STRING, name = "options", description = "The poll options, separated by commas.", required = true),
+            @Options.Option(type = OptionType.STRING, name = "image", description = "An image URL for the poll"),
+    })
+    @Help(description = "Creates a poll.", usage = """
+            `/poll <name> <time> <options> [image]`
+            To cancel the running poll type &cancelpoll. Only the person who started it or an Admin can cancel it.
+            The bot needs to be able to send and read messages on the channel this is ran for this to work.
+            Example: `/poll test poll 10m30s "hi there","wew","owo what's this"`
+            """, parameters = {
+                @Help.Parameter(name = "name", description = "The name of the option."),
+                @Help.Parameter(name = "time", description = "The time the poll is gonna run for. The format is as follows `1m30s` for 1 minute and 30 seconds. Maximum poll runtime is 45 minutes."),
+                @Help.Parameter(name = "options", description = """
+                        The options to add. Minimum is 2 and maximum is 9.
+                        For instance: `Pizza,Spaghetti,Pasta,"Spiral Nudels"` (Enclose options with multiple words in double quotes, there has to be no spaces between the commas)
+                        """),
+                @Help.Parameter(name = "image", description = "The image to embed to the poll.")
 
-                iamnotFunction(content.trim().replace("\"", ""), ctx);
+            }
+    )
+    public static class CreatePoll extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {
+            var builder = Poll.builder();
+            var options = pollOptionSeparator.split(ctx.getOptionAsString("options").replaceAll(String.valueOf('"'), ""));
+            long timeout;
+
+            try {
+                timeout = Utils.parseTime(ctx.getOptionAsString("time"));
+            } catch (Exception e) {
+                ctx.sendLocalized("commands.poll.incorrect_time_format", EmoteReference.ERROR);
+                return;
             }
 
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Remove an autorole from yourself that your server administrators have set up.")
-                        .setUsage("`~>iamnot <name>` - Remove the role from yourself with the specified name.")
-                        .addParameter("name", "The name of the autorole to remove.")
-                        .build();
-            }
-        });
-    }
-
-    @Subscribe
-    public void createPoll(CommandRegistry registry) {
-        registry.register("createpoll", new SimpleCommand(CommandCategory.UTILS) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                var opts = ctx.getOptionalArguments();
-                var builder = Poll.builder();
-                var failure = (!opts.containsKey("time") || opts.get("time") == null) ||
-                        (!opts.containsKey("options") || opts.get("options") == null) ||
-                        (!opts.containsKey("name") || opts.get("name") == null);
-
-                if (failure) {
-                    ctx.sendLocalized("commands.poll.missing", EmoteReference.ERROR,
-                            "`-time`",
-                            "Example: `~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\""
-                    );
-                    return;
-                }
-
-                if (opts.containsKey("name") && opts.get("name") != null) {
-                    builder.setName(opts.get("name").replaceAll(String.valueOf('"'), ""));
-                }
-
-                if (opts.containsKey("image") && opts.get("image") != null) {
-                    builder.setImage(opts.get("image"));
-                }
-
-
-                var options = pollOptionSeparator.split(opts.get("options").replaceAll(String.valueOf('"'), ""));
-                long timeout;
-
-                try {
-                    timeout = Utils.parseTime(opts.get("time"));
-                } catch (Exception e) {
-                    ctx.sendLocalized("commands.poll.incorrect_time_format", EmoteReference.ERROR);
-                    return;
-                }
-
-                builder.setEvent(ctx.getEvent())
-                        .setTimeout(timeout)
-                        .setOptions(options)
-                        .setLanguage(ctx.getLanguageContext())
-                        .build()
-                        .startPoll(ctx);
+            var image = ctx.getOptionAsString("image");
+            if (image != null && !image.isBlank()) {
+                builder.setImage(image);
             }
 
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Creates a poll.")
-                        .setUsage("""
-                                `~>poll [-options <options>] [-time <time>] [-name <name>] [-image <image>]`
-                                To cancel the running poll type &cancelpoll. Only the person who started it or an Admin can cancel it.
-                                Example: `~>poll -options "hi there","wew","owo what's this" -time 10m30s -name "test poll"`""")
-                        .addParameter("-options", "The options to add. Minimum is 2 and maximum is 9. " +
-                                "For instance: `Pizza,Spaghetti,Pasta,\"Spiral Nudels\"` " +
-                                "(Enclose options with multiple words in double quotes, there has to be no spaces between the commas)")
-                        .addParameter("time", "The time the operation is gonna take. " +
-                                "The format is as follows `1m30s` for 1 minute and 30 seconds. Maximum poll runtime is 45 minutes.")
-                        .addParameter("-name", "The name of the poll.")
-                        .addParameter("-image", "The image to embed to the poll.")
-                        .build();
-            }
-        });
-
-        registry.registerAlias("createpoll", "poll");
+            builder.setEvent(ctx.getEvent())
+                    .setTimeout(timeout)
+                    .setOptions(options)
+                    .setLanguage(ctx.getLanguageContext())
+                    .build()
+                    .startPoll(ctx);
+        }
     }
 }

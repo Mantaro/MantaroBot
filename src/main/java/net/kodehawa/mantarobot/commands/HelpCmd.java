@@ -329,7 +329,8 @@ public class HelpCmd {
                 "info", "status", "shard", "shardinfo", "ping", "time", "prune",
                 "ban", "kick", "softban", "userinfo", "serverinfo", "avatar", "roleinfo",
                 "support", "donate", "language", "invite", "danbooru",
-                "e621", "e926", "yandere", "konachan", "gelbooru", "safebooru", "rule34"
+                "e621", "e926", "yandere", "konachan", "gelbooru", "safebooru", "rule34",
+                "iam", "iamnot", "8ball", "createpoll"
         );
     }
 }

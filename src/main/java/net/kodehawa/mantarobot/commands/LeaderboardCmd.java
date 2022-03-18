@@ -115,7 +115,7 @@ public class LeaderboardCmd {
                                 languageContext.get("commands.leaderboard.inner.gamble").formatted(EmoteReference.MONEY),
                                 "commands.leaderboard.gamble", gambleLeaderboard,
                                 map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
-                                        map.get("gambleWins").toString()), "%s**%s#%s** - %,d", false
+                                        map.get("gambleWins").toString()), "%s**%s#%s** - %,d"
                         ).build()
                 );
             }
@@ -137,7 +137,7 @@ public class LeaderboardCmd {
                                 languageContext.get("commands.leaderboard.inner.slots").formatted(EmoteReference.MONEY),
                                 "commands.leaderboard.slots", slotsLeaderboard,
                                 map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
-                                        map.get("slotsWins").toString()), "%s**%s#%s** - %,d", false
+                                        map.get("slotsWins").toString()), "%s**%s#%s** - %,d"
                         ).build()
                 );
             }
@@ -153,42 +153,26 @@ public class LeaderboardCmd {
                 @Override
                 @SuppressWarnings("unchecked")
                 protected void call(Context ctx, I18nContext languageContext, String content) {
-                    var seasonal = ctx.isSeasonal();
-                    var tableName = seasonal ? "seasonalplayers" : "players";
-                    var indexName = seasonal ? "money" : "newMoney";
+                    var tableName = "players";
+                    var indexName = "newMoney";
                     var moneyLeaderboard = getLeaderboard(tableName, indexName,
                             player -> player.g("id"),
-                            player ->
-                            {
-                                if (seasonal) {
-                                    return player.pluck("id", "money");
-                                } else {
-                                    return player.pluck("id", "newMoney", r.hashMap("data", "newMoney"));
-                                }
-                            });
+                            player -> player.pluck("id", "newMoney", r.hashMap("data", "newMoney"))
+                    );
 
                     send(ctx,
                             generateLeaderboardEmbed(
-                                    ctx,
-                                    seasonal ?
-                                            languageContext.get("commands.leaderboard.inner.seasonal_money").formatted(EmoteReference.MONEY) :
-                                            languageContext.get("commands.leaderboard.inner.money").formatted(EmoteReference.MONEY),
+                                    ctx, languageContext.get("commands.leaderboard.inner.money").formatted(EmoteReference.MONEY),
                                     "commands.leaderboard.money", moneyLeaderboard,
                                     map -> {
-                                        Object money;
-                                        if (seasonal) {
-                                            money = map.get("money");
-                                        } else {
-                                            money = ((Map<String, Object>) map.get("data")).get("newMoney");
-                                        }
-
+                                        Object money = ((Map<String, Object>) map.get("data")).get("newMoney");
                                         return Pair.of(
                                                 getMember(
                                                         ctx,
                                                         map.get("id").toString().split(":")[0]
                                                 ), money.toString()
                                         );
-                                    }, "%s**%s#%s** - $%,d", seasonal
+                                    }, "%s**%s#%s** - $%,d"
                             ).build()
                     );
                 }
@@ -217,7 +201,7 @@ public class LeaderboardCmd {
                                 languageContext.get("commands.leaderboard.inner.money_old").formatted(EmoteReference.MONEY),
                                 "commands.leaderboard.money", moneyLeaderboard,
                                 map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
-                                map.get("money").toString()), "%s**%s#%s** - $%,d", false
+                                map.get("money").toString()), "%s**%s#%s** - $%,d"
                         ).build()
                 );
             }
@@ -248,7 +232,7 @@ public class LeaderboardCmd {
                                     map.get("level").toString() + "\n -" +
                                             languageContext.get("commands.leaderboard.inner.experience") + ":** " +
                                             experience + "**");
-                        }, "%s**%s#%s** - %s", false).build()
+                        }, "%s**%s#%s** - %s").build()
                 );
             }
         });
@@ -261,8 +245,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
-                var seasonal = ctx.isSeasonal();
-                var tableName = seasonal ? "seasonalplayers" : "players";
+                var tableName = "players";
                 var reputationLeaderboard = getLeaderboard(tableName, "reputation",
                         player -> player.g("id"),
                         player -> player.pluck("id", "reputation"));
@@ -276,7 +259,7 @@ public class LeaderboardCmd {
                                         ctx,
                                         map.get("id").toString().split(":")[0]
                                 ), map.get("reputation").toString()
-                        ), "%s**%s#%s** - %,d", seasonal)
+                        ), "%s**%s#%s** - %,d")
                         .build()
                 );
             }
@@ -305,7 +288,7 @@ public class LeaderboardCmd {
                                     getMember(ctx, map.get("id").toString().split(":")[0]),
                                     strike
                             );
-                        }, "%s**%s#%s** - %sx", false)
+                        }, "%s**%s#%s** - %sx")
                         .build()
                 );
             }
@@ -333,7 +316,7 @@ public class LeaderboardCmd {
                                     getMember(ctx, map.get("id").toString().split(":")[0]),
                                     timesClaimed
                             );
-                        }, "%s**%s#%s** - %,d", false)
+                        }, "%s**%s#%s** - %,d")
                         .build()
                 );
             }
@@ -347,9 +330,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
-                var seasonal = ctx.isSeasonal();
-                var tableName = seasonal ? "seasonalplayers" : "players";
-
+                var tableName = "players";
                 List<Map<String, Object>> gameLeaderboard = getLeaderboard(tableName, "gameWins",
                         player -> player.g("id"),
                         player -> player.pluck("id", r.hashMap("data", "gamesWon")));
@@ -366,7 +347,7 @@ public class LeaderboardCmd {
                                     getMember(ctx, map.get("id").toString().split(":")[0]),
                                     gamesWon
                             );
-                        }, "%s**%s#%s** - %,d", seasonal)
+                        }, "%s**%s#%s** - %,d")
                         .build()
                 );
             }
@@ -408,13 +389,10 @@ public class LeaderboardCmd {
     private EmbedBuilder generateLeaderboardEmbed(Context ctx, String description, String leaderboardKey,
                                                   List<Map<String, Object>> lb,
                                                   Function<Map<?, ?>, Pair<CachedLeaderboardMember, String>> mapFunction,
-                                                  String format, boolean isSeasonal) {
+                                                  String format) {
         var languageContext = ctx.getLanguageContext();
         return new EmbedBuilder()
-                .setAuthor(isSeasonal ?
-                                languageContext.get("commands.leaderboard.header_seasonal")
-                                        .formatted(config.getCurrentSeason().getDisplay()) :
-                                languageContext.get("commands.leaderboard.header"),
+                .setAuthor(languageContext.get("commands.leaderboard.header"),
                         null,
                         ctx.getSelfUser().getEffectiveAvatarUrl()
                 ).setDescription(description)

@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.interaction.polls;
 
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
@@ -23,14 +24,14 @@ import java.util.UUID;
 
 @SuppressWarnings("UnusedReturnValue")
 public class PollBuilder {
-    private GuildMessageReceivedEvent event;
+    private SlashCommandEvent event;
     private String name = "";
     private String[] options;
     private long timeout;
     private I18nContext languageContext;
     private String image;
 
-    public PollBuilder setEvent(GuildMessageReceivedEvent event) {
+    public PollBuilder setEvent(SlashCommandEvent event) {
         this.event = event;
         return this;
     }
@@ -77,7 +78,7 @@ public class PollBuilder {
         }
 
         return new Poll(UUID.randomUUID().toString(),
-                event.getGuild().getId(), event.getChannel().getId(), event.getAuthor().getId(),
+                event.getGuild().getId(), event.getChannel().getId(), event.getUser().getId(),
                 name, timeout, languageContext, image, options
         );
     }

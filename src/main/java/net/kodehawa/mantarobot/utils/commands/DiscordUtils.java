@@ -594,7 +594,7 @@ public class DiscordUtils {
         return listButtons(ctx, timeoutSeconds, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
     }
 
-    public static Future<Void> listButtons(Context ctx, int timeoutSeconds, EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
+    public static Future<Void> listButtons(UtilsContext ctx, int timeoutSeconds, EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
         if (parts.size() == 0) {
             return null;
         }
@@ -896,7 +896,7 @@ public class DiscordUtils {
         return divideString(1750, '\n', builder);
     }
 
-    public static void sendPaginatedEmbed(final Context ctx, EmbedBuilder builder,
+    public static void sendPaginatedEmbed(final UtilsContext ctx, EmbedBuilder builder,
                                           List<List<MessageEmbed.Field>> splitFields, final String str) {
         final var languageContext = ctx.getLanguageContext();
         final var show =  str.isEmpty() ? "" : EmoteReference.TALKING.toHeaderString() + str + "\n";
@@ -912,7 +912,7 @@ public class DiscordUtils {
         listButtons(ctx, 120, builder, splitFields);
     }
 
-    public static void sendPaginatedEmbed(final Context ctx, EmbedBuilder builder,
+    public static void sendPaginatedEmbed(final UtilsContext ctx, EmbedBuilder builder,
                                           List<List<MessageEmbed.Field>> splitFields) {
         sendPaginatedEmbed(ctx, builder, splitFields, "");
     }

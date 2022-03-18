@@ -428,7 +428,7 @@ public class PlayerCmds {
                                             String.format(languageContext.get("commands.badges.total_badges"), badges.size())
                                     );
 
-                            DiscordUtils.sendPaginatedEmbed(ctx, embed, DiscordUtils.divideFields(6, fields), common);
+                            DiscordUtils.sendPaginatedEmbed(ctx.getUtilsContext(), embed, DiscordUtils.divideFields(6, fields), common);
                         });
                     }
                 };
@@ -517,7 +517,7 @@ public class PlayerCmds {
                     );
                 }
 
-                DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(7, fields), languageContext.get("commands.badges.ls.desc"));
+                DiscordUtils.sendPaginatedEmbed(ctx.getUtilsContext(), builder, DiscordUtils.divideFields(7, fields), languageContext.get("commands.badges.ls.desc"));
             }
         });
 

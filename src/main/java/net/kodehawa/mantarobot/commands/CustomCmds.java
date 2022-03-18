@@ -324,7 +324,7 @@ public class CustomCmds {
                                 ctx.getGuild().getIconUrl()
                         );
 
-                DiscordUtils.sendPaginatedEmbed(ctx, embed, DiscordUtils.divideFields(6, fields));
+                DiscordUtils.sendPaginatedEmbed(ctx.getUtilsContext(), embed, DiscordUtils.divideFields(6, fields));
             }
         }).createSubCommandAlias("raw", "rw");
 

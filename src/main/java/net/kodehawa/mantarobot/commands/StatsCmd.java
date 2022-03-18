@@ -105,7 +105,7 @@ public class StatsCmd {
                     ));
                 });
 
-                DiscordUtils.sendPaginatedEmbed(ctx, embed, DiscordUtils.divideFields(3, fields));
+                DiscordUtils.sendPaginatedEmbed(ctx.getUtilsContext(), embed, DiscordUtils.divideFields(3, fields));
             }
         });
 
@@ -156,7 +156,7 @@ public class StatsCmd {
                     ));
                 }
 
-                DiscordUtils.sendPaginatedEmbed(ctx, embed, DiscordUtils.divideFields(3, fields));
+                DiscordUtils.sendPaginatedEmbed(ctx.getUtilsContext(), embed, DiscordUtils.divideFields(3, fields));
             }
         });
     }

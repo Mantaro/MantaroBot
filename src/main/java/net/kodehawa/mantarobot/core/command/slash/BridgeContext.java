@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.core.command.slash;
 
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
@@ -12,6 +13,8 @@ import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.*;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitContext;
 import redis.clients.jedis.JedisPool;
+
+import java.util.Collection;
 
 // This is pain and suffering.
 public class BridgeContext implements IContext {
@@ -113,6 +116,25 @@ public class BridgeContext implements IContext {
         } else {
             prefixContext.send(embed);
         }
+    }
+
+    @Override
+    public void sendFormat(String message, Object... format) {
+        if (isSlash()) {
+            slashContext.sendFormat(message, format);
+        } else {
+            prefixContext.sendFormat(message, format);
+        }
+    }
+
+    @Override
+    public void sendFormat(String message, Collection<ActionRow> actionRow, Object... format) {
+        if (isSlash()) {
+            slashContext.sendFormat(message, actionRow, format);
+        } else {
+            prefixContext.sendFormat(message, actionRow, format);
+        }
+
     }
 
 

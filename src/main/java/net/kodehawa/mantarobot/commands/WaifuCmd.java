@@ -162,7 +162,7 @@ public class WaifuCmd {
                         }
 
                         final var toSend = languageContext.get("commands.waifu.description_header").formatted(userData.getWaifuSlots()) + description;
-                        DiscordUtils.sendPaginatedEmbed(ctx, waifusEmbed, DiscordUtils.divideFields(4, fields), toSend);
+                        DiscordUtils.sendPaginatedEmbed(ctx.getUtilsContext(), waifusEmbed, DiscordUtils.divideFields(4, fields), toSend);
 
                         if (!toRemove.isEmpty()) {
                             for(String remove : toRemove) {

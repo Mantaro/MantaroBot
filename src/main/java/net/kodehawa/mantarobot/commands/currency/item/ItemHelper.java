@@ -25,6 +25,7 @@ import net.kodehawa.mantarobot.commands.currency.item.special.tools.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
+import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -496,12 +497,10 @@ public class ItemHelper {
         return null;
     }
 
-    public static Pair<Boolean, Pair<Player, DBUser>> handleDurability(Context ctx, Item item,
-                                                         Player player, DBUser user, SeasonPlayer seasonPlayer, boolean isSeasonal) {
-        var playerInventory = isSeasonal ? seasonPlayer.getInventory() : player.getInventory();
+    public static Pair<Boolean, Pair<Player, DBUser>> handleDurability(IContext ctx, Item item, Player player, DBUser user) {
+        var playerInventory = player.getInventory();
         var userData = user.getData();
-        var seasonPlayerData = seasonPlayer.getData();
-        var equippedItems = isSeasonal ? seasonPlayerData.getEquippedItems() : userData.getEquippedItems();
+        var equippedItems = userData.getEquippedItems();
         var subtractFrom = 0;
 
         if (handleEffect(PlayerEquipment.EquipmentType.POTION, equippedItems, ItemReference.POTION_STAMINA, user)) {
@@ -542,56 +541,43 @@ public class ItemHelper {
             }
 
             var toReplace = languageContext.get("commands.mine.item_broke");
-            if (!userData.isAutoEquip() && !isSeasonal) {
+            if (!userData.isAutoEquip()) {
                 toReplace += "\n" + languageContext.get("commands.mine.item_broke_autoequip");
             }
 
             ctx.sendFormat(toReplace, EmoteReference.SAD, item.getName(), broken);
 
-            if (isSeasonal) {
-                seasonPlayer.save();
-            } else {
-                player.getData().addBadgeIfAbsent(Badge.ITEM_BREAKER);
-                player.saveUpdating();
-                // We remove something from a HashMap here, and somehow
-                // removing it from a HashMap will need a full replace (why?)
-                user.save();
-            }
+            player.getData().addBadgeIfAbsent(Badge.ITEM_BREAKER);
+            player.saveUpdating();
+            // We remove something from a HashMap here, and somehow
+            // removing it from a HashMap will need a full replace (why?)
+            user.save();
 
-            var stats = ctx.getPlayerStats();
+            var stats = ctx.db().getPlayerStats(ctx.getAuthor());
             stats.incrementToolsBroken();
             stats.saveUpdating();
 
             //is broken
             return Pair.of(true, Pair.of(player, user));
         } else {
-            if (isSeasonal) {
-                seasonPlayer.saveUpdating();
-            } else {
-                if (item == ItemReference.HELLFIRE_PICK)
-                    player.getData().addBadgeIfAbsent(Badge.HOT_MINER);
-                if (item == ItemReference.HELLFIRE_ROD)
-                    player.getData().addBadgeIfAbsent(Badge.HOT_FISHER);
-                if (item == ItemReference.HELLFIRE_AXE)
-                    player.getData().addBadgeIfAbsent(Badge.HOT_CHOPPER);
+            if (item == ItemReference.HELLFIRE_PICK)
+                player.getData().addBadgeIfAbsent(Badge.HOT_MINER);
+            if (item == ItemReference.HELLFIRE_ROD)
+                player.getData().addBadgeIfAbsent(Badge.HOT_FISHER);
+            if (item == ItemReference.HELLFIRE_AXE)
+                player.getData().addBadgeIfAbsent(Badge.HOT_CHOPPER);
 
-                player.saveUpdating();
-                user.saveUpdating();
-            }
+            player.saveUpdating();
+            user.saveUpdating();
 
             //is not broken
             return Pair.of(false, Pair.of(player, user));
         }
     }
 
-    public static void handleItemDurability(Item item, Context ctx, Player player, DBUser dbUser,
-                                      SeasonPlayer seasonPlayer, String i18n, boolean isSeasonal) {
-        var breakage = handleDurability(ctx, item, player, dbUser, seasonPlayer, isSeasonal);
+    public static void handleItemDurability(Item item, IContext ctx, Player player, DBUser dbUser, String i18n) {
+        var breakage = handleDurability(ctx, item, player, dbUser);
         if (!breakage.getKey()) {
-            return;
-        }
-
-        if (isSeasonal) {
             return;
         }
 

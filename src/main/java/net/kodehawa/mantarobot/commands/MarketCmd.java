@@ -725,6 +725,6 @@ public class MarketCmd {
                         + (user.isPremium() ? "" : languageContext.get("general.sellout")) + languageContext.get("commands.market.reference")
         );
 
-        DiscordUtils.listButtons(ctx, 200, embed, splitFields);
+        DiscordUtils.listButtons(ctx.getUtilsContext(), 200, embed, splitFields);
     }
 }

@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.core.command.slash;
 
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
@@ -15,12 +14,14 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.*;
+import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.UtilsContext;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitContext;
 import redis.clients.jedis.JedisPool;
 
 import java.awt.*;
-import java.util.EnumSet;
+import java.util.Collection;
 import java.util.List;
 
 public class SlashContext implements IContext {
@@ -106,46 +107,39 @@ public class SlashContext implements IContext {
     public void reply(String source, Object... args) {
         slash.deferReply()
                 .setContent(i18n.get(source).formatted(args))
-                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
     }
 
     public void replyEphemeral(String source, Object... args) {
         slash.deferReply(true)
                 .setContent(i18n.get(source).formatted(args))
-                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
     }
 
     public ReplyAction replyAction(String source, Object... args) {
         return slash.deferReply()
-                .setContent(i18n.get(source).formatted(args))
-                .allowedMentions(EnumSet.noneOf(Message.MentionType.class));
+                .setContent(i18n.get(source).formatted(args));
     }
 
     public void reply(String text) {
         slash.deferReply()
                 .setContent(text)
-                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
     }
 
     public void reply(MessageEmbed embed) {
         slash.deferReply().addEmbeds(embed)
-                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue(success -> {}, Throwable::printStackTrace);
     }
 
     public void replyEphemeral(MessageEmbed embed) {
         slash.deferReply(true).addEmbeds(embed)
-                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue(success -> {}, Throwable::printStackTrace);
     }
 
     public ReplyAction replyAction(String text) {
         return slash.deferReply()
-                .setContent(text)
-                .allowedMentions(EnumSet.noneOf(Message.MentionType.class));
+                .setContent(text);
     }
 
     public void send(MessageEmbed embed, ActionRow... actionRow) {
@@ -158,6 +152,19 @@ public class SlashContext implements IContext {
     }
 
     @Override
+    public void sendFormat(String message, Object... format) {
+        reply(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format));
+    }
+
+    @Override
+    public void sendFormat(String message, Collection<ActionRow> actionRow, Object... format) {
+        slash.deferReply()
+                .setContent(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format))
+                .addActionRows(actionRow)
+                .queue();
+    }
+
+    @Override
     public void send(String s) {
         reply(s);
     }
@@ -165,7 +172,6 @@ public class SlashContext implements IContext {
     @Override
     public void send(MessageEmbed embed) {
         slash.deferReply().addEmbeds(embed)
-                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
     }
 
@@ -179,7 +185,7 @@ public class SlashContext implements IContext {
         return getI18nContext();
     }
 
-    public ManagedDatabase getDatabase() {
+    public ManagedDatabase db() {
         return managedDatabase;
     }
 
@@ -200,7 +206,7 @@ public class SlashContext implements IContext {
     }
 
     public UtilsContext getUtilsContext() {
-        return new UtilsContext(getGuild(), getMember(), getChannel(), slash);
+        return new UtilsContext(getGuild(), getMember(), getChannel(), getLanguageContext(), slash);
     }
 
     public MantaroAudioManager getAudioManager() {
@@ -265,6 +271,10 @@ public class SlashContext implements IContext {
 
     public MantaroObj getMantaroData() {
         return managedDatabase.getMantaroData();
+    }
+
+    public Marriage getMarriage(UserData userData) {
+        return MantaroData.db().getMarriage(userData.getMarriageId());
     }
 
     // Cursed wrapper to get around null checks on getAsX

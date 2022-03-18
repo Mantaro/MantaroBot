@@ -284,13 +284,15 @@ public class Context implements IContext {
     public void send(MessageEmbed embed, ActionRow... actionRow) {
         // Sending embeds while supressing the failure callbacks leads to very hard
         // to debug bugs, so enable it.
-        getChannel().sendMessageEmbeds(embed).setActionRows(actionRow).queue(success -> {}, Throwable::printStackTrace);
+        getChannel().sendMessageEmbeds(embed)
+                .setActionRows(actionRow).queue(success -> {}, Throwable::printStackTrace);
     }
 
     public void send(MessageEmbed embed) {
         // Sending embeds while supressing the failure callbacks leads to very hard
         // to debug bugs, so enable it.
-        getChannel().sendMessageEmbeds(embed).queue(success -> {}, Throwable::printStackTrace);
+        getChannel().sendMessageEmbeds(embed)
+                .queue(success -> {}, Throwable::printStackTrace);
     }
 
     public void sendLocalized(String localizedMessage, Object... args) {
@@ -302,9 +304,8 @@ public class Context implements IContext {
 
     public void sendLocalized(String localizedMessage, Collection<ActionRow> actionRow, Object... args) {
         // Stop swallowing issues with String replacements (somehow really common)
-        getChannel().sendMessage(
-                String.format(Utils.getLocaleFromLanguage(getLanguageContext()), languageContext.get(localizedMessage), args)
-        ).setActionRows(actionRow).queue(success -> {}, Throwable::printStackTrace);
+        getChannel().sendMessage(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), languageContext.get(localizedMessage), args))
+                .setActionRows(actionRow).queue(success -> {}, Throwable::printStackTrace);
     }
 
 
@@ -382,6 +383,6 @@ public class Context implements IContext {
     }
 
     public UtilsContext getUtilsContext() {
-        return new UtilsContext(getGuild(), getMember(), getChannel(), null);
+        return new UtilsContext(getGuild(), getMember(), getChannel(), languageContext, null);
     }
 }
