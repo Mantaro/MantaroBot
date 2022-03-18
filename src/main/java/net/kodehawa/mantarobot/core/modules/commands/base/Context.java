@@ -257,6 +257,16 @@ public class Context implements IContext {
         getChannel().sendMessage(message).queue();
     }
 
+    @Override
+    public Message sendResult(String s) {
+        return getChannel().sendMessage(s).complete();
+    }
+
+    @Override
+    public Message sendResult(MessageEmbed e) {
+        return getChannel().sendMessageEmbeds(e).complete();
+    }
+
     public Color getMemberColor(Member member) {
         return member.getColor() == null ? Color.PINK : member.getColor();
     }

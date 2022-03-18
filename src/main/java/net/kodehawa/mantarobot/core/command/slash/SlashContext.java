@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.requests.restaction.WebhookMessageUpdateAction;
 import net.dv8tion.jda.api.requests.restaction.interactions.ReplyAction;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -22,6 +23,7 @@ import redis.clients.jedis.JedisPool;
 
 import java.awt.*;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class SlashContext implements IContext {
@@ -29,6 +31,7 @@ public class SlashContext implements IContext {
     private final Config config = MantaroData.config().get();
     private final SlashCommandEvent slash;
     private final I18nContext i18n;
+    private boolean deferred = false;
 
     public SlashContext(SlashCommandEvent event, I18nContext i18n) {
         this.slash = event;
@@ -57,6 +60,12 @@ public class SlashContext implements IContext {
 
     public void defer() {
         slash.deferReply().queue();
+        deferred = true;
+    }
+
+    public void deferEphemeral() {
+        slash.deferReply().queue();
+        deferred = true;
     }
 
     // This is a little cursed, but I guess we can make do.
@@ -105,50 +114,114 @@ public class SlashContext implements IContext {
     }
 
     public void reply(String source, Object... args) {
-        slash.deferReply()
-                .setContent(i18n.get(source).formatted(args))
-                .queue();
+        if (deferred) {
+            slash.reply(i18n.get(source).formatted(args)).queue();
+        } else {
+            slash.deferReply()
+                    .setContent(i18n.get(source).formatted(args))
+                    .queue();
+        }
     }
 
     public void replyEphemeral(String source, Object... args) {
-        slash.deferReply(true)
-                .setContent(i18n.get(source).formatted(args))
-                .queue();
+        if (deferred) {
+            slash.reply(i18n.get(source).formatted(args)).queue();
+        } else {
+            slash.deferReply(true)
+                    .setContent(i18n.get(source).formatted(args))
+                    .queue();
+        }
     }
 
     public ReplyAction replyAction(String source, Object... args) {
-        return slash.deferReply()
-                .setContent(i18n.get(source).formatted(args));
+        if (deferred) {
+            return slash.reply(i18n.get(source).formatted(args));
+        } else {
+            return slash.deferReply().setContent(i18n.get(source).formatted(args));
+        }
     }
 
     public void reply(String text) {
-        slash.deferReply()
-                .setContent(text)
-                .queue();
+        if (deferred) {
+            slash.reply(text).queue();
+        } else {
+            slash.deferReply()
+                    .setContent(text)
+                    .queue();
+        }
     }
 
     public void reply(MessageEmbed embed) {
-        slash.deferReply().addEmbeds(embed)
-                .queue(success -> {}, Throwable::printStackTrace);
+        if (deferred) {
+            slash.replyEmbeds(embed)
+                    .queue(success -> {}, Throwable::printStackTrace);
+        } else {
+            slash.deferReply().addEmbeds(embed)
+                    .queue(success -> {}, Throwable::printStackTrace);
+        }
     }
 
     public void replyEphemeral(MessageEmbed embed) {
-        slash.deferReply(true).addEmbeds(embed)
-                .queue(success -> {}, Throwable::printStackTrace);
+        if (deferred) {
+            slash.replyEmbeds(embed)
+                    .queue(success -> {}, Throwable::printStackTrace);
+        } else {
+            slash.deferReply().addEmbeds(embed)
+                    .queue(success -> {}, Throwable::printStackTrace);
+        }
     }
 
     public ReplyAction replyAction(String text) {
-        return slash.deferReply()
-                .setContent(text);
+        if (deferred) {
+            return slash.reply(text);
+        } else {
+            return slash.deferReply().setContent(text);
+        }
+    }
+
+    public ReplyAction replyAction(MessageEmbed embed) {
+        if (deferred) {
+            return slash.replyEmbeds(embed);
+        } else {
+            return slash.deferReply().addEmbeds(embed);
+        }
+    }
+
+    public WebhookMessageUpdateAction<Message> editAction(MessageEmbed embed) {
+        return slash.getHook().editOriginalEmbeds(embed).setContent("");
+    }
+
+    public void edit(MessageEmbed embed) {
+        slash.getHook().editOriginalEmbeds(embed).setContent("").queue();
+    }
+
+    public void edit(String s) {
+        slash.getHook().editOriginal(s).setEmbeds(Collections.emptyList()).queue();
+    }
+
+    public void edit(String s, Object... args) {
+        slash.getHook().editOriginal(getLanguageContext().get(s.formatted(args)))
+                .setEmbeds(Collections.emptyList())
+                .queue();
+    }
+
+    public WebhookMessageUpdateAction<Message> editAction(String s) {
+        return slash.getHook().editOriginal(s).setEmbeds(Collections.emptyList());
     }
 
     public void send(MessageEmbed embed, ActionRow... actionRow) {
         // Sending embeds while supressing the failure callbacks leads to very hard
         // to debug bugs, so enable it.
-        slash.deferReply()
-                .addEmbeds(embed)
-                .addActionRows(actionRow)
-                .queue(success -> {}, Throwable::printStackTrace);
+        if (deferred) {
+            slash.replyEmbeds(embed)
+                    .addActionRows(actionRow)
+                    .queue(success -> {}, Throwable::printStackTrace);
+        } else {
+            slash.deferReply()
+                    .addEmbeds(embed)
+                    .addActionRows(actionRow)
+                    .queue(success -> {}, Throwable::printStackTrace);
+        }
     }
 
     @Override
@@ -158,10 +231,16 @@ public class SlashContext implements IContext {
 
     @Override
     public void sendFormat(String message, Collection<ActionRow> actionRow, Object... format) {
-        slash.deferReply()
-                .setContent(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format))
-                .addActionRows(actionRow)
-                .queue();
+        if (deferred) {
+            slash.reply(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format))
+                    .addActionRows(actionRow)
+                    .queue();
+        } else {
+            slash.deferReply()
+                    .setContent(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format))
+                    .addActionRows(actionRow)
+                    .queue();
+        }
     }
 
     @Override
@@ -170,9 +249,17 @@ public class SlashContext implements IContext {
     }
 
     @Override
+    public Message sendResult(String s) {
+        return slash.getHook().sendMessage(s).complete();
+    }
+
+    @Override
+    public Message sendResult(MessageEmbed e) {
+        return slash.getHook().sendMessageEmbeds(e).complete();
+    }
+    @Override
     public void send(MessageEmbed embed) {
-        slash.deferReply().addEmbeds(embed)
-                .queue();
+        reply(embed);
     }
 
     @Override

@@ -110,11 +110,29 @@ public class BridgeContext implements IContext {
     }
 
     @Override
+    public Message sendResult(String s) {
+        if (isSlash()) {
+            return slashContext.sendResult(s);
+        } else {
+            return prefixContext.sendResult(s);
+        }
+    }
+
+    @Override
     public void send(MessageEmbed embed) {
         if (isSlash()) {
             slashContext.send(embed);
         } else {
             prefixContext.send(embed);
+        }
+    }
+
+    @Override
+    public Message sendResult(MessageEmbed e) {
+        if (isSlash()) {
+            return slashContext.sendResult(e);
+        } else {
+            return prefixContext.sendResult(e);
         }
     }
 
@@ -136,7 +154,6 @@ public class BridgeContext implements IContext {
         }
 
     }
-
 
     public RatelimitContext ratelimitContext() {
         if (isSlash()) {

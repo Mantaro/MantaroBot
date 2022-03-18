@@ -664,7 +664,7 @@ public class ProfileCmd {
                             .setColor(ctx.getMemberColor())
                             .setFooter("Thanks for using Mantaro! %s".formatted(EmoteReference.HEART), ctx.getGuild().getIconUrl());
 
-                    DiscordUtils.listButtons(ctx, 200, embed, splitFields);
+                    DiscordUtils.listButtons(ctx.getUtilsContext(), 200, embed, splitFields);
                 });
             }
         });

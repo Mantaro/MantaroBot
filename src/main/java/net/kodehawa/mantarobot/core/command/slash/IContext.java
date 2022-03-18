@@ -15,7 +15,9 @@ public interface IContext {
     User getAuthor();
     RatelimitContext ratelimitContext();
     void send(String s);
+    Message sendResult(String s);
     void send(MessageEmbed e);
+    Message sendResult(MessageEmbed e);
     void sendFormat(String message, Object... format);
     void sendFormat(String message, Collection<ActionRow> actionRow, Object... format);
     void sendLocalized(String s, Object... args);

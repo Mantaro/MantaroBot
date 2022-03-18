@@ -202,7 +202,7 @@ public class OptsCmd {
                     }
 
                     var splitFields = DiscordUtils.divideFields(6, fields);
-                    DiscordUtils.listButtons(ctx, 200, embedBuilder, splitFields);
+                    DiscordUtils.listButtons(ctx.getUtilsContext(), 200, embedBuilder, splitFields);
                 }).setShortDescription("Checks the data values you have set on this server.")
         ).addOption("reset:all", new Option("Options reset.",
                 "Resets all options set on this server.", OptionType.GENERAL).setAction((ctx) -> {

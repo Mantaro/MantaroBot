@@ -11,6 +11,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.core.ButtonOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 
 import javax.annotation.Nonnull;
+import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -39,6 +40,23 @@ public class ButtonOperations {
         }
 
         if (defaultButtons.length > 0) {
+            message.editMessageComponents(ActionRow.of(defaultButtons)).queue();
+        }
+
+        return f;
+    }
+
+    public static Future<Void> create(Message message, long timeoutSeconds, ButtonOperation operation, Collection<Button> defaultButtons) {
+        if (!message.getAuthor().equals(message.getJDA().getSelfUser())) {
+            throw new IllegalArgumentException("Must provide a message sent by the bot");
+        }
+
+        Future<Void> f = create(message.getIdLong(), timeoutSeconds, operation);
+        if (f == null) {
+            return null;
+        }
+
+        if (defaultButtons.size() > 0) {
             message.editMessageComponents(ActionRow.of(defaultButtons)).queue();
         }
 

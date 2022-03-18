@@ -19,11 +19,15 @@ package net.kodehawa.mantarobot.utils.commands;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Emoji;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.Button;
+import net.kodehawa.mantarobot.commands.anime.AnimeData;
+import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
@@ -138,6 +142,37 @@ public class DiscordUtils {
         });
     }
 
+    public static Future<Void> selectIntButton(IContext ctx, Message message, int max,
+                                               IntConsumer valueConsumer, Consumer<Void> cancelConsumer) {
+        if (max > 5) {
+            // Technically you can have more than one.
+            // Just don't wanna.
+            throw new IllegalArgumentException("Can't add more than 5 buttons to an ActionRow");
+        }
+
+        List<Button> buttons = new ArrayList<>();
+        for (int i = 0; i < max; i++) {
+            buttons.add(Button.primary(String.valueOf(i + 1), String.valueOf(i + 1)));
+        }
+
+        return ButtonOperations.create(message, 30, new ButtonOperation() {
+            @Override
+            public int click(ButtonClickEvent e) {
+                if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
+                    return Operation.IGNORED;
+                }
+
+                try {
+                    valueConsumer.accept(Integer.parseInt(e.getButton().getId()));
+
+                    return Operation.COMPLETED;
+                } catch (Exception ignored) { }
+
+                return Operation.IGNORED;
+            }
+        }, buttons);
+    }
+
     public static Future<Void> selectInt(GuildMessageReceivedEvent event, int max, IntConsumer valueConsumer) {
         return selectInt(event, max, valueConsumer, (o) -> { });
     }
@@ -166,10 +201,25 @@ public class DiscordUtils {
         return selectList(event, list, toString, toEmbed, valueConsumer, (o) -> { });
     }
 
+    public static <T> Future<Void> selectListButton(IContext ctx, List<T> list,
+                                                    Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
+                                                    Consumer<T> valueConsumer) {
+        return selectListButton(ctx, list, toString, toEmbed, valueConsumer, (o) -> { });
+    }
+
     public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, T[] list,
                                               Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
                                               Consumer<T> valueConsumer) {
         return selectList(event, list, toString, toEmbed, valueConsumer, (o) -> { });
+    }
+
+    public static <T> Future<Void> selectListButton(IContext ctx, List<T> list,
+                                              Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
+                                              Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
+        var r = embedList(list, toString);
+        var m = ctx.sendResult(toEmbed.apply(r.getLeft()));
+
+        return selectIntButton(ctx, m, r.getRight(), i -> valueConsumer.accept(list.get(i - 1)), cancelConsumer);
     }
 
     public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,

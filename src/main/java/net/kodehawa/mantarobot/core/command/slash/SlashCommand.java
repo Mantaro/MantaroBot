@@ -1,5 +1,7 @@
 package net.kodehawa.mantarobot.core.command.slash;
 
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
@@ -160,6 +162,19 @@ public abstract class SlashCommand {
     }
 
     protected abstract void process(SlashContext ctx);
+
+    protected EmbedBuilder baseEmbed(SlashContext ctx, String name) {
+        return baseEmbed(ctx, name, ctx.getMember().getEffectiveAvatarUrl());
+    }
+
+    protected EmbedBuilder baseEmbed(SlashContext ctx, String name, String image) {
+        return new EmbedBuilder()
+                .setAuthor(name, null, image)
+                .setColor(ctx.getMember().getColor())
+                .setFooter("Requested by: %s".formatted(ctx.getMember().getEffectiveName()),
+                        ctx.getGuild().getIconUrl()
+                );
+    }
 
     public final void execute(SlashContext ctx) {
         var sub = getSubCommands().get(ctx.getSubCommand());
