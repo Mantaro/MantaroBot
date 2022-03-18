@@ -300,7 +300,7 @@ public class MiscCmds {
                         The options to add. Minimum is 2 and maximum is 9.
                         For instance: `Pizza,Spaghetti,Pasta,"Spiral Nudels"` (Enclose options with multiple words in double quotes, there has to be no spaces between the commas)
                         """),
-                @Help.Parameter(name = "image", description = "The image to embed to the poll.")
+                @Help.Parameter(name = "image", description = "The image to embed to the poll.", optional = true)
 
             }
     )
@@ -324,6 +324,7 @@ public class MiscCmds {
             }
 
             builder.setEvent(ctx.getEvent())
+                    .setName(ctx.getOptionAsString("name"))
                     .setTimeout(timeout)
                     .setOptions(options)
                     .setLanguage(ctx.getLanguageContext())

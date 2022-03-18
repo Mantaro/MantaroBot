@@ -207,7 +207,7 @@ public class Poll extends Lobby {
                             .collect(Collectors.joining("\n"));
 
                     embedBuilder.addField(languageContext.get("commands.poll.results"), "```diff\n" + votes + "```", false);
-                    ctx.reply(embedBuilder.build());
+                    ctx.edit(embedBuilder.build());
                 });
 
                 getRunningPolls().remove(getChannel().getId());
@@ -215,7 +215,7 @@ public class Poll extends Lobby {
 
             @Override
             public void onCancel() {
-                ctx.reply(languageContext.get("commands.poll.cancelled"), EmoteReference.CORRECT);
+                ctx.edit(languageContext.get("commands.poll.cancelled"), EmoteReference.CORRECT);
                 onExpire();
             }
 
