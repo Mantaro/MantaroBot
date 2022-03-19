@@ -18,10 +18,7 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.kodehawa.mantarobot.commands.action.ImageActionCmd;
-import net.kodehawa.mantarobot.commands.action.ImageActionSlash;
-import net.kodehawa.mantarobot.commands.action.ImageCmd;
-import net.kodehawa.mantarobot.commands.action.TextActionCmd;
+import net.kodehawa.mantarobot.commands.action.*;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Description;
@@ -130,9 +127,6 @@ public class ActionCmds {
         cr.register("blush", new ImageActionCmd("Blush", "Blushes at someone", EmoteReference.HEART,
                 "commands.action.blush", "blush", "commands.action.lonely.blush", "commands.action.self.blush", true));
 
-        //tsundere();
-        cr.register("tsundere", new TextActionCmd("Y-You baka!", EmoteReference.MEGA + "%s", TSUNDERE.get()));
-
         //nuzzle();
         cr.register("nuzzle", new ImageActionCmd("Nuzzle Command", "Nuzzles the specified user.", EmoteReference.TALKING,
                 "commands.action.nuzzle", NUZZLE.get(), "commands.action.lonely.nuzzle", "commands.action.self.nuzzle", true
@@ -142,6 +136,9 @@ public class ActionCmds {
         cr.register("bloodsuck", new ImageActionCmd("Bloodsuck command", "Sucks the blood of an user", EmoteReference.TALKING,
                 "commands.action.bloodsuck", BLOODSUCK.get(), "commands.action.lonely.bloodsuck", "commands.action.self.bloodsuck", true)
         );
+
+        //tsundere();
+        cr.register("tsundere", new TextActionCmd("Y-You baka!", EmoteReference.MEGA + "%s", TSUNDERE.get()));
 
         //lewd();
         cr.register("lewd", new ImageCmd("T-Too lewd!", "lewd", "lewd", "commands.action.lewd"));
@@ -156,10 +153,7 @@ public class ActionCmds {
         //facedesk();
         cr.register("facedesk", new ImageCmd("When it's just too much to handle.", "facedesk", "banghead",
                 "commands.action.facedesk", true));
-    }
 
-    @Subscribe
-    public void registerSlash(CommandRegistry cr) {
         cr.registerSlash(Pat.class);
         cr.registerSlash(Hug.class);
         cr.registerSlash(Kiss.class);
@@ -280,6 +274,41 @@ public class ActionCmds {
             public Teehee() {
                 super("Teehee", "Teehee~", EmoteReference.EYES,
                         "commands.action.teehee", "teehee", "commands.action.lonely.teehee", "commands.action.self.teehee", true);
+            }
+        }
+
+        @Name("lewd")
+        @Description("Random image that says lewd. Command itself is not lewd.")
+        @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user that's being lewd."))
+        public static class Lewd extends ImageCmdSlash {
+            public Lewd() {
+                super("T-Too lewd!", "lewd", "lewd", "commands.action.lewd");
+            }
+        }
+
+        @Name("meow")
+        @Description("Meows at the specific user.")
+        @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to meow to."))
+        public static class Meow extends ImageCmdSlash {
+            public Meow() {
+                super("Meows at the specified user.", "meow", MEOW.get(), "commands.action.meow");
+            }
+        }
+
+        @Name("nom")
+        @Description("Noms the specified user.")
+        @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to nom."))
+        public static class Nom extends ImageCmdSlash {
+            public Nom() {
+                super("*nom nom*", "nom", "nom", "commands.action.nom");
+            }
+        }
+
+        @Name("facedesk")
+        @Description("When it's just too much to handle.")
+        public static class FaceDesk extends ImageCmdSlash {
+            public FaceDesk() {
+                super("When it's just too much to handle.", "facedesk", "banghead", "commands.action.facedesk", true);
             }
         }
     }
