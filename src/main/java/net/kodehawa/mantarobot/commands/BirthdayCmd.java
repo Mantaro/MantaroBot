@@ -18,10 +18,12 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
+import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
@@ -51,6 +53,11 @@ public class BirthdayCmd {
     private static final Cache<Long, ConcurrentHashMap<Long, BirthdayCacher.BirthdayData>> guildBirthdayCache = CacheBuilder.newBuilder()
             .maximumSize(2500)
             .build();
+
+    @Subscribe
+    public void register(CommandRegistry cr) {
+        cr.registerSlash(Birthday.class);
+    }
 
     @Name("birthday")
     @Description("The hub for birthday-related commands.")
