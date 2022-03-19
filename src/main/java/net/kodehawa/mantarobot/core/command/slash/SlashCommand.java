@@ -1,7 +1,6 @@
 package net.kodehawa.mantarobot.core.command.slash;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
@@ -21,7 +20,7 @@ public abstract class SlashCommand {
     private CommandCategory category;
     private final CommandPermission permission;
     private final boolean guildOnly;
-    private final HelpContent help;
+    private HelpContent help;
 
     // This is basically the same as NewCommand, but the handling ought to be different everywhere else.
     // There's no aliases either, too little slots.
@@ -154,6 +153,10 @@ public abstract class SlashCommand {
 
     public List<OptionData> getOptions() {
         return types;
+    }
+
+    public void setHelp(HelpContent help) {
+        this.help = help;
     }
 
     // This is to be overriden.

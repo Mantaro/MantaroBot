@@ -209,7 +209,7 @@ public class DebugCmds {
                 return;
 
             long start = System.currentTimeMillis();
-            ctx.replyAction("Pinging...").queue(v -> {
+            ctx.getEvent().reply("Pinging...").queue(v -> {
                 long ping = System.currentTimeMillis() - start;
                 v.editOriginal(
                         String.format(

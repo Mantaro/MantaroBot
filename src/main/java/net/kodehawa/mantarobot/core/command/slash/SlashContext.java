@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.requests.restaction.WebhookMessageUpdateAction;
-import net.dv8tion.jda.api.requests.restaction.interactions.ReplyAction;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
@@ -115,7 +114,7 @@ public class SlashContext implements IContext {
 
     public void reply(String source, Object... args) {
         if (deferred) {
-            slash.reply(i18n.get(source).formatted(args)).queue();
+            slash.getHook().sendMessage(i18n.get(source).formatted(args)).queue();
         } else {
             slash.deferReply()
                     .setContent(i18n.get(source).formatted(args))
@@ -125,7 +124,7 @@ public class SlashContext implements IContext {
 
     public void replyEphemeral(String source, Object... args) {
         if (deferred) {
-            slash.reply(i18n.get(source).formatted(args)).queue();
+            slash.getHook().sendMessage(i18n.get(source).formatted(args)).queue();
         } else {
             slash.deferReply(true)
                     .setContent(i18n.get(source).formatted(args))
@@ -133,17 +132,9 @@ public class SlashContext implements IContext {
         }
     }
 
-    public ReplyAction replyAction(String source, Object... args) {
-        if (deferred) {
-            return slash.reply(i18n.get(source).formatted(args));
-        } else {
-            return slash.deferReply().setContent(i18n.get(source).formatted(args));
-        }
-    }
-
     public void reply(String text) {
         if (deferred) {
-            slash.reply(text).queue();
+            slash.getHook().sendMessage(text).queue();
         } else {
             slash.deferReply()
                     .setContent(text)
@@ -153,7 +144,7 @@ public class SlashContext implements IContext {
 
     public void reply(MessageEmbed embed) {
         if (deferred) {
-            slash.replyEmbeds(embed)
+            slash.getHook().sendMessageEmbeds(embed)
                     .queue(success -> {}, Throwable::printStackTrace);
         } else {
             slash.deferReply().addEmbeds(embed)
@@ -163,27 +154,11 @@ public class SlashContext implements IContext {
 
     public void replyEphemeral(MessageEmbed embed) {
         if (deferred) {
-            slash.replyEmbeds(embed)
+            slash.getHook().sendMessageEmbeds(embed)
                     .queue(success -> {}, Throwable::printStackTrace);
         } else {
             slash.deferReply(true).addEmbeds(embed)
                     .queue(success -> {}, Throwable::printStackTrace);
-        }
-    }
-
-    public ReplyAction replyAction(String text) {
-        if (deferred) {
-            return slash.reply(text);
-        } else {
-            return slash.deferReply().setContent(text);
-        }
-    }
-
-    public ReplyAction replyAction(MessageEmbed embed) {
-        if (deferred) {
-            return slash.replyEmbeds(embed);
-        } else {
-            return slash.deferReply().addEmbeds(embed);
         }
     }
 
@@ -270,6 +245,10 @@ public class SlashContext implements IContext {
     @Override
     public I18nContext getLanguageContext() {
         return getI18nContext();
+    }
+
+    public I18nContext getGuildLanguageContext() {
+        return new I18nContext(getDBGuild().getData(), null);
     }
 
     public ManagedDatabase db() {

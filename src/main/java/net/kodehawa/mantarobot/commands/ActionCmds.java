@@ -17,10 +17,15 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.action.ImageActionCmd;
+import net.kodehawa.mantarobot.commands.action.ImageActionSlash;
 import net.kodehawa.mantarobot.commands.action.ImageCmd;
 import net.kodehawa.mantarobot.commands.action.TextActionCmd;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.meta.Name;
+import net.kodehawa.mantarobot.core.command.meta.Options;
+import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
@@ -147,5 +152,30 @@ public class ActionCmds {
         //facedesk();
         cr.register("facedesk", new ImageCmd("When it's just too much to handle.", "facedesk", "banghead",
                 "commands.action.facedesk", true));
+    }
+
+    @Subscribe
+    public void registerSlash(CommandRegistry cr) {
+        cr.registerSlash(Pat.class);
+        cr.registerSlash(Hug.class);
+    }
+
+    @Name("pat")
+    @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to pat.", required = true))
+    public static class Pat extends ImageActionSlash {
+        public Pat() {
+            super("Pat", "Pats the specified user.", EmoteReference.TALKING,
+                    "commands.action.pat", "pat", "commands.action.lonely.pat", "commands.action.self.pat");
+        }
+    }
+
+    @Name("hug")
+    @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to hug.", required = true))
+    public static class Hug extends ImageActionSlash {
+        public Hug() {
+            super("Hug", "Hugs the specified user.", EmoteReference.TALKING,
+                    "commands.action.hug", "hug", "commands.action.lonely.hug", "commands.action.self.hug"
+            );
+        }
     }
 }

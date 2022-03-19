@@ -159,8 +159,9 @@ public class FunCmds {
             var sum = result.stream().mapToInt(Integer::intValue).sum();
             if (size == 6 && sum == 6) {
                 var player = MantaroData.db().getPlayer(ctx.getAuthor());
-                player.getData().addBadgeIfAbsent(Badge.LUCK_BEHIND);
-                player.saveUpdating();
+                if (player.getData().addBadgeIfAbsent(Badge.LUCK_BEHIND)) {
+                    player.saveUpdating();
+                }
             }
 
             var sumString = result.stream().limit(10).map(Object::toString).collect(Collectors.joining(", "));
