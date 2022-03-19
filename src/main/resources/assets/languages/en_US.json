@@ -704,8 +704,12 @@
       "success": "%1$sI rate your waifu with a **%2$,d/100**"
     },
     "roll": {
-      "success": "%1$sYou got **%2$,d**%3$s",
-      "amount": "Doing **%1$,d** rolls."
+      "success": "%1$sYou got **%2$s**%3$s",
+      "amount": "Doing **%1$,d** rolls.",
+      "more_than_10": "... and %2$s more rolls",
+      "total": "(Total: %1$,d)",
+      "size": "\nDoing **%1$,d rolls** with a die of **%2$,d sides**.",
+      "incorrect_format": "You need to specify the amount in d20 format. For example, to roll 2 dies of 16 sides, you can do 2d16."
     },
     "coinflip": {
       "over_limit": "%1$sHold in there! The limit is 1,000 coin flips",
