@@ -23,10 +23,9 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.*;
-import net.kodehawa.mantarobot.core.command.slash.BridgeContext;
+import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -35,6 +34,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -100,7 +100,7 @@ public class MoneyCmds {
     public static class Daily extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            daily(new BridgeContext(ctx, null), ctx.getOptionAsUser("user"), ctx.getOptionAsBoolean("check"));
+            daily(ctx, ctx.getOptionAsUser("user"), ctx.getOptionAsBoolean("check"));
         }
     }
 
@@ -114,7 +114,7 @@ public class MoneyCmds {
     public static class Loot extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            loot(new BridgeContext(ctx, null));
+            loot(ctx);
         }
     }
 
@@ -132,7 +132,7 @@ public class MoneyCmds {
     public static class Balance extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            balance(new BridgeContext(ctx, null), ctx.getOptionAsUser("user"));
+            balance(ctx, ctx.getOptionAsUser("user"));
         }
     }
 
@@ -150,7 +150,7 @@ public class MoneyCmds {
                 }
 
                 boolean check = args.length > 0 && ctx.getMentionedUsers().isEmpty() && args[0].equalsIgnoreCase("-check");
-                daily(new BridgeContext(null, ctx), toGive, check);
+                daily(ctx, toGive, check);
             }
 
             @Override
@@ -174,7 +174,7 @@ public class MoneyCmds {
         cr.register("loot", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             public void call(Context ctx, String content, String[] args) {
-                loot(new BridgeContext(null, ctx));
+                loot(ctx);
             }
 
             @Override
@@ -207,7 +207,7 @@ public class MoneyCmds {
                         isExternal = true;
                     }
 
-                    balance(new BridgeContext(null, ctx), isExternal ? user : null);
+                    balance(ctx, isExternal ? user : null);
                 });
             }
 
@@ -227,7 +227,7 @@ public class MoneyCmds {
     }
     // Old command system end
 
-    private static void daily(BridgeContext ctx, User toGive, boolean check) {
+    private static void daily(IContext ctx, User toGive, boolean check) {
         final var languageContext = ctx.getLanguageContext();
         if (check) {
             long rl = dailyRateLimiter.getRemaniningCooldown(ctx.getAuthor());
@@ -253,7 +253,7 @@ public class MoneyCmds {
             return;
         }
 
-        UnifiedPlayer toAddMoneyTo = UnifiedPlayer.of(author, ctx.getConfig().getCurrentSeason());
+        Player toAddMoneyTo = ctx.getPlayer(author);
         User otherUser = null;
 
         boolean targetOther = toGive != null;
@@ -276,7 +276,7 @@ public class MoneyCmds {
                 return;
             }
 
-            if (ctx.isUserBlacklisted(otherUser.getId())) {
+            if (ctx.getMantaroData().getBlackListedUsers().contains(otherUser.getId())) {
                 ctx.sendLocalized("commands.transfer.blacklisted_transfer", EmoteReference.ERROR);
                 return;
             }
@@ -284,7 +284,7 @@ public class MoneyCmds {
             // Why this is here I have no clue;;;
             dailyMoney += random.nextInt(90);
 
-            var mentionedDBUser = ctx.getDBUser(otherUser.getId());
+            var mentionedDBUser = ctx.getDBUser(otherUser);
             var mentionedUserData = mentionedDBUser.getData();
 
             // Marriage bonus
@@ -299,12 +299,10 @@ public class MoneyCmds {
                 dailyMoney +=Math.max(5, random.nextInt(100));
             }
 
-            toAddMoneyTo = UnifiedPlayer.of(otherUser, ctx.getConfig().getCurrentSeason());
-
-
+            toAddMoneyTo = ctx.getPlayer(otherUser);
         } else {
             // This is here so you dont overwrite yourself....
-            authorPlayer = toAddMoneyTo.getPlayer();
+            authorPlayer = toAddMoneyTo;
             authorPlayerData = authorPlayer.getData();
         }
 
@@ -453,7 +451,7 @@ public class MoneyCmds {
         ctx.send(toSend.toString());
     }
 
-    private static void loot(BridgeContext ctx) {
+    private static void loot(IContext ctx) {
         var player = ctx.getPlayer();
         var playerData = player.getData();
         var dbUser = ctx.getDBUser();
@@ -546,7 +544,7 @@ public class MoneyCmds {
         player.saveUpdating();
     }
 
-    private static void balance(BridgeContext ctx, User toCheck) {
+    private static void balance(IContext ctx, User toCheck) {
         var languageContext = ctx.getLanguageContext();
         var user = ctx.getAuthor();
         boolean isExternal = false;

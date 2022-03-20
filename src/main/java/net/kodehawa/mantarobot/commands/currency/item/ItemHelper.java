@@ -24,9 +24,7 @@ import net.kodehawa.mantarobot.commands.currency.item.special.tools.Axe;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
@@ -232,10 +230,9 @@ public class ItemHelper {
                 .indexOf(item);
     }
 
-    static boolean openLootCrate(Context ctx, ItemType.LootboxType type, int item, EmoteReference typeEmote, int bound, boolean season) {
+    static boolean openLootCrate(IContext ctx, ItemType.LootboxType type, int item, EmoteReference typeEmote, int bound) {
         Player player = ctx.getPlayer();
-        SeasonPlayer seasonPlayer = ctx.getSeasonPlayer();
-        Inventory inventory = season ? seasonPlayer.getInventory() : player.getInventory();
+        Inventory inventory = player.getInventory();
 
         Item crate = fromId(item);
 
@@ -249,7 +246,7 @@ public class ItemHelper {
                 }
 
                 //It saves the changes here.
-                openLootBox(ctx, player, seasonPlayer, type, crate, typeEmote, bound, season);
+                openLootBox(ctx, player, type, crate, typeEmote, bound);
                 return true;
             } else {
                 ctx.sendLocalized("general.misc_item_usage.crate.no_key", EmoteReference.ERROR);
@@ -261,8 +258,8 @@ public class ItemHelper {
         }
     }
 
-    private static void openLootBox(Context ctx, Player player, SeasonPlayer seasonPlayer, ItemType.LootboxType type, Item crate,
-                                    EmoteReference typeEmote, int bound, boolean seasonal) {
+    private static void openLootBox(IContext ctx, Player player, ItemType.LootboxType type, Item crate,
+                                    EmoteReference typeEmote, int bound) {
         List<Item> toAdd = selectItems(random.nextInt(bound) + bound, type);
 
         ArrayList<ItemStack> ita = new ArrayList<>();
@@ -288,25 +285,14 @@ public class ItemHelper {
             return stack;
         }).collect(Collectors.toList());
 
-        boolean overflow = seasonal ? seasonPlayer.getInventory().merge(toShow) : player.getInventory().merge(toShow);
+        boolean overflow = player.getInventory().merge(toShow);
 
-        if (seasonal) {
-            seasonPlayer.getInventory().process(new ItemStack(ItemReference.LOOT_CRATE_KEY, -1));
-            seasonPlayer.getInventory().process(new ItemStack(crate, -1));
-        } else {
-            player.getInventory().process(new ItemStack(ItemReference.LOOT_CRATE_KEY, -1));
-            player.getInventory().process(new ItemStack(crate, -1));
-        }
-
+        player.getInventory().process(new ItemStack(ItemReference.LOOT_CRATE_KEY, -1));
+        player.getInventory().process(new ItemStack(crate, -1));
         data.setCratesOpened(data.getCratesOpened() + 1);
         player.save();
 
-        if (seasonal) {
-            seasonPlayer.save();
-        }
-
         I18nContext lang = ctx.getLanguageContext();
-
         var show = toShow.stream()
                 .map(itemStack -> "x%,d \u2009%s".formatted(itemStack.getAmount(), itemStack.getItem().toDisplayString()))
                 .collect(Collectors.joining(", "));
