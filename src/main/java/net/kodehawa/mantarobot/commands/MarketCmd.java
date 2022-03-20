@@ -20,6 +20,7 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
@@ -31,8 +32,10 @@ import net.kodehawa.mantarobot.commands.currency.item.special.tools.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Wrench;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
-import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
+import net.kodehawa.mantarobot.core.command.meta.*;
+import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
@@ -43,7 +46,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
@@ -61,7 +63,7 @@ import java.util.stream.Stream;
 @Module
 public class MarketCmd {
     private final static Random random = new Random();
-    private final IncreasingRateLimiter buyRatelimiter = new IncreasingRateLimiter.Builder()
+    private static final IncreasingRateLimiter buyRatelimiter = new IncreasingRateLimiter.Builder()
             .limit(1)
             .spamTolerance(4)
             .cooldown(3, TimeUnit.SECONDS)
@@ -71,7 +73,7 @@ public class MarketCmd {
             .premiumAware(true)
             .build();
 
-    private final IncreasingRateLimiter sellRatelimiter = new IncreasingRateLimiter.Builder()
+    private static final IncreasingRateLimiter sellRatelimiter = new IncreasingRateLimiter.Builder()
             .limit(1)
             .spamTolerance(4)
             .cooldown(3, TimeUnit.SECONDS)
@@ -81,7 +83,7 @@ public class MarketCmd {
             .premiumAware(true)
             .build();
 
-    private final IncreasingRateLimiter dumpRatelimit = new IncreasingRateLimiter.Builder()
+    private static final IncreasingRateLimiter dumpRatelimit = new IncreasingRateLimiter.Builder()
             .limit(1)
             .spamTolerance(4)
             .cooldown(3, TimeUnit.SECONDS)
@@ -91,19 +93,206 @@ public class MarketCmd {
             .premiumAware(true)
             .build();
 
+    private static final IncreasingRateLimiter marketRatelimiter = new IncreasingRateLimiter.Builder()
+            .limit(1)
+            .spamTolerance(4)
+            .cooldown(3, TimeUnit.SECONDS)
+            .maxCooldown(10, TimeUnit.SECONDS)
+            .pool(MantaroData.getDefaultJedisPool())
+            .prefix("market")
+            .premiumAware(true)
+            .build();
+
+    @Subscribe
+    public void register(CommandRegistry cr) {
+        cr.registerSlash(Market.class);
+        cr.registerSlash(Buy.class);
+        cr.registerSlash(Sell.class);
+        cr.registerSlash(Dump.class);
+    }
+
+    @Name("market")
+    @Description("The hub for all market commands.")
+    @Category(CommandCategory.CURRENCY)
+    @Help(description = "The hub for all market commands.")
+    public static class Market extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {}
+
+        @Name("show")
+        @Description("List current items for buying and selling.")
+        @Category(CommandCategory.CURRENCY)
+        @Help(description = "List current items for buying and selling.")
+        public static class Show extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                showMarket(ctx, (item) -> true);
+            }
+        }
+
+        @Name("pet")
+        @Description("List current pet items.")
+        @Category(CommandCategory.CURRENCY)
+        @Help(description = "List current pet items.")
+        public static class Pet extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                showMarket(ctx, (item) -> item.getItemType() == ItemType.PET || item.getItemType() == ItemType.PET_FOOD);
+            }
+        }
+
+        @Name("common")
+        @Description("List current common items.")
+        @Category(CommandCategory.CURRENCY)
+        @Help(description = "List current common items.")
+        public static class Common extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                showMarket(ctx, (item) -> item.getItemType() == ItemType.COMMON || item.getItemType() == ItemType.COLLECTABLE);
+            }
+        }
+
+        @Name("tools")
+        @Description("List current tool items.")
+        @Category(CommandCategory.CURRENCY)
+        @Help(description = "List current tool items.")
+        public static class Tool extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                showMarket(ctx, (item) -> item instanceof FishRod || item instanceof Pickaxe || item instanceof Axe || item instanceof Broken);
+            }
+        }
+
+        @Name("potions")
+        @Description("List current potion items.")
+        @Category(CommandCategory.CURRENCY)
+        @Help(description = "List current potion items.")
+        public static class Potions extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                showMarket(ctx, Potion.class::isInstance);
+            }
+        }
+
+        @Name("buyable")
+        @Description("List current buyable items.")
+        @Category(CommandCategory.CURRENCY)
+        @Help(description = "List current buyable items.")
+        public static class Buyable extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                showMarket(ctx, Item::isBuyable);
+            }
+        }
+
+        @Name("sellable")
+        @Description("List current sellable items.")
+        @Category(CommandCategory.CURRENCY)
+        @Help(description = "List current sellable items.")
+        public static class Sellable extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                showMarket(ctx, Item::isSellable);
+            }
+        }
+
+        @Name("price")
+        @Description("Looks up the price of an item.")
+        @Category(CommandCategory.CURRENCY)
+        @Options({
+                @Options.Option(type = OptionType.STRING, name = "item", description = "The item name.", required = true)
+        })
+        @Help(
+                description = "Looks up the price of an item.", 
+                usage = "/market price [item]",
+                parameters = {
+                        @Help.Parameter(name = "item", description = "The item name.")
+                }
+        )
+        public static class Price extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                var item = ctx.getOptionAsString("item");
+                price(ctx, item);
+            }
+        }
+    }
+
+    @Name("buy")
+    @Description("Buys an item.")
+    @Category(CommandCategory.CURRENCY)
+    @Options({
+            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to buy.", maxValue = 5000, required = true),
+            @Options.Option(type = OptionType.STRING, name = "item", description = "The item to buy", required = true)
+    })
+    @Help(
+            description = "Buys an item",
+            usage = """
+                    To buy an item do `/buy <amount> <item>`. The maximum amount is 5000.
+                    """,
+            parameters = {
+                    @Help.Parameter(name = "amount", description = "The amount of the item to buy."),
+                    @Help.Parameter(name = "item", description = "The item to buy.")
+            }
+    )
+    public static class Buy extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {
+            buy(ctx, ctx.getOptionAsString("item"), (int) ctx.getOptionAsLong("amount"), buyRatelimiter);
+        }
+    }
+
+    @Name("sell")
+    @Description("Sells an item.")
+    @Category(CommandCategory.CURRENCY)
+    @Options({
+            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to sell.", maxValue = 5000, required = true),
+            @Options.Option(type = OptionType.STRING, name = "item", description = "The item to sell", required = true)
+    })
+    @Help(
+            description = "Sells an item",
+            usage = """
+                    To sell an item do `/sell <amount> <item>`. The maximum amount is the amount of items you have.
+                    """,
+            parameters = {
+                    @Help.Parameter(name = "amount", description = "The amount of the item to sell."),
+                    @Help.Parameter(name = "item", description = "The item to sell.")
+            }
+    )
+    public static class Sell extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {
+            sell(ctx, ctx.getOptionAsString("item"), (int) ctx.getOptionAsLong("amount"), sellRatelimiter);
+        }
+    }
+
+
+    @Name("dump")
+    @Description("Dumps an item.")
+    @Category(CommandCategory.CURRENCY)
+    @Options({
+            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to dump.", maxValue = 5000, required = true),
+            @Options.Option(type = OptionType.STRING, name = "item", description = "The item to dump", required = true)
+    })
+    @Help(
+            description = "Dumps an item",
+            usage = """
+                    To dump an item do `/dump <amount> <item>`.
+                    """,
+            parameters = {
+                    @Help.Parameter(name = "amount", description = "The amount of the item to dump"),
+                    @Help.Parameter(name = "item", description = "The item to dump")
+            }
+    )
+    public static class Dump extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {
+            dump(ctx, ctx.getOptionAsString("item"), (int) ctx.getOptionAsLong("amount"), dumpRatelimit);
+        }
+    }
+
     @Subscribe
     public void market(CommandRegistry cr) {
-        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
-                .limit(1)
-                .spamTolerance(4)
-                .cooldown(3, TimeUnit.SECONDS)
-                .maxCooldown(10, TimeUnit.SECONDS)
-                .pool(MantaroData.getDefaultJedisPool())
-                .prefix("market")
-                .premiumAware(true)
-                .build();
-
-
         TreeCommand marketCommand = cr.register("market", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
@@ -126,28 +315,8 @@ public class MarketCmd {
                                 To buy and sell multiple items you need to do `~>market <buy/sell> <amount> <item>`
                                 """)
                         .addParameter("item", "The item name or emoji")
-                        .setSeasonal(true)
                         .build();
             }
-        });
-
-        marketCommand.setPredicate((ctx) -> {
-            if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
-                return false;
-            }
-
-            if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
-                ctx.sendLocalized("general.missing_embed_permissions");
-                return false;
-            }
-
-            var player = ctx.getPlayer();
-            if (player.isLocked()) {
-                ctx.send(EmoteReference.ERROR + "You cannot access the market now.");
-                return false;
-            }
-
-            return true;
         });
 
         marketCommand.addSubCommand("pet", new SubCommand() {
@@ -223,19 +392,6 @@ public class MarketCmd {
             }
         });
 
-
-        marketCommand.addSubCommand("dump", new SubCommand() {
-            @Override
-            public String description() {
-                return "Use `~>dump` instead.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                dump(ctx, content, ctx.getArguments(), null, languageContext.get("commands.market.dump.replacement"));
-            }
-        }).createSubCommandAlias("dump", "trash");
-
         marketCommand.addSubCommand("price", new SubCommand() {
             @Override
             public String description() {
@@ -249,50 +405,7 @@ public class MarketCmd {
                     return;
                 }
 
-                var item = ItemHelper.fromAnyNoId(content, ctx.getLanguageContext()).orElse(null);
-
-                if (item == null) {
-                    ctx.sendLocalized("commands.market.price.non_existent", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (!item.isBuyable() && !item.isSellable()) {
-                    ctx.sendLocalized("commands.market.price.no_price", EmoteReference.THINKING);
-                    return;
-                }
-
-                if (!item.isBuyable()) {
-                    ctx.sendLocalized("commands.market.price.collectible", EmoteReference.EYES, Math.round(item.getValue() * 0.9));
-                    return;
-                }
-
-                ctx.sendLocalized("commands.market.price.success",
-                        EmoteReference.MARKET, item.getEmoji() + " ", item.getName(), item.getValue(), Math.round(item.getValue() * 0.9)
-                );
-            }
-        });
-
-        marketCommand.addSubCommand("sell", new SubCommand() {
-            @Override
-            public String description() {
-                return "Use ~>sell instead.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                sell(ctx, content, ctx.getArguments(), null, languageContext.get("commands.market.sell.replacement"));
-            }
-        });
-
-        marketCommand.addSubCommand("buy", new SubCommand() {
-            @Override
-            public String description() {
-                return "Use ~>buy instead.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                buy(ctx, content, ctx.getArguments(), null, languageContext.get("commands.market.buy.replacement"));
+                price(ctx, content);
             }
         });
 
@@ -304,7 +417,27 @@ public class MarketCmd {
         cr.register("sell", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                sell(ctx, content, args, sellRatelimiter, "");
+                if (content.isEmpty()) {
+                    ctx.sendLocalized("commands.market.sell.no_item_amount", EmoteReference.ERROR);
+                    return;
+                }
+
+                var itemName = content;
+                var itemNumber = 1;
+                var split = args[0];
+                var isMassive = split.matches("^[0-9]*$");
+
+                if (isMassive) {
+                    try {
+                        itemNumber = Math.abs(Integer.parseInt(split));
+                        itemName = itemName.replace(args[0], "").trim();
+                    } catch (NumberFormatException e) {
+                        ctx.sendLocalized("commands.market.sell.invalid", EmoteReference.ERROR);
+                        return;
+                    }
+                }
+
+                sell(ctx, itemName, itemNumber, sellRatelimiter);
             }
 
             @Override
@@ -318,7 +451,6 @@ public class MarketCmd {
                                 """)
                         .addParameter("item", "The item name or emoji")
                         .addParameterOptional("amount", "The amount you want to sell. If you want to sell all of one item, use allof here.")
-                        .setSeasonal(true)
                         .build();
             }
         });
@@ -329,7 +461,38 @@ public class MarketCmd {
         cr.register("buy", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                buy(ctx, content, args, buyRatelimiter, "");
+                if (content.isEmpty()) {
+                    ctx.sendLocalized("commands.market.buy.no_item_amount", EmoteReference.ERROR);
+                    return;
+                }
+
+                var itemName = content;
+                var itemNumber = 1;
+                var split = args[0];
+                var isMassive = split.matches("^[0-9]*$");
+                if (isMassive) {
+                    try {
+                        itemNumber = Math.abs(Integer.parseInt(split));
+                        itemName = itemName.replace(args[0], "").trim();
+                    } catch (NumberFormatException e) {
+                        ctx.sendLocalized("commands.market.buy.invalid", EmoteReference.ERROR);
+                        return;
+                    }
+                } else {
+                    // This is silly but works, people can stop asking about this now :o
+                    switch (split) {
+                        case "all" -> itemNumber = ItemStack.MAX_STACK_SIZE;
+                        case "half" -> itemNumber = ItemStack.MAX_STACK_SIZE / 2;
+                        case "quarter" -> itemNumber = ItemStack.MAX_STACK_SIZE / 4;
+                        default -> {}
+                    }
+
+                    if (itemNumber > 1) {
+                        itemName = itemName.replace(args[0], "").trim();
+                    }
+                }
+
+                buy(ctx, itemName, itemNumber, buyRatelimiter);
             }
 
             @Override
@@ -343,7 +506,6 @@ public class MarketCmd {
                                 """)
                         .addParameter("item", "The item name or emoji")
                         .addParameterOptional("amount", "The amount you want to buy.")
-                        .setSeasonal(true)
                         .build();
             }
         });
@@ -353,8 +515,26 @@ public class MarketCmd {
     public void dump(CommandRegistry cr) {
         cr.register("dump", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
-            protected void call(Context context, String content, String[] args) {
-                dump(context, content, args, dumpRatelimit, "");
+            protected void call(Context ctx, String content, String[] args) {
+                if (content.isEmpty()) {
+                    ctx.sendLocalized("commands.market.dump.no_item", EmoteReference.ERROR);
+                    return;
+                }
+
+                var itemName = content;
+                var itemNumber = 1;
+                var isMassive = itemName.split(" ")[0].matches("^[0-9]*$");
+                if (isMassive) {
+                    try {
+                        itemNumber = Math.abs(Integer.parseInt(itemName.split(" ")[0]));
+                        itemName = itemName.replace(args[0], "").trim();
+                    } catch (NumberFormatException e) {
+                        ctx.sendLocalized("commands.market.dump.invalid", EmoteReference.ERROR);
+                        return;
+                    }
+                }
+
+                dump(ctx, itemName, itemNumber, dumpRatelimit);
             }
 
             @Override
@@ -367,63 +547,51 @@ public class MarketCmd {
                                 """)
                         .addParameter("item", "The item name or emoji")
                         .addParameterOptional("amount", "The amount you want to throw away. If you want to throw all of one item, use allof here.")
-                        .setSeasonal(true)
                         .build();
             }
         });
     }
 
-    private void dump(Context ctx, String content, String[] args, IncreasingRateLimiter rateLimiter, String extra) {
-        var warn = extra.isEmpty() ? "" : extra + "\n";
-        if (content.isEmpty()) {
-            ctx.sendLocalized("commands.market.dump.no_item", warn + EmoteReference.ERROR);
+    private static void price(IContext ctx, String itemString) {
+        var item = ItemHelper.fromAnyNoId(itemString, ctx.getLanguageContext()).orElse(null);
+        if (item == null) {
+            ctx.sendLocalized("commands.market.price.non_existent", EmoteReference.ERROR);
             return;
         }
 
-        var arguments = ctx.getOptionalArguments();
-        var isSeasonal = ctx.isSeasonal();
-        content = Utils.replaceArguments(arguments, content, "season", "s").trim();
-
-        var itemName = content;
-        if (args[0].equalsIgnoreCase("allof")) {
-            itemName = content.replace("allof", "").trim();
+        if (!item.isBuyable() && !item.isSellable()) {
+            ctx.sendLocalized("commands.market.price.no_price", EmoteReference.THINKING);
+            return;
         }
 
-        var itemNumber = 1;
-        var isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
-        if (isMassive) {
-            try {
-                itemNumber = Math.abs(Integer.parseInt(itemName.split(" ")[0]));
-                itemName = itemName.replace(args[0], "").trim();
-            } catch (NumberFormatException e) {
-                ctx.sendLocalized("commands.market.dump.invalid", warn + EmoteReference.ERROR);
-                return;
-            }
+        if (!item.isBuyable()) {
+            ctx.sendLocalized("commands.market.price.collectible", EmoteReference.EYES, Math.round(item.getValue() * 0.9));
+            return;
         }
 
-
+        ctx.sendLocalized("commands.market.price.success",
+                EmoteReference.MARKET, item.getEmoji() + " ", item.getName(), item.getValue(), Math.round(item.getValue() * 0.9)
+        );
+    }
+    
+    private static void dump(IContext ctx, String itemName, int itemNumber, IncreasingRateLimiter rateLimiter) {
         var item = ItemHelper.fromAnyNoId(itemName, ctx.getLanguageContext()).orElse(null);
 
         if (item == null) {
-            ctx.sendLocalized("commands.market.dump.non_existent", warn + EmoteReference.ERROR);
+            ctx.sendLocalized("commands.market.dump.non_existent", EmoteReference.ERROR);
             return;
         }
 
         var player = ctx.getPlayer();
-        var seasonalPlayer = ctx.getSeasonPlayer();
-        var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
+        var playerInventory = player.getInventory();
 
         if (!playerInventory.containsItem(item)) {
-            ctx.sendLocalized("commands.market.dump.player_no_item", warn + EmoteReference.ERROR);
+            ctx.sendLocalized("commands.market.dump.player_no_item", EmoteReference.ERROR);
             return;
         }
 
-        if (args[0].equalsIgnoreCase("allof")) {
-            itemNumber = playerInventory.getAmount(item);
-        }
-
         if (playerInventory.getAmount(item) < itemNumber) {
-            ctx.sendLocalized("commands.market.dump.more_items_than_player", warn + EmoteReference.ERROR);
+            ctx.sendLocalized("commands.market.dump.more_items_than_player", EmoteReference.ERROR);
             return;
         }
 
@@ -432,117 +600,43 @@ public class MarketCmd {
         }
 
         playerInventory.process(new ItemStack(item, -itemNumber));
-
         if (itemNumber > 4000) {
             player.getData().addBadgeIfAbsent(Badge.WASTER);
         }
 
-        if (isSeasonal) {
-            seasonalPlayer.saveAsync();
-        } else {
-            player.saveAsync();
-        }
-
-        ctx.sendLocalized("commands.market.dump.success", warn + EmoteReference.CORRECT, itemNumber, item.getEmoji(), item.getName());
+        player.save();
+        ctx.sendLocalized("commands.market.dump.success", EmoteReference.CORRECT, itemNumber, item.getEmoji(), item.getName());
     }
 
-    private void sell(Context ctx, String content, String[] args, IncreasingRateLimiter rateLimiter, String extra) {
-        var warn = extra.isEmpty() ? "" : extra + "\n";
-        if (content.isEmpty()) {
-            ctx.sendLocalized("commands.market.sell.no_item_amount", warn + EmoteReference.ERROR);
-            return;
-        }
-
-        var optionalArguments = ctx.getOptionalArguments();
-        content = Utils.replaceArguments(optionalArguments, content, "season", "s").trim();
-
-        var languageContext = ctx.getLanguageContext();
+    private static void sell(IContext ctx, String item, int amount, IncreasingRateLimiter rateLimiter) {
         var player = ctx.getPlayer();
-        var seasonalPlayer = ctx.getSeasonPlayer();
-        var isSeasonal = ctx.isSeasonal();
-        var itemName = content;
-        var itemNumber = 1;
-        var split = args[0];
-        var isMassive = !itemName.isEmpty() && split.matches("^[0-9]*$");
-
-        if (isMassive) {
-            try {
-                itemNumber = Math.abs(Integer.parseInt(split));
-                itemName = itemName.replaceFirst(args[0], "").trim();
-            } catch (NumberFormatException e) {
-                ctx.sendLocalized("commands.market.sell.invalid", warn + EmoteReference.ERROR);
-                return;
-            }
-        }
+        var playerInventory = player.getInventory();
 
         try {
-            if (args[0].equals("all") && !isSeasonal) {
-                ctx.sendLocalized("commands.market.sell.all.confirmation", warn + EmoteReference.WARNING);
-                //Start the operation.
-                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 60, e -> {
-                    if (!e.getAuthor().getId().equals(ctx.getAuthor().getId())) {
-                        return Operation.IGNORED;
-                    }
-
-                    String c = e.getMessage().getContentRaw();
-                    var playerConfirm = ctx.getPlayer();
-                    if (c.equalsIgnoreCase("yes")) {
-                        long all = playerConfirm.getInventory().asList().stream()
-                                .filter(item -> item.getItem().isSellable())
-                                .mapToLong(value -> Math.round(value.getItem().getValue() * value.getAmount() * 0.9d))
-                                .sum();
-
-                        playerConfirm.getInventory().clearOnlySellables();
-                        playerConfirm.addMoney(all);
-
-                        ctx.sendLocalized("commands.market.sell.all.success", warn + EmoteReference.MONEY, all);
-                        playerConfirm.save();
-                        return Operation.COMPLETED;
-                    } else if (c.equalsIgnoreCase("no")) {
-                        ctx.sendLocalized("commands.market.sell.all.cancelled", warn + EmoteReference.CORRECT);
-                        return Operation.COMPLETED;
-                    }
-
-                    return Operation.IGNORED;
-                });
-
+            if (item.isEmpty()) {
+                ctx.sendLocalized("commands.market.sell.no_item",  EmoteReference.ERROR);
                 return;
             }
 
-            var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
-
-            if (args[0].equalsIgnoreCase("allof")) {
-                itemName = content.replace("allof", "").trim();
-            }
-
-            if (itemName.trim().isEmpty()) {
-                ctx.sendLocalized("commands.market.sell.no_item", warn + EmoteReference.ERROR);
-                return;
-            }
-
-            var finalName = itemName.replace("\"", "").trim();
+            var finalName = item.replace("\"", "").trim();
             var toSell = ItemHelper.fromAnyNoId(finalName, ctx.getLanguageContext()).orElse(null);
             if (toSell == null) {
-                ctx.sendLocalized("commands.market.sell.non_existent", warn + EmoteReference.ERROR);
+                ctx.sendLocalized("commands.market.sell.non_existent", EmoteReference.ERROR);
                 return;
             }
 
             if (!toSell.isSellable()) {
-                ctx.sendLocalized("commands.market.sell.no_sell_price", warn + EmoteReference.ERROR);
+                ctx.sendLocalized("commands.market.sell.no_sell_price", EmoteReference.ERROR);
                 return;
             }
 
             if (playerInventory.getAmount(toSell) < 1) {
-                ctx.sendLocalized("commands.market.sell.no_item_player", warn + EmoteReference.STOP);
+                ctx.sendLocalized("commands.market.sell.no_item_player", EmoteReference.STOP);
                 return;
             }
 
-            if (args[0].equalsIgnoreCase("allof")) {
-                itemNumber = playerInventory.getAmount(toSell);
-            }
-
-            if (playerInventory.getAmount(toSell) < itemNumber) {
-                ctx.sendLocalized("commands.market.sell.more_items_than_player", warn + EmoteReference.ERROR);
+            if (playerInventory.getAmount(toSell) < amount) {
+                ctx.sendLocalized("commands.market.sell.more_items_than_player", EmoteReference.ERROR);
                 return;
             }
 
@@ -550,99 +644,44 @@ public class MarketCmd {
                 return;
             }
 
-            var many = itemNumber * -1;
-            var amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
+            var many = amount * -1;
+            var money = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
             playerInventory.process(new ItemStack(toSell, many));
 
-            if (isSeasonal) {
-                seasonalPlayer.addMoney(amount);
-            } else {
-                player.addMoney(amount);
-            }
-
+            player.addMoney(money);
             player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
-            ctx.sendLocalized("commands.market.sell.success", warn + EmoteReference.CORRECT, Math.abs(many), toSell.getName(), amount);
+            ctx.sendLocalized("commands.market.sell.success", EmoteReference.CORRECT, Math.abs(many), toSell.getName(), money);
             player.save();
-
-            if (isSeasonal)
-                seasonalPlayer.saveAsync();
         } catch (Exception e) {
-            ctx.send(warn + EmoteReference.ERROR + languageContext.get("general.invalid_syntax"));
+            ctx.send(EmoteReference.ERROR + ctx.getLanguageContext().get("general.invalid_syntax"));
         }
     }
 
-    private void buy(Context ctx, String content, String[] args, IncreasingRateLimiter rateLimiter, String extra) {
-        var warn = extra.isEmpty() ? "" : extra + "\n";
-        if (content.isEmpty()) {
-            ctx.sendLocalized("commands.market.buy.no_item_amount", warn + EmoteReference.ERROR);
-            return;
-        }
-
-        var optionalArguments = ctx.getOptionalArguments();
-        content = Utils.replaceArguments(optionalArguments, content, "season", "s").trim();
-
-        var player = ctx.getPlayer();
-        var seasonalPlayer = ctx.getSeasonPlayer();
-        var isSeasonal = ctx.isSeasonal();
-        var itemName = content;
-        var itemNumber = 1;
-        var split = args[0];
-        var isMassive = !itemName.isEmpty() && split.matches("^[0-9]*$");
+    private static void buy(IContext ctx, String itemName, int itemNumber, IncreasingRateLimiter rateLimiter) {
         var languageContext = ctx.getLanguageContext();
-
-        if (isMassive) {
-            try {
-                itemNumber = Math.abs(Integer.parseInt(split));
-                itemName = itemName.replace(args[0], "").trim();
-            } catch (NumberFormatException e) {
-                ctx.sendLocalized("commands.market.buy.invalid", warn + EmoteReference.ERROR);
-                return;
-            }
-        } else {
-            // This is silly but works, people can stop asking about this now :o
-            if (!itemName.isEmpty()) {
-                switch (split) {
-                    case "all":
-                        itemNumber = ItemStack.MAX_STACK_SIZE;
-                        break;
-                    case "half":
-                        itemNumber = ItemStack.MAX_STACK_SIZE / 2;
-                        break;
-                    case "quarter":
-                        itemNumber = ItemStack.MAX_STACK_SIZE / 4;
-                        break;
-                    default:
-                        break;
-                }
-
-                if (itemNumber > 1) {
-                    itemName = itemName.replace(args[0], "").trim();
-                }
-            }
-        }
-
+        var player = ctx.getPlayer();
         final var itemToBuy = ItemHelper.fromAnyNoId(itemName.replace("\"", ""), ctx.getLanguageContext())
                 .orElse(null);
 
         if (itemName.trim().isEmpty()) {
-            ctx.sendLocalized("commands.market.buy.no_item", warn + EmoteReference.ERROR);
+            ctx.sendLocalized("commands.market.buy.no_item", EmoteReference.ERROR);
             return;
         }
 
         if (itemToBuy == null) {
-            ctx.sendLocalized("commands.market.buy.non_existent", warn + EmoteReference.ERROR);
+            ctx.sendLocalized("commands.market.buy.non_existent", EmoteReference.ERROR);
             return;
         }
 
         try {
             if (!itemToBuy.isBuyable() || itemToBuy.isPetOnly()) {
-                ctx.sendLocalized("commands.market.buy.no_buy_price", warn + EmoteReference.ERROR);
+                ctx.sendLocalized("commands.market.buy.no_buy_price", EmoteReference.ERROR);
                 return;
             }
 
-            var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
+            var playerInventory = player.getInventory();
             if (playerInventory.getAmount(itemToBuy) + itemNumber > 5000) {
-                ctx.sendLocalized("commands.market.buy.item_limit_reached", warn + EmoteReference.ERROR);
+                ctx.sendLocalized("commands.market.buy.item_limit_reached", EmoteReference.ERROR);
                 return;
             }
 
@@ -651,7 +690,7 @@ public class MarketCmd {
             }
 
             var value = itemToBuy.getValue() * itemNumber;
-            var removedMoney = isSeasonal ? seasonalPlayer.removeMoney(value) : player.removeMoney(value);
+            var removedMoney = player.removeMoney(value);
             if (removedMoney) {
                 playerInventory.process(new ItemStack(itemToBuy, itemNumber));
                 player.getData().addBadgeIfAbsent(Badge.BUYER);
@@ -660,11 +699,7 @@ public class MarketCmd {
                 //Due to player data being updated here too.
                 player.saveAsync();
 
-                if (isSeasonal) {
-                    seasonalPlayer.saveAsync();
-                }
-
-                var playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getCurrentMoney();
+                var playerMoney = player.getCurrentMoney();
                 var message = "commands.market.buy.success";
                 if (itemToBuy instanceof Breakable) {
                     message = "commands.market.buy.success_breakable";
@@ -674,22 +709,38 @@ public class MarketCmd {
                     message = "commands.market.buy.success_potion";
                 }
 
+                var warn = "";
                 if (itemToBuy instanceof Attribute && !(itemToBuy instanceof Wrench) &&
                         ((Attribute) itemToBuy).getTier() == 1 && random.nextFloat() <= 0.20 && player.getLevel() <= 5) {
-                    warn += EmoteReference.WRENCH.toHeaderString() + languageContext.get("commands.market.buy.success_breakable_upgrade") + "\n";
+                    warn += "\n" + EmoteReference.WRENCH.toHeaderString() + languageContext.get("commands.market.buy.success_breakable_upgrade") + "\n";
                 }
 
                 ctx.sendLocalized(message, warn + EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), value, playerMoney);
             } else {
-                ctx.sendLocalized("commands.market.buy.not_enough_money", warn + EmoteReference.STOP, player.getCurrentMoney(), value);
+                ctx.sendLocalized("commands.market.buy.not_enough_money", EmoteReference.STOP, player.getCurrentMoney(), value);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            ctx.send(warn + EmoteReference.ERROR + languageContext.get("general.invalid_syntax"));
+            ctx.send(EmoteReference.ERROR + languageContext.get("general.invalid_syntax"));
         }
     }
 
-    private void showMarket(Context ctx, Predicate<? super Item> predicate) {
+    private static void showMarket(IContext ctx, Predicate<? super Item> predicate) {
+        if (!RatelimitUtils.ratelimit(marketRatelimiter, ctx, false)) {
+            return;
+        }
+
+        if (!ctx.getGuild().getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+            ctx.sendLocalized("general.missing_embed_permissions");
+            return;
+        }
+
+        var player = ctx.getPlayer();
+        if (player.isLocked()) {
+            ctx.send(EmoteReference.ERROR + "You cannot access the market now.");
+            return;
+        }
+
         var languageContext = ctx.getLanguageContext();
         var embed = new EmbedBuilder()
                 .setDescription(languageContext.get("commands.market.header"))

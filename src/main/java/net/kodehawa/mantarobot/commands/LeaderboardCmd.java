@@ -30,6 +30,7 @@ import net.dv8tion.jda.api.interactions.components.Button;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.utils.leaderboards.CachedLeaderboardMember;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
@@ -386,7 +387,7 @@ public class LeaderboardCmd {
                 .toList();
     }
 
-    private EmbedBuilder generateLeaderboardEmbed(Context ctx, String description, String leaderboardKey,
+    private EmbedBuilder generateLeaderboardEmbed(IContext ctx, String description, String leaderboardKey,
                                                   List<Map<String, Object>> lb,
                                                   Function<Map<?, ?>, Pair<CachedLeaderboardMember, String>> mapFunction,
                                                   String format) {
@@ -394,7 +395,7 @@ public class LeaderboardCmd {
         return new EmbedBuilder()
                 .setAuthor(languageContext.get("commands.leaderboard.header"),
                         null,
-                        ctx.getSelfUser().getEffectiveAvatarUrl()
+                        ctx.getGuild().getSelfMember().getEffectiveAvatarUrl()
                 ).setDescription(description)
                 .addField(
                         languageContext.get(leaderboardKey),
@@ -441,7 +442,7 @@ public class LeaderboardCmd {
      * @return A instance of CachedLeaderboardMember.
      * This can either be retrieved from Redis or cached on the spot if the cache didn't exist for it.
      */
-    private CachedLeaderboardMember getMember(Context ctx, String id) {
+    private CachedLeaderboardMember getMember(IContext ctx, String id) {
         try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
             var savedTo = "cachedlbuser:" + id;
             var missed = "lbmiss:" + id;
@@ -457,7 +458,7 @@ public class LeaderboardCmd {
                 // to our own cache in Redis, and expire it in 48 hours to avoid it filling up endlessly.
                 // This is to avoid having to do calls to discord all the time a leaderboard is retrieved, and only do the calls whenever
                 // it's absolutely needed, or when we need to re-populate the cache.
-                var user = ctx.retrieveUserById(id);
+                var user = ctx.getShardManager().retrieveUserById(id).complete();
 
                 // If no user was found, we need to return null. This is later handled on generateLeaderboardEmbed.
                 if (user == null) {

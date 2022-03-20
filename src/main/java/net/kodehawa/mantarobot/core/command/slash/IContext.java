@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.core.command.slash;
 
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.sharding.ShardManager;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
@@ -33,6 +34,7 @@ public interface IContext {
     DBUser getDBUser();
     Player getPlayer(User user);
     DBUser getDBUser(User user);
+    ShardManager getShardManager();
     MantaroObj getMantaroData();
     Config getConfig();
 }
