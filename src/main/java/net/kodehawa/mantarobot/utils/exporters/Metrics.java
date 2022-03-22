@@ -57,10 +57,6 @@ public class Metrics {
             .name("http_requests")
             .help("Successful HTTP Requests (JDA)")
             .register();
-    public static final Counter HTTP_429_REQUESTS = Counter.build()
-            .name("http_ratelimit_requests")
-            .help("429 HTTP Requests (JDA)")
-            .register();
     public static final Counter RECEIVED_MESSAGES = Counter.build()
             .name("messages_received")
             .help("Received messages (all users + bots)")
