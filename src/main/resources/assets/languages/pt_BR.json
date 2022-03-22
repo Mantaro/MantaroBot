@@ -400,7 +400,7 @@
       "none": "Não há prefixo personalizado definido neste servidor."
     },
     "custom": {
-      "custom_notice": "Esse é comando personalizado.",
+      "custom_notice": "Esse é um comando personalizado.",
       "no_args": "%1$sVocê precisa especificar o que você quer fazer com este comando. Cheque o comando de ajuda para mais informações!",
       "incorrect_args": "%1$sArgumentos incorretos. Cheque `~>help custom` ou https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands para mais ajuda sobre como usar isso. Se você tiver mais problemas depois de ler a wiki, recorra a <https://support.mantaro.site>",
       "error_running": "%1$sErro ao executar o comando personalizado... por favor, verifique o conteúdo da resposta e comprimento (não pode ter mais de 2000 caracteres).",
