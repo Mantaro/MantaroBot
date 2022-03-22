@@ -175,12 +175,20 @@ public class SlashContext implements IContext {
     }
 
     public void edit(String s, Object... args) {
+        if (!slash.isAcknowledged()) {
+            slash.getHook().getInteraction().deferReply().queue();
+        }
+
         slash.getHook().editOriginal(getLanguageContext().get(s.formatted(args)))
                 .setEmbeds(Collections.emptyList())
                 .queue();
     }
 
     public WebhookMessageUpdateAction<Message> editAction(String s) {
+        if (!slash.isAcknowledged()) {
+            slash.getHook().getInteraction().deferReply().queue();
+        }
+
         return slash.getHook().editOriginal(s).setEmbeds(Collections.emptyList());
     }
 

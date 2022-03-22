@@ -331,7 +331,8 @@ public class HelpCmd {
                 "support", "donate", "language", "invite", "danbooru",
                 "e621", "e926", "yandere", "konachan", "gelbooru", "safebooru", "rule34",
                 "iam", "iamnot", "8ball", "createpoll", "anime", "character", "poll", "coinflip",
-                "ratewaifu", "roll", "love", "birthday", "profile", "me"
+                "ratewaifu", "roll", "love", "birthday", "profile", "me", "rep", "reputation",
+                "equip", "unequip", "badges"
         );
     }
 }

@@ -654,13 +654,13 @@ public class DiscordUtils {
         }
 
         if (parts.size() == 1) {
-            ctx.getChannel().sendMessageEmbeds(base.build()).queue();
+            ctx.send(base.build());
             return null;
         }
 
         base.setFooter("Total Pages: %s | Thanks for using Mantaro ❤️".formatted(parts.size()), ctx.getAuthor().getEffectiveAvatarUrl());
         var index = new AtomicInteger();
-        var message = ctx.getChannel().sendMessageEmbeds(base.build()).complete();
+        var message = ctx.send(base.build());
         return ButtonOperations.create(message, timeoutSeconds, new ButtonOperation() {
             @Override
             public int click(ButtonClickEvent e) {

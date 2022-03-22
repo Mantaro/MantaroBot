@@ -45,4 +45,17 @@ public class UtilsContext {
         else
             return slashEvent.getHook().editOriginal(message).complete();
     }
+
+    public Message send(MessageEmbed message) {
+        if (slashEvent == null)
+            return channel.sendMessageEmbeds(message).complete();
+        else {
+            // What kind of meme is this?
+            if (!slashEvent.isAcknowledged()) {
+                slashEvent.getHook().getInteraction().deferReply().queue();
+            }
+
+            return slashEvent.getHook().editOriginalEmbeds(message).setContent("").complete();
+        }
+    }
 }

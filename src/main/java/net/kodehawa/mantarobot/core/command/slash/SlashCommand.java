@@ -75,7 +75,7 @@ public abstract class SlashCommand {
             this.help = new HelpContent.Builder().build();
         } else {
             var builder = new HelpContent.Builder()
-                    .setDescription(h.description().isBlank() ? null : h.description())
+                    .setDescription(h.description().isBlank() ? this.description : h.description())
                     .setUsage(h.usage().isBlank() ? null : h.usage())
                     .setRelated(Arrays.asList(h.related()))
                     .setSeasonal(h.seasonal());
