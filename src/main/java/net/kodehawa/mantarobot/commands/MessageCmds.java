@@ -94,7 +94,7 @@ public class MessageCmds {
         }
 
         @Override
-        protected Predicate<SlashContext> getPredicate() {
+        public Predicate<SlashContext> getPredicate() {
             return ctx -> {
                 if (!ctx.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {
                     ctx.replyEphemeral("commands.prune.no_permissions_user", EmoteReference.ERROR);

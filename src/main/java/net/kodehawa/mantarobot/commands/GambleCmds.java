@@ -91,13 +91,14 @@ public class GambleCmds {
         }
     }
 
+    @Subscribe
     public void register(CommandRegistry cr) {
         cr.registerSlash(Gamble.class);
         cr.registerSlash(Slots.class);
     }
 
     @Name("gamble")
-    @Description("Gambles your money away. It's like Vegas, but without real money and without the impending doom. Kinda.")
+    @Description("Gambles your money away. It's like Vegas, but without the impending doom.")
     @Category(CommandCategory.CURRENCY)
     @Options({
             @Options.Option(type = OptionType.STRING, name = "amount", description = "The amount to gamble. Can be a number or all, half, quarter or a percentage.", required = true)

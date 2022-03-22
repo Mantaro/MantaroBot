@@ -123,6 +123,7 @@ public class CommandManager {
 
             var sub = (SlashCommand)instantiate(inner);
             sub.setCategory(command.getCategory());
+            sub.setPredicate(command.getPredicate());
 
             command.addSubCommand(sub.getName(), sub);
         }

@@ -19,6 +19,7 @@ public abstract class SlashCommand {
     private final Map<String, SlashCommand> subCommands = new HashMap<>();
     private CommandCategory category;
     private final CommandPermission permission;
+    private Predicate<SlashContext> predicate = c -> true;
     private final boolean guildOnly;
     private HelpContent help;
 
@@ -159,9 +160,13 @@ public abstract class SlashCommand {
         this.help = help;
     }
 
+    public void setPredicate(Predicate<SlashContext> predicate) {
+        this.predicate = predicate;
+    }
+
     // This is to be overriden.
-    protected Predicate<SlashContext> getPredicate() {
-        return c -> true;
+    public Predicate<SlashContext> getPredicate() {
+        return predicate;
     }
 
     protected abstract void process(SlashContext ctx);

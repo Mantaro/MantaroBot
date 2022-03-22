@@ -16,11 +16,11 @@
 
 package net.kodehawa.mantarobot.commands.currency.profile;
 
-import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.ProfileCmd;
 import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
+import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.db.entities.DBUser;
@@ -156,7 +156,7 @@ public enum StatsComponent {
 
     CASINO_WINS(EmoteReference.MONEY, lang -> lang.get("commands.profile.stats.wins"), holder -> {
         var SEPARATOR_ONE = "\u2009\u2009";
-        var playerStats = holder.getContext().getPlayerStats(holder.getUser());
+        var playerStats = holder.getContext().db().getPlayerStats(holder.getUser());
         var playerData = holder.getPlayerData();
 
         return String.format("\n\u3000%1$s" +
@@ -181,7 +181,7 @@ public enum StatsComponent {
         return content.apply(holder);
     }
 
-    public String getName(Context ctx) {
+    public String getName(IContext ctx) {
         return name.apply(ctx.getLanguageContext());
     }
 
@@ -193,10 +193,10 @@ public enum StatsComponent {
         private final Player player;
         private final DBUser dbUser;
         private final I18nContext i18nContext;
-        private final Context context;
+        private final IContext context;
         private final User user;
 
-        public Holder(Context context, I18nContext i18nContext, Player player, DBUser dbUser, User member) {
+        public Holder(IContext context, I18nContext i18nContext, Player player, DBUser dbUser, User member) {
             this.player = player;
             this.dbUser = dbUser;
             this.i18nContext = i18nContext;
@@ -224,7 +224,7 @@ public enum StatsComponent {
             return i18nContext;
         }
 
-        public Context getContext() {
+        public IContext getContext() {
             return context;
         }
 

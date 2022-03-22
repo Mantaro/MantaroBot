@@ -22,9 +22,7 @@ import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
 import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
-import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -54,17 +52,15 @@ public enum ProfileComponent {
             return String.format(" \u2009**%s**\n", holder.getBadges().get(0));
         }
     }, true, false),
-    CREDITS(EmoteReference.MONEY, i18nContext -> i18nContext.get("commands.profile.credits"), (holder, i18nContext) ->
-            "$ %,d".formatted(holder.isSeasonal() ? holder.getSeasonalPlayer().getMoney() : holder.getPlayer().getCurrentMoney()),
+    CREDITS(EmoteReference.MONEY, i18nContext -> i18nContext.get("commands.profile.credits"),
+            (holder, i18nContext) -> String.valueOf(holder.getPlayer().getCurrentMoney()),
             true, false
     ),
     OLD_CREDITS(EmoteReference.DOLLAR, i18nContext -> i18nContext.get("commands.profile.old_credits"), (holder, i18nContext) ->
             "$ %,d".formatted(holder.getPlayer().getOldMoney()),
             true, false
     ),
-    REPUTATION(EmoteReference.REP, i18nContext -> i18nContext.get("commands.profile.rep"), (holder, i18nContext) ->
-            holder.isSeasonal() ? String.valueOf(holder.getSeasonalPlayer().getReputation()) : String.valueOf(holder.getPlayer().getReputation())
-    ),
+    REPUTATION(EmoteReference.REP, i18nContext -> i18nContext.get("commands.profile.rep"), (holder, i18nContext) -> String.valueOf(holder.getPlayer().getReputation())),
     LEVEL(EmoteReference.ZAP, i18nContext -> i18nContext.get("commands.profile.level"), (holder, i18nContext) -> {
         var player = holder.getPlayer();
         return String.format("%d (%s: %,d)", player.getLevel(), i18nContext.get("commands.profile.xp"), player.getData().getExperience());
@@ -113,7 +109,7 @@ public enum ProfileComponent {
         }
     }, true, false),
     INVENTORY(EmoteReference.POUCH, i18nContext -> i18nContext.get("commands.profile.inventory"), (holder, i18nContext) -> {
-        var inv = holder.isSeasonal() ? holder.getSeasonalPlayer().getInventory() : holder.getPlayer().getInventory();
+        var inv = holder.getPlayer().getInventory();
         final var stackList = inv.asList();
         if (stackList.isEmpty()) {
             return i18nContext.get("general.dust");
@@ -192,9 +188,7 @@ public enum ProfileComponent {
             timezone = userData.getTimezone();
         }
 
-        var seasonal = holder.isSeasonal() ? " | Seasonal profile (" + MantaroData.config().get().getCurrentSeason().getDisplay() + ")" : "";
-
-        return String.format("%s%s", String.format(i18nContext.get("commands.profile.timezone_user"), timezone), seasonal);
+        return String.format("%s", String.format(i18nContext.get("commands.profile.timezone_user"), timezone));
     }, false);
 
     //See: getTitle()
@@ -266,26 +260,19 @@ public enum ProfileComponent {
     public static class Holder {
         private User user;
         private Player player;
-        private SeasonPlayer seasonalPlayer;
         private DBUser dbUser;
         private List<Badge> badges;
         private Marriage marriage;
 
-        public Holder(User user, Player player, SeasonPlayer seasonalPlayer, DBUser dbUser, Marriage marriage, List<Badge> badges) {
+        public Holder(User user, Player player, DBUser dbUser, Marriage marriage, List<Badge> badges) {
             this.user = user;
             this.player = player;
-            this.seasonalPlayer = seasonalPlayer;
             this.dbUser = dbUser;
             this.badges = badges;
             this.marriage = marriage;
         }
 
         public Holder() { }
-
-        public boolean isSeasonal() {
-            return seasonalPlayer != null;
-        }
-
         public User getUser() {
             return this.user;
         }
@@ -300,14 +287,6 @@ public enum ProfileComponent {
 
         public void setPlayer(Player player) {
             this.player = player;
-        }
-
-        public SeasonPlayer getSeasonalPlayer() {
-            return this.seasonalPlayer;
-        }
-
-        public void setSeasonalPlayer(SeasonPlayer seasonalPlayer) {
-            this.seasonalPlayer = seasonalPlayer;
         }
 
         public DBUser getDbUser() {

@@ -122,7 +122,7 @@ public class ModerationCmds {
         }
 
         @Override
-        protected Predicate<SlashContext> getPredicate() {
+        public Predicate<SlashContext> getPredicate() {
             return ctx -> {
                 if (!ctx.getMember().hasPermission(Permission.BAN_MEMBERS)) {
                     ctx.replyEphemeral("commands.ban.no_permission", EmoteReference.ERROR);
@@ -213,7 +213,7 @@ public class ModerationCmds {
         }
 
         @Override
-        protected Predicate<SlashContext> getPredicate() {
+        public Predicate<SlashContext> getPredicate() {
             return ctx -> {
                 if (!ctx.getMember().hasPermission(Permission.KICK_MEMBERS)) {
                     ctx.replyEphemeral("commands.kick.no_permission", EmoteReference.ERROR2);
@@ -322,7 +322,7 @@ public class ModerationCmds {
         }
 
         @Override
-        protected Predicate<SlashContext> getPredicate() {
+        public Predicate<SlashContext> getPredicate() {
             return ctx -> {
                 if (!ctx.getMember().hasPermission(Permission.BAN_MEMBERS)) {
                     ctx.replyEphemeral("commands.softban.no_permission", EmoteReference.ERROR);
