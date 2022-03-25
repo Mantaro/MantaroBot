@@ -24,6 +24,7 @@ public interface IContext {
     I18nContext getLanguageContext();
     void send(String s);
     void send(MessageEmbed e);
+    void send(MessageEmbed e, ActionRow... actionRows);
     Message sendResult(String s);
     Message sendResult(MessageEmbed e);
     void sendLocalized(String s, Object... args);

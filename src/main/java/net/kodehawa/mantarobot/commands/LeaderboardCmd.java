@@ -30,15 +30,13 @@ import net.dv8tion.jda.api.interactions.components.Button;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.utils.leaderboards.CachedLeaderboardMember;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.meta.Category;
+import net.kodehawa.mantarobot.core.command.meta.Description;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -55,197 +53,134 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static com.rethinkdb.RethinkDB.r;
 
 @Module
 public class LeaderboardCmd {
-    private final Config config = MantaroData.config().get();
-    private final Connection leaderboardConnection = Utils.newDbConnection();
+    private static final Config config = MantaroData.config().get();
+    private static final Connection leaderboardConnection = Utils.newDbConnection();
+    private static final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+            .spamTolerance(3)
+            .limit(1)
+            .cooldown(2, TimeUnit.SECONDS)
+            .cooldownPenaltyIncrease(20, TimeUnit.SECONDS)
+            .maxCooldown(5, TimeUnit.MINUTES)
+            .pool(MantaroData.getDefaultJedisPool())
+            .prefix("leaderboard")
+            .build();
 
     @Subscribe
-    public void richest(CommandRegistry cr) {
-        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
-                .spamTolerance(3)
-                .limit(1)
-                .cooldown(2, TimeUnit.SECONDS)
-                .cooldownPenaltyIncrease(20, TimeUnit.SECONDS)
-                .maxCooldown(5, TimeUnit.MINUTES)
-                .pool(MantaroData.getDefaultJedisPool())
-                .prefix("leaderboard")
-                .build();
+    public void register(CommandRegistry cr) {
+        cr.registerSlash(Leaderboard.class);
+    }
 
-        SimpleTreeCommand leaderboards = cr.register("leaderboard", new SimpleTreeCommand(CommandCategory.CURRENCY) {
+    @Description("Shows various leaderboards.")
+    @Category(CommandCategory.CURRENCY)
+    public static class Leaderboard extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {}
+
+        @Override
+        public Predicate<SlashContext> getPredicate() {
+            return ctx -> {
+                if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+                    ctx.sendLocalized("general.missing_embed_permissions");
+                    return false;
+                }
+
+                return RatelimitUtils.ratelimit(rateLimiter, ctx, null);
+            };
+        }
+
+        @Description("Sends the money leaderboard.")
+        public static class Money extends SlashCommand {
             @Override
-            public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
-                ctx.sendLocalized("commands.leaderboard.main_page_redirect", EmoteReference.PENCIL);
-                return null;
-            }
+            protected void process(SlashContext ctx) {
+                if (config.isPremiumBot) {
+                    var tableName = "players";
+                    var moneyLeaderboard = getLeaderboard(tableName, "money",
+                            player -> player.g("id"),
+                            player -> player.pluck("id", "money"));
 
+                    send(ctx,
+                            generateLeaderboardEmbed(ctx,
+                                    ctx.getLanguageContext().get("commands.leaderboard.inner.money_old").formatted(EmoteReference.MONEY),
+                                    "commands.leaderboard.money", moneyLeaderboard,
+                                    map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
+                                            map.get("money").toString()), "%s**%s#%s** - $%,d"
+                            ).build()
+                    );
+                    return;
+                }
+
+                var tableName = "players";
+                var indexName = "newMoney";
+                var moneyLeaderboard = getLeaderboard(tableName, indexName,
+                        player -> player.g("id"),
+                        player -> player.pluck("id", "newMoney", r.hashMap("data", "newMoney"))
+                );
+
+                send(ctx,
+                        generateLeaderboardEmbed(
+                                ctx, ctx.getLanguageContext().get("commands.leaderboard.inner.money").formatted(EmoteReference.MONEY),
+                                "commands.leaderboard.money", moneyLeaderboard,
+                                map -> {
+                                    Object money = ((Map<String, Object>) map.get("data")).get("newMoney");
+                                    return Pair.of(
+                                            getMember(
+                                                    ctx,
+                                                    map.get("id").toString().split(":")[0]
+                                            ), money.toString()
+                                    );
+                                }, "%s**%s#%s** - $%,d"
+                        ).build()
+                );
+            }
+        }
+
+        @Description("Sends the gamble leaderboard.")
+        public static class Gamble extends SlashCommand {
             @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Returns the currency leaderboard. See subcommands for the available leaderboards.")
-                        .build();
-            }
-        });
-
-        leaderboards.setPredicate(ctx -> {
-            if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
-                ctx.sendLocalized("general.missing_embed_permissions");
-                return false;
-            }
-
-            return RatelimitUtils.ratelimit(rateLimiter, ctx, null);
-        });
-
-        leaderboards.addSubCommand("gamble", new SubCommand() {
-            @Override
-            public String description() {
-                return "Returns the gamble (times) leaderboard";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 var gambleLeaderboard = getLeaderboard("playerstats", "gambleWins",
                         player -> player.pluck("id", "gambleWins"));
 
                 send(ctx,
                         generateLeaderboardEmbed(ctx,
-                                languageContext.get("commands.leaderboard.inner.gamble").formatted(EmoteReference.MONEY),
+                                ctx.getLanguageContext().get("commands.leaderboard.inner.gamble").formatted(EmoteReference.MONEY),
                                 "commands.leaderboard.gamble", gambleLeaderboard,
                                 map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                         map.get("gambleWins").toString()), "%s**%s#%s** - %,d"
                         ).build()
                 );
             }
-        });
+        }
 
-        leaderboards.addSubCommand("slots", new SubCommand() {
+        @Description("Sends the slots leaderboard.")
+        public static class Slots extends SlashCommand {
             @Override
-            public String description() {
-                return "Returns the slots (times) leaderboard";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 var slotsLeaderboard = getLeaderboard("playerstats", "slotsWins",
                         player -> player.pluck("id", "slotsWins"));
 
                 send(ctx,
                         generateLeaderboardEmbed(ctx,
-                                languageContext.get("commands.leaderboard.inner.slots").formatted(EmoteReference.MONEY),
+                                ctx.getLanguageContext().get("commands.leaderboard.inner.slots").formatted(EmoteReference.MONEY),
                                 "commands.leaderboard.slots", slotsLeaderboard,
                                 map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                         map.get("slotsWins").toString()), "%s**%s#%s** - %,d"
                         ).build()
                 );
             }
-        });
-
-        if (!config.isPremiumBot) {
-            leaderboards.addSubCommand("money", new SubCommand() {
-                @Override
-                public String description() {
-                    return "Returns the money leaderboard";
-                }
-
-                @Override
-                @SuppressWarnings("unchecked")
-                protected void call(Context ctx, I18nContext languageContext, String content) {
-                    var tableName = "players";
-                    var indexName = "newMoney";
-                    var moneyLeaderboard = getLeaderboard(tableName, indexName,
-                            player -> player.g("id"),
-                            player -> player.pluck("id", "newMoney", r.hashMap("data", "newMoney"))
-                    );
-
-                    send(ctx,
-                            generateLeaderboardEmbed(
-                                    ctx, languageContext.get("commands.leaderboard.inner.money").formatted(EmoteReference.MONEY),
-                                    "commands.leaderboard.money", moneyLeaderboard,
-                                    map -> {
-                                        Object money = ((Map<String, Object>) map.get("data")).get("newMoney");
-                                        return Pair.of(
-                                                getMember(
-                                                        ctx,
-                                                        map.get("id").toString().split(":")[0]
-                                                ), money.toString()
-                                        );
-                                    }, "%s**%s#%s** - $%,d"
-                            ).build()
-                    );
-                }
-            });
         }
 
-        leaderboards.addSubCommand(config.isPremiumBot ? "money" : "oldmoney", new SubCommand() {
+        @Description("Sends the reputation leaderboard.")
+        public static class Reputation extends SlashCommand {
             @Override
-            public String description() {
-                if (config.isPremiumBot) {
-                    return "Returns the money leaderboard";
-                } else {
-                    return "Returns the (old) pre-reset money leaderboard";
-                }
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                var tableName = "players";
-                var moneyLeaderboard = getLeaderboard(tableName, "money",
-                        player -> player.g("id"),
-                        player -> player.pluck("id", "money"));
-
-                send(ctx,
-                        generateLeaderboardEmbed(ctx,
-                                languageContext.get("commands.leaderboard.inner.money_old").formatted(EmoteReference.MONEY),
-                                "commands.leaderboard.money", moneyLeaderboard,
-                                map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
-                                map.get("money").toString()), "%s**%s#%s** - $%,d"
-                        ).build()
-                );
-            }
-        });
-
-
-        leaderboards.addSubCommand("lvl", new SubCommand() {
-            @Override
-            public String description() {
-                return "Returns the level leaderboard";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                var levelLeaderboard = getLeaderboard("players", "level",
-                        player -> player.g("id"),
-                        player -> player.pluck("id", "level", r.hashMap("data", "experience")));
-
-                send(ctx,
-                        generateLeaderboardEmbed(ctx,
-                        languageContext.get("commands.leaderboard.inner.lvl").formatted(EmoteReference.ZAP),
-                                "commands.leaderboard.level", levelLeaderboard,
-                        map -> {
-                            @SuppressWarnings("unchecked")
-                            var experience = ((Map<String, Object>) map.get("data")).get("experience");
-                            return Pair.of(
-                                    getMember(ctx, map.get("id").toString().split(":")[0]),
-                                    map.get("level").toString() + "\n -" +
-                                            languageContext.get("commands.leaderboard.inner.experience") + ":** " +
-                                            experience + "**");
-                        }, "%s**%s#%s** - %s").build()
-                );
-            }
-        });
-
-        leaderboards.addSubCommand("rep", new SubCommand() {
-            @Override
-            public String description() {
-                return "Returns the reputation leaderboard";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 var tableName = "players";
                 var reputationLeaderboard = getLeaderboard(tableName, "reputation",
                         player -> player.g("id"),
@@ -253,84 +188,98 @@ public class LeaderboardCmd {
 
                 send(ctx,
                         generateLeaderboardEmbed(ctx,
-                        languageContext.get("commands.leaderboard.inner.rep").formatted(EmoteReference.REP),
+                                ctx.getLanguageContext().get("commands.leaderboard.inner.rep").formatted(EmoteReference.REP),
                                 "commands.leaderboard.reputation", reputationLeaderboard,
-                        map -> Pair.of(
-                                getMember(
-                                        ctx,
-                                        map.get("id").toString().split(":")[0]
-                                ), map.get("reputation").toString()
-                        ), "%s**%s#%s** - %,d")
-                        .build()
+                                map -> Pair.of(
+                                        getMember(
+                                                ctx,
+                                                map.get("id").toString().split(":")[0]
+                                        ), map.get("reputation").toString()
+                                ), "%s**%s#%s** - %,d")
+                                .build()
                 );
             }
-        });
+        }
 
-        leaderboards.addSubCommand("streak", new SubCommand() {
+        @Description("Sends the level leaderboard.")
+        public static class Level extends SlashCommand {
             @Override
-            public String description() {
-                return "Returns the daily streak leaderboard";
+            protected void process(SlashContext ctx) {
+                var levelLeaderboard = getLeaderboard("players", "level",
+                        player -> player.g("id"),
+                        player -> player.pluck("id", "level", r.hashMap("data", "experience")));
+
+                send(ctx,
+                        generateLeaderboardEmbed(ctx,
+                                ctx.getLanguageContext().get("commands.leaderboard.inner.lvl")
+                                        .formatted(EmoteReference.ZAP), "commands.leaderboard.level", levelLeaderboard,
+                                map -> {
+                                    @SuppressWarnings("unchecked")
+                                    var experience = ((Map<String, Object>) map.get("data")).get("experience");
+                                    return Pair.of(
+                                            getMember(ctx, map.get("id").toString().split(":")[0]),
+                                            map.get("level").toString() + "\n -" +
+                                                    ctx.getLanguageContext().get("commands.leaderboard.inner.experience") + ":** " +
+                                                    experience + "**");
+                                }, "%s**%s#%s** - %s").build()
+                );
             }
+        }
 
+        @Description("Sends the daily streak leaderboard.")
+        public static class Daily extends SlashCommand {
             @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 var dailyLeaderboard = getLeaderboard("players", "userDailyStreak",
                         player -> player.g("id"),
                         player -> player.pluck("id", r.hashMap("data", "dailyStrike")));
 
                 send(ctx,
                         generateLeaderboardEmbed(ctx,
-                        languageContext.get("commands.leaderboard.inner.streak").formatted(EmoteReference.POPPER),
-                                "commands.leaderboard.daily", dailyLeaderboard,
-                        map -> {
-                            @SuppressWarnings("unchecked")
-                            var strike = ((Map<String, Object>) (map.get("data"))).get("dailyStrike").toString();
-                            return Pair.of(
-                                    getMember(ctx, map.get("id").toString().split(":")[0]),
-                                    strike
-                            );
-                        }, "%s**%s#%s** - %sx")
-                        .build()
+                                ctx.getLanguageContext().get("commands.leaderboard.inner.streak")
+                                        .formatted(EmoteReference.POPPER), "commands.leaderboard.daily", dailyLeaderboard,
+                                map -> {
+                                    @SuppressWarnings("unchecked")
+                                    var strike = ((Map<String, Object>) (map.get("data"))).get("dailyStrike").toString();
+                                    return Pair.of(
+                                            getMember(ctx, map.get("id").toString().split(":")[0]),
+                                            strike
+                                    );
+                                }, "%s**%s#%s** - %sx")
+                                .build()
                 );
             }
-        });
+        }
 
-        leaderboards.addSubCommand("claim", new SubCommand() {
+        @Description("Sends the waifu claim leaderboard.")
+        public static class Claim extends SlashCommand {
             @Override
-            public String description() {
-                return "Returns the waifu claim leaderboard";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 List<Map<String, Object>> claimLeaderboard = getLeaderboard("users", "timesClaimed",
                         player -> player.pluck("id", r.hashMap("data", "timesClaimed")));
 
                 send(ctx,
                         generateLeaderboardEmbed(ctx,
-                        languageContext.get("commands.leaderboard.inner.claim").formatted(EmoteReference.HEART),
+                                ctx.getLanguageContext().get("commands.leaderboard.inner.claim").formatted(EmoteReference.HEART),
                                 "commands.leaderboard.claim", claimLeaderboard,
-                        map -> {
-                            @SuppressWarnings("unchecked")
-                            var timesClaimed = ((Map<String, Object>) (map.get("data"))).get("timesClaimed").toString();
-                            return Pair.of(
-                                    getMember(ctx, map.get("id").toString().split(":")[0]),
-                                    timesClaimed
-                            );
-                        }, "%s**%s#%s** - %,d")
-                        .build()
+                                map -> {
+                                    @SuppressWarnings("unchecked")
+                                    var timesClaimed = ((Map<String, Object>) (map.get("data"))).get("timesClaimed").toString();
+                                    return Pair.of(
+                                            getMember(ctx, map.get("id").toString().split(":")[0]),
+                                            timesClaimed
+                                    );
+                                }, "%s**%s#%s** - %,d")
+                                .build()
                 );
-            }
-        });
 
-        leaderboards.addSubCommand("games", new SubCommand() {
-            @Override
-            public String description() {
-                return "Returns the games wins leaderboard";
             }
+        }
 
+        @Description("Sends the game wins leaderboard.")
+        public static class Games extends SlashCommand {
             @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 var tableName = "players";
                 List<Map<String, Object>> gameLeaderboard = getLeaderboard(tableName, "gameWins",
                         player -> player.g("id"),
@@ -338,38 +287,28 @@ public class LeaderboardCmd {
 
                 send(ctx,
                         generateLeaderboardEmbed(ctx,
-                        languageContext.get("commands.leaderboard.inner.game").formatted(EmoteReference.ZAP),
+                                ctx.getLanguageContext().get("commands.leaderboard.inner.game").formatted(EmoteReference.ZAP),
                                 "commands.leaderboard.game", gameLeaderboard,
-                        map -> {
-                            @SuppressWarnings("unchecked")
-                            var gamesWon = ((Map<String, Object>) (map.get("data"))).get("gamesWon").toString();
+                                map -> {
+                                    @SuppressWarnings("unchecked")
+                                    var gamesWon = ((Map<String, Object>) (map.get("data"))).get("gamesWon").toString();
 
-                            return Pair.of(
-                                    getMember(ctx, map.get("id").toString().split(":")[0]),
-                                    gamesWon
-                            );
-                        }, "%s**%s#%s** - %,d")
-                        .build()
+                                    return Pair.of(
+                                            getMember(ctx, map.get("id").toString().split(":")[0]),
+                                            gamesWon
+                                    );
+                                }, "%s**%s#%s** - %,d")
+                                .build()
                 );
             }
-        });
-
-        leaderboards.createSubCommandAlias("rep", "reputation");
-        leaderboards.createSubCommandAlias("lvl", "level");
-        leaderboards.createSubCommandAlias("streak", "daily");
-        leaderboards.createSubCommandAlias("games", "wins");
-
-        cr.registerAlias("leaderboard", "richest");
-        cr.registerAlias("leaderboard", "top");
-        cr.registerAlias("leaderboard", "lb");
-
+        }
     }
 
-    private List<Map<String, Object>> getLeaderboard(String table, String index, ReqlFunction1 mapFunction) {
+    private static List<Map<String, Object>> getLeaderboard(String table, String index, ReqlFunction1 mapFunction) {
         return getLeaderboard(table, index, m -> true, mapFunction);
     }
 
-    private List<Map<String, Object>> getLeaderboard(String table, String index, ReqlFunction1 filterFunction, ReqlFunction1 mapFunction) {
+    private static List<Map<String, Object>> getLeaderboard(String table, String index, ReqlFunction1 filterFunction, ReqlFunction1 mapFunction) {
         return r.table(table)
                 .orderBy()
                 .optArg("index", r.desc(index))
@@ -387,10 +326,10 @@ public class LeaderboardCmd {
                 .toList();
     }
 
-    private EmbedBuilder generateLeaderboardEmbed(IContext ctx, String description, String leaderboardKey,
-                                                  List<Map<String, Object>> lb,
-                                                  Function<Map<?, ?>, Pair<CachedLeaderboardMember, String>> mapFunction,
-                                                  String format) {
+    private static EmbedBuilder generateLeaderboardEmbed(IContext ctx, String description, String leaderboardKey,
+                                                         List<Map<String, Object>> lb,
+                                                         Function<Map<?, ?>, Pair<CachedLeaderboardMember, String>> mapFunction,
+                                                         String format) {
         var languageContext = ctx.getLanguageContext();
         return new EmbedBuilder()
                 .setAuthor(languageContext.get("commands.leaderboard.header"),
@@ -442,7 +381,7 @@ public class LeaderboardCmd {
      * @return A instance of CachedLeaderboardMember.
      * This can either be retrieved from Redis or cached on the spot if the cache didn't exist for it.
      */
-    private CachedLeaderboardMember getMember(IContext ctx, String id) {
+    private static CachedLeaderboardMember getMember(IContext ctx, String id) {
         try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
             var savedTo = "cachedlbuser:" + id;
             var missed = "lbmiss:" + id;
@@ -484,7 +423,7 @@ public class LeaderboardCmd {
         }
     }
 
-    private void send(Context ctx, MessageEmbed embed) {
+    private static void send(IContext ctx, MessageEmbed embed) {
         ctx.send(
                 embed,
                 ActionRow.of(
