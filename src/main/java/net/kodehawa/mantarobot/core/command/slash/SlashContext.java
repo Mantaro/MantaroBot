@@ -171,6 +171,10 @@ public class SlashContext implements IContext {
     }
 
     public void edit(String s) {
+        if (!slash.isAcknowledged()) {
+            slash.getHook().getInteraction().deferReply().queue();
+        }
+
         slash.getHook().editOriginal(s).setEmbeds(Collections.emptyList()).queue();
     }
 

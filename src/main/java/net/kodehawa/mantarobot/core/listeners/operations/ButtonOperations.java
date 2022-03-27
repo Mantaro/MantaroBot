@@ -63,6 +63,24 @@ public class ButtonOperations {
         return f;
     }
 
+    public static Future<Void> createRows(Message message, long timeoutSeconds, ButtonOperation operation, Collection<ActionRow> defaultButtons) {
+        if (!message.getAuthor().equals(message.getJDA().getSelfUser())) {
+            throw new IllegalArgumentException("Must provide a message sent by the bot");
+        }
+
+        Future<Void> f = create(message.getIdLong(), timeoutSeconds, operation);
+        if (f == null) {
+            return null;
+        }
+
+        if (defaultButtons.size() > 0) {
+            message.editMessageComponents(defaultButtons).queue();
+        }
+
+        return f;
+    }
+
+
     public static Future<Void> create(long messageId, long timeoutSeconds, ButtonOperation operation) {
         if (timeoutSeconds < 1)
             throw new IllegalArgumentException("Timeout is less than 1 second");

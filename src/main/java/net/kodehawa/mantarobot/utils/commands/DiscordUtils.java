@@ -144,32 +144,32 @@ public class DiscordUtils {
 
     public static Future<Void> selectIntButton(IContext ctx, Message message, int max,
                                                IntConsumer valueConsumer, Consumer<Void> cancelConsumer) {
-        if (max > 5) {
-            // Technically you can have more than one.
-            // Just don't wanna.
-            throw new IllegalArgumentException("Can't add more than 5 buttons to an ActionRow");
-        }
-
-        List<Button> buttons = new ArrayList<>();
+        List<ActionRow> buttons = new ArrayList<>();
+        int count = 0;
+        List<Button> temp = new ArrayList<>();
         for (int i = 0; i < max; i++) {
-            buttons.add(Button.primary(String.valueOf(i + 1), String.valueOf(i + 1)));
+            count++;
+            if (count > 5) {
+                buttons.add(ActionRow.of(temp));
+                temp.clear();
+                count = 0;
+            }
+
+            temp.add(Button.primary(String.valueOf(i + 1), String.valueOf(i + 1)));
         }
 
-        return ButtonOperations.create(message, 30, new ButtonOperation() {
-            @Override
-            public int click(ButtonClickEvent e) {
-                if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
-                    return Operation.IGNORED;
-                }
-
-                try {
-                    valueConsumer.accept(Integer.parseInt(e.getButton().getId()));
-
-                    return Operation.COMPLETED;
-                } catch (Exception ignored) { }
-
+        return ButtonOperations.createRows(message, 30L, e -> {
+            if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                 return Operation.IGNORED;
             }
+
+            try {
+                valueConsumer.accept(Integer.parseInt(e.getButton().getId()));
+
+                return Operation.COMPLETED;
+            } catch (Exception ignored) { }
+
+            return Operation.IGNORED;
         }, buttons);
     }
 
@@ -218,6 +218,10 @@ public class DiscordUtils {
                                               Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
         var r = embedList(list, toString);
         var m = ctx.sendResult(toEmbed.apply(r.getLeft()));
+
+        if (list.size() > 20) {
+            throw new IllegalArgumentException("Too many options on ActionRow, attempted " + list.size() + ". Max: 20.");
+        }
 
         return selectIntButton(ctx, m, r.getRight(), i -> valueConsumer.accept(list.get(i - 1)), cancelConsumer);
     }
