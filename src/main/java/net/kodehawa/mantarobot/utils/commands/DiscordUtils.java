@@ -144,8 +144,8 @@ public class DiscordUtils {
 
     public static Future<Void> selectIntButton(IContext ctx, Message message, int max,
                                                IntConsumer valueConsumer, Consumer<Void> cancelConsumer) {
-        List<ActionRow> buttons = new ArrayList<>();
         int count = 0;
+        List<ActionRow> buttons = new ArrayList<>();
         List<Button> temp = new ArrayList<>();
         for (int i = 0; i < max; i++) {
             count++;
@@ -157,6 +157,8 @@ public class DiscordUtils {
 
             temp.add(Button.primary(String.valueOf(i + 1), String.valueOf(i + 1)));
         }
+
+        buttons.add(ActionRow.of(temp));
 
         return ButtonOperations.createRows(message, 30L, e -> {
             if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {

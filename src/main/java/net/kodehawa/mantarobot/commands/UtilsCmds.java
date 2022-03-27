@@ -82,7 +82,7 @@ public class UtilsCmds {
         @Description("Adds a reminder.")
         @Options({
                 @Options.Option(type = OptionType.STRING, name = "time", description = "How much time until I remind you of it. Time is in this format: 1h20m (1 hour and 20m)", required = true),
-                @Options.Option(type = OptionType.STRING, name = "reminder", description = "The thing to remind you of.")
+                @Options.Option(type = OptionType.STRING, name = "reminder", description = "The thing to remind you of.", required = true)
         })
         public static class Add extends SlashCommand {
             @Override
@@ -170,7 +170,7 @@ public class UtilsCmds {
                                         .setFooter(ctx.getLanguageContext().get("general.timeout").formatted(10), null).build(),
                                 sr -> {
                                     Reminder.cancel(ctx.getAuthor().getId(), sr.id + ":" + sr.getUserId(), Reminder.CancelReason.CANCEL);
-                                    ctx.edit(EmoteReference.CORRECT + "Cancelled your reminder");
+                                    ctx.editAction(EmoteReference.CORRECT + "Cancelled your reminder").setActionRow().queue();
                                 });
                     }
                 } catch (Exception e) {
@@ -197,10 +197,10 @@ public class UtilsCmds {
                 var builder = new StringBuilder();
                 var i = new AtomicInteger();
                 for (var rems : rms) {
-                    builder.append("**").append(i.incrementAndGet()).append(".-**")
+                    builder.append("**").append(i.incrementAndGet()).append(".-** ")
                             .append("Content: *")
                             .append(rems.getReminder())
-                            .append("*, Due in: **")
+                            .append("*. Due in: **")
                             .append(Utils.formatDuration(ctx.getLanguageContext(), rems.getTime() - System.currentTimeMillis()))
                             .append("**").append("\n");
                 }
