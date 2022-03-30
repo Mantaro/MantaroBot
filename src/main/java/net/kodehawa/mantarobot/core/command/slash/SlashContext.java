@@ -163,10 +163,18 @@ public class SlashContext implements IContext {
     }
 
     public WebhookMessageUpdateAction<Message> editAction(MessageEmbed embed) {
+        if (!slash.isAcknowledged()) {
+            slash.getHook().getInteraction().deferReply().queue();
+        }
+
         return slash.getHook().editOriginalEmbeds(embed).setContent("");
     }
 
     public void edit(MessageEmbed embed) {
+        if (!slash.isAcknowledged()) {
+            slash.getHook().getInteraction().deferReply().queue();
+        }
+
         slash.getHook().editOriginalEmbeds(embed).setContent("").queue();
     }
 
@@ -237,11 +245,19 @@ public class SlashContext implements IContext {
 
     @Override
     public Message sendResult(String s) {
+        if (!slash.isAcknowledged()) {
+            slash.getHook().getInteraction().deferReply().queue();
+        }
+
         return slash.getHook().sendMessage(s).complete();
     }
 
     @Override
     public Message sendResult(MessageEmbed e) {
+        if (!slash.isAcknowledged()) {
+            slash.getHook().getInteraction().deferReply().queue();
+        }
+
         return slash.getHook().sendMessageEmbeds(e).complete();
     }
     @Override
