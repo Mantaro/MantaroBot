@@ -332,7 +332,7 @@ public class HelpCmd {
                 "e621", "e926", "yandere", "konachan", "gelbooru", "safebooru", "rule34",
                 "iam", "iamnot", "8ball", "createpoll", "anime", "character", "poll", "coinflip",
                 "ratewaifu", "roll", "love", "birthday", "profile", "me", "rep", "reputation",
-                "equip", "unequip", "badges"
+                "equip", "unequip", "badges", "activatekey", "vipstatus", "premium"
         );
     }
 }

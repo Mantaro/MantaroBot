@@ -43,7 +43,9 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.utils.APIUtils;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.eval.JavaEvaluator;
@@ -631,6 +633,79 @@ public class OwnerCmd {
                 return new HelpContent.Builder()
                         .setDescription("Links a guild to a patreon owner (user id). Use -u to unlink.")
                         .setUsage("`~>link <user id> <guild id>`")
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
+    public void invalidatekey(CommandRegistry cr) {
+        cr.register("invalidatekey", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
+            @Override
+            protected void call(Context ctx, String content, String[] args) {
+                if (args.length == 0) {
+                    ctx.send(EmoteReference.ERROR + "Give me a key to invalidate!");
+                    return;
+                }
+
+                var key = MantaroData.db().getPremiumKey(args[0]);
+                if (key == null) {
+                    ctx.send("Invalid key.");
+                    return;
+                }
+
+                var dbUser = MantaroData.db().getUser(key.getOwner());
+                var keysClaimed = dbUser.getData().getKeysClaimed();
+
+                keysClaimed.remove(Utils.getKeyByValue(keysClaimed, key.getId()));
+                dbUser.save();
+                key.delete();
+
+                ctx.send("Invalidated key " + args[0]);
+            }
+        });
+    }
+
+    @Subscribe
+    public void createkey(CommandRegistry cr) {
+        cr.register("createkey", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
+            @Override
+            protected void call(Context ctx, String content, String[] args) {
+                var optionalArguments = ctx.getOptionalArguments();
+
+                if (args.length < 3) {
+                    ctx.send(EmoteReference.ERROR + "You need to provide a scope, an id and whether this key is linked (example: guild 1558674582032875529 true)");
+                    return;
+                }
+
+                var scope = args[0];
+                var owner = args[1];
+                var linked = Boolean.parseBoolean(args[2]);
+
+                PremiumKey.Type scopeParsed = null;
+                try {
+                    scopeParsed = PremiumKey.Type.valueOf(scope.toUpperCase()); //To get the ordinal
+                } catch (IllegalArgumentException ignored) { }
+
+                if (scopeParsed == null) {
+                    ctx.send(EmoteReference.ERROR + "Invalid scope (Valid ones are: `user` or `guild`)");
+                    return;
+                }
+
+                //This method generates a premium key AND saves it on the database! Please use this result!
+                var generated = PremiumKey.generatePremiumKey(owner, scopeParsed, linked);
+                if (optionalArguments.containsKey("mobile")) {
+                    ctx.send(generated.getId());
+                } else {
+                    ctx.send(EmoteReference.CORRECT + String.format("Generated: `%s` (S: %s) **[NOT ACTIVATED]** (Linked: %s)",
+                            generated.getId(), generated.getParsedType(), linked));
+                }
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Makes a premium key, what else? Needs scope (user or guild) and id. Also add true or false for linking status at the end")
                         .build();
             }
         });
