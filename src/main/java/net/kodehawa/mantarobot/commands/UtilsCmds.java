@@ -197,12 +197,9 @@ public class UtilsCmds {
                 var builder = new StringBuilder();
                 var i = new AtomicInteger();
                 for (var rems : rms) {
-                    builder.append("**").append(i.incrementAndGet()).append(".-** ")
-                            .append("Content: *")
-                            .append(rems.getReminder())
-                            .append("*. Due in: **")
-                            .append(Utils.formatDuration(ctx.getLanguageContext(), rems.getTime() - System.currentTimeMillis()))
-                            .append("**").append("\n");
+                    builder.append(
+                            String.format("**%,d.-** Content: *%s*. Due in: **<t:%s>**", i.incrementAndGet(), rems.getReminder(), rems.getTime() * 1000)
+                            ).append("\n");
                 }
 
                 //TODO: Split message, next is old way:
