@@ -63,7 +63,7 @@ public class SlashContext implements IContext {
     }
 
     public void deferEphemeral() {
-        slash.deferReply().queue();
+        slash.deferReply(true).queue();
         deferred = true;
     }
 

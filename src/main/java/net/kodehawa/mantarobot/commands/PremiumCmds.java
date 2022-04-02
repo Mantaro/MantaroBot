@@ -22,10 +22,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.meta.Description;
-import net.kodehawa.mantarobot.core.command.meta.Help;
-import net.kodehawa.mantarobot.core.command.meta.Name;
-import net.kodehawa.mantarobot.core.command.meta.Options;
+import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -59,6 +56,7 @@ public class PremiumCmds {
     }
 
     @Description("Activates a premium key.")
+    @Category(CommandCategory.UTILS)
     @Options({
             @Options.Option(type = OptionType.STRING, name = "key", description = "The key to use.", required = true)
     })
@@ -142,6 +140,7 @@ public class PremiumCmds {
     }
 
     @Description("Check premium status of a user or a server.")
+    @Category(CommandCategory.UTILS)
     @Options({
             @Options.Option(type = OptionType.USER, name = "user", description = "The user to check. If not specified, it's you.")
     })
