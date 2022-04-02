@@ -87,6 +87,7 @@ public class UtilsCmds {
         public static class Add extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
+                ctx.deferEphemeral();
                 long time = 0;
                 final var maybeTime = ctx.getOptionAsString("time");
                 final var matchTime = rawTimePattern.matcher(maybeTime).matches();
@@ -95,7 +96,7 @@ public class UtilsCmds {
                 }
 
                 if (time == 0) {
-                    ctx.sendLocalized("commands.remindme.no_time", EmoteReference.ERROR);
+                    ctx.reply("commands.remindme.no_time", EmoteReference.ERROR);
                     return;
                 }
 
@@ -106,17 +107,17 @@ public class UtilsCmds {
 
                 if (rems.size() > 25) {
                     //Max amount of reminders reached
-                    ctx.sendLocalized("commands.remindme.too_many_reminders", EmoteReference.ERROR);
+                    ctx.reply("commands.remindme.too_many_reminders", EmoteReference.ERROR);
                     return;
                 }
 
                 if (time < 60000) {
-                    ctx.sendLocalized("commands.remindme.too_little_time", EmoteReference.ERROR);
+                    ctx.reply("commands.remindme.too_little_time", EmoteReference.ERROR);
                     return;
                 }
 
                 if (System.currentTimeMillis() + time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(180)) {
-                    ctx.sendLocalized("commands.remindme.too_long", EmoteReference.ERROR);
+                    ctx.reply("commands.remindme.too_long", EmoteReference.ERROR);
                     return;
                 }
 
@@ -161,13 +162,14 @@ public class UtilsCmds {
                         ctx.replyEphemeral("commands.remindme.cancel.success", EmoteReference.CORRECT);
                     } else {
                         ctx.defer();
+                        I18nContext lang = ctx.getLanguageContext();
                         List<ReminderObject> rems = getReminders(reminders);
                         rems = rems.stream().filter(reminder -> reminder.time - System.currentTimeMillis() > 3).collect(Collectors.toList());
                         DiscordUtils.selectListButton(ctx, rems,
-                                r -> "%s, Due in: %s".formatted(r.reminder, Utils.formatDuration(ctx.getLanguageContext(), r.time - System.currentTimeMillis())),
-                                r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle(ctx.getLanguageContext().get("commands.remindme.cancel.select"), null)
+                                r -> "%s, %s: %s".formatted(r.reminder, lang.get("commands.remindme.due_at"), Utils.formatDuration(lang, r.time - System.currentTimeMillis())),
+                                r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle(lang.get("commands.remindme.cancel.select"), null)
                                         .setDescription(r1)
-                                        .setFooter(ctx.getLanguageContext().get("general.timeout").formatted(10), null).build(),
+                                        .setFooter(lang.get("general.timeout").formatted(10), null).build(),
                                 sr -> {
                                     Reminder.cancel(ctx.getAuthor().getId(), sr.id + ":" + sr.getUserId(), Reminder.CancelReason.CANCEL);
                                     ctx.editAction(EmoteReference.CORRECT + "Cancelled your reminder").setActionRow().queue();
@@ -184,6 +186,7 @@ public class UtilsCmds {
         public static class ListReminders extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
+                ctx.deferEphemeral();
                 var reminders = ctx.getDBUser().getData().getReminders();
                 var rms = getReminders(reminders).stream()
                         .sorted(Comparator.comparingLong(ReminderObject::getScheduledAtMillis))
@@ -198,8 +201,12 @@ public class UtilsCmds {
                 var i = new AtomicInteger();
                 for (var rems : rms) {
                     builder.append(
-                            String.format("**%,d.-** Content: *%s*. Due in: **<t:%s>**", i.incrementAndGet(), rems.getReminder(), rems.getScheduledAtMillis() / 1000)
-                            ).append("\n");
+                            String.format("**%,d.-** %s: *%s*. %s: **<t:%s>**",
+                                    i.incrementAndGet(), ctx.getLanguageContext().get("commands.remindme.content"),
+                                    rems.getReminder(), ctx.getLanguageContext().get("commands.remindme.due_at"),
+                                    rems.getScheduledAtMillis() / 1000
+                            )
+                    ).append("\n");
                 }
 
                 //TODO: Split message, next is old way:
