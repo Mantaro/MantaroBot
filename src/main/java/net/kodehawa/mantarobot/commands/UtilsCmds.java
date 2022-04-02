@@ -198,7 +198,7 @@ public class UtilsCmds {
                 var i = new AtomicInteger();
                 for (var rems : rms) {
                     builder.append(
-                            String.format("**%,d.-** Content: *%s*. Due in: **<t:%s>**", i.incrementAndGet(), rems.getReminder(), rems.getTime() * 1000)
+                            String.format("**%,d.-** Content: *%s*. Due in: **<t:%s>**", i.incrementAndGet(), rems.getReminder(), rems.getScheduledAtMillis() / 1000)
                             ).append("\n");
                 }
 
