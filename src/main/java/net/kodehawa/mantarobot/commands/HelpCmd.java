@@ -325,7 +325,7 @@ public class HelpCmd {
             }
         });
 
-        // TODO: port: GameCmds (1), PetCmds (1), TransferCmds (2), CustomCmds (1), WaifuCmd (1), MusicCmds + MusicUtilCmds (20)
+        // TODO: port: GameCmds (1), PetCmds (1), CustomCmds (1), WaifuCmd (1), MusicCmds + MusicUtilCmds (20)
         cr.registerAlias("slash",
                 "info", "status", "shard", "shardinfo", "ping", "time", "prune",
                 "ban", "kick", "softban", "userinfo", "serverinfo", "avatar", "roleinfo",
@@ -333,7 +333,8 @@ public class HelpCmd {
                 "e621", "e926", "yandere", "konachan", "gelbooru", "safebooru", "rule34",
                 "iam", "iamnot", "8ball", "createpoll", "anime", "character", "poll", "coinflip",
                 "ratewaifu", "roll", "love", "birthday", "profile", "me", "rep", "reputation",
-                "equip", "unequip", "badges", "activatekey", "vipstatus", "premium"
+                "equip", "unequip", "badges", "activatekey", "vipstatus", "premium",
+                "transfer", "give", "itemtransfer", "transferitem", "transferitems"
         );
     }
 }
