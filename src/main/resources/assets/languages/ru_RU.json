@@ -1094,7 +1094,7 @@
       "no_time_arg": "%1$sYou didn't give me a time on the `-time` argument.",
       "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `~>remindme 1m do the dishes`)",
       "too_long": "That's too much time... (Maximum: 180 days)",
-      "success": "%1$sЯ напомню тебе (%2$s#%3$s) об этом: `%4$s` в %5$s",
+      "success": "%1$sЯ напомню тебе (%2$s#%3$s) об этом: `%4$s` через %5$s",
       "too_many_reminders": "%1$sУ вас слишком много напоминаний! Попробуйте отменить несколько?"
     },
     "time": {
