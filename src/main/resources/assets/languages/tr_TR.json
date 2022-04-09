@@ -713,7 +713,9 @@
       "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sThis inventory is empty! :(",
       "brief_notice": "You can use `~>inventory brief` to get a mobile friendly version.",
-      "sorted_by": " *(sorted by: %1$s)*"
+      "sorted_by": " *(sorted by: %1$s)*",
+      "new_brief_notice": "Please use `~>inventory brief` instead.",
+      "new_calc_notice": "Please use `~>inventory calc` instead."
     },
     "cast": {
       "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
