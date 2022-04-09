@@ -43,7 +43,11 @@ public class RatelimitContext {
 
     public void send(String message) {
         if (slashEvent != null) {
-            slashEvent.reply(message).queue();
+            if (slashEvent.isAcknowledged()) {
+                slashEvent.getHook().sendMessage(message).queue();
+            } else {
+                slashEvent.reply(message).queue();
+            }
         } else {
             event.getChannel().sendMessage(message).queue();
         }

@@ -31,15 +31,13 @@ import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
 import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.meta.Description;
-import net.kodehawa.mantarobot.core.command.meta.Help;
-import net.kodehawa.mantarobot.core.command.meta.Name;
-import net.kodehawa.mantarobot.core.command.meta.Options;
+import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -104,6 +102,7 @@ public class PetCmds {
     }
 
     @Description("The hub for pet related commands. Not the pat kind.")
+    @Category(CommandCategory.CURRENCY)
     @Help(description =
                 """
                 Pet commands.
@@ -456,13 +455,13 @@ public class PetCmds {
 
                         if (playerFinal.getData().getActiveChoice(marriageConfirmed) == PetChoice.MARRIAGE) {
                             if (marriageConfirmed == null) {
-                                hook.editOriginal(lang.get("commands.pet.buy.no_marriage_marry").formatted(EmoteReference.ERROR)).queue();
+                                hook.editOriginal(lang.get("commands.pet.buy.no_marriage_marry").formatted(EmoteReference.ERROR)).setActionRow().queue();
                                 return Operation.COMPLETED;
                             }
 
                             final var marriedWithPlayer = ctx.getPlayer(marriageConfirmed.getOtherPlayer(ctx.getAuthor().getId()));
                             if (marriageConfirmed.getData().getPet() == null) {
-                                hook.editOriginal(lang.get("commands.pet.remove.no_pet_confirm").formatted(EmoteReference.ERROR)).queue();
+                                hook.editOriginal(lang.get("commands.pet.remove.no_pet_confirm").formatted(EmoteReference.ERROR)).setActionRow().queue();
                                 return Operation.COMPLETED;
                             }
 
@@ -476,11 +475,11 @@ public class PetCmds {
 
                             playerFinal.save();
                             marriedWithPlayer.save();
-                            hook.editOriginal(lang.get("commands.pet.remove.success").formatted(EmoteReference.CORRECT, toRefundFinal)).queue();
+                            hook.editOriginal(lang.get("commands.pet.remove.success").formatted(EmoteReference.CORRECT, toRefundFinal)).setActionRow().queue();
                         } else {
                             var playerData = playerFinal.getData();
                             if (playerData.getPet() == null) {
-                                hook.editOriginal(lang.get("commands.pet.remove.no_pet_confirm").formatted(EmoteReference.ERROR)).queue();
+                                hook.editOriginal(lang.get("commands.pet.remove.no_pet_confirm").formatted(EmoteReference.ERROR)).setActionRow().queue();
                                 return Operation.COMPLETED;
                             }
 
@@ -488,7 +487,7 @@ public class PetCmds {
                             playerFinal.addMoney(toRefundPersonalFinal);
                             playerFinal.setLocked(false);
                             playerFinal.save();
-                            hook.editOriginal(lang.get("commands.pet.remove.success_personal").formatted(EmoteReference.CORRECT, toRefundPersonalFinal)).queue();
+                            hook.editOriginal(lang.get("commands.pet.remove.success_personal").formatted(EmoteReference.CORRECT, toRefundPersonalFinal)).setActionRow().queue();
                         }
 
                         return Operation.COMPLETED;
@@ -500,11 +499,13 @@ public class PetCmds {
                         playerFinal.setLocked(false);
                         playerFinal.save();
 
-                        marriageConfirmed.setLocked(false);
-                        marriageConfirmed.save();
+                        if (player.getData().getActiveChoice(marriage) == PetChoice.MARRIAGE && marriageConfirmed != null) {
+                            marriageConfirmed.setLocked(false);
+                            marriageConfirmed.save();
+                        }
 
                         // This is reusing the string, nothing wrong here.
-                        hook.editOriginal(lang.get("commands.pet.buy.cancel_success").formatted(EmoteReference.CORRECT)).queue();
+                        hook.editOriginal(lang.get("commands.pet.buy.cancel_success").formatted(EmoteReference.CORRECT)).setActionRow().queue();
                         return Operation.COMPLETED;
                     }
 
@@ -634,7 +635,7 @@ public class PetCmds {
                             playerConfirmed.setLocked(false);
                             playerConfirmed.saveUpdating();
 
-                            hook.editOriginal(lang.get("commands.pet.buy.no_egg").formatted(EmoteReference.ERROR)).queue();
+                            hook.editOriginal(lang.get("commands.pet.buy.no_egg").formatted(EmoteReference.ERROR)).setActionRow().queue();
                             return Operation.COMPLETED;
                         }
 
@@ -646,7 +647,7 @@ public class PetCmds {
                             marriageConfirmed.setLocked(false);
                             marriageConfirmed.saveUpdating();
 
-                            hook.editOriginal(lang.get("commands.pet.buy.no_house").formatted(EmoteReference.ERROR)).queue();
+                            hook.editOriginal(lang.get("commands.pet.buy.no_house").formatted(EmoteReference.ERROR)).setActionRow().queue();
                             return Operation.COMPLETED;
                         }
 
@@ -657,13 +658,13 @@ public class PetCmds {
                             marriageConfirmed.setLocked(false);
                             marriageConfirmed.saveUpdating();
 
-                            hook.editOriginal(lang.get("commands.pet.buy.not_enough_money").formatted(EmoteReference.ERROR, toBuy.getCost())).queue();
+                            hook.editOriginal(lang.get("commands.pet.buy.not_enough_money").formatted(EmoteReference.ERROR, toBuy.getCost())).setActionRow().queue();
                             return Operation.COMPLETED;
                         }
 
                         if (petChoiceConfirmed == PetChoice.MARRIAGE) {
                             if (marriageConfirmed == null) {
-                                hook.editOriginal(lang.get("commands.pet.buy.no_marriage_marry").formatted(EmoteReference.ERROR)).queue();
+                                hook.editOriginal(lang.get("commands.pet.buy.no_marriage_marry").formatted(EmoteReference.ERROR)).setActionRow().queue();
                                 return Operation.COMPLETED;
                             }
                             var marriageDataConfirmed = marriageConfirmed.getData();
@@ -717,14 +718,16 @@ public class PetCmds {
                     if (button.getId().equals("no-button")) {
                         var playerConfirmed = ctx.getPlayer();
                         var marriageConfirmed = ctx.getDBUser().getData().getMarriage();
-
-                        marriageConfirmed.setLocked(false);
-                        marriageConfirmed.save();
+                        // Original player is fine, we checked it originally with this.
+                        if (player.getData().getActiveChoice(marriage) == PetChoice.MARRIAGE && marriageConfirmed != null) {
+                            marriageConfirmed.setLocked(false);
+                            marriageConfirmed.save();
+                        }
 
                         playerConfirmed.setLocked(false);
                         playerConfirmed.save();
 
-                        hook.editOriginal(lang.get("commands.pet.buy.cancel_success").formatted(EmoteReference.CORRECT)).queue();
+                        hook.editOriginal(lang.get("commands.pet.buy.cancel_success").formatted(EmoteReference.CORRECT)).setActionRow().queue();
                         return Operation.COMPLETED;
                     }
 
@@ -790,8 +793,8 @@ public class PetCmds {
 
         @Description("Feeds your pet.")
         @Options({
-                @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of food to give the pet. Defaults to 1.", maxValue = 10),
                 @Options.Option(type = OptionType.STRING, name = "item", description = "The item to feed your pet with.", required = true),
+                @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of food to give the pet. Defaults to 1.", maxValue = 10),
                 @Options.Option(type = OptionType.BOOLEAN, name = "full", description = "Give all the food possible. Makes it so amount is ignored.")
         })
         public static class Feed extends SlashCommand {
