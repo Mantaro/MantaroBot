@@ -269,7 +269,7 @@ public class CurrencyCmds {
             protected void process(SlashContext ctx) {
                 useItem(
                         ctx, ctx.getDBUser(), ctx.getPlayer(),
-                        ctx.getOptionAsString("item"), (int) ctx.getOptionAsLong("amount", 1)
+                        ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount", 1)
                 );
             }
         }

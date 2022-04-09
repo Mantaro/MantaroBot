@@ -88,7 +88,8 @@ public class BirthdayTask {
             // Example: 02
             final var month = timezone.format(monthFormat);
             // Example: 01
-            final var lastMonthTz = ZonedDateTime.ofInstant(instant, ZoneId.of("America/Chicago")).minusMonths(1);
+            final var lastMonthTz = ZonedDateTime.ofInstant(instant, ZoneId.of("America/Chicago"))
+                    .minusMonths(1);
             final var lastMonth = lastMonthTz.format(dateFormat);
 
             final var cached = cache.getCachedBirthdays();

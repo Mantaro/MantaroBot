@@ -238,7 +238,7 @@ public class MarketCmd {
     public static class Buy extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            buy(ctx, ctx.getOptionAsString("item"), (int) ctx.getOptionAsLong("amount"), buyRatelimiter);
+            buy(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount"), buyRatelimiter);
         }
     }
 
@@ -262,7 +262,7 @@ public class MarketCmd {
     public static class Sell extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            sell(ctx, ctx.getOptionAsString("item"), (int) ctx.getOptionAsLong("amount"), sellRatelimiter);
+            sell(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount"), sellRatelimiter);
         }
     }
 
@@ -287,7 +287,7 @@ public class MarketCmd {
     public static class Dump extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            dump(ctx, ctx.getOptionAsString("item"), (int) ctx.getOptionAsLong("amount"), dumpRatelimit);
+            dump(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount"), dumpRatelimit);
         }
     }
 

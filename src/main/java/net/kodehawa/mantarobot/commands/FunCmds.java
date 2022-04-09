@@ -75,11 +75,11 @@ public class FunCmds {
     public static class CoinFlip extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            var times = ctx.getOptionAsLong("times", 1);
+            var times = ctx.getOptionAsInteger("times", 1);
             final int[] heads = {0};
             final int[] tails = {0};
 
-            doTimes((int) times, () -> {
+            doTimes(times, () -> {
                 if (r.nextBoolean()) heads[0]++;
                 else tails[0]++;
             });

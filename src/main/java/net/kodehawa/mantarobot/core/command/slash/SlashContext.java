@@ -429,6 +429,22 @@ public class SlashContext implements IContext {
         return option.getAsLong();
     }
 
+    public int getOptionAsInteger(String name) {
+        var option = getOption(name);
+        if (option == null) {
+            return 0;
+        }
+        return (int) option.getAsLong();
+    }
+
+    public int getOptionAsInteger(String name, int def) {
+        var option = getOption(name);
+        if (option == null) {
+            return def;
+        }
+        return (int) option.getAsLong();
+    }
+
     public boolean getOptionAsBoolean(String name) {
         var option = getOption(name);
         if (option == null) {

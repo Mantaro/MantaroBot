@@ -37,6 +37,7 @@ import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
+import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -266,6 +267,10 @@ public class PlayerCmds {
                 }
 
                 var button = event.getButton();
+                if (button == null || button.getId() == null) {
+                    return Operation.IGNORED;
+                }
+
                 InteractionHook hook = event.getHook();
                 if (button.getId().equalsIgnoreCase("yes")) {
                     var dbUserFinal = ctx.getDBUser(author);
@@ -324,7 +329,7 @@ public class PlayerCmds {
                 }
 
                 return InteractiveOperation.IGNORED;
-            }, Button.danger("yes", "Yes"), Button.primary("no", "No"));
+            }, Button.danger("yes", ctx.getLanguageContext().get("buttons.yes")), Button.primary("no", ctx.getLanguageContext().get("buttons.no")));
         }
     }
 
