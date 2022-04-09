@@ -325,7 +325,7 @@ public class HelpCmd {
             }
         });
 
-        // TODO: port: GameCmds (1), CustomCmds (1), WaifuCmd (1), MusicCmds + MusicUtilCmds (20)
+        // TODO: port: GameCmds (1), HelpCmd (1), CustomCmds (1), WaifuCmd (1), MusicCmds + MusicUtilCmds (20)
         // Note: How the heck am I gonna do GameCmds? Interactive stuff is hard now.
         cr.registerAlias("slash",
                 "info", "status", "shard", "shardinfo", "ping", "time", "prune",
@@ -333,9 +333,36 @@ public class HelpCmd {
                 "support", "donate", "language", "invite", "danbooru",
                 "e621", "e926", "yandere", "konachan", "gelbooru", "safebooru", "rule34",
                 "iam", "iamnot", "8ball", "createpoll", "anime", "character", "poll", "coinflip",
-                "ratewaifu", "roll", "love", "birthday", "profile", "me", "rep", "reputation",
-                "equip", "unequip", "badges", "activatekey", "vipstatus", "premium",
-                "transfer", "give", "itemtransfer", "transferitem", "transferitems", "pet"
+                "ratewaifu", "roll", "love", "birthday", "profile", "reputation", "equip",
+                "unequip", "badges", "activatekey", "premium", "transfer", "itemtransfer", "pet"
+        );
+    }
+
+    // Transitional command, but with alias information.
+    @Subscribe
+    public void slashalias(CommandRegistry cr) {
+        cr.register("slashalias", new SimpleCommand(CommandCategory.HIDDEN) {
+            @Override
+            protected void call(Context ctx, String content, String[] args) {
+                I18nContext i18nContext = ctx.getLanguageContext();
+                var builder = new EmbedBuilder();
+                builder.setAuthor(i18nContext.get("commands.slash.title"))
+                        .setDescription(i18nContext.get("commands.slash.description_alias").formatted(EmoteReference.WARNING) + "\n" +
+                                i18nContext.get("commands.slash.description_2")
+                        )
+                        .setColor(Color.PINK)
+                        .setImage("https://i.imgur.com/LTbSRSV.png")
+                        .setFooter(i18nContext.get("commands.pet.status.footer"), ctx.getMember().getEffectiveAvatarUrl());
+
+                ctx.send(builder.build());
+            }
+        });
+
+        // TODO: port: GameCmds (1), HelpCmd (1), CustomCmds (1), WaifuCmd (1), MusicCmds + MusicUtilCmds (20)
+        // Note: How the heck am I gonna do GameCmds? Interactive stuff is hard now.
+        cr.registerAlias("slash",
+                "guildinfo", "me", "rep", "badge", "vipstatus", "give",
+                "transferitem", "transferitems"
         );
     }
 }
