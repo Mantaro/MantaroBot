@@ -159,15 +159,28 @@ public class DiscordUtils {
         }
 
         buttons.add(ActionRow.of(temp));
+        buttons.add(ActionRow.of(Button.danger("cancel", ctx.getLanguageContext().get("buttons.cancel"))));
 
         return ButtonOperations.createRows(message, 30L, e -> {
             if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                 return Operation.IGNORED;
             }
 
+            var button = e.getButton();
+            if (button == null || button.getId() == null) {
+                return Operation.IGNORED;
+            }
+
+            if (button.getId().equals("cancel")) {
+                e.getHook().editOriginal(ctx.getLanguageContext().get("commands.unequip.cancelled").formatted(EmoteReference.OK))
+                        .setActionRow()
+                        .queue();
+
+                return Operation.COMPLETED;
+            }
+
             try {
                 valueConsumer.accept(Integer.parseInt(e.getButton().getId()));
-
                 return Operation.COMPLETED;
             } catch (Exception ignored) { }
 
