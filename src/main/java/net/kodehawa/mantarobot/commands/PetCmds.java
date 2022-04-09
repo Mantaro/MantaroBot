@@ -524,7 +524,7 @@ public class PetCmds {
                         player.saveUpdating();
                     }
 
-                    ctx.sendLocalized(message, pet.getType().getEmoji(), pet.getName(), pet.getPatCounter(), extraMessage);
+                    ctx.sendStrippedLocalized(message, pet.getType().getEmoji(), pet.getName(), pet.getPatCounter(), extraMessage);
                 });
             }
         });
