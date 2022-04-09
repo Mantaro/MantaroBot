@@ -190,56 +190,60 @@ public class AnimeCmds {
     }
 
     private static void animeData(SlashContext ctx, I18nContext lang, AnimeData animeData) {
-        final var attributes = animeData.getAttributes();
-        final var title = attributes.getCanonicalTitle();
-        final var releaseDate = attributes.getStartDate();
-        final var endDate = attributes.getEndDate();
-        final var animeDescription = StringEscapeUtils.unescapeHtml4(
-                attributes.getSynopsis().replace("<br>", " ")
-        );
+        try {
+            final var attributes = animeData.getAttributes();
+            final var title = attributes.getCanonicalTitle();
+            final var releaseDate = attributes.getStartDate();
+            final var endDate = attributes.getEndDate();
+            final var animeDescription = attributes.getSynopsis() == null ? "" :
+                    StringEscapeUtils.unescapeHtml4(attributes.getSynopsis().replace("<br>", " "));
 
-        final var favoriteCount = String.valueOf(attributes.getFavoritesCount());
-        final var imageUrl = attributes.getPosterImage().getMedium();
-        final var typeName = attributes.getShowType();
-        final var animeType = typeName.length() > 3 ? Utils.capitalize(typeName.toLowerCase()) : typeName;
-        final var episodes = String.valueOf(attributes.getEpisodeCount());
-        final var episodeDuration = String.valueOf(attributes.getEpisodeLength());
+            final var favoriteCount = String.valueOf(attributes.getFavoritesCount());
+            final var imageUrl = attributes.getPosterImage().getMedium();
+            final var typeName = attributes.getShowType();
+            final var animeType = typeName.length() > 3 ? Utils.capitalize(typeName.toLowerCase()) : typeName;
+            final var episodes = String.valueOf(attributes.getEpisodeCount());
+            final var episodeDuration = String.valueOf(attributes.getEpisodeLength());
 
-        if (attributes.isNsfw() && !ctx.getChannel().isNSFW()) {
-            ctx.reply(lang.get("commands.anime.hentai"), EmoteReference.ERROR);
-            return;
+            if (attributes.isNsfw() && !ctx.getChannel().isNSFW()) {
+                ctx.reply(lang.get("commands.anime.hentai"), EmoteReference.ERROR);
+                return;
+            }
+
+            final var player = MantaroData.db().getPlayer(ctx.getAuthor());
+            final var badge = APIUtils.getHushBadge(title, Utils.HushType.ANIME);
+            if (badge != null && player.getData().addBadgeIfAbsent(badge)) {
+                player.saveUpdating();
+            }
+
+            //Start building the embedded message.
+            var embed = new EmbedBuilder();
+            embed.setColor(Color.PINK)
+                    .setDescription(StringUtils.limit(animeDescription, 1400))
+                    .setAuthor(lang.get("commands.anime.information_header").formatted(title), animeData.getURL(), imageUrl)
+                    .setFooter(lang.get("commands.anime.information_notice"), ctx.getAuthor().getEffectiveAvatarUrl())
+                    .setThumbnail(imageUrl)
+                    .addField(EmoteReference.CALENDAR.toHeaderString() + lang.get("commands.anime.release_date"),
+                            releaseDate, true
+                    )
+                    .addField(EmoteReference.CALENDAR2.toHeaderString() + lang.get("commands.anime.end_date"),
+                            (endDate == null || endDate.equals("null") ? lang.get("commands.anime.airing") : endDate),
+                            true
+                    )
+                    .addField(EmoteReference.STAR.toHeaderString() + lang.get("commands.anime.favorite_count"), favoriteCount, true)
+                    .addField(EmoteReference.DEV.toHeaderString() + lang.get("commands.anime.type"), animeType, true)
+                    .addField(EmoteReference.SATELLITE.toHeaderString() + lang.get("commands.anime.episodes"), episodes, true)
+                    .addField(EmoteReference.CLOCK.toHeaderString() + lang.get("commands.anime.episode_duration"),
+                            episodeDuration + " " + lang.get("commands.anime.minutes"), true
+                    );
+
+            ctx.editAction(embed.build())
+                    .setActionRows(ActionRow.of(Button.link(animeData.getURL(), lang.get("commands.anime.external_link_text"))))
+                    .queue(success -> {}, Throwable::printStackTrace);
+        } catch (Exception e) {
+            ctx.edit("commands.anime.error", EmoteReference.WARNING, e.getClass().getSimpleName());
+            e.printStackTrace();
         }
-
-        final var player = MantaroData.db().getPlayer(ctx.getAuthor());
-        final var badge = APIUtils.getHushBadge(title, Utils.HushType.ANIME);
-        if (badge != null && player.getData().addBadgeIfAbsent(badge)) {
-            player.saveUpdating();
-        }
-
-        //Start building the embedded message.
-        var embed = new EmbedBuilder();
-        embed.setColor(Color.PINK)
-                .setDescription(StringUtils.limit(animeDescription, 1400))
-                .setAuthor(lang.get("commands.anime.information_header").formatted(title), animeData.getURL(), imageUrl)
-                .setFooter(lang.get("commands.anime.information_notice"), ctx.getAuthor().getEffectiveAvatarUrl())
-                .setThumbnail(imageUrl)
-                .addField(EmoteReference.CALENDAR.toHeaderString() + lang.get("commands.anime.release_date"),
-                        releaseDate, true
-                )
-                .addField(EmoteReference.CALENDAR2.toHeaderString() + lang.get("commands.anime.end_date"),
-                        (endDate == null || endDate.equals("null") ? lang.get("commands.anime.airing") : endDate),
-                        true
-                )
-                .addField(EmoteReference.STAR.toHeaderString() + lang.get("commands.anime.favorite_count"), favoriteCount, true)
-                .addField(EmoteReference.DEV.toHeaderString() + lang.get("commands.anime.type"), animeType, true)
-                .addField(EmoteReference.SATELLITE.toHeaderString() + lang.get("commands.anime.episodes"), episodes, true)
-                .addField(EmoteReference.CLOCK.toHeaderString() + lang.get("commands.anime.episode_duration"),
-                        episodeDuration + " " + lang.get("commands.anime.minutes"), true
-                );
-
-        ctx.editAction(embed.build())
-                .setActionRows(ActionRow.of(Button.link(animeData.getURL(), lang.get("commands.anime.external_link_text"))))
-                .queue();
     }
 
     private static void characterData(SlashContext ctx, I18nContext lang, CharacterData character) {

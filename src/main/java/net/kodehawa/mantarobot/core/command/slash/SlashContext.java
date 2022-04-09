@@ -175,7 +175,8 @@ public class SlashContext implements IContext {
             slash.getHook().getInteraction().deferReply().queue();
         }
 
-        slash.getHook().editOriginalEmbeds(embed).setContent("").queue();
+        slash.getHook().editOriginalEmbeds(embed).setContent("")
+                .queue(success -> {}, Throwable::printStackTrace);
     }
 
     public void edit(String s) {
@@ -191,8 +192,9 @@ public class SlashContext implements IContext {
             slash.getHook().getInteraction().deferReply().queue();
         }
 
-        slash.getHook().editOriginal(getLanguageContext().get(s.formatted(args)))
+        slash.getHook().editOriginal(i18n.get(s).formatted(args))
                 .setEmbeds(Collections.emptyList())
+                .setActionRows()
                 .queue();
     }
 

@@ -172,15 +172,16 @@ public class DiscordUtils {
             }
 
             if (button.getId().equals("cancel")) {
-                e.getHook().editOriginal(ctx.getLanguageContext().get("commands.unequip.cancelled").formatted(EmoteReference.OK))
-                        .setActionRow()
+                e.getHook().editOriginal(ctx.getLanguageContext().get("commands.profile.unequip.cancelled").formatted(EmoteReference.OK))
+                        .setEmbeds()
+                        .setActionRows()
                         .queue();
 
                 return Operation.COMPLETED;
             }
 
             try {
-                valueConsumer.accept(Integer.parseInt(e.getButton().getId()));
+                valueConsumer.accept(Integer.parseInt(button.getId()));
                 return Operation.COMPLETED;
             } catch (Exception ignored) { }
 

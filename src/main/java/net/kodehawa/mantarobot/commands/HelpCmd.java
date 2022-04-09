@@ -360,7 +360,7 @@ public class HelpCmd {
 
         // TODO: port: GameCmds (1), HelpCmd (1), CustomCmds (1), WaifuCmd (1), MusicCmds + MusicUtilCmds (20)
         // Note: How the heck am I gonna do GameCmds? Interactive stuff is hard now.
-        cr.registerAlias("slash",
+        cr.registerAlias("slashalias",
                 "guildinfo", "me", "rep", "badge", "vipstatus", "give",
                 "transferitem", "transferitems"
         );
