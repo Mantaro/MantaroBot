@@ -785,7 +785,7 @@
         "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
         "success": "%1$sУспешно куплены %2$,d %3$s за %4$,d кредитов. У вас осталось %5$,d кредитов.",
         "success_breakable": "%1$sВы успешно купили %2$,d %3$s за %4$,d кредитов. Теперь у вас осталось %5$,d кредитов. Вы можете экипировать этот предмет, используя `~>equip <item name>`",
-        "success_potion": "%1$sВы успешно купили %2$,d %3$s за %4$,d кредитов. Теперь у вас осталось %5$,d кредитов. Вы можете использовать это зелье или улучшение, используя `~>useitem <item name>`",
+        "success_potion": "%1$sВы успешно купили %2$,d %3$s за %4$,d кредитов. Теперь у вас осталось %5$,d кредитов. Вы можете использовать это зелье или бафф, используя `~>useitem <item name>`",
         "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits.",
         "success_breakable_upgrade": "Вы можете проверить <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> для получения дополнительной информации о том, как улучшить свои инструменты!"
       },
@@ -864,7 +864,7 @@
       "already_assigned": "%1$sУ тебя уже есть данная роль, дурашка!",
       "success": "%1$s%2$s, вам выдана роль **%3$s**",
       "error": "%1$sЯ не могу снять с вас роль **%2$s**. Убедитесь, что у меня есть разрешение на добавление ролей (Управление ролями) и что моя роль выше **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the specified name.",
+      "no_role": "%1$sАвтоматической роли с указанным именем не существует.",
       "no_iam": "%1$sВы не указали роль, которую нужно выдать себе!"
     },
     "iamnot": {
@@ -906,7 +906,7 @@
         "clear_success": "%1$sОписание вашего профиля очищено."
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge! For example, `~>profile displaybadge claimer`",
+        "not_specified": "%1$sВам необходимо указать свой основной значок! Например, `~>profile displaybadge claimer`",
         "reset_success": "%1$sЗначки больше не будут отображаться в вашем профиле!",
         "important_success": "%1$sОтображаемый значок включен.",
         "no_such_badge": "%1$sУ вас нет такого значка...\nДоступные вам значки: %2$s",
@@ -929,7 +929,7 @@
       },
       "pet": {
         "header": "Active Pet",
-        "none": "No active pet"
+        "none": "Нет активного питомца"
       },
       "stats": {
         "header": "Статистика профиля %1$s",
@@ -943,7 +943,7 @@
         "mine_xp": "Опыт Шахтёрства",
         "fish_xp": "Опыт Рыбалки",
         "chop_xp": "Chopping Experience",
-        "activity_xp": "Activity Experience",
+        "activity_xp": "Опыт Активности",
         "sharks_caught": "Акул Поймано",
         "crates_open": "Контейнеров Открыто",
         "times_mop": "Раз Вытерто",
@@ -1003,7 +1003,7 @@
         "disable": "%1$sУспешно отключёна авто-экипировка.",
         "success": "%1$sВключена авто-экипировка."
       },
-      "badge_header": "%1$s Display Badge",
+      "badge_header": "%1$sОтображаемые Значки",
       "bot_notice": "%1$sУ ботов нет профиля.",
       "header": "Профиль %1$s's",
       "no_desc": "No description set. You can set one with `~>profile description`",
@@ -1015,8 +1015,8 @@
       "birthday": "День рождения",
       "married": "В браке с",
       "nobody": "Никого",
-      "inventory": "Item Collection (Top 10)",
-      "badges": "Badge Collection (Top 5)",
+      "inventory": "Коллекция Предметов (Топ 10)",
+      "badges": "Коллекция Значков (Топ 5)",
       "no_badges": "Нет значков (yet!)",
       "no_timezone": "Не установлен",
       "timezone_user": "Пользовательский часовой пояс: %1$s",
