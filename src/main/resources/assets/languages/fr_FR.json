@@ -1,13 +1,13 @@
 {
   "general": {
-    "invalid_number": "%1$s Ce n'est pas un nombre valide !",
+    "invalid_number": "%1$sCe n'est pas un nombre valide !",
     "requested_by": "Demandé par %1$s.",
     "operation_timed_out": "%1$sLe temps de réponse à cette question est épuisé.",
     "too_many_users_found": "%1$s Trop d'utilisateurs trouvés, essaie d'affiner ta recherche peut-être ? (Ex. utilise le nom#discriminateur)\n**utilisateurs trouvés:** %2$s",
     "search_no_result": "%1$sTa recherche n'a donné aucun résultat :(",
     "unknown": "inconnu",
     "days": "jours",
-    "none": "aucun",
+    "none": "Aucun",
     "now": "maintenant",
     "hourly": "Horaire",
     "daily": "Quotidien",
@@ -53,7 +53,7 @@
       "potion_applied_multiple": "%1$sEffet **%2$s** du type *%3$s* appliqué avec succès.\nTu l'avais déjà nous les avons donc additionné. Nombre d'effets accumulés : %4$s",
       "max_stack_size": "%1$sTu as déjà regroupé le maximum de %2$s que possible. (Maximum: 15, Après regroupement: %3$s)",
       "max_stack_size_2": "%1$sTu ne peux pas regrouper autant de %2$s. (Maximum: 15, Tentative: %3$s)",
-      "not_same_potion": "%1$sTu as déjà accumulé 2 potions de type %2$s, tu ne peux donc pas y ajouter un potion de %3$s."
+      "not_same_potion": "%1$sTu as déjà accumulé 2 potions de type %2$s, tu ne peux donc pas y ajouter une potion de %3$s."
     },
     "campaigns": {
       "premium": {
@@ -110,7 +110,7 @@
       " Tu peux ralentir un peu ?"
     ],
     "mod_quotes": [
-      "Uh-oh, on dirait que quelqu'un vient de recevoir un gros coup! ",
+      "Uh-oh, on dirait que quelqu'un vient de recevoir un gros coup ! ",
       " C'est juste un travail administratif normal ... ",
       " Le boot a été lancé ! ",
       " Tu vas nous manquer ... pas vraiment en fait ",
@@ -714,8 +714,8 @@
       "empty": "%1$sCet inventaire est vide! :(",
       "brief_notice": "Tu peux utiliser `~>inventory brief` pour avoir une version adaptée aux mobiles.",
       "sorted_by": " *(classé par: %1$s)*",
-      "new_brief_notice": "Please use `~>inventory brief` instead.",
-      "new_calc_notice": "Please use `~>inventory calc` instead."
+      "new_brief_notice": "Utilise `~>inventory brief` à la place.",
+      "new_calc_notice": "Utilise `~>inventory calc` à la place."
     },
     "cast": {
       "no_item_specified": "%1$sTu n'as spécifié aucun objet. Pour avoir la liste complète, utilise `~>cast ls`",
@@ -1380,7 +1380,7 @@
         "footer": "Merci d'utiliser Mantaro! <3"
       },
       "check": {
-        "success": "**Pet status for %1$s:**\n\n%2$s Thirst: **%3$s / 100** | %4$s Hunger: **%5$s / 100** | %6$s Dust: **%7$s%%** | Choice: **%8$s**"
+        "success": "**Statut de %1$s:**\n%2$s Soif: **%3$s / 100** | %4$s Faim: **%5$s / 100** | %6$s Poussière: **%7$s%%** | Choix: **%8$s**"
       },
       "clean": {
         "not_enough_money": "%1$sTu as besoin d'au moins %2$,d crédits pour nettoyer **%3$s**.",
@@ -1395,7 +1395,7 @@
         "success": "%1$sTon choix a bien été pris en compte. Ton lien à ton animal est désormais: %2$s %3$s"
       },
       "level": {
-        "no_pet": "%1$sYou don't have any pets to check the level of. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sTu n'as pas d'animaux à surveiller. Fais la commande `~>pet` pour plus d'explications. (Lien: %2$s)%3$s",
         "success": "%1$sNiveau de **%2$s**: **%3$,d** (%4$,d XP / %5$,d XP)"
       },
       "list": {
@@ -1467,7 +1467,7 @@
         "no_pet": "%1$sTu n'as pas d'animal à renommer. (Lien: %2$s)%3$s",
         "same_name": "%1$sCe nom est le même que celui qu'il a déjà.",
         "no_content": "%1$sTu dois me donner le nouveau nom de ton animal de compagnie.",
-        "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2$s, Current: %3$s.",
+        "not_enough_money": "%1$sTu n'as pas assez d'argent pour faire ça. Cout: %2$s, possédé: %3$s.",
         "success": "%1$sJ'ai bien renommé ton animal de `%2$s` pour `%3$s`. %4$s a été déduit de ton portefeuille. Profite!"
       },
       "remove": {
@@ -1611,7 +1611,7 @@
         "no_help": "%1$sIl n'y a pas d'aide supplémentaire implémentée pour cette commande.",
         "not_found": "%1$sUne commande de ce nom n'existe pas"
       },
-      "too_long": "Error displaying sub-command help. Check the [wiki](https://github.com/Mantaro/MantaroBot/wiki) for more information on this specific command."
+      "too_long": "Erreur survenue en tentant d'afficher la sous-commande d'aide. Va voir le [wiki](https://github.com/Mantaro/MantaroBot/wiki) pour plus d'infos sur cette commande en particulier."
     },
     "repair": {
       "no_item": "%1$sTu n'as spécifié aucun objet à réparer. Si tu penses avoir mentionné le bon objet, essaie avec son nom complet.",
@@ -1746,7 +1746,7 @@
       "success": "%1$sTu as miné des minerais valant **$%2$,d crédits** avec ta *%3$s*",
       "reminder": "\nTu peux fabriquer de meilleures pioches en utilisant les gemmes obtenues en minant. Tu peux trouver la liste des objet fabricables avec `~>cast ls`. Pour le guide complet des améliorations d'outils, ça se passe ici: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> (Attention, c'est en anglais)",
       "diamond": {
-        "overflow": "Huh, you found %1$,d diamond(s) while mining, but you already had too much, so I sold them for you.",
+        "overflow": "Huh, Tu as trouvé %1$,d diamant.s mais tu en avais déjà trop donc j'ai fait une vente pour toi.",
         "success": "Huh! Quelle chance, tu as trouvé un diamant en minant ! Regarde dans ton inventaire !"
       },
       "gem": {
@@ -2286,11 +2286,11 @@
       }
     },
     "imageboard_disableexplicit": {
-      "success": "%1$sDisabled explicit/questionable imageboard searches regardless of channel type."
+      "success": "%1$sLes recherches d'images explicites/questionnables sont désactivées peu importe le type de salon."
     },
     "imageboard_enableexplicit": {
-      "already_enabled": "%1$sExplicit/questionable imageboard searches are already enabled. Keep in mind they only work in NSFW channels.",
-      "success": "%1$sRe-enabled explicit/questionable imageboard searches."
+      "already_enabled": "%1$sLes recherches d'images explicites/questionnables sont déjà activées. N'oublie pas qu'elles ne fonctionnent que dans les salons NSFW.",
+      "success": "%1$sLes recherches d'images explicites/questionnables sont réactivées."
     },
     "lobby": {
       "disable": {
@@ -2431,7 +2431,7 @@
     "tv": "Télévision",
     "wrench": "Clé anglaise",
     "star_wrench": "Clé anglaise des étoiles",
-    "comet_wrench": "Comet Wrench",
+    "comet_wrench": "Clé de comète",
     "sparkle_wrench": "Clé anglaise scintillante",
     "motorcycle": "Moto",
     "comet_pick": "Pioche en comète",
@@ -2497,8 +2497,8 @@
     "broken_hellfire_axe": "Hache des enfers endommagée",
     "broken_hellfire_rod": "Canne des enfers endommagée",
     "explanation": {
-      "pick": "A normal pickaxe you bought on the local market. Seems sturdy enough to mine some stuff.",
-      "diamond_pick": "A diamond pick is definitely stronger than the market-bought iron picks I could get on the market, that's for sure!",
+      "pick": "Une pioche normale que tu as achetée au magasin du coin. Elle à l'air assez solide pour miner quelques trucs.",
+      "diamond_pick": "Une pioche en diamant est définitivement plus solide que ta pioche en fer que je trouverais au magasin du coin, c'est certain !",
       "comet_pick": "You found some Comet Fragments and realized you could make a Comet Gem out of them.\nWhat did they do? Were they special?\nYou seemed eager to try it out after being impressed by its glow, so here we are, in your first step towards getting stronger picks.",
       "star_pick": "Maybe it was the glow, maybe it was the fact they came from a star far away in the galaxy, but it seemed to make for quite a sturdy pick with special properties.\nWeird... it seems to attract more gems. Is it the effect of the material, or is it my skill getting better?",
       "moon_pick": "La substance semblable à la lune t'a hypnotisé.e.\nÉtait-ce le fait qu'elle brille comme la lune, ou le fait qu'elle semble flotter par elle-même?\nTu as quand même essayé de fusionner cette substance avec ta pioche, et le résultat est satisfaisant.\nÇa semble être un bon équilibre entre la lumière et l'obscurité et d'une manière ou d'une autre, j'ai miné des gemmes avec elle.\nEst-ce vraiment un morceau d'une lune lointaine?",
@@ -2581,7 +2581,7 @@
       "diamond_pick": "Une pioche une peu plus solide.",
       "tv": "Doit... regarder... la... Télé...",
       "wrench": "Outil de moulage. Utile pour fabriquer des trucs.",
-      "comet_wrench": "Casting tool. Useful to put stuff together. A little less chance of breaking, needed to cast some items. Tier 3.",
+      "comet_wrench": "Outil de moulage. Utile pour fabriquer des trucs. Résistante et nécessaire pour fabriquer certains objets. Tier 3.",
       "star_wrench": "Outil de moulage. Utile pour fabriquer des trucs. Plus résistante et nécessaire pour fabriquer plusieurs objets à la fois. Tier 3.",
       "sparkle_wrench": "Outil de moulage. Utile pour fabriquer des trucs. Plus résistante et réduit le cout de fabrication. Tier 4.",
       "motorcycle": "Pour se promener, d'une façon stylée.",
@@ -2650,21 +2650,21 @@
     }
   },
   "time": {
-    "day": "day",
-    "days": "days",
-    "week": "week",
-    "weeks": "weeks",
-    "month": "month",
-    "months": "months",
-    "year": "year",
-    "years": "years",
-    "hour": "hour",
-    "hours": "hours",
+    "day": "jour",
+    "days": "jours",
+    "week": "semaine",
+    "weeks": "semaines",
+    "month": "mois",
+    "months": "mois",
+    "year": "an",
+    "years": "ans",
+    "hour": "heure",
+    "hours": "heures",
     "minute": "minute",
     "minutes": "minutes",
-    "second": "second",
-    "seconds": "seconds",
-    "little": "less than a second"
+    "second": "seconde",
+    "seconds": "secondes",
+    "little": "moins d'une seconde"
   },
   "test": {
     "inherited": "owo"
