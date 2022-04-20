@@ -20,6 +20,7 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
+import io.github.classgraph.ScanResult;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Message;
@@ -187,7 +188,7 @@ public class MantaroCore {
                 .build();
 
         try {
-            // Don't allow mentioning @everyone, @here or @role (can be overriden in a per-command context, but we only ever re-enable role)
+            // Don't allow mentioning @everyone, @here or @role (can be overridden in a per-command context, but we only ever re-enable role)
             var deny = EnumSet.of(Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.ROLE);
             MessageAction.setDefaultMentions(EnumSet.complementOf(deny));
 
@@ -195,7 +196,7 @@ public class MantaroCore {
             // We used to have GUILD_PRESENCES here for caching before, since chunking wasn't possible, but we needed to remove it.
             // So we have no permanent cache anymore.
             GatewayIntent[] toEnable = {
-                    GatewayIntent.GUILD_MESSAGES, // Recieve guild messages, needed to, well operate at all.
+                    GatewayIntent.GUILD_MESSAGES, // Receive guild messages, needed to, well operate at all.
                     GatewayIntent.GUILD_MESSAGE_REACTIONS,  // Receive message reactions, used for reaction menus.
                     GatewayIntent.GUILD_MEMBERS, // Receive member events, needed for mod features *and* welcome/leave messages.
                     GatewayIntent.GUILD_VOICE_STATES, // Receive voice states, needed so Member#getVoiceState doesn't return null.
@@ -402,18 +403,23 @@ public class MantaroCore {
     }
 
     private Set<Class<?>> lookForAnnotatedOn(String packageName, Class<? extends Annotation> annotation) {
-        return new ClassGraph()
+        var classGraph = new ClassGraph()
                 .acceptPackages(packageName)
-                .enableAnnotationInfo()
-                .scan(2)
-                .getAllClasses().stream().filter(classInfo -> classInfo.hasAnnotation(annotation.getName())).map(ClassInfo::loadClass)
-                .collect(Collectors.toSet());
+                .enableAnnotationInfo();
+
+        try (ScanResult result = classGraph.scan(2)) {
+            return result.getAllClasses()
+                    .stream()
+                    .filter(classInfo -> classInfo.hasAnnotation(annotation.getName())).map(ClassInfo::loadClass)
+                    .collect(Collectors.toSet());
+        }
     }
 
     public EventBus getShardEventBus() {
         return this.shardEventBus;
     }
 
+    @SuppressWarnings("unused")
     public BotGateway getGateway(JDA jda) throws IOException {
         var call = Utils.httpClient.newCall(new Request.Builder()
                 .url("https://discordapp.com/api/gateway/bot")
@@ -463,7 +469,7 @@ public class MantaroCore {
         bot.getCore().getShardEventBus().post(new PostLoadEvent());
 
         // Only update guild count from the master node.
-        // Might not wanna run this if it's self-hosted either.
+        // Might not want to run this if it's self-hosted either.
         if (bot.isMasterNode() && !config.isSelfHost()) {
             startUpdaters();
         }
