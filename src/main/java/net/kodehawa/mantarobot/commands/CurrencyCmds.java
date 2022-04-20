@@ -151,7 +151,7 @@ public class CurrencyCmds {
                         .setDescription("Shows your current inventory.")
                         .setUsage("""
                                         You can mention someone on this command to see their inventory.
-                                        Use `~>inventory -calculate` to see how much you'd get if you sell every sellable item on your inventory.""")
+                                        Use `~>inventory calculate` to see how much you'd get if you sell every sellable item on your inventory.""")
                         .setSeasonal(true)
                         .build();
             }

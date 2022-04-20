@@ -270,6 +270,12 @@ public class Context {
         ).queue();
     }
 
+    public void sendFormatStripped(String message, Object... format) {
+        getChannel().sendMessage(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format))
+                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                .queue();
+    }
+
     public void sendFormat(String message, Collection<ActionRow> actionRow, Object... format) {
         getChannel().sendMessage(
                 String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format)

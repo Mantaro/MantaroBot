@@ -212,7 +212,7 @@ public class PetCmds {
                     return;
                 }
 
-                ctx.sendLocalized("commands.pet.level.success",
+                ctx.sendStrippedLocalized("commands.pet.level.success",
                         EmoteReference.ZAP, pet.getName(), pet.getLevel(), pet.getExperience(), pet.experienceToNextLevel()
                 );
             }
@@ -554,12 +554,12 @@ public class PetCmds {
                 }
 
                 if (player.getCurrentMoney() < price) {
-                    ctx.sendLocalized("commands.pet.clean.not_enough_money", EmoteReference.ERROR, price, pet.getName());
+                    ctx.sendStrippedLocalized("commands.pet.clean.not_enough_money", EmoteReference.ERROR, price, pet.getName());
                     return;
                 }
 
                 if (pet.getDust() < 20) {
-                    ctx.sendLocalized("commands.pet.clean.not_dusty", EmoteReference.ERROR, pet.getName(), pet.getDust());
+                    ctx.sendStrippedLocalized("commands.pet.clean.not_dusty", EmoteReference.ERROR, pet.getName(), pet.getDust());
                     return;
                 }
 
@@ -570,7 +570,7 @@ public class PetCmds {
                     marriage.saveUpdating();
                 }
 
-                ctx.sendLocalized("commands.pet.clean.success", EmoteReference.CORRECT, pet.getName(), price);
+                ctx.sendStrippedLocalized("commands.pet.clean.success", EmoteReference.CORRECT, pet.getName(), price);
             }
         });
 
