@@ -60,6 +60,7 @@ import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import net.kodehawa.mantarobot.utils.external.BotListPost;
 import okhttp3.Request;
+import okhttp3.Response;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -418,15 +419,17 @@ public class MantaroCore {
                 .url("https://discordapp.com/api/gateway/bot")
                 .header("Authorization", jda.getToken())
                 .build()
-        ).execute();
+        );
 
-        final var body = call.body();
-        if (body == null) {
-            return null;
+        try (Response response = call.execute()) {
+            final var body = response.body();
+            if (body == null) {
+                return null;
+            }
+
+            var json = body.string();
+            return JsonDataManager.fromJson(json, BotGateway.class);
         }
-
-        var json = body.string();
-        return JsonDataManager.fromJson(json, BotGateway.class);
     }
 
     private void startPostLoadProcedure(long elapsed) {
