@@ -396,11 +396,8 @@ public class MantaroCore {
         return Collections.unmodifiableCollection(shards.values());
     }
 
-    // Is this how it should be done?
     public void registerSlash(List<CommandData> data) {
-        for (var shard : getShards()) {
-            shard.getJDA().updateCommands().addCommands(data).queue();
-        }
+        getShard(0).getJDA().updateCommands().addCommands(data).queue();
     }
 
     private Set<Class<?>> lookForAnnotatedOn(String packageName, Class<? extends Annotation> annotation) {
