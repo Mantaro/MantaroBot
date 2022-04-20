@@ -23,6 +23,7 @@ import redis.clients.jedis.JedisPool;
 import java.awt.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 
 public class SlashContext implements IContext {
@@ -122,6 +123,19 @@ public class SlashContext implements IContext {
         }
     }
 
+    public void replyStripped(String source, Object... args) {
+        if (deferred) {
+            slash.getHook().sendMessage(i18n.get(source).formatted(args))
+                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .queue();
+        } else {
+            slash.deferReply()
+                    .setContent(i18n.get(source).formatted(args))
+                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .queue();
+        }
+    }
+
     public void replyEphemeral(String source, Object... args) {
         if (deferred) {
             slash.getHook().sendMessage(i18n.get(source).formatted(args)).queue();
@@ -132,12 +146,38 @@ public class SlashContext implements IContext {
         }
     }
 
+    public void replyEphemeralStripped(String source, Object... args) {
+        if (deferred) {
+            slash.getHook().sendMessage(i18n.get(source).formatted(args))
+                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .queue();
+        } else {
+            slash.deferReply(true)
+                    .setContent(i18n.get(source).formatted(args))
+                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .queue();
+        }
+    }
+
     public void reply(String text) {
         if (deferred) {
             slash.getHook().sendMessage(text).queue();
         } else {
             slash.deferReply()
                     .setContent(text)
+                    .queue();
+        }
+    }
+
+    public void replyStripped(String text) {
+        if (deferred) {
+            slash.getHook().sendMessage(text)
+                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .queue();
+        } else {
+            slash.deferReply()
+                    .setContent(text)
+                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                     .queue();
         }
     }
@@ -187,9 +227,37 @@ public class SlashContext implements IContext {
         slash.getHook().editOriginal(s).setEmbeds(Collections.emptyList()).queue();
     }
 
+    public void editStripped(String s) {
+        if (!slash.isAcknowledged()) {
+            slash.getHook().getInteraction().deferReply()
+                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .queue();
+        }
+
+        // Assume its stripped already? No stripped version.
+        slash.getHook().editOriginal(s)
+                .setEmbeds(Collections.emptyList())
+                .queue();
+    }
+
+
     public void edit(String s, Object... args) {
         if (!slash.isAcknowledged()) {
             slash.getHook().getInteraction().deferReply().queue();
+        }
+
+        slash.getHook().editOriginal(i18n.get(s).formatted(args))
+                .setEmbeds(Collections.emptyList())
+                .setActionRows()
+                .queue();
+    }
+
+    public void editStripped(String s, Object... args) {
+        if (!slash.isAcknowledged()) {
+            slash.getHook().getInteraction()
+                    .deferReply()
+                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .queue();
         }
 
         slash.getHook().editOriginal(i18n.get(s).formatted(args))
@@ -227,6 +295,11 @@ public class SlashContext implements IContext {
     }
 
     @Override
+    public void sendFormatStripped(String message, Object... format) {
+        replyStripped(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format));
+    }
+
+    @Override
     public void sendFormat(String message, Collection<ActionRow> actionRow, Object... format) {
         if (deferred) {
             slash.reply(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format))
@@ -243,6 +316,11 @@ public class SlashContext implements IContext {
     @Override
     public void send(String s) {
         reply(s);
+    }
+
+    @Override
+    public void sendStripped(String s) {
+        replyStripped(s);
     }
 
     @Override
@@ -270,6 +348,11 @@ public class SlashContext implements IContext {
     @Override
     public void sendLocalized(String s, Object... args) {
         reply(s, args);
+    }
+
+    @Override
+    public void sendLocalizedStripped(String s, Object... args) {
+        replyStripped(s, args);
     }
 
     @Override

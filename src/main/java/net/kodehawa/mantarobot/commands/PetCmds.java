@@ -186,7 +186,7 @@ public class PetCmds {
                     return;
                 }
 
-                ctx.reply("commands.pet.level.success",
+                ctx.replyStripped("commands.pet.level.success",
                         EmoteReference.ZAP, pet.getName(), pet.getLevel(), pet.getExperience(), pet.experienceToNextLevel()
                 );
             }
@@ -290,7 +290,7 @@ public class PetCmds {
                     return;
                 }
 
-                ctx.reply("commands.pet.check.success",
+                ctx.replyStripped("commands.pet.check.success",
                         pet.getName(), EmoteReference.DROPLET, pet.getThirst(),
                         EmoteReference.FORK, pet.getHunger(), EmoteReference.DUST, pet.getDust(), player.getData().getActiveChoice(marriage)
                 );
@@ -346,7 +346,7 @@ public class PetCmds {
                     player.saveUpdating();
                 }
 
-                ctx.reply(message, pet.getType().getEmoji(), pet.getName(), pet.getPatCounter(), extraMessage);
+                ctx.replyStripped(message, pet.getType().getEmoji(), pet.getName(), pet.getPatCounter(), extraMessage);
             }
         }
 
@@ -371,12 +371,12 @@ public class PetCmds {
                 }
 
                 if (player.getCurrentMoney() < price) {
-                    ctx.reply("commands.pet.clean.not_enough_money", EmoteReference.ERROR, price, pet.getName());
+                    ctx.replyStripped("commands.pet.clean.not_enough_money", EmoteReference.ERROR, price, pet.getName());
                     return;
                 }
 
                 if (pet.getDust() < 20) {
-                    ctx.reply("commands.pet.clean.not_dusty", EmoteReference.ERROR, pet.getName(), pet.getDust());
+                    ctx.replyStripped("commands.pet.clean.not_dusty", EmoteReference.ERROR, pet.getName(), pet.getDust());
                     return;
                 }
 
@@ -387,7 +387,7 @@ public class PetCmds {
                     marriage.saveUpdating();
                 }
 
-                ctx.reply("commands.pet.clean.success", EmoteReference.CORRECT, pet.getName(), price);
+                ctx.replyStripped("commands.pet.clean.success", EmoteReference.CORRECT, pet.getName(), price);
             }
         }
 
@@ -787,7 +787,7 @@ public class PetCmds {
                     player.saveUpdating();
                 }
 
-                ctx.reply("commands.pet.rename.success", EmoteReference.POPPER, oldName, newName, cost);
+                ctx.replyStripped("commands.pet.rename.success", EmoteReference.POPPER, oldName, newName, cost);
             }
         }
 
@@ -1055,7 +1055,7 @@ public class PetCmds {
                      languageContext.get("commands.pet.status.pet_in_other_category")
                             .formatted(EmoteReference.WARNING, Utils.capitalize(opposite.getLeft().toString()), oppositePet.getName());
 
-                ctx.reply(missing, EmoteReference.ERROR, petChoice.getReadableName(), extra);
+                ctx.replyStripped(missing, EmoteReference.ERROR, petChoice.getReadableName(), extra);
                 return null;
             }
 
@@ -1075,7 +1075,7 @@ public class PetCmds {
                         languageContext.get("commands.pet.status.pet_in_other_category")
                              .formatted(EmoteReference.WARNING, Utils.capitalize(opposite.getLeft().toString()), oppositePet.getName());
 
-                ctx.reply(missing, EmoteReference.ERROR, petChoice.getReadableName(), extra);
+                ctx.replyStripped(missing, EmoteReference.ERROR, petChoice.getReadableName(), extra);
                 return null;
             }
 

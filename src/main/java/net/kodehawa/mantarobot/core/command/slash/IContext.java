@@ -23,12 +23,15 @@ public interface IContext {
     UtilsContext getUtilsContext();
     I18nContext getLanguageContext();
     void send(String s);
+    void sendStripped(String s);
     void send(MessageEmbed e);
     void send(MessageEmbed e, ActionRow... actionRows);
     Message sendResult(String s);
     Message sendResult(MessageEmbed e);
     void sendLocalized(String s, Object... args);
+    void sendLocalizedStripped(String s, Object... args);
     void sendFormat(String message, Object... format);
+    void sendFormatStripped(String message, Object... format);
     void sendFormat(String message, Collection<ActionRow> actionRow, Object... format);
     ManagedDatabase db();
     Player getPlayer();
