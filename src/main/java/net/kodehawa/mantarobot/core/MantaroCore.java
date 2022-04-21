@@ -399,7 +399,9 @@ public class MantaroCore {
     }
 
     public void registerSlash(List<CommandData> data) {
-        getShard(0).getJDA().updateCommands().addCommands(data).queue();
+        if (MantaroBot.getInstance().isMasterNode()) {
+            getShard(0).getJDA().updateCommands().addCommands(data).queue();
+        }
     }
 
     private Set<Class<?>> lookForAnnotatedOn(String packageName, Class<? extends Annotation> annotation) {
