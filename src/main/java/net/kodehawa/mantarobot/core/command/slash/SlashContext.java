@@ -340,6 +340,7 @@ public class SlashContext implements IContext {
 
         return slash.getHook().sendMessageEmbeds(e).complete();
     }
+
     @Override
     public void send(MessageEmbed embed) {
         reply(embed);
@@ -386,6 +387,10 @@ public class SlashContext implements IContext {
 
     public UtilsContext getUtilsContext() {
         return new UtilsContext(getGuild(), getMember(), getChannel(), getLanguageContext(), slash);
+    }
+
+    public User retrieveUserById(String id) {
+        return slash.getJDA().retrieveUserById(id).complete();
     }
 
     public MantaroAudioManager getAudioManager() {

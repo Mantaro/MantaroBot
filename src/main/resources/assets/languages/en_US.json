@@ -681,7 +681,9 @@
         "success": "%1$sYou successfully opted out of the waifu system.",
         "cancelled": "%1$sCancelled opt-out operation.",
         "claim_notice": "%1$sThe user you're trying to claim opted out.",
-        "lookup_notice": "%1$sThe user you're trying to lookup opted out."
+        "lookup_notice": "%1$sThe user you're trying to lookup opted out.",
+        "yes_button": "Yes, I want to opt-out.",
+        "no_button": "No, take me back."
       },
       "header": "Waifu List",
       "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$,d waifus as of now.*\n\nIf you wish to check your waifu stats, use `/waifu stats`\n\n",
