@@ -715,7 +715,7 @@
       "brief_notice": "Você pode usar `~>inventory brief` para obter uma versão otimizada para celulares.",
       "sorted_by": " *(Classificado por: %1$s)*",
       "new_brief_notice": "Por favor use `~>inventory brief` ao invés disso.",
-      "new_calc_notice": "Please use `~>inventory calculate` instead."
+      "new_calc_notice": "Por favor use `~>inventory calculate` ao invés disso."
     },
     "cast": {
       "no_item_specified": "%1$sVocê não especificou item algum. Para uma lista, cheque `~>cast ls`",
