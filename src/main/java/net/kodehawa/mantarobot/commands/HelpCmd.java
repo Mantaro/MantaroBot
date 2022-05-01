@@ -325,7 +325,7 @@ public class HelpCmd {
             }
         });
 
-        // TODO: port: GameCmds (1), HelpCmd (1), CustomCmds (1), MusicCmds + MusicUtilCmds (20)
+        // TODO: port: GameCmds (1), HelpCmd (1), CustomCmds (1), MusicUtilCmds (5)
         // Note: How the heck am I gonna do GameCmds? Interactive stuff is hard now.
         // You know, leaving help for last is kinda funny.
         cr.registerAlias("slash",
@@ -335,7 +335,9 @@ public class HelpCmd {
                 "e621", "e926", "yandere", "konachan", "gelbooru", "safebooru", "rule34",
                 "iam", "iamnot", "8ball", "createpoll", "anime", "character", "poll", "coinflip",
                 "ratewaifu", "roll", "love", "birthday", "profile", "reputation", "equip",
-                "unequip", "badges", "activatekey", "premium", "transfer", "itemtransfer", "pet", "waifu"
+                "unequip", "badges", "activatekey", "premium", "transfer", "itemtransfer", "pet",
+                "waifu", "play", "shuffle", "np", "repeat", "skip", "stop", "ns", "volume", "forceplay",
+                "lyrics", "playnow"
         );
     }
 
@@ -361,7 +363,8 @@ public class HelpCmd {
 
         cr.registerAlias("slashalias",
                 "guildinfo", "me", "rep", "badge", "vipstatus", "give",
-                "transferitem", "transferitems"
+                "transferitem", "transferitems", "nowplaying", "p", "s", "q", "nexttrack",
+                "vol", "fp"
         );
     }
 }

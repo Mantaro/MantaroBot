@@ -29,6 +29,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.utils.MarkdownSanitizer;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -53,7 +54,7 @@ public class AudioCmdUtils {
     private static final Logger log = LoggerFactory.getLogger(AudioCmdUtils.class);
     private static final String icon = "https://i.imgur.com/FWKIR7N.png";
 
-    public static void embedForQueue(Context ctx, GuildMusicManager musicManager, I18nContext lang) {
+    public static void embedForQueue(SlashContext ctx, GuildMusicManager musicManager, I18nContext lang) {
         final var guild = ctx.getGuild();
         final var selfMember = ctx.getSelfMember();
         final var channel = ctx.getChannel();
@@ -88,7 +89,7 @@ public class AudioCmdUtils {
         }
 
         if (toSend.isEmpty()) {
-            channel.sendMessageEmbeds(new EmbedBuilder()
+            ctx.reply(new EmbedBuilder()
                     .setAuthor(
                             String.format(lang.get("commands.music_general.queue.header"), guild.getName()),
                             null, guild.getIconUrl()
@@ -100,7 +101,7 @@ public class AudioCmdUtils {
                     )
                     .addField(EmoteReference.SATELLITE.toHeaderString() + lang.get("commands.music_general.queue.np"), nowPlaying, false)
                     .setThumbnail(icon).build()
-            ).queue();
+            );
 
             return;
         }
@@ -155,7 +156,7 @@ public class AudioCmdUtils {
 
         // Too long otherwise, so substract 800 from TEXT_MAX_LENGTH
         var split = DiscordUtils.divideString(MessageEmbed.TEXT_MAX_LENGTH - 800, toSend);
-        DiscordUtils.listButtons(ctx, 150, supplier, split);
+        DiscordUtils.listButtons(ctx.getUtilsContext(), 150, supplier, split);
     }
 
     public static CompletionStage<Void> openAudioConnection(GuildMessageReceivedEvent event, JdaLink link,

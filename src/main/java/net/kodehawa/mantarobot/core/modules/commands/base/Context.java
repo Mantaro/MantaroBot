@@ -285,6 +285,13 @@ public class Context implements IContext {
         ).queue();
     }
 
+    @Override
+    public void sendFormatStripped(String message, Object... format) {
+        getChannel().sendMessage(
+                String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format)
+        ).allowedMentions(EnumSet.noneOf(Message.MentionType.class)).queue();
+    }
+
     public void sendFormat(String message, Collection<ActionRow> actionRow, Object... format) {
         getChannel().sendMessage(
                 String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format)
@@ -310,6 +317,13 @@ public class Context implements IContext {
         getChannel().sendMessage(
                 String.format(Utils.getLocaleFromLanguage(getLanguageContext()), languageContext.get(localizedMessage), args)
         ).queue(success -> {}, Throwable::printStackTrace);
+    }
+
+    @Override
+    public void sendLocalizedStripped(String s, Object... args) {
+        getChannel().sendMessage(languageContext.get(s).formatted(args))
+                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                .queue();
     }
 
     public void sendLocalized(String localizedMessage, Collection<ActionRow> actionRow, Object... args) {

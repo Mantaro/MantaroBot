@@ -494,7 +494,7 @@ public class DiscordUtils {
         }, "\u2b05", "\u27a1", "\u274c");
     }
 
-    public static Future<Void> listButtons(Context ctx, int timeoutSeconds, int length,
+    public static Future<Void> listButtons(UtilsContext ctx, int timeoutSeconds, int length,
                                     IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
 
         if (parts.length == 0) {
@@ -650,12 +650,12 @@ public class DiscordUtils {
         }, DEFAULT_COMPONENTS_FIRST);
     }
 
-    public static Future<Void> listButtons(Context ctx, int timeoutSeconds, int length,
+    public static Future<Void> listButtons(UtilsContext ctx, int timeoutSeconds, int length,
                                     IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
         return listButtons(ctx, timeoutSeconds, length, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
     }
 
-    public static Future<Void> listButtons(Context ctx, int timeoutSeconds,
+    public static Future<Void> listButtons(UtilsContext ctx, int timeoutSeconds,
                                     IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
         // Passing an empty String[] array to List#toArray makes it convert to a array of strings, god knows why.
         // Javadoc below just so I don't forget:

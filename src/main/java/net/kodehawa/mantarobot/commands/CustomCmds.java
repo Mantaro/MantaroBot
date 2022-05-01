@@ -239,7 +239,7 @@ public class CustomCmds {
                                 ctx.getAuthor().getEffectiveAvatarUrl()
                         );
 
-                DiscordUtils.listButtons(ctx, 120, 900,
+                DiscordUtils.listButtons(ctx.getUtilsContext(), 120, 900,
                         (p, total) -> builder.setFooter(String.format("Commands: %,d | Total Pages: %s | Current: %s", commands.size(), total, p)), cmds
                 );
             }
