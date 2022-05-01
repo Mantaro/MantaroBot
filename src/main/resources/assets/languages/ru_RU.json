@@ -304,7 +304,7 @@
       "header": "Сейчас играет"
     },
     "pause": {
-      "paused": "Воспроизведение приостановлено. *(Плеер был снят с паузы)*",
+      "paused": "Player paused. *(Player was un-paused previously)*",
       "unpaused": "Player un-paused. *(Player was paused previously)*"
     },
     "rewind": {
@@ -715,7 +715,7 @@
       "brief_notice": "You can use `~>inventory brief` to get a mobile friendly version.",
       "sorted_by": " *(sorted by: %1$s)*",
       "new_brief_notice": "Please use `~>inventory brief` instead.",
-      "new_calc_notice": "Please use `~>inventory calc` instead."
+      "new_calc_notice": "Please use `~>inventory calculate` instead."
     },
     "cast": {
       "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
@@ -777,20 +777,20 @@
       },
       "buy": {
         "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
-        "no_item": "%1$sYou need to specify the item to buy.",
+        "no_item": "%1$sВам нужно указать предмет для покупки.",
         "no_item_amount": "%1$sВы не указали количество предметов (если он один, то вам не нужно указывать цифру) и предмет который желаете приобрести.",
         "invalid": "%1$sНедопустимое количество предметов для покупки.",
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
         "no_buy_price": "%1$sВы не можете купить этот предмет.",
         "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
         "success": "%1$sУспешно куплены %2$,d %3$s за %4$,d кредитов. У вас осталось %5$,d кредитов.",
-        "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
-        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `~>useitem <item name>`",
+        "success_breakable": "%1$sВы успешно купили %2$,d %3$s за %4$,d кредитов. Теперь у вас осталось %5$,d кредитов. Вы можете экипировать этот предмет, используя `~>equip <item name>`",
+        "success_potion": "%1$sВы успешно купили %2$,d %3$s за %4$,d кредитов. Теперь у вас осталось %5$,d кредитов. Вы можете использовать это зелье или бафф, используя `~>useitem <item name>`",
         "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits.",
-        "success_breakable_upgrade": "You can check <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> for more information on how to upgrade your tools!"
+        "success_breakable_upgrade": "Вы можете проверить <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> для получения дополнительной информации о том, как улучшить свои инструменты!"
       },
       "header": "Магазин Mantaro",
-      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>` respectively. Check `~>help market` for more info.",
+      "reference": "\nВы можете покупать и продавать предметы, используя `~>buy <item>` и `~>sell <item>` соответственно. Проверьте `~>help market` для получения дополнительной информации.",
       "sell_price": "- **Цена Продажи:**",
       "buy_price": "- **Цена Покупки:**"
     },
@@ -799,16 +799,16 @@
       "bot_notice": "%1$sВы не можете передать предмет боту.",
       "locked_notice": "%1$sВы не можете передать этот предмет. (Заблокировано)",
       "hidden_item": "%1$sВы не можете передать этот предмет!",
-      "overflow": "%1$sThis player has the maximum amount (5000) of this item.",
-      "overflow_after": "%1$sAfter transferring the item, the player would have more than the maximum amount (5000) of this item.",
+      "overflow": "%1$sЭтот игрок имеет максимальное количество (5000) этого предмета.",
+      "overflow_after": "%1$sПосле передачи предмета у игрока будет больше максимальной суммы (5000) этого предмета.",
       "success": "%1$s%2$s передает **%3$s** **%4$s** пользователю %5$s",
       "multiple_items_error": "%1$sУ вас нет этих предметов в инвентаре",
       "error": "%1$sУ вас недостаточно этого предмета в инвентаре!",
-      "no_item_mention": "%1$sYou need to specify the person to transfer the item to and the item to transfer."
+      "no_item_mention": "%1$sВам необходимо указать человека, которому будет передан предмет."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
+      "new_account_notice_yourself": "%1$sВашему аккаунту должно быть не менее 14 дней для перевода денег.",
+      "new_account_notice_other": "%1$sАккаунту, на который вы переводите, должно быть не менее 14 дней.",
       "transfer_yourself_note": "%1$sВы не можете передать деньги самому себе.",
       "bot_notice": "%1$sВы не можете передать деньги боту.",
       "no_amount": "%1$sYou need to specify the amount. Use the `~>transferitems` command instead if you meant to transfer an item.",
@@ -817,12 +817,12 @@
       "own_locked_notice": "%1$sНа данный момент вы не можете совершать переводы.",
       "receipt_overflow_notice": "Не могу передать деньги этому пользователю.",
       "no_money_notice": "%1$sВы не можете перевести деньги, которых у вас нет.",
-      "receipt_locked_notice": "%1$sThat user cannot receive money now.",
+      "receipt_locked_notice": "%1$sЭтот пользователь не может получить деньги сейчас.",
       "receipt_over_limit": "%1$sУ этого пользователя уже слишком много денег...",
       "success": "%1$sПереведено **%2$d** *(%3$d вычтено 8%%)* пользователю **%4$s** успешно.",
-      "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
-      "party": "You can only transfer to the same person (%1$s) once every 10 minutes.",
-      "blacklisted_transfer": "%1$sYou can't transfer to blacklisted users."
+      "item_transfer": "%1$sВы не можете передавать предметы, используя transfer, вместо этого используйте команду `~>transferitems`.",
+      "party": "Вы можете переводить одному и тому же человеку (%1$s) только один раз в 10 минут.",
+      "blacklisted_transfer": "%1$sВы не можете переводить пользователям, занесенным в черный список."
     },
     "useitem": {
       "ls": {
@@ -863,8 +863,8 @@
       "deleted_role": "%1$sРоль которая была авто-выдаваемой, была удалена",
       "already_assigned": "%1$sУ тебя уже есть данная роль, дурашка!",
       "success": "%1$s%2$s, вам выдана роль **%3$s**",
-      "error": "%1$sI couldn't take **%2$s** from you. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the specified name.",
+      "error": "%1$sЯ не могу снять с вас роль **%2$s**. Убедитесь, что у меня есть разрешение на добавление ролей (Управление ролями) и что моя роль выше **%2$s**",
+      "no_role": "%1$sАвтоматической роли с указанным именем не существует.",
       "no_iam": "%1$sВы не указали роль, которую нужно выдать себе!"
     },
     "iamnot": {
@@ -906,7 +906,7 @@
         "clear_success": "%1$sОписание вашего профиля очищено."
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge! For example, `~>profile displaybadge claimer`",
+        "not_specified": "%1$sВам необходимо указать свой основной значок! Например, `~>profile displaybadge claimer`",
         "reset_success": "%1$sЗначки больше не будут отображаться в вашем профиле!",
         "important_success": "%1$sОтображаемый значок включен.",
         "no_such_badge": "%1$sУ вас нет такого значка...\nДоступные вам значки: %2$s",
@@ -929,7 +929,7 @@
       },
       "pet": {
         "header": "Active Pet",
-        "none": "No active pet"
+        "none": "Нет активного питомца"
       },
       "stats": {
         "header": "Статистика профиля %1$s",
@@ -943,7 +943,7 @@
         "mine_xp": "Опыт Шахтёрства",
         "fish_xp": "Опыт Рыбалки",
         "chop_xp": "Chopping Experience",
-        "activity_xp": "Activity Experience",
+        "activity_xp": "Опыт Активности",
         "sharks_caught": "Акул Поймано",
         "crates_open": "Контейнеров Открыто",
         "times_mop": "Раз Вытерто",
@@ -1003,7 +1003,7 @@
         "disable": "%1$sУспешно отключёна авто-экипировка.",
         "success": "%1$sВключена авто-экипировка."
       },
-      "badge_header": "%1$s Display Badge",
+      "badge_header": "%1$sОтображаемые Значки",
       "bot_notice": "%1$sУ ботов нет профиля.",
       "header": "Профиль %1$s's",
       "no_desc": "No description set. You can set one with `~>profile description`",
@@ -1015,8 +1015,8 @@
       "birthday": "День рождения",
       "married": "В браке с",
       "nobody": "Никого",
-      "inventory": "Item Collection (Top 10)",
-      "badges": "Badge Collection (Top 5)",
+      "inventory": "Коллекция Предметов (Топ 10)",
+      "badges": "Коллекция Значков (Топ 5)",
       "no_badges": "Нет значков (yet!)",
       "no_timezone": "Не установлен",
       "timezone_user": "Пользовательский часовой пояс: %1$s",
@@ -1094,7 +1094,7 @@
       "no_time_arg": "%1$sYou didn't give me a time on the `-time` argument.",
       "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `~>remindme 1m do the dishes`)",
       "too_long": "That's too much time... (Maximum: 180 days)",
-      "success": "%1$sЯ напомню тебе (%2$s#%3$s) об этом: `%4$s` в %5$s",
+      "success": "%1$sЯ напомню тебе (%2$s#%3$s) об этом: `%4$s` через %5$s",
       "too_many_reminders": "%1$sУ вас слишком много напоминаний! Попробуйте отменить несколько?"
     },
     "time": {

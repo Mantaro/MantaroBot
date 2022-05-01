@@ -1,13 +1,13 @@
 {
   "general": {
-    "invalid_number": "%1$s Ce n'est pas un nombre valide !",
+    "invalid_number": "%1$sCe n'est pas un nombre valide !",
     "requested_by": "Demandé par %1$s.",
     "operation_timed_out": "%1$sLe temps de réponse à cette question est épuisé.",
     "too_many_users_found": "%1$s Trop d'utilisateurs trouvés, essaie d'affiner ta recherche peut-être ? (Ex. utilise le nom#discriminateur)\n**utilisateurs trouvés:** %2$s",
     "search_no_result": "%1$sTa recherche n'a donné aucun résultat :(",
     "unknown": "inconnu",
     "days": "jours",
-    "none": "aucun",
+    "none": "Aucun",
     "now": "maintenant",
     "hourly": "Horaire",
     "daily": "Quotidien",
@@ -53,7 +53,7 @@
       "potion_applied_multiple": "%1$sEffet **%2$s** du type *%3$s* appliqué avec succès.\nTu l'avais déjà nous les avons donc additionné. Nombre d'effets accumulés : %4$s",
       "max_stack_size": "%1$sTu as déjà regroupé le maximum de %2$s que possible. (Maximum: 15, Après regroupement: %3$s)",
       "max_stack_size_2": "%1$sTu ne peux pas regrouper autant de %2$s. (Maximum: 15, Tentative: %3$s)",
-      "not_same_potion": "%1$sTu as déjà accumulé 2 potions de type %2$s, tu ne peux donc pas y ajouter un potion de %3$s."
+      "not_same_potion": "%1$sTu as déjà accumulé 2 potions de type %2$s, tu ne peux donc pas y ajouter une potion de %3$s."
     },
     "campaigns": {
       "premium": {
@@ -110,7 +110,7 @@
       " Tu peux ralentir un peu ?"
     ],
     "mod_quotes": [
-      "Uh-oh, on dirait que quelqu'un vient de recevoir un gros coup! ",
+      "Uh-oh, on dirait que quelqu'un vient de recevoir un gros coup ! ",
       " C'est juste un travail administratif normal ... ",
       " Le boot a été lancé ! ",
       " Tu vas nous manquer ... pas vraiment en fait ",
@@ -400,7 +400,7 @@
       "none": "Il n'y a pas de préfixe personnalisé défini sur ce serveur."
     },
     "custom": {
-      "custom_notice": "This is a custom command.",
+      "custom_notice": "Ceci est une commande personnalisée.",
       "no_args": "%1$sTu dois préciser ce que tu veux faire avec cette commande. Consultes l'aide de la commande pour plus d'infos.!",
       "incorrect_args": "%1$sArguments incorrects. Regarde `~>help custom` ou sur https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands pour obtenir d'avantage d'aide sur comment utiliser cette commande. Si tu rencontres d'autres problèmes après avoir lu wiki, consultes <https://support.mantaro.site>",
       "error_running": "%1$sErreur lors de l'exécution de la commande personnalisée ... Vérifies le contenu et la longueur de la réponse (elle ne peut pas dépasser 2000 caractères)..",
@@ -707,15 +707,15 @@
     },
     "inventory": {
       "bot_notice": "%1$sIci, les bots n'ont pas d'inventaire. Eh bien, quelquefois tu peux souhaiter qu'ils en aient un mais alors ça serait seulement `~>dump`",
-      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory`. Enjoy your day!*",
+      "brief": "**Inventaire de %1$s** %2$s\n\n*Pour une version détaillée, utilise la commande `~>inventory -info`. Bonne journée !*",
       "calculate": "%1$s%2$s recevra **%3$,d crédits** si tous les objets sont vendus.",
       "header": "inventaire de %1$s",
-      "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
+      "format": "%1$sPrix:%2$s📥%3$,d %4$s📤%5$,d\n%6$s%7$s",
       "empty": "%1$sCet inventaire est vide! :(",
-      "brief_notice": "You can use `~>inventory brief` to get a mobile friendly version.",
+      "brief_notice": "Tu peux utiliser `~>inventory brief` pour avoir une version adaptée aux mobiles.",
       "sorted_by": " *(classé par: %1$s)*",
-      "new_brief_notice": "Please use `~>inventory brief` instead.",
-      "new_calc_notice": "Please use `~>inventory calc` instead."
+      "new_brief_notice": "Utilise `~>inventory brief` à la place.",
+      "new_calc_notice": "Please use `~>inventory calculate` instead."
     },
     "cast": {
       "no_item_specified": "%1$sTu n'as spécifié aucun objet. Pour avoir la liste complète, utilise `~>cast ls`",
@@ -811,7 +811,7 @@
       "new_account_notice_other": "%1$sLe compte sur lequel tu transfères doit avoir au moins 14 jours d'ancienneté.",
       "transfer_yourself_note": "%1$sTu ne peux pas t'envoyer de l'argent à toi-même.",
       "bot_notice": "%1$sTu ne peux pas envoyer de l'argent à un bot.",
-      "no_amount": "%1$sYou need to specify the amount. Use the `~>transferitems` command instead if you meant to transfer an item.",
+      "no_amount": "%1$sTu dois spécifier le montant. Utilise plutôt la commande `~>transferitems` si tu veux transférer un objet.",
       "no_money_specified_notice": "%1$sTu ne peux pas transférer d'argent :P",
       "over_transfer_limit": "%1$sTu ne peux pas envoyer autant d'argent. (Limite : %2$,d crédits)",
       "own_locked_notice": "%1$sTu ne peux pas transférer d'argent pour le moment.",
@@ -1380,7 +1380,7 @@
         "footer": "Merci d'utiliser Mantaro! <3"
       },
       "check": {
-        "success": "**Pet status for %1$s:**\n\n%2$s Thirst: **%3$s / 100** | %4$s Hunger: **%5$s / 100** | %6$s Dust: **%7$s%%** | Choice: **%8$s**"
+        "success": "**Statut de %1$s:**\n%2$s Soif: **%3$s / 100** | %4$s Faim: **%5$s / 100** | %6$s Poussière: **%7$s%%** | Choix: **%8$s**"
       },
       "clean": {
         "not_enough_money": "%1$sTu as besoin d'au moins %2$,d crédits pour nettoyer **%3$s**.",
@@ -1395,7 +1395,7 @@
         "success": "%1$sTon choix a bien été pris en compte. Ton lien à ton animal est désormais: %2$s %3$s"
       },
       "level": {
-        "no_pet": "%1$sYou don't have any pets to check the level of. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sTu n'as pas d'animaux à surveiller. Fais la commande `~>pet` pour plus d'explications. (Lien: %2$s)%3$s",
         "success": "%1$sNiveau de **%2$s**: **%3$,d** (%4$,d XP / %5$,d XP)"
       },
       "list": {
@@ -1460,14 +1460,14 @@
         "low_mood": "%1$s**%2$s** déprime un peu. Tu voudrais peut-être jouer avec?!",
         "dusty": "%1$s**%2$s** est trop sale. Toilette ton animal de compagnie pour enlever la poussière.",
         "success_fish": "%1$s**%2$s** t'a aidé à pêcher avec succès! **Tu as eu %3$,d crédits en plus et %4$,d objets** grâce au travail supplémentaire que ton animal a pu faire pour toi! *inclus dans ce que tu as obtenu*",
-        "success_chop": "%1$s**%2$s** successfully helped you chop a tree! **You got an extra %3$,d credits and %4$,d items** thanks to the extra work your pet was able to do for you! *included on what you got*",
-        "success_mine": "%1$s**%2$s** successfully helped you mine! **You got an extra %3$,d credits and more item drop chances** thanks to the extra work your pet was able to do for you! *included on what you got*"
+        "success_chop": "%1$s**%2$s** vous a aidé à couper l'arbre avec succès ! ** Vous avez reçu %3$,d crédits en extra et %4$,d items** grâce au travail supplémentaire que votre animal de compagnie a pu faire pour vous ! *inclus sur ce que vous avez reçu*",
+        "success_mine": "%1$s**%2$s** vous a aidé à miner avec succès ! **Vous avez reçu %3$,d crédits en extra et plus de chances d'avoir des objets** grâce au travail supplémentaire que votre animal de compagnie a pu faire pour vous ! *inclus dans ce que vous avez reçu*"
       },
       "rename": {
         "no_pet": "%1$sTu n'as pas d'animal à renommer. (Lien: %2$s)%3$s",
         "same_name": "%1$sCe nom est le même que celui qu'il a déjà.",
         "no_content": "%1$sTu dois me donner le nouveau nom de ton animal de compagnie.",
-        "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2$s, Current: %3$s.",
+        "not_enough_money": "%1$sTu n'as pas assez d'argent pour faire ça. Cout: %2$s, possédé: %3$s.",
         "success": "%1$sJ'ai bien renommé ton animal de `%2$s` pour `%3$s`. %4$s a été déduit de ton portefeuille. Profite!"
       },
       "remove": {
@@ -1611,7 +1611,7 @@
         "no_help": "%1$sIl n'y a pas d'aide supplémentaire implémentée pour cette commande.",
         "not_found": "%1$sUne commande de ce nom n'existe pas"
       },
-      "too_long": "Error displaying sub-command help. Check the [wiki](https://github.com/Mantaro/MantaroBot/wiki) for more information on this specific command."
+      "too_long": "Erreur survenue en tentant d'afficher la sous-commande d'aide. Va voir le [wiki](https://github.com/Mantaro/MantaroBot/wiki) pour plus d'infos sur cette commande en particulier."
     },
     "repair": {
       "no_item": "%1$sTu n'as spécifié aucun objet à réparer. Si tu penses avoir mentionné le bon objet, essaie avec son nom complet.",
@@ -1746,7 +1746,7 @@
       "success": "%1$sTu as miné des minerais valant **$%2$,d crédits** avec ta *%3$s*",
       "reminder": "\nTu peux fabriquer de meilleures pioches en utilisant les gemmes obtenues en minant. Tu peux trouver la liste des objet fabricables avec `~>cast ls`. Pour le guide complet des améliorations d'outils, ça se passe ici: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> (Attention, c'est en anglais)",
       "diamond": {
-        "overflow": "Huh, you found %1$,d diamond(s) while mining, but you already had too much, so I sold them for you.",
+        "overflow": "Huh, Tu as trouvé %1$,d diamant.s mais tu en avais déjà trop donc j'ai fait une vente pour toi.",
         "success": "Huh! Quelle chance, tu as trouvé un diamant en minant ! Regarde dans ton inventaire !"
       },
       "gem": {
@@ -2090,20 +2090,20 @@
       "success": "%1$sLe message d' au revoir a été réinitialisé."
     },
     "usermessage_joinmessage_test": {
-      "success": "%1$sSent test join message.",
-      "error_missing_mention": "%1$sYou need to mention a member to test this with.",
-      "error_text_missing": "%1$sYou haven't set a join message.",
-      "error_channel_perms": "%1$sI can't send messages on your join channel.",
-      "error_no_channel": "%1$sYou have no join channel set.",
-      "error_channel_missing": "%1$sThe join channel you set is not existent on this server. Please set another channel."
+      "success": "%1$sMessage d'adhésion test envoyé.",
+      "error_missing_mention": "%1$sVous devez mentionner un membre pour pouvoir tester ceci.",
+      "error_text_missing": "%1$sVous n'avez pas défini de message d'adhésion.",
+      "error_channel_perms": "%1$sJe ne peux pas envoyer de messages dans votre salon d'adhésion.",
+      "error_no_channel": "%1$sVous n'avez pas défini de salon d'adhésion.",
+      "error_channel_missing": "%1$sLe salon d'adhésion que vous avez défini n'existe pas sur ce serveur. Veuillez définir un autre salon."
     },
     "usermessage_leavemessage_test": {
-      "success": "%1$sSent test leave message.",
-      "error_missing_mention": "%1$sYou need to mention a member to test this with.",
-      "error_text_missing": "%1$sYou haven't set a leave message.",
-      "error_channel_perms": "%1$sI can't send messages on your leave channel.",
-      "error_no_channel": "%1$sYou have no leave channel set.",
-      "error_channel_missing": "%1$sThe leave channel you set is not existent on this server. Please set another channel."
+      "success": "%1$sMessage test de départ envoyer.",
+      "error_missing_mention": "%1$sVous devez mentionner un membre pour pouvoir tester ceci.",
+      "error_text_missing": "%1$sVous n'avez pas défini de message de départ.",
+      "error_channel_perms": "%1$sJe ne peux pas envoyer de message dans votre salon de départ.",
+      "error_no_channel": "%1$sVous n'avez pas de salon de départ défini.",
+      "error_channel_missing": "%1$sLe salon de départ que vous avez défini n'existe pas sur ce serveur. Veuillez définir un autre salon."
     },
     "autoroles_add": {
       "too_long": "%1$sLe rôle automatique doit comporter au maximum 40 caractères.",
@@ -2200,8 +2200,8 @@
       "no_bd_role": "%1$sTu n'as pas défini de rôle pour le programme d'anniversaires! Assure-toi d'en avoir créé un nouveau.",
       "no_talk_permission": "%1$sLe bot ne peut pas parler dans le salon d'anniversaires, vérifie les permissions.",
       "cannot_interact": "%1$sLe bot ne peut pas interagir avec le rôle anniversaire. (Parce qu'il est plus haut que son plus haut rôle ou parce qu'il n'a pas la permission de Gérer les rôles.)",
-      "no_role_permission": "%1$sThe bot is missing the Manage Roles permission.",
-      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role **%4$s**\nKeep in mind the birthday testing message won't ping anyone nor any roles. The actual message can ping users and roles, but can't ping everyone or here.",
+      "no_role_permission": "%1$sLe bot n'a pas la permission de Gérer les rôles.",
+      "success": "%1$sFait! Le message a été envoyé dans le salon %2$s pour **%3$s**. Ces personnes ont reçu le rôle **%4$s**\nGarde à l'esprit que le message test ne mentionnera ni rôles ni personne. Le vrai message peut mentionner des personnes et des rôles mais pas everyone ou here.",
       "error": "%1$sOw... Il y a eu une erreur en envoyant le message dans %2$s pour **%3$s** avec le rôle %4$s"
     },
     "usermessage_joinmessage_add": {
@@ -2286,11 +2286,11 @@
       }
     },
     "imageboard_disableexplicit": {
-      "success": "%1$sDisabled explicit/questionable imageboard searches regardless of channel type."
+      "success": "%1$sLes recherches d'images explicites/questionnables sont désactivées peu importe le type de salon."
     },
     "imageboard_enableexplicit": {
-      "already_enabled": "%1$sExplicit/questionable imageboard searches are already enabled. Keep in mind they only work in NSFW channels.",
-      "success": "%1$sRe-enabled explicit/questionable imageboard searches."
+      "already_enabled": "%1$sLes recherches d'images explicites/questionnables sont déjà activées. N'oublie pas qu'elles ne fonctionnent que dans les salons NSFW.",
+      "success": "%1$sLes recherches d'images explicites/questionnables sont réactivées."
     },
     "lobby": {
       "disable": {
@@ -2431,7 +2431,7 @@
     "tv": "Télévision",
     "wrench": "Clé anglaise",
     "star_wrench": "Clé anglaise des étoiles",
-    "comet_wrench": "Comet Wrench",
+    "comet_wrench": "Clé de comète",
     "sparkle_wrench": "Clé anglaise scintillante",
     "motorcycle": "Moto",
     "comet_pick": "Pioche en comète",
@@ -2497,11 +2497,11 @@
     "broken_hellfire_axe": "Hache des enfers endommagée",
     "broken_hellfire_rod": "Canne des enfers endommagée",
     "explanation": {
-      "pick": "A normal pickaxe you bought on the local market. Seems sturdy enough to mine some stuff.",
-      "diamond_pick": "A diamond pick is definitely stronger than the market-bought iron picks I could get on the market, that's for sure!",
+      "pick": "Une pioche normale que tu as achetée au magasin du coin. Elle à l'air assez solide pour miner quelques trucs.",
+      "diamond_pick": "Une pioche en diamant est définitivement plus solide que ta pioche en fer que je trouverais au magasin du coin, c'est certain !",
       "comet_pick": "You found some Comet Fragments and realized you could make a Comet Gem out of them.\nWhat did they do? Were they special?\nYou seemed eager to try it out after being impressed by its glow, so here we are, in your first step towards getting stronger picks.",
       "star_pick": "Maybe it was the glow, maybe it was the fact they came from a star far away in the galaxy, but it seemed to make for quite a sturdy pick with special properties.\nWeird... it seems to attract more gems. Is it the effect of the material, or is it my skill getting better?",
-      "moon_pick": "The moon-like substance mesmerized you.\nWas it the fact it glowed like a full moon, or was it the fact it seemed to float on its own?\nRegardless, you tried to fuse this with your current pick, and the result was quite satisfactory.\nSeems to be a good balance between light and dark, and somehow I mine some gems with it.\nIs this really a fragment from a far away moon?",
+      "moon_pick": "La substance semblable à la lune t'a hypnotisé.e.\nÉtait-ce le fait qu'elle brille comme la lune, ou le fait qu'elle semble flotter par elle-même?\nTu as quand même essayé de fusionner cette substance avec ta pioche, et le résultat est satisfaisant.\nÇa semble être un bon équilibre entre la lumière et l'obscurité et d'une manière ou d'une autre, j'ai miné des gemmes avec elle.\nEst-ce vraiment un morceau d'une lune lointaine?",
       "sparkle_pick": "Something made you look up into the caverns, and you found a sparkly gem on top. Looking up, some fell onto your pick, and it made the pick shine enough to light up the entire cavern.\nQuickly, you grab some of the sparkly fragments and get a casting station.\nThe pick glows bright like the sun... and it seems pretty tough too... how did it fuse so well with iron?",
       "hellfire_pick": "Reactions between all the elements can be a weird and dangerous process.\nRegardless of what your friends told you, you decided to research this topic, and came up with an object brighter than anything you've ever seen...\nIt seems to be a mix of all the other elements, but it seems quite reactive... it's also quite tough, not much seems to be able to break it...\nHave I done good for this world, or have I brought the unknown to life?",
       "axe": "A normal axe you bought on the local market. Good enough to chop some trees down.",
@@ -2581,7 +2581,7 @@
       "diamond_pick": "Une pioche une peu plus solide.",
       "tv": "Doit... regarder... la... Télé...",
       "wrench": "Outil de moulage. Utile pour fabriquer des trucs.",
-      "comet_wrench": "Casting tool. Useful to put stuff together. A little less chance of breaking, needed to cast some items. Tier 3.",
+      "comet_wrench": "Outil de moulage. Utile pour fabriquer des trucs. Résistante et nécessaire pour fabriquer certains objets. Tier 3.",
       "star_wrench": "Outil de moulage. Utile pour fabriquer des trucs. Plus résistante et nécessaire pour fabriquer plusieurs objets à la fois. Tier 3.",
       "sparkle_wrench": "Outil de moulage. Utile pour fabriquer des trucs. Plus résistante et réduit le cout de fabrication. Tier 4.",
       "motorcycle": "Pour se promener, d'une façon stylée.",
@@ -2650,21 +2650,21 @@
     }
   },
   "time": {
-    "day": "day",
-    "days": "days",
-    "week": "week",
-    "weeks": "weeks",
-    "month": "month",
-    "months": "months",
-    "year": "year",
-    "years": "years",
-    "hour": "hour",
-    "hours": "hours",
+    "day": "jour",
+    "days": "jours",
+    "week": "semaine",
+    "weeks": "semaines",
+    "month": "mois",
+    "months": "mois",
+    "year": "an",
+    "years": "ans",
+    "hour": "heure",
+    "hours": "heures",
     "minute": "minute",
     "minutes": "minutes",
-    "second": "second",
-    "seconds": "seconds",
-    "little": "less than a second"
+    "second": "seconde",
+    "seconds": "secondes",
+    "little": "moins d'une seconde"
   },
   "test": {
     "inherited": "owo"
