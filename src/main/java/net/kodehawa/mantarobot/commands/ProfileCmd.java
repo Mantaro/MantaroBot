@@ -158,7 +158,7 @@ public class ProfileCmd {
                 // Requires a valid Member in Mantaro Hub.
                 if (mhMember != null) {
                     // Admin
-                    if (containsRole(mhMember, 315910951994130432L, 642089477828902912L)) {
+                    if (containsRole(mhMember, 315910951994130432L)) {
                         playerData.addBadgeIfAbsent(Badge.COMMUNITY_ADMIN);
                     }
 
