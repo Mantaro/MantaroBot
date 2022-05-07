@@ -544,7 +544,7 @@ public class MusicCmds {
     }
 
     private static void sendNotConnectedToMyChannel(SlashContext ctx) {
-        ctx.reply("commands.music_general.not_connected", EmoteReference.ERROR);
+        ctx.edit("commands.music_general.not_connected", EmoteReference.ERROR);
     }
 
     /**
@@ -566,7 +566,7 @@ public class MusicCmds {
             trackScheduler.getQueue().clear();
 
             if (TEMP_QUEUE_LENGTH > 0) {
-                ctx.reply("commands.stop.cleanup", EmoteReference.OK, TEMP_QUEUE_LENGTH);
+                ctx.edit("commands.stop.cleanup", EmoteReference.OK, TEMP_QUEUE_LENGTH);
             }
 
             // This ends up calling TrackScheduler#onTrackStart -> currentTrack == null -> TrackScheduler#onStop!
@@ -616,7 +616,7 @@ public class MusicCmds {
             if (selfVoiceState != null && selfVoiceState.inVoiceChannel())
                 log.error("Possible bug? No player even though bot is connected to a channel!", e);
 
-            ctx.reply("commands.music_general.no_player", EmoteReference.ERROR);
+            ctx.edit("commands.music_general.no_player", EmoteReference.ERROR);
             return true; // No player to stop/change?
         }
     }
