@@ -26,6 +26,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -43,18 +44,17 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
 
 public class AudioLoader implements AudioLoadResultHandler {
-
     private static final int MAX_QUEUE_LENGTH = 350;
     private static final long MAX_SONG_LENGTH = TimeUnit.HOURS.toMillis(2);
     private static final ManagedDatabase db = MantaroData.db();
-    private final GuildMessageReceivedEvent event;
+    private final SlashContext event;
     private final boolean insertFirst;
     private final GuildMusicManager musicManager;
     private final boolean skipSelection;
     private final I18n language;
     private int failureCount = 0;
 
-    public AudioLoader(GuildMusicManager musicManager, GuildMessageReceivedEvent event, boolean skipSelection, boolean insertFirst) {
+    public AudioLoader(GuildMusicManager musicManager, SlashContext event, boolean skipSelection, boolean insertFirst) {
         this.musicManager = musicManager;
         this.event = event;
         this.skipSelection = skipSelection;
@@ -94,18 +94,12 @@ public class AudioLoader implements AudioLoadResultHandler {
                     if (count <= guildData.getMusicQueueSizeLimit()) {
                         loadSingle(track, true, dbGuild, user);
                     } else {
-                        event.getChannel().sendMessageFormat(
-                                i18nContext.get("commands.music_general.loader.over_limit"),
-                                EmoteReference.WARNING, guildData.getMusicQueueSizeLimit()
-                        ).queue();
+                        event.edit("commands.music_general.loader.over_limit", EmoteReference.WARNING, guildData.getMusicQueueSizeLimit());
                         break;
                     }
                 } else {
                     if (count >= MAX_QUEUE_LENGTH && (!dbGuild.isPremium() && !user.isPremium())) {
-                        event.getChannel().sendMessageFormat(
-                                i18nContext.get("commands.music_general.loader.over_limit"),
-                                EmoteReference.WARNING, MAX_QUEUE_LENGTH
-                        ).queue();
+                        event.edit("commands.music_general.loader.over_limit", EmoteReference.WARNING, MAX_QUEUE_LENGTH);
                         break; //stop adding songs
                     } else {
                         loadSingle(track, true, dbGuild, user);
@@ -115,14 +109,14 @@ public class AudioLoader implements AudioLoadResultHandler {
                 count++;
             }
 
-            event.getChannel().sendMessageFormat(i18nContext.get("commands.music_general.loader.loaded_playlist"),
+            event.edit("commands.music_general.loader.loaded_playlist",
                     EmoteReference.SATELLITE, count, playlist.getName(),
                     Utils.formatDuration(i18nContext,
                             playlist.getTracks()
                                     .stream()
                                     .mapToLong(temp -> temp.getInfo().length).sum()
                     )
-            ).queue();
+            );
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -137,12 +131,10 @@ public class AudioLoader implements AudioLoadResultHandler {
     public void loadFailed(FriendlyException exception) {
         if (failureCount == 0) {
             if (exception.getMessage() == null) {
-                event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.unknown_error_loading"), EmoteReference.ERROR).queue();
+                event.edit("commands.music_general.loader.unknown_error_loading", EmoteReference.ERROR);
             }
 
-            event.getChannel().sendMessageFormat(
-                    language.get("commands.music_general.loader.error_loading"), EmoteReference.ERROR, exception.getMessage()
-            ).queue();
+            event.edit("commands.music_general.loader.error_loading", EmoteReference.ERROR, exception.getMessage());
         }
 
         Metrics.TRACK_EVENTS.labels("tracks_failed").inc();
@@ -171,29 +163,23 @@ public class AudioLoader implements AudioLoadResultHandler {
 
         if (queue.size() > queueLimit && !dbUser.isPremium() && !dbGuild.isPremium()) {
             if (!silent) {
-                event.getChannel().sendMessageFormat(i18nContext.get("commands.music_general.loader.over_queue_limit"),
-                        EmoteReference.WARNING, title, queueLimit
-                ).queue();
+                event.edit("commands.music_general.loader.over_queue_limit", EmoteReference.WARNING, title, queueLimit);
             }
             return;
         }
 
         if (trackInfo.length > MAX_SONG_LENGTH && (!dbUser.isPremium() && !dbGuild.isPremium())) {
-            event.getChannel().sendMessageFormat(i18nContext.get("commands.music_general.loader.over_32_minutes"),
+            event.edit("commands.music_general.loader.over_32_minutes",
                     EmoteReference.WARNING, title,
                     Utils.formatDuration(i18nContext, MAX_SONG_LENGTH),
                     Utils.formatDuration(i18nContext, length)
-            ).queue();
+            );
             return;
         }
 
         // Comparing if the URLs are the same to be 100% sure they're just not spamming the same url over and over again.
         if (queue.stream().filter(track -> trackInfo.uri.equals(track.getInfo().uri)).count() > fqSize && !silent) {
-            event.getChannel().sendMessageFormat(
-                    i18nContext.get("commands.music_general.loader.fair_queue_limit_reached"),
-                    EmoteReference.ERROR, fqSize + 1
-            ).queue();
-
+            event.edit("commands.music_general.loader.fair_queue_limit_reached", EmoteReference.ERROR, fqSize + 1);
             return;
         }
 
@@ -213,9 +199,7 @@ public class AudioLoader implements AudioLoadResultHandler {
                 duration = "stream";
             }
 
-            event.getChannel().sendMessageFormat(
-                    i18nContext.get("commands.music_general.loader.loaded_song"), EmoteReference.CORRECT, title, duration
-            ).queue();
+            event.edit("commands.music_general.loader.loaded_song", EmoteReference.CORRECT, title, duration);
         }
 
         Metrics.TRACK_EVENTS.labels("tracks_load").inc();
@@ -225,7 +209,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         final var list = playlist.getTracks();
         
         if (!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
-            event.getChannel().sendMessageFormat(language.get("commands.music_general.missing_embed_permissions"), EmoteReference.ERROR).queue();
+            event.edit("commands.music_general.missing_embed_permissions", EmoteReference.ERROR);
 
             // Destroy connection if there's nothing playing
             final var trackScheduler = musicManager.getTrackScheduler();
@@ -236,7 +220,7 @@ public class AudioLoader implements AudioLoadResultHandler {
             return;
         }
 
-        DiscordUtils.selectList(event, list.subList(0, Math.min(5, list.size())),
+        DiscordUtils.selectListButton(event, list.subList(0, Math.min(5, list.size())),
                 track -> String.format(
                         "%s**[%s](%s)** (%s)",
                         EmoteReference.BLUE_SMALL_MARKER,

@@ -508,7 +508,7 @@ public class DiscordUtils {
         }
 
         var index = new AtomicInteger();
-        var message = ctx.getChannel().sendMessageEmbeds(embeds.get(0)).complete();
+        var message = ctx.send(embeds.get(0));
         return ButtonOperations.create(message, timeoutSeconds, new ButtonOperation() {
             @Override
             public int click(ButtonClickEvent e) {

@@ -25,12 +25,10 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.StageChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.utils.MarkdownSanitizer;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.IntIntObjectFunction;
@@ -60,7 +58,7 @@ public class AudioCmdUtils {
         final var channel = ctx.getChannel();
 
         if (!selfMember.hasPermission(channel, Permission.MESSAGE_EMBED_LINKS)) {
-            ctx.sendFormat(lang.get("commands.music_general.queue.no_embed"), EmoteReference.ERROR);
+            ctx.reply(lang.get("commands.music_general.queue.no_embed"), EmoteReference.ERROR);
             return;
         }
 
@@ -159,19 +157,15 @@ public class AudioCmdUtils {
         DiscordUtils.listButtons(ctx.getUtilsContext(), 150, supplier, split);
     }
 
-    public static CompletionStage<Void> openAudioConnection(GuildMessageReceivedEvent event, JdaLink link,
+    public static CompletionStage<Void> openAudioConnection(SlashContext ctx, JdaLink link,
                                                             VoiceChannel userChannel, I18nContext lang) {
-        final var textChannel = event.getChannel();
+        final var textChannel = ctx.getChannel();
         final var userChannelMembers = userChannel.getMembers();
-        Member selfMember = event.getGuild().getSelfMember();
+        Member selfMember = ctx.getGuild().getSelfMember();
 
         if (userChannel.getUserLimit() <= userChannelMembers.size()
                 && userChannel.getUserLimit() > 0 && !selfMember.hasPermission(Permission.MANAGE_CHANNEL)) {
-            textChannel.sendMessageFormat(
-                    lang.get("commands.music_general.connect.full_channel"),
-                    EmoteReference.ERROR
-            ).queue();
-
+            ctx.edit("commands.music_general.connect.full_channel", EmoteReference.ERROR);
             return completedFuture(null);
         }
 
@@ -181,16 +175,14 @@ public class AudioCmdUtils {
             joinVoiceChannel(link, userChannel);
 
             // Stage channel support
-            if (userChannel instanceof StageChannel) {
+            if (userChannel instanceof StageChannel channel) {
                 if (!selfMember.hasPermission(Permission.REQUEST_TO_SPEAK)) {
-                    textChannel.sendMessageFormat(
-                            lang.get("commands.music_general.connect.missing_permissions_connect"),
+                    ctx.edit("commands.music_general.connect.missing_permissions_connect",
                             EmoteReference.ERROR, lang.get("discord_permissions.voice_connect")
-                    ).queue();
+                    );
                     return completedFuture(null);
                 }
 
-                var channel = ((StageChannel) userChannel);
                 var stageInstance = channel.getStageInstance();
                 if (stageInstance == null) {
                     channel.createStageInstance("Music").setTopic("Music by Mantaro").queue(inst -> {
@@ -201,23 +193,19 @@ public class AudioCmdUtils {
                 }
             }
 
-            textChannel.sendMessageFormat(
-                    lang.get("commands.music_general.connect.success"),
-                    EmoteReference.MEGA, userChannel.getName()
-            ).queue();
-
+            ctx.edit("commands.music_general.connect.success", EmoteReference.MEGA, userChannel.getName());
             return completedFuture(null);
         } catch (NullPointerException e) {
             e.printStackTrace();
-            textChannel.sendMessageFormat(
-                    lang.get("commands.music_general.connect.non_existent_channel"),
-                    EmoteReference.ERROR
-            ).queue();
+            ctx.edit("commands.music_general.connect.non_existent_channel", EmoteReference.ERROR);
 
             //Reset custom channel.
-            var dbGuild = MantaroData.db().getGuild(event.getGuild());
-            dbGuild.getData().setMusicChannel(null);
-            dbGuild.saveAsync();
+            var dbGuild = MantaroData.db().getGuild(ctx.getGuild());
+            var data = dbGuild.getData();
+            if (data.getMusicChannel() != null) {
+                data.setMusicChannel(null);
+                dbGuild.saveAsync();
+            }
 
             CompletableFuture<Void> future = new CompletableFuture<>();
             future.completeExceptionally(e);
@@ -225,39 +213,31 @@ public class AudioCmdUtils {
         }
     }
 
-    public static CompletionStage<Boolean> connectToVoiceChannel(GuildMessageReceivedEvent event, I18nContext lang) {
-        final var voiceChannel = event.getMember().getVoiceState().getChannel();
-        final var guild = event.getGuild();
-        final var textChannel = event.getChannel();
+    public static CompletionStage<Boolean> connectToVoiceChannel(SlashContext ctx, I18nContext lang) {
+        final var voiceChannel = ctx.getMember().getVoiceState().getChannel();
+        final var guild = ctx.getGuild();
         final var selfMember = guild.getSelfMember();
         final var guildData = MantaroData.db().getGuild(guild).getData();
 
         // I can't see you in any VC here?
         if (voiceChannel == null) {
-            textChannel.sendMessageFormat(
-                    lang.get("commands.music_general.connect.user_no_vc"),
-                    EmoteReference.ERROR
-            ).queue();
-
+            ctx.edit("commands.music_general.connect.user_no_vc", EmoteReference.ERROR);
             return completedFuture(false);
         }
 
         // Can't connect to this channel
         if (!selfMember.hasPermission(voiceChannel, Permission.VOICE_CONNECT)) {
-            textChannel.sendMessageFormat(
-                    lang.get("commands.music_general.connect.missing_permissions_connect"),
-                    EmoteReference.ERROR, lang.get("discord_permissions.voice_connect")
-            ).queue();
-
+            ctx.edit("commands.music_general.connect.missing_permissions_connect",
+                    EmoteReference.ERROR, lang.get("discord_permissions.voice_connect"));
             return completedFuture(false);
         }
 
         // Can't speak on this channel
         if (!selfMember.hasPermission(voiceChannel, Permission.VOICE_SPEAK)) {
-            textChannel.sendMessageFormat(
-                    lang.get("commands.music_general.connect.missing_permission_speak"),
+            ctx.edit(
+                    "commands.music_general.connect.missing_permission_speak",
                     EmoteReference.ERROR, lang.get("discord_permissions.voice_speak")
-            ).queue();
+            );
 
             return completedFuture(false);
         }
@@ -277,17 +257,13 @@ public class AudioCmdUtils {
         if (guildMusicChannel != null) {
             // If the channel is not the set one, reject this connect.
             if (!voiceChannel.equals(guildMusicChannel)) {
-                textChannel.sendMessageFormat(
-                        lang.get("commands.music_general.connect.channel_locked"),
-                        EmoteReference.ERROR, guildMusicChannel.getName()
-                ).queue();
-
+                ctx.edit("commands.music_general.connect.channel_locked", EmoteReference.ERROR, guildMusicChannel.getName());
                 return completedFuture(false);
             }
 
             // If the link is not currently connected or connecting, accept connection and call openAudioConnection
             if (linkState != Link.State.CONNECTED && linkState != Link.State.CONNECTING) {
-                return openAudioConnection(event, link, voiceChannel, lang)
+                return openAudioConnection(ctx, link, voiceChannel, lang)
                         .thenApply(__ -> true);
             }
 
@@ -303,11 +279,7 @@ public class AudioCmdUtils {
             // Workaround for a bug in lavalink that gives us Link.State.CONNECTED and a channel that doesn't exist anymore.
             // This is a little cursed.
             if (vc != null) {
-                textChannel.sendMessageFormat(
-                        lang.get("commands.music_general.connect.already_connected"),
-                        EmoteReference.WARNING, vc.getName()
-                ).queue();
-
+                ctx.edit("commands.music_general.connect.already_connected", EmoteReference.WARNING, vc.getName());
                 return completedFuture(false);
             } else {
                 cursed = true;
@@ -321,11 +293,7 @@ public class AudioCmdUtils {
             // Workaround for a bug in lavalink that gives us Link.State.CONNECTING and a channel that doesn't exist anymore.
             // This is a little cursed.
             if (vc != null) {
-                textChannel.sendMessageFormat(
-                        lang.get("commands.music_general.connect.attempting_to_connect"),
-                        EmoteReference.ERROR, vc.getName()
-                ).queue();
-
+                ctx.edit("commands.music_general.connect.attempting_to_connect", EmoteReference.ERROR, vc.getName());
                 return completedFuture(false);
             } else {
                 cursed = true;
@@ -338,7 +306,7 @@ public class AudioCmdUtils {
                 log.debug("We seemed to hit a Lavalink/JDA bug? Null voice channel, but {} state.", linkState);
             }
 
-            return openAudioConnection(event, link, voiceChannel, lang).thenApply(__ -> true);
+            return openAudioConnection(ctx, link, voiceChannel, lang).thenApply(__ -> true);
         }
 
         // Nothing to connect to, but pass true so we can load the song (for example, it's already connected)

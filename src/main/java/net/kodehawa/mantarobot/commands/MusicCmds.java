@@ -29,12 +29,14 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Description;
 import net.kodehawa.mantarobot.core.command.meta.Help;
 import net.kodehawa.mantarobot.core.command.meta.Options;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -59,7 +61,6 @@ public class MusicCmds {
         cr.registerSlash(Play.class);
         cr.registerSlash(Skip.class);
         cr.registerSlash(Queue.class);
-        cr.registerSlash(Volume.class);
         cr.registerSlash(NowPlaying.class);
         cr.registerSlash(ForceSkip.class);
         cr.registerSlash(Repeat.class);
@@ -71,6 +72,7 @@ public class MusicCmds {
     }
 
     @Description("Plays a song.")
+    @Category(CommandCategory.MUSIC)
     @Options({
             @Options.Option(type = OptionType.STRING, name = "song", description = "The song to play. Can be an URL or a search term.", required = true),
             @Options.Option(type = OptionType.BOOLEAN, name = "soundcloud", description = "Whether to search in soundcloud. Only use to search."),
@@ -102,6 +104,7 @@ public class MusicCmds {
     }
 
     @Description("Pauses the current playing song.")
+    @Category(CommandCategory.MUSIC)
     public static class Pause extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
@@ -123,7 +126,8 @@ public class MusicCmds {
         }
     }
 
-    @Description("Skips a song. Needs a vote if there's more than 1 person, then plays the next one if it exists.")
+    @Description("Skips a song.")
+    @Category(CommandCategory.MUSIC)
     public static class Skip extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
@@ -174,6 +178,7 @@ public class MusicCmds {
     }
 
     @Description("Skips a song, but tries to force it. Only works for people with Manage Server or DJ.")
+    @Category(CommandCategory.MUSIC)
     public static class ForceSkip extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
@@ -190,6 +195,7 @@ public class MusicCmds {
     }
 
     @Description("See what track is playing now.")
+    @Category(CommandCategory.MUSIC)
     public static class NowPlaying extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
@@ -229,6 +235,7 @@ public class MusicCmds {
     }
 
     @Description("Shows the current music queue.")
+    @Category(CommandCategory.MUSIC)
     public static class Queue extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {}
@@ -274,6 +281,7 @@ public class MusicCmds {
     }
 
     @Description("Repeats a song, or the entire queue.")
+    @Category(CommandCategory.MUSIC)
     @Options({
             @Options.Option(type = OptionType.BOOLEAN, name = "queue", description = "Repeat the entire queue instead of only the current song.")
     })
@@ -316,6 +324,7 @@ public class MusicCmds {
     }
 
     @Description("Shuffles the current queue.")
+    @Category(CommandCategory.MUSIC)
     public static class Shuffle extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
@@ -331,6 +340,7 @@ public class MusicCmds {
     }
 
     @Description("Clears the queue and leaves the current voice channel.")
+    @Category(CommandCategory.MUSIC)
     public static class Stop extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
@@ -379,6 +389,7 @@ public class MusicCmds {
     }
 
     @Description("Sets or checks the current volume.")
+    @Category(CommandCategory.MUSIC)
     @Options({
             @Options.Option(type = OptionType.INTEGER, name = "volume", description = "The volume to use. Values are 4-100. Leave empty to check current volume.", minValue = 4, maxValue = 100),
     })
@@ -433,6 +444,7 @@ public class MusicCmds {
     }
 
     @Description("Show the lyrics of a song.")
+    @Category(CommandCategory.MUSIC)
     @Options({
              @Options.Option(type = OptionType.STRING, name = "song", description = "The song to lookup. If empty, it will search for the current track.")
     })
@@ -511,7 +523,7 @@ public class MusicCmds {
         }
 
         // TODO: fix this
-        MantaroBot.getInstance().getAudioManager().loadAndPlay(ctx.getEvent(), content, firstSelection, force, ctx.getLanguageContext());
+        MantaroBot.getInstance().getAudioManager().loadAndPlay(ctx, content, firstSelection, force, ctx.getLanguageContext());
         TextChannelGround.of(ctx.getChannel()).dropItemWithChance(0, 5);
     }
 

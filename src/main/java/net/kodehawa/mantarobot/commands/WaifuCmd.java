@@ -195,7 +195,7 @@ public class WaifuCmd {
             }
         }
 
-        @Description("Opt-out of the waifu stuff. This will disable the waifu system, remove all of your claims and make you unable to be claimed.")
+        @Description("Opt-out of the waifu stuff. This will disable the waifu system permanently.")
         public static class OptOut extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -230,7 +230,7 @@ public class WaifuCmd {
                     // TODO: Maybe double-check? This might be cursed with buttons.
                     // Well, old one was cursed if you didn't speak english...
                 }, Button.danger("yes", ctx.getLanguageContext().get("commands.waifu.optout.yes_button")),
-                        Button.primary("No", ctx.getLanguageContext().get("commands.waifu.optout.no_button")));
+                        Button.primary("no", ctx.getLanguageContext().get("commands.waifu.optout.no_button")));
             }
         }
 
@@ -340,7 +340,7 @@ public class WaifuCmd {
             }
         }
 
-        @Description("Un-claims a waifu. You need to mention them, or you can also use their user id if they're not in any servers you share.")
+        @Description("Un-claims a waifu.")
         @Options({
                 @Options.Option(type = OptionType.USER, name = "user", description = "The user to unclaim. If unknown, use the id."),
                 @Options.Option(type = OptionType.USER, name = "id", description = "The user id of the user to unclaim.")

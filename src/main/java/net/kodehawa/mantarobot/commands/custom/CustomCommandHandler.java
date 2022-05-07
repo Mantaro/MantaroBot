@@ -21,21 +21,17 @@ import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.Button;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.MiscCmds;
 import net.kodehawa.mantarobot.commands.custom.legacy.ConditionalCustoms;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.commands.custom.v3.CCv3;
 import net.kodehawa.mantarobot.commands.custom.v3.Parser;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 
-import java.net.URL;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -52,27 +48,29 @@ public class CustomCommandHandler {
 
     {
         specialHandlers.put("text", (ctx, value, args) -> ctx.send(value));
-
         specialHandlers.put("play", (ctx, value, args) -> {
-            GuildData data = ctx.getDBGuild().getData();
-            if (data.getDisabledCommands().contains("play")) {
-                ctx.send(EmoteReference.ERROR + "The play command is disabled on this server. Cannot run this custom command.");
-                return;
-            }
+            ctx.send("This has been temporarily disabled due to slash commands limitations. Might be re-enabled later.");
+            /*
+             GuildData data = ctx.getDBGuild().getData();
+             if (data.getDisabledCommands().contains("play")) {
+             ctx.send(EmoteReference.ERROR + "The play command is disabled on this server. Cannot run this custom command.");
+             return;
+             }
 
-            List<String> channelDisabledCommands = data.getChannelSpecificDisabledCommands().get(ctx.getChannel().getId());
-            if (channelDisabledCommands != null && channelDisabledCommands.contains("play")) {
-                ctx.send(EmoteReference.ERROR + "The play command is disabled on this channel. Cannot run this custom command.");
-                return;
-            }
+             List<String> channelDisabledCommands = data.getChannelSpecificDisabledCommands().get(ctx.getChannel().getId());
+             if (channelDisabledCommands != null && channelDisabledCommands.contains("play")) {
+             ctx.send(EmoteReference.ERROR + "The play command is disabled on this channel. Cannot run this custom command.");
+             return;
+             }
 
-            try {
-                new URL(value);
-            } catch (Exception ignored) {
-                value = "ytsearch: " + value;
-            }
+             try {
+             new URL(value);
+             } catch (Exception ignored) {
+             value = "ytsearch: " + value;
+             }
 
-            MantaroBot.getInstance().getAudioManager().loadAndPlay(ctx.getEvent(), value, false, false, ctx.getLanguageContext());
+             MantaroBot.getInstance().getAudioManager().loadAndPlay(ctx, value, false, false, ctx.getLanguageContext());
+             */
         });
 
         specialHandlers.put("embed", (ctx, value, args) -> {
