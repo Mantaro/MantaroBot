@@ -77,7 +77,7 @@
     "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
     "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://wiki.mantaro.site> for more information about the bot.",
     "ratelimit": {
-      "header": "%1$s%2$s (Достигнут лимит)\n **Вы сможете снова использовать эту команду снова через %3$s.**",
+      "header": "%1$s%2$s (Достигнут лимит)\n **Вы сможете снова использовать эту команду через %3$s.**",
       "spam_1": "Остановитесь и отдохните, это полезно для вашего здоровья. **Время запроса продолжит увеличиваться, если вы продолжишь спамить!**",
       "spam_2": "\nЯ думаю тебе лучше остановиться сейчас...",
       "spam_3": "\nПочему бы тебе немного не прогуляться на улице?",
