@@ -122,6 +122,7 @@ public class HelpCmd {
                         }
                     }
                 }
+
                 if (cmd == null) {
                     ctx.sendLocalized("commands.help.extended.not_found", EmoteReference.ERROR);
                     return;

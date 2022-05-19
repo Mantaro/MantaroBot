@@ -20,9 +20,7 @@ import net.kodehawa.mantarobot.core.command.meta.Help;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class HelpContent {
     private final String description;
