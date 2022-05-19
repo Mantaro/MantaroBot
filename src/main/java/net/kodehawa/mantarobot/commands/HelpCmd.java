@@ -23,10 +23,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.Button;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.meta.Category;
-import net.kodehawa.mantarobot.core.command.meta.Description;
-import net.kodehawa.mantarobot.core.command.meta.Help;
-import net.kodehawa.mantarobot.core.command.meta.Options;
+import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
@@ -78,16 +75,17 @@ public class HelpCmd {
             "Halp!"
     );
 
+    @Name("help")
     @Description("The usual help command helping you.")
     @Category(CommandCategory.INFO)
     @Options({
             @Options.Option(type = OptionType.STRING, name = "command", description = "The command to check help for.")
     })
-    @net.kodehawa.mantarobot.core.command.meta.Help(
+    @Help(
             description = "The command you're using right now. Shows a list of commands or the command usage.",
             usage = "`/help [command]`",
             parameters = {
-                    @net.kodehawa.mantarobot.core.command.meta.Help.Parameter(
+                    @Help.Parameter(
                             name = "command",
                             description = """
                                     The command to check help for. You can use sub-commands too.
@@ -97,7 +95,7 @@ public class HelpCmd {
                     )
             }
     )
-    public static class Help extends SlashCommand {
+    public static class HelpCommand extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
             if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
@@ -236,7 +234,7 @@ public class HelpCmd {
 
     @Subscribe
     public void help(CommandRegistry cr) {
-        cr.registerSlash(Help.class);
+        cr.registerSlash(HelpCommand.class);
         cr.register("help", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
