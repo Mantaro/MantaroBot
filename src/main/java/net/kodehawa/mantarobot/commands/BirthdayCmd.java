@@ -73,7 +73,7 @@ public class BirthdayCmd {
         })
         @Help(
                 description = "Sets your birthday date. Only useful if the server has enabled this functionality.",
-                usage = "/birthday set [date] - Sets your birthday to the specified date in dd-MM-yyyy format.",
+                usage = "`/birthday set [date]` - Sets your birthday to the specified date in dd-MM-yyyy format.",
                 parameters = {@Help.Parameter(name = "date", description = "A date in dd-MM format (13-02 for February 13th for example).")}
         )
         public static class Set extends SlashCommand {

@@ -88,7 +88,7 @@ public class PlayerCmds {
     })
     @Help(
             description = "Gives a reputation point to a user. This command is only usable every 12 hours.",
-            usage = "/reputation <user> [check] - Give a reputation point to a specified user. Use check if you wanna check if you can give it.",
+            usage = "`/reputation <user> [check]` - Give a reputation point to a specified user. Use check if you wanna check if you can give it.",
             parameters = {
                     @Help.Parameter(name = "user", description = "The user to give reputation to"),
                     @Help.Parameter(name = "check", description = "Check if you can give reputation", optional = true)
@@ -169,7 +169,7 @@ public class PlayerCmds {
     })
     @Help(
             description = "Equips an item into a slot.",
-            usage = "/equip [item]",
+            usage = "`/equip [item]`",
             parameters = {
                     @Help.Parameter(name = "item", description = "The item to equip.")
             }
@@ -231,7 +231,7 @@ public class PlayerCmds {
     })
     @Help(
             description = "Unequips an item from a slot.",
-            usage = "/unequip [item]",
+            usage = "`/unequip [item]`",
             parameters = {
                     @Help.Parameter(name = "item", description = "The item to unequip.")
             }

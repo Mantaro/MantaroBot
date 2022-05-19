@@ -137,7 +137,7 @@ public class MiscCmds {
     })
     @Help(
             description = "Retrieves an answer from the almighty 8ball.",
-            usage = "`~>8ball <question>` - Retrieves an answer from 8ball based on the question or sentence provided.",
+            usage = "`/8ball <question>` - Retrieves an answer from 8ball based on the question or sentence provided.",
             parameters = {
                     @Help.Parameter(name = "question", description = "The question to ask.", optional = false)
             }

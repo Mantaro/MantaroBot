@@ -62,7 +62,7 @@ public class PremiumCmds {
     })
     @Help(
             description = "Activates a premium key. Example: `~>activatekey a4e98f07-1a32-4dcc-b53f-c540214d54ec`. No, that isn't a valid key.",
-            usage = "/activatekey [key]",
+            usage = "`/activatekey [key]`",
             parameters = {
                     @Help.Parameter(name = "key", description = "The key to activate. If it's a server key, make sure to run this command in the server where you want to enable premium on.")
             }
@@ -146,7 +146,7 @@ public class PremiumCmds {
     })
     @Help(
             description = "Checks the premium status of a user or a server.",
-            usage = "/premium user [user] or premium server",
+            usage = "`/premium user [user]` or `/premium server`",
             parameters = {
                     @Help.Parameter(name = "user", description = "The user to check for. If not specified, it checks yourself.", optional = true)
             }

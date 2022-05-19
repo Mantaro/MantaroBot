@@ -105,7 +105,7 @@ public class GambleCmds {
     })
     @Help(
             description = "Gambles your money away. It's like Vegas, but without real money and without the impending doom. Kinda.",
-            usage = "/gamble [amount] - amount can be all, half, quarter, an amount of money, or a percentage of your money.",
+            usage = "`/gamble [amount]` - amount can be all, half, quarter, an amount of money, or a percentage of your money.",
             parameters = {
                     // Can't use a text block here, because it doesn't let me use String#formatted on annotation values?
                     @Help.Parameter(

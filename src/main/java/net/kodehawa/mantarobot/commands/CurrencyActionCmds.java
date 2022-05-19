@@ -126,7 +126,7 @@ public class CurrencyActionCmds {
     @Description("Starts a fishing session.")
     @Category(CommandCategory.CURRENCY)
     @Help(description = "Starts a fishing session.", usage = """
-            `~>fish` - Starts fishing.
+            `/fish` - Starts fishing.
             This can used later on to cast rods or picks for better chances.
             """)
     public static class Fish extends SlashCommand {

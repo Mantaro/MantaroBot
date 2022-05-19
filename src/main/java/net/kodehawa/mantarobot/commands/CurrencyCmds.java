@@ -107,7 +107,7 @@ public class CurrencyCmds {
                 @Options.Option(type = OptionType.USER, name = "user", description = "The user to get the inventory of.")
         })
         @Help(description = "Shows your inventory or a user's inventory",
-                usage = "/inventory [user]",
+                usage = "`/inventory [user]`",
                 parameters = {
                         @Help.Parameter(name = "user", description = "The user to get the inventory of.", optional = true)
                 })
@@ -128,7 +128,7 @@ public class CurrencyCmds {
                 @Options.Option(type = OptionType.USER, name = "user", description = "The user to get the inventory of.")
         })
         @Help(description = "Shows your brief inventory or a user's inventory",
-                usage = "/inventory brief [user]",
+                usage = "`/inventory brief [user]`",
                 parameters = {
                         @Help.Parameter(name = "user", description = "The user to get the inventory of.", optional = true)
                 })
@@ -149,7 +149,7 @@ public class CurrencyCmds {
                 @Options.Option(type = OptionType.USER, name = "user", description = "The user to get the inventory value of.")
         })
         @Help(description = "Calculate an inventory's worth.",
-                usage = "/inventory calculate [user]",
+                usage = "`/inventory calculate [user]`",
                 parameters = {
                         @Help.Parameter(name = "user", description = "The user to get the inventory value of.", optional = true)
                 })
@@ -171,7 +171,7 @@ public class CurrencyCmds {
             @Options.Option(type = OptionType.USER, name = "user", description = "The user to get the level of.")
     })
     @Help(description = "Show your level or someone else's level.",
-            usage = "/level [user]",
+            usage = "`/level [user]`",
             parameters = {
                     @Help.Parameter(name = "user", description = "The user to get the level of.", optional = true)
             })
@@ -192,7 +192,7 @@ public class CurrencyCmds {
     })
     @Help(
             description = "Opens a loot crate.",
-            usage = "/dailycrate [crate]",
+            usage = "`/opencrate [crate]`",
             parameters = {
                     @Help.Parameter(name = "crate", description = "The crate to open", optional = true)
             }
@@ -209,7 +209,7 @@ public class CurrencyCmds {
     @Name("dailycrate")
     @Description("Opens a daily premium loot crate.")
     @Category(CommandCategory.CURRENCY)
-    @Help(description = "Opens a daily premium loot crate.", usage = "/dailycrate - You need a crate key to open any crate.")
+    @Help(description = "Opens a daily premium loot crate.", usage = "`/dailycrate` - You need a crate key to open any crate.")
     public static class DailyCrate extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
@@ -258,7 +258,7 @@ public class CurrencyCmds {
                     Uses an item.
                     You need to have the item to use it, and the item has to be marked as *interactive*.
                     """,
-                usage = "/useitem [item] [amount]",
+                usage = "`/useitem [item] [amount]`",
                 parameters = {
                         @Help.Parameter(name = "item", description = "The item to use"),
                         @Help.Parameter(name = "amount", description = "The amount of the item to use. Maximum of 15.", optional = true)

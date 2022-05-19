@@ -53,7 +53,7 @@ public class MessageCmds {
     })
     @Help(
             description = "Prunes X amount of messages from a channel. Requires Message Manage permission.",
-            usage = "/prune <amount> [user] [bot only] [skip pinned]`",
+            usage = "`/prune <amount> [user] [bot only] [skip pinned]`",
             parameters = {
                     @Help.Parameter(name = "amount", description = "The amount of messages to prune, from 5 to 100."),
                     @Help.Parameter(name = "user", description = "Only prune from this specific user.", optional = true),

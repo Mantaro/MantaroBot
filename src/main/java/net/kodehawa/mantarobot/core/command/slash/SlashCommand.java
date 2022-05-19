@@ -78,14 +78,8 @@ public abstract class SlashCommand {
                     .setDescription(h.description().isBlank() ? this.description : h.description())
                     .setUsage(h.usage().isBlank() ? null : h.usage())
                     .setRelated(Arrays.asList(h.related()))
+                    .setParameters(Arrays.asList(h.parameters()))
                     .setSeasonal(h.seasonal());
-            for (var param : h.parameters()) {
-                if (param.optional()) {
-                    builder.addParameterOptional(param.name(), param.description());
-                } else {
-                    builder.addParameter(param.name(), param.description());
-                }
-            }
             this.help = builder.build();
         }
     }

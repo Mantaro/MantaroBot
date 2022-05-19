@@ -271,7 +271,7 @@ public class MusicUtilCmds {
                             You can use first to remove the first track, next to remove the next track and last to remove the last track.
                             """)
             },
-            usage = "/removetrack <track number/range/first/next/last>` (Any of them, only one at a time)"
+            usage = "`/removetrack <track number/range/first/next/last>` (Any of them, only one at a time)"
     )
     public static class RemoveTrack extends SlashCommand {
         @Override

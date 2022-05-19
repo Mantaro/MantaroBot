@@ -85,7 +85,7 @@ public class MusicCmds {
                     If the bot is already connected to a channel, this will just queue the song. You can either search or put an URL.
                     You can set the soundcloud parameter to true to search in soundcloud's library.
                     """,
-            usage = "/play [soundcloud] <query> (Example: `/play bad guy` or `/play https://www.youtube.com/watch?v=DyDfgMOUjCI`)"
+            usage = "`/play [soundcloud] <query>` (Example: `/play bad guy` or `/play https://www.youtube.com/watch?v=DyDfgMOUjCI`)"
     )
     public static class Play extends SlashCommand {
         @Override

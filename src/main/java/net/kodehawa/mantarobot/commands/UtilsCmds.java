@@ -71,7 +71,7 @@ public class UtilsCmds {
 
     @Description("Reminds you of something.")
     @Category(CommandCategory.UTILS)
-    @Help(description = "Reminds you of something.", usage = "/remindme <time> <reminder>", parameters = {
+    @Help(description = "Reminds you of something.", usage = "`/remindme <time> <reminder>`", parameters = {
             @Help.Parameter(name = "time", description = "How much time until I remind you of it. Time is in this format: 1h20m (1 hour and 20m)"),
             @Help.Parameter(name = "reminder", description = "The thing to remind you of.")
     })
@@ -223,7 +223,7 @@ public class UtilsCmds {
     @Category(CommandCategory.UTILS)
     @Description("Get the time in a specific timezone.")
     @Help(description = "Get the time in a specific timezone (GMT).",
-            usage = "`~>time <timezone> [@user]`",
+            usage = "`/time <timezone> [@user]`",
             parameters = {
                 @Help.Parameter(name = "timezone", description = "The timezone in GMT or UTC offset (Example: GMT-3) or a ZoneId (such as Europe/London)"),
                 @Help.Parameter(name = "user", description = "The user to see the timezone of.")
@@ -279,7 +279,7 @@ public class UtilsCmds {
             @Options.Option(type = OptionType.STRING, name = "term", description = "The term to look for.", required = true),
             @Options.Option(type = OptionType.INTEGER, name = "number", description = "The definition number to show. Usually up to 5.")
     })
-    @Help(description = "Retrieves definitions from **Urban Dictionary**.", usage = "/urban <term> [number]", parameters = {
+    @Help(description = "Retrieves definitions from **Urban Dictionary**.", usage = "`/urban <term> [number]`", parameters = {
             @Help.Parameter(name = "term", description = "The term to look for."),
             @Help.Parameter(name = "number", description = "The definition number to show. Usually up to 5.", optional = true)
     })

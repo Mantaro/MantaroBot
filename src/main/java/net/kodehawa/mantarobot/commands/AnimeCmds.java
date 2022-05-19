@@ -59,7 +59,7 @@ public class AnimeCmds {
     @Options({
             @Options.Option(type = OptionType.STRING, name = "name", description = "The name of the anime/manga to look for.", required = true)
     })
-    @Help(description = "Get anime information from Kitsu.", usage = "/anime [name] - Look up the information for the specified anime", parameters = {
+    @Help(description = "Get anime information from Kitsu.", usage = "`/anime [name]` - Look up the information for the specified anime", parameters = {
             @Help.Parameter(name = "name", description = "The name of the anime/manga to look for.")
     })
     public static class Anime extends SlashCommand {
@@ -128,7 +128,7 @@ public class AnimeCmds {
     @Options({
             @Options.Option(type = OptionType.STRING, name = "name", description = "The name of the character to look for.", required = true)
     })
-    @Help(description = "Get character information from Kitsu.", usage = "/character [name] - Look up the information for the specified character", parameters = {
+    @Help(description = "Get character information from Kitsu.", usage = "`/character [name]` - Look up the information for the specified character", parameters = {
             @Help.Parameter(name = "name", description = "The name of the character to look for.")
     })
     public static class Character extends SlashCommand {

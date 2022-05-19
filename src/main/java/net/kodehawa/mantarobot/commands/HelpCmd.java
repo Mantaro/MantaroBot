@@ -25,6 +25,7 @@ import net.dv8tion.jda.api.interactions.components.Button;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Description;
+import net.kodehawa.mantarobot.core.command.meta.Help;
 import net.kodehawa.mantarobot.core.command.meta.Options;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
@@ -80,8 +81,22 @@ public class HelpCmd {
     @Description("The usual help command helping you.")
     @Category(CommandCategory.INFO)
     @Options({
-            @Options.Option(type = OptionType.STRING, name = "command", description = "The command to check help for. Sends a full list if none.")
+            @Options.Option(type = OptionType.STRING, name = "command", description = "The command to check help for.")
     })
+    @net.kodehawa.mantarobot.core.command.meta.Help(
+            description = "The command you're using right now. Shows a list of commands or the command usage.",
+            usage = "`/help [command]`",
+            parameters = {
+                    @net.kodehawa.mantarobot.core.command.meta.Help.Parameter(
+                            name = "command",
+                            description = """
+                                    The command to check help for. You can use sub-commands too.
+                                    For example, you can use `/help profile show` to see the help for `/profile show`.
+                                    """,
+                            optional = true
+                    )
+            }
+    )
     public static class Help extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
@@ -93,7 +108,128 @@ public class HelpCmd {
             if (command.isBlank()) {
                 buildHelpSlash(ctx, null);
             } else {
-                // extended help
+                var cmd = CommandProcessor.REGISTRY.getCommandManager().slashCommands().get(command);
+                // Cursed sub-command detection.
+                if (command.contains(" ")) {
+                    var split = command.trim().split("\\s+");
+                    if (split.length > 0) {
+                        var parent = split[0];
+                        var parentCmd = CommandProcessor.REGISTRY.getCommandManager().slashCommands().get(parent);
+                        if (!parentCmd.getSubCommands().isEmpty()) {
+                            var sub = split[1];
+                            var subCmd = parentCmd.getSubCommands().get(sub);
+                            if (subCmd != null) {
+                                cmd = subCmd;
+                            }
+                        }
+                    }
+                }
+                if (cmd == null) {
+                    ctx.sendLocalized("commands.help.extended.not_found", EmoteReference.ERROR);
+                    return;
+                }
+
+                var help = cmd.getHelp();
+                if (help == null || help.getDescription() == null) {
+                    ctx.sendLocalized("commands.help.extended.no_help", EmoteReference.ERROR);
+                    return;
+                }
+
+                var languageContext = ctx.getLanguageContext();
+                var desc = new StringBuilder();
+                if (random.nextBoolean()) {
+                    desc.append(languageContext.get("commands.help.patreon")).append("\n");
+                }
+
+                desc.append(help.getDescription());
+                desc.append("\n").append(languageContext.get("commands.help.include_warning"));
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Color.PINK)
+                        .setAuthor(languageContext.get("commands.help.help_header").formatted(command), null,
+                                ctx.getAuthor().getEffectiveAvatarUrl()
+                        ).setDescription(desc);
+
+                var options = cmd.getOptions();
+                var parameters = cmd.getHelp().getParameters();
+                var usage = cmd.getHelp().getUsage();
+                if (usage != null && !usage.isBlank()) {
+                    builder.addField(EmoteReference.PENCIL.toHeaderString() + languageContext.get("commands.help.usage"), usage, false);
+                }
+
+                // Assume parameters is better explained.
+                if (options != null && !options.isEmpty() && parameters.isEmpty()) {
+                    var optionString = options.stream()
+                            .map(optionData -> {
+                                var name = optionData.getName();
+                                var description = optionData.getDescription();
+                                var str = "`%s` - %s".formatted(name, description);
+                                if (!optionData.isRequired()) {
+                                    str += " " + languageContext.get("commands.help.optional");
+                                }
+
+                                return str;
+                            }).collect(Collectors.joining("\n"));
+
+                    builder.addField(EmoteReference.ZAP.toHeaderString() + languageContext.get("commands.help.options"), optionString, false);
+                }
+
+                if (!parameters.isEmpty()) {
+                    var paramString = parameters.stream()
+                            .map(parameter -> {
+                                var str = "`%s` - %s".formatted(parameter.name(), parameter.description());
+                                if (parameter.optional()) {
+                                    str += " " + languageContext.get("commands.help.optional");
+                                }
+
+                                return str;
+                            }).collect(Collectors.joining("\n"));
+
+                    builder.addField(EmoteReference.ZAP.toHeaderString() + languageContext.get("commands.help.options"), paramString, false);
+                }
+
+                var subCommands = cmd.getSubCommands();
+                if (!subCommands.isEmpty()) {
+                    var subs =
+                            cmd.getSubCommands()
+                                    .entrySet()
+                                    .stream()
+                                    .sorted(Comparator.comparingInt(a ->
+                                            a.getValue().getDescription() == null ? 0 : a.getValue().getDescription().length())
+                                    ).collect(
+                                            Collectors.toMap(
+                                                    Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new
+                                            )
+                                    );
+
+                    var stringBuilder = new StringBuilder();
+                    for (var inners : subs.entrySet()) {
+                        var name = inners.getKey();
+                        var inner = inners.getValue();
+
+                        if (inner.getDescription() != null) {
+                            stringBuilder.append("""
+                                        %s`/%s%s` - %s
+                                        """.formatted(BLUE_SMALL_MARKER, cmd.getName() + " ", name, inner.getDescription())
+                            );
+                        }
+                    }
+
+                    if (stringBuilder.length() > 0) {
+                        var value = stringBuilder.toString();
+                        if (value.length() > 1024) {
+                            value = languageContext.get("commands.help.too_long");
+                        }
+
+                        builder.addField(EmoteReference.ZAP.toHeaderString() + "Sub-commands", value, false);
+                    }
+                }
+
+                ctx.send(builder.build(),
+                        ActionRow.of(
+                                Button.link("https://wiki.mantaro.site", "Check the wiki!"),
+                                Button.link("https://support.mantaro.site", "Get support here")
+                        )
+                );
             }
         }
     }
@@ -168,8 +304,8 @@ public class HelpCmd {
                     }
 
                     if (help.getParameters().size() > 0) {
-                        builder.addField(EmoteReference.SLIDER.toHeaderString() + "Parameters", help.getParameters().entrySet().stream()
-                                        .map(entry -> "`%s` - *%s*".formatted(entry.getKey(), entry.getValue()))
+                        builder.addField(EmoteReference.SLIDER.toHeaderString() + "Parameters", help.getParameters().stream()
+                                        .map(entry -> "`%s` - *%s*".formatted(entry.name(), entry.description()))
                                         .collect(Collectors.joining("\n")), false
                         );
                     }
@@ -430,7 +566,7 @@ public class HelpCmd {
             }
         });
 
-        // TODO: port: GameCmds (1), HelpCmd (1), CustomCmds (1)
+        // TODO: port: GameCmds (1), CustomCmds (1)
         // Note: How the heck am I gonna do GameCmds? Interactive stuff is hard now.
         // You know, leaving help for last is kinda funny.
         cr.registerAlias("slash",

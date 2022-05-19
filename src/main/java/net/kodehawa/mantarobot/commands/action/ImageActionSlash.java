@@ -80,7 +80,7 @@ public class ImageActionSlash extends SlashCommand {
         this.rateLimiter = buildRatelimiter(name);
         super.setHelp(new HelpContent.Builder()
                 .setDescription(desc)
-                .setUsagePrefixed(name + " @user")
+                .setUsage("`/" + name.toLowerCase() + " [@user]`")
                 .build()
         );
     }
@@ -100,7 +100,7 @@ public class ImageActionSlash extends SlashCommand {
         this.rateLimiter = buildRatelimiter(name);
         super.setHelp(new HelpContent.Builder()
                 .setDescription(desc)
-                .setUsagePrefixed(name + " @user")
+                .setUsage("`/" + name.toLowerCase() + " [@user]`")
                 .build()
         );
     }

@@ -103,6 +103,11 @@ public class ProfileCmd {
     @Name("profile")
     @Description("The hub for profile-related operations.")
     @Category(CommandCategory.CURRENCY)
+    @Help(description = " The hub for profile-related operations.",
+            usage = """
+                    To show your profile use `/profile show`.
+                    *The profile command only shows the 5 most important badges*. To get a full list use `/badges`.
+                    """)
     public static class Profile extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {}
@@ -111,7 +116,7 @@ public class ProfileCmd {
         @Options({@Options.Option(type = OptionType.USER, name = "user", description = "The user to see the profile of.")})
         @Help(
                 description = "See your profile, or someone else's profile.",
-                usage = "/profile show [user].",
+                usage = "`/profile show [user]`",
                 parameters = {@Help.Parameter(name = "user", description = "The user to see the profile of.", optional = true)}
         )
 
@@ -291,7 +296,7 @@ public class ProfileCmd {
         @Options({@Options.Option(type = OptionType.STRING, name = "sort", description = "The sort type. Possible values: VALUE, VALUE_TOTAL, AMOUNT, TYPE, RANDOM.", required = true)})
         @Help(
                 description = "Lets you sort your inventory using specified presets.",
-                usage = "/profile sort [preset].",
+                usage = "`/profile sort [preset]`",
                 parameters = {
                         @Help.Parameter(name = "preset", description = "The sort type. Possible values: VALUE, VALUE_TOTAL, AMOUNT, TYPE, RANDOM.")
                 }
@@ -325,7 +330,7 @@ public class ProfileCmd {
         @Options({@Options.Option(type = OptionType.BOOLEAN, name = "disable", description = "Disable autoequip.")})
         @Help(
                 description = "Enables auto equip, or disables it if specified.",
-                usage = "/profile autoequip [disable].",
+                usage = "`/profile autoequip [disable]`",
                 parameters = {@Help.Parameter(name = "disable", description = "Whether to disable it.", optional = true)}
         )
         public static class AutoEquip extends SlashCommand {
@@ -365,7 +370,7 @@ public class ProfileCmd {
         @Options({@Options.Option(type = OptionType.STRING, name = "timezone", description = "The timezone to use.", required = true)})
         @Help(
                 description = "Sets your profile timezone.",
-                usage = "/profile timezone [timezone] - You can look up your timezone by googling what is my timezone.",
+                usage = "`/profile timezone [timezone]` - You can look up your timezone by googling what is my timezone.",
                 parameters = {@Help.Parameter(name = "timezone", description = "The timezone to use.")}
         )
         public static class Timezone extends SlashCommand {
@@ -416,7 +421,7 @@ public class ProfileCmd {
         @Options({@Options.Option(type = OptionType.STRING, name = "badge", description = "The badge to display, reset/none to reset it or no badge.", required = true)})
         @Help(
                 description = "Sets your profile display badge.",
-                usage = "/profile badge [badge] - Use reset to reset the badge to the default one and use none to show no badge.",
+                usage = "`/profile badge [badge]` - Use reset to reset the badge to the default one and use none to show no badge.",
                 parameters = {@Help.Parameter(name = "badge", description = "The badge to use.")}
         )
         public static class DisplayBadge extends SlashCommand {
@@ -473,7 +478,7 @@ public class ProfileCmd {
         @Options({@Options.Option(type = OptionType.STRING, name = "lang", description = "The language to use. See /lang for a list.", required = true)})
         @Help(
                 description = "Sets your profile language.",
-                usage = "/profile language [lang]",
+                usage = "`/profile language [lang]`",
                 parameters = {@Help.Parameter(name = "lang", description = "The language to use. See /lang for a list.")}
         )
         public static class Language extends SlashCommand {
@@ -506,7 +511,7 @@ public class ProfileCmd {
         @Options({@Options.Option(type = OptionType.STRING, name = "description", description = "The description to set. Use reset to reset it.", required = true)})
         @Help(
                 description = "Sets your profile description. The max length is 300 if you're not premium and 500 if you are.",
-                usage = "/profile description [content]",
+                usage = "`/profile description [content]`",
                 parameters = {@Help.Parameter(name = "content", description = "The content of the description. This cannot contain new lines on slash commands, sadly.")}
         )
         public static class DescriptionCommand extends SlashCommand {
@@ -552,7 +557,7 @@ public class ProfileCmd {
         @Options({@Options.Option(type = OptionType.USER, name = "user", description = "The user to see stats for.")})
         @Help(
                 description = "See your profile stats, or someone else's profile stats.",
-                usage = "/profile stats [user].",
+                usage = "`/profile stats [user]`",
                 parameters = {@Help.Parameter(name = "user", description = "The user to see the stats of.", optional = true)}
         )
         public static class Stats extends SlashCommand {

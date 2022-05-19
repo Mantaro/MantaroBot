@@ -149,8 +149,8 @@ public class ImageCmds {
         @Description("Sends images of catgirl(s). Maybe.")
         @Help(description = "Sends images of catgirl(s). Maybe.",
                 usage = """
-                /catgirl` - Sends images of normal catgirls.
-                /catgirl nsfw` - Sends images of lewd catgirls. (Only works on NSFW channels)
+                `/catgirl` - Sends images of normal catgirls.
+                `/catgirl nsfw` - Sends images of lewd catgirls. (Only works on NSFW channels)
                 """, parameters = {
                     @Help.Parameter(name = "nsfw", description = "Whether to send a NSFW image.")
                 }
@@ -196,8 +196,8 @@ public class ImageCmds {
             """,
             usage =
                     """
-                    /e621 - Retrieves a random image.
-                    /e621 [tags] - Retrieves a image with the specified tags.
+                    `/e621` - Retrieves a random image.
+                    `/e621 [tags]` - Retrieves a image with the specified tags.
                     """,
             parameters = {
                     @Help.Parameter(name = "tags", description = TAG_HELP, optional = true)
@@ -226,8 +226,8 @@ public class ImageCmds {
                     It **should** be a safe mirror of e621, though.
                     """,
             usage =  """
-                    /e926 - Retrieves a random image.
-                    /e926 [tags] - Retrieves a image with the specified tags.
+                    `/e926` - Retrieves a random image.
+                    `/e926 [tags]` - Retrieves a image with the specified tags.
                     """,
             parameters = {
                     @Help.Parameter(name = "tags", description = TAG_HELP, optional = true)
@@ -250,8 +250,8 @@ public class ImageCmds {
                     Retrieves images from the Konachan image board. This command can only be used in NSFW channels.
                     """,
             usage = """
-                    /konachan - Retrieves a random image.
-                    /konachan [rating] [tags] - Retrieves a image with the specified tags.
+                    `/konachan` - Retrieves a random image.
+                    `/konachan [rating] [tags]` - Retrieves a image with the specified tags.
                     """,
             parameters = {
                     @Help.Parameter(name = "rating", description = RATING_HELP, optional = true),
@@ -286,8 +286,8 @@ public class ImageCmds {
                     (because of course the maintainers think really harsh sexual acts qualify as enough to give it a safe rating I mean, sure).
                     """,
             usage = """
-                    /yandere - Retrieves a random image.
-                    /yandere [rating] [tags] - Retrieves a image with the specified tags.
+                    `/yandere` - Retrieves a random image.
+                    `/yandere [rating] [tags]` - Retrieves a image with the specified tags.
                     """,
             parameters = {
                     @Help.Parameter(name = "rating", description = RATING_HELP, optional = true),
@@ -322,8 +322,8 @@ public class ImageCmds {
                     (because we're not sure if it'll really put safe images all the time, rating is still left to the user).
                     """,
             usage = """
-                    /gelbooru - Retrieves a random image.
-                    /gelbooru [rating] [tags] - Retrieves a image with the specified tags.
+                    `/gelbooru` - Retrieves a random image.
+                    `/gelbooru [rating] [tags]` - Retrieves a image with the specified tags.
                     """,
             parameters = {
                     @Help.Parameter(name = "rating", description = RATING_HELP, optional = true),
@@ -354,8 +354,8 @@ public class ImageCmds {
     @Category(CommandCategory.IMAGE)
     @Help(description = "Retrieves images from the safebooru image board. This command can only be used in NSFW channels.",
             usage = """
-                    /safebooru - Retrieves a random image.
-                    /safebooru [tags] - Retrieves a image with the specified tags.
+                    `/safebooru` - Retrieves a random image.
+                    `/safebooru [tags]` - Retrieves a image with the specified tags.
                     """,
             parameters = {
                     @Help.Parameter(name = "tags", description = TAG_HELP, optional = true)
@@ -384,8 +384,8 @@ public class ImageCmds {
                 This command only works in NSFW channels. You could guess it from the name though ;)
                 """,
             usage = """
-                /rule34 - Retrieves a random image.
-                /rule34 [tags] - Retrieves a image with the specified tags.
+                `/rule34` - Retrieves a random image.
+                `/rule34 [tags]` - Retrieves a image with the specified tags.
                 """,
             parameters = {
                     @Help.Parameter(name = "tags", description = TAG_HELP, optional = true)
@@ -409,8 +409,8 @@ public class ImageCmds {
                     This command only works on NSFW channels, regardless of the rating specified, due to inconsistent ratings.
                     """,
             usage = """
-                    /danbooru - Retrieves a random image.
-                    /danbooru [rating] [tags] - Retrieves a image with the specified tags.
+                    `/danbooru` - Retrieves a random image.
+                    `/danbooru [rating] [tags]` - Retrieves a image with the specified tags.
                     """,
             parameters = {
                     @Help.Parameter(name = "rating", description = RATING_HELP, optional = true),

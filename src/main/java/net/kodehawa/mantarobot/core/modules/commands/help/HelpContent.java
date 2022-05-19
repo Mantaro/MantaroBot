@@ -16,6 +16,9 @@
 
 package net.kodehawa.mantarobot.core.modules.commands.help;
 
+import net.kodehawa.mantarobot.core.command.meta.Help;
+
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,13 +26,13 @@ import java.util.Map;
 
 public class HelpContent {
     private final String description;
-    private final Map<String, String> parameters;
+    private final List<Help.Parameter> parameters;
     private final String usage;
     private final List<String> related;
     private final boolean seasonal;
     private final List<String> descriptionList;
 
-    public HelpContent(String description, Map<String, String> parameters, String usage, List<String> related, List<String> descriptionList, boolean seasonal) {
+    public HelpContent(String description, List<Help.Parameter> parameters, String usage, List<String> related, List<String> descriptionList, boolean seasonal) {
         this.description = description;
         this.parameters = parameters;
         this.usage = usage;
@@ -42,7 +45,7 @@ public class HelpContent {
         return this.description;
     }
 
-    public Map<String, String> getParameters() {
+    public List<Help.Parameter> getParameters() {
         return this.parameters;
     }
 
@@ -64,7 +67,7 @@ public class HelpContent {
 
     public static class Builder {
         private String description = null;
-        private final Map<String, String> parameters = new HashMap<>();
+        private List<Help.Parameter> parameters = new ArrayList<>();
         private String usage = null;
         private List<String> related = new ArrayList<>();
         private boolean seasonal = false;
@@ -75,14 +78,18 @@ public class HelpContent {
             return this;
         }
 
-        public Builder addParameter(String parameterName, String content) {
-            parameters.put(parameterName, content);
+        public Builder setParameters(List<Help.Parameter> parameters) {
+            this.parameters = parameters;
             return this;
         }
 
-        //I was lazy to make last one take a boolean bc that'd mean replacing existing ones, bleh.
-        public Builder addParameterOptional(String parameterName, String content) {
-            parameters.put(parameterName, content + " This is optional");
+        public Builder addParameter(String name, String description) {
+            parameters.add(getParameter(name, description, false));
+            return this;
+        }
+
+        public Builder addParameterOptional(String name, String description) {
+            parameters.add(getParameter(name, description, true));
             return this;
         }
 
@@ -109,6 +116,35 @@ public class HelpContent {
         public Builder setSeasonal(boolean seasonal) {
             this.seasonal = seasonal;
             return this;
+        }
+
+        // This is *cursed*
+        // With this simple trick I'm probably breaking a billion Java conventions
+        // Like, you know, the fact you shouldn't be able to initiate an annotation.
+        // Though, this isn't **really** an annotation, it shouldn't matter, as this is for backwards compatibility.
+        // SO: https://stackoverflow.com/a/16303007
+        private Help.Parameter getParameter(String name, String description, boolean optional) {
+            return new Help.Parameter() {
+                @Override
+                public Class<? extends Annotation> annotationType() {
+                    return Help.Parameter.class;
+                }
+
+                @Override
+                public String name() {
+                    return name;
+                }
+
+                @Override
+                public String description() {
+                    return description;
+                }
+
+                @Override
+                public boolean optional() {
+                    return optional;
+                }
+            };
         }
 
         public HelpContent build() {

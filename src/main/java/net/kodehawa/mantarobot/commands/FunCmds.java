@@ -94,7 +94,7 @@ public class FunCmds {
     @Options({
             @Options.Option(type = OptionType.USER, name = "user", description = "The user to rate.", required = true)
     })
-    @Help(description = "Rates your waifu from zero to 100. Results may vary.", usage = "/ratewaifu <user>", parameters = {
+    @Help(description = "Rates your waifu from zero to 100. Results may vary.", usage = "`/ratewaifu <user>`", parameters = {
             @Help.Parameter(name = "user", description = "The user to rate.")
     })
     public static class RateWaifu extends SlashCommand {
@@ -186,7 +186,7 @@ public class FunCmds {
     @Options({
             @Options.Option(type = OptionType.USER, name = "user", description = "The user to compare with.", required = true)
     })
-    @Help(description = "Calculates the love between 2 discord users. Results may vary. This is random, for real.", usage = "/love [user]",
+    @Help(description = "Calculates the love between 2 discord users. Results may vary. This is random, for real.", usage = "`/love [user]`",
     parameters = {
             @Help.Parameter(name = "user", description = "The user to compare with.")
     })

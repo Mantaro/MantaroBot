@@ -139,7 +139,7 @@ public class InfoCmds {
     @Options({
           @Options.Option(type = OptionType.USER, name = "user", description = "The user to get the avatar of.")
     })
-    @Help(description = "Get a user's avatar URL.", usage = "/avatar [user]" ,parameters = {
+    @Help(description = "Get a user's avatar URL.", usage = "`/avatar [user]`" ,parameters = {
             @Help.Parameter(name = "User", description = "The user to get the avatar of.", optional = true)
     })
     public static class Avatar extends SlashCommand {
@@ -169,7 +169,7 @@ public class InfoCmds {
     @Name("userinfo")
     @Description("See information about specific users.")
     @Category(CommandCategory.INFO)
-    @Help(description = "See information about specific users.", usage = "/userinfo [user]", parameters = {
+    @Help(description = "See information about specific users.", usage = "`/userinfo [user]`", parameters = {
             @Help.Parameter(name = "user", description = "The user you want to look.", optional = true)
     })
     @Options({
@@ -287,7 +287,7 @@ public class InfoCmds {
     @Name("roleinfo")
     @Description("See information about a role.")
     @Category(CommandCategory.INFO)
-    @Help(description = "See information about a role.", usage = "/roleinfo <role>", parameters = {
+    @Help(description = "See information about a role.", usage = "`/roleinfo <role>`", parameters = {
             @Help.Parameter(name = "role", description = "The role you want to see the information of.")
     })
     @Options({

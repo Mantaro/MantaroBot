@@ -204,7 +204,7 @@ public class MarketCmd {
         })
         @Help(
                 description = "Looks up the price of an item.", 
-                usage = "/market price [item]",
+                usage = "`/market price [item]`",
                 parameters = {
                         @Help.Parameter(name = "item", description = "The item name.")
                 }
