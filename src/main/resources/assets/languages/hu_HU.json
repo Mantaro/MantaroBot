@@ -355,10 +355,10 @@
       "success": "%1$sÖsszekevertem a lejátszási listán levő dalok sorrendjét."
     },
     "skip": {
-      "dj_skip": "%1$sÁtléptettem ezt a számot.",
+      "dj_skip": "%1$sA DJ átugrotta a számot.",
       "vote": {
         "submit": "%1$s**Szavaztál.** Még %2$d szavat kell, hogy a következő számra ugorjunk!",
-        "remove": "%1$s**A szavazatod törölve lett.** Még %2$d szavat kell, hogy a következő számra ugorjunk!"
+        "remove": "%1$s**A szavazatod törölve**! Még %2$d szavat kell, hogy a következő számra ugorjunk!"
       },
       "success": "%1$sElértem a kívánt szavazatszámot, zene átugrása...",
       "no_track": "%1$sNem találtam mit átugrani, Nem tudok csinálni semmit..."
@@ -367,51 +367,51 @@
       "invalid_range": "%1$s`%2$s` nem érvényes tartomány.",
       "no_track": "%1$sA következő sorszámon nincs zene: `%2$d`!",
       "invalid_number": "(%1$s`%2$s`) Az egyik nem érvényes szám!",
-      "invalid_number_range": "%1$s`%2$s` nem érvényes szám vagy tartomány!",
+      "invalid_number_range": "%1$s`%2$s` nem érvényes szám!",
       "success": "%1$sTörölve **%2$d** szám a listából.",
       "not_dj": "%1$sDJ rang szükséges ennek a parancsnak a végrehajtásához."
     },
     "stop": {
       "dj_stop": "%1$sA DJ megállította a várólistát.",
       "vote": {
-        "submit": "%1$s**szavazatod rögzítve** Kell még %2$d szavazat a megállításhoz!",
-        "remove": "%1$s**A szavazatod törölve lett.** Még %2$d szavat kell a megállításhoz!"
+        "submit": "%1$s**szavazatod rögzítve**! Még %2$d szavazat a megállításhoz!",
+        "remove": "%1$s**A szavazatod törölve**! Még %2$d szavat kell a megállításhoz!"
       },
       "success": "%1$sSzükséges szavazatszám elérve, megállítás...",
       "no_player": "%1$sNem találtam semmit amit megállíthatnék, Nem tudok mit csinálni...",
       "cleanup": "%1$sTöröltem **%2$d zenét** a listából."
     },
     "volume": {
-      "no_player": "%1$sJelenleg semmi nem megy.",
+      "no_player": "%1$s A lejátszás szünetel.",
       "check": "%1$sA hangerő: %2$d\n\n%3$s",
       "success": "%1$sHangerő beállítva %2$d\n\n%3$s",
       "no_args": "%1$sAdd meg mire szeretnéd megváltoztatni a hangerőt! (5 - 100)",
-      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to a user or a server, please, if you donate, join the support guild and ask for it."
+      "premium_only": "%1$sEz egy csak-prémium funkció. Hasonló előnyökért feliratkozhatsz patreonon (https://www.patreon.com/mantaro).\nA csak-prémium funkciók egy szerverhez vagy felhasználóhoz lehetnek kötve. Kérlek lépj be a support szerverre és kérj meg egy erre alkalmas embert."
     },
     "lyrics": {
-      "no_current_track": "%1$sThere's no song currently playing on this server!",
-      "error_searching": "%1$sThere was an error searching for this track or there was no results found.",
-      "header": "%1$s%2$s Dalszövege",
-      "footer": "Köszönöm, hogy Mantarót használod! Oldal: %1$d, Összesen: %2$d."
+      "no_current_track": "%1$sEzen a szerveren jelenleg nincs zene!",
+      "error_searching": "%1$sHiba történt a keresés során, vagy nincs találat.",
+      "header": "%1$s %2$s Dalszövege",
+      "footer": "Köszönöm, hogy Mantarót használod! %1$d. oldal, Összesen: %2$d."
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). %3$s.\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nTo reset the server prefix run `~>opts prefix clear`\nIf you have any questions, you can join <https://support.mantaro.site>",
-      "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
-      "none": "There's no custom prefix set on this server."
+      "header": "%1$sAz alap prefixek: %2$s és a bot pingelése (Mindre válaszolok)! %3$s.\nBe tudod állítani a prefixet az `~>opts prefix set <prefix>` parancs használatáva. (a <> nem kell)\nA visszaállításhoz használd az `~>opts prefix clear` parancsot.\nHa bármi kérdésed van csatlakozz <https://support.mantaro.site>",
+      "guild_prefix": "A szerver előtag: `%1$s`",
+      "none": "A szerveren nincs beállítva egyedi előtag."
     },
     "custom": {
-      "custom_notice": "This is a custom command.",
-      "no_args": "%1$sYou need to specify what you want to do with this command. Check command help for more info!",
-      "incorrect_args": "%1$sIncorrect arguments. Check `~>help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
-      "error_running": "%1$sError while running custom command... please check the response content and length (cannot be more than 2000 chars).",
-      "error_running_new": "%1$sError running custom command. Check response, content and length.\n**Error:**\n```%2$s```",
-      "not_loaded": "The bot hasn't been fully booted up yet... custom commands will be available shortly!",
-      "nsfw_enabled": "%1$sThis command has been successfully marked as NSFW.",
-      "nsfw_disabled": "%1$sThis command has been successfully marked as SFW.",
-      "nsfw_not_nsfw": "%1$sThis command is marked as NSFW therefore it can only be used on NSFW channels.",
-      "new_error": "%1$sThe custom command you're trying to create has an error (v3, check content).\n**Error:**\n```%2$s```",
+      "custom_notice": "Ez egy egyedi parancs.",
+      "no_args": "%1$sMeg kell adnod, hogy mit szeretnél csinálni ezzel a paranccsal. További infókért csekkold le a parancssúgót!",
+      "incorrect_args": "%1$sHibás argumentumok. A helyes használathoz használd a `~>help custom` parancsot vagy a https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands linket. Ha ezek után sem boldogulsz keress fel minket <https://support.mantaro.site>",
+      "error_running": "%1$sHiba a parancs futtatása közben... Kérlek ellenőrizd a válasz tartalmát és hosszát (Maximum 2000 karakter).",
+      "error_running_new": "%1$sHiba történt a parancs futtatása közben. Ellenőrizd a válasz hosszát és tartalmát.\n**Hiba:**\n```%2$s```",
+      "not_loaded": "A bot még nem indult el teljesen... Az egyedi parancsok nemsokára elérhetőek lesznek!",
+      "nsfw_enabled": "%1$sEz a parancs NSFW -nek jelölve.",
+      "nsfw_disabled": "%1$sEz a parancs SFW -nek jelölve.",
+      "nsfw_not_nsfw": "%1$sEz a parancs NSFWnek van jelölve tehát csak ilyen csatornákban használható.",
+      "new_error": "%1$sA létrehozni kívánt parancs hibát tartalmaz (v3, tartalom).\n**Hiba:**\n```%2$s```",
       "ls": {
-        "header": "Commands for this server.",
+        "header": "Szerverparancsok.",
         "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**List:**",
         "footer": "Total custom commands on this server: %1$s"
       },
@@ -562,7 +562,7 @@
       "nice": "Szép pár vagytok!",
       "perfect": "Tökéletes pár!",
       "yourself_note": "Te egy különleges teremtmény vagy, szeretned kéne magadat mindenkinél jobban <3",
-      "header": "Szerelem Mérő",
+      "header": "Szerelemmérő",
       "result": "Eredmény:"
     },
     "marry": {
@@ -713,7 +713,9 @@
       "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sThis inventory is empty! :(",
       "brief_notice": "You can use `~>inventory brief` to get a mobile friendly version.",
-      "sorted_by": " *(sorted by: %1$s)*"
+      "sorted_by": " *(sorted by: %1$s)*",
+      "new_brief_notice": "Please use `~>inventory brief` instead.",
+      "new_calc_notice": "Please use `~>inventory calculate` instead."
     },
     "cast": {
       "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
@@ -1067,7 +1069,7 @@
       "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out. Showing up to 100 results.\n",
       "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`. Showing up to 100 results.",
       "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November).\nIf the month or day has only one digit you need to append a 0 to it. For example, 14/7 would become 14/07 and 7/12 would become 07/12.",
-      "added_birthdate": "%1$sSzületésnapod sikeresen hozzáadva. A te születésnapod: %2$s *(nn-HH)* [nap-hónap]. Ahhoz, hogy a szerver felköszöntsön, futtasd a `~>birthday allowserver` parancsot%3$s",
+      "added_birthdate": "%1$sSzületésnapod sikeresen hozzáadva. A te születésnapod: %2$s *(nn-HH)* [day-month]. Ahhoz, hogy a szerver felköszöntsön, futtasd a `~>birthday allowserver` parancsot%3$s",
       "invalid_month": "%1$sThat's not a valid month number! (Valid months are numbers from 1 to 12)",
       "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `~>birthday allowserver`",
       "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part.",
@@ -1211,15 +1213,15 @@
       },
       "pat": "%2$s megsimogatta %1$s buksiját",
       "hug": "%1$s, %2$s megölelt téged",
-      "kiss": "%2$s megcsókolta %1$s-t",
-      "poke": "%2$s megbökött téged :eyes:, %1$s...",
+      "kiss": "%1$s, %2$s megcsókolt téged",
+      "poke": "%1$s, %2$s megbökött téged! :eyes:",
       "slap": "%1$s, meg lettél pofozva %2$s által!",
       "bite": "%1$s, %2$s épp megharapott téged :eyes:",
-      "tickle": "%1$s, %2$s megcsikizett téged",
+      "tickle": "%1$s, %2$s megcsiklandozott téged",
       "lick": "%1$s, %2$s megnyalt téged",
       "highfive": "%1$s és %2$s összepacsiztak :heart:",
       "pout": "%1$s most nagyon haragszik rád %2$s *hmph*",
-      "teehee": "%2$s, %1$s provokál téged",
+      "teehee": "%2$s, %1$s ugrat téged",
       "smile": "%2$s, %1$s rád mosolygott :heart:",
       "stare": "%2$s, %1$s épp téged néz",
       "holdhands": "%1$s megfogja %2$s kezét",

@@ -707,13 +707,15 @@
     },
     "inventory": {
       "bot_notice": "%1$sĐây, tôi không có túi đồ. Ừ thì, có thể bạn ước rằng nó có, nhưng nếu vậy nó sẽ là `~>dump` (đồ bỏ đi)",
-      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory`. Enjoy your day!*",
+      "brief": "**Túi đồ của %1$s** %2$s\n\n*Sử dụng phiên bản chi tiết bằng `~>inventory`. Chúc bạn có một ngày tốt lành!*",
       "calculate": "%1$s%2$s sẽ nhận được **%3$,d đồng** nếu bán tất cả mọi thứ trong túi đồ.",
       "header": "Túi đồ của %1$s",
       "format": "%1$sGiá cả:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sTúi đồ này chẳng có gì cả! :(",
       "brief_notice": "Bạn có thể sử dụng `~>inventory -brief` để xài phiên bản thân thiện với điện thoại.",
-      "sorted_by": " *(được sắp xếp theo: %1$s)*"
+      "sorted_by": " *(được sắp xếp theo: %1$s)*",
+      "new_brief_notice": "Làm ơn sử dụng `~>inventory brief`.",
+      "new_calc_notice": "Please use `~>inventory calculate` instead."
     },
     "cast": {
       "no_item_specified": "%1$sBạn chưa ghi rõ bất kỳ vật phẩm nào. Để có một danh sách cụ thể, hãy dùng `~>cast ls`",
@@ -809,7 +811,7 @@
       "new_account_notice_other": "%1$sTài khoản bạn đang chuyển đến phải có ít nhất 14 ngày tuổi.",
       "transfer_yourself_note": "%1$sBạn không thể tự chuyển tiền cho bản thân.",
       "bot_notice": "%1$sBạn không thể chuyển tiền cho bot.",
-      "no_amount": "%1$sYou need to specify the amount. Use the `~>transferitems` command instead if you meant to transfer an item.",
+      "no_amount": "%1$sBạn cần xác định số lượng. Sử dụng `~>transferitems` nếu bạn muốn chuyển vật phẩm.",
       "no_money_specified_notice": "%1$sBạn không thể chuyển số tiền bằng không :P",
       "over_transfer_limit": "%1$sBạn không thể chuyển nhiều tiền đến vậy. (Giới hạn: %2$,d đồng)",
       "own_locked_notice": "%1$sBạn hiện không thể chuyển tiền.",
@@ -1060,20 +1062,20 @@
     },
     "birthday": {
       "reset": "%1$sĐã đặt lại ngày sinh.",
-      "no_guild_birthdays": "%1$sHình như cả có gì ở đây cả.\nHãy nhớ rằng bộ nhớ cache làm mới sau mỗi 23h và bây giờ mọi người phải chạy `~>birthday allowerver` để cho phép máy chủ này thông báo sinh nhật của họ.",
+      "no_guild_birthdays": "%1$sHình như cả có gì ở đây cả.\nHãy nhớ rằng bộ nhớ cache làm mới sau mỗi 23h và bây giờ mọi người phải chạy `~>birthday allowserver` để cho phép máy chủ này thông báo sinh nhật của họ.",
       "no_guild_month_birthdays": "%1$sKhông có sinh nhật nào trong tháng này (%2$s) hết :(\n%3$sNếu bạn mới cài đặt thông báo ngày sinh, làm ơn hãy chờ một lúc cho đến khi chạy lại. (Bộ nhớ đệm làm mới sau mỗi 23h)\nCòn một điều nữa là bạn phải chạy `~>birthday allowserver` để cho phép máy chủ này thông báo sinh nhật của họ.",
       "cache_not_running": "%1$sDữ liệu sinh nhật không dường như không hoạt động (lỗi phần mềm) :(",
       "error": "%1$sCó gì đó đã bị sai sót trong quá trình cập nhật ngày sinh (lỗi phần mềm) :(",
       "header": "**Sinh nhật của máy chủ %1$s trong %2$s**\nBộ nhớ đệm sinh nhật được cập nhật 23 giờ một lần, vì vậy nếu ngày sinh của bạn không xuất hiện ở đây, đừng lo lắng quá, hãy chờ đợi. Hiển thị tối đa 100 kết quả.\n",
-      "full_header": "**Sinh nhật trong máy chủ %1$s**\n%2$s\nHãy nhớ rằng sinh nhật được lưu vào bộ nhớ đệm cứ sau 23 giờ và phải chạy `~>birthday allowerver`. Hiển thị tối đa 100 kết quả.",
+      "full_header": "**Sinh nhật trong máy chủ %1$s**\n%2$s\nHãy nhớ rằng sinh nhật được lưu vào bộ nhớ đệm cứ sau 23 giờ và phải chạy `~>birthday allowserver`. Hiển thị tối đa 100 kết quả.",
       "error_date": "%1$sNgày bạn đã nhập không phải là ngày hợp lệ hoặc tôi không thể phân tích cú pháp chính xác. Vui lòng thử với định dạng chính xác.\nHãy nhớ rằng định dạng là `dd/mm` (Ví dụ: sử dụng` ~>birthday 16-11` cho ngày 16 tháng 11).\nNếu tháng hoặc ngày chỉ có một chữ số, bạn cần thêm số 0 vào đó. Ví dụ,\n14/7 sẽ trở thành 14/07 và 7/12 sẽ trở thành 07/12.",
-      "added_birthdate": "%1$sĐã thêm ngày sinh thành công. Ngày sinh nhật mới: %2$s *(Định dạng: dd-MM) * [ngày-tháng]. Để máy chủ này thông báo sinh nhật của bạn, bây giờ bạn phải chạy `~>birthday allowerver`%3$s",
+      "added_birthdate": "%1$sĐã thêm ngày sinh thành công. Ngày sinh nhật mới: %2$s *(Định dạng: dd-MM) * [ngày-tháng]. Để máy chủ này thông báo sinh nhật của bạn, bây giờ bạn phải chạy `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sMột năm có hơn 12 tháng sao...? (Số tháng hợp lệ cần trong khoảng từ 1 đến 12)",
-      "no_content": "%1$sBạn cần ghi rõ chỉ định ngày sinh của mình, `remove` để đặt lại ngày sinh của bạn hoặc` month` để kiểm tra danh sách tháng sinh nhật. Sau đó, để máy chủ này thông báo sinh nhật của bạn, bạn phải chạy `~> birthday allowerver`",
+      "no_content": "%1$sBạn cần ghi rõ chỉ định ngày sinh của mình, `remove` để đặt lại ngày sinh của bạn hoặc `month` để kiểm tra danh sách tháng sinh nhật. Sau đó, để máy chủ này thông báo sinh nhật của bạn, bạn phải chạy `~>birthday allowserver`",
       "new_format": "%1$sĐịnh dạng ngày mới là `dd-mm` (ngày-tháng, ví dụ: 20-10 là cho ngày 20 tháng 10). Không cần nhập năm của bạn nữa, vì vậy bạn có thể bỏ qua phần đó.",
       "allowed_server": "%1$sĐã cho phép máy chủ hiện tại thông báo sinh nhật của bạn. Để từ chối trong tương lai, chỉ cần chạy `~> birthday denyserver` trên máy chủ này.",
       "denied": "%1$sĐã từ chối máy chủ hiện tại thông báo sinh nhật của bạn. Để cho phép trong tương lai, chỉ cần chạy `~> birthday denyserver` trên máy chủ này.",
-      "already_denied": "%1$sMáy chủ này không thể thông báo ngày sinh của bạn. Nếu bạn muốn cho phép, hãy chạy `~> birthday allowerver`. Đây là mặc định.",
+      "already_denied": "%1$sMáy chủ này không thể thông báo ngày sinh của bạn. Nếu bạn muốn cho phép, hãy chạy `~> birthday allowserver`. Đây là mặc định.",
       "leap": "Sinh nhật của bạn là vào ngày 29 tháng 2, có nghĩa là nó sẽ được công bố vào ngày 29 vào các năm nhuận và vào ngày 28 tháng 2 vào các năm không nhuận.",
       "already_allowed": "%1$sBạn đã cho phép máy chủ này hiển thị ngày sinh của bạn."
     },
@@ -1393,7 +1395,7 @@
         "success": "%1$sĐặt thành công lựa chọn của bạn thành: %2$s %3$s"
       },
       "level": {
-        "no_pet": "%1$sYou don't have any pets to check the level of. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sBạn không có thú nuôi nào để kiểm tra cấp độ cả. Xem `~>pet` để biết thêm. (Lựa chọn: %2$s)%3$s",
         "success": "%1$sCấp độ của **%2$s**: **%3$,d** (%4$,d XP / %5$,d XP)"
       },
       "list": {
@@ -2429,7 +2431,7 @@
     "tv": "Tivi",
     "wrench": "Cờ lê",
     "star_wrench": "Cờ lê sao băng",
-    "comet_wrench": "Comet Wrench",
+    "comet_wrench": "Cờ lê Sao chổi",
     "sparkle_wrench": "Cờ lê lấp lánh",
     "motorcycle": "Xe mô tô",
     "comet_pick": "Cuốc sao chổi",
@@ -2579,7 +2581,7 @@
       "diamond_pick": "Một cây cuốc cứng hơn.",
       "tv": "Cần... xem... TV...",
       "wrench": "Công cụ chế tạo. Dùng để ghép các thứ lại với nhau.",
-      "comet_wrench": "Casting tool. Useful to put stuff together. A little less chance of breaking, needed to cast some items. Tier 3.",
+      "comet_wrench": "Công cụ chế tạo. Dùng để ghép các thứ lại với nhau. Có tỉ lệ bị gãy ít hơn, cần để chế tạo nhiều đồ cùng một lúc. Cấp 3.",
       "star_wrench": "Công cụ chế tạo. Dùng để ghép các thứ lại với nhau. Ít bị gãy hơn, cần để chế tạo nhiều đồ cùng một lúc. Cấp 3.",
       "sparkle_wrench": "Công cụ chế tạo. Dùng để ghép các thứ lại với nhau. Ít bị gãy hơn. Chi phí cho mỗi lần chế tạo ít hơn. Cấp 4.",
       "motorcycle": "Đi đây đi đó, một cách thật ngầu.",
@@ -2648,21 +2650,21 @@
     }
   },
   "time": {
-    "day": "day",
-    "days": "days",
-    "week": "week",
-    "weeks": "weeks",
-    "month": "month",
-    "months": "months",
-    "year": "year",
-    "years": "years",
-    "hour": "hour",
-    "hours": "hours",
-    "minute": "minute",
-    "minutes": "minutes",
-    "second": "second",
-    "seconds": "seconds",
-    "little": "less than a second"
+    "day": "ngày",
+    "days": "ngày",
+    "week": "tuần",
+    "weeks": "tuần",
+    "month": "tháng",
+    "months": "tháng",
+    "year": "năm",
+    "years": "năm",
+    "hour": "giờ",
+    "hours": "giờ",
+    "minute": "phút",
+    "minutes": "phút",
+    "second": "giây",
+    "seconds": "giây",
+    "little": "chưa đầy một giây"
   },
   "test": {
     "inherited": "owo"
