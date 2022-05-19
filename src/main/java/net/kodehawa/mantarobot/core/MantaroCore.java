@@ -477,7 +477,7 @@ public class MantaroCore {
         }
 
         bot.startCheckingBirthdays();
-        var slashList = CommandProcessor.REGISTRY.getNewCommands().getSlashCommandsList();
+        var slashList = CommandProcessor.REGISTRY.getCommandManager().getSlashCommandsList();
         registerSlash(slashList);
         log.info("Attempted to register slash commands (@Module). List size: {}", slashList.size());
     }

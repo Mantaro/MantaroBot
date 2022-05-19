@@ -40,6 +40,19 @@ public class HelpUtils {
         );
     }
 
+    public static String forTypeSlash(TextChannel channel, GuildData guildData, CommandCategory category) {
+        return forType(
+                CommandProcessor.REGISTRY.getCommandManager().slashCommands().entrySet().stream()
+                        .filter(entry -> entry.getValue().getCategory() == category)
+                        .filter(entry -> !guildData.getDisabledCategories().contains(entry.getValue().getCategory()))
+                        .filter(c -> !guildData.getDisabledCommands().contains(c.getKey()))
+                        .filter(c -> guildData.getChannelSpecificDisabledCommands().get(channel.getId()) == null || !guildData.getChannelSpecificDisabledCommands().get(channel.getId()).contains(c.getKey()))
+                        .filter(c -> !guildData.getChannelSpecificDisabledCategories().computeIfAbsent(channel.getId(), wew -> new ArrayList<>()).contains(category))
+                        .map(Entry::getKey)
+                        .collect(Collectors.toList())
+        );
+    }
+
     public static String forType(List<String> values) {
         if (values.size() == 0) {
             return "`Disabled`";

@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.core;
 
 import com.google.common.base.Preconditions;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
@@ -42,7 +41,6 @@ import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -65,14 +63,12 @@ public class CommandRegistry {
     private static final Logger log = LoggerFactory.getLogger(CommandRegistry.class);
 
     private final Map<String, Command> commands;
-    private final Map<String, SlashCommand> slashCommands;
     private final Config config = MantaroData.config().get();
     private final CommandManager newCommands = new CommandManager();
     private final RateLimiter rl = new RateLimiter(TimeUnit.HOURS, 1);
 
     public CommandRegistry(Map<String, Command> commands, Map<String, SlashCommand> slashCommands) {
         this.commands = Preconditions.checkNotNull(commands);
-        this.slashCommands = Preconditions.checkNotNull(slashCommands);
     }
 
     public CommandRegistry() {
@@ -86,6 +82,12 @@ public class CommandRegistry {
     public Map<String, Command> getCommandsForCategory(CommandCategory category) {
         return commands.entrySet().stream()
                 .filter(cmd -> cmd.getValue().category() == category)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public Map<String, SlashCommand> getSlashCommandsForCategory(CommandCategory category) {
+        return getCommandManager().slashCommands().entrySet().stream()
+                .filter(cmd -> cmd.getValue().getCategory() == category)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
@@ -260,7 +262,7 @@ public class CommandRegistry {
         }
 
         final var start = System.currentTimeMillis();
-        var command = slashCommands.get(event.getName().toLowerCase());
+        var command = getCommandManager().slashCommands().get(event.getName().toLowerCase());
 
         // Only process custom commands outside slash.
         if (command == null) {
@@ -442,7 +444,6 @@ public class CommandRegistry {
 
     public void registerSlash(Class<? extends SlashCommand> clazz) {
         var cmd = newCommands.registerSlash(clazz);
-        slashCommands.put(cmd.getName(), cmd);
     }
 
     public <T extends Command> T register(String name, T command) {
@@ -485,7 +486,7 @@ public class CommandRegistry {
         return !CommandPermission.ADMIN.test(member);
     }
 
-    public CommandManager getNewCommands() {
+    public CommandManager getCommandManager() {
         return newCommands;
     }
 
