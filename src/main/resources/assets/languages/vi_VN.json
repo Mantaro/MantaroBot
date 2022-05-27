@@ -715,7 +715,7 @@
       "brief_notice": "Bạn có thể sử dụng `~>inventory -brief` để xài phiên bản thân thiện với điện thoại.",
       "sorted_by": " *(được sắp xếp theo: %1$s)*",
       "new_brief_notice": "Làm ơn sử dụng `~>inventory brief`.",
-      "new_calc_notice": "Please use `~>inventory calculate` instead."
+      "new_calc_notice": "Làm ơn sử dụng `~>inventory calc`."
     },
     "cast": {
       "no_item_specified": "%1$sBạn chưa ghi rõ bất kỳ vật phẩm nào. Để có một danh sách cụ thể, hãy dùng `~>cast ls`",
