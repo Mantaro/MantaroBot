@@ -137,12 +137,16 @@ public class DebugCmds {
                     + "Uptime: " + Utils.formatDuration(ctx.getI18nContext(), node.getLong("uptime")) + "\n"
                     + "Version: " + MantaroInfo.VERSION + " (Git: " + MantaroInfo.GIT_REVISION + ")\n"
                     + "Libraries: " + "[ JDA: %s, LP: %s ]".formatted(JDAInfo.VERSION, PlayerLibrary.VERSION) + "\n"
-                    + "Commands: " +
+                    + "Commands: [ Common: " +
                     CommandProcessor.REGISTRY.commands()
                             .values()
                             .stream()
                             .filter(command -> command.category() != null)
-                            .count()
+                            .count() + ", Slash: " +
+                    CommandProcessor.REGISTRY.getCommandManager().slashCommands()
+                            .values().stream()
+                            .filter(command -> command.getCategory() != null)
+                            .count() + " ]"
                     + "\n\n --------- Debug Information --------- \n\n"
                     + "Replies: " + "[ Discord: %,d, MAPI: %,d ]".formatted(responseTotal, mApiRequests) + "\n"
                     + "Nodes: " + "%,d (Current: %,d)".formatted(clusterTotal, ctx.getBot().getNodeNumber()) + "\n"
