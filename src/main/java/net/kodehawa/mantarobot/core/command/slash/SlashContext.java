@@ -169,6 +169,16 @@ public class SlashContext implements IContext {
         }
     }
 
+    public void reply(Message message) {
+        if (deferred) {
+            slash.getHook().sendMessage(message).queue();
+        } else {
+            slash.deferReply()
+                    .setContent(message.getContentRaw())
+                    .queue();
+        }
+    }
+
     public void replyStripped(String text) {
         if (deferred) {
             slash.getHook().sendMessage(text)
@@ -316,6 +326,11 @@ public class SlashContext implements IContext {
     @Override
     public void send(String s) {
         reply(s);
+    }
+
+    @Override
+    public void send(Message message) {
+
     }
 
     @Override

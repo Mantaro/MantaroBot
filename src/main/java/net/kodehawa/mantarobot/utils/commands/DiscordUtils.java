@@ -496,14 +496,13 @@ public class DiscordUtils {
 
     public static Future<Void> listButtons(UtilsContext ctx, int timeoutSeconds, int length,
                                     IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
-
         if (parts.length == 0) {
             return null;
         }
 
         List<MessageEmbed> embeds = buildSplitEmbed(supplier, length, parts);
         if (embeds.size() == 1) {
-            ctx.getChannel().sendMessageEmbeds(embeds.get(0)).queue();
+            ctx.send(embeds.get(0));
             return null;
         }
 

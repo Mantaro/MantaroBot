@@ -149,7 +149,6 @@ public class CustomCmds {
 
     //Lazy-load custom commands into cache.
     public static CustomCommand getCustomCommand(String id, String name) {
-        //lol
         if (CommandProcessor.REGISTRY.commands().containsKey(name)) {
             return null;
         }
