@@ -139,8 +139,7 @@ public class DebugCmds {
                     + "Libraries: " + "[ JDA: %s, LP: %s ]".formatted(JDAInfo.VERSION, PlayerLibrary.VERSION) + "\n"
                     + "Commands: [ Common: " +
                     CommandProcessor.REGISTRY.commands()
-                            .values()
-                            .stream()
+                            .values().stream()
                             .filter(command -> command.category() != null)
                             .count() + ", Slash: " +
                     CommandProcessor.REGISTRY.getCommandManager().slashCommands()

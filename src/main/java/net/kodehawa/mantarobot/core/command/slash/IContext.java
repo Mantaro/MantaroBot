@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.core.command.slash;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -23,6 +24,7 @@ public interface IContext {
     UtilsContext getUtilsContext();
     I18nContext getLanguageContext();
     void send(String s);
+    void send(Message message);
     void sendStripped(String s);
     void send(MessageEmbed e);
     void send(MessageEmbed e, ActionRow... actionRows);
@@ -41,5 +43,15 @@ public interface IContext {
     ShardManager getShardManager();
     MantaroObj getMantaroData();
     Config getConfig();
+
+    default EmbedBuilder baseEmbed(IContext ctx, String name, String image) {
+        return new EmbedBuilder()
+                .setAuthor(name, null, image)
+                .setColor(ctx.getMember().getColor())
+                .setFooter("Requested by: %s".formatted(ctx.getMember().getEffectiveName()),
+                        ctx.getGuild().getIconUrl()
+                );
+    }
+
 }
 
