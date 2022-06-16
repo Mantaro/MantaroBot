@@ -141,7 +141,6 @@ public class CustomCmds {
             ctx.sendLocalized("commands.custom.error_running", EmoteReference.ERROR);
             e.printStackTrace();
         }
-
     }
 
     //Lazy-load custom commands into cache.
@@ -191,7 +190,7 @@ public class CustomCmds {
             If you wish to allow normal people to make custom commands, run `~>opts admincustom false`.
             Running the above isn't exactly recommended, but works for small servers.
             See subcommands for more commands, or refer to the [wiki](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22)
-            """, usage = "/custom [sub command]")
+            """, usage = "`/custom [sub command]`")
     public static class Custom extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {}
