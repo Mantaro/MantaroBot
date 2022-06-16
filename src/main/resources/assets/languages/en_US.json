@@ -444,7 +444,8 @@
       "eval": {
         "not_specified": "You didn't specify anything to eval.",
         "new_error": "%1$sThere was an error while evaluating this custom command.\n**Error**:\n```%2$s```",
-        "error": "%1$sThere was an error while evaluating this custom command!\n%2$s"
+        "error": "%1$sThere was an error while evaluating this custom command!\n%2$s",
+        "slash_notice": "%1$sThis command does not work with slash, yet. You can use `~>custom eval` for now."
       },
       "remove": {
         "no_command": "%1$sYou need to tell me what command you want to remove.",

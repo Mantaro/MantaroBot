@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.sharding.ShardManager;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -38,6 +39,7 @@ public interface IContext {
     ManagedDatabase db();
     Player getPlayer();
     DBUser getDBUser();
+    DBGuild getDBGuild();
     Player getPlayer(User user);
     DBUser getDBUser(User user);
     ShardManager getShardManager();
