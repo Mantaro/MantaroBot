@@ -1034,7 +1034,7 @@
       },
       "ls": {
         "header": "Obtainable Badges List",
-        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!",
+        "desc": "Das ist eine Liste mit allen momentan erhältlichen Abzeichen von Mantaro. Diese Liste enthält die Namen und Beschreibung der Abzeichen. Es sollte dir ein Bild von den Voraussetzungen geben, die du brauchst, um es zu erhalten.\nWenn du denkst, dass du ein Abzeichen erhalten hast, ihn aber nicht auf deiner persönlichen Abzeichenliste siehst, benutze `~>profile` und dann `~>badges` erneut.\nViel Glück, Abzeichenjäger!",
         "obtained": "**Obtained:** %s"
       },
       "brief_success": "**%1$ss Abzeichen:**\n%2$s",
@@ -1422,7 +1422,7 @@
         "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`). If you want a personal pet, first run `~>pet choice personal`.",
         "no_requirements": "%1$sDu brauchst sowohl ein Auto, als auch ein Haus, um ein Haustier zu kaufen! Haus: %2$s, Auto: %3$s\nUm ein Haus und ein Auto zu kaufen, nutze `~>marry buyhouse` und `~>marry buycar` :heart:",
         "no_house": "%1$sUm dies zu tun musst du eine Haustierhütte in deinem Inventar haben. Du kannst eine durch den Markt kaufen.",
-        "no_egg": "%1$sYou need to have a Incubator Egg on your inventory to do this. You can cast it, check `~>cast ls`",
+        "no_egg": "%1$sDu brauchst ein Inkubatorei in deinem Inventar. Du kannst es herstellen, bitte schau `~>cast ls`",
         "already_has_pet": "%1$sYou already have a pet. (Current choice: %2$s)",
         "nothing_found": "%1$sKonnte die Haustierart nicht finden. Angegeben: `%2$s`, Gültige Arten: `%3$s`",
         "not_enough_money": "%1$sDu hast nicht genug Geld, um dieses Haustier zu kaufen. Wert: %2$,d Credits, Geldbeutel: %3$,d Credits",
@@ -1464,17 +1464,17 @@
         "success_mine": "%1$s**%2$s** successfully helped you mine! **You got an extra %3$,d credits and more item drop chances** thanks to the extra work your pet was able to do for you! *included on what you got*"
       },
       "rename": {
-        "no_pet": "%1$sYou don't have a pet to rename. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sDu hast kein Haustier, welches du umbenennen kannst. (Wahl: %2$s)%3$s",
         "same_name": "%1$sDer Name, den du mir gegeben hast, ist schon der aktuelle Name deines Haustiers.",
         "no_content": "%1$sDu musst mir den neuen Namen deines Haustiers geben.",
-        "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2$s, Current: %3$s.",
+        "not_enough_money": "%1$sDu hast nicht genug Credits, um dies zu tun. Kosten: %2$s, aktuell: %3$s.",
         "success": "%1$sDein Haustier wurde erfolgreich von `%2$s` in `%3$s` umbenannt. %4$s wurde von deinem Geldbeutel abgezogen. Viel Spaß!"
       },
       "remove": {
         "no_pet": "%1$sYou don't have a pet to remove. (Choice: %2$s)%3$s",
         "no_pet_confirm": "%1$sI don't see any pet here...",
-        "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$,d credits, and you will receive %2$,d credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
-        "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$,d credits.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
+        "confirm": "%1$sBist du dir sicher, dass du dieses Haustier entfernen willst? Die Person, mit der du verheiratet bist, wird %2$,d Credits erhalten, und du wirst auch %2$,d Credits erhalten.\nSchreibe `yes` zum bestätigen, sonst `no`. Denk dran, dass die Rückerstattung nicht mit Leveln oder anderem skaliert, also sieh es, als würdest du dir ein neues Tamagotchi oder ähnliches kaufen.",
+        "confirm_personal": "%1$sBist du dir sicher, dass du dieses Haustier entfernen willst? Du wirst %2$,d Credits erhalten.\nSchreibe `yes` zum bestätigen, oder `no` um dies nicht zu tun. Denk dran, dass die Rückerstattung nicht mit Leveln oder anderem skaliert, also sieh es, als würdest du dir ein neues Tamagotchi oder ähnliches kaufen.",
         "success": "%1$sDein Haustier wurde erfolgreich freigelassen. Jede Person in dieser Ehe erhielt %2$s Credits als Rückerstattung.",
         "success_personal": "%1$sSuccessfully removed pet. You received %2$s credits as a refund."
       },
@@ -1485,7 +1485,7 @@
         "cost": "Haustierkosten",
         "abilities": "Fähigkeiten",
         "food": "Essbares",
-        "coin_buildup": "Credit Buildup (Lvl. 1 / 100)",
+        "coin_buildup": "Creditaufbau (Lvl. 1 / 100)",
         "item_buildup": "Gegenstandsaufbau (Lvl. 1 / 100)"
       },
       "locked_notice": "%1$sYou can't buy/sell a pet when the transaction is locked. If this is an error, try again in a few minutes."
@@ -1521,7 +1521,7 @@
         "header": "Liste ausschlachtbarer Gegenstände",
         "cost": "Verschrottungskosten: ",
         "return": "Könnte zürckgeben: ",
-        "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name, short name or the emoji\nSalvaging has a cost of 1/3rd the price of the item, which is shown below.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "desc": "Das ist eine Liste mit allen Gegenständen, die du mit `~>salvage` ausschlachten kannst.\nDu kannst den vollen Namen, gekürzten Namen oder den Emoji verwenden.\nAusschlachten hat Kosten von 1/3tel des Gegenstands, welches unten angezeigt wird.\nDu wirst nur ein Gegenstand von den gelisteten bekommen, zufällig ausgewählt.\nSchraubenschlüssel Stufe 2 und 3 sind jeweils Komet und Glitzer."
       }
     },
     "stats": {
@@ -1611,10 +1611,10 @@
         "no_help": "%1$sEs gibt keine weitere Hilfe für diesen Befehl.",
         "not_found": "%1$sEinen Befehl mit diesem Namen gibt es nicht"
       },
-      "too_long": "Error displaying sub-command help. Check the [wiki](https://github.com/Mantaro/MantaroBot/wiki) for more information on this specific command."
+      "too_long": "Fehler beim Anzeigen der Hilfe für den Unterbefehl. Schaue ins [Wiki](https://github.com/Mantaro/MantaroBot/wiki) für mehr Informationen zu diesem Befehl."
     },
     "repair": {
-      "no_item": "%1$sYou didn't specify any item to repair. If you think you have the correct item, try using the full name.",
+      "no_item": "%1$sDu hast kein Gegenstand zum Re­pa­rie­ren angegeben. Wenn du denkst, dass du den korrekten Gegenstand hast, versuche den kompletten Namen zu benutzen.",
       "no_item_found": "%1$sI can't find that item. If you think you have the correct item, try using the full name.",
       "no_main_item": "%1$sYou don't have the item you're trying to repair (%2$s)",
       "cant_repair": "%1$s**%2$s** ist kein reparierbarer Gegenstand. Du kannst nur kaputte Gegenstände reparieren.",
@@ -1622,7 +1622,7 @@
       "no_tool_specified": "%1$sYou specified a wrench you don't have (%2$s). Please use a tool you have or cast it. If you think you have the correct item, try using the full name.",
       "dust": "%1$sDein Inventar ist zu verstaubt, um eine Reparatur durchzuführen. Staublevel: %2$s",
       "not_wrench": "%1$sDu kannst das nicht als Schraubenschlüssel verwenden. Vergiss nicht Anführungszeichen zu verwenden, falls der Name Leerzeichen beinhaltet.",
-      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. You can equip one if needed (`~>equip Comet Wrench`, for example)",
+      "not_enough_level": "%1$sDu brauchst einen höher wertigen Schraubenschlüssel um die Reparatur auszuführen. Du kannst einen ausrüsten, wenn du es brauchst (`~>equip Comet Wrench`, zum Beispiel)",
       "not_enough_money": "%1$sYou don't have enough money to repair this item. *(Wallet: %2$,d, Needed: %3$,d)*",
       "no_item_recipe": "%1$sDu hast nicht die benötigten *%2$s*, um diese Reparatur durchzuführen.",
       "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair on a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
@@ -1631,7 +1631,7 @@
       "ls": {
         "header": "Liste reparierbarer Gegenstände",
         "cost": "Reparaturkosten: ",
-        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost, which is shown below alongside the needed materials. You need at least a Comet Wrench to repair something."
+        "desc": "Dies ist eine Liste der Gegenstände, die du mit `~>repair` reparieren kannst.\nDu kannst den kompletten oder gekürzten Namen, oder den Emoji verwenden.\nReparieren kostet mindestens ein Drittel der Gegenstandskosten, welche unten mit den benötigten Materialien angezeigt wird. Du brauchst mindestens einen Komet Schraubenschlüssel um etwas zu reparieren."
       }
     },
     "anime": {
@@ -1640,8 +1640,8 @@
       "information_footer": "Informationen bereitgestellt durch Anilist. Gebe &cancel zum abbrechen ein.",
       "no_results": "%1$sKeine Ergebnisse gefunden...",
       "malformed_result": "%1$sIch bekam ein falsches API Ergebnis für diese Suche. Versuche vielleicht einen anderen Begriff?",
-      "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a `%2$s` while trying to process the command. (internal error)",
-      "timeout": "%1$sWe tried to look for this anime, but the request timed out on Kitsu's end. Try again later?",
+      "error": "%1$s**Ich schwöre, ich habe deinen Lieblingsanime nicht fallen lassen!**\nIch habe einen `%2$s` erhalten, während ich versuchte den Befehl auszuführen. (internal error)",
+      "timeout": "%1$sWir haben versucht nach diesem Anime zu suchen, aber die Anfrage dauerte auf Kitsu's Seite zu lange. Versuche es später erneut?",
       "information_header": "Anime Informationen für %1$s",
       "information_notice": "Informationen bereitgestellt durch AniList. Klicke auf den Titel, um auf die AniList Seite des Animes zu gelangen.",
       "airing": "Am Laufen",
@@ -1660,7 +1660,7 @@
     "character": {
       "no_args": "%1$sDu musst mir einen Charakter zum Suchen nennen.",
       "selection_start": "Gebe die Nummer des Charakters, den du auswählen möchtest, ein.",
-      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got `%2$s` while trying to process this command. (internal error)",
+      "error": "%1$s**Ich schwöre, Ich habe deine Waifu nicht f-fallen gelassen, bitte vergib mir!**\nIch habe `%2$s` erhalten, während ich versuchte den Befehl auszuführen. (internal error)",
       "information_header": "Charakterinformationen für %1$s",
       "information": "Informationen",
       "no_aliases": "Keine weiteren Namen",
@@ -1744,7 +1744,7 @@
       "not_suitable": "%1$sDas ist keine Spitzhacke, die du zum Abbauen nutzen kannst!",
       "not_in_inventory": "%1$sDu hast diese Spitzhacke nicht im Inventar, wechsle zur Standardspitzhacke.",
       "success": "%1$sDu hast mit einer *%3$s* Mineralien im Wert von **%2$,d Credits** abgebaut",
-      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
+      "reminder": "\n*Du kannst bessere Spitzhacken mit den abgebauten Edelsteinen herstellen. Schau unter `~>cast ls` für eine Liste an Sachen, die du herstellen kannst*\nFür eine Anleitung, wie du Gegenstände upgraden kannst, lese dich mal hier rein: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
         "overflow": "Huh, you found %1$,d diamond(s) while mining, but you already had too much, so I sold them for you.",
         "success": "Huch! Du hattest Glück und hast beim Abbauen %1$s Diamant(en) gefunden, schau in dein Inventar!"
@@ -1780,7 +1780,7 @@
       },
       "crate": {
         "overflow": "You found a **%1$s** while chopping trees, but you had too many already, so we threw it back into the ocean...",
-        "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+        "success": "Du hast eine %1$s **%2$s** beim Bäume fällen gefunden und hast sie mitgenommen. Los, öffne sie mit `~>opencrate <Truhenname>`. Du brauchst dazu einen Truhenschlüssel!"
       },
       "overflow": "%1$sDu hast Zeug während dem Fällen gefunden, jedoch konntest du von manchen Gegenständen nicht mehr mitnehmen, also mussten wir ein paar weglassen.",
       "success_only_item": "%1$sWhile chopping trees, you found %2$s using a *%3$s* and proceed to save them into your inventory.",
@@ -1837,15 +1837,15 @@
       "no_content": "%1$sDu hast kein Gegenstand angegeben, nachdem gesucht werden soll! Du kannst danach mit dem Namen oder Emoji suchen.",
       "no_item": "%1$sEs gibt kein Item, das zu deiner Suchanfrage passt.",
       "embed": {
-        "header": "Item Information for %1$s",
+        "header": "Gegenstandsinformation für %1$s",
         "type": "Type",
         "usefulness": "Usefulness",
         "attributes": "Attributes",
         "tier": "Tier",
         "durability": "Durability",
         "desc": "Description",
-        "upgrade": "Looking to upgrade?",
-        "upgrade_content": "Click [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
+        "upgrade": "Schaust du zum Upgraden?",
+        "upgrade_content": "Klicke [hier](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade)\nfür mehr Informationen, wie du deine Werkzeuge upgraden kannst!"
       },
       "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s\n%1$s**Buy Price:** %8$s %9$s\n%1$s**Sell Price:** %10$s %11$s",
       "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Buy Price:** %7$s %8$s\n%1$s**Sell Price:** %9$s %10$s"
@@ -1964,7 +1964,7 @@
       "invalid": "%1$s**Du must einen Nutzer zum lokalen Ignorieren lassen angeben.**",
       "yourself_notice": "%1$sWarum versuchst du dich selbst ignorieren zu lassen...?",
       "admin_notice": "%1$sEiner (oder mehrere) der Nutzer, die du versuchst ignorieren zu lassen, sind Admins oder Bot Commander!",
-      "bot_notice": "%1$sYou can't blacklist a bot. The bot will never reply to any bots.",
+      "bot_notice": "%1$sDu kannst keinen Bot blacklisten. Der Bot wird nie auf andere Bots antworten.",
       "success": "%1$sLokal geblacklistete Nutzer: **%2$s**"
     },
     "localblacklist_remove": {
@@ -1992,10 +1992,10 @@
     "logs_timezone": {
       "not_specified": "%1$sYou need to specify a timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
       "invalid": "%1$sNot a valid timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
-      "success": "%1$sSet logs timezone to `%2$s`. This timezone will be used to display the time on moderation logs."
+      "success": "%1$sLogzeitzone wurde auf `%2$s` gesetzt. Diese Zeitzone wird benutzt, um die Zeit in Moderationslogs anzuzeigen."
     },
     "logs_timezonereset": {
-      "success": "%1$sSuccesfully reset log timezone."
+      "success": "%1$sLogging-Zeitzone erfolgreich zurückgesetzt."
     },
     "lobby_reset": {
       "success": "%1$sLobby erfolgreich zurückgesetzt."
@@ -2098,9 +2098,9 @@
       "error_channel_missing": "%1$sThe join channel you set is not existent on this server. Please set another channel."
     },
     "usermessage_leavemessage_test": {
-      "success": "%1$sSent test leave message.",
+      "success": "%1$sTest-Serververlassnachricht gesendet.",
       "error_missing_mention": "%1$sYou need to mention a member to test this with.",
-      "error_text_missing": "%1$sYou haven't set a leave message.",
+      "error_text_missing": "%1$sDu hast keine Verlassensnachricht gesetzt.",
       "error_channel_perms": "%1$sI can't send messages on your leave channel.",
       "error_no_channel": "%1$sYou have no leave channel set.",
       "error_channel_missing": "%1$sThe leave channel you set is not existent on this server. Please set another channel."
@@ -2345,7 +2345,7 @@
       "collectable": "Collectible Item",
       "common": "Common Item",
       "rare": "Rare Item",
-      "premium": "Premium Item",
+      "premium": "Premiumgegenstand",
       "cast_mine": "Casted Mine Item",
       "mine": "Mined Item",
       "fish": "Fished Item",
@@ -2356,7 +2356,7 @@
       "potion": "Potion",
       "buff": "Buff",
       "wrench": "Wrench",
-      "waifu": "Waifu Item",
+      "waifu": "Waifugegenstand",
       "mine_pick": "Pickaxe",
       "mine_rare_pick": "Pickaxe (Rare)",
       "fish_rod": "Fishing Rod",
@@ -2441,10 +2441,10 @@
     "pizza": "Pizza",
     "mine_crate": "Kiste aus der Mine",
     "fish_crate": "Schatz vom Meeresgrund",
-    "chop_crate": "Chop Crate",
+    "chop_crate": "Holzfällertruhe",
     "mine_premium_crate": "Kiste aus der Mine (Premium)",
     "fish_premium_crate": "Schatz vom Meeresgrund (Premium)",
-    "chop_premium_crate": "Chop Premium Crate",
+    "chop_premium_crate": "Holzfällertruhe (Premium)",
     "comet_rod": "Kometenjuwelenangel",
     "star_rod": "Sternenjuwelenangel",
     "sparkle_rod": "Glitzernde Angel",
@@ -2499,26 +2499,26 @@
     "explanation": {
       "pick": "A normal pickaxe you bought on the local market. Seems sturdy enough to mine some stuff.",
       "diamond_pick": "A diamond pick is definitely stronger than the market-bought iron picks I could get on the market, that's for sure!",
-      "comet_pick": "You found some Comet Fragments and realized you could make a Comet Gem out of them.\nWhat did they do? Were they special?\nYou seemed eager to try it out after being impressed by its glow, so here we are, in your first step towards getting stronger picks.",
+      "comet_pick": "Du hast ein paar Kometfragmente gefunden und realisierst, dass du einen Kometenjuwel aus ihnen machen kannst.\nWas macht es? Sind sie besonders?\nDu siehst ungeduldig aus es auszuprobieren, nachdem du von seinem Schein beeindruckt wurdest. Da sind wir jetzt, in deinem ersten Schritt stärkere Spitzhacken zu bekommen.",
       "star_pick": "Maybe it was the glow, maybe it was the fact they came from a star far away in the galaxy, but it seemed to make for quite a sturdy pick with special properties.\nWeird... it seems to attract more gems. Is it the effect of the material, or is it my skill getting better?",
-      "moon_pick": "The moon-like substance mesmerized you.\nWas it the fact it glowed like a full moon, or was it the fact it seemed to float on its own?\nRegardless, you tried to fuse this with your current pick, and the result was quite satisfactory.\nSeems to be a good balance between light and dark, and somehow I mine some gems with it.\nIs this really a fragment from a far away moon?",
+      "moon_pick": "Die mondähnliche Substanz hat dich in ihren Bann gezogen.\nWar es die Tatsache, dass sie wie ein Vollmond leuchtete oder dass sie von selbst zu schweben schien?\nTrotzdem hast du versucht, sie mit deiner aktuellen Spitzhacke zu kombinieren und das Ergebnis war recht zufriedenstellend.\nEs scheint ein gutes Gleichgewicht zwischen Licht und Dunkelheit zu sein und irgendwie kann ich damit ein paar Edelsteine abbauen.\nIst das wirklich ein Fragment von einem weit entfernten Mond?",
       "sparkle_pick": "Something made you look up into the caverns, and you found a sparkly gem on top. Looking up, some fell onto your pick, and it made the pick shine enough to light up the entire cavern.\nQuickly, you grab some of the sparkly fragments and get a casting station.\nThe pick glows bright like the sun... and it seems pretty tough too... how did it fuse so well with iron?",
       "hellfire_pick": "Reactions between all the elements can be a weird and dangerous process.\nRegardless of what your friends told you, you decided to research this topic, and came up with an object brighter than anything you've ever seen...\nIt seems to be a mix of all the other elements, but it seems quite reactive... it's also quite tough, not much seems to be able to break it...\nHave I done good for this world, or have I brought the unknown to life?",
       "axe": "A normal axe you bought on the local market. Good enough to chop some trees down.",
-      "comet_axe": "After testing the Comet Fragments on your pick, you also realized you could use them on your axe. It made it stronger, and shinier. All you could wish for.",
+      "comet_axe": "Nachdem du die Kometfragmente auf deiner Spitzhacke getestet hast, realisierst du, dass du sie auch auf deiner Axt benutzen kannst. Es macht sie stärker und glänzender. Alles was du dir wünschst.",
       "star_axe": "A bright glow from a star far away, but in your hands.\nLooks like the tree-chopping can continue with this new, shiny axe. You seemed weirded out at first: how can this help me mine more wood?\nWell, you soon realized why...",
       "sparkle_axe": "A touch of sparkle here, a touch of sparkle there!\nThe axe glows bright like the sun... and it seems pretty tough too... how did it fuse so well with iron?",
-      "moon_axe": "Looking at this axe, you look mesmerized by moon-like glow it emits.\nWas it the fact it glowed like a full moon, or was it the fact it seemed to float on its own?\nMesmerized, you cast this substance into your axe and... boom!\nThe results look good. It seems to chop trees faster, too. Why is it so sharp? Is this really a fragment from a far away moon?",
+      "moon_axe": "Schau auf diese Axt, du siehst faszinierend, wie es etwas mondscheinartiges abgibt.\nWar es die Tatsache, dass es wie ein Vollmond leuchtete, oder war es die Tatsache, dass es von selbst zu schweben schien?\nFaszinierend, du wirfst diese Substanz in deine Axt und... boom!\nDie Ergebnisse sehen gut aus. Es scheint auch Bäume schneller zu fällen. Warum ist es so scharf? Ist das wirklich ein Fragment von einem weit entfernten Mond?",
       "hellfire_axe": "Reactions between all the elements can be a weird and dangerous process.\nYou mastered the elements already, and fusing it with your axe now seemed trivial. Maybe it was the glow, maybe it was the fire, but you had to do it.\nIt works wonders. Nothing can compare. But you're still left wondering whether you really did the right thing.",
-      "rod": "A rod you bought at your local fishing market. Looks sturdy.",
-      "comet_rod": "After testing the Comet Fragments on your axe, you also realized you could use them on your rod. It made the thread stronger, and it seemed to attract more fish to it. All you could wish for.",
-      "star_rod": "The mesmerizing and shiny glow of this fragment could not be overlooked. You fused it together with the thread of your rod, and the fish came flowing through it! Seems like a bait isn't necessary all the time, but it's still useful.",
-      "moon_rod": "You're still impressed by the way this gem floats on it's own. Regardless, you fuse it with the thread of your rod as best as you can. It seems to be a little stronger than a Star Fragment infused rod, but not by much.\nEitherway, you enjoy the glow of it like it's the first day you've ever seen it.",
-      "sparkle_rod": "A touch of sparkle here, a touch of sparkle there!\nYou pulverized the Sparkle Fragments and coated the thread of your fishing rod with it.\nYou seem confused. How can this attract fish?\nThe world has many mysteries, and this is one of them. Maybe it can help you get more credits. Maybe it can bring you satisfaction.\nThe glow it leaves on the sea is amazing, and you stare at it for hours on end. Maybe you did do the right thing after all.",
+      "rod": "Eine Angel, die du auf dem Fischmarkt gekauft hast. Schaut robust aus.",
+      "comet_rod": "Nachdem du die Kometfragmente auf deiner Axt getestet hast, realisierst du, dass du sie auch mit deiner Angel benutzen kannst. Es macht den Faden stärker und lockt mehr Fische an. Alles was du dir wünschst.",
+      "star_rod": "Das hypnotisierende und leuchtende Glühen von diesem Fragment ist unübersehbar. Du hast es mit dem Faden deiner Angel verschmolzen und die Fische sind dadurch angeschwommen. Sieht so aus als ob kein Köder mehr benötigt wird aber er ist noch nützlich.",
+      "moon_rod": "Du bist beeindruckt, wie das Juwel von selbst schwebt. Ohne Rücksicht schmilzt du es mit deinem Angelgarn bestmöglich zusammen. Es scheint ein wenig stärker als Garn mit dem Sternenjuwel verschmolzen, aber nicht viel mehr.\nIn jedem Fall genießt du das Glimmen, wie am ersten Tag als du es gesehen hast.",
+      "sparkle_rod": "Ein bisschen Glitzer hier, ein bisschen Glitzer da!\nDu pulverisiert die glitzerndern Fragmente und umhüllst den Faden deiner Angel damit.\nDu bist verwirrt. Wie kann das Fische anlocken?\nDie Welt hat viele Mysterien und das ist eine davon. Vielleicht kann es dir helfen mehr Credits zu bekommen. Vielleicht aber auch macht es dich einfach Zufrieden.\nDas Schimmern welches es im Meer lässt ist erstaunlich und man kann es für Stunden anschauen. Eventuell hast du das Richtige gemacht.",
       "hellfire_rod": "Reactions between all the elements can be a weird and dangerous process.\nYou mastered the elements already, and fusing it with your fishing rod thread now seemed trivial. Maybe it was the glow, maybe it was the fire, but you had to do it.\nIt works wonders. Fish come in shoals to you. Nothing can compare. But you're still left wondering whether you really did the right thing.",
       "wrench": "A run of the mill wrench you can buy from the market. Useful for repairing items.",
-      "comet_wrench": "A Wrench infused with pieces of Comet Gems. Somehow it feels way sturdier.",
-      "sparkle_wrench": "A Wrench infused with pieces of Sparkle Fragments. Somehow it feels a lot sturdier."
+      "comet_wrench": "Ein Schraubenschlüssel verschmolzen mit Stücken von Kometenjuwelen. Irgendwie fühlt es sich etwas robuster an.",
+      "sparkle_wrench": "Ein Schraubenschlüssel verschmolzen mit glitzernden Fragmenten. Irgendwie fühlt es sich viel stabiler an."
     },
     "description": {
       "headphones": "Das passiert, wenn du zu viel Musik hörst. Sollte aber was wert sein.",
@@ -2590,10 +2590,10 @@
       "sparkle": "Eines der seltensten Juwelen. Pass drauf auf. Wird zum Herstellen von glitzernden Spitzhacken und glitzernden Angeln genutzt.",
       "sparkle_pick": "One of the strongests pick out there.",
       "pizza": "Lecker.",
-      "mine_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
-      "fish_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
-      "mine_premium_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`",
-      "fish_premium_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
+      "mine_crate": "Eine Kiste, die du beim Bergbau gefunden hast. Möglicherweise ist was Nettes drin. Kann mit `~>opencrate gem crate` geöffnet werden",
+      "fish_crate": "Eine Kiste, die du beim Fischen gefunden hast. Möglicherweise ist was Nettes drin. Kann mit `~>opencrate treasure` geöffnet werden",
+      "mine_premium_crate": "Eine Kiste, die du beim Bergbau gefunden hast. Möglicherweise ist was Nettes drin. Kann mit `~>opencrate gem premium crate` geöffnet werden",
+      "fish_premium_crate": "Eine Kiste, die du beim Fischen gefunden hast. Möglicherweise ist was Nettes drin. Kann mit `~>opencrate premium treasure` geöffnet werden",
       "comet_rod": "A slightly stronger rod.",
       "star_rod": "A stronger rod .",
       "sparkle_rod": "A way stronger rod.",
@@ -2610,7 +2610,7 @@
       "broken_comet_rod": "Eine Kometenangel, die beim Fischen beschädigt worden ist. Reparierbar.",
       "broken_sparkle_rod": "Eine glitzernde Angel, die beim Fischen beschädigt worden ist. Reparierbar.",
       "broken_star_rod": "Eine Sternenangel, die beim Fischen beschädigt worden ist. Reparierbar.",
-      "incubator_egg": "The one catalyst you need to call your personal pet home.",
+      "incubator_egg": "Der eine Katalysator, den du brauchst, um das Zuhause deines Haustieres zu rufen.",
       "water_bottle": "Ein Gegenstand, der auf magische Weise den Durst deines Haustiers heilt.",
       "magic_watch": "Eine magische Uhr, die die Zeit verlangsamt, wenn du es nötig hast. Sie wird automatisch genutzt, um deine tägliche Strähne zu sichern.",
       "pet_house": "Ein Haus, in dem dein Haustier lebt. Vielleicht. Manchmal bleiben sie auch lieber draußen.",
@@ -2645,26 +2645,26 @@
       "broken_hellfire_pick": "Eine Höllenfeuerspitzhacke, die während dem Abbauen erloschen ist. Reparierbar.",
       "broken_hellfire_axe": "Eine Höllenfeueraxt, die während dem Hacken erloschen ist. Reparierbar.",
       "broken_hellfire_rod": "Eine Höllenfeuerangel, die während dem Angeln erloschen ist. Reparierbar.",
-      "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop crate`",
-      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop premium crate`"
+      "chop_crate": "Du hast eine Kiste beim Hacken gefunden. Vielleicht enthält sie gutes Zeug. Kann mit `~>opencrate chop crate` geöffnet werden",
+      "chop_premium_crate": "Du hast eine Kiste beim Hacken gefunden. Vielleicht enthält sie gutes Zeug. Kann mit `~>opencrate chop premium crate` geöffnet werden"
     }
   },
   "time": {
-    "day": "day",
-    "days": "days",
-    "week": "week",
-    "weeks": "weeks",
-    "month": "month",
-    "months": "months",
-    "year": "year",
-    "years": "years",
-    "hour": "hour",
-    "hours": "hours",
-    "minute": "minute",
-    "minutes": "minutes",
-    "second": "second",
-    "seconds": "seconds",
-    "little": "less than a second"
+    "day": "Tag",
+    "days": "Tage",
+    "week": "Woche",
+    "weeks": "Wochen",
+    "month": "Monat",
+    "months": "Monate",
+    "year": "Jahr",
+    "years": "Jahre",
+    "hour": "Stunde",
+    "hours": "Stunden",
+    "minute": "Minute",
+    "minutes": "Minuten",
+    "second": "Sekunde",
+    "seconds": "Sekunden",
+    "little": "weniger als eine Sekunde"
   },
   "test": {
     "inherited": "owo"
