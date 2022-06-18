@@ -18,7 +18,7 @@
     "not_found": "Не найдено",
     "no_results": "Не дало результата.",
     "timeout": "Пропадет через %1$d секунд.",
-    "reaction_timeout": "Buttons will timeout in %1$d seconds.",
+    "reaction_timeout": "Кнопки пропадут через столько секунд: %1$d.",
     "example": "Пример",
     "definition": "Значение",
     "name": "Имя",
@@ -62,7 +62,7 @@
         "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
         "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
       },
-      "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
+      "twitter": "А вы знали, что у нас есть аккаунт в Twitter? А он есть! Подписывайтесь на mantarodiscord (<https://twitter.com/mantarodiscord>) и следите за обновлениями и прочими вещами."
     },
     "mention_user_required": "%1$sВам нужно упомянуть хотя бы одного пользователя.",
     "invalid_character": "%1$sЭто недопустимый персонаж.",
