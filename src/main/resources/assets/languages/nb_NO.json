@@ -24,31 +24,31 @@
     "name": "Navn",
     "description": "Beskrivelse",
     "options": "Alternativer",
-    "find_members_failure": "%1$sDidn't find any member with your search criteria :(",
-    "too_many_members": "%1$sToo many members found, maybe refine your search? (ex. use name#discriminator)\n**Members found:** %2$s",
-    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
-    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
-    "dust": "There's only dust here.",
-    "invalid_syntax": "Invalid syntax.",
+    "find_members_failure": "%1$sFant ingen bruker med det du søkte på :(",
+    "too_many_members": "%1$sFor mange brukere funnet, prøv å avgrense søket ditt kanskje? (Eks. bruk navn#discriminator) \n**Brukere funnet:** %2$s",
+    "too_many_mentions": "%1$sVennligst nevn bare en person på bruker-søket.",
+    "query_too_small": "%1$sDitt søks spørsmål er for kort. Pass på at du har minst 4 bokstaver. Hvis brukernavnet er for kort, er det bedre å bruke brukernavn#discriminator eller bruker id.",
+    "dust": "Det er bare støv her.",
+    "invalid_syntax": "Ugyldig syntaks.",
     "item_lookup": {
-      "no_item_emoji": "There isn't an item associated with this emoji.",
-      "no_item_name": "There isn't an item associated with this name.",
-      "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
-      "claim_key": "You cannot transfer a claim key."
+      "no_item_emoji": "Det er ingen gjenstand som er assosiert med denne emoji'en.",
+      "no_item_name": "Det er ingen gjenstand som er assosiert med dette navnet.",
+      "not_found": "Kunne ikke finne noen gjenstander som relaterer til søket ditt. Hvis du ikke finner det, prøv å bruke kortere navn, for eksempel ˋEnergy Beverageˋ, bruk ˋenergyˋ. Eller ta navnet på gjenstanded i hermetegn.",
+      "claim_key": "Du kan ikke overføre en krav nøkkel."
     },
     "misc_item_usage": {
-      "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
-      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
-      "milk": "%1$sCleared all potion effects.",
+      "mop": "%1$sDu tørket bort alt støvet som du har samlet opp under alle gruve turene dine.",
+      "mop_not_enough": "%1$sStøvnivået ditt er mindre enn 5%, så det er ingen vits i å koste.",
+      "milk": "%1$sRyddet bort alle trylledrikk-effekter.",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>buy key`",
-        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
-        "success": "%1$sYou opened a crate and won: %2$s%3$s. Congratulations!",
-        "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
-        "overflow": "But you already had too much, so you decided to throw away the excess"
+        "no_key": "%1$sDu trenger en kiste nøkkel for å åpne en kiste. Den er låst! Du kan kjøpe en ved å bruke ˋ~buy keyˋ",
+        "no_crate": "%1$sDu trenger en kiste! Vanligvis får du kister ved å bruke valuta kommandoer.",
+        "success": "%1$sDu åpnet en kiste å vant: %2$s%3$s. Gratulerer!",
+        "success_high": "%1$sDu fikk følgende gjenstander med en sjeldenhet på over 3 stjerner: %2$s. Hvor mange gjenstander du fikk står ovenfor",
+        "overflow": "Men du hadde allerede for mye, så du bestemte deg for å kaste bort resten"
       },
-      "potion_active": "%1$sYou already have an active **%2$s** potion effect and have the max amount possible of it!",
-      "potion_not_found": "%1$sI can't find that potion or equipment type!",
+      "potion_active": "%1$sDu har allerede en aktiv **%2$s** trylledrikk effekt og har maksimalt antall av den!",
+      "potion_not_found": "%1$sJeg kan ikke finne den trylledrikk eller utstyrs typen!",
       "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s* (%4$dx). Check your shiny new effect on `~>profile stats`",
       "potion_applied_multiple": "%1$sSuccessfully applied **%2$s** of type *%3$s*.\nYou already had this effect applied, so we stacked it up. Current stack size: %4$s",
       "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
@@ -62,60 +62,60 @@
         "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
         "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
       },
-      "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
+      "twitter": "Visste du at vi har en Twitter konto? Ja det har vi! \nFølg oss på (på)mantarodiscord\n<https://twitter.com/mantarodiscord> for oppdateringer og tullete ting."
     },
-    "mention_user_required": "%1$sYou need to mention one user.",
+    "mention_user_required": "%1$sDu må nevne en bruker.",
     "invalid_character": "%1$sThat is not an allowed character.",
-    "invalid_action": "You cannot do that, silly.",
+    "invalid_action": "Du kan ikke gjøre det, tulling.",
     "interactive_running": "%1$sThere's already an Interactive Operation (owned by you) on this channel.",
     "buy_sell_paged_react": "Use the message buttons to move between pages.\n%1$s",
     "buy_sell_paged_text": "Use **&p >>** and **&p <<** to move across pages.\n%1$s",
-    "buy_sell_paged_reference": "**Reference %1$s Buy %2$s Sell.**",
-    "cancelled": "%1$sCancelled request.",
-    "sellout": "Consider donating on [Patreon](https://www.patreon.com/mantaro) if you like me, even a small donation will help towards keeping the bot alive!",
-    "deprecated": "No longer used",
-    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
+    "buy_sell_paged_reference": "**Referanse %1$s Kjøp %2$s Selg.**",
+    "cancelled": "%1$sAvsluttet forespørsel.",
+    "sellout": "Vurder å donere på [Patreon](https://www.patreon.com/mantaro) hvis du liker meg, selv bare en liten donasjon vil hjelpe å holde bot'en i live!",
+    "deprecated": "Ikke lenger i bruk",
+    "space_notice": "Hvis navnet har mellomrom, prøv å \"ta det i hermetegn\". Kanskje kommandoen hjelp kan fortelle deg mer.",
     "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://wiki.mantaro.site> for more information about the bot.",
     "ratelimit": {
-      "header": "%1$s%2$s (Ratelimited)\n **You'll be able to use this command again in %3$s.**",
-      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
-      "spam_2": "\nI think stopping is the best option for now...",
-      "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
-      "spam_4": "\nIs this thing even on?"
+      "header": "%1$s%2$s (Ratebegrenset)\n **Du kan bruke denne kommandoen igjen om %3$s.**",
+      "spam_1": "Vær så snill å slapp av, det er bra for helsen din. **Husk at ratebegrensningen vil fortsette å stige hvis du prøver før tiden har gått ut!**",
+      "spam_2": "\nJeg tror det beste alternativet akkurat nå er å stoppe...",
+      "spam_3": "\nVille det ikke vært bedre hvis du gikk utendørs litt?",
+      "spam_4": "\nEr denne tingen i det hele tatt på?"
     },
     "buttons": {
-      "previous": "Previous",
-      "next": "Next",
-      "close": "Close"
+      "previous": "Forrige",
+      "next": "Neste",
+      "close": "Lukk"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `~>shard`) when reporting!",
+    "generic_error": "Hvis du vil, bli med i **hjelpe serveren**\n(`https://support.mantaro.site`), eller sjekk ut vår GitHub side (`https://github.com/Kodehawa/MantaroBot`).\nVær så snill å si at de må slutte å eksplodere meg og ikke glem Error ID'en, kommandoen du brukte og din node (sett i `~>shard`) når du rapporterer!",
     "boom_quotes": [
-      "Seemingly Megumin exploded our castle...",
-      "Uh-oh, seemingly my master forgot some zeros and ones on the floor :<",
-      "W-Wait, what just happened?",
-      "I-I think we got some fire going on here... you might want to tell my master to take a look.",
+      "Tilsynelatende Megumin sprengte slottet vårt...",
+      "Å-nei, det ser ut som min mester glemte noen nuller og enere på gulvet :<",
+      "V-Vent, hva skjedde nettopp?",
+      "J-Jeg tror vi har en brann her... du burde kanskje fortelle min mester om å ta en sjekk.",
       "Jeg har mestret eksplosjons-magi, ser du?",
-      "Maybe something just went wrong on here, but, u-uh, I can fix it!",
-      "U-Uhh.. What did you want?"
+      "Kanskje noe gikk feil her, men, e-eh, jeg kan fikse det!",
+      "E-Ehh.. Hva var det du ville?"
     ],
     "ratelimit_quotes": [
-      "Woah... you're calling me a bit too fast... I might get dizzy!",
+      "Oi... du kaller på meg litt for fort... jeg kan bli svimmel!",
       "Ikke vær gjerrig!",
-      "Y-You're calling me so fast that I'm getting dizzy...",
-      "Halt in there buddy!",
+      "D-Du kaller meg så fort at jeg blir helt svimmel...",
+      "Vent litt kompis!",
       "Vent liiiiiitt til uwu",
-      "Seems like we're gonna get a speed ticket if we continue going this fast!",
-      "I wanna do this... but halt for a bit please.",
-      "Hey, wait up, I'm not done with my break yet!",
-      "Can you slow down a little bit?"
+      "Ser ut som vi kommer til å få en fartsbot hvis vi fortsetter å gjøre det så fort!",
+      "Jeg vil gjør dette... men vent litt vær så snill.",
+      "Hei, vent litt, jeg er ikke ferdig med pausen min enda!",
+      "Kan du gjør det litt saktere?"
     ],
     "mod_quotes": [
-      "Uh-oh, seems like someone just got hit hard!",
-      "Just wholesome admin work happening over here...",
-      "The boot has been thrown!",
-      "You'll be missed... not really",
-      "I hope I did the right thing...",
-      "Woah there, mods have spoken!",
+      "Å nei, ser ut som noen ble truffet ganske hardt!",
+      "Bare hyggelig administrator jobb som skjer her...",
+      "Støvelen har blitt kastet!",
+      "Du kommer til å bli savnet... egentlig ikke",
+      "Jeg håper at jeg gjorde det rette...",
+      "Hei der, moderatorene har talt!",
       "E-Eh... t-tja, noen gikk visst gjennom døren."
     ]
   },
@@ -130,32 +130,32 @@
     "fun": "Artig",
     "games": "Spill",
     "info": "Info",
-    "currency": "Currency",
+    "currency": "Valuta",
     "pet": "Kjæledyr"
   },
   "commands": {
     "fish": {
-      "dust": "%1$sThe day is over, and your fish bucket only could collect dust. (Dust level %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>buy rod`",
+      "dust": "%1$sDagen er over, og fiskebøtten din samlet bare støv. (Støvnivå %2$s%%)",
+      "no_rod": "%1$sDu har ikke utstyrt deg med noen fiskestang. Bruk `~equip <rod name>` for å utstyre deg med en fiskestang å starte fisketuren din! Hvis du ikke har noen fiskestang, bruk `~>buy rod` først",
       "trash": {
-        "overflow": "%1$sYou found some trash while fishing, but your inventory was full, so we had to throw it back into the water...",
-        "success": "%1$sWhile calmly fishing, you found a floating %2$s but it seems to be only trash :("
+        "overflow": "%1$sDu fant noe søppel mens du fisket, men inventaret ditt var fullt, så vi kastet det tilbake i vannet...",
+        "success": "%1$sMens du fisket fredfullt, fant du en flytende %2$s men det viste seg at det bare var søppel :("
       },
       "tier3": {
-        "extra": "And you also found %1$s, lucky!"
+        "extra": "Du fant også %1$s, heldig!"
       },
       "crate": {
-        "overflow": "You found a **%1$s** while fishing, but you had too many already, so we threw it back into the ocean...",
-        "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+        "overflow": "Du fant en **%1$s** når du fisket, men du hadde alt for mange allerede, så vi kastet det tilbake i havet...",
+        "success": "Du fant en %1$s **%2$s** mens du fisket og du plukket den opp. Åpne den med `~>opencrate <crate name>`. Du trenger en kasse-nøkkel!"
       },
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your fish slot."
       },
-      "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
-      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
+      "overflow": "%1$sDu fant litt fisk, men en del av inventaret ditt var fullt, så vi måtte kaste noe av fisken tilbake i vannet.",
+      "success": "%1$sMens du fisker fredfullt, fant du %2$s når du brukte *%3$s* og du sparte dem i bøtten din.",
       "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
       "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
-      "rod_broke": "%1$sYour fishing rod broke while trying to catch a fish :(",
+      "rod_broke": "%1$sFiskestangen din knakk når du skulle fange en fisk :(",
       "waifu_help": "Your waifu came and joined your fishing adventure and you both get a larger haul!",
       "not_suitable": "%1$sYou can't use this to fish.",
       "shark_success": "%1$sSomehow, you managed to catch a shark. What a wonderful rod, huh?",
