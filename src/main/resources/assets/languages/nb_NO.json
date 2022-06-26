@@ -1,425 +1,425 @@
 {
   "general": {
-    "invalid_number": "A %1$s nem egy érvényes szám!",
-    "requested_by": "%1$s által kérve.",
-    "operation_timed_out": "%1$sA kérdés megválaszolására elfogyott az idő.",
-    "too_many_users_found": "%1$sTúl sok felhasználó van ezzel a névvel! Pontosítsd a keresést (pl: név#1234)\n**Talált felhasználók:** %2$s",
-    "search_no_result": "%1$s Keresésed eredménytelen volt :(",
-    "unknown": "Ismeretlen",
-    "days": "napok",
-    "none": "Nincs elem",
-    "now": "Most",
-    "hourly": "Óránkénti",
-    "daily": "Napi",
-    "total": "Összesen",
-    "arrow_react": "Az oldalváltáshoz használd a nyíl reakciókat.",
-    "button_react": "Az oldalváltáshoz használd a nyilakat.",
-    "text_menu": "Használd a &p >> és &p << reakciókat, hogy oldalt válts és &cancel, hogy kilépj.",
-    "not_found": "Nincs találat",
-    "no_results": "Nincs találat.",
-    "timeout": "Ez %1$d másodperc múlva lejár.",
-    "reaction_timeout": "A gombok %1$d másodperc múlva eltűnnek.",
-    "example": "Példa",
-    "definition": "Definíció",
-    "name": "Név",
-    "description": "Leírás",
-    "options": "Beállítások",
-    "find_members_failure": "%1$sNem találtam senkit, aki megfelel a keresésednek :(",
-    "too_many_members": "%1$sTúl sok felhasználót találtam ezzel a névvel. Pontosítanád a keresést? (pl: név#1234)\n**Talált felhasználók:** %2$s",
-    "too_many_mentions": "%1$sKérlek csak egy felhasználót említs meg.",
-    "query_too_small": "%1$sTúl rövid szóra keresel. Győződj meg róla, hogy legalább 4 karakterből áll a keresésed. Ha a felhasználónév túl rövid, akkor jobb, ha a felhasználónév#1232, vagy a felhasználó \"id\" ét használod.",
-    "dust": "Itt csak por van.",
-    "invalid_syntax": "Érvénytelen szintaxis.",
+    "invalid_number": "%1$sDet er ikke et gyldig nummer!",
+    "requested_by": "Forespurt av %1$s.",
+    "operation_timed_out": "%1$sTiden for å svare på denne operasjonen har utgått.",
+    "too_many_users_found": "%1$sFor mange brukere funnet, prøv å avgrense søket ditt kanskje? (Eks. bruk navn#discriminator) \n**Brukere funnet:** %2$s",
+    "search_no_result": "%1$sSøket ditt ga ingen resultat :(",
+    "unknown": "Ukjent",
+    "days": "dager",
+    "none": "Ingen",
+    "now": "Nå",
+    "hourly": "Hver time",
+    "daily": "Daglig",
+    "total": "Totalt",
+    "arrow_react": "Bruk pil-reaksjonene for å bytte sider.",
+    "button_react": "Bruk pil-knappene for å bytte sider.",
+    "text_menu": "Bruk &p >> og &p << for å bytte sider og &cancel for å avslutte.",
+    "not_found": "Ikke funnet",
+    "no_results": "Ingen treff.",
+    "timeout": "Dette utgår om %1$d sekunder.",
+    "reaction_timeout": "Knappene utgår om %1$d sekunder.",
+    "example": "Eksempel",
+    "definition": "Definisjon",
+    "name": "Navn",
+    "description": "Beskrivelse",
+    "options": "Alternativer",
+    "find_members_failure": "%1$sFant ingen bruker med det du søkte på :(",
+    "too_many_members": "%1$sFor mange brukere funnet, prøv å avgrense søket ditt kanskje? (Eks. bruk navn#discriminator) \n**Brukere funnet:** %2$s",
+    "too_many_mentions": "%1$sVennligst nevn bare en person på bruker-søket.",
+    "query_too_small": "%1$sDitt søks spørsmål er for kort. Pass på at du har minst 4 bokstaver. Hvis brukernavnet er for kort, er det bedre å bruke brukernavn#discriminator eller bruker id.",
+    "dust": "Det er bare støv her.",
+    "invalid_syntax": "Ugyldig syntaks.",
     "item_lookup": {
-      "no_item_emoji": "Ehhez az emoji-hoz nincs társítva tárgy.",
-      "no_item_name": "Nincs ilyen nevű tárgy.",
-      "not_found": "Nem található a kereséshez kapcsolódó tárgy.\nHa nagyon nem megy, próbáld meg használni a rövid nevet, például az \"energy Beverage\" nél használd az \"energy\". Vagy tedd a nevet idézőjelbe.",
-      "claim_key": "Nem adhatsz át claim keyt."
+      "no_item_emoji": "Det er ingen gjenstand som er assosiert med denne emoji'en.",
+      "no_item_name": "Det er ingen gjenstand som er assosiert med dette navnet.",
+      "not_found": "Kunne ikke finne noen gjenstander som relaterer til søket ditt. Hvis du ikke finner det, prøv å bruke kortere navn, for eksempel ˋEnergy Beverageˋ, bruk ˋenergyˋ. Eller ta navnet på gjenstanded i hermetegn.",
+      "claim_key": "Du kan ikke overføre en krav nøkkel."
     },
     "misc_item_usage": {
-      "mop": "%1$sKitakarítottad a port, ami a bányászás alatt felgyülemlett.",
-      "mop_not_enough": "%1$sA por szinted kevesebb, mint 5%%, ezért a felmosás nem lenne valami hasznos.",
-      "milk": "%1$sAz összes bájital hatása elmúlt.",
+      "mop": "%1$sDu tørket bort alt støvet som du har samlet opp under alle gruve turene dine.",
+      "mop_not_enough": "%1$sStøvnivået ditt er mindre enn 5%, så det er ingen vits i å koste.",
+      "milk": "%1$sRyddet bort alle trylledrikk-effekter.",
       "crate": {
-        "no_key": "%1$sA láda kinyitásához kulcsra van szükséged! A `~>market buy key` parancssal vehetsz egyet",
-        "no_crate": "%1$sLádára van szükséged ehhez! Ládákat általában currency parancsokból kaphatsz.",
-        "success": "%1$sKinyitottál egy ládát és nyertél: %2$s%3$s. Gratulálok!",
-        "success_high": "%1$sA következő tárgyaid vannak, amik 3 csillagnál magasabb szintűek: %2$s",
-        "overflow": "De már túl sok volt belőle, ezért úgy döntöttél, hogy kidobod a felesleget"
+        "no_key": "%1$sDu trenger en kiste nøkkel for å åpne en kiste. Den er låst! Du kan kjøpe en ved å bruke ˋ~buy keyˋ",
+        "no_crate": "%1$sDu trenger en kiste! Vanligvis får du kister ved å bruke valuta kommandoer.",
+        "success": "%1$sDu åpnet en kiste å vant: %2$s%3$s. Gratulerer!",
+        "success_high": "%1$sDu fikk følgende gjenstander med en sjeldenhet på over 3 stjerner: %2$s. Hvor mange gjenstander du fikk står ovenfor",
+        "overflow": "Men du hadde allerede for mye, så du bestemte deg for å kaste bort resten"
       },
-      "potion_active": "%1$sMár van egy aktív **%2$s** bájital hatásod, és a lehető legnagyobb szintű van belőle!",
-      "potion_not_found": "%1$sNem találom ezt a bájitalt vagy felszereléstípust!",
-      "potion_applied": "%1$sSikeresen aktiváltad a/az *%3$s* típusú **%2$s** effektet (%4$dx). Csekkold le az új menő effekted a `~>profile stats` parancsal",
-      "potion_applied_multiple": "%1$sSikeresen aktiváltad a *%3$s* típusú **%2$s** effektet. Már aktiválva volt egy ilyen effekt ezért stackelődtek. Jelenlegi szintje: %4$s",
-      "max_stack_size": "%1$sMár a legnagyobb szint van a/az %2$s effektből. (Maximum 15, a %3$s stack után)",
-      "max_stack_size_2": "%1$sNem stackelhetsz ennyi %2$s effektet. (Maximum: 15, Tied: %3$s)",
-      "not_same_potion": "%1$sMár van %2$s típusú effekted aktiválva és stackelve, nem adhatsz %3$s típusú effektet hozá."
+      "potion_active": "%1$sDu har allerede en aktiv **%2$s** trylledrikk effekt og har maksimalt antall av den!",
+      "potion_not_found": "%1$sJeg kan ikke finne den trylledrikk eller utstyrs typen!",
+      "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s* (%4$dx). Check your shiny new effect on `~>profile stats`",
+      "potion_applied_multiple": "%1$sSuccessfully applied **%2$s** of type *%3$s*.\nYou already had this effect applied, so we stacked it up. Current stack size: %4$s",
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
+      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15, Attempted: %3$s)",
+      "not_same_potion": "%1$sYou already have a potion of type %2$s stacked and active, so you can't stack potions of type %3$s into it."
     },
     "campaigns": {
       "premium": {
-        "generic_sellout": "Segítségre van szükségünk a Mantaro életben tartásához, és a Mantaro szervereinek fejlesztéséhez!\nMesés juttatásokat és **akár kétszeres kreditet is kaphatsz a Mantaro Premium** -al! A patreon tagság havi 2 dollárnál kezdődik, egy süti ára! További információ: <https://patreon.com/mantaro>. :heart:",
-        "daily_sellout": "Segítségre van szükségünk, hogy életben tartsuk Mantarót!\nCsodálatos juttatásokat kaphatsz, és **megduplázhatod a napi krediteidet**, hozzáférést kaphatsz a `~>dailycrate` -hez is! A tagság havi 2 dollárnál kezdődik, további információkat itt találhatsz: <https://patreon.com/mantaro>.",
-        "thanks_message": "Köszönjük, hogy támogattad Mantarót. A hozzád hasonló emberek segítsége nélkül nem tudnánk életben tartani Mantarót :heart:",
-        "thanks_message_daily": "Köszönjük, hogy támogattad Mantarót. A hozzád hasonló emberek segítsége nélkül nem tudnánk életben tartani Mantarót :heart:\nDupla kreditet is kaptál bónuszként!"
+        "generic_sellout": "We need your help to keep Mantaro alive and improve Mantaro's servers!\nYou can get amazing perks and **up to double the credits with Mantaro Premium**! Memberships start at $2 per month, the price of a snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
+        "daily_sellout": "We need your help to keep Mantaro alive!\nYou can get amazing perks and **double the daily credits** and access to `~>dailycrate`! Memberships start at only $2 per month, check out more at <https://patreon.com/mantaro>.",
+        "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
+        "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
       },
-      "twitter": "Tudtad, hogy van Twitter-fiókunk is? Kövess minket a (at)mantarodiscord <https://twitter.com/mantarodiscord> oldalon frissítésekért és bolondságokért."
+      "twitter": "Visste du at vi har en Twitter konto? Ja det har vi! \nFølg oss på (på)mantarodiscord\n<https://twitter.com/mantarodiscord> for oppdateringer og tullete ting."
     },
-    "mention_user_required": "%1$sMeg kell említened legalább egy felhasználót.",
-    "invalid_character": "%1$sEz a karakter nem engedélyezett.",
-    "invalid_action": "Nem teheted ezt te butus.",
-    "interactive_running": "%1$sEbben a csatornában már fut egy (a te tulajdonodban lévő) interaktív művelet.",
+    "mention_user_required": "%1$sDu må nevne en bruker.",
+    "invalid_character": "%1$sThat is not an allowed character.",
+    "invalid_action": "Du kan ikke gjøre det, tulling.",
+    "interactive_running": "%1$sThere's already an Interactive Operation (owned by you) on this channel.",
     "buy_sell_paged_react": "Use the message buttons to move between pages.\n%1$s",
-    "buy_sell_paged_text": "Használd a **&p >>** és a **&p <<** gombokat az oldalak közötti váltáshoz.%1$s",
-    "buy_sell_paged_reference": "**Referencia %1$s Vásárlás %2$s Eladás.**",
-    "cancelled": "%1$sKérés törölve.",
-    "sellout": "Fontold meg az adományozást [Patreon] (https://www.patreon.com/mantaro) -on, ha tetszik, még egy kis adomány is segít a bot futtatásában!",
-    "deprecated": "Már nem használt",
-    "space_notice": "Ha a név tartalmaz spaceket próbáld meg \"idézőjelbe csomagolni őket\".",
-    "missing_embed_permissions": "A botnak nincs Embed links (hivatkozások beágyazása) joga, amely a parancs megjelenítéséhez szükséges. \nHa további segítségre van szükséged <https://support.mantaro.site> vagy <https://wiki.mantaro.site>.",
+    "buy_sell_paged_text": "Use **&p >>** and **&p <<** to move across pages.\n%1$s",
+    "buy_sell_paged_reference": "**Referanse %1$s Kjøp %2$s Selg.**",
+    "cancelled": "%1$sAvsluttet forespørsel.",
+    "sellout": "Vurder å donere på [Patreon](https://www.patreon.com/mantaro) hvis du liker meg, selv bare en liten donasjon vil hjelpe å holde bot'en i live!",
+    "deprecated": "Ikke lenger i bruk",
+    "space_notice": "Hvis navnet har mellomrom, prøv å \"ta det i hermetegn\". Kanskje kommandoen hjelp kan fortelle deg mer.",
+    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://wiki.mantaro.site> for more information about the bot.",
     "ratelimit": {
-      "header": "%1$s%2$s (Ratelimited)\n **Ezt a parancsot %3$s másodperc múlva használhatod újra.**",
-      "spam_1": "Kérlek pihenj, ez jót tesz az egészségednek. **Ne felejtsd, minél többet próbálkozol, annál tovább fog tartani a visszaszámlálás!**",
-      "spam_2": "\nSzerintem egyelőre legjobb lenne kicsit leállni...",
-      "spam_3": "\nNem lenne jobb, ha kimennél egy kicsit a szabadba?",
-      "spam_4": "\nEgyáltalán be van ez kapcsolva?"
+      "header": "%1$s%2$s (Ratebegrenset)\n **Du kan bruke denne kommandoen igjen om %3$s.**",
+      "spam_1": "Vær så snill å slapp av, det er bra for helsen din. **Husk at ratebegrensningen vil fortsette å stige hvis du prøver før tiden har gått ut!**",
+      "spam_2": "\nJeg tror det beste alternativet akkurat nå er å stoppe...",
+      "spam_3": "\nVille det ikke vært bedre hvis du gikk utendørs litt?",
+      "spam_4": "\nEr denne tingen i det hele tatt på?"
     },
     "buttons": {
-      "previous": "Előző",
-      "next": "Következő",
-      "close": "Bezárás"
+      "previous": "Forrige",
+      "next": "Neste",
+      "close": "Lukk"
     },
-    "generic_error": "Ha akarsz, csatlakozz a **Support szerverünkhöz** (`https: // support.mantaro.site`), vagy nézd meg a GitHub oldalunkat (`https://github.com/Kodehawa/MantaroBot`). Kérlek, mondd meg nekik, hogy ne bántsanak, és kérjük, ne felejtsd el a Hibaazonosítót, a használt parancsot és a node -do (lásd: `~>shard`)!",
+    "generic_error": "Hvis du vil, bli med i **hjelpe serveren**\n(`https://support.mantaro.site`), eller sjekk ut vår GitHub side (`https://github.com/Kodehawa/MantaroBot`).\nVær så snill å si at de må slutte å eksplodere meg og ikke glem Error ID'en, kommandoen du brukte og din node (sett i `~>shard`) når du rapporterer!",
     "boom_quotes": [
-      "Úgy nézem Megunim felrobbantotta a kastélyunkat...",
-      "Óó, látszólag a gazdám elhagyott néhány nullást és egyest a földön :<",
-      "V-várj, mi a fene történt?",
-      "É-én-azt hiszem, tűz van... érdemes szólnod a gazdámnak, hogy nézze meg.",
-      "Elsajátítottam a robbanásvarázslatot, látod?",
-      "Hmmm itt valami nem stimmel, de, uuh, meg tudom javítani!",
-      "Uuhh.. Mit szerettél volna?"
+      "Tilsynelatende Megumin sprengte slottet vårt...",
+      "Å-nei, det ser ut som min mester glemte noen nuller og enere på gulvet :<",
+      "V-Vent, hva skjedde nettopp?",
+      "J-Jeg tror vi har en brann her... du burde kanskje fortelle min mester om å ta en sjekk.",
+      "Jeg har mestret eksplosjons-magi, ser du?",
+      "Kanskje noe gikk feil her, men, e-eh, jeg kan fikse det!",
+      "E-Ehh.. Hva var det du ville?"
     ],
     "ratelimit_quotes": [
-      "Woah... kicsit gyorsan szólongatsz... még a végén elszédülök!",
-      "Ne legyél mohó!",
-      "O-olyan gyorsan hívsz, hogy elszédülök...",
-      "Lassíts haver!",
-      "Várj még egy piciiiit uwu",
-      "Úgy néz ki, kapsz egy büntetést gyorshajtásért, ha továbbra is ilyen gyorsan mész!",
-      "Szeretném megtenni... de kérlek, várj egy keveset még.",
-      "Hé, várj, még nem fejeztem be a szünetemet!",
-      "Lassítanál egy kicsit?"
+      "Oi... du kaller på meg litt for fort... jeg kan bli svimmel!",
+      "Ikke vær gjerrig!",
+      "D-Du kaller meg så fort at jeg blir helt svimmel...",
+      "Vent litt kompis!",
+      "Vent liiiiiitt til uwu",
+      "Ser ut som vi kommer til å få en fartsbot hvis vi fortsetter å gjøre det så fort!",
+      "Jeg vil gjør dette... men vent litt vær så snill.",
+      "Hei, vent litt, jeg er ikke ferdig med pausen min enda!",
+      "Kan du gjør det litt saktere?"
     ],
     "mod_quotes": [
-      "Uhó, úgy tűnik, hogy valaki nagyon meg lett ütve!",
-      "Csak jóféle admin munka, semmi más...",
-      "A cipő el lett dobva!",
-      "Hiányozni fogsz... valakinek biztos",
-      "Remélem jól cselekedtem...",
-      "Jaj, a moderátorok beszéltek!",
-      "U-Uh... J-jaj, valaki épp kiment az ajtón."
+      "Å nei, ser ut som noen ble truffet ganske hardt!",
+      "Bare hyggelig administrator jobb som skjer her...",
+      "Støvelen har blitt kastet!",
+      "Du kommer til å bli savnet... egentlig ikke",
+      "Jeg håper at jeg gjorde det rette...",
+      "Hei der, moderatorene har talt!",
+      "E-Eh... t-tja, noen gikk visst gjennom døren."
     ]
   },
   "categories": {
-    "music": "Audió",
-    "action": "Művelet",
-    "misc": "Egyéb",
-    "moderation": "Moderálás",
-    "owner": "Tulajdonos",
-    "image": "Kép",
-    "utils": "Eszközök",
-    "fun": "Móka",
-    "games": "Játékok",
-    "info": "Infó",
-    "currency": "Currency",
-    "pet": "Kisállat"
+    "music": "Lyd",
+    "action": "Handling",
+    "misc": "Diverse",
+    "moderation": "Moderering",
+    "owner": "Eier",
+    "image": "Bilde",
+    "utils": "Nytte",
+    "fun": "Artig",
+    "games": "Spill",
+    "info": "Info",
+    "currency": "Valuta",
+    "pet": "Kjæledyr"
   },
   "commands": {
     "fish": {
-      "dust": "%1$sA napnak vége, és a vödrödben csak por van (Por szint %2$s%%)",
-      "no_rod": "%1$sNem vagy felszerelkezve horgászbottal. Használd az `~>equip <rod name>` -parancsott egy horgászbot kézbevételéhez, és horgássz nyugodtan! Ha nincs horgászbotod, akkor először vegyél a `~> market buy rod` -parancsal",
+      "dust": "%1$sDagen er over, og fiskebøtten din samlet bare støv. (Støvnivå %2$s%%)",
+      "no_rod": "%1$sDu har ikke utstyrt deg med noen fiskestang. Bruk `~equip <rod name>` for å utstyre deg med en fiskestang å starte fisketuren din! Hvis du ikke har noen fiskestang, bruk `~>buy rod` først",
       "trash": {
-        "overflow": "%1$sTaláltál egy kis szemetet horgászat közben, de az eszköztárad tele volt, ezért vissza kellett dobnunk a vízbe...",
-        "success": "%1$sNyugodt halászás közben találtál egy lebegő %2$s-t, de úgy tűnik csak szemét :("
+        "overflow": "%1$sDu fant noe søppel mens du fisket, men inventaret ditt var fullt, så vi kastet det tilbake i vannet...",
+        "success": "%1$sMens du fisket fredfullt, fant du en flytende %2$s men det viste seg at det bare var søppel :("
       },
       "tier3": {
-        "extra": "És %1$s-t is találtál, szerencsés!"
+        "extra": "Du fant også %1$s, heldig!"
       },
       "crate": {
-        "overflow": "Horgászat közben találtál **%1$s **-t, de már túl sok volt neked belőle, ezért visszadobtuk az óceánba...",
-        "success": "Ezt találtad horgászat közben: %1$s **%2$s**, és úgy döntöttél felveszed. Nyisd ki az `~> opencrate <crate name>` paranccsal. Szükséged lesz egy ládakulcsra is hozzá!"
+        "overflow": "Du fant en **%1$s** når du fisket, men du hadde alt for mange allerede, så vi kastet det tilbake i havet...",
+        "success": "Du fant en %1$s **%2$s** mens du fisket og du plukket den opp. Åpne den med `~>opencrate <crate name>`. Du trenger en kasse-nøkkel!"
       },
       "autoequip": {
-        "success": "%1$sAutomatikusan felszerelkeztél ezzel a pevácal: **%2$s**."
+        "success": "%1$sAutomatically equipped a **%2$s** on your fish slot."
       },
-      "overflow": "%1$sTaláltál halakat horgászat közben, de már tele vagy cuccal, ezért vissza kellett engednünk őket a vízbe.",
-      "success": "%1$sMiközben nyugodtan horgászgattál, ezt fogtad: %2$s, és bele is tetted a vödrödbe.",
-      "success_money": "%1$sCsendesen pecázgatva ezeket fogtad: %2$s, és találtál **$%3$,d kreditet** is *%4$s* használatával.%5$s",
-      "success_money_noitem": "%1$sNyugodtan horgászgattál, és véletlenül találtál **$%2$,d kreditet**, *%3$s* használatával, és zsebre is raktad.",
-      "rod_broke": "%1$sA horgászbotod eltörött horgászás közben :(",
-      "waifu_help": "A waifud eljött és csatlakozott a horgászkalandodhoz, ezért nagyobb fogást kaptok mindketten!",
-      "not_suitable": "%1$sEzzel nem tudsz horgászni.",
-      "shark_success": "%1$sValahogy sikerült elkapnod egy cápát. Milyen csodálatos egy horgászbot, nem?",
-      "fossil_success": "%1$sKihalásztál egy fosszíliát, miközben megpróbáltál horgászni. Jó sokat érhet, ha eladod... vagy felhasználhatod kovácsolásnál is.",
-      "bait": "A halak megették a csalit!",
-      "missing_equipped": "%1$sVolt egy %2$s a kezedben, de már nem található meg az eszköztáradban ezért resetelődött.",
-      "broken_drop": "%1$sA horgászbotod eltört, de meg tudod javítani. Törött tárgy: %2$s *%3$s*",
-      "no_rod_equipped": "%1$sNincs a kezedben horgászbot. Hogy szerezz egyet írd be `~>equip <rod name>`!"
+      "overflow": "%1$sDu fant litt fisk, men en del av inventaret ditt var fullt, så vi måtte kaste noe av fisken tilbake i vannet.",
+      "success": "%1$sMens du fisker fredfullt, fant du %2$s når du brukte *%3$s* og du sparte dem i bøtten din.",
+      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
+      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
+      "rod_broke": "%1$sFiskestangen din knakk når du skulle fange en fisk :(",
+      "waifu_help": "Your waifu came and joined your fishing adventure and you both get a larger haul!",
+      "not_suitable": "%1$sYou can't use this to fish.",
+      "shark_success": "%1$sSomehow, you managed to catch a shark. What a wonderful rod, huh?",
+      "fossil_success": "%1$sYou caught a fossil while trying to find a fish. This might be worth a fair bit or be used for casting, I believe.",
+      "bait": "The fish ate your bait in the process!",
+      "missing_equipped": "%1$sYou had an equipped %2$s rod, but you no longer have any of its kind on your inventory! Equipped rod has been reset.",
+      "broken_drop": "%1$sYour rod broke, but you can repair it. Got broken item: %2$s *%3$s*",
+      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `~>equip <rod name>` to start your adventure!"
     },
     "softban": {
-      "no_permission": "%1$sSoftban nem lehetséges: Nincs jogod hozzá.",
-      "no_permission_self": "%1$sSajnálom de nincs jogom tagokat bannolni ezen a szerveren.",
-      "no_users": "%1$sMeg kell adnod egy tagot, akit softbanolhatok.",
-      "hierarchy_conflict": "%1$sNem softbanolhatsz a tiednél magasabb beosztásban lévő felhasználót",
-      "yourself_note": "%1$sMiért bannolnád magad?",
-      "self_hierarchy_conflict": "%1$sNem tudom bannolni a következő tagot: %2$s, a rangjuk nagyobb vagy megegyező az enyémmel!",
-      "success": "%1$s%2$s. **(%3$s softbanolva lett)**",
-      "error": "%1$sHiba [%2$s] bannolásakor (Nincs megadott jog: %3$s)",
-      "unknown_error": "%1$sIsmeretlen hiba %2$s softbanolása közben: *(Error? %3$s: %4$s)*"
+      "no_permission": "%1$sCannot soft ban: You don't have the Ban Members permission.",
+      "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server.",
+      "no_users": "%1$sYou need to give me an user to soft-ban.",
+      "hierarchy_conflict": "%1$sYou cannot soft-ban an user in a higher hierarchy than you",
+      "yourself_note": "%1$sWhy are you trying to soft-ban yourself?",
+      "self_hierarchy_conflict": "%1$sCannot soft-ban member: %2$s, they are higher or the same hierarchy than I am!",
+      "success": "%1$s%2$s. **(%3$s got soft-banned)**",
+      "error": "%1$sError soft-banning [%2$s]: (No permission provided: %3$s)",
+      "unknown_error": "%1$sUnknown error while soft-banning %2$s: *(Error? %3$s: %4$s)*"
     },
     "ban": {
-      "no_permission": "%1$sNem tudsz banolni: Nincs `Ban Users` jogod.",
-      "no_users": "%1$sMeg kell adnod egy tagot, akit kitilthatok.",
-      "no_permission_self": "%1$sSajnálom de nincs jogom bannolni ezen a szerveren.",
-      "hierarchy_conflict": "%1$sNem tudsz bannolni valakit, aki magasabb pozicióban van mint te! Ügyes próbálkozás %2$s",
-      "yourself_note": "%1$sMiért bannolnád magad butus?",
-      "self_hierarchy_conflict": "%1$sNem tudom bannolni a következő tagot: %2$s, a rangja nagyobb vagy megegyező az enyémmel!",
-      "success": "%1$s%2$s. **(%3$s banolva lett)**",
-      "success_multiple": "%1$s%2$s. (%3$s ember lett banolva)",
-      "error": "%1$sNem tudom kitiltani %2$s-t (nincs %3$s jogom)",
-      "unknown_error": "%1$sUhh, ismeretlen hibába ütköztem %2$s kitiltása közben"
+      "no_permission": "%1$sYou can't ban: You need the `Ban Users` permission.",
+      "no_users": "%1$sYou need to give me a user to ban.",
+      "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server.",
+      "hierarchy_conflict": "%1$sYou cannot ban an user who's higher than you in the server hierarchy! Nice try %2$s",
+      "yourself_note": "%1$sWhy are you trying to ban yourself, silly?",
+      "self_hierarchy_conflict": "%1$sCannot ban member: %2$s, they are higher or the same hierarchy than I am!",
+      "success": "%1$s%2$s (%3$s got banned)",
+      "success_multiple": "%1$s%2$s (%3$s people got banned)",
+      "error": "%1$sError banning %2$s: (I need the permission %3$s)",
+      "unknown_error": "%1$sHuh, I encountered an unknown error while banning %2$s"
     },
     "kick": {
-      "no_permission": "%1$sNem tudsz kirúgni, nincs hozzá jogod.",
-      "no_users": "%1$sMeg kell adnod egy tagot, akit kirúghatok.",
-      "no_permission_self": "%1$sSajnálom! Nincs jogom senkit se kirúgni ezen a szerveren.",
-      "hierarchy_conflict": "%1$sNem rúghatsz ki a tiednél magasabb beosztásban lévő felhasználót",
-      "yourself_note": "%1$sMiért próbálod kirúgni magad, te buta?",
-      "self_hierarchy_conflict": "%1$sNem tudom kirúgni a következő embert: %2$s, a rangja nagyobb vagy megegyező az enyémmel!",
-      "success": "%1$s%2$s (%3$s ki lett rúgva)",
-      "error": "%1$sHiba %2$s kirúgásakor (Nincs megadva a következő jog: %3$s)",
-      "unknown_error": "%1$sIsmeretlen hiba %2$s kirúgása közben"
+      "no_permission": "%1$sCannot kick: You have no Kick Members permission.",
+      "no_users": "%1$sYou need to give me a user to kick.",
+      "no_permission_self": "%1$sSorry! I don't have permission to kick members in this server.",
+      "hierarchy_conflict": "%1$sYou cannot kick an user in a higher hierarchy than you",
+      "yourself_note": "%1$sWhy are you trying to kick yourself, silly?",
+      "self_hierarchy_conflict": "%1$sCannot kick member: %2$s, they are higher or the same hierarchy than I am!",
+      "success": "%1$s%2$s (%3$s got kicked)",
+      "error": "%1$sError kicking %2$s: (No permission provided: %3$s)",
+      "unknown_error": "%1$sUnknown error while attempting to kick %2$s"
     },
     "music_usage": {
-      "1": "*Hogyan zenélj Mantaróval?*",
-      "2": "- A dalok **várólistára vételéhez a youtube-ról vagy a soundcloudról** használd a `~> play` -t. Például: ` ~> play https://www.youtube.com/watch?V=aAolFWjGfMs` \n*Mantaro automatikusan csatlakozik a hangcsatornához amiben vagy*",
-      "3": "- **Dal kereséséhez a youtube-on** használd a `~>play <keresett szám>` (< és > nélkül). Például: `~>play see you again` (Ki kell választanod a számot, csak *írjd be a számot*, miután a választó menü felbukkan!)",
-      "4": "- Ha zeneszámot szeretnél a soundcloudról lejátszani**, írd be: `~>play soundcloud <keresett szám>` Például `~>play soundcloud hot milk`",
-      "5": "- A **várólista** megtekintéséhez csak írd be a `~>queue` parancsot",
-      "6": "- A zene **eltávolításához a várólistábol** használd a `~> removetrack` -ot. Meg kell adnod, hogy hányadik zene a pozicióban!",
-      "7": "-A **megállításhoz vagy a folytatáshoz** használd a `~>pause` parancsot",
-      "8": "-Zene megállításához használd a `~>stop` parancsot",
-      "9": "-Keveréshez használd a `~>shuffle` parancsot",
-      "10": "- És végül, hogy **megismételj egy dalt**, használd a `~>repeat` parancsot. A **várólista ismétléséhez** használd a `~>repeatqueue` parancsot. Ha az ismétlés be van kapcsolva, a `~> repeat` használatával kikapcsolhatod\n",
-      "11": "További információért kérlek, használd ezt: `~>help <parancs neve>` (a < > nélkül, és cseréld le a parancs nevét a kívánt parancs nevére)",
-      "12": "Élvezd a zenét, és köszi, hogy használod a Mantaro-t!"
+      "1": "*How to use music in Mantaro?*",
+      "2": "- To **queue songs from youtube or soundcloud** use `~>play` For example: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
+      "3": "- To **search for a song on youtube** use `~>play <search term>` (without the leading < and >) For example: `~>play see you again` (You need to select the number, just *type the number* after the selection box pops up!)",
+      "4": "- To **search for a song on soundcloud** use `~>play soundcloud <search term>` For example `~>play soundcloud hot milk`",
+      "5": "- To **check the queue** you just type `~>queue`",
+      "6": "- To **remove a track from the queue** you just need to use `~>removetrack` It takes as an argument the position the song is queued at (you can check in on queue)",
+      "7": "- To **pause or unpause** just use `~>pause`",
+      "8": "- To **stop the music and unbind the player** use `~>stop`",
+      "9": "- To **shuffle the queue** just use `~>shuffle`",
+      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeatqueue`. Using `~>repeat` while repeat is on, turns it off, the same is true for `~>repeatqueue`\n",
+      "11": "For more info please use `~>help <command name>` (without the <> and replace command name with the name of the command you want)",
+      "12": "Enjoy your music and thanks for using Mantaro!"
     },
     "lang": {
-      "info": "%1$s A szerver nyelvét megváltoztathatod a(z) `~>opts language set <language code>` parancsal. Személyes nyelvi beállításai a `~> profile lang <language code>` segítségével módosíthatók.\n**elérhető nyelvek:** `%2$s`\nHa a kívánt nyelv nincs itt, és segíteni szeretnél, nyugodtan csatlakozz a support szerverhez, és csatlakozz a fordító csapathoz, szívesen várunk!"
+      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `~>profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "season": {
-      "info": "Egy *szezon* az az időtartam, általában 6 hónap, amikor a játékosok versenyeznek a pénz vagy hírnév ranglistáján az első 10 helyért.\n A nyertesek az évszakos teljesítményük alapján kitűzőket és díjakat kapnak.\nEz lehetővé teszi a versenyképesebb keret kialakítását, és egy kicsit szórakoztatóbbá teszi a játékot.\nA szezonális dolgokat a `-szezon` használatával érheti el. Az olyan parancsok, mint a profile, mine, fish és balance megkövetelik, míg a games, loot, daily és reputation pénzt / reputációt adnak mind a globális, mind a szezonális profilnak.",
-      "info_2": "\n\nA jelenlegi szezon **%1$s** és **%2$s** játékos vesz részt rajta!\nKezdődik a móka, csekkold a `~>leaderboard money -season`;`~>leaderboard rep -season` és`~>leaderboard games -season` parancsokat.\nKezdődjön a játék! <3\nKöszönjük, hogy Mantarót használod."
+      "info": "A *season* is the span of time, of usually 6 months where players compete for the top 10 slots on the money or reputation leaderboard. The winners will get badges and prizes based on their seasonal performance.\nThis is to allow a more competitive frame (before, money was pretty much stale) and to make the game a bit more fun.\nYou can access seasonal stuff using `-season`. Commands like profile, mine, fish and balance will require it, while games, loot, daily and reputation will give money/rep to both your global and seasonal profile.",
+      "info_2": "\n\nThe current season is **%1$s** and **%2$s** players are currently taking part on it!\n\nThe fun begins, check `~>leaderboard money -season`; `~>leaderboard rep -season` and `~>leaderboard games -season`.\nGame on! <3\nThanks for enjoying Mantaro."
     },
     "music_general": {
       "music_error": {
-        "timeout": "%1$s Nem sikerült csatlakozni a: %2$s: kapcsolati időtúlépés. \nPróbáld meg megváltoztatni a szerver régióját, és futtasd a parancsot újra.",
-        "unknown": "%1$sNem sikerült csatlakozni a következőhöz: %2$s: ismeretlen hiba."
+        "timeout": "%1$sUnable to connect to %2$s: connection timed out. Try changing the server region and running the command again.",
+        "unknown": "%1$sUnable to connect to %2$s: unknown error."
       },
-      "not_working": "%1$sA zeneparancsok jelenleg nem működnek, mivel a Youtube blokkolja a legtöbb nagy bot forgalmát. Patreon botunk továbbra is működik, így ha szeretnéd, kipróbálhatod, havi 4 dollárért. Ez a zene minőségének javításában is segít.\nLesd meg a <https://patreon.com/mantaro> webhelyet\n\nSajnáljuk a kellemetlenségeket. Próbáld meg használni a soundcloud keresést! (`~>play soundcloud <search term> `)",
-      "no_song": "%1$sEl kell mondanod, mit akarsz lejátszani! *(írj be YouTube, Soundcloud vagy Twitch linket, vagy keress rá a dal címére/előadójára)*",
-      "not_playing": "%1$sJelenleg nem játszok semmit. Ha úgy gondolod, hogy ez egy hiba, kérlek jelezd ezt a következő címen: <https://support.mantaro.site>!",
-      "dj_only": "%1$sEme parancs futtatásához dj rang szükséges.",
-      "enjoy_note": "Élvezd a zenét! <3",
-      "no_player": "%1$sNem találok itt zenelejátszót... (próbálj meg újra lejátszani valamit?)",
-      "not_connected": "%1$sNem csatlakoztál ahhoz a hangcsatornához, amelyben éppen játszom! (Ha úgy gondolod, hogy ez hiba, kérjük, jelezd ezt a <https://support.mantaro.site> oldalon)",
-      "np_message": "%1$sMost játszom: **%2$s ** (%3$s) itt: **%4$s ** | %5$s",
-      "track_error": "%1$sÓ, valami nem stimmelt a dal lejátszása közben! Elnézést a kellemetlenségekért, megpróbálom lejátszani a következőt, ha van.",
-      "queue_finished": "%1$sLejátszottam az összes zenét! Remélem élveztétek :heart:",
-      "soundcloud_no_args": "%1$sMeg kell adnod a zene nevét... Nem vagyok mágus, nem tudom kitalálni :(",
-      "missing_embed_permissions": "%1$sMeg kell adnod az Embed Links jogot ahhoz, hogy működjön. Ha átugranád a zene választást, használd helyette a `~>forceplay` parancsot, amely az első eredményt játssza le.",
-      "no_vc_found": "%1$sNem vagyok csatlakozva egyetlen hangcsatornához sem, pedig kellene? Próbáld újra.",
+      "not_working": "%1$sMusic is currently not working due to Youtube blocking traffic from most big bots. Our Patreon bot still is working, so you can try it if you wish by donating $4/month to Mantaro. This will also help us redirect our efforts towards fixing music as a whole.\nPlease check <https://patreon.com/mantaro>\n\nWe're sorry for the inconveniences. Try using soundcloud search! (`~>play soundcloud <search term>)`",
+      "no_song": "%1$sYou need to tell me what song you want to play! *(YouTube, Soundcloud, Twitch URL or search queries are allowed)*",
+      "not_playing": "%1$sI'm not currently playing anything. If you believe this is an error, please report this at <https://support.mantaro.site>",
+      "dj_only": "%1$sYou need to be a DJ to use this command.",
+      "enjoy_note": "Enjoy the music! <3",
+      "no_player": "%1$sI cannot find any music player here... (try playing something again?)",
+      "not_connected": "%1$sYou aren't connected to the voice channel I'm currently playing in! (If you believe this is an error, please report this at <https://support.mantaro.site>)",
+      "np_message": "%1$s Now playing **%2$s** (%3$s) on **%4$s** | %5$s",
+      "track_error": "%1$sOuch, something went wrong while playing this track! Sorry for the inconveniences, I'll try to play the next one available if there is one.",
+      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
+      "soundcloud_no_args": "%1$sYou need to give me the song name, I'm not a magician so I can't guess it :(",
+      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
+      "no_vc_found": "%1$sI'm not connected to any VC even though I should be? Try again.",
       "queue": {
-        "header_field": "Utasítások",
-        "header_noreact": "Használd a `&p >>` és `&p <<` nyilakat, hogy mozogj az oldalak között.",
-        "no_track_found_np": "Semmit nem találtam / cím vagy időtartam nem található",
-        "header": "%1$s lejátszási listája",
-        "nothing_playing": "Nincs itt semmi, csak por. Miért nem adsz hozzá néhány dalt?\nHa szerinted már van bent dal, de nem jelennek meg, próbálkozz a `~>queue 1` parancs használatával.",
-        "nothing_playing_2": "**Ha éppen szól egy szám, de nem adtatok hozzá további dalokat, akkor itt már nem találsz semmit se. Adhatsz hozzá dalokat, bármit, amire csak vágysz!**",
-        "np": "Jelenleg játszott dal",
-        "dj_np": "**Hozzáadta:** ",
-        "page_overflow": "Itt csak por van. Miért nem mész vissza néhány oldalt?",
-        "page_overflow_2": "Ha úgy gondolod, hogy vannak itt dalok, de nem jelennek meg, próbálkozz a `~>queue 1` parancs használatával",
-        "total_queue_time": "Lejátszási lista teljes időtartama",
-        "total_size": "Lejátszási lista hossza",
-        "togglers": "Ismétlés / Szünet",
-        "playing_in": "Lejátszás itt:",
-        "footer": "Összes oldal: %1$d%2$s. Jelenlegi oldal: %3$d",
-        "multiple_pages": " -> Használd ez: ~>queue <page>, hogy oldalt válts",
-        "page_react": " -> Reagálj az oldalváltáshoz",
-        "no_channel": "Nincs csatorna :(",
-        "songs": "dal(ok)",
-        "clear_error": "%1$sVagy nem vagy csatlakozva egy hangcsatornához sem, vagy nem te vagy DJ.",
-        "clear_success": "%1$sLejátszási lista törölve. A mérete %2$s volt",
-        "no_embed": "%1$sA botnak embed link jogot kell adnod hogy megjelenítse a várólistát."
+        "header_field": "Instructions",
+        "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
+        "no_track_found_np": "Nothing or title/duration not found",
+        "header": "Queue for server %1$s",
+        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`",
+        "nothing_playing_2": "**If there is a song playing and you didn't add more songs, then there is actually just dust here. You can queue more songs as you desire!**",
+        "np": "Currently playing",
+        "dj_np": "**Queued by:** ",
+        "page_overflow": "Nothing here, just dust. Why don't you go back some pages?",
+        "page_overflow_2": "If you think there are songs here but they don't appear, try using `~>queue 1`",
+        "total_queue_time": "Total queue time",
+        "total_size": "Total queue size",
+        "togglers": "Repeat / Pause",
+        "playing_in": "Playing in",
+        "footer": "Total pages: %1$d%2$s. Currently in page %3$d",
+        "multiple_pages": " -> Use ~>queue <page> to change pages",
+        "page_react": " -> React to change pages",
+        "no_channel": "No channel :(",
+        "songs": "song(s)",
+        "clear_error": "%1$sEither you're not connected to the VC or you're not the DJ.",
+        "clear_success": "%1$sSuccessfully cleared the current queue. The queue size was %2$s",
+        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
       },
       "connect": {
-        "success": "%1$sSikeresen csatlakoztam a következő hangcsatornához: **%2$s**!",
-        "full_channel": "%1$sNem tudok csatlakozni, mert tele van a csatorna!",
-        "non_existent_channel": "%1$sNem létező csatornába próbáltál behívni. Ha beállítottál egy hangcsatornát, majd törölted, akkor ez lehet az oka.\n Visszaállítottuk a zenecsatornádat, próbáld meg újra lejátszani a zenét.",
-        "user_no_vc": "%1$s**Kérlek csatlakozz egy hangcsatornához**. Ha hangcsatornában vagy és a bot kilépett akkor kérlek lépj újra.",
-        "missing_permissions_connect": "%1$sNincs jogom ehez a csatornához csatlakozni (%2$s).",
-        "missing_permission_speak": "%1$sNincs jogom ebben a csatornában beszélni (%2$s).",
-        "channel_locked": "%1$sCsak ezen a csatornán tudok zenét lejátszani **%2$s**.",
-        "already_connected": "%1$sMár csatlakozva vagyok ehhez a csatornához: %2$s (használd a `move` parancsot hogy átmozgass egy másik csatornába)",
-        "attempting_to_connect": "%1$sMár csatlakozni próbálok ehhez a csatornához: %2$s (használd a `move` parancsot hogy átmozgass egy másik csatornába)"
+        "success": "%1$sSuccessfully connected to channel **%2$s**!",
+        "full_channel": "%1$sI can't connect to that channel because it is full!",
+        "non_existent_channel": "%1$sI received a non-existent channel as response. If you set a voice channel and then deleted it, that might be the cause.\n We reset your music channel for you, try to play the music again.",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
+        "missing_permissions_connect": "%1$sI cannot connect to this channel due to the lack of permissions (%2$s).",
+        "missing_permission_speak": "%1$sI cannot speak in this channel due to the lack of permissions (%2$s).",
+        "channel_locked": "%1$sI can only play music on channel **%2$s**.",
+        "already_connected": "%1$sI'm already connected on channel **%2$s**! (Use the `move` command to move me to another channel)",
+        "attempting_to_connect": "%1$sI'm already trying to connect to channel **%2$s**! (Use the `move` command to move me to another channel)"
       },
       "listener": {
-        "paused": "%1$sLejátszás szüneteltetése, mert némítottak :(",
-        "resumed": "%1$sLejátszás folytatása, mert valaki csatlakozott!",
-        "not_resumed": "%1$sValaki csatlakozott, de nem folytatom a lejátszást, mivel manuálisan voltam megállítva. Használd a `~>resume` parancsot.",
-        "left_alone": "%1$sLelépek 2 percen belül, mert egyedül maradtam :(",
-        "leave": "%1$sKiléptem ebből a csatornából: **%2$s**, mert egyedül hagytatok :("
+        "paused": "%1$sPausing player because I got muted :(",
+        "resumed": "%1$sResuming playback because someone joined!",
+        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `~>resume` to manually resume playback.",
+        "left_alone": "%1$sI'll leave **%2$s** in 2 minutes because I was left all alone :(",
+        "leave": "%1$sI decided to leave **%2$s** because I was left all alone :("
       },
       "loader": {
-        "over_limit": "%1$sA lista amit hozzáadtál többet tartalmazott, mint %2$d zeneszám, hozzáadtam annyit amennyit lehetett, a többit figyelmen kívül hagytam.",
-        "loaded_playlist": "%1$sHozzáadtam **%2$d** számot a lejátszási listához: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sA keresés eredménytelen volt. Ha *minden* keresésre ez a válasz, kérlek használd a `~>play soundcloud <search term>` parancsot vagy youtube linkeket.",
-        "error_loading": "%1$sHiba a %2$s zene lekérése közben. Próbáld újra, vagy esetleg egy másik linket?",
-        "unknown_error_loading": "%1$sHiba a zene lekérése közben. Próbáld újra, vagy esetleg egy másik linket?",
+        "over_limit": "%1$sThe queue you added had more than %2$d songs, so we added songs until this limit and ignored the rest.",
+        "loaded_playlist": "%1$sAdded **%2$d songs** to queue on playlist: **%3$s** *(%4$s)*",
+        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`~>play soundcloud <search term>` instead on the meanwhile. Direct links to youtube should work too.",
+        "error_loading": "%1$sError while fetching music: %2$s. Maybe give it a try again or try another link?",
+        "unknown_error_loading": "%1$sUnknown error while fetching music. Maybe give it a try again or try another link?",
         "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
-        "over_32_minutes": "%1$s**Nem játszhatom le a következőt: `%2$s`, mert ez a zene hosszabb, mint %3$s.** (%4$s hosszú).\nMantaro Premiummal le tudnál játszani hosszabb számokat is, illetve még élő adást is. További infóért látogass el a <https://patreon.com/mantaro> oldalra.",
+        "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s**Surpassed fair queue level of %2$d (Too many songs which are exactly equal)**",
-        "loaded_song": "%1$sHozzáadva a lejátszási listához -> **%2$s** *(%3$s)*",
-        "selection_text": "Zeneválasztó. Írd be a dal sorszámát a folytatáshoz.",
-        "timeout_text": "Ezt 30 másodpercig teheted meg."
+        "loaded_song": "%1$sAdded to queue -> **%2$s** *(%3$s)*",
+        "selection_text": "Song selection. Type the song number to continue.",
+        "timeout_text": "This timeouts in 30 seconds. Type &cancel to cancel."
       },
-      "premium_beg": "%1$sHa kedvelsz, támogass a <https://patreon.com/mantaro> oldalon. Már egy egész kevéske összeggel is segíthetsz, hogy a jövőben is sokáig zenélhessek neked. (`~>donate`)",
-      "closed_connection": "%1$sMegszakította a hangkapcsolatot, lejátszó leválasztása..."
+      "premium_beg": "%1$sConsider donating on <https://patreon.com/mantaro> if you like me, even a small donation will help towards keeping the bot alive (Check `~>donate` for more info!)",
+      "closed_connection": "%1$sClosed audio connection, unbinding player..."
     },
     "forceskip": {
-      "success": "%1$sEgy admin úgy döntött, hogy ugorjuk át ezt a dalt."
+      "success": "%1$sAn admin or Bot Commander decided to skip this song."
     },
     "np": {
       "no_track": "%1$sThere either isn't track playing or we cannot seem to find it, try playing a song",
-      "header": "Most hallható"
+      "header": "Now Playing"
     },
     "pause": {
-      "paused": "Lejátszás szüneteltetve. *(A lejátszás korábban folytatva lett)*",
-      "unpaused": "Lejátszás folytatva. *(A lejátszás meg lett állítva korábban)*"
+      "paused": "Player paused. *(Player was un-paused previously)*",
+      "unpaused": "Player un-paused. *(Player was paused previously)*"
     },
     "rewind": {
       "no_time": "%1$sYou need to tell me how much you want to rewind the song. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
-      "negative": "%1$sKérlek pozitív számot adj meg",
+      "negative": "%1$sPositive numbers only",
       "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
       "before_beginning": "%1$sYou can't skip to before the beginning of a song",
-      "success": "%1$sVisszatekerte a dalt ide: %2$s."
+      "success": "%1$sRewound song to: %2$s."
     },
     "restartsong": {
-      "success": "%1$sÚjraindította a dalt."
+      "success": "%1$sRestarted current song."
     },
     "skipahead": {
-      "no_time": "%1$sMeg kell adnod, hogy mennyit szeretnél előre ugrani. *(Példa: `~>skipahead 4m20s` előre ugrik 4 perc 20 másodpercet az akkori ponttól számítva)*",
-      "past_duration": "%1$sNem ugorhatsz a zene hosszánál tovább",
-      "success": "%1$sElőre léptetett %2$s-ig."
+      "no_time": "%1$sYou need to tell me how much you want to skip ahead in the song. *(Example: `~>skipahead 1m45s` will skip 1 minutes and 45 seconds from where you are on the song)*",
+      "past_duration": "%1$sYou can't skip past the duration of a song",
+      "success": "%1$sSkipped ahead to %2$s."
     },
     "move": {
-      "no_voice": "%1$sNem vagy bent egy hangcsatornában sem.",
-      "attempt": "%1$sMegpróbálok belépni abba csatornába ahol vagy",
-      "error_moving": "%1$sNem tudtam hangcsatornát váltani.",
-      "cannot_connect": "%1$sCsatlakozás sikertelen: Nincs jogom beszélni vagy átmenni másik csatornába.",
-      "non_existent_channel": "%1$sNem tudok beléni egy nem létező csatornába!",
-      "success": "%1$sÁtléptem a(z) `%2$s` csatornába",
-      "vc_not_found": "%1$sNem találtam a csatornát vagy nem adtál meg egyet!"
+      "no_voice": "%1$sYou're not in a voice channel, or the bot isn't in one.",
+      "attempt": "%1$sI will try to move to the channel you're in",
+      "error_moving": "%1$sFailed to switch voice channels.",
+      "cannot_connect": "%1$sCannot connect: I either don't have permission to talk or to move channels.",
+      "non_existent_channel": "%1$sI can't move to a non-existent channel!",
+      "success": "%1$sMoved bot to channel `%2$s`",
+      "vc_not_found": "%1$sVoice channel not found or you didn't specify one!"
     },
     "shard": {
-      "info": "**Jelenleg a %1$d es/os shardon vagyok a %2$d** ból (Node %3$d / %4$d)\n\n**Ezen a shardon lévő szerverek:** %5$,d szerver\n**Gyorsítótárazott felhasználók:** %6$,d felhasználó\n**Gyorsítótárazott tagok:** %7$,d felhasználó\nHa segítségre van szükséged látogasd meg a bot support oldalát (<https://support.mantaro.site>). Köszönjük, hogy a Mantaro -t használod!"
+      "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
     },
     "queue": {
       "clear": {
-        "header": "%1$sA szerver DJ törölte a várólistát!",
-        "success": "%1$sTöröltem **%2$d zenét** a listából.",
-        "error": "%1$sNem vagy csatlakozva egy hangcsatornához sem, vagy nem vagy DJ."
+        "header": "%1$sThe server DJ has decided to clear the queue!",
+        "success": "%1$sRemoved **%2$d songs** from the queue.",
+        "error": "%1$sEither you're not connected to the VC or you're not the DJ."
       }
     },
     "repeat": {
-      "queue_cancel": "%1$sFolytatom a lejátszást.",
-      "queue_repeat": "%1$sLejátszási lista megismétlése.",
-      "song_cancel": "%1$sFolytatom a lejátszást.",
-      "song_repeat": "%1$sÚjra és újra le fogom játszani ezt a dalt. Add meg megint ezt a parancsot, hogy kilépj ebből."
+      "queue_cancel": "%1$sContinuing with the current queue.",
+      "queue_repeat": "%1$sRepeating the current queue.",
+      "song_cancel": "%1$sContinuing with the normal queue.",
+      "song_repeat": "%1$sRepeating the current song. Run this command again to disable it."
     },
     "nextsong": {
-      "no_song_next": "%1$sÓó, már nincs több szám, ami következhetne.",
-      "format": "%1$sKövetkező dal a lejátszási listában: **%2$s** (%3$s) | *Összesen %4$,d dal*"
+      "no_song_next": "%1$sOw, there isn't any song coming next.",
+      "format": "%1$sNext song in queue: **%2$s** (%3$s) | *Total songs in queue: %4$,d*"
     },
     "shuffle": {
-      "success": "%1$sÖsszekevertem a lejátszási listán levő dalok sorrendjét."
+      "success": "%1$sRandomized the order of the current queue."
     },
     "skip": {
-      "dj_skip": "%1$sA DJ átugrotta a számot.",
+      "dj_skip": "%1$sThe DJ has decided to skip this song.",
       "vote": {
-        "submit": "%1$s**Szavaztál.** Még %2$d szavat kell, hogy a következő számra ugorjunk!",
-        "remove": "%1$s**A szavazatod törölve**! Még %2$d szavat kell, hogy a következő számra ugorjunk!"
+        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!",
+        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to skip!"
       },
-      "success": "%1$sElértem a kívánt szavazatszámot, zene átugrása...",
-      "no_track": "%1$sNem találtam mit átugrani, Nem tudok csinálni semmit..."
+      "success": "%1$sReached the required amount of votes, skipping song...",
+      "no_track": "%1$sThere seems to be no track to skip, so I cannot do anything..."
     },
     "removetrack": {
-      "invalid_range": "%1$s`%2$s` nem érvényes tartomány.",
-      "no_track": "%1$sA következő sorszámon nincs zene: `%2$d`!",
-      "invalid_number": "(%1$s`%2$s`) Az egyik nem érvényes szám!",
-      "invalid_number_range": "%1$s`%2$s` nem érvényes szám!",
-      "success": "%1$sTörölve **%2$d** szám a listából.",
-      "not_dj": "%1$sDJ rang szükséges ennek a parancsnak a végrehajtásához."
+      "invalid_range": "%1$s`%2$s` is not a valid range.",
+      "no_track": "%1$sThere isn't a queued track at the position `%2$d`!",
+      "invalid_number": "(%1$s`%2$s`) One of the ranges is not a valid number!",
+      "invalid_number_range": "%1$s`%2$s` is not a valid number or range!",
+      "success": "%1$sRemoved **%2$d** track(s) from the queue.",
+      "not_dj": "%1$sYou need to be a DJ to perform this action."
     },
     "stop": {
-      "dj_stop": "%1$sA DJ megállította a várólistát.",
+      "dj_stop": "%1$sThe server DJ has decided to stop the current queue.",
       "vote": {
-        "submit": "%1$s**szavazatod rögzítve**! Még %2$d szavazat a megállításhoz!",
-        "remove": "%1$s**A szavazatod törölve**! Még %2$d szavat kell a megállításhoz!"
+        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to stop!",
+        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to stop!"
       },
-      "success": "%1$sSzükséges szavazatszám elérve, megállítás...",
-      "no_player": "%1$sNem találtam semmit amit megállíthatnék, Nem tudok mit csinálni...",
-      "cleanup": "%1$sTöröltem **%2$d zenét** a listából."
+      "success": "%1$sReached the required amount of votes, stopping player...",
+      "no_player": "%1$sThere seems to be no player to stop, so I cannot do anything...",
+      "cleanup": "%1$sRemoved **%2$d songs** from the queue."
     },
     "volume": {
-      "no_player": "%1$s A lejátszás szünetel.",
-      "check": "%1$sA hangerő: %2$d\n\n%3$s",
-      "success": "%1$sHangerő beállítva %2$d\n\n%3$s",
-      "no_args": "%1$sAdd meg mire szeretnéd megváltoztatni a hangerőt! (5 - 100)",
-      "premium_only": "%1$sEz egy csak-prémium funkció. Hasonló előnyökért feliratkozhatsz patreonon (https://www.patreon.com/mantaro).\nA csak-prémium funkciók egy szerverhez vagy felhasználóhoz lehetnek kötve. Kérlek lépj be a support szerverre és kérj meg egy erre alkalmas embert."
+      "no_player": "%1$sThere's nothing playing here.",
+      "check": "%1$sThe current volume for this session is: %2$d\n\n%3$s",
+      "success": "%1$sVolume set to %2$d\n\n%3$s",
+      "no_args": "%1$sYou need to tell me what volume you want me to set the music to (5 to 100).",
+      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to a user or a server, please, if you donate, join the support guild and ask for it."
     },
     "lyrics": {
-      "no_current_track": "%1$sEzen a szerveren jelenleg nincs zene!",
-      "error_searching": "%1$sHiba történt a keresés során, vagy nincs találat.",
-      "header": "%1$s %2$s Dalszövege",
-      "footer": "Köszönöm, hogy Mantarót használod! %1$d. oldal, Összesen: %2$d."
+      "no_current_track": "%1$sThere's no song currently playing on this server!",
+      "error_searching": "%1$sThere was an error searching for this track or there was no results found.",
+      "header": "%1$sLyrics for %2$s",
+      "footer": "Thanks for using Mantaro! Page: %1$d, Total: %2$d."
     },
     "prefix": {
-      "header": "%1$sAz alap prefixek: %2$s és a bot pingelése (Mindre válaszolok)! %3$s.\nBe tudod állítani a prefixet az `~>opts prefix set <prefix>` parancs használatáva. (a <> nem kell)\nA visszaállításhoz használd az `~>opts prefix clear` parancsot.\nHa bármi kérdésed van csatlakozz <https://support.mantaro.site>",
-      "guild_prefix": "A szerver előtag: `%1$s`",
-      "none": "A szerveren nincs beállítva egyedi előtag."
+      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). %3$s.\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nTo reset the server prefix run `~>opts prefix clear`\nIf you have any questions, you can join <https://support.mantaro.site>",
+      "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
+      "none": "There's no custom prefix set on this server."
     },
     "custom": {
-      "custom_notice": "Ez egy egyedi parancs.",
-      "no_args": "%1$sMeg kell adnod, hogy mit szeretnél csinálni ezzel a paranccsal. További infókért csekkold le a parancssúgót!",
-      "incorrect_args": "%1$sHibás argumentumok. A helyes használathoz használd a `~>help custom` parancsot vagy a https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands linket. Ha ezek után sem boldogulsz keress fel minket <https://support.mantaro.site>",
-      "error_running": "%1$sHiba a parancs futtatása közben... Kérlek ellenőrizd a válasz tartalmát és hosszát (Maximum 2000 karakter).",
-      "error_running_new": "%1$sHiba történt a parancs futtatása közben. Ellenőrizd a válasz hosszát és tartalmát.\n**Hiba:**\n```%2$s```",
-      "not_loaded": "A bot még nem indult el teljesen... Az egyedi parancsok nemsokára elérhetőek lesznek!",
-      "nsfw_enabled": "%1$sEz a parancs NSFW -nek jelölve.",
-      "nsfw_disabled": "%1$sEz a parancs SFW -nek jelölve.",
-      "nsfw_not_nsfw": "%1$sEz a parancs NSFWnek van jelölve tehát csak ilyen csatornákban használható.",
-      "new_error": "%1$sA létrehozni kívánt parancs hibát tartalmaz (v3, tartalom).\n**Hiba:**\n```%2$s```",
+      "custom_notice": "This is a custom command.",
+      "no_args": "%1$sYou need to specify what you want to do with this command. Check command help for more info!",
+      "incorrect_args": "%1$sIncorrect arguments. Check `~>help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
+      "error_running": "%1$sError while running custom command... please check the response content and length (cannot be more than 2000 chars).",
+      "error_running_new": "%1$sError running custom command. Check response, content and length.\n**Error:**\n```%2$s```",
+      "not_loaded": "The bot hasn't been fully booted up yet... custom commands will be available shortly!",
+      "nsfw_enabled": "%1$sThis command has been successfully marked as NSFW.",
+      "nsfw_disabled": "%1$sThis command has been successfully marked as SFW.",
+      "nsfw_not_nsfw": "%1$sThis command is marked as NSFW therefore it can only be used on NSFW channels.",
+      "new_error": "%1$sThe custom command you're trying to create has an error (v3, check content).\n**Error:**\n```%2$s```",
       "ls": {
-        "header": "Szerverparancsok.",
-        "description": "**Ez megmutatja az összes felhasználók által készített parancsot.** Az itt jelenlévő parancsok semmilyen formában nem tartoznak a bothoz és nem a fejlesztők készítették!\n\nTöbb infóért látogasd meg a [wiki oldalt](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Lista:**",
-        "footer": "Összes egyéni parancs ezen a szerveren: %1$s"
+        "header": "Commands for this server.",
+        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**List:**",
+        "footer": "Total custom commands on this server: %1$s"
       },
-      "invalid": "%1$sÉrvénytelen parancskijelölés. Esetleg vess egy pillantást a wikire: \n<https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
+      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
       "view": {
-        "invalid": "%1$smeg kell adnod a parancsot és a válasz számát!",
-        "not_found": "%1$sNem található egyedi parancs ilyen névvel.",
-        "less_than_specified": "%1$sEz a parancs kevesebb választ tartalmaz mint a megadott szám...",
+        "invalid": "%1$sYou need to specify the command and the response number!",
+        "not_found": "%1$sThere isn't a custom command with that name here.",
+        "less_than_specified": "%1$sThis command has less responses than the number you specified...",
         "success": "**Response `%1$d` for custom command `%2$s`:** \n```\n%3$s```"
       },
       "raw": {
@@ -556,14 +556,14 @@
       "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
     "love": {
-      "no_mention": "%1$sMeg kell említened legalább egy felhasználót.",
-      "not_ideal": "Majd talán máskor...",
-      "decent": "Egész jó!",
-      "nice": "Szép pár vagytok!",
-      "perfect": "Tökéletes pár!",
-      "yourself_note": "Te egy különleges teremtmény vagy, szeretned kéne magadat mindenkinél jobban <3",
-      "header": "Szerelemmérő",
-      "result": "Eredmény:"
+      "no_mention": "%1$sYou need to mention at least 1 user.",
+      "not_ideal": "Try again next time...",
+      "decent": "Good enough!",
+      "nice": "Good match!",
+      "perfect": "Perfect match!",
+      "yourself_note": "You're a special creature and you should love yourself more than anyone <3",
+      "header": "Love Meter",
+      "result": "Result:"
     },
     "marry": {
       "loveletter": {
@@ -1069,15 +1069,15 @@
       "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out. Showing up to 100 results.\n",
       "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`. Showing up to 100 results.",
       "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November).\nIf the month or day has only one digit you need to append a 0 to it. For example, 14/7 would become 14/07 and 7/12 would become 07/12.",
-      "added_birthdate": "%1$sSzületésnapod sikeresen hozzáadva. A te születésnapod: %2$s *(nn-HH)* [day-month]. Ahhoz, hogy a szerver felköszöntsön, futtasd a `~>birthday allowserver` parancsot%3$s",
+      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sThat's not a valid month number! (Valid months are numbers from 1 to 12)",
       "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `~>birthday allowserver`",
       "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part.",
-      "allowed_server": "%1$sEngedélyezted, hogy felköszöntsünk születésnapod alkalmával. Ha vissza szeretnéd vonni, futtasd a `~>birthday denyserver` parancsot.",
+      "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `~>birthday denyserver` on this server.",
       "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `~>birthday allowserver` on this server.",
       "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `~>birthday allowserver` instead. This is the default.",
       "leap": "Your birthday is on the 29th of February, which means it'll get announced on the 29th on leap years, and on the 28th of February on non-leap years.",
-      "already_allowed": "%1$sTe már engedélyezted a szervernek a születésnapod mutatását."
+      "already_allowed": "%1$sYou already allowed this server to show your birthday."
     },
     "choose": {
       "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga \"sleeping out\"`)",
@@ -1174,65 +1174,65 @@
       "lonely": {
         "pat": "Aww, I see you are lonely, take a pat <3",
         "hug": "Aww, I see you are lonely, take a hug <3",
-        "kiss": "Aww, látom magányos vagy, *puszit ad*",
+        "kiss": "Aww, I see you are lonely, *kisses*",
         "poke": "Aww, I see you are lonely, *pokes you*",
         "slap": "Hmm, why do you want this? Uh, I guess... *slaps you*",
-        "bite": "*megharap téged*",
-        "lick": "*megnyal téged*",
-        "tickle": "*megcsikiz téged*",
-        "highfive": "*ad egy ötöst*",
-        "pout": "*duzzog, hmpf*",
-        "teehee": "*provokál téged*",
-        "smile": "*rád mosolyog*",
-        "stare": "*téged néz*",
-        "holdhands": "*megfogja a kezed*",
-        "cuddle": "*hozzád bújik*",
-        "nuzzle": "*megszeretget téged*",
-        "blush": "*elpirulva rádnéz*",
-        "bloodsuck": "M-Most ezt mégis hogy gondoltad? Oh.. Na jó.. *kiszívja a véred*"
+        "bite": "*bites you*",
+        "lick": "*licks you*",
+        "tickle": "*tickles you*",
+        "highfive": "*highfives*",
+        "pout": "*pouts, hmph*",
+        "teehee": "*teases you*",
+        "smile": "*smiles at you*",
+        "stare": "*stares at you*",
+        "holdhands": "*holds your hand*",
+        "cuddle": "*cuddles you*",
+        "nuzzle": "*nuzzles you*",
+        "blush": "*blushes at you*",
+        "bloodsuck": "J-Just how am I meant to? Oh well.. *sucks your blood*"
       },
       "self": {
-        "pat": "*megsimizve*",
-        "hug": "*elpirul* o-oh... köszönöm",
-        "kiss": "*elpirul*... Én- öö... nem gondolom, hogy egy botot kéne megcsókolnod, de...",
-        "poke": "U-uh! Mit szeretnél?",
+        "pat": "*is patted*",
+        "hug": "*blushes* o-oh... thanks you",
+        "kiss": "*blushes*... I- uh... don't think you should be kissing a bot but...",
+        "poke": "O-Oh! What do you need?",
         "slap": ":(",
-        "bite": "E-Ez fáj!",
-        "lick": "Milyen ízű a fém? Nem hinném, hogy valami finom...",
-        "tickle": "hahahaha... neee... áááááállj >u<",
-        "highfive": "*ad egy ötöst*",
-        "pout": "Haragszol rám? :(",
+        "bite": "T-That hurts!",
+        "lick": "How does metal taste? I don't believe it's too great...",
+        "tickle": "hahahaha... oh god stop >u<",
+        "highfive": "*highfives*",
+        "pout": "Are you mad at me? :(",
         "teehee": ":eyes:",
         "smile": "Aww.",
         "stare": ":eyes:",
         "holdhands": "o-oh... ;//;",
-        "cuddle": "Cuki!",
-        "nuzzle": "Awwww, cuki!",
+        "cuddle": "That's cute!",
+        "nuzzle": "Awwiee, cute!",
         "blush": ";////;",
-        "bloodsuck": "Te egy vámpír vagy?, oh!"
+        "bloodsuck": "Are you a vampire now?, oh!"
       },
-      "pat": "%2$s megsimogatta %1$s buksiját",
-      "hug": "%1$s, %2$s megölelt téged",
-      "kiss": "%1$s, %2$s megcsókolt téged",
-      "poke": "%1$s, %2$s megbökött téged! :eyes:",
-      "slap": "%1$s, meg lettél pofozva %2$s által!",
-      "bite": "%1$s, %2$s épp megharapott téged :eyes:",
-      "tickle": "%1$s, %2$s megcsiklandozott téged",
-      "lick": "%1$s, %2$s megnyalt téged",
-      "highfive": "%1$s és %2$s összepacsiztak :heart:",
-      "pout": "%1$s most nagyon haragszik rád %2$s *hmph*",
-      "teehee": "%2$s, %1$s ugrat téged",
-      "smile": "%2$s, %1$s rád mosolygott :heart:",
-      "stare": "%2$s, %1$s épp téged néz",
-      "holdhands": "%1$s megfogja %2$s kezét",
-      "cuddle": "%1$s, %2$s hozzád bújt",
-      "nuzzle": "%1$s megszeretgette %2$s-t",
-      "bloodsuck": "%1$s kiszívja %2$s vérét!",
-      "blush": "%2$s, %1$s elpirulva néz téged",
-      "nom": "Nyami.",
-      "facedesk": "*beleveri a fejét az asztalba*",
-      "lewd": "P-Perverz!",
-      "meow": "Miau."
+      "pat": "%1$s you have been patted by %2$s",
+      "hug": "%1$s you have been hugged by %2$s",
+      "kiss": "%1$s you have been kissed by %2$s",
+      "poke": "%1$s you have been poked by %2$s :eyes:",
+      "slap": "%1$s you have been slapped by %2$s!",
+      "bite": "%1$s you have been bitten by %2$s :eyes:",
+      "tickle": "%1$s you have been tickled by %2$s",
+      "lick": "%1$s you have been licked by %2$s",
+      "highfive": "%1$s highfives %2$s :heart:",
+      "pout": "%1$s pouts at %2$s *hmph*",
+      "teehee": "%1$s is teasing %2$s",
+      "smile": "%1$s is smiling at %2$s :heart:",
+      "stare": "%1$s is staring at %2$s",
+      "holdhands": "%1$s is holding %2$s's hand",
+      "cuddle": "%1$s you have been cuddled by %2$s",
+      "nuzzle": "%1$s is nuzzling %2$s",
+      "bloodsuck": "%1$s is sucking the blood of %2$s!",
+      "blush": "%1$s is blushing at %2$s",
+      "nom": "Yummy.",
+      "facedesk": "*facedesks*",
+      "lewd": "Y-You lewdie!",
+      "meow": "Meow."
     },
     "game": {
       "won_games": "%1$s%2$s has won **%3$s games**",

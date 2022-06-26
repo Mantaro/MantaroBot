@@ -18,7 +18,7 @@
     "not_found": "Не найдено",
     "no_results": "Не дало результата.",
     "timeout": "Пропадет через %1$d секунд.",
-    "reaction_timeout": "Buttons will timeout in %1$d seconds.",
+    "reaction_timeout": "Кнопки пропадут через столько секунд: %1$d.",
     "example": "Пример",
     "definition": "Значение",
     "name": "Имя",
@@ -62,7 +62,7 @@
         "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
         "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
       },
-      "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
+      "twitter": "А вы знали, что у нас есть аккаунт в Twitter? А он есть! Подписывайтесь на mantarodiscord (<https://twitter.com/mantarodiscord>) и следите за обновлениями и прочими вещами."
     },
     "mention_user_required": "%1$sВам нужно упомянуть хотя бы одного пользователя.",
     "invalid_character": "%1$sЭто недопустимый персонаж.",
@@ -77,7 +77,7 @@
     "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
     "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://wiki.mantaro.site> for more information about the bot.",
     "ratelimit": {
-      "header": "%1$s%2$s (Достигнут лимит)\n **Вы сможете снова использовать эту команду снова через %3$s.**",
+      "header": "%1$s%2$s (Достигнут лимит)\n **Вы сможете снова использовать эту команду через %3$s.**",
       "spam_1": "Остановитесь и отдохните, это полезно для вашего здоровья. **Время запроса продолжит увеличиваться, если вы продолжишь спамить!**",
       "spam_2": "\nЯ думаю тебе лучше остановиться сейчас...",
       "spam_3": "\nПочему бы тебе немного не прогуляться на улице?",
@@ -1670,7 +1670,7 @@
     "balance": {
       "bot_notice": "%1$sУ ботов нет денег.",
       "external_balance": "%1$s имеет **$%2$d кредитов.**",
-      "own_balance": "Your balance is **$%1$,d credits.**%2$s",
+      "own_balance": "Ваш баланс **$%1$,d кредитов.**%2$s",
       "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
       "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
     },
