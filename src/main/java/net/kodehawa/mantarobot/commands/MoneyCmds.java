@@ -241,7 +241,7 @@ public class MoneyCmds {
         }
 
         // Determine who gets the money
-        var dailyMoney = 150L;
+        var dailyMoney = 350L;
 
         final var author = ctx.getAuthor();
         var authorPlayer = ctx.getPlayer();
@@ -283,7 +283,7 @@ public class MoneyCmds {
             }
 
             // Why this is here I have no clue;;;
-            dailyMoney += random.nextInt(90);
+            dailyMoney += random.nextInt(120);
 
             var mentionedDBUser = ctx.getDBUser(otherUser);
             var mentionedUserData = mentionedDBUser.getData();
@@ -292,12 +292,12 @@ public class MoneyCmds {
             var marriage = authorUserData.getMarriage();
             if (marriage != null && otherUser.getId().equals(marriage.getOtherPlayer(ctx.getAuthor().getId())) &&
                     playerOtherUser.getInventory().containsItem(ItemReference.RING)) {
-                dailyMoney += Math.max(10, random.nextInt(100));
+                dailyMoney += Math.max(10, random.nextInt(200));
             }
 
             // Mutual waifu status.
             if (authorUserData.getWaifus().containsKey(otherUser.getId()) && mentionedUserData.getWaifus().containsKey(author.getId())) {
-                dailyMoney +=Math.max(5, random.nextInt(100));
+                dailyMoney +=Math.max(5, random.nextInt(200));
             }
 
             toAddMoneyTo = ctx.getPlayer(otherUser);
@@ -362,7 +362,7 @@ public class MoneyCmds {
 
         if (streak > 5) {
             // Bonus money
-            int bonus = 150;
+            int bonus = 250;
 
             if (streak % 50 == 0){
                 inventory.process(new ItemStack(ItemReference.MAGIC_WATCH,1));
@@ -378,7 +378,7 @@ public class MoneyCmds {
                 }
 
                 if (streak > 15){
-                    bonus += Math.min(targetOther ? 1700 : 700, Math.floor(150 * streak / (targetOther ? 10D : 15D)));
+                    bonus += Math.min(targetOther ? 2300 : 1300, Math.floor(250 * streak / (targetOther ? 10D : 15D)));
 
                     if (streak >= 180) {
                         authorPlayerData.addBadgeIfAbsent(Badge.BIG_CLAIMER);
