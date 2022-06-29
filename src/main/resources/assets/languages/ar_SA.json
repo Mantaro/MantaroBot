@@ -14,7 +14,6 @@
     "total": "الإجمالي",
     "arrow_react": "أستعمل علامة السهم لتغيير الصفحة.",
     "button_react": "Use the arrow buttons to change pages.",
-    "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
     "not_found": "غير موجود",
     "no_results": "لا نتائج.",
     "timeout": "سينتهي الوقت في %1$d ثواني.",
@@ -30,6 +29,8 @@
     "query_too_small": "%1$sااستعلام البحث الخاص بك صغير جدًا. تأكد من أنك تبحث عن 4 احرف على الاقل. اذا كان اسم المستخدم قصير جداً, من الأفضل لك استخدام username#discriminator او ايدي المستخدم.",
     "dust": "هناك غبار فقط هنا.",
     "invalid_syntax": "بناء جملة غير صالح.",
+    "birthday": "**New birthdays for today, wish them Happy Birthday!**",
+    "member_lookup_failure": "%1%sCannot find any member with that name :(",
     "item_lookup": {
       "no_item_emoji": "لا يوجد عنصر مرتبط بهذا الرمز.",
       "no_item_name": "لا يوجد عنصر مرتبط بهذا الاسم.",
@@ -139,8 +140,8 @@
       "title": "Slash commands transition",
       "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command.\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix.\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `/catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site",
-      "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `/ping` becomes `/ping`\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site"
+      "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site",
+      "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site"
     },
     "fish": {
       "dust": "%1$sانتهى اليوم ، ولا يستطيع دلو السمك إلا جمع الغبار. (مستوى الغبار %2$s%%)",
@@ -752,7 +753,7 @@
     },
     "market": {
       "dump": {
-        "replacement": "You can use `/dump` now. For example, instead of `/market dump floppy` you can do `/dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
+        "replacement": "You can use `~>dump` now. For example, instead of `~>market dump floppy` you can do `~>dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
         "no_item": "%1$sتحتاج أن تحدد الكمية من هذا الغرض (اذا كان مجرد واحد، لاتحتاج لتحديد الكمية) وأيضاً الغرض الذي سترميه. ",
         "invalid": "%1$sرقم غير صحيح للأغراض المراد رميها.",
         "non_existent": "%1$sلايمكن رمي غرض غير موجود! إذا كنت ضائع، يمكنك كتابة الإسم المُختصر أو ضعه في \"اقتباسات\" ",
@@ -768,7 +769,7 @@
         "success": "%1$sالقيمة السوقية ل %2$s**%3$s** هي %4$s دولار لشرائه ويمكنك الحصول على %5$s دولار إذا بعته.  "
       },
       "sell": {
-        "replacement": "You can use `/sell` now. For example, instead of `/market sell pick` you can do `/sell pick`. Please use the new command instead.",
+        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
         "no_item": "%1$sYou need to specify the item to sell.",
         "no_item_amount": "%1$sتحتاج أن تحدد الكمية من هذا الغرض (اذا كان مجرد واحد، لاتحتاج لتحديد الكمية) وأيضاً الغرض الذي تبيعه. ",
         "invalid": "%1$sرقم غير صحيح للأغراض المراد بيعها.",
@@ -784,7 +785,7 @@
         "success": "%1$sلقد بعت %2$,d **%3$s** وحصلت على %4$,d مال!"
       },
       "buy": {
-        "replacement": "You can use `/buy` now. For example, instead of `/market buy pick` you can do `/buy pick`. Please use the new command instead.",
+        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
         "no_item": "%1$sYou need to specify the item to buy.",
         "no_item_amount": "%1$sتحتاج أن تحدد الكمية من هذا الغرض (اذا كان مجرد واحد، لاتحتاج لتحديد الكمية) وأيضاً الغرض الذي تريد شرائه. ",
         "invalid": "%1$sرقم غير صحيح للأغراض المراد شرائها.",
