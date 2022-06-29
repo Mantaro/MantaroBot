@@ -41,8 +41,9 @@ public class CustomFinderUtil {
     public static Member findMember(String query, List<Member> result, Context ctx) {
         // This is technically a safeguard, shouldn't be needed, but since we handle no results by giving this an empty list, it should be done.
         // If you want to handle it differently, there's findMemberDefault to return a default member.
+        var lang = ctx.getLanguageContext();
         if (result.isEmpty()) {
-            ctx.send(EmoteReference.ERROR + "Cannot find any member with that name :(");
+            ctx.send(lang.get("general.find_members_failure"));
             return null;
         }
 
@@ -70,7 +71,7 @@ public class CustomFinderUtil {
             // We handle name elsewhere.
             var disc = fullRefMatch.replaceAll("$2");
             if (result.isEmpty()) {
-                ctx.send(EmoteReference.ERROR + "Cannot find any member with that name :(");
+                ctx.send(lang.get("general.find_members_failure"));
                 return null;
             }
 
@@ -80,7 +81,7 @@ public class CustomFinderUtil {
                 }
             }
 
-            ctx.send(EmoteReference.ERROR + "Cannot find any member with that name :(");
+            ctx.send(lang.get("general.find_members_failure"));
             return null;
         }
         // end of user#discriminator search
@@ -90,13 +91,13 @@ public class CustomFinderUtil {
 
         // We didn't find anything *after* filtering.
         if (found.isEmpty()) {
-            ctx.send(EmoteReference.ERROR + "Cannot find any member with that name :(");
+            ctx.send(lang.get("general.find_members_failure"));
             return null;
         }
 
         // Too many results, display results and move on.
         if (found.size() > 1) {
-            ctx.sendFormat("%sToo many users found, maybe refine your search? (ex. use name#discriminator)\n**Users found:** %s",
+            ctx.sendFormat(lang.get("general.too_many_members"),
                     EmoteReference.THINKING,
                     found.stream().limit(7).map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator())
                             .collect(Collectors.joining(", "))
