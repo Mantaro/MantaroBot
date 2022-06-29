@@ -14,7 +14,6 @@
     "total": "Total",
     "arrow_react": "Usa las flechas para cambiar de página.",
     "button_react": "Use the arrow buttons to change pages.",
-    "text_menu": "Usa &p >> y &p << para cambiar de página y &cancel para terminar el menú.",
     "not_found": "No encontrado",
     "no_results": "No hay resultados.",
     "timeout": "Esta operación caduca en %1$d segundos.",
@@ -30,6 +29,8 @@
     "query_too_small": "%1$sEl contenido de su busqueda es corto. Asegúrese que escribe al menos 4 caracteres. Si el nombre de usuario es muy corto, use usuario#tag o el id del usuario.",
     "dust": "Solo hay un poco de polvo por aquí.",
     "invalid_syntax": "Sintáxis inválida.",
+    "birthday": "**New birthdays for today, wish them Happy Birthday!**",
+    "member_lookup_failure": "%1%sCannot find any member with that name :(",
     "item_lookup": {
       "no_item_emoji": "No hay ningún objeto asociado con este emoji.",
       "no_item_name": "No hay ningún objeto asociado con este emoji.",
@@ -139,8 +140,8 @@
       "title": "Slash commands transition",
       "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command.\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix.\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `/catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site",
-      "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `/ping` becomes `/ping`\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site"
+      "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site",
+      "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site"
     },
     "fish": {
       "dust": "%1$sEl sol se pone, y tu tarro para recolectar pescados solo logró acumular polvo. (Dust level: %2$s%%)",
@@ -752,7 +753,7 @@
     },
     "market": {
       "dump": {
-        "replacement": "You can use `/dump` now. For example, instead of `/market dump floppy` you can do `/dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
+        "replacement": "You can use `~>dump` now. For example, instead of `~>market dump floppy` you can do `~>dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
         "no_item": "%1$sNecesitas decirme cuantos (si es solo un ítem, no es necesario) y qué item deseas tirar a la basura.",
         "invalid": "%1$sEsa no es una cantidad válida de items que tirar a la basura.",
         "non_existent": "%1$sNo puedo tirar un item no existente!",
@@ -768,7 +769,7 @@
         "success": "%1$sEl valor de %2$s**%3$s** es %4$s créditos si lo compras, y podrías obtener %5$s creditos si lo deseas vender."
       },
       "sell": {
-        "replacement": "You can use `/sell` now. For example, instead of `/market sell pick` you can do `/sell pick`. Please use the new command instead.",
+        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
         "no_item": "%1$sYou need to specify the item to sell.",
         "no_item_amount": "%1$sNecesitas especificar la cantidad del item (si es solo uno, no tendrás que especificar la cantidad) y el item que deseas vender.",
         "invalid": "%1$sEse no es un número válido de items para vender.",
@@ -784,7 +785,7 @@
         "success": "%1$sHas vendido %2$,d **%3$s** y obtuviste %4$,d créditos!"
       },
       "buy": {
-        "replacement": "You can use `/buy` now. For example, instead of `/market buy pick` you can do `/buy pick`. Please use the new command instead.",
+        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
         "no_item": "%1$sYou need to specify the item to buy.",
         "no_item_amount": "%1$sNecesitas especificar la cantidad del item (Si es solo uno, no necesitas especificar la cantidad) Y el item que deseas comprar.",
         "invalid": "%1$sEse no es un número valido de items para comprar.",
