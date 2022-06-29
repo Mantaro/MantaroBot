@@ -45,7 +45,6 @@ import static net.kodehawa.mantarobot.utils.Utils.mapConfigObjects;
 @Module
 public class OptsCmd {
     public static SimpleCommand optsCmd;
-
     public static SimpleCommand getOpts() {
         return optsCmd;
     }
@@ -76,7 +75,7 @@ public class OptsCmd {
                         );
                     }
 
-                    DiscordUtils.listButtons(ctx, 45, messages);
+                    DiscordUtils.listButtons(ctx.getUtilsContext(), 45, messages);
                     return;
                 }
 
@@ -202,7 +201,7 @@ public class OptsCmd {
                     }
 
                     var splitFields = DiscordUtils.divideFields(6, fields);
-                    DiscordUtils.listButtons(ctx, 200, embedBuilder, splitFields);
+                    DiscordUtils.listButtons(ctx.getUtilsContext(), 200, embedBuilder, splitFields);
                 }).setShortDescription("Checks the data values you have set on this server.")
         ).addOption("reset:all", new Option("Options reset.",
                 "Resets all options set on this server.", OptionType.GENERAL).setAction((ctx) -> {

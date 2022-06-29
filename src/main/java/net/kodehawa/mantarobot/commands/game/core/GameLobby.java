@@ -18,7 +18,7 @@ package net.kodehawa.mantarobot.commands.game.core;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -46,13 +46,13 @@ public class GameLobby extends Lobby {
     }
 
     public boolean gameLoaded = false;
-    GuildMessageReceivedEvent event;
+    MessageReceivedEvent event;
     LinkedList<Game<?>> gamesToPlay;
     Guild guild;
     List<String> players;
     I18nContext languageContext;
 
-    public GameLobby(GuildMessageReceivedEvent event, I18nContext languageContext, List<String> players, LinkedList<Game<?>> games) {
+    public GameLobby(MessageReceivedEvent event, I18nContext languageContext, List<String> players, LinkedList<Game<?>> games) {
         super(event.getGuild().getId(), event.getChannel().getId());
         this.guild = event.getGuild();
         this.event = event;
@@ -116,7 +116,7 @@ public class GameLobby extends Lobby {
         });
     }
 
-    public GuildMessageReceivedEvent getEvent() {
+    public MessageReceivedEvent getEvent() {
         return this.event;
     }
 

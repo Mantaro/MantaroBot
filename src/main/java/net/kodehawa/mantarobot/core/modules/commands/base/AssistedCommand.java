@@ -17,7 +17,7 @@
 package net.kodehawa.mantarobot.core.modules.commands.base;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.options.core.Option;
 
 /**
@@ -33,11 +33,11 @@ public interface AssistedCommand extends Command {
         return baseEmbed(ctx.getEvent(), name, image);
     }
 
-    default EmbedBuilder baseEmbed(GuildMessageReceivedEvent event, String name) {
+    default EmbedBuilder baseEmbed(MessageReceivedEvent event, String name) {
         return baseEmbed(event, name, event.getAuthor().getEffectiveAvatarUrl());
     }
 
-    default EmbedBuilder baseEmbed(GuildMessageReceivedEvent event, String name, String image) {
+    default EmbedBuilder baseEmbed(MessageReceivedEvent event, String name, String image) {
         return new EmbedBuilder()
                 .setAuthor(name, null, image)
                 .setColor(event.getMember().getColor())

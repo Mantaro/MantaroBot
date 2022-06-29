@@ -23,7 +23,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.utils.MiscUtil;
 import net.dv8tion.jda.api.utils.TimeUtil;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -51,7 +51,7 @@ import java.util.stream.Collectors;
 
 @Module
 public class InvestigateCmd {
-    public static void investigate(GuildMessageReceivedEvent event, Type type, String id, boolean file) {
+    public static void investigate(MessageReceivedEvent event, Type type, String id, boolean file) {
         switch (type) {
             case GUILD -> investigateGuild(event, MantaroBot.getInstance().getShardManager().getGuildById(id), file);
             case USER -> investigateUser(event, MantaroBot.getInstance().getShardManager().getUserById(id), file);
@@ -60,7 +60,7 @@ public class InvestigateCmd {
         }
     }
 
-    private static void investigateGuild(GuildMessageReceivedEvent event, Guild guild, boolean file) {
+    private static void investigateGuild(MessageReceivedEvent event, Guild guild, boolean file) {
         if (guild == null) {
             event.getChannel().sendMessage("Unknown guild").queue();
             return;
@@ -91,7 +91,7 @@ public class InvestigateCmd {
                 });
     }
 
-    private static void investigateUser(GuildMessageReceivedEvent event, User user, boolean file) {
+    private static void investigateUser(MessageReceivedEvent event, User user, boolean file) {
         if (user == null) {
             event.getChannel().sendMessage("Unknown user").queue();
             return;
@@ -104,7 +104,7 @@ public class InvestigateCmd {
         DiscordUtils.selectList(event, user.getMutualGuilds(), Guild::toString, s -> eb.setDescription(s).build(), g -> investigateGuild(event, g, file));
     }
 
-    private static void investigateChannel(GuildMessageReceivedEvent event, TextChannel channel, boolean file) {
+    private static void investigateChannel(MessageReceivedEvent event, TextChannel channel, boolean file) {
         if (channel == null) {
             event.getChannel().sendMessage("Unknown channel").queue();
             return;
@@ -196,7 +196,7 @@ public class InvestigateCmd {
             return parts.computeIfAbsent(key.getId(), __ -> new ChannelData(key)).messages;
         }
 
-        public void result(Guild target, GuildMessageReceivedEvent event) {
+        public void result(Guild target, MessageReceivedEvent event) {
             if (file) {
                 var channels = new JSONObject();
                 parts.forEach((channelId, channel) -> channels.put(channelId, channel.toJson()));

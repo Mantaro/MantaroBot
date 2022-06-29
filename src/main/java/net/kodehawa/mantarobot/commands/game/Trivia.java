@@ -17,7 +17,7 @@
 package net.kodehawa.mantarobot.commands.game;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -51,7 +51,7 @@ public class Trivia extends Game<String> {
     public void call(GameLobby lobby, List<String> players) {
         InteractiveOperations.create(lobby.getChannel(), Long.parseLong(lobby.getPlayers().get(0)), 60, new InteractiveOperation() {
             @Override
-            public int run(GuildMessageReceivedEvent event) {
+            public int run(MessageReceivedEvent event) {
                 return callDefault(event, lobby, players, expectedAnswer, getAttempts(), 1, hardDiff ? 10 : 0);
             }
 

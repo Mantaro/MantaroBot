@@ -20,7 +20,8 @@ import com.google.common.cache.Cache;
 import com.rethinkdb.gen.exc.ReqlError;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.GenericEvent;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -66,8 +67,11 @@ public class CommandListener implements EventListener {
 
     @Override
     public void onEvent(@NotNull GenericEvent event) {
-        if (event instanceof GuildMessageReceivedEvent) {
-            var msg = (GuildMessageReceivedEvent) event;
+        if (event instanceof MessageReceivedEvent msg) {
+            if(!msg.isFromGuild()) {
+                return;
+            }
+            
             // Ignore myself and bots.
             // Technically ignoring oneself is an extra step -- we're a bot, and we ignore bots.
             var isSelf = msg.getAuthor().getIdLong() == msg.getJDA().getSelfUser().getIdLong();
@@ -88,9 +92,24 @@ public class CommandListener implements EventListener {
 
             threadPool.execute(() -> onCommand(msg));
         }
+
+        if (event instanceof SlashCommandInteractionEvent) {
+            threadPool.execute(() -> onSlash(((SlashCommandInteractionEvent) event)));
+        }
     }
 
-    private void onCommand(GuildMessageReceivedEvent event) {
+    private void onSlash(SlashCommandInteractionEvent event) {
+        if (commandProcessor.runSlash(event)) {
+            // Remove running flag
+            try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
+                jedis.del("commands-running-" + event.getUser().getId());
+            }
+
+            commandTotal++;
+        }
+    }
+
+    private void onCommand(MessageReceivedEvent event) {
         try {
             if (commandProcessor.run(event)) {
                 // Remove running flag

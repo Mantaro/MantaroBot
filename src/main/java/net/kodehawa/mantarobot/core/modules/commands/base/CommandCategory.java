@@ -35,7 +35,8 @@ public enum CommandCategory {
     INFO(CommandPermission.USER, "categories.info", "Info"),
     UTILS(CommandPermission.USER, "categories.utils", "Utility"),
     MISC(CommandPermission.USER, "categories.misc", "Misc"),
-    PETS(CommandPermission.USER, "categories.pet", "Pets");
+    PETS(CommandPermission.USER, "categories.pet", "Pets"),
+    HIDDEN(CommandPermission.USER, "categories.hidden", "Hidden");
 
     public final CommandPermission permission;
     private final String s;
@@ -80,5 +81,9 @@ public enum CommandCategory {
     @Override
     public String toString() {
         return s;
+    }
+
+    public String readableName() {
+        return Utils.capitalize(name().toLowerCase());
     }
 }

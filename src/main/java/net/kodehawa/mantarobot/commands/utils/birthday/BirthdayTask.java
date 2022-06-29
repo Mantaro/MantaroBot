@@ -21,6 +21,7 @@ import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.UserSnowflake;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -88,7 +89,8 @@ public class BirthdayTask {
             // Example: 02
             final var month = timezone.format(monthFormat);
             // Example: 01
-            final var lastMonthTz = ZonedDateTime.ofInstant(instant, ZoneId.of("America/Chicago")).minusMonths(1);
+            final var lastMonthTz = ZonedDateTime.ofInstant(instant, ZoneId.of("America/Chicago"))
+                    .minusMonths(1);
             final var lastMonth = lastMonthTz.format(dateFormat);
 
             final var cached = cache.getCachedBirthdays();
@@ -259,7 +261,7 @@ public class BirthdayTask {
                         messages.forEach(message -> channel.sendMessage(message)
                                 .allowedMentions(EnumSet.of(
                                         Message.MentionType.USER, Message.MentionType.CHANNEL,
-                                        Message.MentionType.ROLE, Message.MentionType.EMOTE)
+                                        Message.MentionType.ROLE, Message.MentionType.EMOJI)
                                 )
                                 .queue()
                         );
@@ -291,7 +293,7 @@ public class BirthdayTask {
                         if (guild == null)
                             continue;
 
-                        guild.addRoleToMember(roleInfo.memberId, roleInfo.role)
+                        guild.addRoleToMember(UserSnowflake.fromId(roleInfo.memberId), roleInfo.role)
                                 .reason(modLogMessage)
                                 .queue();
 
@@ -311,7 +313,7 @@ public class BirthdayTask {
                         if (guild == null)
                             continue;
 
-                        guild.removeRoleFromMember(roleInfo.memberId, roleInfo.role)
+                        guild.removeRoleFromMember(UserSnowflake.fromId(roleInfo.memberId), roleInfo.role)
                                 .reason(modLogMessage)
                                 .queue();
 

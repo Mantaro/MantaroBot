@@ -16,7 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.game;
 
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -43,7 +43,7 @@ public class GuessTheNumber extends Game<Object> {
         //This class is not using Game<T>#callDefault due to it being custom/way too different from the default ones (aka give hints/etc)
         InteractiveOperations.create(lobby.getChannel(), Long.parseLong(lobby.getPlayers().get(0)), 60, new InteractiveOperation() {
             @Override
-            public int run(GuildMessageReceivedEvent e) {
+            public int run(MessageReceivedEvent e) {
                 final var channel = lobby.getChannel();
                 if (!e.getChannel().getId().equals(channel.getId())) {
                     return Operation.IGNORED;

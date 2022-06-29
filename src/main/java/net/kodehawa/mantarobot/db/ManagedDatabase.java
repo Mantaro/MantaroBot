@@ -22,7 +22,7 @@ import com.rethinkdb.net.Result;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.commands.currency.seasons.Season;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
@@ -78,7 +78,7 @@ public class ManagedDatabase {
 
     @Nullable
     @CheckReturnValue
-    public CustomCommand getCustomCommand(@Nonnull GuildMessageReceivedEvent event, @Nonnull String cmd) {
+    public CustomCommand getCustomCommand(@Nonnull MessageReceivedEvent event, @Nonnull String cmd) {
         return getCustomCommand(event.getGuild(), cmd);
     }
 
@@ -144,7 +144,7 @@ public class ManagedDatabase {
 
     @Nonnull
     @CheckReturnValue
-    public DBGuild getGuild(@Nonnull GuildMessageReceivedEvent event) {
+    public DBGuild getGuild(@Nonnull MessageReceivedEvent event) {
         return getGuild(event.getGuild());
     }
 

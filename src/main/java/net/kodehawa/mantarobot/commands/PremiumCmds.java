@@ -19,31 +19,27 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.meta.*;
+import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Utils;
-import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -53,108 +49,266 @@ import static java.lang.System.currentTimeMillis;
 
 @Module
 public class PremiumCmds {
-    private final Config config = MantaroData.config().get();
-
     @Subscribe
-    public void comprevip(CommandRegistry cr) {
-        cr.register("activatekey", new SimpleCommand(CommandCategory.UTILS) {
+    public void register(CommandRegistry cr) {
+        cr.registerSlash(ActivateKey.class);
+        cr.registerSlash(Premium.class);
+    }
+
+    @Description("Activates a premium key.")
+    @Category(CommandCategory.UTILS)
+    @Options({
+            @Options.Option(type = OptionType.STRING, name = "key", description = "The key to use.", required = true)
+    })
+    @Help(
+            description = "Activates a premium key. Example: `~>activatekey a4e98f07-1a32-4dcc-b53f-c540214d54ec`. No, that isn't a valid key.",
+            usage = "`/activatekey [key]`",
+            parameters = {
+                    @Help.Parameter(name = "key", description = "The key to activate. If it's a server key, make sure to run this command in the server where you want to enable premium on.")
+            }
+    )
+    public static class ActivateKey extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {
+            ctx.deferEphemeral();
+            final var db = ctx.db();
+            if (ctx.getConfig().isPremiumBot()) {
+                ctx.reply("commands.activatekey.mp", EmoteReference.WARNING);
+                return;
+            }
+
+            var key = db.getPremiumKey(ctx.getOptionAsString("key"));
+            if (key == null || (key.isEnabled())) {
+                ctx.reply("commands.activatekey.invalid_key", EmoteReference.ERROR);
+                return;
+            }
+
+            var scopeParsed = key.getParsedType();
+            var author = ctx.getAuthor();
+            if (scopeParsed.equals(PremiumKey.Type.GUILD)) {
+                var guild = ctx.getDBGuild();
+                var currentKey = db.getPremiumKey(guild.getData().getPremiumKey());
+                if (currentKey != null && currentKey.isEnabled() && currentTimeMillis() < currentKey.getExpiration()) { //Should always be enabled...
+                    ctx.reply("commands.activatekey.guild_already_premium", EmoteReference.POPPER);
+                    return;
+                }
+
+                // Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
+                if (!author.getId().equals(key.getOwner())) {
+                    var ownerUser = db.getUser(key.getOwner());
+                    ownerUser.getData().getKeysClaimed().put(author.getId(), key.getId());
+                    ownerUser.saveAsync();
+                }
+
+                key.activate(180);
+                guild.getData().setPremiumKey(key.getId());
+                guild.saveAsync();
+
+                ctx.reply("commands.activatekey.guild_successful", EmoteReference.POPPER, key.getDurationDays());
+                return;
+            }
+
+            if (scopeParsed.equals(PremiumKey.Type.USER)) {
+                var dbUser = ctx.getDBUser();
+                var player = ctx.getPlayer();
+
+                if (dbUser.isPremium()) {
+                    ctx.reply("commands.activatekey.user_already_premium", EmoteReference.POPPER);
+                    return;
+                }
+
+                if (author.getId().equals(key.getOwner())) {
+                    if (player.getData().addBadgeIfAbsent(Badge.DONATOR_2)) {
+                        player.saveUpdating();
+                    }
+                }
+
+                // Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
+                if (!author.getId().equals(key.getOwner())) {
+                    var ownerUser = db.getUser(key.getOwner());
+                    ownerUser.getData().getKeysClaimed().put(author.getId(), key.getId());
+                    ownerUser.saveAsync();
+                }
+
+                key.activate(author.getId().equals(key.getOwner()) ? 365 : 180);
+                dbUser.getData().setPremiumKey(key.getId());
+                dbUser.saveAsync();
+
+                ctx.reply("commands.activatekey.user_successful", EmoteReference.POPPER);
+            }
+        }
+    }
+
+    @Description("Check premium status of a user or a server.")
+    @Category(CommandCategory.UTILS)
+    @Options({
+            @Options.Option(type = OptionType.USER, name = "user", description = "The user to check. If not specified, it's you.")
+    })
+    @Help(
+            description = "Checks the premium status of a user or a server.",
+            usage = "`/premium user [user]` or `/premium server`",
+            parameters = {
+                    @Help.Parameter(name = "user", description = "The user to check for. If not specified, it checks yourself.", optional = true)
+            }
+    )
+    public static class Premium extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {}
+
+        @Name("user")
+        @Description("Checks the premium status of an user.")
+        public static class UserCommand extends SlashCommand {
             @Override
-            protected void call(Context ctx, String content, String[] args) {
-                final var db = ctx.db();
-                if (config.isPremiumBot()) {
-                    ctx.sendLocalized("commands.activatekey.mp", EmoteReference.WARNING);
+            protected void process(SlashContext ctx) {
+                var toCheck = ctx.getOptionAsUser("user", ctx.getAuthor());
+                var dbUser = ctx.db().getUser(toCheck);
+                var data = dbUser.getData();
+                var isLookup = toCheck.getIdLong() != ctx.getAuthor().getIdLong();
+
+                if (!dbUser.isPremium()) {
+                    ctx.replyEphemeral("commands.vipstatus.user.not_premium", EmoteReference.ERROR, toCheck.getAsTag());
                     return;
                 }
 
-                if (!(args.length == 0) && args[0].equalsIgnoreCase("check")) {
-                    var currentKey = db.getPremiumKey(ctx.getDBUser().getData().getPremiumKey());
+                var lang = ctx.getLanguageContext();
+                var embedBuilder = new EmbedBuilder()
+                        .setAuthor(isLookup ? String.format(lang.get("commands.vipstatus.user.header_other"), toCheck.getName())
+                                : lang.get("commands.vipstatus.user.header"), null, toCheck.getEffectiveAvatarUrl()
+                        );
 
-                    if (currentKey != null && currentKey.isEnabled() && currentTimeMillis() < currentKey.getExpiration()) { //Should always be enabled...
-                        ctx.sendLocalized("commands.activatekey.check.key_valid_for", EmoteReference.EYES, currentKey.validFor());
-                    } else {
-                        ctx.sendLocalized("commands.activatekey.check.no_key_found", EmoteReference.ERROR);
-                    }
+                var currentKey = ctx.db().getPremiumKey(data.getPremiumKey());
 
+                if (currentKey == null || currentKey.validFor() < 1) {
+                    ctx.replyEphemeral("commands.vipstatus.user.not_premium", toCheck.getAsTag(), EmoteReference.ERROR);
                     return;
                 }
 
-                if (args.length < 1) {
-                    ctx.sendLocalized("commands.activatekey.no_key_provided", EmoteReference.ERROR);
-                    return;
+                var owner = ctx.getShardManager().retrieveUserById(currentKey.getOwner()).complete();
+                var marked = false;
+                if (owner == null) {
+                    marked = true;
+                    owner = ctx.getAuthor();
                 }
 
-                var key = db.getPremiumKey(args[0]);
-
-                if (key == null || (key.isEnabled())) {
-                    ctx.sendLocalized("commands.activatekey.invalid_key", EmoteReference.ERROR);
-                    return;
+                // Give the badge to the key owner, I'd guess?
+                if (!marked && isLookup) {
+                    Player player = ctx.db().getPlayer(owner);
+                    if (player.getData().addBadgeIfAbsent(Badge.DONATOR_2))
+                        player.saveUpdating();
                 }
 
-                var scopeParsed = key.getParsedType();
+                var patreonInformation = APIUtils.getPledgeInformation(owner.getId());
+                var linkedTo = currentKey.getData().getLinkedTo();
+                var amountClaimed = data.getKeysClaimed().size();
 
-                if (scopeParsed.equals(PremiumKey.Type.GUILD)) {
-                    var guild = ctx.getDBGuild();
-                    var currentKey = db.getPremiumKey(guild.getData().getPremiumKey());
+                embedBuilder.setColor(Color.CYAN)
+                        .setThumbnail(toCheck.getEffectiveAvatarUrl())
+                        .setDescription(lang.get("commands.vipstatus.user.premium") + "\n" + lang.get("commands.vipstatus.description"))
+                        .addField(lang.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), true)
+                        .addField(lang.get("commands.vipstatus.patreon"),
+                                patreonInformation == null ? "Error" : String.valueOf(patreonInformation.getLeft()), true)
+                        .addField(lang.get("commands.vipstatus.keys_claimed"), String.valueOf(amountClaimed), false)
+                        .addField(lang.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), false)
+                        .setFooter(lang.get("commands.vipstatus.thank_note"), null);
 
-                    if (currentKey != null && currentKey.isEnabled() && currentTimeMillis() < currentKey.getExpiration()) { //Should always be enabled...
-                        ctx.sendLocalized("commands.activatekey.guild_already_premium", EmoteReference.POPPER);
-                        return;
-                    }
+                try {
+                    // User has more keys than what the system would allow. Warn.
+                    if (patreonInformation != null && patreonInformation.getLeft()) {
+                        var patreonAmount = Double.parseDouble(patreonInformation.getRight());
+                        if ((patreonAmount / 2) - amountClaimed < 0) {
+                            var amount = amountClaimed - (patreonAmount / 2);
+                            var keys = data.getKeysClaimed()
+                                    .values()
+                                    .stream()
+                                    .limit((long) amount)
+                                    .map(s -> "key:" + s)
+                                    .collect(Collectors.joining("\n"));
 
-                    // Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
-                    if (!ctx.getAuthor().getId().equals(key.getOwner())) {
-                        var ownerUser = db.getUser(key.getOwner());
-                        ownerUser.getData().getKeysClaimed().put(ctx.getAuthor().getId(), key.getId());
-                        ownerUser.saveAsync();
-                    }
-
-                    key.activate(180);
-                    ctx.sendLocalized("commands.activatekey.guild_successful", EmoteReference.POPPER, key.getDurationDays());
-                    guild.getData().setPremiumKey(key.getId());
-                    guild.saveAsync();
-
-                    return;
-                }
-
-                if (scopeParsed.equals(PremiumKey.Type.USER)) {
-                    var dbUser = ctx.getDBUser();
-                    var player = ctx.getPlayer();
-
-                    if (dbUser.isPremium()) {
-                        ctx.sendLocalized("commands.activatekey.user_already_premium", EmoteReference.POPPER);
-                        return;
-                    }
-
-                    if (ctx.getAuthor().getId().equals(key.getOwner())) {
-                        if (player.getData().addBadgeIfAbsent(Badge.DONATOR_2)) {
-                            player.saveUpdating();
+                            LogUtils.log(
+                                    """
+                                    %s has more keys claimed than given keys, dumping extra keys:
+                                    %s
+                                    Currently pledging: %s, Claimed keys: %s, Should have %s total keys.""".formatted(
+                                            owner.getId(), Utils.paste(keys, true),
+                                            patreonAmount, amountClaimed, (patreonAmount / 2)
+                                    )
+                            );
                         }
                     }
+                } catch (Exception ignored) { }
 
-                    // Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
-                    if (!ctx.getAuthor().getId().equals(key.getOwner())) {
-                        var ownerUser = db.getUser(key.getOwner());
-                        ownerUser.getData().getKeysClaimed().put(ctx.getAuthor().getId(), key.getId());
-                        ownerUser.saveAsync();
-                    }
-
-                    key.activate(ctx.getAuthor().getId().equals(key.getOwner()) ? 365 : 180);
-                    ctx.sendLocalized("commands.activatekey.user_successful", EmoteReference.POPPER);
-                    dbUser.getData().setPremiumKey(key.getId());
-                    dbUser.saveAsync();
+                if (linkedTo != null) {
+                    var linkedUser = ctx.getShardManager().retrieveUserById((currentKey.getOwner())).complete();
+                    if (linkedUser != null)
+                        embedBuilder.addField(lang.get("commands.vipstatus.linked_to"),
+                                linkedUser.getAsTag(),
+                                true
+                        );
+                } else {
+                    embedBuilder.addField(lang.get("commands.vipstatus.expire"),
+                            currentKey.validFor() + " " + lang.get("general.days"),
+                            true
+                    ).addField(lang.get("commands.vipstatus.key_duration"),
+                            currentKey.getDurationDays() + " " + lang.get("general.days"),
+                            true
+                    );
                 }
-            }
 
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Activates a premium key.\n" +
-                                "Example: `~>activatekey a4e98f07-1a32-4dcc-b53f-c540214d54ec`. No, that isn't a valid key.")
-                        .setUsage("`~>activatekey <key>`")
-                        .addParameter("key", "The key to use. If it's a server key, make sure to run this command in the server where you want to enable premium on.")
-                        .build();
+                ctx.reply(embedBuilder.build());
             }
-        });
+        }
+
+        @Name("server")
+        @Description("Checks the premium status of this server.")
+        public static class GuildCommand extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                var dbGuild = ctx.getDBGuild();
+                if (!dbGuild.isPremium()) {
+                    ctx.replyEphemeral("commands.vipstatus.guild.not_premium", EmoteReference.ERROR);
+                    return;
+                }
+
+                var lang = ctx.getLanguageContext();
+                var embedBuilder = new EmbedBuilder()
+                        .setAuthor(String.format(lang.get("commands.vipstatus.guild.header"), ctx.getGuild().getName()),
+                                null, ctx.getAuthor().getEffectiveAvatarUrl());
+
+                var currentKey = ctx.db().getPremiumKey(dbGuild.getData().getPremiumKey());
+                if (currentKey == null || currentKey.validFor() < 1) {
+                    ctx.replyEphemeral("commands.vipstatus.guild.not_premium", EmoteReference.ERROR);
+                    return;
+                }
+
+                var owner = ctx.getShardManager().retrieveUserById(currentKey.getOwner()).complete();
+                if (owner == null)
+                    owner = Objects.requireNonNull(ctx.getGuild().getOwner()).getUser();
+
+                var patreonInformation = APIUtils.getPledgeInformation(owner.getId());
+                var linkedTo = currentKey.getData().getLinkedTo();
+                embedBuilder.setColor(Color.CYAN)
+                        .setThumbnail(ctx.getGuild().getIconUrl())
+                        .setDescription(lang.get("commands.vipstatus.guild.premium")  + "\n" + lang.get("commands.vipstatus.description"))
+                        .addField(lang.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), true)
+                        .addField(lang.get("commands.vipstatus.patreon"),
+                                patreonInformation == null ? "Error" : String.valueOf(patreonInformation.getLeft()), true)
+                        .addField(lang.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), false)
+                        .setFooter(lang.get("commands.vipstatus.thank_note"), null);
+
+                if (linkedTo != null) {
+                    User linkedUser = ctx.getShardManager().retrieveUserById(currentKey.getOwner()).complete();
+                    if (linkedUser != null)
+                        embedBuilder.addField(lang.get("commands.vipstatus.linked_to"), linkedUser.getName()  + "#" +
+                                linkedUser.getDiscriminator(), false);
+                } else {
+                    embedBuilder
+                            .addField(lang.get("commands.vipstatus.expire"), currentKey.validFor() + " " + lang.get("general.days"), true)
+                            .addField(lang.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " " + lang.get("general.days"), true);
+                }
+
+                ctx.reply(embedBuilder.build());
+            }
+        }
     }
 
     //@Subscribe
@@ -171,7 +325,7 @@ public class PremiumCmds {
         cr.register("claimkey", new SimpleCommand(CommandCategory.UTILS) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                if (config.isPremiumBot()) {
+                if (ctx.getConfig().isPremiumBot()) {
                     ctx.sendLocalized("commands.activatekey.mp", EmoteReference.WARNING);
                     return;
                 }
@@ -231,265 +385,6 @@ public class PremiumCmds {
                             // This one is actually needed, lol.
                             return ctx.getChannel().sendMessageFormat(languageContext.get("commands.claimkey.success"), EmoteReference.CORRECT);
                         }).queue(null, error -> ctx.sendLocalized("commands.claimkey.cant_dm", EmoteReference.ERROR));
-            }
-        });
-    }
-
-    @Subscribe
-    public void vipstatus(CommandRegistry cr) {
-        final var db = MantaroData.db();
-
-        TreeCommand vipstatusCmd = cr.register("vipstatus", new TreeCommand(CommandCategory.INFO) {
-            @Override
-            public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(Context ctx, I18nContext languageContext, String content) {
-                        if (config.isPremiumBot()) {
-                            ctx.sendLocalized("commands.activatekey.mp", EmoteReference.WARNING);
-                            return;
-                        }
-
-                        ctx.findMember(content, members -> {
-                            var member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
-                            if (member == null)
-                                return;
-
-                            var toCheck = member.getUser();
-                            var dbUser = db.getUser(toCheck);
-                            var data = dbUser.getData();
-                            var isLookup = toCheck.getIdLong() != ctx.getAuthor().getIdLong();
-
-                            if (!dbUser.isPremium()) {
-                                ctx.sendLocalized("commands.vipstatus.user.not_premium", EmoteReference.ERROR, toCheck.getAsTag());
-                                return;
-                            }
-
-                            var embedBuilder = new EmbedBuilder()
-                                    .setAuthor(isLookup ? String.format(languageContext.get("commands.vipstatus.user.header_other"), toCheck.getName())
-                                            : languageContext.get("commands.vipstatus.user.header"), null, toCheck.getEffectiveAvatarUrl()
-                                    );
-
-                            var currentKey = db.getPremiumKey(data.getPremiumKey());
-
-                            if (currentKey == null || currentKey.validFor() < 1) {
-                                ctx.sendLocalized("commands.vipstatus.user.not_premium", toCheck.getAsTag(), EmoteReference.ERROR);
-                                return;
-                            }
-
-                            var owner = ctx.retrieveUserById(currentKey.getOwner());
-                            var marked = false;
-                            if (owner == null) {
-                                marked = true;
-                                owner = ctx.getAuthor();
-                            }
-
-                            // Give the badge to the key owner, I'd guess?
-                            if (!marked && isLookup) {
-                                Player player = db.getPlayer(owner);
-                                if (player.getData().addBadgeIfAbsent(Badge.DONATOR_2))
-                                    player.saveUpdating();
-                            }
-
-                            var patreonInformation = APIUtils.getPledgeInformation(owner.getId());
-                            var linkedTo = currentKey.getData().getLinkedTo();
-                            var amountClaimed = data.getKeysClaimed().size();
-
-                            embedBuilder.setColor(Color.CYAN)
-                                    .setThumbnail(toCheck.getEffectiveAvatarUrl())
-                                    .setDescription(languageContext.get("commands.vipstatus.user.premium") + "\n" + languageContext.get("commands.vipstatus.description"))
-                                    .addField(languageContext.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), true)
-                                    .addField(languageContext.get("commands.vipstatus.patreon"),
-                                            patreonInformation == null ? "Error" : String.valueOf(patreonInformation.getLeft()), true)
-                                    .addField(languageContext.get("commands.vipstatus.keys_claimed"), String.valueOf(amountClaimed), false)
-                                    .addField(languageContext.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), false)
-                                    .setFooter(languageContext.get("commands.vipstatus.thank_note"), null);
-
-                            try {
-                                // User has more keys than what the system would allow. Warn.
-                                if (patreonInformation != null && patreonInformation.getLeft()) {
-                                    var patreonAmount = Double.parseDouble(patreonInformation.getRight());
-
-                                    if ((patreonAmount / 2) - amountClaimed < 0) {
-                                        var amount = amountClaimed - (patreonAmount / 2);
-                                        var keys = data.getKeysClaimed()
-                                                .values()
-                                                .stream()
-                                                .limit((long) amount)
-                                                .map(s -> "key:" + s)
-                                                .collect(Collectors.joining("\n"));
-
-                                        LogUtils.log(
-                                            """
-                                            %s has more keys claimed than given keys, dumping extra keys:
-                                            %s
-                                            Currently pledging: %s, Claimed keys: %s, Should have %s total keys.""".formatted(
-                                                    owner.getId(), Utils.paste(keys, true),
-                                                    patreonAmount, amountClaimed, (patreonAmount / 2)
-                                            )
-                                        );
-                                    }
-                                }
-                            } catch (Exception ignored) { }
-
-                            if (linkedTo != null) {
-                                var linkedUser = ctx.retrieveUserById(currentKey.getOwner());
-                                if (linkedUser != null)
-                                    embedBuilder.addField(languageContext.get("commands.vipstatus.linked_to"),
-                                            linkedUser.getAsTag(),
-                                            true
-                                    );
-                            } else {
-                                embedBuilder.addField(languageContext.get("commands.vipstatus.expire"),
-                                        currentKey.validFor() + " " + languageContext.get("general.days"),
-                                        true
-                                ).addField(languageContext.get("commands.vipstatus.key_duration"),
-                                        currentKey.getDurationDays() + " " + languageContext.get("general.days"),
-                                        true
-                                );
-                            }
-
-                            ctx.send(embedBuilder.build());
-                        });
-                    }
-                };
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Checks your premium status or the guild status.")
-                        .setUsage("`~>vipstatus` - Returns your premium key status\n" +
-                                "`~>vipstatus guild` - Return this guild's premium status.")
-                        .build();
-            }
-        });
-
-        cr.registerAlias("vipstatus", "premium");
-
-        vipstatusCmd.addSubCommand("guild", new SubCommand() {
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                var dbGuild = ctx.getDBGuild();
-
-                if (!dbGuild.isPremium()) {
-                    ctx.sendLocalized("commands.vipstatus.guild.not_premium", EmoteReference.ERROR);
-                    return;
-                }
-
-                var embedBuilder = new EmbedBuilder()
-                        .setAuthor(String.format(languageContext.get("commands.vipstatus.guild.header"), ctx.getGuild().getName()),
-                                null, ctx.getAuthor().getEffectiveAvatarUrl());
-
-                var currentKey = db.getPremiumKey(dbGuild.getData().getPremiumKey());
-
-                if (currentKey == null || currentKey.validFor() < 1) {
-                    ctx.sendLocalized("commands.vipstatus.guild.not_premium", EmoteReference.ERROR);
-                    return;
-                }
-
-                var owner = ctx.retrieveUserById(currentKey.getOwner());
-                if (owner == null)
-                    owner = Objects.requireNonNull(ctx.getGuild().getOwner()).getUser();
-
-                var patreonInformation = APIUtils.getPledgeInformation(owner.getId());
-                var linkedTo = currentKey.getData().getLinkedTo();
-                embedBuilder.setColor(Color.CYAN)
-                        .setThumbnail(ctx.getGuild().getIconUrl())
-                        .setDescription(languageContext.get("commands.vipstatus.guild.premium")  + "\n" + languageContext.get("commands.vipstatus.description"))
-                        .addField(languageContext.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), true)
-                        .addField(languageContext.get("commands.vipstatus.patreon"),
-                                patreonInformation == null ? "Error" : String.valueOf(patreonInformation.getLeft()), true)
-                        .addField(languageContext.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), false)
-                        .setFooter(languageContext.get("commands.vipstatus.thank_note"), null);
-
-                if (linkedTo != null) {
-                    User linkedUser = ctx.retrieveUserById(currentKey.getOwner());
-                    if (linkedUser != null)
-                        embedBuilder.addField(languageContext.get("commands.vipstatus.linked_to"), linkedUser.getName()  + "#" +
-                                linkedUser.getDiscriminator(), false);
-                } else {
-                    embedBuilder
-                            .addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " " + languageContext.get("general.days"), true)
-                            .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " " + languageContext.get("general.days"), true);
-                }
-
-                ctx.send(embedBuilder.build());
-            }
-        }).createSubCommandAlias("guild", "server");
-    }
-
-    // Won't translate this. Owner command.
-    @Subscribe
-    public void invalidatekey(CommandRegistry cr) {
-        cr.register("invalidatekey", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (args.length == 0) {
-                    ctx.send(EmoteReference.ERROR + "Give me a key to invalidate!");
-                    return;
-                }
-
-                var key = MantaroData.db().getPremiumKey(args[0]);
-                if (key == null) {
-                    ctx.send("Invalid key.");
-                    return;
-                }
-
-                var dbUser = MantaroData.db().getUser(key.getOwner());
-                var keysClaimed = dbUser.getData().getKeysClaimed();
-
-                keysClaimed.remove(Utils.getKeyByValue(keysClaimed, key.getId()));
-                dbUser.save();
-                key.delete();
-
-                ctx.send("Invalidated key " + args[0]);
-            }
-        });
-    }
-
-    // Won't translate this. Owner command.
-    @Subscribe
-    public void createkey(CommandRegistry cr) {
-        cr.register("createkey", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                var optionalArguments = ctx.getOptionalArguments();
-
-                if (args.length < 3) {
-                    ctx.send(EmoteReference.ERROR + "You need to provide a scope, an id and whether this key is linked (example: guild 1558674582032875529 true)");
-                    return;
-                }
-
-                var scope = args[0];
-                var owner = args[1];
-                var linked = Boolean.parseBoolean(args[2]);
-
-                PremiumKey.Type scopeParsed = null;
-                try {
-                    scopeParsed = PremiumKey.Type.valueOf(scope.toUpperCase()); //To get the ordinal
-                } catch (IllegalArgumentException ignored) { }
-
-                if (scopeParsed == null) {
-                    ctx.send(EmoteReference.ERROR + "Invalid scope (Valid ones are: `user` or `guild`)");
-                    return;
-                }
-
-                //This method generates a premium key AND saves it on the database! Please use this result!
-                var generated = PremiumKey.generatePremiumKey(owner, scopeParsed, linked);
-                if (optionalArguments.containsKey("mobile")) {
-                    ctx.send(generated.getId());
-                } else {
-                    ctx.send(EmoteReference.CORRECT + String.format("Generated: `%s` (S: %s) **[NOT ACTIVATED]** (Linked: %s)",
-                            generated.getId(), generated.getParsedType(), linked));
-                }
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Makes a premium key, what else? Needs scope (user or guild) and id. Also add true or false for linking status at the end")
-                        .build();
             }
         });
     }

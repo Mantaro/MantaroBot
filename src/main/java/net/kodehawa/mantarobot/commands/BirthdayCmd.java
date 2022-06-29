@@ -20,17 +20,15 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.meta.*;
+import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -57,166 +55,161 @@ public class BirthdayCmd {
             .build();
 
     @Subscribe
-    public void birthday(CommandRegistry registry) {
-        TreeCommand birthdayCommand = registry.register("birthday", new TreeCommand(CommandCategory.UTILS) {
+    public void register(CommandRegistry cr) {
+        cr.registerSlash(Birthday.class);
+    }
+
+    @Name("birthday")
+    @Description("The hub for birthday-related commands.")
+    @Category(CommandCategory.UTILS)
+    public static class Birthday extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {}
+
+        @Name("set")
+        @Description("Sets your birthday date. Only useful if the server has enabled this functionality.")
+        @Options({
+                @Options.Option(type = OptionType.STRING, name = "date", description = "The date to add. The format is dd-MM (30-01 for January 30th)", required = true)
+        })
+        @Help(
+                description = "Sets your birthday date. Only useful if the server has enabled this functionality.",
+                usage = "`/birthday set [date]` - Sets your birthday to the specified date in dd-MM-yyyy format.",
+                parameters = {@Help.Parameter(name = "date", description = "A date in dd-MM format (13-02 for February 13th for example).")}
+        )
+        public static class Set extends SlashCommand {
             @Override
-            public Command defaultTrigger(Context context, String mainCommand, String commandName) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(Context ctx, I18nContext languageContext, String content) {
-                        if (content.isEmpty()) {
-                            ctx.sendLocalized("commands.birthday.no_content", EmoteReference.ERROR);
-                            return;
-                        }
+            protected void process(SlashContext ctx) {
+                // Twice. Yep.
+                var parseFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                var displayFormat = DateTimeFormatter.ofPattern("dd-MM");
+                MonthDay birthdayDate;
+                String date;
+                var extra = "";
 
-                        // Twice. Yep.
-                        var parseFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                        var displayFormat = DateTimeFormatter.ofPattern("dd-MM");
-                        MonthDay birthdayDate;
-                        String date;
-                        var extra = "";
+                try {
+                    String birthday = ctx.getOptionAsString("date");
+                    birthday = birthday.replace("/", "-");
+                    var parts = new ArrayList<>(Arrays.asList(birthday.split("-")));
 
-                        try {
-                            String birthday;
-                            birthday = content.replace("/", "-");
-                            var parts = new ArrayList<>(Arrays.asList(birthday.split("-")));
-
-                            if (Integer.parseInt(parts.get(0)) > 31 || Integer.parseInt(parts.get(1)) > 12) {
-                                ctx.sendLocalized("commands.birthday.error_date", EmoteReference.ERROR);
-                                return;
-                            }
-
-                            if (parts.size() > 2) {
-                                ctx.sendLocalized("commands.birthday.new_format", EmoteReference.ERROR);
-                                return;
-                            }
-
-                            //Add a year so it parses and saves using the old format. Yes, this is also cursed.
-                            parts.add("2037");
-                            date = String.join("-", parts);
-                            birthdayDate = MonthDay.parse(birthday, displayFormat);
-                        } catch (Exception e) {
-                            ctx.sendStrippedLocalized("commands.birthday.error_date", EmoteReference.ERROR);
-                            return;
-                        }
-
-                        final var display = displayFormat.format(birthdayDate);
-                        // This whole leap year stuff is cursed when you work with dates using raw strings tbh.
-                        // Only I could come up with such an idea like this on 2016. Now I regret it with pain... peko.
-                        var leap = display.equals("29-02");
-                        if (leap) {
-                            extra += "\n" + languageContext.get("commands.birthday.leap");
-                            date = date.replace("2037", "2036"); // Cursed workaround since 2036 is a leap.
-                        }
-
-                        final var birthdayFormat = parseFormat.format(parseFormat.parse(date));
-
-                        //Actually save it to the user's profile.
-                        DBUser dbUser = ctx.getDBUser();
-                        dbUser.getData().setBirthday(birthdayFormat);
-                        dbUser.saveUpdating();
-
-                        ctx.sendLocalized("commands.birthday.added_birthdate", EmoteReference.CORRECT, display, extra);
+                    if (Integer.parseInt(parts.get(0)) > 31 || Integer.parseInt(parts.get(1)) > 12) {
+                        ctx.sendLocalized("commands.birthday.error_date", EmoteReference.ERROR);
+                        return;
                     }
-                };
-            }
 
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Sets your birthday date. Only useful if the server has enabled this functionality")
-                        .setUsage("`~>birthday <date>`")
-                        .addParameter("date", "A date in dd-mm format (13-02 for example). Check subcommands for more options.")
-                        .build();
-            }
-        });
+                    if (parts.size() > 2) {
+                        ctx.sendLocalized("commands.birthday.new_format", EmoteReference.ERROR);
+                        return;
+                    }
 
-        birthdayCommand.addSubCommand("allowserver", new SubCommand() {
-            public String description() {
-                return "Allows the server where you send this command to announce your birthday.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                var dbGuild = ctx.getDBGuild();
-                var guildData = dbGuild.getData();
-
-                if (guildData.getAllowedBirthdays().contains(ctx.getAuthor().getId())) {
-                    ctx.sendLocalized("commands.birthday.already_allowed", EmoteReference.ERROR);
+                    //Add a year so it parses and saves using the old format. Yes, this is also cursed.
+                    parts.add("2037");
+                    date = String.join("-", parts);
+                    birthdayDate = MonthDay.parse(birthday, displayFormat);
+                } catch (Exception e) {
+                    ctx.reply("commands.birthday.error_date", EmoteReference.ERROR);
                     return;
                 }
 
-                guildData.getAllowedBirthdays().add(ctx.getAuthor().getId());
+                final var display = displayFormat.format(birthdayDate);
+                // This whole leap year stuff is cursed when you work with dates using raw strings tbh.
+                // Only I could come up with such an idea like this on 2016. Now I regret it with pain... peko.
+                var leap = display.equals("29-02");
+                if (leap) {
+                    extra += "\n" + ctx.getLanguageContext().get("commands.birthday.leap");
+                    date = date.replace("2037", "2036"); // Cursed workaround since 2036 is a leap.
+                }
+
+                final var birthdayFormat = parseFormat.format(parseFormat.parse(date));
+
+                //Actually save it to the user's profile.
+                DBUser dbUser = ctx.getDBUser();
+                dbUser.getData().setBirthday(birthdayFormat);
+                dbUser.saveUpdating();
+
+                ctx.replyEphemeral("commands.birthday.added_birthdate", EmoteReference.CORRECT, display, extra);
+            }
+        }
+
+        @Name("allowserver")
+        @Description("Allows the server where you send this command to announce your birthday.")
+        @Help(description = "Allows the server where you send this command to announce your birthday.")
+        public static class AllowServer extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                var dbGuild = ctx.getDBGuild();
+                var guildData = dbGuild.getData();
+                var author = ctx.getAuthor();
+                if (guildData.getAllowedBirthdays().contains(author.getId())) {
+                    ctx.reply("commands.birthday.already_allowed", EmoteReference.ERROR);
+                    return;
+                }
+
+                guildData.getAllowedBirthdays().add(author.getId());
                 dbGuild.save();
 
                 var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getIdLong());
-                var cachedBirthday = ctx.getBot().getBirthdayCacher().getCachedBirthdays().get(ctx.getUser().getIdLong());
+                var cachedBirthday = ctx.getBot().getBirthdayCacher().getCachedBirthdays().get(author.getIdLong());
                 if (cached != null && cachedBirthday != null) {
-                    cached.put(ctx.getUser().getIdLong(), cachedBirthday);
+                    cached.put(author.getIdLong(), cachedBirthday);
                 }
 
-                ctx.sendLocalized("commands.birthday.allowed_server", EmoteReference.CORRECT);
+                ctx.replyEphemeral("commands.birthday.allowed_server", EmoteReference.CORRECT);
             }
-        });
+        }
 
-        birthdayCommand.addSubCommand("denyserver", new SubCommand() {
-            public String description() {
-                return "Denies the server where you send this command to announce your birthday.";
-            }
-
+        @Name("denyserver")
+        @Description("Denies the server where you send this command from announcing your birthday.")
+        @Help(description = "Denies the server where you send this command from announcing your birthday.")
+        public static class RemoveServer extends SlashCommand {
             @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 var dbGuild = ctx.getDBGuild();
                 var guildData = dbGuild.getData();
-
-                if (!guildData.getAllowedBirthdays().contains(ctx.getAuthor().getId())) {
+                var author = ctx.getAuthor();
+                if (!guildData.getAllowedBirthdays().contains(author.getId())) {
                     ctx.sendLocalized("commands.birthday.already_denied", EmoteReference.CORRECT);
                     return;
                 }
 
-                guildData.getAllowedBirthdays().remove(ctx.getAuthor().getId());
+                guildData.getAllowedBirthdays().remove(author.getId());
                 dbGuild.save();
 
                 var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getIdLong());
                 if (cached != null) {
-                    cached.remove(ctx.getUser().getIdLong());
+                    cached.remove(author.getIdLong());
                 }
 
-                ctx.sendLocalized("commands.birthday.denied", EmoteReference.CORRECT);
+                ctx.replyEphemeral("commands.birthday.denied", EmoteReference.CORRECT);
             }
-        });
+        }
 
-        birthdayCommand.addSubCommand("remove", new SubCommand() {
+        @Name("remove")
+        @Description("Removes your set birthday date.")
+        @Help(description = "Removes your set birthday date.")
+        public static class Remove extends SlashCommand {
             @Override
-            public String description() {
-                return "Removes your set birthday date.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 var user = ctx.getDBUser();
                 user.getData().setBirthday(null);
                 user.save();
 
-                ctx.sendLocalized("commands.birthday.reset", EmoteReference.CORRECT);
+                ctx.replyEphemeral("commands.birthday.reset", EmoteReference.CORRECT);
             }
-        });
+        }
 
-        birthdayCommand.addSubCommand("list", new SubCommand() {
+        @Name("list")
+        @Description("Gives all of the birthdays for this server.")
+        @Help(description = "Gives all of the birthdays for this server.")
+        public static class List extends SlashCommand {
             @Override
-            public String description() {
-                return "Gives all of the birthdays for this server.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
+                ctx.defer();
                 BirthdayCacher cacher = MantaroBot.getInstance().getBirthdayCacher();
-
                 try {
                     if (cacher != null) {
                         var globalBirthdays = cacher.getCachedBirthdays();
                         if (globalBirthdays.isEmpty()) {
-                            ctx.sendLocalized("commands.birthday.no_global_birthdays", EmoteReference.SAD);
+                            ctx.reply("commands.birthday.no_global_birthdays", EmoteReference.SAD);
                             return;
                         }
 
@@ -225,21 +218,20 @@ public class BirthdayCmd {
                         var ids = data.getAllowedBirthdays().stream().map(Long::parseUnsignedLong).collect(Collectors.toList());
 
                         if (ids.isEmpty()) {
-                            ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
+                            ctx.reply("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
                             return;
                         }
 
                         var guildCurrentBirthdays = getBirthdayMap(ctx.getGuild().getIdLong(), ids);
                         if (guildCurrentBirthdays.isEmpty()) {
-                            ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
+                            ctx.reply("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
                             return;
                         }
 
                         var birthdays = guildCurrentBirthdays.entrySet().stream()
                                 .sorted(Comparator.comparingLong(i -> i.getValue().day))
                                 .filter(birthday -> ids.contains(birthday.getKey()))
-                                .limit(100)
-                                .collect(Collectors.toList());
+                                .limit(100).toList();
 
 
                         var bdIds = birthdays.stream().map(Map.Entry::getKey).collect(Collectors.toList());
@@ -247,56 +239,38 @@ public class BirthdayCmd {
                                 sendBirthdayList(ctx, members, guildCurrentBirthdays, null, false)
                         );
                     } else {
-                        ctx.sendLocalized("commands.birthday.cache_not_running", EmoteReference.SAD);
+                        ctx.reply("commands.birthday.cache_not_running", EmoteReference.SAD);
                     }
                 } catch (Exception e) {
-                    ctx.sendLocalized("commands.birthday.error", EmoteReference.SAD);
+                    ctx.reply("commands.birthday.error", EmoteReference.SAD);
                     log.error("Error on birthday list display!", e);
                 }
             }
-        });
+        }
 
-        birthdayCommand.addSubCommand("month", new SubCommand() {
+        @Name("month")
+        @Description("Checks the current birthday date for the specified month.")
+        @Options({@Options.Option(type = OptionType.INTEGER, name = "month", description = "The month, in number format (January is 1, etc)", maxValue = 12)})
+        @Help(description = "Checks the current birthday date for the specified month. Example: `/birthday month 1`")
+        public static class Month extends SlashCommand {
             @Override
-            public String description() {
-                return "Checks the current birthday date for the specified month. Example: `~>birthday month 1`";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                var args = ctx.getArguments();
+            protected void process(SlashContext ctx) {
                 var cacher = MantaroBot.getInstance().getBirthdayCacher();
                 var calendar = Calendar.getInstance();
-                var month = calendar.get(Calendar.MONTH);
+                long month = calendar.get(Calendar.MONTH);
+                long specifiedMonth = ctx.getOptionAsLong("month");
 
-                var msg = "";
-                if (args.length == 1) {
-                    msg = args[0];
+                if (specifiedMonth != 0) {
+                    // Substract here so we can do the check properly up there.
+                    month = specifiedMonth - 1;
                 }
 
-                if (!msg.isEmpty()) {
-                    try {
-                        month = Integer.parseInt(msg);
-                        if (month < 1 || month > 12) {
-                            ctx.sendLocalized("commands.birthday.invalid_month", EmoteReference.ERROR);
-                            return;
-                        }
-
-                        // Substract here so we can do the check properly up there.
-                        month = month - 1;
-                    } catch (NumberFormatException e) {
-                        ctx.sendLocalized("commands.birthday.invalid_month", EmoteReference.ERROR);
-                        return;
-                    }
-                }
-
-                calendar.set(calendar.get(Calendar.YEAR), month, Calendar.MONDAY);
-
+                calendar.set(calendar.get(Calendar.YEAR), (int) month, Calendar.MONDAY);
                 try {
                     if (cacher != null) {
                         final var cachedBirthdays = cacher.getCachedBirthdays();
                         if (cachedBirthdays.isEmpty()) {
-                            ctx.sendLocalized("commands.birthday.no_global_birthdays", EmoteReference.SAD);
+                            ctx.reply("commands.birthday.no_global_birthdays", EmoteReference.SAD);
                             return;
                         }
 
@@ -305,7 +279,7 @@ public class BirthdayCmd {
                         var guildCurrentBirthdays = getBirthdayMap(ctx.getGuild().getIdLong(), ids);
 
                         if (ids.isEmpty()) {
-                            ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
+                            ctx.reply("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
                             return;
                         }
 
@@ -313,11 +287,10 @@ public class BirthdayCmd {
                         var birthdays = guildCurrentBirthdays.entrySet().stream()
                                 .filter(bds -> bds.getValue().month == calendarMonth)
                                 .sorted(Comparator.comparingLong(i -> i.getValue().day))
-                                .limit(100)
-                                .collect(Collectors.toList());
+                                .limit(100).toList();
 
                         if (birthdays.isEmpty()) {
-                            ctx.sendLocalized("commands.birthday.no_guild_month_birthdays", EmoteReference.ERROR, month + 1, EmoteReference.BLUE_SMALL_MARKER);
+                            ctx.reply("commands.birthday.no_guild_month_birthdays", EmoteReference.ERROR, month + 1, EmoteReference.BLUE_SMALL_MARKER);
                             return;
                         }
 
@@ -326,18 +299,18 @@ public class BirthdayCmd {
                                 sendBirthdayList(ctx, members, guildCurrentBirthdays, calendar, true)
                         );
                     } else {
-                        ctx.sendLocalized("commands.birthday.cache_not_running", EmoteReference.SAD);
+                        ctx.reply("commands.birthday.cache_not_running", EmoteReference.SAD);
                     }
                 } catch (Exception e) {
-                    ctx.sendLocalized("commands.birthday.error", EmoteReference.SAD);
+                    ctx.reply("commands.birthday.error", EmoteReference.SAD);
                     log.error("Error on birthday month display!", e);
                 }
             }
-        });
+        }
     }
 
-    private void sendBirthdayList(Context ctx, List<Member> members, Map<Long, BirthdayCacher.BirthdayData> guildCurrentBirthdays,
-                                  Calendar calendar, boolean month) {
+    private static void sendBirthdayList(SlashContext ctx, List<Member> members, Map<Long, BirthdayCacher.BirthdayData> guildCurrentBirthdays,
+                                         Calendar calendar, boolean month) {
         StringBuilder builder = new StringBuilder();
         var languageContext = ctx.getLanguageContext();
         var guild = ctx.getGuild();
@@ -347,8 +320,7 @@ public class BirthdayCmd {
                     // So I don't forget later: this is equivalent to day + (month * 31)
                     // And this is so we get a stable sort of day/month
                     return (int) (bd.day + (bd.month << 5));
-                }))
-                .collect(Collectors.toList());
+                })).toList();
 
         for (Member member : memberSort) {
             var birthday = guildCurrentBirthdays.get(member.getIdLong());
@@ -377,17 +349,18 @@ public class BirthdayCmd {
         }
 
         if (parts.isEmpty()) {
-            ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
+            ctx.reply("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
             return;
         }
-        DiscordUtils.listButtons(ctx, 45, messages);
+
+        DiscordUtils.listButtons(ctx.getUtilsContext(), 45, messages);
     }
 
     public static Cache<Long, ConcurrentHashMap<Long, BirthdayCacher.BirthdayData>> getGuildBirthdayCache() {
         return guildBirthdayCache;
     }
 
-    private ConcurrentHashMap<Long, BirthdayCacher.BirthdayData> getBirthdayMap(long guildId, List<Long> allowed) {
+    private static ConcurrentHashMap<Long, BirthdayCacher.BirthdayData> getBirthdayMap(long guildId, List<Long> allowed) {
         ConcurrentHashMap<Long, BirthdayCacher.BirthdayData> guildCurrentBirthdays = new ConcurrentHashMap<>();
         final var cachedBirthdays = MantaroBot.getInstance().getBirthdayCacher().getCachedBirthdays();
 

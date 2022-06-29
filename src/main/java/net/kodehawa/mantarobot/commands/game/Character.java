@@ -17,7 +17,7 @@
 package net.kodehawa.mantarobot.commands.game;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.kodehawa.mantarobot.commands.game.core.AnimeGameData;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
@@ -48,7 +48,7 @@ public class Character extends ImageGame {
     public void call(GameLobby lobby, List<String> players) {
         InteractiveOperations.create(lobby.getChannel(), Long.parseLong(lobby.getPlayers().get(0)), 60, new InteractiveOperation() {
             @Override
-            public int run(GuildMessageReceivedEvent e) {
+            public int run(MessageReceivedEvent e) {
                 return callDefault(e, lobby, players, characterNameL, getAttempts(), maxAttempts, 0);
             }
 

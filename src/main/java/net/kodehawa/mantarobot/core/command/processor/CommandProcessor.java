@@ -17,7 +17,8 @@
 package net.kodehawa.mantarobot.core.command.processor;
 
 import io.prometheus.client.Histogram;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.data.MantaroData;
 
@@ -29,7 +30,22 @@ public class CommandProcessor {
             .name("command_time").help("Time it takes for a command to be ran.")
             .register();
 
-    public boolean run(GuildMessageReceivedEvent event) {
+    public boolean runSlash(SlashCommandInteractionEvent event) {
+        final long start = System.currentTimeMillis();
+        // Run the actual command here.
+        REGISTRY.process(event);
+
+        // This could be done using a lock, but that would be a little too blocking. So just set a flag.
+        try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
+            jedis.set("commands-running-" + event.getUser().getId(), String.valueOf(1));
+        }
+
+        final long end = System.currentTimeMillis();
+        commandTime.observe(end - start);
+        return true;
+    }
+
+    public boolean run(MessageReceivedEvent event) {
         final long start = System.currentTimeMillis();
         final var config = MantaroData.config().get();
         // The command executed, in raw form.

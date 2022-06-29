@@ -30,9 +30,9 @@ import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
 import net.dv8tion.jda.api.events.guild.member.update.GuildMemberUpdatePendingEvent;
 import net.dv8tion.jda.api.events.http.HttpRequestEvent;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageDeleteEvent;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageUpdateEvent;
+import net.dv8tion.jda.api.events.message.MessageDeleteEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageUpdateEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.exceptions.PermissionException;
@@ -59,7 +59,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.Color;
+import java.awt.*;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -90,54 +90,53 @@ public class MantaroListener implements EventListener {
             return;
         }
 
-        if (event instanceof GuildMessageReceivedEvent) {
+        if (event instanceof MessageReceivedEvent) {
             Metrics.RECEIVED_MESSAGES.inc();
             return;
         }
 
         // !! Member events start
-        if (event instanceof GuildMemberJoinEvent joinEvent) {
-            threadPool.execute(() -> onUserJoin(joinEvent.getGuild(), joinEvent.getMember(), joinEvent.getUser()));
+        if (event instanceof GuildMemberJoinEvent evt) {
+            threadPool.execute(() -> onUserJoin(evt.getGuild(), evt.getMember(), evt.getUser()));
             return;
         }
 
-        if (event instanceof GuildMemberUpdatePendingEvent updateEvent) {
-            threadPool.execute(() -> onUserJoin(updateEvent.getGuild(), updateEvent.getMember(), updateEvent.getUser()));
+        if (event instanceof GuildMemberUpdatePendingEvent evt) {
+            threadPool.execute(() -> onUserJoin(evt.getGuild(), evt.getMember(), evt.getUser()));
             return;
         }
 
-        if (event instanceof GuildMemberRemoveEvent) {
-            threadPool.execute(() -> onUserLeave((GuildMemberRemoveEvent) event));
+        if (event instanceof GuildMemberRemoveEvent evt) {
+            threadPool.execute(() -> onUserLeave(evt));
             return;
         }
 
-        if (event instanceof GuildMemberRoleAddEvent) {
-            handleNewPatron((GuildMemberRoleAddEvent) event);
+        if (event instanceof GuildMemberRoleAddEvent evt) {
+            handleNewPatron(evt);
             return;
         }
         // !! Member events end
 
         // !! Events needed for the log feature start
-        if (event instanceof GuildMessageUpdateEvent) {
-            threadPool.execute(() -> logEdit((GuildMessageUpdateEvent) event));
+        if (event instanceof MessageUpdateEvent evt) {
+            threadPool.execute(() -> logEdit(evt));
             return;
         }
 
-        if (event instanceof GuildMessageDeleteEvent) {
-            threadPool.execute(() -> logDelete((GuildMessageDeleteEvent) event));
+        if (event instanceof MessageDeleteEvent evt) {
+            threadPool.execute(() -> logDelete(evt));
             return;
         }
 
         // After this point we always use this variable.
         final var shardManager = bot.getShardManager();
-        if (event instanceof GuildJoinEvent) {
-            var joinEvent = (GuildJoinEvent) event;
-            var self = joinEvent.getGuild().getSelfMember();
+        if (event instanceof GuildJoinEvent evt) {
+            var self = evt.getGuild().getSelfMember();
             if (self.getTimeJoined().isBefore(OffsetDateTime.now().minusSeconds(30))) {
                 return;
             }
 
-            onJoin(joinEvent);
+            onJoin(evt);
 
             if (MantaroCore.hasLoadedCompletely()) {
                 Metrics.GUILD_COUNT.set(shardManager.getGuildCache().size());
@@ -147,8 +146,8 @@ public class MantaroListener implements EventListener {
             return;
         }
 
-        if (event instanceof GuildLeaveEvent) {
-            onLeave((GuildLeaveEvent) event);
+        if (event instanceof GuildLeaveEvent evt) {
+            onLeave(evt);
             if (MantaroCore.hasLoadedCompletely()) {
                 Metrics.GUILD_COUNT.set(shardManager.getGuildCache().size());
                 Metrics.USER_COUNT.set(shardManager.getUserCache().size());
@@ -159,14 +158,14 @@ public class MantaroListener implements EventListener {
         // !! Events needed for the log feature end
 
         // !! Internal event start
-        if (event instanceof StatusChangeEvent) {
-            logStatusChange((StatusChangeEvent) event);
+        if (event instanceof StatusChangeEvent evt) {
+            logStatusChange(evt);
             return;
         }
 
-        if (event instanceof DisconnectEvent) {
+        if (event instanceof DisconnectEvent evt) {
             Metrics.SHARD_EVENTS.labels("disconnect").inc();
-            onDisconnect((DisconnectEvent) event);
+            onDisconnect(evt);
             return;
         }
 
@@ -247,7 +246,7 @@ public class MantaroListener implements EventListener {
         }
     }
 
-    private void logDelete(GuildMessageDeleteEvent event) {
+    private void logDelete(MessageDeleteEvent event) {
         try {
             final var dbGuild = MantaroData.db().getGuild(event.getGuild());
             final var data = dbGuild.getData();
@@ -319,7 +318,7 @@ public class MantaroListener implements EventListener {
         }
     }
 
-    private void logEdit(GuildMessageUpdateEvent event) {
+    private void logEdit(MessageUpdateEvent event) {
         try {
             final var guildData = MantaroData.db().getGuild(event.getGuild()).getData();
             final var logChannel = guildData.getGuildLogChannel();

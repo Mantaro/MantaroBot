@@ -22,6 +22,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
@@ -32,26 +33,21 @@ import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
 import net.kodehawa.mantarobot.commands.currency.profile.StatsComponent;
 import net.kodehawa.mantarobot.commands.currency.profile.inventory.InventorySortType;
-import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.meta.*;
+import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
-import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
-import java.awt.*;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -59,11 +55,11 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent.*;
-import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 import static net.kodehawa.mantarobot.utils.Utils.createLinkedList;
 
 @Module
@@ -78,274 +74,241 @@ public class ProfileCmd {
 
     // A small white square.
     private static final String LIST_MARKER = "\u25AB\uFE0F";
+    private static final List<ProfileComponent> defaultOrder;
+    private static final List<ProfileComponent> noOldOrder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES, PET);
+    private static final IncreasingRateLimiter profileRatelimiter = new IncreasingRateLimiter.Builder()
+            .limit(2) //twice every 10m
+            .spamTolerance(2)
+            .cooldown(10, TimeUnit.MINUTES)
+            .cooldownPenaltyIncrease(10, TimeUnit.SECONDS)
+            .maxCooldown(15, TimeUnit.MINUTES)
+            .pool(MantaroData.getDefaultJedisPool())
+            .prefix("profile")
+            .build();
 
-    @Subscribe
-    public void profile(CommandRegistry cr) {
-        final var rateLimiter = new IncreasingRateLimiter.Builder()
-                .limit(2) //twice every 10m
-                .spamTolerance(2)
-                .cooldown(10, TimeUnit.MINUTES)
-                .cooldownPenaltyIncrease(10, TimeUnit.SECONDS)
-                .maxCooldown(15, TimeUnit.MINUTES)
-                .pool(MantaroData.getDefaultJedisPool())
-                .prefix("profile")
-                .build();
-
+    static {
         final var config = MantaroData.config().get();
-
-        List<ProfileComponent> defaultOrder;
         if (config.isPremiumBot() || config.isSelfHost()) {
             defaultOrder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES, PET);
         } else {
             defaultOrder = createLinkedList(HEADER, CREDITS, OLD_CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES, PET);
         }
+    }
 
-        List<ProfileComponent> noOldOrder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES, PET);
+    @Subscribe
+    public void register(CommandRegistry cr) {
+        cr.registerSlash(Profile.class);
+    }
 
-        TreeCommand profileCommand = cr.register("profile", new TreeCommand(CommandCategory.CURRENCY) {
+    @Name("profile")
+    @Description("The hub for profile-related operations.")
+    @Category(CommandCategory.CURRENCY)
+    @Help(description = " The hub for profile-related operations.",
+            usage = """
+                    To show your profile use `/profile show`.
+                    *The profile command only shows the 5 most important badges*. To get a full list use `/badges`.
+                    """)
+    public static class Profile extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {}
+
+        @Description("Shows your current profile.")
+        @Options({@Options.Option(type = OptionType.USER, name = "user", description = "The user to see the profile of.")})
+        @Help(
+                description = "See your profile, or someone else's profile.",
+                usage = "`/profile show [user]`",
+                parameters = {@Help.Parameter(name = "user", description = "The user to see the profile of.", optional = true)}
+        )
+
+        public static class Show extends SlashCommand {
             @Override
-            public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(Context ctx, I18nContext languageContext, String content) {
-                        var optionalArguments = ctx.getOptionalArguments();
-                        content = Utils.replaceArguments(optionalArguments, content, "season", "s").trim();
-                        var isSeasonal = ctx.isSeasonal();
-                        var finalContent = content;
+            protected void process(SlashContext ctx) {
+                final var userLooked = ctx.getOptionAsUser("user", ctx.getAuthor());
+                final var memberLooked = ctx.getGuild().getMember(userLooked);
 
-                        ctx.findMember(content, members -> {
-                            SeasonPlayer seasonalPlayer = null;
-                            var userLooked = ctx.getAuthor();
-                            var memberLooked = ctx.getMember();
+                if (userLooked.isBot()) {
+                    ctx.replyEphemeral("commands.profile.bot_notice", EmoteReference.ERROR);
+                    return;
+                }
 
-                            if (!finalContent.isEmpty()) {
-                                var found = CustomFinderUtil.findMember(finalContent, members, ctx);
-                                if (found == null) {
-                                    return;
-                                }
+                final var player = ctx.getPlayer(userLooked);
+                final var dbUser = ctx.getDBUser(userLooked);
+                final var playerData = player.getData();
+                final var userData = dbUser.getData();
+                final var inv = player.getInventory();
+                final var config = MantaroData.config().get();
 
-                                userLooked = found.getUser();
-                                memberLooked = found;
-                            }
+                // Cache waifu value.
+                playerData.setWaifuCachedValue(WaifuCmd.calculateWaifuValue(player, userLooked).getFinalValue());
 
-                            if (userLooked.isBot()) {
-                                ctx.sendLocalized("commands.profile.bot_notice", EmoteReference.ERROR);
-                                return;
-                            }
+                // start of badge assigning
+                final var mh = MantaroBot.getInstance().getShardManager().getGuildById("213468583252983809");
+                final var mhMember = mh == null ? null : mh.retrieveMemberById(memberLooked.getUser().getId(), false).complete();
 
-                            var player = ctx.getPlayer(userLooked);
-                            var dbUser = ctx.getDBUser(userLooked);
+                Badge.assignBadges(player, player.getStats(), dbUser);
+                var christmasBadgeAssign = inv.asList()
+                        .stream()
+                        .map(ItemStack::getItem)
+                        .anyMatch(it -> it.equals(ItemReference.CHRISTMAS_TREE_SPECIAL) || it.equals(ItemReference.BELL_SPECIAL));
 
-                            var playerData = player.getData();
-                            var userData = dbUser.getData();
-                            var inv = player.getInventory();
+                // Manual badges
+                if (config.isOwner(userLooked)) {
+                    playerData.addBadgeIfAbsent(Badge.DEVELOPER);
+                }
 
-                            // Cache waifu value.
-                            playerData.setWaifuCachedValue(WaifuCmd.calculateWaifuValue(player, userLooked).getFinalValue());
+                if (christmasBadgeAssign) {
+                    playerData.addBadgeIfAbsent(Badge.CHRISTMAS);
+                }
 
-                            // start of badge assigning
-                            var mh = MantaroBot.getInstance().getShardManager().getGuildById("213468583252983809");
-                            var mhMember = mh == null ? null : ctx.retrieveMemberById(memberLooked.getUser().getId(), false);
-
-                            Badge.assignBadges(player, player.getStats(), dbUser);
-                            var christmasBadgeAssign = inv.asList()
-                                    .stream()
-                                    .map(ItemStack::getItem)
-                                    .anyMatch(it -> it.equals(ItemReference.CHRISTMAS_TREE_SPECIAL) || it.equals(ItemReference.BELL_SPECIAL));
-
-                            // Manual badges
-                            if (config.isOwner(userLooked)) {
-                                playerData.addBadgeIfAbsent(Badge.DEVELOPER);
-                            }
-
-                            if (christmasBadgeAssign) {
-                                playerData.addBadgeIfAbsent(Badge.CHRISTMAS);
-                            }
-
-                            // Requires a valid Member in Mantaro Hub.
-                            if (mhMember != null) {
-                                // Admin
-                                if (containsRole(mhMember, 315910951994130432L, 642089477828902912L)) {
-                                    playerData.addBadgeIfAbsent(Badge.COMMUNITY_ADMIN);
-                                }
-
-                                // Patron - Donator
-                                if (containsRole(mhMember, 290902183300431872L, 290257037072531466L)) {
-                                    playerData.addBadgeIfAbsent(Badge.DONATOR_2);
-                                }
-
-                                // Translator
-                                if (containsRole(mhMember, 407156441812828162L)) {
-                                    playerData.addBadgeIfAbsent(Badge.TRANSLATOR);
-                                }
-                            }
-                            // end of badge assigning
-
-                            var badges = playerData.getBadges();
-                            Collections.sort(badges);
-
-                            if (isSeasonal) {
-                                seasonalPlayer = ctx.getSeasonPlayer(userLooked);
-                            }
-
-                            var marriage = ctx.getMarriage(userData);
-                            var ringHolder = player.getInventory().containsItem(ItemReference.RING) && marriage != null;
-                            var holder = new ProfileComponent.Holder(userLooked, player, seasonalPlayer, dbUser, marriage, badges);
-                            var profileBuilder = new EmbedBuilder();
-                            var description = languageContext.get("commands.profile.no_desc");
-
-                            if (playerData.getDescription() != null) {
-                                description = player.getData().getDescription();
-                            }
-
-                            profileBuilder.setAuthor(
-                                    (ringHolder ? EmoteReference.RING : "") + String.format(languageContext.get("commands.profile.header"),
-                                            memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl())
-                                    .setDescription(description)
-                                    .setThumbnail(userLooked.getEffectiveAvatarUrl())
-                                    .setColor(ctx.getMemberColor(memberLooked))
-                                    .setFooter(ProfileComponent.FOOTER.getContent().apply(holder, languageContext),
-                                            ctx.getAuthor().getEffectiveAvatarUrl()
-                                    );
-
-                            var hasCustomOrder = dbUser.isPremium() && !playerData.getProfileComponents().isEmpty();
-                            var usedOrder = hasCustomOrder ? playerData.getProfileComponents() : defaultOrder;
-                            if ((!config.isPremiumBot() && player.getOldMoney() < 5000 && !hasCustomOrder) ||
-                                    (playerData.isHiddenLegacy() && !hasCustomOrder)) {
-                                usedOrder = noOldOrder;
-                            }
-
-                            for (var component : usedOrder) {
-                                profileBuilder.addField(
-                                        component.getTitle(languageContext), component.getContent().apply(holder, languageContext), component.isInline()
-                                );
-                            }
-
-                            ctx.send(profileBuilder.build());
-
-                            // We don't need to update stats if someone else views your profile
-                            if (player.getUserId().equals(ctx.getAuthor().getId())) {
-                                player.saveUpdating();
-                            }
-                        });
+                // Requires a valid Member in Mantaro Hub.
+                if (mhMember != null) {
+                    // Admin
+                    if (containsRole(mhMember, 315910951994130432L)) {
+                        playerData.addBadgeIfAbsent(Badge.COMMUNITY_ADMIN);
                     }
-                };
-            }
 
-            //If you wonder why is this so short compared to before, subcommand descriptions will do the trick on telling me what they do.
+                    // Patron - Donator
+                    if (containsRole(mhMember, 290902183300431872L, 290257037072531466L)) {
+                        playerData.addBadgeIfAbsent(Badge.DONATOR_2);
+                    }
+
+                    // Translator
+                    if (containsRole(mhMember, 407156441812828162L)) {
+                        playerData.addBadgeIfAbsent(Badge.TRANSLATOR);
+                    }
+                }
+                // end of badge assigning
+
+                final var lang = ctx.getLanguageContext();
+                final var badges = playerData.getBadges();
+                Collections.sort(badges);
+
+                final var marriage = ctx.getMarriage(userData);
+                final var ringHolder = player.getInventory().containsItem(ItemReference.RING) && marriage != null;
+                final var holder = new ProfileComponent.Holder(userLooked, player, dbUser, marriage, badges);
+                final var profileBuilder = new EmbedBuilder();
+                var description = lang.get("commands.profile.no_desc");
+
+                if (playerData.getDescription() != null) {
+                    description = player.getData().getDescription();
+                }
+
+                profileBuilder.setAuthor(
+                                (ringHolder ? EmoteReference.RING : "") + String.format(lang.get("commands.profile.header"),
+                                        memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl())
+                        .setDescription(description)
+                        .setThumbnail(userLooked.getEffectiveAvatarUrl())
+                        .setColor(ctx.getMemberColor(memberLooked))
+                        .setFooter(ProfileComponent.FOOTER.getContent().apply(holder, lang),
+                                ctx.getAuthor().getEffectiveAvatarUrl()
+                        );
+
+                var hasCustomOrder = dbUser.isPremium() && !playerData.getProfileComponents().isEmpty();
+                var usedOrder = hasCustomOrder ? playerData.getProfileComponents() : defaultOrder;
+                if ((!config.isPremiumBot() && player.getOldMoney() < 5000 && !hasCustomOrder) ||
+                        (playerData.isHiddenLegacy() && !hasCustomOrder)) {
+                    usedOrder = noOldOrder;
+                }
+
+                for (var component : usedOrder) {
+                    profileBuilder.addField(
+                            component.getTitle(lang), component.getContent().apply(holder, lang), component.isInline()
+                    );
+                }
+
+                ctx.reply(profileBuilder.build());
+
+                // We don't need to update stats if someone else views your profile
+                if (player.getUserId().equals(ctx.getAuthor().getId())) {
+                    player.saveUpdating();
+                }
+            }
+        }
+
+        @Description("Toggles the ability to do action commands to you.")
+        public static class ToggleAction extends SlashCommand {
             @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Retrieves your current user profile.")
-                        .setUsage("To retrieve your profile use `~>profile`. You can also use `~>profile @mention`\n" +
-                                "*The profile command only shows the 5 most important badges.* Use `~>badges` to get a complete list!")
-                        .addParameter("@mention", "A user mention (ping)")
-                        .setSeasonal(true)
-                        .build();
-            }
-        });
-
-        profileCommand.setPredicate(ctx -> {
-            if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
-                ctx.sendLocalized("general.missing_embed_permissions");
-                return false;
-            }
-
-            return true;
-        });
-
-        profileCommand.addSubCommand("toggleaction", new SubCommand() {
-            @Override
-            public String description() {
-                return "Toggles the ability to do action commands to you.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 final var dbUser = ctx.getDBUser();
                 final var userData = dbUser.getData();
                 final var isDisabled = userData.isActionsDisabled();
 
                 if (isDisabled) {
                     userData.setActionsDisabled(false);
-                    ctx.sendLocalized("commands.profile.toggleaction.enabled", EmoteReference.CORRECT);
+                    ctx.replyEphemeral("commands.profile.toggleaction.enabled", EmoteReference.CORRECT);
                 } else {
                     userData.setActionsDisabled(true);
-                    ctx.sendLocalized("commands.profile.toggleaction.disabled", EmoteReference.CORRECT);
+                    ctx.replyEphemeral("commands.profile.toggleaction.disabled", EmoteReference.CORRECT);
                 }
 
                 dbUser.save();
             }
-        });
+        }
 
-        profileCommand.addSubCommand("claimlock", new SubCommand() {
+        @Description("Locks you from being claimed. Use remove to remove it.")
+        @Options({@Options.Option(type = OptionType.BOOLEAN, name = "remove", description = "Remove claimlock.")})
+        public static class ClaimLock extends SlashCommand {
             @Override
-            public String description() {
-                return "Locks you from being claimed. Use `remove` to remove it.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 final var player = ctx.getPlayer();
                 final var playerData = player.getData();
 
-                if (content.equals("remove")) {
+                if (ctx.getOptionAsBoolean("remove")) {
                     playerData.setClaimLocked(false);
-                    ctx.sendLocalized("commands.profile.claimlock.removed", EmoteReference.CORRECT);
+                    ctx.replyEphemeral("commands.profile.claimlock.removed", EmoteReference.CORRECT);
                     player.saveUpdating();
                     return;
                 }
 
                 if (playerData.isClaimLocked()) {
-                    ctx.sendLocalized("commands.profile.claimlock.already_locked", EmoteReference.CORRECT);
+                    ctx.replyEphemeral("commands.profile.claimlock.already_locked", EmoteReference.CORRECT);
                     return;
                 }
 
                 var inventory = player.getInventory();
                 if (!inventory.containsItem(ItemReference.CLAIM_KEY)) {
-                    ctx.sendLocalized("commands.profile.claimlock.no_key", EmoteReference.ERROR);
+                    ctx.replyEphemeral("commands.profile.claimlock.no_key", EmoteReference.ERROR);
                     return;
                 }
 
                 playerData.setClaimLocked(true);
-                ctx.sendLocalized("commands.profile.claimlock.success", EmoteReference.CORRECT);
+                ctx.replyEphemeral("commands.profile.claimlock.success", EmoteReference.CORRECT);
                 inventory.process(new ItemStack(ItemReference.CLAIM_KEY, -1));
                 player.saveUpdating();
             }
-        });
-
-        if (!config.isPremiumBot()) {
-            profileCommand.addSubCommand("togglelegacy", new SubCommand() {
-                @Override
-                public String description() {
-                    return "Toggles legacy credit display.";
-                }
-
-                @Override
-                protected void call(Context ctx, I18nContext languageContext, String content) {
-                    final var player = ctx.getPlayer();
-                    final var data = player.getData();
-                    var toSet = !data.isHiddenLegacy();
-                    data.setHiddenLegacy(toSet);
-
-                    player.saveUpdating();
-                    ctx.sendLocalized("commands.profile.hidelegacy", EmoteReference.CORRECT, data.isHiddenLegacy());
-                }
-            });
         }
 
-        profileCommand.addSubCommand("inventorysort", new SubCommand() {
+        @Description("Toggles the display of legacy credits.")
+        public static class ToggleLegacy extends SlashCommand {
             @Override
-            public String description() {
-                return "Sort your inventory. Possible values: `VALUE, VALUE_TOTAL, AMOUNT, TYPE, RANDOM`.";
-            }
+            protected void process(SlashContext ctx) {
+                final var player = ctx.getPlayer();
+                final var data = player.getData();
+                var toSet = !data.isHiddenLegacy();
+                data.setHiddenLegacy(toSet);
 
+                player.saveUpdating();
+                ctx.replyEphemeral("commands.profile.hidelegacy", EmoteReference.CORRECT, data.isHiddenLegacy());
+            }
+        }
+
+        @Description("Sort your inventory.")
+        @Options({@Options.Option(type = OptionType.STRING, name = "sort", description = "The sort type. Possible values: VALUE, VALUE_TOTAL, AMOUNT, TYPE, RANDOM.", required = true)})
+        @Help(
+                description = "Lets you sort your inventory using specified presets.",
+                usage = "`/profile sort [preset]`",
+                parameters = {
+                        @Help.Parameter(name = "preset", description = "The sort type. Possible values: VALUE, VALUE_TOTAL, AMOUNT, TYPE, RANDOM.")
+                }
+        )
+        public static class InventorySort extends SlashCommand {
             @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                final var type = Utils.lookupEnumString(content, InventorySortType.class);
+            protected void process(SlashContext ctx) {
+                var typeString = ctx.getOptionAsString("sort");
+                final var type = Utils.lookupEnumString(typeString, InventorySortType.class);
 
                 if (type == null) {
-                    ctx.sendLocalized("commands.profile.inventorysort.not_valid",
+                    ctx.replyEphemeral("commands.profile.inventorysort.not_valid",
                             EmoteReference.ERROR, Arrays.stream(InventorySortType.values())
                                     .map(b1 -> b1.toString().toLowerCase())
                                     .collect(Collectors.joining(", "))
@@ -359,72 +322,64 @@ public class ProfileCmd {
                 playerData.setInventorySortType(type);
                 player.saveUpdating();
 
-                ctx.sendLocalized("commands.profile.inventorysort.success", EmoteReference.CORRECT, type.toString().toLowerCase());
+                ctx.replyEphemeral("commands.profile.inventorysort.success", EmoteReference.CORRECT, type.toString().toLowerCase());
             }
-        });
+        }
 
-        profileCommand.addSubCommand("autoequip", new SubCommand() {
+        @Description("Toggles auto-equipping a new tool on break. Use disable to disable it.")
+        @Options({@Options.Option(type = OptionType.BOOLEAN, name = "disable", description = "Disable autoequip.")})
+        @Help(
+                description = "Enables auto equip, or disables it if specified.",
+                usage = "`/profile autoequip [disable]`",
+                parameters = {@Help.Parameter(name = "disable", description = "Whether to disable it.", optional = true)}
+        )
+        public static class AutoEquip extends SlashCommand {
             @Override
-            public String description() {
-                return "Toggles auto-equipping a new tool on break. Use `disable` to disable it.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 var user = ctx.getDBUser();
                 var data = user.getData();
 
-                if (content.equals("disable")) {
+                if (ctx.getOptionAsBoolean("disable")) {
                     data.setAutoEquip(false);
-                    ctx.sendLocalized("commands.profile.autoequip.disable", EmoteReference.CORRECT);
+                    ctx.replyEphemeral("commands.profile.autoequip.disable", EmoteReference.CORRECT);
                     user.saveUpdating();
                     return;
                 }
 
                 data.setAutoEquip(true);
-                ctx.sendLocalized("commands.profile.autoequip.success", EmoteReference.CORRECT);
+                ctx.replyEphemeral("commands.profile.autoequip.success", EmoteReference.CORRECT);
                 user.saveUpdating();
             }
-        });
+        }
 
-        //Hide tags from profile/waifu list.
-        profileCommand.addSubCommand("hidetag", new SubCommand() {
+        @Description("Hide or show the member id/tag from profile/waifu ls.")
+        public static class HideTag extends SlashCommand {
             @Override
-            public String description() {
-                return "Hide or show the member id/tag from profile/waifu ls.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 var user = ctx.getDBUser();
                 var data = user.getData();
 
                 data.setPrivateTag(!data.isPrivateTag());
                 user.saveUpdating();
 
-                ctx.sendLocalized("commands.profile.hide_tag.success", EmoteReference.POPPER, data.isPrivateTag());
+                ctx.replyEphemeral("commands.profile.hide_tag.success", EmoteReference.POPPER, data.isPrivateTag());
             }
-        });
+        }
 
-        profileCommand.addSubCommand("timezone", new SubCommand() {
+        @Description("Sets your profile timezone.")
+        @Options({@Options.Option(type = OptionType.STRING, name = "timezone", description = "The timezone to use.", required = true)})
+        @Help(
+                description = "Sets your profile timezone.",
+                usage = "`/profile timezone [timezone]` - You can look up your timezone by googling what is my timezone.",
+                parameters = {@Help.Parameter(name = "timezone", description = "The timezone to use.")}
+        )
+        public static class Timezone extends SlashCommand {
             @Override
-            public String description() {
-                return "Set your profile timezone.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 var dbUser = ctx.getDBUser();
-                var args = ctx.getArguments();
-
-                if (args.length < 1) {
-                    ctx.sendLocalized("commands.profile.timezone.not_specified", EmoteReference.ERROR);
-                    return;
-                }
-
-                var timezone = content;
+                var timezone = ctx.getOptionAsString("timezone");
                 if (offsetRegex.matcher(timezone).matches()) {
-                    timezone = content.toUpperCase().replace("UTC", "GMT");
+                    timezone = timezone.toUpperCase().replace("UTC", "GMT");
                 }
 
                 // EST, EDT, etc...
@@ -435,19 +390,19 @@ public class ProfileCmd {
                 if (timezone.equalsIgnoreCase("reset")) {
                     dbUser.getData().setTimezone(null);
                     dbUser.saveAsync();
-                    ctx.sendLocalized("commands.profile.timezone.reset_success", EmoteReference.CORRECT);
+                    ctx.replyEphemeral("commands.profile.timezone.reset_success", EmoteReference.CORRECT);
                     return;
                 }
 
                 if (!Utils.isValidTimeZone(timezone)) {
-                    ctx.sendLocalized("commands.profile.timezone.invalid", EmoteReference.ERROR);
+                    ctx.replyEphemeral("commands.profile.timezone.invalid", EmoteReference.ERROR);
                     return;
                 }
 
                 try {
                     Utils.formatDate(LocalDateTime.now(Utils.timezoneToZoneID(timezone)), dbUser.getData().getLang());
                 } catch (DateTimeException e) {
-                    ctx.sendLocalized("commands.profile.timezone.invalid", EmoteReference.ERROR);
+                    ctx.replyEphemeral("commands.profile.timezone.invalid", EmoteReference.ERROR);
                     return;
                 }
 
@@ -458,110 +413,42 @@ public class ProfileCmd {
 
                 dbUser.getData().setTimezone(timezone);
                 dbUser.saveUpdating();
-                ctx.sendLocalized("commands.profile.timezone.success", EmoteReference.CORRECT, timezone);
+                ctx.replyEphemeral("commands.profile.timezone.success", EmoteReference.CORRECT, timezone);
             }
-        });
+        }
 
-        profileCommand.addSubCommand("description", new SubCommand() {
+        @Description("Sets your display badge.")
+        @Options({@Options.Option(type = OptionType.STRING, name = "badge", description = "The badge to display, reset/none to reset it or no badge.", required = true)})
+        @Help(
+                description = "Sets your profile display badge.",
+                usage = "`/profile badge [badge]` - Use reset to reset the badge to the default one and use none to show no badge.",
+                parameters = {@Help.Parameter(name = "badge", description = "The badge to use.")}
+        )
+        public static class DisplayBadge extends SlashCommand {
             @Override
-            public String description() {
-                return "Set your profile description. Use `reset` to reset it.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
-                    return;
-                }
-
-                var args = ctx.getArguments();
-                var player = ctx.getPlayer();
-                var dbUser = ctx.getDBUser();
-
-                if (args.length == 0) {
-                    ctx.sendLocalized("commands.profile.description.no_argument", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (args[0].equals("clear") || args[0].equals("remove") || args[0].equals("reset")) {
-                    player.getData().setDescription(null);
-                    ctx.sendLocalized("commands.profile.description.clear_success", EmoteReference.CORRECT);
-                    player.saveUpdating();
-                    return;
-                }
-
-                var split = SPLIT_PATTERN.split(content, 2);
-                var desc = content;
-                var old = false;
-                if (split[0].equals("set")) {
-                    desc = content.replaceFirst("set ", "");
-                    old = true;
-                }
-
-                var MAX_LENGTH = 300;
-
-                if (dbUser.isPremium()) {
-                    MAX_LENGTH = 500;
-                }
-
-                if (args.length < (old ? 2 : 1)) {
-                    ctx.sendLocalized("commands.profile.description.no_content", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (desc.length() > MAX_LENGTH) {
-                    ctx.sendLocalized("commands.profile.description.too_long", EmoteReference.ERROR);
-                    return;
-                }
-
-                desc = Utils.DISCORD_INVITE.matcher(desc).replaceAll("-discord invite link-");
-                desc = Utils.DISCORD_INVITE_2.matcher(desc).replaceAll("-discord invite link-");
-
-                player.getData().setDescription(desc);
-                ctx.sendStrippedLocalized("commands.profile.description.success", EmoteReference.POPPER);
-
-                player.getData().addBadgeIfAbsent(Badge.WRITER);
-                player.saveUpdating();
-            }
-        });
-
-        profileCommand.addSubCommand("displaybadge", new SubCommand() {
-            @Override
-            public String description() {
-                return "Set your profile badge. Use `reset` to reset and `none` to show no badge.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                var args = ctx.getArguments();
-                if (args.length == 0) {
-                    ctx.sendLocalized("commands.profile.displaybadge.not_specified", EmoteReference.ERROR);
-                    return;
-                }
-
+            protected void process(SlashContext ctx) {
                 var player = ctx.getPlayer();
                 var data = player.getData();
-                var arg = args[0];
-
-                if (arg.equalsIgnoreCase("none")) {
+                var badgeString = ctx.getOptionAsString("badge");
+                if (badgeString.equalsIgnoreCase("none")) {
                     data.setShowBadge(false);
-                    ctx.sendLocalized("commands.profile.displaybadge.reset_success", EmoteReference.CORRECT);
+                    ctx.replyEphemeral("commands.profile.displaybadge.reset_success", EmoteReference.CORRECT);
                     player.saveUpdating();
                     return;
                 }
 
-                if (arg.equalsIgnoreCase("reset")) {
+                if (badgeString.equalsIgnoreCase("reset")) {
                     data.setMainBadge(null);
                     data.setShowBadge(true);
-                    ctx.sendLocalized("commands.profile.displaybadge.important_success", EmoteReference.CORRECT);
+                    ctx.replyEphemeral("commands.profile.displaybadge.important_success", EmoteReference.CORRECT);
                     player.saveUpdating();
                     return;
                 }
 
-                var badge = Badge.lookupFromString(content);
+                var badge = Badge.lookupFromString(badgeString);
 
                 if (badge == null) {
-                    ctx.sendLocalized("commands.profile.displaybadge.no_such_badge", EmoteReference.ERROR,
+                    ctx.replyEphemeral("commands.profile.displaybadge.no_such_badge", EmoteReference.ERROR,
                             player.getData().getBadges().stream()
                                     .map(Badge::getDisplay)
                                     .collect(Collectors.joining(", "))
@@ -571,7 +458,7 @@ public class ProfileCmd {
                 }
 
                 if (!data.getBadges().contains(badge)) {
-                    ctx.sendLocalized("commands.profile.displaybadge.player_missing_badge", EmoteReference.ERROR,
+                    ctx.replyEphemeral("commands.profile.displaybadge.player_missing_badge", EmoteReference.ERROR,
                             player.getData().getBadges().stream()
                                     .map(Badge::getDisplay)
                                     .collect(Collectors.joining(", "))
@@ -583,29 +470,26 @@ public class ProfileCmd {
                 data.setShowBadge(true);
                 data.setMainBadge(badge);
                 player.saveUpdating();
-                ctx.sendLocalized("commands.profile.displaybadge.success", EmoteReference.CORRECT, badge.display);
+                ctx.replyEphemeral("commands.profile.displaybadge.success", EmoteReference.CORRECT, badge.display);
             }
-        });
+        }
 
-        profileCommand.addSubCommand("language", new SubCommand() {
+        @Description("Sets your profile language.")
+        @Options({@Options.Option(type = OptionType.STRING, name = "lang", description = "The language to use. See /lang for a list.", required = true)})
+        @Help(
+                description = "Sets your profile language.",
+                usage = "`/profile language [lang]`",
+                parameters = {@Help.Parameter(name = "lang", description = "The language to use. See /lang for a list.")}
+        )
+        public static class Language extends SlashCommand {
             @Override
-            public String description() {
-                return "Set your profile language. Available langs: `~>lang`";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.profile.lang.nothing_specified", EmoteReference.ERROR);
-                    return;
-                }
-
+            protected void process(SlashContext ctx) {
                 var dbUser = ctx.getDBUser();
-
+                var content = ctx.getOptionAsString("lang");
                 if (content.equalsIgnoreCase("reset")) {
                     dbUser.getData().setLang(null);
                     dbUser.saveUpdating();
-                    ctx.sendLocalized("commands.profile.lang.reset_success", EmoteReference.CORRECT);
+                    ctx.replyEphemeral("commands.profile.lang.reset_success", EmoteReference.CORRECT);
                     return;
                 }
 
@@ -615,81 +499,123 @@ public class ProfileCmd {
                     var newContext = new I18nContext(ctx.getDBGuild().getData(), dbUser.getData());
 
                     dbUser.saveUpdating();
-                    ctx.getChannel().sendMessageFormat(newContext.get("commands.profile.lang.success"), EmoteReference.CORRECT, content).queue();
+                    ctx.replyEphemeral(newContext.get("commands.profile.lang.success"), EmoteReference.CORRECT, content);
                 } else {
-                    ctx.sendLocalized("commands.profile.lang.invalid", EmoteReference.ERROR);
+                    ctx.replyEphemeral("commands.profile.lang.invalid", EmoteReference.ERROR);
                 }
             }
-        }).createSubCommandAlias("language", "lang");
+        }
 
-        profileCommand.addSubCommand("stats", new SubCommand() {
+        @Name("description")
+        @Description("Sets your profile description.")
+        @Options({@Options.Option(type = OptionType.STRING, name = "description", description = "The description to set. Use reset to reset it.", required = true)})
+        @Help(
+                description = "Sets your profile description. The max length is 300 if you're not premium and 500 if you are.",
+                usage = "`/profile description [content]`",
+                parameters = {@Help.Parameter(name = "content", description = "The content of the description. This cannot contain new lines on slash commands, sadly.")}
+        )
+        public static class DescriptionCommand extends SlashCommand {
             @Override
-            public String description() {
-                return "Check profile statistics.";
+            protected void process(SlashContext ctx) {
+                if (!RatelimitUtils.ratelimit(profileRatelimiter, ctx)) {
+                    return;
+                }
+
+                var desc = ctx.getOptionAsString("description");
+                var player = ctx.getPlayer();
+                var dbUser = ctx.getDBUser();
+
+                if (desc.equals("clear") || desc.equals("remove") || desc.equals("reset")) {
+                    player.getData().setDescription(null);
+                    ctx.sendLocalized("commands.profile.description.clear_success", EmoteReference.CORRECT);
+                    player.saveUpdating();
+                    return;
+                }
+
+                var MAX_LENGTH = 300;
+                if (dbUser.isPremium()) {
+                    MAX_LENGTH = 500;
+                }
+
+                if (desc.length() > MAX_LENGTH) {
+                    ctx.sendLocalized("commands.profile.description.too_long", EmoteReference.ERROR);
+                    return;
+                }
+
+                desc = Utils.DISCORD_INVITE.matcher(desc).replaceAll("-discord invite link-");
+                desc = Utils.DISCORD_INVITE_2.matcher(desc).replaceAll("-discord invite link-");
+
+                player.getData().setDescription(desc);
+                ctx.replyEphemeral("commands.profile.description.success", EmoteReference.POPPER);
+
+                player.getData().addBadgeIfAbsent(Badge.WRITER);
+                player.saveUpdating();
             }
+        }
 
+        @Description("See profile statistics.")
+        @Options({@Options.Option(type = OptionType.USER, name = "user", description = "The user to see stats for.")})
+        @Help(
+                description = "See your profile stats, or someone else's profile stats.",
+                usage = "`/profile stats [user]`",
+                parameters = {@Help.Parameter(name = "user", description = "The user to see the stats of.", optional = true)}
+        )
+        public static class Stats extends SlashCommand {
             @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                ctx.findMember(content, members -> {
-                    var member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
-                    if (member == null) {
-                        return;
-                    }
+            protected void process(SlashContext ctx) {
+                var toLookup = ctx.getOptionAsUser("user", ctx.getAuthor());
+                var lang = ctx.getLanguageContext();
+                if (toLookup.isBot()) {
+                    ctx.sendLocalized("commands.profile.bot_notice", EmoteReference.ERROR);
+                    return;
+                }
 
-                    var toLookup = member.getUser();
-                    if (toLookup.isBot()) {
-                        ctx.sendLocalized("commands.profile.bot_notice", EmoteReference.ERROR);
-                        return;
-                    }
+                var player = ctx.getPlayer(toLookup);
+                var dbUser = ctx.getDBUser(toLookup);
 
-                    var player = ctx.getPlayer(toLookup);
-                    var dbUser = ctx.getDBUser(toLookup);
+                List<MessageEmbed.Field> fields = new LinkedList<>();
+                for (StatsComponent component : StatsComponent.values()) {
+                    fields.add(new MessageEmbed.Field(component.getEmoji() + component.getName(ctx),
+                            component.getContent(new StatsComponent.Holder(ctx, lang, player, dbUser, toLookup)),
+                            false)
+                    );
+                }
 
-                    List<MessageEmbed.Field> fields = new LinkedList<>();
-                    for (StatsComponent component : StatsComponent.values()) {
-                        fields.add(new MessageEmbed.Field(component.getEmoji() + component.getName(ctx),
-                                component.getContent(new StatsComponent.Holder(ctx, languageContext, player, dbUser, toLookup)),
-                                false)
-                        );
-                    }
+                var splitFields = DiscordUtils.divideFields(9, fields);
+                var embed = new EmbedBuilder()
+                        .setThumbnail(toLookup.getEffectiveAvatarUrl())
+                        .setAuthor(lang.get("commands.profile.stats.header").formatted(toLookup.getName()),
+                                null, toLookup.getEffectiveAvatarUrl()
+                        )
+                        .setDescription(String.format(lang.get("general.buy_sell_paged_react"), String.format(lang.get("general.reaction_timeout"), 200)))
+                        .setColor(ctx.getMemberColor())
+                        .setFooter("Thanks for using Mantaro! %s".formatted(EmoteReference.HEART), ctx.getGuild().getIconUrl());
 
-                    var splitFields = DiscordUtils.divideFields(9, fields);
-
-                    var embed = new EmbedBuilder()
-                            .setThumbnail(toLookup.getEffectiveAvatarUrl())
-                            .setAuthor(languageContext.get("commands.profile.stats.header").formatted(toLookup.getName()),
-                                    null, toLookup.getEffectiveAvatarUrl()
-                            )
-                            .setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), String.format(languageContext.get("general.reaction_timeout"), 200)))
-                            .setColor(ctx.getMemberColor())
-                            .setFooter("Thanks for using Mantaro! %s".formatted(EmoteReference.HEART), ctx.getGuild().getIconUrl());
-
-                    DiscordUtils.listButtons(ctx, 200, embed, splitFields);
-                });
+                DiscordUtils.listButtons(ctx.getUtilsContext(), 200, embed, splitFields);
             }
-        });
+        }
 
-        profileCommand.addSubCommand("widgets", new SubCommand() {
+        @Description("Set the profile widget order. This is premium-only.")
+        @Options({@Options.Option(type = OptionType.STRING, name = "order", description = "The widget order. Use list to list all widgets and reset to reset them.", required = true)})
+        public static class Widgets extends SlashCommand {
             @Override
-            public String description() {
-                return "Set profile widgets and order. Arguments: `widget`, `ls` or `reset`";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 var user = ctx.getDBUser();
+                var lang = ctx.getLanguageContext();
+
                 if (!user.isPremium()) {
-                    ctx.sendLocalized("commands.profile.display.not_premium", EmoteReference.ERROR);
+                    ctx.replyEphemeral("commands.profile.display.not_premium", EmoteReference.ERROR);
                     return;
                 }
 
                 var player = ctx.getPlayer();
                 var playerData = player.getData();
+                var content = ctx.getOptionAsString("order");
 
-                if (content.equalsIgnoreCase("ls") || content.equalsIgnoreCase("Is")) {
-                    ctx.sendFormat(
-                            languageContext.get("commands.profile.display.ls") +
-                                    languageContext.get("commands.profile.display.example"),
+                if (content.equalsIgnoreCase("ls")) {
+                    ctx.replyEphemeral(
+                            lang.get("commands.profile.display.ls") +
+                                    lang.get("commands.profile.display.example"),
                             EmoteReference.ZAP, EmoteReference.BLUE_SMALL_MARKER,
                             defaultOrder.stream().map(Enum::name).collect(Collectors.joining(", ")),
                             playerData.getProfileComponents().size() == 0 ?
@@ -705,7 +631,7 @@ public class ProfileCmd {
                     playerData.getProfileComponents().clear();
                     player.save();
 
-                    ctx.sendLocalized("commands.profile.display.reset", EmoteReference.CORRECT);
+                    ctx.replyEphemeral("commands.profile.display.reset", EmoteReference.CORRECT);
                     return;
                 }
 
@@ -720,8 +646,8 @@ public class ProfileCmd {
                 }
 
                 if (newComponents.size() < 3) {
-                    ctx.sendFormat(languageContext.get("commands.profile.display.not_enough") +
-                            languageContext.get("commands.profile.display.example"), EmoteReference.WARNING
+                    ctx.replyEphemeral(lang.get("commands.profile.display.not_enough") +
+                            lang.get("commands.profile.display.example"), EmoteReference.WARNING
                     );
 
                     return;
@@ -730,13 +656,23 @@ public class ProfileCmd {
                 playerData.setProfileComponents(newComponents);
                 player.save();
 
-                ctx.sendLocalized("commands.profile.display.success",
+                ctx.replyEphemeral("commands.profile.display.success",
                         EmoteReference.CORRECT, newComponents.stream().map(Enum::name).collect(Collectors.joining(", "))
                 );
             }
-        });
+        }
 
-        cr.registerAlias("profile", "me");
+        @Override
+        public Predicate<SlashContext> getPredicate() {
+            return ctx -> {
+                if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+                    ctx.replyEphemeral("general.missing_embed_permissions");
+                    return false;
+                }
+
+                return true;
+            };
+        }
     }
 
     public static String parsePlayerEquipment(PlayerEquipment equipment, I18nContext languageContext) {
@@ -756,7 +692,7 @@ public class ProfileCmd {
         }).collect(Collectors.joining("\n"));
     }
 
-    private boolean containsRole(Member member, long... roles) {
+    private static boolean containsRole(Member member, long... roles) {
         return member.getRoles().stream().map(Role::getIdLong).anyMatch(id -> Arrays.stream(roles).anyMatch(i -> i == id));
     }
 }

@@ -28,6 +28,7 @@ import redis.clients.jedis.Jedis;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -36,14 +37,18 @@ public class ReminderTask {
 
     public static void handle() {
         log.debug("Checking reminder data...");
+        // The issue with handling this kind of stuff with ScheduledTasks is that we need to catch everything
+        // In case the Redis server is, for some reason, unavailable, or getting the resource fails
+        // This will silently die and kill every further reminder from being fired.
+        // Such, we need two try/catches here, one so the ScheduledTask doesn't die, and one so the loop doesn't break
+        // Java moments.
         try (Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
-            Set<String> reminders = j.zrange("zreminder", 0, 14);
+            List<String> reminders = j.zrange("zreminder", 0, 14);
             var bot = MantaroBot.getInstance();
 
             log.debug("Reminder check - remainder is: {}", reminders.size());
-
             for (var rem : reminders) {
-                try {
+                try { // If we don't try here regardless, we kill the loop.
                     var data = new JSONObject(rem);
                     var fireAt = data.getLong("at");
 
@@ -78,15 +83,17 @@ public class ReminderTask {
                                                 (guild != null ? "\nAsked on: %s".formatted(guild.getName()) : "")
                                         )
                                 ).queue(success -> {
-                                    log.debug("Reminded {}. Removing from remind database", fullId);
-                                    Reminder.cancel(userId, fullId, Reminder.CancelReason.REMINDED);
-                                }, err -> Reminder.cancel(userId, fullId, Reminder.CancelReason.ERROR_DELIVERING)
-                        );
+                                            log.debug("Reminded {}. Removing from remind database", fullId);
+                                            Reminder.cancel(userId, fullId, Reminder.CancelReason.REMINDED);
+                                        }, err -> Reminder.cancel(userId, fullId, Reminder.CancelReason.ERROR_DELIVERING)
+                                );
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

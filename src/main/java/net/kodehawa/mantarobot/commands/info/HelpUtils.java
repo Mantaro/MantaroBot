@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.info;
 
+import net.dv8tion.jda.api.entities.GuildMessageChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
@@ -27,11 +28,24 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 public class HelpUtils {
-    public static String forType(TextChannel channel, GuildData guildData, CommandCategory category) {
+    public static String forType(GuildMessageChannel channel, GuildData guildData, CommandCategory category) {
         return forType(
                 CommandProcessor.REGISTRY.commands().entrySet().stream()
                         .filter(entry -> entry.getValue().category() == category)
                         .filter(entry -> !guildData.getDisabledCategories().contains(entry.getValue().category()))
+                        .filter(c -> !guildData.getDisabledCommands().contains(c.getKey()))
+                        .filter(c -> guildData.getChannelSpecificDisabledCommands().get(channel.getId()) == null || !guildData.getChannelSpecificDisabledCommands().get(channel.getId()).contains(c.getKey()))
+                        .filter(c -> !guildData.getChannelSpecificDisabledCategories().computeIfAbsent(channel.getId(), wew -> new ArrayList<>()).contains(category))
+                        .map(Entry::getKey)
+                        .collect(Collectors.toList())
+        );
+    }
+
+    public static String forTypeSlash(GuildMessageChannel channel, GuildData guildData, CommandCategory category) {
+        return forType(
+                CommandProcessor.REGISTRY.getCommandManager().slashCommands().entrySet().stream()
+                        .filter(entry -> entry.getValue().getCategory() == category)
+                        .filter(entry -> !guildData.getDisabledCategories().contains(entry.getValue().getCategory()))
                         .filter(c -> !guildData.getDisabledCommands().contains(c.getKey()))
                         .filter(c -> guildData.getChannelSpecificDisabledCommands().get(channel.getId()) == null || !guildData.getChannelSpecificDisabledCommands().get(channel.getId()).contains(c.getKey()))
                         .filter(c -> !guildData.getChannelSpecificDisabledCategories().computeIfAbsent(channel.getId(), wew -> new ArrayList<>()).contains(category))

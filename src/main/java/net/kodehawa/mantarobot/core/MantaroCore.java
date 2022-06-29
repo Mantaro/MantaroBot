@@ -20,12 +20,14 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
+import io.github.classgraph.ScanResult;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
@@ -59,6 +61,7 @@ import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import net.kodehawa.mantarobot.utils.external.BotListPost;
 import okhttp3.Request;
+import okhttp3.Response;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,7 +101,6 @@ public class MantaroCore {
         this.isDebug = isDebug;
         Metrics.THREAD_POOL_COLLECTOR.add("mantaro-executor", threadPool);
     }
-
 
     public static boolean hasLoadedCompletely() {
         return getLoadState().equals(POSTLOAD);
@@ -185,7 +187,7 @@ public class MantaroCore {
                 .build();
 
         try {
-            // Don't allow mentioning @everyone, @here or @role (can be overriden in a per-command context, but we only ever re-enable role)
+            // Don't allow mentioning @everyone, @here or @role (can be overridden in a per-command context, but we only ever re-enable role)
             var deny = EnumSet.of(Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.ROLE);
             MessageAction.setDefaultMentions(EnumSet.complementOf(deny));
 
@@ -193,14 +195,14 @@ public class MantaroCore {
             // We used to have GUILD_PRESENCES here for caching before, since chunking wasn't possible, but we needed to remove it.
             // So we have no permanent cache anymore.
             GatewayIntent[] toEnable = {
-                    GatewayIntent.GUILD_MESSAGES, // Recieve guild messages, needed to, well operate at all.
+                    GatewayIntent.GUILD_MESSAGES, // Receive guild messages, needed to, well operate at all.
                     GatewayIntent.GUILD_MESSAGE_REACTIONS,  // Receive message reactions, used for reaction menus.
                     GatewayIntent.GUILD_MEMBERS, // Receive member events, needed for mod features *and* welcome/leave messages.
                     GatewayIntent.GUILD_VOICE_STATES, // Receive voice states, needed so Member#getVoiceState doesn't return null.
             };
 
             var disabledIntents = EnumSet.of(
-                    CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS,
+                    CacheFlag.ACTIVITY, CacheFlag.EMOJI, CacheFlag.CLIENT_STATUS,
                     CacheFlag.ROLE_TAGS, CacheFlag.ONLINE_STATUS
             );
 
@@ -373,7 +375,6 @@ public class MantaroCore {
             log.info("Registering all commands (@Module)");
             shardEventBus.post(CommandProcessor.REGISTRY);
             log.info("Registered all commands (@Module)");
-
             log.info("Registering all options (@Option)");
             shardEventBus.post(new OptionRegistryEvent());
             log.info("Registered all options (@Option)");
@@ -396,33 +397,46 @@ public class MantaroCore {
         return Collections.unmodifiableCollection(shards.values());
     }
 
+    public void registerSlash(List<CommandData> data) {
+        if (MantaroBot.getInstance().isMasterNode()) {
+            getShard(0).getJDA().updateCommands().addCommands(data).queue();
+        }
+    }
+
     private Set<Class<?>> lookForAnnotatedOn(String packageName, Class<? extends Annotation> annotation) {
-        return new ClassGraph()
+        var classGraph = new ClassGraph()
                 .acceptPackages(packageName)
-                .enableAnnotationInfo()
-                .scan(2)
-                .getAllClasses().stream().filter(classInfo -> classInfo.hasAnnotation(annotation.getName())).map(ClassInfo::loadClass)
-                .collect(Collectors.toSet());
+                .enableAnnotationInfo();
+
+        try (ScanResult result = classGraph.scan(2)) {
+            return result.getAllClasses()
+                    .stream()
+                    .filter(classInfo -> classInfo.hasAnnotation(annotation.getName())).map(ClassInfo::loadClass)
+                    .collect(Collectors.toSet());
+        }
     }
 
     public EventBus getShardEventBus() {
         return this.shardEventBus;
     }
 
+    @SuppressWarnings("unused")
     public BotGateway getGateway(JDA jda) throws IOException {
         var call = Utils.httpClient.newCall(new Request.Builder()
                 .url("https://discordapp.com/api/gateway/bot")
                 .header("Authorization", jda.getToken())
                 .build()
-        ).execute();
+        );
 
-        final var body = call.body();
-        if (body == null) {
-            return null;
+        try (Response response = call.execute()) {
+            final var body = response.body();
+            if (body == null) {
+                return null;
+            }
+
+            var json = body.string();
+            return JsonDataManager.fromJson(json, BotGateway.class);
         }
-
-        var json = body.string();
-        return JsonDataManager.fromJson(json, BotGateway.class);
     }
 
     private void startPostLoadProcedure(long elapsed) {
@@ -456,12 +470,15 @@ public class MantaroCore {
         bot.getCore().getShardEventBus().post(new PostLoadEvent());
 
         // Only update guild count from the master node.
-        // Might not wanna run this if it's self-hosted either.
+        // Might not want to run this if it's self-hosted either.
         if (bot.isMasterNode() && !config.isSelfHost()) {
             startUpdaters();
         }
 
         bot.startCheckingBirthdays();
+        var slashList = CommandProcessor.REGISTRY.getCommandManager().getSlashCommandsList();
+        registerSlash(slashList);
+        log.info("Attempted to register slash commands (@Module). List size: {}", slashList.size());
     }
 
     private void startUpdaters() {

@@ -18,6 +18,9 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
@@ -28,35 +31,32 @@ import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
 import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.command.meta.*;
+import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
+import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.Utils;
-import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Module
 public class PetCmds {
-    private final IncreasingRateLimiter rl = new IncreasingRateLimiter.Builder()
+    private static final IncreasingRateLimiter rl = new IncreasingRateLimiter.Builder()
             .limit(1)
             .spamTolerance(2)
             .cooldown(3, TimeUnit.SECONDS)
@@ -66,7 +66,7 @@ public class PetCmds {
             .prefix("pet")
             .build();
 
-    private final IncreasingRateLimiter petRemoveRatelimiter = new IncreasingRateLimiter.Builder()
+    private static final IncreasingRateLimiter petRemoveRatelimiter = new IncreasingRateLimiter.Builder()
             .limit(1)
             .spamTolerance(2)
             .cooldown(1, TimeUnit.HOURS)
@@ -76,7 +76,7 @@ public class PetCmds {
             .prefix("pet-remove")
             .build();
 
-    private final IncreasingRateLimiter petpetRatelimiter = new IncreasingRateLimiter.Builder()
+    private static final IncreasingRateLimiter petpetRatelimiter = new IncreasingRateLimiter.Builder()
             .limit(25)
             .spamTolerance(5)
             .cooldown(1, TimeUnit.HOURS)
@@ -86,7 +86,7 @@ public class PetCmds {
             .prefix("pet-pet")
             .build();
 
-    private final IncreasingRateLimiter petChoiceRatelimiter = new IncreasingRateLimiter.Builder()
+    private static final IncreasingRateLimiter petChoiceRatelimiter = new IncreasingRateLimiter.Builder()
             .limit(3)
             .spamTolerance(5)
             .cooldown(10, TimeUnit.MINUTES)
@@ -97,42 +97,35 @@ public class PetCmds {
             .build();
 
     @Subscribe
-    public void pet(CommandRegistry cr) {
-        TreeCommand pet = cr.register("pet", new TreeCommand(CommandCategory.CURRENCY) {
-            @Override
-            public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(Context ctx, I18nContext languageContext, String content) {
-                        ctx.sendLocalized("commands.pet.explanation");
-                    }
-                };
-            }
+    public void register(CommandRegistry cr) {
+        cr.registerSlash(Pet.class);
+    }
 
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription(
-                            """
-                            Pet commands.
-                            For a better explanation of the pet system, check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).
-                            This command contains an explanation of what pets are. Check subcommands for the available actions.
-                            """
-                        )
-                        .build();
-            }
-        });
+    @Description("The hub for pet related commands. Not the pat kind.")
+    @Category(CommandCategory.CURRENCY)
+    @Help(description =
+                """
+                Pet commands.
+                For a better explanation of the pet system, check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).
+                This command contains an explanation of what pets are. Check subcommands for the available actions.
+                """)
+    public static class Pet extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {}
 
-        pet.setPredicate(ctx -> RatelimitUtils.ratelimit(rl, ctx, false));
+        @Override
+        public Predicate<SlashContext> getPredicate() {
+            return ctx -> {
+                ctx.defer();
+                return RatelimitUtils.ratelimit(rl, ctx, false);
+            };
+        }
 
-        pet.addSubCommand("list", new SubCommand() {
+        @Name("list")
+        @Description("Lists the available pet types.")
+        public static class PetList extends SlashCommand {
             @Override
-            public String description() {
-                return "Lists the available pet types.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 var pets = Arrays
                         .stream(HousePetType.values())
                         .sorted(Comparator.comparingLong(HousePetType::getCost))
@@ -149,62 +142,43 @@ public class PetCmds {
                         })
                         .collect(Collectors.joining("\n"));
 
-                ctx.sendLocalized("commands.pet.list.header",
+                ctx.reply("commands.pet.list.header",
                         EmoteReference.TALKING, pets, EmoteReference.PENCIL, ctx.getLanguageContext().get("commands.pet.list.abilities")
                 );
             }
-        });
+        }
 
-        // I swear to god
-        pet.createSubCommandAlias("list", "ls");
-        pet.createSubCommandAlias("list", "Is");
-        pet.createSubCommandAlias("list", "1s");
-
-        pet.addSubCommand("choice", new SubCommand() {
+        @Description("Lets you choose whether you want to use a personal or marriage pet.")
+        @Options(@Options.Option(type = OptionType.STRING, name = "type", description = "The type to use. Either marriage or personal", required = true))
+        public static class Choice extends SlashCommand {
             @Override
-            public String description() {
-                return "Lets you choose whether you want to use a personal or marriage pet.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                var args = ctx.getArguments();
-                if (args.length < 1) {
-                    ctx.sendLocalized("commands.pet.choice.no_choice", EmoteReference.ERROR);
-                    return;
-                }
-
-                var choice = Utils.lookupEnumString(content, PetChoice.class);
+            protected void process(SlashContext ctx) {
+                var choice = Utils.lookupEnumString(ctx.getOptionAsString("type"), PetChoice.class);
                 if (choice == null) {
-                    ctx.sendLocalized("commands.pet.choice.invalid_choice", EmoteReference.ERROR);
+                    ctx.reply("commands.pet.choice.invalid_choice", EmoteReference.ERROR);
                     return;
                 }
 
                 var player = ctx.getPlayer();
                 if (choice == player.getData().getPetChoice()) {
-                    ctx.sendLocalized("commands.pet.choice.already_chosen", EmoteReference.ERROR);
+                    ctx.reply("commands.pet.choice.already_chosen", EmoteReference.ERROR);
                     return;
                 }
 
-                if (!RatelimitUtils.ratelimit(petChoiceRatelimiter, ctx, languageContext.get("commands.pet.choice.ratelimit_message"), false))
+                if (!RatelimitUtils.ratelimit(petChoiceRatelimiter, ctx, ctx.getLanguageContext().get("commands.pet.choice.ratelimit_message"), false))
                     return;
 
                 player.getData().setPetChoice(choice);
                 player.saveUpdating();
 
-                ctx.sendLocalized("commands.pet.choice.success", EmoteReference.CORRECT, Utils.capitalize(choice.toString()), EmoteReference.POPPER);
+                ctx.reply("commands.pet.choice.success", EmoteReference.CORRECT, Utils.capitalize(choice.toString()), EmoteReference.POPPER);
             }
-        }).createSubCommandAlias("choice", "select")
-            .createSubCommandAlias("choice", "choose");
+        }
 
-        pet.addSubCommand("level", new SubCommand() {
+        @Description("Shows the level and experience of your current pet.")
+        public static class Level extends SlashCommand {
             @Override
-            public String description() {
-                return "Shows the level and experience of your current pet.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
                 var pet = getCurrentPet(ctx, ctx.getPlayer(), marriage, "commands.pet.level.no_pet");
@@ -212,20 +186,17 @@ public class PetCmds {
                     return;
                 }
 
-                ctx.sendStrippedLocalized("commands.pet.level.success",
+                ctx.replyStripped("commands.pet.level.success",
                         EmoteReference.ZAP, pet.getName(), pet.getLevel(), pet.getExperience(), pet.experienceToNextLevel()
                 );
             }
-        });
+        }
 
-        pet.addSubCommand("status", new SubCommand() {
+        @Description("Shows the status of your current pet.")
+        public static class Status extends SlashCommand {
             @Override
-            public String description() {
-                return "Shows the status of your current pet.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext language, String content) {
+            protected void process(SlashContext ctx) {
+                var language = ctx.getLanguageContext();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
                 var pet = getCurrentPet(ctx, ctx.getPlayer(), marriage, "commands.pet.status.no_pet");
@@ -240,7 +211,7 @@ public class PetCmds {
                 var hasItemBuildup = baseAbilities.contains(HousePetType.HousePetAbility.CATCH);
 
                 EmbedBuilder status = new EmbedBuilder()
-                        .setAuthor(String.format(language.get("commands.pet.status.header"), name), null, ctx.getUser().getEffectiveAvatarUrl())
+                        .setAuthor(String.format(language.get("commands.pet.status.header"), name), null, ctx.getAuthor().getEffectiveAvatarUrl())
                         .setColor(Color.PINK)
                         .setDescription(language.get("commands.pet.status.description"))
                         .addField(
@@ -277,44 +248,40 @@ public class PetCmds {
                 }
 
                 status.addField(
-                        EmoteReference.DUST.toHeaderString() + language.get("commands.pet.status.dust"),
-                        "**%d%%**".formatted(pet.getDust()), true
-                )
-                .addField(
-                        EmoteReference.BLUE_HEART.toHeaderString() + language.get("commands.pet.status.pet"),
-                        "**%,d**".formatted(pet.getPatCounter()), true
-                )
-                .addField(
-                        EmoteReference.HEART.toHeaderString() + language.get("commands.pet.status.health"),
-                        "**%,d / 100**".formatted(pet.getHealth()), true
-                )
-                .addField(
-                        EmoteReference.RUNNER.toHeaderString() + language.get("commands.pet.status.stamina"),
-                        "**%,d / 100**".formatted(pet.getStamina()), true
-                )
-                .addField(
-                        EmoteReference.DROPLET.toHeaderString() + language.get("commands.pet.status.thirst"),
-                        "**%,d / 100**".formatted(pet.getThirst()), true
-                )
-                .addField(
-                        EmoteReference.FORK.toHeaderString() + language.get("commands.pet.status.hunger"),
-                        "**%,d / 100**".formatted(pet.getHunger()), true
-                )
-                .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl())
-                .setFooter(language.get("commands.pet.status.footer"));
+                                EmoteReference.DUST.toHeaderString() + language.get("commands.pet.status.dust"),
+                                "**%d%%**".formatted(pet.getDust()), true
+                        )
+                        .addField(
+                                EmoteReference.BLUE_HEART.toHeaderString() + language.get("commands.pet.status.pet"),
+                                "**%,d**".formatted(pet.getPatCounter()), true
+                        )
+                        .addField(
+                                EmoteReference.HEART.toHeaderString() + language.get("commands.pet.status.health"),
+                                "**%,d / 100**".formatted(pet.getHealth()), true
+                        )
+                        .addField(
+                                EmoteReference.RUNNER.toHeaderString() + language.get("commands.pet.status.stamina"),
+                                "**%,d / 100**".formatted(pet.getStamina()), true
+                        )
+                        .addField(
+                                EmoteReference.DROPLET.toHeaderString() + language.get("commands.pet.status.thirst"),
+                                "**%,d / 100**".formatted(pet.getThirst()), true
+                        )
+                        .addField(
+                                EmoteReference.FORK.toHeaderString() + language.get("commands.pet.status.hunger"),
+                                "**%,d / 100**".formatted(pet.getHunger()), true
+                        )
+                        .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl())
+                        .setFooter(language.get("commands.pet.status.footer"));
 
-                ctx.send(status.build());
+                ctx.reply(status.build());
             }
-        }).createSubCommandAlias("status", "stats");
+        }
 
-        pet.addSubCommand("check", new SubCommand() {
+        @Description("Check thirst, hunger and dust of your current pet.")
+        public static class Check extends SlashCommand {
             @Override
-            public String description() {
-                return "Check thirst, hunger and dust of your current pet.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
                 var player = ctx.getPlayer();
@@ -323,222 +290,72 @@ public class PetCmds {
                     return;
                 }
 
-                ctx.sendLocalized("commands.pet.check.success",
+                ctx.replyStripped("commands.pet.check.success",
                         pet.getName(), EmoteReference.DROPLET, pet.getThirst(),
                         EmoteReference.FORK, pet.getHunger(), EmoteReference.DUST, pet.getDust(), player.getData().getActiveChoice(marriage)
                 );
             }
-        });
+        }
 
-        pet.addSubCommand("sell", new SubCommand() {
+        @Name("pet")
+        @Description("Pets your pet. Cute.")
+        public static class PetPet extends SlashCommand {
             @Override
-            public String description() {
-                return "Sells this pet. This will *reset all pet stats*. Just like buying a new tamagotchi.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
                 var player = ctx.getPlayer();
-                var pet = getCurrentPet(ctx, player, marriage, "commands.pet.remove.no_pet");
+                var playerData = player.getData();
+                var marriage = dbUser.getData().getMarriage();
+                var pet = playerData.getPet();
+                var choice = playerData.getActiveChoice(marriage);
+
+                if (choice == PetChoice.MARRIAGE) {
+                    if (marriage == null) {
+                        ctx.reply("commands.pet.no_marriage", EmoteReference.ERROR);
+                        return;
+                    }
+
+                    pet = marriage.getData().getPet();
+                }
+
                 if (pet == null) {
+                    ctx.reply("commands.pet.pat.no_pet", EmoteReference.ERROR, choice.getReadableName());
                     return;
                 }
 
-                if (player.isLocked()) {
-                    ctx.sendLocalized("commands.pet.locked_notice", EmoteReference.ERROR);
+                var lang = ctx.getLanguageContext();
+                if (!RatelimitUtils.ratelimit(petpetRatelimiter, ctx, lang.get("commands.pet.pat.ratelimit_message"), false))
+                    return;
+
+                var message = pet.handlePat().getMessage();
+                var extraMessage = "";
+                pet.increasePats();
+
+                if (pet.getPatCounter() > 50_000_000) { // how?
+                    ctx.reply("commands.pet.pat.too_many");
                     return;
                 }
 
-                if (!RatelimitUtils.ratelimit(petRemoveRatelimiter, ctx, false))
-                    return;
+                if (pet.getPatCounter() % 100 == 0) {
+                    extraMessage += "\n\n" + String.format(lang.get("commands.pet.pet_reactions.counter_100"), EmoteReference.BLUE_HEART);
+                }
 
-                var toRefund = (long) ((pet.getType().getCost() / 2) * 0.9);
-                var toRefundPersonal = (long) (pet.getType().getCost() * 0.9);
-
-                if (player.getData().getActiveChoice(marriage) == PetChoice.MARRIAGE) {
-                    if (marriage.isLocked()) {
-                        ctx.sendLocalized("commands.pet.locked_notice", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    ctx.sendLocalized("commands.pet.remove.confirm", EmoteReference.WARNING, toRefund);
-
-                    marriage.setLocked(true);
-                    marriage.save();
+                if (choice == PetChoice.MARRIAGE) {
+                    marriage.saveUpdating();
                 } else {
-                    ctx.sendLocalized("commands.pet.remove.confirm_personal", EmoteReference.WARNING, toRefundPersonal);
+                    player.saveUpdating();
                 }
 
-                player.setLocked(true);
-                player.save();
-
-                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 50, (e) -> {
-                    if (!e.getAuthor().equals(ctx.getAuthor()))
-                        return Operation.IGNORED;
-
-                    if (e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
-                        final var playerFinal = ctx.getPlayer();
-                        final var marriageConfirmed = ctx.getDBUser().getData().getMarriage();
-
-                        var petFinal = getCurrentPet(ctx, playerFinal, marriageConfirmed, "commands.pet.remove.no_pet");
-                        if (petFinal == null) {
-                            return Operation.COMPLETED;
-                        }
-
-                        var toRefundFinal = (long) ((petFinal.getType().getCost() / 2) * 0.9);
-                        var toRefundPersonalFinal = (long) (petFinal.getType().getCost() * 0.9);
-
-                        if (playerFinal.getData().getActiveChoice(marriageConfirmed) == PetChoice.MARRIAGE) {
-                            if (marriageConfirmed == null) {
-                                ctx.sendLocalized("commands.pet.buy.no_marriage_marry", EmoteReference.ERROR);
-                                return Operation.COMPLETED;
-                            }
-
-                            final var marriedWithPlayer = ctx.getPlayer(marriageConfirmed.getOtherPlayer(ctx.getAuthor().getId()));
-                            if (marriageConfirmed.getData().getPet() == null) {
-                                ctx.sendLocalized("commands.pet.remove.no_pet_confirm", EmoteReference.ERROR);
-                                return Operation.COMPLETED;
-                            }
-
-                            marriageConfirmed.getData().setPet(null);
-                            marriageConfirmed.setLocked(false);
-                            marriageConfirmed.save();
-
-                            marriedWithPlayer.addMoney(toRefundFinal);
-                            playerFinal.addMoney(toRefundFinal);
-                            playerFinal.setLocked(false);
-
-                            playerFinal.save();
-                            marriedWithPlayer.save();
-                            ctx.sendLocalized("commands.pet.remove.success", EmoteReference.CORRECT, toRefundFinal);
-                        } else {
-                            var playerData = playerFinal.getData();
-                            if (playerData.getPet() == null) {
-                                ctx.sendLocalized("commands.pet.remove.no_pet_confirm", EmoteReference.ERROR);
-                                return Operation.COMPLETED;
-                            }
-
-                            playerData.setPet(null);
-                            playerFinal.addMoney(toRefundPersonalFinal);
-                            playerFinal.setLocked(false);
-                            playerFinal.save();
-                            ctx.sendLocalized("commands.pet.remove.success_personal", EmoteReference.CORRECT, toRefundPersonalFinal);
-                        }
-
-                        return Operation.COMPLETED;
-                    }
-
-                    if (e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
-                        var marriageConfirmed = ctx.getDBUser().getData().getMarriage();
-                        var playerFinal = ctx.getPlayer();
-                        playerFinal.setLocked(false);
-                        playerFinal.save();
-
-                        marriageConfirmed.setLocked(false);
-                        marriageConfirmed.save();
-
-                        // This is reusing the string, nothing wrong here.
-                        ctx.sendLocalized("commands.pet.buy.cancel_success", EmoteReference.CORRECT);
-                        return Operation.COMPLETED;
-                    }
-
-                    return Operation.IGNORED;
-                });
-
+                ctx.replyStripped(message, pet.getType().getEmoji(), pet.getName(), pet.getPatCounter(), extraMessage);
             }
-        }).createSubCommandAlias("sell", "remove");
+        }
 
-        pet.addSubCommand("pet", new SubCommand() {
-            @Override
-            public String description() {
-                return "Pets your pet or someone else's pet. Usage: `~>pet pet [user]`. Cute.";
-            }
+        @Description("Cleans your pet when it's too dusty. Costs 600 credits.")
+        public static class Clean extends SlashCommand {
+            int basePrice = 600;
 
             @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                ctx.findMember(content, members -> {
-                    var member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
-                    if (member == null) {
-                        return;
-                    }
-
-                    var dbUser = ctx.getDBUser(member);
-                    var player = ctx.getPlayer(member);
-                    var playerData = player.getData();
-                    var marriage = dbUser.getData().getMarriage();
-                    var isCallerPetOwner = member.getId().equals(ctx.getUser().getId()) ||
-                        (marriage != null && member.getId().equals(marriage.getOtherPlayer(ctx.getUser().getId())));
-                    var pet = playerData.getPet();
-                    var choice = playerData.getActiveChoice(marriage);
-
-                    if (choice == PetChoice.MARRIAGE) {
-                        if (marriage == null) {
-                            if (isCallerPetOwner) {
-                                ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
-                            } else {
-                                ctx.sendLocalized("commands.pet.no_marriage_other", EmoteReference.ERROR, member.getEffectiveName());
-                            }
-
-                            return;
-                        }
-
-                        pet = marriage.getData().getPet();
-                    }
-
-                    if (!isCallerPetOwner && choice == PetChoice.PERSONAL) {
-                        ctx.sendLocalized("commands.pet.pat.personal_pet_other", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    if (pet == null) {
-                        if (isCallerPetOwner) {
-                            ctx.sendLocalized("commands.pet.pat.no_pet", EmoteReference.ERROR, choice.getReadableName());
-                        } else {
-                            ctx.sendLocalized("commands.pet.pat.no_pet_other", EmoteReference.ERROR, member.getEffectiveName());
-                        }
-
-                        return;
-                    }
-
-                    if (!RatelimitUtils.ratelimit(petpetRatelimiter, ctx, languageContext.get("commands.pet.pat.ratelimit_message"), false))
-                        return;
-
-                    var message = pet.handlePat().getMessage();
-                    var extraMessage = "";
-                    pet.increasePats();
-
-                    if (pet.getPatCounter() > 50_000_000) { // how?
-                        ctx.sendLocalized("commands.pet.pat.too_many");
-                        return;
-                    }
-
-                    if (pet.getPatCounter() % 100 == 0) {
-                        extraMessage += "\n\n" + String.format(ctx.getLanguageContext().get("commands.pet.pet_reactions.counter_100"), EmoteReference.BLUE_HEART);
-                    }
-
-                    if (choice == PetChoice.MARRIAGE) {
-                        marriage.saveUpdating();
-                    } else {
-                        player.saveUpdating();
-                    }
-
-                    ctx.sendStrippedLocalized(message, pet.getType().getEmoji(), pet.getName(), pet.getPatCounter(), extraMessage);
-                });
-            }
-        });
-
-        pet.addSubCommand("clean", new SubCommand() {
-            final long basePrice = 600L;
-
-            @Override
-            public String description() {
-                return "Cleans your pet when it's too dusty. Costs %s credits.".formatted(basePrice);
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 var player = ctx.getPlayer();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
@@ -554,12 +371,12 @@ public class PetCmds {
                 }
 
                 if (player.getCurrentMoney() < price) {
-                    ctx.sendStrippedLocalized("commands.pet.clean.not_enough_money", EmoteReference.ERROR, price, pet.getName());
+                    ctx.replyStripped("commands.pet.clean.not_enough_money", EmoteReference.ERROR, price, pet.getName());
                     return;
                 }
 
                 if (pet.getDust() < 20) {
-                    ctx.sendStrippedLocalized("commands.pet.clean.not_dusty", EmoteReference.ERROR, pet.getName(), pet.getDust());
+                    ctx.replyStripped("commands.pet.clean.not_dusty", EmoteReference.ERROR, pet.getName(), pet.getDust());
                     return;
                 }
 
@@ -570,75 +387,193 @@ public class PetCmds {
                     marriage.saveUpdating();
                 }
 
-                ctx.sendStrippedLocalized("commands.pet.clean.success", EmoteReference.CORRECT, pet.getName(), price);
+                ctx.replyStripped("commands.pet.clean.success", EmoteReference.CORRECT, pet.getName(), price);
             }
-        });
+        }
 
-        pet.addSubCommand("buy", new SubCommand() {
+        @Description("Sells this pet. This will *reset all pet stats*. Just like buying a new tamagotchi.")
+        public static class Sell extends SlashCommand {
             @Override
-            public String description() {
-                return "Buys a pet to have adventures with. You need to buy a pet house in market first. " +
-                       "Usage: `~>pet buy <name> <type>`";
+            protected void process(SlashContext ctx) {
+                var dbUser = ctx.getDBUser();
+                var marriage = dbUser.getData().getMarriage();
+                var player = ctx.getPlayer();
+                var pet = getCurrentPet(ctx, player, marriage, "commands.pet.remove.no_pet");
+                if (pet == null) {
+                    return;
+                }
+
+                if (player.isLocked()) {
+                    ctx.reply("commands.pet.locked_notice", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (!RatelimitUtils.ratelimit(petRemoveRatelimiter, ctx, false))
+                    return;
+
+                var toRefund = (long) ((pet.getType().getCost() / 2) * 0.9);
+                var toRefundPersonal = (long) (pet.getType().getCost() * 0.9);
+
+                Message message;
+                var lang = ctx.getLanguageContext();
+                if (player.getData().getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+                    if (marriage.isLocked()) {
+                        ctx.reply("commands.pet.locked_notice", EmoteReference.ERROR);
+                        return;
+                    }
+
+                    message = ctx.getEvent().getHook().sendMessage(lang.get("commands.pet.remove.confirm").formatted(EmoteReference.WARNING, toRefund)).complete();
+                    marriage.setLocked(true);
+                    marriage.save();
+                } else {
+                    message = ctx.getEvent().getHook().sendMessage(lang.get("commands.pet.remove.confirm_personal").formatted(EmoteReference.WARNING, toRefundPersonal)).complete();
+                }
+
+                player.setLocked(true);
+                player.save();
+
+                ButtonOperations.create(message, 60, event -> {
+                    if (!event.getUser().equals(ctx.getAuthor()))
+                        return Operation.IGNORED;
+
+                    var button = event.getButton();
+                    if (button == null || button.getId() == null) {
+                        return Operation.IGNORED;
+                    }
+
+                    var hook = event.getHook();
+                    if (button.getId().equals("yes-button")) {
+                        final var playerFinal = ctx.getPlayer();
+                        final var marriageConfirmed = ctx.getDBUser().getData().getMarriage();
+                        var petFinal = getCurrentPet(ctx, playerFinal, marriageConfirmed, "commands.pet.remove.no_pet");
+                        if (petFinal == null) {
+                            return Operation.COMPLETED;
+                        }
+
+                        var toRefundFinal = (long) ((petFinal.getType().getCost() / 2) * 0.9);
+                        var toRefundPersonalFinal = (long) (petFinal.getType().getCost() * 0.9);
+
+                        if (playerFinal.getData().getActiveChoice(marriageConfirmed) == PetChoice.MARRIAGE) {
+                            if (marriageConfirmed == null) {
+                                hook.editOriginal(lang.get("commands.pet.buy.no_marriage_marry").formatted(EmoteReference.ERROR)).setActionRow().queue();
+                                return Operation.COMPLETED;
+                            }
+
+                            final var marriedWithPlayer = ctx.getPlayer(marriageConfirmed.getOtherPlayer(ctx.getAuthor().getId()));
+                            if (marriageConfirmed.getData().getPet() == null) {
+                                hook.editOriginal(lang.get("commands.pet.remove.no_pet_confirm").formatted(EmoteReference.ERROR)).setActionRow().queue();
+                                return Operation.COMPLETED;
+                            }
+
+                            marriageConfirmed.getData().setPet(null);
+                            marriageConfirmed.setLocked(false);
+                            marriageConfirmed.save();
+
+                            marriedWithPlayer.addMoney(toRefundFinal);
+                            playerFinal.addMoney(toRefundFinal);
+                            playerFinal.setLocked(false);
+
+                            playerFinal.save();
+                            marriedWithPlayer.save();
+                            hook.editOriginal(lang.get("commands.pet.remove.success").formatted(EmoteReference.CORRECT, toRefundFinal)).setActionRow().queue();
+                        } else {
+                            var playerData = playerFinal.getData();
+                            if (playerData.getPet() == null) {
+                                hook.editOriginal(lang.get("commands.pet.remove.no_pet_confirm").formatted(EmoteReference.ERROR)).setActionRow().queue();
+                                return Operation.COMPLETED;
+                            }
+
+                            playerData.setPet(null);
+                            playerFinal.addMoney(toRefundPersonalFinal);
+                            playerFinal.setLocked(false);
+                            playerFinal.save();
+                            hook.editOriginal(lang.get("commands.pet.remove.success_personal").formatted(EmoteReference.CORRECT, toRefundPersonalFinal)).setActionRow().queue();
+                        }
+
+                        return Operation.COMPLETED;
+                    }
+
+                    if (button.getId().equals("no-button")) {
+                        var marriageConfirmed = ctx.getDBUser().getData().getMarriage();
+                        var playerFinal = ctx.getPlayer();
+                        playerFinal.setLocked(false);
+                        playerFinal.save();
+
+                        if (player.getData().getActiveChoice(marriage) == PetChoice.MARRIAGE && marriageConfirmed != null) {
+                            marriageConfirmed.setLocked(false);
+                            marriageConfirmed.save();
+                        }
+
+                        // This is reusing the string, nothing wrong here.
+                        hook.editOriginal(lang.get("commands.pet.buy.cancel_success").formatted(EmoteReference.CORRECT)).setActionRow().queue();
+                        return Operation.COMPLETED;
+                    }
+
+                    return Operation.IGNORED;
+                }, Button.danger("yes-button", lang.get("buttons.yes")),
+                        Button.primary("no-button", lang.get("buttons.no"))
+                );
             }
+        }
 
+        @Description("Buys a pet to have adventures with. You need to buy a pet house in market first.")
+        @Options({
+                @Options.Option(type = OptionType.STRING, name = "type", description = "The pet type. Use /pet list for a list.", required = true),
+                @Options.Option(type = OptionType.STRING, name = "name", description = "The pet name.", required = true)
+        })
+        public static class Buy extends SlashCommand {
             @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 var player = ctx.getPlayer();
                 var playerData = player.getData();
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
-                var args = ctx.getArguments();
-
-                if (args.length < 2) {
-                    ctx.sendLocalized("commands.pet.buy.not_enough_arguments", EmoteReference.ERROR);
-                    return;
-                }
-                var name = args[0].replace("\n", "").trim();
-                var type = args[1];
+                var name = ctx.getOptionAsString("name").replace("\n", "").trim();
+                var type = ctx.getOptionAsString("type");
 
                 final var petChoice = playerData.getActiveChoice(marriage);
                 if (petChoice == PetChoice.MARRIAGE) {
                     if (marriage == null) {
-                        ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
+                        ctx.reply("commands.pet.no_marriage", EmoteReference.ERROR);
                         return;
                     }
 
                     var marriageData = marriage.getData();
                     if (!marriageData.hasCar() || !marriageData.hasHouse()) {
-                        ctx.sendLocalized("commands.pet.buy.no_requirements", EmoteReference.ERROR, marriageData.hasHouse(), marriageData.hasCar());
+                        ctx.reply("commands.pet.buy.no_requirements", EmoteReference.ERROR, marriageData.hasHouse(), marriageData.hasCar());
                         return;
                     }
 
                     if (marriage.isLocked()) {
-                        ctx.sendLocalized("commands.pet.locked_notice", EmoteReference.ERROR);
+                        ctx.reply("commands.pet.locked_notice", EmoteReference.ERROR);
                         return;
                     }
                 }
 
                 if (petChoice == PetChoice.PERSONAL && !playerInventory.containsItem(ItemReference.INCUBATOR_EGG)) {
-                    ctx.sendLocalized("commands.pet.buy.no_egg", EmoteReference.ERROR);
+                    ctx.reply("commands.pet.buy.no_egg", EmoteReference.ERROR);
                     return;
                 }
 
                 if (!playerInventory.containsItem(ItemReference.PET_HOUSE)) {
-                    ctx.sendLocalized("commands.pet.buy.no_house", EmoteReference.ERROR);
+                    ctx.reply("commands.pet.buy.no_house", EmoteReference.ERROR);
                     return;
                 }
 
                 if (getCurrentPet(ctx) != null) {
-                    ctx.sendLocalized("commands.pet.buy.already_has_pet", EmoteReference.ERROR, petChoice);
+                    ctx.reply("commands.pet.buy.already_has_pet", EmoteReference.ERROR, petChoice);
                     return;
                 }
 
                 if (player.isLocked()) {
-                    ctx.sendLocalized("commands.pet.locked_notice", EmoteReference.ERROR);
+                    ctx.reply("commands.pet.locked_notice", EmoteReference.ERROR);
                     return;
                 }
 
                 var toBuy = HousePetType.lookupFromString(type);
                 if (toBuy == null) {
-                    ctx.sendLocalized("commands.pet.buy.nothing_found", EmoteReference.ERROR, type,
+                    ctx.reply("commands.pet.buy.nothing_found", EmoteReference.ERROR, type,
                             Arrays.stream(HousePetType.values())
                                     .filter(HousePetType::isBuyable)
                                     .map(HousePetType::getName)
@@ -648,12 +583,12 @@ public class PetCmds {
                 }
 
                 if (player.getCurrentMoney() < toBuy.getCost()) {
-                    ctx.sendLocalized("commands.pet.buy.not_enough_money", EmoteReference.ERROR, toBuy.getCost(), player.getCurrentMoney());
+                    ctx.reply("commands.pet.buy.not_enough_money", EmoteReference.ERROR, toBuy.getCost(), player.getCurrentMoney());
                     return;
                 }
 
                 if (name.length() > 150) {
-                    ctx.sendLocalized("commands.pet.buy.too_long", EmoteReference.ERROR);
+                    ctx.reply("commands.pet.buy.too_long", EmoteReference.ERROR);
                     return;
                 }
 
@@ -668,13 +603,27 @@ public class PetCmds {
                 player.saveUpdating();
 
                 var finalName = name;
-                ctx.sendLocalized("commands.pet.buy.confirm", EmoteReference.WARNING, name, type, toBuy.getCost(), petChoice.getReadableName());
-                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, (e) -> {
-                    if (!e.getAuthor().equals(ctx.getAuthor())) {
+                var message = ctx.getEvent()
+                        .getHook()
+                        .sendMessage(
+                                String.format(
+                                        ctx.getLanguageContext().get("commands.pet.buy.confirm"),
+                                        EmoteReference.WARNING, name, type, toBuy.getCost(), petChoice.getReadableName()
+                                )
+                        ).complete();
+                ButtonOperations.create(message, 60, event -> {
+                    if (!event.getUser().equals(ctx.getAuthor())) {
                         return Operation.IGNORED;
                     }
 
-                    if (e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
+                    var button = event.getButton();
+                    if (button == null || button.getId() == null) {
+                        return Operation.IGNORED;
+                    }
+
+                    var lang = ctx.getLanguageContext();
+                    var hook = event.getHook();
+                    if (button.getId().equals("yes-button")) {
                         var playerConfirmed = ctx.getPlayer();
                         var playerInventoryConfirmed = playerConfirmed.getInventory();
                         var playerDataConfirmed = playerConfirmed.getData();
@@ -686,7 +635,7 @@ public class PetCmds {
                             playerConfirmed.setLocked(false);
                             playerConfirmed.saveUpdating();
 
-                            ctx.sendLocalized("commands.pet.buy.no_egg", EmoteReference.ERROR);
+                            hook.editOriginal(lang.get("commands.pet.buy.no_egg").formatted(EmoteReference.ERROR)).setActionRow().queue();
                             return Operation.COMPLETED;
                         }
 
@@ -698,7 +647,7 @@ public class PetCmds {
                             marriageConfirmed.setLocked(false);
                             marriageConfirmed.saveUpdating();
 
-                            ctx.sendLocalized("commands.pet.buy.no_house", EmoteReference.ERROR);
+                            hook.editOriginal(lang.get("commands.pet.buy.no_house").formatted(EmoteReference.ERROR)).setActionRow().queue();
                             return Operation.COMPLETED;
                         }
 
@@ -709,13 +658,13 @@ public class PetCmds {
                             marriageConfirmed.setLocked(false);
                             marriageConfirmed.saveUpdating();
 
-                            ctx.sendLocalized("commands.pet.buy.not_enough_money", EmoteReference.ERROR, toBuy.getCost());
+                            hook.editOriginal(lang.get("commands.pet.buy.not_enough_money").formatted(EmoteReference.ERROR, toBuy.getCost())).setActionRow().queue();
                             return Operation.COMPLETED;
                         }
 
                         if (petChoiceConfirmed == PetChoice.MARRIAGE) {
                             if (marriageConfirmed == null) {
-                                ctx.sendLocalized("commands.pet.buy.no_marriage_marry", EmoteReference.ERROR);
+                                hook.editOriginal(lang.get("commands.pet.buy.no_marriage_marry").formatted(EmoteReference.ERROR)).setActionRow().queue();
                                 return Operation.COMPLETED;
                             }
                             var marriageDataConfirmed = marriageConfirmed.getData();
@@ -723,9 +672,9 @@ public class PetCmds {
                                 playerConfirmed.setLocked(false);
                                 playerConfirmed.saveUpdating();
 
-                                ctx.sendLocalized("commands.pet.buy.no_requirements",
+                                hook.editOriginal(lang.get("commands.pet.buy.no_requirements").formatted(
                                         EmoteReference.ERROR, marriageDataConfirmed.hasHouse(), marriageDataConfirmed.hasCar()
-                                );
+                                )).queue();
                                 return Operation.COMPLETED;
                             }
 
@@ -752,47 +701,48 @@ public class PetCmds {
                         playerConfirmed.save();
 
                         if (petChoiceConfirmed == PetChoice.MARRIAGE) {
-                            ctx.sendLocalized("commands.pet.buy.success",
+                            hook.editOriginal(lang.get("commands.pet.buy.success").formatted(
                                     EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), finalName,
                                     toBuy.getCost(), petChoiceConfirmed.getReadableName()
-                            );
+                            )).queue();
                         } else {
-                            ctx.sendLocalized("commands.pet.buy.success_personal",
+                            hook.editOriginal(lang.get("commands.pet.buy.success_personal").formatted(
                                     EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), finalName,
                                     toBuy.getCost(), petChoiceConfirmed.getReadableName()
-                            );
+                            )).queue();
                         }
 
                         return Operation.COMPLETED;
                     }
 
-                    if (e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
+                    if (button.getId().equals("no-button")) {
                         var playerConfirmed = ctx.getPlayer();
                         var marriageConfirmed = ctx.getDBUser().getData().getMarriage();
-
-                        marriageConfirmed.setLocked(false);
-                        marriageConfirmed.save();
+                        // Original player is fine, we checked it originally with this.
+                        if (player.getData().getActiveChoice(marriage) == PetChoice.MARRIAGE && marriageConfirmed != null) {
+                            marriageConfirmed.setLocked(false);
+                            marriageConfirmed.save();
+                        }
 
                         playerConfirmed.setLocked(false);
                         playerConfirmed.save();
 
-                        ctx.sendLocalized("commands.pet.buy.cancel_success", EmoteReference.CORRECT);
+                        hook.editOriginal(lang.get("commands.pet.buy.cancel_success").formatted(EmoteReference.CORRECT)).setActionRow().queue();
                         return Operation.COMPLETED;
                     }
 
                     return Operation.IGNORED;
-                });
+                }, Button.primary("yes-button", ctx.getLanguageContext().get("buttons.yes")),
+                        Button.primary("no-button", ctx.getLanguageContext().get("buttons.no"))
+                );
             }
-        });
+        }
 
-        pet.addSubCommand("rename", new SubCommand() {
+        @Description("Renames your pet.")
+        @Options(@Options.Option(type = OptionType.STRING, name = "name", description = "The new name.", required = true))
+        public static class Rename extends SlashCommand {
             @Override
-            public String description() {
-                return "Renames your pet. Usage: `~>pet rename <name>`";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 var player = ctx.getPlayer();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
@@ -803,31 +753,32 @@ public class PetCmds {
                     return;
                 }
 
-                content = content.replace("\n", "").trim();
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.pet.rename.no_content", EmoteReference.ERROR);
+                var newName = ctx.getOptionAsString("name");
+                newName = newName.replace("\n", "").trim();
+                if (newName.isEmpty()) {
+                    ctx.reply("commands.pet.rename.no_content", EmoteReference.ERROR);
                     return;
                 }
 
-                if (content.length() > 150) {
-                    ctx.sendLocalized("commands.pet.buy.too_long", EmoteReference.ERROR);
+                if (newName.length() > 150) {
+                    ctx.reply("commands.pet.buy.too_long", EmoteReference.ERROR);
                     return;
                 }
 
-                if (content.equals(pet.getName())) {
-                    ctx.sendLocalized("commands.pet.rename.same_name", EmoteReference.ERROR);
+                if (newName.equals(pet.getName())) {
+                    ctx.reply("commands.pet.rename.same_name", EmoteReference.ERROR);
                     return;
                 }
 
                 if (player.getCurrentMoney() < cost) {
-                    ctx.sendLocalized("commands.pet.rename.not_enough_money", EmoteReference.ERROR, cost, player.getCurrentMoney());
+                    ctx.reply("commands.pet.rename.not_enough_money", EmoteReference.ERROR, cost, player.getCurrentMoney());
                     return;
                 }
 
-                content = Utils.HTTP_URL.matcher(content).replaceAll("-url-");
+                newName = Utils.HTTP_URL.matcher(newName).replaceAll("-url-");
 
                 var oldName = pet.getName();
-                pet.setName(content);
+                pet.setName(newName);
                 player.removeMoney(cost);
 
                 if (player.getData().getActiveChoice(marriage) == PetChoice.MARRIAGE) {
@@ -836,65 +787,51 @@ public class PetCmds {
                     player.saveUpdating();
                 }
 
-                ctx.sendLocalized("commands.pet.rename.success", EmoteReference.POPPER, oldName, content, cost);
+                ctx.replyStripped("commands.pet.rename.success", EmoteReference.POPPER, oldName, newName, cost);
             }
-        });
+        }
 
-        pet.addSubCommand("feed", new SubCommand() {
+        @Description("Feeds your pet.")
+        @Options({
+                @Options.Option(type = OptionType.STRING, name = "item", description = "The item to feed your pet with.", required = true),
+                @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of food to give the pet. Defaults to 1.", maxValue = 10),
+                @Options.Option(type = OptionType.BOOLEAN, name = "full", description = "Give all the food possible. Makes it so amount is ignored.")
+        })
+        public static class Feed extends SlashCommand {
             @Override
-            public String description() {
-                return "Feeds your pet. Needed food may vary per pet. Usage: `~>pet feed <food> [amount]`";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 var player = ctx.getPlayer();
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
-                var args = ctx.getArguments();
-                var food = content;
-                var amount = 1;
+                var food = ctx.getOptionAsString("item");
+                var amount = ctx.getOptionAsInteger("item", 1);
                 var marriage = dbUser.getData().getMarriage();
 
-                var isFull = false;
-                if (args.length > 1) {
-                    if (args[1].equalsIgnoreCase("full")) {
-                        food = args[0];
-                        isFull = true;
-                    } else {
-                        try {
-                            amount = Math.abs(Integer.parseInt(args[1]));
-                            food = args[0];
-                        } catch (Exception ignored) {
-                            food = content;
-                        }
-                    }
-                }
-
+                var isFull = ctx.getOptionAsBoolean("full");
                 var pet = getCurrentPet(ctx, player, marriage, "commands.pet.feed.no_pet");
                 if (pet == null) {
                     return;
                 }
 
                 if (food.isEmpty()) {
-                    ctx.sendLocalized("commands.pet.feed.no_content", EmoteReference.ERROR);
+                    ctx.reply("commands.pet.feed.no_content", EmoteReference.ERROR);
                     return;
                 }
 
                 var item = ItemHelper.fromAnyNoId(food, ctx.getLanguageContext());
                 if (item.isEmpty()) {
-                    ctx.sendLocalized("commands.pet.feed.no_item", EmoteReference.ERROR);
+                    ctx.reply("commands.pet.feed.no_item", EmoteReference.ERROR);
                     return;
                 }
 
                 var itemObject = item.get();
                 if (!(itemObject instanceof Food)) {
-                    ctx.sendLocalized("commands.pet.feed.not_food", EmoteReference.ERROR);
+                    ctx.reply("commands.pet.feed.not_food", EmoteReference.ERROR);
                     return;
                 }
 
                 if (pet.getHunger() > 95) {
-                    ctx.sendLocalized("commands.pet.feed.no_need", EmoteReference.ERROR);
+                    ctx.reply("commands.pet.feed.no_need", EmoteReference.ERROR);
                     return;
                 }
 
@@ -912,19 +849,19 @@ public class PetCmds {
                 }
 
                 if (amount > playerInventory.getAmount(itemObject)) {
-                    ctx.sendLocalized("commands.pet.feed.not_inventory", EmoteReference.ERROR, amount);
+                    ctx.reply("commands.pet.feed.not_inventory", EmoteReference.ERROR, amount);
                     return;
                 }
 
                 if (foodItem.getType().getApplicableType() != pet.getType() &&
                         foodItem.getType() != Food.FoodType.GENERAL) {
-                    ctx.sendLocalized("commands.pet.feed.not_applicable", EmoteReference.ERROR);
+                    ctx.reply("commands.pet.feed.not_applicable", EmoteReference.ERROR);
                     return;
                 }
 
 
                 if ((pet.getHunger() + increase) > (91 + foodItem.getHungerLevel())) {
-                    ctx.sendLocalized("commands.pet.feed.too_much", EmoteReference.ERROR);
+                    ctx.reply("commands.pet.feed.too_much", EmoteReference.ERROR);
                     return;
                 }
 
@@ -939,49 +876,39 @@ public class PetCmds {
                     marriage.saveUpdating();
                 }
 
-                ctx.sendLocalized("commands.pet.feed.success", EmoteReference.POPPER, foodItem.getName(), amount, increase, pet.getHunger());
+                ctx.reply("commands.pet.feed.success", EmoteReference.POPPER, foodItem.getName(), amount, increase, pet.getHunger());
             }
-        });
+        }
 
-        pet.addSubCommand("hydrate", new SubCommand() {
+        @Description("Hydrates your pet.")
+        @Options({
+                @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of water to give the pet. Defaults to 1.", maxValue = 10),
+                @Options.Option(type = OptionType.BOOLEAN, name = "full", description = "Give all the water possible. Makes it so amount is ignored.")
+        })
+        public static class Hydrate extends SlashCommand {
             @Override
-            public String description() {
-                return "Hydrates your pet. Usage: `~>pet hydrate [amount]`";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(SlashContext ctx) {
                 var player = ctx.getPlayer();
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
-                int amount = 1;
+                var amount = ctx.getOptionAsInteger("amount", 1);
                 var baseline = 15;
 
-                var isFull = false;
-                if (!content.isEmpty()) {
-                    if (content.equalsIgnoreCase("full")) {
-                        isFull = true;
-                    } else {
-                        try {
-                            amount = Math.abs(Integer.parseInt(content));
-                        } catch (Exception ignored) { }
-                    }
-                }
-
+                var isFull = ctx.getOptionAsBoolean("full");
                 var pet = getCurrentPet(ctx, player, marriage, "commands.pet.water.no_pet");
                 if (pet == null) {
                     return;
                 }
 
                 if (pet.getThirst() > 95) {
-                    ctx.sendLocalized("commands.pet.water.no_need", EmoteReference.ERROR);
+                    ctx.reply("commands.pet.water.no_need", EmoteReference.ERROR);
                     return;
                 }
 
                 var item = ItemReference.WATER_BOTTLE;
-
                 if (isFull) {
+                    // Reassign.
                     amount = (100 - pet.getThirst()) / baseline;
                     if (pet.getThirst() + (baseline * amount) < 100 || amount == 0) {
                         amount += 1;
@@ -990,17 +917,17 @@ public class PetCmds {
 
                 var increase = baseline * amount;
                 if (!playerInventory.containsItem(item)) {
-                    ctx.sendLocalized("commands.pet.water.not_inventory", EmoteReference.ERROR);
+                    ctx.reply("commands.pet.water.not_inventory", EmoteReference.ERROR);
                     return;
                 }
 
                 if (playerInventory.getAmount(item) < amount) {
-                    ctx.sendLocalized("commands.pet.water.not_enough_inventory", EmoteReference.ERROR, amount);
+                    ctx.reply("commands.pet.water.not_enough_inventory", EmoteReference.ERROR, amount);
                     return;
                 }
 
                 if ((pet.getThirst() + increase) > 110) {
-                    ctx.sendLocalized("commands.pet.water.too_much", EmoteReference.ERROR);
+                    ctx.reply("commands.pet.water.too_much", EmoteReference.ERROR);
                     return;
                 }
 
@@ -1015,27 +942,22 @@ public class PetCmds {
                     marriage.saveUpdating();
                 }
 
-                ctx.sendLocalized("commands.pet.water.success", EmoteReference.POPPER, amount, increase, pet.getThirst());
+                ctx.reply("commands.pet.water.success", EmoteReference.POPPER, amount, increase, pet.getThirst());
             }
-        });
+        }
 
-        // I guess...
-        pet.createSubCommandAlias("hydrate", "water");
-
-        pet.addSubCommand("info", new SubCommand() {
+        @Description("Shows info about a pet type.")
+        @Options(@Options.Option(type = OptionType.STRING, name = "type", description = "The pet type to check.", required = true))
+        public static class Info extends SlashCommand {
             @Override
-            public String description() {
-                return "Shows info about a pet type.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                var lookup = HousePetType.lookupFromString(content);
+            protected void process(SlashContext ctx) {
+                var lookup = HousePetType.lookupFromString(ctx.getOptionAsString("type"));
                 if (lookup == null) {
-                    ctx.sendLocalized("commands.pet.info.not_found", EmoteReference.ERROR);
+                    ctx.reply("commands.pet.info.not_found", EmoteReference.ERROR);
                     return;
                 }
 
+                var languageContext = ctx.getLanguageContext();
                 var emoji = lookup.getEmoji();
                 var name = lookup.getName();
                 var cost = lookup.getCost();
@@ -1080,15 +1002,15 @@ public class PetCmds {
                 if (!baseAbilities.stream().allMatch(ability -> ability == HousePetType.HousePetAbility.CATCH)) {
                     embed.addField(EmoteReference.ZAP.toHeaderString() +
                                     languageContext.get("commands.pet.info.item_buildup"),
-                                    "%,d items / %,d items".formatted(itemBuildup, itemBuildup100), false);
+                            "%,d items / %,d items".formatted(itemBuildup, itemBuildup100), false);
                 }
 
-                ctx.send(embed.build());
+                ctx.reply(embed.build());
             }
-        });
+        }
     }
 
-    private HousePet getCurrentPet(Context ctx) {
+    private static HousePet getCurrentPet(SlashContext ctx) {
         final var playerData = ctx.getPlayer().getData();
         final var marriage = ctx.getMarriage(ctx.getDBUser().getData());
 
@@ -1103,7 +1025,7 @@ public class PetCmds {
         }
     }
 
-    private Pair<PetChoice, HousePet> getPetOpposite(Player player, Marriage marriage) {
+    private static Pair<PetChoice, HousePet> getPetOpposite(Player player, Marriage marriage) {
         final var playerData = player.getData();
         final var petChoice = playerData.getActiveChoice(marriage);
         if (petChoice == PetChoice.PERSONAL) {
@@ -1119,7 +1041,7 @@ public class PetCmds {
         }
     }
 
-    private HousePet getCurrentPet(Context ctx, Player player, Marriage marriage, String missing) {
+    private static HousePet getCurrentPet(SlashContext ctx, Player player, Marriage marriage, String missing) {
         final var playerData = player.getData();
         final var petChoice = playerData.getActiveChoice(marriage);
         final var languageContext = ctx.getLanguageContext();
@@ -1133,14 +1055,14 @@ public class PetCmds {
                      languageContext.get("commands.pet.status.pet_in_other_category")
                             .formatted(EmoteReference.WARNING, Utils.capitalize(opposite.getLeft().toString()), oppositePet.getName());
 
-                ctx.sendLocalized(missing, EmoteReference.ERROR, petChoice.getReadableName(), extra);
+                ctx.replyStripped(missing, EmoteReference.ERROR, petChoice.getReadableName(), extra);
                 return null;
             }
 
             return personalPet;
         } else {
             if (marriage == null) {
-                ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
+                ctx.reply("commands.pet.no_marriage", EmoteReference.ERROR);
                 return null;
             }
 
@@ -1153,7 +1075,7 @@ public class PetCmds {
                         languageContext.get("commands.pet.status.pet_in_other_category")
                              .formatted(EmoteReference.WARNING, Utils.capitalize(opposite.getLeft().toString()), oppositePet.getName());
 
-                ctx.sendLocalized(missing, EmoteReference.ERROR, petChoice.getReadableName(), extra);
+                ctx.replyStripped(missing, EmoteReference.ERROR, petChoice.getReadableName(), extra);
                 return null;
             }
 

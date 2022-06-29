@@ -18,23 +18,22 @@ package net.kodehawa.mantarobot.commands.action;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
+import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
-import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
-public class ImageActionCmd extends NoArgsCommand {
+public class ImageActionSlash extends SlashCommand {
     private final String desc;
     private final String format;
     private final String lonelyLine;
@@ -48,9 +47,9 @@ public class ImageActionCmd extends NoArgsCommand {
     private final EmoteReference emoji;
     private final String botLine;
 
-    public ImageActionCmd(String name, String desc, EmoteReference emoji,
+    public ImageActionSlash(String name, String desc, EmoteReference emoji,
                           String format, List<String> images, String lonelyLine, String botLine, boolean swap) {
-        super(CommandCategory.ACTION);
+        super.setCategory(CommandCategory.ACTION);
         this.name = name;
         this.desc = desc;
         this.format = format;
@@ -60,11 +59,16 @@ public class ImageActionCmd extends NoArgsCommand {
         this.swapNames = swap;
         this.botLine = botLine;
         this.rateLimiter = buildRatelimiter(name);
+        super.setHelp(new HelpContent.Builder()
+                .setDescription(desc)
+                .setUsagePrefixed(name + " @user")
+                .build()
+        );
     }
 
-    public ImageActionCmd(String name, String desc, EmoteReference emoji,
+    public ImageActionSlash(String name, String desc, EmoteReference emoji,
                           String format, String type, String lonelyLine, String botLine) {
-        super(CommandCategory.ACTION);
+        super.setCategory(CommandCategory.ACTION);
         this.name = name;
         this.desc = desc;
         this.format = format;
@@ -74,11 +78,16 @@ public class ImageActionCmd extends NoArgsCommand {
         this.type = type;
         this.botLine = botLine;
         this.rateLimiter = buildRatelimiter(name);
+        super.setHelp(new HelpContent.Builder()
+                .setDescription(desc)
+                .setUsage("`/" + name.toLowerCase() + " [@user]`")
+                .build()
+        );
     }
 
-    public ImageActionCmd(String name, String desc, EmoteReference emoji,
+    public ImageActionSlash(String name, String desc, EmoteReference emoji,
                           String format, String type, String lonelyLine, String botLine, boolean swap) {
-        super(CommandCategory.ACTION);
+        super.setCategory(CommandCategory.ACTION);
         this.name = name;
         this.desc = desc;
         this.format = format;
@@ -89,6 +98,11 @@ public class ImageActionCmd extends NoArgsCommand {
         this.type = type;
         this.botLine = botLine;
         this.rateLimiter = buildRatelimiter(name);
+        super.setHelp(new HelpContent.Builder()
+                .setDescription(desc)
+                .setUsage("`/" + name.toLowerCase() + " [@user]`")
+                .build()
+        );
     }
 
     private IncreasingRateLimiter buildRatelimiter(String name) {
@@ -104,7 +118,8 @@ public class ImageActionCmd extends NoArgsCommand {
     }
 
     @Override
-    protected void call(Context ctx, String content) {
+    public void process(SlashContext ctx) {
+        ctx.defer();
         if (!RatelimitUtils.ratelimit(rateLimiter, ctx, null)) {
             return;
         }
@@ -117,7 +132,7 @@ public class ImageActionCmd extends NoArgsCommand {
                 var image = result.getKey();
 
                 if (image == null) {
-                    ctx.sendLocalized("commands.action.error_retrieving", EmoteReference.SAD);
+                    ctx.reply("commands.action.error_retrieving", EmoteReference.SAD);
                     return;
                 }
 
@@ -125,51 +140,35 @@ public class ImageActionCmd extends NoArgsCommand {
                 random = images.get(0); //Guaranteed random selection :^).
             } else {
                 if (images.isEmpty()) {
-                    ctx.sendLocalized("commands.action.no_type", EmoteReference.ERROR);
+                    ctx.reply("commands.action.no_type", EmoteReference.ERROR);
                     return;
                 }
 
                 random = images.get(rand.nextInt(images.size()));
             }
         } catch (Exception e) {
-            ctx.sendLocalized("commands.action.error_retrieving", EmoteReference.ERROR);
+            ctx.reply("commands.action.error_retrieving", EmoteReference.ERROR);
             return;
         }
 
         try {
-            var mentionedMembers = ctx.getMentionedMembers();
-            if (mentionedMembers.isEmpty()) {
-                ctx.sendLocalized("commands.action.no_mention", EmoteReference.ERROR);
+            var user = ctx.getOptionAsUser("user");
+            if (user == null) { // Shouldn't be possible, but just in case.
+                ctx.reply("commands.action.no_mention", EmoteReference.ERROR);
                 return;
             }
 
-            boolean filtered = false;
-            if (mentionedMembers.size() == 1) {
-                final var dbUser = ctx.getDBUser(mentionedMembers.get(0).getId());
-                if (dbUser.getData().isActionsDisabled()) {
-                    ctx.sendLocalized("commands.action.actions_disabled", EmoteReference.ERROR);
-                    return;
-                }
-            } else {
-                var filter = mentionedMembers.stream()
-                        .filter(member -> ctx.getDBUser(member).getData().isActionsDisabled()).toList();
-
-                // Needs to be mutable.
-                mentionedMembers = new ArrayList<>(mentionedMembers);
-                if (mentionedMembers.removeAll(filter)) {
-                    filtered = true;
-                }
-
-                if (mentionedMembers.isEmpty()) {
-                    ctx.sendLocalized("commands.action.no_mention_disabled", EmoteReference.ERROR);
-                    return;
-                }
+            var member = ctx.getGuild().getMember(user);
+            final var dbUser = ctx.getDBUser(user.getId());
+            if (dbUser.getData().isActionsDisabled()) {
+                ctx.reply("commands.action.actions_disabled", EmoteReference.ERROR);
+                return;
             }
 
             var toSend = new MessageBuilder()
                     .append(emoji)
                     .append(String.format(languageContext.get(format),
-                            "**%s**".formatted(noMentions(mentionedMembers)),
+                            "**%s**".formatted(member.getEffectiveName()),
                             "**%s**".formatted(ctx.getMember().getEffectiveName()))
                     );
 
@@ -180,64 +179,42 @@ public class ImageActionCmd extends NoArgsCommand {
                         .append(String.format(
                                 languageContext.get(format),
                                 "**%s**".formatted(ctx.getMember().getEffectiveName()),
-                                "**%s**".formatted(noMentions(mentionedMembers))
-                        ));
+                                "**%s**".formatted(member.getEffectiveName()))
+                        );
             }
 
-            if (isLonely(ctx)) {
+            if (isLonely(ctx, user)) {
                 toSend = new MessageBuilder()
                         .append("**")
                         .append(languageContext.get(lonelyLine))
                         .append("**");
             }
 
-            if (isMentioningBot(ctx)) {
+            if (isMentioningBot(ctx, user)) {
                 toSend = new MessageBuilder()
                         .append("**")
                         .append(languageContext.get(botLine))
                         .append("**");
             }
 
-            if (filtered) {
-                toSend.append("\n").append(
-                        String.format(languageContext.get("commands.action.filtered"), EmoteReference.WARNING)
-                );
-            }
-
-            var member = ctx.getMember();
             toSend.setEmbeds(new EmbedBuilder()
                     .setColor(ctx.getMemberColor())
                     .setImage(random)
                     .build()
             );
 
-            ctx.getChannel().sendMessage(toSend.build()).queue();
+            ctx.getEvent().getHook().sendMessage(toSend.build()).queue();
         } catch (Exception e) {
             e.printStackTrace();
-            ctx.sendLocalized("commands.action.permission_or_unexpected_error", EmoteReference.ERROR);
+            ctx.reply("commands.action.permission_or_unexpected_error", EmoteReference.ERROR);
         }
     }
 
-    @Override
-    public HelpContent help() {
-        return new HelpContent.Builder()
-                .setDescription(desc)
-                .setUsagePrefixed(name + " @user")
-                .build();
+    private boolean isMentioningBot(SlashContext ctx, User user) {
+        return user.getIdLong() == ctx.getSelfUser().getIdLong();
     }
 
-    private boolean isMentioningBot(Context ctx) {
-        return ctx.getMentionedUsers().stream().anyMatch(user -> user.getIdLong() == ctx.getSelfUser().getIdLong());
-    }
-
-    private boolean isLonely(Context ctx) {
-        return ctx.getMentionedUsers().stream().anyMatch(user -> user.getId().equals(ctx.getAuthor().getId()));
-    }
-
-    private String noMentions(List<Member> mentions) {
-        return mentions.stream()
-                .map(Member::getEffectiveName)
-                .collect(Collectors.joining(", "))
-                .trim();
+    private boolean isLonely(SlashContext ctx, User user) {
+        return user.getIdLong() == ctx.getAuthor().getIdLong();
     }
 }

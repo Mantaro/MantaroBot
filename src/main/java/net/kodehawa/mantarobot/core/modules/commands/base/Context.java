@@ -19,14 +19,14 @@ package net.kodehawa.mantarobot.core.modules.commands.base;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.concurrent.Task;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
+import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -36,25 +36,26 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
+import net.kodehawa.mantarobot.utils.commands.UtilsContext;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitContext;
 import redis.clients.jedis.JedisPool;
 
-import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 
-public class Context {
+public class Context implements IContext {
     private final MantaroBot bot = MantaroBot.getInstance();
     private final ManagedDatabase managedDatabase = MantaroData.db();
     private final Config config = MantaroData.config().get();
 
-    private final GuildMessageReceivedEvent event;
+    private final MessageReceivedEvent event;
     private final String content;
     private final boolean isMentionPrefix;
     private I18nContext languageContext;
 
-    public Context(GuildMessageReceivedEvent event, I18nContext languageContext, String content, boolean isMentionPrefix) {
+    public Context(MessageReceivedEvent event, I18nContext languageContext, String content, boolean isMentionPrefix) {
         this.event = event;
         this.languageContext = languageContext;
         this.content = content;
@@ -73,7 +74,7 @@ public class Context {
         return managedDatabase;
     }
 
-    public GuildMessageReceivedEvent getEvent() {
+    public MessageReceivedEvent getEvent() {
         return event;
     }
 
@@ -90,7 +91,7 @@ public class Context {
     }
 
     public List<User> getMentionedUsers() {
-        final var mentionedUsers = getEvent().getMessage().getMentionedUsers();
+        final var mentionedUsers = getEvent().getMessage().getMentions().getUsers();
         if (isMentionPrefix) {
             final var mutable = new LinkedList<>(mentionedUsers);
             return mutable.subList(1, mutable.size());
@@ -100,13 +101,17 @@ public class Context {
     }
 
     public List<Member> getMentionedMembers() {
-        final var mentionedMembers = getEvent().getMessage().getMentionedMembers();
+        final var mentionedMembers = getEvent().getMessage().getMentions().getMembers();
         if (isMentionPrefix) {
             final var mutable = new LinkedList<>(mentionedMembers);
             return mutable.subList(1, mutable.size());
         }
 
         return mentionedMembers;
+    }
+
+    public RatelimitContext ratelimitContext() {
+        return new RatelimitContext(getGuild(), getMessage(), getChannel(), getEvent(), null);
     }
 
     public Member getMember() {
@@ -137,8 +142,8 @@ public class Context {
         return getGuild().getSelfMember();
     }
 
-    public TextChannel getChannel() {
-        return event.getChannel();
+    public GuildMessageChannel getChannel() {
+        return event.getGuildChannel();
     }
 
     public MantaroAudioManager getAudioManager() {
@@ -252,6 +257,16 @@ public class Context {
         getChannel().sendMessage(message).queue();
     }
 
+    @Override
+    public Message sendResult(String s) {
+        return getChannel().sendMessage(s).complete();
+    }
+
+    @Override
+    public Message sendResult(MessageEmbed e) {
+        return getChannel().sendMessageEmbeds(e).complete();
+    }
+
     public Color getMemberColor(Member member) {
         return member.getColor() == null ? Color.PINK : member.getColor();
     }
@@ -270,10 +285,11 @@ public class Context {
         ).queue();
     }
 
+    @Override
     public void sendFormatStripped(String message, Object... format) {
-        getChannel().sendMessage(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format))
-                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
-                .queue();
+        getChannel().sendMessage(
+                String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format)
+        ).allowedMentions(EnumSet.noneOf(Message.MentionType.class)).queue();
     }
 
     public void sendFormat(String message, Collection<ActionRow> actionRow, Object... format) {
@@ -285,13 +301,15 @@ public class Context {
     public void send(MessageEmbed embed, ActionRow... actionRow) {
         // Sending embeds while supressing the failure callbacks leads to very hard
         // to debug bugs, so enable it.
-        getChannel().sendMessageEmbeds(embed).setActionRows(actionRow).queue(success -> {}, Throwable::printStackTrace);
+        getChannel().sendMessageEmbeds(embed)
+                .setActionRows(actionRow).queue(success -> {}, Throwable::printStackTrace);
     }
 
     public void send(MessageEmbed embed) {
         // Sending embeds while supressing the failure callbacks leads to very hard
         // to debug bugs, so enable it.
-        getChannel().sendMessageEmbeds(embed).queue(success -> {}, Throwable::printStackTrace);
+        getChannel().sendMessageEmbeds(embed)
+                .queue(success -> {}, Throwable::printStackTrace);
     }
 
     public void sendLocalized(String localizedMessage, Object... args) {
@@ -301,11 +319,17 @@ public class Context {
         ).queue(success -> {}, Throwable::printStackTrace);
     }
 
+    @Override
+    public void sendLocalizedStripped(String s, Object... args) {
+        getChannel().sendMessage(languageContext.get(s).formatted(args))
+                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                .queue();
+    }
+
     public void sendLocalized(String localizedMessage, Collection<ActionRow> actionRow, Object... args) {
         // Stop swallowing issues with String replacements (somehow really common)
-        getChannel().sendMessage(
-                String.format(Utils.getLocaleFromLanguage(getLanguageContext()), languageContext.get(localizedMessage), args)
-        ).setActionRows(actionRow).queue(success -> {}, Throwable::printStackTrace);
+        getChannel().sendMessage(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), languageContext.get(localizedMessage), args))
+                .setActionRows(actionRow).queue(success -> {}, Throwable::printStackTrace);
     }
 
 
@@ -380,5 +404,25 @@ public class Context {
 
     public void setLanguageContext(I18nContext languageContext) {
         this.languageContext = languageContext;
+    }
+
+    public UtilsContext getUtilsContext() {
+        return new UtilsContext(getGuild(), getMember(), getChannel(), languageContext, null);
+    }
+
+    public boolean isChannelNSFW() {
+        if (getChannel() instanceof TextChannel txtChannel) {
+            return txtChannel.isNSFW();
+        }
+
+        if (getChannel() instanceof ThreadChannel threadChannel) {
+            return ((BaseGuildMessageChannel) threadChannel.getParentChannel()).isNSFW();
+        }
+
+        if (getChannel() instanceof NewsChannel txtChannel) {
+            return txtChannel.isNSFW();
+        }
+
+        return true;
     }
 }

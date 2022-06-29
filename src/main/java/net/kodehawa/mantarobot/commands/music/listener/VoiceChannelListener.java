@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.music.listener;
 
+import net.dv8tion.jda.api.entities.AudioChannel;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.GenericEvent;
@@ -116,7 +117,7 @@ public class VoiceChannelListener implements EventListener {
 
     }
 
-    private void onJoin(VoiceChannel vc) {
+    private void onJoin(AudioChannel vc) {
         var vs = vc.getGuild().getSelfMember().getVoiceState();
         if (validate(vs)) {
             return;
@@ -161,7 +162,7 @@ public class VoiceChannelListener implements EventListener {
         }
     }
 
-    private void onLeave(VoiceChannel vc) {
+    private void onLeave(AudioChannel vc) {
         var vs = vc.getGuild().getSelfMember().getVoiceState();
         if (validate(vs)) {
             return;
@@ -195,10 +196,10 @@ public class VoiceChannelListener implements EventListener {
     }
 
     private static boolean validate(GuildVoiceState state) {
-        return state == null || !state.inVoiceChannel();
+        return state == null || !state.inAudioChannel();
     }
 
-    private static boolean isAlone(VoiceChannel vc) {
+    private static boolean isAlone(AudioChannel vc) {
         return vc.getMembers().stream().allMatch(m -> m.getUser().isBot());
     }
 }

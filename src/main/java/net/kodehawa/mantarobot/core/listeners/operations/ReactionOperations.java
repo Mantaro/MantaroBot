@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.core.listeners.operations;
 
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveAllEvent;
@@ -236,11 +237,11 @@ public final class ReactionOperations {
 
             int i = index.incrementAndGet();
             if (i < defaultReactions.length) {
-                message.addReaction(reaction(defaultReactions[i])).queue(c.get(), ignore);
+                message.addReaction(Emoji.fromUnicode(reaction(defaultReactions[i]))).queue(c.get(), ignore);
             }
         });
 
-        message.addReaction(reaction(defaultReactions[0])).queue(c.get(), ignore);
+        message.addReaction(Emoji.fromUnicode(reaction(defaultReactions[0]))).queue(c.get(), ignore);
     }
 
     private static class RunningOperation {

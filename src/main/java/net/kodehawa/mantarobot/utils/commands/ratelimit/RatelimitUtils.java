@@ -17,8 +17,7 @@
 package net.kodehawa.mantarobot.utils.commands.ratelimit;
 
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
+import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -41,7 +40,7 @@ public class RatelimitUtils {
     private static final Set<String> loggedAttemptUsers = ConcurrentHashMap.newKeySet();
     private static final Config config = MantaroData.config().get();
 
-    private static boolean ratelimit(IncreasingRateLimiter rateLimiter, String u, GuildMessageReceivedEvent event,
+    private static boolean ratelimit(IncreasingRateLimiter rateLimiter, String u, RatelimitContext ctx,
                                      I18nContext i18nContext, String extraMessage, boolean spamAware) {
         if (i18nContext == null) {
             //en_US
@@ -54,7 +53,7 @@ public class RatelimitUtils {
 
         RateLimit rateLimit = rateLimiter.limit(u);
         if (rateLimit.getTriesLeft() < 1) {
-            event.getChannel().sendMessage(
+            ctx.send(
                     String.format(i18nContext.get("general.ratelimit.header"),
                             EmoteReference.STOPWATCH, i18nContext.get("general.ratelimit_quotes"),
                             Utils.formatDuration(i18nContext, rateLimit.getCooldown()))
@@ -67,7 +66,7 @@ public class RatelimitUtils {
                             i18nContext.get("general.ratelimit.spam_3") : "")
                             + ((rateLimit.getSpamAttempts() > 15 && spamAware) ?
                             i18nContext.get("general.ratelimit.spam_4") : "")
-            ).queue();
+            );
 
             // Assuming it's an user RL if it can parse a long since we use UUIDs for other RLs.
             try {
@@ -76,16 +75,22 @@ public class RatelimitUtils {
                 User user;
 
                 try {
-                    var member = event.getGuild().retrieveMemberById(u, false).complete();
+                    var member = ctx.getGuild().retrieveMemberById(u, false).complete();
                     user = member.getUser();
                 } catch (Exception e) {
                     log.error("Got a exception while trying to fetch a user that was just spamming?", e);
                     return false;
                 }
 
-                var guildId = event.getGuild().getId();
-                var channelId = event.getChannel().getId();
-                var messageId = event.getMessage().getId();
+                var guildId = ctx.getGuild().getId();
+                var channelId = ctx.getChannel().getId();
+
+                String messageId;
+                if (ctx.getMessage() != null) {
+                    messageId = ctx.getMessage().getId();
+                } else {
+                    messageId = "slash";
+                }
 
                 // If they go over 60 in one attempt, flag.
                 if (rateLimit.getSpamAttempts() > 60 && spamAware && !loggedAttemptUsers.contains(user.getId())) {
@@ -105,35 +110,35 @@ public class RatelimitUtils {
     }
 
     // Overloads
-    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, Context ctx) {
-        return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.getEvent(), ctx.getLanguageContext(), null, false);
+    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, IContext ctx) {
+        return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), ctx.getLanguageContext(), null, false);
     }
 
-    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, Context ctx, I18nContext languageContext) {
-        return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.getEvent(), languageContext, null, false);
+    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, IContext ctx, I18nContext languageContext) {
+        return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), languageContext, null, false);
     }
 
-    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, Context ctx,
+    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, IContext ctx,
                                     I18nContext languageContext, String extra) {
-        return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.getEvent(), languageContext, extra, false);
+        return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), languageContext, extra, false);
     }
 
-    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, Context ctx, boolean spamAware) {
-        return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.getEvent(), ctx.getLanguageContext(), null, spamAware);
+    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, IContext ctx, boolean spamAware) {
+        return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), ctx.getLanguageContext(), null, spamAware);
     }
 
-    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, Context ctx, String extra, boolean spamAware) {
-        return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.getEvent(), ctx.getLanguageContext(), extra, spamAware);
+    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, IContext ctx, String extra, boolean spamAware) {
+        return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), ctx.getLanguageContext(), extra, spamAware);
     }
 
-    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, Context ctx,
+    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, IContext ctx,
                                     I18nContext languageContext, boolean spamAware) {
-        return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.getEvent(), languageContext, null, spamAware);
+        return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), languageContext, null, spamAware);
     }
 
-    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, Context ctx,
+    public static boolean ratelimit(IncreasingRateLimiter rateLimiter, IContext ctx,
                                     I18nContext languageContext, String extra, boolean spamAware) {
-        return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.getEvent(), languageContext, extra, spamAware);
+        return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), languageContext, extra, spamAware);
     }
 
     private static void onRateLimit(User user, String guildId, String channelId, String messageId) {

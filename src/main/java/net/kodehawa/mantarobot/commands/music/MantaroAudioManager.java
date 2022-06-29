@@ -32,9 +32,10 @@ import com.sedmelluq.lava.extensions.youtuberotator.planner.RotatingNanoIpRouteP
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.IpBlock;
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.Ipv6Block;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.music.requester.AudioLoader;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Lazy;
@@ -125,8 +126,7 @@ public class MantaroAudioManager {
         return musicManagers.values().stream().map(m -> m.getTrackScheduler().getQueue().size()).mapToInt(Integer::intValue).sum();
     }
 
-    public void loadAndPlay(GuildMessageReceivedEvent event, String trackUrl,
-                            boolean skipSelection, boolean addFirst, I18nContext lang) {
+    public void loadAndPlay(SlashContext event, String trackUrl, boolean skipSelection, boolean addFirst, I18nContext lang) {
         AudioCmdUtils.connectToVoiceChannel(event, lang).thenAcceptAsync(bool -> {
             if (bool) {
                 var musicManager = getMusicManager(event.getGuild());

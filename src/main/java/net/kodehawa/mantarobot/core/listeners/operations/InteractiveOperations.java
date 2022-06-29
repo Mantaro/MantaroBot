@@ -18,7 +18,7 @@ package net.kodehawa.mantarobot.core.listeners.operations;
 
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.GenericEvent;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
@@ -139,10 +139,10 @@ public class InteractiveOperations {
     public static class InteractiveListener implements EventListener {
         @Override
         public void onEvent(@Nonnull GenericEvent e) {
-            if (!(e instanceof GuildMessageReceivedEvent))
+            if (!(e instanceof MessageReceivedEvent))
                 return;
 
-            GuildMessageReceivedEvent event = (GuildMessageReceivedEvent) e;
+            MessageReceivedEvent event = (MessageReceivedEvent) e;
 
             //Don't listen to ourselves...
             if (event.getAuthor().equals(event.getJDA().getSelfUser()))

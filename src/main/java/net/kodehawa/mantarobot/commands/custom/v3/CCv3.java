@@ -18,9 +18,9 @@ package net.kodehawa.mantarobot.commands.custom.v3;
 
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.Button;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kodehawa.mantarobot.commands.MiscCmds;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
@@ -279,7 +279,7 @@ public class CCv3 {
             String iam = args.get(0).evaluate();
             String ctn = args.stream().skip(1).map(Operation.Argument::evaluate).collect(Collectors.joining(" "));
 
-            GuildMessageReceivedEvent event = context.event();
+            MessageReceivedEvent event = context.event();
 
             if (ctn.isEmpty())
                 MiscCmds.iamnotFunction(iam, context.getCommandContext());

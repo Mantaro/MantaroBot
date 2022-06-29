@@ -19,7 +19,7 @@ package net.kodehawa.mantarobot.commands.image;
 import com.google.common.collect.ImmutableMap;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.Button;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kodehawa.lib.imageboards.DefaultImageBoards;
 import net.kodehawa.lib.imageboards.ImageBoard;
 import net.kodehawa.lib.imageboards.entities.BoardImage;
@@ -27,12 +27,13 @@ import net.kodehawa.lib.imageboards.entities.Rating;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.awt.Color;
+import java.awt.*;
+import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -51,83 +52,68 @@ public class ImageboardUtils {
             DefaultImageBoards.E621, false
     );
 
-    public static void getImage(ImageBoard<?> api, ImageRequestType type, boolean nsfwOnly, String imageboard, String[] args, Context ctx) {
-        var rating = Rating.SAFE;
-        List<String> list = new ArrayList<>(Arrays.asList(args));
-        list.remove("tags"); // remove tags from argument list. (BACKWARDS COMPATIBILITY)
-        var needRating = list.size() >= 2;
+    public static void getImage(ImageBoard<?> api, ImageRequestType type, boolean nsfwOnly, String imageboard, String rating, String tags, SlashContext ctx) {
+        Rating ratingEnum = Rating.SAFE;
+        if (!nsfwOnly) {
+            ratingEnum = lookupRating(rating);
+            if (ratingEnum == null) {
+                // Try with short name
+                ratingEnum = lookupShortRating(rating);
+            }
 
-        if (needRating && !nsfwOnly) {
-            rating = lookupRating(list.get(1));
-        } else if (!needRating && !list.isEmpty()) {
-            // Attempt to get from the tags instead.
-            rating = lookupRating(list.get(0));
-        }
-
-        if (rating == null && needRating) {
-            // Try with short name
-            rating = lookupShortRating(list.get(1));
-            if (rating != null) {
-                list.remove(rating.getShortName());
+            // If it's *still* null...
+            if (ratingEnum == null) {
+                ratingEnum = Rating.SAFE;
             }
         }
 
-        // Allow for more tags after declaration.
-        var finalRating = rating;
-        if (finalRating != null) {
-            list.remove(rating.getLongName());
-            list.remove("random"); // remove "random" declaration.
-            list.remove("r"); // Remove short-hand random declaration.
-        } else {
-            finalRating = Rating.SAFE;
-        }
-
-        if (!nsfwCheck(ctx, nsfwOnly, false, finalRating)) {
-            ctx.sendLocalized("commands.imageboard.non_nsfw_channel", EmoteReference.ERROR);
+        if (!nsfwCheck(ctx, nsfwOnly, false, ratingEnum)) {
+            ctx.replyEphemeral("commands.imageboard.non_nsfw_channel", EmoteReference.ERROR);
             return;
         }
 
         final var dbGuild = ctx.getDBGuild();
         final var data = dbGuild.getData();
-        if ((finalRating == Rating.EXPLICIT || finalRating == Rating.QUESTIONABLE || nsfwOnly) && data.isDisableExplicit()) {
-            ctx.sendLocalized("commands.imageboard.disabled_explicit", EmoteReference.ERROR);
+        if ((ratingEnum == Rating.EXPLICIT || ratingEnum == Rating.QUESTIONABLE || nsfwOnly) && data.isDisableExplicit()) {
+            ctx.replyEphemeral("commands.imageboard.disabled_explicit", EmoteReference.ERROR);
             return;
         }
 
         if (!Optional.ofNullable(imageboardUsesRating.get(api)).orElse(true)) {
-            finalRating = null;
+            ratingEnum = null;
         }
 
+        List<String> list = tags.isEmpty() ? Collections.emptyList() : List.of(tags.split("\\s+"));
         var limit = Optional.ofNullable(maxQuerySize.get(api)).orElse(10);
         if (list.size() > limit) {
-            ctx.sendLocalized("commands.imageboard.too_many_tags", EmoteReference.ERROR, imageboard, limit);
+            ctx.replyEphemeral("commands.imageboard.too_many_tags", EmoteReference.ERROR, imageboard, limit);
             return;
         }
 
         final var blackListedImageTags = data.getBlackListedImageTags();
         if (list.stream().anyMatch(blackListedImageTags::contains)) {
-            ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
+            ctx.replyEphemeral("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
             return;
         }
 
         try {
             if (type == ImageRequestType.TAGS) {
-                api.search(list, finalRating).async(
+                api.search(list, ratingEnum).async(
                         requestedImages -> sendImage0(ctx, requestedImages, imageboard, blackListedImageTags),
                         failure -> ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.ERROR)
                 );
             } else if (type == ImageRequestType.RANDOM) {
-                api.search(finalRating).async(
+                api.search(ratingEnum).async(
                         requestedImages -> sendImage0(ctx, requestedImages, imageboard, blackListedImageTags),
                         failure -> ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.ERROR)
                 );
             }
         } catch (Exception e) {
-            ctx.sendLocalized("commands.imageboard.error_general", EmoteReference.ERROR);
+            ctx.replyEphemeral("commands.imageboard.error_general", EmoteReference.ERROR);
         }
     }
 
-    private static <T extends BoardImage> void sendImage0(Context ctx, List<T> images, String imageboard, Set<String> blacklisted) {
+    private static <T extends BoardImage> void sendImage0(SlashContext ctx, List<T> images, String imageboard, Set<String> blacklisted) {
         var filter = filterImages(images, ctx);
         if (filter == null) {
             return;
@@ -142,9 +128,9 @@ public class ImageboardUtils {
         sendImage(ctx, imageboard, image, ctx.getDBGuild());
     }
 
-    private static <T extends BoardImage> List<T> filterImages(List<T> images, Context ctx) {
+    private static <T extends BoardImage> List<T> filterImages(List<T> images, SlashContext ctx) {
         if (images == null) {
-            ctx.sendLocalized("commands.imageboard.null_image_notice", EmoteReference.ERROR);
+            ctx.replyEphemeral("commands.imageboard.null_image_notice", EmoteReference.ERROR);
             return null;
         }
 
@@ -164,26 +150,26 @@ public class ImageboardUtils {
                 .collect(Collectors.toList());
 
         if (filter.isEmpty()) {
-            ctx.sendLocalized("commands.imageboard.no_images", EmoteReference.SAD);
+            ctx.replyEphemeral("commands.imageboard.no_images", EmoteReference.SAD);
             return null;
         }
 
         return filter;
     }
 
-    private static void sendImage(Context ctx, String imageboard, BoardImage image, DBGuild dbGuild) {
+    private static void sendImage(SlashContext ctx, String imageboard, BoardImage image, DBGuild dbGuild) {
         final var tags = image.getTags();
         final var blackListedImageTags = dbGuild.getData().getBlackListedImageTags();
 
         // This is the last line of defense. It should filter *all* minor tags from all sort of images on
         // the method that calls this.
         if (containsExcludedTags(tags) && image.getRating() != Rating.SAFE) {
-            ctx.sendLocalized("commands.imageboard.loli_content_disallow", EmoteReference.WARNING);
+            ctx.replyEphemeral("commands.imageboard.loli_content_disallow", EmoteReference.WARNING);
             return;
         }
 
         if (tags.stream().anyMatch(blackListedImageTags::contains)) {
-            ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
+            ctx.replyEphemeral("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
             return;
         }
 
@@ -201,19 +187,19 @@ public class ImageboardUtils {
             }
 
             // Drop a lewd magazine.
-            TextChannelGround.of(ctx.getEvent()).dropItemWithChance(ItemReference.LEWD_MAGAZINE, 4);
+            TextChannelGround.of(ctx.getChannel()).dropItemWithChance(ItemReference.LEWD_MAGAZINE, 4);
         }
     }
 
-    public static boolean nsfwCheck(Context ctx, boolean nsfwImageboard, boolean sendMessage, Rating rating) {
-        if (ctx.getChannel().isNSFW()) {
+    public static boolean nsfwCheck(SlashContext ctx, boolean nsfwImageboard, boolean sendMessage, Rating rating) {
+        if (ctx.isChannelNSFW()) {
             return true;
         }
 
         var finalRating = rating == null ? Rating.SAFE : rating;
         var isSafe = finalRating.equals(Rating.SAFE) && !nsfwImageboard;
         if (!isSafe && sendMessage) {
-            ctx.sendLocalized("commands.imageboard.non_nsfw_channel", EmoteReference.ERROR);
+            ctx.replyEphemeral("commands.imageboard.non_nsfw_channel", EmoteReference.ERROR);
         }
 
         return isSafe;
@@ -256,7 +242,7 @@ public class ImageboardUtils {
         return tags.stream().anyMatch(excludedTags::contains);
     }
 
-    private static void imageEmbed(Context ctx, String url, String width, String height,
+    private static void imageEmbed(SlashContext ctx, String url, String width, String height,
                                    String tags, Rating rating, String imageboard) {
         var languageContext = ctx.getLanguageContext();
         var builder = new EmbedBuilder()

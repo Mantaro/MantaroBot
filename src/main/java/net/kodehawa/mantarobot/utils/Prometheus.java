@@ -18,8 +18,6 @@ package net.kodehawa.mantarobot.utils;
 
 import io.prometheus.client.exporter.HTTPServer;
 import io.prometheus.client.hotspot.BufferPoolsExports;
-import io.prometheus.client.hotspot.MemoryPoolsExports;
-import io.prometheus.client.hotspot.StandardExports;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.exporters.DiscordLatencyExports;
 import net.kodehawa.mantarobot.utils.exporters.JFRExports;
@@ -46,12 +44,6 @@ public class Prometheus {
 
     public static void enable() throws IOException {
         if (STATE.compareAndSet(State.DISABLED, State.ENABLING)) {
-            //replaced by jfr? needs testing, if yes then remove
-            //used for cpu usage
-            new StandardExports().register();
-            //replaced by jfr? needs testing, if yes then remove
-            //used for memory usage
-            new MemoryPoolsExports().register();
             //ig we can keep this one for now
             new BufferPoolsExports().register();
             JFRExports.register();
