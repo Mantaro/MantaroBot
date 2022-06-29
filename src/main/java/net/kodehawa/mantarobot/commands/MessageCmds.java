@@ -133,6 +133,7 @@ public class MessageCmds {
 
     private static void prune(SlashContext ctx, List<Message> messageHistory) {
         messageHistory = messageHistory.stream()
+                .filter(message -> message.getType().canDelete())
                 .filter(message -> !message.getTimeCreated().isBefore(OffsetDateTime.now().minusWeeks(2)))
                 .collect(Collectors.toList());
 

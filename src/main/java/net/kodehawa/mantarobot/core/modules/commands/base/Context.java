@@ -411,16 +411,12 @@ public class Context implements IContext {
     }
 
     public boolean isChannelNSFW() {
-        if (getChannel() instanceof TextChannel txtChannel) {
+        if (getChannel() instanceof BaseGuildMessageChannel txtChannel) {
             return txtChannel.isNSFW();
         }
 
         if (getChannel() instanceof ThreadChannel threadChannel) {
             return ((BaseGuildMessageChannel) threadChannel.getParentChannel()).isNSFW();
-        }
-
-        if (getChannel() instanceof NewsChannel txtChannel) {
-            return txtChannel.isNSFW();
         }
 
         return true;

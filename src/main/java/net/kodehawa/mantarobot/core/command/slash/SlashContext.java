@@ -78,7 +78,7 @@ public class SlashContext implements IContext {
     }
 
     public boolean isChannelNSFW() {
-        if (getChannel() instanceof TextChannel txtChannel) {
+        if (getChannel() instanceof BaseGuildMessageChannel txtChannel) {
             return txtChannel.isNSFW();
         }
 
