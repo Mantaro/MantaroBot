@@ -18,13 +18,13 @@ package net.kodehawa.mantarobot.commands.utils.birthday;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.UserSnowflake;
+import net.dv8tion.jda.api.entities.*;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
+import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,9 +34,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class BirthdayTask {
+    private static final Pattern MODIFIER_PATTERN = Pattern.compile("\\b\\p{L}*:\\b");
     private static final Logger log = LoggerFactory.getLogger(BirthdayTask.class);
     private static final DateTimeFormatter dayMonthFormat = DateTimeFormatter.ofPattern("dd-MM");
     private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -52,7 +54,6 @@ public class BirthdayTask {
     private static final ScheduledExecutorService backOffRolePool = Executors.newScheduledThreadPool(4,
             new ThreadFactoryBuilder().setNameFormat("Birthday Backoff Role Thread").build()
     );
-
 
     public static void handle(int shardId) {
         final var bot = MantaroBot.getInstance();
@@ -140,11 +141,12 @@ public class BirthdayTask {
                                 ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
                         // @formatter:on
 
+                        int birthdayNumber = 0;
                         var birthdayAnnouncerText = new MessageBuilder();
                         birthdayAnnouncerText.append("**New birthdays for today, wish them Happy Birthday!**").append("\n\n");
-                        int birthdayNumber = 0;
-
+                        List<Message> messageList = new ArrayList<>();
                         List<Long> nullMembers = new ArrayList<>();
+
                         for (var data : guildMap.entrySet()) {
                             var birthday = data.getValue().getBirthday();
                             if (guildData.getBirthdayBlockedIds().contains(String.valueOf(data.getKey()))) {
@@ -189,13 +191,12 @@ public class BirthdayTask {
 
                                 // Variable used in lambda expression should be final or effectively final...
                                 final var birthdayMessage = tempBirthdayMessage;
-
                                 if (!member.getRoles().contains(birthdayRole)) {
                                     log.debug("Backing off adding birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
 
                                     // We can pretty much do all of this only based on the IDs
                                     roleBackoffAdd.add(new BirthdayRoleInfo(guild.getId(), member.getId(), birthdayRole));
-                                    birthdayAnnouncerText.append(birthdayMessage).append("\n");
+                                    messageList.add(buildBirthdayMessage(birthdayMessage, channel, member));
                                     membersAssigned++;
                                     birthdayNumber++;
 
@@ -212,6 +213,10 @@ public class BirthdayTask {
                         }
 
                         if (birthdayNumber != 0) {
+                            var holder = new BirthdayMessageHolder(messageList);
+                            birthdayAnnouncerText.append(holder.getMessage());
+                            birthdayAnnouncerText.setEmbeds(holder.getEmbeds());
+
                             toSend.put(
                                     new BirthdayGuildInfo(guild.getId(), channel.getId()),
                                     birthdayAnnouncerText.buildAll(MessageBuilder.SplitPolicy.NEWLINE)
@@ -220,7 +225,7 @@ public class BirthdayTask {
 
                         // If any of the member lookups to discord returned null, remove them.
                         if (!nullMembers.isEmpty()) {
-                            guildData.getAllowedBirthdays().removeAll(nullMembers.stream().map(String::valueOf).collect(Collectors.toList()));
+                            guildData.getAllowedBirthdays().removeAll(nullMembers.stream().map(String::valueOf).toList());
                             dbGuild.save();
                         }
                     }
@@ -232,7 +237,7 @@ public class BirthdayTask {
                     jda.getShardInfo(), membersAssigned, membersDivested, (end - start)
             );
 
-            // A poll inside a pool?
+            // A pool inside a pool?
             // Send the backoff sending comment above, this basically avoids hitting
             // discord with one billion requests at once.
             final var backoff = 400;
@@ -333,6 +338,99 @@ public class BirthdayTask {
             });
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private static Message buildBirthdayMessage(String message, BaseGuildMessageChannel channel, Member user) {
+        MessageBuilder builder = new MessageBuilder();
+        if (message.contains("$(")) {
+            message = new DynamicModifiers()
+                    .mapFromBirthday("event", channel, user, channel.getGuild())
+                    .resolve(message);
+        }
+
+        // copy-pasted from welcome messages
+        var modIndex = message.indexOf(':');
+        if (modIndex != -1) {
+            // Wonky?
+            var matcher = MODIFIER_PATTERN.matcher(message);
+            var modifier = "none";
+            // Find the first occurrence of a modifier (word:)
+            if (matcher.find()) {
+                modifier = matcher.group().replace(":", "");
+            }
+
+            var json = message.substring(modIndex + 1);
+            var extra = "";
+
+            // Somehow (?) this fails sometimes? I really dunno how, but sure.
+            try {
+                extra = message.substring(0, modIndex - modifier.length()).trim();
+            } catch (Exception ignored) { }
+
+            try {
+                if (modifier.equals("embed")) {
+                    EmbedJSON embed;
+                    try {
+                        embed = JsonDataManager.fromJson('{' + json + '}', EmbedJSON.class);
+                    } catch (Exception e) {
+                        builder.append(EmoteReference.ERROR2)
+                                .append("The string\n```json\n{")
+                                .append(json)
+                                .append("}```\n")
+                                .append("Is not a valid birthday message (failed to Convert to EmbedJSON). Check the wiki for more information.\n");
+
+                        // So I know what is going on, regardless.
+                        e.printStackTrace();
+                        return builder.build();
+                    }
+
+                    var msgBuilder = new MessageBuilder().setEmbeds(embed.gen(null));
+                    if (!extra.isEmpty()) {
+                        msgBuilder.append(extra).append("\n");
+                    }
+
+                    return msgBuilder.build();
+                }
+            } catch (Exception e) {
+                if (e.getMessage().toLowerCase().contains("url must be a valid")) {
+                    builder.append("Failed to send birthday message: Wrong image URL in thumbnail, image, footer and/or author.\n");
+                } else {
+                    builder.append("Failed to send birthday message: Unknown error, try checking your message.\n");
+                }
+
+                return builder.build();
+            }
+        }
+
+        // No match.
+        builder.append(message).append("\n");
+        return builder.build();
+    }
+
+    private static class BirthdayMessageHolder {
+        public List<Message> message;
+
+        BirthdayMessageHolder(List<Message> message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            StringBuilder builder = new StringBuilder();
+            for (var msg : message) {
+                builder.append(msg.getContentRaw()).append("\n");
+            }
+
+            return builder.toString();
+        }
+
+        public List<MessageEmbed> getEmbeds() {
+            List<MessageEmbed> embeds = new ArrayList<>();
+            for (var msg : message) {
+                embeds.addAll(msg.getEmbeds());
+            }
+
+            return embeds;
         }
     }
 

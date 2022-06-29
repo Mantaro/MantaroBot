@@ -324,12 +324,12 @@ public class MantaroBot {
             // Shouldn't matter much for the end user, but makes so batch requests don't fuck over ratelimits immediately.
             var maxBackoff = 300_000; // In millis
             var randomBackoff = random.nextBoolean() ? -random.nextInt(maxBackoff) : random.nextInt(maxBackoff);
-            executorService.scheduleWithFixedDelay(() -> BirthdayTask.handle(shard.getId()),
+            executorService.scheduleAtFixedRate(() -> BirthdayTask.handle(shard.getId()),
                     millisecondsUntilTomorrow + randomBackoff, TimeUnit.DAYS.toMillis(1) + randomBackoff, TimeUnit.MILLISECONDS);
         }
 
         // Start the birthday cacher.
-        executorService.scheduleWithFixedDelay(birthdayCacher::cache, 22, 23, TimeUnit.HOURS);
+        executorService.scheduleAtFixedRate(birthdayCacher::cache, 22, 23, TimeUnit.HOURS);
     }
 
     private void postStats(ShardManager manager) {

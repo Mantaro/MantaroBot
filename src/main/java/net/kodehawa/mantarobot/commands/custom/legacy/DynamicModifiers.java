@@ -149,6 +149,14 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
                 .mapChannel("channel", channel);
     }
 
+    public DynamicModifiers mapFromBirthday(String prefix, MessageChannel channel, Member user, Guild guild) {
+        return this.set(prefix, user.getEffectiveName() + "@" + guild.getName())
+                .mapGuild(k(prefix, "guild"), guild)
+                .mapMember(k(prefix, "me"), guild.getSelfMember())
+                .mapMember(k(prefix, "user"), user)
+                .mapChannel("channel", channel);
+    }
+
     public DynamicModifiers set(String key, String value) {
         if (!containsKey(key))
             put(key, value);
