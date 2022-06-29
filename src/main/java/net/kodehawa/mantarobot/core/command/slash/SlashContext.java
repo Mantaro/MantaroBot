@@ -86,7 +86,7 @@ public class SlashContext implements IContext {
             ((BaseGuildMessageChannel) threadChannel.getParentChannel()).isNSFW();
         }
 
-        return false;
+        return true;
     }
 
     public Member getMember() {

@@ -423,6 +423,6 @@ public class Context implements IContext {
             return txtChannel.isNSFW();
         }
 
-        return false;
+        return true;
     }
 }
