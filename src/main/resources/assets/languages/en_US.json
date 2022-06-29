@@ -30,6 +30,7 @@
     "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
     "dust": "There's only dust here.",
     "invalid_syntax": "Invalid syntax.",
+    "birthday": "**New birthdays for today, wish them Happy Birthday!**",
     "item_lookup": {
       "no_item_emoji": "There isn't an item associated with this emoji.",
       "no_item_name": "There isn't an item associated with this name.",

@@ -22,6 +22,7 @@ import net.dv8tion.jda.api.entities.*;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
@@ -110,6 +111,7 @@ public class BirthdayTask {
                 // This is quite a db spam, lol
                 final var dbGuild = MantaroData.db().getGuild(guild);
                 final var guildData = dbGuild.getData();
+                final var guildLanguageContext = new I18nContext(guildData, null);
 
                 // If we have a birthday guild and channel here, continue
                 if (guildData.getBirthdayChannel() != null && guildData.getBirthdayRole() != null) {
@@ -143,7 +145,7 @@ public class BirthdayTask {
 
                         int birthdayNumber = 0;
                         var birthdayAnnouncerText = new MessageBuilder();
-                        birthdayAnnouncerText.append("**New birthdays for today, wish them Happy Birthday!**").append("\n\n");
+                        birthdayAnnouncerText.append(guildLanguageContext.get("general.birthday")).append("\n\n");
                         List<Message> messageList = new ArrayList<>();
                         List<Long> nullMembers = new ArrayList<>();
 
