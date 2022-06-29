@@ -88,7 +88,7 @@ public class MessageCmds {
             ctx.getChannel().getHistory().retrievePast((int) amount)
                     .queue(
                             messageHistory -> getMessageHistory(ctx, messageHistory, (int) amount, "commands.prune.no_messages", predicate),
-                            error -> ctx.sendLocalized("commands.prune.error_retrieving", EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())
+                            error -> ctx.replyEphemeral("commands.prune.error_retrieving", EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())
                     );
 
         }
@@ -150,7 +150,7 @@ public class MessageCmds {
 
         ctx.getChannel().deleteMessages(messageHistory).queue(
                 success -> {
-                    ctx.reply("commands.prune.success", EmoteReference.PENCIL, size);
+                    ctx.replyEphemeral("commands.prune.success", EmoteReference.PENCIL, size);
 
                     var db = ctx.getDBGuild();
                     db.getData().setCases(db.getData().getCases() + 1);
