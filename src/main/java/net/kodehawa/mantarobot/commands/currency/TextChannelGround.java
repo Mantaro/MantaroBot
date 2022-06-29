@@ -20,8 +20,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
@@ -59,11 +60,11 @@ public class TextChannelGround {
         }
     }
 
-    public static Ground of(TextChannel ch) {
+    public static Ground of(MessageChannel ch) {
         return of(ch.getId());
     }
 
-    public static void delete(TextChannel ch) {
+    public static void delete(MessageChannel ch) {
         final var identifier = "textchannelground:" + ch.getId();
         try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
             // We don't need to check whether it exists or not
@@ -72,7 +73,7 @@ public class TextChannelGround {
         }
     }
 
-    public static Ground of(GuildMessageReceivedEvent event) {
+    public static Ground of(MessageReceivedEvent event) {
         return of(event.getChannel());
     }
 

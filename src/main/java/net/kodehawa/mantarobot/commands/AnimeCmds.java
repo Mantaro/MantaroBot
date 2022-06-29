@@ -21,7 +21,7 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.Button;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kodehawa.mantarobot.commands.anime.AnimeData;
 import net.kodehawa.mantarobot.commands.anime.CharacterData;
 import net.kodehawa.mantarobot.commands.anime.KitsuRetriever;
@@ -205,7 +205,7 @@ public class AnimeCmds {
             final var episodes = String.valueOf(attributes.getEpisodeCount());
             final var episodeDuration = String.valueOf(attributes.getEpisodeLength());
 
-            if (attributes.isNsfw() && !ctx.getChannel().isNSFW()) {
+            if (attributes.isNsfw() && !ctx.isChannelNSFW()) {
                 ctx.reply(lang.get("commands.anime.hentai"), EmoteReference.ERROR);
                 return;
             }

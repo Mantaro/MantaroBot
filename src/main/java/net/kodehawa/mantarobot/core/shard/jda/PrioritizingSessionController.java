@@ -72,12 +72,6 @@ public class PrioritizingSessionController extends SessionControllerAdapter
         throw new UnsupportedOperationException();
     }
 
-    @Nonnull
-    @Override
-    public String getGateway(@Nonnull JDA api) {
-        throw new UnsupportedOperationException();
-    }
-
     @Override
     public long getGlobalRatelimit() {
         throw new UnsupportedOperationException();

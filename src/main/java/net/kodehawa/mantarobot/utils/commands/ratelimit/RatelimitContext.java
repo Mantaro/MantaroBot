@@ -1,19 +1,19 @@
 package net.kodehawa.mantarobot.utils.commands.ratelimit;
 
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.GuildMessageChannel;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class RatelimitContext {
     private final Guild guild;
     private final Message message;
-    private final TextChannel channel;
-    private final GuildMessageReceivedEvent event;
-    private final SlashCommandEvent slashEvent;
+    private final GuildMessageChannel channel;
+    private final MessageReceivedEvent event;
+    private final SlashCommandInteractionEvent slashEvent;
 
-    public RatelimitContext(Guild guild, Message message, TextChannel channel, GuildMessageReceivedEvent event, SlashCommandEvent slashEvent) {
+    public RatelimitContext(Guild guild, Message message, GuildMessageChannel channel, MessageReceivedEvent event, SlashCommandInteractionEvent slashEvent) {
         this.guild = guild;
         this.message = message;
         this.channel = channel;
@@ -29,15 +29,15 @@ public class RatelimitContext {
         return message;
     }
 
-    public TextChannel getChannel() {
+    public GuildMessageChannel getChannel() {
         return channel;
     }
 
-    public GuildMessageReceivedEvent getEvent() {
+    public MessageReceivedEvent getEvent() {
         return event;
     }
 
-    public SlashCommandEvent getSlashEvent() {
+    public SlashCommandInteractionEvent getSlashEvent() {
         return slashEvent;
     }
 

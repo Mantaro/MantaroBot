@@ -2,10 +2,10 @@ package net.kodehawa.mantarobot.core.listeners.operations;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.GenericEvent;
-import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.Button;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.jodah.expiringmap.ExpiringMap;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ButtonOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
@@ -103,12 +103,11 @@ public class ButtonOperations {
     public static class ButtonListener implements EventListener {
         @Override
         public void onEvent(@Nonnull GenericEvent e) {
-            if (e instanceof ButtonClickEvent) {
-                var event = (ButtonClickEvent) e;
-                var guild = event.getGuild();
-                var member = event.getMember();
+            if (e instanceof ButtonInteractionEvent evt) {
+                var guild = evt.getGuild();
+                var member = evt.getMember();
 
-                if (guild == null || member == null || event.getButton() == null) {
+                if (guild == null || member == null) {
                     return;
                 }
 
@@ -116,15 +115,15 @@ public class ButtonOperations {
                     return;
                 }
 
-                var messageId = event.getMessageIdLong();
+                var messageId = evt.getMessageIdLong();
                 ButtonOperations.RunningOperation o = OPERATIONS.get(messageId);
                 if (o == null) {
                     return;
                 }
 
                 // Forward this event to the anonymous class.
-                event.deferEdit().queue();
-                int i = o.operation.click(event);
+                evt.deferEdit().queue();
+                int i = o.operation.click(evt);
                 if (i == Operation.COMPLETED) {
                     //Operation has been completed. We can remove this from the running operations list and go on.
                     OPERATIONS.remove(messageId);

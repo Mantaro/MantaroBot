@@ -21,10 +21,7 @@ import lavalink.client.io.Link;
 import lavalink.client.io.jda.JdaLink;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.StageChannel;
-import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.utils.MarkdownSanitizer;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
@@ -158,15 +155,17 @@ public class AudioCmdUtils {
     }
 
     public static CompletionStage<Void> openAudioConnection(SlashContext ctx, JdaLink link,
-                                                            VoiceChannel userChannel, I18nContext lang) {
+                                                            AudioChannel userChannel, I18nContext lang) {
         final var textChannel = ctx.getChannel();
         final var userChannelMembers = userChannel.getMembers();
         Member selfMember = ctx.getGuild().getSelfMember();
 
-        if (userChannel.getUserLimit() <= userChannelMembers.size()
-                && userChannel.getUserLimit() > 0 && !selfMember.hasPermission(Permission.MANAGE_CHANNEL)) {
-            ctx.edit("commands.music_general.connect.full_channel", EmoteReference.ERROR);
-            return completedFuture(null);
+        if (userChannel instanceof VoiceChannel vc) {
+            if (vc.getUserLimit() <= userChannelMembers.size()
+                    && vc.getUserLimit() > 0 && !selfMember.hasPermission(Permission.MANAGE_CHANNEL)) {
+                ctx.edit("commands.music_general.connect.full_channel", EmoteReference.ERROR);
+                return completedFuture(null);
+            }
         }
 
         try {
@@ -186,10 +185,10 @@ public class AudioCmdUtils {
                 var stageInstance = channel.getStageInstance();
                 if (stageInstance == null) {
                     channel.createStageInstance("Music").setTopic("Music by Mantaro").queue(inst -> {
-                        inst.requestToSpeak().queue();
+                        inst.getChannel().requestToSpeak().queue();
                     });
                 } else {
-                    stageInstance.getGuild().requestToSpeak();
+                    stageInstance.getChannel().requestToSpeak().queue();
                 }
             }
 
@@ -313,7 +312,7 @@ public class AudioCmdUtils {
         return completedFuture(true);
     }
 
-    private static void joinVoiceChannel(JdaLink manager, VoiceChannel channel) {
+    private static void joinVoiceChannel(JdaLink manager, AudioChannel channel) {
         manager.connect(channel);
     }
 

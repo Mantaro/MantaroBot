@@ -2,7 +2,7 @@ package net.kodehawa.mantarobot.core.command.slash;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.requests.restaction.WebhookMessageUpdateAction;
@@ -29,11 +29,11 @@ import java.util.List;
 public class SlashContext implements IContext {
     private final ManagedDatabase managedDatabase = MantaroData.db();
     private final Config config = MantaroData.config().get();
-    private final SlashCommandEvent slash;
+    private final SlashCommandInteractionEvent slash;
     private final I18nContext i18n;
     private boolean deferred = false;
 
-    public SlashContext(SlashCommandEvent event, I18nContext i18n) {
+    public SlashContext(SlashCommandInteractionEvent event, I18nContext i18n) {
         this.slash = event;
         this.i18n = i18n;
     }
@@ -46,7 +46,7 @@ public class SlashContext implements IContext {
         return slash.getName();
     }
 
-    public SlashCommandEvent getEvent() {
+    public SlashCommandInteractionEvent getEvent() {
         return slash;
     }
 
@@ -73,8 +73,20 @@ public class SlashContext implements IContext {
         return slash.getOptions();
     }
 
-    public TextChannel getChannel() throws IllegalStateException {
-        return slash.getTextChannel();
+    public GuildMessageChannel getChannel() throws IllegalStateException {
+        return slash.getGuildChannel();
+    }
+
+    public boolean isChannelNSFW() {
+        if (getChannel() instanceof TextChannel txtChannel) {
+            return txtChannel.isNSFW();
+        }
+
+        if (getChannel() instanceof ThreadChannel threadChannel) {
+            ((BaseGuildMessageChannel) threadChannel.getParentChannel()).isNSFW();
+        }
+
+        return false;
     }
 
     public Member getMember() {
@@ -214,7 +226,7 @@ public class SlashContext implements IContext {
 
     public WebhookMessageUpdateAction<Message> editAction(MessageEmbed embed) {
         if (!slash.isAcknowledged()) {
-            slash.getHook().getInteraction().deferReply().queue();
+            slash.deferReply().queue();
         }
 
         return slash.getHook().editOriginalEmbeds(embed).setContent("");
@@ -222,7 +234,7 @@ public class SlashContext implements IContext {
 
     public void edit(MessageEmbed embed) {
         if (!slash.isAcknowledged()) {
-            slash.getHook().getInteraction().deferReply().queue();
+            slash.deferReply().queue();
         }
 
         slash.getHook().editOriginalEmbeds(embed).setContent("")
@@ -231,7 +243,7 @@ public class SlashContext implements IContext {
 
     public void edit(String s) {
         if (!slash.isAcknowledged()) {
-            slash.getHook().getInteraction().deferReply().queue();
+            slash.deferReply().queue();
         }
 
         slash.getHook().editOriginal(s).setEmbeds(Collections.emptyList()).queue();
@@ -239,7 +251,7 @@ public class SlashContext implements IContext {
 
     public void editStripped(String s) {
         if (!slash.isAcknowledged()) {
-            slash.getHook().getInteraction().deferReply()
+            slash.deferReply()
                     .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                     .queue();
         }
@@ -253,7 +265,7 @@ public class SlashContext implements IContext {
 
     public void edit(String s, Object... args) {
         if (!slash.isAcknowledged()) {
-            slash.getHook().getInteraction().deferReply().queue();
+            slash.deferReply().queue();
         }
 
         slash.getHook().editOriginal(i18n.get(s).formatted(args))
@@ -264,8 +276,7 @@ public class SlashContext implements IContext {
 
     public void editStripped(String s, Object... args) {
         if (!slash.isAcknowledged()) {
-            slash.getHook().getInteraction()
-                    .deferReply()
+            slash.deferReply()
                     .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                     .queue();
         }
@@ -278,7 +289,7 @@ public class SlashContext implements IContext {
 
     public WebhookMessageUpdateAction<Message> editAction(String s) {
         if (!slash.isAcknowledged()) {
-            slash.getHook().getInteraction().deferReply().queue();
+            slash.deferReply().queue();
         }
 
         return slash.getHook().editOriginal(s).setEmbeds(Collections.emptyList());
@@ -341,7 +352,7 @@ public class SlashContext implements IContext {
     @Override
     public Message sendResult(String s) {
         if (!slash.isAcknowledged()) {
-            slash.getHook().getInteraction().deferReply().queue();
+            slash.deferReply().queue();
         }
 
         return slash.getHook().sendMessage(s).complete();
@@ -350,7 +361,7 @@ public class SlashContext implements IContext {
     @Override
     public Message sendResult(MessageEmbed e) {
         if (!slash.isAcknowledged()) {
-            slash.getHook().getInteraction().deferReply().queue();
+            slash.deferReply().queue();
         }
 
         return slash.getHook().sendMessageEmbeds(e).complete();

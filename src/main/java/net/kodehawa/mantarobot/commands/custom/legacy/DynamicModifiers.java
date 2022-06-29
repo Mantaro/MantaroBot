@@ -19,7 +19,7 @@ package net.kodehawa.mantarobot.commands.custom.legacy;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.GenericGuildEvent;
 import net.dv8tion.jda.api.events.guild.member.GenericGuildMemberEvent;
-import net.dv8tion.jda.api.events.message.guild.GenericGuildMessageEvent;
+import net.dv8tion.jda.api.events.message.GenericMessageEvent;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.utils.Utils;
 
@@ -97,10 +97,10 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
                 .set(prefix, ctx.getMember().getAsMention() + "@" + ctx.getChannel().getAsMention())
                 .mapMember(k(prefix, "author"), ctx.getMember())
                 // This gets processed later on
-                .mapMessage(k(prefix, "message"), new CustomMessage(ctx.getContent(), ctx.getMessage().getMentionedMembers(), ctx.isMentionPrefix()));
+                .mapMessage(k(prefix, "message"), new CustomMessage(ctx.getContent(), ctx.getMessage().getMentions().getMembers(), ctx.isMentionPrefix()));
     }
 
-    public DynamicModifiers mapEvent(String prefix, GenericGuildMessageEvent event) {
+    public DynamicModifiers mapEvent(String prefix, GenericMessageEvent event) {
         return this.set(prefix, "timestamp", Utils.formatDate(OffsetDateTime.now()))
                 .mapChannel(k(prefix, "channel"), event.getChannel())
                 .mapGuild(k(prefix, "guild"), event.getGuild())
@@ -120,7 +120,7 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
     }
 
     public DynamicModifiers mapMessage(String prefix, Message message, boolean isMentionPrefix) {
-        return mapMessage(prefix, new CustomMessage(message.getContentRaw(), message.getMentionedMembers(), isMentionPrefix));
+        return mapMessage(prefix, new CustomMessage(message.getContentRaw(), message.getMentions().getMembers(), isMentionPrefix));
     }
 
     public DynamicModifiers mapMessage(String prefix, CustomMessage message) {
@@ -134,15 +134,14 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
                 .set(prefix, "firstmentionid", message.getMentionedUsers().isEmpty() ? "" : message.getMentionedUsers().get(0).getId());
     }
 
-    public DynamicModifiers mapChannel(String prefix, TextChannel channel) {
+    public DynamicModifiers mapChannel(String prefix, MessageChannel channel) {
         return this.set(prefix, channel.getAsMention())
-                .set(prefix, "topic", channel.getTopic())
                 .set(prefix, "name", channel.getName())
                 .set(prefix, "id", channel.getId())
                 .set(prefix, "mention", channel.getAsMention());
     }
 
-    public DynamicModifiers mapFromJoinLeave(String prefix, TextChannel channel, User user, Guild guild) {
+    public DynamicModifiers mapFromJoinLeave(String prefix, MessageChannel channel, User user, Guild guild) {
         return this.set(prefix, user.getName() + "@" + guild.getName())
                 .mapGuild(k(prefix, "guild"), guild)
                 .mapMember(k(prefix, "me"), guild.getSelfMember())

@@ -26,7 +26,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.Button;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.utils.leaderboards.CachedLeaderboardMember;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -367,11 +367,11 @@ public class LeaderboardCmd {
     }
 
     /**
-     * Caches an user in redis if they're in the leaderboard. This speeds up User lookup times tenfold.
+     * Caches a user in redis if they're in the leaderboard. This speeds up User lookup times tenfold.
      * The key will expire after 48 hours in the set, then we will just re-cache it as needed.
      * This should also take care of username changes.
      *
-     * This value is saved in Redis so it can be used cross-node.
+     * This value is saved in Redis, so it can be used cross-node.
      * This also fixes leaderboards being incomplete in some nodes.
      *
      * This method is necessary to avoid calling Discord every single time we call a leaderboard,

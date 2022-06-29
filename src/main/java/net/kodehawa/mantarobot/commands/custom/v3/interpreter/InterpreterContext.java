@@ -16,7 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.custom.v3.interpreter;
 
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 
 import java.util.HashMap;
@@ -42,7 +42,7 @@ public class InterpreterContext {
         return operations;
     }
 
-    public GuildMessageReceivedEvent event() {
+    public MessageReceivedEvent event() {
         return commandContext.getEvent();
     }
 

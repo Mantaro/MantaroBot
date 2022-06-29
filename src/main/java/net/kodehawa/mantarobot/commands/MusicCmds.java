@@ -598,7 +598,7 @@ public class MusicCmds {
             }
 
             // There's voice state but it isn't on a voice channel (how?), or the person is connected to another VC.
-            if (!voiceState.inVoiceChannel() || !voiceState.getChannel().getId().equals(player.getChannel())) {
+            if (!voiceState.inAudioChannel() || !voiceState.getChannel().getId().equals(player.getChannel())) {
                 sendNotConnectedToMyChannel(ctx);
                 return true;
             }
@@ -613,7 +613,7 @@ public class MusicCmds {
         } catch (NullPointerException e) { // Maybe a little harder to reach this?
             // Ironically before we checked for this without checking if selfVoiceState was null
             // therefore we threw a NPE when catching a NPE...
-            if (selfVoiceState != null && selfVoiceState.inVoiceChannel())
+            if (selfVoiceState != null && selfVoiceState.inAudioChannel())
                 log.error("Possible bug? No player even though bot is connected to a channel!", e);
 
             ctx.edit("commands.music_general.no_player", EmoteReference.ERROR);

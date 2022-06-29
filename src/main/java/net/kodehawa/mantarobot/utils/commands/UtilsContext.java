@@ -1,17 +1,17 @@
 package net.kodehawa.mantarobot.utils.commands;
 
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 public class UtilsContext {
     private final Guild guild;
     private final Member member;
-    private final TextChannel channel;
-    private final SlashCommandEvent slashEvent;
+    private final GuildMessageChannel channel;
+    private final SlashCommandInteractionEvent slashEvent;
     private final I18nContext languageContext;
 
-    public UtilsContext(Guild guild, Member member, TextChannel channel, I18nContext languageContext, SlashCommandEvent event) {
+    public UtilsContext(Guild guild, Member member, GuildMessageChannel channel, I18nContext languageContext, SlashCommandInteractionEvent event) {
         this.guild = guild;
         this.member = member;
         this.channel = channel;
@@ -31,7 +31,7 @@ public class UtilsContext {
         return member;
     }
 
-    public TextChannel getChannel() {
+    public GuildMessageChannel getChannel() {
         return channel;
     }
 
@@ -52,7 +52,7 @@ public class UtilsContext {
         else {
             // What kind of meme is this?
             if (!slashEvent.isAcknowledged()) {
-                slashEvent.getHook().getInteraction().deferReply().queue();
+                slashEvent.getHook().getInteraction();
             }
 
             return slashEvent.getHook().editOriginalEmbeds(message).setContent("").complete();

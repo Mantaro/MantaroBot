@@ -19,8 +19,8 @@ package net.kodehawa.mantarobot.core;
 import com.google.common.base.Preconditions;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.CustomCmds;
 import net.kodehawa.mantarobot.core.command.CommandManager;
 import net.kodehawa.mantarobot.core.command.NewCommand;
@@ -92,7 +92,8 @@ public class CommandRegistry {
     }
 
     // Process non-slash commands.
-    public void process(GuildMessageReceivedEvent event, DBGuild dbGuild, String cmdName, String content, String prefix, boolean isMention) {
+    // We filter non-guild events early on.
+    public void process(MessageReceivedEvent event, DBGuild dbGuild, String cmdName, String content, String prefix, boolean isMention) {
         final var managedDatabase = MantaroData.db();
         final var start = System.currentTimeMillis();
 
@@ -253,7 +254,7 @@ public class CommandRegistry {
     }
 
     // Process slash commands.
-    public void process(SlashCommandEvent event) {
+    public void process(SlashCommandInteractionEvent event) {
         if (event.getGuild() == null) {
             event.deferReply(true)
                     .setContent("This bot does not accept commands in Private Messages. You can add it to your server at https://add.mantaro.site")
@@ -491,7 +492,7 @@ public class CommandRegistry {
     }
 
 
-    public void sendDisabledNotice(GuildMessageReceivedEvent event, GuildData data, CommandDisableLevel level) {
+    public void sendDisabledNotice(MessageReceivedEvent event, GuildData data, CommandDisableLevel level) {
         if (data.isCommandWarningDisplay() && level != CommandDisableLevel.NONE) {
             event.getChannel().sendMessageFormat("%sThis command is disabled on this server. Reason: %s",
                     EmoteReference.ERROR, Utils.capitalize(level.getName())
@@ -499,7 +500,7 @@ public class CommandRegistry {
         } // else don't
     }
 
-    public void sendDisabledNotice(SlashCommandEvent event, CommandDisableLevel level) {
+    public void sendDisabledNotice(SlashCommandInteractionEvent event, CommandDisableLevel level) {
         event.deferReply(true)
                 .setContent("%sThis command is disabled on this server. Reason: %s"
                         .formatted(EmoteReference.ERROR, Utils.capitalize(level.getName()))

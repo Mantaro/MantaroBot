@@ -18,22 +18,19 @@ package net.kodehawa.mantarobot.utils.commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Emoji;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.Button;
-import net.kodehawa.mantarobot.commands.anime.AnimeData;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ButtonOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.IntIntObjectFunction;
@@ -99,7 +96,7 @@ public class DiscordUtils {
         return Pair.of(builder.toString(), list.size());
     }
 
-    public static Future<Void> selectInt(GuildMessageReceivedEvent event, int max,
+    public static Future<Void> selectInt(MessageReceivedEvent event, int max,
                                          IntConsumer valueConsumer, Consumer<Void> cancelConsumer) {
         return InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 30, (e) -> {
             if (!e.getAuthor().equals(event.getAuthor())) {
@@ -189,11 +186,11 @@ public class DiscordUtils {
         }, buttons);
     }
 
-    public static Future<Void> selectInt(GuildMessageReceivedEvent event, int max, IntConsumer valueConsumer) {
+    public static Future<Void> selectInt(MessageReceivedEvent event, int max, IntConsumer valueConsumer) {
         return selectInt(event, max, valueConsumer, (o) -> { });
     }
 
-    public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, List<T> list,
+    public static <T> Future<Void> selectList(MessageReceivedEvent event, List<T> list,
                                               Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
                                               Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
         var r = embedList(list, toString);
@@ -202,7 +199,7 @@ public class DiscordUtils {
         return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list.get(i - 1)), cancelConsumer);
     }
 
-    public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, T[] list,
+    public static <T> Future<Void> selectList(MessageReceivedEvent event, T[] list,
                                               Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
                                               Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
         var r = embedList(Arrays.asList(list), toString);
@@ -211,7 +208,7 @@ public class DiscordUtils {
         return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list[i - 1]), cancelConsumer);
     }
 
-    public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, List<T> list,
+    public static <T> Future<Void> selectList(MessageReceivedEvent event, List<T> list,
                                               Function<T, String> toString,
                                               Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
         return selectList(event, list, toString, toEmbed, valueConsumer, (o) -> { });
@@ -223,7 +220,7 @@ public class DiscordUtils {
         return selectListButton(ctx, list, toString, toEmbed, valueConsumer, (o) -> { });
     }
 
-    public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, T[] list,
+    public static <T> Future<Void> selectList(MessageReceivedEvent event, T[] list,
                                               Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
                                               Consumer<T> valueConsumer) {
         return selectList(event, list, toString, toEmbed, valueConsumer, (o) -> { });
@@ -242,7 +239,7 @@ public class DiscordUtils {
         return selectIntButton(ctx, m, r.getRight(), i -> valueConsumer.accept(list.get(i - 1)), cancelConsumer);
     }
 
-    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
+    public static Future<Void> list(MessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
                                     IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
         if (parts.length == 0) {
             return null;
@@ -262,7 +259,7 @@ public class DiscordUtils {
                 return Operation.IGNORED;
             }
 
-            switch (e.getReactionEmote().getName()) {
+            switch (e.getReaction().getEmoji().getName()) {
                 //left arrow
                 case "\u2b05" -> {
                     if (index.get() == 0) {
@@ -282,7 +279,7 @@ public class DiscordUtils {
                 default -> { } // Do nothing, but make codefactor happy lol
             }
 
-            if (e.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE) && e.getUser() != null) {
+            if (e.getGuild().getSelfMember().hasPermission(e.getGuildChannel(), Permission.MESSAGE_MANAGE) && e.getUser() != null) {
                 e.getReaction().removeReaction(e.getUser()).queue();
             }
 
@@ -290,7 +287,7 @@ public class DiscordUtils {
         }, "\u2b05", "\u27a1");
     }
 
-    public static void listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
+    public static void listText(MessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
                                 EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
         if (parts.size() == 0) {
             return;
@@ -348,7 +345,7 @@ public class DiscordUtils {
         });
     }
 
-    public static void listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {
+    public static void listText(MessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {
         if (parts.size() == 0) {
             return;
         }
@@ -392,7 +389,7 @@ public class DiscordUtils {
     }
 
 
-    public static void listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
+    public static void listText(MessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
                                 IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
         if (parts.length == 0) {
             return;
@@ -435,17 +432,17 @@ public class DiscordUtils {
         });
     }
 
-    public static void listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
+    public static void listText(MessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
                                         IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
         listText(event, timeoutSeconds, canEveryoneUse, length, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
     }
 
-    public static void listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
+    public static void listText(MessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
                                 IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
         listText(event, timeoutSeconds, canEveryoneUse, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
     }
 
-    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {
+    public static Future<Void> list(MessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {
         if (parts.size() == 0) {
             return null;
         }
@@ -462,7 +459,7 @@ public class DiscordUtils {
             if (!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong())
                 return Operation.IGNORED;
 
-            switch (e.getReactionEmote().getName()) {
+            switch (e.getReaction().getEmoji().getName()) {
                 //left arrow
                 case "\u2b05" -> {
                     if (index.get() == 0) {
@@ -510,13 +507,11 @@ public class DiscordUtils {
         var message = ctx.send(embeds.get(0));
         return ButtonOperations.create(message, timeoutSeconds, new ButtonOperation() {
             @Override
-            public int click(ButtonClickEvent e) {
+            public int click(ButtonInteractionEvent e) {
                 if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong())
                     return Operation.IGNORED;
 
                 var button = e.getButton();
-                if (button == null)
-                    return Operation.IGNORED;
 
                 var hook = e.getHook();
                 switch (button.getId()) {
@@ -586,14 +581,12 @@ public class DiscordUtils {
         var m = ctx.send(parts.get(0));
         return ButtonOperations.create(m, timeoutSeconds, new ButtonOperation() {
             @Override
-            public int click(ButtonClickEvent e) {
+            public int click(ButtonInteractionEvent e) {
                 if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong())
                     return Operation.IGNORED;
 
                 var hook = e.getHook();
                 var button = e.getButton();
-                if (button == null)
-                    return Operation.IGNORED;
 
                 switch (button.getId()) {
                     case "button_first" -> {
@@ -682,15 +675,12 @@ public class DiscordUtils {
         var message = ctx.send(base.build());
         return ButtonOperations.create(message, timeoutSeconds, new ButtonOperation() {
             @Override
-            public int click(ButtonClickEvent e) {
+            public int click(ButtonInteractionEvent e) {
                 if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                     return Operation.IGNORED;
                 }
 
                 var button = e.getButton();
-                if (button == null)
-                    return Operation.IGNORED;
-
                 var hook = e.getHook();
                 switch (button.getId()) {
                     case "button_first" -> {
@@ -766,12 +756,12 @@ public class DiscordUtils {
         }, DEFAULT_COMPONENTS_FIRST);
     }
 
-    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
+    public static Future<Void> list(MessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
                                     IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
         return list(event, timeoutSeconds, canEveryoneUse, length, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
     }
 
-    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
+    public static Future<Void> list(MessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
                                     IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
         // Passing an empty String[] array to List#toArray makes it convert to a array of strings, god knows why.
         // Javadoc below just so I don't forget:
@@ -780,7 +770,7 @@ public class DiscordUtils {
         return list(event, timeoutSeconds, canEveryoneUse, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
     }
 
-    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
+    public static Future<Void> list(MessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
                                     EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
         if (parts.size() == 0) {
             return null;
@@ -804,7 +794,7 @@ public class DiscordUtils {
                 return Operation.IGNORED;
             }
 
-            switch (e.getReactionEmote().getName()) {
+            switch (e.getReaction().getEmoji().getName()) {
                 //left arrow
                 case "\u2b05" -> {
                     if (index.get() == 0) {

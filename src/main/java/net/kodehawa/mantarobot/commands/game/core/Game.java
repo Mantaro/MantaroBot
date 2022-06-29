@@ -16,7 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.game.core;
 
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -39,8 +39,12 @@ public abstract class Game<T> {
 
     public abstract String name();
 
-    protected int callDefault(GuildMessageReceivedEvent e, GameLobby lobby, List<String> players, List<T> expectedAnswer,
+    protected int callDefault(MessageReceivedEvent e, GameLobby lobby, List<String> players, List<T> expectedAnswer,
                               int attempts, int maxAttempts, int extra) {
+        if (!e.isFromGuild()) {
+            return Operation.IGNORED;
+        }
+
         var channel = lobby.getChannel();
         if (!e.getChannel().getId().equals(channel.getId())) {
             return Operation.IGNORED;

@@ -127,7 +127,7 @@ public class CustomCmds {
             return;
         }
 
-        if (customCommand.getData().isNsfw() && !ctx.getChannel().isNSFW()) {
+        if (customCommand.getData().isNsfw() && !ctx.isChannelNSFW()) {
             ctx.sendLocalized("commands.custom.nsfw_not_nsfw", EmoteReference.ERROR);
             return;
         }

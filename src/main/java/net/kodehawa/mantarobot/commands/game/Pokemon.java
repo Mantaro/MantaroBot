@@ -16,7 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.game;
 
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.game.core.ImageGame;
 import net.kodehawa.mantarobot.commands.game.core.PokemonGameData;
@@ -43,7 +43,7 @@ public class Pokemon extends ImageGame {
     public void call(GameLobby lobby, List<String> players) {
         InteractiveOperations.create(lobby.getChannel(), Long.parseLong(lobby.getPlayers().get(0)), 75, new InteractiveOperation() {
             @Override
-            public int run(GuildMessageReceivedEvent event) {
+            public int run(MessageReceivedEvent event) {
                 return callDefault(event, lobby, players, expectedAnswer, getAttempts(), maxAttempts, 15);
             }
 

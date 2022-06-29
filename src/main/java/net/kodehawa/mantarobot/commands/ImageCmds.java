@@ -208,7 +208,7 @@ public class ImageCmds {
     public static class E621 extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            if (!ctx.getChannel().isNSFW()) {
+            if (!ctx.isChannelNSFW()) {
                 ctx.replyEphemeral("commands.imageboard.e621_nsfw_notice", EmoteReference.ERROR);
                 return;
             }
@@ -265,7 +265,7 @@ public class ImageCmds {
     public static class Konachan extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            if (!ctx.getChannel().isNSFW()) {
+            if (!ctx.isChannelNSFW()) {
                 ctx.sendLocalized("commands.imageboard.konachan_nsfw_notice", EmoteReference.ERROR);
                 return;
             }
@@ -301,7 +301,7 @@ public class ImageCmds {
     public static class Yandere extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            if (!ctx.getChannel().isNSFW()) {
+            if (!ctx.isChannelNSFW()) {
                 ctx.sendLocalized("commands.imageboard.yandere_nsfw_notice", EmoteReference.ERROR);
                 return;
             }
@@ -337,7 +337,7 @@ public class ImageCmds {
     public static class Gelbooru extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            if (!ctx.getChannel().isNSFW()) {
+            if (!ctx.isChannelNSFW()) {
                 ctx.sendLocalized("commands.imageboard.yandere_nsfw_notice", EmoteReference.ERROR);
                 return;
             }
@@ -367,7 +367,7 @@ public class ImageCmds {
     public static class Safebooru extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            if (!ctx.getChannel().isNSFW()) {
+            if (!ctx.isChannelNSFW()) {
                 ctx.sendLocalized("commands.imageboard.konachan_nsfw_notice", EmoteReference.ERROR);
                 return;
             }
@@ -424,7 +424,7 @@ public class ImageCmds {
     public static class Danbooru extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            if (!ctx.getChannel().isNSFW()) {
+            if (!ctx.isChannelNSFW()) {
                 ctx.sendLocalized("commands.imageboard.konachan_nsfw_notice", EmoteReference.ERROR);
                 return;
             }

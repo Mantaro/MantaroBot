@@ -161,7 +161,6 @@ public class DebugCmds {
                     + "Overall: " + "[ Players: %,d, Queue: %,d ]".formatted(players, queueSize) + "\n"
                     + "```"
             );
-
         }
     }
 

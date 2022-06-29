@@ -16,22 +16,21 @@
 
 package net.kodehawa.mantarobot.commands.interaction.polls;
 
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import java.util.UUID;
 
 @SuppressWarnings("UnusedReturnValue")
 public class PollBuilder {
-    private SlashCommandEvent event;
+    private SlashCommandInteractionEvent event;
     private String name = "";
     private String[] options;
     private long timeout;
     private I18nContext languageContext;
     private String image;
 
-    public PollBuilder setEvent(SlashCommandEvent event) {
+    public PollBuilder setEvent(SlashCommandInteractionEvent event) {
         this.event = event;
         return this;
     }

@@ -469,7 +469,7 @@ public class OwnerCmd {
         Evaluator eval = (ctx, code) -> {
             var result = evaluator.compile("Eval",
                     """
-                    import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+                    import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
                     import net.kodehawa.mantarobot.core.modules.commands.base.Context;
                     import net.kodehawa.mantarobot.*;
                     import net.kodehawa.mantarobot.core.listeners.operations.*;

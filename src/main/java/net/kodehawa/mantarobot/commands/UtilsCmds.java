@@ -286,7 +286,7 @@ public class UtilsCmds {
     public static class Urban extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            if (!ctx.getChannel().isNSFW()) {
+            if (!ctx.isChannelNSFW()) {
                 ctx.replyEphemeral("commands.urban.nsfw_notice", EmoteReference.ERROR);
                 return;
             }

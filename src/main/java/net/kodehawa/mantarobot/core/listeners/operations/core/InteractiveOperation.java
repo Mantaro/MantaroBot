@@ -16,9 +16,9 @@
 
 package net.kodehawa.mantarobot.core.listeners.operations.core;
 
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @FunctionalInterface
 public interface InteractiveOperation extends Operation {
-    int run(GuildMessageReceivedEvent event);
+    int run(MessageReceivedEvent event);
 }

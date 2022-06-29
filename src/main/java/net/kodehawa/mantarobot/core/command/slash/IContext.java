@@ -18,7 +18,7 @@ import java.util.Collection;
 
 public interface IContext {
     Guild getGuild();
-    TextChannel getChannel();
+    GuildMessageChannel getChannel();
     Member getMember();
     User getAuthor();
     RatelimitContext ratelimitContext();

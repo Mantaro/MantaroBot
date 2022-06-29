@@ -19,7 +19,7 @@ package net.kodehawa.mantarobot.core.modules.commands.base;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.concurrent.Task;
@@ -50,12 +50,12 @@ public class Context implements IContext {
     private final ManagedDatabase managedDatabase = MantaroData.db();
     private final Config config = MantaroData.config().get();
 
-    private final GuildMessageReceivedEvent event;
+    private final MessageReceivedEvent event;
     private final String content;
     private final boolean isMentionPrefix;
     private I18nContext languageContext;
 
-    public Context(GuildMessageReceivedEvent event, I18nContext languageContext, String content, boolean isMentionPrefix) {
+    public Context(MessageReceivedEvent event, I18nContext languageContext, String content, boolean isMentionPrefix) {
         this.event = event;
         this.languageContext = languageContext;
         this.content = content;
@@ -74,7 +74,7 @@ public class Context implements IContext {
         return managedDatabase;
     }
 
-    public GuildMessageReceivedEvent getEvent() {
+    public MessageReceivedEvent getEvent() {
         return event;
     }
 
@@ -91,7 +91,7 @@ public class Context implements IContext {
     }
 
     public List<User> getMentionedUsers() {
-        final var mentionedUsers = getEvent().getMessage().getMentionedUsers();
+        final var mentionedUsers = getEvent().getMessage().getMentions().getUsers();
         if (isMentionPrefix) {
             final var mutable = new LinkedList<>(mentionedUsers);
             return mutable.subList(1, mutable.size());
@@ -101,7 +101,7 @@ public class Context implements IContext {
     }
 
     public List<Member> getMentionedMembers() {
-        final var mentionedMembers = getEvent().getMessage().getMentionedMembers();
+        final var mentionedMembers = getEvent().getMessage().getMentions().getMembers();
         if (isMentionPrefix) {
             final var mutable = new LinkedList<>(mentionedMembers);
             return mutable.subList(1, mutable.size());
@@ -142,8 +142,8 @@ public class Context implements IContext {
         return getGuild().getSelfMember();
     }
 
-    public TextChannel getChannel() {
-        return event.getChannel();
+    public GuildMessageChannel getChannel() {
+        return event.getGuildChannel();
     }
 
     public MantaroAudioManager getAudioManager() {
@@ -408,5 +408,21 @@ public class Context implements IContext {
 
     public UtilsContext getUtilsContext() {
         return new UtilsContext(getGuild(), getMember(), getChannel(), languageContext, null);
+    }
+
+    public boolean isChannelNSFW() {
+        if (getChannel() instanceof TextChannel txtChannel) {
+            return txtChannel.isNSFW();
+        }
+
+        if (getChannel() instanceof ThreadChannel threadChannel) {
+            return ((BaseGuildMessageChannel) threadChannel.getParentChannel()).isNSFW();
+        }
+
+        if (getChannel() instanceof NewsChannel txtChannel) {
+            return txtChannel.isNSFW();
+        }
+
+        return false;
     }
 }

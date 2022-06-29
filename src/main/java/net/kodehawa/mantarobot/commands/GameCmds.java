@@ -327,7 +327,7 @@ public class GameCmds {
 
                 var diff = "";
                 var mentions = ctx.getMentionedUsers();
-                var roleMentions = ctx.getMessage().getMentionedRoles();
+                var roleMentions = ctx.getMessage().getMentions().getRoles();
 
                 if (args.length > 0) {
                     diff = args[0].toLowerCase();
@@ -372,7 +372,7 @@ public class GameCmds {
 
         List<String> players = new ArrayList<>();
         players.add(ctx.getAuthor().getId());
-        final var mentionedRoles = ctx.getMessage().getMentionedRoles();
+        final var mentionedRoles = ctx.getMessage().getMentions().getRoles();
 
         if (!mentionedRoles.isEmpty()) {
             var strBuilder = new StringBuilder();

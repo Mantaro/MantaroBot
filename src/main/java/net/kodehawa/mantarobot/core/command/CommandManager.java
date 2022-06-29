@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.core.command;
 
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 
@@ -66,14 +67,12 @@ public class CommandManager {
         CommandData commandData;
         // So you can't have root commands if you have subcommands, why?
         if (command.getSubCommands().isEmpty()) {
-            commandData = new CommandData(command.getName(), "[%s] %s".formatted(command.getCategory().readableName(), command.getDescription()))
-                    .addOptions(command.getOptions())
-                    .setDefaultEnabled(true);
+            commandData = Commands.slash(command.getName(), "[%s] %s".formatted(command.getCategory().readableName(), command.getDescription()))
+                    .addOptions(command.getOptions());
 
         } else {
-            commandData = new CommandData(command.getName(), "[%s] %s".formatted(command.getCategory().readableName(), command.getDescription()))
-                    .addSubcommands(command.getSubCommandsRaw())
-                    .setDefaultEnabled(true);
+            commandData = Commands.slash(command.getName(), "[%s] %s".formatted(command.getCategory().readableName(), command.getDescription()))
+                    .addSubcommands(command.getSubCommandsRaw());
         }
 
         slashCommands.put(command.getName(), command);

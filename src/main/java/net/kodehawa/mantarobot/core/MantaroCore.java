@@ -102,7 +102,6 @@ public class MantaroCore {
         Metrics.THREAD_POOL_COLLECTOR.add("mantaro-executor", threadPool);
     }
 
-
     public static boolean hasLoadedCompletely() {
         return getLoadState().equals(POSTLOAD);
     }
@@ -203,7 +202,7 @@ public class MantaroCore {
             };
 
             var disabledIntents = EnumSet.of(
-                    CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS,
+                    CacheFlag.ACTIVITY, CacheFlag.EMOJI, CacheFlag.CLIENT_STATUS,
                     CacheFlag.ROLE_TAGS, CacheFlag.ONLINE_STATUS
             );
 

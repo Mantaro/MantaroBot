@@ -19,7 +19,7 @@ package net.kodehawa.mantarobot.commands.image;
 import com.google.common.collect.ImmutableMap;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.Button;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kodehawa.lib.imageboards.DefaultImageBoards;
 import net.kodehawa.lib.imageboards.ImageBoard;
 import net.kodehawa.lib.imageboards.entities.BoardImage;
@@ -192,7 +192,7 @@ public class ImageboardUtils {
     }
 
     public static boolean nsfwCheck(SlashContext ctx, boolean nsfwImageboard, boolean sendMessage, Rating rating) {
-        if (ctx.getChannel().isNSFW()) {
+        if (ctx.isChannelNSFW()) {
             return true;
         }
 
