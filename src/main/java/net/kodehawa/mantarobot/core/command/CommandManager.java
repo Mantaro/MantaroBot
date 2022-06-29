@@ -68,10 +68,12 @@ public class CommandManager {
         // So you can't have root commands if you have subcommands, why?
         if (command.getSubCommands().isEmpty()) {
             commandData = Commands.slash(command.getName(), "[%s] %s".formatted(command.getCategory().readableName(), command.getDescription()))
+                    .setGuildOnly(true)
                     .addOptions(command.getOptions());
 
         } else {
             commandData = Commands.slash(command.getName(), "[%s] %s".formatted(command.getCategory().readableName(), command.getDescription()))
+                    .setGuildOnly(true)
                     .addSubcommands(command.getSubCommandsRaw());
         }
 
