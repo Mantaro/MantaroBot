@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.awt.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -98,6 +99,37 @@ public class InfoCmds {
             }
         }
 
+        @Description("Shows the message the bot sends when it's added to a server.")
+        @Help(description = "Shows the message the bot sends when it's added to a server.")
+        public static class Welcome extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                final var embedBuilder = new EmbedBuilder()
+                        .setThumbnail(ctx.getJDA().getSelfUser().getEffectiveAvatarUrl())
+                        .setColor(Color.PINK)
+                        .setDescription("""
+                                Welcome to **Mantaro**, a fun, quirky and complete Discord bot! Thanks for adding me to your server, I highly appreciate it <3
+                                We have music, currency (money/economy), games and way more stuff you can check out!
+                                Make sure you use the `~>help` command to make yourself comfy and to get started with the bot!
+
+                                If you're interested in supporting Mantaro, check out our Patreon page below, it'll greatly help to improve the bot.
+                                Check out the links below for some help resources and quick start guides.
+                                This message will only be shown once.""")
+                        .addField(EmoteReference.PENCIL.toHeaderString() + "Important Links",
+                                """
+                                        [Support Server](https://support.mantaro.site) - The place to check if you're lost or if there's an issue with the bot.
+                                        [Official Wiki](https://github.com/Mantaro/MantaroBot/wiki/) - Good place to check if you're lost.
+                                        [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22) - Great customizability for your server needs!
+                                        [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101) - A lot of fun to be had!
+                                        [Configuration](https://github.com/Mantaro/MantaroBot/wiki/Configuration) -  Customizability for your server needs!
+                                        [Patreon](https://patreon.com/mantaro) - Help Mantaro's development directly by donating a small amount of money each month.
+                                        [Official Website](https://mantaro.site) - A cool website.""",
+                                true
+                        ).setFooter("We hope you enjoy using Mantaro! For any questions, go to our support server.");
+
+                ctx.replyEphemeral(embedBuilder.build());
+            }
+        }
         @Name("invite")
         @Description("Gives you a bot OAuth invite link and some other important links.")
         @Help(description = "Gives you a bot OAuth invite link and some other important links.")
