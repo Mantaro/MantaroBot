@@ -198,7 +198,7 @@
       "unknown_error": "%1$sErreur inconnue lors du bannissement %2$s"
     },
     "kick": {
-      "no_permission": "%1$sYou can't ban: You need the `Kick Members` permission.",
+      "no_permission": "%1$sYou can't kick: You need the `Kick Members` permission.",
       "no_users": "%1$sTu dois me donner un utilisateur à expulser.",
       "no_permission_self": "%1$sDésolé! Je n'ai pas la permission d'expulser les membres de ce serveur.",
       "hierarchy_conflict": "%1$sTu ne peux pas expulser un utilisateur dont la hiérarchie est plus élevée que toi",
@@ -724,7 +724,7 @@
       "brief_notice": "You can use `/inventory brief` to get a mobile friendly version.",
       "sorted_by": " *(classé par: %1$s)*",
       "new_brief_notice": "Please use `/inventory brief` instead.",
-      "new_calc_notice": "Please use `/inventory calc` instead."
+      "new_calc_notice": "Please use `/inventory calculate` instead."
     },
     "cast": {
       "no_item_specified": "%1$sYou didn't specify any items. For a list, check `/cast ls`",
@@ -897,7 +897,7 @@
       "thank_note": "Merci pour ton vote!",
       "results": "Résultats",
       "cancelled": "%1$sSondage supprimé",
-      "incorrect_time_format": "%1$sFormat de durée incorrect. Souviens-toi, le format adéquat utilise les nombres suivis de `h, m or s` (heures, minutes or secondes). Exemple : `-time 40m`"
+      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds)."
     },
     "profile": {
       "timezone": {
@@ -1691,7 +1691,7 @@
     "daily": {
       "check": "%1$sTu pourras réclamer ton gain journalier dans : **%2$s.**",
       "about_now": "à peu près maintenant",
-      "ratelimit_message": "Tu peux récolter le gain quotidien une fois par jour. Si tu veux savoir combien de temps il te reste avant ta prochaine réclamation, utilise `/daily -check`. Bon amusement!",
+      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `/daily check:True`. Enjoy!",
       "errors": {
         "bot": "%1$sTu ne peux pas transférer ton gain journalier à un bot.",
         "receipt_locked": "Cet utilisateur ne peut pas recevoir de gain journalier maintenant.",
