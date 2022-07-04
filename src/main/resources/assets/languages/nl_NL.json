@@ -198,7 +198,7 @@
       "unknown_error": "%1$sOh nee, ik kreeg een onbekende foutmelding tijdens het bannen %2$s"
     },
     "kick": {
-      "no_permission": "%1$sYou can't ban: You need the `Kick Members` permission.",
+      "no_permission": "%1$sYou can't kick: You need the `Kick Members` permission.",
       "no_users": "%1$sJe moet me een gebruiker geven om te kicken.",
       "no_permission_self": "%1$sSorry! Ik heb geen bevoegdheid om gebruikers te kicken in deze server.",
       "hierarchy_conflict": "%1$sJe kunt geen gebruiker kicken met meer rechten dan jijzelf! Leuk geprobeerd",
@@ -724,7 +724,7 @@
       "brief_notice": "You can use `/inventory brief` to get a mobile friendly version.",
       "sorted_by": " *(sorted by: %1$s)*",
       "new_brief_notice": "Please use `/inventory brief` instead.",
-      "new_calc_notice": "Please use `/inventory calc` instead."
+      "new_calc_notice": "Please use `/inventory calculate` instead."
     },
     "cast": {
       "no_item_specified": "%1$sYou didn't specify any items. For a list, check `/cast ls`",
@@ -897,7 +897,7 @@
       "thank_note": "Bedankt voor je stem!",
       "results": "Resultaten",
       "cancelled": "%1$sGeannuleerde poll",
-      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds). Example: `-time 40m`"
+      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds)."
     },
     "profile": {
       "timezone": {
@@ -1691,7 +1691,7 @@
     "daily": {
       "check": "%1$sJe kunt je daily weer ontvangen op: **%2$s.**",
       "about_now": "ongeveer nu",
-      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `/daily -check`. Enjoy!",
+      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `/daily check:True`. Enjoy!",
       "errors": {
         "bot": "%1$sJe kunt je daily niet aan een bot geven.",
         "receipt_locked": "Die gebruiker kan nu geen daily credits ontvangen.",
