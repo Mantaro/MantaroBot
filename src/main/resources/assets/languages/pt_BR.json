@@ -29,8 +29,8 @@
     "query_too_small": "%1$sSeu critério de pesquisa é muito pequeno. Certifique-se de que você está procurando por pelo menos 4 personagens. Se o nome de usuário for muito pequeno, é melhor você usar o nome de usuário#discriminador ou o id do usuário.",
     "dust": "Há apenas poeira aqui.",
     "invalid_syntax": "Sintaxe inválido.",
-    "birthday": "**New birthdays for today, wish them Happy Birthday!**",
-    "member_lookup_failure": "%1%sCannot find any member with that name :(",
+    "birthday": "**Novos aniversário pra hoje, deseje a eles um Feliz Aniversário!**",
+    "member_lookup_failure": "%1%sNão foi encontrado um membro com esse nome :(",
     "item_lookup": {
       "no_item_emoji": "Não há um item associado a esse emoji.",
       "no_item_name": "Não há um item associado a este nome.",
@@ -42,7 +42,7 @@
       "mop_not_enough": "%1$sSeu nível de poeira é 5%%, então limpar não será muito útil.",
       "milk": "%1$sEfeitos de poção removidos.",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `/buy key`",
+        "no_key": "%1$sVocê precisa de uma chave de baú pra abrir um baú. Está fechado! Você pode comprar um usando `/buy key`",
         "no_crate": "%1$sVocê precisa de um baú! Você geralmente ganha baús dos comandos de moeda.",
         "success": "%1$sVocê abriu o baú e ganhou: %2$s%3$s. Parabéns!",
         "success_high": "%1$sVocê ganhou os seguintes itens com uma raridade maior que 3 estrelas: %2$s. A quantidade do item foi mostrada acima",
@@ -50,7 +50,7 @@
       },
       "potion_active": "%1$sVocê já tem um ativo **%2$s** efeito de poção e tem a quantidade máxima possível disso!",
       "potion_not_found": "%1$sEu não encontrei essa poção ou tipo de equipamento!",
-      "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s* (%4$dx). Check your shiny new effect on `/profile stats`",
+      "potion_applied": "%1$sEfeito da **%2$s** do tipo *%3$s* aplicado com sucesso (%4$dx). Cheque seu novo efeito brilhante com `/profile stats`",
       "potion_applied_multiple": "%1$sAplicada com sucesso **%2$s** do tipo *%3$s*.\nVocê já tem esse efeito aplicado, então acumulamos. Quantidade atual de acúmulos: %4$s",
       "max_stack_size": "%1$sVocê já acumulou o valor máximo de %2$s que você pode ter. (Máximo: 15, Depois de acumular: %3$s)",
       "max_stack_size_2": "%1$sVocê não pode acumular isso tudo %2$s. (Máximo: 15, Tentado: %3$s)",
