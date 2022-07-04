@@ -198,7 +198,7 @@
       "unknown_error": "%1$sХмм, я столкнулся с неизвестной мне ошибкой, когда пытался забанить %2$s"
     },
     "kick": {
-      "no_permission": "%1$sYou can't ban: You need the `Kick Members` permission.",
+      "no_permission": "%1$sYou can't kick: You need the `Kick Members` permission.",
       "no_users": "%1$sТы должен указать пользователя, которого нужно кикнуть.",
       "no_permission_self": "%1$sПростите! У меня нет прав, чтобы кикать людей на этом сервере!",
       "hierarchy_conflict": "%1$sВы не можете кикнуть пользователя, который имеет больше прав чем вы!",
@@ -724,7 +724,7 @@
       "brief_notice": "You can use `/inventory brief` to get a mobile friendly version.",
       "sorted_by": " *(sorted by: %1$s)*",
       "new_brief_notice": "Please use `/inventory brief` instead.",
-      "new_calc_notice": "Please use `/inventory calc` instead."
+      "new_calc_notice": "Please use `/inventory calculate` instead."
     },
     "cast": {
       "no_item_specified": "%1$sYou didn't specify any items. For a list, check `/cast ls`",
@@ -897,7 +897,7 @@
       "thank_note": "Спасибо за ваши голоса",
       "results": "Результаты",
       "cancelled": "%1$sГолосование окончено",
-      "incorrect_time_format": "%1$sНеверный формат времени. Помните, это должно быть чилсло, за которым следует `h, m или s` (часы, минуты или секунды). К примеру: `-time 40m`"
+      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds)."
     },
     "profile": {
       "timezone": {
@@ -1691,7 +1691,7 @@
     "daily": {
       "check": "%1$sВы сможете получить свой ежедневный платеж В: **%2$s.**",
       "about_now": "прямо сейчас",
-      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `/daily -check`. Enjoy!",
+      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `/daily check:True`. Enjoy!",
       "errors": {
         "bot": "%1$sВы не можете перевести свою ежедневную работу на бота.",
         "receipt_locked": "Этот пользователь не может получить свои ежедневные кредиты сейчас.",
