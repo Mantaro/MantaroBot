@@ -198,7 +198,7 @@
       "unknown_error": "%1$sHein, Eu encontrei um erro desconhecido enquanto bania %2$s"
     },
     "kick": {
-      "no_permission": "%1$sYou can't ban: You need the `Kick Members` permission.",
+      "no_permission": "%1$sYou can't kick: You need the `Kick Members` permission.",
       "no_users": "%1$sVocê tem que me dar um usuário para expulsar.",
       "no_permission_self": "%1$sDesculpa! Eu não tenho permissão para expulsar membros neste servidor.",
       "hierarchy_conflict": "%1$sVocê não pode expulsar um usuário que tem uma hierarquia maior que a sua",
@@ -724,7 +724,7 @@
       "brief_notice": "You can use `/inventory brief` to get a mobile friendly version.",
       "sorted_by": " *(Classificado por: %1$s)*",
       "new_brief_notice": "Please use `/inventory brief` instead.",
-      "new_calc_notice": "Please use `/inventory calc` instead."
+      "new_calc_notice": "Please use `/inventory calculate` instead."
     },
     "cast": {
       "no_item_specified": "%1$sYou didn't specify any items. For a list, check `/cast ls`",
@@ -897,7 +897,7 @@
       "thank_note": "Obrigado pelo seu voto",
       "results": "Resultados",
       "cancelled": "%1$sEnquete cancelada",
-      "incorrect_time_format": "%1$sFormato de tempo incorreto. Lembre-se, o formato de tempo adequado é um número seguido por `h, m ou s` (horas, minutos ou segundos). Exemplo: `-time 40m`"
+      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds)."
     },
     "profile": {
       "timezone": {
@@ -1691,7 +1691,7 @@
     "daily": {
       "check": "%1$sVocê poderá reivindicar seu diário em: **%2$s.**",
       "about_now": "agora",
-      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `/daily -check`. Enjoy!",
+      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `/daily check:True`. Enjoy!",
       "errors": {
         "bot": "%1$sVocê não pode transferir seu diário para um bot.",
         "receipt_locked": "Esse usuário não pode receber créditos diários agora.",
