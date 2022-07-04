@@ -198,7 +198,7 @@
       "unknown_error": "%1$s在驱逐 %2$s 时發生未知错误"
     },
     "kick": {
-      "no_permission": "%1$sYou can't ban: You need the `Kick Members` permission.",
+      "no_permission": "%1$sYou can't kick: You need the `Kick Members` permission.",
       "no_users": "%1$s你需要给我你想踢出的成员。",
       "no_permission_self": "%1$s抱歉! 我没有踢出成员的权限。",
       "hierarchy_conflict": "%1$s你无法踢出一个身分组比你高的用户",
@@ -724,7 +724,7 @@
       "brief_notice": "You can use `/inventory brief` to get a mobile friendly version.",
       "sorted_by": " *(sorted by: %1$s)*",
       "new_brief_notice": "Please use `/inventory brief` instead.",
-      "new_calc_notice": "Please use `/inventory calc` instead."
+      "new_calc_notice": "Please use `/inventory calculate` instead."
     },
     "cast": {
       "no_item_specified": "%1$sYou didn't specify any items. For a list, check `/cast ls`",
@@ -897,7 +897,7 @@
       "thank_note": "Thanks for your vote",
       "results": "Results",
       "cancelled": "%1$sCancelled poll",
-      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds). Example: `-time 40m`"
+      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds)."
     },
     "profile": {
       "timezone": {
@@ -1691,7 +1691,7 @@
     "daily": {
       "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",
       "about_now": "about now",
-      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `/daily -check`. Enjoy!",
+      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `/daily check:True`. Enjoy!",
       "errors": {
         "bot": "%1$sYou cannot transfer your daily to a bot.",
         "receipt_locked": "That user cannot receive daily credits now.",
