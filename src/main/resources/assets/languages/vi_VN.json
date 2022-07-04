@@ -198,7 +198,7 @@
       "unknown_error": "%1$sGì thế này? Tôi gặp phải một lỗi không mong muốn trong lúc cấm %2$s"
     },
     "kick": {
-      "no_permission": "%1$sYou can't ban: You need the `Kick Members` permission.",
+      "no_permission": "%1$sYou can't kick: You need the `Kick Members` permission.",
       "no_users": "%1$sBạn cần cho tôi một cái tên để đuổi.",
       "no_permission_self": "%1$sXin lỗi! Tôi không có quyền đuổi thành viên trong máy chủ này.",
       "hierarchy_conflict": "%1$sBạn không thể đuổi người dùng có vai trò cao hơn bạn",
@@ -724,7 +724,7 @@
       "brief_notice": "You can use `/inventory brief` to get a mobile friendly version.",
       "sorted_by": " *(được sắp xếp theo: %1$s)*",
       "new_brief_notice": "Please use `/inventory brief` instead.",
-      "new_calc_notice": "Please use `/inventory calc` instead."
+      "new_calc_notice": "Please use `/inventory calculate` instead."
     },
     "cast": {
       "no_item_specified": "%1$sYou didn't specify any items. For a list, check `/cast ls`",
@@ -897,7 +897,7 @@
       "thank_note": "Cảm ơn bạn đã bình chọn",
       "results": "Kết quả",
       "cancelled": "%1$sĐã huỷ khảo sát",
-      "incorrect_time_format": "%1$sĐịnh dạng thời gian không hợp lệ. Hãy nhớ rằng, định dạng thời gian thích hợp đó là một số theo sau là `h, m hoặc s` (giờ, phút hoặc giây). Ví dụ: `-time 40m`"
+      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds)."
     },
     "profile": {
       "timezone": {
@@ -1691,7 +1691,7 @@
     "daily": {
       "check": "%1$sBạn sẽ nhận được phần thưởng hàng ngày trong vòng: **%2$s.**",
       "about_now": "khoảng từ bây giờ",
-      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `/daily -check`. Enjoy!",
+      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `/daily check:True`. Enjoy!",
       "errors": {
         "bot": "%1$sBạn không thể chuyển daily cho bot.",
         "receipt_locked": "Người chơi đó không thể nhận tiền hàng ngày vào lúc này.",
