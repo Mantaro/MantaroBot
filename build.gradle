@@ -60,7 +60,7 @@ task generateLanguageList {
 dependencies {
     // Base
     implementation 'net.dv8tion:JDA:5.0.0-alpha.13'
-    implementation 'club.minnced:discord-webhooks:0.8.0'
+    implementation 'club.minnced:discord-webhooks:0.8.2'
 
     // Music
     implementation ('com.github.Xirado:Lavalink-Client:041082f56d') {
@@ -74,7 +74,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
 
     // Core
-    implementation 'io.github.classgraph:classgraph:4.8.147'
+    implementation 'io.github.classgraph:classgraph:4.8.148'
     implementation 'ch.qos.logback:logback-classic:1.2.11'
     implementation 'com.google.guava:guava:31.1-jre'
 
