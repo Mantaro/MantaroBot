@@ -420,7 +420,7 @@ public class BirthdayTask {
         public String getMessage() {
             StringBuilder builder = new StringBuilder();
             for (var msg : message) {
-                builder.append(msg.getContentRaw()).append("\n");
+                builder.append(msg.getContentRaw());
             }
 
             return builder.toString();
