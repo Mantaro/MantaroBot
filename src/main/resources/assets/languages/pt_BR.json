@@ -446,7 +446,7 @@
         "not_specified": "Você não especificou nada para avaliar.",
         "new_error": "%1$sOcorreu um erro ao avaliar este comando personalizado.\n**Erro**:\n```%2$s```",
         "error": "%1$sOcorreu um erro ao avaliar este comando personalizado!\n%2$s",
-        "slash_notice": "%1$sThis command does not work with slash, yet. You can use `~>custom eval` for now."
+        "slash_notice": "%1$sEsse comando não funciona com barra, ainda. Você pode usar `~>custom eval` até agora."
       },
       "remove": {
         "no_command": "%1$sVocê tem que me dizer que comando você quer remover.",
@@ -454,7 +454,7 @@
       },
       "import": {
         "no_command": "%1$sVocê tem que me dizer que comando você quer importar.",
-        "not_found": "%1$sThere are no custom commands matching your search query.\n**This command might not work properly!**\nIn such cases, you can manually copy the command using the output of `/custom raw` instead.",
+        "not_found": "%1$sNão tem nenhum comando personalizado com esse critério de pesquisa.\n**Esse comando pode não funcionar perfeitamente**\nEm alguns casos, você pode manualmente copiar o comando usando o `/custom raw`.",
         "header": "`%1$s` (Responses: %2$s) - Servidor: `%3$s`",
         "selection": "Selecione o Comando:",
         "note": "(Você só pode selecionar comandos personalizados de servidores das quais você é membro)",
@@ -509,7 +509,7 @@
       "invalid_string": "%1$sA cadeia de caracteres `{%2$s}` não é válida, ou a saída tem mais de 2000 caracteres.",
       "invalid_json": "%1$sA cadeia de caracteres `{%2$s}` não é um JSON válido.",
       "invalid_link": "%1$sA cadeia de caracteres `%2$s` não é um link válido.",
-      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `/custom unlockcommand <command name>` to unlock it."
+      "locked_command": "%1$sVocê não pode editar ou remover esse comando enquanto estiver bloqueado, por favor use `/custom unlockcommand <command name>` pra desbloquear."
     },
     "mute": {
       "no_permissions": "%1$sVocê precisa ter permissão para banir ou expulsar membros para silenciar.",
