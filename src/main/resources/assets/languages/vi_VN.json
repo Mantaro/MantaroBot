@@ -30,7 +30,7 @@
     "dust": "Ở đây chỉ có mỗi bụi.",
     "invalid_syntax": "Cú pháp không hợp lệ.",
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
-    "member_lookup_failure": "%1%sCannot find any member with that name :(",
+    "member_lookup_failure": "%1%sKhông thể tìm thấy bất kì thành viên nào với tên đó :(",
     "item_lookup": {
       "no_item_emoji": "Không có vật phẩm nào phù hợp với biểu tượng này.",
       "no_item_name": "Không có vật phẩm nào phù hợp với tên này.",
