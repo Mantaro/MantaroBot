@@ -574,11 +574,11 @@
         "empty": "%1$sVocê não pode deixar a carta de amor vazia.",
         "no_marriage": "%1$sVocê não é casado, não pode escrever uma carta de amor para si mesmo...",
         "not_proposing_player": "%1$sVocê não é o jogador que propôs este casamento!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `/marry status`",
+        "already_done": "%1$sEsse casameto já tem uma carta de amor atribuída. Cheque ela usando `/marry status`",
         "too_long": "%1$sA carta de amor é muito longa (máximo de 500 caracteres)",
         "cannot_see": "%1$sEu não consegui achar o usuário que você se casou... Provavelmente não está em nenhum servidor comigo.",
         "confirmation": "%1$sVocê tem *certeza* que quer escrever essa carta para o seu casamento com **%2$s#%3$s**? Isso é PERMANENTE até o casamento acabar. *Conteúdo da carta:* %4$s",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `/marry status`",
+        "confirmed": "%1$sA carta de amor foi entregue com sucesso ao(a) seu(a) amado(a)! Cheque ela usando `/marry status`",
         "scrapped": "%1$sVocê ainda tem tempo para pensar no que escrever, não precisa se apressar!"
       },
       "status": {
@@ -603,17 +603,17 @@
       },
       "buyhouse": {
         "not_married": "%1$sVocê só pode comprar uma casa enquanto estiver casado. Isso pode mudar no futuro.",
-        "no_house": "%1$sYou need a house item in your inventory. Use `/buy house` to get one.",
+        "no_house": "%1$sVocê precisa de um item de casa no seu inventário. Use `/buy house` pra ter uma.",
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente para comprar uma casa. (Preço atual da casa: %2$d créditos)",
-        "no_name": "%1$sYou need to give your house a name! For example, `/marry house cozy house`",
+        "no_name": "%1$sVocê precisa dar um nome a sua casa! Por exemplo, `/marry houze casa aconchegante`",
         "confirm": "%1$sVocê tem certeza que quer comprar esta casa? O preço deduzido da sua carteira é %2$d e o nome que você deu pra casa é %3$s. Digite `yes` para confirmar e `no` para cancelar.",
         "success": "%1$sVocê comprou com sucesso uma casa por %2$d créditos. O nome da sua nova acolhedora casa é %3$s, aprecie!",
         "cancel_success": "%1$sOperação cancelada."
       },
       "buycar": {
-        "no_car": "%1$sYou need to buy a car first! Use `/buy car` to get one.",
+        "no_car": "%1$sVocê tem que comprar um carro primeiro! Use `/buy car` pra ter um.",
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente para comprar um carro. (Preço atual do carro: %2$d créditos)",
-        "no_name": "%1$sYou need to give your car a name! For example, `/marry car vroom`",
+        "no_name": "%1$sVocê precisa dar um nome ao seu carro! Por exemplo, `/marry car vrum`",
         "confirm": "%1$sVocê tem certeza que quer comprar este carro? O preço deduzido da sua carteira é %2$d e o nome que você deu pro carro é %3$s. Digite `yes` para confirmar e `no` para cancelar.",
         "success": "%1$sVocê comprou com sucesso um carro por %2$d créditos. O nome do seu novo carro rápido é %3$s, aprecie!",
         "cancel_success": "%1$sOperação cancelada."
@@ -624,7 +624,7 @@
       "already_married_receipt": "%1$sVocê já é casado com ele(a), aww.",
       "already_married": "%1$sVocê já é casado.",
       "receipt_married": "%1$sEsse usuário já é casado.",
-      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `/buy 2 ring` and then try proposing again <3",
+      "no_ring": "%1$sVocê não pode propor sem dois anéis de casamento! Você pode comprá-los usando `/buy 2 ring` e tente propor novamente <3",
       "confirmation": "%1$s%2$s, digite **yes** ou **no** para a proposta de casamento de %3$s\n%4$sIsso esgota em 120 segundos.",
       "ring_check_fail": "%1$sVocê não pode se casar com menos de dois anéis em seu inventário :(",
       "accepted": "%1$s**%2$s#%3$s** aceitou a proposta de **%4$s#%5$s**!",
@@ -634,7 +634,7 @@
     "divorce": {
       "confirm": "%1$sVocê tem certeza que quer terminar esse casamento? O dinheiro gasto em pets, casas e carros será dividido por dois. Digite `yes` para continuar e `no` para cancelar. **Seu pet vai desaparecer, já que está vinculado ao casamento**",
       "cancelled": "%1$sDivórcio cancelado.",
-      "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?\nWanna unclaim a Waifu? Use `/waifu unclaim` instead.",
+      "not_married": "%1$sVocê não é casado com alguém, por que você não tenta achar alguém especial?\nQuer remover uma Waifu? Use `/waifu unclaim` ao invés disso.",
       "success": "%1$sAgora você é solteiro. Isso é bom eu acho.\n%2$s",
       "split": "O dinheiro restante foi dividido entre as duas partes com a venda de seus ativos (pet, casa, carro). Cada um ganhou **%1$d** créditos em sua carteira."
     },
@@ -653,7 +653,7 @@
       "claim": {
         "no_user": "%1$sVocê não mencionou nenhum usuário para reivindicar.",
         "locked": "%1$sVocê está atualmente impossibilitado de executar esta ação.",
-        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `/profile claimlock remove` if they wish to do so.",
+        "key_locked": "%1$sO usuário que você tentou reivindicar está com uma chave bloqueando e não pode ser reivindicado. Ele pode remover ela usando `/profile claimlock remove` se ele quiser.",
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente para reivindicar esta waifu **(Custo: %2$s)**",
         "not_enough_slots": "%1$sVocê não tem slots disponíveis para reivindicar esta waifu. (Total de slots: %2$s, Slots usados: %3$s)",
         "success": "%1$sReivindicado com sucesso `%2$s` por %3$,d créditos. Espaços usados: %4$s",
@@ -669,7 +669,7 @@
         "player_locked": "%1$sVocê não pode fazer isso no momento.",
         "scrapped": "%1$sDesvinculação cancelada.",
         "success": "%1$sDesvinculado com sucesso `%2$s` com um custo de **%3$s créditos**.",
-        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID (`/waifu -id`) and append `-unknown` at the end."
+        "not_found": "%1$sEu não consigo encontrar nenhum usuário com essa pesquisa. Se você precisa desvincular um usuário desconhecido, use seu ID (`/waifu -id`) e acrescente `-unknown` no final."
       },
       "buyslot": {
         "locked": "%1$sVocê está atualmente impossibilitado de executar esta ação.",
@@ -679,17 +679,17 @@
       },
       "optout": {
         "notice": "%1$sVocê optou por sair de todo o sistema de waifu, então você não pode usar isso.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `/profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
+        "warning": "%1$sVocê quer sair do sistema de waifu? ISSO É PERMANENTE E NÃO PODE SER REVERTIDO. Sério.\nSe você quiser apenas sair do ssitema de novas reivindicações e usar o sistema de waifu como de costume, por favor use `/profile claimlock` ao invés disso.\nVocê não podera reivindicar ou ser reivindicado, e todas as reivindicações sobre você vão ser removidas.\nDigite `Yes, I want to opt out of the waifu system completely and irreversibly` ou `no`. Digitando a mensagem de confirmação irá remover você, no irá cancelar.",
         "success": "%1$sVocê saiu com sucesso do sistema de waifu.",
         "cancelled": "%1$sOperação de saída cancelada.",
         "claim_notice": "%1$sO usuário que você está tentando reivindicar saiu.",
         "lookup_notice": "%1$sO usuário que você está tentando procurar saiu.",
-        "yes_button": "Yes, I want to opt-out.",
-        "no_button": "No, take me back."
+        "yes_button": "Sim, eu quero sair.",
+        "no_button": "Não, me leve de volta."
       },
       "header": "Lista de Waifu",
-      "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$,d waifus as of now.*\n\nIf you wish to check your waifu stats, use `/waifu stats`\n\n",
-      "no_waifu": "No waifus to see here, just dust :(\nYou can get waifus by claiming someone! Use `/waifu claim` to get started.",
+      "description_header": "Aqui está uma lista com todas as suas amadas waifus, classificadas por data de adição.\n*Você pode ter um máximo de %1$,d waifus por enquanto.*\n\nSe você quiser checar suas estatísticas de waifu, use `/waifu stats`\n\n",
+      "no_waifu": "Não há waifus para ver aqui, apenas poeira :(\nVocê pode ter waifus reivindicando alguém! Use `/waifu claim` pra começar.",
       "footer": "Total de waifus: %1$d - espaços disponíveis: %2$s",
       "value_format": "**- Valor:**",
       "value_b_format": "**- Comprado por:**",
@@ -702,40 +702,40 @@
       "success": "%1$sEu avalio sua waifu com um **%2$,d/100**"
     },
     "roll": {
-      "success": "%1$sYou got **%2$s**%3$s",
+      "success": "%1$sVocê ganhou **%2$s**%3$s",
       "amount": "Fazendo **%1$,d** jogadas.",
-      "more_than_10": "... and %2$s more rolls",
+      "more_than_10": "... e mais %2$s rolls",
       "total": "(Total: %1$,d)",
-      "size": "\nDoing **%1$,d rolls** with a die of **%2$,d sides**.",
-      "incorrect_format": "You need to specify the amount in d20 format. For example, to roll 2 dies of 16 sides, you can do 2d16."
+      "size": "\nFazendo **%1$,d rolls** com um dado de **%2$,d lados**.",
+      "incorrect_format": "Você tem que especificar a quantidade no formato do d20. Por exemplo, pra rolar 2 dados de 16 lados, você pode fazer 2d16."
     },
     "coinflip": {
       "over_limit": "%1$sCalma ae! O limite é de 1,000 moedas viradas",
-      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions (For example, `/roll 100`)",
+      "no_repetitions": "%1$sVocê precisa especificar um número inteiro para a quantidade de repetições (Por exemplo, `/roll 100`)",
       "success": "%1$s Seu resultado de **%2$d** tempo(s) rendeu **%3$d** caras e **%4$d** coroas"
     },
     "inventory": {
-      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `/dump`",
-      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `/inventory`. Enjoy your day!*",
+      "bot_notice": "%1$sAqui, bots não tem inventário. Bem, as vezes você pode desejar que eles tivessem um mas seria só um `/dump`",
+      "brief": "**Coleção de itens de %1$s** %2$s\n\n*Para uma versão detalha, use `/inventory`. Aprecie seu dia!`",
       "calculate": "%1$s%2$s irá ganhar **%3$d créditos** se todos os seus itens forem vendidos.",
       "header": "Inventário de %1$s",
       "format": "%1$sPreço:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sEsse inventário está vazio! :(",
-      "brief_notice": "You can use `/inventory brief` to get a mobile friendly version.",
+      "brief_notice": "Você pode usar `/inventory brief` pra ter uma versão otimizada pra celulares.",
       "sorted_by": " *(Classificado por: %1$s)*",
-      "new_brief_notice": "Please use `/inventory brief` instead.",
-      "new_calc_notice": "Please use `/inventory calculate` instead."
+      "new_brief_notice": "Por favor use `/inventory brief` ao invés disso.",
+      "new_calc_notice": "Por favor use `/inventory calculate` ao invés disso."
     },
     "cast": {
-      "no_item_specified": "%1$sYou didn't specify any items. For a list, check `/cast ls`",
-      "no_item_found": "%1$sI didn't find any item matching that. Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `/cast star pick`",
-      "item_not_cast": "%1$sYou cannot cast this item. You can check `/cast ls` for a list of castable items. Try using the full name if you think you have the correct item.",
+      "no_item_specified": "%1$sVocê não especificou nenhum item. Pra uma lista, cheque `/cast ls`",
+      "no_item_found": "%1$sEu não encontrei nenhum item que corresponda a isso. Certifique-se de digitar o nome completo do item pra evitar incompatibilidades ou use o emoji, se você puder. Exemplo: `/cast star pick`",
+      "item_not_cast": "%1$sVocê não pode confeccionar esse item. Você pode checar `/cast ls` pra uma lista de itens confeccionáveis. Tente usar o nome completo se você acha que tem o item correto.",
       "not_enough_money": "%1$sVocê não tem dinheiro suficiente para fundir isso. **(Custo: %2$s)**",
       "no_item": "%1$sVocê não tem o item necessário *%2$s* para continuar a fundir. Você precisa de %3$,d do item.",
       "not_enough_items": "%1$sVocê não tem o suficiente do item *%2$s* para prosseguir e fazrr a fusão de um **%3$s**. **(Necessário: %4$s, Atual: %5$s)**",
       "success": "%1$sCom sucesso você fundiu %2$,dx %3$s **%4$s** por %5$,d créditos. *Fundição usada: %6$s*",
       "no_tool": "%1$sVocê tem que ter um %2$s para prosseguir e fundir!",
-      "not_equipped": "%1$sYou don't have any equipped wrench. Use `/equip <wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `/buy wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `/cast 5 star pick`",
+      "not_equipped": "%1$sVocê não tem uma chave inglesa equipada. Use `/equip <wrench name>` pra equipar uma chave inglesa e começar sua aventura! Se você não tiver uma, primeiro use `/buy wrench`. Você não precisa mais especificar a chave inglesa nesse comando. Pra confeccionar múltiplos itens, coloque o número antes do nome do item, por exemplo: `cast 5 star pick`",
       "too_many": "%1$sVocê teria mais de 5,000 desse item se você prosseguir. Talvez tentar fundir menos deste objeto?",
       "low_tier": "%1$sVocê precisa de pelo menos uma chave inglesa de Tier 2 (pelo menos uma Chave Inglesa de Cometa) pra fundir mais itens por chamada. Você atualmente tem uma chave inglesa de Tier %2$s equipada.",
       "not_enough_wrench_level": "%1$sSua chave inglesa não é poderosa o suficiente para confeccionar este item. Talvez tentar especificar uma mais poderosa? (*Chave inglesa nível: %2$s, Nível necessário: %3$s*)",
@@ -746,14 +746,14 @@
       "ls": {
         "header": "Lista de Itens Fundíveis",
         "cost": "Custo da Fusão: ",
-        "desc": "This is a list of the items you can cast using `/cast`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "desc": "Essa é a lista de itens que você pode confeccionar utilizando `/cast`.\nVocê pode usar o nome completo, a abreviação ou o emoji.\n**A confecção custa no mínimo metade do preço do item, como mostrado abaixo.**.\nChave inglesa classe 2 e 3 equivale à celeste e brilhante, respectivamente."
       },
-      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `/useitem mop`?",
+      "dust": "%1$sVocê não pode fundir com um inventário sujo! *(Nível de poeira: %2$s%%)*. Por que não limpa usando `/useitem mop`?",
       "wrench_multiple_use": "Dica: *Você não pode usar uma chave inglesa que você está tentando fundir como ingrediente!*"
     },
     "market": {
       "dump": {
-        "replacement": "You can use `~>dump` now. For example, instead of `~>market dump floppy` you can do `~>dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
+        "replacement": "Você pode usar `~>dump` agora. Por exemplo, ao invés de ~>market dump floppy` você pode fazer `~>dump floppy`. Por favor use o novo comando ao invés disso... Eu me pergunto o que aconteceu com todos os disquetes que vocês jogaram fora?",
         "no_item": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer descartar.",
         "invalid": "%1$sNão é um número válido de itens para descartar.",
         "non_existent": "%1$sNão é possível descartar um item inexistente! Se você estiver perdido, pode tentar digitar o nome abreviado ou colocar o nome entre aspas.",
@@ -769,7 +769,7 @@
         "success": "%1$sO valor no mercado de %2$s**%3$s** é %4$s créditos para comprar e você pode ganhar %5$s créditos se você vender."
       },
       "sell": {
-        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
+        "replacement": "Você pode usar `~>sell` agora. Por exemplo, ao invés de `~>market sell pick` você pode usar `~>sell pick`. Por favor use o novo comando ao invés disso.",
         "no_item": "%1$sVocê tem que especificar o item que quer vender.",
         "no_item_amount": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer vender.",
         "invalid": "%1$sNão é um número válido de itens para vender.",
@@ -779,27 +779,27 @@
           "cancelled": "%1$sCancelado com sucesso."
         },
         "non_existent": "%1$sVocê não pode vender um item inexistente. Se você estiver perdido, pode tentar digitar o nome abreviado ou colocar o nome entre aspas.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `/dump` it)",
+        "no_sell_price": "%1$sVocê não pode vender um item que não pode ser vendido. (Mas você pode usar `/dump` nele)",
         "no_item_player": "%1$sVocê não pode vender um item que você não tem.",
         "more_items_than_player": "%1$sVocê não pode vender mais itens do que você tem.",
         "success": "%1$sVocê vendeu %2$,d **%3$s** e ganhou %4$,d créditos!"
       },
       "buy": {
-        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
+        "replacement": "Você pode usar `~>buy` agora. Por exemplo, ao invés de `~>market buy pick` você pode usar `~>buy pick`. Por favor use o novo comando ao invés disso.",
         "no_item": "%1$sVocê tem que especificar o item que quer comprar.",
         "no_item_amount": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer comprar.",
         "invalid": "%1$sNão é um número válido de itens para comprar.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `/buy 15 energy`",
+        "non_existent": "%1$sVocê não pode comprar um item inexistente. Se estiver perdido, você pode digitar o nome abreviado ou colocá-lo entre aspas. Além disso, a quantidade do item vai antes do nome do item, exemplo: `/buy 15 energy`",
         "no_buy_price": "%1$sVocê não pode comprar um item que não pode ser comprado.",
         "item_limit_reached": "%1$sVocê não pode comprar deste objeto. Você só pode ter um máximo de 5000 de cada item.",
         "success": "%1$sVocê comprou %2$,d %3$s por %4$,d créditos com sucesso. Você agora tem %5$,d créditos.",
-        "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `/equip <item name>`",
-        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `/useitem <item name>`",
+        "success_breakable": "%1$sComprou %2$,d %3$s por %4$,d créditos com sucesso. Você agora têm %5$,d créditos. Você pode equipar isso usando `/equip <item name>`",
+        "success_potion": "%1$sComprou %2$,d %3$s por %4$,d créditos com sucesso. Você agora têm %5$,d créditos. Você pode usar essa poção ou buff usando `/useitem <item name>`",
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente pra comprar esse item. Atual: %2$,d créditos, Necessário: %3$,d créditos.",
         "success_breakable_upgrade": "Você pode checar <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> para mais informações de como melhorar seus equipamentos!"
       },
       "header": "Mercado da Mantaro",
-      "reference": "\nYou can buy and sell items using `/buy <item>` and `/sell <item>` respectively. Check `/help market` for more info.",
+      "reference": "\nVocê pode comprar e vender itens usando `/buy <item>` e `sell <item>` respectivamente. Cheque `/help market` pra mais informações.",
       "sell_price": "-**Preço de Venda:**",
       "buy_price": "-**Preço de Compra:**"
     },
@@ -820,7 +820,7 @@
       "new_account_notice_other": "%1$sA conta que você está transferindo tem que ter pelo menos 14 dias.",
       "transfer_yourself_note": "%1$sVocê não pode transferir dinheiro para si mesmo.",
       "bot_notice": "%1$sVocê não pode transferir dinheiro para um bot.",
-      "no_amount": "%1$sYou need to specify the amount. Use the `/transferitems` command instead if you meant to transfer an item.",
+      "no_amount": "%1$sVocê tem que especificar a quantidade. Use o comando `/transferitems` ao invés disso se você pretender transferir um item.",
       "no_money_specified_notice": "%1$sVocê não pode transferir nenhum dinheiro :P",
       "over_transfer_limit": "%1$sVocê não pode transferir isso tudo de dinheiro. (Limite: %2$d créditos)",
       "own_locked_notice": "%1$sVocê não pode transferir dinheiro agora.",
@@ -829,7 +829,7 @@
       "receipt_locked_notice": "%1$sEsse usuário não pode receber dinheiro agora.",
       "receipt_over_limit": "%1$sEsse usuário já tem muito dinheiro...",
       "success": "%1$sTransferido **%2$d** *(%3$d depois de 8%% taxa)* para **%4$s** com sucesso.",
-      "item_transfer": "%1$sYou cannot transfer items using transfer, use the `/transferitems` command instead.",
+      "item_transfer": "%1$sVocê não pode transferir itens usando transfer, use o comando `/transferitems` ao invés disso.",
       "party": "Você só pode transferir para a mesma pessoa (%1$s) uma vez a cada 10 minutos.",
       "blacklisted_transfer": "%1$sVocê não pode transferir para usuários da lista negra."
     },
@@ -841,7 +841,7 @@
       "use_command": "%1$sPara este item você tem que usar o comando que está ligado ao item! (mine para minerar, fish para a vara de pesca)",
       "no_items_specified": "%1$sVocê tem que especificar que item você quer usar.",
       "not_interactive": "%1$sVocê não pode interagir com esse item...",
-      "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set. This item might use its own command? For example, picks use `/mine`",
+      "interactive_no_action": "%1$sEsse item está marcado como interativo, mas não tem conjunto de ações. Esse item pode ter seu próprio comando? Por exemplo, picaretas usam `/mine`",
       "no_item": "%1$sVocê não tem esse item no seu inventário...",
       "not_enough_items": "%1$sVocê não tem o suficiente deste item.",
       "too_little": "%1$sVocê não pode usar menos de 1 item.",
@@ -867,7 +867,7 @@
         "header": "Lista de cargos automáticos",
         "role_give": "Cargos dados:",
         "no_autoroles": "Não tem nenhum cargo automático definido nesse servidor.",
-        "description": "This are the current user-assignable auto roles on this server. You can use these by doing `/iam <name of the role>`"
+        "description": "Esses são os cargos automático s que os usuários podem ter nesse servidor. Você pode usar eles fazendo `/iam <name of the role>`"
       },
       "deleted_role": "%1$sO cargo que esse cargo automático correspondia foi excluído",
       "already_assigned": "%1$sVocê já tem esse cargo, bobo!",
@@ -883,12 +883,12 @@
     },
     "poll": {
       "missing": "%1$sVocê não incluiu o argumento de %2$s ou estava vazio!\n%3$s",
-      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `/help poll`",
+      "invalid": "%1$sNão é possível fazer essa votação. **Lembre-se que as opções devem ter um máximo de 9 e no mínimo 2 e o limite do tempo deve ser no máximo 45m e no mínimo 30s.**\nOpções são separadas com vírgula, por exemplo `1,2,3` (sem espaços entre elas!). Pra frases que contenham espaços use aspas no início e no final delas. Se você estiver realmente perdido, tem um exemplo no `/help poll`",
       "other_poll_running": "%1$sJá tem outra enquete acontecendo aqui...",
       "no_reaction_perms": "%1$sParece que eu não posso adicionar reações aqui...",
       "too_long": "%1$sIsso é muito longo pra mostrar. É melhor tentar com menos opções?",
       "header": "Enquete #%1$d criada por %2$s",
-      "success": "**Poll started. React to the number to vote.**\n*%1$s*",
+      "success": "**A votação começou. Reaja com o número pra votar.**\n*%1$s*",
       "time": "Você tem %1$s para votar.",
       "error": "%1$sUm erro desconhecido aconteceu durante a criação da enquete. Talvez tentar novamente? (erro interno)",
       "result_header": "Resultado da enquete",
