@@ -897,7 +897,7 @@
       "thank_note": "Obrigado pelo seu voto",
       "results": "Resultados",
       "cancelled": "%1$sEnquete cancelada",
-      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds)."
+      "incorrect_time_format": "%1$sFormato de tempo incorreto. Lembre-se, o formato de tempo adequado é um número seguido por `h, m ou s` (horas, minutos ou segundos)."
     },
     "profile": {
       "timezone": {
@@ -908,14 +908,14 @@
         "reset_success": "%1$sTempo redefinido com sucesso."
       },
       "description": {
-        "no_argument": "%1$sYou need to provide an argument! (set or remove). For example, `/profile description set Hi there!`",
-        "no_content": "%1$sYou didn't specify what you want on your description. For example, `/profile description set Hi there!`",
+        "no_argument": "%1$sVocê precisa fornecer um argumento! (set ou remove). Por exemplo, `/profile description set Olá!`",
+        "no_content": "%1$sVocê não especificou o que você quer na sua descrição. Por exemplo, `/profile description set Olá!`",
         "too_long": "%1$sA descrição é muita longa! (Limite de 300 caracteres para todos e 500 para usuários premium)",
-        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `/profile`",
+        "success": "%1$sEu defini a descrição do seu perfil com sucesso. Cheque seu brilhante e novo perfil com `/profile`",
         "clear_success": "%1$sDescrição apagada com sucesso."
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge! For example, `/profile displaybadge claimer`",
+        "not_specified": "%1$sVocê precisa especificar sua insígnia principal! Por exemplo, `profile displaybadge claimer`",
         "reset_success": "%1$sNenhuma insignia será mostrada no topo do seu perfil!",
         "important_success": "%1$sSua insignia exibida agora é a mais importante.",
         "no_such_badge": "%1$sNão existe essa insignia...\nSuas insignias disponíveis: %2$s",
@@ -981,7 +981,7 @@
         "success": "%1$sVocê equipou com sucesso %2$s *%3$s*, que será lembrado na próxima vez que você usar o comando de dinheiro apropriado.",
         "not_suitable": "%1$sVocê não pode equipar isso.",
         "not_equipped": "%1$sVocê não te isso equipado.",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `/unequip <type>` (Type can be rod, axe, pick or wrench) if you wanna unequip it."
+        "already_equipped": "%1$sVocê já tem um item desse tipo equipado! Tente `/unequip <type>` (O tipo pode ser rod, axe, pick ou wrench) se você quiser desequipar ele."
       },
       "unequip": {
         "not_equipped": "%1$sVocê não tem nada equipado nesse slot.",
@@ -996,17 +996,17 @@
       },
       "display": {
         "not_premium": "%1$sA personalização do widget de perfil está disponível apenas para usuários premium. Para obter mais vantagens, você pode verificar <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
-        "not_enough": "%1$sNot enough valid widgets to put on your profile (minimum: 3). If you're lost, check `/profile widgets ls`",
+        "not_enough": "%1$sNão há widgets válidos suficientes pra colocar em seu perfil (mínimo: 3). Se você estiver perdido, cheque `/profile widgets ls`",
         "success": "%1$sDefinido com sucesso seu novo layout de perfil. Novo layout é `%2$s`",
-        "ls": "%1$sList of profile components:\n%2$s **Widgets in Default Order:** `%3$s`\n%2$s **Your widgets:** `%4$s`\nYou can use `/profile widgets reset` to reset your profile display references",
+        "ls": "%1$sLista de componentes do perfil:\n%2$s**Widgets na Ordem Padrão:** `%3$s`\n%2$s**Seus widgets:** `%4$s`\nVocê pode usar `/profile widgets reset` pra resetar suas referências de exibição no perfil",
         "reset": "%1$sResetado com sucesso a ordem do widget em seu perfil.",
-        "example": "\nExample: `/profile widgets header, credits, reputation, birthday, marriage, badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
+        "example": "\nExemplo: `/profile widgets header, credits, reputation, birthday, marriage, badges`\n*Qualquer ordem funciona, a ordem aqui é a ordem que fará com que apareçam no seu perfil*"
       },
       "claimlock": {
         "removed": "%1$sResetado com sucesso seu status de claim lock.",
-        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/profile claimlock remove` to remove it later.",
-        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `/buy \"claim key\"`",
-        "already_locked": "%1$sYou're already claim locked. Use `/profile claimlock remove` to remove it."
+        "success": "%1$sVocê não pode mais ser reivindicado como waifu. Isso usou uma chave de reivindicação. Use `/profile claimlock remove` pra remover depois.",
+        "no_key": "%1$sVocê não tem uma chave de reivindicação pra fazer isso. Você pode comprar uma no mercado usando `/buy claim key`",
+        "already_locked": "%1$sVocê já está bloqueado de reivindicações. Use `/profile claimlock remove` pra remover."
       },
       "autoequip": {
         "disable": "%1$sAuto-equipar desativado com sucesso.",
@@ -1015,7 +1015,7 @@
       "badge_header": "%1$sInsígnia Exibida",
       "bot_notice": "%1$sBots não têm perfil.",
       "header": "Perfil de %1$s",
-      "no_desc": "No description set. You can set one with `/profile description`",
+      "no_desc": "Nenhuma descrição definida. Você pode por uma com `/profile description`",
       "credits": "Créditos",
       "old_credits": "Créditos de Patrimônio",
       "level": "Nível",
@@ -1036,19 +1036,19 @@
     },
     "badges": {
       "info": {
-        "not_specified": "%1$sYou need to specify a badge to see the info of. For example, `/badge info claimer`",
+        "not_specified": "%1$sVocê precisa especificar uma insígnia pra ver a informação. Por exemplo, `/badge info claimer`",
         "not_found": "%1$sEssa insígnia não existe...",
         "header": "Informação da Insígnia %1$s",
         "achieved": "Alcançada"
       },
       "ls": {
         "header": "Lista de Insígnias Obteníveis",
-        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `/profile` and then run `/badges` again.\nGood luck, badge hunters!",
+        "desc": "Essa é uma lista de todas as insígnias obteníveis na Mantaro. Essa lista contém o nome e a descrição da insígnia, que deve dar uma visão geral do que você precisa para tê-lá.\nSe você acha que ganhou uma insígnia e você não vê ela na sua lista pessoal de insígnia, use `/profile` e depois use `/badges` de novo.\nBoa sorte, caçadores de insígnias!",
         "obtained": "**Obtida:** %s"
       },
       "brief_success": "**Insígnias de **%1$s:**\n%2$s",
-      "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `/profile` and then run this command again.\n",
-      "info_notice": "Use `/badges info <badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "profile_notice": "Se você acha que ganhou uma insígnia nova e não aparece aqui. por favor use `/profile` e tente usar esse comando de novo.\n",
+      "info_notice": "Use `/badges info <badge name>` pra ter mais informações sobre uma insígnia. [Você também pode checar a wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**Você pode ganhar uma insígnia por [apoiar o desenvolvimento da Mantaro!](https://patreon.com/mantaro)!** (Isso pode levar alguns minutos para processar)\n\n",
       "no_badges": "Sem insígnias para mostrar (ainda!)",
       "header": "Insígnias obtidas por %1$s",
@@ -1071,20 +1071,20 @@
     },
     "birthday": {
       "reset": "%1$sData de aniversário resetada corretamente.",
-      "no_guild_birthdays": "%1$sThings seems a bit empty here.\nRemember that cache refreshes every 23h and that now people have to run `/birthday allowserver` to allow this server to announce their birthdays.",
-      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `/birthday allowserver` to allow this server to announce their birthdays.",
+      "no_guild_birthdays": "%1$sAs coisas parecem um pouo vazias por aqui.\nLembre-se de que o cache atualiza a cada 23h e agora as pessoas tem que usar `/birthday allowserver` pra permitir que este servidor anuncie seus aniversários.",
+      "no_guild_month_birthdays": "%1$sNão têm aniversários para este mês (%2$s) aqui :(\n%3$sSe você configurou o anunciador de aniversário, por favor espere um pouco antes de usar isso de novo (O cache atualiza a cada 23h)\nLembre-se de que as pessoas agora tem que usar `/birthday allowserver` pra permitir que este servidor anuncie seus aniversários.",
       "cache_not_running": "%1$sO cacher de aniversário não parece estar funcionando (erro interno) :(",
       "error": "%1$sAlgo deu errado ao receber aniversários (erro interno) :(",
       "header": "**%1$s Aniversário em %2$s**\nCache de aniversário atualiza a cada 23 horas, então se o seu aniversário não aparecer aqui, não entre em pânico e espere. Exibindo até 100 resultados.\n",
-      "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `/birthday allowserver`. Showing up to 100 results.",
-      "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `/birthday 16-11` for the 16th of November).\nIf the month or day has only one digit you need to append a 0 to it. For example, 14/7 would become 14/07 and 7/12 would become 07/12.",
-      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `/birthday allowserver`%3$s",
+      "full_header": "**Aniversários de %1$s**\n%2$s\nLembre-se de que os aniversários entram em cache a cada 23 horas e que eles tem usar `/birthday allowserver`. Exibindo até 100 resultados.",
+      "error_date": "%1$sA data que você colocou não é valida ou eu não consigo analisá-la corretamente. Por favor tente com a formatação correta.\nLembre-se de que o formato é `dd/mm` (Por exemplo, use `/birthday 16-11` pra 16 de Novembro).\nSe o mês ou dia tiver apenas um digito você precisará acrescentar um 0 a ele. Por exemplo, 14/7 seria 14/07 e 7/12 seria 07/12.",
+      "added_birthdate": "%1$sData de nascimento adicionada com sucesso. Nova data de nascimento: %2$s *(Formato: dd/MM)* [day-month]. Para este servidor anunciar seu aniversário, você terá que usar `/birthday allowserver`%3$s",
       "invalid_month": "%1$sEsse não é um número de mês válido! (Meses válidos são números de 1 a 12)",
-      "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `/birthday allowserver`",
+      "no_content": "%1$sVocê tem que especificar seu aniversário, `remove` pra resetar seu aniversário ou `month` pra checar a lista de aniversários do mês. Depois, pra este servidor anunciar seu aniversário, agora você terá que usar `/birthday allowserver`",
       "new_format": "%1$sO novo formato de data é apenas `dd-mm` (dia-mês, por exemplo 20-10 para 20 de Outubro). Não precisa mais colocar seu ano, então você pode esquecer essa parte.",
-      "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `/birthday denyserver` on this server.",
-      "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `/birthday allowserver` on this server.",
-      "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `/birthday allowserver` instead. This is the default.",
+      "allowed_server": "%1$sServidor permitido pra anunciar seu aniversário. Pra negar no futuro, apenas use `/birthday denyserver` neste servidor.",
+      "denied": "%1$sServidor negado de anunciar seu aniversário. Pra permitir no futuro, apenas use `/birthday allowserver` neste servidor.",
+      "already_denied": "%1$sEsse servidor já não pode anunciar seu aniversário. Se você quer permitir, use `/birthday allowserver` ao invés disso. Este é o padrão.",
       "leap": "Seu aniversário é no dia 29 de fevereiro, o que significa que será anunciado no dia 29 nos anos bissextos e no dia 28 de fevereiro nos anos não bissextos.",
       "already_allowed": "%1$sVocê já permitiu que esse servidor mostre seu aniversário."
     },
