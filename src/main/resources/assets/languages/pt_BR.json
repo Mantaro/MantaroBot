@@ -1089,7 +1089,7 @@
       "already_allowed": "%1$sVocê já permitiu que esse servidor mostre seu aniversário."
     },
     "choose": {
-      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `/choose anime manga \"sleeping out\"`)",
+      "nothing_to": "%1$sVocê precisa me dizer o que escolher entre. (exemplo, `/choose anime mangá \"dormindo fora\"`)",
       "success": "%1$sEu escolho `%2$s`"
     },
     "remindme": {
@@ -1099,14 +1099,14 @@
         "success": "%1$sLembrete cancelado.",
         "select": "Selecione o lembrete que você deseja cancelar."
       },
-      "no_time": "%1$sYou didn't specify the time or the time format is wrong. The format is a number followed by either d (days), h (hours), m (minutes) or s (seconds). For example, 1m45s is 1 minute, 45 seconds.",
+      "no_time": "%1$sVocê não especificou o formato de tempo ou o formato de tempo está errado. O formato é um número seguido por entre d (dias), h (horas), m (mintuos) ou s (segundos). Por exemplo, 1m45s é 1 minuto, 45 segundos.",
       "no_time_arg": "%1$sVocê não me deu um tempo sobre o argumento `-time`.",
-      "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `/remindme 1m do the dishes`)",
+      "too_little_time": "%1$sIsso é muito pouco tempo (Mínimo: 1 minutos, Exemplo: `/remindme 1m lavar a louça`)",
       "too_long": "Isso é muito tempo... (Máximo 180 dias)",
-      "success": "%1$sI'll remind you (%2$s) of `%3$s` in %4$s",
+      "success": "%1$sEu vou te lembrar (%2$s) de `%3$s` em %4$s",
       "too_many_reminders": "%1$sVocê tem muitos lembretes! Poderia cancelar alguns?",
-      "content": "Content",
-      "due_at": "Due at"
+      "content": "Conteúdo",
+      "due_at": "Devido às"
     },
     "time": {
       "invalid_timezone": "%1$sIsso não é um fuso horário válido.",
@@ -1142,7 +1142,7 @@
       "successful": "%1$sKey reivindicada com sucesso `%2$s`. Você reivindicou um total de %3$s keys e tem %4$s keys faltando para reivindicar.",
       "cant_dm": "%1%sEu não posso te mandar DM por causa das suas configurações de privacidade, aparentemente.",
       "success": "%1$sInformação enviada por DM.",
-      "invalid_scope": "%1$sInvalid key scope! Valid are `user` and `guild`. Without any arguments, this command defaults to `user`. Example: `/claimkey guild` or `/claimkey user`"
+      "invalid_scope": "%1$sKey inválida! Válidos são `user` e `guild`. Sem algum argumento, o comando padroniza pra `user`. Exemplo `/claimkey guild` ou `/claimkey user`"
     },
     "vipstatus": {
       "user": {
@@ -1248,7 +1248,7 @@
     "game": {
       "won_games": "%1$s%2$s ganhou **%3$s jogos**",
       "nothing_specified": "%1$sVocê não especificou nada pra jogar...",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example: `/game lobby pokemon, trivia`",
+      "not_enough_games": "%1$sVocê tem que especificar pelo menos dois jogos. Por exemplo: `/game lobby pokemon, trivia`",
       "invalid_selection": "%1$sVocê precisa especificar pelo menos dois jogos. (Jogos válidos: personagem, pokemon, número, trivia)",
       "multiple": {
         "invalid": "%1$sVocê precisa especificar o jogo e o número de vezes para executá-lo",
@@ -1306,18 +1306,18 @@
     "dailycrate": {
       "check": "%1$sVocê poderá reivindicar seu baú diário em: **%2$s.**",
       "not_premium": "%1$sVocê não é premium!\nPor favor cheque mais em <https://patreon.com/mantaro>\n\nComo um usuário premium, você pode obter um baú premium todo dia usando este comando, que tem uma grande chance de conter ferramentas high-tier e itens para os diferentes comandos da moeda (4 estrelas pra cima!)\nObrigado pela sua consideração, pois precisamos de ajuda para manter a Mantaro viva. Obrigado por usar a Mantaro <3",
-      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `/opencrate <crate name>`. You need to buy a crate key using `/buy key` to open it."
+      "success": "%1$sVocê acabou de ganhar um **%2$s**! Volte daqui a 24 horas pra ganhar outro! Você pode abri-lo usando `/opencrate <crate name>`. Você precisa comprar uma Chave de Baú utilizando o comando `/buy key` pra abri-lo."
     },
     "prune": {
       "no_messages_specified": "%1$sVocê não especificou as mensagens para excluir.",
       "no_permissions": "%1$sEu não posso excluir mensagens nesse servidor pois eu não tenho a permissão de Gerenciar Mensagens.",
       "no_permissions_user": "%1$sEu não posso punir nesse servidor pois você não tem a permissão de Gerenciar Mensagens.",
-      "no_messages": "%1$sI can't find any messages with the criteria you specified...",
+      "no_messages": "%1$sEu não consegui encontrar uma mensagem com esse critério que você especificou...",
       "too_few_messages": "%1$sMuitas mensagens para punir. O mínimo é 5. Isso é computado depois que a lista de mensagens foi filtrada, então se você usou o filtro (digamos, mencionou alguém), certifique-se que você buscou 100 mensagens (ou não especifique a quantidade).",
       "error_retrieving": "%1$sEu encontrei um erro desconhecido enquanto recuperava o histórico para excluir as mensagens (Interno: %2$s %3$s)",
       "invalid_number": "%1$sPor favor especifique um número válido.",
       "not_valid": "%1$sIsso não é um número válido de mensagens para deletar.",
-      "less_than_five": "%1$sYou need to provide at least 5 messages. For example, use `/prune 20` to delete 20 messages.",
+      "less_than_five": "%1$sVocê precisa fornecer pelo menos 5 mensagens. Por exemplo, use `/prune 20` pra deletar 20 mensagens.",
       "messages_too_old": "%1$sNão há mensagens com mais de 2 semanas de idade, discord vai me deixar excluí-los.",
       "success": "%1$sExcluído com sucesso %2$s mensagens desse canal.",
       "lack_perms": "%1$sFalta de permissão ao remover mensagens (Sem permissão fornecida: %2$s)",
@@ -1339,7 +1339,7 @@
       "no_images": "%1$sNão há imagens correspondentes ao seu critério de busca. Isso pode acontecer porque o serviço de imagem não retornou nada, nada útil, ou você procurou por tag proibidas.",
       "no_results": "%1$s**Não existem mais imagens ou nenhum resultado encontrado**! Por favor, tente com um número menor ou outra pesquisa.",
       "error": "%1$sHouve um erro ao procurar uma imagem...",
-      "wrong_argument": "%1$sWrong argument type. Check /help %2$s",
+      "wrong_argument": "%1$sTipo de argumento errado, cheque /help %2$s",
       "blacklisted_tag": "%1$sEsta tag de imagem foi colocada na lista negra por um administrador.",
       "error_tag": "%1$sHouve um erro ao procurar esta tag.",
       "error_random": "%1$sHouve um erro ao procurar uma imagem aleatória.",
@@ -1355,7 +1355,7 @@
       "source": "Imageboard",
       "rating": "Avaliação",
       "load_notice": "Se a imagem não carrega, clica no título.",
-      "rule34_notice": "If you don't like the content on this command, you can use `/yandere`. If animated gifs/webm content doesn't play, click the link in the embed title.",
+      "rule34_notice": "Se você não gosta do conteúdo deste comando, você pode usar `/yandere`. Se gifs/webm animados não tocar, clique no link no título da embed.",
       "yandere_nsfw_notice": "%1$sOs comandos de Yande.re e Gelbooru só podem ser usados em canais NSFW devido a inúmeros relatos de envio de imagens explícitas que estavam marcadas como segura ao lado. Use esse comando em um canal NSFW ao invés disso.",
       "konachan_nsfw_notice": "%1$sKonachan, danbooru e safebooru só podem ser usados em canais NSFW devido à classificação inconsistentes ao seu lado. Use esse comando em um canal NSFW ao invés disso (você pode deixar um canal assim nas configurações de canal).",
       "e621_nsfw_notice": "%1$sO comando e621 só pode ser usado em canais NSFW.",
@@ -1364,14 +1364,14 @@
       "disabled_explicit": "%1$sEste servidor desativou pesquisas de imageboards explícitos/questionáveis independentemente se o canal está marcado como NSFW."
     },
     "pet": {
-      "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nThere's two types: Personal (for yourself) and Marriage (shared between your partner and you). Choose one with `/pet choice`. The default is Personal.\nFor more help, use `/help pet` and `/pet list` for a list of pets.",
-      "no_marriage": "%1$sYou need to be married to have a pet. For now. Check `/help marry` and `/pet`",
-      "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now. Check `/help marry` and `/pet`",
+      "explanation": "Pets são companhias úteis na moeda!\nEles te ajudam a ganhar mais dinheiro, mais loot, achar coisas aleatórias no mine, chop e até no fish. Quanto mais level, mais alta serão as recompensas!\nObtendo o pet certo pra suas atividades é importante, então tenha certeza de checar o tipo e as habilidades do pet que você escolher!\nLembre-se de que você precisa alimentar seu pet e dar água pra ele, também deixar ele descansar e recarregar a energia de vez em quando, como um pet real! Você ainda pode acariciar ele :)\nTêm dois tipos: Personal (para você mesmo) e Marriage (compartilhado com seu parceiro e você). Escolha um usando `/pet choice`. O padrão é Personal\nPra mais ajuda, use `/help pet` e `/pet list` pra uma lista de pets.",
+      "no_marriage": "%1$sVocê precisa estar casado(a) pra ter um pet. Por enquanto. Dê uma olhada em `/help marry` e `/pet`",
+      "no_marriage_other": "%1$s%2$s precisa estar casado(a) pra ter um pet. Por enquanto. Dê uma olhada em `/help marry` e `/pet`",
       "status": {
-        "no_pet": "%1$sYou don't have any pets to check the status of. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
-        "pet_in_other_category": "\n%1$sYou have a pet on the %2$s choice (%3$s). You can switch to it with `/pet choice %2$s`",
+        "no_pet": "%1$sVocê não tem nenhum pet pra checar os status. Cheque `/pet` para uma explicação. (Escolha: %2$s)%3$s",
+        "pet_in_other_category": "\n%1$sVocê tem um pet na escola %2$s (%3$s). Você pode trocar com `/pet choice %2$s`",
         "header": "Status de %1$s",
-        "description": "Remember to take care and love your pet :heart:\nSee `/pet` and `/help pet` for an explanation.",
+        "description": "Lembre-se de dar amor e carinho ao seu pet :heart:\nVeja `/pet` e `/help pat` para uma explicação.",
         "cost": "Preço",
         "type": "Tipo",
         "abilities": "Habilidades",
@@ -1404,17 +1404,17 @@
         "success": "%1$sDefinido com sucesso sua escolha para: %2$s %3$s"
       },
       "level": {
-        "no_pet": "%1$sYou don't have any pets to check the level of. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sVocê não tem nenhum pet pra checar o nível. Cheque `/pet` para uma explicação. (Escolha: %2$s)%3$s",
         "success": "%1$sO nível de **%2$s** é: **%3$,d** (%4$,d XP / %5$,d XP)"
       },
       "list": {
         "summary": "%1$s **Nome:** %2$s, **Habilidades:** `%3$s`, **Valor:** %4$,d créditos",
-        "abilities": "*Fish*: Useful for `/fish`\n*Catch*: Useful for `/mine`\n*Chop*: Useful for `/chop`\n*Cheer*: Gives you a nice morale boost.",
+        "abilities": "*Fish*: Útil para `/fish`\n*Catch*: Útil para `/mine`\n*Chop*: Útil para `/chop`\n*Cheer*: Dá a você um bom boost de moral.",
         "header": "%1$s**Pets atualmente Disponíveis**\n\n%2$s\n\n%3$s**Explicação das Habilidades:**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sYou don't have any pets to pat. Check `/pet` for an explanation. (Choice: %2$s)",
-        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `/pet` for an explanation.",
+        "no_pet": "%1$sVocê não tem nenhum pet pra acariciar. Cheque `/pet` para uma explicação. (Escola %2$s)",
+        "no_pet_other": "%1$s%2$s não tem nenhum pet pra acariciar. Cheque `/pet` para uma explicação.",
         "personal_pet_other": "%1$sVocê não pode acariciar os pets pessoais de outras pessoas. Por enquanto.",
         "ratelimit_message": "Você pode acariciar seu pet até 25 vezes. Depois disso você tem que esperar o tempo acima para mais acariciar mais 25 vezes.",
         "too_many": "Como você conseguiu tanto carinho?"
@@ -1428,10 +1428,10 @@
         "counter_100": "%1$sParece que a cabeça deles ficará brilhando com tantos carinhos."
       },
       "buy": {
-        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `/pet buy hello dog`). If you want a personal pet, first run `/pet choice personal`.",
-        "no_requirements": "%1$sYou need both a car and a house to go buy a pet! House: %2$s, Car: %3$s\nTo buy a house and a car use `/marry buyhouse` and `/marry buycar` :heart:",
+        "not_enough_arguments": "%1$sVocê tem que especificar o nome do pet e o tipo do pet que você quer comprar. (Por exemplo, `/pet buy olá dog`). Se você quiser um pet pessoal, primeiro use `/pet choice personal`.",
+        "no_requirements": "%1$sVocês precisam ter um carro e uma casa pra comprar um pet! Casa: %2$s, Carro %3$s Pra comprar uma casa e carro use `/marry buyhouse` e `/marry buycar` :heart:",
         "no_house": "%1$sVocê precisa ter uma casinha para seu animal de estimação no seu inventário antes de comprá-lo. Você pode adquirir uma no mercado.",
-        "no_egg": "%1$sYou need to have a Incubator Egg on your inventory to do this. You can cast it, check `/cast ls`",
+        "no_egg": "%1$sVocê tem que ter uma Incubadora de Ovo no seu inventário pra fazer isso. Você pode confeccionar ela, cheque `/cast ls`",
         "already_has_pet": "%1$sVocê já tem um pet. (Escolha atual: %2$s)",
         "nothing_found": "%1$sNão foi possível encontrar o tipo de pet que você especificou. Você especificou: `%2$s`, Tipos válidos: `%3$s`",
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente pra comprar esse pet. Valor: %2$,d créditos, Carteira: %3$,d créditos",
@@ -1443,8 +1443,8 @@
         "no_marriage_marry": "%1$sEu não vejo nenhum casamento aqui..."
       },
       "feed": {
-        "no_pet": "%1$sYou don't have any pets to feed. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
-        "no_content": "%1$sYou need to specify what you want to feed your pet with. For example, `/pet feed steak`",
+        "no_pet": "%1$sVocê não tem nenhum pet pra alimentar. Cheque `/pet` para uma explicação. (Escolha: %2$s)%3$s",
+        "no_content": "%1$sVocê precisa especificar com o que vai alimentar seu pet. Por exemplo, `/pet feed steak`",
         "no_item": "%1$sEu não encontrei o item que você especificou.",
         "not_food": "%1$sUé, Isso não é comida, nem é comida de emergência!",
         "no_need": "%1$sSeu pet não está faminto, então ele não quer comer agora.",
@@ -1454,7 +1454,7 @@
         "too_much": "%1$sQue tal um pouco menos de comida? Você só vai desperdiçar com esse tanto aí! (A quantidade que você colocou é mais do que a necessária para recuperar 100%% da fome)"
       },
       "water": {
-        "no_pet": "%1$sYou don't have any pets to water. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sVocê não tem nenhum pra dar água. Cheque `/pet` para uma explicação. (Escolha: %2$s)%3$s",
         "no_need": "%1$sSeu pet não está com sede, então ele não quer beber agora.",
         "not_inventory": "%1$sVocê não tem uma Garrafa d'Água. Certifique-se de que está em seu inventário.",
         "not_enough_inventory": "%1$sVocê não tem garrafas d'água suficiente no seu inventário! Você precisa de %2$s.",
@@ -1488,7 +1488,7 @@
         "success_personal": "%1$sPet removido com sucesso. Você recebeu %2$s créditos como um reembolso."
       },
       "info": {
-        "not_found": "%1$sI can't find the pet type you're looking for. Use `/pet list` for a list of pet types.",
+        "not_found": "%1$sEu não consegui encontrar o tipo de pet que você está procurando. Use `/pet list` pra uma lista de tipos de pet.",
         "author": "Informação do tipo de pet %1$s%2$s",
         "name": "Nome do Pet",
         "cost": "Custo do Pet",
@@ -1530,7 +1530,7 @@
         "header": "Lista de Itens Resgatáveis",
         "cost": "Custo do Resgatamento: ",
         "return": "Possível Retorno: ",
-        "desc": "This is a list of the items you can salvage using `/salvage`.\nYou can use full name, short name or the emoji\nSalvaging has a cost of 1/3rd the price of the item, which is shown below.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "desc": "Essa é uma lista de itens que você pode recicliar usando `/salvage`.\nVocê pode usar o nome completo, a abreviação ou o emoji\nA reciclagem custa 1/3 do preço do item, como mostrado abaixo. Ao reciclar você recupera apenas um dos itens listados aqui, escolhido de forma aleat´roia.\nChave inglesa de classe 2 e 3 equivalem a celeste e a brilhante, respectivamente."
       }
     },
     "stats": {
@@ -1609,7 +1609,7 @@
     "help": {
       "title": "Ajuda da Mantaro",
       "base_category": "Lista de comandos da categoria %1$s. Para um guia detalhado, por favor cheque a [wiki] (https://github.com/Mantaro/MantaroBot/wiki). [Guia da Moeda] (https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
+      "base": "**Lista completa de comandos**. Para um guia detalhado, por favor cheque nossa [wiki] (https://github.com/Mantaro/MantaroBot/wiki).\nLembre-se de que você pode ter mais informações de um comando usando `/help <name of command>\n",
       "support": "Se você ainda estiver perdido você pode entrar em nosso [servidor de suporte](https://support.mantaro.site). Você pode me seguir também no [Twitter](https://twitter.com/mantarodiscord) para updates.\n",
       "patreon": "[Nós precisamos da sua ajuda para manter Mantaro online! Clique aqui para mais informações.]\n(https://www.patreon.com/mantaro)",
       "disabled_commands": "Apenas mostrando comandos não-desativados. Total de comandos desativados: %1$s",
@@ -1621,8 +1621,8 @@
         "not_found": "%1$sUm comando com esse nome não existe"
       },
       "too_long": "Erro ao exibir a ajuda do sub-comando. Cheque a [wiki]\n(https://github.com/Mantaro/MantaroBot/wiki) para mais informações nesse comando específico.",
-      "include_warning": "**Don't include <> or [] on the command itself.**",
-      "help_header": "Command help for %s",
+      "include_warning": "**Não inlcui <> ou [] no comando em si.**",
+      "help_header": "Ajuda do comando %s",
       "options": "Options",
       "usage": "Usage",
       "optional": "(This is optional)"
