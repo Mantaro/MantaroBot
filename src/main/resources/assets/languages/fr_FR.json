@@ -704,10 +704,10 @@
     "roll": {
       "success": "%1$sTu as eu **%2$s**%3$s",
       "amount": "Faisant **%1$d** tirages.",
-      "more_than_10": "... and %2$s more rolls",
+      "more_than_10": "... et %2$s lancés de plus",
       "total": "(Total: %1$,d)",
-      "size": "\nDoing **%1$,d rolls** with a die of **%2$,d sides**.",
-      "incorrect_format": "You need to specify the amount in d20 format. For example, to roll 2 dies of 16 sides, you can do 2d16."
+      "size": "\nEn train de lancer **%1$,d fois** un dé à **%2$,d faces**.",
+      "incorrect_format": "Tu dois spécifier le montant en format d20. Par exemple, pour lancer 2 dés à 16 faces, tu peux dire 2d16."
     },
     "coinflip": {
       "over_limit": "%1$sAttend un peu! La limite est de 1,000 pile-ou-faces",
@@ -1099,7 +1099,7 @@
         "success": "%1$sRappel supprimé.",
         "select": "Sélectionne le rappel que tu veux supprimer."
       },
-      "no_time": "%1$sYou didn't specify the time or the time format is wrong. The format is a number followed by either d (days), h (hours), m (minutes) or s (seconds). For example, 1m45s is 1 minute, 45 seconds.",
+      "no_time": "%1$sTu n'as pas spécifié le moment ou tu as mal utilisé le formatage. Le format est un nombre suivit de d (days/jours), h (hours/heures), m (minutes) ou s (seconds/secondes). Par exemple, 1m45s c'est 1 minute et 45 secondes.",
       "no_time_arg": "%1$sTu ne m'as pas donné de durée à l'argument `-time`.",
       "too_little_time": "%1$sCe n'est pas assez de temps (Minimum: 1 minute, Exemple: `/remindme 1m faire la vaisselle`)",
       "too_long": "Le délai est trop long... (Maximum : 180 jours)",
@@ -2513,8 +2513,8 @@
     "explanation": {
       "pick": "Une pioche normale que tu as achetée au magasin du coin. Elle à l'air assez solide pour miner quelques trucs.",
       "diamond_pick": "Une pioche en diamant est définitivement plus solide que ta pioche en fer que je trouverais au magasin du coin, c'est certain !",
-      "comet_pick": "You found some Comet Fragments and realized you could make a Comet Gem out of them.\nWhat did they do? Were they special?\nYou seemed eager to try it out after being impressed by its glow, so here we are, in your first step towards getting stronger picks.",
-      "star_pick": "Maybe it was the glow, maybe it was the fact they came from a star far away in the galaxy, but it seemed to make for quite a sturdy pick with special properties.\nWeird... it seems to attract more gems. Is it the effect of the material, or is it my skill getting better?",
+      "comet_pick": "Tu as trouvé des fragments de comète et tu as réalisé que tu pouvais en faire une gemme.\nQue faisaient-elles? Étaient-elles spéciales ?\nTu sembles avide d'essayer après avoir vu leur éclat, nous y sommes donc, la première étape pour forger des pioches plus puissantes.",
+      "star_pick": "Peut-être était-ce leur éclat, peut-être était-ce leur provenance extraterrestre, mais il semblerait que ces fragments d'étoiles fasse une pioche robuste aux propriétés spéciales.\nÉtrange... Elle semble attirer plus de gemmes. Est-ce l'effet des matériaux où est-ce une question de talent ?",
       "moon_pick": "La substance semblable à la lune t'a hypnotisé.e.\nÉtait-ce le fait qu'elle brille comme la lune, ou le fait qu'elle semble flotter par elle-même?\nTu as quand même essayé de fusionner cette substance avec ta pioche, et le résultat est satisfaisant.\nÇa semble être un bon équilibre entre la lumière et l'obscurité et d'une manière ou d'une autre, j'ai miné des gemmes avec elle.\nEst-ce vraiment un morceau d'une lune lointaine?",
       "sparkle_pick": "Something made you look up into the caverns, and you found a sparkly gem on top. Looking up, some fell onto your pick, and it made the pick shine enough to light up the entire cavern.\nQuickly, you grab some of the sparkly fragments and get a casting station.\nThe pick glows bright like the sun... and it seems pretty tough too... how did it fuse so well with iron?",
       "hellfire_pick": "Reactions between all the elements can be a weird and dangerous process.\nRegardless of what your friends told you, you decided to research this topic, and came up with an object brighter than anything you've ever seen...\nIt seems to be a mix of all the other elements, but it seems quite reactive... it's also quite tough, not much seems to be able to break it...\nHave I done good for this world, or have I brought the unknown to life?",
