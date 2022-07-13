@@ -1686,12 +1686,12 @@
       "external_balance": "O saldo de %1$s é de **$%2$,d créditos.**",
       "own_balance": "Seu saldo é de **$%1$,d créditos.**%2$s",
       "new_player": "\nOlá! Vejo que você possa ser novo aqui. Este guia vai te ajudar muito: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. Isso só será mostrado uma vez.",
-      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `/profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
+      "reset_notice": "\nSe você quiser saber o que aconteceu com seu dinheiro, leia\n<https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nVocê não perdeu seu dinheiro antigo completamente, ainda é visível no `/profile` :heart:\nSeu inventário foi mantido, por que não vende algumas coisas pra ganhar dinheiro?\nIsso só será mostrado uma vez. Leia o link da página para mais detalhes."
     },
     "daily": {
       "check": "%1$sVocê poderá reivindicar seu diário em: **%2$s.**",
       "about_now": "agora",
-      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `/daily check:True`. Enjoy!",
+      "ratelimit_message": "Você pode usar daily uma vez por dia. Se você quer checar, você pode usar `/daily check:True`. Aprecie!",
       "errors": {
         "bot": "%1$sVocê não pode transferir seu diário para um bot.",
         "receipt_locked": "Esse usuário não pode receber créditos diários agora.",
@@ -1723,7 +1723,7 @@
     },
     "gamble": {
       "no_credits": "%1$sVocê está sem dinheiro. Talvez procure por alguns créditos primeiro.",
-      "too_much_money": "%1$sYou have too much money! Maybe transfer or buy items? Now you can also use `/slots` for all your gambling needs! Thanks for not breaking the local bank. *(Gamble absolute limit: %2$d credits)*",
+      "too_much_money": "%1$sVocê tem muito dinheiro! Por que não tranfere ou compra itens? Agora você também pode usar `/slots` pra todas as suas necessidades de aposta! Obrigada por não quebrar o banco local. *(Limite absoluto de gamble: %2$d créditos)*",
       "invalid_money_or_modifier": "%1$sPor favor, digite um número válido menor ou igual ao seu saldo atual ou `all` para apostar todos os seus créditos.",
       "not_enough_money": "%1$sPor favor digite um valor dentro do seu saldo.",
       "invalid_percentage": "%1$sPor favor, digite um valor percentual válido.",
@@ -1753,12 +1753,12 @@
       "easter": "\nParece que você tem muita poeira aqui... Você pode querer limpar isso antes que fique muito confuso!"
     },
     "mine": {
-      "not_equipped": "%1$sYou don't have any equipped pick. Use `/equip <pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `/buy pick`",
-      "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `/mine <pick name>`",
+      "not_equipped": "%1$sVocê não tem uma picareta equipada. Use `/equip <pick name>` pra equipar uma picareta e começar sua aventura! Se você não tem uma, primeiro use `/buy pick`",
+      "no_pick": "%1$sVocê não tem nenhuma picareta pra minerar. Se você quiser usar outra picareta use `/mine <pick name>`",
       "not_suitable": "%1$sIsso não é uma picareta que você pode usar para minerar!",
       "not_in_inventory": "%1$sVocê não tem essa picareta no seu inventário, mudando para a picareta padrão.",
       "success": "%1$sVocê minerou minerais que valem **$%2$s créditos**, usando uma *%3$s*",
-      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `/cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
+      "reminder": "\n*Você pode confeccionar picaretas melhores usando as gemas que você ganhou enquanto minerava. Cheque `/cast ls` pra uma lista de coisas que você pode confeccionar*\nPara um guia de como melhorar suas ferramentas, dê uma olhada: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
         "overflow": "Huh, você encontrou %1$,d diamante(s) enquanto minerava, mas você já tem muitos, então eu vendi para você.",
         "success": "Huh! Você teve sorte e encontrou %1$s diamante(s) enquanto minerava, cheque seu inventário!"
@@ -1774,27 +1774,27 @@
       },
       "crate": {
         "overflow": "Você encontrou um **%1$s** enquanto minerava, mas você já tinha muito e deixou pra trás...",
-        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `/opencrate <crate name>`. You need a crate key, which you can buy using `/buy key`!"
+        "success": "Você achou um %1$s **%2$s** enquanto minerava e pegou pra você. Abra-o com o comando `/opencrate <crate name>`. Você vai precisar de uma chave de baú, que pode ser comprada com `/buy key`!"
       },
       "autoequip": {
         "success": "%1$sEquipado automaticamente uma **%2$s** no seu slot de picareta."
       },
       "item_broke": "%1$sSua %2$s quebrou enquanto usava :( %3$s",
-      "item_broke_autoequip": "*Hint: You can use `/profile autoequip` and it'll automatically equip the item for you when it breaks, assuming you have one in your inventory.*",
+      "item_broke_autoequip": "*Dica: Você pode usar `/profile autoequip` e irá automaticamente equipar o item pra você quando quebrar, assumindo que você tenha um no seu inventário.*",
       "waifu_help": "Sua waifu veio e se juntou a sua aventura de mineração e você dois ganham mais recursos!",
       "missing_equipped": "%1$sVocê equipado uma picareta %2$s, mas você não tem mais desse tipo no seu inventário! Picareta equipada foi resetada.",
       "broken_drop": "%1$sSua ferramenta quebrou, mas você pode conserta-la. Item quebrado ganho: %2$s *%3$s*",
       "broken_drop_miss": "%1$sSua ferramenta quebrou e você não conseguiu recuperá-la."
     },
     "chop": {
-      "not_equipped": "%1$sYou don't have any equipped axe. Use `/equip <axe name>` to equip a axe and start your adventure! If you don't have any, first run `/buy axe`",
+      "not_equipped": "%1$sVocê ainda não equipou seu machado. Use `/equip <axe name>` pra equipar um machado e começar sua aventura! Se você não tem nenhum, primeiro use `/buy axe`",
       "dust": "%1$sA árvore era muito frágil e você só conseguiu serragem dela (Nível de poeira: %2$d%%)",
       "autoequip": {
         "success": "%1$sEquipado automaticamente uma **%2$s** no seu slot de machado."
       },
       "crate": {
         "overflow": "Você encontrou um **%1$s** enquanto cortava árvores, mas você já tinha muitos, então jogamos de volta no oceano...",
-        "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `/opencrate <crate name>`. You need a crate key!"
+        "success": "Você encontrou um %1$s **%2$s** enquanto cortava árvores e você prossegue pra pegá-lo. Vá e abra-o com `/opencrate <crate name>`. Você precisa de uma chave do baú!"
       },
       "overflow": "%1$sVocê encontrou algumas coisas cortando, mas não conseguiu ter mais alguns itens, então tivemos que deixar alguns deles de fora.",
       "success_only_item": "%1$sEnquanto cortava árvores, você encontrou %2$s usando um *%3$s* e prossegue para salvar em seu inventário.",
@@ -1820,7 +1820,7 @@
       "credits": "créditos"
     },
     "leaderboard": {
-      "main_page_redirect": "You can see `/help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `/leaderboard money`",
+      "main_page_redirect": "Você pode ver `/help leaderboard` pra uma lista de leaderboards disponíveis\nSe você estiver procurando o leaderboard de dinheiro, use `/leaderboard money`",
       "header": "Tabela de classificações da Mantaro",
       "header_seasonal": "Leaderboard da temporada %1$s da Mantaro",
       "money": "Classificações de Dinheiro",
@@ -1834,17 +1834,17 @@
       "claim": "Classificação de Reivindicação de Waifu",
       "inner": {
         "experience": "Experiência",
-        "game": "%1sThis page shows the top 10 people who have won the most games.\n\nCheck out `/help game` or `/help trivia` for details on how games work!",
-        "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `/help waifu` for details on the waifu system.",
+        "game": "%1sEssa página mostra o top 10 de pessoas que ganharam mais jogos.\n\nCheque `/help game` ou `/help trivia` para mais detalhes de como os jogos funcionam!",
+        "claim": "%1sEssa página mostra o top 10 de pessoas que foram mais reivindicadas como waifu.\n\nCheque `/help waifu` para mais detalhes sobre o sistema de waifu.",
         "money_old": "%1$sEssa página mostra as top 10 pessoas mais ricas na Mantaro (antes do reset).\n",
         "money": "%1$sEssa página mostra as top 10 pessoas mais ricas na Mantaro. Grinding é difícil!",
         "seasonal_money": "%1$sEssa página mostra as top 10 pessoas mais ricas dessa temporada.",
         "rep": "%1sEssa página mostra o top 10 de pessoas com mais reputação.",
-        "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `/help daily` for more info",
+        "streak": "%1sEssa página mostra o top 10 de pessoas com os maiores comos diários.\n\nCheque `/help daily` para mais informações",
         "lvl": "%1sEssa página mostra o top 10 de pessoas com mais nível.\n\nNível é ganho por falar. Uso de comando não contribui, e XP tem 30 segundos de cooldown.",
-        "waifu": "%1sThis page shows the top 10 people with the most weighted waifu value.\n\nCheck out `/help waifu` for details on the waifu system.",
-        "gamble": "%1sThis page shows the top 10 people with the most gamble runs won.\n\nCheck out `/help gamble` for details on gamble.",
-        "slots": "%1sThis page shows the top 10 people with the most slots runs won.\n\nCheck out `/help slots` for details on slots."
+        "waifu": "%1sEssa página mostra o top 10 de pessoas com o valor mais pesado de waifu.\n\nCheque `/help waifu` para mais detalhes sobre o sistema de waifu.",
+        "gamble": "%1sEssa página mostra o top 10 de pessoas com mais vitórias em apostas.\n\nCheque `/help gamble` para detalhes sobre aposta.",
+        "slots": "%1sEssa página mostra o top 10 de pessoas com mais vitórias no caça-níquel.\n\nCheque `/help slots` para detalhes sobre o caça-níquel."
       }
     },
     "iteminfo": {
@@ -2036,7 +2036,7 @@
       "autorole": "%1$sVocê não pode definir o cargo autorole como um cargo de aniversário! Lembre-se que o cargo de aniversário é um cargo que é atribuído para a pessoa quando o aniversário dela vem, e é removido quando o dia passa.",
       "warning": "%1$sLembre-se que o cargo de aniversário é um cargo que é atribuído para a pessoa quando o aniversário dela vem, e é removido quando o dia passa.Se você tem alguma dúvida sobre como configurá-lo, você pode sempre entrar no nosso servidor de suporte e perguntar. Você também pode checar `~>opts help birthday enable` por exemplo.",
       "warning_1": "Isso é como o atribuídor de aniversário funciona: Atribui um cargo temporário à pessoa que está fazendo aniversário, e remove quando o dia do aniversário passa. **Isso significa que todos com o cargo de aniversário terão o cargo removido no dia em que o aniversário passar**. Por favor, tome cuidado ao escolher o cargo a ser usado, comoum erro de configuração pode fazer coisas ruins acontecerem (realmente)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
+      "warning_2": "O cargo *tem que ser recém-criado ou um cargo que você não usa em mais ninguém*. NÃO PODE ser um cargo que os usuários já possuem. Os usuários precisarão permitir que este servidor anuncie seu aniversário usando `/birthday allowserver` senão o aniversário não aparecerá! Leia <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> para mais informações.",
       "warning_3": "Além disso, o cache de aniversário (o que é usado para armazená-los) só é atualizado a cada 23 horas. Significa que se você definir o seu aniversário hoje para amanhã para testar este anunciamento **não** funciona.",
       "warning_4": "Digite **yes** se você concordar em definir o cargo %2$s como cargo de aniversário, e **no** para cancelar. Esse tempo esgota em 45 segundos.",
       "success": "%1$sRegistro de aniversário ativado neste servidor com parâmetros -> Canal: `%2$s (%3$s)` e cargo: `%4$s (%5$s)`",
@@ -2541,7 +2541,7 @@
       "floppy": "Pode ter alguns jogos. Não copie o disquete.",
       "maths": "Oh, eu esqueci das minhas lições.",
       "racket": "Eu ganhei o jogo de ping-pong com o Discord por alguns milissegundos. Talvez.",
-      "loaded_die": "Stolen from the `/roll` command.",
+      "loaded_die": "Roubado do comando `/roll`.",
       "forgotten": "Nunca Baixada. Provavelmente foi protegido por direitos autorais.",
       "pencil": "Nós temos muitos desses!",
       "moneybag": "O que mais?",
@@ -2551,7 +2551,7 @@
       "lewd": "Muitos comandos sensuais. Demais. Se divertiu?",
       "ring": "Basicamente, o que torna o seu casamento oficial.",
       "letter": "Uma carta do seu amado.",
-      "key": "Used to open various crates with `/opencrate <crate name>` or `/useitem <crate name>`",
+      "key": "Usado pra abrir vários tipos de baús com o comando `/opencrate <crate name>` ou `useitem <crate name>`",
       "clothes": "Basicamente o que você veste. Esperançosamente...",
       "diamond": "Basicamente, uma maneira melhor de salvar seu dinheiro. É brilhante também. E deixa você fundir coisas brilhantes. Que legal.",
       "dress": "Não é fofo?",
@@ -2568,7 +2568,7 @@
       "special_ring": "É tão especial, não é nem um anel. `Restos da Versão da Moeda 1. Não é mais possível obter.`",
       "enchancer": "Um encantador quebrado, Eu me pergunto se isso poderia ser consertado? `Restos da Versão da Moeda 1. Não é mais possível obter.`",
       "prize": "Bastante, huh? `Restos da Versão da Moeda 1. Não é mais possível obter.`",
-      "crate": "You can use this along with a loot key to open a loot crate! Can be opened with `/opencrate`",
+      "crate": "Você pode usar isso junto com uma chave de espólios pra abrir um baú de espólios! Pode ser aberto com `/opencrate`",
       "prize_2": "Em primeiro lugar, como você conseguiu tanto dinheiro?",
       "slot_ticket": "Dá chance extra em caça-níqueis, também funciona como armazenamento em massa.",
       "house": "Lugar aconchegante para se viver.",
@@ -2588,7 +2588,7 @@
       "cobweb": "Algo que uma aranha deixou na mina. Me pergunto se isso vale algo.",
       "fragment": "Fragmento de uma antiga jóia. Útil para fundição.",
       "mop": "Uma maneira deliciosa de limpar toda a poeira que você tem por perto. Eu aposto que há muito disso.",
-      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `/profile claimlock`",
+      "claim_key": "Esse item faz você irreivindicável (como waifu) se você usar `/profile claimlock`",
       "coffee": "Uma maneira deliciosa de começar o seu dia.",
       "waifu_pill": "Te dá uma vantagem signficativa em mineração e pesca se uma de suas waifus está avaliada em mais de 20,000. Dura 3 sessões.",
       "bait": "Dá uma chance maior de pegar peixes.",
@@ -2604,10 +2604,10 @@
       "sparkle": "Uma das gemas mais raras daqui. Certifique-se de mantê-la. É usado para fundir uma picareta brilhante & varas brilhantes.",
       "sparkle_pick": "Uma das picaretas mais fortes daqui.",
       "pizza": "Delicioso.",
-      "mine_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `/opencrate gem crate`",
-      "fish_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `/opencrate treasure`",
-      "mine_premium_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `/opencrate gem premium crate`",
-      "fish_premium_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `/opencrate premium treasure`",
+      "mine_crate": "Uma gema que você encontrou enquanto minerava. Pode haver algumas coisas legais dentro. Pode ser aberta com `/opencrate gem crate`",
+      "fish_crate": "Um tesouro que você encontrou enquanto pescava. Pode haver algumas coisas legais dentro. Pode ser aberto com `/opencrate treasure`",
+      "mine_premium_crate": "Uma gema que você encontrou enquanto minerava. Pode haver algumas coisas legais dentro. Pode ser aberto com `/opencrate gem premium crate`",
+      "fish_premium_crate": "Um tesouro que você encontrou enquanto pescava. Pode haver algumas coisas legais dentro. Pode ser aberto com `/opencrate premium treasure`",
       "comet_rod": "Uma vara meio forte.",
       "star_rod": "Uma vara forte.",
       "sparkle_rod": "Uma vara até que mais forte.",
@@ -2659,16 +2659,16 @@
       "broken_hellfire_pick": "Uma picareta de fogo do inferno que se extinguiu enquanto minerava. Ainda recuperável.",
       "broken_hellfire_axe": "Um machado de fogo do inferno que se extinguiu enquanto cortava. Ainda recuperável.",
       "broken_hellfire_rod": "Uma vara de fogo do inferno que se extinguiu enquanto pescava. Ainda recuperável.",
-      "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `/opencrate chop crate`",
-      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `/opencrate chop premium crate`"
+      "chop_crate": "Um baú que você encontrou enquanto cortava. Pode conter coisas boas. Pode ser aberto com `/opencrate chop crate`",
+      "chop_premium_crate": "Um baú que você encontrou enquanto cortava. Pode conter coisas boas. Pode ser aberto com `/opencrate chop premium crate`"
     }
   },
   "buttons": {
-    "yes": "Yes",
-    "no": "No",
-    "accept": "Accept",
-    "deny": "Deny",
-    "cancel": "Cancel"
+    "yes": "Sim",
+    "no": "Não",
+    "accept": "Aceitar",
+    "deny": "Negar",
+    "cancel": "Cancelar"
   },
   "time": {
     "day": "dia",
