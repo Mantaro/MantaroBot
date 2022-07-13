@@ -34,13 +34,13 @@
     "item_lookup": {
       "no_item_emoji": "Нет предмета связанного с этим эмодзи.",
       "no_item_name": "Нет предмета связанного с этим именем.",
-      "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
+      "not_found": "Не удалось найти запрашиваемый вами предмет. Попробуйте использовать сокращенное название, например, вместо `Energy Beverage` используйте `energy`, или заключите название в кавычки.",
       "claim_key": "Вы не можете передать вайфу ключ."
     },
     "misc_item_usage": {
-      "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
-      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
-      "milk": "%1$sCleared all potion effects.",
+      "mop": "%1$sВы почистили всю пыль, накопленную за всё время добычи полезных ископаемых.",
+      "mop_not_enough": "%1$sВаш уровень пыли составляет менее 5%%, поэтому уборка не будет слишком полезной.",
+      "milk": "%1$sЭффекты зелий были сняты.",
       "crate": {
         "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `/buy key`",
         "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
