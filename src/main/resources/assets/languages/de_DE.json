@@ -42,7 +42,7 @@
       "mop_not_enough": "%1$sEs ist nur zu 5%% verstaubt, daher wäre wischen nicht sonderlich sinnvoll.",
       "milk": "%1$sAlle Trankeffekte entfernt.",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `/buy key`",
+        "no_key": "%1$sDu brauchst einen Truhenschlüssel, um eine Truhe zu öffnen. Sie ist verschlossen! Du kannst einen mit `/buy key` kaufen.",
         "no_crate": "%1$sDu brauchst eine Truhe! Du bekommst Truhen normalerweise durch Währungsbefehle.",
         "success": "%1$sDu hast eine Truhe geöffnet und folgendes gewonnen: %2$s%3$s. Glückwunsch!",
         "success_high": "%1$sDu hast die folgenden Gegenstände mit mehr als 3 Sternen erhalten: %2$s. Die Gegenstandsanzahl steht oben",
@@ -50,7 +50,7 @@
       },
       "potion_active": "%1$sDu hast bereits einen aktiven **%2$s** Trankeffekt und die maximal mögliche Menge davon!",
       "potion_not_found": "%1$sIch kann diesen Trank- bzw. Equipmenttyp nicht finden!",
-      "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s* (%4$dx). Check your shiny new effect on `/profile stats`",
+      "potion_applied": "%1$sErfolgreich den Effekt **%2$s** des Typs *%3$s* angewendet (%4$dx). Schau dir deinen tollen neuen Effekt unter `/profile stats` an!",
       "potion_applied_multiple": "%1$sErfolgreich **%2$s** des Types *%3$s* angewendet.\nDu hattest den Effekt bereits, also haben wir ihn gestapelt. Aktuelle Stapelgröße: %4$s",
       "max_stack_size": "%1$sDu hast bereits die maximale Anzahl von %2$s in Verwendung. (Maximum: 15, nachher: %3$s)",
       "max_stack_size_2": "%1$sDu kannst nicht so viele %2$s verwenden. (Maximum 15, Versucht: %3$s)",
@@ -59,7 +59,7 @@
     "campaigns": {
       "premium": {
         "generic_sellout": "Wir brauchen deine Hilfe, um Mantaro am Laufen zu halten und Mantaros Server zu verbessern!\nDu kannst tolle Vorteile und **bis zur doppelten Menge an Credits mit Mantaro Premium** bekommen! Mitgliedschaften starten bei 2$ im Monat! Schau unter <https://patreon.com/mantaro> vorbei, um mehr Infos zu bekommen. Hierauf aufmerksam zu machen hilft auch :heart:",
-        "daily_sellout": "We need your help to keep Mantaro alive!\nYou can get amazing perks and **double the daily credits** and access to `/dailycrate`! Memberships start at only $2 per month, check out more at <https://patreon.com/mantaro>.",
+        "daily_sellout": "Wir brauchen deine Hilfe, um Mantaro am Laufen zu halten und Mantaros Server zu verbessern!\nDu kannst tolle Vorteile und **bis zur doppelten Menge an Credits** und Zugang zu `/dailycrate` bekommen! Mitgliedschaften starten bei 2$ im Monat! Schau unter <https://patreon.com/mantaro> vorbei, um mehr Infos zu bekommen.",
         "thanks_message": "Danke dir für das Unterstützen von Mantaro. Ohne die Hilfe von Personen, wie dir, könnten wir Mantaro nicht am Laufen halten. :heart:",
         "thanks_message_daily": "Danke dir für das Unterstützen von Mantaro. Ohne die Hilfe von Personen, wie dir, könnten wir Mantaro nicht am Laufen halten. :heart: Du bekommst auch die doppelte Menge an Credits als Bonus!"
       },
