@@ -48,7 +48,7 @@ import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_TIME;
 
 public class CCv3 {
-    private static final Pattern USER_MENTION_PATTERN = Pattern.compile("(?:<@!?)?(\\d{1,20})>?");
+    private static final Pattern USER_MENTION_PATTERN = Pattern.compile("<@(\\d{16,20})>");
     private static final Map<String, Operation> DEFAULT_OPERATIONS = new HashMap<>();
     private static final Pattern FILTER = Pattern.compile("([a-zA-Z0-9]{24}\\.[a-zA-Z0-9]{6}\\.[a-zA-Z0-9_\\-])\\w+");
     private static final Pattern ESCAPE = Pattern.compile("\\\\");
