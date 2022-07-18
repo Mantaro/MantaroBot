@@ -89,7 +89,7 @@
       "next": "Nächste",
       "close": "Schließen"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `/shard`) when reporting!",
+    "generic_error": "Wenn du willst, tritt unserem **Support Server** bei (`https://support.mantaro.site`), oder schau auf unserer GitHub Seite nach (`https://github.com/Kodehawa/MantaroBot`). Bitte sag denen, dass sie aufhören sollen mich hochzujagen und bitte vergiss nicht die Fehler-ID, den Befehl den du benutzt hast und deine Node (steht in `/shard`) beim Melden eines Fehlers!",
     "boom_quotes": [
       "Offenbar hat Megumin unser Schloss in die Luft gejagt...",
       "Uh-oh, offenbar hat unser Meister ein paar Nullen und Einsen auf dem Boden vergessen :<",
@@ -138,14 +138,14 @@
   "commands": {
     "slash": {
       "title": "Slash commands transition",
-      "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command.\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix.\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site",
-      "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site"
+      "description_alias": "%1$s**Den Befehl, den du versuchst auszuführen, ist nur noch ein Slash-Befehl.** Versuche ihn mit / als Präfix. **Dieser Befehl war ein Alias**. Versuche den eigentlichen Befehl auszuführen.\n\nSlash-Befehle ist der neue Weg Befehle im Einklang der Discord Richtlinien zu benutzen. **Befehle die noch mit Präfix funktionieren, werden vermutlich in Zukunft auch nur noch mit Slash funktionieren.**\nBefehlsaliase wurden in Slash-Befehlen entfernt, da für uns nicht genügend Platz vorhanden ist, sie hinzuzufügen (Discord lässt uns nur 100 Befehle hinzufügen).",
+      "description": "%1$s**Den Befehl, den du versuchst auszuführen, ist nur noch ein Slash-Befehl.** Versuche ihn mit / als Präfix.\n\nSlash-Befehle ist der neue Weg Befehle im Einklang der Discord Richtlinien zu benutzen. **Befehle die noch mit Präfix funktionieren, werden vermutlich in Zukunft auch nur noch mit Slash funktionieren.**\nBefehlsaliase wurden in Slash-Befehlen entfernt, da für uns nicht genügend Platz vorhanden ist, sie hinzuzufügen (Discord lässt uns nur 100 Befehle hinzufügen).",
+      "description_image": "Um Slash-Befehle für manche Bild-Befehle auszuführen, versuche den Befehl mit dem Präfix `/image` stattdessen. Zum Beispiel, `~>catgirl` wird zu `/image catgirl`. Befehle für Imageboards sind nicht davon betroffen.\n\nWenn du die Slash-Befehle nicht siehst, füge den Bot erneut dem Server mit dem Einladungslink unter https://add.mantaro.site hinzu",
+      "description_2": "Um Slash-Befehle auszuführen, versuche den Befehl mit dem Präfix `/` stattdessen. Zum Beispiel, `~>ping` wird zu `/ping` (und drücke Tab)\n\nWenn du die Slash-Befehle nicht siehst, füge den Bot erneut dem Server mit dem Einladungslink unter https://add.mantaro.site hinzu"
     },
     "fish": {
       "dust": "%1$sDer Tag ist zu Ende und dein Eimer hat nur Staub gesammelt. (Verstaubung %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `/equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `/buy rod`",
+      "no_rod": "%1$sDu hast keine Angel ausgerüstet. Nutze `/equip <Name der Angel>`, um eine Angel auszurüsten, und mit dem Fischen zu beginnen! Wenn du keine Angel hast, nutze erst `/buy rod`",
       "trash": {
         "overflow": "%1$sDu hast beim Angeln etwas Müll gefunden, aber dein Inventar war voll, also mussten wir es ins Wasser werfen...",
         "success": "%1$sWährend du ruhig angelst, findest du %2$s, aber es scheint nur Müll zu sein :("
@@ -155,7 +155,7 @@
       },
       "crate": {
         "overflow": "Du hast eine **%1$s** beim Fischen gefunden, aber du hattest bereits zu viele, daher haben wir sie zurück in den Ozean geworfen...",
-        "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `/opencrate <crate name>`. You need a crate key!"
+        "success": "Du hast eine %1$s **%2$s** beim Fischen gefunden und hast sie mitgenommen. Los, öffne sie mit `/opencrate <Truhenname>`. Du brauchst dazu einen Truhenschlüssel!"
       },
       "autoequip": {
         "success": "%1$sDu hast das automatische Ersetzen von kaputten Werkzeugen aktiviert, also habe ich dir eine neue **%2$s** in deinem Angelslot ausgerüstet."
@@ -172,7 +172,7 @@
       "bait": "Der Fisch hat deinen Köder geschluckt!",
       "missing_equipped": "%1$sDu hattest eine %2$s Angelrute ausgerüstet, aber keine Angelrute der Art im Inventar! Die ausgerüstete Angelrute wurde zurückgesetzt.",
       "broken_drop": "%1$sDeine Angel ist kaputt gegangen, aber du kannst sie reparieren. Kaputten Gegenstand erhalten: %2$s *%3$s*",
-      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `/equip <rod name>` to start your adventure!"
+      "no_rod_equipped": "%1$sDu hast keine Angelrute ausgerüstet. Rüste eine mit `/equip <Typ>` aus, um dein Abenteuer zu beginnen!"
     },
     "softban": {
       "no_permission": "%1$sYou can't soft-ban: You need the `Ban Users` permission.",
@@ -210,7 +210,7 @@
     },
     "music_usage": {
       "1": "*Wie benutze ich Mantaros Musik?*",
-      "2": "- To **queue songs from youtube or soundcloud** use `/play` For example: `/play https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
+      "2": "- Um **Songs von YouTube oder SoundCloud hinzuzufügen** nutze `/play`. Zum Beispiel: `/play https://www.youtube.com/watch?v=aAolFWjGfMs`. *Es wird automatisch dem Kanal in dem du dich befindest beitreten*",
       "3": "- To **search for a song on youtube** use `/play <search term>` (without the leading < and >) For example: `/play see you again` (You need to select the number, just *type the number* after the selection box pops up!)",
       "4": "- To **search for a song on soundcloud** use `/play soundcloud <search term>` For example `/play soundcloud hot milk`",
       "5": "- To **check the queue** you just type `/queue`",
