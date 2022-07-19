@@ -70,7 +70,7 @@
     "invalid_action": "Ты не можешь сделать это, дурашка.",
     "interactive_running": "%1$sНа этом канале уже использована подобная команда (которая принадлежит вам).",
     "buy_sell_paged_react": "Use the message buttons to move between pages.\n%1$s",
-    "buy_sell_paged_text": "Use **&p >>** and **&p <<** to move across pages.\n%1$s",
+    "buy_sell_paged_text": "Используйте **&p >>** и **&p <<** для перемещения между страницами.\n%1$s",
     "buy_sell_paged_reference": "**Рекомендуем %1$s Купить %2$s Продать.**",
     "cancelled": "%1$sЗапрос отменен.",
     "sellout": "Посмотреть возможности донатеров [Patreon](https://www.patreon.com/mantaro) если вам нравится бот, то даже небольшое пожертвование поможет жизни бота!",
@@ -85,9 +85,9 @@
       "spam_4": "\nЭта штука вообще работает?"
     },
     "buttons": {
-      "previous": "Previous",
-      "next": "Next",
-      "close": "Close"
+      "previous": "Назад",
+      "next": "Вперёд",
+      "close": "Закрыть"
     },
     "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `/shard`) when reporting!",
     "boom_quotes": [
@@ -232,7 +232,7 @@
     "music_general": {
       "music_error": {
         "timeout": "%1$sНевозможно подключиться к %2$s: время подключения вышло. Попробуйте сменить регион сервера и повторить запрос.",
-        "unknown": "%1$sUnable to connect to %2$s: unknown error."
+        "unknown": "%1$sНевозможно подключиться к %2$s: неизвестная ошибка."
       },
       "not_working": "%1$sMusic is currently not working due to Youtube blocking traffic from most big bots. Our Patreon bot still is working, so you can try it if you wish by donating $4/month to Mantaro. This will also help us redirect our efforts towards fixing music as a whole.\nPlease check <https://patreon.com/mantaro>\n\nWe're sorry for the inconveniences. Try using soundcloud search! (`/play soundcloud <search term>)`",
       "no_song": "%1$sВы должны мне дать название песни которую нужно проиграть! *(YouTube, Soundcloud, Twitch URL и другие поисковые запросы разрешены)*",
@@ -248,8 +248,8 @@
       "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `/forceplay` instead, which will play the first result.",
       "no_vc_found": "%1$sЯ не подключена ни к единому голосовому чату, а должна ли? Попробуйте снова.",
       "queue": {
-        "header_field": "Instructions",
-        "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
+        "header_field": "Инструкции",
+        "header_noreact": "Используйте '&p >>' и '&p <<' для перемещения между страницами.",
         "no_track_found_np": "По вашему запросу ничего не найдено (название/тайминг)",
         "header": "В очереди %1$s",
         "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `/queue 1`",
