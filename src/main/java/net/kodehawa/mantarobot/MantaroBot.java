@@ -323,7 +323,7 @@ public class MantaroBot {
             // This back-off is per-shard, so this makes it so the requests are more spaced out.
             // Shouldn't matter much for the end user, but makes so batch requests don't fuck over ratelimits immediately.
             var maxBackoff = 300_000; // In millis
-            var randomBackoff = random.nextBoolean() ? -random.nextInt(maxBackoff) : random.nextInt(maxBackoff);
+            var randomBackoff = random.nextInt(maxBackoff);
             executorService.scheduleAtFixedRate(() -> BirthdayTask.handle(shard.getId()),
                     millisecondsUntilTomorrow + randomBackoff, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
         }
