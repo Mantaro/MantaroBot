@@ -89,7 +89,7 @@
       "next": "Next",
       "close": "Close"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `/shard`) when reporting!",
+    "generic_error": "Als je wilt, word dan lid van onze **support server** (`https://support.mantaro.site`), of bekijk onze GitHub-pagina (`https://github.com/Kodehawa/MantaroBot`). Zeg alsjeblieft dat ze moeten stoppen met het exploderen van mij en vergeet alsjeblieft de Error ID, het commando dat je hebt gebruikt en je node (te zien in `/shard`) niet bij het rapporteren!",
     "boom_quotes": [
       "Schijnbaar ontplofte Megumin ons kasteel...",
       "Uh-oh, schijnbaar vergat mijn meester enkele nullen en enen op de vloer :<",
@@ -137,15 +137,15 @@
   },
   "commands": {
     "slash": {
-      "title": "Slash commands transition",
-      "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command.\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix.\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site",
-      "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site"
+      "title": "Slash commando overgangen",
+      "description_alias": "%1$s**Het commando die u probeert uit te voeren is verplaatst naar alleen Slash commando`s.** Probeer deze uit te voeren met / als prefix. **dit commando was een alias**. Probeer de originele commando uit te voeren.\n\nSlash commando`s zijn de nieuwe manier om commando`s te gebruiken volgens de richtlijnen van Discord. **Commando`s die nog steeds met voorvoegsels werken, worden uiteindelijk alleen slash.**\ncommando aliassen zijn verwijderd voor Slash commando`s omdat er niet genoeg ruimte is voor ons om ze toe te voegen (Discord laat ons slechts 100 opdrachten toevoegen).",
+      "description": "%1$s**Het commando die u probeert uit te voeren is verplaatst naar alleen Slash commando`s.** Probeer deze uit te voeren met / als prefix.\n\nSlash commando`s zijn de nieuwe manier om commando`s te gebruiken volgens de richtlijnen van Discord. **Commando`s die nog steeds met voorvoegsels werken, worden uiteindelijk alleen slash.**\ncommando aliassen zijn verwijderd voor Slash commando`s omdat er niet genoeg ruimte is voor ons om ze toe te voegen (Discord laat ons slechts 100 opdrachten toevoegen).",
+      "description_image": "Om een ​​slash opdracht uit te voeren voor sommige afbeeldings opdracht en, probeer dan de opdracht met het prefix `/image` in plaats van degene die je hebt gebruikt. Bijvoorbeeld, `~>catgirl` wordt `/image catgirl`. Imageboard opdrachten volgen dit niet.\n\nAls u de slash opdrachten niet ziet, voegt u de bot opnieuw toe met behulp van de uitnodigingslink op https://add.mantaro.site",
+      "description_2": "Om een ​​slash opdracht uit te voeren probeer dan de opdracht met het prefix `/` in plaats van prefix die je hebt gebruikt. Bijvoorbeeld, `~>ping` wordt `/ping`. (en druk op tab)\n\nAls u de slash opdrachten niet ziet, voegt u de bot opnieuw toe met behulp van de uitnodigingslink op https://add.mantaro.site"
     },
     "fish": {
       "dust": "%1$sDe dag is voorbij en je visemmer kon alleen stof verzamelen. (Stof level %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `/equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `/buy rod`",
+      "no_rod": "%1$sJe hebt geen hengel uitgeruste. Gebruik `/equip <vishengel naam>` om een ​​hengel uit te rusten en je vis avontuur te beginnen! Als je geen hengel hebt, gebruik dan eerst `/buy rod`",
       "trash": {
         "overflow": "%1$sJe vond wat afval tijdens het vissen, maar je inventaris was vol, dus we moesten het terug in het water gooien...",
         "success": "%1$sTerwijl je rustig aan het vissen was, vond je een drijvend %2$s, maar helaas was het afval :("
@@ -155,7 +155,7 @@
       },
       "crate": {
         "overflow": "Je vond een **%1$s** tijdens het vissen, maar je had er al te veel, dus we gooiden het terug in de oceaan...",
-        "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `/opencrate <crate name>`. You need a crate key!"
+        "success": "Je hebt een %1$s **%2$s** gevonden tijdens het vissen en je bent verder gegaan met het omhoog halen. Ga en open het met `/opencrate <crate name>`. Je hebt een kist sleutel nodig!"
       },
       "autoequip": {
         "success": "%1$sAutomatisch uitgerust met een **%2$s** op uw vis slot."
@@ -172,10 +172,10 @@
       "bait": "De vis at je aas tijdens het proces!",
       "missing_equipped": "%1$sJe had een %2$s hengel uitgerust, maar je hebt niets meer van deze soort in je inventaris! Uitgeruste hengel is gereset.",
       "broken_drop": "%1$sJe hengel is kapot gegaan, maar je kunt hem repareren. ontvangen gebroken item: %2$s *%3$s*",
-      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `/equip <rod name>` to start your adventure!"
+      "no_rod_equipped": "%1$sJe hebt geen hengel uitgerust. Om er een uit te rusten moet je `/equip <rod name>` gebruiken om je avontuur te beginnen!"
     },
     "softban": {
-      "no_permission": "%1$sYou can't soft-ban: You need the `Ban Users` permission.",
+      "no_permission": "%1$sJe kunt niet soft-bannen: Je hebt de `Ban gebruikers` toestemming nodig.",
       "no_permission_self": "%1$sSorry! Ik heb geen bevoegdheid om gebruikers te soft-bannen in deze server.",
       "no_users": "%1$sJe moet me een gebruiker geven om te soft-bannen.",
       "hierarchy_conflict": "%1$sJe kunt geen soft-ban geven aan iemand met meer rechten dan jijzelf",
@@ -198,7 +198,7 @@
       "unknown_error": "%1$sOh nee, ik kreeg een onbekende foutmelding tijdens het bannen %2$s"
     },
     "kick": {
-      "no_permission": "%1$sYou can't kick: You need the `Kick Members` permission.",
+      "no_permission": "%1$sJe kunt niet kicken: Je hebt de `Kick Memebers` toestemming nodig.",
       "no_users": "%1$sJe moet me een gebruiker geven om te kicken.",
       "no_permission_self": "%1$sSorry! Ik heb geen bevoegdheid om gebruikers te kicken in deze server.",
       "hierarchy_conflict": "%1$sJe kunt geen gebruiker kicken met meer rechten dan jijzelf! Leuk geprobeerd",
@@ -210,31 +210,31 @@
     },
     "music_usage": {
       "1": "*Hoe gebruik je de muziekfunctie in Mantaro?*",
-      "2": "- To **queue songs from youtube or soundcloud** use `/play` For example: `/play https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
-      "3": "- To **search for a song on youtube** use `/play <search term>` (without the leading < and >) For example: `/play see you again` (You need to select the number, just *type the number* after the selection box pops up!)",
-      "4": "- To **search for a song on soundcloud** use `/play soundcloud <search term>` For example `/play soundcloud hot milk`",
-      "5": "- To **check the queue** you just type `/queue`",
-      "6": "- To **remove a track from the queue** you just need to use `/removetrack` It takes as an argument the position the song is queued at (you can check in on queue)",
-      "7": "- To **pause or unpause** just use `/pause`",
-      "8": "- To **stop the music and unbind the player** use `/stop`",
-      "9": "- To **shuffle the queue** just use `/shuffle`",
-      "10": "- And lastly, to **repeat a song** use `/repeat` and to **repeat a queue** use `/repeatqueue`. Using `/repeat` while repeat is on, turns it off, the same is true for `/repeatqueue`\n",
-      "11": "For more info please use `/help <command name>` (without the <> and replace command name with the name of the command you want)",
+      "2": "- Om **nummers van youtube of soundcloud in de afspeellijst te plaatsen** gebruik `/play` Bijvoorbeeld: `/play https://www.youtube.com/watch?v=aAolFWjGfMs` *De bot joint direct het spraak-kanaal waar jij je in bevindt*",
+      "3": "- Om **een nummer op youtube op te zoeken** gebruik je `/play <search term>` (zonder de < en >) Bijvoorbeeld: `/play see you again` (Je moet het nummer selecteren, dus *type het nummer* nadat de selectiebox tevoorschijn komt!)",
+      "4": "- Om **een nummer op soundcloud zoeken** use `/play soundcloud <search term>` Bijvoorbeeld: `/play soundcloud hot milk`",
+      "5": "- Om **de afspeellijst te bekijken** typ je in `/queue`",
+      "6": "- Om **een nummer van de afspeellijst af te halen** gebruik je `/removetrack` met de positie van het nummer in de wachtlijst als argument (kan je bekijken in de wachtlijst)",
+      "7": "- Om **te pauzeren of de pauze op te heffen** gebruik `/pause`",
+      "8": "- Om **de muziek te stoppen en de muziekpeler los te koppelen** gebruik `/stop`",
+      "9": "- Om **de nummers in de afspeellijst te verschuiven** gebruik `/shuffle`",
+      "10": "- En als laatst, Om **een nummer te herhalen** gebruik `/repeat` en om **een afspeellijst te herhalen** gebruik `/repeat queue`. Als je `/repeat` gebruikt als deze aanstaat, wordt het uitgeschakeld, het zelfde geld ook voor `/repeatqueue`\n",
+      "11": "Voor meer informatie gebruik `/help <commando naam>` (zonder de <> en vervang de commandonaam met de naam van het gewenste commando)",
       "12": "Geniet van je muziek en bedankt voor het gebruiken van Mantaro!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `/ language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
+      "info": "%1$sJe kunt de server taal wijzigen (indien beschikbaar) door middel van `/language set <taal code>`. Je persoonlijke taalvoorkeur kan gewijzigd worden met `/profile lang <taal code>`.\n**Beschikbare talen:** `%2$s`\nAls je taal hier niet tussen staat en je wilt helpen, voel je dan vrij om lid te worden van de ondersteuningsserver en onderdeel te worden van het vertaal team!"
     },
     "season": {
       "info": "Een * seizoen * is de tijdspan van gewoonlijk 6 maanden waarin spelers strijden om de top 10 slots op het geld- of reputatieklassement. De winnaars ontvangen badges en prijzen op basis van hun seizoensprestaties.\nDit is om een ​​competitiever frame mogelijk te maken (voorheen was het geld behoorlijk oud en saai) en om het spel een beetje leuker te maken.\nJe hebt toegang tot seizoensgebonden dingen met behulp van `-season`. Commando's zoals profile, mine, fish en balance zullen het vereisen, terwijl games, loot, daily en reputation geld/rep opleveren voor zowel je globale als seizoensprofiel.",
-      "info_2": "\n\nThe current season is **%1$s** and **%2$s** players are currently taking part on it!\n\nThe fun begins, check `/leaderboard money -season`; `/leaderboard rep -season` and `/leaderboard games -season`.\nGame on! <3\nThanks for enjoying Mantaro."
+      "info_2": "\n\nHet huidige seizoen is **%1$s** en **%2$s** spelers nemen er momenteel aan deel!\n\nHet plezier begint, kijk bij `/leaderboard money -season`; `/leaderboard rep -season` en `/leaderboard games -season`.\nGame on! <3\nBedankt dat je van Mantaro geniet."
     },
     "music_general": {
       "music_error": {
-        "timeout": "%1$sKan geen verbinding maken met %2$s: verbinding is verlopen. Probeer de serverregio te wijzigen en voer de opdracht opnieuw uit.",
+        "timeout": "%1$sKan geen verbinding maken met %2$s: verbinding is verlopen. Probeer de serverregio te wijzigen en voer het commando opnieuw uit.",
         "unknown": "%1$sKan geen verbinding maken met %2$s: onbekende fout."
       },
-      "not_working": "%1$sMusic is currently not working due to Youtube blocking traffic from most big bots. Our Patreon bot still is working, so you can try it if you wish by donating $4/month to Mantaro. This will also help us redirect our efforts towards fixing music as a whole.\nPlease check <https://patreon.com/mantaro>\n\nWe're sorry for the inconveniences. Try using soundcloud search! (`/play soundcloud <search term>)`",
+      "not_working": "%1$sMusic werkt momenteel niet omdat YouTube verkeer van de meeste grote bots blokkeert. Onze Patreon-bot werkt nog steeds, dus je kunt het proberen als je wilt door $ 4 / maand te doneren aan Mantaro. Dit zal ons ook helpen onze inspanningen om te buigen naar het repareren van muziek als geheel.\nalsjeblieft kijk op <https://patreon.com/mantaro>\n\nExcuses voor het ongemak. Probeer SoundCloud! (`/play soundcloud <search term>)`",
       "no_song": "%1$sJe moet me vertellen welk nummer je wilt afspelen! *(YouTube, Soundcloud, Twitch URL of zoektermen zijn toegestaan)*",
       "not_playing": "%1$sOp dit moment speel ik geen muziek af, Als je denkt dat dit een fout is, meld dit dan op <https://support.mantaro.site>",
       "dj_only": "%1$sOm dit commando te kunnen gebruiken moet je een DJ zijn.",
@@ -245,25 +245,25 @@
       "track_error": "%1$sOeps, er is iets mis gegaan tijdens het afspelen van dit nummer! Excuses voor het ongemak. Ik probeer het volgende nummer af te spelen als deze beschikbaar is.",
       "queue_finished": "%1$sKlaar met afspelen van de huidige wachtrij! Ik hoop dat je het leuk vond :heart:",
       "soundcloud_no_args": "%1$sJe moet me de naam van het nummer geven, ik kan helaas je gedachten niet lezen :(",
-      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `/forceplay` instead, which will play the first result.",
+      "missing_embed_permissions": "%1$sJe moet de bot toestemming geven voor Embed Links om het menu weer te geven. Als u het menu wilt overslaan, gebruikt u in plaats daarvan `/forceplay` waardoor het eerste resultaat wordt afgespeeld.",
       "no_vc_found": "%1$sIk ben niet verbonden met een spraak-kanaal, hoewel ik dat wel zou moeten zijn? Probeer het opnieuw.",
       "queue": {
         "header_field": "Instructies",
         "header_noreact": "Gebruik `&p >>` en `&p <<` om door de pagina's te bladeren.",
         "no_track_found_np": "Niets, of de titel/afspeelduur niet gevonden.",
         "header": "afspeellijst voor de server %1$s",
-        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `/queue 1`",
+        "nothing_playing": "Er wordt op dit moment geen muziek afgespeeld. Waarom zet je geen muziek in de afspeellijst?\nAls je denkt dat er wel nummers zijn maar ze verschijnen niet, probeer dan `/queue 1`",
         "nothing_playing_2": "**Als er een nummer wordt afgespeeld en er staan geen nummers in de wachtrij, dan wordt er geen muziek meer afgespeeld. Je kunt natuurlijk meer nummers in de wachtrij plaatsen!**",
         "np": "Speelt op dit moment",
         "dj_np": "**In de wachtrij geplaatst door:** ",
         "page_overflow": "Er is hier niets te zien, alleen stof. probeer eens een pagina terug te gaan?",
-        "page_overflow_2": "If you think there are songs here but they don't appear, try using `/queue 1`",
+        "page_overflow_2": "Als je denkt dat er hier nummers zijn, maar ze verschijnen niet, probeer dan `/queue 1`",
         "total_queue_time": "Totale afspeellijst duur",
         "total_size": "Totale afspeellijst groote",
         "togglers": "Herhalen / Pauzeren",
         "playing_in": "Afspelen in",
         "footer": "Totaal aantal pagina's: %1$d%2$s. Momenteel op pagina %3$d",
-        "multiple_pages": " -> Use /queue <page> to change pages",
+        "multiple_pages": " -> Gebruik /queue <pagina> om de pagina te veranderen",
         "page_react": " -> Reageer op veranderende pagina",
         "no_channel": "Geen kanaal :(",
         "songs": "nummer(s)",
@@ -354,7 +354,7 @@
       "queue_cancel": "%1$sHervatten van de huidige afspeellijst.",
       "queue_repeat": "%1$sHerhalen van de huidige afspeellijst.",
       "song_cancel": "%1$sHervatten van de normale afspeellijst.",
-      "song_repeat": "%1$sHerhalen van het huidige nummer. Voer deze opdracht opnieuw uit om deze uit te schakelen."
+      "song_repeat": "%1$sHerhalen van het huidige nummer. Voer deze commando opnieuw uit om deze uit te schakelen."
     },
     "nextsong": {
       "no_song_next": "%1$sOh, er is geen volgende nummer",
@@ -410,7 +410,7 @@
     },
     "custom": {
       "custom_notice": "This is a custom command.",
-      "no_args": "%1$sJe moet opgeven wat je wilt doen met dit commando. Check het help commando voor meer informatie!",
+      "no_args": "%1$sJe moet opgeven wat je wilt doen met deze opdracht. Check het help opdracht voor meer informatie!",
       "incorrect_args": "%1$sIncorrect arguments. Check `/help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
       "error_running": "%1$sFout tijdens het uitvoeren van het eigen commando ... controleer de inhoud en lengte van de reactie (mag niet meer zijn dan 2000 tekens).",
       "error_running_new": "%1$sFoutmelding in eigen command. Controleer reactie, inhoud en lengte.\n**Foutmelding:**\n```%2$s```",
@@ -434,13 +434,13 @@
       "raw": {
         "no_command": "%1$sJe zult me moeten vertellen welk commando je wilt bekijken.",
         "not_found": "%1$sIk kan dit commando niet vinden.",
-        "header": "Onbewerkte Aangepaste Opdracht: %1$s",
+        "header": "Onbewerkte Aangepaste Commando: %1$s",
         "amount": "(Laat %1$d antwoorden zien van %2$d)",
         "too_large_view": "Too large to view here, use `/custom view %1$s %2$s`",
         "description": "Dit is een lijst met alle reacties van dit commando in een onbewerkt formaat (wat je invoert in het commando)."
       },
       "clear": {
-        "success": "%1$s** %2$d Eigen Commands gewist**. Vergrendelde/vastgezette opdrachten zijn niet verwijderd. Ontgrendel ze eerst als je dat wel wilt."
+        "success": "%1$s** %2$d Eigen Commando gewist**. Vergrendelde/vastgezette commando`s zijn niet verwijderd. Ontgrendel ze eerst als je dat wel wilt."
       },
       "eval": {
         "not_specified": "%1$sJe hebt niet opgegeven wat je wilt contorleren.",
@@ -482,7 +482,7 @@
       },
       "add": {
         "no_command": "%1$sJe moet aangeven welk commando je wilt toevoegen.",
-        "not_enough_args": "%1$sJe moet de commando naam specificeren en het antwoord van de opdracht die u wilt toevoegen.",
+        "not_enough_args": "%1$sJe moet de commando naam specificeren en het antwoord van de commando die u wilt toevoegen.",
         "empty_content": "%1$sYou need to specify the content of this custom command",
         "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
         "success": "%1$sOpgeslagen aan commando `%2$s`",
@@ -1337,7 +1337,7 @@
       "invalid_rating": "%1$sJe hebt een ongeldige beoordeling opgegeven (beschikbare beoordelingen: questionable, explicit, safe)",
       "nsfw_no_nsfw": "%1$sIk kan geen NSFW-afbeelding verzenden in een niet-nsfw-kanaal :(",
       "no_images": "%1$sThere are no images matching your search criteria. This could happen because the image service returned nothing, nothing useful, or you looked up prohibited tags.",
-      "no_results": "%1$s**Er zijn geen afbeeldingen meer of geen resultaten gevonden**! Probeer het met een lager nummer of een andere zoekopdracht.",
+      "no_results": "%1$s**Er zijn geen afbeeldingen meer of geen resultaten gevonden**! Probeer het met een groter nummer of een andere zoekopdracht.",
       "error": "%1$sEr is een fout opgetreden tijdens het zoeken naar een afbeelding...",
       "wrong_argument": "%1$sWrong argument type. Check /help %2$s",
       "blacklisted_tag": "%1$sDeze afbeeldingstag is hier op een zwarte lijst geplaatst door een beheerder.",
