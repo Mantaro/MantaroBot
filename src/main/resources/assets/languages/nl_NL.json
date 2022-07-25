@@ -138,7 +138,7 @@
   "commands": {
     "slash": {
       "title": "Slash commando overgangen",
-      "description_alias": "%1$s**Het commando die u probeert uit te voeren is verplaatst naar alleen Slash commando`s.** Probeer deze uit te voeren met / als prefix. **dit commando was een alias**. Probeer de originele commando uit te voeren.\n\nSlash commando`s zijn de nieuwe manier om commando`s te gebruiken volgens de richtlijnen van Discord. **Commando`s die nog steeds met voorvoegsels werken, worden uiteindelijk alleen slash.**\ncommando aliassen zijn verwijderd voor Slash commando`s omdat er niet genoeg ruimte is voor ons om ze toe te voegen (Discord laat ons slechts 100 opdrachten toevoegen).",
+      "description_alias": "%1$s**De opdracht die u probeert uit te voeren is verplaatst naar alleen Slash opdrachten.** Probeer deze uit te voeren met / als prefix. **deze opdracht was een alias**. Probeer de originele opdracht uit te voeren.\n\nSlash opdrachten zijn de nieuwe manier om opdrachten te gebruiken volgens de richtlijnen van Discord. **Opdrachten die nog steeds met voorvoegsels werken, worden uiteindelijk alleen slash.**\nopdracht aliassen zijn verwijderd voor Slash opdrachten omdat er niet genoeg ruimte is voor ons om ze toe te voegen (Discord laat ons slechts 100 opdrachten toevoegen).",
       "description": "%1$s**Het commando die u probeert uit te voeren is verplaatst naar alleen Slash commando`s.** Probeer deze uit te voeren met / als prefix.\n\nSlash commando`s zijn de nieuwe manier om commando`s te gebruiken volgens de richtlijnen van Discord. **Commando`s die nog steeds met voorvoegsels werken, worden uiteindelijk alleen slash.**\ncommando aliassen zijn verwijderd voor Slash commando`s omdat er niet genoeg ruimte is voor ons om ze toe te voegen (Discord laat ons slechts 100 opdrachten toevoegen).",
       "description_image": "Om een ​​slash opdracht uit te voeren voor sommige afbeeldings opdracht en, probeer dan de opdracht met het prefix `/image` in plaats van degene die je hebt gebruikt. Bijvoorbeeld, `~>catgirl` wordt `/image catgirl`. Imageboard opdrachten volgen dit niet.\n\nAls u de slash opdrachten niet ziet, voegt u de bot opnieuw toe met behulp van de uitnodigingslink op https://add.mantaro.site",
       "description_2": "Om een ​​slash opdracht uit te voeren probeer dan de opdracht met het prefix `/` in plaats van prefix die je hebt gebruikt. Bijvoorbeeld, `~>ping` wordt `/ping`. (en druk op tab)\n\nAls u de slash opdrachten niet ziet, voegt u de bot opnieuw toe met behulp van de uitnodigingslink op https://add.mantaro.site"
@@ -485,27 +485,27 @@
         "not_enough_args": "%1$sJe moet de commando naam specificeren en het antwoord van de commando die u wilt toevoegen.",
         "empty_content": "%1$sYou need to specify the content of this custom command",
         "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
-        "success": "%1$sOpgeslagen aan commando `%2$s`",
+        "success": "%1$sOpgeslagen in opdrachten `%2$s`",
         "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
       },
       "lockcommand": {
         "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
-        "no_command": "%1$sJe moet aangeven welk commando je wilt vast zetten.",
+        "no_command": "%1$sJe moet aangeven welke opdracht je wilt vast zetten.",
         "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
       },
       "unlockcommand": {
-        "no_command": "%1$sJe moet aangeven welk commando je wilt ontgrendelen.",
+        "no_command": "%1$sJe moet aangeven welke opdracht je wilt ontgrendelen.",
         "not_locked": "%1$sThis command isn't locked.",
         "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
       },
-      "character_not_allowed": "%1$sDit karakter is niet toegestaan in de naam van een eigen commando.",
-      "already_exists": "%1$sHet commando `%2$s` bestaat al en is een standaard bot commando.",
+      "character_not_allowed": "%1$sDit karakter is niet toegestaan in de naam van een eigen opdrachten.",
+      "already_exists": "%1$sDe opdracht `%2$s` bestaat al en is een standaard bot opdracht.",
       "name_too_long": "%1$sNaam is te lang.",
-      "no_cc": "%1$sEr zijn geen eigen commando's geregisteerd in deze Guild.",
-      "admin_only": "In deze Guild mogen alleen beheerders eigen commando's maken, bewerking, importeren en evalueren.\n**Dit is nu de STANDAARD instelling.**\n- Als je iedereen dit wilt laten doen en je bent een admin (Bot Commander rol of Server Beheer machtiging), typ `~>opts admincustom false`",
-      "not_found": "%1$sEr is geen eigen commando `%2$s` in deze Guild.",
-      "invalid_image": "%1$sDit commando bevat een ongeldige afbeelding, probeer dit aan te passen...",
+      "no_cc": "%1$sEr zijn geen eigen opdrachten geregisteerd in deze Guild.",
+      "admin_only": "In deze Guild mogen alleen beheerders eigen opdrachten maken, bewerking, importeren en evalueren.\n**Dit is nu de STANDAARD instelling.**\n- Als je iedereen dit wilt laten doen en je bent een admin (Bot Commander rol of Server Beheer machtiging), typ `~>opts admincustom false`",
+      "not_found": "%1$sEr is geen eigen opdracht `%2$s` in deze Guild.",
+      "invalid_image": "%1$sDeze opdracht bevat een ongeldige afbeelding, probeer dit aan te passen...",
       "invalid_string": "%1$sDe string `{%2$s}` is niet geldig, of de uitvoer is langer dan 2000 karakters.",
       "invalid_json": "%1$sDe string `{%2$s}` is geen geldig JSON.",
       "invalid_link": "%1$sDe string `%2$s` is geen geldige link.",
@@ -829,7 +829,7 @@
       "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sDeze persoon heeft al te veel geld...",
       "success": "%1$sEr is succesvol **%2$,d** *(%3$,d na 8%% belasting)* overgemaakt naar **%4$s**.",
-      "item_transfer": "%1$sJe kunt geen voorwerpen weggeven met behulp 'transfer', gebruik hiervoor het `/transferitems` commando.",
+      "item_transfer": "%1$sJe kunt geen voorwerpen weggeven met behulp 'transfer', gebruik hiervoor het `/transferitems` opdracht.",
       "party": "You can only transfer to the same person (%1$s) once every 10 minutes.",
       "blacklisted_transfer": "%1$sYou can't transfer to blacklisted users."
     },
@@ -838,7 +838,7 @@
         "header": "Interactieve Voorwerpen Lijst",
         "desc": "Dit is een lijst met alle interactieve voorwerpen in Mantaro. Bekijk meer informatie over interactieve voorwerpen op de wiki!"
       },
-      "use_command": "%1$sVoor dit voorwerp moet je het commando gebruiken dat aan het voorwerp is gekoppeld! (mine voor pikhouweel, fish voor de vis hengel)",
+      "use_command": "%1$sVoor dit voorwerp moet je de opdracht gebruiken dat aan het voorwerp is gekoppeld! (mine voor pikhouweel, fish voor de vis hengel)",
       "no_items_specified": "%1$sJe moet aangeven welk voorwerp je wilt gebruiken.",
       "not_interactive": "%1$sJe kunt geen interactie aangaan met dit voorwerp...",
       "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set. This item might use its own command? For example, picks use `/mine`",
@@ -848,7 +848,7 @@
       "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `15`!"
     },
     "opts": {
-      "note": "%1$sHé, als je hulp nodig hebt bij het gebruiken van opts, bekijk <https://github.com/Mantaro/MantaroBot/wiki/Configuration> voor een gids hoe je opts kunt gebruiken.\nLet op: Alleen Administrators, personen met Server Beheer of personen met de Bot Commander rol kunnen dit commando gebruiken!",
+      "note": "%1$sHé, als je hulp nodig hebt bij het gebruiken van opts, bekijk <https://github.com/Mantaro/MantaroBot/wiki/Configuration> voor een gids hoe je opts kunt gebruiken.\nLet op: Alleen Administrators, personen met Server Beheer of personen met de Bot Commander rol kunnen deze opdracht gebruiken!",
       "list": {
         "header": "**Mantaro's Optie Lijst**\n%1$s*Alle opties moeten geprefixed zijn met `~>opts` als je ze wilt gebruiken*\n%2$s"
       },
@@ -1063,7 +1063,7 @@
       "rep_yourself": "%1$sJe kunt jezelf geen reputatie geven.\n%2$s",
       "blacklisted_rep": "%1$sYou cannot rep a blacklisted account.",
       "cooldown": {
-        "waiting": "**Je kunt dit command weer gebruiken in %1$s**",
+        "waiting": "**Je kunt deze opdracht weer gebruiken in %1$s**",
         "pass": "Je kunt nu weer iemand een reputatie geven.",
         "explanation": "You can give reputation to one person every 12 hours. Please wait the time above before you can give reputation to someone else."
       },
@@ -1120,7 +1120,7 @@
       "too_many_args": "%1$sTe veel argumenten! Het pagina formaat is `naam->pagina nummer`",
       "main_def": "Hoofddefinitie.",
       "footer": "Informatie komt uit Urban Dictionary",
-      "nsfw_notice": "%1$sDit commando kan alleen gebruikt worden in channels met de NSFW tag in verband met het soort resultaten.",
+      "nsfw_notice": "%1$sDeze opdracht kan alleen gebruikt worden in channels met de NSFW tag in verband met het soort resultaten.",
       "error": "%1$sThere was an error processing the response from UD. Try again?"
     },
     "activatekey": {
@@ -2548,7 +2548,7 @@
       "pick": "Een basis pickhouweel voor je standaard geplande mijnbouw.",
       "milk": "Misschien is het handig om er een aantal te hebben.",
       "beverage": "Is echt raar spul in grote hoeveelheden. Hoewel, het hangt af van wat voor soort ;)",
-      "lewd": "Te veel lewd commando's. Veel te veel. Had je plezier?",
+      "lewd": "Te veel lewd opdrachten. Veel te veel. Had je plezier?",
       "ring": "Kortom, wat je huwelijk officieel maakt.",
       "letter": "Een brief van je geliefde.",
       "key": "Used to open various crates with `/opencrate <crate name>` or `/useitem <crate name>`",
