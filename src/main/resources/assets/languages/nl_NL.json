@@ -13,11 +13,11 @@
     "daily": "Dagelijks",
     "total": "Totaal",
     "arrow_react": "Gebruik de berichtreacties om van pagina te veranderen",
-    "button_react": "Use the arrow buttons to change pages.",
+    "button_react": "Gebruik de pijlen om van pagina te wisselen.",
     "not_found": "Niet gevonden",
     "no_results": "Geen resultaten.",
     "timeout": "Dit geeft een timeout in %1$d seconden.",
-    "reaction_timeout": "Buttons will timeout in %1$d seconds.",
+    "reaction_timeout": "Knoppen zullen in %1$d seconden verlopen.",
     "example": "Voorbeeld",
     "definition": "Definitie",
     "name": "Naam",
@@ -29,8 +29,8 @@
     "query_too_small": "%1$sJe zoekopdracht is te klein. Zorg ervoor dat je minimaal 4 karakters zoekt. Als de gebruikersnaam te kort is, kun je beter gebruikersnaam#discriminator of een gebruikers-Id gebruiken.",
     "dust": "Er is hier alleen maar stof.",
     "invalid_syntax": "Ongeldige syntax.",
-    "birthday": "**New birthdays for today, wish them Happy Birthday!**",
-    "member_lookup_failure": "%1%sCannot find any member with that name :(",
+    "birthday": "**Nieuwe verjaardagen voor vandaag, wens ze een gelukkige verjaardag!**",
+    "member_lookup_failure": "%1%sKan geen lid vinden met die naam :(",
     "item_lookup": {
       "no_item_emoji": "Er is geen voorwerp gekoppeld aan deze emoji.",
       "no_item_name": "Er is geen voorwerp gekoppeld aan deze naam.",
@@ -42,7 +42,7 @@
       "mop_not_enough": "%1$sJe stof level is minder dan 5%%, dus afstoffen zal niet zo nuttig zijn.",
       "milk": "%1$sAlle tovereffecten gewist.",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `/buy key`",
+        "no_key": "%1$sJe hebt een kist sleutel nodig om een ​​kist te openen. Het is op slot! Je kunt er een kopen met`/buy key`",
         "no_crate": "%1$sJe hebt een krat nodig! Je krijgt meestal kratten van valuta commando's.",
         "success": "%1$sJe hebt een kist geopend en hebt gewonnen: %2$s%3$s. Gefeliciteerd!",
         "success_high": "%1$se hebt de volgende voorwerp met een zeldzaamheid van meer dan 3 sterren: %2$s. Het item bedrag word hierboven getoond",
@@ -50,7 +50,7 @@
       },
       "potion_active": "%1$s Je hebt al een actieve **%2$s** Toverdrank effect en het maximale aantal er van!",
       "potion_not_found": "%1$s ik kan dat Toverdrankje of item niet vinden!",
-      "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s* (%4$dx). Check your shiny new effect on `/profile stats`",
+      "potion_applied": "%1$sEffect succesvol toegepast **%2$s** van het type *%3$s* (%4$dx). Check glanzende nieuwe effect op `/profile stats`",
       "potion_applied_multiple": "%1$sSuccesvol toegepast **%2$s** of type *%3$s*.\nJe had dit effect al toegepast, dus we hebben het opgestapeld. Huidige stapelgrootte: %4$s",
       "max_stack_size": "%1$sJe hebt al het maximale aantal van %2$s gestapeld dat mogelijk is. (Maximum: 15, na stapelen: %3$s)",
       "max_stack_size_2": "%1$sJe kunt niet zoveel stapelen %2$s. (Maximum: 15, poging: %3$s)",
@@ -59,7 +59,7 @@
     "campaigns": {
       "premium": {
         "generic_sellout": "We hebben uw hulp nodig om Mantaro in leven te houden en de servers van Mantaro te verbeteren!\nMet Mantaro Premium ** kun je geweldige voordelen en ** tot verdubbeling van de credits krijgen! Lidmaatschappen beginnen bij $ 2 per maand, de prijs van een snack! Bekijk meer op <https://patreon.com/mantaro>. Het verder vertellen aan anderen helpt ook :heart:",
-        "daily_sellout": "We need your help to keep Mantaro alive!\nYou can get amazing perks and **double the daily credits** and access to `/dailycrate`! Memberships start at only $2 per month, check out more at <https://patreon.com/mantaro>.",
+        "daily_sellout": "We hebben jouw hulp nodig om Mantaro in leven te houden!\nU kunt geweldige voordelen krijgen en ** de dagelijkse credits verdubbelen** en toegang krijgen tot `/dailycrate`! Lidmaatschappen beginnen bij slechts $2 per maand, kijk voor meer informatie op <https://patreon.com/mantaro>.",
         "thanks_message": "Bedankt voor het steunen van Mantaro. Zonder hulp van mensen zoals jij konden we Mantaro niet in leven houden :heart:",
         "thanks_message_daily": "Bedankt voor het steunen van Mantaro. Zonder hulp van mensen zoals jij konden we Mantaro niet in leven houden :heart: \nJe krijgt ook het dubbele van de credits als bonus!"
       },
@@ -69,7 +69,7 @@
     "invalid_character": "%1$sDat is geen toegestaan karakter.",
     "invalid_action": "Je kunt dat niet doen, gekkie.",
     "interactive_running": "%1$sEr is al een interactieve bewerking (eigendom van jou) op dit kanaal.",
-    "buy_sell_paged_react": "Use the message buttons to move between pages.\n%1$s",
+    "buy_sell_paged_react": "Gebruik de knoppen onder het bericht om door de pagina's te bladeren.\n%1$s",
     "buy_sell_paged_text": "Gebruik **&p >>** en **&p <<** om door de pagina's te bladeren.\n%1$s",
     "buy_sell_paged_reference": "**Verwijzing %1$s Koop %2$s Verkoop.**",
     "cancelled": "%1$sVerzoek geannuleerd.",
@@ -85,9 +85,9 @@
       "spam_4": "\nIs dit ding aan?"
     },
     "buttons": {
-      "previous": "Previous",
-      "next": "Next",
-      "close": "Close"
+      "previous": "Vorige",
+      "next": "Volgende",
+      "close": "Aflsuiten"
     },
     "generic_error": "Als je wilt, word dan lid van onze **support server** (`https://support.mantaro.site`), of bekijk onze GitHub-pagina (`https://github.com/Kodehawa/MantaroBot`). Zeg alsjeblieft dat ze moeten stoppen met het exploderen van mij en vergeet alsjeblieft de Error ID, het commando dat je hebt gebruikt en je node (te zien in `/shard`) niet bij het rapporteren!",
     "boom_quotes": [
@@ -133,7 +133,7 @@
     "info": "Informatie",
     "currency": "Valuta",
     "pet": "Huisdier",
-    "hidden": "Hidden"
+    "hidden": "Verbergen"
   },
   "commands": {
     "slash": {
@@ -285,24 +285,24 @@
       "listener": {
         "paused": "%1$sDe muziek is gepauzeerd aangezien ik gemute ben :(",
         "resumed": "%1$sDe muziek is weer gestart aangezien iemand het spraak-kanaal heeft gejoined!",
-        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `/resume` to manually resume playback.",
+        "not_resumed": "%1$sIemand joinde, maar ik heb het afspelen niet hervat omdat ik handmatig was gepauzeerd! Gebruik `/resume` om het afspelen handmatig te hervatten.",
         "left_alone": "%1$sIk zal **%2$s** over 2 minuten verlaten omdat ik alleen achtergelaten ben :(",
         "leave": "%1$sIk heb besloten om **%2$s** te verlaten omdat ik alleen achtergelaten ben :("
       },
       "loader": {
         "over_limit": "%1$sDe afspeellijst die je hebt toegevoegd bevat meer dan %2$d nummers, dus ik heb zoveel mogelijk nummers toegevoegd totdat deze limiet bereikt was. De rest is genegeerd.",
         "loaded_playlist": "%1$sIk heb **%2$d nummers** toegevoegd aan de afspeellijst van de afspeellijst: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`/play soundcloud <search term>` instead on the meanwhile. Direct links to youtube should work too.",
-        "error_loading": "%1$sError while fetching music: %2$s. Maybe give it a try again or try another link?",
-        "unknown_error_loading": "%1$sUnknown error while fetching music. Maybe give it a try again or try another link?",
+        "no_matches": "%1$sHet zoeken heeft geen resultaten opgeleverd. Als dit wordt weergegeven voor * alle nummers * waarnaar je probeert te zoeken, kun je `/play soundcloud <zoekterm>` proberen te gebruiken. Directe koppelingen naar youtube zouden ook moeten werken.",
+        "error_loading": "%1$sFout bij het ophalen van muziek: %2$s. Misschien nog eens proberen of een andere link proberen?",
+        "unknown_error_loading": "%1$sOnbeknde fout bij het ophalen van muziek. Misschien nog eens proberen of een andere link proberen?",
         "over_queue_limit": "%1$s **Kan het nummer `%2$s` niet toevoegen aan de afspeellijst: Het limiet van het aantal nummers in de afspeellijst is bereikt (%3$s)**",
         "over_32_minutes": "%1$s**Kon `%2$s`: niet in de wachtrij plaatsen: track is langer dan %3$s.** (De lengte van het nummer is %4$s).\nU kunt een langere limiet voor de tracklengte krijgen en livestreams afspelen met Mantaro Premium! Kijk op <https://patreon.com/mantaro> voor meer info.",
         "fair_queue_limit_reached": "%1$s**te veel nummer in wachtrij van %2$d (te veel nummers die exact gelijk zijn)**",
         "loaded_song": "%1$sToegevoegd aan wachtrij -> **%2$s** **(%3$s)**",
         "selection_text": "Nummer geselecteerd. Type het cijfer van het nummer om door te gaan.",
-        "timeout_text": "This timeouts in 30 seconds."
+        "timeout_text": "Dit time-out in 30seconden."
       },
-      "premium_beg": "%1$sConsider donating on <https://patreon.com/mantaro> if you like me, even a small donation will help towards keeping the bot alive (Check `/donate` for more info!)",
+      "premium_beg": "%1$sDenk er eens over na om te doneren op patreon.com/mantaro als je veel plezier hebt van mij als bot. Zelfs kleine donaties helpen om mij in leven te houden! (Typ `/donate` voor meer informatie!)",
       "closed_connection": "%1$sDe verbinding van het geluid is afgesloten, loskoppel van muziekspeler..."
     },
     "forceskip": {
@@ -314,12 +314,12 @@
     },
     "pause": {
       "paused": "Muziekspeler gepauzeerd. *(Muziekspeler was eerder hervat)*",
-      "unpaused": "Player un-paused. *(Player was paused previously)*"
+      "unpaused": "Muziekspeler hervat. *(Muziekspeler was eerder gepauzeerd)*"
     },
     "rewind": {
-      "no_time": "%1$sYou need to tell me how much you want to rewind the song. *(Example: `/rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
-      "negative": "%1$sPositive numbers only",
-      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `/rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
+      "no_time": "%1$sJe zult me moeten vertellen hoeveel je het nummer wilt terugspoelen. *(Bijvoorbeeld: `/rewind 1m45s` zal het nummer 1 minuut en 45 seconden terugspoelen)*",
+      "negative": "%1$sAlleen positieve mummers zijn toegestaan",
+      "too_little": "%1$sJe moet het juiste formaat gebruiken. Raadpleeg het help commando *(Bijvoorbeeld: `/rewind 1m45s` zal het nummer 1 minuut en 45 seconden terugspoelen)*",
       "before_beginning": "%1$sJe kunt niet terugspoelen naar een moment vóór het begin van het nummer",
       "success": "%1$sTerugspoelen van het nummer naar: %2$s."
     },
@@ -327,12 +327,12 @@
       "success": "%1$sHuidig nummer herstart."
     },
     "skipahead": {
-      "no_time": "%1$sYou need to tell me how much you want to skip ahead in the song. *(Example: `/skipahead 1m45s` will skip 1 minutes and 45 seconds from where you are on the song)*",
+      "no_time": "%1$sJe zult me moeten vertellen hoeveel je het nummer wilt vooruitspoelen. *(Bijvoorbeeld: `/skipahead 1m45s` zal het nummer 1 minuut en 45 seconden vooruitspoelen)*",
       "past_duration": "%1$sJe kunt niet vooruitspoelen naar een moment ná het einde van het nummer",
       "success": "%1$sVooruitspoelen van het nummer naar: %2$s."
     },
     "move": {
-      "no_voice": "%1$sYou're not in a voice channel, or the bot isn't in one.",
+      "no_voice": "%1$sJe bent niet in een voice channel, of de bot niet.",
       "attempt": "%1$sIk zal proberen om naar hetzelfde kanaal als jij te komen",
       "error_moving": "%1$sHet is niet gelukt om van spraak-kanaal te veranderen",
       "cannot_connect": "%1$sKan geen verbinding maken: Ik heb geen bevoegdheid om te praten of om van kanaal te wisselen.",
@@ -391,7 +391,7 @@
       "cleanup": "%1$sHeeft **%2$d ** nummer(s) verwijderd uit de afspeellijst."
     },
     "volume": {
-      "no_player": "%1$sThere's nothing playing here.",
+      "no_player": "%1$sEr is niks aan het afspelen hier.",
       "check": "%1$sHet huidige volume van deze sessie is: %2$d\n\n%3$s",
       "success": "%1$sVolume is gewijzigd naar %2$d\n\n%3$s",
       "no_args": "%1$sJe moet me vertellen op welk volume je wilt dat ik de muziek instel (5 tot 100).",
@@ -411,7 +411,7 @@
     "custom": {
       "custom_notice": "This is a custom command.",
       "no_args": "%1$sJe moet opgeven wat je wilt doen met deze opdracht. Check het help opdracht voor meer informatie!",
-      "incorrect_args": "%1$sIncorrect arguments. Check `/help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
+      "incorrect_args": "%1$sOnjuiste argumenten. Kijk op `/help custom` of https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands voor meer hulp bij het gebruik hiervan. Als je nog meer problemen hebt na het lezen van de wiki, ga dan naar <https://support.mantaro.site>",
       "error_running": "%1$sFout tijdens het uitvoeren van het eigen commando ... controleer de inhoud en lengte van de reactie (mag niet meer zijn dan 2000 tekens).",
       "error_running_new": "%1$sFoutmelding in eigen command. Controleer reactie, inhoud en lengte.\n**Foutmelding:**\n```%2$s```",
       "not_loaded": "De bot is nog niet volledig opgestart... eigen commando's zullen snel weer beschikbaar zijn!",
@@ -523,7 +523,7 @@
       "default_time_too_long": "%1$sDe lengte van de standaard mute tijd is te lang (Maximaal: 10 dagen)...",
       "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "time_too_long": "%1$sDe lengte van de mute tijd is te lang (Maximaal: 10 dagen)...",
-      "already_muted": "%1$sThis user already has a mute role assigned. Please do `/unmute` to un-mute them.",
+      "already_muted": "%1$sDeze gebruiker heeft al een mute rol. Gebruik `/unmute` als je hem of haar wilt unmuten.",
       "self_hierarchy_error": "%1$sIk kan de mute-rol niet toewijzen aan deze gebruiker omdat deze zich in een hogere hiërarchie bevindt dan ik, of de rol zich in een hogere hiërarchie bevindt!",
       "user_hierarchy_error": "%1$sIk kan de mute-rol niet toewijzen aan deze gebruiker omdat deze zich in een hogere hiërarchie bevindt dan ik, of de rol zich in een hogere hiërarchie bevindt!",
       "success": "%1$sAdded mute role to **%2$s** for %3$s",
@@ -574,11 +574,11 @@
         "empty": "%1$sJe kunt de liefdesbrief niet leeg laten.",
         "no_marriage": "%1$sJe bent niet getrouwd, je kunt geen liefdesbrief voor jezelf schrijven...",
         "not_proposing_player": "%1$sJij bent niet de persoon die dit huwelijksaanzoek heeft gedaan!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `/marry status`",
+        "already_done": "%1$sDit huwelijk heeft al een liefdesbrief toegewezen. Bekijk deze met behulp van de `/marry status`",
         "too_long": "%1$sDe liefdesbrief is te lang (maximum van 500 karakters)",
         "cannot_see": "%1$sIk kan de persoon waarmee je getrouwd bent niet vinden... Waarschijnlijk zitten ze niet in dezelfde server als ik.",
         "confirmation": "%1$sWeet je *zeker* dat je deze liefdesbrief wilt schrijven voor je huwelijk met **%2$s#%3$s**? Dit is PERMANENT en blijft zolang jullie huwelijk stand houdt. *Inhoud van de letter:* %4$s",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `/marry status`",
+        "confirmed": "%1$sDe liefdesbrief is succesvol afgeleverd aan je liefde! Bekijk deze met behulp van de `/marry status`",
         "scrapped": "%1$sJe hebt nog steeds tijd om na te denken wat je wilt schrijven, er is geen haast!"
       },
       "status": {
@@ -624,7 +624,7 @@
       "already_married_receipt": "%1$sJe bent al met deze persoon getrouwd, aww.",
       "already_married": "%1$sJe bent al getrouwd.",
       "receipt_married": "%1$sDeze gebruiker is al getrouwd.",
-      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `/buy 2 ring` and then try proposing again <3",
+      "no_ring": "%1$sJe kunt geen aanzoek doen zonder twee verlovingsringen! Je kunt deze kopen door `/buy 2 ring` te typen en het dan nogmaals te proberen <3",
       "confirmation": "%1$s%2$s, beantwoord met **yes** of **no** op het huwelijksaanzoek van %3$s\n%4$sDit aanzoek zal een time-out geven over 120 seconden.",
       "ring_check_fail": "%1$sJe kunt niet trouwen als je minder dan twee verlovingsringen in je inventaris hebt :(",
       "accepted": "%1$s**%2$s#%3$s** accepteerde het huwelijksaanzoek van **%4$s#%5$s**!",
@@ -688,8 +688,8 @@
         "no_button": "No, take me back."
       },
       "header": "Waifu Lijst",
-      "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$,d waifus as of now.*\n\nIf you wish to check your waifu stats, use `/waifu stats`\n\n",
-      "no_waifu": "No waifus to see here, just dust :(\nYou can get waifus by claiming someone! Use `/waifu claim` to get started.",
+      "description_header": "Hier is een lijst met al je geliefde waifus, gesorteerd op datum.\n*Je kunt op dit moment een maximum van %1$,d waifus hebben.*\n\nals je je waifu statistieken wil bekijken, typ `/waifu stats`\n\n",
+      "no_waifu": "Geen waifu te zien hier, alleen maar stof :(\nJe kunt waifus krijgen door iemand te claimen! Typ `/waifu claim` om te beginnen met claimen.",
       "footer": "Totaal aantal waifus: %1$d - Beschikbaar aantal sloten: %2$s",
       "value_format": "**Waarde:**",
       "value_b_format": "**Gekocht voor:**",
@@ -699,7 +699,7 @@
     },
     "ratewaifu": {
       "nothing_specified": "%1$sGeef me een waifu om te beoordelen!",
-      "success": "%1$sI rate your waifu with a **%2$,d/100**"
+      "success": "%1$sIk beoordeel je wiafu met een **%2$,d/100**"
     },
     "roll": {
       "success": "%1$sYou got **%2$s**%3$s",
@@ -711,7 +711,7 @@
     },
     "coinflip": {
       "over_limit": "%1$sStop eens! Het limiet is 1,000 coin flips",
-      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions (For example, `/roll 100`)",
+      "no_repetitions": "%1$sJe moet aangeven hoevaak je dit wilt herhalen (Bijvoorbeeld, `/roll 100`)",
       "success": "%1$s Het resultaat van **%2$d** keer flippen gaf as resultaat; **%3$d** kop en **%4$d** munt"
     },
     "inventory": {
@@ -748,7 +748,7 @@
         "cost": "Giet Kost: ",
         "desc": "This is a list of the items you can cast using `/cast`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       },
-      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `/useitem mop`?",
+      "dust": "%1$sJe kan niet gieten met zo'n stoffige inventaris! *(Dust level: %2$s%%)*. Waarom kuis je het niet op met `/useitem mop`?",
       "wrench_multiple_use": "Tip: *You can't use the wrench you are trying to cast with as ingredient!*"
     },
     "market": {
@@ -779,7 +779,7 @@
           "cancelled": "%1$sCancelled successfully."
         },
         "non_existent": "%1$sYou cannot sell a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `/dump` it)",
+        "no_sell_price": "%1$sJe kunt een voorwerp niet verkopen dat niet kan worden verkocht. (Maar je kan het `/market dump`-en)",
         "no_item_player": "%1$sYou cannot sell an item you don't have.",
         "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
         "success": "%1$sYou sold %2$,d **%3$s** and gained %4$,d credits!"
@@ -829,7 +829,7 @@
       "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sDeze persoon heeft al te veel geld...",
       "success": "%1$sEr is succesvol **%2$,d** *(%3$,d na 8%% belasting)* overgemaakt naar **%4$s**.",
-      "item_transfer": "%1$sYou cannot transfer items using transfer, use the `/transferitems` command instead.",
+      "item_transfer": "%1$sJe kunt geen voorwerpen weggeven met behulp 'transfer', gebruik hiervoor het `/transferitems` commando.",
       "party": "You can only transfer to the same person (%1$s) once every 10 minutes.",
       "blacklisted_transfer": "%1$sYou can't transfer to blacklisted users."
     },
@@ -2352,7 +2352,7 @@
     "manage_webhooks": "Beheer Webhooks",
     "manage_emotes": "Beheer Emojis",
     "priority_speaker": "Voornaamste Spreker",
-    "request_to_speak": "Request to Speak"
+    "request_to_speak": "Verzoek om te spreken"
   },
   "items": {
     "categories": {
@@ -2455,10 +2455,10 @@
     "pizza": "Pizza",
     "mine_crate": "Edelsteen Kist",
     "fish_crate": "Vis schat",
-    "chop_crate": "Chop Crate",
+    "chop_crate": "Hak buit Kist",
     "mine_premium_crate": "Edelsteen Premium Kist",
     "fish_premium_crate": "Vis Premium Kist",
-    "chop_premium_crate": "Chop Premium Crate",
+    "chop_premium_crate": "Hak Premium Kist",
     "comet_rod": "Komeet Edelsteen Hengel",
     "star_rod": "Ster Edelsteen Hengel",
     "sparkle_rod": "Fonkelende Hengel",
@@ -2541,7 +2541,7 @@
       "floppy": "Bevat misschien een paar spelletjes.",
       "maths": "Ow, ik ben mijn wiskunde vergeten.",
       "racket": "Ik won het spel ping-pong met Discord met een paar milliseconden. Misschien.",
-      "loaded_die": "Stolen from the `/roll` command.",
+      "loaded_die": "Gestolen van het `/roll` commando.",
       "forgotten": "Nooit gedownload. Is waarschijnlijk auteursrechtelijk beschermd.",
       "pencil": "We hebben er hier heel veel van!",
       "moneybag": "Wat anders?",
@@ -2659,33 +2659,33 @@
       "broken_hellfire_pick": "Een hellevuur pikhouweel die brak tijdens het hakken. Nog steeds te redden.",
       "broken_hellfire_axe": "Een hellevuur bijl die brak tijdens het mijnen. Nog steeds te redden.",
       "broken_hellfire_rod": "Een hellevuur hengel die brak tijdens het hakken. Nog steeds te redden.",
-      "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `/opencrate chop crate`",
-      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `/opencrate chop premium crate`"
+      "chop_crate": "Een kist die je vond tijdens het hakken. Kan goed spul bevatten. Te openen met `/opencrate chop crate`",
+      "chop_premium_crate": "Een kist die je vond tijdens het hakken. Kan goed spul bevatten. Kan geopend worden met `/opencrate chop premium crate`"
     }
   },
   "buttons": {
-    "yes": "Yes",
+    "yes": "Ja",
     "no": "No",
-    "accept": "Accept",
-    "deny": "Deny",
-    "cancel": "Cancel"
+    "accept": "Accepteren",
+    "deny": "Weigeren",
+    "cancel": "Annuleren"
   },
   "time": {
-    "day": "day",
-    "days": "days",
+    "day": "dag",
+    "days": "dagen",
     "week": "week",
-    "weeks": "weeks",
-    "month": "month",
-    "months": "months",
-    "year": "year",
-    "years": "years",
-    "hour": "hour",
-    "hours": "hours",
-    "minute": "minute",
-    "minutes": "minutes",
-    "second": "second",
-    "seconds": "seconds",
-    "little": "less than a second"
+    "weeks": "weken",
+    "month": "maand",
+    "months": "maanden",
+    "year": "jaar",
+    "years": "jaren",
+    "hour": "uur",
+    "hours": "uren",
+    "minute": "minuut",
+    "minutes": "minuten",
+    "second": "seconde",
+    "seconds": "seconden",
+    "little": "minder dan 1 seconde"
   },
   "test": {
     "inherited": "owo"
