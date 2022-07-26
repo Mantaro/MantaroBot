@@ -414,7 +414,7 @@
       "incorrect_args": "%1$sOnjuiste argumenten. Kijk op `/help custom` of https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands voor meer hulp bij het gebruik hiervan. Als je nog meer problemen hebt na het lezen van de wiki, ga dan naar <https://support.mantaro.site>",
       "error_running": "%1$sFout tijdens het uitvoeren van het eigen opdracht... controleer de inhoud en lengte van de reactie (mag niet meer zijn dan 2000 tekens).",
       "error_running_new": "%1$sFoutmelding in eigen opdracht. Controleer reactie, inhoud en lengte.\n**Foutmelding:**\n```%2$s```",
-      "not_loaded": "De bot is nog niet volledig opgestart... eigen commando's zullen snel weer beschikbaar zijn!",
+      "not_loaded": "De bot is nog niet volledig opgestart... eigen opdrachten zullen snel weer beschikbaar zijn!",
       "nsfw_enabled": "%1$sDit commando is succesvol gemarkeerd als NSFW.",
       "nsfw_disabled": "%1$sDit commando is succesvol gemarkeerd als SFW.",
       "nsfw_not_nsfw": "%1$sDit commando is gemarkeerd als NSFW waardoor je het alleen kunt gebruiken in NSFW kanalen.",
@@ -436,7 +436,7 @@
         "not_found": "%1$sIk kan dit commando niet vinden.",
         "header": "Onbewerkte Aangepaste Commando: %1$s",
         "amount": "(Laat %1$d antwoorden zien van %2$d)",
-        "too_large_view": "Too large to view here, use `/custom view %1$s %2$s`",
+        "too_large_view": "Te groot om hier te bekijken, gebruik `/custom view %1$s %2$s`",
         "description": "Dit is een lijst met alle reacties van dit commando in een onbewerkt formaat (wat je invoert in het commando)."
       },
       "clear": {
@@ -951,7 +951,7 @@
         "experience": "Ervaring",
         "mine_xp": "Mijnbouw Ervaring",
         "fish_xp": "Vis Ervaring",
-        "chop_xp": "Chopping Experience",
+        "chop_xp": "Hak Ervaring",
         "activity_xp": "Activity Experience",
         "sharks_caught": "Gevangen Haaien",
         "crates_open": "Geopende Kisten",
