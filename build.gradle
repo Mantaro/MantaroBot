@@ -97,7 +97,7 @@ dependencies {
     implementation 'io.prometheus:simpleclient_httpserver:0.9.0'
 
     //Unit tests
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
 }
 
 compileJava.dependsOn generateLanguageList
