@@ -415,18 +415,18 @@
       "error_running": "%1$sFout tijdens het uitvoeren van het eigen opdracht... controleer de inhoud en lengte van de reactie (mag niet meer zijn dan 2000 tekens).",
       "error_running_new": "%1$sFoutmelding in eigen opdracht. Controleer reactie, inhoud en lengte.\n**Foutmelding:**\n```%2$s```",
       "not_loaded": "De bot is nog niet volledig opgestart... eigen opdrachten zullen snel weer beschikbaar zijn!",
-      "nsfw_enabled": "%1$sDit commando is succesvol gemarkeerd als NSFW.",
-      "nsfw_disabled": "%1$sDit commando is succesvol gemarkeerd als SFW.",
-      "nsfw_not_nsfw": "%1$sDit commando is gemarkeerd als NSFW waardoor je het alleen kunt gebruiken in NSFW kanalen.",
-      "new_error": "%1$sDe eigen command die u probeert te maken, bevat een foutmelding (v3, controleer inhoud).\n**Foutmelding:**\n```%2$s```",
+      "nsfw_enabled": "%1$sDeze opdracht is succesvol gemarkeerd als NSFW.",
+      "nsfw_disabled": "%1$sDeze opdracht is succesvol gemarkeerd als SFW.",
+      "nsfw_not_nsfw": "%1$sDeze opdracht is gemarkeerd als NSFW waardoor je het alleen kunt gebruiken in NSFW kanalen.",
+      "new_error": "%1$sDe eigen opdrachten die u probeert te maken, bevat een foutmelding (v3, controleer inhoud).\n**Foutmelding:**\n```%2$s```",
       "ls": {
-        "header": "Commando's voor deze guild",
-        "description": "**Dit toont alle eigen (door de gebruiker gemaakte) commands van deze server.** Elke opdracht hier is in geen enkele vorm aan de bot zelf gekoppeld.\n\nEigen commands zijn commando's gemaakt door gebruikers (meestal serverbeheerders) die een heleboel verschillende situaties aankunnen, zoals het emuleren van actiecommando's.\nVoor meer informatie over het maken van eigen commands refereer je naar [deze wikipagina.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Lijs:**",
-        "footer": "Totaal aantal eigen commands op deze server: %1$s"
+        "header": "Opdrachten voor deze guild.",
+        "description": "**Dit toont alle eigen (door de gebruiker gemaakte) opdrachten van deze server.** Elke opdracht hier is in geen enkele vorm aan de bot zelf gekoppeld.\n\nEigen opdrachten zijn opdrachten gemaakt door gebruikers (meestal serverbeheerders) die een heleboel verschillende situaties aankunnen, zoals het emuleren van actieopdrachten.\nVoor meer informatie over het maken van eigen opdrachten refereer je naar [deze wikipagina.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Lijs:**",
+        "footer": "Totaal aantal eigen opdrachten op deze server: %1$s"
       },
       "invalid": "%1$sOngeldige opdracht selectie. Kijk misschien eens naar de wiki op <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
       "view": {
-        "invalid": "%1$sJe moet het commando en het antwoordnummer opgegeven",
+        "invalid": "%1$sJe moet het opdracht en het antwoordnummer opgegeven!",
         "not_found": "%1$sEr is hier geen eigen commando met deze naam.",
         "less_than_specified": "%1$sDit commando heeft minder antwoorden dan het antwoordnummer dat jij hebt opgegeven...",
         "success": "**Reactie `%1$d` voor eigen commando `%2$s`:** \n```\n%3$s```"
