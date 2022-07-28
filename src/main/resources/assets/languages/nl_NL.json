@@ -427,62 +427,62 @@
       "invalid": "%1$sOngeldige opdracht selectie. Kijk misschien eens naar de wiki op <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
       "view": {
         "invalid": "%1$sJe moet het opdracht en het antwoordnummer opgegeven!",
-        "not_found": "%1$sEr is hier geen eigen commando met deze naam.",
-        "less_than_specified": "%1$sDit commando heeft minder antwoorden dan het antwoordnummer dat jij hebt opgegeven...",
-        "success": "**Reactie `%1$d` voor eigen commando `%2$s`:** \n```\n%3$s```"
+        "not_found": "%1$sEr is hier geen eigen opdracht met deze naam.",
+        "less_than_specified": "%1$sDeze opdracht heeft minder antwoorden dan het antwoordnummer dat jij hebt opgegeven...",
+        "success": "**Reactie `%1$d` voor eigen opdracht `%2$s`:** \n```\n%3$s```"
       },
       "raw": {
-        "no_command": "%1$sJe zult me moeten vertellen welk commando je wilt bekijken.",
-        "not_found": "%1$sIk kan dit commando niet vinden.",
-        "header": "Onbewerkte Aangepaste Commando: %1$s",
+        "no_command": "%1$sJe zult me moeten vertellen welke opdracht je wilt bekijken.",
+        "not_found": "%1$sIk kan deze opdracht niet vinden.",
+        "header": "Onbewerkte Aangepaste Opdracht: %1$s",
         "amount": "(Laat %1$d antwoorden zien van %2$d)",
         "too_large_view": "Te groot om hier te bekijken, gebruik `/custom view %1$s %2$s`",
-        "description": "Dit is een lijst met alle reacties van dit commando in een onbewerkt formaat (wat je invoert in het commando)."
+        "description": "Dit is een lijst met alle reacties van deze opdracht in een onbewerkt formaat (wat je invoert in de opdracht)."
       },
       "clear": {
-        "success": "%1$s** %2$d Eigen Commando gewist**. Vergrendelde/vastgezette commando`s zijn niet verwijderd. Ontgrendel ze eerst als je dat wel wilt."
+        "success": "%1$s** %2$d Eigen Opdrachten gewist**. Vergrendelde/vastgezette opdrachten zijn niet verwijderd. Ontgrendel ze eerst als je dat wel wilt."
       },
       "eval": {
         "not_specified": "%1$sJe hebt niet opgegeven wat je wilt contorleren.",
-        "new_error": "%1$sEr is een error ontstaan bij het evalueren van het eigen commando.\n**Foutmelding**:\n```%2$s```",
-        "error": "%1$sEr is een error ontstaan bij het evalueren van het eigen commando!%2$s",
+        "new_error": "%1$sEr is een error ontstaan bij het evalueren van het eigen opdracht.\n**Foutmelding**:\n```%2$s```",
+        "error": "%1$sEr is een error ontstaan bij het evalueren van het eigen opdracht!%2$s",
         "slash_notice": "%1$sDeze opdracht werkt nog niet met slash. Je kunt voor nu `~>custom eval` gebruiken."
       },
       "remove": {
-        "no_command": "%1$sJe zult me moeten vertellen welk commando je wilt verwijderen.",
+        "no_command": "%1$sJe zult me moeten vertellen welke opdracht je wilt verwijderen.",
         "success": "%1$sEigen opdracht `%2$s` verwijderd"
       },
       "import": {
-        "no_command": "%1$sJe zult me moeten vertellen welk commando je wilt importeren.",
+        "no_command": "%1$sJe zult me moeten vertellen welke opdracht je wilt importeren.",
         "not_found": "%1$sEr zijn geen eigen opdrachten die overeenkomen met uw zoekopdracht.\n**deze opdracht werkt mogelijk niet goed!**\nIn dergelijke gevallen kunt u het opdracht handmatig kopiëren met de uitvoer van `/custom raw`.",
         "header": "`%1$s` (Reacties: %2$s) - Guild: `%3$s`",
-        "selection": "Selecteer het Commando:",
-        "note": "(Je kunt alleen eigen commando's selecteren van de Guild waarvan je lid bent)",
-        "success": "Het eigen commando `%1$s` van Guild `%2$s` met een totaal van %3$d antwoorden is geïmporteerd."
+        "selection": "Selecteer de Opdracht:",
+        "note": "(Je kunt alleen eigen opdrachten selecteren van de Guild waarvan je lid bent)",
+        "success": "Het eigen opdracht `%1$s` van Guild `%2$s` met een totaal van %3$d antwoorden is geïmporteerd."
       },
       "edit": {
-        "no_command": "%1$sJe moet aangeven welk commando je wilt bewerken.",
+        "no_command": "%1$sJe moet aangeven welk opdracht je wilt bewerken.",
         "invalid_number": "%1$sJe moet een bestaand nummer opgeven om te wijzigen.",
         "no_index": "%1$sJe kunt geen niet bestaande index bewerken.",
         "empty_response": "%1$sKan geen leeg antwoord wijzigen.",
-        "not_enough_args": "%1$sJe moet het commando, de index en het nieuwe antwoord specificeren",
-        "success": "%1$sAntwoord **#%2$d** van het commando `%3$s` is succesvol aangepast."
+        "not_enough_args": "%1$sJe moet de opdracht, de index en het nieuwe antwoord specificeren",
+        "success": "%1$sAntwoord **#%2$d** van het commando `%3$s` is succesvol aangepast"
       },
       "deleteresponse": {
-        "no_command": "%1$sJe moet het commando specificeren waaruit u een antwoord wilt verwijderen.",
+        "no_command": "%1$sJe moet de opdracht specificeren waaruit u een antwoord wilt verwijderen.",
         "invalid_number": "%1$sJe moet een juist nummer opgeven om te wijzigen.",
         "no_index": "%1$sJe kunt geen niet bestaande index bewerken.",
-        "not_enough_args": "%1$sJe moet het commando en de index specificeren die u wilt verwijderen.",
+        "not_enough_args": "%1$sJe moet de opdracht en de index specificeren die u wilt verwijderen.",
         "no_responses_left": "%1$sEr waren geen reacties meer, dus ik heb de opdracht verwijderd.",
-        "success": "%1$sReactie verwijderd **#%2$d** van het commando `%3$s` correct"
+        "success": "%1$sReactie verwijderd **#%2$d** van de opdracht `%3$s` correct"
       },
       "rename": {
-        "success": "%1$sNaam van commando gewijzigd van `%2$s` naar `%3$s`",
-        "not_enough_args": "%1$sU moet het commando specificeren die u wilt hernoemen en de nieuwe naam."
+        "success": "%1$sNaam van opdracht gewijzigd van `%2$s` naar `%3$s`",
+        "not_enough_args": "%1$sU moet de opdracht specificeren die u wilt hernoemen en de nieuwe naam."
       },
       "add": {
-        "no_command": "%1$sJe moet aangeven welk commando je wilt toevoegen.",
-        "not_enough_args": "%1$sJe moet de commando naam specificeren en het antwoord van de commando die u wilt toevoegen.",
+        "no_command": "%1$sJe moet aangeven welke opdracht je wilt toevoegen.",
+        "not_enough_args": "%1$sJe moet de opdracht naam specificeren en het antwoord van de opdracht die u wilt toevoegen.",
         "empty_content": "%1$sYou need to specify the content of this custom command",
         "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
         "success": "%1$sOpgeslagen in opdrachten `%2$s`",
@@ -1299,7 +1299,7 @@
       "disabled_multiple": "%1$sThis server has game multiple/lobby disabled."
     },
     "opencrate": {
-      "no_crate": "%1$sJe hebt geen buit kist van dit type (%2$s) om te openen (Als je een andere kist wil openen dan de standaard kist, gebruik dan de naam van de kist bij het commando, als het om je seizoens inventaris gaat gebruiks dan `-s`)",
+      "no_crate": "%1$sJe hebt geen buit kist van dit type (%2$s) om te openen (Als je een andere kist wil openen dan de standaard kist, gebruik dan de naam van de kist bij de opdracht, als het om je seizoens inventaris gaat gebruiks dan `-s`)",
       "not_crate": "%1$sThat is not a valid loot crate.",
       "nothing_found": "%1$sI didn't find any crate matching your query. Make sure you used the correct name."
     },
@@ -1612,13 +1612,13 @@
       "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
       "support": "If you're still lost you can join the [support server](https://support.mantaro.site). You can also follow me on [Twitter](https://twitter.com/mantarodiscord) for updates.\n",
       "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
-      "disabled_commands": "Alleen niet-geblokkeerde commandos weergeven. Totaal uitgeschakelde commandos: %1$s",
-      "channel_specific_disabled_commands": "\nAlleen niet-geblokkeerde commandos weergeven. Totaal aantal kanaal-specifieke uitgeschakelde commandos: %1$s",
+      "disabled_commands": "Alleen niet-geblokkeerde opdrachten weergeven. Totaal uitgeschakeldeopdrachten: %1$s",
+      "channel_specific_disabled_commands": "\nAlleen niet-geblokkeerde opdrachten weergeven. Totaal aantal kanaal-specifieke uitgeschakelde opdrachten: %1$s",
       "footer": "Thanks for using Mantaro %1$s (Total Commands: %2$s)",
-      "commands": "Commandos",
+      "commands": "Opdrachten",
       "extended": {
         "no_help": "%1$sEr is geen uitgebreide hulp ingesteld voor deze opdracht.",
-        "not_found": "%1$sEen commando met deze naam bestaat niet"
+        "not_found": "%1$sEen opdracht met deze naam bestaat niet"
       },
       "too_long": "Error displaying sub-command help. Check the [wiki](https://github.com/Mantaro/MantaroBot/wiki) for more information on this specific command.",
       "include_warning": "**Don't include <> or [] on the command itself.**",
@@ -1841,7 +1841,7 @@
         "seasonal_money": "%1$sThis page shows the top 10 richest people on Mantaro for this season.",
         "rep": "%1sDeze pagina toont de top 10 van mensen met de hoogste reputatie.",
         "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `/help daily` for more info",
-        "lvl": "%1sDeze pagina toont de top 10 van mensen met het hoogste level.\n\nEen hoger level verdien je door te praten. Het gebruiken van commando's draagt niet bij aan de levelen, en het krijgen van EXP heeft een cooldown van 30 seconden.",
+        "lvl": "%1sDeze pagina toont de top 10 van mensen met het hoogste level.\n\nEen hoger level verdien je door te praten. Het gebruiken van opdrachten draagt niet bij aan de levelen, en het krijgen van EXP heeft een cooldown van 30 seconden.",
         "waifu": "%1sThis page shows the top 10 people with the most weighted waifu value.\n\nCheck out `/help waifu` for details on the waifu system.",
         "gamble": "%1sThis page shows the top 10 people with the most gamble runs won.\n\nCheck out `/help gamble` for details on gamble.",
         "slots": "%1sThis page shows the top 10 people with the most slots runs won.\n\nCheck out `/help slots` for details on slots."
@@ -1885,34 +1885,34 @@
       "success": "%1$sje opties zijn succesvol gereset!"
     },
     "server_command_disallow": {
-      "no_command": "%1$sJe moet het commando opgeven die je op deze server wilt uitschakelen.",
+      "no_command": "%1$sJe moet de opdracht opgeven die je op deze server wilt uitschakelen.",
       "success": "%1$sHet commando %2$s is uitgeschakeld op deze server."
     },
     "server_command_allow": {
-      "no_command": "%1$sJe moet het commando opgeven die je op deze server wilt inschakelen.",
+      "no_command": "%1$sJe moet de opdracht opgeven die je op deze server wilt inschakelen.",
       "success": "%1$sHet commando %2$s is ingeschakeld op deze server."
     },
     "server_command_specific_disallow": {
-      "invalid": "%1$sJe moet het kanaalnaam en het commando opgeven die je niet wilt toestaan.",
+      "invalid": "%1$sJe moet het kanaalnaam en de opdracht opgeven die je niet wilt toestaan.",
       "success": "%1$sHeeft het commando %2$s uitgeschakeld in kanaal #%3$s."
     },
     "server_command_specific_allow": {
-      "invalid": "%1$sJe moet het kanaalnaam en het commando opgeven die je wilt toestaan",
+      "invalid": "%1$sJe moet het kanaalnaam en de opdracht opgeven die je wilt toestaan.",
       "success": "%1$sHeeft het commando %2$s ingeschakeld in kanaal #%3$s."
     },
     "server_channel_disallow": {
-      "no_channel": "%1$sJe moet het kanaal specificeren waar je wilt dat de bot niet naar commandos luistert.",
+      "no_channel": "%1$sJe moet het kanaal specificeren waar je wilt dat de bot niet naar de opdracht luistert.",
       "too_many": "%1$sJe kunt niet meer kanalen uitschakelen omdat de bot anders niet kan praten :(",
-      "success": "%1$sKanaal %2$s zal niet langer meer luisteren naar commandos"
+      "success": "%1$sKanaal %2$s zal niet langer meer luisteren naar opdrachten."
     },
     "server_channel_allow": {
-      "no_channel": "%1$sJe moet het kanaal specificeren waar je wilt dat de bot naar commandos luistert.. (Standaard is dit in alle kanalen)",
-      "success": "%1$sChannel %2$s zal nu luisteren naar commandos"
+      "no_channel": "%1$sJe moet het kanaal specificeren waar je wilt dat de bot naar opdrachten luistert.. (Standaard is dit in alle kanalen)",
+      "success": "%1$sChannel %2$s zal nu luisteren naar opdrachten."
     },
     "category_disable": {
       "no_category": "%1$sJe moet een categorie opgeven om uit te schakelen.",
       "already_disabled": "%1$sDeze categorie is al uitgeschakeld.",
-      "moderation_notice": "%1$sJe kunt moderatie niet uitschakelen omdat deze dit commando bevat.",
+      "moderation_notice": "%1$sJe kunt moderatie niet uitschakelen omdat dit de opts opdracht zou uitschakelen.",
       "success": "%1$sHeeft categorie `%2$s` uitgeschakeld."
     },
     "category_enable": {
@@ -1922,7 +1922,7 @@
     "category_specific_disable": {
       "invalid": "%1$sJe moet een categorie opgeven om uit te schakelen en de kanaalnaam opgeven waarin je deze wilt uitschakelen.",
       "already_disabled": "%1$sDeze categorie is al uitgeschakeld.",
-      "moderation_notice": "%1$sJe kunt moderatie niet uitschakelen omdat deze dit commando bevat.",
+      "moderation_notice": "%1$sJe kunt moderatie niet uitschakelen omdat dit de opts opdracht zou uitschakelen.",
       "success": "%1$sHeeft categorie `%2$s` uitgeschakeld in kanaal %3$s"
     },
     "category_specific_enable": {
@@ -1932,7 +1932,7 @@
       "success": "%1$sHeeft categorie `%2$s` ingeschakeld in kanaal %3$s"
     },
     "server_role_specific_disallow": {
-      "invalid": "%1$sJe hebt de rol en het commando nodig als je het wilt uitschakelen!",
+      "invalid": "%1$sJe hebt de rol en de opdracht nodig als je het wilt uitschakelen!",
       "already_disabled": "%1$sDit commando was al uitgeschakeld voor de opgegeven rol.",
       "success": "%1$sHet commando `%2$s` is succesvol uitgeschakeld voor de rol `%3$s`"
     },
