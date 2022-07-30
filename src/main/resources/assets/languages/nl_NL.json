@@ -1944,7 +1944,7 @@
     "category_role_specific_disable": {
       "invalid": "%1$sJe moet een categorie opgeven om uit te schakelen en voor welke rol dit moet gebeuren.",
       "already_disabled": "%1$sDeze categorie is al uitgeschakeld.",
-      "moderation_notice": "%1$sJe kunt moderatie niet uitschakelen omdat deze dit commando bevat.",
+      "moderation_notice": "%1$sJe kunt moderatie niet uitschakelen omdat dit deze opdracht bevat.",
       "success": "%1$sHeeft categorie `%2$s` uitgeschakeld voor de rol %3$s"
     },
     "category_role_specific_enable": {
@@ -2150,8 +2150,8 @@
     },
     "admincustom": {
       "no_args": "%1$sJe moet aangeven of u wilt dat het true of false is (true om CC-creatie alleen aan Admins / Bot Commander te geven)",
-      "admin_only": "Het maken van eigen commando's is nu alleen voor Admins beschikbaar.",
-      "everyone": "Het maken van eigen commando's is nu voor iedereen beschikbaar.",
+      "admin_only": "Het maken van eigen opdrachten is nu alleen voor Admins beschikbaar.",
+      "everyone": "Het maken van eigen opdrachten is nu voor iedereen beschikbaar.",
       "not_bool": "%1$sGekkie, dat is geen boolean waarde (true of false)!"
     },
     "timedisplay_set": {
@@ -2162,13 +2162,13 @@
     },
     "server_role_disallow": {
       "no_name": "%1$sJe moet de naam van de rol opgeven!",
-      "public_role": "%1$sJe kunt de 'everyone-rol' niet uitschakelen voor het uitvoeren van commandos!",
-      "success": "%1$sDe rol %2$s kan geen commandos meer uitvoeren."
+      "public_role": "%1$sJe kunt de 'everyone-rol' niet uitschakelen voor het uitvoeren van opdrachten!",
+      "success": "%1$sDe rol %2$s kan geen opdrachten meer uitvoeren."
     },
     "server_role_allow": {
       "no_name": "%1$sJe moet de naam opgeven van de rol die je wilt toestaan (moet hiervoor al zijn uitgeschakeld om iets te kunnen doen, omdat toestaan de standaard waarde is)!",
       "not_disabled": "%1$sDeze rol is niet uitgeschakeld! (Alle rollen zijn standaard ingeschakeld)",
-      "success": "%1$sDe rol %2$s heeft nu toestemming om commandos uit te voeren."
+      "success": "%1$sDe rol %2$s heeft nu toestemming om opdrachten uit te voeren."
     },
     "server_ignorebots_autoroles_toggle": {
       "success": "%1$sDe autorol ignore van de bot staat nu op: **%2$s**"
@@ -2316,8 +2316,8 @@
       }
     },
     "invalid_category": "%1$sJe hebt een ongeldige categorie ingevoerd. Een lijst met geldige categorieën om uit te schakelen (hoofdletterongevoelig) wordt hieronder weergegeven```md\n%2$s```",
-    "help_opts_notice": "%1$sJe kunt de Opties- of het Help-commando niet uitschakelen.",
-    "no_command": "%1$sEr is geen commando met de naam %2$s",
+    "help_opts_notice": "%1$sJe kunt de Opties- of het Help-opdracht niet uitschakelen.",
+    "no_command": "%1$sEr is geen opdracht met de naam %2$s",
     "invalid_role": "%1$sDat is geen geldige rol!"
   },
   "discord_permissions": {
@@ -2541,7 +2541,7 @@
       "floppy": "Bevat misschien een paar spelletjes.",
       "maths": "Ow, ik ben mijn wiskunde vergeten.",
       "racket": "Ik won het spel ping-pong met Discord met een paar milliseconden. Misschien.",
-      "loaded_die": "Gestolen van het `/roll` commando.",
+      "loaded_die": "Gestolen van het `/roll` opdracht.",
       "forgotten": "Nooit gedownload. Is waarschijnlijk auteursrechtelijk beschermd.",
       "pencil": "We hebben er hier heel veel van!",
       "moneybag": "Wat anders?",
