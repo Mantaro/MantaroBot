@@ -1933,13 +1933,13 @@
     },
     "server_role_specific_disallow": {
       "invalid": "%1$sJe hebt de rol en de opdracht nodig als je het wilt uitschakelen!",
-      "already_disabled": "%1$sDit commando was al uitgeschakeld voor de opgegeven rol.",
-      "success": "%1$sHet commando `%2$s` is succesvol uitgeschakeld voor de rol `%3$s`"
+      "already_disabled": "%1$sDeze opdracht was al uitgeschakeld voor de opgegeven rol.",
+      "success": "%1$sDeze opdracht `%2$s` is succesvol uitgeschakeld voor de rol `%3$s`"
     },
     "server_role_specific_allow": {
-      "invalid": "%1$sJe hebt de rol en het commando nodig als je het wilt inschakelen!",
-      "not_disabled": "%1$sDit commando was niet uitgeschakeld voor de opgegeven rol",
-      "success": "%1$sHet commando `%2$s` is succesvol ingeschakeld voor de rol `%3$s`"
+      "invalid": "%1$sJe hebt de rol en de opdracht nodig als je het wilt inschakelen!",
+      "not_disabled": "%1$sDeze opdracht was niet uitgeschakeld voor de opgegeven rol.",
+      "success": "%1$sDe opdracht `%2$s` is succesvol ingeschakeld voor de rol `%3$s`"
     },
     "category_role_specific_disable": {
       "invalid": "%1$sJe moet een categorie opgeven om uit te schakelen en voor welke rol dit moet gebeuren.",
