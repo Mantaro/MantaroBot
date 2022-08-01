@@ -512,28 +512,26 @@
       "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `/custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
-      "no_permissions": "%1$sTau reikia \"Išmesti narius\" arba \"Užblokuoti narius\" leidimo, kad galėtum nutildyti narius.",
-      "no_mute_role": "%1$sUžtildymo rolė nenustatyta šiame serveryje, tu gali tai padaryti naudojant `~>opts muterole set <rolė>`",
-      "null_mute_role": "%1$sAnkščiau nustatyta užtildymo rolė šiame serveryje jau nebeegzistuoja.",
+      "no_permissions": "%1$sYou need to have permission to moderate members in order to mute.",
       "no_users": "%1$sTuri nurodyti narius, kuriuos užtildyti.",
-      "no_manage_roles": "%1$sNeturiu leidimo tvarkyti rolių šiame serveryje.",
+      "no_moderate_members": "%1$sI don't have permissions to administrate timeouts on this server.",
       "time_not_specified": "%1$sTu norėjai laiko, bet nenurodei, kiek ilgai.",
       "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute 20m @mention reason goes here`, for example.",
       "negative_time_notice": "%1$sTu negali užtildyti nario negatyviam laikui. Nebent tu gali valdyti laiką...",
       "default_time_too_long": "%1$sUžtildymo laikas per ilgas (Daugiausiai: 10 dienų)...",
       "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "time_too_long": "%1$sNurodytas užtildymo laikas per ilgas (Daugiausiai: 10 dienų)...",
-      "already_muted": "%1$sThis user already has a mute role assigned. Please do `/unmute` to un-mute them.",
-      "self_hierarchy_error": "%1$sAš negaliu priskirti užtuldymo rolės nariui, nes jis/ji yra aukščiau serverio hierarchijoje negu aš, arba rolė yra aukštesnėje hierarchijoje!",
-      "user_hierarchy_error": "%1$sAš negaliu priskirti užtuldymo rolės nariui, nes jis/ji yra aukščiau serverio hierarchijoje negu aš, arba rolė yra aukštesnėje hierarchijoje negu tu!",
-      "success": "%1$sAdded mute role to **%2$s** for %3$s",
-      "success_reason": "%1$sAdded mute role to **%2$s** for %3$s because of the following reason: %4$s"
+      "already_muted": "%1$sThis user is already muted. Please do `/unmute` to un-mute them.",
+      "self_hierarchy_error": "%1$sI cannot mute this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
+      "user_hierarchy_error": "%1$sI cannot mute this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
+      "success": "%1$sSuccessfully muted **%2$s** for %3$s",
+      "success_reason": "%1$sSuccessfully muted **%2$s** for %3$s because of the following reason: %4$s"
     },
     "unmute": {
-      "no_permissions": "%1$sTu turi turėti leidimą \"Išmesti narius\" arba \"Užblokuoti narius\", kad gamėtum nuimti užtildymo rolę!",
+      "no_permissions": "%1$sYou need to have permission to moderate members to un-mute!",
       "no_mentions": "%1$sTuri paminėti bent vieną narį, kuriam nuimti užtildymo rolę.",
-      "success": "%1$sNuimta užtildymo rolė iš **%2$s**",
-      "no_role_assigned": "%1$sŠis narys neturi priskirtos užtildymo rolės."
+      "success": "%1$sSuccessfully un-muted **%2$s**",
+      "not_muted": "%1$sThis user doesn't seem to be muted."
     },
     "ping": {
       "display": [
@@ -2197,13 +2195,6 @@
     },
     "defaultmutetimeout_reset": {
       "success": "%1$sSuccessfully reset timeout."
-    },
-    "muterole_unbind": {
-      "success": "%1$sCorrectly reset the mute role."
-    },
-    "muterole_set": {
-      "no_role": "%1$sYou need to specify the role you want to use as the mute role. If the name has spaces try wrapping it in quotes.",
-      "success": "%1$sSet mute role to **%2$s**"
     },
     "reset:all": {
       "success": "%1$sCorrectly reset your options!"
