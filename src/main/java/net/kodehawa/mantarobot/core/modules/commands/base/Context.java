@@ -381,7 +381,7 @@ public class Context implements IContext {
     public Member retrieveMemberById(Guild guild, String id, boolean update) {
         Member member = null;
         try {
-            member = guild.retrieveMemberById(id).useCache(update).complete();
+            member = guild.retrieveMemberById(id).useCache(!update).complete();
         } catch (Exception ignored) { }
 
         return member;

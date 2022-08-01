@@ -66,7 +66,7 @@ dependencies {
     implementation ('com.github.Xirado:Lavalink-Client:041082f56d') {
         exclude group: 'com.sedmelluq', module: 'lavaplayer'
     } // Lavalink-Client includes LP, but we specify it below, so we need to exclude it.
-    implementation 'com.github.walkyst:lavaplayer-fork:1.3.98.1'
+    implementation 'com.github.walkyst:lavaplayer-fork:1.3.98.2'
     implementation 'com.sedmelluq:lavaplayer-ext-youtube-rotator:0.2.3'
 
     // JSON
@@ -126,13 +126,15 @@ def lint = [
         "overloads",
         "overrides",
         "path",
-        //removed because of "No processor claimed any of these annotations: ..."
+        // removed because of "No processor claimed any of these annotations: ..."
         //"processing",
         "rawtypes",
         "removal",
         "requires-automatic",
         "requires-transitive-automatic",
-        "serial",
+        // removed because "non-transient instance field of a serializable class declared with a non-serializable type", believe me
+        // i know
+        //"serial",
         "static",
         "try",
         "unchecked",

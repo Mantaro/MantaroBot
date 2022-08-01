@@ -1,23 +1,25 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
 package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.StandardGuildMessageChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.kodehawa.mantarobot.commands.CustomCmds;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
@@ -132,7 +134,7 @@ public class CommandOptions extends OptionHandler {
 
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
-            TextChannel channel = FinderUtils.findChannel(ctx.getEvent(), channelName);
+            var channel = FinderUtils.findChannel(ctx.getEvent(), channelName);
             if (channel == null) return;
 
             String id = channel.getId();
@@ -167,7 +169,7 @@ public class CommandOptions extends OptionHandler {
 
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
-            TextChannel channel = FinderUtils.findChannel(ctx.getEvent(), channelName);
+            var channel = FinderUtils.findChannel(ctx.getEvent(), channelName);
             if (channel == null) return;
 
             String id = channel.getId();
@@ -197,13 +199,13 @@ public class CommandOptions extends OptionHandler {
                 return;
             }
 
-            Consumer<TextChannel> consumer = textChannel -> {
-                guildData.getDisabledChannels().add(textChannel.getId());
+            Consumer<StandardGuildMessageChannel> consumer = chn -> {
+                guildData.getDisabledChannels().add(chn.getId());
                 dbGuild.save();
-                ctx.sendLocalized("options.server_channel_disallow.success", EmoteReference.OK, textChannel.getAsMention());
+                ctx.sendLocalized("options.server_channel_disallow.success", EmoteReference.OK, chn.getAsMention());
             };
 
-            TextChannel channel = FinderUtils.findChannelSelect(ctx.getEvent(), args[0], consumer);
+            var channel = FinderUtils.findChannelSelect(ctx.getEvent(), args[0], consumer);
 
             if (channel != null) {
                 consumer.accept(channel);
@@ -223,13 +225,13 @@ public class CommandOptions extends OptionHandler {
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
 
-            Consumer<TextChannel> consumer = textChannel -> {
+            Consumer<StandardGuildMessageChannel> consumer = textChannel -> {
                 guildData.getDisabledChannels().remove(textChannel.getId());
                 dbGuild.save();
                 ctx.sendLocalized("options.server_channel_allow.success", EmoteReference.OK, textChannel.getAsMention());
             };
 
-            TextChannel channel = FinderUtils.findChannelSelect(ctx.getEvent(), args[0], consumer);
+            var channel = FinderUtils.findChannelSelect(ctx.getEvent(), args[0], consumer);
 
             if (channel != null) {
                 consumer.accept(channel);
@@ -318,7 +320,7 @@ public class CommandOptions extends OptionHandler {
             CommandCategory toDisable = CommandCategory.lookupFromString(args[0]);
 
             String channelName = args[1];
-            Consumer<TextChannel> consumer = selectedChannel -> {
+            Consumer<StandardGuildMessageChannel> consumer = selectedChannel -> {
                 if (toDisable == null) {
                     AtomicInteger at = new AtomicInteger();
                     ctx.sendLocalized("options.invalid_category",
@@ -348,7 +350,7 @@ public class CommandOptions extends OptionHandler {
                 );
             };
 
-            TextChannel channel = FinderUtils.findChannelSelect(ctx.getEvent(), channelName, consumer);
+            var channel = FinderUtils.findChannelSelect(ctx.getEvent(), channelName, consumer);
 
             if (channel != null) {
                 consumer.accept(channel);
@@ -370,7 +372,7 @@ public class CommandOptions extends OptionHandler {
             CommandCategory toEnable = CommandCategory.lookupFromString(args[0]);
             String channelName = args[1];
 
-            Consumer<TextChannel> consumer = selectedChannel -> {
+            Consumer<StandardGuildMessageChannel> consumer = selectedChannel -> {
                 if (toEnable == null) {
                     AtomicInteger at = new AtomicInteger();
                     ctx.sendLocalized("options.invalid_category",
@@ -399,7 +401,7 @@ public class CommandOptions extends OptionHandler {
                 );
             };
 
-            TextChannel channel = FinderUtils.findChannelSelect(ctx.getEvent(), channelName, consumer);
+            var channel = FinderUtils.findChannelSelect(ctx.getEvent(), channelName, consumer);
             if (channel != null) {
                 consumer.accept(channel);
             }

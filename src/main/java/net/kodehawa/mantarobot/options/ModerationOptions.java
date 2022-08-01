@@ -1,26 +1,24 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
 package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.api.entities.ISnowflake;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
@@ -130,13 +128,13 @@ public class ModerationOptions extends OptionHandler {
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
 
-            Consumer<TextChannel> consumer = textChannel -> {
+            Consumer<StandardGuildMessageChannel> consumer = textChannel -> {
                 guildData.setGuildLogChannel(textChannel.getId());
                 dbGuild.saveAsync();
                 ctx.sendLocalized("options.logs_enable.success", EmoteReference.MEGA, textChannel.getName(), textChannel.getId());
             };
 
-            TextChannel channel = FinderUtils.findChannelSelect(ctx.getEvent(), logChannel, consumer);
+            var channel = FinderUtils.findChannelSelect(ctx.getEvent(), logChannel, consumer);
 
             if (channel != null) {
                 consumer.accept(channel);
@@ -170,13 +168,13 @@ public class ModerationOptions extends OptionHandler {
                 }
                 String channel = args[1];
 
-                Consumer<TextChannel> consumer = textChannel -> {
+                Consumer<StandardGuildMessageChannel> consumer = textChannel -> {
                     guildData.getLogExcludedChannels().remove(textChannel.getId());
                     dbGuild.saveAsync();
                     ctx.sendLocalized("options.logs_exclude.remove.success", EmoteReference.OK, textChannel.getAsMention());
                 };
 
-                TextChannel ch = FinderUtils.findChannelSelect(ctx.getEvent(), channel, consumer);
+                var ch = FinderUtils.findChannelSelect(ctx.getEvent(), channel, consumer);
 
                 if (ch != null) {
                     consumer.accept(ch);
@@ -185,13 +183,13 @@ public class ModerationOptions extends OptionHandler {
             }
 
             String channel = args[0];
-            Consumer<TextChannel> consumer = textChannel -> {
+            Consumer<StandardGuildMessageChannel> consumer = textChannel -> {
                 guildData.getLogExcludedChannels().add(textChannel.getId());
                 dbGuild.saveAsync();
                 ctx.sendLocalized("options.logs_exclude.success", EmoteReference.OK, textChannel.getAsMention());
             };
 
-            TextChannel ch = FinderUtils.findChannelSelect(ctx.getEvent(), channel, consumer);
+            var ch = FinderUtils.findChannelSelect(ctx.getEvent(), channel, consumer);
 
             if (ch != null) {
                 consumer.accept(ch);

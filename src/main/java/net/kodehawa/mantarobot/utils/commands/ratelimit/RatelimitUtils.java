@@ -76,7 +76,7 @@ public class RatelimitUtils {
                 User user;
 
                 try {
-                    var member = ctx.getGuild().retrieveMemberById(u).useCache(false).complete();
+                    var member = ctx.getGuild().retrieveMemberById(u).useCache(true).complete();
                     user = member.getUser();
                 } catch (Exception e) {
                     log.error("Got a exception while trying to fetch a user that was just spamming?", e);

@@ -144,7 +144,7 @@ public class ProfileCmd {
 
                 // start of badge assigning
                 final var mh = MantaroBot.getInstance().getShardManager().getGuildById("213468583252983809");
-                final var mhMember = mh == null ? null : mh.retrieveMemberById(memberLooked.getUser().getId()).useCache(false).complete();
+                final var mhMember = mh == null ? null : mh.retrieveMemberById(memberLooked.getUser().getId()).useCache(true).complete();
 
                 Badge.assignBadges(player, player.getStats(), dbUser);
                 var christmasBadgeAssign = inv.asList()

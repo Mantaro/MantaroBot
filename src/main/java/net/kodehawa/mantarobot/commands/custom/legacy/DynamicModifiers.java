@@ -71,7 +71,7 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
     public DynamicModifiers mapGuild(String prefix, Guild guild) {
         return this.set(prefix, guild.getName())
                 .set(prefix, "name", guild.getName())
-                .mapMember(k(prefix, "owner"), guild.retrieveOwner().useCache(false).complete())
+                .mapMember(k(prefix, "owner"), guild.retrieveOwner().useCache(true).complete())
                 .set(prefix, "totalusers", String.valueOf(guild.getMemberCount()))
                 .set(prefix, "icon", guild.getIconUrl() == null ? "https://i.imgur.com/k0V7Vnu.png" : guild.getIconUrl());
     }

@@ -755,7 +755,7 @@ public class CustomCmds {
         }
 
         var owner = command.getData().getOwner();
-        var member = owner.isEmpty() ? null : ctx.getGuild().retrieveMemberById(owner).useCache(false).complete();
+        var member = owner.isEmpty() ? null : ctx.getGuild().retrieveMemberById(owner).useCache(true).complete();
         ctx.send(new EmbedBuilder()
                 .setAuthor("Custom Command Information for " + cmd, null, ctx.getAuthor().getEffectiveAvatarUrl())
                 .setDescription(

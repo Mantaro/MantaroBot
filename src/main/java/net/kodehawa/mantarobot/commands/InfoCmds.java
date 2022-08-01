@@ -282,7 +282,7 @@ public class InfoCmds {
                     .collect(Collectors.joining(", "));
 
             // Retrieves from cache if we have it.
-            var owner = guild.retrieveOwner().useCache(false).complete();
+            var owner = guild.retrieveOwner().useCache(true).complete();
             var languageContext = ctx.getLanguageContext();
             var str = """
                         **%1$s**
