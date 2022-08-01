@@ -512,28 +512,26 @@
       "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `/custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
-      "no_permissions": "%1$sВы должны иметь права на мут или бан чтобы кикнуть пользователя.",
-      "no_mute_role": "%1$sРоли с правами на мут не установлены на этом сервере, вы можете установить используя команду: `~>opts muterole set <роль>`",
-      "null_mute_role": "%1$sНастроенной роли с правами на мут более не существует.",
+      "no_permissions": "%1$sYou need to have permission to moderate members in order to mute.",
       "no_users": "%1$sВы не указали пользователя которого нужно замутить.",
-      "no_manage_roles": "%1$sУ меня нет прав для администрирования ролей на этом сервере.",
+      "no_moderate_members": "%1$sI don't have permissions to administrate timeouts on this server.",
       "time_not_specified": "%1$sВы неправильно указали время.",
       "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute 20m @mention reason goes here`, for example.",
       "negative_time_notice": "%1$sВы не можете мутить на отрицательное количество времени (Нуууу...только если вы не волшебник, который способен согнуть пространство и время ^_^).",
       "default_time_too_long": "%1$sВы не можете указать время мута более возможного по умолчанию (Максимум: 10 дней)...",
       "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "time_too_long": "%1$sВы не можете указать время мута более возможного (Максимум: 10 дней)...",
-      "already_muted": "%1$sThis user already has a mute role assigned. Please do `/unmute` to un-mute them.",
-      "self_hierarchy_error": "%1$sЯ не могу выдать мут этому пользователю, ведь он имет больше прав чем я!",
-      "user_hierarchy_error": "%1$sЯ не могу выдать мут этому пользователю, ведь он имет больше прав чем я или его роль находится выше исходя из настроек сервера!",
-      "success": "%1$sAdded mute role to **%2$s** for %3$s",
-      "success_reason": "%1$sAdded mute role to **%2$s** for %3$s because of the following reason: %4$s"
+      "already_muted": "%1$sThis user is already muted. Please do `/unmute` to un-mute them.",
+      "self_hierarchy_error": "%1$sI cannot mute this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
+      "user_hierarchy_error": "%1$sI cannot mute this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
+      "success": "%1$sSuccessfully muted **%2$s** for %3$s",
+      "success_reason": "%1$sSuccessfully muted **%2$s** for %3$s because of the following reason: %4$s"
     },
     "unmute": {
-      "no_permissions": "%1$sНедостаточно прав для данного действия!",
+      "no_permissions": "%1$sYou need to have permission to moderate members to un-mute!",
       "no_mentions": "%1$sВы не указали пользователя с которого нужно снять мут.",
-      "success": "%1$sС пользователя **%2$s** снят мут",
-      "no_role_assigned": "%1$sУ этого пользователя нет мута."
+      "success": "%1$sSuccessfully un-muted **%2$s**",
+      "not_muted": "%1$sThis user doesn't seem to be muted."
     },
     "ping": {
       "display": [
@@ -2197,13 +2195,6 @@
     },
     "defaultmutetimeout_reset": {
       "success": "%1$sУспешный сброс тайм-аута."
-    },
-    "muterole_unbind": {
-      "success": "%1$sУспешный сброс роли мута."
-    },
-    "muterole_set": {
-      "no_role": "%1$sВам нужно указать роль, которая будет использоваться, как роль мута. Если в названии роли есть пробелы, попробуйте заключить его в кавычки.",
-      "success": "%1$sРоль мута установлена на **%2$s**"
     },
     "reset:all": {
       "success": "%1$sУспешный сброс настроек!"
