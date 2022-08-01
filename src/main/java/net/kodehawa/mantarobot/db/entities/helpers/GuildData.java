@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
  *  Mantaro is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -491,10 +491,6 @@ public class GuildData {
 
     public String getMutedRole() {
         return this.mutedRole;
-    }
-
-    public void setMutedRole(String mutedRole) {
-        this.mutedRole = mutedRole;
     }
 
     public ConcurrentHashMap<Long, Long> getMutedTimelyUsers() {
