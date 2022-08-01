@@ -70,7 +70,7 @@ public class MuteTask {
 
                             Member member = null;
                             try {
-                                member = guild.retrieveMemberById(id).useCache(false).complete();
+                                member = guild.retrieveMemberById(id).useCache(true).complete();
                             } catch (Exception ignored) { }
 
                             if (member == null) {

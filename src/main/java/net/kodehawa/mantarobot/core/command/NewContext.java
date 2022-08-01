@@ -307,7 +307,7 @@ public class NewContext {
     public Member retrieveMemberById(Guild guild, String id, boolean update) {
         Member member = null;
         try {
-            member = guild.retrieveMemberById(id).useCache(false).complete();
+            member = guild.retrieveMemberById(id).useCache(true).complete();
         } catch (Exception ignored) { }
 
         return member;

@@ -72,7 +72,7 @@ public class AudioCmdUtils {
             Member dj = null;
             if (playingTrack.getUserData() != null) {
                 try {
-                    dj = guild.retrieveMemberById(String.valueOf(playingTrack.getUserData())).useCache(false).complete();
+                    dj = guild.retrieveMemberById(String.valueOf(playingTrack.getUserData())).useCache(true).complete();
                 } catch (Exception ignored) { }
             }
 

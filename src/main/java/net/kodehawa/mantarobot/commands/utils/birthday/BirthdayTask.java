@@ -117,7 +117,7 @@ public class BirthdayTask {
                 // If we have a birthday guild and channel here, continue
                 if (guildData.getBirthdayChannel() != null && guildData.getBirthdayRole() != null) {
                     final var birthdayRole = guild.getRoleById(guildData.getBirthdayRole());
-                    final var channel = guild.getTextChannelById(guildData.getBirthdayChannel());
+                    final var channel = guild.getChannelById(StandardGuildMessageChannel.class, guildData.getBirthdayChannel());
 
                     if (channel != null && birthdayRole != null) {
                         if (!guild.getSelfMember().canInteract(birthdayRole))
@@ -166,7 +166,7 @@ public class BirthdayTask {
                             Member member;
                             try {
                                 // This is expensive!
-                                member = guild.retrieveMemberById(data.getKey()).useCache(false).complete();
+                                member = guild.retrieveMemberById(data.getKey()).useCache(true).complete();
                             } catch (Exception ex) {
                                 nullMembers.add(data.getKey());
                                 continue;
@@ -344,7 +344,7 @@ public class BirthdayTask {
         }
     }
 
-    private static Message buildBirthdayMessage(String message, TextChannel channel, Member user) {
+    private static Message buildBirthdayMessage(String message, StandardGuildMessageChannel channel, Member user) {
         MessageBuilder builder = new MessageBuilder();
         if (message.contains("$(")) {
             message = new DynamicModifiers()

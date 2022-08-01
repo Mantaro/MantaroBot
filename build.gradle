@@ -126,13 +126,15 @@ def lint = [
         "overloads",
         "overrides",
         "path",
-        //removed because of "No processor claimed any of these annotations: ..."
+        // removed because of "No processor claimed any of these annotations: ..."
         //"processing",
         "rawtypes",
         "removal",
         "requires-automatic",
         "requires-transitive-automatic",
-        "serial",
+        // removed because "non-transient instance field of a serializable class declared with a non-serializable type", believe me
+        // i know
+        //"serial",
         "static",
         "try",
         "unchecked",

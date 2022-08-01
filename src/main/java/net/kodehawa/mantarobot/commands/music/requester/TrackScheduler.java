@@ -152,7 +152,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                 if (getCurrentTrack().getUserData() != null && guild != null) {
                     // Retrieve member instead of user, so it gets cached.
                     try {
-                        user = guild.retrieveMemberById(String.valueOf(getCurrentTrack().getUserData())).useCache(false).complete();
+                        user = guild.retrieveMemberById(String.valueOf(getCurrentTrack().getUserData())).useCache(true).complete();
                     } catch (Exception ignored) {}
                 }
 

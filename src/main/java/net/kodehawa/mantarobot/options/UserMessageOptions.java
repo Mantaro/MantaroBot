@@ -1,22 +1,24 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
 package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
+import net.dv8tion.jda.api.entities.StandardGuildMessageChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.kodehawa.mantarobot.core.listeners.helpers.WelcomeUtils;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -84,7 +86,7 @@ public class UserMessageOptions extends OptionHandler {
             var guildData = dbGuild.getData();
             var channelName = args[0];
 
-            Consumer<TextChannel> consumer = tc -> {
+            Consumer<StandardGuildMessageChannel> consumer = tc -> {
                 guildData.setLogJoinChannel(tc.getId());
                 dbGuild.saveAsync();
                 ctx.sendLocalized("options.usermessage_join_channel.success", EmoteReference.OK, tc.getAsMention());
@@ -163,7 +165,7 @@ public class UserMessageOptions extends OptionHandler {
             var guildData = dbGuild.getData();
             var channelName = args[0];
 
-            Consumer<TextChannel> consumer = tc -> {
+            Consumer<StandardGuildMessageChannel> consumer = tc -> {
                 guildData.setLogLeaveChannel(tc.getId());
                 dbGuild.saveAsync();
                 ctx.sendLocalized("options.usermessage_leave_channel.success", EmoteReference.CORRECT, tc.getAsMention());
@@ -242,7 +244,7 @@ public class UserMessageOptions extends OptionHandler {
             var guildData = dbGuild.getData();
             var channelName = args[0];
 
-            Consumer<TextChannel> consumer = textChannel -> {
+            Consumer<StandardGuildMessageChannel> consumer = textChannel -> {
                 guildData.setLogJoinLeaveChannel(textChannel.getId());
                 dbGuild.save();
                 ctx.sendLocalized("options.usermessage_channel.success", EmoteReference.OK, textChannel.getAsMention());
