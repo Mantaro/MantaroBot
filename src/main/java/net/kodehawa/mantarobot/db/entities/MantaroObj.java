@@ -36,7 +36,7 @@ public class MantaroObj implements ManagedObject {
     public List<String> patreonUsers;
     private Map<String, Long> tempBans;
 
-    @ConstructorProperties({"blackListedGuilds", "blackListedUsers", "patreonUsers", "tempbans", "mutes"})
+    @ConstructorProperties({"blackListedGuilds", "blackListedUsers", "patreonUsers", "tempbans"})
     @JsonCreator
     public MantaroObj(@JsonProperty("blackListedGuilds") List<String> blackListedGuilds,
                       @JsonProperty("blackListedUsers") List<String> blackListedUsers,
