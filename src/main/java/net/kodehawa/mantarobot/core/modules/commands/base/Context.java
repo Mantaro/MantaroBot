@@ -1,17 +1,18 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
 package net.kodehawa.mantarobot.core.modules.commands.base;
@@ -19,6 +20,7 @@ package net.kodehawa.mantarobot.core.modules.commands.base;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.attribute.IAgeRestrictedChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -379,7 +381,7 @@ public class Context implements IContext {
     public Member retrieveMemberById(Guild guild, String id, boolean update) {
         Member member = null;
         try {
-            member = guild.retrieveMemberById(id, update).complete();
+            member = guild.retrieveMemberById(id).useCache(update).complete();
         } catch (Exception ignored) { }
 
         return member;
@@ -388,7 +390,7 @@ public class Context implements IContext {
     public Member retrieveMemberById(String id, boolean update) {
         Member member = null;
         try {
-            member = getGuild().retrieveMemberById(id, update).complete();
+            member = getGuild().retrieveMemberById(id).complete();
         } catch (Exception ignored) { }
 
         return member;
@@ -411,12 +413,8 @@ public class Context implements IContext {
     }
 
     public boolean isChannelNSFW() {
-        if (getChannel() instanceof BaseGuildMessageChannel txtChannel) {
+        if (getChannel() instanceof IAgeRestrictedChannel txtChannel) {
             return txtChannel.isNSFW();
-        }
-
-        if (getChannel() instanceof ThreadChannel threadChannel) {
-            return ((BaseGuildMessageChannel) threadChannel.getParentChannel()).isNSFW();
         }
 
         return true;
