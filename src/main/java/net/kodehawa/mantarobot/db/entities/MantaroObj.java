@@ -18,8 +18,10 @@ package net.kodehawa.mantarobot.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.kodehawa.mantarobot.db.ManagedObject;
+import net.kodehawa.mantarobot.utils.Pair;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
@@ -27,31 +29,34 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MantaroObj implements ManagedObject {
     public static final String DB_TABLE = "mantaro";
     public static final String id = "mantaro";
     public List<String> blackListedGuilds;
     public List<String> blackListedUsers;
     public List<String> patreonUsers;
+    private Map<Long, Pair<String, Long>> mutes;
     private Map<String, Long> tempBans;
 
-    @ConstructorProperties({"blackListedGuilds", "blackListedUsers", "patreonUsers", "tempbans"})
+    @ConstructorProperties({"blackListedGuilds", "blackListedUsers", "patreonUsers", "mutes"})
     @JsonCreator
     public MantaroObj(@JsonProperty("blackListedGuilds") List<String> blackListedGuilds,
                       @JsonProperty("blackListedUsers") List<String> blackListedUsers,
                       @JsonProperty("patreonUsers") List<String> patreonUsers,
-                      @JsonProperty("tempBans") Map<String, Long> tempBans) {
+                      @JsonProperty("mutes") Map<Long, Pair<String, Long>> mutes) {
         this.blackListedGuilds = blackListedGuilds;
         this.blackListedUsers = blackListedUsers;
         this.patreonUsers = patreonUsers;
-        this.tempBans = tempBans;
+        this.mutes = mutes;
     }
 
     public MantaroObj() { }
 
     public static MantaroObj create() {
-        return new MantaroObj(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new HashMap<>());
+        return new MantaroObj(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ConcurrentHashMap<>());
     }
 
     @Nonnull
@@ -88,6 +93,14 @@ public class MantaroObj implements ManagedObject {
 
     public void setPatreonUsers(List<String> patreonUsers) {
         this.patreonUsers = patreonUsers;
+    }
+
+    public Map<Long, Pair<String, Long>> getMutes() {
+        return this.mutes;
+    }
+
+    public void setMutes(Map<Long, Pair<String, Long>> mutes) {
+        this.mutes = mutes;
     }
 
     public Map<String, Long> getTempBans() {

@@ -239,7 +239,6 @@ public class MuteCmds {
                 }
 
                 var dbGuild = ctx.getDBGuild();
-                var guildData = dbGuild.getData();
                 var reason = "Not specified";
 
                 if (args.length > 1) {
@@ -262,7 +261,6 @@ public class MuteCmds {
                 mentionedMembers.forEach(member -> {
                     var user = member.getUser();
 
-                    guildData.getMutedTimelyUsers().remove(user.getIdLong());
                     if (!ctx.getSelfMember().canInteract(member)) {
                         ctx.sendLocalized("commands.mute.self_hierarchy_error", EmoteReference.ERROR);
                         return;

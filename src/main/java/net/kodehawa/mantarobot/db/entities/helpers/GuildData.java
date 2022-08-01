@@ -489,6 +489,10 @@ public class GuildData {
         this.musicSongDurationLimit = musicSongDurationLimit;
     }
 
+    public String getMutedRole() {
+        return this.mutedRole;
+    }
+
     public ConcurrentHashMap<Long, Long> getMutedTimelyUsers() {
         return this.mutedTimelyUsers;
     }
