@@ -1,17 +1,18 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
 package net.kodehawa.mantarobot.utils;
@@ -45,12 +46,12 @@ public class APIUtils {
                     .addHeader("Authorization", config.getApiAuthKey())
                     .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                     .post(RequestBody.create(
-                            okhttp3.MediaType.parse("application/json"),
                             new JSONObject()
                                     .put("type", type) //lowercase -> subcat in json
                                     .put("name", name) //key, will return result from type.name
-                                    .toString()
-                    ))
+                                    .toString(),
+                            okhttp3.MediaType.parse("application/json")
+                            ))
                     .build();
 
             try(var response = httpClient.newCall(request).execute()) {
@@ -98,11 +99,11 @@ public class APIUtils {
                     .addHeader("Authorization", config.getApiAuthKey())
                     .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                     .post(RequestBody.create(
-                            okhttp3.MediaType.parse("application/json"),
                             new JSONObject()
                                     .put("id", user)
                                     .put("context", config.isPremiumBot())
-                                    .toString()
+                                    .toString(),
+                            okhttp3.MediaType.parse("application/json")
                     ))
                     .build();
 

@@ -1,17 +1,18 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
 package net.kodehawa.mantarobot.commands;
@@ -207,6 +208,7 @@ public class WaifuCmd {
 
                 var message = ctx.sendResult(ctx.getLanguageContext().get("commands.waifu.optout.warning").formatted(EmoteReference.WARNING));
                 ButtonOperations.create(message, 60, e -> {
+                    final var playerFinal = ctx.getPlayer();
                     if (!e.getUser().getId().equals(ctx.getAuthor().getId())) {
                         return Operation.IGNORED;
                     }
@@ -217,9 +219,9 @@ public class WaifuCmd {
                     final var button = e.getButton().getId();
 
                     if (button.equals("yes")) {
-                        player.getData().setWaifuout(true);
+                        playerFinal.getData().setWaifuout(true);
                         ctx.edit("commands.waifu.optout.success", EmoteReference.CORRECT);
-                        player.saveUpdating();
+                        playerFinal.saveUpdating();
                         return Operation.COMPLETED;
                     } else if (button.equals("no")) {
                         ctx.edit("commands.waifu.optout.cancelled", EmoteReference.CORRECT);
