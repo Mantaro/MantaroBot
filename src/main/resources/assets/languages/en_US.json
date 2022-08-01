@@ -513,10 +513,8 @@
     },
     "mute": {
       "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
-      "no_mute_role": "%1$sThe mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`",
-      "null_mute_role": "%1$sThe previously configured mute role on this server is now non-existent.",
       "no_users": "%1$sYou need to give me an user to mute.",
-      "no_manage_roles": "%1$sI don't have permissions to administrate roles on this server.",
+      "no_moderate_members": "%1$sI don't have permissions to administrate timeouts on this server.",
       "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
       "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute 20m @mention reason goes here`, for example.",
       "negative_time_notice": "%1$sYou cannot mute someone for negative time. Unless you can bend space-time that is.",
@@ -533,7 +531,7 @@
       "no_permissions": "%1$sYou need to have either ban or kick members permission to un-mute!",
       "no_mentions": "%1$sYou need to mention at least one user to un-mute.",
       "success": "%1$sRemoved mute role from **%2$s**",
-      "no_role_assigned": "%1$sThis user doesn't have the mute role assigned to them."
+      "not_muted": "%1$sThis user doesn't seem to be muted."
     },
     "ping": {
       "display": [

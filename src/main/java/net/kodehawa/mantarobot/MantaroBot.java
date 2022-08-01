@@ -30,7 +30,6 @@ import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.MiscUtil;
 import net.kodehawa.lib.imageboards.ImageBoard;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
-import net.kodehawa.mantarobot.commands.moderation.MuteTask;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
@@ -45,7 +44,6 @@ import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.TracingPrintStream;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
-import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -279,12 +277,6 @@ public class MantaroBot {
             );
             reminderExecutor.scheduleAtFixedRate(ReminderTask::handle, 0, 30, TimeUnit.SECONDS);
         }
-
-        // Handle the removal of mutes.
-        ScheduledExecutorService muteExecutor = Executors.newSingleThreadScheduledExecutor(
-                new ThreadFactoryBuilder().setNameFormat("Mantaro Mute Task").build()
-        );
-        muteExecutor.scheduleAtFixedRate(MuteTask::handle, 0, 1, TimeUnit.MINUTES);
 
         // Yes, this is needed.
         ScheduledExecutorService ratelimitMapExecutor = Executors.newSingleThreadScheduledExecutor(
