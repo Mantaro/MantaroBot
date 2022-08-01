@@ -512,7 +512,7 @@
       "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `/custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
-      "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
+      "no_permissions": "%1$sYou need to have permission to moderate members in order to mute.",
       "no_users": "%1$sYou need to give me an user to mute.",
       "no_moderate_members": "%1$sI don't have permissions to administrate timeouts on this server.",
       "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
@@ -528,7 +528,7 @@
       "success_reason": "%1$sAdded mute role to **%2$s** for %3$s because of the following reason: %4$s"
     },
     "unmute": {
-      "no_permissions": "%1$sYou need to have either ban or kick members permission to un-mute!",
+      "no_permissions": "%1$sYou need to have permission to moderate members to un-mute!",
       "no_mentions": "%1$sYou need to mention at least one user to un-mute.",
       "success": "%1$sRemoved mute role from **%2$s**",
       "not_muted": "%1$sThis user doesn't seem to be muted."

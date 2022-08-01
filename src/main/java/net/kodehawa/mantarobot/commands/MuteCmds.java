@@ -55,7 +55,7 @@ public class MuteCmds {
                     return;
                 }
 
-                if (!(ctx.getMember().hasPermission(Permission.KICK_MEMBERS) || ctx.getMember().hasPermission(Permission.BAN_MEMBERS))) {
+                if (!ctx.getMember().hasPermission(Permission.MODERATE_MEMBERS)) {
                     ctx.sendLocalized("commands.mute.no_permissions", EmoteReference.ERROR);
                     return;
                 }
@@ -233,7 +233,7 @@ public class MuteCmds {
         commandRegistry.register("unmute", new SimpleCommand(CommandCategory.MODERATION) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                if (!ctx.getMember().hasPermission(Permission.KICK_MEMBERS) || !ctx.getMember().hasPermission(Permission.KICK_MEMBERS)) {
+                if (!ctx.getMember().hasPermission(Permission.MODERATE_MEMBERS)) {
                     ctx.sendLocalized("commands.unmute.no_permissions", EmoteReference.ERROR);
                     return;
                 }
