@@ -512,25 +512,25 @@
       "locked_command": "%1$sVocê não pode editar ou remover esse comando enquanto estiver bloqueado, por favor use `/custom unlockcommand <command name>` pra desbloquear."
     },
     "mute": {
-      "no_permissions": "%1$sYou need to have permission to moderate members in order to mute.",
+      "no_permissions": "%1$sVocê tem que ter a permissão de moderar membros pra mutar.",
       "no_users": "%1$sVocê tem que me dar um usuário para silenciar.",
-      "no_moderate_members": "%1$sI don't have permissions to administrate timeouts on this server.",
+      "no_moderate_members": "%1$sEu não tenho permissão pra administrar castigos nesse servidor.",
       "time_not_specified": "%1$sVocê queria um tempo mas não especificou quanto.",
       "time_not_specified_generic": "%1$sVocê não especificou o tempo. Por exemplo, se você quer silenciar por 20 minutos você tem que fazer `/mute 20m @menção o motivo vai aqui`, por exemplo.",
       "negative_time_notice": "%1$sVocê não pode silenciar alguém por tempo negativo. A menos que você possa dobrar o espaço-tempo que aí assim.",
       "default_time_too_long": "%1$sO tempo atual de silenciado é muito longo (Máximo: 10 dias)...",
       "time_too_little": "%1$sO tamanho do tempo de mute especificado é menor que 10 segundos.\nVocê tem certeza de que usou o formato certo? Para 20 minutos, use 20m, para 1 hora, use 1h, ou qualquer combinação de ambos (1h45m) por exemplo.",
       "time_too_long": "%1$sO tempo de silenciado especificado é muito longo (Máximo: 10 dias)...",
-      "already_muted": "%1$sThis user is already muted. Please do `/unmute` to un-mute them.",
-      "self_hierarchy_error": "%1$sI cannot mute this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
-      "user_hierarchy_error": "%1$sI cannot mute this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
-      "success": "%1$sSuccessfully muted **%2$s** for %3$s",
-      "success_reason": "%1$sSuccessfully muted **%2$s** for %3$s because of the following reason: %4$s"
+      "already_muted": "%1$sEsse usuário já está mutado. Por favor use `/unmute´ pra desmutar.",
+      "self_hierarchy_error": "%1$sEu não posso mutar esse usuário por que ele tem uma hierarquia maior que eu, ou o cargo está em uma hierarquia maior!",
+      "user_hierarchy_error": "%1$sEu não posso mutar esse usuário por que ele tem uma hierarquia maior que eu, ou o cargo está em uma hierarquia maior que você!",
+      "success": "%1$s**%2$s** foi mutado com sucesso por %3$s",
+      "success_reason": "%1$s**%2$s** foi mutado com sucesso por %3$s pela seguinte razão: %4$s"
     },
     "unmute": {
-      "no_permissions": "%1$sYou need to have permission to moderate members to un-mute!",
+      "no_permissions": "%1$sVocê tem que ter a permissão de moderar membros pra desmutar!",
       "no_mentions": "%1$sVocê precisa mencionar pelo menos um usuário para reativar.",
-      "success": "%1$sSuccessfully un-muted **%2$s**",
+      "success": "%1$s**%2$s** foi desmutado com sucesso",
       "not_muted": "%1$sThis user doesn't seem to be muted."
     },
     "ping": {
