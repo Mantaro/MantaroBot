@@ -56,7 +56,7 @@ public class InfoCmds {
         cr.registerSlash(Info.class);
     }
 
-    @Name("botinfo")
+    @Name("mantaro")
     @Description("Shows useful bot information (not statistics).")
     @Category(CommandCategory.INFO)
     @Help(description = "Shows useful bot information.")
