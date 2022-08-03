@@ -138,7 +138,7 @@
   "commands": {
     "slash": {
       "title": "Transition vers les commandes \"slash\"",
-      "description_alias": "%1$s**La commande que tu essaies d'utiliser est devenue une \"commande slash\".** Essaie de la lancer avec / comme préfixe. **Cette commande était un alias**. Essaie de lancer l'originale.\n\nLes commandes slash deviennent le nouveau moyen d'utiliser les commandes selon la ligne de conduite de Discord. **Les commandes fonctionnant toujours avec le préfixe deviendront des commandes slash uniquement**\nLes alias ont été retirées pour laisser place aux commandes slash puisqu'il n'y a pas assez de place pour les ajouter (Discord nous donne un maximum de 100 commandes).",
+      "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description": "%1$s**La commande que tu essaies d'utiliser est devenue une \"commande slash\".** Essaie de la lancer avec / comme préfixe. \n\nLes commandes slash deviennent le nouveau moyen d'utiliser les commandes selon la ligne de conduite de Discord. **Les commandes fonctionnant toujours avec le préfixe deviendront des commandes slash uniquement**\nLes alias ont été retirées pour laisser place aux commandes slash puisqu'il n'y a pas assez de place pour les ajouter (Discord nous donne un maximum de 100 commandes).",
       "description_image": "Pour lancer une commande slash, pour certaines commandes d'images, essaie de l'utiliser avec `/image` comme préfixe au lieu de celui que tu utilises. Par exemple, `/catgirl` devient `/image catgirl`. Tu ne dois pas faire ça pour les commandes recherchant dans les banques d'images.\n\nSi tu ne vois pas les commandes slash, re-invite le bot en utilisant le lien d'invitation disponible sur https://add.mantaro.site",
       "description_2": "Pour lancer une commande slash, essaie de l'utiliser avec `/` comme préfixe au lieu de celui que tu utilises. Par exemple, `/ping` devient `/ping` (et appuie sur tab)\n\nSi tu ne vois pas les commandes slash, re-invite le bot en utilisant le lien d'invitation disponible sur https://add.mantaro.site"
@@ -1623,7 +1623,8 @@
       "help_header": "Commande d'aide pour %s",
       "options": "Options",
       "usage": "Utilisation",
-      "optional": "(Ceci est optionnel)"
+      "optional": "(Ceci est optionnel)",
+      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help cast item`.\nThis goes for all subcommands, as long as they have some sort of help."
     },
     "repair": {
       "no_item": "%1$sTu n'as spécifié aucun objet à réparer. Si tu penses avoir mentionné le bon objet, essaie avec son nom complet.",
