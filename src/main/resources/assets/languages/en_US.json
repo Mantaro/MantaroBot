@@ -30,7 +30,7 @@
     "dust": "There's only dust here.",
     "invalid_syntax": "Invalid syntax.",
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
-    "member_lookup_failure": "%1%sCannot find any member with that name :(",
+    "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "item_lookup": {
       "no_item_emoji": "There isn't an item associated with this emoji.",
       "no_item_name": "There isn't an item associated with this name.",
