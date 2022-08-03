@@ -29,11 +29,19 @@ import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.data.I18n;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import org.json.JSONObject;
+import redis.clients.jedis.Jedis;
 
 import java.awt.*;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -45,12 +53,10 @@ public class InfoCmds {
     public void register(CommandRegistry cr) {
         cr.registerSlash(Information.class);
         cr.registerSlash(Avatar.class);
-        cr.registerSlash(UserInfo.class);
-        cr.registerSlash(ServerInfo.class);
-        cr.registerSlash(RoleInfo.class);
+        cr.registerSlash(Info.class);
     }
 
-    @Name("information")
+    @Name("botinfo")
     @Description("Shows useful bot information (not statistics).")
     @Category(CommandCategory.INFO)
     @Help(description = "Shows useful bot information.")
@@ -164,9 +170,83 @@ public class InfoCmds {
                 );
             }
         }
+
+        @Name("shardlist")
+        @Description("Returns information about shards.")
+        @Help(description = "Returns information about shards.")
+        public static class ShardInfo extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                ctx.deferEphemeral();
+                StringBuilder builder = new StringBuilder();
+                Map<String, String> stats;
+
+                try(Jedis jedis = ctx.getJedisPool().getResource()) {
+                    stats = jedis.hgetAll("shardstats-" + ctx.getConfig().getClientId());
+                }
+
+                //id, shard_status, cached_users, guild_count, last_ping_diff, gateway_ping
+                stats.entrySet().stream().sorted(
+                        Comparator.comparingInt(e -> Integer.parseInt(e.getKey()))
+                ).forEach(shard -> {
+                    var jsonData = new JSONObject(shard.getValue());
+                    var shardId = Integer.parseInt(shard.getKey());
+
+                    builder.append("%-7s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s".formatted(
+                            shardId + " / " + ctx.getBot().getShardManager().getShardsTotal(),
+                            jsonData.getString("shard_status"),
+                            jsonData.getLong("cached_users"),
+                            jsonData.getLong("guild_count"),
+                            jsonData.getLong("last_ping_diff") + " ms",
+                            jsonData.getLong("gateway_ping")
+                    ));
+
+                    if (shardId == ctx.getJDA().getShardInfo().getShardId()) {
+                        builder.append(" <- CURRENT");
+                    }
+
+                    builder.append("\n");
+                });
+
+                List<String> m = DiscordUtils.divideString(builder);
+                List<String> messages = new LinkedList<>();
+
+                for (String shard : m) {
+                    messages.add("%s\n\n```prolog\n%s```"
+                            .formatted("**Mantaro's Shard Information**", shard)
+                    );
+                }
+
+                ctx.replyEphemeralRaw("Building list...");
+                DiscordUtils.listButtons(ctx.getUtilsContext(), 150, messages);
+            }
+        }
+
+        @Name("shard")
+        @Description("Returns in what shard I am.")
+        @Help(description = "Returns in what shard I am.")
+        public static class Shard extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                long nodeAmount;
+                try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
+                    nodeAmount = jedis.hlen("node-stats-" + ctx.getConfig().getClientId());
+                }
+
+                final var jda = ctx.getJDA();
+                final var guildCache = jda.getGuildCache();
+
+                ctx.replyEphemeral("commands.shard.info",
+                        jda.getShardInfo().getShardId(),
+                        ctx.getBot().getShardManager().getShardsTotal(),
+                        ctx.getBot().getNodeNumber(), nodeAmount,
+                        guildCache.size(), jda.getUserCache().size(),
+                        guildCache.stream().mapToLong(guild -> guild.getMemberCache().size()).sum()
+                );
+            }
+        }
     }
 
-    @Name("avatar")
     @Description("Get a user's avatar URL.")
     @Category(CommandCategory.INFO)
     @Options({
@@ -199,32 +279,38 @@ public class InfoCmds {
         }
     }
 
-    @Name("userinfo")
-    @Description("See information about specific users.")
+    @Description("The hub for info related commands.")
     @Category(CommandCategory.INFO)
-    @Help(description = "See information about specific users.", usage = "`/userinfo [user]`", parameters = {
-            @Help.Parameter(name = "user", description = "The user you want to look.", optional = true)
-    })
-    @Options({
-            @Options.Option(type = OptionType.USER, name = "user", description = "The user to see the information of.")
-    })
-    public static class UserInfo extends SlashCommand {
+    @Help(description = "The hub for (user/role/server) info related commands.")
+    public static class Info extends SlashCommand {
         @Override
-        protected void process(SlashContext ctx) {
-            var user = ctx.getOptionAsUser("user");
-            if (user == null)
-                user = ctx.getAuthor();
+        protected void process(SlashContext ctx) {}
 
-            var guildData = ctx.getDBGuild().getData();
-            var member = ctx.getGuild().getMember(user);
+        @Name("user")
+        @Description("See information about specific users.")
+        @Help(description = "See information about specific users.", usage = "`/userinfo [user]`", parameters = {
+                @Help.Parameter(name = "user", description = "The user you want to look.", optional = true)
+        })
+        @Options({
+                @Options.Option(type = OptionType.USER, name = "user", description = "The user to see the information of.")
+        })
+        public static class UserInfo extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                var user = ctx.getOptionAsUser("user");
+                if (user == null)
+                    user = ctx.getAuthor();
 
-            var roles = member.getRoles().stream()
-                    .map(Role::getName)
-                    .collect(Collectors.joining(", "));
+                var guildData = ctx.getDBGuild().getData();
+                var member = ctx.getGuild().getMember(user);
 
-            var languageContext = ctx.getLanguageContext();
-            var voiceState = member.getVoiceState();
-            var str = """
+                var roles = member.getRoles().stream()
+                        .map(Role::getName)
+                        .collect(Collectors.joining(", "));
+
+                var languageContext = ctx.getLanguageContext();
+                var voiceState = member.getVoiceState();
+                var str = """
                             %1$s **%2$s:** %3$s
                             %1$s **%4$s:** %5$s
                             %1$s **%6$s:** %7$s
@@ -232,139 +318,138 @@ public class InfoCmds {
                             %1$s **%10$s:** %11$s
                             %1$s **%12$s:** %13$s
                             """.formatted(BLUE_SMALL_MARKER,
-                    languageContext.get("commands.userinfo.id"), user.getId(),
-                    languageContext.get("commands.userinfo.join_date"),
-                    Utils.formatDate(member.getTimeJoined(), guildData.getLang()),
-                    languageContext.get("commands.userinfo.created"),
-                    Utils.formatDate(user.getTimeCreated(), guildData.getLang()),
-                    languageContext.get("commands.userinfo.account_age"),
-                    TimeUnit.MILLISECONDS.toDays(
-                            System.currentTimeMillis() - user.getTimeCreated().toInstant().toEpochMilli())
-                            + " " + languageContext.get("general.days"),
-                    languageContext.get("commands.userinfo.vc"),
-                    voiceState != null && voiceState.getChannel() != null ?
-                            voiceState.getChannel().getName() : languageContext.get("general.none"),
-                    languageContext.get("commands.userinfo.color"),
-                    member.getColor() == null ? languageContext.get("commands.userinfo.default") :
-                            "#%s".formatted(Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase())
-            );
+                        languageContext.get("commands.userinfo.id"), user.getId(),
+                        languageContext.get("commands.userinfo.join_date"),
+                        Utils.formatDate(member.getTimeJoined(), guildData.getLang()),
+                        languageContext.get("commands.userinfo.created"),
+                        Utils.formatDate(user.getTimeCreated(), guildData.getLang()),
+                        languageContext.get("commands.userinfo.account_age"),
+                        TimeUnit.MILLISECONDS.toDays(
+                                System.currentTimeMillis() - user.getTimeCreated().toInstant().toEpochMilli())
+                                + " " + languageContext.get("general.days"),
+                        languageContext.get("commands.userinfo.vc"),
+                        voiceState != null && voiceState.getChannel() != null ?
+                                voiceState.getChannel().getName() : languageContext.get("general.none"),
+                        languageContext.get("commands.userinfo.color"),
+                        member.getColor() == null ? languageContext.get("commands.userinfo.default") :
+                                "#%s".formatted(Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase())
+                );
 
-            ctx.reply(new EmbedBuilder()
-                    .setColor(ctx.getMemberColor())
-                    .setAuthor(
-                            languageContext.get("commands.userinfo.header")
-                                    .formatted( user.getName(), user.getDiscriminator()),
-                            null, ctx.getAuthor().getEffectiveAvatarUrl()
-                    )
-                    .setThumbnail(user.getEffectiveAvatarUrl())
-                    .setDescription(str)
-                    .addField(
-                            languageContext.get("commands.userinfo.roles").formatted(member.getRoles().size()),
-                            StringUtils.limit(roles, 900), true
-                    ).build()
-            );
+                ctx.reply(new EmbedBuilder()
+                        .setColor(ctx.getMemberColor())
+                        .setAuthor(
+                                languageContext.get("commands.userinfo.header")
+                                        .formatted( user.getName(), user.getDiscriminator()),
+                                null, ctx.getAuthor().getEffectiveAvatarUrl()
+                        )
+                        .setThumbnail(user.getEffectiveAvatarUrl())
+                        .setDescription(str)
+                        .addField(
+                                languageContext.get("commands.userinfo.roles").formatted(member.getRoles().size()),
+                                StringUtils.limit(roles, 900), true
+                        ).build()
+                );
+            }
         }
-    }
 
-    @Name("serverinfo")
-    @Description("See your server's current stats.")
-    @Category(CommandCategory.INFO)
-    @Help(description = "See your server's current stats.")
-    public static class ServerInfo extends SlashCommand {
-        @Override
-        protected void process(SlashContext ctx) {
-            var guild = ctx.getGuild();
-            var guildData = ctx.getDBGuild().getData();
+        @Name("server")
+        @Description("See your server's current stats.")
+        @Help(description = "See your server's current stats.")
+        public static class ServerInfo extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                var guild = ctx.getGuild();
+                var guildData = ctx.getDBGuild().getData();
 
-            var roles = guild.getRoles().stream()
-                    .filter(role -> !guild.getPublicRole().equals(role))
-                    .map(Role::getName)
-                    .collect(Collectors.joining(", "));
+                var roles = guild.getRoles().stream()
+                        .filter(role -> !guild.getPublicRole().equals(role))
+                        .map(Role::getName)
+                        .collect(Collectors.joining(", "));
 
-            // Retrieves from cache if we have it.
-            var owner = guild.retrieveOwner().useCache(true).complete();
-            var languageContext = ctx.getLanguageContext();
-            var str = """
+                // Retrieves from cache if we have it.
+                var owner = guild.retrieveOwner().useCache(true).complete();
+                var languageContext = ctx.getLanguageContext();
+                var str = """
                         **%1$s**
                         %2$s **%3$s:** %4$s
                         %2$s **%5$s:** %6$s
                         %2$s **%7$s:** %8$s
                         %2$s **%9$s:** %10$s
                         """.formatted(languageContext.get("commands.serverinfo.description").formatted(guild.getName()),
-                    BLUE_SMALL_MARKER,
-                    languageContext.get("commands.serverinfo.users"),
-                    guild.getMemberCount(),
-                    languageContext.get("commands.serverinfo.channels"),
-                    "%,d / %,d".formatted(guild.getVoiceChannels().size(), guild.getTextChannels().size()),
-                    languageContext.get("commands.serverinfo.owner"),
-                    owner.getUser().getAsTag(),
-                    languageContext.get("commands.serverinfo.created"),
-                    Utils.formatDate(guild.getTimeCreated(), guildData.getLang())
-            );
+                        BLUE_SMALL_MARKER,
+                        languageContext.get("commands.serverinfo.users"),
+                        guild.getMemberCount(),
+                        languageContext.get("commands.serverinfo.channels"),
+                        "%,d / %,d".formatted(guild.getVoiceChannels().size(), guild.getTextChannels().size()),
+                        languageContext.get("commands.serverinfo.owner"),
+                        owner.getUser().getAsTag(),
+                        languageContext.get("commands.serverinfo.created"),
+                        Utils.formatDate(guild.getTimeCreated(), guildData.getLang())
+                );
 
-            ctx.reply(new EmbedBuilder()
-                    .setAuthor(languageContext.get("commands.serverinfo.header"), null, guild.getIconUrl())
-                    .setColor(ctx.getMemberColor(owner))
-                    .setDescription(str)
-                    .setThumbnail(guild.getIconUrl())
-                    .addField(
-                            languageContext.get("commands.serverinfo.roles").formatted(guild.getRoles().size()),
-                            StringUtils.limit(roles, 500), false
-                    )
-                    .setFooter(languageContext.get("commands.serverinfo.id_show").formatted(guild.getId()), null)
-                    .build()
-            );
+                ctx.reply(new EmbedBuilder()
+                        .setAuthor(languageContext.get("commands.serverinfo.header"), null, guild.getIconUrl())
+                        .setColor(ctx.getMemberColor(owner))
+                        .setDescription(str)
+                        .setThumbnail(guild.getIconUrl())
+                        .addField(
+                                languageContext.get("commands.serverinfo.roles").formatted(guild.getRoles().size()),
+                                StringUtils.limit(roles, 500), false
+                        )
+                        .setFooter(languageContext.get("commands.serverinfo.id_show").formatted(guild.getId()), null)
+                        .build()
+                );
+            }
         }
-    }
 
-    @Name("roleinfo")
-    @Description("See information about a role.")
-    @Category(CommandCategory.INFO)
-    @Help(description = "See information about a role.", usage = "`/roleinfo <role>`", parameters = {
-            @Help.Parameter(name = "role", description = "The role you want to see the information of.")
-    })
-    @Options({
-            @Options.Option(type = OptionType.ROLE, name = "role", description = "The role to see the information of.")
-    })
-    public static class RoleInfo extends SlashCommand {
-        @Override
-        protected void process(SlashContext ctx) {
-            var role = ctx.getOptionAsRole("role");
-            var lang = ctx.getLanguageContext();
-            var str = """
+        @Name("role")
+        @Description("See information about a role.")
+        @Help(description = "See information about a role.", usage = "`/roleinfo <role>`", parameters = {
+                @Help.Parameter(name = "role", description = "The role you want to see the information of.")
+        })
+        @Options({
+                @Options.Option(type = OptionType.ROLE, name = "role", description = "The role to see the information of.")
+        })
+        public static class RoleInfo extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                var role = ctx.getOptionAsRole("role");
+                var lang = ctx.getLanguageContext();
+                var str = """
                         %1$s **%2$s:** %3$s
                         %1$s **%4$s:** %5$s
                         %1$s **%6$s:** %7$s
                         %1$s **%8$s:** %9$s
                         %1$s **%10$s:** %11$s
                         """.formatted(BLUE_SMALL_MARKER,
-                    lang.get("commands.roleinfo.id"),
-                    role.getId(),
-                    lang.get("commands.roleinfo.created"),
-                    Utils.formatDate(role.getTimeCreated(), ctx.getDBGuild().getData().getLang()),
-                    lang.get("commands.roleinfo.color"),
-                    role.getColor() == null ?
-                            lang.get("general.none") :
-                            "#%s".formatted(Integer.toHexString(role.getColor().getRGB()).substring(2)),
-                    lang.get("commands.roleinfo.position"), role.getPosition(),
-                    lang.get("commands.roleinfo.hoisted"), role.isHoisted()
-            );
+                        lang.get("commands.roleinfo.id"),
+                        role.getId(),
+                        lang.get("commands.roleinfo.created"),
+                        Utils.formatDate(role.getTimeCreated(), ctx.getDBGuild().getData().getLang()),
+                        lang.get("commands.roleinfo.color"),
+                        role.getColor() == null ?
+                                lang.get("general.none") :
+                                "#%s".formatted(Integer.toHexString(role.getColor().getRGB()).substring(2)),
+                        lang.get("commands.roleinfo.position"), role.getPosition(),
+                        lang.get("commands.roleinfo.hoisted"), role.isHoisted()
+                );
 
-            ctx.reply(new EmbedBuilder()
-                    .setColor(ctx.getMember().getColor())
-                    .setAuthor(lang.get("commands.roleinfo.header").formatted(role.getName()),
-                            null, ctx.getGuild().getIconUrl()
-                    )
-                    .setDescription(str)
-                    .addField(lang.get("commands.roleinfo.permissions").formatted(role.getPermissions().size()),
-                            role.getPermissions().size() == 0 ? lang.get("general.none") :
-                                    role.getPermissions()
-                                            .stream()
-                                            .map(Permission::getName)
-                                            .collect(Collectors.joining(", ")) + ".",
-                            false
-                    ).build()
-            );
+                ctx.reply(new EmbedBuilder()
+                        .setColor(ctx.getMember().getColor())
+                        .setAuthor(lang.get("commands.roleinfo.header").formatted(role.getName()),
+                                null, ctx.getGuild().getIconUrl()
+                        )
+                        .setDescription(str)
+                        .addField(lang.get("commands.roleinfo.permissions").formatted(role.getPermissions().size()),
+                                role.getPermissions().size() == 0 ? lang.get("general.none") :
+                                        role.getPermissions()
+                                                .stream()
+                                                .map(Permission::getName)
+                                                .collect(Collectors.joining(", ")) + ".",
+                                false
+                        ).build()
+                );
+            }
         }
     }
 }

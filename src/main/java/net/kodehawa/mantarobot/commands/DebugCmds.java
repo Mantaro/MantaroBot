@@ -1,17 +1,18 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
 package net.kodehawa.mantarobot.commands;
@@ -23,7 +24,10 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.meta.*;
+import net.kodehawa.mantarobot.core.command.meta.Category;
+import net.kodehawa.mantarobot.core.command.meta.Description;
+import net.kodehawa.mantarobot.core.command.meta.Help;
+import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
@@ -35,7 +39,6 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Utils;
-import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
@@ -44,10 +47,7 @@ import org.json.JSONObject;
 import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
-import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
@@ -57,9 +57,7 @@ public class DebugCmds {
     @Subscribe
     public void register(CommandRegistry cr) {
         cr.registerSlash(Ping.class);
-        cr.registerSlash(ShardInfo.class);
         cr.registerSlash(Stats.class);
-        cr.registerSlash(Shard.class);
     }
 
     @Name("stats")
@@ -164,31 +162,6 @@ public class DebugCmds {
         }
     }
 
-    @Name("shard")
-    @Description("Returns in what shard I am.")
-    @Category(CommandCategory.INFO)
-    @Help(description = "Returns in what shard I am.")
-    public static class Shard extends SlashCommand {
-        @Override
-        protected void process(SlashContext ctx) {
-            long nodeAmount;
-            try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
-                nodeAmount = jedis.hlen("node-stats-" + ctx.getConfig().getClientId());
-            }
-
-            final var jda = ctx.getJDA();
-            final var guildCache = jda.getGuildCache();
-
-            ctx.reply("commands.shard.info",
-                    jda.getShardInfo().getShardId(),
-                    ctx.getBot().getShardManager().getShardsTotal(),
-                    ctx.getBot().getNodeNumber(), nodeAmount,
-                    guildCache.size(), jda.getUserCache().size(),
-                    guildCache.stream().mapToLong(guild -> guild.getMemberCache().size()).sum()
-            );
-        }
-    }
-
     @Name("ping")
     @Description("Checks the response time of the bot.")
     @Category(CommandCategory.INFO)
@@ -222,57 +195,6 @@ public class DebugCmds {
                         )
                 ).queue();
             });
-        }
-    }
-
-    @Name("shardinfo")
-    @Category(CommandCategory.INFO)
-    @Description("Returns information about shards.")
-    @Help(description = "Returns information about shards.")
-    public static class ShardInfo extends SlashCommand {
-        @Override
-        protected void process(SlashContext ctx) {
-            StringBuilder builder = new StringBuilder();
-            Map<String, String> stats;
-
-            try(Jedis jedis = ctx.getJedisPool().getResource()) {
-                stats = jedis.hgetAll("shardstats-" + ctx.getConfig().getClientId());
-            }
-
-            //id, shard_status, cached_users, guild_count, last_ping_diff, gateway_ping
-            stats.entrySet().stream().sorted(
-                    Comparator.comparingInt(e -> Integer.parseInt(e.getKey()))
-            ).forEach(shard -> {
-                var jsonData = new JSONObject(shard.getValue());
-                var shardId = Integer.parseInt(shard.getKey());
-
-                builder.append("%-7s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s".formatted(
-                        shardId + " / " + ctx.getBot().getShardManager().getShardsTotal(),
-                        jsonData.getString("shard_status"),
-                        jsonData.getLong("cached_users"),
-                        jsonData.getLong("guild_count"),
-                        jsonData.getLong("last_ping_diff") + " ms",
-                        jsonData.getLong("gateway_ping")
-                ));
-
-                if (shardId == ctx.getJDA().getShardInfo().getShardId()) {
-                    builder.append(" <- CURRENT");
-                }
-
-                builder.append("\n");
-            });
-
-            List<String> m = DiscordUtils.divideString(builder);
-            List<String> messages = new LinkedList<>();
-
-            for (String shard : m) {
-                messages.add("%s\n\n```prolog\n%s```"
-                        .formatted("**Mantaro's Shard Information**", shard)
-                );
-            }
-
-            ctx.reply("Building list...");
-            DiscordUtils.listButtons(ctx.getUtilsContext(), 150, messages);
         }
     }
 

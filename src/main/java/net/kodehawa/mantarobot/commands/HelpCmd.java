@@ -552,13 +552,47 @@ public class HelpCmd {
     // Transitional command.
     @Subscribe
     public void slash(CommandRegistry cr) {
+        // old, squished
+        String[][] squishPairs = {
+                {"bloodsuck", "action bloodsuck"},
+                {"teehee", "action teehee"},
+                {"nom", "action nom"},
+                {"smile", "action smile"},
+                {"facedesk", "action facedesk"},
+                {"lewd", "action lewd"},
+                {"bite", "action bite"},
+                {"blush", "action blush"},
+                {"stare", "action stare"},
+                {"holdhands", "action holdhands"},
+                {"nuzzle", "action nuzzle"},
+                {"cat", "image cat"},
+                {"dog", "image dog"},
+                {"catgirl", "image catgirl"},
+                {"cast", "cast item"},
+                {"lang", "botinfo language"},
+                {"invite", "botinfo invite"},
+                {"support", "botinfo support"},
+                {"donate", "botinfo donate"},
+                {"shard", "botinfo shard"},
+                {"shardinfo", "botinfo shardlist"},
+                {"userinfo", "info user"},
+                {"serverinfo", "info server"},
+                {"roleinfo", "info role"},
+        };
+
+        // Some commands had to be squished into subcommands.
+        Map<String, String> squish = Utils.toMap(squishPairs);
+
         cr.register("slash", new SimpleCommand(CommandCategory.HIDDEN) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 I18nContext i18nContext = ctx.getLanguageContext();
                 var builder = new EmbedBuilder();
+                var squished = squish.get(ctx.getCommandName());
+
                 builder.setAuthor(i18nContext.get("commands.slash.title"))
-                        .setDescription(i18nContext.get("commands.slash.description").formatted(EmoteReference.WARNING) + "\n" +
+                        .setDescription(i18nContext.get("commands.slash.description")
+                                .formatted(EmoteReference.WARNING, squished != null ? squished : ctx.getCommandName()) + "\n" +
                                 i18nContext.get("commands.slash.description_2")
                         )
                         .setColor(Color.PINK)
@@ -592,7 +626,7 @@ public class HelpCmd {
     public void slashalias(CommandRegistry cr) {
         // alias, real
         String[][] aliasPairs = {
-                {"guildinfo", "serverinfo"},
+                {"guildinfo", "info server"},
                 {"me", "profile"},
                 {"badge", "badges"},
                 {"vipstatus", "premium"},
