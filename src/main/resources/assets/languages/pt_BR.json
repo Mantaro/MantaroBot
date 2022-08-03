@@ -531,7 +531,7 @@
       "no_permissions": "%1$sVocê tem que ter a permissão de moderar membros pra desmutar!",
       "no_mentions": "%1$sVocê precisa mencionar pelo menos um usuário para reativar.",
       "success": "%1$s**%2$s** foi desmutado com sucesso",
-      "not_muted": "%1$sThis user doesn't seem to be muted."
+      "not_muted": "%1$sEsse usuário não parece estar mutado."
     },
     "ping": {
       "display": [
