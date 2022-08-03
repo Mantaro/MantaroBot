@@ -138,7 +138,7 @@
   "commands": {
     "slash": {
       "title": "Slash opdracht overgangen",
-      "description_alias": "%1$s**De opdracht die u probeert uit te voeren is verplaatst naar alleen Slash opdrachten.** Probeer deze uit te voeren met / als prefix. **deze opdracht was een alias**. Probeer de originele opdracht uit te voeren.\n\nSlash opdrachten zijn de nieuwe manier om opdrachten te gebruiken volgens de richtlijnen van Discord. **Opdrachten die nog steeds met voorvoegsels werken, worden uiteindelijk alleen slash.**\nopdracht aliassen zijn verwijderd voor Slash opdrachten omdat er niet genoeg ruimte is voor ons om ze toe te voegen (Discord laat ons slechts 100 opdrachten toevoegen).",
+      "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description": "%1$s**Het commando die u probeert uit te voeren is verplaatst naar alleen Slash commando`s.** Probeer deze uit te voeren met / als prefix.\n\nSlash commando`s zijn de nieuwe manier om commando`s te gebruiken volgens de richtlijnen van Discord. **Commando`s die nog steeds met voorvoegsels werken, worden uiteindelijk alleen slash.**\ncommando aliassen zijn verwijderd voor Slash commando`s omdat er niet genoeg ruimte is voor ons om ze toe te voegen (Discord laat ons slechts 100 opdrachten toevoegen).",
       "description_image": "Om een ​​slash opdracht uit te voeren voor sommige afbeeldings opdracht en, probeer dan de opdracht met het prefix `/image` in plaats van degene die je hebt gebruikt. Bijvoorbeeld, `~>catgirl` wordt `/image catgirl`. Imageboard opdrachten volgen dit niet.\n\nAls u de slash opdrachten niet ziet, voegt u de bot opnieuw toe met behulp van de uitnodigingslink op https://add.mantaro.site",
       "description_2": "Om een ​​slash opdracht uit te voeren probeer dan de opdracht met het prefix `/` in plaats van prefix die je hebt gebruikt. Bijvoorbeeld, `~>ping` wordt `/ping`. (en druk op tab)\n\nAls u de slash opdrachten niet ziet, voegt u de bot opnieuw toe met behulp van de uitnodigingslink op https://add.mantaro.site"
@@ -1623,7 +1623,8 @@
       "help_header": "Command help for %s",
       "options": "Options",
       "usage": "Usage",
-      "optional": "(This is optional)"
+      "optional": "(This is optional)",
+      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help cast item`.\nThis goes for all subcommands, as long as they have some sort of help."
     },
     "repair": {
       "no_item": "%1$sYou didn't specify any item to repair. If you think you have the correct item, try using the full name.",
