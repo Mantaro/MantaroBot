@@ -1,17 +1,18 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
 package net.kodehawa.mantarobot.commands;
@@ -51,109 +52,103 @@ import static java.lang.System.currentTimeMillis;
 public class PremiumCmds {
     @Subscribe
     public void register(CommandRegistry cr) {
-        cr.registerSlash(ActivateKey.class);
         cr.registerSlash(Premium.class);
     }
 
-    @Description("Activates a premium key.")
+    @Description("Check or activate premium status for a user or server.")
     @Category(CommandCategory.UTILS)
-    @Options({
-            @Options.Option(type = OptionType.STRING, name = "key", description = "The key to use.", required = true)
-    })
     @Help(
-            description = "Activates a premium key. Example: `~>activatekey a4e98f07-1a32-4dcc-b53f-c540214d54ec`. No, that isn't a valid key.",
-            usage = "`/activatekey [key]`",
-            parameters = {
-                    @Help.Parameter(name = "key", description = "The key to activate. If it's a server key, make sure to run this command in the server where you want to enable premium on.")
-            }
-    )
-    public static class ActivateKey extends SlashCommand {
-        @Override
-        protected void process(SlashContext ctx) {
-            ctx.deferEphemeral();
-            final var db = ctx.db();
-            if (ctx.getConfig().isPremiumBot()) {
-                ctx.reply("commands.activatekey.mp", EmoteReference.WARNING);
-                return;
-            }
-
-            var key = db.getPremiumKey(ctx.getOptionAsString("key"));
-            if (key == null || (key.isEnabled())) {
-                ctx.reply("commands.activatekey.invalid_key", EmoteReference.ERROR);
-                return;
-            }
-
-            var scopeParsed = key.getParsedType();
-            var author = ctx.getAuthor();
-            if (scopeParsed.equals(PremiumKey.Type.GUILD)) {
-                var guild = ctx.getDBGuild();
-                var currentKey = db.getPremiumKey(guild.getData().getPremiumKey());
-                if (currentKey != null && currentKey.isEnabled() && currentTimeMillis() < currentKey.getExpiration()) { //Should always be enabled...
-                    ctx.reply("commands.activatekey.guild_already_premium", EmoteReference.POPPER);
-                    return;
-                }
-
-                // Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
-                if (!author.getId().equals(key.getOwner())) {
-                    var ownerUser = db.getUser(key.getOwner());
-                    ownerUser.getData().getKeysClaimed().put(author.getId(), key.getId());
-                    ownerUser.saveAsync();
-                }
-
-                key.activate(180);
-                guild.getData().setPremiumKey(key.getId());
-                guild.saveAsync();
-
-                ctx.reply("commands.activatekey.guild_successful", EmoteReference.POPPER, key.getDurationDays());
-                return;
-            }
-
-            if (scopeParsed.equals(PremiumKey.Type.USER)) {
-                var dbUser = ctx.getDBUser();
-                var player = ctx.getPlayer();
-
-                if (dbUser.isPremium()) {
-                    ctx.reply("commands.activatekey.user_already_premium", EmoteReference.POPPER);
-                    return;
-                }
-
-                if (author.getId().equals(key.getOwner())) {
-                    if (player.getData().addBadgeIfAbsent(Badge.DONATOR_2)) {
-                        player.saveUpdating();
-                    }
-                }
-
-                // Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
-                if (!author.getId().equals(key.getOwner())) {
-                    var ownerUser = db.getUser(key.getOwner());
-                    ownerUser.getData().getKeysClaimed().put(author.getId(), key.getId());
-                    ownerUser.saveAsync();
-                }
-
-                key.activate(author.getId().equals(key.getOwner()) ? 365 : 180);
-                dbUser.getData().setPremiumKey(key.getId());
-                dbUser.saveAsync();
-
-                ctx.reply("commands.activatekey.user_successful", EmoteReference.POPPER);
-            }
-        }
-    }
-
-    @Description("Check premium status of a user or a server.")
-    @Category(CommandCategory.UTILS)
-    @Options({
-            @Options.Option(type = OptionType.USER, name = "user", description = "The user to check. If not specified, it's you.")
-    })
-    @Help(
-            description = "Checks the premium status of a user or a server.",
-            usage = "`/premium user [user]` or `/premium server`",
-            parameters = {
-                    @Help.Parameter(name = "user", description = "The user to check for. If not specified, it checks yourself.", optional = true)
-            }
+            description = "Check or activate premium status for a user or server.",
+            usage = "`/premium user` or `/premium server`, `/premium activate` to activate a key"
     )
     public static class Premium extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {}
+
+        @Name("activate")
+        @Description("Activates a premium key.")
+        @Category(CommandCategory.UTILS)
+        @Options({
+                @Options.Option(type = OptionType.STRING, name = "key", description = "The key to use.", required = true)
+        })
+        @Help(
+                description = "Activates a premium key. Example: `/premium activate a4e98f07-1a32-4dcc-b53f-c540214d54ec`. No, that isn't a valid key.",
+                usage = "`/premium activate [key]`",
+                parameters = {
+                        @Help.Parameter(name = "key", description = "The key to activate. If it's a server key, make sure to run this command in the server where you want to enable premium on.")
+                }
+        )
+        public static class ActivateKey extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                ctx.deferEphemeral();
+                final var db = ctx.db();
+                if (ctx.getConfig().isPremiumBot()) {
+                    ctx.reply("commands.activatekey.mp", EmoteReference.WARNING);
+                    return;
+                }
+
+                var key = db.getPremiumKey(ctx.getOptionAsString("key"));
+                if (key == null || (key.isEnabled())) {
+                    ctx.reply("commands.activatekey.invalid_key", EmoteReference.ERROR);
+                    return;
+                }
+
+                var scopeParsed = key.getParsedType();
+                var author = ctx.getAuthor();
+                if (scopeParsed.equals(PremiumKey.Type.GUILD)) {
+                    var guild = ctx.getDBGuild();
+                    var currentKey = db.getPremiumKey(guild.getData().getPremiumKey());
+                    if (currentKey != null && currentKey.isEnabled() && currentTimeMillis() < currentKey.getExpiration()) { //Should always be enabled...
+                        ctx.reply("commands.activatekey.guild_already_premium", EmoteReference.POPPER);
+                        return;
+                    }
+
+                    // Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
+                    if (!author.getId().equals(key.getOwner())) {
+                        var ownerUser = db.getUser(key.getOwner());
+                        ownerUser.getData().getKeysClaimed().put(author.getId(), key.getId());
+                        ownerUser.saveAsync();
+                    }
+
+                    key.activate(180);
+                    guild.getData().setPremiumKey(key.getId());
+                    guild.saveAsync();
+
+                    ctx.reply("commands.activatekey.guild_successful", EmoteReference.POPPER, key.getDurationDays());
+                    return;
+                }
+
+                if (scopeParsed.equals(PremiumKey.Type.USER)) {
+                    var dbUser = ctx.getDBUser();
+                    var player = ctx.getPlayer();
+
+                    if (dbUser.isPremium()) {
+                        ctx.reply("commands.activatekey.user_already_premium", EmoteReference.POPPER);
+                        return;
+                    }
+
+                    if (author.getId().equals(key.getOwner())) {
+                        if (player.getData().addBadgeIfAbsent(Badge.DONATOR_2)) {
+                            player.saveUpdating();
+                        }
+                    }
+
+                    // Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
+                    if (!author.getId().equals(key.getOwner())) {
+                        var ownerUser = db.getUser(key.getOwner());
+                        ownerUser.getData().getKeysClaimed().put(author.getId(), key.getId());
+                        ownerUser.saveAsync();
+                    }
+
+                    key.activate(author.getId().equals(key.getOwner()) ? 365 : 180);
+                    dbUser.getData().setPremiumKey(key.getId());
+                    dbUser.saveAsync();
+
+                    ctx.reply("commands.activatekey.user_successful", EmoteReference.POPPER);
+                }
+            }
+        }
 
         @Name("user")
         @Description("Checks the premium status of an user.")

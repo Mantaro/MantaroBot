@@ -482,7 +482,7 @@ public class HelpCmd {
         // Start building the help description.
         var description = new StringBuilder();
         if (category == null) {
-            description.append(languageContext.get("commands.help.base"));
+            description.append(languageContext.get("commands.help.base_prefix"));
         } else {
             description.append(languageContext.get("commands.help.base_category")
                     .formatted(languageContext.get(category.toString()))
