@@ -1,17 +1,18 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
 package net.kodehawa.mantarobot.commands;
@@ -37,11 +38,13 @@ import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
-import java.awt.Color;
+import java.awt.*;
+import java.util.List;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -220,6 +223,7 @@ public class HelpCmd {
                         }
 
                         builder.addField(EmoteReference.ZAP.toHeaderString() + "Sub-commands", value, false);
+                        builder.addField(EmoteReference.ZAP.toHeaderString() + "Sub-command help", languageContext.get("commands.help.subcommand_help"), false);
                     }
                 }
 
@@ -577,20 +581,50 @@ public class HelpCmd {
                 "ratewaifu", "roll", "love", "birthday", "profile", "reputation", "equip",
                 "unequip", "badges", "activatekey", "premium", "transfer", "itemtransfer", "pet",
                 "waifu", "play", "shuffle", "np", "repeat", "skip", "stop", "ns", "volume", "forceplay",
-                "lyrics", "playnow", "rewind", "forward", "restartsong", "removetrack", "move"
+                "lyrics", "playnow", "rewind", "forward", "restartsong", "removetrack", "move",
+                "cast", "salvage", "repair"
         );
     }
 
     // Transitional command, but with alias information.
     @Subscribe
     public void slashalias(CommandRegistry cr) {
+        // alias, real
+        String[][] aliasPairs = {
+                {"guildinfo", "serverinfo"},
+                {"me", "profile"},
+                {"badge", "badges"},
+                {"vipstatus", "premium"},
+                {"give", "transfer"},
+                {"transferitem", "itemtransfer"},
+                {"transferitems", "itemtransfer"},
+                {"p", "play"},
+                {"s", "skip"},
+                {"nexttrack", "ns"},
+                {"vol", "volume"},
+                {"resume", "skip"},
+                {"unpause", "pause"},
+                {"join", "play"},
+                {"fs", "forceskip"},
+                {"loop", "repeat"},
+                {"rp", "repeat"},
+                {"loopqueue", "repeat"},
+                {"leave", "stop"},
+                {"skipahead", "seek"},
+                {"fix", "repair"}
+        };
+
+        // Aliases are no longer a thing in slash, so gotta do this to tell users the real commands.
+        Map<String, String> alias = Utils.toMap(aliasPairs);
+
         cr.register("slashalias", new SimpleCommand(CommandCategory.HIDDEN) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 I18nContext i18nContext = ctx.getLanguageContext();
                 var builder = new EmbedBuilder();
                 builder.setAuthor(i18nContext.get("commands.slash.title"))
-                        .setDescription(i18nContext.get("commands.slash.description_alias").formatted(EmoteReference.WARNING) + "\n" +
+                        .setDescription(i18nContext.get("commands.slash.description_alias")
+                                .formatted(EmoteReference.WARNING, alias.get(ctx.getCommandName())) + "\n" +
                                 i18nContext.get("commands.slash.description_2")
                         )
                         .setColor(Color.PINK)
@@ -605,7 +639,7 @@ public class HelpCmd {
                 "guildinfo", "me", "rep", "badge", "vipstatus", "give",
                 "transferitem", "transferitems", "nowplaying", "p", "s", "q", "nexttrack",
                 "vol", "fp", "resume", "unpause", "join", "fs", "loop", "rp", "loopqueue",
-                "leave", "skipahead"
+                "leave", "skipahead", "fix"
         );
     }
 }

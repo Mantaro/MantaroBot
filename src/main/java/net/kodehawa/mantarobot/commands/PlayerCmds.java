@@ -1,17 +1,18 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
 package net.kodehawa.mantarobot.commands;
@@ -267,7 +268,7 @@ public class PlayerCmds {
                 }
 
                 var button = event.getButton();
-                if (button == null || button.getId() == null) {
+                if (button.getId() == null) {
                     return Operation.IGNORED;
                 }
 
@@ -280,7 +281,7 @@ public class PlayerCmds {
                     var equippedFinal = equipmentFinal.getEquipment().get(type);
                     if (equippedFinal == null) {
                         hook.editOriginal(lang.get("commands.profile.unequip.not_equipped").formatted(EmoteReference.ERROR))
-                                .setActionRow()
+                                .setActionRows()
                                 .queue();
                         return InteractiveOperation.COMPLETED;
                     }
@@ -319,11 +320,11 @@ public class PlayerCmds {
                     playerFinal.save();
 
                     hook.editOriginal(lang.get("commands.profile.unequip.success").formatted(EmoteReference.CORRECT, type.name().toLowerCase()) + part)
-                            .setActionRow()
+                            .setActionRows()
                             .queue();
                 } else if (button.getId().equalsIgnoreCase("no")) {
                     hook.editOriginal(lang.get("commands.profile.unequip.cancelled").formatted(EmoteReference.WARNING))
-                            .setActionRow()
+                            .setActionRows()
                             .queue();
                     return InteractiveOperation.COMPLETED;
                 }
@@ -345,6 +346,13 @@ public class PlayerCmds {
                 @Options.Option(type = OptionType.USER, name = "user", description = "The user to see the badges of."),
                 @Options.Option(type = OptionType.BOOLEAN, name = "brief", description = "Whether to see it in brief format.")
         })
+        @Help(description = "Shows your badge list, or someone else's list.",
+                usage = "`/badges show [user] [brief]`",
+                parameters = {
+                        @Help.Parameter(name = "user", description = "The user to check. If none, you.", optional = true),
+                        @Help.Parameter(name = "brief", description = "Whether to show this in brief format. Default is false.", optional = true),
+                }
+        )
         public static class Show extends SlashCommand {
             final Random r = new Random();
             @Override

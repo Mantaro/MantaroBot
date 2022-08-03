@@ -139,6 +139,16 @@ public class SlashContext implements IContext {
         return slash.getJDA();
     }
 
+    public void replyRaw(String source, Object... args) {
+        if (deferred) {
+            slash.getHook().sendMessage(source.formatted(args)).queue();
+        } else {
+            slash.deferReply()
+                    .setContent(source.formatted(args))
+                    .queue();
+        }
+    }
+
     public void reply(String source, Object... args) {
         if (deferred) {
             slash.getHook().sendMessage(i18n.get(source).formatted(args)).queue();
@@ -516,6 +526,7 @@ public class SlashContext implements IContext {
         if (option == null) {
             return null;
         }
+
         return option.getAsUser();
     }
 
@@ -524,6 +535,7 @@ public class SlashContext implements IContext {
         if (option == null) {
             return def;
         }
+
         return option.getAsUser();
     }
 
@@ -532,6 +544,7 @@ public class SlashContext implements IContext {
         if (option == null) {
             return null;
         }
+
         return option.getAsString();
     }
 
@@ -540,6 +553,7 @@ public class SlashContext implements IContext {
         if (option == null) {
             return def;
         }
+
         return option.getAsString();
     }
 
@@ -548,7 +562,9 @@ public class SlashContext implements IContext {
         if (option == null) {
             return 0;
         }
-        return option.getAsLong();
+
+        // This is very much just making sure...
+        return Math.max(1, Math.abs(option.getAsLong()));
     }
 
     public long getOptionAsLong(String name, long def) {
@@ -556,7 +572,8 @@ public class SlashContext implements IContext {
         if (option == null) {
             return def;
         }
-        return option.getAsLong();
+
+        return Math.max(1, Math.abs(option.getAsLong()));
     }
 
     public int getOptionAsInteger(String name) {
@@ -564,7 +581,8 @@ public class SlashContext implements IContext {
         if (option == null) {
             return 0;
         }
-        return (int) option.getAsLong();
+
+        return (int) Math.max(1, Math.abs(option.getAsLong()));
     }
 
     public int getOptionAsInteger(String name, int def) {
@@ -572,7 +590,8 @@ public class SlashContext implements IContext {
         if (option == null) {
             return def;
         }
-        return (int) option.getAsLong();
+
+        return (int) Math.max(1, Math.abs(option.getAsLong()));
     }
 
     public boolean getOptionAsBoolean(String name) {
@@ -580,6 +599,7 @@ public class SlashContext implements IContext {
         if (option == null) {
             return false;
         }
+
         return option.getAsBoolean();
     }
 }

@@ -590,6 +590,17 @@ public class Utils {
         return null;
     }
 
+    public static <T> Map<T, T> toMap(final T[][] array) {
+        if (array == null) {
+            return null;
+        }
+        final Map<T, T> map = new HashMap<>();
+        for (final T[] entry : array) {
+            map.put(entry[0], entry[1]);
+        }
+        return map;
+    }
+
     public enum HushType {
         ANIME, CHARACTER, MUSIC
     }

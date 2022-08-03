@@ -1,17 +1,18 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
 package net.kodehawa.mantarobot.commands;
@@ -238,7 +239,7 @@ public class MarketCmd {
     public static class Buy extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            buy(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount"), buyRatelimiter);
+            buy(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount", 1), buyRatelimiter);
         }
     }
 
@@ -262,7 +263,7 @@ public class MarketCmd {
     public static class Sell extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            sell(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount"), sellRatelimiter);
+            sell(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount", 1), sellRatelimiter);
         }
     }
 
@@ -287,7 +288,7 @@ public class MarketCmd {
     public static class Dump extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            dump(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount"), dumpRatelimit);
+            dump(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount", 1), dumpRatelimit);
         }
     }
 

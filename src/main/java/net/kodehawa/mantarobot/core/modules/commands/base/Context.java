@@ -56,12 +56,21 @@ public class Context implements IContext {
     private final String content;
     private final boolean isMentionPrefix;
     private I18nContext languageContext;
+    private String commandName = "";
 
     public Context(MessageReceivedEvent event, I18nContext languageContext, String content, boolean isMentionPrefix) {
         this.event = event;
         this.languageContext = languageContext;
         this.content = content;
         this.isMentionPrefix = isMentionPrefix;
+    }
+
+    public Context(MessageReceivedEvent event, I18nContext languageContext, String cmdName, String content, boolean isMentionPrefix) {
+        this.event = event;
+        this.languageContext = languageContext;
+        this.content = content;
+        this.isMentionPrefix = isMentionPrefix;
+        this.commandName = cmdName;
     }
 
     public MantaroBot getBot() {
@@ -190,6 +199,10 @@ public class Context implements IContext {
 
     public Player getPlayer(String id) {
         return managedDatabase.getPlayer(id);
+    }
+
+    public String getCommandName() {
+        return commandName;
     }
 
     public SeasonPlayer getSeasonPlayer() {

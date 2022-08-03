@@ -1,17 +1,18 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
 package net.kodehawa.mantarobot.commands;
@@ -455,13 +456,13 @@ public class PetCmds {
 
                         if (playerFinal.getData().getActiveChoice(marriageConfirmed) == PetChoice.MARRIAGE) {
                             if (marriageConfirmed == null) {
-                                hook.editOriginal(lang.get("commands.pet.buy.no_marriage_marry").formatted(EmoteReference.ERROR)).setActionRow().queue();
+                                hook.editOriginal(lang.get("commands.pet.buy.no_marriage_marry").formatted(EmoteReference.ERROR)).setActionRows().queue();
                                 return Operation.COMPLETED;
                             }
 
                             final var marriedWithPlayer = ctx.getPlayer(marriageConfirmed.getOtherPlayer(ctx.getAuthor().getId()));
                             if (marriageConfirmed.getData().getPet() == null) {
-                                hook.editOriginal(lang.get("commands.pet.remove.no_pet_confirm").formatted(EmoteReference.ERROR)).setActionRow().queue();
+                                hook.editOriginal(lang.get("commands.pet.remove.no_pet_confirm").formatted(EmoteReference.ERROR)).setActionRows().queue();
                                 return Operation.COMPLETED;
                             }
 
@@ -475,11 +476,11 @@ public class PetCmds {
 
                             playerFinal.save();
                             marriedWithPlayer.save();
-                            hook.editOriginal(lang.get("commands.pet.remove.success").formatted(EmoteReference.CORRECT, toRefundFinal)).setActionRow().queue();
+                            hook.editOriginal(lang.get("commands.pet.remove.success").formatted(EmoteReference.CORRECT, toRefundFinal)).setActionRows().queue();
                         } else {
                             var playerData = playerFinal.getData();
                             if (playerData.getPet() == null) {
-                                hook.editOriginal(lang.get("commands.pet.remove.no_pet_confirm").formatted(EmoteReference.ERROR)).setActionRow().queue();
+                                hook.editOriginal(lang.get("commands.pet.remove.no_pet_confirm").formatted(EmoteReference.ERROR)).setActionRows().queue();
                                 return Operation.COMPLETED;
                             }
 
@@ -487,7 +488,7 @@ public class PetCmds {
                             playerFinal.addMoney(toRefundPersonalFinal);
                             playerFinal.setLocked(false);
                             playerFinal.save();
-                            hook.editOriginal(lang.get("commands.pet.remove.success_personal").formatted(EmoteReference.CORRECT, toRefundPersonalFinal)).setActionRow().queue();
+                            hook.editOriginal(lang.get("commands.pet.remove.success_personal").formatted(EmoteReference.CORRECT, toRefundPersonalFinal)).setActionRows().queue();
                         }
 
                         return Operation.COMPLETED;
@@ -505,7 +506,7 @@ public class PetCmds {
                         }
 
                         // This is reusing the string, nothing wrong here.
-                        hook.editOriginal(lang.get("commands.pet.buy.cancel_success").formatted(EmoteReference.CORRECT)).setActionRow().queue();
+                        hook.editOriginal(lang.get("commands.pet.buy.cancel_success").formatted(EmoteReference.CORRECT)).setActionRows().queue();
                         return Operation.COMPLETED;
                     }
 
@@ -635,7 +636,7 @@ public class PetCmds {
                             playerConfirmed.setLocked(false);
                             playerConfirmed.saveUpdating();
 
-                            hook.editOriginal(lang.get("commands.pet.buy.no_egg").formatted(EmoteReference.ERROR)).setActionRow().queue();
+                            hook.editOriginal(lang.get("commands.pet.buy.no_egg").formatted(EmoteReference.ERROR)).setActionRows().queue();
                             return Operation.COMPLETED;
                         }
 
@@ -647,7 +648,7 @@ public class PetCmds {
                             marriageConfirmed.setLocked(false);
                             marriageConfirmed.saveUpdating();
 
-                            hook.editOriginal(lang.get("commands.pet.buy.no_house").formatted(EmoteReference.ERROR)).setActionRow().queue();
+                            hook.editOriginal(lang.get("commands.pet.buy.no_house").formatted(EmoteReference.ERROR)).setActionRows().queue();
                             return Operation.COMPLETED;
                         }
 
@@ -658,13 +659,13 @@ public class PetCmds {
                             marriageConfirmed.setLocked(false);
                             marriageConfirmed.saveUpdating();
 
-                            hook.editOriginal(lang.get("commands.pet.buy.not_enough_money").formatted(EmoteReference.ERROR, toBuy.getCost())).setActionRow().queue();
+                            hook.editOriginal(lang.get("commands.pet.buy.not_enough_money").formatted(EmoteReference.ERROR, toBuy.getCost())).setActionRows().queue();
                             return Operation.COMPLETED;
                         }
 
                         if (petChoiceConfirmed == PetChoice.MARRIAGE) {
                             if (marriageConfirmed == null) {
-                                hook.editOriginal(lang.get("commands.pet.buy.no_marriage_marry").formatted(EmoteReference.ERROR)).setActionRow().queue();
+                                hook.editOriginal(lang.get("commands.pet.buy.no_marriage_marry").formatted(EmoteReference.ERROR)).setActionRows().queue();
                                 return Operation.COMPLETED;
                             }
                             var marriageDataConfirmed = marriageConfirmed.getData();
@@ -727,7 +728,7 @@ public class PetCmds {
                         playerConfirmed.setLocked(false);
                         playerConfirmed.save();
 
-                        hook.editOriginal(lang.get("commands.pet.buy.cancel_success").formatted(EmoteReference.CORRECT)).setActionRow().queue();
+                        hook.editOriginal(lang.get("commands.pet.buy.cancel_success").formatted(EmoteReference.CORRECT)).setActionRows().queue();
                         return Operation.COMPLETED;
                     }
 
