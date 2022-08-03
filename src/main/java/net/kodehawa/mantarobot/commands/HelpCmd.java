@@ -578,6 +578,7 @@ public class HelpCmd {
                 {"userinfo", "info user"},
                 {"serverinfo", "info server"},
                 {"roleinfo", "info role"},
+                {"activatekey", "premium activate"},
         };
 
         // Some commands had to be squished into subcommands.

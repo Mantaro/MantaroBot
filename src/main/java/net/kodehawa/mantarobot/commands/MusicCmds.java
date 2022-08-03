@@ -1,17 +1,18 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
 package net.kodehawa.mantarobot.commands;
@@ -38,16 +39,11 @@ import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.utils.Utils;
-import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.apache.commons.text.StringEscapeUtils;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils.embedForQueue;
@@ -67,8 +63,6 @@ public class MusicCmds {
         cr.registerSlash(Shuffle.class);
         cr.registerSlash(Stop.class);
         cr.registerSlash(Volume.class);
-        cr.registerSlash(Lyrics.class);
-
     }
 
     @Description("Plays a song.")
@@ -440,66 +434,6 @@ public class MusicCmds {
             } else {
                 ctx.reply("commands.volume.premium_only", EmoteReference.ERROR);
             }
-        }
-    }
-
-    @Description("Show the lyrics of a song.")
-    @Category(CommandCategory.MUSIC)
-    @Options({
-             @Options.Option(type = OptionType.STRING, name = "song", description = "The song to lookup. If empty, it will search for the current track.")
-    })
-    public static class Lyrics extends SlashCommand {
-        @Override
-        protected void process(SlashContext ctx) {
-            var search = ctx.getOptionAsString("song", "");
-            if (search.equals("current") || search.isEmpty()) {
-                var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
-                var scheduler = musicManager.getTrackScheduler();
-                var currentTrack = scheduler.getCurrentTrack();
-
-                if (currentTrack == null) {
-                    ctx.reply("commands.lyrics.no_current_track", EmoteReference.ERROR);
-                    return;
-                }
-
-                search = currentTrack.getInfo().title;
-            }
-
-            var result = Utils.httpRequest("https://evan.lol/lyrics/search/top?q=" + URLEncoder.encode(search, StandardCharsets.UTF_8));
-            if (result == null) {
-                ctx.reply("commands.lyrics.error_searching", EmoteReference.ERROR);
-                return;
-            }
-
-            var results = new JSONObject(result);
-            if (!results.isNull("empty")) {
-                ctx.reply("commands.lyrics.error_searching", EmoteReference.ERROR);
-                return;
-            }
-
-            // Replace more than 2 line breaks with 2 line breaks.
-            var lyrics = StringEscapeUtils.unescapeHtml4(results.getString("lyrics")
-                    .replaceAll("\n{2,}", "\n\n"));
-
-            var title = results.getString("name");
-            var albumObject = results.getJSONObject("album");
-            var artistArray = results.getJSONArray("artists");
-            var artistName = "Unknown";
-            var artistObject = artistArray.getJSONObject(0);
-            if (artistObject != null) {
-                artistName = artistObject.getString("name");
-            }
-            var icon = albumObject.getJSONObject("icon").getString("url");
-
-            var divided = DiscordUtils.divideString(600, lyrics.trim());
-            var languageContext = ctx.getLanguageContext();
-
-            var header = "%s - %s".formatted(artistName, title);
-            DiscordUtils.listButtons(ctx.getUtilsContext(), 60, 900, (p, total) -> new EmbedBuilder()
-                    .setTitle(languageContext.get("commands.lyrics.header")
-                            .formatted(EmoteReference.MUSICAL_NOTE.toHeaderString() + " ", header))
-                    .setThumbnail(icon)
-                    .setFooter(languageContext.get("commands.lyrics.footer").formatted(p, total)), divided);
         }
     }
 
