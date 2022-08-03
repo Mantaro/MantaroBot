@@ -138,7 +138,7 @@
   "commands": {
     "slash": {
       "title": "Slash commands transition",
-      "description_alias": "%1$s**Den Befehl, den du versuchst auszuführen, ist nur noch ein Slash-Befehl.** Versuche ihn mit / als Präfix. **Dieser Befehl war ein Alias**. Versuche den eigentlichen Befehl auszuführen.\n\nSlash-Befehle ist der neue Weg Befehle im Einklang der Discord Richtlinien zu benutzen. **Befehle die noch mit Präfix funktionieren, werden vermutlich in Zukunft auch nur noch mit Slash funktionieren.**\nBefehlsaliase wurden in Slash-Befehlen entfernt, da für uns nicht genügend Platz vorhanden ist, sie hinzuzufügen (Discord lässt uns nur 100 Befehle hinzufügen).",
+      "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description": "%1$s**Den Befehl, den du versuchst auszuführen, ist nur noch ein Slash-Befehl.** Versuche ihn mit / als Präfix.\n\nSlash-Befehle ist der neue Weg Befehle im Einklang der Discord Richtlinien zu benutzen. **Befehle die noch mit Präfix funktionieren, werden vermutlich in Zukunft auch nur noch mit Slash funktionieren.**\nBefehlsaliase wurden in Slash-Befehlen entfernt, da für uns nicht genügend Platz vorhanden ist, sie hinzuzufügen (Discord lässt uns nur 100 Befehle hinzufügen).",
       "description_image": "Um Slash-Befehle für manche Bild-Befehle auszuführen, versuche den Befehl mit dem Präfix `/image` stattdessen. Zum Beispiel, `~>catgirl` wird zu `/image catgirl`. Befehle für Imageboards sind nicht davon betroffen.\n\nWenn du die Slash-Befehle nicht siehst, füge den Bot erneut dem Server mit dem Einladungslink unter https://add.mantaro.site hinzu",
       "description_2": "Um Slash-Befehle auszuführen, versuche den Befehl mit dem Präfix `/` stattdessen. Zum Beispiel, `~>ping` wird zu `/ping` (und drücke Tab)\n\nWenn du die Slash-Befehle nicht siehst, füge den Bot erneut dem Server mit dem Einladungslink unter https://add.mantaro.site hinzu"
@@ -1623,7 +1623,8 @@
       "help_header": "Command help for %s",
       "options": "Options",
       "usage": "Usage",
-      "optional": "(This is optional)"
+      "optional": "(This is optional)",
+      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help cast item`.\nThis goes for all subcommands, as long as they have some sort of help."
     },
     "repair": {
       "no_item": "%1$sDu hast kein Gegenstand zum Re­pa­rie­ren angegeben. Wenn du denkst, dass du den korrekten Gegenstand hast, versuche den kompletten Namen zu benutzen.",
