@@ -636,7 +636,7 @@ public class HelpCmd {
                 {"transferitems", "itemtransfer"},
                 {"p", "play"},
                 {"s", "skip"},
-                {"nexttrack", "ns"},
+                {"np", "nowplaying"},
                 {"vol", "volume"},
                 {"resume", "skip"},
                 {"unpause", "pause"},

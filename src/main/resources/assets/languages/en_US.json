@@ -185,29 +185,6 @@
       "error": "%1$sError soft-banning [%2$s]: (No permission provided: %3$s)",
       "unknown_error": "%1$sUnknown error while soft-banning %2$s: *(Error? %3$s: %4$s)*"
     },
-    "ban": {
-      "no_permission": "%1$sYou can't ban: You need the `Ban Users` permission.",
-      "no_users": "%1$sYou need to give me a user to ban.",
-      "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server.",
-      "hierarchy_conflict": "%1$sYou cannot ban an user who's higher than you in the server hierarchy! Nice try %2$s",
-      "yourself_note": "%1$sWhy are you trying to ban yourself, silly?",
-      "self_hierarchy_conflict": "%1$sCannot ban member: %2$s, they are higher or the same hierarchy than I am!",
-      "success": "%1$s%2$s (%3$s got banned)",
-      "success_multiple": "%1$s%2$s (%3$s people got banned)",
-      "error": "%1$sError banning %2$s: (I need the permission %3$s)",
-      "unknown_error": "%1$sHuh, I encountered an unknown error while banning %2$s"
-    },
-    "kick": {
-      "no_permission": "%1$sYou can't kick: You need the `Kick Members` permission.",
-      "no_users": "%1$sYou need to give me a user to kick.",
-      "no_permission_self": "%1$sSorry! I don't have permission to kick members in this server.",
-      "hierarchy_conflict": "%1$sYou cannot kick an user in a higher hierarchy than you",
-      "yourself_note": "%1$sWhy are you trying to kick yourself, silly?",
-      "self_hierarchy_conflict": "%1$sCannot kick member: %2$s, they are higher or the same hierarchy than I am!",
-      "success": "%1$s%2$s (%3$s got kicked)",
-      "error": "%1$sError kicking %2$s: (No permission provided: %3$s)",
-      "unknown_error": "%1$sUnknown error while attempting to kick %2$s"
-    },
     "music_usage": {
       "1": "*How to use music in Mantaro?*",
       "2": "- To **queue songs from youtube or soundcloud** use `/play` For example: `/play https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
