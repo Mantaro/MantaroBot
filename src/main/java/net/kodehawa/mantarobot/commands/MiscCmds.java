@@ -1,17 +1,18 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
 package net.kodehawa.mantarobot.commands;
@@ -33,10 +34,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.json.JSONObject;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -124,39 +122,8 @@ public class MiscCmds {
 
     @Subscribe
     public void register(CommandRegistry cr) {
-        cr.registerSlash(EightBall.class);
         cr.registerSlash(IAm.class);
         cr.registerSlash(CreatePoll.class);
-    }
-
-    @Name("8ball")
-    @Description("Retrieves an answer from the almighty 8ball.")
-    @Category(CommandCategory.FUN)
-    @Options({
-            @Options.Option(type = OptionType.STRING, name = "question", description = "The question to ask.", required = true)
-    })
-    @Help(
-            description = "Retrieves an answer from the almighty 8ball.",
-            usage = "`/8ball <question>` - Retrieves an answer from 8ball based on the question or sentence provided.",
-            parameters = {
-                    @Help.Parameter(name = "question", description = "The question to ask.", optional = false)
-            }
-    )
-    public static class EightBall extends SlashCommand {
-        @Override
-        protected void process(SlashContext ctx) {
-            var content = ctx.getOptionAsString("question");
-            var textEncoded = URLEncoder.encode(content.replace("/", "|"), StandardCharsets.UTF_8);
-            var json = Utils.httpRequest("https://8ball.delegator.com/magic/JSON/%1s".formatted(textEncoded));
-
-            if (json == null) {
-                ctx.sendLocalized("commands.8ball.error", EmoteReference.ERROR);
-                return;
-            }
-
-            String answer = new JSONObject(json).getJSONObject("magic").getString("answer");
-            ctx.reply("\uD83D\uDCAC " + answer + ".");
-        }
     }
 
     @Name("iam")

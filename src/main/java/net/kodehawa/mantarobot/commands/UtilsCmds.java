@@ -190,8 +190,7 @@ public class UtilsCmds {
                 ctx.deferEphemeral();
                 var reminders = ctx.getDBUser().getData().getReminders();
                 var rms = getReminders(reminders).stream()
-                        .sorted(Comparator.comparingLong(ReminderObject::getScheduledAtMillis))
-                        .collect(Collectors.toList());
+                        .sorted(Comparator.comparingLong(ReminderObject::getScheduledAtMillis)).toList();
 
                 if (rms.isEmpty()) {
                     ctx.sendLocalized("commands.remindme.no_reminders", EmoteReference.ERROR);
