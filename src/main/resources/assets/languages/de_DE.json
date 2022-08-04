@@ -30,7 +30,7 @@
     "dust": "Hier ist nur Staub.",
     "invalid_syntax": "Ungültige Syntax",
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
-    "member_lookup_failure": "%1%sCannot find any member with that name :(",
+    "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "item_lookup": {
       "no_item_emoji": "Diesem Emoji ist kein Gegenstand zugeordnet.",
       "no_item_name": "Diesem Namen ist kein Gegenstand zugeordnet",
@@ -139,7 +139,7 @@
     "slash": {
       "title": "Slash commands transition",
       "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description": "%1$s**Den Befehl, den du versuchst auszuführen, ist nur noch ein Slash-Befehl.** Versuche ihn mit / als Präfix.\n\nSlash-Befehle ist der neue Weg Befehle im Einklang der Discord Richtlinien zu benutzen. **Befehle die noch mit Präfix funktionieren, werden vermutlich in Zukunft auch nur noch mit Slash funktionieren.**\nBefehlsaliase wurden in Slash-Befehlen entfernt, da für uns nicht genügend Platz vorhanden ist, sie hinzuzufügen (Discord lässt uns nur 100 Befehle hinzufügen).",
+      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description_image": "Um Slash-Befehle für manche Bild-Befehle auszuführen, versuche den Befehl mit dem Präfix `/image` stattdessen. Zum Beispiel, `~>catgirl` wird zu `/image catgirl`. Befehle für Imageboards sind nicht davon betroffen.\n\nWenn du die Slash-Befehle nicht siehst, füge den Bot erneut dem Server mit dem Einladungslink unter https://add.mantaro.site hinzu",
       "description_2": "Um Slash-Befehle auszuführen, versuche den Befehl mit dem Präfix `/` stattdessen. Zum Beispiel, `~>ping` wird zu `/ping` (und drücke Tab)\n\nWenn du die Slash-Befehle nicht siehst, füge den Bot erneut dem Server mit dem Einladungslink unter https://add.mantaro.site hinzu"
     },
@@ -185,29 +185,6 @@
       "error": "%1$sFehler während des Entbannens [%2$s]: (Keine Rechte: %3$s)",
       "unknown_error": "%1$sUnbekannter Fehler während des Entbannens %2$s: *(Error? %3$s: %4$s)*"
     },
-    "ban": {
-      "no_permission": "%1$sSie können nicht bannen: Sie benötigen die `Mitglieder bannen` Berechtigung.",
-      "no_users": "%1$sSie müssen mindestens einen Nutzer zum bannen erwähnen!",
-      "no_permission_self": "%1$sSorry! Mir fehlen die Rechte Nutzer in diesem Server zu bannen!",
-      "hierarchy_conflict": "%1$sSie können niemanden bannen, der in der Hierarchie höher steht als Sie! Netter Versuch %2$s",
-      "yourself_note": "%1$sWarum versuchen Sie sich selbst zu bannen?",
-      "self_hierarchy_conflict": "%1$sKann das Mitglied nicht bannen: %2$s, es befindet sich in der Hierarchie höher als ich!",
-      "success": "%1$s%2$s (%3$s wurde gebannt)",
-      "success_multiple": "%1$s%2$s (%3$s Personen wurden gebannt)",
-      "error": "%1$sFehler beim Bannen %2$s: (Ich benötige die Rechte: %3$s)",
-      "unknown_error": "%1$sHuh, ich habe einen unbekannten Fehler beim Bannen entdeckt %2$s"
-    },
-    "kick": {
-      "no_permission": "%1$sYou can't kick: You need the `Kick Members` permission.",
-      "no_users": "%1$sSie müssen mindestens einen Nutzer zum Kicken erwähnen!",
-      "no_permission_self": "%1$sSorry! Mir fehlen die Rechte Nutzer in diesem Server zu kicken!",
-      "hierarchy_conflict": "%1$sDu kannst niemanden kicken, der in der Hierarchie höher steht als du!",
-      "yourself_note": "%1$sWarum versuchen Sie sich selbst zu kicken?",
-      "self_hierarchy_conflict": "%1$sKann das Mitglied nicht kicken: %2$s, es befindet sich in der Hierarchie höher als ich!",
-      "success": "%1$s%2$s (%3$s wurde gekickt)",
-      "error": "%1$sFehler beim Kicken %2$s: (Ich benötige die Rechte: %3$s)",
-      "unknown_error": "%1$sHuh, ich habe einen unbekannten Fehler beim Kicken entdeckt %2$s"
-    },
     "music_usage": {
       "1": "*Wie benutze ich Mantaros Musik?*",
       "2": "- Um **Songs von YouTube oder SoundCloud hinzuzufügen** nutze `/play`. Zum Beispiel: `/play https://www.youtube.com/watch?v=aAolFWjGfMs`. *Es wird automatisch dem Kanal in dem du dich befindest beitreten*",
@@ -223,7 +200,7 @@
       "12": "Genieße deine Musik und danke, dass du Mantaro benutzt!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `/ language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
+      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "season": {
       "info": "Eine *Saison* ist eine Zeitspanne, von normalerweise 6 Monaten, in der Spieler um die 10 Top-Plätze der Geld- und Rufrangliste wetteifern können. Die Gewinner bekommen Abzeichen und Preise basierend auf ihrer Performance in der Saison.\nDies erlaubt einen kompetitiveren Rahmen (vorher herrschte beim Geld eher Stillstand) und, um das Spiel spaßiger zu machen.\nDu kannst Saisonzeug über `-season` abrufen. Befehle, wie profile, mine, fish und balance benötigen es, während games, loot, daily und reputation jeweils Geld bzw. Ruf sowohl zu deinem globalen, als auch zu deinem Saisonsprofil hinzufügen.",
@@ -1607,7 +1584,8 @@
     "help": {
       "title": "Mantaro-Hilfe",
       "base_category": "Befehlsliste für Kategorie %1$s. Für eine detaillierte Anleitung zur Benutzung von Mantaro, schau bitte ins [Wiki](https://github.com/Mantaro/MantaroBot/wiki). [Währungsanleitung](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
+      "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
+      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
       "support": "Wenn du immer noch Hilfe brauchst, kannst du dem [Supportserver](https://support.mantaro.site) beitreten. Für Neuigkeiten kannst du mir auch auf [Twitter](https://twitter.com/mantarodiscord) folgen.\n",
       "patreon": "**[Wir brauchen deine Hilfe, um Mantaro online zu halten! Klicke hier für mehr Informationen.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Zeige nur nicht deaktivierte Befehle. Gesamte deaktivierte Befehle: %1$s",
