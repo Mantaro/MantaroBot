@@ -30,7 +30,7 @@
     "dust": "Il n'y a que de la poussière ici.",
     "invalid_syntax": "Syntaxe invalide.",
     "birthday": "**Nouveaux anniversaires pour aujourd'hui, souhaitez leur un Joyeux Anniversaire !**",
-    "member_lookup_failure": "%1%sJe n'ai trouvé aucun membre portant ce nom :(",
+    "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "item_lookup": {
       "no_item_emoji": "Il n'y a pas d'objet associé à cet emoji.",
       "no_item_name": "Il n'y a pas d'objet associé à ce nom.",
@@ -139,7 +139,7 @@
     "slash": {
       "title": "Transition vers les commandes \"slash\"",
       "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description": "%1$s**La commande que tu essaies d'utiliser est devenue une \"commande slash\".** Essaie de la lancer avec / comme préfixe. \n\nLes commandes slash deviennent le nouveau moyen d'utiliser les commandes selon la ligne de conduite de Discord. **Les commandes fonctionnant toujours avec le préfixe deviendront des commandes slash uniquement**\nLes alias ont été retirées pour laisser place aux commandes slash puisqu'il n'y a pas assez de place pour les ajouter (Discord nous donne un maximum de 100 commandes).",
+      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description_image": "Pour lancer une commande slash, pour certaines commandes d'images, essaie de l'utiliser avec `/image` comme préfixe au lieu de celui que tu utilises. Par exemple, `/catgirl` devient `/image catgirl`. Tu ne dois pas faire ça pour les commandes recherchant dans les banques d'images.\n\nSi tu ne vois pas les commandes slash, re-invite le bot en utilisant le lien d'invitation disponible sur https://add.mantaro.site",
       "description_2": "Pour lancer une commande slash, essaie de l'utiliser avec `/` comme préfixe au lieu de celui que tu utilises. Par exemple, `/ping` devient `/ping` (et appuie sur tab)\n\nSi tu ne vois pas les commandes slash, re-invite le bot en utilisant le lien d'invitation disponible sur https://add.mantaro.site"
     },
@@ -185,29 +185,6 @@
       "error": "%1$sErreur lors du soft ban [%2$s]: (J'ai besoin de la permission: %3$s)",
       "unknown_error": "%1$sErreur inconnue lors du soft ban %2$s: *(Erreur? %3$s: %4$s)*"
     },
-    "ban": {
-      "no_permission": "%1$sTu ne peux pas bannir un membre: Tu n'as pas la permission de bannir les membres.",
-      "no_users": "%1$sTu dois me donner un utilisateur à bannir.",
-      "no_permission_self": "%1$sDésolé! Je n'ai pas la permission de bannir les membres de ce serveur.",
-      "hierarchy_conflict": "%1$sTu ne peux pas bannir un utilisateur dont la hiérarchie est plus élevée que toi! Bien essayé %2$s",
-      "yourself_note": "%1$sPourquoi tu essaies de te bannir toi-même, idiot?",
-      "self_hierarchy_conflict": "%1$sImpossible de bannir ce membre: %2$s, il est au même niveau de hiérarchie que moi ou plus élevé!",
-      "success": "%1$s%2$s (%3$s a été banni)",
-      "success_multiple": "%1$s%2$s (%3$s personnes bannies)",
-      "error": "%1$sErreur lors du bannissement %2$s: (J'ai besoin de la permission %3$s)",
-      "unknown_error": "%1$sErreur inconnue lors du bannissement %2$s"
-    },
-    "kick": {
-      "no_permission": "%1$sTu ne peux pas éjecter un membre : tu as besoin de la permission `Expulser des membres`.",
-      "no_users": "%1$sTu dois me donner un utilisateur à expulser.",
-      "no_permission_self": "%1$sDésolé! Je n'ai pas la permission d'expulser les membres de ce serveur.",
-      "hierarchy_conflict": "%1$sTu ne peux pas expulser un utilisateur dont la hiérarchie est plus élevée que toi",
-      "yourself_note": "%1$sPourquoi tu essaies de te t'expulser toi-même, idiot?",
-      "self_hierarchy_conflict": "%1$sImpossible d'expulser ce membre: %2$s, il est au même niveau de hiérarchie que moi ou plus élevé!",
-      "success": "%1$s%2$s (%3$s s'est fait expulser)",
-      "error": "%1$sErreur lors de l'expulsion %2$s: (J'ai besoin de la permission: %3$s)",
-      "unknown_error": "%1$sErreur inconnue lors de l'expulsion %2$s"
-    },
     "music_usage": {
       "1": "*Comment utiliser la musique avec Mantaro?*",
       "2": "- Pour **ajouter une musique de YouTube ou de Soundcloud dans la file de lecture ** utilises `/play` Par exemple : `/play https://www.youtube.com/watch?v=aAolFWjGfMs` *Mantaro se connectera automatiquement au le salon vocal dans lequel tu te trouves*",
@@ -223,7 +200,7 @@
       "12": "Profites bien de ta musique et merci d'utiliser Mantaro!"
     },
     "lang": {
-      "info": "%1$sTu peux changer la langue du serveur (si applicable) en utilisant `/language set <code de la langue>`. Pour changer ta langue de préférence, utilise `/profile lang <code de la langue>`.\n**Langues disponibles : ** `%2$s`\nSi ta langue n'est pas dans la liste et que tu as envie d'aider, n'hésite pas à rejoindre serveur de support de Mantaro et à aider à la traduction !"
+      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "season": {
       "info": "Une *saison* est un laps de temps, de normalement 6 mois durant lesquels les joueurs concourent pour une place dans le top 10 des catégories money et réputation du leaderboard. Les gagnants remporteront des badges et des prix en fonction de leur performance de la saison.\nC'est pour instaurer une ambiance plus compétitive (avant, l'économie était plus renfermée) et pour rendre le jeu un peu plus chouette.\nTu peux accéder à ton équipement de la saison en utilisant `-season`. Les commandes telles que profile, mine, fish et balance en auront besoin ; games, loot, daily et reputation quant à elles donneront de l'argent/de la réputation aussi bien à ton profile globale qu'à ton profile de compétiteur.",
@@ -1607,7 +1584,8 @@
     "help": {
       "title": "Menu d'aide de Mantaro",
       "base_category": "Liste des commandes pour la categorie %1$s. Pour un guide d'utilisation plus détaillé, merci de te rendre sur le [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Guide pour l'argent](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Liste complète des commandes**. Pour un guide détaillé, rendez-vous sur le [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nSouviens-toi que tu peux avoir plus d'infos sur une commande spécifique grâce à `/help <name of command>`\n",
+      "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
+      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
       "support": "Pour obtenir de l'aide, rejoins le [serveur de support](https://support.mantaro.site). Tu peux me suivre sur [Twitter](https://twitter.com/mantarodiscord) pour avoir des nouvelles des mises à jour. (Attention, le tout est en anglais!).\n",
       "patreon": "**[On a besoin de ton aide pour garder Mantaro en vie! Clique ici pour plus d'infos.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Je ne montre que les commandes actives. Nombre total de commandes désactivées : %1$s",
