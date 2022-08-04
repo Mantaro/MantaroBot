@@ -30,7 +30,7 @@
     "dust": "Hanya ada habuk di sini.",
     "invalid_syntax": "Sintaks tidak sah.",
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
-    "member_lookup_failure": "%1%sCannot find any member with that name :(",
+    "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "item_lookup": {
       "no_item_emoji": "Tiada item yang berkaitan dengan emoji ini.",
       "no_item_name": "Tiada item yang berkaitan dengan nama ini.",
@@ -139,7 +139,7 @@
     "slash": {
       "title": "Slash commands transition",
       "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix.\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
+      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site",
       "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site"
     },
@@ -185,29 +185,6 @@
       "error": "%1$sRalat larangan lembut [%2$s]: (Tidak ada kebenaran yang diberikan: %3$s)",
       "unknown_error": "%1$sRalat tidak diketahui semasa melarang lembut %2$s: *(Ralat? %3$s: %4$s)*"
     },
-    "ban": {
-      "no_permission": "%1$sAnda tidak boleh melarang: Anda memerlukan kebenaran Melarang Pengguna.",
-      "no_users": "%1$sAnda perlu memberi saya pengguna untuk melarang.",
-      "no_permission_self": "%1$sMaaf! Saya tidak mempunyai kebenaran untuk melarang ahli dalam pelayan ini.",
-      "hierarchy_conflict": "%1$sAnda tidak boleh melarang pengguna yang lebih tinggi daripada anda dalam hierarki pelayan! Cubaan yang baik %2$s",
-      "yourself_note": "%1$sMengapa awak cuba melarang diri awak, bodoh?",
-      "self_hierarchy_conflict": "%1$sTidak boleh melarang ahli: %2$s, dia lebih tinggi atau hierarki yang sama daripada saya!",
-      "success": "%1$s%2$s (%3$s dilarang)",
-      "success_multiple": "%1$s%2$s (%3$s orang dilarang)",
-      "error": "%1$sRalat semasa melarang %2$s: (Saya memerlukan kebenaran %3$s)",
-      "unknown_error": "%1$sHuh, saya mengalami ralat yang tidak diketahui semasa melarang %2$s"
-    },
-    "kick": {
-      "no_permission": "%1$sYou can't kick: You need the `Kick Members` permission.",
-      "no_users": "%1$sAnda perlu memberi saya pengguna untuk menendang.",
-      "no_permission_self": "%1$sMaaf! Saya tidak mempunyai kebenaran untuk menendang ahli di pelayan ini.",
-      "hierarchy_conflict": "%1$sAnda tidak boleh menendang pengguna dalam hierarki yang lebih tinggi daripada anda",
-      "yourself_note": "%1$sMengapa awak cuba menendang diri awak, bodoh?",
-      "self_hierarchy_conflict": "%1$sTidak dapat menendang ahli: %2$s, dia lebih tinggi atau hierarki yang sama dengan saya!",
-      "success": "%1$s%2$s (%3$s ditendang)",
-      "error": "%1$sRalat menendang %2$s: (Tidak ada kebenaran yang diberikan: %3$s)",
-      "unknown_error": "%1$sRalat yang tidak diketahui semasa cuba menendang %2$s"
-    },
     "music_usage": {
       "1": "*Bagaimanakah menggunakan muzik di Mantaro?*",
       "2": "- To **queue songs from youtube or soundcloud** use `/play` For example: `/play https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
@@ -223,7 +200,7 @@
       "12": "Nikmati muzik anda dan terima kasih kerana menggunakan Mantaro!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `/ language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
+      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "season": {
       "info": "*Musim* adalah jangka masa, biasanya 6 bulan di mana pemain bersaing untuk 10 slot teratas di papan pendahlu wang atau reputasi. Pemenang akan mendapat lencana dan hadiah berdasarkan prestasi musim mereka.\nIni adalah untuk membolehkan kerangka yang lebih kompetitif (sebelum ini, wang agak basi) dan menjadikan permainan sedikit lebih menyeronokkan.\nAnda boleh mengakses item bermusim menggunakan `-season`. Arahan seperti profile, mine, fish dan balance akan memerlukannya, manakala games, loot, daily dan reputation akan memberikan wang/reputasi kepada profil global dan musiman anda.",
@@ -1607,7 +1584,8 @@
     "help": {
       "title": "Bantuan Mantaro",
       "base_category": "Senarai arahan bagi kategori %1$s. Untuk panduan terperinci, sila melihat [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Panduan Mata Wang](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
+      "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
+      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
       "support": "Sekiranya anda masih tersesat anda boleh menyertai [pelayan sokongan](https://support.mantaro.site). Anda juga boleh mengikuti saya di [Twitter](https://twitter.com/mantarodiscord) untuk kemas kini.\n",
       "patreon": "**[Kami memerlukan bantuan anda untuk memastikan Mantaro terus hidup! Klik sini untuk maklumat lanjut.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Hanya memaparkan arahan yang tidak dimatikan. Jumlah arahan dimatikan: %1$s",
