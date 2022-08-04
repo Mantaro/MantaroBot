@@ -30,7 +30,7 @@
     "dust": "Здесь только пыль.",
     "invalid_syntax": "Неверный синтаксис.",
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
-    "member_lookup_failure": "%1%sCannot find any member with that name :(",
+    "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "item_lookup": {
       "no_item_emoji": "Нет предмета связанного с этим эмодзи.",
       "no_item_name": "Нет предмета связанного с этим именем.",
@@ -139,7 +139,7 @@
     "slash": {
       "title": "Slash commands transition",
       "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix.\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
+      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site",
       "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site"
     },
@@ -185,29 +185,6 @@
       "error": "%1$sError бан [%2$s]: (Не достаточно прав: %3$s)",
       "unknown_error": "%1$sНеопознанная ошибка при попытке бана %2$s: *(Ошибка? %3$s: %4$s)*"
     },
-    "ban": {
-      "no_permission": "%1$sВы не можете забанить: Тебе нужно право `Банить Участников` для этого.",
-      "no_users": "%1$sВы должны указать пользователя, чтобы я смог его забанить.",
-      "no_permission_self": "%1$sПростите! У меня нет прав, чтобы банить людей на этом сервере!",
-      "hierarchy_conflict": "%1$sВы не можете заблокировать пользователя, который имеет больше прав чем вы! Хорошая попытка ^^ %2$s",
-      "yourself_note": "%1$sДурашка, зачем ты пытаешься забанить себя?",
-      "self_hierarchy_conflict": "%1$sНе могу забанить пользователя: %2$s, он имеет больше прав чем я!",
-      "success": "%1$s%2$s (%3$s был забанен)",
-      "success_multiple": "%1$s%2$s (%3$s человек был забанен)",
-      "error": "%1$sОшибка при бане %2$s: (Мне нужны права для этого действия %3$s)",
-      "unknown_error": "%1$sХмм, я столкнулся с неизвестной мне ошибкой, когда пытался забанить %2$s"
-    },
-    "kick": {
-      "no_permission": "%1$sYou can't kick: You need the `Kick Members` permission.",
-      "no_users": "%1$sТы должен указать пользователя, которого нужно кикнуть.",
-      "no_permission_self": "%1$sПростите! У меня нет прав, чтобы кикать людей на этом сервере!",
-      "hierarchy_conflict": "%1$sВы не можете кикнуть пользователя, который имеет больше прав чем вы!",
-      "yourself_note": "%1$sХмм...Зачем ты пытаешься кикнуть себя?",
-      "self_hierarchy_conflict": "%1$sОшибка: %2$s, он имеет больше прав чем я!",
-      "success": "%1$s%2$s (%3$s был кикнут)",
-      "error": "%1$sОшибка при кике %2$s: (Мне нужны права для этого действия: %3$s)",
-      "unknown_error": "%1$sКакая-то непонятная штука, мешает мне кикнуть его...Хмм, с чем бы это могло быть связано? %2$s"
-    },
     "music_usage": {
       "1": "*Как использовать Mantaro для проигрывания музыки?*",
       "2": "- To **queue songs from youtube or soundcloud** use `/play` For example: `/play https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
@@ -223,7 +200,7 @@
       "12": "Наслаждайтесь годными треками и благодарим вас за использование Mantaro!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `/ language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
+      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "season": {
       "info": "*Сезон* это промежуток времени, обычно 6 месяцев, когда игроки соревнуются за топ 10 по количеству денег или репутации в таблице лидеров. Все победители получат значки и призы в зависимости от занятого места.\nДанная фишка помогает создать конкуренцию между людьми, ведь так гораздо интересней.\nВы можете получить доступ к сезонным вещам используя команду `-season`. Такие команды как profile, mine, fish и balance будут требовать этого, ведь вещи, которые вы получите во время сезона будут учитываться как в сезонном, так и в глобальном профиле.",
@@ -1607,7 +1584,8 @@
     "help": {
       "title": "Помощь Мантаро",
       "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
+      "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
+      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
       "support": "If you're still lost you can join the [support server](https://support.mantaro.site). You can also follow me on [Twitter](https://twitter.com/mantarodiscord) for updates.\n",
       "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Отображаются только не отключенные команды. Всего отключенных команд: %1$s",
