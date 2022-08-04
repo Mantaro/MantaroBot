@@ -30,7 +30,7 @@
     "dust": "这裡只有尘土。",
     "invalid_syntax": "无效语法。",
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
-    "member_lookup_failure": "%1%sCannot find any member with that name :(",
+    "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "item_lookup": {
       "no_item_emoji": "没有与此表情符号相关的物品。",
       "no_item_name": "没有与此表情符号相关的名字。",
@@ -139,7 +139,7 @@
     "slash": {
       "title": "Slash commands transition",
       "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix.\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
+      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site",
       "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site"
     },
@@ -185,29 +185,6 @@
       "error": "%1$ssoft ban(软驱逐)错误 [%2$s]: (没有权限: %3$s)",
       "unknown_error": "%1$s在尝试soft ban(软驱逐)的时候發生未知错误 %2$s: *(Error? %3$s: %4$s)*"
     },
-    "ban": {
-      "no_permission": "%1$s你无法驱逐成员: 你需要*驱逐成员*权限。",
-      "no_users": "%1$s你需要给我你想驱逐的成员。",
-      "no_permission_self": "%1$s抱歉! 我没有驱逐成员的权限。",
-      "hierarchy_conflict": "%1$s你无法驱逐一个身分组比你高的成员! 想的美 %2$s",
-      "yourself_note": "%1$s为什么你会想要驱逐你自己? 真愚蠢。",
-      "self_hierarchy_conflict": "%1$s无法驱逐成员: %2$s，他的身分组跟我一样或比我高!",
-      "success": "%1$s%2$s (%3$s 被驱逐了)",
-      "success_multiple": "%1$s%2$s (%3$s 都被驱逐了)",
-      "error": "%1$s驱逐错误 %2$s: (我需要%3$s权限)",
-      "unknown_error": "%1$s在驱逐 %2$s 时發生未知错误"
-    },
-    "kick": {
-      "no_permission": "%1$sYou can't kick: You need the `Kick Members` permission.",
-      "no_users": "%1$s你需要给我你想踢出的成员。",
-      "no_permission_self": "%1$s抱歉! 我没有踢出成员的权限。",
-      "hierarchy_conflict": "%1$s你无法踢出一个身分组比你高的用户",
-      "yourself_note": "%1$s为什么你会想要踢出你自己? 真愚蠢。",
-      "self_hierarchy_conflict": "%1$s无法踢出成员: %2$s，他的身分组跟我一样或比我高!",
-      "success": "%1$s%2$s (%3$s 被踢出了)",
-      "error": "%1$s踢出错误 [%2$s]: (没有权限: %3$s)",
-      "unknown_error": "%1$s在尝试踢出%2$s时發生未知错误"
-    },
     "music_usage": {
       "1": "*如何使用Mantaro的音乐功能?*",
       "2": "- To **queue songs from youtube or soundcloud** use `/play` For example: `/play https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
@@ -223,7 +200,7 @@
       "12": "谢谢使用Mantaro，享受你的音乐吧!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `/ language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
+      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "season": {
       "info": "*赛季/季节*是时间长度，通常为6个月，在此期间，玩家能够争夺金钱或声誉排行榜的前10名。 得奖者将根据其季节性表现获得徽章和奖品。\n这是为了创造更具竞争力的整体感受，并使游戏更加有趣 (金钱在之前是非常无用的)\n您可以使用`-season`访问具季节性的东西。profile/mine/fish/balance 等指令将需要它，而 loot/daily/reputation(声望) 及各种小游戏将对你的全局和季节性角色都产生效果。",
@@ -1607,7 +1584,8 @@
     "help": {
       "title": "Mantaro Help",
       "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
+      "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
+      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
       "support": "If you're still lost you can join the [support server](https://support.mantaro.site). You can also follow me on [Twitter](https://twitter.com/mantarodiscord) for updates.\n",
       "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
