@@ -30,7 +30,7 @@
     "dust": "D-Do you think I can clean up all of this dust by myself?! Geez.",
     "invalid_syntax": "Can't you use this command properly?! You baka.",
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
-    "member_lookup_failure": "%1%sCannot find any member with that name :(",
+    "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "item_lookup": {
       "no_item_emoji": "You baka, that's not an item emoji.",
       "no_item_name": "You baka, that's not an item name.",
@@ -139,7 +139,7 @@
     "slash": {
       "title": "Slash commands transition",
       "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix.\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
+      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site",
       "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site"
     },
@@ -185,29 +185,6 @@
       "error": "%1$sError soft-banning [%2$s]: (No permission provided: %3$s)",
       "unknown_error": "%1$sUnknown error while soft-banning %2$s: *(Error? %3$s: %4$s)*"
     },
-    "ban": {
-      "no_permission": "%1$sYou can't ban: You need the `Ban Users` permission.",
-      "no_users": "%1$sYou need to give me a user to ban.",
-      "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server.",
-      "hierarchy_conflict": "%1$sYou cannot ban an user who's higher than you in the server hierarchy! Nice try %2$s",
-      "yourself_note": "%1$sWhy are you trying to ban yourself, silly?",
-      "self_hierarchy_conflict": "%1$sCannot ban member: %2$s, they are higher or the same hierarchy than I am!",
-      "success": "%1$s%2$s (%3$s got banned)",
-      "success_multiple": "%1$s%2$s (%3$s people got banned)",
-      "error": "%1$sError banning %2$s: (I need the permission %3$s)",
-      "unknown_error": "%1$sHuh, I encountered an unknown error while banning %2$s"
-    },
-    "kick": {
-      "no_permission": "%1$sYou can't kick: You need the `Kick Members` permission.",
-      "no_users": "%1$sYou need to give me a user to kick.",
-      "no_permission_self": "%1$sSorry! I don't have permission to kick members in this server.",
-      "hierarchy_conflict": "%1$sYou cannot kick an user in a higher hierarchy than you",
-      "yourself_note": "%1$sWhy are you trying to kick yourself, silly?",
-      "self_hierarchy_conflict": "%1$sCannot kick member: %2$s, they are higher or the same hierarchy than I am!",
-      "success": "%1$s%2$s (%3$s got kicked)",
-      "error": "%1$sError kicking %2$s: (No permission provided: %3$s)",
-      "unknown_error": "%1$sUnknown error while attempting to kick %2$s"
-    },
     "music_usage": {
       "1": "*How to use music in Mantaro?*",
       "2": "- To **queue songs from youtube or soundcloud** use `/play` For example: `/play https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
@@ -223,7 +200,7 @@
       "12": "Enjoy your music and thanks for using Mantaro!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `/ language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
+      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "season": {
       "info": "A *season* is the span of time, of usually 6 months where players compete for the top 10 slots on the money or reputation leaderboard. The winners will get badges and prizes based on their seasonal performance.\nThis is to allow a more competitive frame (before, money was pretty much stale) and to make the game a bit more fun.\nYou can access seasonal stuff using `-season`. Commands like profile, mine, fish and balance will require it, while games, loot, daily and reputation will give money/rep to both your global and seasonal profile.",
@@ -1607,7 +1584,8 @@
     "help": {
       "title": "Mantaro Help",
       "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
+      "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
+      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
       "support": "If you're still lost you can join the [support server](https://support.mantaro.site). You can also follow me on [Twitter](https://twitter.com/mantarodiscord) for updates.\n",
       "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
