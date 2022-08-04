@@ -30,7 +30,7 @@
     "dust": "Há apenas poeira aqui.",
     "invalid_syntax": "Sintaxe inválido.",
     "birthday": "**Novos aniversário pra hoje, deseje a eles um Feliz Aniversário!**",
-    "member_lookup_failure": "%1%sNão foi encontrado um membro com esse nome :(",
+    "member_lookup_failure": "%1$sNão foi encontrado um membro com esse nome :(",
     "item_lookup": {
       "no_item_emoji": "Não há um item associado a esse emoji.",
       "no_item_name": "Não há um item associado a este nome.",
@@ -139,7 +139,7 @@
     "slash": {
       "title": "Transição para os comandos de barra",
       "description_alias": "%1$s**O comando que você está tentando usar foi movido para os Comandos de Barra só.** Tente usar com / sendo o prefixo. **Esse comando era uma variação**. Tente usar o comando original. (`/%2$s`).\n\nComandos de Barra são os novos tipos de comandos de acordo com as Diretrizes do Discord.\n**Os comandos que ainda funcionam com prefixos vão eventualmente ser apenas de barra.**\nComandos variáveis foram removidos dos Comandos de Barra pois não tem espaço suficiente para adicioná-los (o Discord nos permite adicionar só 100 comandos).",
-      "description": "%1$s**O comando que você está tentando usar foi movido para os Comandos de Barra só.** Tente usar com / sendo o prefixo.\n\nComandos de Barra são os novos tipos de comandos de acordo com as Diretrizes do Discord.\n**Os comandos que ainda funcionam com prefixos vão eventualmente ser apenas de barra.**\nComandos variáveis foram removidos dos Comandos de Barra pois não tem espaço suficiente para adicioná-los (o Discord nos permite adicionar só 100 comandos).",
+      "description": "%1$s**O comando que você está tentando usar foi movido para os Comandos de Barra só.** Tente usar com / sendo o prefixo (`/%2$s`).\n\nComandos de Barra são os novos tipos de comandos de acordo com as Diretrizes do Discord.\n**Os comandos que ainda funcionam com prefixos vão eventualmente ser apenas de barra.**\nComandos variáveis foram removidos dos Comandos de Barra pois não tem espaço suficiente para adicioná-los (o Discord nos permite adicionar só 100 comandos).",
       "description_image": "Pra usar um comando de barra pra alguns comandos de imagens, tente usar o comando com `/image` como prefixo ao invés do que você está usando. Por exemplo, `~>catgirl` vira `/image catgirl`. Os comando de imageboard não precisam disso.\n\nSe você não achar o comando de barra, re-adicione o bot usando o link de convite em https://add.mantaro.site",
       "description_2": "Pra usar um comando de barra, tente usar o comando com `/` como prefixo ao invés do que você está usando. Por exemplo, `~ping` vira `/ping` (e precione tab)\n\nSe você não achar os comando de barra, re-adicione o bot usando o link de convite em https://add.mantaro.site"
     },
@@ -185,29 +185,6 @@
       "error": "%1$sErro soft-banindo [%2$s]: (Sem permisão fornecida: %3$s)",
       "unknown_error": "%1$sErro desconhecido enquanto soft-bania %2$s: *(Erro? %3$s: %4$s)*"
     },
-    "ban": {
-      "no_permission": "%1$sVocê não pode banir: Você precisa da permissão de `Banir Usuários`.",
-      "no_users": "%1$sVocê tem que me dar um usuário para banir.",
-      "no_permission_self": "%1$sDesculpa! Eu não tenho permissão para banir membros neste servidor.",
-      "hierarchy_conflict": "%1$sVocê não banir um usuário que tem hierarquia maior que a sua no servidor! Boa tentativa %2$s",
-      "yourself_note": "%1$sPor que você está tentando banir si mesmo, bobo?",
-      "self_hierarchy_conflict": "%1$sNão é possível banir o membro: %2$s, ele tem uma hierarquia maior ou igual a mim!",
-      "success": "%1$s%2$s (%3$s foi banido)",
-      "success_multiple": "%1$s%2$s (%3$s pessoas foram banidas)",
-      "error": "%1$sErro banindo %2$s: (Eu preciso da permissão %3$s)",
-      "unknown_error": "%1$sHein, Eu encontrei um erro desconhecido enquanto bania %2$s"
-    },
-    "kick": {
-      "no_permission": "%1$sVocê não pode kickar: Você precisa da permissão de `Expulsar Membros`.",
-      "no_users": "%1$sVocê tem que me dar um usuário para expulsar.",
-      "no_permission_self": "%1$sDesculpa! Eu não tenho permissão para expulsar membros neste servidor.",
-      "hierarchy_conflict": "%1$sVocê não pode expulsar um usuário que tem uma hierarquia maior que a sua",
-      "yourself_note": "%1$sPor que você está tentando expulsar si mesmo, bobo?",
-      "self_hierarchy_conflict": "%1$sNão é possível expulsar membro: %2$s, ele tem uma hierarquia maior ou igual a mim!",
-      "success": "%1$s%2$s (%3$s foi expulso)",
-      "error": "%1$sErro expulsando %2$s: (Sem permissão fornecida: %3$s)",
-      "unknown_error": "%1$sErro desconhecido ao tentar expulsar %2$s"
-    },
     "music_usage": {
       "1": "*Como usar música na Mantaro?*",
       "2": "- Pra **fazer filas com youtube ou soundcloud** use `/play` Por exemplo: `/play https://www.youtube.com/watch?v=aAolFWjGfMs` *Ela se conectará automaticamente ao canal de voz que você está*",
@@ -223,7 +200,7 @@
       "12": "Aprecie sua música e obrigado por usar a Mantaro!"
     },
     "lang": {
-      "info": "%1$sVocê pode mudar a língua do servidor (se aplicável) usando `/ language set <language code>`. Suas preferência pessoas de língua podem ser alteradas usando `/profile lang <language code>`.\n**Línguas disponíveis:** %2$s`\nSe a sua língua não está aqui e você quer ajudar, sinta-se livre pra se juntar ao servidor de suporte e se ter esforço de traduzir!"
+      "info": "%1$sVocê pode mudar a língua do servidor (se aplicado) usando `~>opts language set <código da língua>`. Suas preferências pessoais de idioma podem ser alteradas usando `/profile lang <código da língua>`.\n**Línguas disponíveis:** `%2$s`\nSe sua língua não está aqui e você quer ajudar, sinta-se livre para se juntar no servidor de suporte e se juntar na tradução com seu esforço!"
     },
     "season": {
       "info": "Uma *temporada* é um período de tempo, de geralmente 6 meses em que jogadores competem pelas 10 melhores posições no dinheiro ou no ranking de reputação. Os vencedores irão ganhar insígnias e recompensas baseado no desempenho sazonal.\nIsso é para ter um quadro mais competitivo (antes, o dinheiro era praticamente obsoleto) e para deixar o jogo um pouco mais divertido. \nVocê pode acessar as coisas sazonais usando `-season`. Comandos como profile, mine, fish e balance exigirá isso, enquanto games, loot, daily e reputation irão dar dinheiro/representação para seu perfil global e sazonal.",
@@ -1607,7 +1584,8 @@
     "help": {
       "title": "Ajuda da Mantaro",
       "base_category": "Lista de comandos da categoria %1$s. Para um guia detalhado, por favor cheque a [wiki] (https://github.com/Mantaro/MantaroBot/wiki). [Guia da Moeda] (https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Lista completa de comandos**. Para um guia detalhado, por favor cheque nossa [wiki] (https://github.com/Mantaro/MantaroBot/wiki).\nLembre-se de que você pode ter mais informações de um comando usando `/help <name of command>\n",
+      "base_prefix": "**Lista completa de comandos por prefixos**. Para um guia detalhado, por favor chece nossa [wiki] (https://github.com/Mantaro/MantaroBot/wiki).\nLembre-se de que você pode ter mais informações sobre um comando usando `~>help <name of command>` pra ver todos os comandos use `/help` e pressione Tab. **Tenha em mente de que muitos comandos agora só podem ser usados com barra, isso só mostra os comandos por prefixos.**\n",
+      "base": "**Lista completa de comandos por barra**. Para um guia detalhado, por favor cheque nosa [wiki] (https://github.com/Mantaro/MantaroBot/wiki).\nLembre-se de que você pode ter mais informações de um comando usando `/help <name of command>`\n",
       "support": "Se você ainda estiver perdido você pode entrar em nosso [servidor de suporte](https://support.mantaro.site). Você pode me seguir também no [Twitter](https://twitter.com/mantarodiscord) para updates.\n",
       "patreon": "[Nós precisamos da sua ajuda para manter Mantaro online! Clique aqui para mais informações.]\n(https://www.patreon.com/mantaro)",
       "disabled_commands": "Apenas mostrando comandos não-desativados. Total de comandos desativados: %1$s",
