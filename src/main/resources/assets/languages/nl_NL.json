@@ -30,7 +30,7 @@
     "dust": "Er is hier alleen maar stof.",
     "invalid_syntax": "Ongeldige syntax.",
     "birthday": "**Nieuwe verjaardagen voor vandaag, wens ze een gelukkige verjaardag!**",
-    "member_lookup_failure": "%1%sKan geen lid vinden met die naam :(",
+    "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "item_lookup": {
       "no_item_emoji": "Er is geen voorwerp gekoppeld aan deze emoji.",
       "no_item_name": "Er is geen voorwerp gekoppeld aan deze naam.",
@@ -139,7 +139,7 @@
     "slash": {
       "title": "Slash opdracht overgangen",
       "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description": "%1$s**Het commando die u probeert uit te voeren is verplaatst naar alleen Slash commando`s.** Probeer deze uit te voeren met / als prefix.\n\nSlash commando`s zijn de nieuwe manier om commando`s te gebruiken volgens de richtlijnen van Discord. **Commando`s die nog steeds met voorvoegsels werken, worden uiteindelijk alleen slash.**\ncommando aliassen zijn verwijderd voor Slash commando`s omdat er niet genoeg ruimte is voor ons om ze toe te voegen (Discord laat ons slechts 100 opdrachten toevoegen).",
+      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description_image": "Om een ​​slash opdracht uit te voeren voor sommige afbeeldings opdracht en, probeer dan de opdracht met het prefix `/image` in plaats van degene die je hebt gebruikt. Bijvoorbeeld, `~>catgirl` wordt `/image catgirl`. Imageboard opdrachten volgen dit niet.\n\nAls u de slash opdrachten niet ziet, voegt u de bot opnieuw toe met behulp van de uitnodigingslink op https://add.mantaro.site",
       "description_2": "Om een ​​slash opdracht uit te voeren probeer dan de opdracht met het prefix `/` in plaats van prefix die je hebt gebruikt. Bijvoorbeeld, `~>ping` wordt `/ping`. (en druk op tab)\n\nAls u de slash opdrachten niet ziet, voegt u de bot opnieuw toe met behulp van de uitnodigingslink op https://add.mantaro.site"
     },
@@ -185,29 +185,6 @@
       "error": "%1$sFoutmelding tijdens het soft-bannen [%2$s]: (Ik heb eerst toestemming nodig: %3$s)",
       "unknown_error": "%1$sOnbekende fout bij het soft-bannen van %2$s: *(Fout? %3$s: %4$s)*"
     },
-    "ban": {
-      "no_permission": "%1$sJe kunt niet bannen: Je hebt de `Ban gebruikers` toestemming nodig.",
-      "no_users": "%1$sJe moet me een gebruiker geven om te bannen.",
-      "no_permission_self": "%1$sSorry! Ik heb geen bevoegdheid om gebruikers te bannen in deze server.",
-      "hierarchy_conflict": "%1$sJe kunt geen ban geven aan iemand met meer rechten dan jijzelf! Leuk geprobeerd %2$s",
-      "yourself_note": "%1$sWaarom probeer je jezelf te bannen, gekkie?",
-      "self_hierarchy_conflict": "%1$sKan de gebruiker niet bannen: %2$s, zij hebben dezelfde, of meer rechten dan ik heb!",
-      "success": "%1$s%2$s (%3$s is verbannen)",
-      "success_multiple": "%1$s%2$s (%3$s is gebannen)",
-      "error": "%1$sFoutmelding tijdens het bannen %2$s: (Ik heb eerst toestemming nodig: %3$s)",
-      "unknown_error": "%1$sOh nee, ik kreeg een onbekende foutmelding tijdens het bannen %2$s"
-    },
-    "kick": {
-      "no_permission": "%1$sJe kunt niet kicken: Je hebt de `Kick Memebers` toestemming nodig.",
-      "no_users": "%1$sJe moet me een gebruiker geven om te kicken.",
-      "no_permission_self": "%1$sSorry! Ik heb geen bevoegdheid om gebruikers te kicken in deze server.",
-      "hierarchy_conflict": "%1$sJe kunt geen gebruiker kicken met meer rechten dan jijzelf! Leuk geprobeerd",
-      "yourself_note": "%1$sWaarom probeer je jezelf te kicken, gekkie?",
-      "self_hierarchy_conflict": "%1$sKan de gebruiker niet kicken: %2$s, zij hebben dezelfde, of meer rechten dan ik heb!",
-      "success": "%1$s%2$s (%3$s is gekicked)",
-      "error": "%1$sFoutmelding tijdens het kicken %2$s: (Ik heb eerst toestemming nodig: %3$s)",
-      "unknown_error": "%1$sOh nee, ik kreeg een onbekende foutmelding tijdens het kicken %2$s"
-    },
     "music_usage": {
       "1": "*Hoe gebruik je de muziekfunctie in Mantaro?*",
       "2": "- Om **nummers van youtube of soundcloud in de afspeellijst te plaatsen** gebruik `/play` Bijvoorbeeld: `/play https://www.youtube.com/watch?v=aAolFWjGfMs` *De bot joint direct het spraak-kanaal waar jij je in bevindt*",
@@ -223,7 +200,7 @@
       "12": "Geniet van je muziek en bedankt voor het gebruiken van Mantaro!"
     },
     "lang": {
-      "info": "%1$sJe kunt de server taal wijzigen (indien beschikbaar) door middel van `/language set <taal code>`. Je persoonlijke taalvoorkeur kan gewijzigd worden met `/profile lang <taal code>`.\n**Beschikbare talen:** `%2$s`\nAls je taal hier niet tussen staat en je wilt helpen, voel je dan vrij om lid te worden van de ondersteuningsserver en onderdeel te worden van het vertaal team!"
+      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "season": {
       "info": "Een * seizoen * is de tijdspan van gewoonlijk 6 maanden waarin spelers strijden om de top 10 slots op het geld- of reputatieklassement. De winnaars ontvangen badges en prijzen op basis van hun seizoensprestaties.\nDit is om een ​​competitiever frame mogelijk te maken (voorheen was het geld behoorlijk oud en saai) en om het spel een beetje leuker te maken.\nJe hebt toegang tot seizoensgebonden dingen met behulp van `-season`. Commando's zoals profile, mine, fish en balance zullen het vereisen, terwijl games, loot, daily en reputation geld/rep opleveren voor zowel je globale als seizoensprofiel.",
@@ -1607,7 +1584,8 @@
     "help": {
       "title": "Mantaro Help",
       "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
+      "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
+      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
       "support": "If you're still lost you can join the [support server](https://support.mantaro.site). You can also follow me on [Twitter](https://twitter.com/mantarodiscord) for updates.\n",
       "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Alleen niet-geblokkeerde opdrachten weergeven. Totaal uitgeschakeldeopdrachten: %1$s",
