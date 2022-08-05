@@ -195,7 +195,7 @@
       "7": "- Pour **faire pause et continuer** utilises `/pause`",
       "8": "- Pour **arrêter la musique ** utilises `/stop`",
       "9": "- Pour **mélanger la liste de lecture** utilises `/shuffle`",
-      "10": "- Et enfin, pour **répéter une chanson** utilise `/repeat` et pour **répéter la liste de lecture** utilise `/repeatqueue`. Utiliser `/repeat` pendant que la répétition est en cours annulera la répétition de même que `/repeatqueue`\n",
+      "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue by setting the queue boolean to true on the command.\n",
       "11": "Pour plus d'info, utilises `/help <nom de la commande>` (sans les <> et remplace nom de la commande par la commande que tu souhaites)",
       "12": "Profites bien de ta musique et merci d'utiliser Mantaro!"
     },
