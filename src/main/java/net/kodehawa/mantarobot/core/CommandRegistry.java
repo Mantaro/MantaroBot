@@ -21,12 +21,15 @@ import com.google.common.base.Preconditions;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.CustomCmds;
 import net.kodehawa.mantarobot.core.command.CommandManager;
 import net.kodehawa.mantarobot.core.command.NewCommand;
 import net.kodehawa.mantarobot.core.command.NewContext;
 import net.kodehawa.mantarobot.core.command.argument.ArgumentParseError;
+import net.kodehawa.mantarobot.core.command.slash.ContextCommand;
+import net.kodehawa.mantarobot.core.command.slash.InteractionContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
@@ -254,6 +257,58 @@ public class CommandRegistry {
         Metrics.COMMAND_LATENCY.observe(end - start);
     }
 
+    // Process (user) context interaction.
+    public void process(UserContextInteractionEvent event) {
+        if (event.getGuild() == null) {
+            event.deferReply(true)
+                    .setContent("This bot does not accept commands in Private Messages. You can add it to your server at https://add.mantaro.site")
+                    .queue();
+            return;
+        }
+
+        var start = System.currentTimeMillis();
+        System.out.println(event.getCommandPath());
+        System.out.println(event.getCommandId());
+        var cmd = getCommandManager().contextUserCommands().get(event.getCommandPath());
+        if (cmd == null) {
+            return;
+        }
+
+        final var managedDatabase = MantaroData.db();
+        final var mantaroData = managedDatabase.getMantaroData();
+        final var guild = event.getGuild();
+
+        if (mantaroData.getBlackListedGuilds().contains(guild.getId())) {
+            log.debug("Got command from blacklisted guild {}, dropping", guild.getId());
+            event.deferReply(true)
+                    .setContent("Not accepting commands from this server.")
+                    .queue();
+            return;
+        }
+
+        if (!cmd.getPermission().test(event.getMember())) {
+            event.deferReply(true)
+                    .setContent(EmoteReference.STOP + "You have no permissions to trigger this command :(")
+                    .queue();
+            return;
+        }
+
+        final var author = event.getUser();
+        final var dbGuild = managedDatabase.getGuild(event.getGuild());
+        final var guildData = dbGuild.getData();
+        final var dbUser = managedDatabase.getUser(author);
+        final var userData = dbUser.getData();
+
+        cmd.execute(new InteractionContext<>(event, new I18nContext(guildData, userData)));
+        commandLog.debug("Context (user) command: {}, User: {} ({}), Guild: {}" ,
+                cmd.getName(), author.getAsTag(), author.getId(), guild.getId()
+        );
+
+        final var end = System.currentTimeMillis();
+        Metrics.COMMAND_COUNTER.labels(cmd.getName() + "-context").inc();
+        Metrics.COMMAND_LATENCY.observe(end - start);
+    }
+
     // Process slash commands.
     public void process(SlashCommandInteractionEvent event) {
         if (event.getGuild() == null) {
@@ -272,15 +327,8 @@ public class CommandRegistry {
         }
 
         final var managedDatabase = MantaroData.db();
-        final var author = event.getUser();
-        final var channel = event.getChannel();
-        // Variable used in lambda expression should be final or effectively final...
-        final var cmd = command;
-        final var name = cmd.getName();
-        final var guild = event.getGuild();
         final var mantaroData = managedDatabase.getMantaroData();
-        final var dbGuild = managedDatabase.getGuild(event.getGuild());
-        final var guildData = dbGuild.getData();
+        final var guild = event.getGuild();
 
         if (mantaroData.getBlackListedGuilds().contains(guild.getId())) {
             log.debug("Got command from blacklisted guild {}, dropping", guild.getId());
@@ -289,6 +337,14 @@ public class CommandRegistry {
                     .queue();
             return;
         }
+
+        final var author = event.getUser();
+        final var channel = event.getChannel();
+        // Variable used in lambda expression should be final or effectively final...
+        final var cmd = command;
+        final var name = cmd.getName();
+        final var dbGuild = managedDatabase.getGuild(event.getGuild());
+        final var guildData = dbGuild.getData();
 
         // !! Permission check start
         if (guildData.getDisabledCommands().contains(name)) {
@@ -446,6 +502,10 @@ public class CommandRegistry {
 
     public void registerSlash(Class<? extends SlashCommand> clazz) {
         var cmd = newCommands.registerSlash(clazz);
+    }
+
+    public void registerContextUser(Class<? extends ContextCommand<User>> clazz) {
+        var cmd = newCommands.registerContextUser(clazz);
     }
 
     public <T extends Command> T register(String name, T command) {

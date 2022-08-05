@@ -1,23 +1,26 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
 package net.kodehawa.mantarobot.core.command.processor;
 
 import io.prometheus.client.Histogram;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -29,6 +32,21 @@ public class CommandProcessor {
     private static final Histogram commandTime = Histogram.build()
             .name("command_time").help("Time it takes for a command to be ran.")
             .register();
+
+    public boolean runContextUser(UserContextInteractionEvent event) {
+        final long start = System.currentTimeMillis();
+        // Run the actual command here.
+        REGISTRY.process(event);
+
+        // This could be done using a lock, but that would be a little too blocking. So just set a flag.
+        try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
+            jedis.set("commands-running-" + event.getUser().getId(), String.valueOf(1));
+        }
+
+        final long end = System.currentTimeMillis();
+        commandTime.observe(end - start);
+        return true;
+    }
 
     public boolean runSlash(SlashCommandInteractionEvent event) {
         final long start = System.currentTimeMillis();

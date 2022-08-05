@@ -21,9 +21,12 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.*;
+import net.kodehawa.mantarobot.core.command.slash.ContextCommand;
+import net.kodehawa.mantarobot.core.command.slash.InteractionContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -54,6 +57,7 @@ public class InfoCmds {
         cr.registerSlash(Information.class);
         cr.registerSlash(Avatar.class);
         cr.registerSlash(Info.class);
+        cr.registerContextUser(UserInfo.class);
     }
 
     @Name("mantaro")
@@ -450,6 +454,63 @@ public class InfoCmds {
                         ).build()
                 );
             }
+        }
+    }
+
+    @Name("User Info")
+    public static class UserInfo extends ContextCommand<User> {
+        @Override
+        protected void process(InteractionContext<User> ctx) {
+            ctx.deferEphemeral();
+            var user = ctx.getTarget();
+            var guildData = ctx.getDBGuild().getData();
+            var member = ctx.getGuild().getMember(user);
+
+            var roles = member.getRoles().stream()
+                    .map(Role::getName)
+                    .collect(Collectors.joining(", "));
+
+            var languageContext = ctx.getLanguageContext();
+            var voiceState = member.getVoiceState();
+            var str = """
+                            %1$s **%2$s:** %3$s
+                            %1$s **%4$s:** %5$s
+                            %1$s **%6$s:** %7$s
+                            %1$s **%8$s:** %9$s
+                            %1$s **%10$s:** %11$s
+                            %1$s **%12$s:** %13$s
+                            """.formatted(BLUE_SMALL_MARKER,
+                    languageContext.get("commands.userinfo.id"), user.getId(),
+                    languageContext.get("commands.userinfo.join_date"),
+                    Utils.formatDate(member.getTimeJoined(), guildData.getLang()),
+                    languageContext.get("commands.userinfo.created"),
+                    Utils.formatDate(user.getTimeCreated(), guildData.getLang()),
+                    languageContext.get("commands.userinfo.account_age"),
+                    TimeUnit.MILLISECONDS.toDays(
+                            System.currentTimeMillis() - user.getTimeCreated().toInstant().toEpochMilli())
+                            + " " + languageContext.get("general.days"),
+                    languageContext.get("commands.userinfo.vc"),
+                    voiceState != null && voiceState.getChannel() != null ?
+                            voiceState.getChannel().getName() : languageContext.get("general.none"),
+                    languageContext.get("commands.userinfo.color"),
+                    member.getColor() == null ? languageContext.get("commands.userinfo.default") :
+                            "#%s".formatted(Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase())
+            );
+
+            ctx.reply(new EmbedBuilder()
+                    .setColor(ctx.getMember().getColor())
+                    .setAuthor(
+                            languageContext.get("commands.userinfo.header")
+                                    .formatted( user.getName(), user.getDiscriminator()),
+                            null, ctx.getAuthor().getEffectiveAvatarUrl()
+                    )
+                    .setThumbnail(user.getEffectiveAvatarUrl())
+                    .setDescription(str)
+                    .addField(
+                            languageContext.get("commands.userinfo.roles").formatted(member.getRoles().size()),
+                            StringUtils.limit(roles, 900), true
+                    ).build()
+            );
         }
     }
 }

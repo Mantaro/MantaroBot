@@ -1,23 +1,27 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
 package net.kodehawa.mantarobot.core.command;
 
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.kodehawa.mantarobot.core.command.slash.ContextCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 
@@ -28,14 +32,27 @@ import java.util.*;
 public class CommandManager {
     private final Map<String, NewCommand> commands = new HashMap<>();
     private final Map<String, SlashCommand> slashCommands = new HashMap<>();
+    private final Map<String, ContextCommand<User>> contextUserCommand = new HashMap<>();
+    private final Map<String, ContextCommand<Message>> contextMessageCommand = new HashMap<>();
     private final static List<CommandData> slashCommandsList = new ArrayList<>();
+    private final static List<CommandData> contextUserCommandList = new ArrayList<>();
+    private final static List<CommandData> contextMessageCommandList = new ArrayList<>();
     private final Map<String, String> aliases = new HashMap<>();
 
     public Map<String, NewCommand> commands() {
         return Collections.unmodifiableMap(commands);
     }
+
     public Map<String, SlashCommand> slashCommands() {
         return Collections.unmodifiableMap(slashCommands);
+    }
+
+    public Map<String, ContextCommand<User>> contextUserCommands() {
+        return Collections.unmodifiableMap(contextUserCommand);
+    }
+
+    public Map<String, ContextCommand<Message>> contextMessageCommands() {
+        return Collections.unmodifiableMap(contextMessageCommand);
     }
 
     public <T extends NewCommand> T register(@Nonnull Class<T> clazz) {
@@ -58,7 +75,37 @@ public class CommandManager {
         return registerSlash(instantiate(clazz));
     }
 
-    public <T extends SlashCommand> T registerSlash(@Nonnull T command) {
+    public <T extends ContextCommand<User>> T registerContextUser(@Nonnull Class<T> clazz) {
+        return registerContextUser(instantiate(clazz));
+    }
+
+    public <T extends ContextCommand<Message>> T registerContextMessage(@Nonnull Class<T> clazz) {
+        return registerContextMessage(instantiate(clazz));
+    }
+
+    private <T extends ContextCommand<User>> T registerContextUser(@Nonnull T command) {
+        if (contextUserCommand.putIfAbsent(command.getName(), command) != null) {
+            throw new IllegalArgumentException("Duplicate context command (user)" + command.getName());
+        }
+
+        CommandData commandData = Commands.user(command.getName()).setGuildOnly(true);
+        contextUserCommand.put(command.getName(), command);
+        contextUserCommandList.add(commandData);
+        return command;
+    }
+
+    private <T extends ContextCommand<Message>> T registerContextMessage(@Nonnull T command) {
+        if (contextMessageCommand.putIfAbsent(command.getName(), command) != null) {
+            throw new IllegalArgumentException("Duplicate context command (message)" + command.getName());
+        }
+
+        CommandData commandData = Commands.user(command.getName()).setGuildOnly(true);
+        contextMessageCommand.put(command.getName(), command);
+        contextMessageCommandList.add(commandData);
+        return command;
+    }
+
+    private <T extends SlashCommand> T registerSlash(@Nonnull T command) {
         if (slashCommands.putIfAbsent(command.getName(), command) != null) {
             throw new IllegalArgumentException("Duplicate command " + command.getName());
         }
@@ -105,6 +152,10 @@ public class CommandManager {
 
     public List<CommandData> getSlashCommandsList() {
         return slashCommandsList;
+    }
+
+    public List<CommandData> getContextUserCommandsList() {
+        return contextUserCommandList;
     }
 
     private static <T> T instantiate(Class<T> clazz) {

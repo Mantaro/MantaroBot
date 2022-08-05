@@ -63,6 +63,7 @@ import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import net.kodehawa.mantarobot.utils.external.BotListPost;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.apache.commons.collections4.ListUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -401,7 +402,8 @@ public class MantaroCore {
 
     public void registerSlash(List<CommandData> data) {
         if (MantaroBot.getInstance().isMasterNode()) {
-            getShard(0).getJDA().updateCommands().addCommands(data).queue();
+            var jda = getShard(0).getJDA();
+            jda.updateCommands().addCommands(data).queue();
         }
     }
 
@@ -479,8 +481,11 @@ public class MantaroCore {
 
         bot.startCheckingBirthdays();
         var slashList = CommandProcessor.REGISTRY.getCommandManager().getSlashCommandsList();
-        registerSlash(slashList);
         log.info("Attempted to register slash commands (@Module). List size: {}", slashList.size());
+        var userContextList = CommandProcessor.REGISTRY.getCommandManager().getContextUserCommandsList();
+        log.info("Attempted to register context commands (@Module). List size: {}", userContextList.size());
+
+        registerSlash(ListUtils.union(slashList, userContextList));
     }
 
     private void startUpdaters() {

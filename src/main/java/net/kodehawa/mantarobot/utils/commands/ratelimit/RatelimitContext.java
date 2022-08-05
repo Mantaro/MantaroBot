@@ -1,9 +1,26 @@
+/*
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
+ *
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
+ */
+
 package net.kodehawa.mantarobot.utils.commands.ratelimit;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildMessageChannel;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class RatelimitContext {
@@ -11,9 +28,9 @@ public class RatelimitContext {
     private final Message message;
     private final GuildMessageChannel channel;
     private final MessageReceivedEvent event;
-    private final SlashCommandInteractionEvent slashEvent;
+    private final GenericCommandInteractionEvent slashEvent;
 
-    public RatelimitContext(Guild guild, Message message, GuildMessageChannel channel, MessageReceivedEvent event, SlashCommandInteractionEvent slashEvent) {
+    public RatelimitContext(Guild guild, Message message, GuildMessageChannel channel, MessageReceivedEvent event, GenericCommandInteractionEvent slashEvent) {
         this.guild = guild;
         this.message = message;
         this.channel = channel;
@@ -37,7 +54,7 @@ public class RatelimitContext {
         return event;
     }
 
-    public SlashCommandInteractionEvent getSlashEvent() {
+    public GenericCommandInteractionEvent getSlashEvent() {
         return slashEvent;
     }
 

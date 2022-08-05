@@ -375,7 +375,7 @@ public class SlashContext implements IContext {
 
     @Override
     public void send(Message message) {
-
+        reply(message);
     }
 
     @Override
