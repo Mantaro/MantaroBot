@@ -107,7 +107,7 @@ public class HelpCmd {
 
             var command = ctx.getOptionAsString("command", "");
             if (command.isBlank()) {
-                buildHelpSlash(ctx, null);
+                buildHelpSlash(ctx);
             } else {
                 var cmd = CommandProcessor.REGISTRY.getCommandManager().slashCommands().get(command);
                 // Cursed sub-command detection.
@@ -397,7 +397,7 @@ public class HelpCmd {
         cr.registerAlias("help", "halp"); //why not
     }
 
-    private static void buildHelpSlash(SlashContext ctx, CommandCategory category) {
+    private static void buildHelpSlash(SlashContext ctx) {
         var dbGuild = ctx.getDBGuild();
         var guildData = dbGuild.getData();
         var dbUser = ctx.getDBUser();
@@ -405,13 +405,7 @@ public class HelpCmd {
 
         // Start building the help description.
         var description = new StringBuilder();
-        if (category == null) {
-            description.append(languageContext.get("commands.help.base"));
-        } else {
-            description.append(languageContext.get("commands.help.base_category")
-                    .formatted(languageContext.get(category.toString()))
-            );
-        }
+        description.append(languageContext.get("commands.help.base"));
 
         if (!dbUser.isPremium() && !dbGuild.isPremium()) {
             description.append(languageContext.get("commands.help.patreon"));
@@ -446,13 +440,6 @@ public class HelpCmd {
                 ), ctx.getGuild().getIconUrl());
 
         Arrays.stream(CommandCategory.values())
-                .filter(c -> {
-                    if (category != null) {
-                        return c == category;
-                    } else {
-                        return true;
-                    }
-                })
                 .filter(c -> c != CommandCategory.HIDDEN)
                 .filter(c -> c != CommandCategory.OWNER || CommandPermission.OWNER.test(ctx.getMember()))
                 .filter(c -> !CommandProcessor.REGISTRY.getSlashCommandsForCategory(c).isEmpty())
