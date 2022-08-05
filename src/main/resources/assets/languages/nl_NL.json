@@ -195,7 +195,7 @@
       "7": "- Om **te pauzeren of de pauze op te heffen** gebruik `/pause`",
       "8": "- Om **de muziek te stoppen en de muziekpeler los te koppelen** gebruik `/stop`",
       "9": "- Om **de nummers in de afspeellijst te verschuiven** gebruik `/shuffle`",
-      "10": "- En als laatst, Om **een nummer te herhalen** gebruik `/repeat` en om **een afspeellijst te herhalen** gebruik `/repeat queue`. Als je `/repeat` gebruikt als deze aanstaat, wordt het uitgeschakeld, het zelfde geld ook voor `/repeatqueue`\n",
+      "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue by setting the queue boolean to true on the command.\n",
       "11": "Voor meer informatie gebruik `/help <commando naam>` (zonder de <> en vervang de commandonaam met de naam van het gewenste commando)",
       "12": "Geniet van je muziek en bedankt voor het gebruiken van Mantaro!"
     },
