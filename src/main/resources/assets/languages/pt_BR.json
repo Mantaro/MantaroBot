@@ -195,7 +195,7 @@
       "7": "- Pra **pausar ou despausar** apenas use `/pause`",
       "8": "- Pra **parar a música desvincular o player** use `/stop`",
       "9": "- Pra **embaralhar a fila** apenas use `/shuffle`",
-      "10": "- E por último, pra **repetir a música** use `/repeat` e pra **repetir a fila** use `/repeatqueue`. Usar `/repeat`` enquanto a repetição está ativa, irá desativá-la, o mesmo acontece com `/repeatqueue`\n",
+      "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue by setting the queue boolean to true on the command.\n",
       "11": "Pra mais informações por favor use `/help <command name>` (sem o <> e troque o nome do comando pelo nome do comando que você quer)",
       "12": "Aprecie sua música e obrigado por usar a Mantaro!"
     },
