@@ -17,7 +17,10 @@
 
 package net.kodehawa.mantarobot.utils.patreon;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.beans.ConstructorProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PatreonPledge {
@@ -25,6 +28,8 @@ public class PatreonPledge {
     private PatreonReward reward;
     private final boolean active;
 
+    @ConstructorProperties({"amount", "active", "reward"})
+    @JsonCreator
     public PatreonPledge(double amount, boolean active, PatreonReward reward) {
         this.amount = amount;
         this.reward = reward;
@@ -49,5 +54,9 @@ public class PatreonPledge {
 
     public void setReward(PatreonReward reward) {
         this.reward = reward;
+    }
+
+    public String toString() {
+        return "Active: %s, Amount: %.1f, Tier: %s".formatted(active, amount, reward);
     }
 }

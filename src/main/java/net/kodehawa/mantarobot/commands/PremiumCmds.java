@@ -152,6 +152,16 @@ public class PremiumCmds {
 
         @Name("user")
         @Description("Checks the premium status of an user.")
+        @Options({
+                @Options.Option(type = OptionType.USER, name = "user", description = "The user to check for premium status.")
+        })
+        @Help(
+                description = "Checks the premium status of an user.",
+                usage = "`/premium check [user]`",
+                parameters = {
+                        @Help.Parameter(name = "user", description = "The user to check for. Yourself if empty.", optional = true)
+                }
+        )
         public static class UserCommand extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {

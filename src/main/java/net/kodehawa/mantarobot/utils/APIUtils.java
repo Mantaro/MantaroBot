@@ -162,7 +162,7 @@ public class APIUtils {
 
                 var reply = new JSONObject(new JSONTokener(body.byteStream()));
 
-                return new Pair<>(reply.getBoolean("active"), reply.getString("amount"));
+                return new Pair<>(reply.getBoolean("active"), Double.toString(reply.getDouble("amount")));
             }
 
         } catch (Exception ex) {
