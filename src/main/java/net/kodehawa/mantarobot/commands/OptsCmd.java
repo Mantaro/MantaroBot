@@ -176,7 +176,7 @@ public class OptsCmd {
                     if (opts.containsKey("print") || opts.containsKey("paste")) {
                         var builder = new StringBuilder();
                         for (var entry : fieldMap.entrySet()) {
-                            builder.append("* ").append(entry.getKey()).append(": ").append(entry.getValue().getRight()).append("\n");
+                            builder.append("* ").append(entry.getKey()).append(": ").append(entry.getValue().right()).append("\n");
                         }
 
                         ctx.sendFormat("Send this: %s", Utils.paste(builder.toString()));
@@ -194,8 +194,8 @@ public class OptsCmd {
 
                     List<MessageEmbed.Field> fields = new LinkedList<>();
                     for (var e : fieldMap.entrySet()) {
-                        fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + e.getKey() + ":\n" + e.getValue().getLeft() + "",
-                                e.getValue() == null ? lang.get("options.check_data.null_set") : String.valueOf(e.getValue().getRight()),
+                        fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + e.getKey() + ":\n" + e.getValue().left() + "",
+                                e.getValue() == null ? lang.get("options.check_data.null_set") : String.valueOf(e.getValue().right()),
                                 false)
                         );
                     }

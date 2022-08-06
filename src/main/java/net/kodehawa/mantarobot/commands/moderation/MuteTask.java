@@ -40,8 +40,8 @@ public class MuteTask {
                     log.trace("Iteration: Mute check");
                     var id = entry.getKey();
                     var pair = entry.getValue();
-                    var guildId = pair.getLeft();
-                    var maxTime = pair.getRight();
+                    var guildId = pair.left();
+                    var maxTime = pair.right();
 
                     var guild = MantaroBot.getInstance().getShardManager().getGuildById(guildId);
                     if (guild == null) {

@@ -19,10 +19,7 @@ package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.entities.StandardGuildMessageChannel;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.kodehawa.mantarobot.core.listeners.helpers.WelcomeUtils;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.core.OptionType;
@@ -92,7 +89,7 @@ public class UserMessageOptions extends OptionHandler {
                 ctx.sendLocalized("options.usermessage_join_channel.success", EmoteReference.OK, tc.getAsMention());
             };
 
-            var channel = FinderUtils.findChannelSelect(ctx.getEvent(), channelName, consumer);
+            var channel = FinderUtils.findChannelSelect(ctx, channelName, consumer);
             if (channel != null) {
                 consumer.accept(channel);
             }
@@ -171,7 +168,7 @@ public class UserMessageOptions extends OptionHandler {
                 ctx.sendLocalized("options.usermessage_leave_channel.success", EmoteReference.CORRECT, tc.getAsMention());
             };
 
-            var channel = FinderUtils.findChannelSelect(ctx.getEvent(), channelName, consumer);
+            var channel = FinderUtils.findChannelSelect(ctx, channelName, consumer);
             if (channel != null) {
                 consumer.accept(channel);
             }
@@ -250,7 +247,7 @@ public class UserMessageOptions extends OptionHandler {
                 ctx.sendLocalized("options.usermessage_channel.success", EmoteReference.OK, textChannel.getAsMention());
             };
 
-            var channel = FinderUtils.findChannelSelect(ctx.getEvent(), channelName, consumer);
+            var channel = FinderUtils.findChannelSelect(ctx, channelName, consumer);
             if (channel != null) {
                 consumer.accept(channel);
             }

@@ -41,7 +41,7 @@ public class RatelimitUtils {
     private static final Set<String> loggedAttemptUsers = ConcurrentHashMap.newKeySet();
     private static final Config config = MantaroData.config().get();
 
-    private static boolean ratelimit(IncreasingRateLimiter rateLimiter, String u, RatelimitContext ctx,
+    private static boolean ratelimit(IncreasingRateLimiter rateLimiter, String u, RateLimitContext ctx,
                                      I18nContext i18nContext, String extraMessage, boolean spamAware) {
         if (i18nContext == null) {
             //en_US
@@ -76,19 +76,19 @@ public class RatelimitUtils {
                 User user;
 
                 try {
-                    var member = ctx.getGuild().retrieveMemberById(u).useCache(true).complete();
+                    var member = ctx.guild().retrieveMemberById(u).useCache(true).complete();
                     user = member.getUser();
                 } catch (Exception e) {
                     log.error("Got a exception while trying to fetch a user that was just spamming?", e);
                     return false;
                 }
 
-                var guildId = ctx.getGuild().getId();
-                var channelId = ctx.getChannel().getId();
+                var guildId = ctx.guild().getId();
+                var channelId = ctx.channel().getId();
 
                 String messageId;
-                if (ctx.getMessage() != null) {
-                    messageId = ctx.getMessage().getId();
+                if (ctx.message() != null) {
+                    messageId = ctx.message().getId();
                 } else {
                     messageId = "slash";
                 }

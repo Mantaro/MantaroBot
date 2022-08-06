@@ -132,7 +132,7 @@ public class HelpCmd {
                 }
 
                 var help = cmd.getHelp();
-                if (help == null || help.getDescription() == null) {
+                if (help == null || help.description() == null) {
                     ctx.sendLocalized("commands.help.extended.no_help", EmoteReference.ERROR);
                     return;
                 }
@@ -143,7 +143,7 @@ public class HelpCmd {
                     desc.append(languageContext.get("commands.help.patreon")).append("\n");
                 }
 
-                desc.append(help.getDescription());
+                desc.append(help.description());
                 desc.append("\n").append(languageContext.get("commands.help.include_warning"));
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Color.PINK)
@@ -152,8 +152,8 @@ public class HelpCmd {
                         ).setDescription(desc);
 
                 var options = cmd.getOptions();
-                var parameters = cmd.getHelp().getParameters();
-                var usage = cmd.getHelp().getUsage();
+                var parameters = cmd.getHelp().parameters();
+                var usage = cmd.getHelp().usage();
                 if (usage != null && !usage.isBlank()) {
                     builder.addField(EmoteReference.PENCIL.toHeaderString() + languageContext.get("commands.help.usage"), usage, false);
                 }
@@ -273,12 +273,12 @@ public class HelpCmd {
                     }
 
                     var help = command.help();
-                    if (help == null || help.getDescription() == null) {
+                    if (help == null || help.description() == null) {
                         ctx.sendLocalized("commands.help.extended.no_help", EmoteReference.ERROR);
                         return;
                     }
 
-                    var descriptionList = help.getDescriptionList();
+                    var descriptionList = help.descriptionList();
                     var languageContext = ctx.getLanguageContext();
 
                     var desc = new StringBuilder();
@@ -288,7 +288,7 @@ public class HelpCmd {
                     }
 
                     if (descriptionList.isEmpty()) {
-                        desc.append(help.getDescription());
+                        desc.append(help.description());
                     }
                     else {
                         desc.append(descriptionList.get(random.nextInt(descriptionList.size())));
@@ -302,12 +302,12 @@ public class HelpCmd {
                                     ctx.getAuthor().getEffectiveAvatarUrl()
                             ).setDescription(desc);
 
-                    if (help.getUsage() != null) {
-                        builder.addField(EmoteReference.PENCIL.toHeaderString() + "Usage", help.getUsage(), false);
+                    if (help.usage() != null) {
+                        builder.addField(EmoteReference.PENCIL.toHeaderString() + "Usage", help.usage(), false);
                     }
 
-                    if (help.getParameters().size() > 0) {
-                        builder.addField(EmoteReference.SLIDER.toHeaderString() + "Parameters", help.getParameters().stream()
+                    if (help.parameters().size() > 0) {
+                        builder.addField(EmoteReference.SLIDER.toHeaderString() + "Parameters", help.parameters().stream()
                                         .map(entry -> "`%s` - *%s*".formatted(entry.name(), entry.description()))
                                         .collect(Collectors.joining("\n")), false
                         );

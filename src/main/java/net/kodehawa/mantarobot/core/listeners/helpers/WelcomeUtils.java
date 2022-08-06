@@ -30,7 +30,7 @@ public class WelcomeUtils {
                 extraMessages.add(msg);
             }
 
-            message = extraMessages.get(RANDOM.nextInt(extraMessages.size()));;
+            message = extraMessages.get(RANDOM.nextInt(extraMessages.size()));
         }
 
         if (tc != null && message != null) {

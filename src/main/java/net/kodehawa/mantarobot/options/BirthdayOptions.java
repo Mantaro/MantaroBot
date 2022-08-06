@@ -133,12 +133,12 @@ public class BirthdayOptions extends OptionHandler {
                 var channel = args[0];
                 var role = args[1];
 
-                var channelObj = FinderUtils.findChannel(ctx.getEvent(), channel);
+                var channelObj = FinderUtils.findChannel(ctx, channel);
                 if (channelObj == null)
                     return;
 
                 var channelId = channelObj.getId();
-                var roleObj = FinderUtils.findRole(ctx.getEvent(), role);
+                var roleObj = FinderUtils.findRole(ctx, role);
                 if (roleObj == null)
                     return;
 

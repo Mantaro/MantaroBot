@@ -267,8 +267,6 @@ public class CommandRegistry {
         }
 
         var start = System.currentTimeMillis();
-        System.out.println(event.getCommandPath());
-        System.out.println(event.getCommandId());
         var cmd = getCommandManager().contextUserCommands().get(event.getCommandPath());
         if (cmd == null) {
             return;

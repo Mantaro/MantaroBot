@@ -139,10 +139,8 @@ public class InteractiveOperations {
     public static class InteractiveListener implements EventListener {
         @Override
         public void onEvent(@Nonnull GenericEvent e) {
-            if (!(e instanceof MessageReceivedEvent))
+            if (!(e instanceof MessageReceivedEvent event))
                 return;
-
-            MessageReceivedEvent event = (MessageReceivedEvent) e;
 
             //Don't listen to ourselves...
             if (event.getAuthor().equals(event.getJDA().getSelfUser()))

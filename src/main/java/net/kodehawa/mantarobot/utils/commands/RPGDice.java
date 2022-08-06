@@ -20,35 +20,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 // Thanks: https://stackoverflow.com/a/35024121
-public class RPGDice {
+public record RPGDice(int rolls, int faces, int multiplier, int additive) {
     private static final Pattern DICE_PATTERN = Pattern.compile("(?<A>\\d*)d(?<B>\\d+)(?>(?<MULT>[x/])(?<C>\\d+))?(?>(?<ADD>[+-])(?<D>\\d+))?");
-    private final int rolls;
-    private final int faces;
-    private final int multiplier;
-    private final int additive;
-
-    public RPGDice(int rolls, int faces, int multiplier, int additive) {
-        this.rolls = rolls;
-        this.faces = faces;
-        this.multiplier = multiplier;
-        this.additive = additive;
-    }
-
-    public int getRolls() {
-        return rolls;
-    }
-
-    public int getFaces() {
-        return faces;
-    }
-
-    public int getMultiplier() {
-        return multiplier;
-    }
-
-    public int getAdditive() {
-        return additive;
-    }
 
     private static boolean isEmpty(String str) {
         return str == null || str.trim().isEmpty();

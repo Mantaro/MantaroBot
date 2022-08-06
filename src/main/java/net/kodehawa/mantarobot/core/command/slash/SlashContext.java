@@ -35,7 +35,7 @@ import net.kodehawa.mantarobot.db.entities.*;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.UtilsContext;
-import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitContext;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimitContext;
 import redis.clients.jedis.JedisPool;
 
 import java.awt.*;
@@ -131,8 +131,8 @@ public class SlashContext implements IContext {
         return getMember().getColor() == null ? Color.PINK : getMember().getColor();
     }
 
-    public RatelimitContext ratelimitContext() {
-        return new RatelimitContext(getGuild(), null, getChannel(), null, slash);
+    public RateLimitContext ratelimitContext() {
+        return new RateLimitContext(getGuild(), null, getChannel(), null, slash);
     }
 
     public JDA getJDA() {

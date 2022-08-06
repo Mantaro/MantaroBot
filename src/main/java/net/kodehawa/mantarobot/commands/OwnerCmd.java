@@ -430,7 +430,7 @@ public class OwnerCmd {
                         }
 
                         // Somehow there's dupes.
-                        var toRemove = list.stream().filter(s -> s.equals(target)).collect(Collectors.toList());
+                        var toRemove = list.stream().filter(s -> s.equals(target)).toList();
                         toRemove.forEach(list::remove);
                         ctx.send(EmoteReference.CORRECT + "Un-blacklisted " + type + ": " + target);
                         obj.save();
@@ -614,7 +614,7 @@ public class OwnerCmd {
                 var pledgeInfo = APIUtils.getPledgeInformation(user.getId());
 
                 // Guaranteed to be an integer
-                if (pledgeInfo == null || !pledgeInfo.getLeft() || Double.parseDouble(pledgeInfo.getRight()) < 4) {
+                if (pledgeInfo == null || !pledgeInfo.left() || Double.parseDouble(pledgeInfo.right()) < 4) {
                     ctx.send("Pledge not found, pledge amount not enough or pledge was cancelled.");
                     return;
                 }

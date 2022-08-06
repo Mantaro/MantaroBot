@@ -51,11 +51,10 @@ public class Token {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Token)) {
+        if (!(obj instanceof Token token)) {
             return false;
         }
 
-        Token token = (Token) obj;
         return token.position.equals(position)
                 && token.type == type && token.value.equals(value);
     }

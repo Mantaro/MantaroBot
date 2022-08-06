@@ -21,7 +21,6 @@ import net.kodehawa.mantarobot.commands.ProfileCmd;
 import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -34,9 +33,7 @@ import java.util.function.Function;
 
 // This isn't pretty, but the old one was *less* pretty!
 public enum StatsComponent {
-    MARKET_USED(EmoteReference.MARKET, lang -> lang.get("commands.profile.stats.market"), holder -> {
-        return "%,d %s".formatted(holder.getPlayerData().getMarketUsed(), holder.getI18nContext().get("commands.profile.stats.times"));
-    }),
+    MARKET_USED(EmoteReference.MARKET, lang -> lang.get("commands.profile.stats.market"), holder -> "%,d %s".formatted(holder.getPlayerData().getMarketUsed(), holder.getI18nContext().get("commands.profile.stats.times"))),
 
     POTION_ACTIVE(EmoteReference.BOOSTER, lang -> lang.get("commands.profile.stats.potion"), holder -> {
         var equippedItems = holder.getUserData().getEquippedItems();

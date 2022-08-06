@@ -21,8 +21,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
@@ -71,10 +69,6 @@ public class TextChannelGround {
             // Redis will happily run it anyway, so we can save one query.
             jedis.del(identifier);
         }
-    }
-
-    public static Ground of(MessageReceivedEvent event) {
-        return of(event.getChannel());
     }
 
     public static class Ground {

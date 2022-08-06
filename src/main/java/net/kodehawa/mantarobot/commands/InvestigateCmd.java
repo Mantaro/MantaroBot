@@ -23,7 +23,6 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.utils.MiscUtil;
 import net.dv8tion.jda.api.utils.TimeUtil;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -39,7 +38,7 @@ import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.awt.Color;
+import java.awt.*;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 import java.util.LinkedList;
@@ -51,18 +50,18 @@ import java.util.stream.Collectors;
 
 @Module
 public class InvestigateCmd {
-    public static void investigate(MessageReceivedEvent event, Type type, String id, boolean file) {
+    public static void investigate(Context ctx, Type type, String id, boolean file) {
         switch (type) {
-            case GUILD -> investigateGuild(event, MantaroBot.getInstance().getShardManager().getGuildById(id), file);
-            case USER -> investigateUser(event, MantaroBot.getInstance().getShardManager().getUserById(id), file);
-            case CHANNEL -> investigateChannel(event, MantaroBot.getInstance().getShardManager().getTextChannelById(id), file);
+            case GUILD -> investigateGuild(ctx, MantaroBot.getInstance().getShardManager().getGuildById(id), file);
+            case USER -> investigateUser(ctx, MantaroBot.getInstance().getShardManager().getUserById(id), file);
+            case CHANNEL -> investigateChannel(ctx, MantaroBot.getInstance().getShardManager().getTextChannelById(id), file);
             default -> throw new AssertionError();
         }
     }
 
-    private static void investigateGuild(MessageReceivedEvent event, Guild guild, boolean file) {
+    private static void investigateGuild(Context ctx, Guild guild, boolean file) {
         if (guild == null) {
-            event.getChannel().sendMessage("Unknown guild").queue();
+            ctx.send("Unknown guild");
             return;
         }
 
@@ -83,17 +82,17 @@ public class InvestigateCmd {
                     });
             return f;
         }).toArray(CompletableFuture[]::new))
-                .thenRun(() -> investigation.result(guild, event))
+                .thenRun(() -> investigation.result(guild, ctx))
                 .exceptionally(e -> {
                     e.printStackTrace();
-                    event.getChannel().sendMessage("Unable to execute: " + e).queue();
+                    ctx.send("Unable to execute: " + e);
                     return null;
                 });
     }
 
-    private static void investigateUser(MessageReceivedEvent event, User user, boolean file) {
+    private static void investigateUser(Context ctx, User user, boolean file) {
         if (user == null) {
-            event.getChannel().sendMessage("Unknown user").queue();
+            ctx.send("Unknown user");
             return;
         }
 
@@ -101,12 +100,12 @@ public class InvestigateCmd {
                 .setTitle("Please pick a guild")
                 .setColor(Color.PINK);
 
-        DiscordUtils.selectList(event, user.getMutualGuilds(), Guild::toString, s -> eb.setDescription(s).build(), g -> investigateGuild(event, g, file));
+        DiscordUtils.selectListButton(ctx, user.getMutualGuilds(), Guild::toString, s -> eb.setDescription(s).build(), g -> investigateGuild(ctx, g, file));
     }
 
-    private static void investigateChannel(MessageReceivedEvent event, TextChannel channel, boolean file) {
+    private static void investigateChannel(Context ctx, TextChannel channel, boolean file) {
         if (channel == null) {
-            event.getChannel().sendMessage("Unknown channel").queue();
+            ctx.send("Unknown channel");
             return;
         }
 
@@ -116,10 +115,10 @@ public class InvestigateCmd {
                     List<InvestigatedMessage> res = investigation.get(channel);
                     messages.forEach(m -> res.add(0, InvestigatedMessage.from(m)));
                 })
-                .thenRun(() -> investigation.result(channel.getGuild(), event))
+                .thenRun(() -> investigation.result(channel.getGuild(), ctx))
                 .exceptionally(e -> {
                     e.printStackTrace();
-                    event.getChannel().sendMessage("Unable to execute: " + e).queue();
+                    ctx.send("Unable to execute: " + e);
                     return null;
                 });
     }
@@ -165,7 +164,7 @@ public class InvestigateCmd {
                     file = false;
                 }
 
-                investigate(ctx.getEvent(), type, id, file);
+                investigate(ctx, type, id, file);
             }
 
             @Override
@@ -196,7 +195,7 @@ public class InvestigateCmd {
             return parts.computeIfAbsent(key.getId(), __ -> new ChannelData(key)).messages;
         }
 
-        public void result(Guild target, MessageReceivedEvent event) {
+        public void result(Guild target, Context ctx) {
             if (file) {
                 var channels = new JSONObject();
                 parts.forEach((channelId, channel) -> channels.put(channelId, channel.toJson()));
@@ -208,25 +207,25 @@ public class InvestigateCmd {
 
                 var bytes = object.toString().getBytes(StandardCharsets.UTF_8);
                 if (bytes.length > 7_800_000) {
-                    event.getChannel().sendMessage("Result too big!").queue();
+                    ctx.send("Result too big!");
                 } else {
-                    event.getChannel().sendFile(bytes, "result.json").queue();
+                    ctx.sendFile(bytes, "result.json");
                 }
             } else {
                 if (parts.size() == 1) {
-                    event.getChannel().sendMessage(Utils.paste(
+                    ctx.send(Utils.paste(
                             parts.entrySet().iterator().next().getValue().messages.stream()
                                     .map(InvestigatedMessage::format)
                                     .collect(Collectors.joining("\n"))
-                    )).queue();
+                    ));
                 } else {
-                    event.getChannel().sendMessage(parts.entrySet().stream().map(entry ->
+                    ctx.send(parts.entrySet().stream().map(entry ->
                             entry.getKey() + ": " + Utils.paste(
                                     entry.getValue().messages.stream()
                                             .map(InvestigatedMessage::format)
                                             .collect(Collectors.joining("\n"))
                             )
-                    ).collect(Collectors.joining("\n"))).queue();
+                    ).collect(Collectors.joining("\n")));
                 }
             }
         }

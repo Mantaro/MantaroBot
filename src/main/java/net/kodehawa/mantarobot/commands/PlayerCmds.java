@@ -288,9 +288,8 @@ public class PlayerCmds {
 
                     var equippedItemFinal = ItemHelper.fromId(equippedFinal);
                     var part = ""; //Start as an empty string.
-                    if (equippedItemFinal instanceof Breakable) {
+                    if (equippedItemFinal instanceof Breakable item) {
                         // Gotta check again, just in case...
-                        var item = (Breakable) equippedItemFinal;
 
                         var percentage = ((float) equipmentFinal.getDurability().get(type) / (float) item.getMaxDurability()) * 100.0f;
                         if (percentage == 100) { //Basically never used

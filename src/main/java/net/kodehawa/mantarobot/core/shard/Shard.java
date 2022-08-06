@@ -106,41 +106,5 @@ public class Shard {
         }
 
         getJDA().getPresence().setActivity(Activity.playing(String.format("%shelp", config().get().prefix[0])));
-
-        // We cannot use this anymore. Discord tends to either
-        // 1. fail horribly at setting it
-        // 2. kill the shard silently as it backlogs so horribly the internal process for the bot just doesn't respond
-        // This causes more problems than it's worth, sadly.
-        // I loved the silly statuses myself.
-        // This is kept as a namesake for now. *If* we ever rewrite this, this can be removed.
-
-        /* AtomicInteger users = new AtomicInteger(0), guilds = new AtomicInteger(0);
-        if (MantaroBot.getInstance() != null) {
-            MantaroBot.getInstance().getShardManager().getShardCache().forEach(jda -> {
-                users.addAndGet((int) jda.getUserCache().size());
-                guilds.addAndGet((int) jda.getGuildCache().size());
-            });
-        }
-
-        JSONObject reply;
-
-        try {
-            var body = APIUtils.getFrom("/mantaroapi/bot/splashes/random");
-            reply = new JSONObject(new JSONTokener(body));
-        } catch (Exception e) {
-            reply = new JSONObject().put("splash", "With a missing status!");
-        }
-
-        String newStatus = reply.getString("splash")
-                //Replace fest.
-                .replace("%ramgb%", String.valueOf(((long) (Runtime.getRuntime().maxMemory() * 1.2D)) >> 30L))
-                .replace("%usercount%", users.toString())
-                .replace("%guildcount%", guilds.toString())
-                .replace("%shardcount%", String.valueOf(MantaroBot.getInstance().getShardManager().getShardsTotal()))
-                .replace("%prettyusercount%", String.valueOf(users.get()))
-                .replace("%prettyguildcount%", String.valueOf(guilds.get()));
-
-        getJDA().getPresence().setActivity(Activity.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], newStatus, getId())));
-        log.debug("Changed status to: " + newStatus); */
     }
 }

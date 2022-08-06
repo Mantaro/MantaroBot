@@ -70,7 +70,7 @@ public class AutoRoleOptions extends OptionHandler {
                 ctx.sendLocalized("options.autorole_set.success", EmoteReference.CORRECT, role.getName(), role.getPosition());
             };
 
-            Role role = FinderUtils.findRoleSelect(ctx.getEvent(), String.join(" ", args), consumer);
+            Role role = FinderUtils.findRoleSelect(ctx, String.join(" ", args), consumer);
 
             if (role != null) {
                 consumer.accept(role);
@@ -124,7 +124,7 @@ public class AutoRoleOptions extends OptionHandler {
                 ctx.sendLocalized("options.autoroles_add.success", EmoteReference.OK, iamName, role.getName());
             };
 
-            Role role = FinderUtils.findRoleSelect(ctx.getEvent(), roleName, roleConsumer);
+            Role role = FinderUtils.findRoleSelect(ctx, roleName, roleConsumer);
             if (role != null) {
                 roleConsumer.accept(role);
             }

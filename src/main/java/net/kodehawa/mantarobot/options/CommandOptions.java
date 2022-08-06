@@ -20,7 +20,6 @@ package net.kodehawa.mantarobot.options;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.StandardGuildMessageChannel;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.kodehawa.mantarobot.commands.CustomCmds;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
@@ -134,7 +133,7 @@ public class CommandOptions extends OptionHandler {
 
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
-            var channel = FinderUtils.findChannel(ctx.getEvent(), channelName);
+            var channel = FinderUtils.findChannel(ctx, channelName);
             if (channel == null) return;
 
             String id = channel.getId();
@@ -169,7 +168,7 @@ public class CommandOptions extends OptionHandler {
 
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
-            var channel = FinderUtils.findChannel(ctx.getEvent(), channelName);
+            var channel = FinderUtils.findChannel(ctx, channelName);
             if (channel == null) return;
 
             String id = channel.getId();
@@ -205,7 +204,7 @@ public class CommandOptions extends OptionHandler {
                 ctx.sendLocalized("options.server_channel_disallow.success", EmoteReference.OK, chn.getAsMention());
             };
 
-            var channel = FinderUtils.findChannelSelect(ctx.getEvent(), args[0], consumer);
+            var channel = FinderUtils.findChannelSelect(ctx, args[0], consumer);
 
             if (channel != null) {
                 consumer.accept(channel);
@@ -231,7 +230,7 @@ public class CommandOptions extends OptionHandler {
                 ctx.sendLocalized("options.server_channel_allow.success", EmoteReference.OK, textChannel.getAsMention());
             };
 
-            var channel = FinderUtils.findChannelSelect(ctx.getEvent(), args[0], consumer);
+            var channel = FinderUtils.findChannelSelect(ctx, args[0], consumer);
 
             if (channel != null) {
                 consumer.accept(channel);
@@ -350,7 +349,7 @@ public class CommandOptions extends OptionHandler {
                 );
             };
 
-            var channel = FinderUtils.findChannelSelect(ctx.getEvent(), channelName, consumer);
+            var channel = FinderUtils.findChannelSelect(ctx, channelName, consumer);
 
             if (channel != null) {
                 consumer.accept(channel);
@@ -401,7 +400,7 @@ public class CommandOptions extends OptionHandler {
                 );
             };
 
-            var channel = FinderUtils.findChannelSelect(ctx.getEvent(), channelName, consumer);
+            var channel = FinderUtils.findChannelSelect(ctx, channelName, consumer);
             if (channel != null) {
                 consumer.accept(channel);
             }
@@ -461,7 +460,7 @@ public class CommandOptions extends OptionHandler {
                 ctx.sendLocalized("options.server_role_specific_disallow.success", EmoteReference.CORRECT, commandDisallow, role.getName());
             };
 
-            Role role = FinderUtils.findRoleSelect(ctx.getEvent(), roleDisallow, consumer);
+            Role role = FinderUtils.findRoleSelect(ctx, roleDisallow, consumer);
 
             if (role != null) {
                 consumer.accept(role);
@@ -512,7 +511,7 @@ public class CommandOptions extends OptionHandler {
                 ctx.sendLocalized("options.server_role_specific_allow.success", EmoteReference.CORRECT, commandAllow, role.getName());
             };
 
-            Role role = FinderUtils.findRoleSelect(ctx.getEvent(), roleAllow, consumer);
+            Role role = FinderUtils.findRoleSelect(ctx, roleAllow, consumer);
 
             if (role != null) {
                 consumer.accept(role);
@@ -572,7 +571,7 @@ public class CommandOptions extends OptionHandler {
                 ctx.sendLocalized("options.category_role_specific_disable.success", EmoteReference.CORRECT, toDisable.toString(), role.getName());
             };
 
-            Role role = FinderUtils.findRoleSelect(ctx.getEvent(), roleName, consumer);
+            Role role = FinderUtils.findRoleSelect(ctx, roleName, consumer);
 
             if (role != null) {
                 consumer.accept(role);
@@ -619,7 +618,7 @@ public class CommandOptions extends OptionHandler {
                 ctx.sendLocalized("options.category_role_specific_enable.success", EmoteReference.CORRECT, toEnable.toString(), role.getName());
             };
 
-            Role role = FinderUtils.findRoleSelect(ctx.getEvent(), roleName, consumer);
+            Role role = FinderUtils.findRoleSelect(ctx, roleName, consumer);
 
             if (role != null) {
                 consumer.accept(role);
@@ -647,7 +646,7 @@ public class CommandOptions extends OptionHandler {
                         ctx.sendLocalized("options.server_role_disallow.success", EmoteReference.CORRECT, role.getName());
                     };
 
-                    Role role = FinderUtils.findRoleSelect(ctx.getEvent(), roleName, consumer);
+                    Role role = FinderUtils.findRoleSelect(ctx, roleName, consumer);
 
                     if (role != null && role.isPublicRole()) {
                         ctx.sendLocalized("options.server_role_disallow.public_role", EmoteReference.ERROR);
@@ -684,7 +683,7 @@ public class CommandOptions extends OptionHandler {
                 ctx.sendLocalized("options.server_role_allow.success", EmoteReference.CORRECT, role.getName());
             };
 
-            Role role = FinderUtils.findRoleSelect(ctx.getEvent(), roleName, consumer);
+            Role role = FinderUtils.findRoleSelect(ctx, roleName, consumer);
 
             if (role != null) {
                 consumer.accept(role);

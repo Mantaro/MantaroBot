@@ -117,7 +117,7 @@ public class PremiumKey implements ManagedObject {
     public boolean renew() {
         if (data.getLinkedTo() != null && !data.getLinkedTo().isEmpty()) {
             Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(data.getLinkedTo());
-            if (pledgeInfo != null && pledgeInfo.getLeft()) {
+            if (pledgeInfo != null && pledgeInfo.left()) {
                 switch (type) {
                     //user
                     case 1 -> this.activate(365);

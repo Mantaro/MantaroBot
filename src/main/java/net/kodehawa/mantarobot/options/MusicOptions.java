@@ -92,7 +92,7 @@ public class MusicOptions extends OptionHandler {
                 ctx.sendLocalized("options.music_channel.success", EmoteReference.OK, voiceChannel.getName());
             };
 
-            VoiceChannel channel = FinderUtils.findVoiceChannelSelect(ctx.getEvent(), channelName, consumer);
+            VoiceChannel channel = FinderUtils.findVoiceChannelSelect(ctx, channelName, consumer);
 
             if (channel != null) {
                 consumer.accept(channel);

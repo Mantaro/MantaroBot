@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 // common superclass for either commands or options
 public abstract class NewCommand {
@@ -47,8 +46,7 @@ public abstract class NewCommand {
             this.name = clazz.getSimpleName().toLowerCase();
         }
         this.aliases = Arrays.stream(clazz.getAnnotationsByType(Alias.class))
-                .map(Alias::value)
-                .collect(Collectors.toUnmodifiableList());
+                .map(Alias::value).toList();
         var c = clazz.getAnnotation(net.kodehawa.mantarobot.core.command.meta.Category.class);
         if (c == null) {
             this.category = null;

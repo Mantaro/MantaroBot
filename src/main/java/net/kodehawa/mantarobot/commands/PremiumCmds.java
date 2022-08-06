@@ -201,15 +201,15 @@ public class PremiumCmds {
                         .setDescription(lang.get("commands.vipstatus.user.premium") + "\n" + lang.get("commands.vipstatus.description"))
                         .addField(lang.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), true)
                         .addField(lang.get("commands.vipstatus.patreon"),
-                                patreonInformation == null ? "Error" : String.valueOf(patreonInformation.getLeft()), true)
+                                patreonInformation == null ? "Error" : String.valueOf(patreonInformation.left()), true)
                         .addField(lang.get("commands.vipstatus.keys_claimed"), String.valueOf(amountClaimed), false)
                         .addField(lang.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), false)
                         .setFooter(lang.get("commands.vipstatus.thank_note"), null);
 
                 try {
                     // User has more keys than what the system would allow. Warn.
-                    if (patreonInformation != null && patreonInformation.getLeft()) {
-                        var patreonAmount = Double.parseDouble(patreonInformation.getRight());
+                    if (patreonInformation != null && patreonInformation.left()) {
+                        var patreonAmount = Double.parseDouble(patreonInformation.right());
                         if ((patreonAmount / 2) - amountClaimed < 0) {
                             var amount = amountClaimed - (patreonAmount / 2);
                             var keys = data.getKeysClaimed()
@@ -286,7 +286,7 @@ public class PremiumCmds {
                         .setDescription(lang.get("commands.vipstatus.guild.premium")  + "\n" + lang.get("commands.vipstatus.description"))
                         .addField(lang.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), true)
                         .addField(lang.get("commands.vipstatus.patreon"),
-                                patreonInformation == null ? "Error" : String.valueOf(patreonInformation.getLeft()), true)
+                                patreonInformation == null ? "Error" : String.valueOf(patreonInformation.left()), true)
                         .addField(lang.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), false)
                         .setFooter(lang.get("commands.vipstatus.thank_note"), null);
 
@@ -339,12 +339,12 @@ public class PremiumCmds {
 
                 //left: isPatron, right: pledgeAmount, basically.
                 var pledgeInfo = APIUtils.getPledgeInformation(author.getId());
-                if (pledgeInfo == null || !pledgeInfo.getLeft() || !dbUser.isPremium()) {
+                if (pledgeInfo == null || !pledgeInfo.left() || !dbUser.isPremium()) {
                     ctx.sendLocalized("commands.claimkey.not_patron", EmoteReference.ERROR);
                     return;
                 }
 
-                var pledgeAmount = Double.parseDouble(pledgeInfo.getRight());
+                var pledgeAmount = Double.parseDouble(pledgeInfo.right());
                 var data = dbUser.getData();
 
                 //Check for pledge changes on DBUser#isPremium

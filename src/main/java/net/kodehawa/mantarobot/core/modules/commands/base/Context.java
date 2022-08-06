@@ -39,7 +39,7 @@ import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.UtilsContext;
-import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitContext;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimitContext;
 import redis.clients.jedis.JedisPool;
 
 import java.awt.*;
@@ -121,8 +121,8 @@ public class Context implements IContext {
         return mentionedMembers;
     }
 
-    public RatelimitContext ratelimitContext() {
-        return new RatelimitContext(getGuild(), getMessage(), getChannel(), getEvent(), null);
+    public RateLimitContext ratelimitContext() {
+        return new RateLimitContext(getGuild(), getMessage(), getChannel(), getEvent(), null);
     }
 
     public Member getMember() {
@@ -376,6 +376,10 @@ public class Context implements IContext {
                 ex.printStackTrace();
             }
         });
+    }
+
+    public void sendFile(byte[] file, String name) {
+        getChannel().sendFile(file, name).queue();
     }
 
     public boolean isUserBlacklisted(String id) {

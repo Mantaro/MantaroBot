@@ -147,8 +147,7 @@ public final class ReactionOperations {
         @Override
         public void onEvent(@Nonnull GenericEvent e) {
 
-            if (e instanceof MessageReactionAddEvent) {
-                MessageReactionAddEvent event = (MessageReactionAddEvent) e;
+            if (e instanceof MessageReactionAddEvent event) {
                 if (event.getReaction().isSelf())
                     return;
 
@@ -174,8 +173,7 @@ public final class ReactionOperations {
                 return;
             }
 
-            if (e instanceof MessageReactionRemoveEvent) {
-                MessageReactionRemoveEvent event = (MessageReactionRemoveEvent) e;
+            if (e instanceof MessageReactionRemoveEvent event) {
                 if (event.getReaction().isSelf())
                     return;
 
@@ -201,8 +199,7 @@ public final class ReactionOperations {
                 return;
             }
 
-            if (e instanceof MessageReactionRemoveAllEvent) {
-                MessageReactionRemoveAllEvent event = (MessageReactionRemoveAllEvent) e;
+            if (e instanceof MessageReactionRemoveAllEvent event) {
                 long messageId = event.getMessageIdLong();
                 RunningOperation o = OPERATIONS.get(messageId);
                 if (o == null) {
@@ -244,15 +241,7 @@ public final class ReactionOperations {
         message.addReaction(Emoji.fromUnicode(reaction(defaultReactions[0]))).queue(c.get(), ignore);
     }
 
-    private static class RunningOperation {
-        final OperationFuture future;
-        final ReactionOperation operation;
-
-        RunningOperation(ReactionOperation operation, OperationFuture future) {
-            this.operation = operation;
-            this.future = future;
-        }
-    }
+    private record RunningOperation(ReactionOperation operation, OperationFuture future) { }
 
     private static class OperationFuture extends CompletableFuture<Void> {
         private final long id;

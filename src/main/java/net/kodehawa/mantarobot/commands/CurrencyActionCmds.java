@@ -510,8 +510,7 @@ public class CurrencyActionCmds {
         } else if (chance < 20) {
             //Here you found trash.
             List<Item> common = Stream.of(ItemReference.ALL)
-                    .filter(i -> i.getItemType() == ItemType.COMMON && !i.isHidden() && i.isSellable() && i.getValue() < 45)
-                    .collect(Collectors.toList());
+                    .filter(i -> i.getItemType() == ItemType.COMMON && !i.isHidden() && i.isSellable() && i.getValue() < 45).toList();
 
             var selected = common.get(random.nextInt(common.size()));
             if (playerInventory.getAmount(selected) >= 5000) {
@@ -597,8 +596,7 @@ public class CurrencyActionCmds {
             if ((item == ItemReference.SPARKLE_ROD || item == ItemReference.HELLFIRE_ROD) && random.nextInt(30) > 20) {
                 if (random.nextInt(100) > 96) {
                     fish.addAll(Stream.of(ItemReference.ALL)
-                            .filter(i -> i.getItemType() == ItemType.FISHING_RARE && !i.isHidden() && i.isSellable())
-                            .collect(Collectors.toList())
+                            .filter(i -> i.getItemType() == ItemType.FISHING_RARE && !i.isHidden() && i.isSellable()).toList()
                     );
                 }
 

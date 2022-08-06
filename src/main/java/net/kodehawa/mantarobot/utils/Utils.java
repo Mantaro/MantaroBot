@@ -533,7 +533,7 @@ public class Utils {
      * Retrieves a map of objects in a class and its respective values.
      * Yes, I'm too lazy to do it manually and it would make absolutely no sense to either.
      * <p>
-     * Modified it a bit. (Original: https://narendrakadali.wordpress.com/2011/08/27/41/)
+     * Modified it a bit. (Original: <a href="https://narendrakadali.wordpress.com/2011/08/27/41/">https://narendrakadali.wordpress.com/2011/08/27/41/</a>)
      *
      * @author Narendra
      * @since Aug 27, 2011 5:27:19 AM

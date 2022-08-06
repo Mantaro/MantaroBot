@@ -140,16 +140,7 @@ public class ButtonOperations {
         return LISTENER;
     }
 
-    private static class RunningOperation {
-        final ButtonOperations.OperationFuture future;
-        final ButtonOperation operation;
-
-        RunningOperation(ButtonOperation operation, ButtonOperations.OperationFuture future) {
-            this.operation = operation;
-            this.future = future;
-        }
-    }
-
+    private record RunningOperation(ButtonOperation operation, OperationFuture future) { }
 
     private static class OperationFuture extends CompletableFuture<Void> {
         private final long id;

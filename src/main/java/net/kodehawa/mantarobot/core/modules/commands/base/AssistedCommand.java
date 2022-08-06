@@ -17,32 +17,23 @@
 package net.kodehawa.mantarobot.core.modules.commands.base;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.options.core.Option;
 
 /**
  * "Assisted" version of the {@link Command} interface, providing some "common ground" for all Commands based on it.
  */
 public interface AssistedCommand extends Command {
-
-    default EmbedBuilder baseEmbed(Context ctx, String name) {
-        return baseEmbed(ctx.getEvent(), name);
+    default EmbedBuilder baseEmbed(IContext ctx, String name) {
+        return baseEmbed(ctx, name, ctx.getAuthor().getEffectiveAvatarUrl());
     }
 
-    default EmbedBuilder baseEmbed(Context ctx, String name, String image) {
-        return baseEmbed(ctx.getEvent(), name, image);
-    }
-
-    default EmbedBuilder baseEmbed(MessageReceivedEvent event, String name) {
-        return baseEmbed(event, name, event.getAuthor().getEffectiveAvatarUrl());
-    }
-
-    default EmbedBuilder baseEmbed(MessageReceivedEvent event, String name, String image) {
+    default EmbedBuilder baseEmbed(IContext ctx, String name, String image) {
         return new EmbedBuilder()
                 .setAuthor(name, null, image)
-                .setColor(event.getMember().getColor())
-                .setFooter("Requested by: %s".formatted(event.getMember().getEffectiveName()),
-                        event.getGuild().getIconUrl()
+                .setColor(ctx.getMember().getColor())
+                .setFooter("Requested by: %s".formatted(ctx.getMember().getEffectiveName()),
+                        ctx.getGuild().getIconUrl()
                 );
     }
 

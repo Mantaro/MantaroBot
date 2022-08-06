@@ -207,8 +207,7 @@ public class PetCmds {
 
                 var name = pet.getName().replace("\n", "").trim();
                 var baseAbilities = pet.getType().getAbilities().stream()
-                        .filter(ability -> ability != HousePetType.HousePetAbility.CHEER)
-                        .collect(Collectors.toList());
+                        .filter(ability -> ability != HousePetType.HousePetAbility.CHEER).toList();
                 var hasItemBuildup = baseAbilities.contains(HousePetType.HousePetAbility.CATCH);
 
                 EmbedBuilder status = new EmbedBuilder()
@@ -826,7 +825,7 @@ public class PetCmds {
                 }
 
                 var itemObject = item.get();
-                if (!(itemObject instanceof Food)) {
+                if (!(itemObject instanceof Food foodItem)) {
                     ctx.reply("commands.pet.feed.not_food", EmoteReference.ERROR);
                     return;
                 }
@@ -836,7 +835,6 @@ public class PetCmds {
                     return;
                 }
 
-                var foodItem = (Food) itemObject;
                 var baseline = foodItem.getHungerLevel();
                 var increase = baseline * amount;
 
@@ -974,8 +972,7 @@ public class PetCmds {
                         .map(Item::toDisplayString)
                         .collect(Collectors.joining(", "));
                 var baseAbilities = lookup.getAbilities().stream()
-                        .filter(ability -> ability != HousePetType.HousePetAbility.CHEER)
-                        .collect(Collectors.toList());
+                        .filter(ability -> ability != HousePetType.HousePetAbility.CHEER).toList();
 
                 var embed = new EmbedBuilder()
                         .setAuthor(String.format(languageContext.get("commands.pet.info.author"), emoji, name),
@@ -1051,10 +1048,10 @@ public class PetCmds {
             final var personalPet = playerData.getPet();
             if (personalPet == null) {
                 var opposite = getPetOpposite(player, marriage);
-                var oppositePet = opposite.getRight();
+                var oppositePet = opposite.right();
                 var extra = oppositePet == null ? "" :
                      languageContext.get("commands.pet.status.pet_in_other_category")
-                            .formatted(EmoteReference.WARNING, Utils.capitalize(opposite.getLeft().toString()), oppositePet.getName());
+                            .formatted(EmoteReference.WARNING, Utils.capitalize(opposite.left().toString()), oppositePet.getName());
 
                 ctx.replyStripped(missing, EmoteReference.ERROR, petChoice.getReadableName(), extra);
                 return null;
@@ -1071,10 +1068,10 @@ public class PetCmds {
             final var marriagePet = marriageData.getPet();
             if (marriagePet == null) {
                 var opposite = getPetOpposite(player, marriage);
-                var oppositePet = opposite.getRight();
+                var oppositePet = opposite.right();
                 var extra = oppositePet == null ? "" :
                         languageContext.get("commands.pet.status.pet_in_other_category")
-                             .formatted(EmoteReference.WARNING, Utils.capitalize(opposite.getLeft().toString()), oppositePet.getName());
+                             .formatted(EmoteReference.WARNING, Utils.capitalize(opposite.left().toString()), oppositePet.getName());
 
                 ctx.replyStripped(missing, EmoteReference.ERROR, petChoice.getReadableName(), extra);
                 return null;

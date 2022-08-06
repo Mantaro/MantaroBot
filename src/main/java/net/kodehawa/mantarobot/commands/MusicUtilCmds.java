@@ -44,7 +44,6 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static net.kodehawa.mantarobot.commands.MusicCmds.*;
@@ -318,7 +317,7 @@ public class MusicUtilCmds {
                         return;
                     }
 
-                    var toRemove = IntStream.rangeClosed(iStart, iEnd).boxed().collect(Collectors.toList());
+                    var toRemove = IntStream.rangeClosed(iStart, iEnd).boxed().toList();
                     selected.addAll(toRemove);
                 } catch (NumberFormatException ex) {
                     ctx.reply("commands.removetrack.invalid_number", EmoteReference.ERROR, param);

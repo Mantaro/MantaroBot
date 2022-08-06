@@ -12,7 +12,7 @@ import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.commands.UtilsContext;
-import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitContext;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimitContext;
 
 import java.util.Collection;
 
@@ -21,7 +21,7 @@ public interface IContext {
     GuildMessageChannel getChannel();
     Member getMember();
     User getAuthor();
-    RatelimitContext ratelimitContext();
+    RateLimitContext ratelimitContext();
     UtilsContext getUtilsContext();
     I18nContext getLanguageContext();
     void send(String s);

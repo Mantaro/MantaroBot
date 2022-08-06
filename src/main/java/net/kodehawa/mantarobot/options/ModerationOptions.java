@@ -74,7 +74,7 @@ public class ModerationOptions extends OptionHandler {
 
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
-            List<String> toBlacklist = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
+            List<String> toBlacklist = mentioned.stream().map(ISnowflake::getId).toList();
 
             String blacklisted = mentioned.stream()
                     .map(Member::getUser)
@@ -102,7 +102,7 @@ public class ModerationOptions extends OptionHandler {
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
 
-            List<String> toUnBlacklist = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
+            List<String> toUnBlacklist = mentioned.stream().map(ISnowflake::getId).toList();
             String unBlacklisted = mentioned.stream()
                     .map(Member::getUser)
                     .map(User::getAsTag)
@@ -134,7 +134,7 @@ public class ModerationOptions extends OptionHandler {
                 ctx.sendLocalized("options.logs_enable.success", EmoteReference.MEGA, textChannel.getName(), textChannel.getId());
             };
 
-            var channel = FinderUtils.findChannelSelect(ctx.getEvent(), logChannel, consumer);
+            var channel = FinderUtils.findChannelSelect(ctx, logChannel, consumer);
 
             if (channel != null) {
                 consumer.accept(channel);
@@ -174,7 +174,7 @@ public class ModerationOptions extends OptionHandler {
                     ctx.sendLocalized("options.logs_exclude.remove.success", EmoteReference.OK, textChannel.getAsMention());
                 };
 
-                var ch = FinderUtils.findChannelSelect(ctx.getEvent(), channel, consumer);
+                var ch = FinderUtils.findChannelSelect(ctx, channel, consumer);
 
                 if (ch != null) {
                     consumer.accept(ch);
@@ -189,7 +189,7 @@ public class ModerationOptions extends OptionHandler {
                 ctx.sendLocalized("options.logs_exclude.success", EmoteReference.OK, textChannel.getAsMention());
             };
 
-            var ch = FinderUtils.findChannelSelect(ctx.getEvent(), channel, consumer);
+            var ch = FinderUtils.findChannelSelect(ctx, channel, consumer);
 
             if (ch != null) {
                 consumer.accept(ch);

@@ -22,46 +22,8 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HelpContent {
-    private final String description;
-    private final List<Help.Parameter> parameters;
-    private final String usage;
-    private final List<String> related;
-    private final boolean seasonal;
-    private final List<String> descriptionList;
-
-    public HelpContent(String description, List<Help.Parameter> parameters, String usage, List<String> related, List<String> descriptionList, boolean seasonal) {
-        this.description = description;
-        this.parameters = parameters;
-        this.usage = usage;
-        this.related = related;
-        this.seasonal = seasonal;
-        this.descriptionList = descriptionList;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public List<Help.Parameter> getParameters() {
-        return this.parameters;
-    }
-
-    public String getUsage() {
-        return this.usage;
-    }
-
-    public List<String> getRelated() {
-        return this.related;
-    }
-
-    public List<String> getDescriptionList() {
-        return descriptionList;
-    }
-
-    public boolean isSeasonal() {
-        return this.seasonal;
-    }
+public record HelpContent(String description, List<Help.Parameter> parameters, String usage, List<String> related,
+                          List<String> descriptionList, boolean seasonal) {
 
     public static class Builder {
         private String description = null;

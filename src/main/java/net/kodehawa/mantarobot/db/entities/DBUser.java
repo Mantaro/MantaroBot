@@ -138,7 +138,7 @@ public class DBUser implements ManagedObject {
             //Link key to owner if key == owner and key holder is on patreon.
             //Sadly gotta skip of holder isnt patron here bc there are some bought keys (paypal) which I can't convert without invalidating
             Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(key.getOwner());
-            if (pledgeInfo != null && pledgeInfo.getLeft()) {
+            if (pledgeInfo != null && pledgeInfo.left()) {
                 key.getData().setLinkedTo(key.getOwner());
                 key.save(); //doesn't matter if it doesnt save immediately, will do later anyway (key is usually immutable in db)
             }
@@ -155,7 +155,7 @@ public class DBUser implements ManagedObject {
                 }
             }
 
-            isActive = key.getData().getLinkedTo() == null || (pledgeInfo != null ? pledgeInfo.getLeft() : true); //default to true if no link
+            isActive = key.getData().getLinkedTo() == null || (pledgeInfo != null ? pledgeInfo.left() : true); //default to true if no link
         }
 
         if (!isActive && key != null && LocalDate.now(ZoneId.of("America/Chicago")).getDayOfMonth() > 5) {

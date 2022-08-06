@@ -395,8 +395,7 @@ public class ItemHelper {
 
     private static List<Item> handleItemDrop(Predicate<Item> predicate, boolean normal) {
         List<Item> all = Arrays.stream(ItemReference.ALL)
-                .filter(i -> i.isBuyable() || i.isSellable())
-                .collect(Collectors.toList());
+                .filter(i -> i.isBuyable() || i.isSellable()).toList();
 
         return all.stream()
                 .filter(predicate)

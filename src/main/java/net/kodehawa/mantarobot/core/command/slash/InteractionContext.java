@@ -32,7 +32,7 @@ import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.UtilsContext;
-import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitContext;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimitContext;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -89,8 +89,8 @@ public class InteractionContext<T> implements IContext {
     }
 
     @Override
-    public RatelimitContext ratelimitContext() {
-        return new RatelimitContext(getGuild(), null, getChannel(), null, event);
+    public RateLimitContext ratelimitContext() {
+        return new RateLimitContext(getGuild(), null, getChannel(), null, event);
     }
 
     @Override

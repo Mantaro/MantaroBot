@@ -104,7 +104,7 @@ public class DBGuild implements ManagedObject {
             //Link key to owner if key == owner and key holder is on patreon.
             //Sadly gotta skip of holder isn't patron here bc there are some bought keys (paypal) which I can't convert without invalidating
             Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(key.getOwner());
-            if (pledgeInfo != null && pledgeInfo.getLeft()) {
+            if (pledgeInfo != null && pledgeInfo.left()) {
                 key.getData().setLinkedTo(key.getOwner());
                 key.save(); //doesn't matter if it doesn't save immediately, will do later anyway (key is usually immutable in db)
             }
@@ -127,11 +127,11 @@ public class DBGuild implements ManagedObject {
         if (config.isPremiumBot() && linkedTo != null && key == null) { //Key should always be null in MP anyway.
             Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(linkedTo);
             // The API returned an exception, return true anyway. (Pledge = false, amount = 100000 is basically impossible)
-            if (pledgeInfo != null && !pledgeInfo.getLeft() && pledgeInfo.getRight().equals("100000")) {
+            if (pledgeInfo != null && !pledgeInfo.left() && pledgeInfo.right().equals("100000")) {
                 return true;
             }
 
-            if (pledgeInfo != null && pledgeInfo.getLeft() && Double.parseDouble(pledgeInfo.getRight()) >= 4) {
+            if (pledgeInfo != null && pledgeInfo.left() && Double.parseDouble(pledgeInfo.right()) >= 4) {
                 // Subscribed to MP properly, return true.
                 return true;
             }

@@ -19,17 +19,7 @@ package net.kodehawa.mantarobot.commands.custom.v3.ast;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MultiNode implements Node {
-    private final List<Node> children;
-
-    public MultiNode(List<Node> children) {
-        this.children = children;
-    }
-
-    public List<Node> children() {
-        return children;
-    }
-
+public record MultiNode(List<Node> children) implements Node {
     @Override
     public <T, C> T accept(NodeVisitor<T, C> visitor, C context) {
         return visitor.visitMulti(this, context);

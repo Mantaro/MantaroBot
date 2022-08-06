@@ -185,9 +185,7 @@ public class AudioCmdUtils {
 
                 var stageInstance = channel.getStageInstance();
                 if (stageInstance == null) {
-                    channel.createStageInstance("Music").setTopic("Music by Mantaro").queue(inst -> {
-                        inst.getChannel().requestToSpeak().queue();
-                    });
+                    channel.createStageInstance("Music").setTopic("Music by Mantaro").queue(inst -> inst.getChannel().requestToSpeak().queue());
                 } else {
                     stageInstance.getChannel().requestToSpeak().queue();
                 }

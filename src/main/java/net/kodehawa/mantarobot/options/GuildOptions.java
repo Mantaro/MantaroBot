@@ -352,7 +352,7 @@ public class GuildOptions extends OptionHandler {
                 ctx.sendLocalized("options.djrole_set.success", EmoteReference.CORRECT, role.getName(), role.getPosition());
             };
 
-            Role role = FinderUtils.findRoleSelect(ctx.getEvent(), String.join(" ", args), consumer);
+            Role role = FinderUtils.findRoleSelect(ctx, String.join(" ", args), consumer);
 
             if (role != null) {
                 consumer.accept(role);

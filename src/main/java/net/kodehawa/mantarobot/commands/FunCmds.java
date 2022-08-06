@@ -143,8 +143,8 @@ public class FunCmds {
             if (!times.isBlank()) {
                 var d20 = RPGDice.parse(times);
                 if (d20 != null) {
-                    size = d20.getFaces();
-                    amount = d20.getRolls();
+                    size = d20.faces();
+                    amount = d20.rolls();
                 } else {
                     ctx.reply("commands.roll.incorrect_format", EmoteReference.ERROR);
                     return;

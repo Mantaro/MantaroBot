@@ -18,18 +18,14 @@
 package net.kodehawa.mantarobot.utils.commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
-import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ButtonOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.data.Config;
@@ -39,7 +35,6 @@ import net.kodehawa.mantarobot.utils.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Future;
@@ -48,7 +43,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.IntConsumer;
 
-// TODO: rewrite this cursedness! We don't need anything but buttons now, probably?
 public class DiscordUtils {
     private static final Config config = MantaroData.config().get();
 
@@ -97,49 +91,6 @@ public class DiscordUtils {
         return Pair.of(builder.toString(), list.size());
     }
 
-    public static Future<Void> selectInt(MessageReceivedEvent event, int max,
-                                         IntConsumer valueConsumer, Consumer<Void> cancelConsumer) {
-        return InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 30, (e) -> {
-            if (!e.getAuthor().equals(event.getAuthor())) {
-                return Operation.IGNORED;
-            }
-
-            //Replace prefix because people seem to think you have to add the prefix before literally everything.
-            var dbGuild = MantaroData.db().getGuild(event.getGuild());
-            var message = e.getMessage().getContentRaw();
-
-            if (message.equalsIgnoreCase("&cancel")) {
-                e.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled operation.").queue();
-                cancelConsumer.accept(null);
-                return Operation.COMPLETED;
-            }
-
-            for (var s : config.prefix) {
-                if (message.toLowerCase().startsWith(s)) {
-                    message = message.substring(s.length());
-                }
-            }
-
-            var guildCustomPrefix = dbGuild.getData().getGuildCustomPrefix();
-            if (guildCustomPrefix != null && !guildCustomPrefix.isEmpty() && message.toLowerCase().startsWith(guildCustomPrefix)) {
-                message = message.substring(guildCustomPrefix.length());
-            } //End of prefix replacing
-
-            try {
-                var choose = Integer.parseInt(message);
-                if (choose < 1 || choose > max) {
-                    return Operation.IGNORED;
-                }
-
-                valueConsumer.accept(choose);
-
-                return Operation.COMPLETED;
-            } catch (Exception ignored) { }
-
-            return Operation.IGNORED;
-        });
-    }
-
     public static Future<Void> selectIntButton(IContext ctx, Message message, int max,
                                                IntConsumer valueConsumer, Consumer<Void> cancelConsumer) {
         int count = 0;
@@ -165,7 +116,7 @@ public class DiscordUtils {
             }
 
             var button = e.getButton();
-            if (button == null || button.getId() == null) {
+            if (button.getId() == null) {
                 return Operation.IGNORED;
             }
 
@@ -187,44 +138,10 @@ public class DiscordUtils {
         }, buttons);
     }
 
-    public static Future<Void> selectInt(MessageReceivedEvent event, int max, IntConsumer valueConsumer) {
-        return selectInt(event, max, valueConsumer, (o) -> { });
-    }
-
-    public static <T> Future<Void> selectList(MessageReceivedEvent event, List<T> list,
-                                              Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
-                                              Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
-        var r = embedList(list, toString);
-        event.getChannel().sendMessageEmbeds(toEmbed.apply(r.getLeft())).queue();
-
-        return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list.get(i - 1)), cancelConsumer);
-    }
-
-    public static <T> Future<Void> selectList(MessageReceivedEvent event, T[] list,
-                                              Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
-                                              Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
-        var r = embedList(Arrays.asList(list), toString);
-        event.getChannel().sendMessageEmbeds(toEmbed.apply(r.getLeft())).queue();
-
-        return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list[i - 1]), cancelConsumer);
-    }
-
-    public static <T> Future<Void> selectList(MessageReceivedEvent event, List<T> list,
-                                              Function<T, String> toString,
-                                              Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
-        return selectList(event, list, toString, toEmbed, valueConsumer, (o) -> { });
-    }
-
     public static <T> Future<Void> selectListButton(IContext ctx, List<T> list,
                                                     Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
                                                     Consumer<T> valueConsumer) {
         return selectListButton(ctx, list, toString, toEmbed, valueConsumer, (o) -> { });
-    }
-
-    public static <T> Future<Void> selectList(MessageReceivedEvent event, T[] list,
-                                              Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
-                                              Consumer<T> valueConsumer) {
-        return selectList(event, list, toString, toEmbed, valueConsumer, (o) -> { });
     }
 
     public static <T> Future<Void> selectListButton(IContext ctx, List<T> list,
@@ -238,258 +155,6 @@ public class DiscordUtils {
         }
 
         return selectIntButton(ctx, m, r.getRight(), i -> valueConsumer.accept(list.get(i - 1)), cancelConsumer);
-    }
-
-    public static Future<Void> list(MessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
-                                    IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
-        if (parts.length == 0) {
-            return null;
-        }
-
-        List<MessageEmbed> embeds = buildSplitEmbed(supplier, length, parts);
-        if (embeds.size() == 1) {
-            event.getChannel().sendMessageEmbeds(embeds.get(0)).queue();
-            return null;
-        }
-
-        var index = new AtomicInteger();
-        var message = event.getChannel().sendMessageEmbeds(embeds.get(0)).complete();
-
-        return ReactionOperations.create(message, timeoutSeconds, (e) -> {
-            if (!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong()) {
-                return Operation.IGNORED;
-            }
-
-            switch (e.getReaction().getEmoji().getName()) {
-                //left arrow
-                case "\u2b05" -> {
-                    if (index.get() == 0) {
-                        break;
-                    }
-
-                    message.editMessageEmbeds(embeds.get(index.decrementAndGet())).queue();
-                }
-                //right arrow
-                case "\u27a1" -> {
-                    if (index.get() + 1 >= embeds.size()) {
-                        break;
-                    }
-
-                    message.editMessageEmbeds(embeds.get(index.incrementAndGet())).queue();
-                }
-                default -> { } // Do nothing, but make codefactor happy lol
-            }
-
-            if (e.getGuild().getSelfMember().hasPermission(e.getGuildChannel(), Permission.MESSAGE_MANAGE) && e.getUser() != null) {
-                e.getReaction().removeReaction(e.getUser()).queue();
-            }
-
-            return Operation.IGNORED;
-        }, "\u2b05", "\u27a1");
-    }
-
-    public static void listText(MessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
-                                EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
-        if (parts.size() == 0) {
-            return;
-        }
-
-        for (MessageEmbed.Field f : parts.get(0)) {
-            base.addField(f);
-        }
-
-        if (parts.size() == 1) {
-            event.getChannel().sendMessageEmbeds(base.build()).queue();
-            return;
-        }
-
-        var index = new AtomicInteger();
-        var m = event.getChannel().sendMessageEmbeds(base.build()).complete();
-
-        InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), timeoutSeconds, e -> {
-            if (!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong()) {
-                return Operation.IGNORED;
-            }
-
-            var contentRaw = e.getMessage().getContentRaw();
-            if (contentRaw.equals("&p <<") || contentRaw.equals("&page <<")) {
-                if (index.get() == 0) {
-                    return Operation.IGNORED;
-                }
-
-                var toSend = addAllFields(base, parts.get(index.decrementAndGet()));
-                toSend.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
-                        event.getAuthor().getEffectiveAvatarUrl()
-                );
-
-                m.editMessageEmbeds(toSend.build()).queue();
-            } else if (contentRaw.equals("&p >>") || contentRaw.equals("&page >>")) {
-                if (index.get() + 1 >= parts.size()) {
-                    return Operation.IGNORED;
-                }
-
-                var toSend = addAllFields(base, parts.get(index.incrementAndGet()));
-
-                toSend.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
-                        event.getAuthor().getEffectiveAvatarUrl()
-                );
-
-                m.editMessageEmbeds(toSend.build()).queue();
-            }
-
-            if (contentRaw.equals("&cancel")) {
-                m.delete().queue();
-                return Operation.COMPLETED;
-            }
-
-            return Operation.IGNORED;
-        });
-    }
-
-    public static void listText(MessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {
-        if (parts.size() == 0) {
-            return;
-        }
-
-        if (parts.size() == 1) {
-            event.getChannel().sendMessage(parts.get(0)).queue();
-            return;
-        }
-
-        var index = new AtomicInteger();
-        var m = event.getChannel().sendMessage(parts.get(0)).complete();
-
-        InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), timeoutSeconds, e -> {
-            if (!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong()) {
-                return Operation.IGNORED;
-            }
-
-            var contentRaw = e.getMessage().getContentRaw();
-
-            if (contentRaw.equals("&p <<") || contentRaw.equals("&page <<")) {
-                if (index.get() == 0) {
-                    return Operation.IGNORED;
-                }
-
-                m.editMessage(String.format("%s\n**Page: %d** | Total: %d**", parts.get(index.decrementAndGet()), index.get() + 1, parts.size())).queue();
-            } else if (contentRaw.equals("&p >>") || contentRaw.equals("&page >>")) {
-                if (index.get() + 1 >= parts.size()) {
-                    return Operation.IGNORED;
-                }
-
-                m.editMessage(String.format("%s\n**Page: %d | Total: %d**", parts.get(index.incrementAndGet()), index.get() + 1, parts.size())).queue();
-            }
-
-            if (contentRaw.equals("&cancel")) {
-                m.delete().queue();
-                return Operation.COMPLETED;
-            }
-
-            return Operation.IGNORED;
-        });
-    }
-
-
-    public static void listText(MessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
-                                IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
-        if (parts.length == 0) {
-            return;
-        }
-
-        List<MessageEmbed> embeds = buildSplitEmbed(supplier, length, parts);
-        if (embeds.size() == 1) {
-            event.getChannel().sendMessageEmbeds(embeds.get(0)).queue();
-            return;
-        }
-
-        var index = new AtomicInteger();
-        var m = event.getChannel().sendMessageEmbeds(embeds.get(0)).complete();
-
-        InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), timeoutSeconds, e -> {
-            if (!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong()) {
-                return Operation.IGNORED;
-            }
-
-            if (e.getMessage().getContentRaw().equals("&p <<") || e.getMessage().getContentRaw().equals("&page <<")) {
-                if (index.get() == 0) {
-                    return Operation.IGNORED;
-                }
-
-                m.editMessageEmbeds(embeds.get(index.decrementAndGet())).queue();
-            } else if (e.getMessage().getContentRaw().equals("&p >>") || e.getMessage().getContentRaw().equals("&page >>")) {
-                if (index.get() + 1 >= embeds.size()) {
-                    return Operation.IGNORED;
-                }
-
-                m.editMessageEmbeds(embeds.get(index.incrementAndGet())).queue();
-            }
-
-            if (e.getMessage().getContentRaw().equals("&cancel")) {
-                m.delete().queue();
-                return Operation.COMPLETED;
-            }
-
-            return Operation.IGNORED;
-        });
-    }
-
-    public static void listText(MessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
-                                        IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
-        listText(event, timeoutSeconds, canEveryoneUse, length, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
-    }
-
-    public static void listText(MessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
-                                IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
-        listText(event, timeoutSeconds, canEveryoneUse, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
-    }
-
-    public static Future<Void> list(MessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {
-        if (parts.size() == 0) {
-            return null;
-        }
-
-        if (parts.size() == 1) {
-            event.getChannel().sendMessage(parts.get(0)).queue();
-            return null;
-        }
-
-        var index = new AtomicInteger();
-        var m = event.getChannel().sendMessage(parts.get(0)).complete();
-
-        return ReactionOperations.create(m, timeoutSeconds, (e) -> {
-            if (!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong())
-                return Operation.IGNORED;
-
-            switch (e.getReaction().getEmoji().getName()) {
-                //left arrow
-                case "\u2b05" -> {
-                    if (index.get() == 0) {
-                        break;
-                    }
-
-                    m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.decrementAndGet()), index.get() + 1)).queue();
-                }
-                //right arrow
-                case "\u27a1" -> {
-                    if (index.get() + 1 >= parts.size()) {
-                        break;
-                    }
-
-                    m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();
-                }
-                case "\u274c" -> {
-                    m.delete().queue();
-                    return Operation.COMPLETED;
-                }
-                default -> { } // Do nothing, but make codefactor happy lol
-            }
-
-            if (e.getGuild().getSelfMember().hasPermission(e.getGuildChannel(), Permission.MESSAGE_MANAGE) && e.getUser() != null) {
-                e.getReaction().removeReaction(e.getUser()).queue();
-            }
-
-            return Operation.IGNORED;
-        }, "\u2b05", "\u27a1", "\u274c");
     }
 
     public static Future<Void> listButtons(UtilsContext ctx, int timeoutSeconds, int length,
@@ -513,6 +178,8 @@ public class DiscordUtils {
                     return Operation.IGNORED;
 
                 var button = e.getButton();
+                if (button.getId() == null)
+                    return Operation.IGNORED;
 
                 var hook = e.getHook();
                 switch (button.getId()) {
@@ -588,6 +255,8 @@ public class DiscordUtils {
 
                 var hook = e.getHook();
                 var button = e.getButton();
+                if (button.getId() == null)
+                    return Operation.IGNORED;
 
                 switch (button.getId()) {
                     case "button_first" -> {
@@ -682,6 +351,9 @@ public class DiscordUtils {
                 }
 
                 var button = e.getButton();
+                if (button.getId() == null)
+                    return Operation.IGNORED;
+
                 var hook = e.getHook();
                 switch (button.getId()) {
                     case "button_first" -> {
@@ -755,81 +427,6 @@ public class DiscordUtils {
                 message.editMessageComponents(ActionRow.of(DEFAULT_COMPONENTS_DISABLED)).queue();
             }
         }, DEFAULT_COMPONENTS_FIRST);
-    }
-
-    public static Future<Void> list(MessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
-                                    IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
-        return list(event, timeoutSeconds, canEveryoneUse, length, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
-    }
-
-    public static Future<Void> list(MessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
-                                    IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
-        // Passing an empty String[] array to List#toArray makes it convert to a array of strings, god knows why.
-        // Javadoc below just so I don't forget:
-        // (...) If the list fits in the specified array, it is returned therein.
-        // Otherwise, a new array is allocated with the runtime type of the specified array and the size of this list.
-        return list(event, timeoutSeconds, canEveryoneUse, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
-    }
-
-    public static Future<Void> list(MessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
-                                    EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
-        if (parts.size() == 0) {
-            return null;
-        }
-
-        for (MessageEmbed.Field f : parts.get(0)) {
-            base.addField(f);
-        }
-
-        if (parts.size() == 1) {
-            event.getChannel().sendMessageEmbeds(base.build()).queue();
-            return null;
-        }
-
-        base.setFooter("Total Pages: %s | Thanks for using Mantaro ❤️".formatted(parts.size()), event.getAuthor().getEffectiveAvatarUrl());
-
-        var index = new AtomicInteger();
-        var message = event.getChannel().sendMessageEmbeds(base.build()).complete();
-        return ReactionOperations.create(message, timeoutSeconds, (e) -> {
-            if (!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong()) {
-                return Operation.IGNORED;
-            }
-
-            switch (e.getReaction().getEmoji().getName()) {
-                //left arrow
-                case "\u2b05" -> {
-                    if (index.get() == 0) {
-                        break;
-                    }
-
-                    var toSend = addAllFields(base, parts.get(index.decrementAndGet()));
-                    toSend.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
-                            event.getAuthor().getEffectiveAvatarUrl()
-                    );
-
-                    message.editMessageEmbeds(toSend.build()).queue();
-                }
-                //right arrow
-                case "\u27a1" -> {
-                    if (index.get() + 1 >= parts.size()) {
-                        break;
-                    }
-
-                    var toSend1 = addAllFields(base, parts.get(index.incrementAndGet()));
-                    toSend1.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
-                            event.getAuthor().getEffectiveAvatarUrl()
-                    );
-                    message.editMessageEmbeds(toSend1.build()).queue();
-                }
-                default -> { } // Do nothing, but make codefactor happy lol
-            }
-
-            if (e.getGuild().getSelfMember().hasPermission(e.getGuildChannel(), Permission.MESSAGE_MANAGE) && e.getUser() != null) {
-                e.getReaction().removeReaction(e.getUser()).queue();
-            }
-
-            return Operation.IGNORED;
-        }, "\u2b05", "\u27a1");
     }
 
     public static List<String> divideString(int max, char splitOn, StringBuilder builder) {
@@ -946,10 +543,6 @@ public class DiscordUtils {
 
     public static List<String> divideString(int max, char splitOn, String s) {
         return divideString(max, splitOn, new StringBuilder(s));
-    }
-
-    public static List<String> divideString(char splitOn, StringBuilder builder) {
-        return divideString(1750, splitOn, builder);
     }
 
     public static List<String> divideString(StringBuilder builder) {

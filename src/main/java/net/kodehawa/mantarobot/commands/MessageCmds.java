@@ -162,8 +162,7 @@ public class MessageCmds {
                     );
                 },
                 error -> {
-                    if (error instanceof PermissionException) {
-                        PermissionException pe = (PermissionException) error;
+                    if (error instanceof PermissionException pe) {
                         ctx.reply("commands.prune.lack_perms", EmoteReference.ERROR, pe.getPermission());
                     } else {
                         ctx.reply("commands.prune.error_deleting", EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage());
