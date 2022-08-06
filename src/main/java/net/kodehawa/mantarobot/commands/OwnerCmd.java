@@ -611,10 +611,10 @@ public class OwnerCmd {
                     return;
                 }
 
-                var pledgeInfo = APIUtils.getPledgeInformation(user.getId());
+                var pledgeInfo = APIUtils.getFullPledgeInformation(user.getId());
 
                 // Guaranteed to be an integer
-                if (pledgeInfo == null || !pledgeInfo.left() || Double.parseDouble(pledgeInfo.right()) < 4) {
+                if (pledgeInfo == null || !pledgeInfo.isActive() || pledgeInfo.getReward().getKeyAmount() < 3) {
                     ctx.send("Pledge not found, pledge amount not enough or pledge was cancelled.");
                     return;
                 }
@@ -623,8 +623,8 @@ public class OwnerCmd {
                 dbGuild.getData().setMpLinkedTo(userString); //Patreon check will run from this user.
                 dbGuild.save();
 
-                ctx.sendFormat("Linked MP for guild %s (%s) to user %s (%s). Including this guild in pledge check (id -> user -> pledge).",
-                        guild.getName(), guild.getId(), user.getName(), user.getId()
+                ctx.sendFormat("Linked MP for guild %s (%s) to user %s (%s). Including this guild in pledge check (id -> user -> pledge). User tier: %s",
+                        guild.getName(), guild.getId(), user.getName(), user.getId(), pledgeInfo.getReward()
                 );
             }
 
