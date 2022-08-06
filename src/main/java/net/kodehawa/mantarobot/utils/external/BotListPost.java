@@ -32,9 +32,7 @@ import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 
 public enum BotListPost {
     DISCORD_BOT_LIST("https://discordbotlist.com/api/v1/bots/%s/stats", "guilds", MantaroData.config().get().getDblToken()),
-    TOP_GG("https://top.gg/api/bots/%s/stats", "server_count", MantaroData.config().get().getDbotsorgToken()),
-    DISCORD_BOATS("https://discord.boats/api/bot/%s", "server_count", MantaroData.config().get().getDiscordBoatsToken()),
-    BOTS_ON_DISCORD("https://discordbotlist.com/api/v1/bots/%s/stats", "guilds", MantaroData.config().get().getDblToken());
+    TOP_GG("https://top.gg/api/bots/%s/stats", "server_count", MantaroData.config().get().getDbotsorgToken());
 
     private static final Logger log = LoggerFactory.getLogger(BotListPost.class);
     private final String path;
