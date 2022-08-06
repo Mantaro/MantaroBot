@@ -297,11 +297,6 @@ public class OwnerCmd {
                     "Invalid user (to remove)"
             );
 
-            if (user == null) {
-                ctx.send(EmoteReference.ERROR + "User not found.");
-                return;
-            }
-
             var badge = Badge.lookupFromString(toRemove);
             if (badge == null) {
                 ctx.send(EmoteReference.ERROR + "No badge with that enum name! Valid badges: " +

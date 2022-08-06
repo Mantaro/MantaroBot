@@ -564,14 +564,8 @@ public class MoneyCmds {
         var balance = player.getCurrentMoney();
         var extra = "";
 
-        if (!playerData.isResetWarning() && !ctx.getConfig().isPremiumBot() && ctx.getPlayer().getOldMoney() > 10_000) {
-            extra = languageContext.get("commands.balance.reset_notice");
-            playerData.setResetWarning(true);
-            player.saveUpdating();
-        }
-
         if (balance < 300 && playerData.getExperience() < 3400 && !playerData.isNewPlayerNotice()) {
-            extra += (extra.isEmpty() ? "" : "\n") + languageContext.get("commands.balance.new_player");
+            extra += languageContext.get("commands.balance.new_player");
             playerData.setNewPlayerNotice(true);
             player.saveUpdating();
         }
