@@ -34,6 +34,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class I18n {
     private static final Logger log = LoggerFactory.getLogger(MantaroListener.class);
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     public static final List<String> LANGUAGES = new ArrayList<>();
     private static final ThreadLocal<String> ROOT = new ThreadLocal<>();
@@ -41,8 +42,6 @@ public class I18n {
 
     static {
         Map<String, I18n> m = new HashMap<>();
-        var mapper = new ObjectMapper();
-
         try (var is = I18n.class.getResourceAsStream("/assets/languages/list.txt")) {
             for (var lang : IOUtils.toString(is, StandardCharsets.UTF_8).trim().split("\n")) {
                 var language = lang.trim();
