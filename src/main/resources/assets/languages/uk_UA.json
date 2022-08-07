@@ -28,7 +28,7 @@
     "too_many_roles": "%1$sToo many roles found, maybe refine your search?\n**Roles found:** %2$s",
     "role_select": "Select the Role:",
     "find_channels_failure": "%1$sCannot find any text channel with that name :(",
-    "find_voice_channels_failure": "%1$sCannot find any text channel with that name :(",
+    "find_voice_channels_failure": "%1$sCannot find any voice channel with that name :(",
     "too_many_channels": "%1$sToo many channels found, maybe refine your search?\n**Channels found:** %2$s",
     "channel_select": "Select the Channel:",
     "too_many_members": "%1$sЗнайдено надто багато учасників, можливо, уточнити свій пошук? (наприклад, використовувати ім'я#дискримінатор)\n**Учасники знайдені:** %2$s",
@@ -1843,6 +1843,12 @@
         "desc": "Description",
         "upgrade": "Looking to upgrade?",
         "upgrade_content": "Click [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
+      },
+      "attribute": {
+        "tier": "Wrench Tier (to craft):",
+        "increase": "Money Increase:",
+        "diamond_drop": "Diamond Drop Range:",
+        "gem_luck": "Sparkle / Gem Luck"
       },
       "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s\n%1$s**Buy Price:** %8$s %9$s\n%1$s**Sell Price:** %10$s %11$s",
       "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Buy Price:** %7$s %8$s\n%1$s**Sell Price:** %9$s %10$s"
