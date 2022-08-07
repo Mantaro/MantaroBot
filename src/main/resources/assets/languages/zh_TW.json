@@ -1669,8 +1669,7 @@
       "bot_notice": "%1$s機器人們不能擁有錢。",
       "external_balance": "%1$s 擁有 **%2$,d 元**。",
       "own_balance": "你擁有 **%1$,d 元**。%2$s",
-      "new_player": "\n嘿！你應該是新來的。這個指南 (英文) 可以提供你一些幫助：<https://github.com/Mantaro/MantaroBot/wiki/Currency-101>。這只會顯示一次。",
-      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `/profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
+      "new_player": "\n嘿！你應該是新來的。這個指南 (英文) 可以提供你一些幫助：<https://github.com/Mantaro/MantaroBot/wiki/Currency-101>。這只會顯示一次。"
     },
     "daily": {
       "check": "%1$s你能夠在 **%2$s** 內再次簽到。",
@@ -2020,7 +2019,7 @@
       "autorole": "%1$s你不能將自動身分組設成生日身分組！記得生日身分組將被給予給當天生日的人，一天過後將被自動移除。",
       "warning": "%1$s記得生日身分組將被給予給當天生日的人，一天過後將被自動移除。如果你對他還有疑問，歡迎加入我們的支援伺服詢問。你也可以使用 `~>opts help birthday enable` 查看範例。",
       "warning_1": "這是因為生日檢查器的工作原理的關係：他會給予當天生日的人一個臨時的身分組，當那一天過後將會把它移除。**這表示所有擁有這個身分組的人將會在那天過後被拿掉該身分組**。請小心選擇你想使用的身分組，因為設置錯誤可能會導致不好的事情發生 (真的)！",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Birthday-101> for more info.",
       "warning_3": "此外，生日快取 (用來儲存用戶生日) 每23小時才會更新一次。表示如果你將你的生日設為今天或明天來測試這個宣布器，他將**不會**起作用。",
       "warning_4": "傳送 **yes** 來同意並將 %2$s 設置為生日身分組，或 **no** 取消。這將在45秒內超時。",
       "success": "%1$s已啟用生日宣布器，參數 -> 頻道：`%2$s (%3$s)` 和身分組：`%4$s (%5$s)`",
