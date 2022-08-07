@@ -1669,8 +1669,7 @@
       "bot_notice": "%1$sBots können kein Geld haben.",
       "external_balance": "%1$ss Guthaben lautet **$%2$,d Credits.**",
       "own_balance": "Dein Guthaben ist **$%1$,d Credits.**%2$s",
-      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
-      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `/profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
+      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once."
     },
     "daily": {
       "check": "%1$s`Du kannst deine täglichen Credits in **%2$s** abholen.",
@@ -2020,7 +2019,7 @@
       "autorole": "%1$sDu kannst nicht die autorole-Rolle als Geburtstagsrolle setzen! Beachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird.",
       "warning": "%1$sBeachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird. Wenn du Zweifel daran hast, wie du sie konfigurieren musst, kannst du immer dem Support-Server beitreten und fragen. Du kannst auch `~>opts help birthday enable` für ein Beispiel anschauen",
       "warning_1": "So funktioniert der Geburtstagsanzeiger: Er vergibt eine temporäre Rolle an die Personen, die Geburtstag haben und nimmt ihnen die Rolle ab, wenn der Tag endet. **Das bedeutet, dass jeder mit der Geburtstagrolle die Rolle verliert, wenn der Geburtstag endet**. Bitte sei vorsichtig, wenn du auswählst welche Rolle du nutzen willst, da eine Fehleinstellung böse Folgen haben kann (sehr böse)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Birthday-101> for more info.",
       "warning_3": "Außerdem wird der Cache (das was benutzt wird um die Geburtstage zu speichern) nur alle 23 Stunden aktualisiert. Das bedeutet wenn du heute deinen Geburtstag auf Morgen setzt wird es **nicht** funktionieren",
       "warning_4": "Gebe **yes** ein, wenn du zustimmst, die Rolle %2$s als Geburtstagsrolle zu setzen, und **no** zum abbrechen. Diese Wahl endet in 45 Sekunden.",
       "success": "%1$sGeburtstagslogging auf diesem Server mit Parametern aktiviert -> Kanal `%2$s (%3$s)` und Rolle: `%4$s (%5$s)`",
