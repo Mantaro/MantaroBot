@@ -1669,8 +1669,7 @@
       "bot_notice": "%1$sBot không có tiền.",
       "external_balance": "Số tiền của %1$s là **$%2$,d đồng.**",
       "own_balance": "Số tiền của bạn là **$%1$,d đồng.**%2$s",
-      "new_player": "\nXin chào! Tôi thấy bạn có vẻ là chiếu mới ở đây. Hướng dẫn này sẽ giúp bạn rất nhiều: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. Dòng này chỉ hiển thị một lần.",
-      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `/profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
+      "new_player": "\nXin chào! Tôi thấy bạn có vẻ là chiếu mới ở đây. Hướng dẫn này sẽ giúp bạn rất nhiều: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. Dòng này chỉ hiển thị một lần."
     },
     "daily": {
       "check": "%1$sBạn sẽ nhận được phần thưởng hàng ngày trong vòng: **%2$s.**",
@@ -2020,7 +2019,7 @@
       "autorole": "%1$sBạn không thể đặt vai trò của tất cả mọi người thành vai trò sinh nhật! Hãy nhớ rằng vai trò sinh nhật là một vai trò tự động đưa cho người đó khi sinh nhật họ tới, và bị gỡ sau ngày đó.",
       "warning": "%1$sHãy nhớ rằng vai trò sinh nhật là một vai trò được gắn cho người đó khi sinh nhật sinh nhật họ tới, và bị gỡ sau khi ngày đó qua đi. Bạn cũng có thể ghi `~>opts help birthday enable` để làm ví dụ.",
       "warning_1": "Điều này là do cách thức hoạt động của công cụ gắn ngày sinh: Nó gắn một vai trò tạm thời cho người có ngày sinh và gỡ khi ngày sinh nhật trôi qua. **Điều này có nghĩa là tất cả mọi người có vai trò trong ngày sinh nhật sẽ bị xóa vai trò ngày vào ngày hôm sau**. Hãy cẩn thận khi chọn vai trò, vì sai một li là đi luôn cái máy chủ đấy (không đùa đâu)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Birthday-101> for more info.",
       "warning_3": "Ngoài ra, bộ nhớ đệm sinh nhật (những gì được sử dụng để lưu trữ) chỉ được cập nhật sau mỗi 23 giờ. Có nghĩa là nếu bạn đặt ngày sinh của mình từ hôm nay sang ngày mai để kiểm tra thì nó sẽ **không** hoạt động.",
       "warning_4": "Nhấn **yes** nếu bạn đồng ý đặt vai trò %2$s làm vai trò sinh nhật, và **no** để huỷ. Thời gian chờ là 45 giây.",
       "success": "%1$sNhật kí thông báo ngày sinh trên máy chủ này với biến -> Kênh: `%2$s (%3$s)` và vai trò: `%4$s (%5$s)`",
