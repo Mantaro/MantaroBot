@@ -28,7 +28,7 @@
     "too_many_roles": "%1$sToo many roles found, maybe refine your search?\n**Roles found:** %2$s",
     "role_select": "Select the Role:",
     "find_channels_failure": "%1$sCannot find any text channel with that name :(",
-    "find_voice_channels_failure": "%1$sCannot find any text channel with that name :(",
+    "find_voice_channels_failure": "%1$sCannot find any voice channel with that name :(",
     "too_many_channels": "%1$sToo many channels found, maybe refine your search?\n**Channels found:** %2$s",
     "channel_select": "Select the Channel:",
     "too_many_members": "%1$sToo many members found, maybe refine your search? (ex. use name#discriminator)\n**Members found:** %2$s",
