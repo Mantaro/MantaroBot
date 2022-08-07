@@ -28,7 +28,7 @@
     "too_many_roles": "%1$sToo many roles found, maybe refine your search?\n**Roles found:** %2$s",
     "role_select": "Select the Role:",
     "find_channels_failure": "%1$sCannot find any text channel with that name :(",
-    "find_voice_channels_failure": "%1$sCannot find any text channel with that name :(",
+    "find_voice_channels_failure": "%1$sCannot find any voice channel with that name :(",
     "too_many_channels": "%1$sToo many channels found, maybe refine your search?\n**Channels found:** %2$s",
     "channel_select": "Select the Channel:",
     "too_many_members": "%1$sTerlalu banyak ahli yang dijumpai, mungkin memperhalusi carian anda? (cth. gunakan nama#diskriminator)\n**Ahli dijumpai:** %2$s",
@@ -1843,6 +1843,12 @@
         "desc": "Penerangan",
         "upgrade": "Mahu menaik tarafnya?",
         "upgrade_content": "Tekan [sini](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) untuk maklumat lanjut tentang cara menaik taraf peralatan anda!"
+      },
+      "attribute": {
+        "tier": "Wrench Tier (to craft):",
+        "increase": "Money Increase:",
+        "diamond_drop": "Diamond Drop Range:",
+        "gem_luck": "Sparkle / Gem Luck"
       },
       "success_tiered": "**Maklumat Item untuk** %2$s **%3$s** (%4$s)\n%1$s**Jenis:** %5$s\n%1$s**Penerangan:** *%6$s*\n%1$s**Tahap:** %7$s\n%1$s**Harga Membeli:** %8$s %9$s\n%1$s**Harga Menjual:** %10$s %11$s",
       "success": "**Maklumat Item untuk** %2$s **%3$s** (%4$s)\n%1$s**Jenis:** %5$s\n%1$s**Penerangan:** *%6$s*\n%1$s**Harga Membeli:** %7$s %8$s\n%1$s**Harga Menjual:** %9$s %10$s"
