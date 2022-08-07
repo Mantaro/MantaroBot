@@ -28,7 +28,7 @@
     "too_many_roles": "%1$sToo many roles found, maybe refine your search?\n**Roles found:** %2$s",
     "role_select": "Select the Role:",
     "find_channels_failure": "%1$sCannot find any text channel with that name :(",
-    "find_voice_channels_failure": "%1$sCannot find any text channel with that name :(",
+    "find_voice_channels_failure": "%1$sCannot find any voice channel with that name :(",
     "too_many_channels": "%1$sToo many channels found, maybe refine your search?\n**Channels found:** %2$s",
     "channel_select": "Select the Channel:",
     "too_many_members": "%1$sTrop de membres trouvés, essaies d'affiner ta recherche peut-être ? (ex. utilises le name#discriminator)\n**Membres trouvés :** %2$s",
@@ -1843,6 +1843,12 @@
         "desc": "Description",
         "upgrade": "Tu cherches à améliorer?",
         "upgrade_content": "Clique [ici](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) pour plus d'informations sur les améliorations d'outils!"
+      },
+      "attribute": {
+        "tier": "Wrench Tier (to craft):",
+        "increase": "Money Increase:",
+        "diamond_drop": "Diamond Drop Range:",
+        "gem_luck": "Sparkle / Gem Luck"
       },
       "success_tiered": "**Informations de l'objet** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s\n%1$s**Prix d'achat:** %8$s %9$s\n%1$s**Prix de vente:** %10$s %11$s",
       "success": "**Informations de l'objet** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Prix d'achat:** %7$s %8$s\n%1$s**Prix de vente:** %9$s %10$s"
