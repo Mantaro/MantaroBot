@@ -27,10 +27,7 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kodehawa.mantarobot.commands.currency.Waifu;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.meta.Category;
-import net.kodehawa.mantarobot.core.command.meta.Description;
-import net.kodehawa.mantarobot.core.command.meta.Name;
-import net.kodehawa.mantarobot.core.command.meta.Options;
+import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
@@ -69,7 +66,6 @@ public class WaifuCmd {
         cr.registerSlash(WaifuCommand.class);
     }
 
-    //TODO: Add help.
     @Name("waifu")
     @Category(CommandCategory.CURRENCY)
     @Description("Several waifu-related commands.")
@@ -108,6 +104,9 @@ public class WaifuCmd {
         @Description("Show a list of all your waifu(s) and their value.")
         @Options({
                 @Options.Option(type = OptionType.BOOLEAN, name = "id", description = "Show IDs")
+        })
+        @Help(description = "Show a list of all your waifu(s) and their value.", usage = "`/waifu list [id]`", parameters = {
+                @Help.Parameter(name = "id", description = "Whether to show the user ID or not.", optional = true)
         })
         public static class ListCommand extends SlashCommand {
             @Override
@@ -213,10 +212,10 @@ public class WaifuCmd {
                         return Operation.IGNORED;
                     }
 
-                    if (e.getButton() == null) {
+                    final var button = e.getButton().getId();
+                    if (button == null) {
                         return Operation.IGNORED;
                     }
-                    final var button = e.getButton().getId();
 
                     if (button.equals("yes")) {
                         playerFinal.getData().setWaifuout(true);
@@ -239,6 +238,9 @@ public class WaifuCmd {
         @Description("Claim a waifu. Yeah, this is all fiction.")
         @Options({
                 @Options.Option(type = OptionType.USER, name = "user", description = "The user to claim.", required = true)
+        })
+        @Help(description = "Claim a waifu. Yeah, this is all fiction.", usage = "`/waifu claim <user>`", parameters = {
+                @Help.Parameter(name = "user", description = "The user to claim.")
         })
         public static class Claim extends SlashCommand {
             @Override
@@ -342,10 +344,14 @@ public class WaifuCmd {
             }
         }
 
-        @Description("Un-claims a waifu.")
+        @Description("Unclaims a waifu.")
         @Options({
                 @Options.Option(type = OptionType.USER, name = "user", description = "The user to unclaim. If unknown, use the id."),
                 @Options.Option(type = OptionType.USER, name = "id", description = "The user id of the user to unclaim.")
+        })
+        @Help(description = "Unclaims a waifu.", usage = "`/waifu unclaim [id] <user>`", parameters = {
+                @Help.Parameter(name = "user", description = "The user to unclaim."),
+                @Help.Parameter(name = "id", description = "The ID of the user to unclaim. Only use if user doesn't work.", optional = true)
         })
         public static class Unclaim extends SlashCommand {
             @Override
@@ -399,7 +405,7 @@ public class WaifuCmd {
                     }
 
                     var button = ie.getButton();
-                    if (button == null) {
+                    if (button.getId() == null) {
                         return Operation.IGNORED;
                     }
 
@@ -478,9 +484,12 @@ public class WaifuCmd {
             }
         }
 
-        @Description("Shows your waifu stats or the stats or someone else's.")
+        @Description("Shows your waifu stats or the stats or someone else.")
         @Options({
                 @Options.Option(type = OptionType.USER, name = "user", description = "The user to check stats for. Yourself, if nothing specified.")
+        })
+        @Help(description = "Shows your waifu stats or the stats or someone else.", usage = "`/waifu stats [user]`", parameters = {
+                @Help.Parameter(name = "user", description = "The user to check. Yourself, if nothing specified.", optional = true),
         })
         public static class Stats extends SlashCommand {
             @Override

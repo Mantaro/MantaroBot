@@ -22,6 +22,7 @@ import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.ItemUsage;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -113,16 +114,20 @@ public class Pickaxe extends Item implements Castable, Salvageable, Attribute {
     }
 
     @Override
-    // TODO: Localize
-    public String buildAttributes() {
+    public String buildAttributes(I18nContext i18n) {
         return """
-                **Wrench Tier (to craft):**\u2009 %s
-                **Money Increase:**\u2009 %,d - %,d credits
-                **Diamond Drop Range:**\u2009 0 - %,d
-                **Sparkle / Gem Luck (%%):**\u2009 %,.1f%% / %,.1f%%
+                **%s**\u2009 %s
+                **%s**\u2009 %,d - %,d credits
+                **%s:**\u2009 0 - %,d
+                **%s (%%):**\u2009 %,.1f%% / %,.1f%%
                 """.formatted(
-                        getTierStars(getCastLevelRequired()), (getMoneyIncrease() / 4),
-                        getMoneyIncrease(), getDiamondIncrease(),
+                        i18n.get("commands.iteminfo.attribute.tier"),
+                        getTierStars(getCastLevelRequired()),
+                        i18n.get("commands.iteminfo.attribute.increase"),
+                        (getMoneyIncrease() / 4), getMoneyIncrease(),
+                        i18n.get("commands.iteminfo.attribute.diamond_drop"),
+                        getDiamondIncrease(),
+                        i18n.get("commands.iteminfo.attribute.gem_luck"),
                         getChance(0, 400, getSparkleLuck()),
                         getChance(0, 400, getGemLuck())
                 );

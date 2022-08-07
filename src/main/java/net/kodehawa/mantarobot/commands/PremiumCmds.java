@@ -27,23 +27,16 @@ import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
-import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
 import java.awt.*;
 import java.util.Objects;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static java.lang.System.currentTimeMillis;
@@ -314,83 +307,5 @@ public class PremiumCmds {
                 ctx.reply(embedBuilder.build());
             }
         }
-    }
-
-    //@Subscribe
-    public void claimkey(CommandRegistry cr) {
-        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
-                .spamTolerance(3)
-                .limit(2)
-                .cooldown(1, TimeUnit.MINUTES)
-                .maxCooldown(5, TimeUnit.MINUTES)
-                .pool(MantaroData.getDefaultJedisPool())
-                .prefix("claimkey")
-                .build();
-
-        cr.register("claimkey", new SimpleCommand(CommandCategory.UTILS) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (ctx.getConfig().isPremiumBot()) {
-                    ctx.sendLocalized("commands.activatekey.mp", EmoteReference.WARNING);
-                    return;
-                }
-
-                var scopeParsed = PremiumKey.Type.USER;
-                if (args.length > 0) {
-                    try {
-                        scopeParsed = PremiumKey.Type.valueOf(args[0].toUpperCase());
-                    } catch (IllegalArgumentException e) {
-                        ctx.sendLocalized("commands.claimkey.invalid_scope", EmoteReference.ERROR);
-                    }
-                }
-
-                final var author = ctx.getAuthor();
-                var dbUser = ctx.getDBUser();
-
-                //left: isPatron, right: pledgeAmount, basically.
-                var pledgeInfo = APIUtils.getPledgeInformation(author.getId());
-                if (pledgeInfo == null || !pledgeInfo.left() || !dbUser.isPremium()) {
-                    ctx.sendLocalized("commands.claimkey.not_patron", EmoteReference.ERROR);
-                    return;
-                }
-
-                var pledgeAmount = Double.parseDouble(pledgeInfo.right());
-                var data = dbUser.getData();
-
-                //Check for pledge changes on DBUser#isPremium
-                if (pledgeAmount == 1 || data.getKeysClaimed().size() >= (pledgeAmount / 2)) {
-                    ctx.sendLocalized("commands.claimkey.already_top", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (!RatelimitUtils.ratelimit(rateLimiter, ctx, null)) {
-                    return;
-                }
-
-                final var scope = scopeParsed;
-
-                // Send message in a DM (it's private after all)
-                ctx.getAuthor().openPrivateChannel()
-                        .flatMap(privateChannel -> {
-                            var newKey = PremiumKey.generatePremiumKey(author.getId(), scope, true);
-                            var languageContext = ctx.getLanguageContext();
-
-                            // Placeholder so they don't spam key creation. Save as random UUID first, to avoid conflicting.
-                            data.getKeysClaimed().put(UUID.randomUUID().toString(), newKey.getId());
-                            var amountClaimed = data.getKeysClaimed().size();
-
-                            privateChannel.sendMessageFormat(languageContext.get("commands.claimkey.successful"),
-                                    EmoteReference.HEART, newKey.getId(), amountClaimed, (int) ((pledgeAmount / 2) - amountClaimed), newKey.getParsedType()
-                            ).queue();
-
-                            dbUser.saveAsync();
-                            newKey.saveAsync();
-
-                            // Assume it all went well.
-                            // This one is actually needed, lol.
-                            return ctx.getChannel().sendMessageFormat(languageContext.get("commands.claimkey.success"), EmoteReference.CORRECT);
-                        }).queue(null, error -> ctx.sendLocalized("commands.claimkey.cant_dm", EmoteReference.ERROR));
-            }
-        });
     }
 }

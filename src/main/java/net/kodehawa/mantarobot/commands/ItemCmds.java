@@ -732,7 +732,7 @@ public class ItemCmds {
                                 false
                         )
                         .addField(EmoteReference.CALENDAR.toHeaderString() + lang.get("commands.iteminfo.embed.attributes"),
-                                attribute.buildAttributes(), false
+                                attribute.buildAttributes(lang), false
                         )
                         .addField(EmoteReference.TALKING.toHeaderString() + lang.get("commands.iteminfo.embed.desc"),
                                 lang.get(attribute.getExplanation()), false

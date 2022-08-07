@@ -592,9 +592,7 @@ public class HelpCmd {
         });
 
         // TODO: port: GameCmds (1), MuteCmds (2), MarryCmd (2)
-        // Note: We're now at 94, with the three above we'd be at 99. Limit is 100. Why.
         // Note: How the heck am I gonna do GameCmds? Interactive stuff is hard now.
-        // You know, leaving help for last is kinda funny.
         cr.registerAlias("slash",
                 "info", "status", "shard", "shardinfo", "ping", "time", "prune",
                 "ban", "kick", "softban", "userinfo", "serverinfo", "avatar", "roleinfo",

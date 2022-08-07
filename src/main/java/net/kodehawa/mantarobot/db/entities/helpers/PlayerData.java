@@ -85,7 +85,7 @@ public class PlayerData {
     private List<Pet> profilePets = new LinkedList<>();
 
     private long petSlots = 4;
-    // pet list, TODO add multiple pets
+    // pet list
     private Map<String, Pet> pets = new HashMap<>();
     private PetChoice petChoice = null;
     // main pet

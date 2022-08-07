@@ -60,8 +60,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-// TODO: Generify non slash and slash command stuff.
-// TODO: Really, do it, the whole permission handling is repeated twice.
 public class CommandRegistry {
     private static final Logger commandLog = LoggerFactory.getLogger("command-log");
     private static final Logger log = LoggerFactory.getLogger(CommandRegistry.class);

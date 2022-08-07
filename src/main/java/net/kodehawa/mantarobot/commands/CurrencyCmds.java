@@ -619,7 +619,6 @@ public class CurrencyCmds {
 
     private static void tools(IContext ctx, DBUser dbUser) {
         var equippedItems = dbUser.getData().getEquippedItems();
-        // TODO: Make a common class for this instead of making static methods on unrelated classes, PLEASE
         var equipment = ProfileCmd.parsePlayerEquipment(equippedItems, ctx.getLanguageContext());
 
         ctx.send(equipment);

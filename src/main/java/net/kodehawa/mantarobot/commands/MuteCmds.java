@@ -25,8 +25,6 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.options.core.Option;
-import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
@@ -39,8 +37,6 @@ import java.util.regex.Pattern;
 @Module
 public class MuteCmds {
     private static final Pattern rawTimePattern = Pattern.compile("^[(\\d)((?d|?h|(?m|(?s)]+$");
-    private static final Pattern timePattern =
-            Pattern.compile("[(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
     // Regex by Fabricio20
     private static final Pattern muteTimePattern =
             Pattern.compile("-time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
@@ -171,61 +167,6 @@ public class MuteCmds {
                         .build();
             }
         });
-
-        mute.addOption("defaultmutetimeout:set", new Option("Default mute timeout", """
-                Sets the default mute timeout for ~>mute.
-                This command will set the timeout of ~>mute to a fixed value **unless you specify another time in the command**
-                **Example:** `~>opts defaultmutetimeout set 1m20s`
-                **Considerations:** Time is in 1m20s or 1h10m3s format, for example.""", OptionType.GUILD)
-                .setAction((ctx, args) -> {
-                    if (args.length == 0) {
-                        ctx.sendLocalized("options.defaultmutetimeout_set.not_specified", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    if (!timePattern.matcher(args[0]).matches()) {
-                        ctx.sendLocalized("options.defaultmutetimeout_set.wrong_format", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    var timeoutToSet = Utils.parseTime(args[0]);
-                    var time = System.currentTimeMillis() + timeoutToSet;
-                    if (time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(10)) {
-                        ctx.sendLocalized("options.defaultmutetimeout_set.too_long", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    if (time < 0) {
-                        ctx.sendLocalized("options.defaultmutetimeout_set.negative_notice");
-                        return;
-                    }
-
-                    if (time < 10000) {
-                        ctx.sendLocalized("commands.defaultmutetimeout_set.too_short", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    var dbGuild = ctx.getDBGuild();
-                    var guildData = dbGuild.getData();
-
-                    guildData.setSetModTimeout(timeoutToSet);
-                    dbGuild.save();
-
-                    ctx.sendLocalized("options.defaultmutetimeout_set.success", EmoteReference.CORRECT, args[0], timeoutToSet);
-                }).setShortDescription("Sets the default timeout for the ~>mute command"));
-
-
-        mute.addOption("defaultmutetimeout:reset", new Option("Default mute timeout reset",
-                "Resets the default mute timeout which was set previously with `defaultmusictimeout set`", OptionType.GUILD)
-                .setAction((ctx) -> {
-                    var dbGuild = ctx.getDBGuild();
-                    var guildData = dbGuild.getData();
-
-                    guildData.setSetModTimeout(0L);
-                    dbGuild.save();
-
-                    ctx.sendLocalized("options.defaultmutetimeout_reset.success", EmoteReference.CORRECT);
-                }).setShortDescription("Resets the default mute timeout."));
     }
 
     @Subscribe

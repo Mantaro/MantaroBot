@@ -18,7 +18,10 @@
 package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.ISnowflake;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.StandardGuildMessageChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
@@ -31,6 +34,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.FinderUtils;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -38,6 +42,7 @@ import java.util.stream.Collectors;
 @Option
 public class ModerationOptions extends OptionHandler {
     private static final Pattern offsetRegex = Pattern.compile("(?:UTC|GMT)[+-][0-9]{1,2}(:[0-9]{1,2})?", Pattern.CASE_INSENSITIVE);
+    private static final Pattern timePattern = Pattern.compile("[(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
 
     public ModerationOptions() {
         setType(OptionType.MODERATION);
@@ -237,6 +242,58 @@ public class ModerationOptions extends OptionHandler {
             guildData.setGuildLogChannel(null);
             dbGuild.saveAsync();
             ctx.sendLocalized("options.logs_disable.success", EmoteReference.MEGA);
+        });
+
+        registerOption("defaultmutetimeout:set", "Default mute timeout", """
+                Sets the default mute timeout for ~>mute.
+                This command will set the timeout of ~>mute to a fixed value **unless you specify another time in the command**
+                **Example:** `~>opts defaultmutetimeout set 1m20s`
+                **Considerations:** Time is in 1m20s or 1h10m3s format, for example.""", "Sets the default mute timeout", (ctx, args) -> {
+            if (args.length == 0) {
+                ctx.sendLocalized("options.defaultmutetimeout_set.not_specified", EmoteReference.ERROR);
+                return;
+            }
+
+            if (!timePattern.matcher(args[0]).matches()) {
+                ctx.sendLocalized("options.defaultmutetimeout_set.wrong_format", EmoteReference.ERROR);
+                return;
+            }
+
+            var timeoutToSet = Utils.parseTime(args[0]);
+            var time = System.currentTimeMillis() + timeoutToSet;
+            if (time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(10)) {
+                ctx.sendLocalized("options.defaultmutetimeout_set.too_long", EmoteReference.ERROR);
+                return;
+            }
+
+            if (time < 0) {
+                ctx.sendLocalized("options.defaultmutetimeout_set.negative_notice");
+                return;
+            }
+
+            if (time < 10000) {
+                ctx.sendLocalized("commands.defaultmutetimeout_set.too_short", EmoteReference.ERROR);
+                return;
+            }
+
+            var dbGuild = ctx.getDBGuild();
+            var guildData = dbGuild.getData();
+
+            guildData.setSetModTimeout(timeoutToSet);
+            dbGuild.save();
+
+            ctx.sendLocalized("options.defaultmutetimeout_set.success", EmoteReference.CORRECT, args[0], timeoutToSet);
+        });
+
+        registerOption("defaultmutetimeout:reset", "Default mute timeout reset",
+            "Resets the default mute timeout which was set previously with `defaultmusictimeout set`", "Resets the default mute timeout.", ctx -> {
+                var dbGuild = ctx.getDBGuild();
+                var guildData = dbGuild.getData();
+
+                guildData.setSetModTimeout(0L);
+                dbGuild.save();
+
+                ctx.sendLocalized("options.defaultmutetimeout_reset.success", EmoteReference.CORRECT);
         });
     }
 

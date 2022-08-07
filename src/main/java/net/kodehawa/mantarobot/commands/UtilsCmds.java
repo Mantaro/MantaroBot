@@ -20,6 +20,8 @@ package net.kodehawa.mantarobot.commands;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.reminders.Reminder;
@@ -71,10 +73,7 @@ public class UtilsCmds {
 
     @Description("Reminds you of something.")
     @Category(CommandCategory.UTILS)
-    @Help(description = "Reminds you of something.", usage = "`/remindme <time> <reminder>`", parameters = {
-            @Help.Parameter(name = "time", description = "How much time until I remind you of it. Time is in this format: 1h20m (1 hour and 20m)"),
-            @Help.Parameter(name = "reminder", description = "The thing to remind you of.")
-    })
+    @Help(description = "The hub for reminder related commands. Check subcommand help for more help.")
     public static class RemindMe extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {}
@@ -83,6 +82,10 @@ public class UtilsCmds {
         @Options({
                 @Options.Option(type = OptionType.STRING, name = "time", description = "How much time until I remind you of it. Time is in this format: 1h20m (1 hour and 20m)", required = true),
                 @Options.Option(type = OptionType.STRING, name = "reminder", description = "The thing to remind you of.", required = true)
+        })
+        @Help(description = "Reminds you of something.", usage = "`/remindme add <time> <reminder>`", parameters = {
+                @Help.Parameter(name = "time", description = "How much time until I remind you of it. Time is in this format: 1h20m (1 hour and 20m)"),
+                @Help.Parameter(name = "reminder", description = "The thing to remind you of.")
         })
         public static class Add extends SlashCommand {
             @Override
@@ -208,12 +211,10 @@ public class UtilsCmds {
                     ).append("\n");
                 }
 
-                //TODO: Split message, next is old way:
-                // var toSend = new MessageBuilder().append(builder.toString())
-                //         .buildAll(MessageBuilder.SplitPolicy.NEWLINE);
-                // toSend.forEach(ctx::send);
+                var toSend = new MessageBuilder().append(builder.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
+                var split = toSend.stream().map(Message::getContentRaw).toList();
 
-                ctx.reply(builder.toString());
+                DiscordUtils.listButtons(ctx.getUtilsContext(), 60, split);
             }
         }
     }

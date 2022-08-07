@@ -17,9 +17,10 @@
 package net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes;
 
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 public interface Attribute extends Breakable, Tiered {
-    String buildAttributes();
+    String buildAttributes(I18nContext i18n);
     String getExplanation();
     ItemUsage getType();
 }
