@@ -1669,8 +1669,7 @@
       "bot_notice": "%1$sBots não podem ter dinheiro.",
       "external_balance": "O saldo de %1$s é de **$%2$,d créditos.**",
       "own_balance": "Seu saldo é de **$%1$,d créditos.**%2$s",
-      "new_player": "\nOlá! Vejo que você possa ser novo aqui. Este guia vai te ajudar muito: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. Isso só será mostrado uma vez.",
-      "reset_notice": "\nSe você quiser saber o que aconteceu com seu dinheiro, leia\n<https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nVocê não perdeu seu dinheiro antigo completamente, ainda é visível no `/profile` :heart:\nSeu inventário foi mantido, por que não vende algumas coisas pra ganhar dinheiro?\nIsso só será mostrado uma vez. Leia o link da página para mais detalhes."
+      "new_player": "\nOlá! Vejo que você possa ser novo aqui. Este guia vai te ajudar muito: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. Isso só será mostrado uma vez."
     },
     "daily": {
       "check": "%1$sVocê poderá reivindicar seu diário em: **%2$s.**",
@@ -2020,7 +2019,7 @@
       "autorole": "%1$sVocê não pode definir o cargo autorole como um cargo de aniversário! Lembre-se que o cargo de aniversário é um cargo que é atribuído para a pessoa quando o aniversário dela vem, e é removido quando o dia passa.",
       "warning": "%1$sLembre-se que o cargo de aniversário é um cargo que é atribuído para a pessoa quando o aniversário dela vem, e é removido quando o dia passa.Se você tem alguma dúvida sobre como configurá-lo, você pode sempre entrar no nosso servidor de suporte e perguntar. Você também pode checar `~>opts help birthday enable` por exemplo.",
       "warning_1": "Isso é como o atribuídor de aniversário funciona: Atribui um cargo temporário à pessoa que está fazendo aniversário, e remove quando o dia do aniversário passa. **Isso significa que todos com o cargo de aniversário terão o cargo removido no dia em que o aniversário passar**. Por favor, tome cuidado ao escolher o cargo a ser usado, comoum erro de configuração pode fazer coisas ruins acontecerem (realmente)!",
-      "warning_2": "O cargo *tem que ser recém-criado ou um cargo que você não usa em mais ninguém*. NÃO PODE ser um cargo que os usuários já possuem. Os usuários precisarão permitir que este servidor anuncie seu aniversário usando `/birthday allowserver` senão o aniversário não aparecerá! Leia <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> para mais informações.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Birthday-101> for more info.",
       "warning_3": "Além disso, o cache de aniversário (o que é usado para armazená-los) só é atualizado a cada 23 horas. Significa que se você definir o seu aniversário hoje para amanhã para testar este anunciamento **não** funciona.",
       "warning_4": "Digite **yes** se você concordar em definir o cargo %2$s como cargo de aniversário, e **no** para cancelar. Esse tempo esgota em 45 segundos.",
       "success": "%1$sRegistro de aniversário ativado neste servidor com parâmetros -> Canal: `%2$s (%3$s)` e cargo: `%4$s (%5$s)`",
