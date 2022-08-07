@@ -1669,8 +1669,7 @@
       "bot_notice": "%1$sLes bots ne peuvent pas avoir d'argent.",
       "external_balance": "Le solde de %1$s est de **$%2$,d crédits.**",
       "own_balance": "Ton solde est de **$%1$,d crédits.**%2$s",
-      "new_player": "\nSalut! Je vois que c'est peut-être ta première fois. Ce guide pourrait t'aider: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. Ce message ne sera envoyé qu'une fois.",
-      "reset_notice": "\nSi tu veux savoir ce qu'on a fait de ton argent, lis <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nIl n'a pas vraiment disparu, tu peux toujours le voir sur ton `/profile` :heart:\nTon inventaire est resté intacte, vend peut-être quelques trucs pour gagner de l'argent?\nCe message ne sera montré qu'une fois. Lis la page ci-dessus pour plus d'infos."
+      "new_player": "\nSalut! Je vois que c'est peut-être ta première fois. Ce guide pourrait t'aider: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. Ce message ne sera envoyé qu'une fois."
     },
     "daily": {
       "check": "%1$sTu pourras réclamer ton gain journalier dans : **%2$s.**",
@@ -2020,7 +2019,7 @@
       "autorole": "%1$sTu ne peux pas assigner un autorôle comme rôle d'anniversaire. N'oublie pas qu'il s'agit d’un rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé.",
       "warning": "%1$sN'oublie pas qu'il s'agit d’un rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé. Si tu as le moindre doute sur la configuration, n'hésite pas à rejoindre le serveur de support et à demander. Tu peux aussi regarder `/opts help birthday enable` par exemple.",
       "warning_1": "C'est à cause du fonctionnement du rôle: Ça assigne un rôle temporaire à ceux dont l'anniversaire arrive et leur enlève une fois le jour passé. **Ce qui veut dire qu'il leur sera enlevé une fois le jour passé**. Fais bien attention à ce que tu fais, la moindre erreur de configuration peut avoir de terribles conséquences (vraiment) !",
-      "warning_2": "Le rôle *doit être un rôle nouvellement créé ou un rôle que tu n'utilises pour personne d'autre*. Il NE DOIT PAS être déjà attribué à qui que ce soit. Les utilisateurs doivent autoriser ce serveur à annoncer leur anniversaire en utilisant la commande `/birthday allowserver` sinon il n'apparaitra pas! Lis <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> pour plus d'infos.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Birthday-101> for more info.",
       "warning_3": "En plus, le \"birthday cache\" (ce qui est utilisé pour les stocker) est seulement mis à jour toutes les 23 heures. Ce qui veut dire que si tu programmes l'annonceur la veille de ton anniversaire pour le tester **ça ne va pas** fonctionner.",
       "warning_4": "Envoie **yes** si tu es d’accord de mettre le rôle %2$s comme rôle anniversaire et **no** sinon. Tu as 45 secondes.",
       "success": "%1$sLe log des anniversaires a été activé sur ce serveur dans les paramètres -> Salon: `%2$s (%3$s)` et rôle: `%4$s (%5$s)`",
