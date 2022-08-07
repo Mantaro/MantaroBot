@@ -1669,8 +1669,7 @@
       "bot_notice": "%1$sلا يمكن أن تمتلك البوتات المال.",
       "external_balance": "رصيد %1$s هو **%2.**",
       "own_balance": "رصيدك هو **%1$,d$ كريدت**%2$s",
-      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
-      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `/profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
+      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once."
     },
     "daily": {
       "check": "%1$sسوف تتمكن من الحصول على المكآفأة اليومية الخاصة بك في: **%2$s.**",
@@ -2020,7 +2019,7 @@
       "autorole": "%1$sلا يمكنك تعيين الرتبة التلقائية كرتبة ل اعياد الميلاد! تذكر ان رتبة عيد الميلاد يتم اعطائها للشخص عندما يحين عيد ميلاده، ومن ثم ازالتها عندما ينتهي يوم ميلاده.",
       "warning": "%1$sتذكر ان رتبة عيد الميلاد يتم اعطائها للشخص عندما يحين عيد ميلاده، ومن ثم يتم ازالتها عندما ينتهي يوم ميلاده. اذا كان لديك اي مشكلة حول كيفية عملها او تفعيلها، يمكنك دائماً دخول سيرفر الدعم الفني الخاص بنا والسؤال. يمكنك ايضاً مراجعة الأمر\n`~>opts help birthday enable` للحصول على مثال.",
       "warning_1": "هذا بسبب طريقة عمل نظام اعياد الميلاد حيث يتم اعطاء رتبة عيد الميلاد المُخصصة للشخص عندما يحين عيد ميلاده ومن ثم يتم سحبها عندما ينتهي يوم ميلاده. ** هذا يعني ان الجميع سيتم ازالة الرتبة منهم عندما ينتهي يوم ميلادهم**. يُرجى اخد الحذر عندما تقوم باختيار رتبة عيد الميلاد لأن الاختيارات الخاطئة قد تؤدي الى حصول اشياء سيئة (حقاً)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Birthday-101> for more info.",
       "warning_3": "بالإضافة إلى ذلك ، يتم تحديث ذاكرة التخزين المؤقت لعيد الميلاد (ما يتم استخدامه لتخزين بيانات اعياد الميلاد) كل 23 ساعة فقط. بمعنى ان كان عيد ميلادك غداً وقمت بتحديد ذلك اليوم لن يظهر اسمك عندما يتم الإعلان عن أعياد الميلاد.",
       "warning_4": "قم بكتابة**yes** اذا كنت توافق على تعيين الرتبة %2$s ك رتبة عيد ميلاد, و**no**. لديك 45 ثانية للاختيار.",
       "success": "%1$sتم تفعيل تسجيل اعياد الميلاد في هذا السيرفر للمعطيات الآتية: \n روم:`%2$s (%3$s)` والرتبة: `%4$s (%5$s)`",
