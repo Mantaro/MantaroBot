@@ -184,8 +184,8 @@
     "softban": {
       "no_permission": "%1$sVocê não pode dar soft-ban: Você precisa da permissão de `Banir Membros`.",
       "no_permission_self": "%1$sDesculpa! Eu não tenho permissão para banir membros neste servidor.",
-      "no_users": "%1$sVocê tem que me dizer um usuário para soft-banir.",
-      "hierarchy_conflict": "%1$sVocê não pode soft-banir um usuário que tem uma hierarquia maior que a sua",
+      "no_users": "%1$sYou need to give me a user to soft-ban.",
+      "hierarchy_conflict": "%1$sYou cannot soft-ban a user in a higher hierarchy than you",
       "yourself_note": "%1$sPor que você está tentando soft-banir si mesmo?",
       "self_hierarchy_conflict": "%1$sNão é possível soft-banir o membro: %2$s, ele tem uma hierarquia maior ou igual a mim!",
       "success": "%1$s%2$s. **(%3$s foi soft-banido)**",
@@ -496,26 +496,25 @@
       "locked_command": "%1$sVocê não pode editar ou remover esse comando enquanto estiver bloqueado, por favor use `/custom unlockcommand <command name>` pra desbloquear."
     },
     "mute": {
-      "no_permissions": "%1$sVocê tem que ter a permissão de moderar membros pra mutar.",
-      "no_users": "%1$sVocê tem que me dar um usuário para silenciar.",
+      "no_permissions": "%1$sYou need to have permission to Moderate Members in order to time out a user.",
+      "no_users": "%1$sYou need to give me a user to time out.",
       "no_moderate_members": "%1$sEu não tenho permissão pra administrar castigos nesse servidor.",
       "time_not_specified": "%1$sVocê queria um tempo mas não especificou quanto.",
-      "time_not_specified_generic": "%1$sVocê não especificou o tempo. Por exemplo, se você quer silenciar por 20 minutos você tem que fazer `/mute 20m @menção o motivo vai aqui`, por exemplo.",
-      "negative_time_notice": "%1$sVocê não pode silenciar alguém por tempo negativo. A menos que você possa dobrar o espaço-tempo que aí assim.",
-      "default_time_too_long": "%1$sO tempo atual de silenciado é muito longo (Máximo: 10 dias)...",
+      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute user 20m reason goes here`, for example.",
+      "default_time_too_long": "%1$sThe default time out timeout length is too long (Maximum: 10 days)...",
       "time_too_little": "%1$sO tamanho do tempo de mute especificado é menor que 10 segundos.\nVocê tem certeza de que usou o formato certo? Para 20 minutos, use 20m, para 1 hora, use 1h, ou qualquer combinação de ambos (1h45m) por exemplo.",
-      "time_too_long": "%1$sO tempo de silenciado especificado é muito longo (Máximo: 10 dias)...",
-      "already_muted": "%1$sEsse usuário já está mutado. Por favor use `/unmute´ pra desmutar.",
-      "self_hierarchy_error": "%1$sEu não posso mutar esse usuário por que ele tem uma hierarquia maior que eu, ou o cargo está em uma hierarquia maior!",
-      "user_hierarchy_error": "%1$sEu não posso mutar esse usuário por que ele tem uma hierarquia maior que eu, ou o cargo está em uma hierarquia maior que você!",
-      "success": "%1$s**%2$s** foi mutado com sucesso por %3$s",
-      "success_reason": "%1$s**%2$s** foi mutado com sucesso por %3$s pela seguinte razão: %4$s"
+      "time_too_long": "%1$sThe specified timeout length is too long (Maximum: 10 days)...",
+      "already_muted": "%1$sThis user is already timed out. Please do `/unmute` to un-mute them.",
+      "self_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
+      "user_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
+      "success": "%1$sSuccessfully timed out **%2$s** for %3$s",
+      "success_reason": "%1$sSuccessfully timed out **%2$s** for %3$s because of the following reason: %4$s"
     },
     "unmute": {
-      "no_permissions": "%1$sVocê tem que ter a permissão de moderar membros pra desmutar!",
-      "no_mentions": "%1$sVocê precisa mencionar pelo menos um usuário para reativar.",
-      "success": "%1$s**%2$s** foi desmutado com sucesso",
-      "not_muted": "%1$sEsse usuário não parece estar mutado."
+      "no_permissions": "%1$sYou need to have permission to Moderate Members to remove a time out!",
+      "no_mentions": "%1$sYou need to tell me who to remove the time out from.",
+      "success": "%1$sSuccessfully removed time out from **%2$s**",
+      "not_muted": "%1$sThis user doesn't seem to be timed out."
     },
     "ping": {
       "display": [
@@ -735,7 +734,7 @@
     },
     "market": {
       "dump": {
-        "replacement": "Você pode usar `~>dump` agora. Por exemplo, ao invés de ~>market dump floppy` você pode fazer `~>dump floppy`. Por favor use o novo comando ao invés disso... Eu me pergunto o que aconteceu com todos os disquetes que vocês jogaram fora?",
+        "replacement": "You can use `/dump` now. For example, instead of `~>market dump floppy` you can do `/dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
         "no_item": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer descartar.",
         "invalid": "%1$sNão é um número válido de itens para descartar.",
         "non_existent": "%1$sNão é possível descartar um item inexistente! Se você estiver perdido, pode tentar digitar o nome abreviado ou colocar o nome entre aspas.",
@@ -751,7 +750,7 @@
         "success": "%1$sO valor no mercado de %2$s**%3$s** é %4$s créditos para comprar e você pode ganhar %5$s créditos se você vender."
       },
       "sell": {
-        "replacement": "Você pode usar `~>sell` agora. Por exemplo, ao invés de `~>market sell pick` você pode usar `~>sell pick`. Por favor use o novo comando ao invés disso.",
+        "replacement": "You can use `/sell` now. For example, instead of `~>market sell pick` you can do `/sell pick`. Please use the new command instead.",
         "no_item": "%1$sVocê tem que especificar o item que quer vender.",
         "no_item_amount": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer vender.",
         "invalid": "%1$sNão é um número válido de itens para vender.",
@@ -767,7 +766,7 @@
         "success": "%1$sVocê vendeu %2$,d **%3$s** e ganhou %4$,d créditos!"
       },
       "buy": {
-        "replacement": "Você pode usar `~>buy` agora. Por exemplo, ao invés de `~>market buy pick` você pode usar `~>buy pick`. Por favor use o novo comando ao invés disso.",
+        "replacement": "You can use `/buy` now. For example, instead of `~>market buy pick` you can do `/buy pick`. Please use the new command instead.",
         "no_item": "%1$sVocê tem que especificar o item que quer comprar.",
         "no_item_amount": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer comprar.",
         "invalid": "%1$sNão é um número válido de itens para comprar.",
@@ -1846,9 +1845,13 @@
       },
       "attribute": {
         "tier": "Wrench Tier (to craft):",
+        "tier_raw": "Wrench Tier:",
         "increase": "Money Increase:",
         "diamond_drop": "Diamond Drop Range:",
-        "gem_luck": "Sparkle / Gem Luck"
+        "gem_luck": "Sparkle / Gem Luck",
+        "buff": "Item Buff:",
+        "reduction": "Multiplier reduction:",
+        "multiple_cast": "Can cast multiple:"
       },
       "success_tiered": "**Informação do Item** %2$s **%3$s** (%4$s)\n%1$s**Tipo:** %5$s\n%1$s**Descrição:** *%6$s*\n%1$s**Tier:** %7$s\n%1$s**Preço de Compra:** %8$s %9$s\n%1$s**Preço de Venda:** %10$s %11$s",
       "success": "**Informação do Item** %2$s **%3$s** (%4$s)\n%1$s**Tipo:** %5$s\n%1$s**Descrição:** *%6$s*\n%1$s**Preço de Compra:** %7$s %8$s\n%1$s**Preço de Venda:** %9$s %10$s"
@@ -2191,7 +2194,7 @@
       "success": "%1$sResetado corretamente suas opções!"
     },
     "birthday_test": {
-      "no_user": "%1$sVocê tem que mencionar um usuário para testar o atribuídor. Apenas mencione ele.",
+      "no_user": "%1$sYou need to specify a user to test the assigner with. Just mention them.",
       "no_bd_channel": "%1$sVocê não tem nenhum canal de aniversário definido!",
       "no_bd_role": "%1$sVocê não especificou o cargo definido para o aniversariante! Certifique-se de criar um novo cargo para isso.",
       "no_talk_permission": "%1$sO bot não pode falar no canal de aniversário. Cheque as permissões do canal.",
@@ -2250,16 +2253,6 @@
       "no_message": "%1$sVocê precisa especificar qual mensagem você quer que eu diga quando alguém deletar uma mensagem!",
       "success": "%1$sMensagem de mensagem deletada definida para: `%2$s`",
       "reset_success": "%1$sRegistros de mensagem deletada resetado."
-    },
-    "logs_banmessage": {
-      "no_message": "%1$sVocê precisa especificar qual mensagem você quer que eu diga quando alguém for banido!",
-      "success": "%1$sMensagem de banimento definida para: `%2$s`",
-      "reset_success": "%1$sRegistros de mensagens de banimentos resetado."
-    },
-    "logs_unbanmessage": {
-      "no_message": "%1$sVocê precisa especificar qual mensagem você quer que eu diga quando alguém for desbanido!",
-      "success": "%1$sMensagem de desbanimento definida para: `%2$s`",
-      "reset_success": "%1$sRegistros de mensagem de desbanimento resetado."
     },
     "djrole_set": {
       "no_role": "%1$sVocê tem que me da um cargo para usar como o cargo de DJ.",
