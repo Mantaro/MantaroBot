@@ -16,32 +16,4 @@
 
 package net.kodehawa.mantarobot.commands.custom.v3;
 
-public class Position {
-    private final int line;
-    private final int column;
-    private final int start;
-    private final int end;
-
-    public Position(int line, int column, int start, int end) {
-        this.line = line;
-        this.column = column;
-        this.start = start;
-        this.end = end;
-    }
-
-    public int line() {
-        return line;
-    }
-
-    public int column() {
-        return column;
-    }
-
-    public int start() {
-        return start;
-    }
-
-    public int end() {
-        return end;
-    }
-}
+public record Position(int line, int column, int start, int end) { }

@@ -27,6 +27,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.MarriageData;
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
 
+@SuppressWarnings("ClassCanBeRecord")
 public class Marriage implements ManagedObject {
     public static final String DB_TABLE = "marriages";
     private final String player1;

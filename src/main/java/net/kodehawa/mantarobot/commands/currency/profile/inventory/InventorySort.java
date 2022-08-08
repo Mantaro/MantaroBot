@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.UUID;
 
 // Enums can't have type values, so I need to make this a class instead
-public class InventorySort<T extends ItemStack> {
+public record InventorySort<T extends ItemStack>(Comparator<T> comparator) {
     public static final InventorySort<ItemStack> SORT_AMOUNT = new InventorySort<>(Comparator.comparingInt(ItemStack::getAmount).reversed());
     public static final InventorySort<ItemStack> SORT_RANDOM = new InventorySort<>(shuffle());
 
@@ -36,16 +36,6 @@ public class InventorySort<T extends ItemStack> {
             new InventorySort<>(Comparator.comparing((t) -> t.getItem().getValue() * t.getAmount(), (o1, o2) -> (int) (o2 - o1)));
     public static final InventorySort<ItemStack> SORT_TYPE =
             new InventorySort<>(Comparator.comparing((t) -> t.getItem().getItemType(), Comparator.comparingInt(Enum::ordinal)));
-
-    private final Comparator<T> comparator;
-
-    public InventorySort(final Comparator<T> comparator) {
-        this.comparator = comparator;
-    }
-
-    public Comparator<T> getComparator() {
-        return comparator;
-    }
 
     // This is midly cursed code for a joke :)
     public static <T> Comparator<T> shuffle() {

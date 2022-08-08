@@ -246,7 +246,7 @@ public class InvestigateCmd {
             var stats = new JSONObject();
             var delays = new JSONObject();
 
-            messages.stream().collect(Collectors.groupingBy(InvestigatedMessage::getAuthorId))
+            messages.stream().collect(Collectors.groupingBy(InvestigatedMessage::authorId))
                     .forEach((author, m) -> {
                         var d = new JSONArray();
                         var it = m.iterator();
@@ -269,86 +269,40 @@ public class InvestigateCmd {
         }
     }
 
-    private static class InvestigatedMessage {
-        private final String id;
-        private final String authorName;
-        private final String authorDiscriminator;
-        private final String authorId;
-        private final boolean bot;
-        private final String raw;
-        private final String content;
-
-        InvestigatedMessage(String id, String authorName, String authorDiscriminator, String authorId, boolean bot, String raw, String content) {
-            this.id = id;
-            this.authorName = authorName;
-            this.authorDiscriminator = authorDiscriminator;
-            this.authorId = authorId;
-            this.bot = bot;
-            this.raw = raw;
-            this.content = content;
-        }
-
+    private record InvestigatedMessage(String id, String authorName, String authorDiscriminator, String authorId, boolean bot, String raw, String content) {
         static InvestigatedMessage from(Message message) {
-            return new InvestigatedMessage(message.getId(), message.getAuthor().getName(),
-                    message.getAuthor().getDiscriminator(), message.getAuthor().getId(),
-                    message.getAuthor().isBot(), message.getContentRaw(), message.getContentStripped());
-        }
+                return new InvestigatedMessage(message.getId(), message.getAuthor().getName(),
+                        message.getAuthor().getDiscriminator(), message.getAuthor().getId(),
+                        message.getAuthor().isBot(), message.getContentRaw(), message.getContentStripped());
+            }
 
-        OffsetDateTime timestamp() {
-            return TimeUtil.getTimeCreated(MiscUtil.parseSnowflake(id));
-        }
+            OffsetDateTime timestamp() {
+                return TimeUtil.getTimeCreated(MiscUtil.parseSnowflake(id));
+            }
 
-        String format() {
-            return "%s - %s - %-37s (%-20s bot = %5s): %s".formatted(
-                    timestamp(),
-                    id,
-                    authorName + "#" + authorDiscriminator,
-                    authorId + ",",
-                    bot,
-                    content
-            );
-        }
+            String format() {
+                return "%s - %s - %-37s (%-20s bot = %5s): %s".formatted(
+                        timestamp(),
+                        id,
+                        authorName + "#" + authorDiscriminator,
+                        authorId + ",",
+                        bot,
+                        content
+                );
+            }
 
-        JSONObject toJson() {
-            return new JSONObject()
-                    .put("id", id)
-                    .put("timestamp", timestamp())
-                    .put("author", new JSONObject()
-                            .put("name", authorName)
-                            .put("discriminator", authorDiscriminator)
-                            .put("id", authorId)
-                            .put("bot", bot)
-                    )
-                    .put("content", content)
-                    .put("raw", raw);
+            JSONObject toJson() {
+                return new JSONObject()
+                        .put("id", id)
+                        .put("timestamp", timestamp())
+                        .put("author", new JSONObject()
+                                .put("name", authorName)
+                                .put("discriminator", authorDiscriminator)
+                                .put("id", authorId)
+                                .put("bot", bot)
+                        )
+                        .put("content", content)
+                        .put("raw", raw);
+            }
         }
-
-        public String getId() {
-            return this.id;
-        }
-
-        public String getAuthorName() {
-            return this.authorName;
-        }
-
-        public String getAuthorDiscriminator() {
-            return this.authorDiscriminator;
-        }
-
-        public String getAuthorId() {
-            return this.authorId;
-        }
-
-        public boolean isBot() {
-            return this.bot;
-        }
-
-        public String getRaw() {
-            return this.raw;
-        }
-
-        public String getContent() {
-            return this.content;
-        }
-    }
 }

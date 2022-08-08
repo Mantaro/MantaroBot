@@ -88,7 +88,7 @@ public class MessageCmds {
 
             ctx.getChannel().getHistory().retrievePast((int) amount)
                     .queue(
-                            messageHistory -> getMessageHistory(ctx, messageHistory, (int) amount, "commands.prune.no_messages", predicate),
+                            messageHistory -> getMessageHistory(ctx, messageHistory, (int) amount, predicate),
                             error -> ctx.reply("commands.prune.error_retrieving", EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())
                     );
 
@@ -112,7 +112,7 @@ public class MessageCmds {
         }
     }
 
-    private static void getMessageHistory(SlashContext ctx, List<Message> messageHistory, int limit, String i18n, Predicate<Message> predicate) {
+    private static void getMessageHistory(SlashContext ctx, List<Message> messageHistory, int limit, Predicate<Message> predicate) {
         var stream = messageHistory.stream().filter(predicate);
         if (limit != -1) {
             stream = stream.limit(limit);
@@ -120,7 +120,7 @@ public class MessageCmds {
 
         messageHistory = stream.collect(Collectors.toList());
         if (messageHistory.isEmpty()) {
-            ctx.reply(i18n, EmoteReference.ERROR);
+            ctx.reply("commands.prune.no_messages", EmoteReference.ERROR);
             return;
         }
 

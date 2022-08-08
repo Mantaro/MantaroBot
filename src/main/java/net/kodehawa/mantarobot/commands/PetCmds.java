@@ -434,7 +434,7 @@ public class PetCmds {
                         return Operation.IGNORED;
 
                     var button = event.getButton();
-                    if (button == null || button.getId() == null) {
+                    if (button.getId() == null) {
                         return Operation.IGNORED;
                     }
 
@@ -614,7 +614,7 @@ public class PetCmds {
                     }
 
                     var button = event.getButton();
-                    if (button == null || button.getId() == null) {
+                    if (button.getId() == null) {
                         return Operation.IGNORED;
                     }
 

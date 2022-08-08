@@ -743,7 +743,7 @@ public class CurrencyCmds {
                             .replace("_", " ")
                     ) + "\n\n" +
                     inventoryList.stream()
-                            .sorted(playerData.getInventorySortType().getSort().getComparator())
+                            .sorted(playerData.getInventorySortType().getSort().comparator())
                             .map(is -> is.getItem().getEmoji() + "\u2009 x" + is.getAmount() + " \u2009\u2009")
                             .collect(Collectors.joining(" "));
 
@@ -767,7 +767,7 @@ public class CurrencyCmds {
         else {
             playerInventory.asList()
                     .stream()
-                    .sorted(playerData.getInventorySortType().getSort().getComparator())
+                    .sorted(playerData.getInventorySortType().getSort().comparator())
                     .forEach(stack -> {
                         long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
                         long sellValue = stack.getItem().isSellable() ? Math.round(stack.getItem().getValue() * 0.9) : 0;

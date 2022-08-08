@@ -22,7 +22,6 @@ import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Collections;
@@ -31,10 +30,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class ImageCmd extends NoArgsCommand {
-    public static final URLCache CACHE = new URLCache(10);
-
     private final String desc;
-    private final String imageName;
     private final String toSend;
     private final WeebAPIRequester weebapi = new WeebAPIRequester();
     private final Random rand = new Random();
@@ -42,27 +38,24 @@ public class ImageCmd extends NoArgsCommand {
     private boolean noMentions = false;
     private String type;
 
-    public ImageCmd(String desc, String imageName, List<String> images, String toSend) {
+    public ImageCmd(String desc, List<String> images, String toSend) {
         super(CommandCategory.ACTION);
         this.desc = desc;
-        this.imageName = imageName;
         this.images = images;
         this.toSend = toSend;
     }
 
-    public ImageCmd(String desc, String imageName, String type, String toSend) {
+    public ImageCmd(String desc, String type, String toSend) {
         super(CommandCategory.ACTION);
         this.desc = desc;
-        this.imageName = imageName;
         this.images = Collections.emptyList();
         this.toSend = toSend;
         this.type = type;
     }
 
-    public ImageCmd(String desc, String imageName, String type, String toSend, boolean noMentions) {
+    public ImageCmd(String desc, String type, String toSend, boolean noMentions) {
         super(CommandCategory.ACTION);
         this.desc = desc;
-        this.imageName = imageName;
         this.images = Collections.emptyList();
         this.toSend = toSend;
         this.noMentions = noMentions;

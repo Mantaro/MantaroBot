@@ -60,7 +60,7 @@ public class TracingPrintStream extends PrintStream {
     }
 
     @Override
-    public void write(@NotNull byte[] buf, int off, int len) {
+    public void write(byte @NotNull [] buf, int off, int len) {
         super.write(buf, off, len);
     }
 
@@ -95,7 +95,7 @@ public class TracingPrintStream extends PrintStream {
     }
 
     @Override
-    public void print(@NotNull char[] s) {
+    public void print(char @NotNull [] s) {
         super.print(s);
     }
 
@@ -146,7 +146,7 @@ public class TracingPrintStream extends PrintStream {
     }
 
     @Override
-    public void println(@NotNull char[] x) {
+    public void println(char @NotNull [] x) {
         super.println(x);
     }
 

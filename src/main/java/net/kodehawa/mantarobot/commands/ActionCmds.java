@@ -157,7 +157,7 @@ public class ActionCmds {
         @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user that's being lewd."))
         public static class Lewd extends ImageCmdSlash {
             public Lewd() {
-                super("T-Too lewd!", "lewd", "lewd", "commands.action.lewd");
+                super("T-Too lewd!", "lewd", "commands.action.lewd");
             }
         }
 
@@ -166,7 +166,7 @@ public class ActionCmds {
         @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to meow to."))
         public static class Meow extends ImageCmdSlash {
             public Meow() {
-                super("Meows at the specified user.", "meow", MEOW.get(), "commands.action.meow");
+                super("Meows at the specified user.", MEOW.get(), "commands.action.meow");
             }
         }
 
@@ -175,7 +175,7 @@ public class ActionCmds {
         @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to nom."))
         public static class Nom extends ImageCmdSlash {
             public Nom() {
-                super("*nom nom*", "nom", "nom", "commands.action.nom");
+                super("*nom nom*", "nom", "commands.action.nom");
             }
         }
 
@@ -183,7 +183,7 @@ public class ActionCmds {
         @Description("When it's just too much to handle.")
         public static class FaceDesk extends ImageCmdSlash {
             public FaceDesk() {
-                super("When it's just too much to handle.", "facedesk", "banghead", "commands.action.facedesk", true);
+                super("When it's just too much to handle.", "banghead", "commands.action.facedesk", true);
             }
         }
     }
@@ -384,17 +384,17 @@ public class ActionCmds {
         cr.register("tsundere", new TextActionCmd("Y-You baka!", EmoteReference.MEGA + "%s", TSUNDERE.get()));
 
         //lewd();
-        cr.register("lewd", new ImageCmd("T-Too lewd!", "lewd", "lewd", "commands.action.lewd"));
+        cr.register("lewd", new ImageCmd("T-Too lewd!", "lewd", "commands.action.lewd"));
 
         //meow();
-        cr.register("meow", new ImageCmd("Meows at the specified user.", "meow", MEOW.get(), "commands.action.meow"));
+        cr.register("meow", new ImageCmd("Meows at the specified user.", MEOW.get(), "commands.action.meow"));
         cr.registerAlias("meow", "mew");
 
         //nom();
-        cr.register("nom", new ImageCmd("*nom nom*", "nom", "nom", "commands.action.nom"));
+        cr.register("nom", new ImageCmd("*nom nom*", "nom", "commands.action.nom"));
 
         //facedesk();
-        cr.register("facedesk", new ImageCmd("When it's just too much to handle.", "facedesk", "banghead",
+        cr.register("facedesk", new ImageCmd("When it's just too much to handle.", "banghead",
                 "commands.action.facedesk", true));
     }
 }

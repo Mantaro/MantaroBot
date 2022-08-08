@@ -16,29 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.custom.v3;
 
-public class Token {
-    private final Position position;
-    private final TokenType type;
-    private final String value;
-
-    public Token(Position position, TokenType type, String value) {
-        this.position = position;
-        this.type = type;
-        this.value = value;
-    }
-
-    public Position position() {
-        return position;
-    }
-
-    public TokenType type() {
-        return type;
-    }
-
-    public String value() {
-        return value;
-    }
-
+public record Token(Position position, TokenType type, String value) {
     @Override
     public int hashCode() {
         return value.hashCode() ^ position.hashCode();

@@ -265,7 +265,7 @@ public class BirthdayCmd {
                 long specifiedMonth = ctx.getOptionAsLong("month", 1); // There's no month zero so...
 
                 if (specifiedMonth != 0) {
-                    // Substract here so we can do the check properly up there.
+                    // Subtract here, so we can do the check properly up there.
                     month = specifiedMonth - 1;
                 }
 

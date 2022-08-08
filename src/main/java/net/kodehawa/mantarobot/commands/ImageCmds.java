@@ -156,7 +156,7 @@ public class ImageCmds {
                 }
         )
         @Options({
-                @Options.Option(type = OptionType.BOOLEAN, name = "nsfw", description = "Whether to send a NSFW image (only works on NSFW channels)", required = false)
+                @Options.Option(type = OptionType.BOOLEAN, name = "nsfw", description = "Whether to send a NSFW image (only works on NSFW channels)")
         })
         public static class Catgirl extends SlashCommand {
             @Override

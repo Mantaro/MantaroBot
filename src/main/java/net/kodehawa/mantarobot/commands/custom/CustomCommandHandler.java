@@ -48,6 +48,7 @@ public class CustomCommandHandler {
 
     {
         specialHandlers.put("text", (ctx, value, args) -> ctx.send(value));
+        //noinspection CommentedOutCode
         specialHandlers.put("play", (ctx, value, args) -> {
             ctx.send("This has been temporarily disabled due to slash commands limitations. Might be re-enabled later.");
             /*

@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
+@SuppressWarnings("ClassCanBeRecord")
 public class PlayerEquipment {
     //int = itemId
     private final Map<EquipmentType, Integer> equipment;

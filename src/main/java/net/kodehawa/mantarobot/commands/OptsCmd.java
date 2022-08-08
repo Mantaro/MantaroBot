@@ -195,7 +195,7 @@ public class OptsCmd {
                     List<MessageEmbed.Field> fields = new LinkedList<>();
                     for (var e : fieldMap.entrySet()) {
                         fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + e.getKey() + ":\n" + e.getValue().left() + "",
-                                e.getValue() == null ? lang.get("options.check_data.null_set") : String.valueOf(e.getValue().right()),
+                                e.getValue().right() == null ? lang.get("options.check_data.null_set") : String.valueOf(e.getValue().right()),
                                 false)
                         );
                     }

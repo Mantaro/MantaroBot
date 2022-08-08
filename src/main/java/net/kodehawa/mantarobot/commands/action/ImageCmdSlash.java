@@ -21,7 +21,6 @@ import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Collections;
@@ -29,10 +28,6 @@ import java.util.List;
 import java.util.Random;
 
 public class ImageCmdSlash extends SlashCommand {
-    public static final URLCache CACHE = new URLCache(10);
-
-    private final String desc;
-    private final String imageName;
     private final String toSend;
     private final WeebAPIRequester weebapi = new WeebAPIRequester();
     private final Random rand = new Random();
@@ -40,10 +35,8 @@ public class ImageCmdSlash extends SlashCommand {
     private boolean noMentions = false;
     private String type;
 
-    public ImageCmdSlash(String desc, String imageName, List<String> images, String toSend) {
+    public ImageCmdSlash(String desc, List<String> images, String toSend) {
         setCategory(CommandCategory.ACTION);
-        this.desc = desc;
-        this.imageName = imageName;
         this.images = images;
         this.toSend = toSend;
         setHelp(new HelpContent.Builder()
@@ -52,10 +45,8 @@ public class ImageCmdSlash extends SlashCommand {
         );
     }
 
-    public ImageCmdSlash(String desc, String imageName, String type, String toSend) {
+    public ImageCmdSlash(String desc, String type, String toSend) {
         setCategory(CommandCategory.ACTION);
-        this.desc = desc;
-        this.imageName = imageName;
         this.images = Collections.emptyList();
         this.toSend = toSend;
         this.type = type;
@@ -65,10 +56,8 @@ public class ImageCmdSlash extends SlashCommand {
         );
     }
 
-    public ImageCmdSlash(String desc, String imageName, String type, String toSend, boolean noMentions) {
+    public ImageCmdSlash(String desc, String type, String toSend, boolean noMentions) {
         setCategory(CommandCategory.ACTION);
-        this.desc = desc;
-        this.imageName = imageName;
         this.images = Collections.emptyList();
         this.toSend = toSend;
         this.noMentions = noMentions;
@@ -103,7 +92,7 @@ public class ImageCmdSlash extends SlashCommand {
 
         builder.appendDescription(EmoteReference.TALKING.toString());
         var user = ctx.getOptionAsUser("user");
-        if (user != null) {
+        if (user != null && !noMentions) {
             var member = ctx.getGuild().getMember(user);
             builder.appendDescription("**%s**, ".formatted(member.getEffectiveName()));
         }

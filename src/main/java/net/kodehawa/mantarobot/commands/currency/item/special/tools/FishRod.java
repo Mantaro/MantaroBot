@@ -22,7 +22,6 @@ import net.kodehawa.mantarobot.commands.currency.item.special.helpers.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Attribute;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.ItemUsage;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.data.I18n;
 
 import java.util.Arrays;
 import java.util.List;
