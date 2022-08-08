@@ -22,6 +22,7 @@ import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.ItemUsage;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -98,13 +99,16 @@ public class Axe extends Item implements Castable, Salvageable, Attribute {
     }
 
     @Override
-    // TODO: Localize
-    public String buildAttributes() {
+    public String buildAttributes(I18nContext i18n) {
         return """
-                **Wrench Tier (to craft):** %s
-                **Money Increase:** %,d - %,d credits
-                """.formatted(getTierStars(getCastLevelRequired()), (getMoneyIncrease() / 4), getMoneyIncrease()
-        );
+                **%s** %s
+                **%s** %,d - %,d credits
+                """.formatted(
+                        i18n.get("commands.iteminfo.attribute.tier"),
+                        getTierStars(getCastLevelRequired()),
+                        i18n.get("commands.iteminfo.attribute.increase"),
+                        (getMoneyIncrease() / 4), getMoneyIncrease()
+                );
     }
 
     @Override

@@ -21,6 +21,8 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Attribute;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.ItemUsage;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.I18n;
 
 import java.util.Arrays;
 import java.util.List;
@@ -115,13 +117,14 @@ public class FishRod extends Item implements Castable, Salvageable, Attribute {
     }
 
     @Override
-    // TODO: Localize
-    public String buildAttributes() {
+    public String buildAttributes(I18nContext i18n) {
         return """
-                **Wrench Tier (to craft):** %s
-                **Item Buff:** 1 - %,d
-                """.formatted(getTierStars(getCastLevelRequired()), (level + 6)
-        );
+                **%s** %s
+                **%s** 1 - %,d
+                """.formatted(
+                        i18n.get("commands.iteminfo.attribute.tier"), getTierStars(getCastLevelRequired()),
+                        i18n.get("commands.iteminfo.attribute.buff"), (level + 6)
+                );
     }
 
     @Override

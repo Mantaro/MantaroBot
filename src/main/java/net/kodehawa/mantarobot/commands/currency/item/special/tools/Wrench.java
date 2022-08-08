@@ -22,6 +22,7 @@ import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Attribute;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.ItemUsage;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -96,12 +97,16 @@ public class Wrench extends Item implements Castable, Salvageable, Attribute {
     }
 
     @Override
-    public String buildAttributes() {
+    public String buildAttributes(I18nContext i18n) {
         return """
-                **Wrench Level:** %s
-                **Multiplier reduction:** %sx
-                **Can cast multiple:** %s
-                """.formatted(getLevel(), getMultiplierReduction(), getLevel() > 1);
+                **%s** %s
+                **%s** %sx
+                **%s** %s
+                """.formatted(
+                        i18n.get("commands.iteminfo.attribute.tier_raw"), getLevel(),
+                        i18n.get("commands.iteminfo.attribute.reduction"), getMultiplierReduction(),
+                        i18n.get("commands.iteminfo.attribute.multiple_cast"), getLevel() > 1
+                );
     }
 
     @Override
