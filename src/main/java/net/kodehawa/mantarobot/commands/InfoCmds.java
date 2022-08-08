@@ -66,22 +66,24 @@ public class InfoCmds {
         protected void process(SlashContext ctx) {}
 
         @Name("support")
+        @Ephemeral
         @Description("Shows a link to the support server")
         @Help(description = "Shows a link to the support server")
         public static class Support extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                ctx.replyEphemeral("commands.support.info", EmoteReference.POPPER);
+                ctx.reply("commands.support.info", EmoteReference.POPPER);
             }
         }
 
         @Name("donate")
+        @Ephemeral
         @Description("Shows the donation methods in case you want to support Mantaro.")
         @Help(description = "Shows the donation methods in case you want to support Mantaro.")
         public static class Donate extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                ctx.replyEphemeral("commands.donate.beg", EmoteReference.HEART,
+                ctx.reply("commands.donate.beg", EmoteReference.HEART,
                         ctx.getLanguageContext().get("commands.donate.methods")
                                 .formatted("https://patreon.com/mantaro", "https://paypal.me/kodemantaro")
                 );
@@ -89,6 +91,7 @@ public class InfoCmds {
         }
 
         @Name("language")
+        @Ephemeral
         @Description("Shows how to change the server and user languages, along with a language list.")
         @Help(description =
                 """
@@ -101,13 +104,14 @@ public class InfoCmds {
         public static class Language extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                ctx.replyEphemeral("commands.lang.info", EmoteReference.ZAP,
+                ctx.reply("commands.lang.info", EmoteReference.ZAP,
                         String.join(", ", I18n.LANGUAGES).replace(".json", "")
                 );
             }
         }
 
         @Description("Shows the message the bot sends when it's added to a server.")
+        @Ephemeral
         @Help(description = "Shows the message the bot sends when it's added to a server.")
         public static class Welcome extends SlashCommand {
             @Override
@@ -135,10 +139,11 @@ public class InfoCmds {
                                 true
                         ).setFooter("We hope you enjoy using Mantaro! For any questions, go to our support server.");
 
-                ctx.replyEphemeral(embedBuilder.build());
+                ctx.reply(embedBuilder.build());
             }
         }
         @Name("invite")
+        @Ephemeral
         @Description("Gives you a bot OAuth invite link and some other important links.")
         @Help(description = "Gives you a bot OAuth invite link and some other important links.")
         public static class Invite extends SlashCommand {
@@ -146,7 +151,7 @@ public class InfoCmds {
             protected void process(SlashContext ctx) {
                 var languageContext = ctx.getLanguageContext();
 
-                ctx.replyEphemeral(new EmbedBuilder()
+                ctx.reply(new EmbedBuilder()
                         .setAuthor("Mantaro's Invite URL.", null, ctx.getSelfUser().getAvatarUrl())
                         .addField(languageContext.get("commands.invite.url"),
                                 "http://add.mantaro.site",
@@ -174,11 +179,11 @@ public class InfoCmds {
 
         @Name("shardlist")
         @Description("Returns information about shards.")
+        @Ephemeral
         @Help(description = "Returns information about shards.")
         public static class ShardInfo extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                ctx.deferEphemeral();
                 StringBuilder builder = new StringBuilder();
                 Map<String, String> stats;
 
@@ -218,12 +223,13 @@ public class InfoCmds {
                     );
                 }
 
-                ctx.replyEphemeralRaw("Building list...");
+                ctx.replyRaw("Building list...");
                 DiscordUtils.listButtons(ctx.getUtilsContext(), 150, messages);
             }
         }
 
         @Name("shard")
+        @Ephemeral
         @Description("Returns in what shard I am.")
         @Help(description = "Returns in what shard I am.")
         public static class Shard extends SlashCommand {
@@ -237,7 +243,7 @@ public class InfoCmds {
                 final var jda = ctx.getJDA();
                 final var guildCache = jda.getGuildCache();
 
-                ctx.replyEphemeral("commands.shard.info",
+                ctx.reply("commands.shard.info",
                         jda.getShardInfo().getShardId(),
                         ctx.getBot().getShardManager().getShardsTotal(),
                         ctx.getBot().getNodeNumber(), nodeAmount,
@@ -408,10 +414,10 @@ public class InfoCmds {
     }
 
     @Name("User Info")
+    @Ephemeral
     public static class UserInfo extends ContextCommand<User> {
         @Override
         protected void process(InteractionContext<User> ctx) {
-            ctx.deferEphemeral();
             var user = ctx.getTarget();
             userInfo(ctx, user);
         }

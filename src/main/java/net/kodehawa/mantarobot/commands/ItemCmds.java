@@ -126,7 +126,6 @@ public class ItemCmds {
         public static class CastItem extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                ctx.defer();
                 var itemName = ctx.getOptionAsString("item");
                 var amountSpecified = ctx.getOptionAsInteger("amount", 1);
 
@@ -283,7 +282,6 @@ public class ItemCmds {
         public static class CastList extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                ctx.defer();
                 var castableItems = Arrays.stream(ItemReference.ALL)
                         .sorted(Comparator.comparingInt(i -> i.getItemType().ordinal()))
                         .filter(i -> i.getItemType().isCastable() && i.getRecipeTypes() != null && i.getRecipe() != null)
@@ -369,7 +367,6 @@ public class ItemCmds {
         public static class RepairItem extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                ctx.defer();
                 var itemName = ctx.getOptionAsString("item");
 
                 //Get the necessary entities.

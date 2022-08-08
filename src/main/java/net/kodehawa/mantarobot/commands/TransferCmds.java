@@ -95,7 +95,6 @@ public class TransferCmds {
     public static class Transfer extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            ctx.defer();
             var giveTo = ctx.getOptionAsUser("user");
             if (giveTo.equals(ctx.getAuthor())) {
                 ctx.reply("commands.transfer.transfer_yourself_note", EmoteReference.THINKING);
@@ -197,7 +196,6 @@ public class TransferCmds {
     public static class TransferItems extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            ctx.defer();
             var giveTo = ctx.getOptionAsUser("user");
             if (ctx.getAuthor().getId().equals(giveTo.getId())) {
                 ctx.reply("commands.itemtransfer.transfer_yourself_note", EmoteReference.ERROR);

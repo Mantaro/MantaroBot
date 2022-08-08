@@ -66,7 +66,6 @@ public class AnimeCmds {
         @Override
         protected void process(SlashContext ctx) {
             try {
-                ctx.defer();
                 var name = ctx.getOptionAsString("name");
                 if (name.isEmpty()) {
                     ctx.reply("commands.anime.no_args", EmoteReference.ERROR);
@@ -135,7 +134,6 @@ public class AnimeCmds {
         @Override
         protected void process(SlashContext ctx) {
             try {
-                ctx.defer();
                 var name = ctx.getOptionAsString("name");
                 if (name.isEmpty()) {
                     ctx.reply("commands.character.no_args", EmoteReference.ERROR);

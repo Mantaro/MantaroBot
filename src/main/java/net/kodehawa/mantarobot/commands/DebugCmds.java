@@ -184,9 +184,9 @@ public class DebugCmds {
                 return;
 
             long start = System.currentTimeMillis();
-            ctx.getEvent().reply("Pinging...").queue(v -> {
+            ctx.getEvent().getHook().sendMessage("Pinging...").queue(v -> {
                 long ping = System.currentTimeMillis() - start;
-                v.editOriginal(
+                v.editMessage(
                         String.format(
                                 Utils.getLocaleFromLanguage(ctx.getI18nContext()),
                                 languageContext.get("commands.ping.text"), EmoteReference.MEGA,

@@ -172,39 +172,6 @@ public class SlashContext implements IContext {
         }
     }
 
-    public void replyEphemeralRaw(String source, Object... args) {
-        if (deferred) {
-            slash.getHook().sendMessage(source.formatted(args)).queue();
-        } else {
-            slash.deferReply(true)
-                    .setContent(source.formatted(args))
-                    .queue();
-        }
-    }
-
-    public void replyEphemeral(String source, Object... args) {
-        if (deferred) {
-            slash.getHook().sendMessage(i18n.get(source).formatted(args)).queue();
-        } else {
-            slash.deferReply(true)
-                    .setContent(i18n.get(source).formatted(args))
-                    .queue();
-        }
-    }
-
-    public void replyEphemeralStripped(String source, Object... args) {
-        if (deferred) {
-            slash.getHook().sendMessage(i18n.get(source).formatted(args))
-                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
-                    .queue();
-        } else {
-            slash.deferReply(true)
-                    .setContent(i18n.get(source).formatted(args))
-                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
-                    .queue();
-        }
-    }
-
     public void reply(String text) {
         if (deferred) {
             slash.getHook().sendMessage(text).queue();
@@ -333,12 +300,11 @@ public class SlashContext implements IContext {
         // Sending embeds while supressing the failure callbacks leads to very hard
         // to debug bugs, so enable it.
         if (deferred) {
-            slash.replyEmbeds(embed)
+            slash.getHook().sendMessageEmbeds(embed)
                     .addActionRows(actionRow)
                     .queue(success -> {}, Throwable::printStackTrace);
         } else {
-            slash.deferReply()
-                    .addEmbeds(embed)
+            slash.replyEmbeds(embed)
                     .addActionRows(actionRow)
                     .queue(success -> {}, Throwable::printStackTrace);
         }
@@ -357,7 +323,7 @@ public class SlashContext implements IContext {
     @Override
     public void sendFormat(String message, Collection<ActionRow> actionRow, Object... format) {
         if (deferred) {
-            slash.reply(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format))
+            slash.getHook().sendMessage(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format))
                     .addActionRows(actionRow)
                     .queue();
         } else {

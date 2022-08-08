@@ -69,18 +69,18 @@ public class ModerationCmds {
             var finalReason = "Softbanned by %#s: %s".formatted(author, reason);
 
             if (!ctx.getMember().canInteract(member)) {
-                ctx.replyEphemeral("commands.softban.hierarchy_conflict", EmoteReference.ERROR);
+                ctx.reply("commands.softban.hierarchy_conflict", EmoteReference.ERROR);
                 return;
             }
 
             if (author.getId().equals(user.getId())) {
-                ctx.replyEphemeral("commands.softban.yourself_note", EmoteReference.ERROR);
+                ctx.reply("commands.softban.yourself_note", EmoteReference.ERROR);
                 return;
             }
 
             //If one of them is in a higher hierarchy than the bot, cannot ban.
             if (!ctx.getSelfMember().canInteract(member)) {
-                ctx.sendLocalized("commands.softban.self_hierarchy_conflict", EmoteReference.ERROR, user.getName());
+                ctx.reply("commands.softban.self_hierarchy_conflict", EmoteReference.ERROR, user.getName());
                 return;
             }
 
@@ -106,11 +106,11 @@ public class ModerationCmds {
                     ctx.reply("commands.softban.success", EmoteReference.ZAP, languageContext.get("general.mod_quotes"), user.getName());
                     ctx.getGuild().unban(user).reason(finalReason).queue(__ -> { }, error -> {
                         if (error instanceof PermissionException) {
-                            ctx.replyEphemeral("commands.softban.error", EmoteReference.ERROR,
+                            ctx.reply("commands.softban.error", EmoteReference.ERROR,
                                     user.getName(), ((PermissionException) error).getPermission()
                             );
                         } else {
-                            ctx.replyEphemeral("commands.softban.unknown_error", EmoteReference.ERROR,
+                            ctx.reply("commands.softban.unknown_error", EmoteReference.ERROR,
                                     user.getName(), error.getClass().getSimpleName(), error.getMessage()
                             );
 
@@ -122,11 +122,11 @@ public class ModerationCmds {
                     TextChannelGround.of(ctx.getChannel()).dropItemWithChance(2, 2);
                 }, error -> {
                     if (error instanceof PermissionException) {
-                        ctx.replyEphemeral("commands.softban.error", EmoteReference.ERROR,
+                        ctx.reply("commands.softban.error", EmoteReference.ERROR,
                                 user.getName(), ((PermissionException) error).getPermission()
                         );
                     } else {
-                        ctx.replyEphemeral("commands.softban.unknown_error", EmoteReference.ERROR,
+                        ctx.reply("commands.softban.unknown_error", EmoteReference.ERROR,
                                 user.getName(), error.getClass().getSimpleName(), error.getMessage()
                         );
 
@@ -140,12 +140,12 @@ public class ModerationCmds {
         public Predicate<SlashContext> getPredicate() {
             return ctx -> {
                 if (!ctx.getMember().hasPermission(Permission.BAN_MEMBERS)) {
-                    ctx.replyEphemeral("commands.softban.no_permission", EmoteReference.ERROR);
+                    ctx.reply("commands.softban.no_permission", EmoteReference.ERROR);
                     return false;
                 }
 
                 if (!ctx.getSelfMember().hasPermission(Permission.BAN_MEMBERS)) {
-                    ctx.replyEphemeral("commands.softban.no_permission_self", EmoteReference.ERROR2);
+                    ctx.reply("commands.softban.no_permission_self", EmoteReference.ERROR2);
                     return false;
                 }
 

@@ -116,7 +116,6 @@ public class CurrencyCmds {
         public static class Show extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                ctx.defer();
                 var user = ctx.getOptionAsUser("user", ctx.getAuthor());
                 final var player = ctx.getPlayer(user);
                 final var dbUser = ctx.getDBUser(user);
@@ -137,7 +136,6 @@ public class CurrencyCmds {
         public static class Brief extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                ctx.defer();
                 var user = ctx.getOptionAsUser("user", ctx.getAuthor());
                 final var player = ctx.getPlayer(user);
                 final var dbUser = ctx.getDBUser(user);
@@ -216,7 +214,7 @@ public class CurrencyCmds {
         @Override
         protected void process(SlashContext ctx) {
             if (!ctx.getDBUser().isPremium()) {
-                ctx.sendLocalized("commands.dailycrate.not_premium", EmoteReference.ERROR);
+                ctx.reply("commands.dailycrate.not_premium", EmoteReference.ERROR);
                 return;
             }
 

@@ -89,7 +89,7 @@ public class MessageCmds {
             ctx.getChannel().getHistory().retrievePast((int) amount)
                     .queue(
                             messageHistory -> getMessageHistory(ctx, messageHistory, (int) amount, "commands.prune.no_messages", predicate),
-                            error -> ctx.replyEphemeral("commands.prune.error_retrieving", EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())
+                            error -> ctx.reply("commands.prune.error_retrieving", EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())
                     );
 
         }
@@ -98,12 +98,12 @@ public class MessageCmds {
         public Predicate<SlashContext> getPredicate() {
             return ctx -> {
                 if (!ctx.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {
-                    ctx.replyEphemeral("commands.prune.no_permissions_user", EmoteReference.ERROR);
+                    ctx.reply("commands.prune.no_permissions_user", EmoteReference.ERROR);
                     return false;
                 }
 
                 if (!ctx.getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
-                    ctx.replyEphemeral("commands.prune.no_permissions", EmoteReference.ERROR);
+                    ctx.reply("commands.prune.no_permissions", EmoteReference.ERROR);
                     return false;
                 }
 
@@ -152,7 +152,7 @@ public class MessageCmds {
 
         ctx.getChannel().deleteMessages(messageHistory).queue(
                 success -> {
-                    ctx.replyEphemeral("commands.prune.success", EmoteReference.PENCIL, size);
+                    ctx.reply("commands.prune.success", EmoteReference.PENCIL, size);
 
                     var db = ctx.getDBGuild();
                     db.getData().setCases(db.getData().getCases() + 1);

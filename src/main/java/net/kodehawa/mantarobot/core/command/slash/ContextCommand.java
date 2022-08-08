@@ -18,9 +18,7 @@
 package net.kodehawa.mantarobot.core.command.slash;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.kodehawa.mantarobot.core.command.meta.GuildOnly;
-import net.kodehawa.mantarobot.core.command.meta.Name;
-import net.kodehawa.mantarobot.core.command.meta.Permission;
+import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 
 import java.util.function.Predicate;
@@ -30,6 +28,8 @@ public abstract class ContextCommand<T> {
     private final CommandPermission permission;
     private Predicate<InteractionContext<T>> predicate = c -> true;
     private final boolean guildOnly;
+    private final boolean ephemeral;
+    private final boolean defer;
 
     // This is basically the same as NewCommand, but the handling ought to be different everywhere else.
     // There's no aliases either, too little slots.
@@ -47,7 +47,8 @@ public abstract class ContextCommand<T> {
         } else {
             this.permission = p.value();
         }
-
+        this.ephemeral = clazz.getAnnotation(Ephemeral.class) != null;
+        this.defer = clazz.getAnnotation(NoDefer.class) == null;
         this.guildOnly = clazz.getAnnotation(GuildOnly.class) != null;
     }
 
@@ -61,6 +62,10 @@ public abstract class ContextCommand<T> {
 
     public boolean isGuildOnly() {
         return guildOnly;
+    }
+
+    public boolean defer() {
+        return defer;
     }
 
     public void setPredicate(Predicate<InteractionContext<T>> predicate) {
@@ -88,7 +93,18 @@ public abstract class ContextCommand<T> {
     }
 
     public final void execute(InteractionContext<T> ctx) {
-        if (!getPredicate().test(ctx)) return;
+        if (defer()) {
+            if (ephemeral) {
+                ctx.deferEphemeral();
+            } else {
+                ctx.defer();
+            }
+        }
+
+        if (!getPredicate().test(ctx)) {
+            return;
+        }
+
         process(ctx);
     }
 }

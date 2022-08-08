@@ -65,7 +65,6 @@ public class MuteCmds {
     public static class Mute extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            ctx.defer();
             var dbGuild = ctx.getDBGuild();
             var guildData = dbGuild.getData();
             var reason = ctx.getOptionAsString("reason", "");
@@ -121,9 +120,10 @@ public class MuteCmds {
             }
 
             var logReason = reason.isEmpty() ? placeholderReason : reason;
-            member.timeoutFor(Duration.ofMillis(time)).reason(
-                    String.format("Muted by %#s for %s: %s", ctx.getAuthor(), Utils.formatDuration(ctx.getLanguageContext(), time), logReason)
-            ).queue();
+            member.timeoutFor(Duration.ofMillis(time))
+                    .reason(String.format(
+                            "Muted by %#s for %s: %s", ctx.getAuthor(), Utils.formatDuration(ctx.getLanguageContext(), time), logReason)
+                    ).queue();
 
             if (reason.isEmpty()) {
                 ctx.reply("commands.mute.success", EmoteReference.CORRECT, member.getEffectiveName(), Utils.formatDuration(ctx.getLanguageContext(), time));
@@ -135,7 +135,6 @@ public class MuteCmds {
 
             dbGuild.getData().setCases(dbGuild.getData().getCases() + 1);
             dbGuild.saveUpdating();
-
             ModLog.log(
                     ctx.getMember(), user, logReason, ctx.getChannel().getName(), ModLog.ModAction.MUTE, dbGuild.getData().getCases()
             );
@@ -151,7 +150,6 @@ public class MuteCmds {
     public static class UnMute extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            ctx.defer();
             var dbGuild = ctx.getDBGuild();
             var reason = ctx.getOptionAsString("reason", "");
             var user = ctx.getOptionAsUser("user");

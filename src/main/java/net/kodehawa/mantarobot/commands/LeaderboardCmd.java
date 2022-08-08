@@ -88,7 +88,7 @@ public class LeaderboardCmd {
         public Predicate<SlashContext> getPredicate() {
             return ctx -> {
                 if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
-                    ctx.sendLocalized("general.missing_embed_permissions");
+                    ctx.send("general.missing_embed_permissions");
                     return false;
                 }
 

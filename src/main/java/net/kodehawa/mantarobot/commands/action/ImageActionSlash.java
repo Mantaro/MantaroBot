@@ -119,7 +119,6 @@ public class ImageActionSlash extends SlashCommand {
 
     @Override
     public void process(SlashContext ctx) {
-        ctx.defer();
         if (!RatelimitUtils.ratelimit(rateLimiter, ctx, null)) {
             return;
         }

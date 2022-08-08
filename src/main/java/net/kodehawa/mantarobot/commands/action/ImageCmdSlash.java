@@ -81,7 +81,6 @@ public class ImageCmdSlash extends SlashCommand {
 
     @Override
     protected void process(SlashContext ctx) {
-        ctx.defer();
         final var builder = new EmbedBuilder();
         String random;
         try {

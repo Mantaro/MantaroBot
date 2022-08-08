@@ -68,6 +68,7 @@ public class BirthdayCmd {
         protected void process(SlashContext ctx) {}
 
         @Name("set")
+        @Ephemeral
         @Description("Sets your birthday date. Only useful if the server has enabled this functionality.")
         @Options({
                 @Options.Option(type = OptionType.STRING, name = "date", description = "The date to add. The format is dd-MM (30-01 for January 30th)", required = true)
@@ -127,11 +128,12 @@ public class BirthdayCmd {
                 dbUser.getData().setBirthday(birthdayFormat);
                 dbUser.saveUpdating();
 
-                ctx.replyEphemeral("commands.birthday.added_birthdate", EmoteReference.CORRECT, display, extra);
+                ctx.reply("commands.birthday.added_birthdate", EmoteReference.CORRECT, display, extra);
             }
         }
 
         @Name("allowserver")
+        @Ephemeral
         @Description("Allows the server where you send this command to announce your birthday.")
         @Help(description = "Allows the server where you send this command to announce your birthday.")
         public static class AllowServer extends SlashCommand {
@@ -154,11 +156,12 @@ public class BirthdayCmd {
                     cached.put(author.getIdLong(), cachedBirthday);
                 }
 
-                ctx.replyEphemeral("commands.birthday.allowed_server", EmoteReference.CORRECT);
+                ctx.reply("commands.birthday.allowed_server", EmoteReference.CORRECT);
             }
         }
 
         @Name("denyserver")
+        @Ephemeral
         @Description("Denies the server where you send this command from announcing your birthday.")
         @Help(description = "Denies the server where you send this command from announcing your birthday.")
         public static class RemoveServer extends SlashCommand {
@@ -168,7 +171,7 @@ public class BirthdayCmd {
                 var guildData = dbGuild.getData();
                 var author = ctx.getAuthor();
                 if (!guildData.getAllowedBirthdays().contains(author.getId())) {
-                    ctx.sendLocalized("commands.birthday.already_denied", EmoteReference.CORRECT);
+                    ctx.reply("commands.birthday.already_denied", EmoteReference.CORRECT);
                     return;
                 }
 
@@ -180,11 +183,12 @@ public class BirthdayCmd {
                     cached.remove(author.getIdLong());
                 }
 
-                ctx.replyEphemeral("commands.birthday.denied", EmoteReference.CORRECT);
+                ctx.reply("commands.birthday.denied", EmoteReference.CORRECT);
             }
         }
 
         @Name("remove")
+        @Ephemeral
         @Description("Removes your set birthday date.")
         @Help(description = "Removes your set birthday date.")
         public static class Remove extends SlashCommand {
@@ -194,7 +198,7 @@ public class BirthdayCmd {
                 user.getData().setBirthday(null);
                 user.save();
 
-                ctx.replyEphemeral("commands.birthday.reset", EmoteReference.CORRECT);
+                ctx.reply("commands.birthday.reset", EmoteReference.CORRECT);
             }
         }
 
@@ -204,7 +208,6 @@ public class BirthdayCmd {
         public static class List extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                ctx.defer();
                 BirthdayCacher cacher = MantaroBot.getInstance().getBirthdayCacher();
                 try {
                     if (cacher != null) {

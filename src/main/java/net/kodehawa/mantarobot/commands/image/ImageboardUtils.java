@@ -68,14 +68,14 @@ public class ImageboardUtils {
         }
 
         if (!nsfwCheck(ctx, nsfwOnly, false, ratingEnum)) {
-            ctx.replyEphemeral("commands.imageboard.non_nsfw_channel", EmoteReference.ERROR);
+            ctx.reply("commands.imageboard.non_nsfw_channel", EmoteReference.ERROR);
             return;
         }
 
         final var dbGuild = ctx.getDBGuild();
         final var data = dbGuild.getData();
         if ((ratingEnum == Rating.EXPLICIT || ratingEnum == Rating.QUESTIONABLE || nsfwOnly) && data.isDisableExplicit()) {
-            ctx.replyEphemeral("commands.imageboard.disabled_explicit", EmoteReference.ERROR);
+            ctx.reply("commands.imageboard.disabled_explicit", EmoteReference.ERROR);
             return;
         }
 
@@ -86,13 +86,13 @@ public class ImageboardUtils {
         List<String> list = tags.isEmpty() ? Collections.emptyList() : List.of(tags.split("\\s+"));
         var limit = Optional.ofNullable(maxQuerySize.get(api)).orElse(10);
         if (list.size() > limit) {
-            ctx.replyEphemeral("commands.imageboard.too_many_tags", EmoteReference.ERROR, imageboard, limit);
+            ctx.reply("commands.imageboard.too_many_tags", EmoteReference.ERROR, imageboard, limit);
             return;
         }
 
         final var blackListedImageTags = data.getBlackListedImageTags();
         if (list.stream().anyMatch(blackListedImageTags::contains)) {
-            ctx.replyEphemeral("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
+            ctx.reply("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
             return;
         }
 
@@ -109,7 +109,7 @@ public class ImageboardUtils {
                 );
             }
         } catch (Exception e) {
-            ctx.replyEphemeral("commands.imageboard.error_general", EmoteReference.ERROR);
+            ctx.reply("commands.imageboard.error_general", EmoteReference.ERROR);
         }
     }
 
@@ -121,7 +121,7 @@ public class ImageboardUtils {
 
         final var image = filter.get(r.nextInt(filter.size()));
         if (image.getTags().stream().anyMatch(blacklisted::contains)) {
-            ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
+            ctx.reply("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
             return;
         }
 
@@ -130,7 +130,7 @@ public class ImageboardUtils {
 
     private static <T extends BoardImage> List<T> filterImages(List<T> images, SlashContext ctx) {
         if (images == null) {
-            ctx.replyEphemeral("commands.imageboard.null_image_notice", EmoteReference.ERROR);
+            ctx.reply("commands.imageboard.null_image_notice", EmoteReference.ERROR);
             return null;
         }
 
@@ -150,7 +150,7 @@ public class ImageboardUtils {
                 .collect(Collectors.toList());
 
         if (filter.isEmpty()) {
-            ctx.replyEphemeral("commands.imageboard.no_images", EmoteReference.SAD);
+            ctx.reply("commands.imageboard.no_images", EmoteReference.SAD);
             return null;
         }
 
@@ -164,12 +164,12 @@ public class ImageboardUtils {
         // This is the last line of defense. It should filter *all* minor tags from all sort of images on
         // the method that calls this.
         if (containsExcludedTags(tags) && image.getRating() != Rating.SAFE) {
-            ctx.replyEphemeral("commands.imageboard.loli_content_disallow", EmoteReference.WARNING);
+            ctx.reply("commands.imageboard.loli_content_disallow", EmoteReference.WARNING);
             return;
         }
 
         if (tags.stream().anyMatch(blackListedImageTags::contains)) {
-            ctx.replyEphemeral("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
+            ctx.reply("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
             return;
         }
 
@@ -199,7 +199,7 @@ public class ImageboardUtils {
         var finalRating = rating == null ? Rating.SAFE : rating;
         var isSafe = finalRating.equals(Rating.SAFE) && !nsfwImageboard;
         if (!isSafe && sendMessage) {
-            ctx.replyEphemeral("commands.imageboard.non_nsfw_channel", EmoteReference.ERROR);
+            ctx.reply("commands.imageboard.non_nsfw_channel", EmoteReference.ERROR);
         }
 
         return isSafe;

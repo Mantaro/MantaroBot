@@ -79,6 +79,7 @@ public class UtilsCmds {
         protected void process(SlashContext ctx) {}
 
         @Description("Adds a reminder.")
+        @Ephemeral
         @Options({
                 @Options.Option(type = OptionType.STRING, name = "time", description = "How much time until I remind you of it. Time is in this format: 1h20m (1 hour and 20m)", required = true),
                 @Options.Option(type = OptionType.STRING, name = "reminder", description = "The thing to remind you of.", required = true)
@@ -90,7 +91,6 @@ public class UtilsCmds {
         public static class Add extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                ctx.deferEphemeral();
                 long time = 0;
                 final var maybeTime = ctx.getOptionAsString("time");
                 final var matchTime = rawTimePattern.matcher(maybeTime).matches();
@@ -150,21 +150,21 @@ public class UtilsCmds {
         }
 
         @Description("Cancels a reminder.")
+        @Ephemeral
         public static class Cancel extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
                 try {
                     var reminders = ctx.getDBUser().getData().getReminders();
                     if (reminders.isEmpty()) {
-                        ctx.replyEphemeral("commands.remindme.no_reminders", EmoteReference.ERROR);
+                        ctx.reply("commands.remindme.no_reminders", EmoteReference.ERROR);
                         return;
                     }
 
                     if (reminders.size() == 1) {
                         Reminder.cancel(ctx.getAuthor().getId(), reminders.get(0), Reminder.CancelReason.CANCEL); // Cancel first reminder.
-                        ctx.replyEphemeral("commands.remindme.cancel.success", EmoteReference.CORRECT);
+                        ctx.reply("commands.remindme.cancel.success", EmoteReference.CORRECT);
                     } else {
-                        ctx.defer();
                         I18nContext lang = ctx.getLanguageContext();
                         List<ReminderObject> rems = getReminders(reminders);
                         rems = rems.stream().filter(reminder -> reminder.time - System.currentTimeMillis() > 3).collect(Collectors.toList());
@@ -179,17 +179,17 @@ public class UtilsCmds {
                                 });
                     }
                 } catch (Exception e) {
-                    ctx.replyEphemeral("commands.remindme.no_reminders", EmoteReference.ERROR);
+                    ctx.reply("commands.remindme.no_reminders", EmoteReference.ERROR);
                 }
             }
         }
 
         @Name("list")
+        @Ephemeral
         @Description("Lists your reminders")
         public static class ListReminders extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                ctx.deferEphemeral();
                 var reminders = ctx.getDBUser().getData().getReminders();
                 var rms = getReminders(reminders).stream()
                         .sorted(Comparator.comparingLong(ReminderObject::getScheduledAtMillis)).toList();
@@ -287,7 +287,7 @@ public class UtilsCmds {
         @Override
         protected void process(SlashContext ctx) {
             if (!ctx.isChannelNSFW()) {
-                ctx.replyEphemeral("commands.urban.nsfw_notice", EmoteReference.ERROR);
+                ctx.reply("commands.urban.nsfw_notice", EmoteReference.ERROR);
                 return;
             }
 
@@ -295,14 +295,13 @@ public class UtilsCmds {
             var lookUp = ctx.getOptionAsString("term");
             var definitionNumber = ctx.getOptionAsLong("number");
             var url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(lookUp, StandardCharsets.UTF_8);
-            ctx.defer();
             var json = Utils.httpRequest(url);
             UrbanData data;
 
             try {
                 data = JsonDataManager.fromJson(json, UrbanData.class);
             } catch (JsonProcessingException e) {
-                ctx.sendLocalized("commands.urban.error", EmoteReference.ERROR);
+                ctx.reply("commands.urban.error", EmoteReference.ERROR);
                 e.printStackTrace();
                 return;
             }

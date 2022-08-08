@@ -112,6 +112,17 @@ public class ProfileCmd {
     public static class Profile extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {}
+        @Override
+        public Predicate<SlashContext> getPredicate() {
+            return ctx -> {
+                if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+                    ctx.reply("general.missing_embed_permissions");
+                    return false;
+                }
+
+                return true;
+            };
+        }
 
         @Description("Shows your current profile.")
         @Options({@Options.Option(type = OptionType.USER, name = "user", description = "The user to see the profile of.")})
@@ -128,7 +139,7 @@ public class ProfileCmd {
                 final var memberLooked = ctx.getGuild().getMember(userLooked);
 
                 if (userLooked.isBot()) {
-                    ctx.replyEphemeral("commands.profile.bot_notice", EmoteReference.ERROR);
+                    ctx.reply("commands.profile.bot_notice", EmoteReference.ERROR);
                     return;
                 }
 
@@ -236,10 +247,10 @@ public class ProfileCmd {
 
                 if (isDisabled) {
                     userData.setActionsDisabled(false);
-                    ctx.replyEphemeral("commands.profile.toggleaction.enabled", EmoteReference.CORRECT);
+                    ctx.reply("commands.profile.toggleaction.enabled", EmoteReference.CORRECT);
                 } else {
                     userData.setActionsDisabled(true);
-                    ctx.replyEphemeral("commands.profile.toggleaction.disabled", EmoteReference.CORRECT);
+                    ctx.reply("commands.profile.toggleaction.disabled", EmoteReference.CORRECT);
                 }
 
                 dbUser.save();
@@ -256,24 +267,24 @@ public class ProfileCmd {
 
                 if (ctx.getOptionAsBoolean("remove")) {
                     playerData.setClaimLocked(false);
-                    ctx.replyEphemeral("commands.profile.claimlock.removed", EmoteReference.CORRECT);
+                    ctx.reply("commands.profile.claimlock.removed", EmoteReference.CORRECT);
                     player.saveUpdating();
                     return;
                 }
 
                 if (playerData.isClaimLocked()) {
-                    ctx.replyEphemeral("commands.profile.claimlock.already_locked", EmoteReference.CORRECT);
+                    ctx.reply("commands.profile.claimlock.already_locked", EmoteReference.CORRECT);
                     return;
                 }
 
                 var inventory = player.getInventory();
                 if (!inventory.containsItem(ItemReference.CLAIM_KEY)) {
-                    ctx.replyEphemeral("commands.profile.claimlock.no_key", EmoteReference.ERROR);
+                    ctx.reply("commands.profile.claimlock.no_key", EmoteReference.ERROR);
                     return;
                 }
 
                 playerData.setClaimLocked(true);
-                ctx.replyEphemeral("commands.profile.claimlock.success", EmoteReference.CORRECT);
+                ctx.reply("commands.profile.claimlock.success", EmoteReference.CORRECT);
                 inventory.process(new ItemStack(ItemReference.CLAIM_KEY, -1));
                 player.saveUpdating();
             }
@@ -289,7 +300,7 @@ public class ProfileCmd {
                 data.setHiddenLegacy(toSet);
 
                 player.saveUpdating();
-                ctx.replyEphemeral("commands.profile.hidelegacy", EmoteReference.CORRECT, data.isHiddenLegacy());
+                ctx.reply("commands.profile.hidelegacy", EmoteReference.CORRECT, data.isHiddenLegacy());
             }
         }
 
@@ -309,7 +320,7 @@ public class ProfileCmd {
                 final var type = Utils.lookupEnumString(typeString, InventorySortType.class);
 
                 if (type == null) {
-                    ctx.replyEphemeral("commands.profile.inventorysort.not_valid",
+                    ctx.reply("commands.profile.inventorysort.not_valid",
                             EmoteReference.ERROR, Arrays.stream(InventorySortType.values())
                                     .map(b1 -> b1.toString().toLowerCase())
                                     .collect(Collectors.joining(", "))
@@ -323,7 +334,7 @@ public class ProfileCmd {
                 playerData.setInventorySortType(type);
                 player.saveUpdating();
 
-                ctx.replyEphemeral("commands.profile.inventorysort.success", EmoteReference.CORRECT, type.toString().toLowerCase());
+                ctx.reply("commands.profile.inventorysort.success", EmoteReference.CORRECT, type.toString().toLowerCase());
             }
         }
 
@@ -342,13 +353,13 @@ public class ProfileCmd {
 
                 if (ctx.getOptionAsBoolean("disable")) {
                     data.setAutoEquip(false);
-                    ctx.replyEphemeral("commands.profile.autoequip.disable", EmoteReference.CORRECT);
+                    ctx.reply("commands.profile.autoequip.disable", EmoteReference.CORRECT);
                     user.saveUpdating();
                     return;
                 }
 
                 data.setAutoEquip(true);
-                ctx.replyEphemeral("commands.profile.autoequip.success", EmoteReference.CORRECT);
+                ctx.reply("commands.profile.autoequip.success", EmoteReference.CORRECT);
                 user.saveUpdating();
             }
         }
@@ -363,7 +374,7 @@ public class ProfileCmd {
                 data.setPrivateTag(!data.isPrivateTag());
                 user.saveUpdating();
 
-                ctx.replyEphemeral("commands.profile.hide_tag.success", EmoteReference.POPPER, data.isPrivateTag());
+                ctx.reply("commands.profile.hide_tag.success", EmoteReference.POPPER, data.isPrivateTag());
             }
         }
 
@@ -391,19 +402,19 @@ public class ProfileCmd {
                 if (timezone.equalsIgnoreCase("reset")) {
                     dbUser.getData().setTimezone(null);
                     dbUser.saveAsync();
-                    ctx.replyEphemeral("commands.profile.timezone.reset_success", EmoteReference.CORRECT);
+                    ctx.reply("commands.profile.timezone.reset_success", EmoteReference.CORRECT);
                     return;
                 }
 
                 if (!Utils.isValidTimeZone(timezone)) {
-                    ctx.replyEphemeral("commands.profile.timezone.invalid", EmoteReference.ERROR);
+                    ctx.reply("commands.profile.timezone.invalid", EmoteReference.ERROR);
                     return;
                 }
 
                 try {
                     Utils.formatDate(LocalDateTime.now(Utils.timezoneToZoneID(timezone)), dbUser.getData().getLang());
                 } catch (DateTimeException e) {
-                    ctx.replyEphemeral("commands.profile.timezone.invalid", EmoteReference.ERROR);
+                    ctx.reply("commands.profile.timezone.invalid", EmoteReference.ERROR);
                     return;
                 }
 
@@ -414,7 +425,7 @@ public class ProfileCmd {
 
                 dbUser.getData().setTimezone(timezone);
                 dbUser.saveUpdating();
-                ctx.replyEphemeral("commands.profile.timezone.success", EmoteReference.CORRECT, timezone);
+                ctx.reply("commands.profile.timezone.success", EmoteReference.CORRECT, timezone);
             }
         }
 
@@ -433,7 +444,7 @@ public class ProfileCmd {
                 var badgeString = ctx.getOptionAsString("badge");
                 if (badgeString.equalsIgnoreCase("none")) {
                     data.setShowBadge(false);
-                    ctx.replyEphemeral("commands.profile.displaybadge.reset_success", EmoteReference.CORRECT);
+                    ctx.reply("commands.profile.displaybadge.reset_success", EmoteReference.CORRECT);
                     player.saveUpdating();
                     return;
                 }
@@ -441,7 +452,7 @@ public class ProfileCmd {
                 if (badgeString.equalsIgnoreCase("reset")) {
                     data.setMainBadge(null);
                     data.setShowBadge(true);
-                    ctx.replyEphemeral("commands.profile.displaybadge.important_success", EmoteReference.CORRECT);
+                    ctx.reply("commands.profile.displaybadge.important_success", EmoteReference.CORRECT);
                     player.saveUpdating();
                     return;
                 }
@@ -449,7 +460,7 @@ public class ProfileCmd {
                 var badge = Badge.lookupFromString(badgeString);
 
                 if (badge == null) {
-                    ctx.replyEphemeral("commands.profile.displaybadge.no_such_badge", EmoteReference.ERROR,
+                    ctx.reply("commands.profile.displaybadge.no_such_badge", EmoteReference.ERROR,
                             player.getData().getBadges().stream()
                                     .map(Badge::getDisplay)
                                     .collect(Collectors.joining(", "))
@@ -459,7 +470,7 @@ public class ProfileCmd {
                 }
 
                 if (!data.getBadges().contains(badge)) {
-                    ctx.replyEphemeral("commands.profile.displaybadge.player_missing_badge", EmoteReference.ERROR,
+                    ctx.reply("commands.profile.displaybadge.player_missing_badge", EmoteReference.ERROR,
                             player.getData().getBadges().stream()
                                     .map(Badge::getDisplay)
                                     .collect(Collectors.joining(", "))
@@ -471,7 +482,7 @@ public class ProfileCmd {
                 data.setShowBadge(true);
                 data.setMainBadge(badge);
                 player.saveUpdating();
-                ctx.replyEphemeral("commands.profile.displaybadge.success", EmoteReference.CORRECT, badge.display);
+                ctx.reply("commands.profile.displaybadge.success", EmoteReference.CORRECT, badge.display);
             }
         }
 
@@ -490,7 +501,7 @@ public class ProfileCmd {
                 if (content.equalsIgnoreCase("reset")) {
                     dbUser.getData().setLang(null);
                     dbUser.saveUpdating();
-                    ctx.replyEphemeral("commands.profile.lang.reset_success", EmoteReference.CORRECT);
+                    ctx.reply("commands.profile.lang.reset_success", EmoteReference.CORRECT);
                     return;
                 }
 
@@ -500,9 +511,9 @@ public class ProfileCmd {
                     var newContext = new I18nContext(ctx.getDBGuild().getData(), dbUser.getData());
 
                     dbUser.saveUpdating();
-                    ctx.replyEphemeral(newContext.get("commands.profile.lang.success"), EmoteReference.CORRECT, content);
+                    ctx.reply(newContext.get("commands.profile.lang.success"), EmoteReference.CORRECT, content);
                 } else {
-                    ctx.replyEphemeral("commands.profile.lang.invalid", EmoteReference.ERROR);
+                    ctx.reply("commands.profile.lang.invalid", EmoteReference.ERROR);
                 }
             }
         }
@@ -528,7 +539,7 @@ public class ProfileCmd {
 
                 if (desc.equals("clear") || desc.equals("remove") || desc.equals("reset")) {
                     player.getData().setDescription(null);
-                    ctx.sendLocalized("commands.profile.description.clear_success", EmoteReference.CORRECT);
+                    ctx.reply("commands.profile.description.clear_success", EmoteReference.CORRECT);
                     player.saveUpdating();
                     return;
                 }
@@ -539,7 +550,7 @@ public class ProfileCmd {
                 }
 
                 if (desc.length() > MAX_LENGTH) {
-                    ctx.sendLocalized("commands.profile.description.too_long", EmoteReference.ERROR);
+                    ctx.reply("commands.profile.description.too_long", EmoteReference.ERROR);
                     return;
                 }
 
@@ -547,7 +558,7 @@ public class ProfileCmd {
                 desc = Utils.DISCORD_INVITE_2.matcher(desc).replaceAll("-discord invite link-");
 
                 player.getData().setDescription(desc);
-                ctx.replyEphemeral("commands.profile.description.success", EmoteReference.POPPER);
+                ctx.reply("commands.profile.description.success", EmoteReference.POPPER);
 
                 player.getData().addBadgeIfAbsent(Badge.WRITER);
                 player.saveUpdating();
@@ -567,7 +578,7 @@ public class ProfileCmd {
                 var toLookup = ctx.getOptionAsUser("user", ctx.getAuthor());
                 var lang = ctx.getLanguageContext();
                 if (toLookup.isBot()) {
-                    ctx.sendLocalized("commands.profile.bot_notice", EmoteReference.ERROR);
+                    ctx.reply("commands.profile.bot_notice", EmoteReference.ERROR);
                     return;
                 }
 
@@ -605,7 +616,7 @@ public class ProfileCmd {
                 var lang = ctx.getLanguageContext();
 
                 if (!user.isPremium()) {
-                    ctx.replyEphemeral("commands.profile.display.not_premium", EmoteReference.ERROR);
+                    ctx.reply("commands.profile.display.not_premium", EmoteReference.ERROR);
                     return;
                 }
 
@@ -614,7 +625,7 @@ public class ProfileCmd {
                 var content = ctx.getOptionAsString("order");
 
                 if (content.equalsIgnoreCase("ls")) {
-                    ctx.replyEphemeral(
+                    ctx.reply(
                             lang.get("commands.profile.display.ls") +
                                     lang.get("commands.profile.display.example"),
                             EmoteReference.ZAP, EmoteReference.BLUE_SMALL_MARKER,
@@ -632,7 +643,7 @@ public class ProfileCmd {
                     playerData.getProfileComponents().clear();
                     player.save();
 
-                    ctx.replyEphemeral("commands.profile.display.reset", EmoteReference.CORRECT);
+                    ctx.reply("commands.profile.display.reset", EmoteReference.CORRECT);
                     return;
                 }
 
@@ -647,7 +658,7 @@ public class ProfileCmd {
                 }
 
                 if (newComponents.size() < 3) {
-                    ctx.replyEphemeral(lang.get("commands.profile.display.not_enough") +
+                    ctx.reply(lang.get("commands.profile.display.not_enough") +
                             lang.get("commands.profile.display.example"), EmoteReference.WARNING
                     );
 
@@ -657,22 +668,10 @@ public class ProfileCmd {
                 playerData.setProfileComponents(newComponents);
                 player.save();
 
-                ctx.replyEphemeral("commands.profile.display.success",
+                ctx.reply("commands.profile.display.success",
                         EmoteReference.CORRECT, newComponents.stream().map(Enum::name).collect(Collectors.joining(", "))
                 );
             }
-        }
-
-        @Override
-        public Predicate<SlashContext> getPredicate() {
-            return ctx -> {
-                if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
-                    ctx.replyEphemeral("general.missing_embed_permissions");
-                    return false;
-                }
-
-                return true;
-            };
         }
     }
 

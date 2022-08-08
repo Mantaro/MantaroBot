@@ -61,6 +61,7 @@ public class PremiumCmds {
         @Name("activate")
         @Description("Activates a premium key.")
         @Category(CommandCategory.UTILS)
+        @Ephemeral
         @Options({
                 @Options.Option(type = OptionType.STRING, name = "key", description = "The key to use.", required = true)
         })
@@ -74,7 +75,6 @@ public class PremiumCmds {
         public static class ActivateKey extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                ctx.deferEphemeral();
                 final var db = ctx.db();
                 if (ctx.getConfig().isPremiumBot()) {
                     ctx.reply("commands.activatekey.mp", EmoteReference.WARNING);
@@ -164,7 +164,7 @@ public class PremiumCmds {
                 var isLookup = toCheck.getIdLong() != ctx.getAuthor().getIdLong();
 
                 if (!dbUser.isPremium()) {
-                    ctx.replyEphemeral("commands.vipstatus.user.not_premium", EmoteReference.ERROR, toCheck.getAsTag());
+                    ctx.reply("commands.vipstatus.user.not_premium", EmoteReference.ERROR, toCheck.getAsTag());
                     return;
                 }
 
@@ -177,7 +177,7 @@ public class PremiumCmds {
                 var currentKey = ctx.db().getPremiumKey(data.getPremiumKey());
 
                 if (currentKey == null || currentKey.validFor() < 1) {
-                    ctx.replyEphemeral("commands.vipstatus.user.not_premium", toCheck.getAsTag(), EmoteReference.ERROR);
+                    ctx.reply("commands.vipstatus.user.not_premium", toCheck.getAsTag(), EmoteReference.ERROR);
                     return;
                 }
 
@@ -263,7 +263,7 @@ public class PremiumCmds {
             protected void process(SlashContext ctx) {
                 var dbGuild = ctx.getDBGuild();
                 if (!dbGuild.isPremium()) {
-                    ctx.replyEphemeral("commands.vipstatus.guild.not_premium", EmoteReference.ERROR);
+                    ctx.reply("commands.vipstatus.guild.not_premium", EmoteReference.ERROR);
                     return;
                 }
 
@@ -274,7 +274,7 @@ public class PremiumCmds {
 
                 var currentKey = ctx.db().getPremiumKey(dbGuild.getData().getPremiumKey());
                 if (currentKey == null || currentKey.validFor() < 1) {
-                    ctx.replyEphemeral("commands.vipstatus.guild.not_premium", EmoteReference.ERROR);
+                    ctx.reply("commands.vipstatus.guild.not_premium", EmoteReference.ERROR);
                     return;
                 }
 

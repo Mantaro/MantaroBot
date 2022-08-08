@@ -37,7 +37,9 @@ public abstract class SlashCommand {
     private CommandCategory category;
     private final CommandPermission permission;
     private Predicate<SlashContext> predicate = c -> true;
+    private final boolean ephemeral;
     private final boolean guildOnly;
+    private final boolean defer;
     private HelpContent help;
 
     // This is basically the same as NewCommand, but the handling ought to be different everywhere else.
@@ -87,9 +89,16 @@ public abstract class SlashCommand {
         }
 
         this.guildOnly = clazz.getAnnotation(GuildOnly.class) != null;
+        this.ephemeral = clazz.getAnnotation(Ephemeral.class) != null;
+        this.defer = clazz.getAnnotation(NoDefer.class) == null;
+
         var h = clazz.getAnnotation(Help.class);
         if (h == null) {
-            this.help = new HelpContent.Builder().build();
+            if (description.isBlank()) {
+                this.help = new HelpContent.Builder().build();
+            } else {
+                this.help = new HelpContent.Builder().setDescription(this.description).build();
+            }
         } else {
             var builder = new HelpContent.Builder()
                     .setDescription(h.description().isBlank() ? this.description : h.description())
@@ -117,6 +126,10 @@ public abstract class SlashCommand {
         return subCommands;
     }
 
+    public boolean isEphemeral() {
+        return ephemeral;
+    }
+
     public boolean isOwnerCommand() {
         return getPermission() == CommandPermission.OWNER;
     }
@@ -141,6 +154,10 @@ public abstract class SlashCommand {
         }
 
         return temp;
+    }
+
+    public boolean defer() {
+        return defer;
     }
 
     public CommandCategory getCategory() {
@@ -197,11 +214,21 @@ public abstract class SlashCommand {
 
     public final void execute(SlashContext ctx) {
         var sub = getSubCommands().get(ctx.getSubCommand());
-        if (!getPredicate().test(ctx)) return;
 
+        if (!getPredicate().test(ctx)) return;
         if (sub != null) {
+            if (defer()) {
+                if (sub.isEphemeral()) ctx.deferEphemeral();
+                else ctx.defer();
+            }
+
             sub.process(ctx);
         } else {
+            if (defer()) {
+                if (isEphemeral()) ctx.deferEphemeral();
+                else ctx.defer();
+            }
+
             process(ctx);
         }
     }

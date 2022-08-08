@@ -117,7 +117,7 @@ public class ImageCmds {
 
                     ctx.reply(embed);
                 } catch (Exception e) {
-                    ctx.replyEphemeral("commands.imageboard.cat.error", EmoteReference.ERROR);
+                    ctx.reply("commands.imageboard.cat.error", EmoteReference.ERROR);
                 }
             }
         }
@@ -140,7 +140,7 @@ public class ImageCmds {
 
                     ctx.reply(embed);
                 } catch (Exception e) {
-                    ctx.replyEphemeral("commands.imageboard.dog.error", EmoteReference.ERROR);
+                    ctx.reply("commands.imageboard.dog.error", EmoteReference.ERROR);
                 }
             }
         }
@@ -171,15 +171,13 @@ public class ImageCmds {
                     var image = result.getKey();
 
                     if (image == null) {
-                        ctx.replyEphemeral("commands.imageboard.catgirl.error");
+                        ctx.reply("commands.imageboard.catgirl.error");
                         return;
                     }
 
-                    ctx.getEvent().deferReply(true)
-                            .addFile(imageCache.getInput(image), "catgirl-" + result.getValue() + ".png")
-                            .queue();
+                    ctx.getEvent().getHook().sendFile(imageCache.getInput(image), "catgirl-" + result.getValue() + ".png").queue();
                 } catch (Exception e) {
-                    ctx.replyEphemeral("commands.imageboard.catgirl.error");
+                    ctx.reply("commands.imageboard.catgirl.error");
                 }
             }
         }
@@ -209,7 +207,7 @@ public class ImageCmds {
         @Override
         protected void process(SlashContext ctx) {
             if (!ctx.isChannelNSFW()) {
-                ctx.replyEphemeral("commands.imageboard.e621_nsfw_notice", EmoteReference.ERROR);
+                ctx.reply("commands.imageboard.e621_nsfw_notice", EmoteReference.ERROR);
                 return;
             }
 
@@ -266,7 +264,7 @@ public class ImageCmds {
         @Override
         protected void process(SlashContext ctx) {
             if (!ctx.isChannelNSFW()) {
-                ctx.sendLocalized("commands.imageboard.konachan_nsfw_notice", EmoteReference.ERROR);
+                ctx.reply("commands.imageboard.konachan_nsfw_notice", EmoteReference.ERROR);
                 return;
             }
 
@@ -302,7 +300,7 @@ public class ImageCmds {
         @Override
         protected void process(SlashContext ctx) {
             if (!ctx.isChannelNSFW()) {
-                ctx.sendLocalized("commands.imageboard.yandere_nsfw_notice", EmoteReference.ERROR);
+                ctx.reply("commands.imageboard.yandere_nsfw_notice", EmoteReference.ERROR);
                 return;
             }
 
@@ -338,7 +336,7 @@ public class ImageCmds {
         @Override
         protected void process(SlashContext ctx) {
             if (!ctx.isChannelNSFW()) {
-                ctx.sendLocalized("commands.imageboard.yandere_nsfw_notice", EmoteReference.ERROR);
+                ctx.reply("commands.imageboard.yandere_nsfw_notice", EmoteReference.ERROR);
                 return;
             }
 
@@ -368,7 +366,7 @@ public class ImageCmds {
         @Override
         protected void process(SlashContext ctx) {
             if (!ctx.isChannelNSFW()) {
-                ctx.sendLocalized("commands.imageboard.konachan_nsfw_notice", EmoteReference.ERROR);
+                ctx.reply("commands.imageboard.konachan_nsfw_notice", EmoteReference.ERROR);
                 return;
             }
 
@@ -425,7 +423,7 @@ public class ImageCmds {
         @Override
         protected void process(SlashContext ctx) {
             if (!ctx.isChannelNSFW()) {
-                ctx.sendLocalized("commands.imageboard.konachan_nsfw_notice", EmoteReference.ERROR);
+                ctx.reply("commands.imageboard.konachan_nsfw_notice", EmoteReference.ERROR);
                 return;
             }
 
@@ -461,7 +459,7 @@ public class ImageCmds {
     private static void sendImage(SlashContext ctx, ImageBoard<?> image,
                                   boolean nsfwOnly, String name, String rating, String tags) {
         if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
-            ctx.sendLocalized("general.missing_embed_permissions");
+            ctx.reply("general.missing_embed_permissions");
             return;
         }
 

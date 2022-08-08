@@ -117,17 +117,17 @@ public class PlayerCmds {
 
             // Didn't want to repeat the code twice, lol.
             if (!oldEnough.test(usr)) {
-                ctx.replyEphemeral("commands.rep.new_account_notice", EmoteReference.ERROR);
+                ctx.reply("commands.rep.new_account_notice", EmoteReference.ERROR);
                 return;
             }
 
             if (!oldEnough.test(author)) {
-                ctx.replyEphemeral("commands.rep.new_account_notice", EmoteReference.ERROR);
+                ctx.reply("commands.rep.new_account_notice", EmoteReference.ERROR);
                 return;
             }
 
             if (usr.isBot()) {
-                ctx.replyEphemeral(String.format(lang.get("commands.rep.rep_bot"), EmoteReference.THINKING,
+                ctx.reply(String.format(lang.get("commands.rep.rep_bot"), EmoteReference.THINKING,
                                 (rl > 0 ? String.format(lang.get("commands.rep.cooldown.waiting"), Utils.formatDuration(lang, rl))
                                         : lang.get("commands.rep.cooldown.pass"))
                         )
@@ -137,7 +137,7 @@ public class PlayerCmds {
             }
 
             if (usr.equals(ctx.getAuthor())) {
-                ctx.replyEphemeral(String.format(lang.get("commands.rep.rep_yourself"), EmoteReference.THINKING,
+                ctx.reply(String.format(lang.get("commands.rep.rep_yourself"), EmoteReference.THINKING,
                                 (rl > 0 ? String.format(lang.get("commands.rep.cooldown.waiting"), Utils.formatDuration(lang, rl))
                                         : lang.get("commands.rep.cooldown.pass"))
                         )
@@ -147,7 +147,7 @@ public class PlayerCmds {
             }
 
             if (ctx.isUserBlacklisted(usr.getId())) {
-                ctx.replyEphemeral("commands.rep.blacklisted_rep", EmoteReference.ERROR);
+                ctx.reply("commands.rep.blacklisted_rep", EmoteReference.ERROR);
                 return;
             }
 
@@ -188,13 +188,13 @@ public class PlayerCmds {
             var playerInventory = player.getInventory();
 
             if (item == null) {
-                ctx.replyEphemeral("commands.profile.equip.no_item", EmoteReference.ERROR);
+                ctx.reply("commands.profile.equip.no_item", EmoteReference.ERROR);
                 return;
             }
 
             var containsItem = playerInventory.containsItem(item);
             if (!containsItem) {
-                ctx.replyEphemeral("commands.profile.equip.not_owned", EmoteReference.ERROR);
+                ctx.reply("commands.profile.equip.not_owned", EmoteReference.ERROR);
                 return;
             }
 
@@ -202,7 +202,7 @@ public class PlayerCmds {
 
             var proposedType = equipment.getTypeFor(item);
             if (equipment.getEquipment().containsKey(proposedType)) {
-                ctx.replyEphemeral("commands.profile.equip.already_equipped", EmoteReference.ERROR);
+                ctx.reply("commands.profile.equip.already_equipped", EmoteReference.ERROR);
                 return;
             }
 
@@ -240,7 +240,6 @@ public class PlayerCmds {
     public static class Unequip extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            ctx.defer();
             var content = ctx.getOptionAsString("item");
 
             var dbUser = ctx.getDBUser();
@@ -449,7 +448,7 @@ public class PlayerCmds {
                 var content = ctx.getOptionAsString("badge");
                 var badge = Badge.lookupFromString(content);
                 if (badge == null || badge == Badge.DJ) {
-                    ctx.replyEphemeral("commands.badges.info.not_found", EmoteReference.ERROR);
+                    ctx.reply("commands.badges.info.not_found", EmoteReference.ERROR);
                     return;
                 }
 
@@ -470,7 +469,7 @@ public class PlayerCmds {
                         .build()
                 ).build();
 
-                ctx.getEvent().reply(message)
+                ctx.getEvent().getHook().sendMessage(message)
                         .addFile(badge.icon, "icon.png")
                         .queue();
             }

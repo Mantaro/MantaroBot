@@ -94,10 +94,7 @@ public class WaifuCmd {
 
         @Override
         public Predicate<SlashContext> getPredicate() {
-            return ctx -> {
-                ctx.defer();
-                return RatelimitUtils.ratelimit(waifuRatelimiter, ctx, false);
-            };
+            return ctx -> RatelimitUtils.ratelimit(waifuRatelimiter, ctx, false);
         }
 
         @Name("list")
