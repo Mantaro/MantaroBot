@@ -2251,16 +2251,6 @@
       "success": "%1$sMessage delete message set to: `%2$s`",
       "reset_success": "%1$sReset logs delete message."
     },
-    "logs_banmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone gets banned!",
-      "success": "%1$sBan message set to: `%2$s`",
-      "reset_success": "%1$sReset logs ban message."
-    },
-    "logs_unbanmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone gets unbanned!",
-      "success": "%1$sUnban message set to: `%2$s`",
-      "reset_success": "%1$sReset logs unban message."
-    },
     "djrole_set": {
       "no_role": "%1$sYou need to give me a role to use as the DJ role.",
       "success": "%1$sSuccessfully set the DJ role to %2$s."
