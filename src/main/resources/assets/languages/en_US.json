@@ -513,8 +513,8 @@
     "unmute": {
       "no_permissions": "%1$sYou need to have permission to Moderate Members to remove a time out!",
       "no_mentions": "%1$sYou need to tell me who to remove the time out from.",
-      "success": "%1$sSuccessfully un-muted **%2$s**",
-      "not_muted": "%1$sThis user doesn't seem to be muted."
+      "success": "%1$sSuccessfully removed time out from **%2$s**",
+      "not_muted": "%1$sThis user doesn't seem to be timed out."
     },
     "ping": {
       "display": [

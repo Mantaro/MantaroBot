@@ -591,7 +591,8 @@ public class HelpCmd {
             }
         });
 
-        // TODO: port: GameCmds (1), MuteCmds (2), MarryCmd (2)
+        // TODO: port: GameCmds (1), MarryCmd (2)
+        // Current count: 87, would be 90 with the two above.
         // Note: How the heck am I gonna do GameCmds? Interactive stuff is hard now.
         cr.registerAlias("slash",
                 "info", "status", "shard", "shardinfo", "ping", "time", "prune",

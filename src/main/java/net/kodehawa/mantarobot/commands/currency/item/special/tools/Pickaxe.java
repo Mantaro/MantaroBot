@@ -118,7 +118,7 @@ public class Pickaxe extends Item implements Castable, Salvageable, Attribute {
         return """
                 **%s**\u2009 %s
                 **%s**\u2009 %,d - %,d credits
-                **%s:**\u2009 0 - %,d
+                **%s**\u2009 0 - %,d
                 **%s (%%):**\u2009 %,.1f%% / %,.1f%%
                 """.formatted(
                         i18n.get("commands.iteminfo.attribute.tier"),

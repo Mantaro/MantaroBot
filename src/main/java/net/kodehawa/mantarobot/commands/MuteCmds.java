@@ -21,12 +21,14 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Description;
 import net.kodehawa.mantarobot.core.command.meta.Help;
 import net.kodehawa.mantarobot.core.command.meta.Options;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -42,6 +44,7 @@ public class MuteCmds {
     }
 
     @Description("Times out a user.")
+    @Category(CommandCategory.MODERATION)
     @Options({
             @Options.Option(type = OptionType.USER, name = "user", description = "The user to mute.", required = true),
             @Options.Option(type = OptionType.STRING, name = "time", description = "The amount of time to mute the user for."),
@@ -66,7 +69,7 @@ public class MuteCmds {
             var dbGuild = ctx.getDBGuild();
             var guildData = dbGuild.getData();
             var reason = ctx.getOptionAsString("reason", "");
-            var placeholderReason = "Not Specified.";
+            var placeholderReason = "Not specified.";
             var user = ctx.getOptionAsUser("user");
             var time = guildData.getSetModTimeout() > 0 ? guildData.getSetModTimeout() : 0L;
 
@@ -140,6 +143,7 @@ public class MuteCmds {
     }
 
     @Description("Removes the timeout from a user.")
+    @Category(CommandCategory.MODERATION)
     @Options({
             @Options.Option(type = OptionType.USER, name = "user", description = "The user to remove the timeout from.", required = true),
             @Options.Option(type = OptionType.STRING, name = "reason", description = "The reason for it.")
