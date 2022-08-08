@@ -43,8 +43,9 @@ public class GeneralOptions extends OptionHandler {
             Poll.getRunningPolls().remove(ctx.getChannel().getId());
 
             List<Future<Void>> stuck = InteractiveOperations.get(ctx.getChannel());
-            if (stuck.size() > 0)
+            if (stuck.size() > 0) {
                 stuck.forEach(f -> f.cancel(true));
+            }
 
             ctx.sendLocalized("options.lobby_reset.success", EmoteReference.CORRECT);
         });

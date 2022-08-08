@@ -242,58 +242,6 @@ public class GuildOptions extends OptionHandler {
         });
         addOptionAlias("logs:deletemessage", "deletemessage");
 
-        registerOption("logs:banmessage", "Ban log message",
-                "Sets the ban message.\n" +
-                        "**Example:** `~>opts logs banmessage [$(hour)] $(event.user.tag) just got banned.`",
-                "Sets the ban message.", (ctx, args) -> {
-            if (args.length == 0) {
-                ctx.sendLocalized("options.logs_banmessage.no_message", EmoteReference.ERROR);
-                return;
-            }
-
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-
-            if (args[0].equals("reset")) {
-                guildData.setBannedMemberLog(null);
-                dbGuild.save();
-                ctx.sendLocalized("options.logs_banmessage.reset_success", EmoteReference.CORRECT);
-                return;
-            }
-
-            String banMessage = String.join(" ", args);
-            guildData.setBannedMemberLog(banMessage);
-            dbGuild.save();
-            ctx.sendLocalized("options.logs_banmessage.success", EmoteReference.CORRECT, banMessage);
-        });
-        addOptionAlias("logs:banmessage", "banmessage");
-
-        registerOption("logs:unbanmessage", "Unban log message",
-                "Sets the unban message.\n" +
-                        "**Example:** `~>opts logs unbanmessage [$(hour)] $(event.user.tag) just got unbanned.`",
-                "Sets the unban message.", (ctx, args) -> {
-            if (args.length == 0) {
-                ctx.sendLocalized("options.logs_unbanmessage.no_message", EmoteReference.ERROR);
-                return;
-            }
-
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-
-            if (args[0].equals("reset")) {
-                guildData.setUnbannedMemberLog(null);
-                dbGuild.save();
-                ctx.sendLocalized("options.logs_unbanmessage.reset_success", EmoteReference.CORRECT);
-                return;
-            }
-
-            String unbanMessage = String.join(" ", args);
-            guildData.setUnbannedMemberLog(unbanMessage);
-            dbGuild.save();
-            ctx.sendLocalized("options.logs_unbanmessage.success", EmoteReference.CORRECT, unbanMessage);
-        });
-        addOptionAlias("logs:unbanmessage", "unbanmessage");
-
         registerOption("commands:showdisablewarning", "Show disable warning",
                 "Toggles on/off the disabled command warning.",
                 "Toggles on/off the disabled command warning.", (ctx, args) -> {
