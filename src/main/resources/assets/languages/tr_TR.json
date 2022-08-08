@@ -184,8 +184,8 @@
     "softban": {
       "no_permission": "%1$sYou can't soft-ban: You need the `Ban Users` permission.",
       "no_permission_self": "%1$sÜzgünüm! Bu sunucu bana bu yetkiyi vermedi.",
-      "no_users": "%1$sBir kullanıcı belirtmelisin ki istediğini yapabileyim.",
-      "hierarchy_conflict": "%1$sSizden daha üst bir rolü olan kimseyi banlayamazsınız.",
+      "no_users": "%1$sYou need to give me a user to soft-ban.",
+      "hierarchy_conflict": "%1$sYou cannot soft-ban a user in a higher hierarchy than you",
       "yourself_note": "%1$sKendini neden banlamaya çalıştın ki?",
       "self_hierarchy_conflict": "%1$sYasaklanamayan kişi: %2$s, hiyerarşide benden daha yüksekte!",
       "success": "%1$s%2$s. **(%3$s yasaklandı!)**",
@@ -496,26 +496,25 @@
       "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `/custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
-      "no_permissions": "%1$sYou need to have permission to moderate members in order to mute.",
-      "no_users": "%1$sYou need to give me an user to mute.",
+      "no_permissions": "%1$sYou need to have permission to Moderate Members in order to time out a user.",
+      "no_users": "%1$sYou need to give me a user to time out.",
       "no_moderate_members": "%1$sI don't have permissions to administrate timeouts on this server.",
       "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
-      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute 20m @mention reason goes here`, for example.",
-      "negative_time_notice": "%1$sYou cannot mute someone for negative time. Unless you can bend space-time that is.",
-      "default_time_too_long": "%1$sThe default mute timeout length is too long (Maximum: 10 days)...",
+      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute user 20m reason goes here`, for example.",
+      "default_time_too_long": "%1$sThe default time out timeout length is too long (Maximum: 10 days)...",
       "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
-      "time_too_long": "%1$sThe specified mute timeout length is too long (Maximum: 10 days)...",
-      "already_muted": "%1$sThis user is already muted. Please do `/unmute` to un-mute them.",
-      "self_hierarchy_error": "%1$sI cannot mute this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
-      "user_hierarchy_error": "%1$sI cannot mute this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
-      "success": "%1$sSuccessfully muted **%2$s** for %3$s",
-      "success_reason": "%1$sSuccessfully muted **%2$s** for %3$s because of the following reason: %4$s"
+      "time_too_long": "%1$sThe specified timeout length is too long (Maximum: 10 days)...",
+      "already_muted": "%1$sThis user is already timed out. Please do `/unmute` to un-mute them.",
+      "self_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
+      "user_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
+      "success": "%1$sSuccessfully timed out **%2$s** for %3$s",
+      "success_reason": "%1$sSuccessfully timed out **%2$s** for %3$s because of the following reason: %4$s"
     },
     "unmute": {
-      "no_permissions": "%1$sYou need to have permission to moderate members to un-mute!",
-      "no_mentions": "%1$sYou need to mention at least one user to un-mute.",
-      "success": "%1$sSuccessfully un-muted **%2$s**",
-      "not_muted": "%1$sThis user doesn't seem to be muted."
+      "no_permissions": "%1$sYou need to have permission to Moderate Members to remove a time out!",
+      "no_mentions": "%1$sYou need to tell me who to remove the time out from.",
+      "success": "%1$sSuccessfully removed time out from **%2$s**",
+      "not_muted": "%1$sThis user doesn't seem to be timed out."
     },
     "ping": {
       "display": [
@@ -735,7 +734,7 @@
     },
     "market": {
       "dump": {
-        "replacement": "You can use `~>dump` now. For example, instead of `~>market dump floppy` you can do `~>dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
+        "replacement": "You can use `/dump` now. For example, instead of `~>market dump floppy` you can do `/dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
         "no_item": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to dump.",
         "invalid": "%1$sNot a valid number of items to dump.",
         "non_existent": "%1$sCannot dump a non-existent item! If you're lost, you can try typing the short name or wrapping the name in quotes.",
@@ -751,7 +750,7 @@
         "success": "%1$sThe market value of %2$s**%3$s** is %4$s credits to buy it and you can get %5$s credits if you sell it."
       },
       "sell": {
-        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
+        "replacement": "You can use `/sell` now. For example, instead of `~>market sell pick` you can do `/sell pick`. Please use the new command instead.",
         "no_item": "%1$sYou need to specify the item to sell.",
         "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
         "invalid": "%1$sNot a valid number of items to sell.",
@@ -767,7 +766,7 @@
         "success": "%1$sYou sold %2$,d **%3$s** and gained %4$,d credits!"
       },
       "buy": {
-        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
+        "replacement": "You can use `/buy` now. For example, instead of `~>market buy pick` you can do `/buy pick`. Please use the new command instead.",
         "no_item": "%1$sYou need to specify the item to buy.",
         "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
         "invalid": "%1$sNot a valid number of items to buy.",
@@ -1846,9 +1845,13 @@
       },
       "attribute": {
         "tier": "Wrench Tier (to craft):",
+        "tier_raw": "Wrench Tier:",
         "increase": "Money Increase:",
         "diamond_drop": "Diamond Drop Range:",
-        "gem_luck": "Sparkle / Gem Luck"
+        "gem_luck": "Sparkle / Gem Luck",
+        "buff": "Item Buff:",
+        "reduction": "Multiplier reduction:",
+        "multiple_cast": "Can cast multiple:"
       },
       "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s\n%1$s**Buy Price:** %8$s %9$s\n%1$s**Sell Price:** %10$s %11$s",
       "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Buy Price:** %7$s %8$s\n%1$s**Sell Price:** %9$s %10$s"
@@ -2191,7 +2194,7 @@
       "success": "%1$sCorrectly reset your options!"
     },
     "birthday_test": {
-      "no_user": "%1$sYou need to specify an user to test the assigner with. Just mention them.",
+      "no_user": "%1$sYou need to specify a user to test the assigner with. Just mention them.",
       "no_bd_channel": "%1$sYou don't have any birthday channel set!",
       "no_bd_role": "%1$sYou don't have any role set for the birthday setter! Make sure you create a new role for it.",
       "no_talk_permission": "%1$sThe bot cannot speak on the birthday channel. Check channel permissions.",
@@ -2250,16 +2253,6 @@
       "no_message": "%1$sYou need to specify what message you want me to say when someone deletes a message!",
       "success": "%1$sMessage delete message set to: `%2$s`",
       "reset_success": "%1$sReset logs delete message."
-    },
-    "logs_banmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone gets banned!",
-      "success": "%1$sBan message set to: `%2$s`",
-      "reset_success": "%1$sReset logs ban message."
-    },
-    "logs_unbanmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone gets unbanned!",
-      "success": "%1$sUnban message set to: `%2$s`",
-      "reset_success": "%1$sReset logs unban message."
     },
     "djrole_set": {
       "no_role": "%1$sYou need to give me a role to use as the DJ role.",
