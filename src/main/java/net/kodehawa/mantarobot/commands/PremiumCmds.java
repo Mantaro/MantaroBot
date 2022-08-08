@@ -144,12 +144,12 @@ public class PremiumCmds {
         }
 
         @Name("user")
-        @Description("Checks the premium status of an user.")
+        @Description("Checks the premium status of a user.")
         @Options({
                 @Options.Option(type = OptionType.USER, name = "user", description = "The user to check for premium status.")
         })
         @Help(
-                description = "Checks the premium status of an user.",
+                description = "Checks the premium status of a user.",
                 usage = "`/premium check [user]`",
                 parameters = {
                         @Help.Parameter(name = "user", description = "The user to check for. Yourself if empty.", optional = true)

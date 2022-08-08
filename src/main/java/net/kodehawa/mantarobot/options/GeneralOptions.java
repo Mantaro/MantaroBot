@@ -49,8 +49,8 @@ public class GeneralOptions extends OptionHandler {
             ctx.sendLocalized("options.lobby_reset.success", EmoteReference.CORRECT);
         });
 
-        registerOption("modlog:blacklist", "Prevents an user from appearing in modlogs", """
-                Prevents an user from appearing in modlogs.
+        registerOption("modlog:blacklist", "Prevents a user from appearing in modlogs", """
+                Prevents a user from appearing in modlogs.
                 You need the user mention.
                 Example: ~>opts modlog blacklist @user""", (ctx) -> {
             List<Member> mentioned = ctx.getMentionedMembers();
@@ -74,8 +74,8 @@ public class GeneralOptions extends OptionHandler {
             ctx.sendLocalized("options.modlog_blacklist.success", EmoteReference.CORRECT, blacklisted);
         });
 
-        registerOption("modlog:whitelist", "Allows an user from appearing in modlogs (everyone by default)", """
-                Allows an user from appearing in modlogs.
+        registerOption("modlog:whitelist", "Allows a user from appearing in modlogs (everyone by default)", """
+                Allows a user from appearing in modlogs.
                 You need the user mention.
                 Example: ~>opts modlog whitelist @user""", (ctx) -> {
             List<Member> mentioned = ctx.getMentionedMembers();

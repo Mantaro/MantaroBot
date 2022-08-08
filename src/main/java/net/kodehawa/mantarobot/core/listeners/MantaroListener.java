@@ -184,7 +184,7 @@ public class MantaroListener implements EventListener {
 
     /**
      * Handles automatic deliver of patreon keys. Should only deliver keys when
-     * - An user was already in the guild or just joined and got the "Patreon" role assigned by the Patreon bot
+     * - A user was already in the guild or just joined and got the "Patreon" role assigned by the Patreon bot
      * - The user hasn't re-joined to get the role re-assigned
      * - The user hasn't received any keys
      * - The user pledged, obviously

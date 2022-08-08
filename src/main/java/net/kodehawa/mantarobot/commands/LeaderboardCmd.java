@@ -395,7 +395,7 @@ public class LeaderboardCmd {
                     return null;
                 }
 
-                // Sadly a .complete() call for an User won't fill the internal cache, as JDA has no way to TTL it, instead, we will add it
+                // Sadly a .complete() call for a User won't fill the internal cache, as JDA has no way to TTL it, instead, we will add it
                 // to our own cache in Redis, and expire it in 48 hours to avoid it filling up endlessly.
                 // This is to avoid having to do calls to discord all the time a leaderboard is retrieved, and only do the calls whenever
                 // it's absolutely needed, or when we need to re-populate the cache.

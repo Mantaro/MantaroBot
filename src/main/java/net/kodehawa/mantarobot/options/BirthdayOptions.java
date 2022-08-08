@@ -45,7 +45,7 @@ public class BirthdayOptions extends OptionHandler {
     @Subscribe
     public void onRegistry(OptionRegistryEvent event) {
         registerOption("birthday:test", "Tests if the birthday assigner works.",
-                "Tests if the birthday assigner works properly. You need to input an user mention/id/tag to test it with.",
+                "Tests if the birthday assigner works properly. You need to input a user mention/id/tag to test it with.",
                 "Tests if the birthday assigner works.", (ctx, args) -> {
             if (args.length < 1) {
                 ctx.sendLocalized("options.birthday_test.no_user", EmoteReference.ERROR2);

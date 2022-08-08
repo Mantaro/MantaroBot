@@ -69,7 +69,7 @@ public class RatelimitUtils {
                             i18nContext.get("general.ratelimit.spam_4") : "")
             );
 
-            // Assuming it's an user RL if it can parse a long since we use UUIDs for other RLs.
+            // Assuming it's a user RL if it can parse a long since we use UUIDs for other RLs.
             try {
                 //noinspection ResultOfMethodCallIgnored
                 Long.parseUnsignedLong(u);

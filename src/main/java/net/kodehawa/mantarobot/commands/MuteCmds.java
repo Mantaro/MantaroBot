@@ -18,225 +18,181 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.meta.Description;
+import net.kodehawa.mantarobot.core.command.meta.Help;
+import net.kodehawa.mantarobot.core.command.meta.Options;
+import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
-import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 @Module
 public class MuteCmds {
-    private static final Pattern rawTimePattern = Pattern.compile("^[(\\d)((?d|?h|(?m|(?s)]+$");
-    // Regex by Fabricio20
-    private static final Pattern muteTimePattern =
-            Pattern.compile("-time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
-
     @Subscribe
-    public void mute(CommandRegistry registry) {
-        SimpleCommand mute = registry.register("mute", new SimpleCommand(CommandCategory.MODERATION) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (args.length == 0) {
-                    ctx.sendLocalized("commands.mute.no_users", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (!ctx.getMember().hasPermission(Permission.MODERATE_MEMBERS)) {
-                    ctx.sendLocalized("commands.mute.no_permissions", EmoteReference.ERROR);
-                    return;
-                }
-
-                var dbGuild = ctx.getDBGuild();
-                var guildData = dbGuild.getData();
-                var reason = "Not specified";
-                var opts = ctx.getOptionalArguments();
-
-                var time = guildData.getSetModTimeout() > 0 ? guildData.getSetModTimeout() : 0L;
-                final var maybeTime = args[0];
-                var affected = args[0];
-                final var matchTime = rawTimePattern.matcher(maybeTime).matches();
-                if (matchTime && args.length > 1) {
-                    content = content.replace(maybeTime, "").trim();
-                    affected = args[1];
-                    time = Utils.parseTime(maybeTime);
-                }
-
-                if (args.length > 1) {
-                    reason = StringUtils.splitArgs(content, 2)[1];
-                }
-
-                if (!ctx.getSelfMember().hasPermission(Permission.MODERATE_MEMBERS)) {
-                    ctx.sendLocalized("commands.mute.no_moderate_members", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (opts.containsKey("time") && !matchTime) {
-                    if (opts.get("time") == null || opts.get("time").isEmpty()) {
-                        ctx.sendLocalized("commands.mute.time_not_specified", EmoteReference.WARNING);
-                        return;
-                    }
-
-                    time = Utils.parseTime(opts.get("time"));
-                }
-
-                if (time == 0) {
-                    ctx.sendLocalized("commands.mute.time_not_specified_generic", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (time < 10000) {
-                    ctx.sendLocalized("commands.mute.time_too_little", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (time > TimeUnit.DAYS.toMillis(10)) {
-                    ctx.sendLocalized("commands.mute.time_too_long", EmoteReference.ERROR);
-                    return;
-                }
-
-                // This is funny at this point lol
-                final var finalReason = muteTimePattern.matcher(reason).replaceAll("").trim();
-                final var finalTime = time;
-                final var finalAffected = affected;
-                ctx.findMember(affected, members -> {
-                    var member = CustomFinderUtil.findMember(finalAffected, members, ctx);
-                    if (member == null)
-                        return;
-
-                    var user = member.getUser();
-                    dbGuild.saveUpdating();
-
-                    if (member.isTimedOut()) {
-                        ctx.sendLocalized("commands.mute.already_muted", EmoteReference.WARNING);
-                        return;
-                    }
-
-                    if (!ctx.getSelfMember().canInteract(member)) {
-                        ctx.sendLocalized("commands.mute.self_hierarchy_error", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    if (!ctx.getMember().canInteract(member)) {
-                        ctx.sendLocalized("commands.mute.user_hierarchy_error", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    member.timeoutFor(Duration.ofMillis(finalTime)).reason(
-                            String.format("Muted by %#s for %s: %s", ctx.getAuthor(), Utils.formatDuration(ctx.getLanguageContext(), finalTime), finalReason)
-                    ).queue();
-
-                    if (finalReason.isEmpty()) {
-                        ctx.sendLocalized("commands.mute.success", EmoteReference.CORRECT, member.getEffectiveName(), Utils.formatDuration(ctx.getLanguageContext(), finalTime));
-                    } else {
-                        ctx.sendLocalized("commands.mute.success_reason", EmoteReference.CORRECT,
-                                member.getEffectiveName(), Utils.formatDuration(ctx.getLanguageContext(), finalTime), finalReason
-                        );
-                    }
-
-                    dbGuild.getData().setCases(dbGuild.getData().getCases() + 1);
-                    dbGuild.saveUpdating();
-
-                    ModLog.log(
-                            ctx.getMember(), user, finalReason, ctx.getChannel().getName(), ModLog.ModAction.MUTE, dbGuild.getData().getCases()
-                    );
-                });
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Mutes the specified users.")
-                        .setUsage("`~>mute [time] <@user> [reason]`")
-                        .addParameter("time",
-                                "The time to mute an user for. For example `~>mute 1m20s @Natan#1289 wew, nice` " +
-                                        "will mute Natan for 1 minute and 20 seconds.")
-                        .addParameter("@user",
-                                "The users to mute. Needs to be mentions (pings)")
-                        .addParameter("reason",
-                                "The mute reason. This is optional.")
-                        .build();
-            }
-        });
+    public void register(CommandRegistry cr) {
+        cr.registerSlash(Mute.class);
+        cr.registerSlash(UnMute.class);
     }
 
-    @Subscribe
-    public void unmute(CommandRegistry commandRegistry) {
-        commandRegistry.register("unmute", new SimpleCommand(CommandCategory.MODERATION) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (!ctx.getMember().hasPermission(Permission.MODERATE_MEMBERS)) {
-                    ctx.sendLocalized("commands.unmute.no_permissions", EmoteReference.ERROR);
-                    return;
-                }
+    @Description("Times out a user.")
+    @Options({
+            @Options.Option(type = OptionType.USER, name = "user", description = "The user to mute.", required = true),
+            @Options.Option(type = OptionType.STRING, name = "time", description = "The amount of time to mute the user for."),
+            @Options.Option(type = OptionType.STRING, name = "reason", description = "The reason of the mute.")
+    })
+    @Help(description = "Mutes the specified user.", usage = "`/mute <user> <time>`", parameters = {
+            @Help.Parameter(name = "user", description = "The user to mute."),
+            @Help.Parameter(
+                    name = "time", description = """
+                    The amount of time to mute the user for. For example 1m20s.
+                    The format is, for example, 1h20m10s for 1 hour, 20 minutes and 10 seconds.
+                    If not specified, this uses the default mute timeout set for this server, if set.
+                    """
+            ),
+            @Help.Parameter(name = "reason", description = "The reason of the mute. This will show in the logs, if enabled.", optional = true)
+    })
+    // This does the same as the built-in /timeout, though?
+    public static class Mute extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {
+            ctx.defer();
+            var dbGuild = ctx.getDBGuild();
+            var guildData = dbGuild.getData();
+            var reason = ctx.getOptionAsString("reason", "");
+            var placeholderReason = "Not Specified.";
+            var user = ctx.getOptionAsUser("user");
+            var time = guildData.getSetModTimeout() > 0 ? guildData.getSetModTimeout() : 0L;
 
-                var dbGuild = ctx.getDBGuild();
-                var reason = "Not specified";
-
-                if (args.length > 1) {
-                    reason = StringUtils.splitArgs(content, 2)[1];
-                }
-
-                var mentionedMembers = ctx.getMentionedMembers();
-                if (mentionedMembers.isEmpty()) {
-                    ctx.sendLocalized("commands.unmute.no_mentions", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (!ctx.getSelfMember().hasPermission(Permission.MODERATE_MEMBERS)) {
-                    ctx.sendLocalized("commands.mute.no_moderate_members", EmoteReference.ERROR);
-                    return;
-                }
-
-                final var finalReason = Utils.mentionPattern.matcher(reason).replaceAll("");
-
-                mentionedMembers.forEach(member -> {
-                    var user = member.getUser();
-
-                    if (!ctx.getSelfMember().canInteract(member)) {
-                        ctx.sendLocalized("commands.mute.self_hierarchy_error", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    if (!ctx.getMember().canInteract(member)) {
-                        ctx.sendLocalized("commands.mute.user_hierarchy_error", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    if (member.isTimedOut()) {
-                        member.removeTimeout()
-                                .reason(String.format("Unmuted by %#s: %s", ctx.getAuthor(), finalReason))
-                                .queue();
-
-                        ctx.sendLocalized("commands.unmute.success", EmoteReference.CORRECT, user.getName());
-
-                        dbGuild.getData().setCases(dbGuild.getData().getCases() + 1);
-                        dbGuild.saveAsync();
-                        ModLog.log(ctx.getMember(), user, finalReason, "none", ModLog.ModAction.UNMUTE, dbGuild.getData().getCases());
-                    } else {
-                        ctx.sendLocalized("commands.unmute.not_muted", EmoteReference.ERROR);
-                    }
-                });
+            var maybeTime = ctx.getOptionAsString("time");
+            if (maybeTime != null) {
+                time = Math.abs(Utils.parseTime(maybeTime));
             }
 
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Un-mutes the specified users.")
-                        .setUsage("`~>unmute <@user> [reason]`")
-                        .addParameter("@user", "The users to un-mute. Needs to be mentions (pings)")
-                        .addParameter("reason", "The reason for the un-mute. This is optional.")
-                        .build();
+            if (!ctx.getSelfMember().hasPermission(Permission.MODERATE_MEMBERS)) {
+                ctx.reply("commands.mute.no_moderate_members", EmoteReference.ERROR);
+                return;
             }
-        });
+
+            if (!ctx.getMember().hasPermission(Permission.MODERATE_MEMBERS)) {
+                ctx.sendLocalized("commands.mute.no_permissions", EmoteReference.ERROR);
+                return;
+            }
+
+            if (time == 0) {
+                ctx.reply("commands.mute.time_not_specified_generic", EmoteReference.ERROR);
+                return;
+            }
+
+            if (time > TimeUnit.DAYS.toMillis(28)) {
+                ctx.reply("commands.mute.time_too_long", EmoteReference.ERROR);
+                return;
+            }
+
+            var member = ctx.getGuild().getMember(user);
+            // Just in case I guess...
+            if (member == null) {
+                ctx.reply("commands.mute.no_users", EmoteReference.ERROR);
+                return;
+            }
+
+            if (member.isTimedOut()) {
+                ctx.reply("commands.mute.already_muted", EmoteReference.WARNING);
+                return;
+            }
+
+            if (!ctx.getSelfMember().canInteract(member)) {
+                ctx.reply("commands.mute.self_hierarchy_error", EmoteReference.ERROR);
+                return;
+            }
+
+            if (!ctx.getMember().canInteract(member)) {
+                ctx.reply("commands.mute.user_hierarchy_error", EmoteReference.ERROR);
+                return;
+            }
+
+            var logReason = reason.isEmpty() ? placeholderReason : reason;
+            member.timeoutFor(Duration.ofMillis(time)).reason(
+                    String.format("Muted by %#s for %s: %s", ctx.getAuthor(), Utils.formatDuration(ctx.getLanguageContext(), time), logReason)
+            ).queue();
+
+            if (reason.isEmpty()) {
+                ctx.reply("commands.mute.success", EmoteReference.CORRECT, member.getEffectiveName(), Utils.formatDuration(ctx.getLanguageContext(), time));
+            } else {
+                ctx.reply("commands.mute.success_reason", EmoteReference.CORRECT,
+                        member.getEffectiveName(), Utils.formatDuration(ctx.getLanguageContext(), time), reason
+                );
+            }
+
+            dbGuild.getData().setCases(dbGuild.getData().getCases() + 1);
+            dbGuild.saveUpdating();
+
+            ModLog.log(
+                    ctx.getMember(), user, logReason, ctx.getChannel().getName(), ModLog.ModAction.MUTE, dbGuild.getData().getCases()
+            );
+        }
+    }
+
+    @Description("Removes the timeout from a user.")
+    @Options({
+            @Options.Option(type = OptionType.USER, name = "user", description = "The user to remove the timeout from.", required = true),
+            @Options.Option(type = OptionType.STRING, name = "reason", description = "The reason for it.")
+    })
+    public static class UnMute extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {
+            ctx.defer();
+            var dbGuild = ctx.getDBGuild();
+            var reason = ctx.getOptionAsString("reason", "");
+            var user = ctx.getOptionAsUser("user");
+            var placeholderReason = "Not specified";
+            var logReason = reason.isEmpty() ? placeholderReason : reason;
+
+            if (!ctx.getSelfMember().hasPermission(Permission.MODERATE_MEMBERS)) {
+                ctx.reply("commands.mute.no_moderate_members", EmoteReference.ERROR);
+                return;
+            }
+
+            if (!ctx.getMember().hasPermission(Permission.MODERATE_MEMBERS)) {
+                ctx.sendLocalized("commands.unmute.no_permissions", EmoteReference.ERROR);
+                return;
+            }
+
+            var member = ctx.getGuild().getMember(user);
+            if (member == null) {
+                ctx.sendLocalized("commands.unmute.no_mentions", EmoteReference.ERROR);
+                return;
+            }
+
+            if (!ctx.getSelfMember().canInteract(member)) {
+                ctx.reply("commands.mute.self_hierarchy_error", EmoteReference.ERROR);
+                return;
+            }
+
+            if (!ctx.getMember().canInteract(member)) {
+                ctx.reply("commands.mute.user_hierarchy_error", EmoteReference.ERROR);
+                return;
+            }
+
+            if (member.isTimedOut()) {
+                member.removeTimeout()
+                        .reason(String.format("Unmuted by %#s: %s", ctx.getAuthor(), logReason))
+                        .queue();
+
+                ctx.reply("commands.unmute.success", EmoteReference.CORRECT, user.getName());
+
+                ModLog.log(ctx.getMember(), user, logReason, "none", ModLog.ModAction.UNMUTE, dbGuild.getData().getCases());
+                dbGuild.getData().setCases(dbGuild.getData().getCases() + 1);
+                dbGuild.saveAsync();
+            } else {
+                ctx.reply("commands.unmute.not_muted", EmoteReference.ERROR);
+            }
+        }
     }
 }

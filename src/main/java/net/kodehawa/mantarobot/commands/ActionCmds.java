@@ -93,7 +93,7 @@ public class ActionCmds {
         @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to suck the blood of.", required = true))
         public static class BloodSuck extends ImageActionSlash {
             public BloodSuck() {
-                super("Bloodsuck command", "Sucks the blood of an user", EmoteReference.TALKING,
+                super("Bloodsuck command", "Sucks the blood of a user", EmoteReference.TALKING,
                         "commands.action.bloodsuck", BLOODSUCK.get(), "commands.action.lonely.bloodsuck", "commands.action.self.bloodsuck", true);
             }
         }
@@ -376,7 +376,7 @@ public class ActionCmds {
         ));
 
         //bloodsuck();
-        cr.register("bloodsuck", new ImageActionCmd("Bloodsuck command", "Sucks the blood of an user", EmoteReference.TALKING,
+        cr.register("bloodsuck", new ImageActionCmd("Bloodsuck command", "Sucks the blood of a user", EmoteReference.TALKING,
                 "commands.action.bloodsuck", BLOODSUCK.get(), "commands.action.lonely.bloodsuck", "commands.action.self.bloodsuck", true)
         );
 
