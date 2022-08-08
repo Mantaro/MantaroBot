@@ -215,6 +215,39 @@ public class SlashContext implements IContext {
         }
     }
 
+    public void replyEphemeralRaw(String source, Object... args) {
+        if (deferred) {
+            slash.getHook().sendMessage(source.formatted(args)).queue();
+        } else {
+            slash.deferReply(true)
+                    .setContent(source.formatted(args))
+                    .queue();
+        }
+    }
+
+    public void replyEphemeral(String source, Object... args) {
+        if (deferred) {
+            slash.getHook().sendMessage(i18n.get(source).formatted(args)).queue();
+        } else {
+            slash.deferReply(true)
+                    .setContent(i18n.get(source).formatted(args))
+                    .queue();
+        }
+    }
+
+    public void replyEphemeralStripped(String source, Object... args) {
+        if (deferred) {
+            slash.getHook().sendMessage(i18n.get(source).formatted(args))
+                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .queue();
+        } else {
+            slash.deferReply(true)
+                    .setContent(i18n.get(source).formatted(args))
+                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .queue();
+        }
+    }
+
     public void replyEphemeral(MessageEmbed embed) {
         if (deferred) {
             slash.getHook().sendMessageEmbeds(embed)
