@@ -149,6 +149,7 @@ public class ProfileCmd {
         }
 
         @Description("Toggles the ability to do action commands to you.")
+        @Ephemeral
         public static class ToggleAction extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -169,6 +170,7 @@ public class ProfileCmd {
         }
 
         @Description("Locks you from being claimed. Use remove to remove it.")
+        @Ephemeral
         @Options({@Options.Option(type = OptionType.BOOLEAN, name = "remove", description = "Remove claimlock.")})
         public static class ClaimLock extends SlashCommand {
             @Override
@@ -202,6 +204,7 @@ public class ProfileCmd {
         }
 
         @Description("Toggles the display of legacy credits.")
+        @Ephemeral
         public static class ToggleLegacy extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -216,6 +219,7 @@ public class ProfileCmd {
         }
 
         @Description("Sort your inventory.")
+        @Ephemeral
         @Options({@Options.Option(type = OptionType.STRING, name = "sort", description = "The sort type. Possible values: VALUE, VALUE_TOTAL, AMOUNT, TYPE, RANDOM.", required = true)})
         @Help(
                 description = "Lets you sort your inventory using specified presets.",
@@ -250,6 +254,7 @@ public class ProfileCmd {
         }
 
         @Description("Toggles auto-equipping a new tool on break. Use disable to disable it.")
+        @Ephemeral
         @Options({@Options.Option(type = OptionType.BOOLEAN, name = "disable", description = "Disable autoequip.")})
         @Help(
                 description = "Enables auto equip, or disables it if specified.",
@@ -276,6 +281,7 @@ public class ProfileCmd {
         }
 
         @Description("Hide or show the member id/tag from profile/waifu ls.")
+        @Ephemeral
         public static class HideTag extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -290,6 +296,7 @@ public class ProfileCmd {
         }
 
         @Description("Sets your profile timezone.")
+        @Ephemeral
         @Options({@Options.Option(type = OptionType.STRING, name = "timezone", description = "The timezone to use.", required = true)})
         @Help(
                 description = "Sets your profile timezone.",
@@ -341,6 +348,7 @@ public class ProfileCmd {
         }
 
         @Description("Sets your display badge.")
+        @Ephemeral
         @Options({@Options.Option(type = OptionType.STRING, name = "badge", description = "The badge to display, reset/none to reset it or no badge.", required = true)})
         @Help(
                 description = "Sets your profile display badge.",
@@ -398,6 +406,7 @@ public class ProfileCmd {
         }
 
         @Description("Sets your profile language.")
+        @Ephemeral
         @Options({@Options.Option(type = OptionType.STRING, name = "lang", description = "The language to use. See /lang for a list.", required = true)})
         @Help(
                 description = "Sets your profile language.",
