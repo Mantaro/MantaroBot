@@ -558,7 +558,7 @@
         "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `/marry status`",
         "too_long": "%1$sرسالة الحب طويلة جداََ (يمكنك كتابة 500 حرف فقط)",
         "cannot_see": "%1$sلا يمكنني العثور على المستخدم الذي تزوجته... ربما لا يوجد في أي سيرفر معي.",
-        "confirmation": "%1$sهل أنت متأكد أنك تريد كتابة هذه الرسالة لزواجك **%2$s#%3$s**؟ هذا دائم بينما يستمر الزواج.*Letter content:* %4$s",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `/marry status`",
         "scrapped": "%1$sلا يزال لديك وقت للتفكير في ما تكتبه ، ولا داعي للاندفاع!"
       },
@@ -573,11 +573,6 @@
         "house": "اسم المنزل",
         "car": "اسم السيارة",
         "pet": "اسم الحيوان الأليف (النوع)"
-      },
-      "timezone": {
-        "no_content": "%1$sيجب ان تحدد المنطقة الزمنية التي تريد أن يتتبعها هذا الزواج.",
-        "invalid": "%1$sليس منطقة زمنية صالحة او ID منطقة خاطئ.",
-        "success": "%1$sSuccessfully set marriage timezone to %2$s. Pet time will be the same as the marriage timezone."
       },
       "general": {
         "not_married": "%1$sانت لست متزوج."
@@ -606,7 +601,7 @@
       "already_married": "%1$sانت بالفعل متزوج.",
       "receipt_married": "%1$sهذا العضو متزوج بالفعل! ",
       "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `/buy 2 ring` and then try proposing again <3",
-      "confirmation": "%1$s%2$s قم بكتابة **yes** أو **no** لإقتراح الزواج من %3$s\n%4$sالمهلة 120 ثانيه فقط لتُقرر :)! ",
+      "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$sلايمكنك الزواج مع أقل من خاتمين في مخزونك :( ",
       "accepted": "%1$s**%2$s#%3$s** قبل الزواج من **%4$s#%5$s**!",
       "denied": "%1$sرفض اقتراح الزواج من **%2$s**",
