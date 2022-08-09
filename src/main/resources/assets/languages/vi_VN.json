@@ -558,7 +558,7 @@
         "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `/marry status`",
         "too_long": "%1$sBức thư này quá dài (tối đa 500 ký tự)",
         "cannot_see": "%1$sTôi không thể tìm thấy người mà bạn đã cưới... Có lẽ là do họ không cùng trong máy chủ nào với tôi.",
-        "confirmation": "%1$sBạn có *chắc chắn* muốn gửi bức thư này để tỏ tình với **%2$s#%3$s**?\nBức thư này sẽ được giữ MÃI MÃI trong hôn nhân. *Nội dung:*%4$s",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `/marry status`",
         "scrapped": "%1$sBạn vẫn có thời gian để suy nghĩ và để viết, không cần phải vội!"
       },
@@ -573,11 +573,6 @@
         "house": "Tên nhà",
         "car": "Tên xe",
         "pet": "Tên thú nuôi (Loại)"
-      },
-      "timezone": {
-        "no_content": "%1$sBạn cần phải nêu rõ múi giờ mà bạn muốn cho cuộc hôn nhân này.",
-        "invalid": "%1$sMúi giờ hoặc mã vùng không hợp lệ.",
-        "success": "%1$sĐã chỉnh múi giờ cho hôn nhân là %2$s. Thời gian hoạt động của thú nuôi cũng như tương tự."
       },
       "general": {
         "not_married": "%1$sBạn chưa cưới."
@@ -606,7 +601,7 @@
       "already_married": "%1$sBạn vốn đã kết hôn rồi.",
       "receipt_married": "%1$sNgười dùng đó đã kết hôn với người khác.",
       "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `/buy 2 ring` and then try proposing again <3",
-      "confirmation": "%1$s%2$s, hãy gõ **yes** (đồng ý) hoặc **no** (không đồng ý) cho lời cầu hôn của %3$s\n%4$sHết hiệu lực sau 120 giây.",
+      "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$sBạn không thể cưới khi có ít hơn hai chiếc nhẫn trong túi đồ của bạn :(",
       "accepted": "%1$s**%2$s#%3$s** đã chấp nhận lời cầu hôn của **%4$s#%5$s**!",
       "denied": "%1$sĐã từ chối lời cầu hôn từ **%2$s**",
