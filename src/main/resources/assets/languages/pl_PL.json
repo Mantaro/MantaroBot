@@ -558,7 +558,7 @@
         "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `/marry status`",
         "too_long": "%1$sList miłosny jest zbyt długi (maksymalnie 500 znaków)",
         "cannot_see": "%1$sNie mogę znaleźć użytkownika, z którym jesteś żonaty... Chyba nie ma ich ze mną na żadnym serwerze.",
-        "confirmation": "%1$sCzy jesteś *pewna*, że chcesz napisać ten list dla swojego małżeństwa z **%2$s#%3$s**? To PERMANENT, dopóki małżeństwo trwa. *Zawartość listu:* %4$s",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `/marry status`",
         "scrapped": "%1$sNadal masz czas na zastanowienie się, co napisać, nie musisz się spieszyć!"
       },
@@ -573,11 +573,6 @@
         "house": "Nazwa domu",
         "car": "Nazwa samochodu",
         "pet": "Imię zwierzęcia (typ)"
-      },
-      "timezone": {
-        "no_content": "%1$sMusisz określić, jaką strefę czasową chcesz, aby to małżeństwo śledziło.",
-        "invalid": "%1$sNieprawidłowa strefa czasowa lub identyfikator strefy.",
-        "success": "%1$sUdane ustawienie strefy czasowej małżeństwa na %2$s. Czas zwierząt domowych będzie taki sam jak w strefie czasowej małżeństwa."
       },
       "general": {
         "not_married": "%1$sNie jesteś po ślubie."
@@ -606,7 +601,7 @@
       "already_married": "%1$sJesteś już ożeniony(ona).",
       "receipt_married": "%1$sTen użytkownik jest już ożeniony(ona).",
       "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `/buy 2 ring` and then try proposing again <3",
-      "confirmation": "%1$s%2$s, wpisz **yes** lub **no** do propozycji małżeństwa z %3$s\n%4$sTo limit czasu na 120 sekund.",
+      "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$sNie możesz poślubić mniej niż dwóch pierścieni w ekwipunku :(",
       "accepted": "%1$s**%2$s#%3$s** zaakceptował propozycję **%4$s#%5$s**!",
       "denied": "%1$sOdrzucona propozycja od **%2$s**",
