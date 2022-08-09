@@ -43,7 +43,7 @@ public class CustomFinderUtil {
         // If you want to handle it differently, there's findMemberDefault to return a default member.
         var lang = ctx.getLanguageContext();
         if (result.isEmpty()) {
-            ctx.send(lang.get("general.find_members_failure"));
+            ctx.send(lang.get("general.find_members_failure").formatted(EmoteReference.ERROR));
             return null;
         }
 
@@ -71,7 +71,7 @@ public class CustomFinderUtil {
             // We handle name elsewhere.
             var disc = fullRefMatch.replaceAll("$2");
             if (result.isEmpty()) {
-                ctx.send(lang.get("general.find_members_failure"));
+                ctx.send(lang.get("general.find_members_failure").formatted(EmoteReference.ERROR));
                 return null;
             }
 
@@ -81,7 +81,7 @@ public class CustomFinderUtil {
                 }
             }
 
-            ctx.send(lang.get("general.find_members_failure"));
+            ctx.send(lang.get("general.find_members_failure").formatted(EmoteReference.ERROR));
             return null;
         }
         // end of user#discriminator search
@@ -91,7 +91,7 @@ public class CustomFinderUtil {
 
         // We didn't find anything *after* filtering.
         if (found.isEmpty()) {
-            ctx.send(lang.get("general.find_members_failure"));
+            ctx.send(lang.get("general.find_members_failure").formatted(EmoteReference.ERROR));
             return null;
         }
 

@@ -37,7 +37,7 @@ public class ImageActionCmd extends NoArgsCommand {
     private final String format;
     private final String lonelyLine;
     private final String name;
-    private final WeebAPIRequester weebapi = new WeebAPIRequester();
+    private final WeebAPIRequester weebAPI = new WeebAPIRequester();
     private final Random rand = new Random();
     private final IncreasingRateLimiter rateLimiter;
     private List<String> images;
@@ -111,7 +111,7 @@ public class ImageActionCmd extends NoArgsCommand {
         var random = "";
         try {
             if (type != null) {
-                var result = weebapi.getRandomImageByType(type, false, "gif");
+                var result = weebAPI.getRandomImageByType(type, false, "gif");
                 if (result == null) {
                     ctx.sendLocalized("commands.action.error_retrieving", EmoteReference.SAD);
                     return;

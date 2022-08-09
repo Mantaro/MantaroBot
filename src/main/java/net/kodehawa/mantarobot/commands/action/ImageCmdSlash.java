@@ -29,7 +29,7 @@ import java.util.Random;
 
 public class ImageCmdSlash extends SlashCommand {
     private final String toSend;
-    private final WeebAPIRequester weebapi = new WeebAPIRequester();
+    private final WeebAPIRequester weebAPI = new WeebAPIRequester();
     private final Random rand = new Random();
     private List<String> images;
     private boolean noMentions = false;
@@ -74,7 +74,7 @@ public class ImageCmdSlash extends SlashCommand {
         String random;
         try {
             if (type != null) {
-                var result = weebapi.getRandomImageByType(type, false, null);
+                var result = weebAPI.getRandomImageByType(type, false, null);
                 images = Collections.singletonList(result.url());
                 random = images.get(0); //Guaranteed random selection :^).
             } else {

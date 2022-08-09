@@ -748,7 +748,7 @@ public class CurrencyCmds {
                             .collect(Collectors.joining(" "));
 
             var message = ctx.getLanguageContext().get("commands.inventory.brief")
-                    .formatted(ctx.getMember().getEffectiveName(), inventory);
+                    .formatted(user.getName(), inventory);
 
             // Kind of a roundabout way to do it, but JDA spliiter works and I don't feel like doing it *again*.
             var toSend = new MessageBuilder().append(message).buildAll(MessageBuilder.SplitPolicy.SPACE);

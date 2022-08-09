@@ -23,6 +23,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
@@ -36,8 +37,7 @@ import net.kodehawa.mantarobot.commands.currency.profile.StatsComponent;
 import net.kodehawa.mantarobot.commands.currency.profile.inventory.InventorySortType;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.*;
-import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
-import net.kodehawa.mantarobot.core.command.slash.SlashContext;
+import net.kodehawa.mantarobot.core.command.slash.*;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -49,6 +49,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
+import java.awt.*;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -99,6 +100,7 @@ public class ProfileCmd {
     @Subscribe
     public void register(CommandRegistry cr) {
         cr.registerSlash(Profile.class);
+        cr.registerContextUser(ProfileContext.class);
     }
 
     @Name("profile")
@@ -136,104 +138,13 @@ public class ProfileCmd {
             @Override
             protected void process(SlashContext ctx) {
                 final var userLooked = ctx.getOptionAsUser("user", ctx.getAuthor());
-                final var memberLooked = ctx.getGuild().getMember(userLooked);
 
                 if (userLooked.isBot()) {
                     ctx.reply("commands.profile.bot_notice", EmoteReference.ERROR);
                     return;
                 }
 
-                final var player = ctx.getPlayer(userLooked);
-                final var dbUser = ctx.getDBUser(userLooked);
-                final var playerData = player.getData();
-                final var userData = dbUser.getData();
-                final var inv = player.getInventory();
-                final var config = MantaroData.config().get();
-
-                // Cache waifu value.
-                playerData.setWaifuCachedValue(WaifuCmd.calculateWaifuValue(player, userLooked).getFinalValue());
-
-                // start of badge assigning
-                final var mh = MantaroBot.getInstance().getShardManager().getGuildById("213468583252983809");
-                final var mhMember = mh == null ? null : mh.retrieveMemberById(memberLooked.getUser().getId()).useCache(true).complete();
-
-                Badge.assignBadges(player, player.getStats(), dbUser);
-                var christmasBadgeAssign = inv.asList()
-                        .stream()
-                        .map(ItemStack::getItem)
-                        .anyMatch(it -> it.equals(ItemReference.CHRISTMAS_TREE_SPECIAL) || it.equals(ItemReference.BELL_SPECIAL));
-
-                // Manual badges
-                if (config.isOwner(userLooked)) {
-                    playerData.addBadgeIfAbsent(Badge.DEVELOPER);
-                }
-
-                if (christmasBadgeAssign) {
-                    playerData.addBadgeIfAbsent(Badge.CHRISTMAS);
-                }
-
-                // Requires a valid Member in Mantaro Hub.
-                if (mhMember != null) {
-                    // Admin
-                    if (containsRole(mhMember, 315910951994130432L)) {
-                        playerData.addBadgeIfAbsent(Badge.COMMUNITY_ADMIN);
-                    }
-
-                    // Patron - Donator
-                    if (containsRole(mhMember, 290902183300431872L, 290257037072531466L)) {
-                        playerData.addBadgeIfAbsent(Badge.DONATOR_2);
-                    }
-
-                    // Translator
-                    if (containsRole(mhMember, 407156441812828162L)) {
-                        playerData.addBadgeIfAbsent(Badge.TRANSLATOR);
-                    }
-                }
-                // end of badge assigning
-
-                final var lang = ctx.getLanguageContext();
-                final var badges = playerData.getBadges();
-                Collections.sort(badges);
-
-                final var marriage = ctx.getMarriage(userData);
-                final var ringHolder = player.getInventory().containsItem(ItemReference.RING) && marriage != null;
-                final var holder = new ProfileComponent.Holder(userLooked, player, dbUser, marriage, badges);
-                final var profileBuilder = new EmbedBuilder();
-                var description = lang.get("commands.profile.no_desc");
-
-                if (playerData.getDescription() != null) {
-                    description = player.getData().getDescription();
-                }
-
-                profileBuilder.setAuthor(
-                                (ringHolder ? EmoteReference.RING : "") + String.format(lang.get("commands.profile.header"),
-                                        memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl())
-                        .setDescription(description)
-                        .setThumbnail(userLooked.getEffectiveAvatarUrl())
-                        .setColor(ctx.getMemberColor(memberLooked))
-                        .setFooter(ProfileComponent.FOOTER.getContent().apply(holder, lang),
-                                ctx.getAuthor().getEffectiveAvatarUrl()
-                        );
-
-                var hasCustomOrder = dbUser.isPremium() && !playerData.getProfileComponents().isEmpty();
-                var usedOrder = hasCustomOrder ? playerData.getProfileComponents() : defaultOrder;
-                if ((!config.isPremiumBot() && player.getOldMoney() < 5000 && !hasCustomOrder) ||
-                        (playerData.isHiddenLegacy() && !hasCustomOrder)) {
-                    usedOrder = noOldOrder;
-                }
-
-                for (var component : usedOrder) {
-                    profileBuilder.addField(
-                            component.getTitle(lang), component.getContent().apply(holder, lang), component.isInline()
-                    );
-                }
-
-                ctx.reply(profileBuilder.build());
-
-                // We don't need to update stats if someone else views your profile
-                if (player.getUserId().equals(ctx.getAuthor().getId())) {
-                    player.saveUpdating();
-                }
+                showProfile(ctx, userLooked);
             }
         }
 
@@ -672,6 +583,116 @@ public class ProfileCmd {
                         EmoteReference.CORRECT, newComponents.stream().map(Enum::name).collect(Collectors.joining(", "))
                 );
             }
+        }
+    }
+
+    @Name("Show currency profile")
+    @Ephemeral
+    public static class ProfileContext extends ContextCommand<User> {
+        @Override
+        protected void process(InteractionContext<User> ctx) {
+            var userLooked = ctx.getTarget();
+            if (userLooked.isBot()) {
+                ctx.reply("commands.profile.bot_notice", EmoteReference.ERROR);
+                return;
+            }
+
+            showProfile(ctx, userLooked);
+        }
+    }
+
+    private static void showProfile(IContext ctx, User userLooked) {
+        final var memberLooked = ctx.getGuild().getMember(userLooked);
+        final var player = ctx.getPlayer(userLooked);
+        final var dbUser = ctx.getDBUser(userLooked);
+        final var playerData = player.getData();
+        final var userData = dbUser.getData();
+        final var inv = player.getInventory();
+        final var config = MantaroData.config().get();
+
+        // Cache waifu value.
+        playerData.setWaifuCachedValue(WaifuCmd.calculateWaifuValue(player, userLooked).getFinalValue());
+
+        // start of badge assigning
+        final var mh = MantaroBot.getInstance().getShardManager().getGuildById("213468583252983809");
+        final var mhMember = mh == null ? null : mh.retrieveMemberById(memberLooked.getUser().getId()).useCache(true).complete();
+
+        Badge.assignBadges(player, player.getStats(), dbUser);
+        var christmasBadgeAssign = inv.asList()
+                .stream()
+                .map(ItemStack::getItem)
+                .anyMatch(it -> it.equals(ItemReference.CHRISTMAS_TREE_SPECIAL) || it.equals(ItemReference.BELL_SPECIAL));
+
+        // Manual badges
+        if (config.isOwner(userLooked)) {
+            playerData.addBadgeIfAbsent(Badge.DEVELOPER);
+        }
+
+        if (christmasBadgeAssign) {
+            playerData.addBadgeIfAbsent(Badge.CHRISTMAS);
+        }
+
+        // Requires a valid Member in Mantaro Hub.
+        if (mhMember != null) {
+            // Admin
+            if (containsRole(mhMember, 315910951994130432L)) {
+                playerData.addBadgeIfAbsent(Badge.COMMUNITY_ADMIN);
+            }
+
+            // Patron - Donator
+            if (containsRole(mhMember, 290902183300431872L, 290257037072531466L)) {
+                playerData.addBadgeIfAbsent(Badge.DONATOR_2);
+            }
+
+            // Translator
+            if (containsRole(mhMember, 407156441812828162L)) {
+                playerData.addBadgeIfAbsent(Badge.TRANSLATOR);
+            }
+        }
+        // end of badge assigning
+
+        final var lang = ctx.getLanguageContext();
+        final var badges = playerData.getBadges();
+        Collections.sort(badges);
+
+        final var marriage = MantaroData.db().getMarriage(userData.getMarriageId());
+        final var ringHolder = player.getInventory().containsItem(ItemReference.RING) && marriage != null;
+        final var holder = new ProfileComponent.Holder(userLooked, player, dbUser, marriage, badges);
+        final var profileBuilder = new EmbedBuilder();
+        var description = lang.get("commands.profile.no_desc");
+
+        if (playerData.getDescription() != null) {
+            description = player.getData().getDescription();
+        }
+
+        profileBuilder.setAuthor(
+                        (ringHolder ? EmoteReference.RING : "") + String.format(lang.get("commands.profile.header"),
+                                memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl())
+                .setDescription(description)
+                .setThumbnail(userLooked.getEffectiveAvatarUrl())
+                .setColor(memberLooked.getColor() == null ? Color.PINK : memberLooked.getColor())
+                .setFooter(ProfileComponent.FOOTER.getContent().apply(holder, lang),
+                        ctx.getAuthor().getEffectiveAvatarUrl()
+                );
+
+        var hasCustomOrder = dbUser.isPremium() && !playerData.getProfileComponents().isEmpty();
+        var usedOrder = hasCustomOrder ? playerData.getProfileComponents() : defaultOrder;
+        if ((!config.isPremiumBot() && player.getOldMoney() < 5000 && !hasCustomOrder) ||
+                (playerData.isHiddenLegacy() && !hasCustomOrder)) {
+            usedOrder = noOldOrder;
+        }
+
+        for (var component : usedOrder) {
+            profileBuilder.addField(
+                    component.getTitle(lang), component.getContent().apply(holder, lang), component.isInline()
+            );
+        }
+
+        ctx.send(profileBuilder.build());
+
+        // We don't need to update stats if someone else views your profile
+        if (player.getUserId().equals(ctx.getAuthor().getId())) {
+            player.saveUpdating();
         }
     }
 

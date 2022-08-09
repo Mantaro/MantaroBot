@@ -413,7 +413,7 @@ public class InfoCmds {
         }
     }
 
-    @Name("User Info")
+    @Name("User information")
     @Ephemeral
     public static class UserInfo extends ContextCommand<User> {
         @Override
