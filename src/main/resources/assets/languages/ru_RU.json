@@ -558,7 +558,7 @@
         "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `/marry status`",
         "too_long": "%1$sЛюбовное письмо имеет слишком много символов (максимум 500 символов)",
         "cannot_see": "%1$sЯ не могу найти пользователя на котором вы женаты... Скорее всего его нет на сервере.",
-        "confirmation": "%1$sВы *уверены* в том, что желаете написать письмо для **%2$s#%3$s**? Оно перманентно, пока вы в браке. *Текст письма:* %4$s",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `/marry status`",
         "scrapped": "%1$sУ вас ещё есть время подумать, не спешите!"
       },
@@ -573,11 +573,6 @@
         "house": "House Name",
         "car": "Car Name",
         "pet": "Pet Name (Type)"
-      },
-      "timezone": {
-        "no_content": "%1$sYou need to specify what timezone you want this marriage to track.",
-        "invalid": "%1$sNot a valid timezone or Zone ID.",
-        "success": "%1$sSuccessfully set marriage timezone to %2$s. Pet time will be the same as the marriage timezone."
       },
       "general": {
         "not_married": "%1$sYou're not married."
@@ -606,7 +601,7 @@
       "already_married": "%1$sТы уже женат.",
       "receipt_married": "%1$sЭтот пользователь уже женат.",
       "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `/buy 2 ring` and then try proposing again <3",
-      "confirmation": "%1$s%2$s, напишите **yes** или **no** чтобы принять предложение о браке от %3$s\n%4$sУ вас есть 120 секунд.",
+      "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$sВы не можете пожениться если у вас нет двух колец в инветаре :(",
       "accepted": "%1$s**%2$s#%3$s** принял предложение от **%4$s#%5$s**!",
       "denied": "%1$sПредложение от **%2$s** отклонено",
