@@ -1346,8 +1346,8 @@
     },
     "pet": {
       "explanation": "Les animaux sont d'utiles compagnon pécuniaires!\nIls t'aident à accumuler plus d'argent, plus de loot, trouver plus d'objets dans 'mine', dans 'chop' et dans 'fish'. Plus ils sont haut niveaux, plus il y a de récompenses.\nChoisir le meilleur animal pour tes activités est très important, donc vérifie bien le type et les capacités de l'animal que tu désires.\nN'oublie pas que tu dois nourrir ton animal et lui donner de l'eau, ainsi que le laisser se reposer pour recharger son énergie, comme un vrai animal de compagnie! Tu peux même le caresser :)\nTu peux créer deux type de lien avec ton animal: personnel (pour toi) et de mariage (partagé avec ton-ta partenaire). Choisis son lien avec toi en utilisant `/pet choice`. Le lien par défaut est personnel.\nPour plus d'aide, utilise `/help pet` et `/pet list` pour une liste de tous les animaux.",
-      "no_marriage": "%1$sTu dois être marié.e pour avoir un animal de compagnie. Pour l'instant. Regarde `/help marry` et `/pet`",
-      "no_marriage_other": "%1$s%2$sDoit être marié.e pour avoir un animal de compagnie. Pour l'instant. Regarde `/help marry` et `/pet`",
+      "no_marriage": "%1$sYou need to be married to have a marriage pet. For now. Check `/help marry` and `/pet`",
+      "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. For now. Check `/help marry` and `/pet`",
       "status": {
         "no_pet": "%1$sTu n'as pas d'animaux à surveiller. Fais la commande `/pet` pour plus d'explications. (Lien: %2$s)%3$s",
         "pet_in_other_category": "\n%1$sTu as un animal de compagnie auquel tu es lié.e de manière %2$s (%3$s). Tu peux changer ça grâce à `/pet choice %2$s`",
