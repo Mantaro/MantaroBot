@@ -558,7 +558,7 @@
         "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `/marry status`",
         "too_long": "%1$sAşk mektubunuz çok uzun (maximum 500 harf)",
         "cannot_see": "%1$sEvli olduğunuz kullanıcıyı bulamadım... Büyük ihtimal benimle aynı sunucu da değiller.",
-        "confirmation": "%1$sBu mektubu **%2$s#%3$s** ile yazmak istediğinize emin misiniz? Bu evliliğiniz boyunca kalıcı olacak. *Mektup içeriği:* %4$s",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `/marry status`",
         "scrapped": "%1$sAcele gerek yok, hala yazmak için zamanınız var!"
       },
@@ -573,11 +573,6 @@
         "house": "House Name",
         "car": "Car Name",
         "pet": "Pet Name (Type)"
-      },
-      "timezone": {
-        "no_content": "%1$sYou need to specify what timezone you want this marriage to track.",
-        "invalid": "%1$sNot a valid timezone or Zone ID.",
-        "success": "%1$sSuccessfully set marriage timezone to %2$s. Pet time will be the same as the marriage timezone."
       },
       "general": {
         "not_married": "%1$sYou're not married."
@@ -606,7 +601,7 @@
       "already_married": "%1$sYou're married already.",
       "receipt_married": "%1$sThat user is married already.",
       "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `/buy 2 ring` and then try proposing again <3",
-      "confirmation": "%1$s%2$s, type with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
+      "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory :(",
       "accepted": "%1$s**%2$s#%3$s** accepted the proposal of **%4$s#%5$s**!",
       "denied": "%1$sDenied proposal from **%2$s**",
