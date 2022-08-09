@@ -558,7 +558,7 @@
         "already_done": "%1$sDit huwelijk heeft al een liefdesbrief toegewezen. Bekijk deze met behulp van de `/marry status`",
         "too_long": "%1$sDe liefdesbrief is te lang (maximum van 500 karakters)",
         "cannot_see": "%1$sIk kan de persoon waarmee je getrouwd bent niet vinden... Waarschijnlijk zitten ze niet in dezelfde server als ik.",
-        "confirmation": "%1$sWeet je *zeker* dat je deze liefdesbrief wilt schrijven voor je huwelijk met **%2$s#%3$s**? Dit is PERMANENT en blijft zolang jullie huwelijk stand houdt. *Inhoud van de letter:* %4$s",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$sDe liefdesbrief is succesvol afgeleverd aan je liefde! Bekijk deze met behulp van de `/marry status`",
         "scrapped": "%1$sJe hebt nog steeds tijd om na te denken wat je wilt schrijven, er is geen haast!"
       },
@@ -573,11 +573,6 @@
         "house": "Huis Naam",
         "car": "Auto Naam",
         "pet": "Huisdier Naam (Type)"
-      },
-      "timezone": {
-        "no_content": "%1$sYou need to specify what timezone you want this marriage to track.",
-        "invalid": "%1$sNot a valid timezone or Zone ID.",
-        "success": "%1$sSuccessfully set marriage timezone to %2$s. Pet time will be the same as the marriage timezone."
       },
       "general": {
         "not_married": "%1$sJe bent niet getrouwd."
@@ -606,7 +601,7 @@
       "already_married": "%1$sJe bent al getrouwd.",
       "receipt_married": "%1$sDeze gebruiker is al getrouwd.",
       "no_ring": "%1$sJe kunt geen aanzoek doen zonder twee verlovingsringen! Je kunt deze kopen door `/buy 2 ring` te typen en het dan nogmaals te proberen <3",
-      "confirmation": "%1$s%2$s, beantwoord met **yes** of **no** op het huwelijksaanzoek van %3$s\n%4$sDit aanzoek zal een time-out geven over 120 seconden.",
+      "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$sJe kunt niet trouwen als je minder dan twee verlovingsringen in je inventaris hebt :(",
       "accepted": "%1$s**%2$s#%3$s** accepteerde het huwelijksaanzoek van **%4$s#%5$s**!",
       "denied": "%1$sHet huwelijksaanzoek van **%2$s** is afgewezen.",
