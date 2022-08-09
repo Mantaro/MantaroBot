@@ -558,7 +558,7 @@
         "already_done": "%1$sEsse casameto já tem uma carta de amor atribuída. Cheque ela usando `/marry status`",
         "too_long": "%1$sA carta de amor é muito longa (máximo de 500 caracteres)",
         "cannot_see": "%1$sEu não consegui achar o usuário que você se casou... Provavelmente não está em nenhum servidor comigo.",
-        "confirmation": "%1$sVocê tem *certeza* que quer escrever essa carta para o seu casamento com **%2$s#%3$s**? Isso é PERMANENTE até o casamento acabar. *Conteúdo da carta:* %4$s",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$sA carta de amor foi entregue com sucesso ao(a) seu(a) amado(a)! Cheque ela usando `/marry status`",
         "scrapped": "%1$sVocê ainda tem tempo para pensar no que escrever, não precisa se apressar!"
       },
@@ -573,11 +573,6 @@
         "house": "Nome da Casa",
         "car": "Nome do Carro",
         "pet": "Nome do Pet (Tipo)"
-      },
-      "timezone": {
-        "no_content": "%1$sVocê precisa especificar que fuso horário você quer colocar nessa track de casamento.",
-        "invalid": "%1$sNão é um fuso horário válido ou Zone ID.",
-        "success": "%1$sDefinido com sucesso o fuso horário do casamento para %2$s. O tempo do pet será mesmo que o fuso horário do casamento."
       },
       "general": {
         "not_married": "%1$sVocê não é casado."
@@ -606,7 +601,7 @@
       "already_married": "%1$sVocê já é casado.",
       "receipt_married": "%1$sEsse usuário já é casado.",
       "no_ring": "%1$sVocê não pode propor sem dois anéis de casamento! Você pode comprá-los usando `/buy 2 ring` e tente propor novamente <3",
-      "confirmation": "%1$s%2$s, digite **yes** ou **no** para a proposta de casamento de %3$s\n%4$sIsso esgota em 120 segundos.",
+      "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$sVocê não pode se casar com menos de dois anéis em seu inventário :(",
       "accepted": "%1$s**%2$s#%3$s** aceitou a proposta de **%4$s#%5$s**!",
       "denied": "%1$sProposta de **%2$s** negada",
