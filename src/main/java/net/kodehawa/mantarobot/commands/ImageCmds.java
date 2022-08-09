@@ -168,12 +168,12 @@ public class ImageCmds {
 
                 try {
                     var result = weebAPIRequester.getRandomImageByType("neko", nsfw, null);
-                    var image = result.url();
-
-                    if (image == null) {
+                    if (result == null) {
                         ctx.reply("commands.imageboard.catgirl.error");
                         return;
                     }
+
+                    var image = result.url();
 
                     ctx.getEvent().getHook()
                             .sendFile(imageCache.getInput(image), "catgirl-%s.%s".formatted(result.id(), result.fileType()))

@@ -128,13 +128,12 @@ public class ImageActionSlash extends SlashCommand {
         try {
             if (type != null) {
                 var result = weebapi.getRandomImageByType(type, false, "gif");
-                var image = result.url();
-
-                if (image == null) {
-                    ctx.reply("commands.action.error_retrieving", EmoteReference.SAD);
+                if (result == null) {
+                    ctx.sendLocalized("commands.action.error_retrieving", EmoteReference.SAD);
                     return;
                 }
 
+                var image = result.url();
                 images = Collections.singletonList(image);
                 random = images.get(0); //Guaranteed random selection :^).
             } else {
