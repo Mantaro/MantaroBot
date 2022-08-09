@@ -66,24 +66,24 @@ public class InfoCmds {
         protected void process(SlashContext ctx) {}
 
         @Name("support")
-        @Ephemeral
+        @NoDefer
         @Description("Shows a link to the support server")
         @Help(description = "Shows a link to the support server")
         public static class Support extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                ctx.reply("commands.support.info", EmoteReference.POPPER);
+                ctx.replyEphemeral("commands.support.info", EmoteReference.POPPER);
             }
         }
 
         @Name("donate")
-        @Ephemeral
+        @NoDefer
         @Description("Shows the donation methods in case you want to support Mantaro.")
         @Help(description = "Shows the donation methods in case you want to support Mantaro.")
         public static class Donate extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                ctx.reply("commands.donate.beg", EmoteReference.HEART,
+                ctx.replyEphemeral("commands.donate.beg", EmoteReference.HEART,
                         ctx.getLanguageContext().get("commands.donate.methods")
                                 .formatted("https://patreon.com/mantaro", "https://paypal.me/kodemantaro")
                 );
@@ -91,7 +91,7 @@ public class InfoCmds {
         }
 
         @Name("language")
-        @Ephemeral
+        @NoDefer
         @Description("Shows how to change the server and user languages, along with a language list.")
         @Help(description =
                 """
@@ -104,14 +104,14 @@ public class InfoCmds {
         public static class Language extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                ctx.reply("commands.lang.info", EmoteReference.ZAP,
+                ctx.replyEphemeral("commands.lang.info", EmoteReference.ZAP,
                         String.join(", ", I18n.LANGUAGES).replace(".json", "")
                 );
             }
         }
 
         @Description("Shows the message the bot sends when it's added to a server.")
-        @Ephemeral
+        @NoDefer
         @Help(description = "Shows the message the bot sends when it's added to a server.")
         public static class Welcome extends SlashCommand {
             @Override
@@ -139,11 +139,11 @@ public class InfoCmds {
                                 true
                         ).setFooter("We hope you enjoy using Mantaro! For any questions, go to our support server.");
 
-                ctx.reply(embedBuilder.build());
+                ctx.replyEphemeral(embedBuilder.build());
             }
         }
         @Name("invite")
-        @Ephemeral
+        @NoDefer
         @Description("Gives you a bot OAuth invite link and some other important links.")
         @Help(description = "Gives you a bot OAuth invite link and some other important links.")
         public static class Invite extends SlashCommand {
@@ -151,7 +151,7 @@ public class InfoCmds {
             protected void process(SlashContext ctx) {
                 var languageContext = ctx.getLanguageContext();
 
-                ctx.reply(new EmbedBuilder()
+                ctx.replyEphemeral(new EmbedBuilder()
                         .setAuthor("Mantaro's Invite URL.", null, ctx.getSelfUser().getAvatarUrl())
                         .addField(languageContext.get("commands.invite.url"),
                                 "http://add.mantaro.site",
@@ -229,7 +229,7 @@ public class InfoCmds {
         }
 
         @Name("shard")
-        @Ephemeral
+        @NoDefer
         @Description("Returns in what shard I am.")
         @Help(description = "Returns in what shard I am.")
         public static class Shard extends SlashCommand {
@@ -243,7 +243,7 @@ public class InfoCmds {
                 final var jda = ctx.getJDA();
                 final var guildCache = jda.getGuildCache();
 
-                ctx.reply("commands.shard.info",
+                ctx.replyEphemeral("commands.shard.info",
                         jda.getShardInfo().getShardId(),
                         ctx.getBot().getShardManager().getShardsTotal(),
                         ctx.getBot().getNodeNumber(), nodeAmount,

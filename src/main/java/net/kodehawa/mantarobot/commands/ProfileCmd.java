@@ -615,7 +615,7 @@ public class ProfileCmd {
 
         // start of badge assigning
         final var mh = MantaroBot.getInstance().getShardManager().getGuildById("213468583252983809");
-        final var mhMember = mh == null ? null : mh.retrieveMemberById(memberLooked.getUser().getId()).useCache(true).complete();
+        final var mhMember = mh == null ? null : mh.retrieveMemberById(userLooked.getId()).useCache(true).complete();
 
         Badge.assignBadges(player, player.getStats(), dbUser);
         var christmasBadgeAssign = inv.asList()
@@ -667,7 +667,7 @@ public class ProfileCmd {
 
         profileBuilder.setAuthor(
                         (ringHolder ? EmoteReference.RING : "") + String.format(lang.get("commands.profile.header"),
-                                memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl())
+                                userLooked.getName()), null, userLooked.getEffectiveAvatarUrl())
                 .setDescription(description)
                 .setThumbnail(userLooked.getEffectiveAvatarUrl())
                 .setColor(memberLooked.getColor() == null ? Color.PINK : memberLooked.getColor())
