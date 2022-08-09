@@ -419,11 +419,11 @@ public class PetCmds {
                         return;
                     }
 
-                    message = ctx.getEvent().getHook().sendMessage(lang.get("commands.pet.remove.confirm").formatted(EmoteReference.WARNING, toRefund)).complete();
+                    message = ctx.sendResult(lang.get("commands.pet.remove.confirm").formatted(EmoteReference.WARNING, toRefund));
                     marriage.setLocked(true);
                     marriage.save();
                 } else {
-                    message = ctx.getEvent().getHook().sendMessage(lang.get("commands.pet.remove.confirm_personal").formatted(EmoteReference.WARNING, toRefundPersonal)).complete();
+                    message = ctx.sendResult(lang.get("commands.pet.remove.confirm_personal").formatted(EmoteReference.WARNING, toRefundPersonal));
                 }
 
                 player.setLocked(true);
@@ -600,14 +600,9 @@ public class PetCmds {
                 player.saveUpdating();
 
                 var finalName = name;
-                var message = ctx.getEvent()
-                        .getHook()
-                        .sendMessage(
-                                String.format(
-                                        ctx.getLanguageContext().get("commands.pet.buy.confirm"),
-                                        EmoteReference.WARNING, name, type, toBuy.getCost(), petChoice.getReadableName()
-                                )
-                        ).complete();
+                var message = ctx.sendResult(
+                        String.format(ctx.getLanguageContext().get("commands.pet.buy.confirm"), EmoteReference.WARNING, name, type, toBuy.getCost(), petChoice.getReadableName())
+                );
                 ButtonOperations.create(message, 60, event -> {
                     if (!event.getUser().equals(ctx.getAuthor())) {
                         return Operation.IGNORED;

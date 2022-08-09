@@ -18,31 +18,24 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.command.meta.Category;
+import net.kodehawa.mantarobot.core.command.meta.Description;
+import net.kodehawa.mantarobot.core.command.meta.Name;
+import net.kodehawa.mantarobot.core.command.meta.Options;
+import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
+import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Marriage;
-import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
@@ -52,598 +45,232 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 @Module
 public class MarryCmd {
     private static final long housePrice = 5_000;
     private static final long carPrice = 1_000;
-
-    private static final Pattern offsetRegex =
-            Pattern.compile("(?:UTC|GMT)[+-][0-9]{1,2}(:[0-9]{1,2})?", Pattern.CASE_INSENSITIVE);
+    private static final IncreasingRateLimiter marryRatelimiter = new IncreasingRateLimiter.Builder()
+            .limit(1)
+            .cooldown(10, TimeUnit.MINUTES)
+            .maxCooldown(40, TimeUnit.MINUTES)
+            .randomIncrement(false)
+            .pool(MantaroData.getDefaultJedisPool())
+            .prefix("marry")
+            .build();
 
     @Subscribe
-    public void marry(CommandRegistry cr) {
-        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
-                .limit(1)
-                .cooldown(10, TimeUnit.MINUTES)
-                .maxCooldown(40, TimeUnit.MINUTES)
-                .randomIncrement(false)
-                .pool(MantaroData.getDefaultJedisPool())
-                .prefix("marry")
-                .build();
+    public void register(CommandRegistry cr) {
+        cr.registerSlash(Marry.class);
+        cr.registerSlash(Divorce.class);
+    }
 
-        ITreeCommand marryCommand = cr.register("marry", new TreeCommand(CommandCategory.CURRENCY) {
+    @Description("The hub for marriage related commands.")
+    @Category(CommandCategory.CURRENCY)
+    public static class Marry extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {}
+
+        @Name("user")
+        @Description("Marries another user.")
+        @Options({@Options.Option(type = OptionType.USER, name = "user", description = "The user to marry.", required = true)})
+        public static class MarryUser extends SlashCommand {
             @Override
-            public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(Context ctx, I18nContext languageContext, String content) {
-                        if (ctx.getMentionedUsers().isEmpty()) {
-                            ctx.sendLocalized("commands.marry.no_mention", EmoteReference.ERROR);
-                            return;
-                        }
+            protected void process(SlashContext ctx) {
+                var proposingUser = ctx.getAuthor();
+                var proposedToUser = ctx.getOptionAsUser("user");
 
-                        //We don't need to change those. I sure fucking hope we don't.
-                        final DBGuild dbGuild = ctx.getDBGuild();
+                // This is just for checking purposes, so we don't need the DBUser itself.
+                var proposingUserData = ctx.getDBUser(proposingUser).getData();
+                var proposedToUserData = ctx.getDBUser(proposedToUser).getData();
 
-                        User proposingUser = ctx.getAuthor();
-                        User proposedToUser = ctx.getMentionedUsers().get(0);
+                // Again just for checking, and no need to change.
+                final var proposingPlayerInventory = ctx.getPlayer(proposingUser).getInventory();
 
-                        //This is just for checking purposes, so we don't need the DBUser itself.
-                        UserData proposingUserData = ctx.getDBUser(proposingUser).getData();
-                        UserData proposedToUserData = ctx.getDBUser(proposedToUser).getData();
+                // Why would you do this...
+                if (proposedToUser.getId().equals(ctx.getAuthor().getId())) {
+                    ctx.reply("commands.marry.marry_yourself_notice", EmoteReference.ERROR);
+                    return;
+                }
 
-                        //Again just for checking, and no need to change.
-                        final Inventory proposingPlayerInventory = ctx.getPlayer(proposingUser).getInventory();
+                final var proposingMarriage = proposingUserData.getMarriage();
+                final var proposedToMarriage = proposedToUserData.getMarriage();
 
-                        //Why would you do this...
-                        if (proposedToUser.getId().equals(ctx.getAuthor().getId())) {
-                            ctx.sendLocalized("commands.marry.marry_yourself_notice", EmoteReference.ERROR);
-                            return;
-                        }
+                // We need to conduct a bunch of checks here.
+                // You CANNOT marry bots, yourself, people already married, or engage on another marriage if you're married.
+                // On the latter, the waifu system will be avaliable on release.
+                // Confirmation cannot happen if the rings are missing. Timeout for confirmation is at MOST 2 minutes.
+                // If the receipt has more than 5000 rings, remove rings from the person giving it and scrape them.
 
-                        final Marriage proposingMarriage = proposingUserData.getMarriage();
-                        final Marriage proposedToMarriage = proposedToUserData.getMarriage();
+                // Proposed to is a bot user, cannot marry bots, this is still not 2100.
+                if (proposedToUser.isBot()) {
+                    ctx.reply("commands.marry.marry_bot_notice", EmoteReference.ERROR);
+                    return;
+                }
 
-                        // We need to conduct a bunch of checks here.
-                        // You CANNOT marry bots, yourself, people already married, or engage on another marriage if you're married.
-                        // On the latter, the waifu system will be avaliable on release.
-                        // Confirmation cannot happen if the rings are missing. Timeout for confirmation is at MOST 2 minutes.
-                        // If the receipt has more than 5000 rings, remove rings from the person giving it and scrape them.
+                // Already married to the same person you're proposing to.
+                if ((proposingMarriage != null && proposedToMarriage != null) &&
+                        proposedToUserData.getMarriage().getId().equals(proposingMarriage.getId())) {
+                    ctx.reply("commands.marry.already_married_receipt", EmoteReference.ERROR);
+                    return;
+                }
 
-                        // Proposed to is a bot user, cannot marry bots, this is still not 2100.
-                        if (proposedToUser.isBot()) {
-                            ctx.sendLocalized("commands.marry.marry_bot_notice", EmoteReference.ERROR);
-                            return;
-                        }
+                // You're already married. Huh huh.
+                if (proposingMarriage != null) {
+                    ctx.reply("commands.marry.already_married", EmoteReference.ERROR);
+                    return;
+                }
 
-                        // Already married to the same person you're proposing to.
-                        if ((proposingMarriage != null && proposedToMarriage != null) &&
-                                proposedToUserData.getMarriage().getId().equals(proposingMarriage.getId())) {
-                            ctx.sendLocalized("commands.marry.already_married_receipt", EmoteReference.ERROR);
-                            return;
-                        }
+                // Receipt is married, cannot continue.
+                if (proposedToMarriage != null) {
+                    ctx.reply("commands.marry.receipt_married", EmoteReference.ERROR);
+                    return;
+                }
 
-                        // You're already married. Huh huh.
-                        if (proposingMarriage != null) {
-                            ctx.sendLocalized("commands.marry.already_married", EmoteReference.ERROR);
-                            return;
-                        }
+                // Not enough rings to continue. Buy more rings w.
+                if (!proposingPlayerInventory.containsItem(ItemReference.RING) || proposingPlayerInventory.getAmount(ItemReference.RING) < 2) {
+                    ctx.reply("commands.marry.no_ring", EmoteReference.ERROR);
+                    return;
+                }
 
-                        // Receipt is married, cannot continue.
-                        if (proposedToMarriage != null) {
-                            ctx.sendLocalized("commands.marry.receipt_married", EmoteReference.ERROR);
-                            return;
-                        }
+                // Check for rate limit
+                var languageContext = ctx.getLanguageContext();
+                if (!RatelimitUtils.ratelimit(marryRatelimiter, ctx, languageContext.get("commands.marry.ratelimit_message"), false))
+                    return;
 
-                        // Not enough rings to continue. Buy more rings w.
-                        if (!proposingPlayerInventory.containsItem(ItemReference.RING) || proposingPlayerInventory.getAmount(ItemReference.RING) < 2) {
-                            ctx.sendLocalized("commands.marry.no_ring", EmoteReference.ERROR);
-                            return;
-                        }
+                // Send confirmation message.
+                var message = ctx.sendResult(String.format(
+                        languageContext.get("commands.marry.confirmation")
+                                .formatted(EmoteReference.MEGA, proposedToUser.getName(), ctx.getAuthor().getName(), EmoteReference.STOPWATCH)
+                ));
 
-                        // Check for rate limit
-                        if (!RatelimitUtils.ratelimit(rateLimiter, ctx, ctx.getLanguageContext().get("commands.marry.ratelimit_message"), false))
-                            return;
-
-                        // Send confirmation message.
-                        ctx.sendLocalized("commands.marry.confirmation", EmoteReference.MEGA,
-                                proposedToUser.getName(), ctx.getAuthor().getName(), EmoteReference.STOPWATCH
-                        );
-
-                        InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 120, (ie) -> {
-                            // Ignore all messages from anyone that isn't the user we already proposed to. Waiting for confirmation...
-                            if (!ie.getAuthor().getId().equals(proposedToUser.getId()))
-                                return Operation.IGNORED;
-
-                            // Replace prefix because people seem to think you have to add the prefix before saying yes.
-                            String message = ie.getMessage().getContentRaw();
-                            for (String s : ctx.getConfig().prefix) {
-                                if (message.toLowerCase().startsWith(s)) {
-                                    message = message.substring(s.length());
-                                }
-                            }
-
-                            String guildCustomPrefix = dbGuild.getData().getGuildCustomPrefix();
-                            if (guildCustomPrefix != null && !guildCustomPrefix.isEmpty() && message.toLowerCase().startsWith(guildCustomPrefix)) {
-                                message = message.substring(guildCustomPrefix.length());
-                            }
-                            // End of prefix replacing.
-
-                            // Lovely~ <3
-                            if (message.equalsIgnoreCase("yes")) {
-                                // Here we NEED to get the Player,
-                                // User and Marriage objects once again
-                                // to avoid race conditions or changes on those that might have happened on the 120 seconds that this lasted for.
-                                // We need to check if the marriage is empty once again before continuing, also if we have enough rings!
-                                // Else we end up with really annoying to debug bugs, lol.
-                                Player proposingPlayer = ctx.getPlayer(proposingUser);
-                                Player proposedToPlayer = ctx.getPlayer(proposedToUser);
-                                DBUser proposingUserDB = ctx.getDBUser(proposingUser);
-                                DBUser proposedToUserDB = ctx.getDBUser(proposedToUser);
-
-                                final Marriage proposingMarriageFinal = proposingUserDB.getData().getMarriage();
-                                final Marriage proposedToMarriageFinal = proposedToUserDB.getData().getMarriage();
-
-                                if (proposingMarriageFinal != null) {
-                                    ctx.sendLocalized("commands.marry.already_married", EmoteReference.ERROR);
-                                    return Operation.COMPLETED;
-                                }
-
-                                if (proposedToMarriageFinal != null) {
-                                    ctx.sendLocalized("commands.marry.receipt_married", EmoteReference.ERROR);
-                                    return Operation.COMPLETED;
-                                }
-
-                                //LAST inventory check and ring assignment is gonna happen using those.
-                                final Inventory proposingPlayerFinalInventory = proposingPlayer.getInventory();
-                                final Inventory proposedToPlayerInventory = proposedToPlayer.getInventory();
-
-                                if (proposingPlayerFinalInventory.getAmount(ItemReference.RING) < 2) {
-                                    ctx.sendLocalized("commands.marry.ring_check_fail", EmoteReference.ERROR);
-                                    return Operation.COMPLETED;
-                                }
-
-                                //Remove the ring from the proposing player inventory.
-                                proposingPlayerFinalInventory.process(new ItemStack(ItemReference.RING, -1));
-
-                                //Silently scrape the rings if the receipt has more than 5000 rings.
-                                if (proposedToPlayerInventory.getAmount(ItemReference.RING) < 5000) {
-                                    proposedToPlayerInventory.process(new ItemStack(ItemReference.RING, 1));
-                                }
-
-                                final long marriageCreationMillis = Instant.now().toEpochMilli();
-                                // Onto the UUID we need to encode userId + timestamp of
-                                // the proposing player and the proposed to player after the acceptance is done.
-                                String marriageId = new UUID(proposingUser.getIdLong(), proposedToUser.getIdLong()).toString();
-
-                                // Make and save the new marriage object.
-                                Marriage actualMarriage = Marriage.of(marriageId, proposingUser, proposedToUser);
-                                actualMarriage.getData().setMarriageCreationMillis(marriageCreationMillis);
-                                actualMarriage.save();
-
-                                // Assign the marriage ID to the respective users and save it.
-                                proposingUserDB.getData().setMarriageId(marriageId);
-                                proposedToUserDB.getData().setMarriageId(marriageId);
-                                proposingUserDB.save();
-                                proposedToUserDB.save();
-
-                                // Send marriage confirmation message.
-                                ctx.sendLocalized("commands.marry.accepted",
-                                        EmoteReference.POPPER, ie.getAuthor().getName(),
-                                        ie.getAuthor().getDiscriminator(), proposingUser.getName(), proposingUser.getDiscriminator()
-                                );
-
-                                // Add the badge to the married couple.
-                                proposingPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
-                                proposedToPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
-
-                                // Give a love letter both to the proposing player and the one who was proposed to.
-                                if (proposingPlayerFinalInventory.getAmount(ItemReference.LOVE_LETTER) < 5000) {
-                                    proposingPlayerFinalInventory.process(new ItemStack(ItemReference.LOVE_LETTER, 1));
-                                }
-
-                                if (proposedToPlayerInventory.getAmount(ItemReference.LOVE_LETTER) < 5000) {
-                                    proposedToPlayerInventory.process(new ItemStack(ItemReference.LOVE_LETTER, 1));
-                                }
-
-                                // Badge assignment saving.
-                                proposingPlayer.save();
-                                proposedToPlayer.save();
-
-                                return Operation.COMPLETED;
-                            }
-
-                            if (message.equalsIgnoreCase("no")) {
-                                ctx.sendLocalized("commands.marry.denied", EmoteReference.CORRECT, proposingUser.getName());
-
-                                // Well, we have a badge for this too. Consolation prize I guess.
-                                final Player proposingPlayer = ctx.getPlayer(proposingUser);
-                                if (proposingPlayer.getData().addBadgeIfAbsent(Badge.DENIED)) {
-                                    proposingPlayer.saveUpdating();
-                                }
-                                return Operation.COMPLETED;
-                            }
-
-                            return Operation.IGNORED;
-                        });
-                    }
-                };
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Basically marries you with a user.")
-                        .setUsage("`~>marry <@mention>` - Propose to someone\n" +
-                                "`~>marry <command>`")
-                        .addParameter("@mention", "The person to propose to")
-                        .addParameter("command",
-                                "The subcommand you can use. Check the subcommands section for a list and usage of each.")
-                        .build();
-            }
-        });
-
-        marryCommand.addSubCommand("createletter", new SubCommand() {
-            @Override
-            public String description() {
-                return "Create a love letter for your marriage. Usage: `~>marry createletter <content>`";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                final User author = ctx.getAuthor();
-
-                Player player = ctx.getPlayer();
-                Inventory playerInventory = player.getInventory();
-                DBUser dbUser = ctx.getDBUser();
-
-                //Without one love letter we cannot do much, ya know.
-                if (playerInventory.containsItem(ItemReference.LOVE_LETTER)) {
-                    final Marriage currentMarriage = dbUser.getData().getMarriage();
-
-                    // Check if the user is married,
-                    // is the proposed player, there's no love letter and
-                    // that the love letter is less than 1500 characters long.
-                    if (currentMarriage == null) {
-                        ctx.sendLocalized("commands.marry.loveletter.no_marriage", EmoteReference.SAD);
-                        return;
-                    }
-
-                    if (currentMarriage.getData().getLoveLetter() != null) {
-                        ctx.sendLocalized("commands.marry.loveletter.already_done", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    if (content.isEmpty()) {
-                        ctx.sendLocalized("commands.marry.loveletter.empty", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    if (content.length() > 500) {
-                        ctx.sendLocalized("commands.marry.loveletter.too_long", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    //Can we find the user this is married to?
-                    final User marriedTo = ctx.retrieveUserById(currentMarriage.getOtherPlayer(author.getId()));
-                    if (marriedTo == null) {
-                        ctx.sendLocalized("commands.marry.loveletter.cannot_see", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    //Send a confirmation message.
-                    String finalContent = Utils.DISCORD_INVITE.matcher(content).replaceAll("-invite link-");
-                    finalContent = Utils.DISCORD_INVITE_2.matcher(finalContent).replaceAll("-invite link-");
-
-                    ctx.sendStrippedLocalized("commands.marry.loveletter.confirmation",
-                            EmoteReference.TALKING, marriedTo.getName(),
-                            marriedTo.getDiscriminator(), finalContent
-                    );
-
-                    //Start the operation.
-                    InteractiveOperations.create(ctx.getChannel(), author.getIdLong(), 60, e -> {
-                        if (!e.getAuthor().getId().equals(author.getId())) {
-                            return Operation.IGNORED;
-                        }
-
-                        //Replace prefix because people seem to think you have to add the prefix before saying yes.
-                        String c = e.getMessage().getContentRaw();
-                        for (String s : ctx.getConfig().prefix) {
-                            if (c.toLowerCase().startsWith(s)) {
-                                c = c.substring(s.length());
-                            }
-                        }
-
-                        String guildCustomPrefix = ctx.getDBGuild().getData().getGuildCustomPrefix();
-                        if (guildCustomPrefix != null && !guildCustomPrefix.isEmpty() && c.toLowerCase().startsWith(guildCustomPrefix)) {
-                            c = c.substring(guildCustomPrefix.length());
-                        }
-                        //End of prefix replacing.
-
-                        //Confirmed they want to save this as the permanent love letter.
-                        if (c.equalsIgnoreCase("yes")) {
-                            final Player playerFinal = ctx.getPlayer();
-                            final Inventory inventoryFinal = playerFinal.getInventory();
-                            final Marriage currentMarriageFinal = dbUser.getData().getMarriage();
-
-                            //We need to do most of the checks all over again just to make sure nothing important slipped through.
-                            if (currentMarriageFinal == null) {
-                                ctx.sendLocalized("commands.marry.loveletter.no_marriage", EmoteReference.SAD);
-                                return Operation.COMPLETED;
-                            }
-
-                            if (!inventoryFinal.containsItem(ItemReference.LOVE_LETTER)) {
-                                ctx.sendLocalized("commands.marry.loveletter.no_letter", EmoteReference.SAD);
-                                return Operation.COMPLETED;
-                            }
-
-                            //Remove the love letter from the inventory.
-                            inventoryFinal.process(new ItemStack(ItemReference.LOVE_LETTER, -1));
-                            playerFinal.save();
-
-                            //Save the love letter. The content variable is the actual letter, while c is the content of the operation itself.
-                            //Yes it's confusing.
-                            currentMarriageFinal.getData().setLoveLetter(content);
-                            currentMarriageFinal.save();
-
-                            ctx.sendLocalized("commands.marry.loveletter.confirmed", EmoteReference.CORRECT);
-                            return Operation.COMPLETED;
-                        } else if (c.equalsIgnoreCase("no")) {
-                            ctx.sendLocalized("commands.marry.loveletter.scrapped", EmoteReference.CORRECT);
-                            return Operation.COMPLETED;
-                        }
-
+                ButtonOperations.create(message, 120, (e) -> {
+                    // Ignore all messages from anyone that isn't the user we already proposed to. Waiting for confirmation...
+                    if (!e.getUser().getId().equals(proposedToUser.getId())) {
                         return Operation.IGNORED;
-                    });
-                } else {
-                    ctx.sendLocalized("commands.marry.loveletter.no_letter", EmoteReference.SAD);
-                }
-            }
-        });
+                    }
 
-        marryCommand.addSubCommand("house", new SubCommand() {
-            @Override
-            public String description() {
-                return "Buys a house to live in. You need to buy a house in market first. Usage: `~>marry buyhouse <name>`";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                var player = ctx.getPlayer();
-                var playerInventory = player.getInventory();
-                var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
-
-                if (marriage == null) {
-                    ctx.sendLocalized("commands.marry.buyhouse.not_married", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (!playerInventory.containsItem(ItemReference.HOUSE)) {
-                    ctx.sendLocalized("commands.marry.buyhouse.no_house", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (player.getCurrentMoney() < housePrice) {
-                    ctx.sendLocalized("commands.marry.buyhouse.not_enough_money", EmoteReference.ERROR, housePrice);
-                    return;
-                }
-
-                content = content.replace("\n", "").trim();
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.marry.buyhouse.no_name", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (content.length() > 150) {
-                    ctx.sendLocalized("commands.pet.buy.too_long", EmoteReference.ERROR);
-                    return;
-                }
-
-                var finalContent = Utils.HTTP_URL.matcher(content).replaceAll("-url-");
-                ctx.sendLocalized("commands.marry.buyhouse.confirm", EmoteReference.WARNING, housePrice, finalContent);
-                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, (e) -> {
-                    if (!e.getAuthor().equals(ctx.getAuthor()))
+                    String buttonId = e.getButton().getId();
+                    var hook = e.getHook();
+                    if (buttonId == null) {
                         return Operation.IGNORED;
+                    }
 
-                    if (e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
-                        var playerConfirmed = ctx.getPlayer();
-                        var playerInventoryConfirmed = playerConfirmed.getInventory();
-                        var dbUserConfirmed = ctx.getDBUser();
-                        var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
+                    // Lovely~ <3
+                    if (buttonId.equals("yes")) {
+                        // Here we NEED to get the Player,
+                        // User and Marriage objects once again
+                        // to avoid race conditions or changes on those that might have happened on the 120 seconds that this lasted for.
+                        // We need to check if the marriage is empty once again before continuing, also if we have enough rings!
+                        // Else we end up with really annoying to debug bugs, lol.
+                        var proposingPlayer = ctx.getPlayer(proposingUser);
+                        var proposedToPlayer = ctx.getPlayer(proposedToUser);
+                        var proposingUserDB = ctx.getDBUser(proposingUser);
+                        var proposedToUserDB = ctx.getDBUser(proposedToUser);
 
-                        // People like to mess around lol.
-                        if (!playerInventoryConfirmed.containsItem(ItemReference.HOUSE)) {
-                            ctx.sendLocalized("commands.marry.buyhouse.no_house");
+                        final var proposingMarriageFinal = proposingUserDB.getData().getMarriage();
+                        final var proposedToMarriageFinal = proposedToUserDB.getData().getMarriage();
+
+                        if (proposingMarriageFinal != null) {
+                            hook.editOriginal(languageContext.get("commands.marry.already_married").formatted(EmoteReference.ERROR))
+                                    .setActionRows().queue();
                             return Operation.COMPLETED;
                         }
 
-                        if (playerConfirmed.getCurrentMoney() < housePrice) {
-                            ctx.sendLocalized("commands.marry.buyhouse.not_enough_money");
+                        if (proposedToMarriageFinal != null) {
+                            hook.editOriginal(languageContext.get("commands.marry.receipt_married").formatted(EmoteReference.ERROR))
+                                    .setActionRows().queue();
                             return Operation.COMPLETED;
                         }
 
-                        playerInventoryConfirmed.process(new ItemStack(ItemReference.HOUSE, -1));
-                        playerConfirmed.removeMoney(housePrice);
+                        // LAST inventory check and ring assignment is gonna happen using those.
+                        final var proposingPlayerFinalInventory = proposingPlayer.getInventory();
+                        final var proposedToPlayerInventory = proposedToPlayer.getInventory();
 
-                        playerConfirmed.save();
+                        if (proposingPlayerFinalInventory.getAmount(ItemReference.RING) < 2) {
+                            hook.editOriginal(languageContext.get("commands.marry.ring_check_fail").formatted(EmoteReference.ERROR))
+                                    .setActionRows().queue();
+                            return Operation.COMPLETED;
+                        }
 
-                        marriageConfirmed.getData().setHasHouse(true);
-                        marriageConfirmed.getData().setHouseName(finalContent);
-                        marriageConfirmed.save();
+                        // Remove the ring from the proposing player inventory.
+                        proposingPlayerFinalInventory.process(new ItemStack(ItemReference.RING, -1));
 
-                        ctx.sendLocalized("commands.marry.buyhouse.success", EmoteReference.POPPER, housePrice, finalContent);
+                        // Silently scrape the ring if the receipt has more than 5000 rings.
+                        if (proposedToPlayerInventory.getAmount(ItemReference.RING) < 5000) {
+                            proposedToPlayerInventory.process(new ItemStack(ItemReference.RING, 1));
+                        }
+
+                        final long marriageCreationMillis = Instant.now().toEpochMilli();
+                        // Onto the UUID we need to encode userId + timestamp of
+                        // the proposing player and the proposed to player after the acceptance is done.
+                        var marriageId = new UUID(proposingUser.getIdLong(), proposedToUser.getIdLong()).toString();
+
+                        // Make and save the new marriage object.
+                        var actualMarriage = Marriage.of(marriageId, proposingUser, proposedToUser);
+                        actualMarriage.getData().setMarriageCreationMillis(marriageCreationMillis);
+                        actualMarriage.save();
+
+                        // Assign the marriage ID to the respective users and save it.
+                        proposingUserDB.getData().setMarriageId(marriageId);
+                        proposedToUserDB.getData().setMarriageId(marriageId);
+                        proposingUserDB.save();
+                        proposedToUserDB.save();
+
+                        // Send marriage confirmation message.
+                        hook.editOriginal(languageContext.get("commands.marry.accepted").formatted(
+                                EmoteReference.POPPER, e.getUser().getName(), e.getUser().getDiscriminator(),
+                                proposingUser.getName(), proposingUser.getDiscriminator()
+                        )).setActionRows().queue();
+
+                        // Add the badge to the married couple.
+                        proposingPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
+                        proposedToPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
+
+                        // Give a love letter both to the proposing player and the one who was proposed to.
+                        if (proposingPlayerFinalInventory.getAmount(ItemReference.LOVE_LETTER) < 5000) {
+                            proposingPlayerFinalInventory.process(new ItemStack(ItemReference.LOVE_LETTER, 1));
+                        }
+
+                        if (proposedToPlayerInventory.getAmount(ItemReference.LOVE_LETTER) < 5000) {
+                            proposedToPlayerInventory.process(new ItemStack(ItemReference.LOVE_LETTER, 1));
+                        }
+
+                        // Badge assignment saving.
+                        proposingPlayer.save();
+                        proposedToPlayer.save();
                         return Operation.COMPLETED;
                     }
 
-                    if (e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
-                        ctx.sendLocalized("commands.marry.buyhouse.cancel_success", EmoteReference.CORRECT);
+                    if (buttonId.equals("no")) {
+                        hook.editOriginal(languageContext.get("commands.marry.denied").formatted(EmoteReference.CORRECT, proposingUser.getName()))
+                                .setActionRows().queue();
+
+                        // Well, we have a badge for this too. Consolation prize I guess.
+                        final var proposingPlayer = ctx.getPlayer(proposingUser);
+                        if (proposingPlayer.getData().addBadgeIfAbsent(Badge.DENIED)) {
+                            proposingPlayer.saveUpdating();
+                        }
                         return Operation.COMPLETED;
                     }
 
                     return Operation.IGNORED;
-                });
+                }, Button.primary("yes", languageContext.get("buttons.yes")), Button.primary("no", languageContext.get("buttons.no")));
             }
-        }).createSubCommandAlias("house", "buyhouse");
+        }
 
-        marryCommand.addSubCommand("car", new SubCommand() {
+        @Description("Shows the status of your marriage.")
+        public static class Status extends SlashCommand {
             @Override
-            public String description() {
-                return "Buys a car to travel in. You need to buy a ~~cat~~ car in market first. Usage: `~>marry buycar <name>`";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                var player = ctx.getPlayer();
-                var playerInventory = player.getInventory();
-                var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
-
-                if (marriage == null) {
-                    ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (!playerInventory.containsItem(ItemReference.CAR)) {
-                    ctx.sendLocalized("commands.marry.buycar.no_car", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (player.getCurrentMoney() < carPrice) {
-                    ctx.sendLocalized("commands.marry.buycar.not_enough_money", EmoteReference.ERROR, carPrice);
-                    return;
-                }
-
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.marry.buycar.no_name", EmoteReference.ERROR);
-                    return;
-                }
-
-                content = content.replace("\n", "").trim();
-                if (content.length() > 150) {
-                    ctx.sendLocalized("commands.pet.buy.too_long", EmoteReference.ERROR);
-                    return;
-                }
-
-                var finalContent = Utils.HTTP_URL.matcher(content).replaceAll("-url-");
-                ctx.sendLocalized("commands.marry.buycar.confirm", EmoteReference.WARNING, carPrice, content);
-                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, (e) -> {
-                    if (!e.getAuthor().equals(ctx.getAuthor()))
-                        return Operation.IGNORED;
-
-                    if (e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
-                        var playerConfirmed = ctx.getPlayer();
-                        var playerInventoryConfirmed = playerConfirmed.getInventory();
-                        var dbUserConfirmed = ctx.getDBUser();
-                        var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
-
-                        // People like to mess around lol.
-                        if (!playerInventoryConfirmed.containsItem(ItemReference.CAR)) {
-                            ctx.sendLocalized("commands.marry.buycar.no_car");
-                            return Operation.COMPLETED;
-                        }
-
-                        if (playerConfirmed.getCurrentMoney() < carPrice) {
-                            ctx.sendLocalized("commands.marry.buycar.not_enough_money");
-                            return Operation.COMPLETED;
-                        }
-
-                        playerInventoryConfirmed.process(new ItemStack(ItemReference.CAR, -1));
-                        playerConfirmed.removeMoney(carPrice);
-                        playerConfirmed.save();
-
-                        marriageConfirmed.getData().setHasCar(true);
-                        marriageConfirmed.getData().setCarName(finalContent);
-                        marriageConfirmed.save();
-
-                        ctx.sendLocalized("commands.marry.buycar.success", EmoteReference.POPPER, carPrice, finalContent);
-                        return Operation.COMPLETED;
-                    }
-
-                    if (e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
-                        ctx.sendLocalized("commands.marry.buycar.cancel_success", EmoteReference.CORRECT);
-                        return Operation.COMPLETED;
-                    }
-
-                    return Operation.IGNORED;
-                });
-            }
-        }).createSubCommandAlias("car", "buycar");
-
-        IncreasingRateLimiter tzRatelimit = new IncreasingRateLimiter.Builder()
-                .limit(1)
-                .spamTolerance(2)
-                .cooldown(2, TimeUnit.DAYS)
-                .maxCooldown(2, TimeUnit.DAYS)
-                .randomIncrement(false)
-                .premiumAware(false)
-                .pool(MantaroData.getDefaultJedisPool())
-                .prefix("marriage-tz")
-                .build();
-
-        marryCommand.addSubCommand("timezone", new SubCommand() {
-            @Override
-            public String description() {
-                return "Sets the timezone for your marriage. Useful for pet sleep times.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
-
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.marry.timezone.no_content", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (marriage == null) {
-                    ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
-                    return;
-                }
-
-                String timezone = content;
-                if (offsetRegex.matcher(timezone).matches()) // Avoid replacing valid zone IDs / uppercasing them.
-                    timezone = content.toUpperCase().replace("UTC", "GMT");
-
-                if (!Utils.isValidTimeZone(timezone)) {
-                    ctx.sendLocalized("commands.marry.timezone.invalid", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (!RatelimitUtils.ratelimit(tzRatelimit, ctx)) {
-                    return;
-                }
-
-                marriage.getData().setTimezone(timezone);
-                marriage.save();
-                dbUser.save();
-                ctx.sendLocalized("commands.marry.timezone.success", EmoteReference.CORRECT, timezone);
-            }
-        });
-
-        marryCommand.addSubCommand("status", new SubCommand() {
-            @Override
-            public String description() {
-                return "Check your marriage status.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
-                    ctx.sendLocalized("general.missing_embed_permissions");
-                    return;
-                }
-
+            protected void process(SlashContext ctx) {
                 final var author = ctx.getAuthor();
                 final var dbUser = ctx.getDBUser();
                 final var dbUserData = dbUser.getData();
                 final var currentMarriage = dbUserData.getMarriage();
+                final var languageContext = ctx.getLanguageContext();
                 //What status would we have without marriage? Well, we can be unmarried omegalul.
                 if (currentMarriage == null) {
-                    ctx.sendLocalized("commands.marry.status.no_marriage", EmoteReference.SAD);
+                    ctx.reply("commands.marry.status.no_marriage", EmoteReference.SAD);
                     return;
                 }
 
@@ -652,7 +279,7 @@ public class MarryCmd {
                 //Can we find the user this is married to?
                 final var marriedTo = ctx.retrieveUserById(currentMarriage.getOtherPlayer(author.getId()));
                 if (marriedTo == null) {
-                    ctx.sendLocalized("commands.marry.loveletter.cannot_see", EmoteReference.ERROR);
+                    ctx.reply("commands.marry.loveletter.cannot_see", EmoteReference.ERROR);
                     return;
                 }
 
@@ -669,7 +296,7 @@ public class MarryCmd {
                 final var authorName = dbUserData.isPrivateTag() ? author.getName() : author.getAsTag();
                 final var daysMarried = TimeUnit.of(ChronoUnit.MILLIS).toDays(System.currentTimeMillis() - data.getMarriageCreationMillis());
 
-                EmbedBuilder embedBuilder = new EmbedBuilder()
+                var embedBuilder = new EmbedBuilder()
                         .setThumbnail(author.getEffectiveAvatarUrl())
                         .setAuthor(languageContext.get("commands.marry.status.header"), null, author.getEffectiveAvatarUrl())
                         .setColor(ctx.getMemberColor())
@@ -712,107 +339,384 @@ public class MarryCmd {
                     );
                 }
 
-                ctx.send(embedBuilder.build());
+                ctx.reply(embedBuilder.build());
             }
-        }).createSubCommandAlias("status", "stats");
+        }
 
-        cr.registerAlias("marry", "marriage");
-    }
-
-    @Subscribe
-    public void divorce(CommandRegistry cr) {
-        cr.register("divorce", new SimpleCommand(CommandCategory.CURRENCY) {
+        @Description("Creates a marriage letter.")
+        @Options({@Options.Option(type = OptionType.STRING, name = "content", description = "The content of the letter.", required = true)})
+        public static class CreateLetter extends SlashCommand {
             @Override
-            protected void call(Context ctx, String cn, String[] args) {
-                //We, indeed, have no marriage here.
-                if (ctx.getDBUser().getData().getMarriage() == null) {
-                    ctx.sendLocalized("commands.divorce.not_married", EmoteReference.ERROR);
+            protected void process(SlashContext ctx) {
+                final var author = ctx.getAuthor();
+                final var player = ctx.getPlayer();
+                final var playerInventory = player.getInventory();
+                final var dbUser = ctx.getDBUser();
+                final var content = ctx.getOptionAsString("content");
+                final var languageContext = ctx.getLanguageContext();
+
+                //Without one love letter we cannot do much, ya know.
+                if (!playerInventory.containsItem(ItemReference.LOVE_LETTER)) {
+                    ctx.reply("commands.marry.loveletter.no_letter", EmoteReference.SAD);
+                    return;
+                }
+                final var currentMarriage = dbUser.getData().getMarriage();
+
+                // Check if the user is married,
+                // is the proposed player, there's no love letter and
+                // that the love letter is less than 1500 characters long.
+                if (currentMarriage == null) {
+                    ctx.reply("commands.marry.loveletter.no_marriage", EmoteReference.SAD);
                     return;
                 }
 
-                ctx.sendLocalized("commands.divorce.confirm", EmoteReference.WARNING);
-                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 45, interactiveEvent -> {
-                    if (!interactiveEvent.getAuthor().getId().equals(ctx.getAuthor().getId())) {
+                if (currentMarriage.getData().getLoveLetter() != null) {
+                    ctx.reply("commands.marry.loveletter.already_done", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (content.isEmpty()) {
+                    ctx.reply("commands.marry.loveletter.empty", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (content.length() > 500) {
+                    ctx.reply("commands.marry.loveletter.too_long", EmoteReference.ERROR);
+                    return;
+                }
+
+                //Can we find the user this is married to?
+                final var marriedTo = ctx.retrieveUserById(currentMarriage.getOtherPlayer(author.getId()));
+                if (marriedTo == null) {
+                    ctx.reply("commands.marry.loveletter.cannot_see", EmoteReference.ERROR);
+                    return;
+                }
+
+                //Send a confirmation message.
+                var finalContent = Utils.DISCORD_INVITE.matcher(content).replaceAll("-invite link-");
+                finalContent = Utils.DISCORD_INVITE_2.matcher(finalContent).replaceAll("-invite link-");
+
+                var message = ctx.sendResult(String.format(
+                        languageContext.get("commands.marry.loveletter.confirmation"), EmoteReference.TALKING, marriedTo.getName(), marriedTo.getDiscriminator(), finalContent)
+                );
+
+                //Start the operation.
+                ButtonOperations.create(message, 60, e -> {
+                    if (!e.getUser().getId().equals(author.getId())) {
+                        return Operation.IGNORED;
+                    }
+                    
+                    var button = e.getButton().getId();
+                    var hook = e.getHook();
+                    if (button == null) {
                         return Operation.IGNORED;
                     }
 
-                    String content = interactiveEvent.getMessage().getContentRaw();
+                    //Confirmed they want to save this as the permanent love letter.
+                    if (button.equals("yes")) {
+                        final var playerFinal = ctx.getPlayer();
+                        final var inventoryFinal = playerFinal.getInventory();
+                        final var currentMarriageFinal = dbUser.getData().getMarriage();
 
-                    if (content.equalsIgnoreCase("yes")) {
-                        final var divorceeDBUser = ctx.getDBUser();
-                        final var marriage = divorceeDBUser.getData().getMarriage();
-                        if (marriage == null) {
-                            ctx.sendLocalized("commands.divorce.not_married", EmoteReference.ERROR);
+                        //We need to do most of the checks all over again just to make sure nothing important slipped through.
+                        if (currentMarriageFinal == null) {
+                            hook.editOriginal(languageContext.get("commands.marry.loveletter.no_marriage")
+                                    .formatted(EmoteReference.SAD)).setActionRows().queue();
                             return Operation.COMPLETED;
                         }
-                        final var marriageData = marriage.getData();
 
-                        //We do have a marriage, get rid of it.
-                        final var marriedWithDBUser = ctx.getDBUser(marriage.getOtherPlayer(ctx.getAuthor().getId()));
-                        final var marriedWithPlayer = ctx.getPlayer(marriedWithDBUser.getId());
-                        final var divorceePlayer = ctx.getPlayer();
-
-                        //Save the user of the person they were married with.
-                        marriedWithDBUser.getData().setMarriageId(null);
-                        marriedWithDBUser.save();
-
-                        //Save the user of themselves.
-                        divorceeDBUser.getData().setMarriageId(null);
-                        divorceeDBUser.save();
-
-                        //Add the heart broken badge to the user who divorced.
-                        divorceePlayer.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
-
-                        //Add the heart broken badge to the user got dumped.
-                        marriedWithPlayer.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
-
-                        var moneySplit = 0L;
-
-                        if (marriageData.hasHouse()) {
-                            moneySplit += housePrice;
+                        if (!inventoryFinal.containsItem(ItemReference.LOVE_LETTER)) {
+                            hook.editOriginal(languageContext.get("commands.marry.loveletter.no_letter")
+                                    .formatted(EmoteReference.SAD)).setActionRows().queue();
+                            return Operation.COMPLETED;
                         }
 
-                        if (marriageData.hasCar()) {
-                            moneySplit += carPrice;
-                        }
+                        //Remove the love letter from the inventory.
+                        inventoryFinal.process(new ItemStack(ItemReference.LOVE_LETTER, -1));
+                        playerFinal.save();
 
-                        if (marriageData.getPet() != null) {
-                            moneySplit += marriageData.getPet().getType().getCost() * 0.9;
-                        }
+                        //Save the love letter.
+                        currentMarriageFinal.getData().setLoveLetter(content);
+                        currentMarriageFinal.save();
 
-                        //Scrape this marriage.
-                        marriage.delete();
-
-                        // Split the money between the two people.
-                        var portion = moneySplit / 2;
-                        divorceePlayer.addMoney(portion);
-                        marriedWithPlayer.addMoney(portion);
-
-                        divorceePlayer.save();
-                        marriedWithPlayer.save();
-
-                        var extra = "";
-                        if (portion > 1) {
-                            extra = ctx.getLanguageContext().get("commands.divorce.split").formatted(portion);
-                        }
-
-                        ctx.sendLocalized("commands.divorce.success", EmoteReference.CORRECT, extra);
+                        hook.editOriginal(languageContext.get("commands.marry.loveletter.confirmed")
+                                .formatted(EmoteReference.CORRECT))
+                                .setActionRows().queue();
                         return Operation.COMPLETED;
-                    } else if (content.equalsIgnoreCase("no")) {
-                        ctx.sendLocalized("commands.divorce.cancelled", EmoteReference.CORRECT);
+                    } else if (button.equals("no")) {
+                        hook.editOriginal(languageContext.get("commands.marry.loveletter.scrapped")
+                                .formatted(EmoteReference.CORRECT))
+                                .setActionRows().queue();
                         return Operation.COMPLETED;
                     }
 
                     return Operation.IGNORED;
-                });
+                }, Button.primary("yes", languageContext.get("buttons.yes")), Button.primary("no", languageContext.get("buttons.no")));
+            }
+        }
+
+        @Description("Buys a house for the marriage. You need to buy a house in market first.")
+        @Options({@Options.Option(type = OptionType.STRING, name = "name", description = "The name of the house.", required = true)})
+        public static class House extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                var player = ctx.getPlayer();
+                var playerInventory = player.getInventory();
+                var dbUser = ctx.getDBUser();
+                var marriage = dbUser.getData().getMarriage();
+                var name = ctx.getOptionAsString("name");
+                var languageContext = ctx.getLanguageContext();
+
+                if (marriage == null) {
+                    ctx.reply("commands.marry.buyhouse.not_married", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (!playerInventory.containsItem(ItemReference.HOUSE)) {
+                    ctx.reply("commands.marry.buyhouse.no_house", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (player.getCurrentMoney() < housePrice) {
+                    ctx.reply("commands.marry.buyhouse.not_enough_money", EmoteReference.ERROR, housePrice);
+                    return;
+                }
+                
+                if (name.length() > 150) {
+                    ctx.reply("commands.pet.buy.too_long", EmoteReference.ERROR);
+                    return;
+                }
+
+                var finalContent = Utils.HTTP_URL.matcher(name).replaceAll("-url-");
+                var message = ctx.sendResult(String.format(languageContext.get("commands.marry.buyhouse.confirm"), EmoteReference.WARNING, housePrice, finalContent));
+                ButtonOperations.create(message, 30, (e) -> {
+                    if (!e.getUser().equals(ctx.getAuthor()))
+                        return Operation.IGNORED;
+                    
+                    var button = e.getButton().getId();
+                    var hook = e.getHook();
+                    if (button == null) {
+                        return Operation.IGNORED;
+                    }
+
+                    if (button.equals("yes")) {
+                        var playerConfirmed = ctx.getPlayer();
+                        var playerInventoryConfirmed = playerConfirmed.getInventory();
+                        var dbUserConfirmed = ctx.getDBUser();
+                        var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
+
+                        // People like to mess around lol.
+                        if (!playerInventoryConfirmed.containsItem(ItemReference.HOUSE)) {
+                            hook.editOriginal(languageContext.get("commands.marry.buyhouse.no_house")).setActionRows().queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        if (playerConfirmed.getCurrentMoney() < housePrice) {
+                            hook.editOriginal(languageContext.get("commands.marry.buyhouse.not_enough_money")).setActionRows().queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        playerInventoryConfirmed.process(new ItemStack(ItemReference.HOUSE, -1));
+                        playerConfirmed.removeMoney(housePrice);
+
+                        playerConfirmed.save();
+
+                        marriageConfirmed.getData().setHasHouse(true);
+                        marriageConfirmed.getData().setHouseName(finalContent);
+                        marriageConfirmed.save();
+
+                        hook.editOriginal(languageContext.get("commands.marry.buyhouse.success").formatted(EmoteReference.POPPER, housePrice, finalContent))
+                                .setActionRows().queue();
+                        return Operation.COMPLETED;
+                    }
+
+                    if (button.equals("no")) {
+                        hook.editOriginal(languageContext.get("commands.marry.buyhouse.cancel_success").formatted(EmoteReference.CORRECT))
+                                .setActionRows().queue();
+                        return Operation.COMPLETED;
+                    }
+
+                    return Operation.IGNORED;
+                }, Button.primary("yes", languageContext.get("buttons.yes")), Button.primary("no", languageContext.get("buttons.no")));
+            }
+        }
+
+        @Description("Buys a car for the marriage. You need to buy a car in market first.")
+        @Options({@Options.Option(type = OptionType.STRING, name = "name", description = "The name of the car.", required = true)})
+        public static class Car extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                var player = ctx.getPlayer();
+                var playerInventory = player.getInventory();
+                var dbUser = ctx.getDBUser();
+                var marriage = dbUser.getData().getMarriage();
+                var name = ctx.getOptionAsString("name");
+                var languageContext = ctx.getLanguageContext();
+                
+                if (marriage == null) {
+                    ctx.reply("commands.marry.general.not_married", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (!playerInventory.containsItem(ItemReference.CAR)) {
+                    ctx.reply("commands.marry.buycar.no_car", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (player.getCurrentMoney() < carPrice) {
+                    ctx.reply("commands.marry.buycar.not_enough_money", EmoteReference.ERROR, carPrice);
+                    return;
+                }
+
+                if (name.length() > 150) {
+                    ctx.reply("commands.pet.buy.too_long", EmoteReference.ERROR);
+                    return;
+                }
+
+                var finalContent = Utils.HTTP_URL.matcher(name).replaceAll("-url-");
+                var message = ctx.sendResult(String.format(languageContext.get("commands.marry.buycar.confirm"), EmoteReference.WARNING, carPrice, finalContent));
+                ButtonOperations.create(message, 30, (e) -> {
+                    if (!e.getUser().equals(ctx.getAuthor()))
+                        return Operation.IGNORED;
+                    
+                    var button = e.getButton().getId();
+                    var hook = e.getHook();
+                    if (button == null) {
+                        return Operation.IGNORED;
+                    }
+
+                    if (button.equals("yes")) {
+                        var playerConfirmed = ctx.getPlayer();
+                        var playerInventoryConfirmed = playerConfirmed.getInventory();
+                        var dbUserConfirmed = ctx.getDBUser();
+                        var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
+
+                        // People like to mess around lol.
+                        if (!playerInventoryConfirmed.containsItem(ItemReference.CAR)) {
+                            hook.editOriginal(languageContext.get("commands.marry.buycar.no_car")).queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        if (playerConfirmed.getCurrentMoney() < carPrice) {
+                            hook.editOriginal(languageContext.get("commands.marry.buycar.not_enough_money")).queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        playerInventoryConfirmed.process(new ItemStack(ItemReference.CAR, -1));
+                        playerConfirmed.removeMoney(carPrice);
+                        playerConfirmed.save();
+
+                        marriageConfirmed.getData().setHasCar(true);
+                        marriageConfirmed.getData().setCarName(finalContent);
+                        marriageConfirmed.save();
+
+                        hook.editOriginal(languageContext.get("commands.marry.buycar.success").formatted(EmoteReference.POPPER, carPrice, finalContent)).queue();
+                        return Operation.COMPLETED;
+                    }
+
+                    if (button.equals("no")) {
+                        hook.editOriginal(languageContext.get("commands.marry.buycar.cancel_success").formatted(EmoteReference.CORRECT)).queue();
+                        return Operation.COMPLETED;
+                    }
+
+                    return Operation.IGNORED;
+                }, Button.primary("yes", languageContext.get("buttons.yes")), Button.primary("no", languageContext.get("buttons.no")));
+            }
+        }
+    }
+
+    @Description("Basically divorces you from whoever you are married to.")
+    @Category(CommandCategory.CURRENCY)
+    public static class Divorce extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {
+            //We, indeed, have no marriage here.
+            if (ctx.getDBUser().getData().getMarriage() == null) {
+                ctx.reply("commands.divorce.not_married", EmoteReference.ERROR);
+                return;
             }
 
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Basically divorces you from whoever you were married to.")
-                        .build();
-            }
-        });
+            final var languageContext = ctx.getLanguageContext();
+            final var message = ctx.sendResult(String.format(languageContext.get("commands.divorce.confirm"), EmoteReference.WARNING));
+            ButtonOperations.create(message, 45, e -> {
+                if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
+                    return Operation.IGNORED;
+                }
+
+                String buttonId = e.getButton().getId();
+                if (buttonId == null) {
+                    return Operation.IGNORED;
+                }
+
+                var hook = e.getHook();
+                if (buttonId.equals("yes")) {
+                    final var divorceeDBUser = ctx.getDBUser();
+                    final var marriage = divorceeDBUser.getData().getMarriage();
+                    if (marriage == null) {
+                        hook.editOriginal(languageContext.get("commands.divorce.not_married").formatted(EmoteReference.ERROR)).queue();
+                        return Operation.COMPLETED;
+                    }
+
+                    final var marriageData = marriage.getData();
+
+                    // We do have a marriage, get rid of it.
+                    final var marriedWithDBUser = ctx.getDBUser(marriage.getOtherPlayer(ctx.getAuthor().getId()));
+                    final var marriedWithPlayer = ctx.getPlayer(marriedWithDBUser.getId());
+                    final var divorceePlayer = ctx.getPlayer();
+
+                    // Save the user of the person they were married with.
+                    marriedWithDBUser.getData().setMarriageId(null);
+                    marriedWithDBUser.save();
+
+                    // Save the user of themselves.
+                    divorceeDBUser.getData().setMarriageId(null);
+                    divorceeDBUser.save();
+
+                    // Add the heart broken badge to the user who divorced.
+                    divorceePlayer.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
+
+                    // Add the heart broken badge to the user got dumped.
+                    marriedWithPlayer.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
+
+                    var moneySplit = 0L;
+
+                    if (marriageData.hasHouse()) {
+                        moneySplit += housePrice;
+                    }
+
+                    if (marriageData.hasCar()) {
+                        moneySplit += carPrice;
+                    }
+
+                    if (marriageData.getPet() != null) {
+                        moneySplit += marriageData.getPet().getType().getCost() * 0.9;
+                    }
+
+                    // Scrape this marriage.
+                    marriage.delete();
+
+                    // Split the money between the two people.
+                    var portion = moneySplit / 2;
+                    divorceePlayer.addMoney(portion);
+                    marriedWithPlayer.addMoney(portion);
+
+                    divorceePlayer.save();
+                    marriedWithPlayer.save();
+
+                    var extra = "";
+                    if (portion > 1) {
+                        extra = languageContext.get("commands.divorce.split").formatted(portion);
+                    }
+
+                    hook.editOriginal(languageContext.get("commands.divorce.success").formatted(EmoteReference.CORRECT, extra)).queue();
+                    return Operation.COMPLETED;
+                } else if (buttonId.equals("no")) {
+                    ctx.reply("commands.divorce.cancelled", EmoteReference.CORRECT);
+                    return Operation.COMPLETED;
+                }
+
+                return Operation.IGNORED;
+            }, Button.danger("yes", languageContext.get("buttons.yes")), Button.primary("no", languageContext.get("buttons.no")));
+        }
     }
 }

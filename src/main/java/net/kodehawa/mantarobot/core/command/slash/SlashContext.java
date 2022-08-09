@@ -388,7 +388,7 @@ public class SlashContext implements IContext {
             slash.deferReply().queue();
         }
 
-        return slash.getHook().sendMessage(s).complete();
+        return slash.getHook().sendMessage(s).allowedMentions(EnumSet.noneOf(Message.MentionType.class)).complete();
     }
 
     @Override

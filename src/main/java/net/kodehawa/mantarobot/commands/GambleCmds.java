@@ -111,7 +111,7 @@ public class GambleCmds {
                     @Help.Parameter(
                             name = "amount",
                             description = "How much money you want to gamble. This can be either all (all your money), half, quarter, a percentage or an amount of money.\n" +
-                                    "You can also express this on K (10k is 10000, for example). The maximum amount you can gamble at once is" + GAMBLE_MAX_MONEY + "credits."
+                                    "You can also express this on K (10k is 10000, for example). The maximum amount you can gamble at once is " + GAMBLE_MAX_MONEY + "credits."
                     )
             }
     )
