@@ -558,7 +558,7 @@
         "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `/marry status`",
         "too_long": "%1$sMeilės laiškelis per ilgas (daugiausiai leistina 500 simbolių)",
         "cannot_see": "%1$sNegaliu surasti tavo antrosios pusės... Tikriausiai toji pusė nėra viename serveryje su manimi.",
-        "confirmation": "%1$sAr tu *tikrai* nori parašyti šį meilės laiškelį savo antrajai pusei **%2$s#%3$s**? Šis laiškelis išliks VISAM LAIKUI iki tol, kol išsiskirsite. *Laiškelio turinys:* %4$s",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `/marry status`",
         "scrapped": "%1$sTu dar turi laiko pagalvoti, ką rašyti, tad neskubėk!"
       },
@@ -573,11 +573,6 @@
         "house": "House Name",
         "car": "Car Name",
         "pet": "Pet Name (Type)"
-      },
-      "timezone": {
-        "no_content": "%1$sYou need to specify what timezone you want this marriage to track.",
-        "invalid": "%1$sNot a valid timezone or Zone ID.",
-        "success": "%1$sSuccessfully set marriage timezone to %2$s. Pet time will be the same as the marriage timezone."
       },
       "general": {
         "not_married": "%1$sYou're not married."
@@ -606,7 +601,7 @@
       "already_married": "%1$sTu jau turi antrąją pusę, kuo man tai kvepia?",
       "receipt_married": "%1$sŠis narys jau turi antrąją pusę.",
       "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `/buy 2 ring` and then try proposing again <3",
-      "confirmation": "%1$s%2$s, atsakyk naudojant **yes** arba **no** į šį santuokos prašymą iš %3$s\n%4$sŠitai nebegalios po 120 sekundžių.",
+      "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$sTu negali sukurti santykių su mažiau kaip dviem vestuviniais žiedais savo inventoriuje :(",
       "accepted": "%1$s**%2$s#%3$s** priėmė **%4$s#%5$s** santuokos prašymą!",
       "denied": "%1$sAtmestas **%2$s** prašymas",
