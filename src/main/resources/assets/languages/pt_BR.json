@@ -1346,8 +1346,8 @@
     },
     "pet": {
       "explanation": "Pets são companhias úteis na moeda!\nEles te ajudam a ganhar mais dinheiro, mais loot, achar coisas aleatórias no mine, chop e até no fish. Quanto mais level, mais alta serão as recompensas!\nObtendo o pet certo pra suas atividades é importante, então tenha certeza de checar o tipo e as habilidades do pet que você escolher!\nLembre-se de que você precisa alimentar seu pet e dar água pra ele, também deixar ele descansar e recarregar a energia de vez em quando, como um pet real! Você ainda pode acariciar ele :)\nTêm dois tipos: Personal (para você mesmo) e Marriage (compartilhado com seu parceiro e você). Escolha um usando `/pet choice`. O padrão é Personal\nPra mais ajuda, use `/help pet` e `/pet list` pra uma lista de pets.",
-      "no_marriage": "%1$sVocê precisa estar casado(a) pra ter um pet. Por enquanto. Dê uma olhada em `/help marry` e `/pet`",
-      "no_marriage_other": "%1$s%2$s precisa estar casado(a) pra ter um pet. Por enquanto. Dê uma olhada em `/help marry` e `/pet`",
+      "no_marriage": "%1$sYou need to be married to have a marriage pet. For now. Check `/help marry` and `/pet`",
+      "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. For now. Check `/help marry` and `/pet`",
       "status": {
         "no_pet": "%1$sVocê não tem nenhum pet pra checar os status. Cheque `/pet` para uma explicação. (Escolha: %2$s)%3$s",
         "pet_in_other_category": "\n%1$sVocê tem um pet na escola %2$s (%3$s). Você pode trocar com `/pet choice %2$s`",
