@@ -94,7 +94,7 @@
     "buttons": {
       "previous": "Previous",
       "next": "Next",
-      "close": "Close"
+      "close": "إغلاق"
     },
     "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `/shard`) when reporting!",
     "boom_quotes": [
