@@ -75,7 +75,7 @@ public class ImageCmdSlash extends SlashCommand {
         try {
             if (type != null) {
                 var result = weebapi.getRandomImageByType(type, false, null);
-                images = Collections.singletonList(result.getKey());
+                images = Collections.singletonList(result.url());
                 random = images.get(0); //Guaranteed random selection :^).
             } else {
                 if (images.isEmpty()) {

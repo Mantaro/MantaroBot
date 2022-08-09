@@ -107,7 +107,7 @@ public class ImageCmds {
             protected void process(SlashContext ctx) {
                 try {
                     var result = weebAPIRequester.getRandomImageByType("animal_cat", false, null);
-                    var url = result.getKey();
+                    var url = result.url();
                     var embed = new EmbedBuilder()
                             .setAuthor(catResponses[random.nextInt(catResponses.length)].replace("%mention%", ctx.getMember().getEffectiveName()),
                                     null, ctx.getAuthor().getEffectiveAvatarUrl())
@@ -130,7 +130,7 @@ public class ImageCmds {
             protected void process(SlashContext ctx) {
                 try {
                     var result = weebAPIRequester.getRandomImageByType("animal_dog", false, null);
-                    var url = result.getKey();
+                    var url = result.url();
                     var embed = new EmbedBuilder()
                             .setAuthor(dogResponses[random.nextInt(dogResponses.length)].replace("%mention%", ctx.getMember().getEffectiveName()),
                                     null, ctx.getAuthor().getEffectiveAvatarUrl())
@@ -168,14 +168,16 @@ public class ImageCmds {
 
                 try {
                     var result = weebAPIRequester.getRandomImageByType("neko", nsfw, null);
-                    var image = result.getKey();
+                    var image = result.url();
 
                     if (image == null) {
                         ctx.reply("commands.imageboard.catgirl.error");
                         return;
                     }
 
-                    ctx.getEvent().getHook().sendFile(imageCache.getInput(image), "catgirl-" + result.getValue() + ".png").queue();
+                    ctx.getEvent().getHook()
+                            .sendFile(imageCache.getInput(image), "catgirl-%s.%s".formatted(result.id(), result.fileType()))
+                            .queue();
                 } catch (Exception e) {
                     ctx.reply("commands.imageboard.catgirl.error");
                 }

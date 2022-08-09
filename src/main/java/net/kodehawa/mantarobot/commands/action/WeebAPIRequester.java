@@ -16,16 +16,18 @@
 
 package net.kodehawa.mantarobot.commands.action;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import okhttp3.Request;
-import org.apache.commons.lang3.tuple.Pair;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class WeebAPIRequester {
     private static final Logger log = LoggerFactory.getLogger(WeebAPIRequester.class);
@@ -35,7 +37,7 @@ public class WeebAPIRequester {
     private static final String AUTH_HEADER = "Bearer " + MantaroData.config().get().weebapiKey;
     private static final String RANDOM_IMAGE = "/random";
 
-    public Pair<String, String> getRandomImageByType(String type, boolean nsfw, String filetype) {
+    public WeebAPIObject getRandomImageByType(String type, boolean nsfw, String filetype) throws JsonProcessingException {
         HashMap<String, Object> queryParams = new HashMap<>();
         queryParams.put("type", type);
 
@@ -52,11 +54,10 @@ public class WeebAPIRequester {
 
         var req = request(RANDOM_IMAGE, Utils.urlEncodeUTF8(queryParams));
         if (req == null) {
-            return Pair.of(null, null);
+            return null;
         }
 
-        var object = new JSONObject(req);
-        return Pair.of(object.getString("url"), object.getString("id"));
+        return JsonDataManager.fromJson(req, WeebAPIObject.class);
     }
 
     public JSONObject getTypes() {
@@ -104,4 +105,6 @@ public class WeebAPIRequester {
             return null;
         }
     }
+
+    public record WeebAPIObject(String id, String url, String fileType, boolean nsfw, String type, List<String> tags) { }
 }

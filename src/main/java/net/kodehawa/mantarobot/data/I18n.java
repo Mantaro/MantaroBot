@@ -16,13 +16,13 @@
 
 package net.kodehawa.mantarobot.data;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GenericGuildEvent;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.utils.LanguageKeyNotFoundException;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,8 +34,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class I18n {
     private static final Logger log = LoggerFactory.getLogger(MantaroListener.class);
-    private static final ObjectMapper mapper = new ObjectMapper();
-
     public static final List<String> LANGUAGES = new ArrayList<>();
     private static final ThreadLocal<String> ROOT = new ThreadLocal<>();
     private static final Map<String, I18n> LANGUAGE_MAP;
@@ -55,7 +53,7 @@ public class I18n {
             var is = I18n.class.getResourceAsStream("/assets/languages/" + lang);
             try {
                 @SuppressWarnings("unchecked")
-                Map<String, ?> map = (Map<String, ?>) mapper.readValue(is, Map.class);
+                Map<String, ?> map = (Map<String, ?>) JsonDataManager.fromJson(is, Map.class);
 
                 var name = lang.replace(".json", "");
                 m.put(name, new I18n(map, lang));

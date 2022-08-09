@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -88,6 +89,10 @@ public class JsonDataManager<T> implements DataManager<T> {
     }
 
     public static <T> T fromJson(String json, Class<T> clazz) throws JsonProcessingException {
+        return mapper.readValue(json, clazz);
+    }
+
+    public static <T> T fromJson(InputStream json, Class<T> clazz) throws IOException {
         return mapper.readValue(json, clazz);
     }
 

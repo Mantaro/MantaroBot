@@ -128,7 +128,7 @@ public class ImageActionSlash extends SlashCommand {
         try {
             if (type != null) {
                 var result = weebapi.getRandomImageByType(type, false, "gif");
-                var image = result.getKey();
+                var image = result.url();
 
                 if (image == null) {
                     ctx.reply("commands.action.error_retrieving", EmoteReference.SAD);

@@ -112,7 +112,7 @@ public class ImageActionCmd extends NoArgsCommand {
         try {
             if (type != null) {
                 var result = weebapi.getRandomImageByType(type, false, "gif");
-                var image = result.getKey();
+                var image = result.url();
 
                 if (image == null) {
                     ctx.sendLocalized("commands.action.error_retrieving", EmoteReference.SAD);
