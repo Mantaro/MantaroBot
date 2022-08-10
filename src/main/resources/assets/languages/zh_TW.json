@@ -802,6 +802,7 @@
       "own_locked_notice": "%1$s你目前無法傳送金錢。",
       "receipt_overflow_notice": "無法傳送金錢給這位用戶。",
       "no_money_notice": "%1$s你無法傳送你不擁有的錢。",
+      "too_little": "%1$sMinimum transfer amount is 100 credits.",
       "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$s這位用戶已經擁有太多錢了...",
       "success": "%1$s已成功傳送 **%2$,d** *(減去8%%稅後為 %3$,d)* 給 **%4$s**。",
