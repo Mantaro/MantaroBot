@@ -802,6 +802,7 @@
       "own_locked_notice": "%1$sAnda tidak boleh memindahkan wang buat masa ini.",
       "receipt_overflow_notice": "Tidak dapat memindahkan wang kepada pemain ini.",
       "no_money_notice": "%1$sAnda tidak boleh memindahkan wang yang anda tidak mempunyai.",
+      "too_little": "%1$sMinimum transfer amount is 100 credits.",
       "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sPengguna ini sudah mempunyai terlalu banyak wang...",
       "success": "%1$s**%2$,d** *(%3$,d selepas 8%% cukai)* berjaya dipindahkan kepada **%4$s**.",
