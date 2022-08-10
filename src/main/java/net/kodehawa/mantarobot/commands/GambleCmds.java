@@ -309,6 +309,11 @@ public class GambleCmds {
                 return;
             }
 
+            if (coinAmount < 1) {
+                ctx.sendLocalized("commands.slots.errors.no_amount", EmoteReference.SAD);
+                return;
+            }
+
             coinSelect = true;
         }
 

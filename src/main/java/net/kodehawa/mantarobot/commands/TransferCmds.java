@@ -123,6 +123,11 @@ public class TransferCmds {
             }
 
             var toSend = ctx.getOptionAsLong("money", 1);
+            if (toSend < 100) {
+                ctx.reply("commands.transfer.too_little", EmoteReference.ERROR);
+                return;
+            }
+
             // Keep? Slash should take care of it.
             if (toSend > TRANSFER_LIMIT) {
                 ctx.reply("commands.transfer.over_transfer_limit", EmoteReference.ERROR, TRANSFER_LIMIT);
@@ -248,7 +253,7 @@ public class TransferCmds {
                 return;
             }
 
-            var amount = (int) Math.abs(ctx.getOptionAsLong("amount", 1));
+            var amount = (int) Math.max(1, Math.abs(ctx.getOptionAsLong("amount", 1)));
             if (amount == 1) {
                 if (player.getInventory().containsItem(item)) {
                     if (item.isHidden()) {

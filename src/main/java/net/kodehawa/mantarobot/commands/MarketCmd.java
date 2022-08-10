@@ -576,6 +576,11 @@ public class MarketCmd {
     }
     
     private static void dump(IContext ctx, String itemName, int itemNumber, IncreasingRateLimiter rateLimiter) {
+        if (itemNumber < 1) {
+            ctx.sendLocalized("commands.market.dump.invalid", EmoteReference.ERROR);
+            return;
+        }
+
         var item = ItemHelper.fromAnyNoId(itemName, ctx.getLanguageContext()).orElse(null);
 
         if (item == null) {
@@ -610,6 +615,11 @@ public class MarketCmd {
     }
 
     private static void sell(IContext ctx, String item, int amount, IncreasingRateLimiter rateLimiter) {
+        if (amount < 1) {
+            ctx.sendLocalized("commands.market.sell.invalid", EmoteReference.ERROR);
+            return;
+        }
+
         var player = ctx.getPlayer();
         var playerInventory = player.getInventory();
 
@@ -661,6 +671,11 @@ public class MarketCmd {
     private static void buy(IContext ctx, String itemName, int itemNumber, IncreasingRateLimiter rateLimiter) {
         var languageContext = ctx.getLanguageContext();
         var player = ctx.getPlayer();
+        if (itemNumber < 1) {
+            ctx.sendLocalized("commands.market.buy.invalid", EmoteReference.ERROR);
+            return;
+        }
+
         final var itemToBuy = ItemHelper.fromAnyNoId(itemName.replace("\"", ""), ctx.getLanguageContext())
                 .orElse(null);
 
