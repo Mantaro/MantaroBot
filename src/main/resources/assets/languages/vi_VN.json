@@ -802,6 +802,7 @@
       "own_locked_notice": "%1$sBạn hiện không thể chuyển tiền.",
       "receipt_overflow_notice": "Không thể chuyển tiền cho người này.",
       "no_money_notice": "%1$sBạn không thể chuyển số tiền mà bạn không có.",
+      "too_little": "%1$sMinimum transfer amount is 100 credits.",
       "receipt_locked_notice": "%1$sNgười đó hiện không thể nhận tiền.",
       "receipt_over_limit": "%1$sNgười này có quá nhiều tiền...",
       "success": "%1$sĐã chuyển thành công **%2$,d** *(%3$,d sau khi trừ 8%% thuế)* tới **%4$s**.",
