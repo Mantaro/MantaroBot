@@ -802,6 +802,7 @@
       "own_locked_notice": "%1$sلايمكنك تحويل مال الآن.",
       "receipt_overflow_notice": "لايمكن إرسال مال الى هذا العضو.",
       "no_money_notice": "%1$sلايمكنك تحويل مال لاتملكه.",
+      "too_little": "%1$sMinimum transfer amount is 100 credits.",
       "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sهذا العضو بالفعل لديه الكثير من المال....",
       "success": "%1$sتم تحويل **%2$,d** *(%3$,d بعد 8%% ضريبة)* الى **%4$s** بنجاح.",
