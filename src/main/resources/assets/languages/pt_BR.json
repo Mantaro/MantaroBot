@@ -24,13 +24,20 @@
     "description": "Descrição",
     "options": "Opções",
     "find_members_failure": "%1$Nenhum membro encontrado com seus critérios de busca :(",
+    "find_roles_failure": "%1$sDidn't find any roles that match your search criteria :(",
+    "too_many_roles": "%1$sToo many roles found, maybe refine your search?\n**Roles found:** %2$s",
+    "role_select": "Select the Role:",
+    "find_channels_failure": "%1$sCannot find any text channel with that name :(",
+    "find_voice_channels_failure": "%1$sCannot find any voice channel with that name :(",
+    "too_many_channels": "%1$sToo many channels found, maybe refine your search?\n**Channels found:** %2$s",
+    "channel_select": "Select the Channel:",
     "too_many_members": "%1$sMuitos membros encontrados, talvez melhore sua pesquisa? (ex. use nome#discriminador)\n**Membros encontrados:** %2$s",
     "too_many_mentions": "%1$sPor favor mencione apenas um membro pra procurar.",
     "query_too_small": "%1$sSeu critério de pesquisa é muito pequeno. Certifique-se de que você está procurando por pelo menos 4 personagens. Se o nome de usuário for muito pequeno, é melhor você usar o nome de usuário#discriminador ou o id do usuário.",
     "dust": "Há apenas poeira aqui.",
     "invalid_syntax": "Sintaxe inválido.",
     "birthday": "**Novos aniversário pra hoje, deseje a eles um Feliz Aniversário!**",
-    "member_lookup_failure": "%1%sNão foi encontrado um membro com esse nome :(",
+    "member_lookup_failure": "%1$sNão foi encontrado um membro com esse nome :(",
     "item_lookup": {
       "no_item_emoji": "Não há um item associado a esse emoji.",
       "no_item_name": "Não há um item associado a este nome.",
@@ -138,8 +145,8 @@
   "commands": {
     "slash": {
       "title": "Transição para os comandos de barra",
-      "description_alias": "%1$s**O comando que você está tentando usar foi movido para os Comandos de Barra só.** Tente usar com / sendo o prefixo. **Esse comando era uma variação**. Tente usar o comando original.\n\nComandos de Barra são os novos tipos de comandos de acordo com as Diretrizes do Discord.\n**Os comandos que ainda funcionam com prefixos vão eventualmente ser apenas de barra.**\nComandos variáveis foram removidos dos Comandos de Barra pois não tem espaço suficiente para adicioná-los (o Discord nos permite adicionar só 100 comandos).",
-      "description": "%1$s**O comando que você está tentando usar foi movido para os Comandos de Barra só.** Tente usar com / sendo o prefixo.\n\nComandos de Barra são os novos tipos de comandos de acordo com as Diretrizes do Discord.\n**Os comandos que ainda funcionam com prefixos vão eventualmente ser apenas de barra.**\nComandos variáveis foram removidos dos Comandos de Barra pois não tem espaço suficiente para adicioná-los (o Discord nos permite adicionar só 100 comandos).",
+      "description_alias": "%1$s**O comando que você está tentando usar foi movido para os Comandos de Barra só.** Tente usar com / sendo o prefixo. **Esse comando era uma variação**. Tente usar o comando original. (`/%2$s`).\n\nComandos de Barra são os novos tipos de comandos de acordo com as Diretrizes do Discord.\n**Os comandos que ainda funcionam com prefixos vão eventualmente ser apenas de barra.**\nComandos variáveis foram removidos dos Comandos de Barra pois não tem espaço suficiente para adicioná-los (o Discord nos permite adicionar só 100 comandos).",
+      "description": "%1$s**O comando que você está tentando usar foi movido para os Comandos de Barra só.** Tente usar com / sendo o prefixo (`/%2$s`).\n\nComandos de Barra são os novos tipos de comandos de acordo com as Diretrizes do Discord.\n**Os comandos que ainda funcionam com prefixos vão eventualmente ser apenas de barra.**\nComandos variáveis foram removidos dos Comandos de Barra pois não tem espaço suficiente para adicioná-los (o Discord nos permite adicionar só 100 comandos).",
       "description_image": "Pra usar um comando de barra pra alguns comandos de imagens, tente usar o comando com `/image` como prefixo ao invés do que você está usando. Por exemplo, `~>catgirl` vira `/image catgirl`. Os comando de imageboard não precisam disso.\n\nSe você não achar o comando de barra, re-adicione o bot usando o link de convite em https://add.mantaro.site",
       "description_2": "Pra usar um comando de barra, tente usar o comando com `/` como prefixo ao invés do que você está usando. Por exemplo, `~ping` vira `/ping` (e precione tab)\n\nSe você não achar os comando de barra, re-adicione o bot usando o link de convite em https://add.mantaro.site"
     },
@@ -177,36 +184,13 @@
     "softban": {
       "no_permission": "%1$sVocê não pode dar soft-ban: Você precisa da permissão de `Banir Membros`.",
       "no_permission_self": "%1$sDesculpa! Eu não tenho permissão para banir membros neste servidor.",
-      "no_users": "%1$sVocê tem que me dizer um usuário para soft-banir.",
-      "hierarchy_conflict": "%1$sVocê não pode soft-banir um usuário que tem uma hierarquia maior que a sua",
+      "no_users": "%1$sYou need to give me a user to soft-ban.",
+      "hierarchy_conflict": "%1$sYou cannot soft-ban a user in a higher hierarchy than you",
       "yourself_note": "%1$sPor que você está tentando soft-banir si mesmo?",
       "self_hierarchy_conflict": "%1$sNão é possível soft-banir o membro: %2$s, ele tem uma hierarquia maior ou igual a mim!",
       "success": "%1$s%2$s. **(%3$s foi soft-banido)**",
       "error": "%1$sErro soft-banindo [%2$s]: (Sem permisão fornecida: %3$s)",
       "unknown_error": "%1$sErro desconhecido enquanto soft-bania %2$s: *(Erro? %3$s: %4$s)*"
-    },
-    "ban": {
-      "no_permission": "%1$sVocê não pode banir: Você precisa da permissão de `Banir Usuários`.",
-      "no_users": "%1$sVocê tem que me dar um usuário para banir.",
-      "no_permission_self": "%1$sDesculpa! Eu não tenho permissão para banir membros neste servidor.",
-      "hierarchy_conflict": "%1$sVocê não banir um usuário que tem hierarquia maior que a sua no servidor! Boa tentativa %2$s",
-      "yourself_note": "%1$sPor que você está tentando banir si mesmo, bobo?",
-      "self_hierarchy_conflict": "%1$sNão é possível banir o membro: %2$s, ele tem uma hierarquia maior ou igual a mim!",
-      "success": "%1$s%2$s (%3$s foi banido)",
-      "success_multiple": "%1$s%2$s (%3$s pessoas foram banidas)",
-      "error": "%1$sErro banindo %2$s: (Eu preciso da permissão %3$s)",
-      "unknown_error": "%1$sHein, Eu encontrei um erro desconhecido enquanto bania %2$s"
-    },
-    "kick": {
-      "no_permission": "%1$sVocê não pode kickar: Você precisa da permissão de `Expulsar Membros`.",
-      "no_users": "%1$sVocê tem que me dar um usuário para expulsar.",
-      "no_permission_self": "%1$sDesculpa! Eu não tenho permissão para expulsar membros neste servidor.",
-      "hierarchy_conflict": "%1$sVocê não pode expulsar um usuário que tem uma hierarquia maior que a sua",
-      "yourself_note": "%1$sPor que você está tentando expulsar si mesmo, bobo?",
-      "self_hierarchy_conflict": "%1$sNão é possível expulsar membro: %2$s, ele tem uma hierarquia maior ou igual a mim!",
-      "success": "%1$s%2$s (%3$s foi expulso)",
-      "error": "%1$sErro expulsando %2$s: (Sem permissão fornecida: %3$s)",
-      "unknown_error": "%1$sErro desconhecido ao tentar expulsar %2$s"
     },
     "music_usage": {
       "1": "*Como usar música na Mantaro?*",
@@ -218,12 +202,12 @@
       "7": "- Pra **pausar ou despausar** apenas use `/pause`",
       "8": "- Pra **parar a música desvincular o player** use `/stop`",
       "9": "- Pra **embaralhar a fila** apenas use `/shuffle`",
-      "10": "- E por último, pra **repetir a música** use `/repeat` e pra **repetir a fila** use `/repeatqueue`. Usar `/repeat`` enquanto a repetição está ativa, irá desativá-la, o mesmo acontece com `/repeatqueue`\n",
+      "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue by setting the queue boolean to true on the command.\n",
       "11": "Pra mais informações por favor use `/help <command name>` (sem o <> e troque o nome do comando pelo nome do comando que você quer)",
       "12": "Aprecie sua música e obrigado por usar a Mantaro!"
     },
     "lang": {
-      "info": "%1$sVocê pode mudar a língua do servidor (se aplicável) usando `/ language set <language code>`. Suas preferência pessoas de língua podem ser alteradas usando `/profile lang <language code>`.\n**Línguas disponíveis:** %2$s`\nSe a sua língua não está aqui e você quer ajudar, sinta-se livre pra se juntar ao servidor de suporte e se ter esforço de traduzir!"
+      "info": "%1$sVocê pode mudar a língua do servidor (se aplicado) usando `~>opts language set <código da língua>`. Suas preferências pessoais de idioma podem ser alteradas usando `/profile lang <código da língua>`.\n**Línguas disponíveis:** `%2$s`\nSe sua língua não está aqui e você quer ajudar, sinta-se livre para se juntar no servidor de suporte e se juntar na tradução com seu esforço!"
     },
     "season": {
       "info": "Uma *temporada* é um período de tempo, de geralmente 6 meses em que jogadores competem pelas 10 melhores posições no dinheiro ou no ranking de reputação. Os vencedores irão ganhar insígnias e recompensas baseado no desempenho sazonal.\nIsso é para ter um quadro mais competitivo (antes, o dinheiro era praticamente obsoleto) e para deixar o jogo um pouco mais divertido. \nVocê pode acessar as coisas sazonais usando `-season`. Comandos como profile, mine, fish e balance exigirá isso, enquanto games, loot, daily e reputation irão dar dinheiro/representação para seu perfil global e sazonal.",
@@ -512,28 +496,25 @@
       "locked_command": "%1$sVocê não pode editar ou remover esse comando enquanto estiver bloqueado, por favor use `/custom unlockcommand <command name>` pra desbloquear."
     },
     "mute": {
-      "no_permissions": "%1$sVocê precisa ter permissão para banir ou expulsar membros para silenciar.",
-      "no_mute_role": "%1$sO cargo de silenciado não está definido nesse servidor, você pode definir usando `~>opts muterole set <cargo>`",
-      "null_mute_role": "%1$sO cargo anterior de silenciado não existe mais nesse servidor.",
-      "no_users": "%1$sVocê tem que me dar um usuário para silenciar.",
-      "no_manage_roles": "%1$sEu não tenho permissão para administrar cargos nesse servidor.",
+      "no_permissions": "%1$sYou need to have permission to Moderate Members in order to time out a user.",
+      "no_users": "%1$sYou need to give me a user to time out.",
+      "no_moderate_members": "%1$sEu não tenho permissão pra administrar castigos nesse servidor.",
       "time_not_specified": "%1$sVocê queria um tempo mas não especificou quanto.",
-      "time_not_specified_generic": "%1$sVocê não especificou o tempo. Por exemplo, se você quer silenciar por 20 minutos você tem que fazer `/mute 20m @menção o motivo vai aqui`, por exemplo.",
-      "negative_time_notice": "%1$sVocê não pode silenciar alguém por tempo negativo. A menos que você possa dobrar o espaço-tempo que aí assim.",
-      "default_time_too_long": "%1$sO tempo atual de silenciado é muito longo (Máximo: 10 dias)...",
+      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute user 20m reason goes here`, for example.",
+      "default_time_too_long": "%1$sThe default time out timeout length is too long (Maximum: 10 days)...",
       "time_too_little": "%1$sO tamanho do tempo de mute especificado é menor que 10 segundos.\nVocê tem certeza de que usou o formato certo? Para 20 minutos, use 20m, para 1 hora, use 1h, ou qualquer combinação de ambos (1h45m) por exemplo.",
-      "time_too_long": "%1$sO tempo de silenciado especificado é muito longo (Máximo: 10 dias)...",
-      "already_muted": "%1$sEsse usuário já tem um cargo de silenciado. Por favor use `/unmute` pra reativá-lo.",
-      "self_hierarchy_error": "%1$sEu não posso atribuir o cargo de silenciado para esse usuário pois ele tem uma hierarquia maior que eu, ou o cargo está em uma hierarquia maior!",
-      "user_hierarchy_error": "%1$sEu não posso atribuir o cargo de silenciado para esse usuário pois ele tem uma hierarquia maior que eu, ou o cargo está em uma hierarquia maior que você!",
-      "success": "%1$sCargo de silenciado adicionado no **%2$s** por %3$s",
-      "success_reason": "%1$sCargo de silenciado adicionado no **%2$s** por %3$s pela seguinte razão: %4$s"
+      "time_too_long": "%1$sThe specified timeout length is too long (Maximum: 10 days)...",
+      "already_muted": "%1$sThis user is already timed out. Please do `/unmute` to un-mute them.",
+      "self_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
+      "user_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
+      "success": "%1$sSuccessfully timed out **%2$s** for %3$s",
+      "success_reason": "%1$sSuccessfully timed out **%2$s** for %3$s because of the following reason: %4$s"
     },
     "unmute": {
-      "no_permissions": "%1$sVocê precisa ter permissão para banir ou expulsar membros para reativar o silenciado!",
-      "no_mentions": "%1$sVocê precisa mencionar pelo menos um usuário para reativar.",
-      "success": "%1$sCargo de silenciado removido do **%2$s**",
-      "no_role_assigned": "%1$sEsse usuário não tem o cargo de silenciado atribuído a ele."
+      "no_permissions": "%1$sYou need to have permission to Moderate Members to remove a time out!",
+      "no_mentions": "%1$sYou need to tell me who to remove the time out from.",
+      "success": "%1$sSuccessfully removed time out from **%2$s**",
+      "not_muted": "%1$sThis user doesn't seem to be timed out."
     },
     "ping": {
       "display": [
@@ -577,7 +558,7 @@
         "already_done": "%1$sEsse casameto já tem uma carta de amor atribuída. Cheque ela usando `/marry status`",
         "too_long": "%1$sA carta de amor é muito longa (máximo de 500 caracteres)",
         "cannot_see": "%1$sEu não consegui achar o usuário que você se casou... Provavelmente não está em nenhum servidor comigo.",
-        "confirmation": "%1$sVocê tem *certeza* que quer escrever essa carta para o seu casamento com **%2$s#%3$s**? Isso é PERMANENTE até o casamento acabar. *Conteúdo da carta:* %4$s",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$sA carta de amor foi entregue com sucesso ao(a) seu(a) amado(a)! Cheque ela usando `/marry status`",
         "scrapped": "%1$sVocê ainda tem tempo para pensar no que escrever, não precisa se apressar!"
       },
@@ -592,11 +573,6 @@
         "house": "Nome da Casa",
         "car": "Nome do Carro",
         "pet": "Nome do Pet (Tipo)"
-      },
-      "timezone": {
-        "no_content": "%1$sVocê precisa especificar que fuso horário você quer colocar nessa track de casamento.",
-        "invalid": "%1$sNão é um fuso horário válido ou Zone ID.",
-        "success": "%1$sDefinido com sucesso o fuso horário do casamento para %2$s. O tempo do pet será mesmo que o fuso horário do casamento."
       },
       "general": {
         "not_married": "%1$sVocê não é casado."
@@ -625,7 +601,7 @@
       "already_married": "%1$sVocê já é casado.",
       "receipt_married": "%1$sEsse usuário já é casado.",
       "no_ring": "%1$sVocê não pode propor sem dois anéis de casamento! Você pode comprá-los usando `/buy 2 ring` e tente propor novamente <3",
-      "confirmation": "%1$s%2$s, digite **yes** ou **no** para a proposta de casamento de %3$s\n%4$sIsso esgota em 120 segundos.",
+      "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$sVocê não pode se casar com menos de dois anéis em seu inventário :(",
       "accepted": "%1$s**%2$s#%3$s** aceitou a proposta de **%4$s#%5$s**!",
       "denied": "%1$sProposta de **%2$s** negada",
@@ -716,7 +692,7 @@
     },
     "inventory": {
       "bot_notice": "%1$sAqui, bots não tem inventário. Bem, as vezes você pode desejar que eles tivessem um mas seria só um `/dump`",
-      "brief": "**Coleção de itens de %1$s** %2$s\n\n*Para uma versão detalha, use `/inventory`. Aprecie seu dia!`",
+      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `/inventory show`. Enjoy your day!*",
       "calculate": "%1$s%2$s irá ganhar **%3$d créditos** se todos os seus itens forem vendidos.",
       "header": "Inventário de %1$s",
       "format": "%1$sPreço:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
@@ -753,7 +729,7 @@
     },
     "market": {
       "dump": {
-        "replacement": "Você pode usar `~>dump` agora. Por exemplo, ao invés de ~>market dump floppy` você pode fazer `~>dump floppy`. Por favor use o novo comando ao invés disso... Eu me pergunto o que aconteceu com todos os disquetes que vocês jogaram fora?",
+        "replacement": "You can use `/dump` now. For example, instead of `~>market dump floppy` you can do `/dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
         "no_item": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer descartar.",
         "invalid": "%1$sNão é um número válido de itens para descartar.",
         "non_existent": "%1$sNão é possível descartar um item inexistente! Se você estiver perdido, pode tentar digitar o nome abreviado ou colocar o nome entre aspas.",
@@ -769,7 +745,7 @@
         "success": "%1$sO valor no mercado de %2$s**%3$s** é %4$s créditos para comprar e você pode ganhar %5$s créditos se você vender."
       },
       "sell": {
-        "replacement": "Você pode usar `~>sell` agora. Por exemplo, ao invés de `~>market sell pick` você pode usar `~>sell pick`. Por favor use o novo comando ao invés disso.",
+        "replacement": "You can use `/sell` now. For example, instead of `~>market sell pick` you can do `/sell pick`. Please use the new command instead.",
         "no_item": "%1$sVocê tem que especificar o item que quer vender.",
         "no_item_amount": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer vender.",
         "invalid": "%1$sNão é um número válido de itens para vender.",
@@ -785,7 +761,7 @@
         "success": "%1$sVocê vendeu %2$,d **%3$s** e ganhou %4$,d créditos!"
       },
       "buy": {
-        "replacement": "Você pode usar `~>buy` agora. Por exemplo, ao invés de `~>market buy pick` você pode usar `~>buy pick`. Por favor use o novo comando ao invés disso.",
+        "replacement": "You can use `/buy` now. For example, instead of `~>market buy pick` you can do `/buy pick`. Please use the new command instead.",
         "no_item": "%1$sVocê tem que especificar o item que quer comprar.",
         "no_item_amount": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer comprar.",
         "invalid": "%1$sNão é um número válido de itens para comprar.",
@@ -826,6 +802,7 @@
       "own_locked_notice": "%1$sVocê não pode transferir dinheiro agora.",
       "receipt_overflow_notice": "Não é possível enviar dinheiro para este jogador.",
       "no_money_notice": "%1$sVocê não pode transferir dinheiro que não tem.",
+      "too_little": "%1$sMinimum transfer amount is 100 credits.",
       "receipt_locked_notice": "%1$sEsse usuário não pode receber dinheiro agora.",
       "receipt_over_limit": "%1$sEsse usuário já tem muito dinheiro...",
       "success": "%1$sTransferido **%2$d** *(%3$d depois de 8%% taxa)* para **%4$s** com sucesso.",
@@ -1365,8 +1342,8 @@
     },
     "pet": {
       "explanation": "Pets são companhias úteis na moeda!\nEles te ajudam a ganhar mais dinheiro, mais loot, achar coisas aleatórias no mine, chop e até no fish. Quanto mais level, mais alta serão as recompensas!\nObtendo o pet certo pra suas atividades é importante, então tenha certeza de checar o tipo e as habilidades do pet que você escolher!\nLembre-se de que você precisa alimentar seu pet e dar água pra ele, também deixar ele descansar e recarregar a energia de vez em quando, como um pet real! Você ainda pode acariciar ele :)\nTêm dois tipos: Personal (para você mesmo) e Marriage (compartilhado com seu parceiro e você). Escolha um usando `/pet choice`. O padrão é Personal\nPra mais ajuda, use `/help pet` e `/pet list` pra uma lista de pets.",
-      "no_marriage": "%1$sVocê precisa estar casado(a) pra ter um pet. Por enquanto. Dê uma olhada em `/help marry` e `/pet`",
-      "no_marriage_other": "%1$s%2$s precisa estar casado(a) pra ter um pet. Por enquanto. Dê uma olhada em `/help marry` e `/pet`",
+      "no_marriage": "%1$sYou need to be married to have a marriage pet. For now. Check `/help marry` and `/pet`",
+      "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. For now. Check `/help marry` and `/pet`",
       "status": {
         "no_pet": "%1$sVocê não tem nenhum pet pra checar os status. Cheque `/pet` para uma explicação. (Escolha: %2$s)%3$s",
         "pet_in_other_category": "\n%1$sVocê tem um pet na escola %2$s (%3$s). Você pode trocar com `/pet choice %2$s`",
@@ -1609,7 +1586,8 @@
     "help": {
       "title": "Ajuda da Mantaro",
       "base_category": "Lista de comandos da categoria %1$s. Para um guia detalhado, por favor cheque a [wiki] (https://github.com/Mantaro/MantaroBot/wiki). [Guia da Moeda] (https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Lista completa de comandos**. Para um guia detalhado, por favor cheque nossa [wiki] (https://github.com/Mantaro/MantaroBot/wiki).\nLembre-se de que você pode ter mais informações de um comando usando `/help <name of command>\n",
+      "base_prefix": "**Lista completa de comandos por prefixos**. Para um guia detalhado, por favor chece nossa [wiki] (https://github.com/Mantaro/MantaroBot/wiki).\nLembre-se de que você pode ter mais informações sobre um comando usando `~>help <name of command>` pra ver todos os comandos use `/help` e pressione Tab. **Tenha em mente de que muitos comandos agora só podem ser usados com barra, isso só mostra os comandos por prefixos.**\n",
+      "base": "**Lista completa de comandos por barra**. Para um guia detalhado, por favor cheque nosa [wiki] (https://github.com/Mantaro/MantaroBot/wiki).\nLembre-se de que você pode ter mais informações de um comando usando `/help <name of command>`\n",
       "support": "Se você ainda estiver perdido você pode entrar em nosso [servidor de suporte](https://support.mantaro.site). Você pode me seguir também no [Twitter](https://twitter.com/mantarodiscord) para updates.\n",
       "patreon": "[Nós precisamos da sua ajuda para manter Mantaro online! Clique aqui para mais informações.]\n(https://www.patreon.com/mantaro)",
       "disabled_commands": "Apenas mostrando comandos não-desativados. Total de comandos desativados: %1$s",
@@ -1625,7 +1603,8 @@
       "help_header": "Ajuda do comando %s",
       "options": "Opções",
       "usage": "Uso",
-      "optional": "(Isso é opcional)"
+      "optional": "(Isso é opcional)",
+      "subcommand_help": "Nota: pra receber ajuda sobre um subcomando você pode usar o nome do subcomando junto com o nome do comando, por exemplo pra receber ajuda de `/cast item` você pode usar `/help cast item`. Isso funciona em todos os subcomandos, desde que tenham algum tipo de ajuda."
     },
     "repair": {
       "no_item": "%1$sVocê não especificou nenhum item para consertar. Se você acha que tem o item correto, tente usar o nome completo.",
@@ -1685,8 +1664,7 @@
       "bot_notice": "%1$sBots não podem ter dinheiro.",
       "external_balance": "O saldo de %1$s é de **$%2$,d créditos.**",
       "own_balance": "Seu saldo é de **$%1$,d créditos.**%2$s",
-      "new_player": "\nOlá! Vejo que você possa ser novo aqui. Este guia vai te ajudar muito: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. Isso só será mostrado uma vez.",
-      "reset_notice": "\nSe você quiser saber o que aconteceu com seu dinheiro, leia\n<https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nVocê não perdeu seu dinheiro antigo completamente, ainda é visível no `/profile` :heart:\nSeu inventário foi mantido, por que não vende algumas coisas pra ganhar dinheiro?\nIsso só será mostrado uma vez. Leia o link da página para mais detalhes."
+      "new_player": "\nOlá! Vejo que você possa ser novo aqui. Este guia vai te ajudar muito: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. Isso só será mostrado uma vez."
     },
     "daily": {
       "check": "%1$sVocê poderá reivindicar seu diário em: **%2$s.**",
@@ -1860,6 +1838,16 @@
         "desc": "Descrição",
         "upgrade": "Procurando por upgrades?",
         "upgrade_content": "Clique [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) para mais informações de como melhorar suas ferramentas!"
+      },
+      "attribute": {
+        "tier": "Wrench Tier (to craft):",
+        "tier_raw": "Wrench Tier:",
+        "increase": "Money Increase:",
+        "diamond_drop": "Diamond Drop Range:",
+        "gem_luck": "Sparkle / Gem Luck",
+        "buff": "Item Buff:",
+        "reduction": "Multiplier reduction:",
+        "multiple_cast": "Can cast multiple:"
       },
       "success_tiered": "**Informação do Item** %2$s **%3$s** (%4$s)\n%1$s**Tipo:** %5$s\n%1$s**Descrição:** *%6$s*\n%1$s**Tier:** %7$s\n%1$s**Preço de Compra:** %8$s %9$s\n%1$s**Preço de Venda:** %10$s %11$s",
       "success": "**Informação do Item** %2$s **%3$s** (%4$s)\n%1$s**Tipo:** %5$s\n%1$s**Descrição:** *%6$s*\n%1$s**Preço de Compra:** %7$s %8$s\n%1$s**Preço de Venda:** %9$s %10$s"
@@ -2036,7 +2024,7 @@
       "autorole": "%1$sVocê não pode definir o cargo autorole como um cargo de aniversário! Lembre-se que o cargo de aniversário é um cargo que é atribuído para a pessoa quando o aniversário dela vem, e é removido quando o dia passa.",
       "warning": "%1$sLembre-se que o cargo de aniversário é um cargo que é atribuído para a pessoa quando o aniversário dela vem, e é removido quando o dia passa.Se você tem alguma dúvida sobre como configurá-lo, você pode sempre entrar no nosso servidor de suporte e perguntar. Você também pode checar `~>opts help birthday enable` por exemplo.",
       "warning_1": "Isso é como o atribuídor de aniversário funciona: Atribui um cargo temporário à pessoa que está fazendo aniversário, e remove quando o dia do aniversário passa. **Isso significa que todos com o cargo de aniversário terão o cargo removido no dia em que o aniversário passar**. Por favor, tome cuidado ao escolher o cargo a ser usado, comoum erro de configuração pode fazer coisas ruins acontecerem (realmente)!",
-      "warning_2": "O cargo *tem que ser recém-criado ou um cargo que você não usa em mais ninguém*. NÃO PODE ser um cargo que os usuários já possuem. Os usuários precisarão permitir que este servidor anuncie seu aniversário usando `/birthday allowserver` senão o aniversário não aparecerá! Leia <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> para mais informações.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Birthday-101> for more info.",
       "warning_3": "Além disso, o cache de aniversário (o que é usado para armazená-los) só é atualizado a cada 23 horas. Significa que se você definir o seu aniversário hoje para amanhã para testar este anunciamento **não** funciona.",
       "warning_4": "Digite **yes** se você concordar em definir o cargo %2$s como cargo de aniversário, e **no** para cancelar. Esse tempo esgota em 45 segundos.",
       "success": "%1$sRegistro de aniversário ativado neste servidor com parâmetros -> Canal: `%2$s (%3$s)` e cargo: `%4$s (%5$s)`",
@@ -2198,18 +2186,11 @@
     "defaultmutetimeout_reset": {
       "success": "%1$sTempo resetado com sucesso."
     },
-    "muterole_unbind": {
-      "success": "%1$sResetado corretamente o cargo de mute."
-    },
-    "muterole_set": {
-      "no_role": "%1$sVocê tem que especificar o cargo que você quer usar como cargo de mute. Se o nome tiver espaços, tente colocá-lo entre aspas.",
-      "success": "%1$sDefinido cargo de mute para **%2$s**"
-    },
     "reset:all": {
       "success": "%1$sResetado corretamente suas opções!"
     },
     "birthday_test": {
-      "no_user": "%1$sVocê tem que mencionar um usuário para testar o atribuídor. Apenas mencione ele.",
+      "no_user": "%1$sYou need to specify a user to test the assigner with. Just mention them.",
       "no_bd_channel": "%1$sVocê não tem nenhum canal de aniversário definido!",
       "no_bd_role": "%1$sVocê não especificou o cargo definido para o aniversariante! Certifique-se de criar um novo cargo para isso.",
       "no_talk_permission": "%1$sO bot não pode falar no canal de aniversário. Cheque as permissões do canal.",
@@ -2268,16 +2249,6 @@
       "no_message": "%1$sVocê precisa especificar qual mensagem você quer que eu diga quando alguém deletar uma mensagem!",
       "success": "%1$sMensagem de mensagem deletada definida para: `%2$s`",
       "reset_success": "%1$sRegistros de mensagem deletada resetado."
-    },
-    "logs_banmessage": {
-      "no_message": "%1$sVocê precisa especificar qual mensagem você quer que eu diga quando alguém for banido!",
-      "success": "%1$sMensagem de banimento definida para: `%2$s`",
-      "reset_success": "%1$sRegistros de mensagens de banimentos resetado."
-    },
-    "logs_unbanmessage": {
-      "no_message": "%1$sVocê precisa especificar qual mensagem você quer que eu diga quando alguém for desbanido!",
-      "success": "%1$sMensagem de desbanimento definida para: `%2$s`",
-      "reset_success": "%1$sRegistros de mensagem de desbanimento resetado."
     },
     "djrole_set": {
       "no_role": "%1$sVocê tem que me da um cargo para usar como o cargo de DJ.",

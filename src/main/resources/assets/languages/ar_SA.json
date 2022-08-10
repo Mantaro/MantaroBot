@@ -24,13 +24,20 @@
     "description": "الوصف",
     "options": "الخيارات",
     "find_members_failure": "%1$sلم يتم العثور على أي عضو بمعايير البحث الخاصة بك :(",
+    "find_roles_failure": "%1$sDidn't find any roles that match your search criteria :(",
+    "too_many_roles": "%1$sToo many roles found, maybe refine your search?\n**Roles found:** %2$s",
+    "role_select": "Select the Role:",
+    "find_channels_failure": "%1$sCannot find any text channel with that name :(",
+    "find_voice_channels_failure": "%1$sCannot find any voice channel with that name :(",
+    "too_many_channels": "%1$sToo many channels found, maybe refine your search?\n**Channels found:** %2$s",
+    "channel_select": "Select the Channel:",
     "too_many_members": "name#discriminator تم العثور على العديد من الأعضاء, ربما يمكنك حصر بحثك, استخدم%1$s\n**الاعضاء الذي تم العثور عليهم:**%2$s",
     "too_many_mentions": "%1$sيُرجى القيام بمنشن شخص واحد فقط.",
     "query_too_small": "%1$sااستعلام البحث الخاص بك صغير جدًا. تأكد من أنك تبحث عن 4 احرف على الاقل. اذا كان اسم المستخدم قصير جداً, من الأفضل لك استخدام username#discriminator او ايدي المستخدم.",
     "dust": "هناك غبار فقط هنا.",
     "invalid_syntax": "بناء جملة غير صالح.",
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
-    "member_lookup_failure": "%1%sCannot find any member with that name :(",
+    "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "item_lookup": {
       "no_item_emoji": "لا يوجد عنصر مرتبط بهذا الرمز.",
       "no_item_name": "لا يوجد عنصر مرتبط بهذا الاسم.",
@@ -87,7 +94,7 @@
     "buttons": {
       "previous": "Previous",
       "next": "Next",
-      "close": "Close"
+      "close": "إغلاق"
     },
     "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `/shard`) when reporting!",
     "boom_quotes": [
@@ -138,8 +145,8 @@
   "commands": {
     "slash": {
       "title": "Slash commands transition",
-      "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command.\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix.\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
+      "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
+      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site",
       "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site"
     },
@@ -177,36 +184,13 @@
     "softban": {
       "no_permission": "%1$sYou can't soft-ban: You need the `Ban Users` permission.",
       "no_permission_self": "%1$sأعتذر :( ليس لدي صلاحية حظر الأعضاء في هذا السيرفر.",
-      "no_users": "%1$sأحتاج أن تعطيني عضو لحظره الحظر الناعم.",
-      "hierarchy_conflict": "%1$sلايمكنك إستخدام الحظر الناعم على هذا العضو لانه اعلى منك رتبة.",
+      "no_users": "%1$sYou need to give me a user to soft-ban.",
+      "hierarchy_conflict": "%1$sYou cannot soft-ban a user in a higher hierarchy than you",
       "yourself_note": "%1$sلماذا تحاول حظر نفسك حظر ناعم؟",
       "self_hierarchy_conflict": "%1$sلايمكن حظر العضو حظر ناعم: %2$s, فهو اعلى رتبة مما أنا عليه!",
       "success": "%1$s%2$s. **(%3$s حصل على حظر ناعم)**",
       "error": "%1$soخطأ في الحظر الناعم [%2$s]: (لم أحصل على صلاحية: %3$s)",
       "unknown_error": "%1$sبينما يتم الحظر الناعم حصل خطأ غير معروف %2$s: *(خطأ؟ %3$s: %4$s)*"
-    },
-    "ban": {
-      "no_permission": "%1$sلايمكنك الحظر: تحتاج الى صلاحية `حظر الأعضاء`.",
-      "no_users": "%1$sأحتاج أن تعطيني عضو لحظره من السيرفر.",
-      "no_permission_self": "%1$sأعتذر :( ليس لدي صلاحية حظر الأعضاء في هذا السيرفر.",
-      "hierarchy_conflict": "%1$sلايمكنك حظر عضو أعلى منك رتبة في السيرفر! محاولة جيدة %2$s",
-      "yourself_note": "%1$sلماذا تحاول حظر نفسك؟",
-      "self_hierarchy_conflict": "%1$sلايمكن حظر العضو: %2$s, فرتبته اعلى او تساوي رتبتي أنا!",
-      "success": "%1$s%2$s (%3$s تعرضو للحظر)",
-      "success_multiple": "%1$s%2$s (%3$s تعرضو للحظر)",
-      "error": "%1$sحدث خطأ إثناء محاولة حظر %2$s: (أحتاج إلى الصلاحية %3$s)",
-      "unknown_error": "%1$sهاه!, لقد واجهت خطأ غير معروف اثناء حظر %2$s"
-    },
-    "kick": {
-      "no_permission": "%1$sYou can't kick: You need the `Kick Members` permission.",
-      "no_users": "%1$sأحتاج أن تعطيني عضو لطرده.",
-      "no_permission_self": "%1$sأعتذر! ليس لدي صلاحية طرد الأعضاء في هذا السيرفر.",
-      "hierarchy_conflict": "%1$sلا يمكنك طرد عضو أعلى منك رتبة في السيرفر",
-      "yourself_note": "%1$sلماذا تحاول طرد نفسك؟",
-      "self_hierarchy_conflict": "%1$sلا يمكنني طرد العضو: %2$s, فهو اعلى رتبة مما أنا عليه!",
-      "success": "%1$s%2$s ( تم طرد %3$s)",
-      "error": "%1$s حصل خطأ اثناء طرد%2$s: ( أحتاج إلى الصلاحية: %3$s)",
-      "unknown_error": "%1$sحصل خطأ غير معروف في اثناء محاولة طرد %2$s"
     },
     "music_usage": {
       "1": "*كيف يمكنني إستخدام الموسيقى في مانتارو؟*",
@@ -218,12 +202,12 @@
       "7": "- To **pause or unpause** just use `/pause`",
       "8": "- To **stop the music and unbind the player** use `/stop`",
       "9": "- To **shuffle the queue** just use `/shuffle`",
-      "10": "- And lastly, to **repeat a song** use `/repeat` and to **repeat a queue** use `/repeatqueue`. Using `/repeat` while repeat is on, turns it off, the same is true for `/repeatqueue`\n",
+      "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue by setting the queue boolean to true on the command.\n",
       "11": "For more info please use `/help <command name>` (without the <> and replace command name with the name of the command you want)",
       "12": "استمتع بموسيقاك, وشكراً لإستخدامك مانتارو!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `/ language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
+      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "season": {
       "info": "*الموسم* هو فتره من الزمن, عادة ما تكون 6 أشهر. حيث يتنافس اللاعبون على أفضل 10 مراكز على لوحة الصدارة من ناحية المال أو نقاط السمعة ( الريب). سيحصل الفائزون على شارات وجوائز استنادًا إلى أدائهم الموسمي وهذا لجعل الروح التنافسيه أكثر (من قبل, كان المال لا فائدة له) ولجعل اللعبه اكثر متعة.\nيمكنك الوصول للأوامر الموسمية عن طريق استخدام `-season`. الأوامر مثل profile, mine, fish and balance سوف تتطلب ذلك, بينما games, loot, daily و reputation سيعطي مال/نقاط سمعة ( ريب) لكل من ملفك الشخصي العالمي والموسمي.",
@@ -512,28 +496,25 @@
       "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `/custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
-      "no_permissions": "%1$sيجب أن لديك صلاحية الطرد أو الحظر لإسكات عضو.",
-      "no_mute_role": "%1$sأمر الإسكات غير معين في هذا السيرفر، يمكنك اعادة تعيينه عن طريق استخدام الأمر `~>opts muterole set <role>`",
-      "null_mute_role": "%1$sالإسكات الذي تم تكوينه مسبقًا على هذا الخادم غير موجود الآن.",
-      "no_users": "%1$sأحتاج أن تعطيني عضو لإسكاته.",
-      "no_manage_roles": "%1$sلا أملك الصلاحية لتعديل الرتب في هذا الخادم ",
+      "no_permissions": "%1$sYou need to have permission to Moderate Members in order to time out a user.",
+      "no_users": "%1$sYou need to give me a user to time out.",
+      "no_moderate_members": "%1$sI don't have permissions to administrate timeouts on this server.",
       "time_not_specified": "%1$sأنت تريد وقت ولكن لم تحدد المدة.",
-      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute 20m @mention reason goes here`, for example.",
-      "negative_time_notice": "%1$sلا يمكنك إسكات شخص للوقت السلبي. الا اذا كنت تستطيع ثني وقت الفضاء.. هذا هو. ",
-      "default_time_too_long": "%1$sمدة الإسكات الافتراضي طويله جداً (الحد الاقصى: 10 أيام)...",
+      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute user 20m reason goes here`, for example.",
+      "default_time_too_long": "%1$sThe default time out timeout length is too long (Maximum: 10 days)...",
       "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
-      "time_too_long": "%1$sمدة الإسكات المُحدد طويله جداً (الحد الاقصى: 10 أيام)...",
-      "already_muted": "%1$sThis user already has a mute role assigned. Please do `/unmute` to un-mute them.",
-      "self_hierarchy_error": "%1$sلايمكنني إسكات هذا العضو لانه اعلى مما أنا عليه. أو يملك رتبة اعلى مما أنا عليه. ",
-      "user_hierarchy_error": "%1$sلايمكنني إسكات هذا العضو لانه اعلى مما أنا عليه. أو يملك رتبة اعلى مما أنت عليه. ",
-      "success": "%1$sAdded mute role to **%2$s** for %3$s",
-      "success_reason": "%1$sAdded mute role to **%2$s** for %3$s because of the following reason: %4$s"
+      "time_too_long": "%1$sThe specified timeout length is too long (Maximum: 10 days)...",
+      "already_muted": "%1$sThis user is already timed out. Please do `/unmute` to un-mute them.",
+      "self_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
+      "user_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
+      "success": "%1$sSuccessfully timed out **%2$s** for %3$s",
+      "success_reason": "%1$sSuccessfully timed out **%2$s** for %3$s because of the following reason: %4$s"
     },
     "unmute": {
-      "no_permissions": "%1$sيجب أن لديك صلاحية الطرد أو الحظر لفك إسكات عضو.",
-      "no_mentions": "%1$sيجب ان تذكر شخص واحد على الأقل لفك إسكاته.",
-      "success": "%1$sإزالة رتبة الإسكات من **%2$s**",
-      "no_role_assigned": "%1$sهذا العضو ليس لديه رتبة الإسكات. "
+      "no_permissions": "%1$sYou need to have permission to Moderate Members to remove a time out!",
+      "no_mentions": "%1$sYou need to tell me who to remove the time out from.",
+      "success": "%1$sSuccessfully removed time out from **%2$s**",
+      "not_muted": "%1$sThis user doesn't seem to be timed out."
     },
     "ping": {
       "display": [
@@ -577,7 +558,7 @@
         "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `/marry status`",
         "too_long": "%1$sرسالة الحب طويلة جداََ (يمكنك كتابة 500 حرف فقط)",
         "cannot_see": "%1$sلا يمكنني العثور على المستخدم الذي تزوجته... ربما لا يوجد في أي سيرفر معي.",
-        "confirmation": "%1$sهل أنت متأكد أنك تريد كتابة هذه الرسالة لزواجك **%2$s#%3$s**؟ هذا دائم بينما يستمر الزواج.*Letter content:* %4$s",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `/marry status`",
         "scrapped": "%1$sلا يزال لديك وقت للتفكير في ما تكتبه ، ولا داعي للاندفاع!"
       },
@@ -592,11 +573,6 @@
         "house": "اسم المنزل",
         "car": "اسم السيارة",
         "pet": "اسم الحيوان الأليف (النوع)"
-      },
-      "timezone": {
-        "no_content": "%1$sيجب ان تحدد المنطقة الزمنية التي تريد أن يتتبعها هذا الزواج.",
-        "invalid": "%1$sليس منطقة زمنية صالحة او ID منطقة خاطئ.",
-        "success": "%1$sSuccessfully set marriage timezone to %2$s. Pet time will be the same as the marriage timezone."
       },
       "general": {
         "not_married": "%1$sانت لست متزوج."
@@ -625,7 +601,7 @@
       "already_married": "%1$sانت بالفعل متزوج.",
       "receipt_married": "%1$sهذا العضو متزوج بالفعل! ",
       "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `/buy 2 ring` and then try proposing again <3",
-      "confirmation": "%1$s%2$s قم بكتابة **yes** أو **no** لإقتراح الزواج من %3$s\n%4$sالمهلة 120 ثانيه فقط لتُقرر :)! ",
+      "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$sلايمكنك الزواج مع أقل من خاتمين في مخزونك :( ",
       "accepted": "%1$s**%2$s#%3$s** قبل الزواج من **%4$s#%5$s**!",
       "denied": "%1$sرفض اقتراح الزواج من **%2$s**",
@@ -716,7 +692,7 @@
     },
     "inventory": {
       "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `/dump`",
-      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `/inventory`. Enjoy your day!*",
+      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `/inventory show`. Enjoy your day!*",
       "calculate": "%1$s%2$s ستحصل على **%3$,d مال** إذا تم بيع جميع أغراضك. ",
       "header": "مخزون %1$s",
       "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
@@ -753,7 +729,7 @@
     },
     "market": {
       "dump": {
-        "replacement": "You can use `~>dump` now. For example, instead of `~>market dump floppy` you can do `~>dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
+        "replacement": "You can use `/dump` now. For example, instead of `~>market dump floppy` you can do `/dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
         "no_item": "%1$sتحتاج أن تحدد الكمية من هذا الغرض (اذا كان مجرد واحد، لاتحتاج لتحديد الكمية) وأيضاً الغرض الذي سترميه. ",
         "invalid": "%1$sرقم غير صحيح للأغراض المراد رميها.",
         "non_existent": "%1$sلايمكن رمي غرض غير موجود! إذا كنت ضائع، يمكنك كتابة الإسم المُختصر أو ضعه في \"اقتباسات\" ",
@@ -769,7 +745,7 @@
         "success": "%1$sالقيمة السوقية ل %2$s**%3$s** هي %4$s دولار لشرائه ويمكنك الحصول على %5$s دولار إذا بعته.  "
       },
       "sell": {
-        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
+        "replacement": "You can use `/sell` now. For example, instead of `~>market sell pick` you can do `/sell pick`. Please use the new command instead.",
         "no_item": "%1$sYou need to specify the item to sell.",
         "no_item_amount": "%1$sتحتاج أن تحدد الكمية من هذا الغرض (اذا كان مجرد واحد، لاتحتاج لتحديد الكمية) وأيضاً الغرض الذي تبيعه. ",
         "invalid": "%1$sرقم غير صحيح للأغراض المراد بيعها.",
@@ -785,7 +761,7 @@
         "success": "%1$sلقد بعت %2$,d **%3$s** وحصلت على %4$,d مال!"
       },
       "buy": {
-        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
+        "replacement": "You can use `/buy` now. For example, instead of `~>market buy pick` you can do `/buy pick`. Please use the new command instead.",
         "no_item": "%1$sYou need to specify the item to buy.",
         "no_item_amount": "%1$sتحتاج أن تحدد الكمية من هذا الغرض (اذا كان مجرد واحد، لاتحتاج لتحديد الكمية) وأيضاً الغرض الذي تريد شرائه. ",
         "invalid": "%1$sرقم غير صحيح للأغراض المراد شرائها.",
@@ -826,6 +802,7 @@
       "own_locked_notice": "%1$sلايمكنك تحويل مال الآن.",
       "receipt_overflow_notice": "لايمكن إرسال مال الى هذا العضو.",
       "no_money_notice": "%1$sلايمكنك تحويل مال لاتملكه.",
+      "too_little": "%1$sMinimum transfer amount is 100 credits.",
       "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sهذا العضو بالفعل لديه الكثير من المال....",
       "success": "%1$sتم تحويل **%2$,d** *(%3$,d بعد 8%% ضريبة)* الى **%4$s** بنجاح.",
@@ -1365,8 +1342,8 @@
     },
     "pet": {
       "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nThere's two types: Personal (for yourself) and Marriage (shared between your partner and you). Choose one with `/pet choice`. The default is Personal.\nFor more help, use `/help pet` and `/pet list` for a list of pets.",
-      "no_marriage": "%1$sYou need to be married to have a pet. For now. Check `/help marry` and `/pet`",
-      "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now. Check `/help marry` and `/pet`",
+      "no_marriage": "%1$sYou need to be married to have a marriage pet. For now. Check `/help marry` and `/pet`",
+      "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. For now. Check `/help marry` and `/pet`",
       "status": {
         "no_pet": "%1$sYou don't have any pets to check the status of. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
         "pet_in_other_category": "\n%1$sYou have a pet on the %2$s choice (%3$s). You can switch to it with `/pet choice %2$s`",
@@ -1609,7 +1586,8 @@
     "help": {
       "title": "مساعدة Mantaro",
       "base_category": "قائمة الأوامر للفئة %1$s. للحصول على دليل مفصل ، يرجى مراجعة [wiki] (https://github.com/Mantaro/MantaroBot/wiki). [دليل التداول] (https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
+      "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
+      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
       "support": "If you're still lost you can join the [support server](https://support.mantaro.site). You can also follow me on [Twitter](https://twitter.com/mantarodiscord) for updates.\n",
       "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "إظهار الأوامر الغير مُعطلة فقط. إجمالي الأوامر المُعطلة: %1$s",
@@ -1625,7 +1603,8 @@
       "help_header": "Command help for %s",
       "options": "Options",
       "usage": "Usage",
-      "optional": "(This is optional)"
+      "optional": "(This is optional)",
+      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help cast item`.\nThis goes for all subcommands, as long as they have some sort of help."
     },
     "repair": {
       "no_item": "%1$sYou didn't specify any item to repair. If you think you have the correct item, try using the full name.",
@@ -1685,8 +1664,7 @@
       "bot_notice": "%1$sلا يمكن أن تمتلك البوتات المال.",
       "external_balance": "رصيد %1$s هو **%2.**",
       "own_balance": "رصيدك هو **%1$,d$ كريدت**%2$s",
-      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
-      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `/profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
+      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once."
     },
     "daily": {
       "check": "%1$sسوف تتمكن من الحصول على المكآفأة اليومية الخاصة بك في: **%2$s.**",
@@ -1860,6 +1838,16 @@
         "desc": "Description",
         "upgrade": "Looking to upgrade?",
         "upgrade_content": "Click [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
+      },
+      "attribute": {
+        "tier": "Wrench Tier (to craft):",
+        "tier_raw": "Wrench Tier:",
+        "increase": "Money Increase:",
+        "diamond_drop": "Diamond Drop Range:",
+        "gem_luck": "Sparkle / Gem Luck",
+        "buff": "Item Buff:",
+        "reduction": "Multiplier reduction:",
+        "multiple_cast": "Can cast multiple:"
       },
       "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s\n%1$s**Buy Price:** %8$s %9$s\n%1$s**Sell Price:** %10$s %11$s",
       "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Buy Price:** %7$s %8$s\n%1$s**Sell Price:** %9$s %10$s"
@@ -2036,7 +2024,7 @@
       "autorole": "%1$sلا يمكنك تعيين الرتبة التلقائية كرتبة ل اعياد الميلاد! تذكر ان رتبة عيد الميلاد يتم اعطائها للشخص عندما يحين عيد ميلاده، ومن ثم ازالتها عندما ينتهي يوم ميلاده.",
       "warning": "%1$sتذكر ان رتبة عيد الميلاد يتم اعطائها للشخص عندما يحين عيد ميلاده، ومن ثم يتم ازالتها عندما ينتهي يوم ميلاده. اذا كان لديك اي مشكلة حول كيفية عملها او تفعيلها، يمكنك دائماً دخول سيرفر الدعم الفني الخاص بنا والسؤال. يمكنك ايضاً مراجعة الأمر\n`~>opts help birthday enable` للحصول على مثال.",
       "warning_1": "هذا بسبب طريقة عمل نظام اعياد الميلاد حيث يتم اعطاء رتبة عيد الميلاد المُخصصة للشخص عندما يحين عيد ميلاده ومن ثم يتم سحبها عندما ينتهي يوم ميلاده. ** هذا يعني ان الجميع سيتم ازالة الرتبة منهم عندما ينتهي يوم ميلادهم**. يُرجى اخد الحذر عندما تقوم باختيار رتبة عيد الميلاد لأن الاختيارات الخاطئة قد تؤدي الى حصول اشياء سيئة (حقاً)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Birthday-101> for more info.",
       "warning_3": "بالإضافة إلى ذلك ، يتم تحديث ذاكرة التخزين المؤقت لعيد الميلاد (ما يتم استخدامه لتخزين بيانات اعياد الميلاد) كل 23 ساعة فقط. بمعنى ان كان عيد ميلادك غداً وقمت بتحديد ذلك اليوم لن يظهر اسمك عندما يتم الإعلان عن أعياد الميلاد.",
       "warning_4": "قم بكتابة**yes** اذا كنت توافق على تعيين الرتبة %2$s ك رتبة عيد ميلاد, و**no**. لديك 45 ثانية للاختيار.",
       "success": "%1$sتم تفعيل تسجيل اعياد الميلاد في هذا السيرفر للمعطيات الآتية: \n روم:`%2$s (%3$s)` والرتبة: `%4$s (%5$s)`",
@@ -2198,18 +2186,11 @@
     "defaultmutetimeout_reset": {
       "success": "%1$sتمت إعادة تعيين المهلة بنجاح."
     },
-    "muterole_unbind": {
-      "success": "%1$sCorrectly reset the mute role."
-    },
-    "muterole_set": {
-      "no_role": "%1$sYou need to specify the role you want to use as the mute role. If the name has spaces try wrapping it in quotes.",
-      "success": "%1$sتم وضع رتبة الاسكات الى **%2$s**"
-    },
     "reset:all": {
       "success": "%1$sتم اعادة ضبط الاعدادات الخاصة بك!"
     },
     "birthday_test": {
-      "no_user": "%1$sYou need to specify an user to test the assigner with. Just mention them.",
+      "no_user": "%1$sYou need to specify a user to test the assigner with. Just mention them.",
       "no_bd_channel": "%1$sليس لديك اي روم تم تعيينه لأعياد الميلاد!",
       "no_bd_role": "%1$s ليس لديك اي رتبة مُعدة لاعداد اعياد الميلاد! تأكد من إنشاء رتبة جديد لذلك.",
       "no_talk_permission": "%1$sلا يستطيع البوت التحدث في روم عيد الميلاد. تحقق من صلاحيات الروم.",
@@ -2268,16 +2249,6 @@
       "no_message": "%1$sيجب ان تحدد الرسالة التي تريد مني قولها عندما يحذف شخص ما رسالة!",
       "success": "%1$sتم تغيير رسالة لوق حذف الرسائل الى: `%2$s`",
       "reset_success": "%1$sتم اعادة ضبط رسالة لوق حذف الرسائل."
-    },
-    "logs_banmessage": {
-      "no_message": "%1$sيجب ان تحدد الرسالة التي تريد مني ارسالها عندما يتم حظر عضو من السيرفر!",
-      "success": "%1$sتم تغيير رسالة لوق الحظر الى: `%2$s`",
-      "reset_success": "%1$sتم اعادة ضبط رسالة لوق الحظر."
-    },
-    "logs_unbanmessage": {
-      "no_message": "%1$sيجب ان تحدد الرسالة التي تريد مني ارسالها عندما يتم فك حظر عضو من السيرفر!",
-      "success": "%1$sتم تغيير رسالة فك حظر الى: `%2$s`",
-      "reset_success": "%1$sتم اعادة ضبط رسالة لوق فك الحظر."
     },
     "djrole_set": {
       "no_role": "%1$sيجب ان تحدد الرتبة التي تريد تعيينها ك رتبة DJ.",

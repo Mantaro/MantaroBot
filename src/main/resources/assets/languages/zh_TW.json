@@ -24,13 +24,20 @@
     "description": "說明",
     "options": "選項",
     "find_members_failure": "%1$s找不到符合你搜索條件的成員 :(",
+    "find_roles_failure": "%1$sDidn't find any roles that match your search criteria :(",
+    "too_many_roles": "%1$sToo many roles found, maybe refine your search?\n**Roles found:** %2$s",
+    "role_select": "Select the Role:",
+    "find_channels_failure": "%1$sCannot find any text channel with that name :(",
+    "find_voice_channels_failure": "%1$sCannot find any voice channel with that name :(",
+    "too_many_channels": "%1$sToo many channels found, maybe refine your search?\n**Channels found:** %2$s",
+    "channel_select": "Select the Channel:",
     "too_many_members": "%1$s找到太多成員了，試著改進你的搜索條件？(舉例：名稱#tag)\n**找到成員：** %2$s",
     "too_many_mentions": "%1$s查詢用戶時只能提及一個人。",
     "query_too_small": "%1$s搜尋關鍵字過少。請至少輸入四個字母。如果用戶名稱過短，使用 名稱#tag 或用戶ID會是更好的選擇。",
     "dust": "這裡只有塵土。",
     "invalid_syntax": "無效語法。",
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
-    "member_lookup_failure": "%1%sCannot find any member with that name :(",
+    "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "item_lookup": {
       "no_item_emoji": "沒有與此表情符號相關的物品。",
       "no_item_name": "沒有與此表情符號相關的名字。",
@@ -138,8 +145,8 @@
   "commands": {
     "slash": {
       "title": "Slash commands transition",
-      "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command.\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix.\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
+      "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
+      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site",
       "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site"
     },
@@ -177,36 +184,13 @@
     "softban": {
       "no_permission": "%1$sYou can't soft-ban: You need the `Ban Users` permission.",
       "no_permission_self": "%1$s對不起! 我沒有驅逐成員的權限。",
-      "no_users": "%1$s別忘了告知我你想soft ban(軟驅逐)的成員。",
-      "hierarchy_conflict": "%1$s你無法soft ban(軟驅逐)一個身分組比你高的用戶",
+      "no_users": "%1$sYou need to give me a user to soft-ban.",
+      "hierarchy_conflict": "%1$sYou cannot soft-ban a user in a higher hierarchy than you",
       "yourself_note": "%1$s你怎麼會想試著soft ban(軟驅逐)你自己？",
       "self_hierarchy_conflict": "%1$s無法soft ban(軟驅逐)成員：%2$s，他的身分組跟我一樣或比我高!",
       "success": "%1$s%2$s. **%3$s 被soft ban(軟驅逐)了**",
       "error": "%1$ssoft ban(軟驅逐)錯誤 [%2$s]：(沒有權限：%3$s)",
       "unknown_error": "%1$s在嘗試soft ban(軟驅逐)的時候發生未知錯誤 %2$s：*(Error? %3$s：%4$s)*"
-    },
-    "ban": {
-      "no_permission": "%1$s你無法驅逐成員：你需要*驅逐成員*權限。",
-      "no_users": "%1$s你需要給我你想驅逐的成員。",
-      "no_permission_self": "%1$s抱歉! 我沒有驅逐成員的權限。",
-      "hierarchy_conflict": "%1$s你無法驅逐一個身分組比你高的成員! 想的美 %2$s",
-      "yourself_note": "%1$s為什麼你會想要驅逐你自己？真愚蠢。",
-      "self_hierarchy_conflict": "%1$s無法驅逐成員：%2$s，他的身分組跟我一樣或比我高!",
-      "success": "%1$s%2$s (%3$s 被驅逐了)",
-      "success_multiple": "%1$s%2$s (%3$s 都被驅逐了)",
-      "error": "%1$s驅逐錯誤 %2$s：(我需要%3$s權限)",
-      "unknown_error": "%1$s在驅逐 %2$s 時發生未知錯誤"
-    },
-    "kick": {
-      "no_permission": "%1$sYou can't kick: You need the `Kick Members` permission.",
-      "no_users": "%1$s你需要給我你想踢出的成員。",
-      "no_permission_self": "%1$s抱歉! 我沒有踢出成員的權限。",
-      "hierarchy_conflict": "%1$s你無法踢出一個身分組比你高的用戶",
-      "yourself_note": "%1$s為什麼你會想要踢出你自己？真愚蠢。",
-      "self_hierarchy_conflict": "%1$s無法踢出成員：%2$s，他的身分組跟我一樣或比我高!",
-      "success": "%1$s%2$s (%3$s 被踢出了)",
-      "error": "%1$s踢出錯誤 [%2$s]：(沒有權限：%3$s)",
-      "unknown_error": "%1$s在嘗試踢出%2$s時發生未知錯誤"
     },
     "music_usage": {
       "1": "*如何使用Mantaro的音樂功能？*",
@@ -218,12 +202,12 @@
       "7": "- To **pause or unpause** just use `/pause`",
       "8": "- To **stop the music and unbind the player** use `/stop`",
       "9": "- To **shuffle the queue** just use `/shuffle`",
-      "10": "- And lastly, to **repeat a song** use `/repeat` and to **repeat a queue** use `/repeatqueue`. Using `/repeat` while repeat is on, turns it off, the same is true for `/repeatqueue`\n",
+      "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue by setting the queue boolean to true on the command.\n",
       "11": "For more info please use `/help <command name>` (without the <> and replace command name with the name of the command you want)",
       "12": "謝謝使用Mantaro，享受你的音樂吧!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `/ language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
+      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "season": {
       "info": "*賽季/季節*是時間長度，通常為6個月，在此期間，玩家能夠爭奪金錢或聲望排行榜的前10名。 得獎者將根據其季節性表現獲得徽章和獎品。\n這是為了創造更具競爭力的整體感受，並使Mantaro更加有趣 (金錢在之前是非常無用的)\n您可以使用 `-season` 訪問具季節性的東西。profile/mine/fish/balance 等指令將需要它，而 loot/daily/reputation(增加聲望) 及各種小遊戲將對你的全局和季節性角色都產生效果。",
@@ -512,28 +496,25 @@
       "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `/custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
-      "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
-      "no_mute_role": "%1$sThe mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`",
-      "null_mute_role": "%1$sThe previously configured mute role on this server is now non-existent.",
-      "no_users": "%1$sYou need to give me an user to mute.",
-      "no_manage_roles": "%1$sI don't have permissions to administrate roles on this server.",
+      "no_permissions": "%1$sYou need to have permission to Moderate Members in order to time out a user.",
+      "no_users": "%1$sYou need to give me a user to time out.",
+      "no_moderate_members": "%1$sI don't have permissions to administrate timeouts on this server.",
       "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
-      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute 20m @mention reason goes here`, for example.",
-      "negative_time_notice": "%1$sYou cannot mute someone for negative time. Unless you can bend space-time that is.",
-      "default_time_too_long": "%1$sThe default mute timeout length is too long (Maximum: 10 days)...",
+      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute user 20m reason goes here`, for example.",
+      "default_time_too_long": "%1$sThe default time out timeout length is too long (Maximum: 10 days)...",
       "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
-      "time_too_long": "%1$sThe specified mute timeout length is too long (Maximum: 10 days)...",
-      "already_muted": "%1$sThis user already has a mute role assigned. Please do `/unmute` to un-mute them.",
-      "self_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
-      "user_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
-      "success": "%1$sAdded mute role to **%2$s** for %3$s",
-      "success_reason": "%1$sAdded mute role to **%2$s** for %3$s because of the following reason: %4$s"
+      "time_too_long": "%1$sThe specified timeout length is too long (Maximum: 10 days)...",
+      "already_muted": "%1$sThis user is already timed out. Please do `/unmute` to un-mute them.",
+      "self_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
+      "user_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
+      "success": "%1$sSuccessfully timed out **%2$s** for %3$s",
+      "success_reason": "%1$sSuccessfully timed out **%2$s** for %3$s because of the following reason: %4$s"
     },
     "unmute": {
-      "no_permissions": "%1$sYou need to have either ban or kick members permission to un-mute!",
-      "no_mentions": "%1$sYou need to mention at least one user to un-mute.",
-      "success": "%1$sRemoved mute role from **%2$s**",
-      "no_role_assigned": "%1$sThis user doesn't have the mute role assigned to them."
+      "no_permissions": "%1$sYou need to have permission to Moderate Members to remove a time out!",
+      "no_mentions": "%1$sYou need to tell me who to remove the time out from.",
+      "success": "%1$sSuccessfully removed time out from **%2$s**",
+      "not_muted": "%1$sThis user doesn't seem to be timed out."
     },
     "ping": {
       "display": [
@@ -577,7 +558,7 @@
         "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `/marry status`",
         "too_long": "%1$s情書訊息過長 (最長500字元)",
         "cannot_see": "%1$s我找不到你的伴侶... 也許他們不在我的伺服器內。",
-        "confirmation": "%1$s你*確定*想寫這張情書給**%2$s#%3$s**嗎？這將會持續到婚姻結束。*情書內容：*%4$s",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `/marry status`",
         "scrapped": "%1$s你還有時間思考該寫什麼，不必著急！"
       },
@@ -592,11 +573,6 @@
         "house": "房屋名稱",
         "car": "汽車名稱",
         "pet": "寵物名稱 (種類)"
-      },
-      "timezone": {
-        "no_content": "%1$s你需要指定此婚姻的時區。",
-        "invalid": "%1$s那不是有效的時區或區域ID。",
-        "success": "%1$s成功將婚姻時區設置為%2$s。寵物時間將與婚姻時區相同。"
       },
       "general": {
         "not_married": "%1$s你還沒結婚。"
@@ -625,7 +601,7 @@
       "already_married": "%1$s你已經有伴侶了。",
       "receipt_married": "%1$s他們已經有伴侶了。",
       "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `/buy 2 ring` and then try proposing again <3",
-      "confirmation": "%1$s%2$s，傳送 **yes** 或 **no** 來決定你是否願意與%3$s結婚\n%4$s這將在120秒內超時。",
+      "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$s你需要持有兩個戒指才能結婚 :(",
       "accepted": "%1$s**%2$s#%3$s**接受了**%4$s#%5$s**的求婚！",
       "denied": "%1$s已拒絕**%2$s**的求婚",
@@ -716,7 +692,7 @@
     },
     "inventory": {
       "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `/dump`",
-      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `/inventory`. Enjoy your day!*",
+      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `/inventory show`. Enjoy your day!*",
       "calculate": "%1$s%2$s 的所有物品價值 **%3$,d 元**。",
       "header": "%1$s 的背包",
       "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
@@ -753,7 +729,7 @@
     },
     "market": {
       "dump": {
-        "replacement": "You can use `~>dump` now. For example, instead of `~>market dump floppy` you can do `~>dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
+        "replacement": "You can use `/dump` now. For example, instead of `~>market dump floppy` you can do `/dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
         "no_item": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想丟棄的物品名稱。",
         "invalid": "%1$s丟棄數量無效。",
         "non_existent": "%1$s你無法丟棄不存在的物品！試著使用更簡短的名稱或將他\"用引號包起來\"。",
@@ -769,7 +745,7 @@
         "success": "%1$s%2$s**%3$s** 在市場內的出售價格是 %4$s 元，買入價格為 %5$s 元。"
       },
       "sell": {
-        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
+        "replacement": "You can use `/sell` now. For example, instead of `~>market sell pick` you can do `/sell pick`. Please use the new command instead.",
         "no_item": "%1$s你需要指出你想出售的物品名稱。",
         "no_item_amount": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想出售的物品名稱。",
         "invalid": "%1$s物品出售數量無效。",
@@ -785,7 +761,7 @@
         "success": "%1$s你出售了 %2$,d 個 **%3$s** 且獲得了 %4$,d 元！"
       },
       "buy": {
-        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
+        "replacement": "You can use `/buy` now. For example, instead of `~>market buy pick` you can do `/buy pick`. Please use the new command instead.",
         "no_item": "%1$s你需要指出你想購買的物品名稱。",
         "no_item_amount": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想購買的物品名稱。",
         "invalid": "%1$s物品購買數量無效。",
@@ -826,6 +802,7 @@
       "own_locked_notice": "%1$s你目前無法傳送金錢。",
       "receipt_overflow_notice": "無法傳送金錢給這位用戶。",
       "no_money_notice": "%1$s你無法傳送你不擁有的錢。",
+      "too_little": "%1$sMinimum transfer amount is 100 credits.",
       "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$s這位用戶已經擁有太多錢了...",
       "success": "%1$s已成功傳送 **%2$,d** *(減去8%%稅後為 %3$,d)* 給 **%4$s**。",
@@ -1365,8 +1342,8 @@
     },
     "pet": {
       "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nThere's two types: Personal (for yourself) and Marriage (shared between your partner and you). Choose one with `/pet choice`. The default is Personal.\nFor more help, use `/help pet` and `/pet list` for a list of pets.",
-      "no_marriage": "%1$sYou need to be married to have a pet. For now. Check `/help marry` and `/pet`",
-      "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now. Check `/help marry` and `/pet`",
+      "no_marriage": "%1$sYou need to be married to have a marriage pet. For now. Check `/help marry` and `/pet`",
+      "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. For now. Check `/help marry` and `/pet`",
       "status": {
         "no_pet": "%1$sYou don't have any pets to check the status of. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
         "pet_in_other_category": "\n%1$sYou have a pet on the %2$s choice (%3$s). You can switch to it with `/pet choice %2$s`",
@@ -1609,7 +1586,8 @@
     "help": {
       "title": "Mantaro 幫助",
       "base_category": "%1$s 類別的指令清單。如需詳細資訊，請參考我們的[維基](https://github.com/Mantaro/MantaroBot/wiki)。[貨幣系統教程](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
+      "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
+      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
       "support": "如果你還是不清楚該如何使用，可以加入我們的[官方伺服](https://support.mantaro.site)。你也可以跟隨我的[Twitter](https://twitter.com/mantarodiscord)獲得更新訊息。\n",
       "patreon": "**[我們需要你的幫助來持續運行/更新Mantaro！點擊這裡獲取更多資訊。](https://www.patreon.com/mantaro)**",
       "disabled_commands": "僅顯示未禁用指令。禁用指令數量：%1$s",
@@ -1625,7 +1603,8 @@
       "help_header": "Command help for %s",
       "options": "Options",
       "usage": "Usage",
-      "optional": "(This is optional)"
+      "optional": "(This is optional)",
+      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help cast item`.\nThis goes for all subcommands, as long as they have some sort of help."
     },
     "repair": {
       "no_item": "%1$s你需要指出你想修復的物品。如果你確定那是正確的，請輸入該物品的全名。",
@@ -1685,8 +1664,7 @@
       "bot_notice": "%1$s機器人們不能擁有錢。",
       "external_balance": "%1$s 擁有 **%2$,d 元**。",
       "own_balance": "你擁有 **%1$,d 元**。%2$s",
-      "new_player": "\n嘿！你應該是新來的。這個指南 (英文) 可以提供你一些幫助：<https://github.com/Mantaro/MantaroBot/wiki/Currency-101>。這只會顯示一次。",
-      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `/profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
+      "new_player": "\n嘿！你應該是新來的。這個指南 (英文) 可以提供你一些幫助：<https://github.com/Mantaro/MantaroBot/wiki/Currency-101>。這只會顯示一次。"
     },
     "daily": {
       "check": "%1$s你能夠在 **%2$s** 內再次簽到。",
@@ -1860,6 +1838,16 @@
         "desc": "說明",
         "upgrade": "想要升級嗎？",
         "upgrade_content": "你可以查看 [這邊](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) 獲得更多有關工具升級的資訊！"
+      },
+      "attribute": {
+        "tier": "Wrench Tier (to craft):",
+        "tier_raw": "Wrench Tier:",
+        "increase": "Money Increase:",
+        "diamond_drop": "Diamond Drop Range:",
+        "gem_luck": "Sparkle / Gem Luck",
+        "buff": "Item Buff:",
+        "reduction": "Multiplier reduction:",
+        "multiple_cast": "Can cast multiple:"
       },
       "success_tiered": "%2$s **%3$s** (%4$s) **的物品訊息**\n%1$s**類型：**%5$s\n%1$s**說明：** *%6$s*\n%1$s**等級：**%7$s\n%1$s**購買價格：**%8$s %9$s\n%1$s**出售價格：**%10$s %11$s",
       "success": "%2$s **%3$s** (%4$s) **的物品訊息**\n%1$s**類型：**%5$s\n%1$s**說明：** *%6$s*\n%1$s**購買價格：**%7$s %8$s\n%1$s**出售價格：**%9$s %10$s"
@@ -2036,7 +2024,7 @@
       "autorole": "%1$s你不能將自動身分組設成生日身分組！記得生日身分組將被給予給當天生日的人，一天過後將被自動移除。",
       "warning": "%1$s記得生日身分組將被給予給當天生日的人，一天過後將被自動移除。如果你對他還有疑問，歡迎加入我們的支援伺服詢問。你也可以使用 `~>opts help birthday enable` 查看範例。",
       "warning_1": "這是因為生日檢查器的工作原理的關係：他會給予當天生日的人一個臨時的身分組，當那一天過後將會把它移除。**這表示所有擁有這個身分組的人將會在那天過後被拿掉該身分組**。請小心選擇你想使用的身分組，因為設置錯誤可能會導致不好的事情發生 (真的)！",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Birthday-101> for more info.",
       "warning_3": "此外，生日快取 (用來儲存用戶生日) 每23小時才會更新一次。表示如果你將你的生日設為今天或明天來測試這個宣布器，他將**不會**起作用。",
       "warning_4": "傳送 **yes** 來同意並將 %2$s 設置為生日身分組，或 **no** 取消。這將在45秒內超時。",
       "success": "%1$s已啟用生日宣布器，參數 -> 頻道：`%2$s (%3$s)` 和身分組：`%4$s (%5$s)`",
@@ -2198,18 +2186,11 @@
     "defaultmutetimeout_reset": {
       "success": "%1$sSuccessfully reset timeout."
     },
-    "muterole_unbind": {
-      "success": "%1$sCorrectly reset the mute role."
-    },
-    "muterole_set": {
-      "no_role": "%1$sYou need to specify the role you want to use as the mute role. If the name has spaces try wrapping it in quotes.",
-      "success": "%1$sSet mute role to **%2$s**"
-    },
     "reset:all": {
       "success": "%1$s已重置你的選項！"
     },
     "birthday_test": {
-      "no_user": "%1$sYou need to specify an user to test the assigner with. Just mention them.",
+      "no_user": "%1$sYou need to specify a user to test the assigner with. Just mention them.",
       "no_bd_channel": "%1$sYou don't have any birthday channel set!",
       "no_bd_role": "%1$sYou don't have any role set for the birthday setter! Make sure you create a new role for it.",
       "no_talk_permission": "%1$sThe bot cannot speak on the birthday channel. Check channel permissions.",
@@ -2268,16 +2249,6 @@
       "no_message": "%1$sYou need to specify what message you want me to say when someone deletes a message!",
       "success": "%1$sMessage delete message set to: `%2$s`",
       "reset_success": "%1$sReset logs delete message."
-    },
-    "logs_banmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone gets banned!",
-      "success": "%1$sBan message set to: `%2$s`",
-      "reset_success": "%1$sReset logs ban message."
-    },
-    "logs_unbanmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone gets unbanned!",
-      "success": "%1$sUnban message set to: `%2$s`",
-      "reset_success": "%1$sReset logs unban message."
     },
     "djrole_set": {
       "no_role": "%1$sYou need to give me a role to use as the DJ role.",

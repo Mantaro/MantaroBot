@@ -24,13 +24,20 @@
     "description": "Penerangan",
     "options": "Pilihan",
     "find_members_failure": "%1$sTidak menemui ahli dengan kriteria carian anda :(",
+    "find_roles_failure": "%1$sDidn't find any roles that match your search criteria :(",
+    "too_many_roles": "%1$sToo many roles found, maybe refine your search?\n**Roles found:** %2$s",
+    "role_select": "Select the Role:",
+    "find_channels_failure": "%1$sCannot find any text channel with that name :(",
+    "find_voice_channels_failure": "%1$sCannot find any voice channel with that name :(",
+    "too_many_channels": "%1$sToo many channels found, maybe refine your search?\n**Channels found:** %2$s",
+    "channel_select": "Select the Channel:",
     "too_many_members": "%1$sTerlalu banyak ahli yang dijumpai, mungkin memperhalusi carian anda? (cth. gunakan nama#diskriminator)\n**Ahli dijumpai:** %2$s",
     "too_many_mentions": "%1$sSila sebutkan satu orang sahaja semasa mencari ahli.",
     "query_too_small": "%1$sPertanyaan carian anda terlalu kecil. Pastikan anda mencari sekurang-kurangnya 4 aksara. Sekiranya nama pengguna terlalu pendek, anda lebih baik menggunakan nama pengguna#diskriminator atau id pengguna.",
     "dust": "Hanya ada habuk di sini.",
     "invalid_syntax": "Sintaks tidak sah.",
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
-    "member_lookup_failure": "%1%sCannot find any member with that name :(",
+    "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "item_lookup": {
       "no_item_emoji": "Tiada item yang berkaitan dengan emoji ini.",
       "no_item_name": "Tiada item yang berkaitan dengan nama ini.",
@@ -138,8 +145,8 @@
   "commands": {
     "slash": {
       "title": "Slash commands transition",
-      "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command.\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix.\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
+      "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
+      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site",
       "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site"
     },
@@ -177,36 +184,13 @@
     "softban": {
       "no_permission": "%1$sYou can't soft-ban: You need the `Ban Users` permission.",
       "no_permission_self": "%1$sMaaf! Saya tidak mempunyai kebenaran untuk melarang ahli dalam pelayan ini.",
-      "no_users": "%1$sAnda perlu memberi saya pengguna untuk melarang lembut.",
-      "hierarchy_conflict": "%1$sAnda tidak boleh melarang lembut pengguna dalam hierarki yang lebih tinggi daripada anda",
+      "no_users": "%1$sYou need to give me a user to soft-ban.",
+      "hierarchy_conflict": "%1$sYou cannot soft-ban a user in a higher hierarchy than you",
       "yourself_note": "%1$sMengapa awak cuba melarang lembut diri awak?",
       "self_hierarchy_conflict": "%1$sTidak boleh melarang lembut ahli: %2$s, dia lebih tinggi atau hierarki yang sama daripada saya!",
       "success": "%1$s%2$s. **(%3$s dilarang lembut)**",
       "error": "%1$sRalat larangan lembut [%2$s]: (Tidak ada kebenaran yang diberikan: %3$s)",
       "unknown_error": "%1$sRalat tidak diketahui semasa melarang lembut %2$s: *(Ralat? %3$s: %4$s)*"
-    },
-    "ban": {
-      "no_permission": "%1$sAnda tidak boleh melarang: Anda memerlukan kebenaran Melarang Pengguna.",
-      "no_users": "%1$sAnda perlu memberi saya pengguna untuk melarang.",
-      "no_permission_self": "%1$sMaaf! Saya tidak mempunyai kebenaran untuk melarang ahli dalam pelayan ini.",
-      "hierarchy_conflict": "%1$sAnda tidak boleh melarang pengguna yang lebih tinggi daripada anda dalam hierarki pelayan! Cubaan yang baik %2$s",
-      "yourself_note": "%1$sMengapa awak cuba melarang diri awak, bodoh?",
-      "self_hierarchy_conflict": "%1$sTidak boleh melarang ahli: %2$s, dia lebih tinggi atau hierarki yang sama daripada saya!",
-      "success": "%1$s%2$s (%3$s dilarang)",
-      "success_multiple": "%1$s%2$s (%3$s orang dilarang)",
-      "error": "%1$sRalat semasa melarang %2$s: (Saya memerlukan kebenaran %3$s)",
-      "unknown_error": "%1$sHuh, saya mengalami ralat yang tidak diketahui semasa melarang %2$s"
-    },
-    "kick": {
-      "no_permission": "%1$sYou can't kick: You need the `Kick Members` permission.",
-      "no_users": "%1$sAnda perlu memberi saya pengguna untuk menendang.",
-      "no_permission_self": "%1$sMaaf! Saya tidak mempunyai kebenaran untuk menendang ahli di pelayan ini.",
-      "hierarchy_conflict": "%1$sAnda tidak boleh menendang pengguna dalam hierarki yang lebih tinggi daripada anda",
-      "yourself_note": "%1$sMengapa awak cuba menendang diri awak, bodoh?",
-      "self_hierarchy_conflict": "%1$sTidak dapat menendang ahli: %2$s, dia lebih tinggi atau hierarki yang sama dengan saya!",
-      "success": "%1$s%2$s (%3$s ditendang)",
-      "error": "%1$sRalat menendang %2$s: (Tidak ada kebenaran yang diberikan: %3$s)",
-      "unknown_error": "%1$sRalat yang tidak diketahui semasa cuba menendang %2$s"
     },
     "music_usage": {
       "1": "*Bagaimanakah menggunakan muzik di Mantaro?*",
@@ -218,12 +202,12 @@
       "7": "- To **pause or unpause** just use `/pause`",
       "8": "- To **stop the music and unbind the player** use `/stop`",
       "9": "- To **shuffle the queue** just use `/shuffle`",
-      "10": "- And lastly, to **repeat a song** use `/repeat` and to **repeat a queue** use `/repeatqueue`. Using `/repeat` while repeat is on, turns it off, the same is true for `/repeatqueue`\n",
+      "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue by setting the queue boolean to true on the command.\n",
       "11": "For more info please use `/help <command name>` (without the <> and replace command name with the name of the command you want)",
       "12": "Nikmati muzik anda dan terima kasih kerana menggunakan Mantaro!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `/ language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
+      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "season": {
       "info": "*Musim* adalah jangka masa, biasanya 6 bulan di mana pemain bersaing untuk 10 slot teratas di papan pendahlu wang atau reputasi. Pemenang akan mendapat lencana dan hadiah berdasarkan prestasi musim mereka.\nIni adalah untuk membolehkan kerangka yang lebih kompetitif (sebelum ini, wang agak basi) dan menjadikan permainan sedikit lebih menyeronokkan.\nAnda boleh mengakses item bermusim menggunakan `-season`. Arahan seperti profile, mine, fish dan balance akan memerlukannya, manakala games, loot, daily dan reputation akan memberikan wang/reputasi kepada profil global dan musiman anda.",
@@ -512,28 +496,25 @@
       "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `/custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
-      "no_permissions": "%1$sAnda memerlukan kebenaran Melarang Ahli atau Menendang Ahli untuk membisukan.",
-      "no_mute_role": "%1$sPeranan bisu belum ditetapkan dalam pelayan ini, anda boleh menetapkannya dengan menjalankan `~>opts muterole set <peranan>`",
-      "null_mute_role": "%1$sPeranan bisu yang ditetapkan dalam pelayan ini tidak lagi berwujud.",
-      "no_users": "%1$sAnda harus memberi saya ahli untuk membisukan.",
-      "no_manage_roles": "%1$sSaya tidak mempunyai kebenaran untuk menguruskan peranan dalam pelayan ini.",
+      "no_permissions": "%1$sYou need to have permission to Moderate Members in order to time out a user.",
+      "no_users": "%1$sYou need to give me a user to time out.",
+      "no_moderate_members": "%1$sI don't have permissions to administrate timeouts on this server.",
       "time_not_specified": "%1$sAnda menginginkan masa tetapi tidak menyatakan tempohnya.",
-      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute 20m @mention reason goes here`, for example.",
-      "negative_time_notice": "%1$sAnda tidak boleh membisukan sesorang selama tempoh masa yang negatif. Melainkan jika anda boleh bengkokkan masa angkasa.",
-      "default_time_too_long": "%1$sTempoh bisu default yang ditetapkan terlalu panjang (Maksimum: 10 hari)...",
+      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute user 20m reason goes here`, for example.",
+      "default_time_too_long": "%1$sThe default time out timeout length is too long (Maximum: 10 days)...",
       "time_too_little": "%1$sTempoh bisu yang dinyatakan lebih pendek daripada 10 saat.\nPastikah anda menggunakan format yang betul? Untuk 20 minit, gunakan 20m, untuk 1 jam, gunakan 1h, ataupun gabungan kedua-duanya (1h45m) sebagai contoh.",
-      "time_too_long": "%1$sTempoh bisu yang dinyatakan terlalu panjang (Maksimum: 10 hari)...",
-      "already_muted": "%1$sThis user already has a mute role assigned. Please do `/unmute` to un-mute them.",
-      "self_hierarchy_error": "%1$sSaya tidak dapat memberikan peranan bisu kepada pengguna ini kerana dia dalam hierarki yang lebih tinggi daripada saya, ataupun peranannya dalam hierarki yang lebih tinggi!",
-      "user_hierarchy_error": "%1$sSaya tidak dapat memberikan peranan bisu kepada pengguna ini kerana dia dalam hierarki yang lebih tinggi daripada saya, ataupun peranannya dalam hierarki yang lebih tinggi daripada anda!",
-      "success": "%1$s**%2$s** telah diberi peranan bisu selama %3$s",
-      "success_reason": "%1$s**%2$s** telah diberi peranan bisu selama %3$s kerana sebab yang berikut: %4$s"
+      "time_too_long": "%1$sThe specified timeout length is too long (Maximum: 10 days)...",
+      "already_muted": "%1$sThis user is already timed out. Please do `/unmute` to un-mute them.",
+      "self_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
+      "user_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
+      "success": "%1$sSuccessfully timed out **%2$s** for %3$s",
+      "success_reason": "%1$sSuccessfully timed out **%2$s** for %3$s because of the following reason: %4$s"
     },
     "unmute": {
-      "no_permissions": "%1$sAnda memerlukan kebenaran Melarang Ahli atau Menendang Ahli untuk membenarkan bersuara!",
-      "no_mentions": "%1$sAnda perlu menyebut sekurang-kurangnya seorang pengguna untuk dibenarkan bersuara.",
-      "success": "%1$sPeranan bisu **%2$s** telah dipadamkan",
-      "no_role_assigned": "%1$sPengguna ini tidak diberi peranan bisu."
+      "no_permissions": "%1$sYou need to have permission to Moderate Members to remove a time out!",
+      "no_mentions": "%1$sYou need to tell me who to remove the time out from.",
+      "success": "%1$sSuccessfully removed time out from **%2$s**",
+      "not_muted": "%1$sThis user doesn't seem to be timed out."
     },
     "ping": {
       "display": [
@@ -577,7 +558,7 @@
         "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `/marry status`",
         "too_long": "%1$sSurat cinta terlalu panjang (maksimum adalah 500 aksara)",
         "cannot_see": "%1$sSaya tidak menjumpai pengguna yang telah anda kahwini... Mungkin dia tidak berada dalam pelayan yang saya berada dalam.",
-        "confirmation": "%1$sAdakah anda *pasti* akan menulis surat ini bagi perkahwinan anda dengan **%2$s#%3$s**? Ini adalah kekal selagi perkahwinan ini berkekalan. *Kandungan surat:* %4$s",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `/marry status`",
         "scrapped": "%1$sAnda masih ada masa untuk memikirkan apa yang ingin anda tuliskan, tidak perlu tergesa-gesa!"
       },
@@ -592,11 +573,6 @@
         "house": "Nama Rumah",
         "car": "Nama Kereta",
         "pet": "Nama Haiwan Peliharaan (Jenis)"
-      },
-      "timezone": {
-        "no_content": "%1$sAnda harus menyatakan zon masa yang ingin dijejaki oleh perkahwinan anda.",
-        "invalid": "%1$sZon masa ataupun ID Zon yang tidak sah.",
-        "success": "%1$sBerjaya menetapkan zon masa perkahwinan kepada %2$s. Zon masa haiwan peliharaan adalah sama dengan zon masa perkahwinan."
       },
       "general": {
         "not_married": "%1$sAnda tidak berkahwin lagi."
@@ -625,7 +601,7 @@
       "already_married": "%1$sAnda sudah berkahwin.",
       "receipt_married": "%1$sPengguna tersebut sudah berkahwin.",
       "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `/buy 2 ring` and then try proposing again <3",
-      "confirmation": "%1$s%2$s, taip **yes** atau **no** bagi lamaran perkahwinan daripada %3$s\n%4$sMasa ini akan tamat dalam 120 saat.",
+      "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$sAnda tidak boleh berkahwin jika anda mempunyai lebih kurang daripada dua bentuk cincin dalam inventori anda :(",
       "accepted": "%1$s**%2$s#%3$s** telah menerima lamaran **%4$s#%5$s**!",
       "denied": "%1$sLamaran **%2$s** telah ditolak",
@@ -716,7 +692,7 @@
     },
     "inventory": {
       "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `/dump`",
-      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `/inventory`. Enjoy your day!*",
+      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `/inventory show`. Enjoy your day!*",
       "calculate": "%1$s%2$s akan menerima **%3$,d kredit** jika semua itemnya dijual.",
       "header": "Inventori %1$s",
       "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
@@ -753,7 +729,7 @@
     },
     "market": {
       "dump": {
-        "replacement": "You can use `~>dump` now. For example, instead of `~>market dump floppy` you can do `~>dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
+        "replacement": "You can use `/dump` now. For example, instead of `~>market dump floppy` you can do `/dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
         "no_item": "%1$sAnda perlu menyatakan bilangan item tersebut (jika hanya satu, anda tidak perlu menyatakan bilangan) dan item yang ingin anda membuang.",
         "invalid": "%1$sNombor item untuk dibuang tidak sah.",
         "non_existent": "%1$sTidak boleh membuang item yang tidak wujud! Sekiranya anda tersesat, cuba menaip nama singkatan atau mengapit nama tersebut dengan tanda petik.",
@@ -769,7 +745,7 @@
         "success": "%1$s Nilai pasaran %2$s**%3$s** ialah %4$s kredit untuk membelinya dan anda akan mendapat %5$s kredit jika anda menjualnya."
       },
       "sell": {
-        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
+        "replacement": "You can use `/sell` now. For example, instead of `~>market sell pick` you can do `/sell pick`. Please use the new command instead.",
         "no_item": "%1$sAnda perlu menyatakan item yang ingin dijual.",
         "no_item_amount": "%1$sAnda perlu menyatakan bilangan item tersebut (jika hanya satu, anda tidak perlu menyatakan bilangan) dan item yang ingin anda menjual.",
         "invalid": "%1$sNombor item untuk dijual tidak sah.",
@@ -785,7 +761,7 @@
         "success": "%1$sAnda telah menjual %2$,d **%3$s** dan mendapat %4$,d kredit!"
       },
       "buy": {
-        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
+        "replacement": "You can use `/buy` now. For example, instead of `~>market buy pick` you can do `/buy pick`. Please use the new command instead.",
         "no_item": "%1$sAnda perlu menyatakan item yang ingin dibeli.",
         "no_item_amount": "%1$sAnda perlu menyatakan bilangan item tersebut (jika hanya satu, anda tidak perlu menyatakan bilangan) dan item yang ingin anda membeli.",
         "invalid": "%1$sNombor item untuk dibeli tidak sah.",
@@ -826,6 +802,7 @@
       "own_locked_notice": "%1$sAnda tidak boleh memindahkan wang buat masa ini.",
       "receipt_overflow_notice": "Tidak dapat memindahkan wang kepada pemain ini.",
       "no_money_notice": "%1$sAnda tidak boleh memindahkan wang yang anda tidak mempunyai.",
+      "too_little": "%1$sMinimum transfer amount is 100 credits.",
       "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sPengguna ini sudah mempunyai terlalu banyak wang...",
       "success": "%1$s**%2$,d** *(%3$,d selepas 8%% cukai)* berjaya dipindahkan kepada **%4$s**.",
@@ -1365,8 +1342,8 @@
     },
     "pet": {
       "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nThere's two types: Personal (for yourself) and Marriage (shared between your partner and you). Choose one with `/pet choice`. The default is Personal.\nFor more help, use `/help pet` and `/pet list` for a list of pets.",
-      "no_marriage": "%1$sYou need to be married to have a pet. For now. Check `/help marry` and `/pet`",
-      "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now. Check `/help marry` and `/pet`",
+      "no_marriage": "%1$sYou need to be married to have a marriage pet. For now. Check `/help marry` and `/pet`",
+      "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. For now. Check `/help marry` and `/pet`",
       "status": {
         "no_pet": "%1$sYou don't have any pets to check the status of. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
         "pet_in_other_category": "\n%1$sYou have a pet on the %2$s choice (%3$s). You can switch to it with `/pet choice %2$s`",
@@ -1609,7 +1586,8 @@
     "help": {
       "title": "Bantuan Mantaro",
       "base_category": "Senarai arahan bagi kategori %1$s. Untuk panduan terperinci, sila melihat [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Panduan Mata Wang](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
+      "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
+      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
       "support": "Sekiranya anda masih tersesat anda boleh menyertai [pelayan sokongan](https://support.mantaro.site). Anda juga boleh mengikuti saya di [Twitter](https://twitter.com/mantarodiscord) untuk kemas kini.\n",
       "patreon": "**[Kami memerlukan bantuan anda untuk memastikan Mantaro terus hidup! Klik sini untuk maklumat lanjut.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Hanya memaparkan arahan yang tidak dimatikan. Jumlah arahan dimatikan: %1$s",
@@ -1625,7 +1603,8 @@
       "help_header": "Command help for %s",
       "options": "Options",
       "usage": "Usage",
-      "optional": "(This is optional)"
+      "optional": "(This is optional)",
+      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help cast item`.\nThis goes for all subcommands, as long as they have some sort of help."
     },
     "repair": {
       "no_item": "%1$sAnda tidak menyatakan sebarang item untuk diperbaiki. Jika anda yakin bahawa item tersebut adalah betul, cuba menggunakan nama penuhnya.",
@@ -1685,8 +1664,7 @@
       "bot_notice": "%1$sBot tidak dapat memiliki wang.",
       "external_balance": "Baki %1$s ialah **$%2$,d kredit.**",
       "own_balance": "Baki anda ialah **$%1$,d kredit.**%2$s",
-      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
-      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `/profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
+      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once."
     },
     "daily": {
       "check": "%1$sAnda akan dapat menuntut harian anda pada: **%2$s.**",
@@ -1860,6 +1838,16 @@
         "desc": "Penerangan",
         "upgrade": "Mahu menaik tarafnya?",
         "upgrade_content": "Tekan [sini](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) untuk maklumat lanjut tentang cara menaik taraf peralatan anda!"
+      },
+      "attribute": {
+        "tier": "Wrench Tier (to craft):",
+        "tier_raw": "Wrench Tier:",
+        "increase": "Money Increase:",
+        "diamond_drop": "Diamond Drop Range:",
+        "gem_luck": "Sparkle / Gem Luck",
+        "buff": "Item Buff:",
+        "reduction": "Multiplier reduction:",
+        "multiple_cast": "Can cast multiple:"
       },
       "success_tiered": "**Maklumat Item untuk** %2$s **%3$s** (%4$s)\n%1$s**Jenis:** %5$s\n%1$s**Penerangan:** *%6$s*\n%1$s**Tahap:** %7$s\n%1$s**Harga Membeli:** %8$s %9$s\n%1$s**Harga Menjual:** %10$s %11$s",
       "success": "**Maklumat Item untuk** %2$s **%3$s** (%4$s)\n%1$s**Jenis:** %5$s\n%1$s**Penerangan:** *%6$s*\n%1$s**Harga Membeli:** %7$s %8$s\n%1$s**Harga Menjual:** %9$s %10$s"
@@ -2036,7 +2024,7 @@
       "autorole": "%1$sAnda tidak boleh menetapkan peranan automatik sebagai peranan hari jadi! Ingatlah bahawa peranan hari jadi adalah peranan yang akan ditugaskan kepada seseorang pada hari jadinya, dan akan dipadamkan setelah hari jadinya telah tamat.",
       "warning": "%1$sIngatlah bahawa peranan hari jadi adalah peranan yang akan ditugaskan kepada seseorang pada hari jadinya, dan akan dipadamkan setelah hari jadinya telah tamat. Jika anda mempunyai sebarang keraguan tentang cara konfigurasikannya, anda selalu boleh menyertai pelayan sokongan untuk bertanya. Anda juga boleh periksa `~>opts help birthday enable` untuk contoh.",
       "warning_1": "Ini disebabkan oleh cara petugas hari jadi berfungsi: Ia menugaskan peranan sementara kepada seseorang pada hari jadinya, dan memadamkan peranan tersebut setelah hari jadi itu telah tamat. **Ini bermaksud bahawa setiap orang yang mempunyai peranan hari jadi itu akan kehilangan peranan tersebut setelah hari jadi itu telah tamat**. Sila berhati-hati semasa memilih peranan yang ingin anda gunakan, kerana konfigurasi yang salah mungkin akan menyebabkan masalah berlaku!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Birthday-101> for more info.",
       "warning_3": "Tambahan pula, cache hari jadi (digunakan untuk menyimpannya) hanya dikemas kini setiap 23 jam. Jadi sekiranya anda menetapkan hari jadi anda hari ini hingga esok untuk menguji pengumuman ini ia **tidak** akan berjalan.",
       "warning_4": "Taip **yes** jika anda setuju untuk menetapkan peranan %2$s sebagai peranan hari jadi, dan **no** untuk membatalkan. Masa ini akan tamat dalam 45 saat.",
       "success": "%1$sLog hari jadi telah diaktifkan pada pelayan ini dengan parameter -> Saluran: `%2$s (%3$s)` dan peranan: `%4$s (%5$s)`",
@@ -2198,18 +2186,11 @@
     "defaultmutetimeout_reset": {
       "success": "%1$sTempoh berjaya ditetapkan semula."
     },
-    "muterole_unbind": {
-      "success": "%1$sPeranan bisu telah ditetapkan semula dengan betul."
-    },
-    "muterole_set": {
-      "no_role": "%1$sAnda perlu menyatakan peranan yang ingin digunakan sebagai peranan bisu. Jika nama tersebut mengandungi ruang di antara perkataan cuba mengapitnya dengan tanda petik.",
-      "success": "%1$sPeranan bisu ditetapkan kepada **%2$s**"
-    },
     "reset:all": {
       "success": "%1$sPilihan anda telah ditetapkan semula dengan betul!"
     },
     "birthday_test": {
-      "no_user": "%1$sAnda perlu menyatakan seorang pengguna untuk menguji pengumuman petugas dengannya. Hanya menyebut dia.",
+      "no_user": "%1$sYou need to specify a user to test the assigner with. Just mention them.",
       "no_bd_channel": "%1$sAnda belum menetapkan sebarang saluran hari jadi lagi!",
       "no_bd_role": "%1$sAnda belum menetapkan sebarang peranan untuk tetapan hari jadi! Pastikan anda mencipta peranan yang baharu untuknya.",
       "no_talk_permission": "%1$sBot tidak dapat bercakap dalam saluran hari jadi. Periksa kebenaran saluran.",
@@ -2268,16 +2249,6 @@
       "no_message": "%1$sAnda perlu menyatakan mesej apa yang anda mahu saya menghantar apabila seseorang memadamkan mesej!",
       "success": "%1$sMesej pemadam mesej ditetapkan kepada: `%2$s`",
       "reset_success": "%1$sMesej pemadam log telah ditetapkan semula."
-    },
-    "logs_banmessage": {
-      "no_message": "%1$sAnda perlu menyatakan mesej apa yang anda mahu saya menghantar apabila seseorang telah dilarang!",
-      "success": "%1$sMesej larangan ditetapkan kepada: `%2$s`",
-      "reset_success": "%1$sMesej larangan log telah ditetapkan semula."
-    },
-    "logs_unbanmessage": {
-      "no_message": "%1$sAnda perlu menyatakan mesej apa yang anda mahu saya menghantar apabila larangan seseorang telah dipadamkan!",
-      "success": "%1$sMesej pemadam larangan ditetapkan kepada: `%2$s`",
-      "reset_success": "%1$sMesej pemadam larangan log telah ditetapkan semula."
     },
     "djrole_set": {
       "no_role": "%1$sAnda perlu memberi saya peranan untuk digunakan sebagai peranan DJ.",

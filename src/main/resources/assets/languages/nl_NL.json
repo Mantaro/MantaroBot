@@ -24,13 +24,20 @@
     "description": "Beschrijving",
     "options": "Opties",
     "find_members_failure": "%1$sGeen gebruikers gevonden met jouw zoekcriteria :(",
+    "find_roles_failure": "%1$sDidn't find any roles that match your search criteria :(",
+    "too_many_roles": "%1$sToo many roles found, maybe refine your search?\n**Roles found:** %2$s",
+    "role_select": "Select the Role:",
+    "find_channels_failure": "%1$sCannot find any text channel with that name :(",
+    "find_voice_channels_failure": "%1$sCannot find any voice channel with that name :(",
+    "too_many_channels": "%1$sToo many channels found, maybe refine your search?\n**Channels found:** %2$s",
+    "channel_select": "Select the Channel:",
     "too_many_members": "%1$sTe veel gebruikers gevonden, misschien kun je jouw zoekopdracht verfijnen? (bijv. gebruik naam#discriminator)\n**Gebruikers gevonden:** %2$s",
     "too_many_mentions": "%1$sAsjeblieft mention maar 1 persoon per member lookup.",
     "query_too_small": "%1$sJe zoekopdracht is te klein. Zorg ervoor dat je minimaal 4 karakters zoekt. Als de gebruikersnaam te kort is, kun je beter gebruikersnaam#discriminator of een gebruikers-Id gebruiken.",
     "dust": "Er is hier alleen maar stof.",
     "invalid_syntax": "Ongeldige syntax.",
     "birthday": "**Nieuwe verjaardagen voor vandaag, wens ze een gelukkige verjaardag!**",
-    "member_lookup_failure": "%1%sKan geen lid vinden met die naam :(",
+    "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "item_lookup": {
       "no_item_emoji": "Er is geen voorwerp gekoppeld aan deze emoji.",
       "no_item_name": "Er is geen voorwerp gekoppeld aan deze naam.",
@@ -138,8 +145,8 @@
   "commands": {
     "slash": {
       "title": "Slash opdracht overgangen",
-      "description_alias": "%1$s**De opdracht die u probeert uit te voeren is verplaatst naar alleen Slash opdrachten.** Probeer deze uit te voeren met / als prefix. **deze opdracht was een alias**. Probeer de originele opdracht uit te voeren.\n\nSlash opdrachten zijn de nieuwe manier om opdrachten te gebruiken volgens de richtlijnen van Discord. **Opdrachten die nog steeds met voorvoegsels werken, worden uiteindelijk alleen slash.**\nopdracht aliassen zijn verwijderd voor Slash opdrachten omdat er niet genoeg ruimte is voor ons om ze toe te voegen (Discord laat ons slechts 100 opdrachten toevoegen).",
-      "description": "%1$s**Het commando die u probeert uit te voeren is verplaatst naar alleen Slash commando`s.** Probeer deze uit te voeren met / als prefix.\n\nSlash commando`s zijn de nieuwe manier om commando`s te gebruiken volgens de richtlijnen van Discord. **Commando`s die nog steeds met voorvoegsels werken, worden uiteindelijk alleen slash.**\ncommando aliassen zijn verwijderd voor Slash commando`s omdat er niet genoeg ruimte is voor ons om ze toe te voegen (Discord laat ons slechts 100 opdrachten toevoegen).",
+      "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
+      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description_image": "Om een ​​slash opdracht uit te voeren voor sommige afbeeldings opdracht en, probeer dan de opdracht met het prefix `/image` in plaats van degene die je hebt gebruikt. Bijvoorbeeld, `~>catgirl` wordt `/image catgirl`. Imageboard opdrachten volgen dit niet.\n\nAls u de slash opdrachten niet ziet, voegt u de bot opnieuw toe met behulp van de uitnodigingslink op https://add.mantaro.site",
       "description_2": "Om een ​​slash opdracht uit te voeren probeer dan de opdracht met het prefix `/` in plaats van prefix die je hebt gebruikt. Bijvoorbeeld, `~>ping` wordt `/ping`. (en druk op tab)\n\nAls u de slash opdrachten niet ziet, voegt u de bot opnieuw toe met behulp van de uitnodigingslink op https://add.mantaro.site"
     },
@@ -177,36 +184,13 @@
     "softban": {
       "no_permission": "%1$sJe kunt niet soft-bannen: Je hebt de `Ban gebruikers` toestemming nodig.",
       "no_permission_self": "%1$sSorry! Ik heb geen bevoegdheid om gebruikers te soft-bannen in deze server.",
-      "no_users": "%1$sJe moet me een gebruiker geven om te soft-bannen.",
-      "hierarchy_conflict": "%1$sJe kunt geen soft-ban geven aan iemand met meer rechten dan jijzelf",
+      "no_users": "%1$sYou need to give me a user to soft-ban.",
+      "hierarchy_conflict": "%1$sYou cannot soft-ban a user in a higher hierarchy than you",
       "yourself_note": "%1$sWaarom probeer je jezelf een soft-ban te geven?",
       "self_hierarchy_conflict": "%1$sKan de gebruiker niet soft-bannen: %2$s, zij hebben dezelfde, of meer rechten dan ik heb!",
       "success": "%1$s%2$s. **(%3$s is soft-banned)**",
       "error": "%1$sFoutmelding tijdens het soft-bannen [%2$s]: (Ik heb eerst toestemming nodig: %3$s)",
       "unknown_error": "%1$sOnbekende fout bij het soft-bannen van %2$s: *(Fout? %3$s: %4$s)*"
-    },
-    "ban": {
-      "no_permission": "%1$sJe kunt niet bannen: Je hebt de `Ban gebruikers` toestemming nodig.",
-      "no_users": "%1$sJe moet me een gebruiker geven om te bannen.",
-      "no_permission_self": "%1$sSorry! Ik heb geen bevoegdheid om gebruikers te bannen in deze server.",
-      "hierarchy_conflict": "%1$sJe kunt geen ban geven aan iemand met meer rechten dan jijzelf! Leuk geprobeerd %2$s",
-      "yourself_note": "%1$sWaarom probeer je jezelf te bannen, gekkie?",
-      "self_hierarchy_conflict": "%1$sKan de gebruiker niet bannen: %2$s, zij hebben dezelfde, of meer rechten dan ik heb!",
-      "success": "%1$s%2$s (%3$s is verbannen)",
-      "success_multiple": "%1$s%2$s (%3$s is gebannen)",
-      "error": "%1$sFoutmelding tijdens het bannen %2$s: (Ik heb eerst toestemming nodig: %3$s)",
-      "unknown_error": "%1$sOh nee, ik kreeg een onbekende foutmelding tijdens het bannen %2$s"
-    },
-    "kick": {
-      "no_permission": "%1$sJe kunt niet kicken: Je hebt de `Kick Memebers` toestemming nodig.",
-      "no_users": "%1$sJe moet me een gebruiker geven om te kicken.",
-      "no_permission_self": "%1$sSorry! Ik heb geen bevoegdheid om gebruikers te kicken in deze server.",
-      "hierarchy_conflict": "%1$sJe kunt geen gebruiker kicken met meer rechten dan jijzelf! Leuk geprobeerd",
-      "yourself_note": "%1$sWaarom probeer je jezelf te kicken, gekkie?",
-      "self_hierarchy_conflict": "%1$sKan de gebruiker niet kicken: %2$s, zij hebben dezelfde, of meer rechten dan ik heb!",
-      "success": "%1$s%2$s (%3$s is gekicked)",
-      "error": "%1$sFoutmelding tijdens het kicken %2$s: (Ik heb eerst toestemming nodig: %3$s)",
-      "unknown_error": "%1$sOh nee, ik kreeg een onbekende foutmelding tijdens het kicken %2$s"
     },
     "music_usage": {
       "1": "*Hoe gebruik je de muziekfunctie in Mantaro?*",
@@ -218,12 +202,12 @@
       "7": "- Om **te pauzeren of de pauze op te heffen** gebruik `/pause`",
       "8": "- Om **de muziek te stoppen en de muziekpeler los te koppelen** gebruik `/stop`",
       "9": "- Om **de nummers in de afspeellijst te verschuiven** gebruik `/shuffle`",
-      "10": "- En als laatst, Om **een nummer te herhalen** gebruik `/repeat` en om **een afspeellijst te herhalen** gebruik `/repeat queue`. Als je `/repeat` gebruikt als deze aanstaat, wordt het uitgeschakeld, het zelfde geld ook voor `/repeatqueue`\n",
+      "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue by setting the queue boolean to true on the command.\n",
       "11": "Voor meer informatie gebruik `/help <commando naam>` (zonder de <> en vervang de commandonaam met de naam van het gewenste commando)",
       "12": "Geniet van je muziek en bedankt voor het gebruiken van Mantaro!"
     },
     "lang": {
-      "info": "%1$sJe kunt de server taal wijzigen (indien beschikbaar) door middel van `/language set <taal code>`. Je persoonlijke taalvoorkeur kan gewijzigd worden met `/profile lang <taal code>`.\n**Beschikbare talen:** `%2$s`\nAls je taal hier niet tussen staat en je wilt helpen, voel je dan vrij om lid te worden van de ondersteuningsserver en onderdeel te worden van het vertaal team!"
+      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "season": {
       "info": "Een * seizoen * is de tijdspan van gewoonlijk 6 maanden waarin spelers strijden om de top 10 slots op het geld- of reputatieklassement. De winnaars ontvangen badges en prijzen op basis van hun seizoensprestaties.\nDit is om een ​​competitiever frame mogelijk te maken (voorheen was het geld behoorlijk oud en saai) en om het spel een beetje leuker te maken.\nJe hebt toegang tot seizoensgebonden dingen met behulp van `-season`. Commando's zoals profile, mine, fish en balance zullen het vereisen, terwijl games, loot, daily en reputation geld/rep opleveren voor zowel je globale als seizoensprofiel.",
@@ -512,28 +496,25 @@
       "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `/custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
-      "no_permissions": "%1$sJe moet de machtiging 'ban' of 'kick members' hebben om iemand te kunnen muten.",
-      "no_mute_role": "%1$sDe mute rol is niet ingesteld in deze server, je kunt dit doen door middel van `~>opts muterole set <role>`.",
-      "null_mute_role": "%1$sDe eerder geconfigureerde mutefunctie op deze server is nu niet meer aanwezig.",
-      "no_users": "%1$sJe moet een gebruiker opgeven zodat ik deze kan muten..",
-      "no_manage_roles": "%1$sIk heb geen rechten om rollen uit te delen in deze server.",
+      "no_permissions": "%1$sYou need to have permission to Moderate Members in order to time out a user.",
+      "no_users": "%1$sYou need to give me a user to time out.",
+      "no_moderate_members": "%1$sI don't have permissions to administrate timeouts on this server.",
       "time_not_specified": "%1$sJe wilde een tijd toevoegen maar je hebt niet aangegeven hoelang dit moet zijn.",
-      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute 20m @mention reason goes here`, for example.",
-      "negative_time_notice": "%1$sJe kunt iemand niet muten met een negatieve tijd. Of je moet kunnen tijdreizen.",
-      "default_time_too_long": "%1$sDe lengte van de standaard mute tijd is te lang (Maximaal: 10 dagen)...",
+      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute user 20m reason goes here`, for example.",
+      "default_time_too_long": "%1$sThe default time out timeout length is too long (Maximum: 10 days)...",
       "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
-      "time_too_long": "%1$sDe lengte van de mute tijd is te lang (Maximaal: 10 dagen)...",
-      "already_muted": "%1$sDeze gebruiker heeft al een mute rol. Gebruik `/unmute` als je hem of haar wilt unmuten.",
-      "self_hierarchy_error": "%1$sIk kan de mute-rol niet toewijzen aan deze gebruiker omdat deze zich in een hogere hiërarchie bevindt dan ik, of de rol zich in een hogere hiërarchie bevindt!",
-      "user_hierarchy_error": "%1$sIk kan de mute-rol niet toewijzen aan deze gebruiker omdat deze zich in een hogere hiërarchie bevindt dan ik, of de rol zich in een hogere hiërarchie bevindt!",
-      "success": "%1$sAdded mute role to **%2$s** for %3$s",
-      "success_reason": "%1$sAdded mute role to **%2$s** for %3$s because of the following reason: %4$s"
+      "time_too_long": "%1$sThe specified timeout length is too long (Maximum: 10 days)...",
+      "already_muted": "%1$sThis user is already timed out. Please do `/unmute` to un-mute them.",
+      "self_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
+      "user_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
+      "success": "%1$sSuccessfully timed out **%2$s** for %3$s",
+      "success_reason": "%1$sSuccessfully timed out **%2$s** for %3$s because of the following reason: %4$s"
     },
     "unmute": {
-      "no_permissions": "%1$sJe moet de machtiging 'ban' of 'kick gebruikers' hebben om het muten ongedaan te maken!",
-      "no_mentions": "%1$sJe moet ten minste één gebruiker vermelden om het muten ongedaan te maken.",
-      "success": "%1$sGebruiker **%2$s** is niet langer gemute.",
-      "no_role_assigned": "%1$sAan deze gebruiker is geen mute-rol toegewezen."
+      "no_permissions": "%1$sYou need to have permission to Moderate Members to remove a time out!",
+      "no_mentions": "%1$sYou need to tell me who to remove the time out from.",
+      "success": "%1$sSuccessfully removed time out from **%2$s**",
+      "not_muted": "%1$sThis user doesn't seem to be timed out."
     },
     "ping": {
       "display": [
@@ -577,7 +558,7 @@
         "already_done": "%1$sDit huwelijk heeft al een liefdesbrief toegewezen. Bekijk deze met behulp van de `/marry status`",
         "too_long": "%1$sDe liefdesbrief is te lang (maximum van 500 karakters)",
         "cannot_see": "%1$sIk kan de persoon waarmee je getrouwd bent niet vinden... Waarschijnlijk zitten ze niet in dezelfde server als ik.",
-        "confirmation": "%1$sWeet je *zeker* dat je deze liefdesbrief wilt schrijven voor je huwelijk met **%2$s#%3$s**? Dit is PERMANENT en blijft zolang jullie huwelijk stand houdt. *Inhoud van de letter:* %4$s",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$sDe liefdesbrief is succesvol afgeleverd aan je liefde! Bekijk deze met behulp van de `/marry status`",
         "scrapped": "%1$sJe hebt nog steeds tijd om na te denken wat je wilt schrijven, er is geen haast!"
       },
@@ -592,11 +573,6 @@
         "house": "Huis Naam",
         "car": "Auto Naam",
         "pet": "Huisdier Naam (Type)"
-      },
-      "timezone": {
-        "no_content": "%1$sYou need to specify what timezone you want this marriage to track.",
-        "invalid": "%1$sNot a valid timezone or Zone ID.",
-        "success": "%1$sSuccessfully set marriage timezone to %2$s. Pet time will be the same as the marriage timezone."
       },
       "general": {
         "not_married": "%1$sJe bent niet getrouwd."
@@ -625,7 +601,7 @@
       "already_married": "%1$sJe bent al getrouwd.",
       "receipt_married": "%1$sDeze gebruiker is al getrouwd.",
       "no_ring": "%1$sJe kunt geen aanzoek doen zonder twee verlovingsringen! Je kunt deze kopen door `/buy 2 ring` te typen en het dan nogmaals te proberen <3",
-      "confirmation": "%1$s%2$s, beantwoord met **yes** of **no** op het huwelijksaanzoek van %3$s\n%4$sDit aanzoek zal een time-out geven over 120 seconden.",
+      "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$sJe kunt niet trouwen als je minder dan twee verlovingsringen in je inventaris hebt :(",
       "accepted": "%1$s**%2$s#%3$s** accepteerde het huwelijksaanzoek van **%4$s#%5$s**!",
       "denied": "%1$sHet huwelijksaanzoek van **%2$s** is afgewezen.",
@@ -716,7 +692,7 @@
     },
     "inventory": {
       "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `/dump`",
-      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `/inventory`. Enjoy your day!*",
+      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `/inventory show`. Enjoy your day!*",
       "calculate": "%1$s%2$s zal **%3$d credits** krijgen als alle items zijn verkocht.",
       "header": "%1$s's Inventaris",
       "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
@@ -753,7 +729,7 @@
     },
     "market": {
       "dump": {
-        "replacement": "You can use `~>dump` now. For example, instead of `~>market dump floppy` you can do `~>dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
+        "replacement": "You can use `/dump` now. For example, instead of `~>market dump floppy` you can do `/dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
         "no_item": "%1$sU moet het bedrag van dat item specificeren (als het er maar één is, hoeft u het aantal niet op te geven) en het item dat u wilt dumpen.",
         "invalid": "%1$sGeen geldig aantal voorwerpen om weg te gooien.",
         "non_existent": "%1$sKan een niet-bestaand item niet dumpen! Als je de weg kwijt bent, kun je proberen de korte naam te typen of de naam tussen aanhalingstekens te plaatsen.",
@@ -769,7 +745,7 @@
         "success": "%1$sDe marktwaarde van %2$s**%3$s** is %4$s credits om te kopen en %5$s credits om te verkopen."
       },
       "sell": {
-        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
+        "replacement": "You can use `/sell` now. For example, instead of `~>market sell pick` you can do `/sell pick`. Please use the new command instead.",
         "no_item": "%1$sYou need to specify the item to sell.",
         "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
         "invalid": "%1$sNot a valid number of items to sell.",
@@ -785,7 +761,7 @@
         "success": "%1$sYou sold %2$,d **%3$s** and gained %4$,d credits!"
       },
       "buy": {
-        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
+        "replacement": "You can use `/buy` now. For example, instead of `~>market buy pick` you can do `/buy pick`. Please use the new command instead.",
         "no_item": "%1$sYou need to specify the item to buy.",
         "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
         "invalid": "%1$sNot a valid number of items to buy.",
@@ -826,6 +802,7 @@
       "own_locked_notice": "%1$sJe kunt nu geen geld overmaken",
       "receipt_overflow_notice": "Kan geen geld naar deze persoon overmaken.",
       "no_money_notice": "%1$sJe kunt geen geld overmaken dat je niet hebt.",
+      "too_little": "%1$sMinimum transfer amount is 100 credits.",
       "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sDeze persoon heeft al te veel geld...",
       "success": "%1$sEr is succesvol **%2$,d** *(%3$,d na 8%% belasting)* overgemaakt naar **%4$s**.",
@@ -1365,8 +1342,8 @@
     },
     "pet": {
       "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nThere's two types: Personal (for yourself) and Marriage (shared between your partner and you). Choose one with `/pet choice`. The default is Personal.\nFor more help, use `/help pet` and `/pet list` for a list of pets.",
-      "no_marriage": "%1$sYou need to be married to have a pet. For now. Check `/help marry` and `/pet`",
-      "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now. Check `/help marry` and `/pet`",
+      "no_marriage": "%1$sYou need to be married to have a marriage pet. For now. Check `/help marry` and `/pet`",
+      "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. For now. Check `/help marry` and `/pet`",
       "status": {
         "no_pet": "%1$sYou don't have any pets to check the status of. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
         "pet_in_other_category": "\n%1$sYou have a pet on the %2$s choice (%3$s). You can switch to it with `/pet choice %2$s`",
@@ -1609,7 +1586,8 @@
     "help": {
       "title": "Mantaro Help",
       "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
+      "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
+      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
       "support": "If you're still lost you can join the [support server](https://support.mantaro.site). You can also follow me on [Twitter](https://twitter.com/mantarodiscord) for updates.\n",
       "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Alleen niet-geblokkeerde opdrachten weergeven. Totaal uitgeschakeldeopdrachten: %1$s",
@@ -1625,7 +1603,8 @@
       "help_header": "Command help for %s",
       "options": "Options",
       "usage": "Usage",
-      "optional": "(This is optional)"
+      "optional": "(This is optional)",
+      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help cast item`.\nThis goes for all subcommands, as long as they have some sort of help."
     },
     "repair": {
       "no_item": "%1$sYou didn't specify any item to repair. If you think you have the correct item, try using the full name.",
@@ -1685,8 +1664,7 @@
       "bot_notice": "%1$sBots kunnen geen geld hebben.",
       "external_balance": "%1$s's balans is **$%2$,d credits.**",
       "own_balance": "Your balance is **$%1$,d credits.**%2$s",
-      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
-      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `/profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
+      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once."
     },
     "daily": {
       "check": "%1$sJe kunt je daily weer ontvangen op: **%2$s.**",
@@ -1860,6 +1838,16 @@
         "desc": "Beschrijving",
         "upgrade": "Looking to upgrade?",
         "upgrade_content": "Click [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
+      },
+      "attribute": {
+        "tier": "Wrench Tier (to craft):",
+        "tier_raw": "Wrench Tier:",
+        "increase": "Money Increase:",
+        "diamond_drop": "Diamond Drop Range:",
+        "gem_luck": "Sparkle / Gem Luck",
+        "buff": "Item Buff:",
+        "reduction": "Multiplier reduction:",
+        "multiple_cast": "Can cast multiple:"
       },
       "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s\n%1$s**Buy Price:** %8$s %9$s\n%1$s**Sell Price:** %10$s %11$s",
       "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Buy Price:** %7$s %8$s\n%1$s**Sell Price:** %9$s %10$s"
@@ -2036,7 +2024,7 @@
       "autorole": "%1$sYou cannot set the autorole role as a birthday role! Vergeet niet dat de verjaardagsrol een rol is die wordt toegewezen aan de persoon wanneer de verjaardag is en wordt verwijderd wanneer de dag voorbij is..",
       "warning": "%1$sVergeet niet dat de verjaardagsrol een rol is die wordt toegewezen aan de persoon wanneer de verjaardag is en wordt verwijderd wanneer de dag voorbij is. Als je twijfels hebt over hoe je het kunt configureren, kun je altijd lid worden van onze support Discord en  daar je vraag stellen. Je kunt ook `~>opts help birthday enable` checken om een voorbeeld te zien.",
       "warning_1": "Dit komt door de manier waarop de verjaardagstoewijzer werkt: Het kent een tijdelijke rol toe aan de persoon die jarig is, en maakt de toewijzing ongedaan wanneer de verjaardag is verstreken. **Dit betekent dat iedereen met de verjaardagsrol de rol weer verwijderd krijgt op de dag dat de verjaardag is afgelopen**. Wees voorzichtig bij het kiezen van de te gebruiken rol, want een verkeerde configuratie kan slechte dingen veroorzaken (echt waar)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Birthday-101> for more info.",
       "warning_3": "Alsook de verjaardags cache (Wat we gebruiken om ze op te slaan) past maar om de 23 uur aan. Dit wil zeggen als je je verjaardag van vandaag naar morgen zet om de berichtgever te testen, deze **niet** zal werken.",
       "warning_4": "Typ **yes** als je ermee instemt om de rol %2$s in te stellen als verjaardagsrol, en **no** om te annuleren. Deze actie verloopt over 45 seconden.",
       "success": "%1$sVerjaardagsregistratie ingeschakeld op deze server met parameters -> Kanaal: `%2$s (%3$s)` en rol: `%4$s (%5$s)`",
@@ -2198,18 +2186,11 @@
     "defaultmutetimeout_reset": {
       "success": "%1$sDe timeout is succesvol gereset."
     },
-    "muterole_unbind": {
-      "success": "%1$sDe mute-rol is succesvol gereset."
-    },
-    "muterole_set": {
-      "no_role": "%1$sJe moet de rol opgeven die je wilt gebruiken als de mute-rol. Als de naam spaties bevat, kunt je deze tussen aanhalingstekens zetten.",
-      "success": "%1$sDe mute-rol is ingesteld op **%2$s**"
-    },
     "reset:all": {
       "success": "%1$sJe opties zijn succesvol gereset!"
     },
     "birthday_test": {
-      "no_user": "%1$sJe moet een gebruiker opgeven om deze assigner mee te testen.",
+      "no_user": "%1$sYou need to specify a user to test the assigner with. Just mention them.",
       "no_bd_channel": "%1$sJe hebt geen verjaardagskanaal ingesteld!",
       "no_bd_role": "%1$sJe hebt geen rol ingesteld voor de verjaardagssetter! check of je hiervoor een nieuwe rol hebt aangemaakt.",
       "no_talk_permission": "%1$sDe bot kan geen berichten sturen in het verjaardagskanaal. check je kanaal \ntoestemmingen.",
@@ -2268,16 +2249,6 @@
       "no_message": "%1$sYou need to specify what message you want me to say when someone deletes a message!",
       "success": "%1$sMessage delete message set to: `%2$s`",
       "reset_success": "%1$sReset logs delete message."
-    },
-    "logs_banmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone gets banned!",
-      "success": "%1$sBan message set to: `%2$s`",
-      "reset_success": "%1$sReset logs ban message."
-    },
-    "logs_unbanmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone gets unbanned!",
-      "success": "%1$sUnban message set to: `%2$s`",
-      "reset_success": "%1$sReset logs unban message."
     },
     "djrole_set": {
       "no_role": "%1$sYou need to give me a role to use as the DJ role.",

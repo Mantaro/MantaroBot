@@ -24,13 +24,20 @@
     "description": "Mô tả",
     "options": "Tuỳ chọn",
     "find_members_failure": "%1$sKhông tìm thấy bất kì thành viên nào với tiêu chí tìm kiếm của bạn :(",
+    "find_roles_failure": "%1$sDidn't find any roles that match your search criteria :(",
+    "too_many_roles": "%1$sToo many roles found, maybe refine your search?\n**Roles found:** %2$s",
+    "role_select": "Select the Role:",
+    "find_channels_failure": "%1$sCannot find any text channel with that name :(",
+    "find_voice_channels_failure": "%1$sCannot find any voice channel with that name :(",
+    "too_many_channels": "%1$sToo many channels found, maybe refine your search?\n**Channels found:** %2$s",
+    "channel_select": "Select the Channel:",
     "too_many_members": "%1$sTìm thấy quá nhiều người dùng, bạn có muốn sửa từ khóa tìm kiếm không? (ví dụ: tên người dùng#số hiệu)\n**Số người được tìm thấy:** %2$s",
     "too_many_mentions": "%1$sVui lòng chỉ đề cập đến một người khi tìm kiếm thành viên.",
     "query_too_small": "%1$sCâu tìm kiếm của bạn quá ngắn. Hãy đảm bảo rằng bạn đang tìm kiếm ít nhất 4 ký tự. Nếu tên người dùng quá ngắn, tốt nhất bạn nên ghi rõ `tên người dùng#số hiệu` hoặc id của người dùng.",
     "dust": "Ở đây chỉ có mỗi bụi.",
     "invalid_syntax": "Cú pháp không hợp lệ.",
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
-    "member_lookup_failure": "%1%sKhông thể tìm thấy bất kì thành viên nào với tên đó :(",
+    "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "item_lookup": {
       "no_item_emoji": "Không có vật phẩm nào phù hợp với biểu tượng này.",
       "no_item_name": "Không có vật phẩm nào phù hợp với tên này.",
@@ -138,8 +145,8 @@
   "commands": {
     "slash": {
       "title": "Slash commands transition",
-      "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command.\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix.\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
+      "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
+      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site",
       "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site"
     },
@@ -177,36 +184,13 @@
     "softban": {
       "no_permission": "%1$sYou can't soft-ban: You need the `Ban Users` permission.",
       "no_permission_self": "%1$sXin lỗi! Tôi không có quyền cấm thành viên ở máy chủ này.",
-      "no_users": "%1$sBạn cần cho tôi một cái tên để cấm tạm thời.",
-      "hierarchy_conflict": "%1$sBạn không thể cấm tạm thời người dùng có vai trò cao hơn bạn",
+      "no_users": "%1$sYou need to give me a user to soft-ban.",
+      "hierarchy_conflict": "%1$sYou cannot soft-ban a user in a higher hierarchy than you",
       "yourself_note": "%1$sTại sao bạn lại tự đi cấm tạm thời bản thân?",
       "self_hierarchy_conflict": "%1$sKhông thể cấm tạm thời thành viên: %2$s, họ có vai trò cao hơn hoặc ngang bằng tôi!",
       "success": "%1$s%2$s. **(%3$s đã bị cấm tạm thời)**",
       "error": "%1$sLỗi cấm tạm thời [%2$s]: (Không được cấp quyền: %3$s)",
       "unknown_error": "%1$sLỗi không xác định xảy ra khi đang cố cấm tạm thời %2$s: *(Có đúng là lỗi không nhỉ? %3$s: %4$s)*"
-    },
-    "ban": {
-      "no_permission": "%1$sBạn không thể cấm: Bạn cần quyền `Ban Users` (cấm người dùng).",
-      "no_users": "%1$sBạn cần cho tôi một cái tên để cấm.",
-      "no_permission_self": "%1$sXin lỗi! Tôi không có quyền cấm thành viên trong máy chủ này.",
-      "hierarchy_conflict": "%1$sBạn không thể cấm ai đó có vai trò cao hơn bạn trong máy chủ! Có cố gắng đó %2$s",
-      "yourself_note": "%1$sTại sao bạn lại đi cấm bản thân? Đồ ngốc!",
-      "self_hierarchy_conflict": "%1$sKhông thể cấm thành viên: %2$s, họ có vai trò cao hơn hoặc ngang bằng tôi!",
-      "success": "%1$s%2$s (%3$s đã bị cấm)",
-      "success_multiple": "%1$s%2$s (%3$s người đã bị cấm)",
-      "error": "%1$sLỗi cấm %2$s: (Tôi cần được cấp quyền %3$s)",
-      "unknown_error": "%1$sGì thế này? Tôi gặp phải một lỗi không mong muốn trong lúc cấm %2$s"
-    },
-    "kick": {
-      "no_permission": "%1$sYou can't kick: You need the `Kick Members` permission.",
-      "no_users": "%1$sBạn cần cho tôi một cái tên để đuổi.",
-      "no_permission_self": "%1$sXin lỗi! Tôi không có quyền đuổi thành viên trong máy chủ này.",
-      "hierarchy_conflict": "%1$sBạn không thể đuổi người dùng có vai trò cao hơn bạn",
-      "yourself_note": "%1$sTại sao bạn lại đuổi bản thân? Đồ ngốc!",
-      "self_hierarchy_conflict": "%1$sKhông thể đuổi thành viên: %2$s, họ có vai trò cao hơn hoặc ngang bằng tôi!",
-      "success": "%1$s%2$s (%3$s đã bị đuổi)",
-      "error": "%1$sLỗi đuổi %2$s: (Không được cấp quyền: %3$s)",
-      "unknown_error": "%1$sLỗi không xác định khi đang cố gắng đuổi %2$s"
     },
     "music_usage": {
       "1": "*Làm thế nào để sử dụng chức năng âm nhạc trong Mantaro?*",
@@ -218,12 +202,12 @@
       "7": "- To **pause or unpause** just use `/pause`",
       "8": "- To **stop the music and unbind the player** use `/stop`",
       "9": "- To **shuffle the queue** just use `/shuffle`",
-      "10": "- And lastly, to **repeat a song** use `/repeat` and to **repeat a queue** use `/repeatqueue`. Using `/repeat` while repeat is on, turns it off, the same is true for `/repeatqueue`\n",
+      "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue by setting the queue boolean to true on the command.\n",
       "11": "For more info please use `/help <command name>` (without the <> and replace command name with the name of the command you want)",
       "12": "Tận hưởng âm nhạc và cảm ơn vì đã sử dụng Mantaro!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `/ language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
+      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "season": {
       "info": "Một *mùa* là một khoảng thời gian dài, thông thường là khoảng 6 tháng để những người chơi có thể cạnh tranh cho 10 vị trí đầu bảng xếp hạng về tiền hoặc danh tiếng. Người thắng cuộc sẽ được nhận huy hiệu và giải thưởng dựa trên sự thể hiện của họ trong mùa đó.\nĐiều này là để cho có tính cạnh tranh hơn (trước đây thì tiền khá là cũ) và đồng thời khiến trò chơi trở nên vui hơn.\nBạn có thể biết được những thông tin theo mùa bằng cách dùng `-season`. Những lệnh như profile, mine, fish hay balance sẽ cần nó, trong khi những lệnh games, loot, daily và reputation sẽ tính tiền/danh tiếng cho cả hồ sơ toàn cầu và hồ sơ theo mùa của bạn.",
@@ -512,28 +496,25 @@
       "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `/custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
-      "no_permissions": "%1$sBạn cần có quyền cấm hoặc quyền đuổi thành viên để làm người khác câm lặng.",
-      "no_mute_role": "%1$sChức năng \"câm lặng\" chưa được đặt trong máy chủ này, Bạn có thể đặt bằng cách gõ `~>opts muterole set <vai trò>`",
-      "null_mute_role": "%1$sVai trò bị câm trước đây ở máy chủ bây giờ đã không còn tồn tại.",
-      "no_users": "%1$sHãy đề cập tên, và tôi sẽ cho người đó ăn câm lặng.",
-      "no_manage_roles": "%1$sTôi không có quyền quản lý vai trò trong máy chủ này.",
+      "no_permissions": "%1$sYou need to have permission to Moderate Members in order to time out a user.",
+      "no_users": "%1$sYou need to give me a user to time out.",
+      "no_moderate_members": "%1$sI don't have permissions to administrate timeouts on this server.",
       "time_not_specified": "%1$sBạn muốn có thời gian nhưng bạn lại không chỉ rõ thời gian bao lâu.",
-      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute 20m @mention reason goes here`, for example.",
-      "negative_time_notice": "%1$sBạn không thể câm lặng ai đó trong thời gian âm. Trừ khi bạn có thể uốn cong không gian và thời gian.",
-      "default_time_too_long": "%1$sThời gian câm lặng quá dài (Tối đa: 10 ngày)...",
+      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute user 20m reason goes here`, for example.",
+      "default_time_too_long": "%1$sThe default time out timeout length is too long (Maximum: 10 days)...",
       "time_too_little": "%1$sKhoảng thời gian làm câm được chỉ định nhỏ hơn 10 giây.\nBạn có chắc là bạn sử đụng đúng định dạng không đấy? Cho 20 phút, ghi là 20m, cho 1 tiếng, ghi là 1h, hoặc là một dạng kết hợp cả hai như (1h45m) chẳng hạn.",
-      "time_too_long": "%1$sThời gian câm lặng quá dài (Tối đa: 10 ngày)...",
-      "already_muted": "%1$sThis user already has a mute role assigned. Please do `/unmute` to un-mute them.",
-      "self_hierarchy_error": "%1$sTôi không thể gán vai trò câm lặng vì người này có thứ bậc cao hơn tôi, hoặc vai trò người đó có cao hơn tôi!",
-      "user_hierarchy_error": "%1$sTôi không thể câm lặng người này vì họ có vai trò cao hơn tôi, hoặc vai trò đó ở phân cấp cao hơn bạn!",
-      "success": "%1$sĐã gửi câm lặng đến **%2$s** trong vòng %3$s",
-      "success_reason": "%1$sĐã gửi câm lặng đến **%2$s** trong vòng %3$s vì lý do sau: %4$s"
+      "time_too_long": "%1$sThe specified timeout length is too long (Maximum: 10 days)...",
+      "already_muted": "%1$sThis user is already timed out. Please do `/unmute` to un-mute them.",
+      "self_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
+      "user_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
+      "success": "%1$sSuccessfully timed out **%2$s** for %3$s",
+      "success_reason": "%1$sSuccessfully timed out **%2$s** for %3$s because of the following reason: %4$s"
     },
     "unmute": {
-      "no_permissions": "%1$sBạn cần phải có quyền cấm hoặc đuổi thành viên để huỷ câm!",
-      "no_mentions": "%1$sBạn cần phải đề cập đến ít nhất một người dùng bạn muốn gỡ câm.",
-      "success": "%1$sĐã bỏ câm lặng khỏi **%2$s**",
-      "no_role_assigned": "%1$sNgười dùng này không bị câm lặng."
+      "no_permissions": "%1$sYou need to have permission to Moderate Members to remove a time out!",
+      "no_mentions": "%1$sYou need to tell me who to remove the time out from.",
+      "success": "%1$sSuccessfully removed time out from **%2$s**",
+      "not_muted": "%1$sThis user doesn't seem to be timed out."
     },
     "ping": {
       "display": [
@@ -577,7 +558,7 @@
         "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `/marry status`",
         "too_long": "%1$sBức thư này quá dài (tối đa 500 ký tự)",
         "cannot_see": "%1$sTôi không thể tìm thấy người mà bạn đã cưới... Có lẽ là do họ không cùng trong máy chủ nào với tôi.",
-        "confirmation": "%1$sBạn có *chắc chắn* muốn gửi bức thư này để tỏ tình với **%2$s#%3$s**?\nBức thư này sẽ được giữ MÃI MÃI trong hôn nhân. *Nội dung:*%4$s",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `/marry status`",
         "scrapped": "%1$sBạn vẫn có thời gian để suy nghĩ và để viết, không cần phải vội!"
       },
@@ -592,11 +573,6 @@
         "house": "Tên nhà",
         "car": "Tên xe",
         "pet": "Tên thú nuôi (Loại)"
-      },
-      "timezone": {
-        "no_content": "%1$sBạn cần phải nêu rõ múi giờ mà bạn muốn cho cuộc hôn nhân này.",
-        "invalid": "%1$sMúi giờ hoặc mã vùng không hợp lệ.",
-        "success": "%1$sĐã chỉnh múi giờ cho hôn nhân là %2$s. Thời gian hoạt động của thú nuôi cũng như tương tự."
       },
       "general": {
         "not_married": "%1$sBạn chưa cưới."
@@ -625,7 +601,7 @@
       "already_married": "%1$sBạn vốn đã kết hôn rồi.",
       "receipt_married": "%1$sNgười dùng đó đã kết hôn với người khác.",
       "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `/buy 2 ring` and then try proposing again <3",
-      "confirmation": "%1$s%2$s, hãy gõ **yes** (đồng ý) hoặc **no** (không đồng ý) cho lời cầu hôn của %3$s\n%4$sHết hiệu lực sau 120 giây.",
+      "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$sBạn không thể cưới khi có ít hơn hai chiếc nhẫn trong túi đồ của bạn :(",
       "accepted": "%1$s**%2$s#%3$s** đã chấp nhận lời cầu hôn của **%4$s#%5$s**!",
       "denied": "%1$sĐã từ chối lời cầu hôn từ **%2$s**",
@@ -716,7 +692,7 @@
     },
     "inventory": {
       "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `/dump`",
-      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `/inventory`. Enjoy your day!*",
+      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `/inventory show`. Enjoy your day!*",
       "calculate": "%1$s%2$s sẽ nhận được **%3$,d đồng** nếu bán tất cả mọi thứ trong túi đồ.",
       "header": "Túi đồ của %1$s",
       "format": "%1$sGiá cả:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
@@ -753,7 +729,7 @@
     },
     "market": {
       "dump": {
-        "replacement": "You can use `~>dump` now. For example, instead of `~>market dump floppy` you can do `~>dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
+        "replacement": "You can use `/dump` now. For example, instead of `~>market dump floppy` you can do `/dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
         "no_item": "%1$sBạn cần ghi rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải ghi ra) và tên của đồ vật bạn muốn vứt.",
         "invalid": "%1$sSố lượng bạn nhập không hợp lệ để vứt.",
         "non_existent": "%1$sKhông thể vứt đồ không tồn tại! Nếu bạn đang lúng túng, bạn có thể thử dùng tên viết tắt hoặc cho tên vào trong ngoặc kép.",
@@ -769,7 +745,7 @@
         "success": "%1$sGiá mua cho %2$s**%3$s** là %4$s đồng và giá bán là %5$s đồng."
       },
       "sell": {
-        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
+        "replacement": "You can use `/sell` now. For example, instead of `~>market sell pick` you can do `/sell pick`. Please use the new command instead.",
         "no_item": "%1$sBạn cần ghi rõ vật phẩm mà bạn muốn bán.",
         "no_item_amount": "%1$sBạn cần ghi rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải ghi ra) và tên của đồ vật bạn muốn bán.",
         "invalid": "%1$sSố không hợp lệ để có thể bán.",
@@ -785,7 +761,7 @@
         "success": "%1$sBạn đã bán %2$,d **%3$s** và nhận được %4$,d đồng!"
       },
       "buy": {
-        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
+        "replacement": "You can use `/buy` now. For example, instead of `~>market buy pick` you can do `/buy pick`. Please use the new command instead.",
         "no_item": "%1$sBạn cần ghi rõ vật phẩm bạn muốn mua.",
         "no_item_amount": "%1$sBạn cần ghi rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải ghi ra) và tên của vật phẩm bạn muốn mua.",
         "invalid": "%1$sSố lượng bạn nhập không hợp lệ để mua.",
@@ -826,6 +802,7 @@
       "own_locked_notice": "%1$sBạn hiện không thể chuyển tiền.",
       "receipt_overflow_notice": "Không thể chuyển tiền cho người này.",
       "no_money_notice": "%1$sBạn không thể chuyển số tiền mà bạn không có.",
+      "too_little": "%1$sMinimum transfer amount is 100 credits.",
       "receipt_locked_notice": "%1$sNgười đó hiện không thể nhận tiền.",
       "receipt_over_limit": "%1$sNgười này có quá nhiều tiền...",
       "success": "%1$sĐã chuyển thành công **%2$,d** *(%3$,d sau khi trừ 8%% thuế)* tới **%4$s**.",
@@ -1365,8 +1342,8 @@
     },
     "pet": {
       "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nThere's two types: Personal (for yourself) and Marriage (shared between your partner and you). Choose one with `/pet choice`. The default is Personal.\nFor more help, use `/help pet` and `/pet list` for a list of pets.",
-      "no_marriage": "%1$sYou need to be married to have a pet. For now. Check `/help marry` and `/pet`",
-      "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now. Check `/help marry` and `/pet`",
+      "no_marriage": "%1$sYou need to be married to have a marriage pet. For now. Check `/help marry` and `/pet`",
+      "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. For now. Check `/help marry` and `/pet`",
       "status": {
         "no_pet": "%1$sYou don't have any pets to check the status of. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
         "pet_in_other_category": "\n%1$sYou have a pet on the %2$s choice (%3$s). You can switch to it with `/pet choice %2$s`",
@@ -1609,7 +1586,8 @@
     "help": {
       "title": "Trợ giúp Mantaro",
       "base_category": "Danh sách lệnh cho loại lệnh %1$s. Để được hướng dẫn cụ thể, hãy xem [wiki](https://github.com/Mantaro/MantaroBot/wiki) và [Hướng dẫn mua bán](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
+      "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
+      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
       "support": "Nếu bạn vẫn không biết làm gì thì có thể tham gia [máy chủ hỗ trợ](https://support.mantaro.site). Bạn cũng có thể theo dõi chúng tôi trên [Twitter](https://twitter.com/mantarodiscord) về cập nhật.\n",
       "patreon": "**[Chúng tôi cần sự giúp đỡ của bạn để Mantaro tiếp tục hoạt động! Nhấn vào đây để biết thêm.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Chỉ hiển thị các lệnh không bị vô hiệu hóa. Tổng số lệnh bị vô hiệu hóa: %1$s",
@@ -1625,7 +1603,8 @@
       "help_header": "Command help for %s",
       "options": "Options",
       "usage": "Usage",
-      "optional": "(This is optional)"
+      "optional": "(This is optional)",
+      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help cast item`.\nThis goes for all subcommands, as long as they have some sort of help."
     },
     "repair": {
       "no_item": "%1$sBạn không ghi rõ vật phẩm để sửa. Nếu bạn nghĩ là bạn đã có vật phẩm, hãy thử sử dụng tên đầy đủ.",
@@ -1685,8 +1664,7 @@
       "bot_notice": "%1$sBot không có tiền.",
       "external_balance": "Số tiền của %1$s là **$%2$,d đồng.**",
       "own_balance": "Số tiền của bạn là **$%1$,d đồng.**%2$s",
-      "new_player": "\nXin chào! Tôi thấy bạn có vẻ là chiếu mới ở đây. Hướng dẫn này sẽ giúp bạn rất nhiều: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. Dòng này chỉ hiển thị một lần.",
-      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `/profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
+      "new_player": "\nXin chào! Tôi thấy bạn có vẻ là chiếu mới ở đây. Hướng dẫn này sẽ giúp bạn rất nhiều: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. Dòng này chỉ hiển thị một lần."
     },
     "daily": {
       "check": "%1$sBạn sẽ nhận được phần thưởng hàng ngày trong vòng: **%2$s.**",
@@ -1860,6 +1838,16 @@
         "desc": "Mô tả",
         "upgrade": "Đang tìm cách nâng cấp?",
         "upgrade_content": "Nhấn vào [đây](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) để biết thêm thông tin chi tiết về cách nâng cấp các dụng cụ nhé!"
+      },
+      "attribute": {
+        "tier": "Wrench Tier (to craft):",
+        "tier_raw": "Wrench Tier:",
+        "increase": "Money Increase:",
+        "diamond_drop": "Diamond Drop Range:",
+        "gem_luck": "Sparkle / Gem Luck",
+        "buff": "Item Buff:",
+        "reduction": "Multiplier reduction:",
+        "multiple_cast": "Can cast multiple:"
       },
       "success_tiered": "**Thông tin về** %2$s **%3$s** (%4$s)\n%1$s**Loại:** %5$s\n%1$s**Mô tả:** *%6$s*\n%1$s**Bậc:** %7$s\n%1$s**Giá mua:** %8$s %9$s\n%1$s**Giá bán:** %10$s %11$s",
       "success": "**Thông tin về** %2$s **%3$s** (%4$s)\n%1$s**Loại:** %5$s\n%1$s**Mô tả:** *%6$s*\n%1$s**Giá mua:** %7$s %8$s\n%1$s**Giá bán:** %9$s %10$s"
@@ -2036,7 +2024,7 @@
       "autorole": "%1$sBạn không thể đặt vai trò của tất cả mọi người thành vai trò sinh nhật! Hãy nhớ rằng vai trò sinh nhật là một vai trò tự động đưa cho người đó khi sinh nhật họ tới, và bị gỡ sau ngày đó.",
       "warning": "%1$sHãy nhớ rằng vai trò sinh nhật là một vai trò được gắn cho người đó khi sinh nhật sinh nhật họ tới, và bị gỡ sau khi ngày đó qua đi. Bạn cũng có thể ghi `~>opts help birthday enable` để làm ví dụ.",
       "warning_1": "Điều này là do cách thức hoạt động của công cụ gắn ngày sinh: Nó gắn một vai trò tạm thời cho người có ngày sinh và gỡ khi ngày sinh nhật trôi qua. **Điều này có nghĩa là tất cả mọi người có vai trò trong ngày sinh nhật sẽ bị xóa vai trò ngày vào ngày hôm sau**. Hãy cẩn thận khi chọn vai trò, vì sai một li là đi luôn cái máy chủ đấy (không đùa đâu)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Birthday-101> for more info.",
       "warning_3": "Ngoài ra, bộ nhớ đệm sinh nhật (những gì được sử dụng để lưu trữ) chỉ được cập nhật sau mỗi 23 giờ. Có nghĩa là nếu bạn đặt ngày sinh của mình từ hôm nay sang ngày mai để kiểm tra thì nó sẽ **không** hoạt động.",
       "warning_4": "Nhấn **yes** nếu bạn đồng ý đặt vai trò %2$s làm vai trò sinh nhật, và **no** để huỷ. Thời gian chờ là 45 giây.",
       "success": "%1$sNhật kí thông báo ngày sinh trên máy chủ này với biến -> Kênh: `%2$s (%3$s)` và vai trò: `%4$s (%5$s)`",
@@ -2198,18 +2186,11 @@
     "defaultmutetimeout_reset": {
       "success": "%1$sĐã đặt lại thời gian thành công."
     },
-    "muterole_unbind": {
-      "success": "%1$sĐã đặt lại vai trò câm lặng."
-    },
-    "muterole_set": {
-      "no_role": "%1$sBạn cần ghi rõ tên vai trò bạn muốn biến nó thành vai trò câm lặng. Nếu tên của vai trò có khoảng cách, hãy thử \"ngoặc nó lại như thế này\".",
-      "success": "%1$sĐã đặt vai trò câm lặng thành **%2$s**"
-    },
     "reset:all": {
       "success": "%1$sĐặt lại các tuỳ chọn của bạn!"
     },
     "birthday_test": {
-      "no_user": "%1$sBạn cần đề cập một người dùng để kiểm tra.",
+      "no_user": "%1$sYou need to specify a user to test the assigner with. Just mention them.",
       "no_bd_channel": "%1$sBạn không đặt kênh chúc sinh nhật nào cả!",
       "no_bd_role": "%1$sBạn chưa đặt vai trò nào hết! Hãy chắc rằng bạn đã tạo vai trò mới cho nó.",
       "no_talk_permission": "%1$sTui không có quyền phát ngôn trong kênh sinh nhật. Hãy kiểm tra quyền hạn.",
@@ -2268,16 +2249,6 @@
       "no_message": "%1$sBạn phải ghi rõ tin nhắn bạn muốn tui nói khi ai đó xoá tin nhắn chứ!",
       "success": "%1$sTin nhắn xóa tin nhắn được đặt thành: `%2$s`",
       "reset_success": "%1$sĐã đặt lại cài đặt ghi chép xoá tin nhắn."
-    },
-    "logs_banmessage": {
-      "no_message": "%1$sBạn phải ghi rõ tin nhắn bạn muốn tui nói khi ai đó bị ăn búa chứ!",
-      "success": "%1$sTin nhắn ăn búa được đặt thành: `%2$s`",
-      "reset_success": "%1$sĐã đặt lại ghi chép tin nhắn thành viên ăn búa."
-    },
-    "logs_unbanmessage": {
-      "no_message": "%1$sBạn phải ghi rõ tin nhắn bạn muốn tui nói khi ai đó được gỡ cấm chứ!",
-      "success": "%1$sTin nhắn gỡ cấm được đặt thành: `%2$s`",
-      "reset_success": "%1$sĐã đặt lại ghi chép tin nhắn gỡ cấm thành viên."
     },
     "djrole_set": {
       "no_role": "%1$sĐưa tui cái vai trò bạn muốn sử dụng làm vai trò DJ chứ.",
