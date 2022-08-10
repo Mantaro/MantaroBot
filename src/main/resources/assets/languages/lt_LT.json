@@ -802,6 +802,7 @@
       "own_locked_notice": "%1$sTu kolkas negali pervesti pinigų.",
       "receipt_overflow_notice": "Neįmanoma pervesti pinigų šiam žmogui.",
       "no_money_notice": "%1$sTu negali pervesti pinigų, kurių neturi.",
+      "too_little": "%1$sMinimum transfer amount is 100 credits.",
       "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sŠis narys ir taip turi per daug pinigų...",
       "success": "%1$sSėkmingai pervesta **%2$d** *(%3$d po 10%% mokesčio)* **%4$s**.",
