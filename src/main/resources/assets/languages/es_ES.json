@@ -802,6 +802,7 @@
       "own_locked_notice": "%1$sNo puedes transferir créditos ahora.",
       "receipt_overflow_notice": "No puedes enviarle más créditos a este jugador.",
       "no_money_notice": "%1$sNo puedes transferir créditos que no posees.",
+      "too_little": "%1$sMinimum transfer amount is 100 credits.",
       "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sEse usuario ya tiene muchos créditos...",
       "success": "%1$sHas transferido **%2$d** *(%3$d despues de 8%% de impuestos)* créditos a **%4$s** correctamente.",
