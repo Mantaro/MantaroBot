@@ -802,6 +802,7 @@
       "own_locked_notice": "%1$sYou cannot transfer money now.",
       "receipt_overflow_notice": "Nie można wysłać pieniędzy do tego użytkownika.",
       "no_money_notice": "%1$sYou cannot transfer money you don't have.",
+      "too_little": "%1$sMinimum transfer amount is 100 credits.",
       "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sTen użytkownik ma za dużo kasy...",
       "success": "%1$sTransferred **%2$,d** *(%3$,d after 8%% tax)* to **%4$s** successfully.",
