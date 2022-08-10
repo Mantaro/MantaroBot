@@ -802,6 +802,7 @@
       "own_locked_notice": "%1$sSementara ini kamu tidak bisa mentransfer uang.",
       "receipt_overflow_notice": "Tidak bisa mengirim uang ke pemaini ini.",
       "no_money_notice": "%1$sTidak bisa transfer uang kalau tidak punya uang sama sekali.",
+      "too_little": "%1$sMinimum transfer amount is 100 credits.",
       "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sPengguna ini uangnya sudah kebanyakan...",
       "success": "%1$s*Berhasil transfer *%2$,d** *(%3$,d setelah dipotong pajak 8%%)* kepada **%4$s**.",
