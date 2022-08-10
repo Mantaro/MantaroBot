@@ -802,6 +802,7 @@
       "own_locked_notice": "%1$sJe kunt nu geen geld overmaken",
       "receipt_overflow_notice": "Kan geen geld naar deze persoon overmaken.",
       "no_money_notice": "%1$sJe kunt geen geld overmaken dat je niet hebt.",
+      "too_little": "%1$sMinimum transfer amount is 100 credits.",
       "receipt_locked_notice": "%1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sDeze persoon heeft al te veel geld...",
       "success": "%1$sEr is succesvol **%2$,d** *(%3$,d na 8%% belasting)* overgemaakt naar **%4$s**.",
