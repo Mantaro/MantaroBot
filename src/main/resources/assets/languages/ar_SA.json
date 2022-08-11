@@ -209,10 +209,6 @@
     "lang": {
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
-    "season": {
-      "info": "*الموسم* هو فتره من الزمن, عادة ما تكون 6 أشهر. حيث يتنافس اللاعبون على أفضل 10 مراكز على لوحة الصدارة من ناحية المال أو نقاط السمعة ( الريب). سيحصل الفائزون على شارات وجوائز استنادًا إلى أدائهم الموسمي وهذا لجعل الروح التنافسيه أكثر (من قبل, كان المال لا فائدة له) ولجعل اللعبه اكثر متعة.\nيمكنك الوصول للأوامر الموسمية عن طريق استخدام `-season`. الأوامر مثل profile, mine, fish and balance سوف تتطلب ذلك, بينما games, loot, daily و reputation سيعطي مال/نقاط سمعة ( ريب) لكل من ملفك الشخصي العالمي والموسمي.",
-      "info_2": "\n\nThe current season is **%1$s** and **%2$s** players are currently taking part on it!\n\nThe fun begins, check `/leaderboard money -season`; `/leaderboard rep -season` and `/leaderboard games -season`.\nGame on! <3\nThanks for enjoying Mantaro."
-    },
     "music_general": {
       "music_error": {
         "timeout": "%1$sغير قادر على الاتصال %2$s: انتهت مدة الاتصال. حاول تغيير منطقة الخادم وتشغيل الأمر مرة أخرى.",
@@ -944,7 +940,6 @@
         "days": "يوم ( أيام)",
         "times_used": "عدد مرات الإستخدام",
         "equipment": "مُعدات",
-        "seasonal_equipment": "معدات الموسم",
         "autoequip": "تركيب تلقائي",
         "never": "ابداً"
       },
@@ -1276,7 +1271,7 @@
       "disabled_multiple": "%1$s هذا السيرفر قام بتعطيل اللعبة المتعددة/اللوبيات."
     },
     "opencrate": {
-      "no_crate": "%1$sليس لديك صندوق من هذا النوع (%2$s) لفتحه! (إذا كنت تحاول فتح صندوق من أي نوع آخر غير النوع الافتراضي، فاستخدم اسم الصندوق بعد الأمر. إذا كنت ترغب في استخدام المخزون الموسمي، فقم بإلحاق `-s`)",
+      "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command).",
       "not_crate": "%1$sهذا اسم صندوق غير صالح! ",
       "nothing_found": "%1$sI didn't find any crate matching your query. Make sure you used the correct name."
     },
@@ -1800,7 +1795,6 @@
     "leaderboard": {
       "main_page_redirect": "You can see `/help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `/leaderboard money`",
       "header": "قائمة المتصدرين في مانتارو",
-      "header_seasonal": "قائمة متصدرين الموسم %1$s في مانتارو",
       "money": "قائمة متصدرين الاموال",
       "reputation": "قائمة المتصدرين في اعلى عدد نقاط سمعة",
       "gamble": "قائمة المتصدرين في عدد مرات الفوز في القمار",
@@ -1816,7 +1810,6 @@
         "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `/help waifu` for details on the waifu system.",
         "money_old": "%1$sThis page shows the top 10 richest people on Mantaro (before the reset).\n",
         "money": "%1$sThis page shows the top 10 richest people on Mantaro. Grinding is hard!",
-        "seasonal_money": "%1$sتعرض هذه الصفحة اغنى 10 اشخاص في مانتارو لهذا الموسم.",
         "rep": "%1sتعرض هذه الصفحة اعلى 10 اشخاص الحاصلين على نقاط سمعة (ريب).",
         "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `/help daily` for more info",
         "lvl": "%1sتعرض هذه الصفحة اعلى 10 اشخاص باللفل.\n\nيتم اكتساب اللفل من خلال التكلم. لا يساهم استخدام الامر في التجربة, و هناك فترة انتظار بمعدل 30 ثانية للاكس بي.",
