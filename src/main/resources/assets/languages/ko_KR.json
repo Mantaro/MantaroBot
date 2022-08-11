@@ -391,7 +391,7 @@
     "custom": {
       "custom_notice": "This is a custom command.",
       "no_args": "%1$s이 명령으로 수행할 작업을 지정해야 해요. 자세한 내용은 명령어 도움말을 확인하세요!",
-      "incorrect_args": "%1$sIncorrect arguments. Check `/help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
+      "incorrect_args": "%1$sIncorrect arguments. Check `/help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101 for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
       "error_running": "%1$s사용자 정의 명령을 실행하는 동안 오류가 발생했어요... 응답 내용 및 길이를 확인하세요(2000자 이상일 수 없어요).",
       "error_running_new": "%1$s사용자 정의 명령을 실행하는 동안 오류가 발생했어요. 응답, 내용, 길이를 확인하세요.\n**Error:**\n```%2$s```",
       "not_loaded": "봇이 아직 완전히 부팅되지 않았어요... 사용자 정의 명령어를 곧 사용할 수 있어요!",
@@ -401,7 +401,7 @@
       "new_error": "%1$s만들려는 사용자 정의 명령어에 오류가 있어요(v3, 내용 확인).\n**Error:**\n```%2$s```",
       "ls": {
         "header": "이 서버에 대한 명령어예요.",
-        "description": "**이 서버에는 이 서버의 모든 사용자 정의(사용자 정의) 명령어가 표시됩니다.** 여기서 모든 명령은 어떤 형태나 형태로든 봇 자체와 연관되지 않아요\n\n사용자 정의 명령은 에뮬레이션 작업 명령어까지 다양한 상황을 처리할 수 있는 사용자(일반적으로 서버 관리자)에 의해 생성된 명령어예요.\n사용자 정의 명령어를 만드는 방법에 대한 자세한 내용은 [이 위키 페이지](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)를 참조하길 바라요.\n \n**목록:**",
+        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101)\n \n**List:**",
         "footer": "이 서버의 총 사용자 정의 명령어: %1$s개"
       },
       "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
