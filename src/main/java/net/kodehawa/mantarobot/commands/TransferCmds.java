@@ -253,7 +253,7 @@ public class TransferCmds {
                 return;
             }
 
-            var amount = (int) Math.max(1, Math.abs(ctx.getOptionAsLong("amount", 1)));
+            var amount = (int) Math.abs(ctx.getOptionAsLong("amount", 1));
             if (amount == 1) {
                 if (player.getInventory().containsItem(item)) {
                     if (item.isHidden()) {

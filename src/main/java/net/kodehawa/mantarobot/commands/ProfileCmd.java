@@ -114,17 +114,6 @@ public class ProfileCmd {
     public static class Profile extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {}
-        @Override
-        public Predicate<SlashContext> getPredicate() {
-            return ctx -> {
-                if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
-                    ctx.reply("general.missing_embed_permissions");
-                    return false;
-                }
-
-                return true;
-            };
-        }
 
         @Description("Shows your current profile.")
         @Options({@Options.Option(type = OptionType.USER, name = "user", description = "The user to see the profile of.")})
