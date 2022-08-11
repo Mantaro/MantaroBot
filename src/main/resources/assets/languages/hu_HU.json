@@ -391,7 +391,7 @@
     "custom": {
       "custom_notice": "Ez egy egyedi parancs.",
       "no_args": "%1$sMeg kell adnod, hogy mit szeretnél csinálni ezzel a paranccsal. További infókért csekkold le a parancssúgót!",
-      "incorrect_args": "%1$sIncorrect arguments. Check `/help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
+      "incorrect_args": "%1$sIncorrect arguments. Check `/help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101 for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
       "error_running": "%1$sHiba a parancs futtatása közben... Kérlek ellenőrizd a válasz tartalmát és hosszát (Maximum 2000 karakter).",
       "error_running_new": "%1$sHiba történt a parancs futtatása közben. Ellenőrizd a válasz hosszát és tartalmát.\n**Hiba:**\n```%2$s```",
       "not_loaded": "A bot még nem indult el teljesen... Az egyedi parancsok nemsokára elérhetőek lesznek!",
@@ -401,7 +401,7 @@
       "new_error": "%1$sA létrehozni kívánt parancs hibát tartalmaz (v3, tartalom).\n**Hiba:**\n```%2$s```",
       "ls": {
         "header": "Szerverparancsok.",
-        "description": "**Ez megmutatja az összes felhasználók által készített parancsot.** Az itt jelenlévő parancsok semmilyen formában nem tartoznak a bothoz és nem a fejlesztők készítették!\n\nTöbb infóért látogasd meg a [wiki oldalt](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Lista:**",
+        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101)\n \n**List:**",
         "footer": "Összes egyéni parancs ezen a szerveren: %1$s"
       },
       "invalid": "%1$sÉrvénytelen parancskijelölés. Esetleg vess egy pillantást a wikire: \n<https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
