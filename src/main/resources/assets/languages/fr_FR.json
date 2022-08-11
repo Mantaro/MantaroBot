@@ -209,10 +209,6 @@
     "lang": {
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
-    "season": {
-      "info": "Une *saison* est un laps de temps, de normalement 6 mois durant lesquels les joueurs concourent pour une place dans le top 10 des catégories money et réputation du leaderboard. Les gagnants remporteront des badges et des prix en fonction de leur performance de la saison.\nC'est pour instaurer une ambiance plus compétitive (avant, l'économie était plus renfermée) et pour rendre le jeu un peu plus chouette.\nTu peux accéder à ton équipement de la saison en utilisant `-season`. Les commandes telles que profile, mine, fish et balance en auront besoin ; games, loot, daily et reputation quant à elles donneront de l'argent/de la réputation aussi bien à ton profile globale qu'à ton profile de compétiteur.",
-      "info_2": "\n\nLa saison actuelle est la saison **%1$s** et **%2$s** joueurs y prennent part !\n\nLa partie est lancée, regarde `/leaderboard money -season`; `/leaderboard rep -season` et `/leaderboard games -season`.\nQue le jeu commence ! <3\nMerci de prendre du plaisir avec Mantaro."
-    },
     "music_general": {
       "music_error": {
         "timeout": "%1$sImpossible de se connecter à %2$s: la connexion a expiré. Essaie de changer la région du serveur et d'exécuter à nouveau la commande.",
@@ -944,7 +940,6 @@
         "days": "jour(s)",
         "times_used": "Nombre d'utilisation",
         "equipment": "Equipement",
-        "seasonal_equipment": "Équipement saisonnier",
         "autoequip": "Équipement auto",
         "never": "Jamais"
       },
@@ -1276,7 +1271,7 @@
       "disabled_multiple": "%1$sCe serveur a désactivé les commandes game multiple/lobby."
     },
     "opencrate": {
-      "no_crate": "%1$sTu n'as pas de coffre au trésor de ce type à ouvrir :( (Si tu essaies d'ouvrir un coffre autre que celui par défaut, tu dois le nommer après la commande. Si tu veux utiliser ton inventaire de la saison, ajoute un -s à la fin.)",
+      "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command).",
       "not_crate": "%1$sCe n'est pas un coffre valide.",
       "nothing_found": "%1$sJe n'ai pas trouvé de coffre correspondant à ta recherche. Assure-toi d'avoir utilisé le bon nom."
     },
@@ -1800,7 +1795,6 @@
     "leaderboard": {
       "main_page_redirect": "Envoie `/help leaderboard` pour une liste des tableaux disponnibles.\nSi tu cherches celui de l'argent, envoie `/leaderboard money`",
       "header": "Classements Mantaro",
-      "header_seasonal": "Classements Mantaro pour la saison sur %1$s",
       "money": "Classements Argent",
       "reputation": "Classements Réputation",
       "gamble": "Classements Gains Paris",
@@ -1816,7 +1810,6 @@
         "claim": "%1sCette page montre le top 10 des gens qui se sont le plus fait acheter en tant que Waifu.\n\nVa voir `/help waifu` pour plus de détails.",
         "money_old": "%1$sCette page montre le top 10 des gens les plus riches de Mantaro (avant le reset)!\n",
         "money": "%1$sCette page montre le top 10 des gens les plus riches de Mantaro. C'est difficile d'être avare!",
-        "seasonal_money": "%1$sCette page montre le top 10 des gens les plus riches de Mantaro pour cette saison!",
         "rep": "%1sCette page montre le top 10 des gens qui ont le plus de réputation.",
         "streak": "%1sCette page montre le top 10 des gens qui ont le plus gros streak journalier.\n\nVa voir `/help daily` pour plus de détails",
         "lvl": "%1sCette page montre le top 10 des gens qui ont le plus de niveaux.\n\nLes niveaux sont gagnés en parlant. Les commandes ne comptent pas et l'expérience a 30 secondes de pause.",
