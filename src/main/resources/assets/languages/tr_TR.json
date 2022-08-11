@@ -391,7 +391,7 @@
     "custom": {
       "custom_notice": "This is a custom command.",
       "no_args": "%1$sBu komutla tam olarak ne yapmak istediğini bana söylemelisin, help yazarak daha fazla bilgiye ulaşabilirsin!",
-      "incorrect_args": "%1$sIncorrect arguments. Check `/help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
+      "incorrect_args": "%1$sIncorrect arguments. Check `/help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101 for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
       "error_running": "%1$sÖzel komut kullanırken hata... Lütfen cevapta bulunan içeriği ve uzunluğunu kontrol edin (2000'den uzun olamaz unutmayın).",
       "error_running_new": "%1$sÖzel komut kullanırken hata... Lütfen cevapta bulunan içeriği ve uzunluğunu kontrol edin.\n**Hata:**\n```%2$s```",
       "not_loaded": "Bot henüz tam olarak çalışmaya başlamamış, özel komutlar birazdan kullanıma açılır!",
@@ -401,7 +401,7 @@
       "new_error": "%1$sÖzel komut oluşturmaya çalışırken hata oluştu. (v3, içeriği kontrol et).\n**Hata:**\n```%2$s```",
       "ls": {
         "header": "Bu sunucu için komutlar.",
-        "description": "**Bu sunucunun tüm özel (yetkilinin komutlarını) gösterir.** Buradaki komutlar genel bot yapısıyla ilgili değil, sunucu ile ilgilidir.\n\nÖzel komutlar kullancılar tarafından oluşturulur (genelde yetkililer) bu komutlar onlar tarafından kullanılır ve ona göre şekillenir.\nÖzel komut yapmak için bu siteden yararlanabilirsiniz (https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Liste:**",
+        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101)\n \n**List:**",
         "footer": "Bu sunucudaki toplam özel komut sayısı: %1$s"
       },
       "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
