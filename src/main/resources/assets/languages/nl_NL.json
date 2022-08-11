@@ -209,10 +209,6 @@
     "lang": {
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
-    "season": {
-      "info": "Een * seizoen * is de tijdspan van gewoonlijk 6 maanden waarin spelers strijden om de top 10 slots op het geld- of reputatieklassement. De winnaars ontvangen badges en prijzen op basis van hun seizoensprestaties.\nDit is om een ​​competitiever frame mogelijk te maken (voorheen was het geld behoorlijk oud en saai) en om het spel een beetje leuker te maken.\nJe hebt toegang tot seizoensgebonden dingen met behulp van `-season`. Commando's zoals profile, mine, fish en balance zullen het vereisen, terwijl games, loot, daily en reputation geld/rep opleveren voor zowel je globale als seizoensprofiel.",
-      "info_2": "\n\nHet huidige seizoen is **%1$s** en **%2$s** spelers nemen er momenteel aan deel!\n\nHet plezier begint, kijk bij `/leaderboard money -season`; `/leaderboard rep -season` en `/leaderboard games -season`.\nGame on! <3\nBedankt dat je van Mantaro geniet."
-    },
     "music_general": {
       "music_error": {
         "timeout": "%1$sKan geen verbinding maken met %2$s: verbinding is verlopen. Probeer de serverregio te wijzigen en voer het commando opnieuw uit.",
@@ -944,7 +940,6 @@
         "days": "dag(en)",
         "times_used": "Aantal keer gebruikt",
         "equipment": "Uitrusting",
-        "seasonal_equipment": "Season Equipment",
         "autoequip": "Auto Equip",
         "never": "Nooit"
       },
@@ -1276,7 +1271,7 @@
       "disabled_multiple": "%1$sThis server has game multiple/lobby disabled."
     },
     "opencrate": {
-      "no_crate": "%1$sJe hebt geen buit kist van dit type (%2$s) om te openen (Als je een andere kist wil openen dan de standaard kist, gebruik dan de naam van de kist bij de opdracht, als het om je seizoens inventaris gaat gebruiks dan `-s`)",
+      "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command).",
       "not_crate": "%1$sThat is not a valid loot crate.",
       "nothing_found": "%1$sI didn't find any crate matching your query. Make sure you used the correct name."
     },
@@ -1800,7 +1795,6 @@
     "leaderboard": {
       "main_page_redirect": "You can see `/help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `/leaderboard money`",
       "header": "Mantaro's Scorebord",
-      "header_seasonal": "Mantaro's %1$s season Leaderboard",
       "money": "Geld Scorebord",
       "reputation": "Reputatie Scorebord",
       "gamble": "Gamble Wins Scorebord",
@@ -1816,7 +1810,6 @@
         "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `/help waifu` for details on the waifu system.",
         "money_old": "%1$sThis page shows the top 10 richest people on Mantaro (before the reset).\n",
         "money": "%1$sThis page shows the top 10 richest people on Mantaro. Grinding is hard!",
-        "seasonal_money": "%1$sThis page shows the top 10 richest people on Mantaro for this season.",
         "rep": "%1sDeze pagina toont de top 10 van mensen met de hoogste reputatie.",
         "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `/help daily` for more info",
         "lvl": "%1sDeze pagina toont de top 10 van mensen met het hoogste level.\n\nEen hoger level verdien je door te praten. Het gebruiken van opdrachten draagt niet bij aan de levelen, en het krijgen van EXP heeft een cooldown van 30 seconden.",
