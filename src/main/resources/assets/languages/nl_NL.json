@@ -391,7 +391,7 @@
     "custom": {
       "custom_notice": "Dit is een zelfgemaakte opdracht.",
       "no_args": "%1$sJe moet opgeven wat je wilt doen met deze opdracht. Check het help opdracht voor meer informatie!",
-      "incorrect_args": "%1$sOnjuiste argumenten. Kijk op `/help custom` of https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands voor meer hulp bij het gebruik hiervan. Als je nog meer problemen hebt na het lezen van de wiki, ga dan naar <https://support.mantaro.site>",
+      "incorrect_args": "%1$sIncorrect arguments. Check `/help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101 for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
       "error_running": "%1$sFout tijdens het uitvoeren van het eigen opdracht... controleer de inhoud en lengte van de reactie (mag niet meer zijn dan 2000 tekens).",
       "error_running_new": "%1$sFoutmelding in eigen opdracht. Controleer reactie, inhoud en lengte.\n**Foutmelding:**\n```%2$s```",
       "not_loaded": "De bot is nog niet volledig opgestart... eigen opdrachten zullen snel weer beschikbaar zijn!",
@@ -401,7 +401,7 @@
       "new_error": "%1$sDe eigen opdrachten die u probeert te maken, bevat een foutmelding (v3, controleer inhoud).\n**Foutmelding:**\n```%2$s```",
       "ls": {
         "header": "Opdrachten voor deze guild.",
-        "description": "**Dit toont alle eigen (door de gebruiker gemaakte) opdrachten van deze server.** Elke opdracht hier is in geen enkele vorm aan de bot zelf gekoppeld.\n\nEigen opdrachten zijn opdrachten gemaakt door gebruikers (meestal serverbeheerders) die een heleboel verschillende situaties aankunnen, zoals het emuleren van actieopdrachten.\nVoor meer informatie over het maken van eigen opdrachten refereer je naar [deze wikipagina.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Lijs:**",
+        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101)\n \n**List:**",
         "footer": "Totaal aantal eigen opdrachten op deze server: %1$s"
       },
       "invalid": "%1$sOngeldige opdracht selectie. Kijk misschien eens naar de wiki op <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
