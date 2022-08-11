@@ -209,10 +209,6 @@
     "lang": {
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
-    "season": {
-      "info": "*賽季/季節*是時間長度，通常為6個月，在此期間，玩家能夠爭奪金錢或聲望排行榜的前10名。 得獎者將根據其季節性表現獲得徽章和獎品。\n這是為了創造更具競爭力的整體感受，並使Mantaro更加有趣 (金錢在之前是非常無用的)\n您可以使用 `-season` 訪問具季節性的東西。profile/mine/fish/balance 等指令將需要它，而 loot/daily/reputation(增加聲望) 及各種小遊戲將對你的全局和季節性角色都產生效果。",
-      "info_2": "\n\nThe current season is **%1$s** and **%2$s** players are currently taking part on it!\n\nThe fun begins, check `/leaderboard money -season`; `/leaderboard rep -season` and `/leaderboard games -season`.\nGame on! <3\nThanks for enjoying Mantaro."
-    },
     "music_general": {
       "music_error": {
         "timeout": "%1$s無法連接至%2$s：連線超時。試著改變伺服器區域並再試一次。",
@@ -944,7 +940,6 @@
         "days": "天",
         "times_used": "使用次數",
         "equipment": "裝備",
-        "seasonal_equipment": "季節性裝備",
         "autoequip": "自動裝備",
         "never": "從未"
       },
@@ -1276,7 +1271,7 @@
       "disabled_multiple": "%1$s此伺服器已禁用遊戲連續模式及大廳。"
     },
     "opencrate": {
-      "no_crate": "%1$s你沒有這個種類 (%2$s) 的寶箱來開啟。(如果你想要打開默認類型外的任何寶箱，在指令後面加上該寶箱名稱。如果你想使用季節性背包，加上 `-s`)",
+      "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command).",
       "not_crate": "%1$s那不是一個有效的寶箱名稱！",
       "nothing_found": "%1$s找不到你指出的寶箱。確定你輸入了正確的名稱。"
     },
@@ -1800,7 +1795,6 @@
     "leaderboard": {
       "main_page_redirect": "You can see `/help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `/leaderboard money`",
       "header": "Mantaro 排行榜",
-      "header_seasonal": "Mantaro 第 %1$s 賽季排行榜",
       "money": "金錢排行榜",
       "reputation": "聲望排行榜",
       "gamble": "賭博獲勝排行榜",
@@ -1816,7 +1810,6 @@
         "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `/help waifu` for details on the waifu system.",
         "money_old": "%1$s此頁面包含Mantaro上最有錢的前十名用戶 (在重置以前)。\n",
         "money": "%1$s此頁面包含Mantaro上最有錢的前十名用戶。刷指令可不簡單！",
-        "seasonal_money": "%1$s此頁面包含Mantaro上此賽季最有錢的前十名用戶。",
         "rep": "%1s此頁面包含聲望最高的前十名用戶。",
         "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `/help daily` for more info",
         "lvl": "%1s此頁面包含等級最高的前十名用戶。\n\n你能通過說話得到經驗。經驗值有30秒的冷卻，指令的使用不會給予經驗值。",
