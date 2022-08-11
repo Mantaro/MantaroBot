@@ -619,8 +619,7 @@ public class HelpCmd {
                 {"badge", "badges"},
                 {"vipstatus", "premium"},
                 {"give", "transfer"},
-                {"transferitem", "itemtransfer"},
-                {"transferitems", "itemtransfer"},
+                {"itemtransfer", "transferitems"},
                 {"p", "play"},
                 {"s", "skip"},
                 {"np", "nowplaying"},
@@ -636,6 +635,7 @@ public class HelpCmd {
                 {"skipahead", "seek"},
                 {"fix", "repair"},
                 {"marriage", "marry"},
+                {"rep", "reputation"}
         };
 
         // Aliases are no longer a thing in slash, so gotta do this to tell users the real commands.

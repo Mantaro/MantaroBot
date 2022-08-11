@@ -72,6 +72,7 @@ public class TransferCmds {
     @Subscribe
     public void register(CommandRegistry cr) {
         cr.registerSlash(Transfer.class);
+        cr.registerSlash(TransferItems.class);
     }
 
     @Description("Transfers money from you to another player.")
