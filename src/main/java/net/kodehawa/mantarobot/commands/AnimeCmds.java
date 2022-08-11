@@ -98,7 +98,7 @@ public class AnimeCmds {
                     }
                 };
 
-                DiscordUtils.selectListButton(ctx, found.stream().limit(5).collect(Collectors.toList()), format,
+                DiscordUtils.selectListButtonSlash(ctx, found.stream().limit(5).collect(Collectors.toList()), format,
                         s -> baseEmbed(ctx, languageContext.get("commands.anime.selection_start"))
                                 .setDescription(s)
                                 .setColor(Color.PINK)
@@ -165,7 +165,7 @@ public class AnimeCmds {
                     }
                 };
 
-                DiscordUtils.selectListButton(ctx, characters.stream().limit(5).collect(Collectors.toList()), format,
+                DiscordUtils.selectListButtonSlash(ctx, characters.stream().limit(5).collect(Collectors.toList()), format,
                         s -> baseEmbed(ctx, languageContext.get("commands.anime.information_footer"))
                                 .setDescription(s)
                                 .setColor(Color.PINK)

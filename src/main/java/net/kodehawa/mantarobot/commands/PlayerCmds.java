@@ -31,7 +31,6 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
@@ -155,7 +154,7 @@ public class PlayerCmds {
                 return;
             }
 
-            var player = UnifiedPlayer.of(usr, ctx.getConfig().getCurrentSeason());
+            var player = ctx.getPlayer(usr);
             player.addReputation(1L);
             player.saveUpdating();
 

@@ -25,6 +25,7 @@ import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ButtonOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
@@ -142,6 +143,28 @@ public class DiscordUtils {
                                                     Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
                                                     Consumer<T> valueConsumer) {
         return selectListButton(ctx, list, toString, toEmbed, valueConsumer, (o) -> { });
+    }
+
+    public static <T> Future<Void> selectListButtonSlash(SlashContext ctx, List<T> list,
+                                                    Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
+                                                    Consumer<T> valueConsumer) {
+        return selectListButtonSlash(ctx, list, toString, toEmbed, valueConsumer, (o) -> { });
+    }
+
+    public static <T> Future<Void> selectListButtonSlash(SlashContext ctx, List<T> list,
+                                                         Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
+                                                         Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
+        var r = embedList(list, toString);
+        var m = ctx.getEvent().getHook()
+                .editOriginalEmbeds(toEmbed.apply(r.getLeft()))
+                .setContent("")
+                .complete();
+
+        if (list.size() > 20) {
+            throw new IllegalArgumentException("Too many options on ActionRow, attempted " + list.size() + ". Max: 20.");
+        }
+
+        return selectIntButton(ctx, m, r.getRight(), i -> valueConsumer.accept(list.get(i - 1)), cancelConsumer);
     }
 
     public static <T> Future<Void> selectListButton(IContext ctx, List<T> list,

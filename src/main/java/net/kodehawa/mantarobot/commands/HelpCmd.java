@@ -566,6 +566,7 @@ public class HelpCmd {
                 {"serverinfo", "info server"},
                 {"roleinfo", "info role"},
                 {"activatekey", "premium activate"},
+                {"info", "stats"}
         };
 
         // Some commands had to be squished into subcommands.
@@ -634,7 +635,7 @@ public class HelpCmd {
                 {"leave", "stop"},
                 {"skipahead", "seek"},
                 {"fix", "repair"},
-                {"marriage", "marry"}
+                {"marriage", "marry"},
         };
 
         // Aliases are no longer a thing in slash, so gotta do this to tell users the real commands.

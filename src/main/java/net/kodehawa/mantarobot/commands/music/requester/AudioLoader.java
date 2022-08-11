@@ -46,35 +46,35 @@ public class AudioLoader implements AudioLoadResultHandler {
     private static final int MAX_QUEUE_LENGTH = 350;
     private static final long MAX_SONG_LENGTH = TimeUnit.HOURS.toMillis(2);
     private static final ManagedDatabase db = MantaroData.db();
-    private final SlashContext event;
+    private final SlashContext ctx;
     private final boolean insertFirst;
     private final GuildMusicManager musicManager;
     private final boolean skipSelection;
     private final I18n language;
     private int failureCount = 0;
 
-    public AudioLoader(GuildMusicManager musicManager, SlashContext event, boolean skipSelection, boolean insertFirst) {
+    public AudioLoader(GuildMusicManager musicManager, SlashContext ctx, boolean skipSelection, boolean insertFirst) {
         this.musicManager = musicManager;
-        this.event = event;
+        this.ctx = ctx;
         this.skipSelection = skipSelection;
         this.insertFirst = insertFirst;
-        this.language = I18n.of(event.getGuild());
+        this.language = I18n.of(ctx.getGuild());
     }
 
     @Override
     public void trackLoaded(AudioTrack track) {
-        loadSingle(track, false, db.getGuild(event.getGuild()), db.getUser(event.getMember()));
+        loadSingle(track, false, db.getGuild(ctx.getGuild()), db.getUser(ctx.getMember()));
     }
 
     @Override
     public void playlistLoaded(AudioPlaylist playlist) {
-        final var member = event.getMember();
+        final var member = ctx.getMember();
         if (playlist.isSearchResult()) {
             if (!skipSelection) {
                 onSearch(playlist);
             } else {
                 loadSingle(playlist.getTracks().get(0), false,
-                        db.getGuild(event.getGuild()), db.getUser(member)
+                        db.getGuild(ctx.getGuild()), db.getUser(member)
                 );
             }
 
@@ -83,7 +83,7 @@ public class AudioLoader implements AudioLoadResultHandler {
 
         try {
             var count = 0;
-            var dbGuild = db.getGuild(event.getGuild());
+            var dbGuild = db.getGuild(ctx.getGuild());
             var user = db.getUser(member);
             var guildData = dbGuild.getData();
             var i18nContext = new I18nContext(language);
@@ -93,12 +93,12 @@ public class AudioLoader implements AudioLoadResultHandler {
                     if (count <= guildData.getMusicQueueSizeLimit()) {
                         loadSingle(track, true, dbGuild, user);
                     } else {
-                        event.edit("commands.music_general.loader.over_limit", EmoteReference.WARNING, guildData.getMusicQueueSizeLimit());
+                        ctx.edit("commands.music_general.loader.over_limit", EmoteReference.WARNING, guildData.getMusicQueueSizeLimit());
                         break;
                     }
                 } else {
                     if (count >= MAX_QUEUE_LENGTH && (!dbGuild.isPremium() && !user.isPremium())) {
-                        event.edit("commands.music_general.loader.over_limit", EmoteReference.WARNING, MAX_QUEUE_LENGTH);
+                        ctx.edit("commands.music_general.loader.over_limit", EmoteReference.WARNING, MAX_QUEUE_LENGTH);
                         break; //stop adding songs
                     } else {
                         loadSingle(track, true, dbGuild, user);
@@ -108,7 +108,7 @@ public class AudioLoader implements AudioLoadResultHandler {
                 count++;
             }
 
-            event.edit("commands.music_general.loader.loaded_playlist",
+            ctx.edit("commands.music_general.loader.loaded_playlist",
                     EmoteReference.SATELLITE, count, playlist.getName(),
                     Utils.formatDuration(i18nContext,
                             playlist.getTracks()
@@ -123,17 +123,17 @@ public class AudioLoader implements AudioLoadResultHandler {
 
     @Override
     public void noMatches() {
-        event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.no_matches"), EmoteReference.ERROR).queue();
+        ctx.getChannel().sendMessageFormat(language.get("commands.music_general.loader.no_matches"), EmoteReference.ERROR).queue();
     }
 
     @Override
     public void loadFailed(FriendlyException exception) {
         if (failureCount == 0) {
             if (exception.getMessage() == null) {
-                event.edit("commands.music_general.loader.unknown_error_loading", EmoteReference.ERROR);
+                ctx.edit("commands.music_general.loader.unknown_error_loading", EmoteReference.ERROR);
             }
 
-            event.edit("commands.music_general.loader.error_loading", EmoteReference.ERROR, exception.getMessage());
+            ctx.edit("commands.music_general.loader.error_loading", EmoteReference.ERROR, exception.getMessage());
         }
 
         Metrics.TRACK_EVENTS.labels("tracks_failed").inc();
@@ -147,7 +147,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         final var guildData = dbGuild.getData();
         var i18nContext = new I18nContext(language);
 
-        audioTrack.setUserData(event.getAuthor().getId());
+        audioTrack.setUserData(ctx.getAuthor().getId());
 
         final var title = trackInfo.title;
         final var length = trackInfo.length;
@@ -162,13 +162,13 @@ public class AudioLoader implements AudioLoadResultHandler {
 
         if (queue.size() > queueLimit && !dbUser.isPremium() && !dbGuild.isPremium()) {
             if (!silent) {
-                event.edit("commands.music_general.loader.over_queue_limit", EmoteReference.WARNING, title, queueLimit);
+                ctx.edit("commands.music_general.loader.over_queue_limit", EmoteReference.WARNING, title, queueLimit);
             }
             return;
         }
 
         if (trackInfo.length > MAX_SONG_LENGTH && (!dbUser.isPremium() && !dbGuild.isPremium())) {
-            event.edit("commands.music_general.loader.over_32_minutes",
+            ctx.edit("commands.music_general.loader.over_32_minutes",
                     EmoteReference.WARNING, title,
                     Utils.formatDuration(i18nContext, MAX_SONG_LENGTH),
                     Utils.formatDuration(i18nContext, length)
@@ -178,15 +178,15 @@ public class AudioLoader implements AudioLoadResultHandler {
 
         // Comparing if the URLs are the same to be 100% sure they're just not spamming the same url over and over again.
         if (queue.stream().filter(track -> trackInfo.uri.equals(track.getInfo().uri)).count() > fqSize && !silent) {
-            event.edit("commands.music_general.loader.fair_queue_limit_reached", EmoteReference.ERROR, fqSize + 1);
+            ctx.edit("commands.music_general.loader.fair_queue_limit_reached", EmoteReference.ERROR, fqSize + 1);
             return;
         }
 
         trackScheduler.queue(audioTrack, insertFirst);
-        trackScheduler.setRequestedChannel(event.getChannel().getIdLong());
+        trackScheduler.setRequestedChannel(ctx.getChannel().getIdLong());
 
         if (!silent) {
-            var player = db.getPlayer(event.getAuthor());
+            var player = db.getPlayer(ctx.getAuthor());
             var badge = APIUtils.getHushBadge(audioTrack.getIdentifier(), Utils.HushType.MUSIC);
             if (badge != null) {
                 player.getData().addBadgeIfAbsent(badge);
@@ -198,7 +198,7 @@ public class AudioLoader implements AudioLoadResultHandler {
                 duration = "stream";
             }
 
-            event.edit("commands.music_general.loader.loaded_song", EmoteReference.CORRECT, title, duration);
+            ctx.edit("commands.music_general.loader.loaded_song", EmoteReference.CORRECT, title, duration);
         }
 
         Metrics.TRACK_EVENTS.labels("tracks_load").inc();
@@ -207,19 +207,19 @@ public class AudioLoader implements AudioLoadResultHandler {
     private void onSearch(AudioPlaylist playlist) {
         final var list = playlist.getTracks();
         
-        if (!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
-            event.edit("commands.music_general.missing_embed_permissions", EmoteReference.ERROR);
+        if (!ctx.getGuild().getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+            ctx.edit("commands.music_general.missing_embed_permissions", EmoteReference.ERROR);
 
             // Destroy connection if there's nothing playing
             final var trackScheduler = musicManager.getTrackScheduler();
             if (trackScheduler.getQueue().isEmpty() && trackScheduler.getCurrentTrack() == null) {
-                MantaroBot.getInstance().getAudioManager().resetMusicManagerFor(event.getGuild().getId());
+                MantaroBot.getInstance().getAudioManager().resetMusicManagerFor(ctx.getGuild().getId());
             }
 
             return;
         }
 
-        DiscordUtils.selectListButton(event, list.subList(0, Math.min(5, list.size())),
+        DiscordUtils.selectListButtonSlash(ctx, list.subList(0, Math.min(5, list.size())),
                 track -> String.format(
                         "%s**[%s](%s)** (%s)",
                         EmoteReference.BLUE_SMALL_MARKER,
@@ -230,15 +230,15 @@ public class AudioLoader implements AudioLoadResultHandler {
                         .setColor(Color.CYAN)
                         .setAuthor(language.get("commands.music_general.loader.selection_text"),
                                 "https://i.imgur.com/sFDpUZy.png",
-                                event.getAuthor().getEffectiveAvatarUrl()
+                                ctx.getAuthor().getEffectiveAvatarUrl()
                         )
                         .setThumbnail("https://i.imgur.com/FWKIR7N.png")
                         .setDescription(s)
                         .setFooter(language.get("commands.music_general.loader.timeout_text"),
-                                event.getAuthor().getEffectiveAvatarUrl()
+                                ctx.getAuthor().getEffectiveAvatarUrl()
                         )
                         .build(),
-                selected -> loadSingle(selected, false, db.getGuild(event.getGuild()), db.getUser(event.getMember()))
+                selected -> loadSingle(selected, false, db.getGuild(ctx.getGuild()), db.getUser(ctx.getMember()))
         );
 
         Metrics.TRACK_EVENTS.labels("tracks_search").inc();

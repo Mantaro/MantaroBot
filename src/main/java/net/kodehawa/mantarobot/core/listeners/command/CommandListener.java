@@ -88,7 +88,7 @@ public class CommandListener implements EventListener {
 
             // We can't talk here, so we don't need to run anything.
             // Run this check before executing on the pool to avoid wasting a thread.
-            if (!msg.getChannel().canTalk()) {
+            if (msg.getChannel() == null || !msg.getChannel().canTalk()) {
                 return;
             }
 

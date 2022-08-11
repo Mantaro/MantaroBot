@@ -121,10 +121,10 @@ public class MantaroAudioManager {
         return musicManagers.values().stream().map(m -> m.getTrackScheduler().getQueue().size()).mapToInt(Integer::intValue).sum();
     }
 
-    public void loadAndPlay(SlashContext event, String trackUrl, boolean skipSelection, boolean addFirst, I18nContext lang) {
-        AudioCmdUtils.connectToVoiceChannel(event, lang).thenAcceptAsync(bool -> {
+    public void loadAndPlay(SlashContext ctx, String trackUrl, boolean skipSelection, boolean addFirst, I18nContext lang) {
+        AudioCmdUtils.connectToVoiceChannel(ctx, lang).thenAcceptAsync(bool -> {
             if (bool) {
-                var musicManager = getMusicManager(event.getGuild());
+                var musicManager = getMusicManager(ctx.getGuild());
                 var scheduler = musicManager.getTrackScheduler();
 
                 scheduler.getMusicPlayer().setPaused(false);
@@ -133,7 +133,7 @@ public class MantaroAudioManager {
                     scheduler.setRepeatMode(null);
                 }
 
-                var loader = new AudioLoader(musicManager, event, skipSelection, addFirst);
+                var loader = new AudioLoader(musicManager, ctx, skipSelection, addFirst);
                 playerManager.loadItemOrdered(musicManager, trackUrl, loader);
             }
         }, LOAD_EXECUTOR.get());
