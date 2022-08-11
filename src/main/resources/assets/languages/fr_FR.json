@@ -391,7 +391,7 @@
     "custom": {
       "custom_notice": "Ceci est une commande personnalisée.",
       "no_args": "%1$sTu dois préciser ce que tu veux faire avec cette commande. Consultes l'aide de la commande pour plus d'infos.!",
-      "incorrect_args": "%1$sArguments incorrects. Regarde `/help custom` ou sur https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands pour obtenir davantage d'aide sur comment utiliser cette commande. Si tu rencontres d'autres problèmes après avoir lu wiki, consulte <https://support.mantaro.site>",
+      "incorrect_args": "%1$sIncorrect arguments. Check `/help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101 for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
       "error_running": "%1$sErreur lors de l'exécution de la commande personnalisée ... Vérifies le contenu et la longueur de la réponse (elle ne peut pas dépasser 2000 caractères)..",
       "error_running_new": "%1$sIl y a une erreur en cours avec une commande personnalisée. Vérifie le contenu et la longueur de la réponse.\n**Erreur : **\n```%2$s```",
       "not_loaded": "Le bot n'a pas encore démarré complètement ... les commandes personnalisées seront bientôt disponibles!",
@@ -401,7 +401,7 @@
       "new_error": "%1$sLa commande personnalisée que tu essaies de créer contient une erreur (v3, vérifie le contenu).\n**Erreur:**\n```%2$s```",
       "ls": {
         "header": "Commandes pour cette guilde",
-        "description": "**Cela affiche toutes les commandes personnalisées (faites par des utilisateurs) de ce serveur. ** Chaque commande répertoriée ici n’a aucun lien avec le bot ou ses développeurs. .\n\nLes commandes personnalisées sont des commandes créées par les utilisateurs (généralement les administrateurs de serveur) capables de gérer un grand nombre de situations différentes, allant même jusqu'à imiter des commandes d'action.\nPour plus d'informations sur la création de commandes personnalisées, tu peux consulter [cette page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Liste:**",
+        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101)\n \n**List:**",
         "footer": "Total des commandes personnalisées sur ce serveur: %1$s"
       },
       "invalid": "%1$sSélection de commande invalide. Jette un œil au wiki\n<https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
