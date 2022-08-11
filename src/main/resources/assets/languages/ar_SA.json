@@ -391,7 +391,7 @@
     "custom": {
       "custom_notice": "This is a custom command.",
       "no_args": "%1$sتحتاج إلى تحديد ما تريد القيام به مع هذا الأمر. تحقق من تعليمات القيادة لمزيد من المعلومات!",
-      "incorrect_args": "%1$sIncorrect arguments. Check `/help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
+      "incorrect_args": "%1$sIncorrect arguments. Check `/help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101 for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
       "error_running": "%1$sحدث خطأ أثناء تشغيل الأمر المخصص... يرجى التحقق من محتوى الاستجابة وطولها (لا يمكن أن يكون أكثر من 2000 حرف).",
       "error_running_new": "%1$sخطأ في تشغيل الأمر المخصص. تحقق من الاستجابة والمحتوى والطول.\n**خطأ**\n```%2$s```",
       "not_loaded": "لم يتم تشغيل البوت بالكامل حتى الآن... ستتوفر الأوامر المخصصة قريبًا!",
@@ -401,7 +401,7 @@
       "new_error": "%1$sيوجد خطأ في الأمر المخصص الذي تحاول إنشاءه (v3, تأكد من المحتوى).\n**خطأ**\n```%2$s```",
       "ls": {
         "header": "أوامر لهذا السيرفر.",
-        "description": "** يعرض هذا كافة الأوامر المخصصة (التي من صنع المستخدم) لهذا الخادم.** لا يرتبط كل أمر هنا مع بوت نفسه في أي شكل أو هيكل.\nالأوامر المخصصة (custom commands) هي الأوامر التي تم إنشاؤها بواسطة المستخدمين (عادة ً مسؤولي الخادم) والتي يمكنها التعامل مع مجموعة من المواقف المختلفة ، والذهاب إلى حد محاكاة أوامر الإجراء.\nللمزيد من المعلومات عم الأوامر المخصصه يمكنك الذهاب الى \n(https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n\n**List:**",
+        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101)\n \n**List:**",
         "footer": "اجمالي الاوامر الخصصه في هذا السيرفر: %1$s"
       },
       "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
