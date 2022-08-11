@@ -209,10 +209,6 @@
     "lang": {
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
-    "season": {
-      "info": "*赛季/季节*是时间长度，通常为6个月，在此期间，玩家能够争夺金钱或声誉排行榜的前10名。 得奖者将根据其季节性表现获得徽章和奖品。\n这是为了创造更具竞争力的整体感受，并使游戏更加有趣 (金钱在之前是非常无用的)\n您可以使用`-season`访问具季节性的东西。profile/mine/fish/balance 等指令将需要它，而 loot/daily/reputation(声望) 及各种小游戏将对你的全局和季节性角色都产生效果。",
-      "info_2": "\n\nThe current season is **%1$s** and **%2$s** players are currently taking part on it!\n\nThe fun begins, check `/leaderboard money -season`; `/leaderboard rep -season` and `/leaderboard games -season`.\nGame on! <3\nThanks for enjoying Mantaro."
-    },
     "music_general": {
       "music_error": {
         "timeout": "%1$s无法连接至%2$s: 连线超时。试着改变伺服器区域并再试一次。",
@@ -944,7 +940,6 @@
         "days": "day(s)",
         "times_used": "Times Used",
         "equipment": "Equipment",
-        "seasonal_equipment": "Season Equipment",
         "autoequip": "Auto Equip",
         "never": "Never"
       },
@@ -1276,7 +1271,7 @@
       "disabled_multiple": "%1$sThis server has game multiple/lobby disabled."
     },
     "opencrate": {
-      "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command. If you want to use seasonal inventory, append `-s`)",
+      "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command).",
       "not_crate": "%1$sThat is not a valid loot crate.",
       "nothing_found": "%1$sI didn't find any crate matching your query. Make sure you used the correct name."
     },
@@ -1800,7 +1795,6 @@
     "leaderboard": {
       "main_page_redirect": "You can see `/help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `/leaderboard money`",
       "header": "Mantaro's Leaderboard",
-      "header_seasonal": "Mantaro's %1$s season Leaderboard",
       "money": "Money Leaderboard",
       "reputation": "Reputation Leaderboard",
       "gamble": "Gamble Wins Leaderboard",
@@ -1816,7 +1810,6 @@
         "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `/help waifu` for details on the waifu system.",
         "money_old": "%1$sThis page shows the top 10 richest people on Mantaro (before the reset).\n",
         "money": "%1$sThis page shows the top 10 richest people on Mantaro. Grinding is hard!",
-        "seasonal_money": "%1$sThis page shows the top 10 richest people on Mantaro for this season.",
         "rep": "%1sThis page shows the top 10 people with the most reputation.",
         "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `/help daily` for more info",
         "lvl": "%1sThis page shows the top 10 people with the most level.\n\nLevel is earning through talking. Command usage doesn't contribute to experience, and XP has a 30 seconds cooldown.",
