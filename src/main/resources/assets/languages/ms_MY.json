@@ -209,10 +209,6 @@
     "lang": {
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
-    "season": {
-      "info": "*Musim* adalah jangka masa, biasanya 6 bulan di mana pemain bersaing untuk 10 slot teratas di papan pendahlu wang atau reputasi. Pemenang akan mendapat lencana dan hadiah berdasarkan prestasi musim mereka.\nIni adalah untuk membolehkan kerangka yang lebih kompetitif (sebelum ini, wang agak basi) dan menjadikan permainan sedikit lebih menyeronokkan.\nAnda boleh mengakses item bermusim menggunakan `-season`. Arahan seperti profile, mine, fish dan balance akan memerlukannya, manakala games, loot, daily dan reputation akan memberikan wang/reputasi kepada profil global dan musiman anda.",
-      "info_2": "\n\nThe current season is **%1$s** and **%2$s** players are currently taking part on it!\n\nThe fun begins, check `/leaderboard money -season`; `/leaderboard rep -season` and `/leaderboard games -season`.\nGame on! <3\nThanks for enjoying Mantaro."
-    },
     "music_general": {
       "music_error": {
         "timeout": "%1$sTidak dapat menyambung ke %2$s: sambungan tamat. Cuba mengubah rantau pelayan dan jalankan arahan sekali lagi.",
@@ -944,7 +940,6 @@
         "days": "hari",
         "times_used": "Kali Digunakan",
         "equipment": "Peralatan",
-        "seasonal_equipment": "Peralatan Bermusim",
         "autoequip": "Pasangan Automatik",
         "never": "Tidak pernah"
       },
@@ -1276,7 +1271,7 @@
       "disabled_multiple": "%1$sPelayan ini telah mematikan permainan berkali-kali/lobi."
     },
     "opencrate": {
-      "no_crate": "%1$sAnda tidak mempunyai peti loot berjenis ini (%2$s) untuk dibuka. (Sekiranya anda ingin membuka sebuah peti selain jenis default, gunakan nama peti selepas arahan tersebut. Jika anda ingin menggunakan inventori bermusim, tambahkan `-s`)",
+      "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command).",
       "not_crate": "%1$sItu bukan peti loot yang sah.",
       "nothing_found": "%1$sSaya tidak dapat mencari peti yang berkaitan dengan carian anda. Pastikan anda menggunakan nama yang betul."
     },
@@ -1800,7 +1795,6 @@
     "leaderboard": {
       "main_page_redirect": "You can see `/help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `/leaderboard money`",
       "header": "Papan Pendahulu Mantaro",
-      "header_seasonal": "Papan Pendahulu musim %1$s Mantaro",
       "money": "Papan Pendahulu Wang",
       "reputation": "Papan Pendahulu Reputasi",
       "gamble": "Papan Pendahulu Kemenangan Perjudian",
@@ -1816,7 +1810,6 @@
         "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `/help waifu` for details on the waifu system.",
         "money_old": "%1$sHalaman ini memaparkan 10 pemain teratas yang paling kaya di Mantaro (sebelum tetapan semula).\n",
         "money": "%1$sHalaman ini memaparkan 10 pemain teratas yang paling kaya di Mantaro. Teruskan usaha!",
-        "seasonal_money": "%1$sHalaman ini memaparkan 10 pemain teratas yang paling kaya di Mantaro bagi musim ini.",
         "rep": "%1sHalaman ini memaparkan 10 pemain teratas yang mempunyai reputasi tertinggi.",
         "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `/help daily` for more info",
         "lvl": "%1sHalaman ini memaparkan 10 pemain teratas yang mempunyai level tertinggi.\n\nLevel boleh diperoleh dengan bercakap. Penggunaan arahan tidak mendorong kepada pengalaman, dan XP mempunyai cooldown selama 30 saat.",
