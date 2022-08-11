@@ -209,10 +209,6 @@
     "lang": {
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
-    "season": {
-      "info": "*Сезон* это промежуток времени, обычно 6 месяцев, когда игроки соревнуются за топ 10 по количеству денег или репутации в таблице лидеров. Все победители получат значки и призы в зависимости от занятого места.\nДанная фишка помогает создать конкуренцию между людьми, ведь так гораздо интересней.\nВы можете получить доступ к сезонным вещам используя команду `-season`. Такие команды как profile, mine, fish и balance будут требовать этого, ведь вещи, которые вы получите во время сезона будут учитываться как в сезонном, так и в глобальном профиле.",
-      "info_2": "\n\nThe current season is **%1$s** and **%2$s** players are currently taking part on it!\n\nThe fun begins, check `/leaderboard money -season`; `/leaderboard rep -season` and `/leaderboard games -season`.\nGame on! <3\nThanks for enjoying Mantaro."
-    },
     "music_general": {
       "music_error": {
         "timeout": "%1$sНевозможно подключиться к %2$s: время подключения вышло. Попробуйте сменить регион сервера и повторить запрос.",
@@ -944,7 +940,6 @@
         "days": "дней",
         "times_used": "Использовано раз",
         "equipment": "Экипировано",
-        "seasonal_equipment": "Сезонное Оборудование",
         "autoequip": "Авто-эквипировка",
         "never": "Никогда"
       },
@@ -1276,7 +1271,7 @@
       "disabled_multiple": "%1$sНа этом сервере отключена функция лобби для игр."
     },
     "opencrate": {
-      "no_crate": "%1$sУ вас нет ящиков с добычей этого типа для открытия. :( (Если вы пытаетесь открыть не обычный ящик с добычей, то вводите его название после команды)",
+      "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command).",
       "not_crate": "%1$sЭтот ящик с добычей недействительный.",
       "nothing_found": "%1$sI didn't find any crate matching your query. Make sure you used the correct name."
     },
@@ -1800,7 +1795,6 @@
     "leaderboard": {
       "main_page_redirect": "You can see `/help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `/leaderboard money`",
       "header": "Доска лидеров Мантаро",
-      "header_seasonal": "%1$s сезонная доска лидеров Мантаро",
       "money": "Доска лидеров по деньгам",
       "reputation": "Доска лидеров по репутации",
       "gamble": "Доска лидеров по победам в азартных играх",
@@ -1816,7 +1810,6 @@
         "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `/help waifu` for details on the waifu system.",
         "money_old": "%1$sThis page shows the top 10 richest people on Mantaro (before the reset).\n",
         "money": "%1$sThis page shows the top 10 richest people on Mantaro. Grinding is hard!",
-        "seasonal_money": "%1$sЭта страница показывает топ 10 богатых людей в Мантаро этого сезона.",
         "rep": "%1sНа этой странице показаны 10 людей с самым большим количеством репутации.",
         "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `/help daily` for more info",
         "lvl": "%1sНа этой странице показаны 10 людей с самым большим уровнем.\n\nУровень зарабатывается во время разговоров. Использование команд не даёт опыт, опыт имеет время восстановления - 30 секунд.",
