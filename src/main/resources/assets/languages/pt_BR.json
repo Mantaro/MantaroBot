@@ -209,10 +209,6 @@
     "lang": {
       "info": "%1$sVocê pode mudar a língua do servidor (se aplicado) usando `~>opts language set <código da língua>`. Suas preferências pessoais de idioma podem ser alteradas usando `/profile lang <código da língua>`.\n**Línguas disponíveis:** `%2$s`\nSe sua língua não está aqui e você quer ajudar, sinta-se livre para se juntar no servidor de suporte e se juntar na tradução com seu esforço!"
     },
-    "season": {
-      "info": "Uma *temporada* é um período de tempo, de geralmente 6 meses em que jogadores competem pelas 10 melhores posições no dinheiro ou no ranking de reputação. Os vencedores irão ganhar insígnias e recompensas baseado no desempenho sazonal.\nIsso é para ter um quadro mais competitivo (antes, o dinheiro era praticamente obsoleto) e para deixar o jogo um pouco mais divertido. \nVocê pode acessar as coisas sazonais usando `-season`. Comandos como profile, mine, fish e balance exigirá isso, enquanto games, loot, daily e reputation irão dar dinheiro/representação para seu perfil global e sazonal.",
-      "info_2": "\n\nA temporada atual é **%1$s** e **%2$s** jogadores estão participando!\n\nA diversão começou, cheque `/leaderboard moneu -season`. `/leaderboard rep -season` e `leaderboard games -season`.\nBora jogar! <3\nObrigada por usar a Mantaro."
-    },
     "music_general": {
       "music_error": {
         "timeout": "%1$sImpossível conectar no %2$s: conexão esgotada. Tente mudar a região do servidor e fazer o comando novamente.",
@@ -944,7 +940,6 @@
         "days": "dia(s)",
         "times_used": "Tempo Usado",
         "equipment": "Equipamento",
-        "seasonal_equipment": "Equipamento de Temporada",
         "autoequip": "Auto equipar",
         "never": "Nunca"
       },
@@ -1276,7 +1271,7 @@
       "disabled_multiple": "%1$sEsse servidor tem múltiplos jogos/lobby desativado."
     },
     "opencrate": {
-      "no_crate": "%1$sVocê não tem um baú de espólios desse tipo (%2$s) para abrir. (Se você estiver tentando abrir um baú de outro tipo que não é o tipo padrão, use o nome do baú depois do comando. Se você quiser usar o inventário sazonal, use `-s`)",
+      "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command).",
       "not_crate": "%1$sIsso não é um baú de espólios válido.",
       "nothing_found": "%1$s Eu não encontrei nenhum baú que corresponda à sua consulta. Certifique-se de usar o nome correto."
     },
@@ -1800,7 +1795,6 @@
     "leaderboard": {
       "main_page_redirect": "Você pode ver `/help leaderboard` pra uma lista de leaderboards disponíveis\nSe você estiver procurando o leaderboard de dinheiro, use `/leaderboard money`",
       "header": "Tabela de classificações da Mantaro",
-      "header_seasonal": "Leaderboard da temporada %1$s da Mantaro",
       "money": "Classificações de Dinheiro",
       "reputation": "Classificações de Reputação",
       "gamble": "Classificações de Vitórias em Apostas",
@@ -1816,7 +1810,6 @@
         "claim": "%1sEssa página mostra o top 10 de pessoas que foram mais reivindicadas como waifu.\n\nCheque `/help waifu` para mais detalhes sobre o sistema de waifu.",
         "money_old": "%1$sEssa página mostra as top 10 pessoas mais ricas na Mantaro (antes do reset).\n",
         "money": "%1$sEssa página mostra as top 10 pessoas mais ricas na Mantaro. Grinding é difícil!",
-        "seasonal_money": "%1$sEssa página mostra as top 10 pessoas mais ricas dessa temporada.",
         "rep": "%1sEssa página mostra o top 10 de pessoas com mais reputação.",
         "streak": "%1sEssa página mostra o top 10 de pessoas com os maiores comos diários.\n\nCheque `/help daily` para mais informações",
         "lvl": "%1sEssa página mostra o top 10 de pessoas com mais nível.\n\nNível é ganho por falar. Uso de comando não contribui, e XP tem 30 segundos de cooldown.",
