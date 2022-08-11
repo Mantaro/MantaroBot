@@ -391,7 +391,7 @@
     "custom": {
       "custom_notice": "This is a custom command.",
       "no_args": "%1$s你需要說明你用此指令想做些甚麼。運行指令 help 來看更多資訊！",
-      "incorrect_args": "%1$sIncorrect arguments. Check `/help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
+      "incorrect_args": "%1$sIncorrect arguments. Check `/help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101 for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
       "error_running": "%1$s執行自定義指令時發生錯誤... 請檢查回應內容及長度 (無法超過2000字元)",
       "error_running_new": "%1$s執行自定義指令時發生錯誤。請檢查回應內容及長度。\n**錯誤：**\n```%2$s```",
       "not_loaded": "我還沒有完全載入完成... 自定義指令將會馬上開放使用!",
@@ -401,7 +401,7 @@
       "new_error": "%1$s你正在新增的自訂義指令有錯誤 (v3，檢查內容)。\n**錯誤：**\n```%2$s```",
       "ls": {
         "header": "此伺服的自訂指令。",
-        "description": "**這裡會顯示此伺服的所有自定義指令。**這裡的每個指令都跟Mantaro自身沒有任何關聯。\n\n自定義指令為用戶(通常是管理員)能夠因應各種場合自己創造的指令。\n如需更多資訊，請參與我們的Wiki頁面。(https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**清單：**",
+        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101)\n \n**List:**",
         "footer": "此伺服器的自定義指令數量：%1$s"
       },
       "invalid": "%1$s指令選擇無效。你也許可以看看我們的維基 <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101> (英文)。",
