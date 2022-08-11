@@ -391,7 +391,7 @@
     "custom": {
       "custom_notice": "This is a custom command.",
       "no_args": "%1$sNecesitas decirme que quieres hacer aquí! Revisa la ayuda del comando para más información.",
-      "incorrect_args": "%1$sIncorrect arguments. Check `/help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
+      "incorrect_args": "%1$sIncorrect arguments. Check `/help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101 for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
       "error_running": "%1$sHe encontrado un error mientras intentaba ejecutar un comando personalizado... porfavor revisa el contenido y su extensión (no puede ser más de 2000 caracteres).",
       "error_running_new": "%1$sError al ejecutar un comando personalizado. Revisa la respuesta, el contenido y su longitud.\n**Error:**\n```%2$s```",
       "not_loaded": "Hey! Aún me estoy iniciando. Los comandos personalizados estarán disponibles bastante pronto, en cuanto termine de iniciar.",
@@ -401,7 +401,7 @@
       "new_error": "%1$sEl comando personalizado que estás intentando ejecutar tiene un error (v3, revisa el contenido).\n**Error:**\n```%2$s```",
       "ls": {
         "header": "Comandos para este servidor",
-        "description": "**Esto muestra todos los comandos personalizados (creados por usuarios) de este servidor.** Estos comandos sólo funcionarán en el servidor actual.\n\nLos comandos personalizados son comandos creados por usuarios (normalmente administradores del servidor) los cuales pueden manejar una gran cantidad de situaciones, incluso pudiendo simular comandos de acción.\nPara más información sobre crear comandos personalizados, revisa [esta página de la wiki.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Listado:**",
+        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101)\n \n**List:**",
         "footer": "Total de comandos personalizados para este servidor: %1$s"
       },
       "invalid": "%1$sSelección invalida. Puede que quieras darle una mirada a la wiki <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
