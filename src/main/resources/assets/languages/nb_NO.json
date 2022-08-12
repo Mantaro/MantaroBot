@@ -38,6 +38,7 @@
     "invalid_syntax": "Ugyldig syntaks.",
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
     "member_lookup_failure": "%1$sCannot find any member with that name :(",
+    "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
     "item_lookup": {
       "no_item_emoji": "Det er ingen gjenstand som er assosiert med denne emoji'en.",
       "no_item_name": "Det er ingen gjenstand som er assosiert med dette navnet.",
