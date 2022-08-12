@@ -156,8 +156,7 @@ public class CurrencyCmds {
         public static class Calculate extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                var user = ctx.getOptionAsUser("user", ctx.getAuthor());
-                var member = ctx.getGuild().getMember(user);
+                var member = ctx.getOptionAsMember("user", ctx.getMember());
                 var player = ctx.getPlayer(member);
                 calculateInventory(ctx, member, player);
             }
@@ -178,9 +177,9 @@ public class CurrencyCmds {
     public static class Level extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            var user = ctx.getOptionAsUser("user", ctx.getAuthor());
-            var player = ctx.getPlayer(user);
-            showLevel(ctx, ctx.getGuild().getMember(user), player);
+            var member = ctx.getOptionAsMember("user", ctx.getMember());
+            var player = ctx.getPlayer(member);
+            showLevel(ctx, member, player);
         }
     }
 
@@ -235,8 +234,7 @@ public class CurrencyCmds {
                 return;
             }
 
-            var dbUser = ctx.getDBUser();
-            tools(ctx, dbUser);
+            tools(ctx, ctx.getDBUser());
         }
     }
 
