@@ -38,6 +38,7 @@
     "invalid_syntax": "Syntax tidak valid.",
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
     "member_lookup_failure": "%1$sCannot find any member with that name :(",
+    "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
     "item_lookup": {
       "no_item_emoji": "Gaada item yang cocok sama emoji ini.",
       "no_item_name": "Gaada item yang cocok sama nama ini.",
