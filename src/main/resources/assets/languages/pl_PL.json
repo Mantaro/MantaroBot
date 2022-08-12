@@ -38,6 +38,7 @@
     "invalid_syntax": "Niepoprawna składnia.",
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
     "member_lookup_failure": "%1$sCannot find any member with that name :(",
+    "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
     "item_lookup": {
       "no_item_emoji": "Nie ma elementu pasującego do tego emoji.",
       "no_item_name": "Nie ma elementu pasującego z tą nazwą.",
