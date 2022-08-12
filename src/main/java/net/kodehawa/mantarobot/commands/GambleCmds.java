@@ -156,7 +156,7 @@ public class GambleCmds {
             var moneyAmount = 50L;
 
             var money = ctx.getOptionAsString("credits", "50"); //Since it can be expressed in M or K.
-            var coinSelect = ctx.getOptionAsBoolean("ticket");
+            var coinSelect = ctx.getOptionAsBoolean("useticket");
             var ticketAmount = ctx.getOptionAsLong("ticketamount", 1);
 
             // No need to parse if we aren't gonna use it.

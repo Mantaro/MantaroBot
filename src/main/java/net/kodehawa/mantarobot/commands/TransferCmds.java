@@ -187,12 +187,12 @@ public class TransferCmds {
     @Category(CommandCategory.CURRENCY)
     @Options({
             @Options.Option(type = OptionType.USER, name = "user", description = "The user to transfer money to.", required = true),
-            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to transfer. Defaults to 1.", maxValue = 5000),
             @Options.Option(type = OptionType.STRING, name = "item", description = "The item to transfer.", required = true),
+            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to transfer. Defaults to 1.", maxValue = 5000),
     })
     @Help(
             description = "Transfers items from you to another player.",
-            usage = "`/transferitems <user> [amount] <item>`",
+            usage = "`/transferitems <user> <item> [amount]`",
             parameters = {
                     @Help.Parameter(name = "user", description = "The user to transfer money to. Needs to be in the server you're running the command in."),
                     @Help.Parameter(name = "amount", description = "The amount of the item to transfer. If not specified, this is 1. Maximum is 5000.", optional = true),
