@@ -38,6 +38,7 @@
     "invalid_syntax": "Syntaxe invalide.",
     "birthday": "**Nouveaux anniversaires pour aujourd'hui, souhaitez leur un Joyeux Anniversaire !**",
     "member_lookup_failure": "%1$sCannot find any member with that name :(",
+    "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
     "item_lookup": {
       "no_item_emoji": "Il n'y a pas d'objet associé à cet emoji.",
       "no_item_name": "Il n'y a pas d'objet associé à ce nom.",
