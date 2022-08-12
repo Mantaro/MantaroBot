@@ -55,10 +55,10 @@ public class MusicCmds {
     @Subscribe
     public void register(CommandRegistry cr) {
         cr.registerSlash(Play.class);
+        cr.registerSlash(Pause.class);
         cr.registerSlash(Skip.class);
         cr.registerSlash(Queue.class);
         cr.registerSlash(NowPlaying.class);
-        cr.registerSlash(ForceSkip.class);
         cr.registerSlash(Repeat.class);
         cr.registerSlash(Shuffle.class);
         cr.registerSlash(Stop.class);
@@ -121,10 +121,24 @@ public class MusicCmds {
     }
 
     @Description("Skips a song.")
+    @Options({@Options.Option(type = OptionType.BOOLEAN, name = "force", description = "Whether to skip vote. DJ/Admin only.")})
     @Category(CommandCategory.MUSIC)
     public static class Skip extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
+            if (ctx.getOptionAsBoolean("force")) {
+                var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                var scheduler = musicManager.getTrackScheduler();
+
+                if (isNotInCondition(ctx, musicManager.getLavaLink())) {
+                    return;
+                }
+
+                ctx.sendLocalized("commands.forceskip.success", EmoteReference.CORRECT);
+                scheduler.nextTrack(true, true);
+                return;
+            }
+
             try {
                 var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
                 var scheduler = musicManager.getTrackScheduler();
@@ -168,23 +182,6 @@ public class MusicCmds {
             } catch (NullPointerException e) {
                 ctx.reply("commands.skip.no_track", EmoteReference.ERROR);
             }
-        }
-    }
-
-    @Description("Skips a song, but tries to force it. Only works for people with Manage Server or DJ.")
-    @Category(CommandCategory.MUSIC)
-    public static class ForceSkip extends SlashCommand {
-        @Override
-        protected void process(SlashContext ctx) {
-            var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
-            var scheduler = musicManager.getTrackScheduler();
-
-            if (isNotInCondition(ctx, musicManager.getLavaLink())) {
-                return;
-            }
-
-            ctx.sendLocalized("commands.forceskip.success", EmoteReference.CORRECT);
-            scheduler.nextTrack(true, true);
         }
     }
 

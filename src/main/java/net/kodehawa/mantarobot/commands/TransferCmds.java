@@ -97,6 +97,11 @@ public class TransferCmds {
         @Override
         protected void process(SlashContext ctx) {
             var giveTo = ctx.getOptionAsUser("user");
+            if (giveTo == null) {
+                ctx.reply("general.slash_member_lookup_failure", EmoteReference.ERROR);
+                return;
+            }
+
             if (giveTo.equals(ctx.getAuthor())) {
                 ctx.reply("commands.transfer.transfer_yourself_note", EmoteReference.THINKING);
                 return;
@@ -203,6 +208,11 @@ public class TransferCmds {
         @Override
         protected void process(SlashContext ctx) {
             var giveTo = ctx.getOptionAsUser("user");
+            if (giveTo == null) {
+                ctx.reply("general.slash_member_lookup_failure", EmoteReference.ERROR);
+                return;
+            }
+
             if (ctx.getAuthor().getId().equals(giveTo.getId())) {
                 ctx.reply("commands.itemtransfer.transfer_yourself_note", EmoteReference.ERROR);
                 return;

@@ -249,6 +249,11 @@ public class WaifuCmd {
                 }
 
                 final var toLookup = ctx.getOptionAsUser("user");
+                if (toLookup == null) {
+                    ctx.reply("general.slash_member_lookup_failure", EmoteReference.ERROR);
+                    return;
+                }
+
                 if (toLookup.isBot()) {
                     ctx.reply("commands.waifu.bot", EmoteReference.ERROR);
                     return;

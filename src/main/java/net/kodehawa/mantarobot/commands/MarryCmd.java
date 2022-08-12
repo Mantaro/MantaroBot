@@ -79,6 +79,10 @@ public class MarryCmd {
             protected void process(SlashContext ctx) {
                 var proposingUser = ctx.getAuthor();
                 var proposedToUser = ctx.getOptionAsUser("user");
+                if (proposedToUser == null) {
+                    ctx.reply("general.slash_member_lookup_failure", EmoteReference.ERROR);
+                    return;
+                }
 
                 // This is just for checking purposes, so we don't need the DBUser itself.
                 var proposingUserData = ctx.getDBUser(proposingUser).getData();

@@ -265,10 +265,7 @@ public class InfoCmds {
     public static class Avatar extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            var user = ctx.getOptionAsUser("user");
-            if (user == null) {
-                user = ctx.getAuthor();
-            }
+            var user = ctx.getOptionAsUser("user", ctx.getAuthor());
 
             var languageContext = ctx.getLanguageContext();
             var member = ctx.getGuild().getMember(user);
@@ -304,10 +301,7 @@ public class InfoCmds {
         public static class UserInfo extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                var user = ctx.getOptionAsUser("user");
-                if (user == null)
-                    user = ctx.getAuthor();
-
+                var user = ctx.getOptionAsUser("user", ctx.getAuthor());
                 userInfo(ctx, user);
             }
         }

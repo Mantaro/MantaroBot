@@ -530,7 +530,7 @@ public class SlashContext implements IContext {
         return option.getAsRole();
     }
 
-    public User getOptionAsUser(String name) {
+    public User getOptionAsGlobalUser(String name) {
         var option = getOption(name);
         if (option == null) {
             return null;
@@ -539,9 +539,18 @@ public class SlashContext implements IContext {
         return option.getAsUser();
     }
 
+    public User getOptionAsUser(String name) {
+        var option = getOption(name);
+        if (option == null || option.getAsMember() == null) {
+            return null;
+        }
+
+        return option.getAsUser();
+    }
+
     public User getOptionAsUser(String name, User def) {
         var option = getOption(name);
-        if (option == null) {
+        if (option == null || option.getAsMember() == null) {
             return def;
         }
 

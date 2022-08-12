@@ -70,6 +70,11 @@ public class MuteCmds {
             var reason = ctx.getOptionAsString("reason", "");
             var placeholderReason = "Not specified.";
             var user = ctx.getOptionAsUser("user");
+            if (user == null) {
+                ctx.reply("general.slash_member_lookup_failure", EmoteReference.ERROR);
+                return;
+            }
+
             var time = guildData.getSetModTimeout() > 0 ? guildData.getSetModTimeout() : 0L;
 
             var maybeTime = ctx.getOptionAsString("time");
@@ -153,6 +158,11 @@ public class MuteCmds {
             var dbGuild = ctx.getDBGuild();
             var reason = ctx.getOptionAsString("reason", "");
             var user = ctx.getOptionAsUser("user");
+            if (user == null) {
+                ctx.reply("general.slash_member_lookup_failure", EmoteReference.ERROR);
+                return;
+            }
+
             var placeholderReason = "Not specified";
             var logReason = reason.isEmpty() ? placeholderReason : reason;
 

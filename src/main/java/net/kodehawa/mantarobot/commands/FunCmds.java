@@ -100,7 +100,7 @@ public class FunCmds {
     public static class RateWaifu extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            var user = ctx.getOptionAsUser("user").getId();
+            var user = ctx.getOptionAsGlobalUser("user").getId();
             var waifuRate = user.chars().sum() % 101;
 
             //hehe~
@@ -193,7 +193,7 @@ public class FunCmds {
     public static class Love extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            var user = ctx.getOptionAsUser("user");
+            var user = ctx.getOptionAsGlobalUser("user");
             String result;
             long[] ids = new long[2];
             List<String> listDisplay = new ArrayList<>();

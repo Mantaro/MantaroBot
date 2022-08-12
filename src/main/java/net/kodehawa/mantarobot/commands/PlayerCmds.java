@@ -111,6 +111,11 @@ public class PlayerCmds {
             }
 
             var usr = ctx.getOptionAsUser("user");
+            if (usr == null) {
+                ctx.reply("general.slash_member_lookup_failure", EmoteReference.ERROR);
+                return;
+            }
+
             var author = ctx.getAuthor();
             Predicate<User> oldEnough = (u -> u.getTimeCreated().isBefore(OffsetDateTime.now().minus(30, ChronoUnit.DAYS)));
 

@@ -59,6 +59,11 @@ public class ModerationCmds {
         @Override
         protected void process(SlashContext ctx) {
             var user = ctx.getOptionAsUser("user");
+            if (user == null) {
+                ctx.reply("general.slash_member_lookup_failure", EmoteReference.ERROR);
+                return;
+            }
+
             var member = ctx.getGuild().getMember(user);
             var author = ctx.getAuthor();
             var reason = ctx.getOptionAsString("reason", "");

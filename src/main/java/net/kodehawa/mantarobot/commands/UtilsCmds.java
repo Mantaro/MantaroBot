@@ -239,6 +239,11 @@ public class UtilsCmds {
         @Override
         protected void process(SlashContext ctx) {
             var user = ctx.getOptionAsUser("user");
+            if (user == null) {
+                ctx.reply("general.slash_member_lookup_failure", EmoteReference.ERROR);
+                return;
+            }
+
             var timezone = ctx.getOptionAsString("timezone", "");
             if (offsetRegex.matcher(timezone).matches()) {
                 timezone = timezone.toUpperCase().replace("UTC", "GMT");
