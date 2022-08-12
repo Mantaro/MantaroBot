@@ -38,6 +38,7 @@
     "invalid_syntax": "올바르지 않은 구문 구조.",
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
     "member_lookup_failure": "%1$sCannot find any member with that name :(",
+    "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
     "item_lookup": {
       "no_item_emoji": "이 이모지와 관련된 아이템이 없네요.",
       "no_item_name": "이 이름과 관련된 아이템이 없네요.",
