@@ -38,6 +38,7 @@
     "invalid_syntax": "Can't you use this command properly?! You baka.",
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
     "member_lookup_failure": "%1$sCannot find any member with that name :(",
+    "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
     "item_lookup": {
       "no_item_emoji": "You baka, that's not an item emoji.",
       "no_item_name": "You baka, that's not an item name.",
