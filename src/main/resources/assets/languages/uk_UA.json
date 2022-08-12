@@ -38,6 +38,7 @@
     "invalid_syntax": "Неправильний синтаксис.",
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
     "member_lookup_failure": "%1$sCannot find any member with that name :(",
+    "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
     "item_lookup": {
       "no_item_emoji": "Цей емодзі немає предмета, пов'язаного з ним.",
       "no_item_name": "Немає предмета, пов'язаного з цим ім'ям.",
