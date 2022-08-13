@@ -708,7 +708,7 @@
       "not_enough_items": "%1$sDu hast nicht genug von *%2$s*, um die Herstellung von **%3$s** fertigzustellen. **(Benötigt: %4$s, Aktuell: %5$s)**",
       "success": "%1$sDu hast erfolgreich %2$,dx %3$s **%4$s** für %5$,d Credits hergestellt. *Herstellung kostete: %6$s*",
       "no_tool": "%1$sDu musst einen %2$s haben, um die Herstellung durchführen zu können!",
-      "not_equipped": "%1$sYou don't have any equipped wrench. Use `/equip <wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `/buy wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `/cast 5 star pick`",
+      "not_equipped": "%1$sYou don't have any equipped wrench. Use `/equip <wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `/buy wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `/cast star pick 5`",
       "too_many": "%1$sDu hättest mehr als 5.000 von diesem Gegenstand, wenn du fortfährst. Versuche weniger von diesem Gegenstand herzustellen?",
       "low_tier": "%1$sDu brauchst mindestens einen Stufe 2 Schraubenschlüssel (mindestens einen Komet Schraubenschlüssel), um mehrere Gegenstände auf einmal herzustellen. Du hast aktuell einen Stufe %2$s Schraubenschlüssel ausgerüstet.",
       "not_enough_wrench_level": "%1$sDein Schraubenschlüssel reicht nicht aus, um diesen Gegenstand herzustellen. Rüste vielleicht einen besseren aus? (*Schraubenschlüssellevel: %2$s, Benötigtes Level: %3$s*)",
