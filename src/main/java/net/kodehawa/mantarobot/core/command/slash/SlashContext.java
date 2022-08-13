@@ -23,6 +23,7 @@ import net.dv8tion.jda.api.entities.channel.attribute.IAgeRestrictedChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.Modal;
 import net.dv8tion.jda.api.requests.restaction.WebhookMessageUpdateAction;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -256,6 +257,14 @@ public class SlashContext implements IContext {
             slash.deferReply(true).addEmbeds(embed)
                     .queue(success -> {}, Throwable::printStackTrace);
         }
+    }
+
+    public void replyModal(Modal modal) {
+        if (deferred) {
+            throw new IllegalStateException("Cannot reply to a deferred interaction with a modal.");
+        }
+
+        slash.replyModal(modal).queue();
     }
 
     public WebhookMessageUpdateAction<Message> editAction(MessageEmbed embed) {

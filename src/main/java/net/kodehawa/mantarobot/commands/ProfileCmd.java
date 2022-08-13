@@ -24,6 +24,10 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.Modal;
+import net.dv8tion.jda.api.interactions.components.text.TextInput;
+import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
@@ -37,11 +41,14 @@ import net.kodehawa.mantarobot.commands.currency.profile.inventory.InventorySort
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.slash.*;
+import net.kodehawa.mantarobot.core.listeners.operations.ModalOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -131,7 +138,7 @@ public class ProfileCmd {
                     return;
                 }
 
-                showProfile(ctx, userLooked);
+                ctx.send(buildProfile(ctx, userLooked));
             }
         }
 
@@ -207,7 +214,7 @@ public class ProfileCmd {
 
         @Description("Sort your inventory.")
         @Ephemeral
-        @Options({@Options.Option(type = OptionType.STRING, name = "sort", description = "The sort type. Possible values: VALUE, VALUE_TOTAL, AMOUNT, TYPE, RANDOM. If nothing is specified, it prints a list.")})
+        @Options({@Options.Option(type = OptionType.STRING, name = "sort", description = "The sort type. If nothing is specified, it prints a list.")})
         @Help(
                 description = "Lets you sort your inventory using specified presets.",
                 usage = "`/profile sort [preset]`",
@@ -425,8 +432,9 @@ public class ProfileCmd {
         }
 
         @Name("description")
-        @Description("Sets your profile description.")
-        @Options({@Options.Option(type = OptionType.STRING, name = "description", description = "The description to set. Use reset to reset it.", required = true)})
+        @Description("Sets your profile description. This will open a modal (pop-up).")
+        @NoDefer
+        @Options({@Options.Option(type = OptionType.BOOLEAN, name = "clear", description = "Clear your profile description if set to true.")})
         @Help(
                 description = "Sets your profile description. The max length is 300 if you're not premium and 500 if you are.",
                 usage = "`/profile description [content]`",
@@ -439,35 +447,71 @@ public class ProfileCmd {
                     return;
                 }
 
-                var desc = ctx.getOptionAsString("description");
-                var player = ctx.getPlayer();
-                var dbUser = ctx.getDBUser();
-
-                if (desc.equals("clear") || desc.equals("remove") || desc.equals("reset")) {
+                if (ctx.getOptionAsBoolean("clear")) {
+                    var player = ctx.getPlayer();
                     player.getData().setDescription(null);
                     ctx.reply("commands.profile.description.clear_success", EmoteReference.CORRECT);
                     player.saveUpdating();
                     return;
                 }
 
+                var dbUser = ctx.getDBUser();
                 var MAX_LENGTH = 300;
                 if (dbUser.isPremium()) {
                     MAX_LENGTH = 500;
                 }
 
-                if (desc.length() > MAX_LENGTH) {
-                    ctx.reply("commands.profile.description.too_long", EmoteReference.ERROR);
-                    return;
-                }
+                var lang = ctx.getLanguageContext();
+                var subject = TextInput.create("description", lang.get("commands.profile.description.header"), TextInputStyle.PARAGRAPH)
+                        .setPlaceholder(lang.get("commands.profile.description.content_placeholder"))
+                        .setRequiredRange(5, MAX_LENGTH)
+                        .build();
 
-                desc = Utils.DISCORD_INVITE.matcher(desc).replaceAll("-discord invite link-");
-                desc = Utils.DISCORD_INVITE_2.matcher(desc).replaceAll("-discord invite link-");
+                var id = Snow64.toSnow64(System.currentTimeMillis()) + "-" + ctx.getAuthor().getId();
+                var modal = Modal.create(id, lang.get("commands.profile.description.header")).addActionRows(ActionRow.of(subject)).build();
+                ctx.replyModal(modal);
 
-                player.getData().setDescription(desc);
-                ctx.reply("commands.profile.description.success", EmoteReference.POPPER);
+                // effectively final moment
+                var finalLength = MAX_LENGTH;
+                ModalOperations.create(id, 180, event -> {
+                    // This might not be possible here, as we send only events based on the id.
+                    if (!event.getModalId().equalsIgnoreCase(id)) {
+                        return Operation.IGNORED;
+                    }
 
-                player.getData().addBadgeIfAbsent(Badge.WRITER);
-                player.saveUpdating();
+                    if (event.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
+                        return Operation.IGNORED;
+                    }
+
+                    var description = event.getValue("description");
+                    if (description == null) {
+                        event.reply(lang.get("commands.profile.description.no_content").formatted(EmoteReference.ERROR))
+                                .setEphemeral(true)
+                                .queue();
+                        return Operation.COMPLETED;
+                    }
+
+                    var desc = description.getAsString();
+                    if (desc.length() > finalLength) {
+                        event.reply(lang.get("commands.profile.description.too_long").formatted(EmoteReference.ERROR))
+                                .setEphemeral(true)
+                                .queue();
+                        return Operation.COMPLETED;
+                    }
+
+                    desc = Utils.DISCORD_INVITE.matcher(desc).replaceAll("-discord invite link-");
+                    desc = Utils.DISCORD_INVITE_2.matcher(desc).replaceAll("-discord invite link-");
+
+                    var player = ctx.getPlayer();
+                    player.getData().setDescription(desc);
+                    event.reply(lang.get("commands.profile.description.success").formatted(EmoteReference.POPPER))
+                            .setEphemeral(true)
+                            .queue();
+
+                    player.getData().addBadgeIfAbsent(Badge.WRITER);
+                    player.saveUpdating();
+                    return Operation.COMPLETED;
+                });
             }
         }
 
@@ -592,11 +636,11 @@ public class ProfileCmd {
                 return;
             }
 
-            showProfile(ctx, userLooked);
+            ctx.send(buildProfile(ctx, userLooked));
         }
     }
 
-    private static void showProfile(IContext ctx, User userLooked) {
+    private static MessageEmbed buildProfile(IContext ctx, User userLooked) {
         final var memberLooked = ctx.getGuild().getMember(userLooked);
         final var player = ctx.getPlayer(userLooked);
         final var dbUser = ctx.getDBUser(userLooked);
@@ -683,12 +727,12 @@ public class ProfileCmd {
             );
         }
 
-        ctx.send(profileBuilder.build());
-
         // We don't need to update stats if someone else views your profile
         if (player.getUserId().equals(ctx.getAuthor().getId())) {
             player.saveUpdating();
         }
+
+        return profileBuilder.build();
     }
 
     public static String parsePlayerEquipment(PlayerEquipment equipment, I18nContext languageContext) {

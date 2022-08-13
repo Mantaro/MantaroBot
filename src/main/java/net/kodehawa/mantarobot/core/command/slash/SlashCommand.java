@@ -217,7 +217,7 @@ public abstract class SlashCommand {
 
         if (!getPredicate().test(ctx)) return;
         if (sub != null) {
-            if (defer()) {
+            if (sub.defer()) {
                 if (sub.isEphemeral()) ctx.deferEphemeral();
                 else ctx.defer();
             }
