@@ -261,7 +261,7 @@ public class MusicUtilCmds {
     @Description("Removes a track or a range of tracks from the queue.")
     @Category(CommandCategory.MUSIC)
     @Options({
-            @Options.Option(type = OptionType.STRING, name = "range", description = "The song to remove, or a range of them (1-10). Can also use first or last.", required = true)
+            @Options.Option(type = OptionType.STRING, name = "range", description = "The song to remove, or a range of them (1-10). Can also use first, next or last.", required = true)
     })
     @Help(
             description = "Removes a track or a range of tracks from the queue.",

@@ -100,11 +100,17 @@ public class FunCmds {
     public static class RateWaifu extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            var user = ctx.getOptionAsGlobalUser("user").getId();
-            var waifuRate = user.chars().sum() % 101;
+            var user = ctx.getOptionAsUser("user");
+            if (user == null) {
+                ctx.reply("general.slash_member_lookup_failure", EmoteReference.ERROR);
+                return;
+            }
+
+            var userId = user.getId();
+            var waifuRate = userId.chars().sum() % 101;
 
             //hehe~
-            if (user.equalsIgnoreCase("213466096718708737")) {
+            if (userId.equalsIgnoreCase("213466096718708737")) {
                 waifuRate = 100;
             }
 
@@ -193,7 +199,12 @@ public class FunCmds {
     public static class Love extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            var user = ctx.getOptionAsGlobalUser("user");
+            var user = ctx.getOptionAsUser("user");
+            if (user == null) {
+                ctx.reply("general.slash_member_lookup_failure", EmoteReference.ERROR);
+                return;
+            }
+
             String result;
             long[] ids = new long[2];
             List<String> listDisplay = new ArrayList<>();

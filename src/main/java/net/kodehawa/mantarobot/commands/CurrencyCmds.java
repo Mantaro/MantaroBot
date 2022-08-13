@@ -756,7 +756,9 @@ public class CurrencyCmds {
         }
 
         var builder = new EmbedBuilder()
-                .setAuthor(lang.get("commands.inventory.header"), null, ctx.getMember().getEffectiveAvatarUrl())
+                .setAuthor(lang.get("commands.inventory.header").formatted(ctx.getAuthor().getName()),
+                        null, ctx.getMember().getEffectiveAvatarUrl()
+                )
                 .setColor(ctx.getMember().getColor());
 
         List<MessageEmbed.Field> fields = new LinkedList<>();

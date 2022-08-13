@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
@@ -57,7 +56,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -209,7 +207,7 @@ public class ProfileCmd {
 
         @Description("Sort your inventory.")
         @Ephemeral
-        @Options({@Options.Option(type = OptionType.STRING, name = "sort", description = "The sort type. Possible values: VALUE, VALUE_TOTAL, AMOUNT, TYPE, RANDOM.", required = true)})
+        @Options({@Options.Option(type = OptionType.STRING, name = "sort", description = "The sort type. Possible values: VALUE, VALUE_TOTAL, AMOUNT, TYPE, RANDOM. If nothing is specified, it prints a list.")})
         @Help(
                 description = "Lets you sort your inventory using specified presets.",
                 usage = "`/profile sort [preset]`",
@@ -338,7 +336,7 @@ public class ProfileCmd {
 
         @Description("Sets your display badge.")
         @Ephemeral
-        @Options({@Options.Option(type = OptionType.STRING, name = "badge", description = "The badge to display, reset/none to reset it or no badge.", required = true)})
+        @Options({@Options.Option(type = OptionType.STRING, name = "badge", description = "The badge to display, reset/none to reset it or no badge. If nothing is specified, it prints a list.")})
         @Help(
                 description = "Sets your profile display badge.",
                 usage = "`/profile badge [badge]` - Use reset to reset the badge to the default one and use none to show no badge.",
@@ -366,7 +364,6 @@ public class ProfileCmd {
                 }
 
                 var badge = Badge.lookupFromString(badgeString);
-
                 if (badge == null) {
                     ctx.reply("commands.profile.displaybadge.no_such_badge", EmoteReference.ERROR,
                             player.getData().getBadges().stream()
@@ -396,11 +393,11 @@ public class ProfileCmd {
 
         @Description("Sets your profile language.")
         @Ephemeral
-        @Options({@Options.Option(type = OptionType.STRING, name = "lang", description = "The language to use. See /lang for a list.", required = true)})
+        @Options({@Options.Option(type = OptionType.STRING, name = "lang", description = "The language to use. See /mantaro language for a list.", required = true)})
         @Help(
                 description = "Sets your profile language.",
                 usage = "`/profile language [lang]`",
-                parameters = {@Help.Parameter(name = "lang", description = "The language to use. See /lang for a list.")}
+                parameters = {@Help.Parameter(name = "lang", description = "The language to use. See /mantaro language for a list.")}
         )
         public static class Language extends SlashCommand {
             @Override
@@ -517,7 +514,7 @@ public class ProfileCmd {
         }
 
         @Description("Set the profile widget order. This is premium-only.")
-        @Options({@Options.Option(type = OptionType.STRING, name = "order", description = "The widget order. Use list to list all widgets and reset to reset them.", required = true)})
+        @Options({@Options.Option(type = OptionType.STRING, name = "order", description = "The widget order. Use reset to reset them. If nothing is specified, it prints a list.")})
         public static class Widgets extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -533,7 +530,7 @@ public class ProfileCmd {
                 var playerData = player.getData();
                 var content = ctx.getOptionAsString("order");
 
-                if (content.equalsIgnoreCase("ls")) {
+                if (content == null) {
                     ctx.reply(
                             lang.get("commands.profile.display.ls") +
                                     lang.get("commands.profile.display.example"),
