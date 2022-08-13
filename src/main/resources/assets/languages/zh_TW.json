@@ -708,7 +708,7 @@
       "not_enough_items": "%1$s你沒有足夠的物品 *%2$s* 來鑄造 **%3$s**。**(需求：%4$s，擁有：%5$s)**",
       "success": "%1$s你成功的用 %5$,d 元鑄造了 %2$,dx %3$s **%4$s**。*鑄造花費：%6$s*",
       "no_tool": "%1$s你需要一個 %2$s 來進行鑄造！",
-      "not_equipped": "%1$sYou don't have any equipped wrench. Use `/equip <wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `/buy wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `/cast 5 star pick`",
+      "not_equipped": "%1$sYou don't have any equipped wrench. Use `/equip <wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `/buy wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `/cast star pick 5`",
       "too_many": "%1$s如果持續進行的話，你將擁有5000個以上該物品。試著鑄造少一點的數量？",
       "low_tier": "%1$s你至少需要一個等級二的扳手 (彗星扳手或更高) 來一次鑄造更多物品。你目前擁有等級 %2$s 的扳手。",
       "not_enough_wrench_level": "%1$s你的扳手等級不足以鑄造這個物品。也許裝備一隻更強壯的扳手？(*扳手等級：%2$s，需求等級：%3$s*)",
