@@ -708,7 +708,7 @@
       "not_enough_items": "%1$sItem *%2$s* milikmu tidak cukup untuk membuat sebuah **%3$s**. **(Butuh: %4$s, Punya: %5$s)**",
       "success": "%1$sKamu berhasil membuat %2$,dx %3$s **%4$s** seharga %5$,d kredit. *Cetakan terpakai: %6$s*",
       "no_tool": "%1$sKamu harus punya sebuah %2$s untuk membuat item!",
-      "not_equipped": "%1$sYou don't have any equipped wrench. Use `/equip <wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `/buy wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `/cast 5 star pick`",
+      "not_equipped": "%1$sYou don't have any equipped wrench. Use `/equip <wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `/buy wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `/cast star pick 5`",
       "too_many": "%1$sKamu akan punya lebih dari 5.000 item ini kalau dilanjut. Coba kurangi membuat item ini, ya?",
       "low_tier": "%1$sMinimal kamu butuh sebuah Wrench Tingkat 2 (paling tidak Comet Wrench) untuk membuat lebih banyak item di setiap perintah. Saat ini kamu memakai Wrench Tingkat %2$s.",
       "not_enough_wrench_level": "%1$sWrench-mu kurang kuat untuk membuat item ini. Coba pakai yang lebih kuat lagi? (*Level Wrench: %2$s, Syarat level: %3$s*)",
