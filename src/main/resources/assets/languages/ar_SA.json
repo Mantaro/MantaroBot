@@ -882,11 +882,13 @@
         "reset_success": "%1$sتم بنجاح إعادة تعيين المنطقة الزمنية."
       },
       "description": {
-        "no_argument": "%1$sYou need to provide an argument! (set or remove). For example, `/profile description set Hi there!`",
-        "no_content": "%1$sYou didn't specify what you want on your description. For example, `/profile description set Hi there!`",
+        "header": "Profile Description",
+        "content_placeholder": "Your description goes here.",
+        "no_content": "%1$sYou didn't specify what you want on your description.",
         "too_long": "%1$sThe description is too long! (Limit of 300 characters for everyone and 500 for premium users)",
-        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `/profile`",
-        "clear_success": "%1$sتم بنجاح مسح وصف الحساب. "
+        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `/profile show`",
+        "clear_success": "%1$sتم بنجاح مسح وصف الحساب. ",
+        "time_out": "%1$sThe time to set your profile description has ran out. Please run this command again."
       },
       "displaybadge": {
         "not_specified": "%1$sYou need to specify your main badge! For example, `/profile displaybadge claimer`",
@@ -1005,7 +1007,10 @@
       "not_specified": "غير محدد.",
       "potion": "جرعة نشطة",
       "no_potion": "لا توجد جرعات نشطة",
-      "hidelegacy": "%1$sLegacy credits hide status is now: `%2$s`"
+      "hidelegacy": "%1$sLegacy credits hide status is now: `%2$s`",
+      "tools_show": "%1$sShow tools",
+      "level_show": "%1$sShow level",
+      "back": "%1$sGo back."
     },
     "badges": {
       "info": {
