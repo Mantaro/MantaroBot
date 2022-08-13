@@ -708,7 +708,7 @@
       "not_enough_items": "%1$sAnda tidak mempunyai item *%2$s* yang mencukupi untuk meneruskan penciptaan **%3$s**. **(Diperlukan: %4$s, Semasa: %5$s)**",
       "success": "%1$sAnda berjaya mencipta %2$,dx %3$s **%4$s** untuk harga %5$,d kredit. *Penciptaan menggunakan: %6$s*",
       "no_tool": "%1$sAnda memerlukan %2$s untuk meneruskan penciptaan ini!",
-      "not_equipped": "%1$sYou don't have any equipped wrench. Use `/equip <wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `/buy wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `/cast 5 star pick`",
+      "not_equipped": "%1$sYou don't have any equipped wrench. Use `/equip <wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `/buy wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `/cast star pick 5`",
       "too_many": "%1$sAnda akan mempunyai lebih daripada 5,000 item ini jika anda meneruskan. Cuba mengurangkan bilangan alatan yang ingin anda mencipta?",
       "low_tier": "%1$sAnda memerlukan sekurang-kurangnya sebatang perengkuh Tahap 2 (sekurang-kurangnya Perengkuh Komet) untuk mencipta beberapa item sekali gus. Perengkuh yang telah anda pasang ialah perengkuh Tahap %2$s.",
       "not_enough_wrench_level": "%1$sPerengkuh anda tidak cukup kuat untuk mencipta item ini. Mungkin memasang sebatang perengkuh yang lebih kuat? (*Tahap perengkuh: %2$s, Tahap yang diperlukan: %3$s*)",
