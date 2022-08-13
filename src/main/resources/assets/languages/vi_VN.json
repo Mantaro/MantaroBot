@@ -708,7 +708,7 @@
       "not_enough_items": "%1$sBạn không có đủ số lượng của *%2$s* để chế tạo **%3$s**.**(Cần: %4$s, Hiện có: %5$s)**",
       "success": "%1$sBạn đã chế tạo thành công %2$,dx %3$s**%4$s** và tiêu %5$,d đồng. *Quá trình chế tạo tốn %6$s*",
       "no_tool": "%1$sBạn cần %2$s để thực hiện quá trình chế tạo này!",
-      "not_equipped": "%1$sYou don't have any equipped wrench. Use `/equip <wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `/buy wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `/cast 5 star pick`",
+      "not_equipped": "%1$sYou don't have any equipped wrench. Use `/equip <wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `/buy wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `/cast star pick 5`",
       "too_many": "%1$sBạn sẽ có hơn 5000 vật phẩm này nếu bạn tiếp tục chế tạo. Hãy thử chế tạo in ít vật phẩm này thôi nhé?",
       "low_tier": "%1$sBạn cần ít nhất một chiếc cờ lê Bậc 2 (Comet Wrench) để có thể chế tạo nhiều vật phẩm cùng lúc. Bạn hiện tại đang trang bị một chiếc cờ lê Bậc %2$s.",
       "not_enough_wrench_level": "%1$sChiếc cờ lê của bạn không đủ độ bền để có thể chế tạo vật phẩm này. Có lẽ bạn nên trang bị một chiếc bền hơn chăng? (*Cờ lê cấp:* %2$s, Cấp độ cần thiết: %3$s)",
