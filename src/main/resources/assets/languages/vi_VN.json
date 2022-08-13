@@ -882,11 +882,13 @@
         "reset_success": "%1$sĐã đặt lại múi giờ thành công."
       },
       "description": {
-        "no_argument": "%1$sYou need to provide an argument! (set or remove). For example, `/profile description set Hi there!`",
-        "no_content": "%1$sYou didn't specify what you want on your description. For example, `/profile description set Hi there!`",
+        "header": "Profile Description",
+        "content_placeholder": "Your description goes here.",
+        "no_content": "%1$sYou didn't specify what you want on your description.",
         "too_long": "%1$sPhần mô tả của bạn quá dài! `(Giới hạn trong 300 kí tự cho mọi người và 500 kí tự cho người dùng cao cấp)`",
-        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `/profile`",
-        "clear_success": "%1$sĐã xoá thành công phần mô tả."
+        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `/profile show`",
+        "clear_success": "%1$sĐã xoá thành công phần mô tả.",
+        "time_out": "%1$sThe time to set your profile description has ran out. Please run this command again."
       },
       "displaybadge": {
         "not_specified": "%1$sYou need to specify your main badge! For example, `/profile displaybadge claimer`",
@@ -1005,7 +1007,10 @@
       "not_specified": "Chưa rõ.",
       "potion": "Thuốc đang hoạt động",
       "no_potion": "Không sử dụng thuốc.",
-      "hidelegacy": "%1$sTrạng thái thể hiện di sản hiện tại: `%2$s`"
+      "hidelegacy": "%1$sTrạng thái thể hiện di sản hiện tại: `%2$s`",
+      "tools_show": "%1$sShow tools",
+      "level_show": "%1$sShow level",
+      "back": "%1$sGo back."
     },
     "badges": {
       "info": {
