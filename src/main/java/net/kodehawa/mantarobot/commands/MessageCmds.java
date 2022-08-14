@@ -50,7 +50,8 @@ public class MessageCmds {
             @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of messages to prune", maxValue = 100, minValue = 5, required = true),
             @Options.Option(type = OptionType.BOOLEAN, name = "botonly", description = "Only prune messages from bots"),
             @Options.Option(type = OptionType.BOOLEAN, name = "skippinned", description = "Don't prune pinned messages"),
-            @Options.Option(type = OptionType.USER, name = "user", description = "Only prune messages from the specified user")
+            @Options.Option(type = OptionType.USER, name = "user", description = "Only prune messages from the specified user"),
+            @Options.Option(type = OptionType.STRING, name = "reason", description = "The prune reason.")
     })
     @Help(
             description = "Prunes X amount of messages from a channel. Requires Message Manage permission.",
@@ -157,7 +158,12 @@ public class MessageCmds {
                     var db = ctx.getDBGuild();
                     db.getData().setCases(db.getData().getCases() + 1);
                     db.saveAsync();
-                    ModLog.log(ctx.getMember(), null, "Pruned Messages",
+                    var reason = "Pruned Messages";
+                    var specifiedReason = ctx.getOptionAsString("reason");
+                    if (specifiedReason != null) {
+                        reason = specifiedReason;
+                    }
+                    ModLog.log(ctx.getMember(), null, reason,
                             ctx.getChannel().getName(), ModLog.ModAction.PRUNE, db.getData().getCases(), size
                     );
                 },

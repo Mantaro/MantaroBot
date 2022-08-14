@@ -862,7 +862,6 @@ public class PetCmds {
 
                 playerInventory.process(new ItemStack(itemObject, -amount));
                 player.save();
-
                 if (player.getData().getActiveChoice(marriage) == PetChoice.MARRIAGE) {
                     marriage.saveUpdating();
                 }

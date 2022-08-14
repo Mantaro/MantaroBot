@@ -149,6 +149,7 @@ public class ImageActionCmd extends NoArgsCommand {
                 }
             } else {
                 var filter = mentionedMembers.stream()
+                        .limit(10)
                         .filter(member -> ctx.getDBUser(member).getData().isActionsDisabled()).toList();
 
                 // Needs to be mutable.

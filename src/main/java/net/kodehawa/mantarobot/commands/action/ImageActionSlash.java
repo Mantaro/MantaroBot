@@ -176,6 +176,7 @@ public class ImageActionSlash extends SlashCommand {
             boolean filtered = false;
             if (!mentions.isEmpty()) {
                 var filter = mentions.stream()
+                        .limit(10)
                         .filter(m -> ctx.getDBUser(m).getData().isActionsDisabled()).toList();
 
                 // Need it to be mutable.
