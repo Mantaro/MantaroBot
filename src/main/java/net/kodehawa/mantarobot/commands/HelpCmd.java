@@ -636,7 +636,8 @@ public class HelpCmd {
                 {"fix", "repair"},
                 {"marriage", "marry"},
                 {"rep", "reputation"},
-                {"remind", "remindme"}
+                {"remind", "remindme"},
+                {"reminder", "remindme"}
         };
 
         // Aliases are no longer a thing in slash, so gotta do this to tell users the real commands.
@@ -664,7 +665,7 @@ public class HelpCmd {
                 "guildinfo", "me", "rep", "badge", "vipstatus", "give",
                 "transferitem", "transferitems", "nowplaying", "p", "s", "q", "nexttrack",
                 "vol", "fp", "resume", "unpause", "join", "fs", "loop", "rp", "loopqueue",
-                "leave", "skipahead", "fix", "remind"
+                "leave", "skipahead", "fix", "remind", "reminder"
         );
     }
 }

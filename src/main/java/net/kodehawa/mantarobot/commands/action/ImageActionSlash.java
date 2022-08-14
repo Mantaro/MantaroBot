@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands.action;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
@@ -28,10 +29,12 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class ImageActionSlash extends SlashCommand {
     private final String desc;
@@ -156,6 +159,12 @@ public class ImageActionSlash extends SlashCommand {
                 return;
             }
 
+            var extra = ctx.getOption("extra");
+            List<Member> mentions = new ArrayList<>();
+            if (extra != null) {
+                mentions = extra.getMentions().getMembers();
+            }
+
             var member = ctx.getGuild().getMember(user);
             final var dbUser = ctx.getDBUser(user.getId());
             if (dbUser.getData().isActionsDisabled()) {
@@ -163,20 +172,42 @@ public class ImageActionSlash extends SlashCommand {
                 return;
             }
 
+            var mentioned = member.getEffectiveName();
+            boolean filtered = false;
+            if (!mentions.isEmpty()) {
+                var filter = mentions.stream()
+                        .filter(m -> ctx.getDBUser(m).getData().isActionsDisabled()).toList();
+
+                // Need it to be mutable.
+                mentions = new ArrayList<>(mentions);
+                if (mentions.removeAll(filter)) {
+                    filtered = true;
+                }
+
+                if (!mentions.isEmpty()) {
+                    mentioned += ", " + mentions.stream().map(Member::getEffectiveName).collect(Collectors.joining(", "));
+                }
+            }
+
             var toSend = new MessageBuilder()
                     .append(emoji)
                     .append(String.format(languageContext.get(format),
-                            "**%s**".formatted(member.getEffectiveName()),
+                            "**%s**".formatted(mentioned),
                             "**%s**".formatted(ctx.getMember().getEffectiveName()))
                     );
 
+            if (filtered) {
+                toSend.append("\n").append(
+                        String.format(languageContext.get("commands.action.filtered"), EmoteReference.WARNING)
+                );
+            }
 
             if (swapNames) {
                 toSend = new MessageBuilder()
                         .append(emoji)
                         .append(String.format(
                                 languageContext.get(format),
-                                "**%s**".formatted(ctx.getMember().getEffectiveName()),
+                                "**%s**".formatted(mentioned),
                                 "**%s**".formatted(member.getEffectiveName()))
                         );
             }

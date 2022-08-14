@@ -50,7 +50,10 @@ public class ActionCmds {
 
         @Name("holdhands")
         @Description("Holds the hand of a user.")
-        @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to hold hands with.", required = true))
+        @Options({
+                @Options.Option(type = OptionType.USER, name = "user", description = "The user to hold hands with.", required = true),
+                @Options.Option(type = OptionType.STRING, name = "extra", description = "Extra users to hold hands with and maybe a message you want to send.")
+        })
         public static class HoldHands extends ImageActionSlash {
             public HoldHands() {
                 super("Hold Hands", "Hold someone's hands", EmoteReference.HEART,
@@ -60,7 +63,10 @@ public class ActionCmds {
 
         @Name("stare")
         @Description("Stares at a user.")
-        @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to stare at.", required = true))
+        @Options({
+                @Options.Option(type = OptionType.USER, name = "user", description = "The user to stare at.", required = true),
+                @Options.Option(type = OptionType.STRING, name = "extra", description = "Extra users to stare at and maybe a message you want to send.")
+        })
         public static class Stare extends ImageActionSlash {
             public Stare() {
                 super("Stare", "Stares at someone", EmoteReference.EYES,
@@ -70,7 +76,10 @@ public class ActionCmds {
 
         @Name("blush")
         @Description("Blushes at a user.")
-        @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to blush at.", required = true))
+        @Options({
+                @Options.Option(type = OptionType.USER, name = "user", description = "The user to blush at.", required = true),
+                @Options.Option(type = OptionType.STRING, name = "extra", description = "Extra users to blust at and maybe a message you want to send.")
+        })
         public static class Blush extends ImageActionSlash {
             public Blush() {
                 super("Blush", "Blushes at someone", EmoteReference.HEART,
@@ -80,7 +89,10 @@ public class ActionCmds {
 
         @Name("nuzzle")
         @Description("Nuzzles a user.")
-        @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to nuzzle.", required = true))
+        @Options({
+                @Options.Option(type = OptionType.USER, name = "user", description = "The user to nuzzle.", required = true),
+                @Options.Option(type = OptionType.STRING, name = "extra", description = "Extra users to nuzzle and maybe a message you want to send.")
+        })
         public static class Nuzzle extends ImageActionSlash {
             public Nuzzle() {
                 super("Nuzzle Command", "Nuzzles the specified user.", EmoteReference.TALKING,
@@ -90,7 +102,10 @@ public class ActionCmds {
 
         @Name("bloodsuck")
         @Description("Sucks the blood of a user.")
-        @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to suck the blood of.", required = true))
+        @Options({
+                @Options.Option(type = OptionType.USER, name = "user", description = "The user to suck the blood of.", required = true),
+                @Options.Option(type = OptionType.STRING, name = "extra", description = "Extra users to suck the blood of and maybe a message you want to send.")
+        })
         public static class BloodSuck extends ImageActionSlash {
             public BloodSuck() {
                 super("Bloodsuck command", "Sucks the blood of a user", EmoteReference.TALKING,
@@ -100,7 +115,10 @@ public class ActionCmds {
 
         @Name("highfive")
         @Description("High-five a user.")
-        @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to high-five.", required = true))
+        @Options({
+                @Options.Option(type = OptionType.USER, name = "user", description = "The user to high-five.", required = true),
+                @Options.Option(type = OptionType.STRING, name = "extra", description = "Extra users to high-five and maybe a message you want to send.")
+        })
         public static class HighFive extends ImageActionSlash {
             public HighFive() {
                 super("Highfive", "Highfives with the specified user.", EmoteReference.TALKING,
@@ -111,7 +129,10 @@ public class ActionCmds {
 
         @Name("lick")
         @Description("Lick a user.")
-        @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to lick.", required = true))
+        @Options({
+                @Options.Option(type = OptionType.USER, name = "user", description = "The user to lick.", required = true),
+                @Options.Option(type = OptionType.STRING, name = "extra", description = "Extra users to lick and maybe a message you want to send.")
+        })
         public static class Lick extends ImageActionSlash {
             public Lick() {
                 super("lick", "Licks the specified user.", EmoteReference.TALKING,
@@ -122,7 +143,10 @@ public class ActionCmds {
 
         @Name("smile")
         @Description("Smile at a user.")
-        @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to smile at.", required = true))
+        @Options({
+                @Options.Option(type = OptionType.USER, name = "user", description = "The user to smile at.", required = true),
+                @Options.Option(type = OptionType.STRING, name = "extra", description = "Extra users to smile at and maybe a message you want to send.")
+        })
         public static class Smile extends ImageActionSlash {
             public Smile() {
                 super("Smile", "Smiles at someone", EmoteReference.TALKING,
@@ -133,7 +157,10 @@ public class ActionCmds {
 
         @Name("bite")
         @Description("Bite a user.")
-        @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to bite.", required = true))
+        @Options({
+                @Options.Option(type = OptionType.USER, name = "user", description = "The user to bite.", required = true),
+                @Options.Option(type = OptionType.STRING, name = "extra", description = "Extra users to bite and maybe a message you want to send.")
+        })
         public static class Bite extends ImageActionSlash {
             public Bite() {
                 super("Bite", "Bites the specified user.", EmoteReference.TALKING,
@@ -144,7 +171,10 @@ public class ActionCmds {
 
         @Name("teehee")
         @Description("Teehee~")
-        @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to tee-hee at~.", required = true))
+        @Options({
+                @Options.Option(type = OptionType.USER, name = "user", description = "The user to tee-hee at~.", required = true),
+                @Options.Option(type = OptionType.STRING, name = "extra", description = "Extra users to tee-hee at and maybe a message you want to send.")
+        })
         public static class Teehee extends ImageActionSlash {
             public Teehee() {
                 super("Teehee", "Teehee~", EmoteReference.EYES,
@@ -154,7 +184,9 @@ public class ActionCmds {
 
         @Name("lewd")
         @Description("Random image that says lewd. Command itself is not lewd.")
-        @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user that's being lewd."))
+        @Options({
+                @Options.Option(type = OptionType.USER, name = "user", description = "The user that's being lewd.")
+        })
         public static class Lewd extends ImageCmdSlash {
             public Lewd() {
                 super("T-Too lewd!", "lewd", "commands.action.lewd");
@@ -163,7 +195,9 @@ public class ActionCmds {
 
         @Name("meow")
         @Description("Meows at the specific user.")
-        @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to meow to."))
+        @Options({
+                @Options.Option(type = OptionType.USER, name = "user", description = "The user to meow to.")
+        })
         public static class Meow extends ImageCmdSlash {
             public Meow() {
                 super("Meows at the specified user.", MEOW.get(), "commands.action.meow");
@@ -172,7 +206,9 @@ public class ActionCmds {
 
         @Name("nom")
         @Description("Noms the specified user.")
-        @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to nom."))
+        @Options({
+                @Options.Option(type = OptionType.USER, name = "user", description = "The user to nom.")
+        })
         public static class Nom extends ImageCmdSlash {
             public Nom() {
                 super("*nom nom*", "nom", "commands.action.nom");
@@ -190,7 +226,10 @@ public class ActionCmds {
 
     @Name("pat")
     @Description("Pat a user.")
-    @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to pat.", required = true))
+    @Options({
+            @Options.Option(type = OptionType.USER, name = "user", description = "The user to pat.", required = true),
+            @Options.Option(type = OptionType.STRING, name = "extra", description = "Extra users to pat and maybe a message you want to send.")
+    })
     public static class Pat extends ImageActionSlash {
         public Pat() {
             super("Pat", "Pats the specified user.", EmoteReference.TALKING,
@@ -200,7 +239,10 @@ public class ActionCmds {
 
     @Name("hug")
     @Description("Hug a user.")
-    @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to hug.", required = true))
+    @Options({
+            @Options.Option(type = OptionType.USER, name = "user", description = "The user to hug.", required = true),
+            @Options.Option(type = OptionType.STRING, name = "extra", description = "Extra users to hug and maybe a message you want to send.")
+    })
     public static class Hug extends ImageActionSlash {
         public Hug() {
             super("Hug", "Hugs the specified user.", EmoteReference.TALKING,
@@ -211,7 +253,10 @@ public class ActionCmds {
 
     @Name("kiss")
     @Description("Kiss a user.")
-    @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to kiss.", required = true))
+    @Options({
+            @Options.Option(type = OptionType.USER, name = "user", description = "The user to kiss.", required = true),
+            @Options.Option(type = OptionType.STRING, name = "extra", description = "Extra users to kiss and maybe a message you want to send.")
+    })
     public static class Kiss extends ImageActionSlash {
         public Kiss() {
             super("Kiss", "Kisses the specified user.", EmoteReference.TALKING,
@@ -222,7 +267,10 @@ public class ActionCmds {
 
     @Name("poke")
     @Description("Poke a user.")
-    @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to poke.", required = true))
+    @Options({
+            @Options.Option(type = OptionType.USER, name = "user", description = "The user to poke.", required = true),
+            @Options.Option(type = OptionType.STRING, name = "extra", description = "Extra users to poke and maybe a message you want to send.")
+    })
     public static class Poke extends ImageActionSlash {
         public Poke() {
             super("Poke", "Pokes the specified user.", EmoteReference.TALKING,
@@ -233,7 +281,10 @@ public class ActionCmds {
 
     @Name("slap")
     @Description("Slap a user.")
-    @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to slap.", required = true))
+    @Options({
+            @Options.Option(type = OptionType.USER, name = "user", description = "The user to slap.", required = true),
+            @Options.Option(type = OptionType.STRING, name = "extra", description = "Extra users to slap and maybe a message you want to send.")
+    })
     public static class Slap extends ImageActionSlash {
         public Slap() {
             super("Slap", "Slaps the specified user ;).", EmoteReference.TALKING,
@@ -244,7 +295,10 @@ public class ActionCmds {
 
     @Name("tickle")
     @Description("Tickle a user.")
-    @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to tickle.", required = true))
+    @Options({
+            @Options.Option(type = OptionType.USER, name = "user", description = "The user to tickle.", required = true),
+            @Options.Option(type = OptionType.STRING, name = "extra", description = "Extra users to tickle and maybe a message you want to send.")
+    })
     public static class Tickle extends ImageActionSlash {
         public Tickle() {
             super("Tickle", "Tickles the specified user.", EmoteReference.JOY,
@@ -254,7 +308,10 @@ public class ActionCmds {
     }
     @Name("pout")
     @Description("Pout at a user.")
-    @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to pout at.", required = true))
+    @Options({
+            @Options.Option(type = OptionType.USER, name = "user", description = "The user to pout at.", required = true),
+            @Options.Option(type = OptionType.STRING, name = "extra", description = "Extra users to pout at and maybe a message you want to send.")
+    })
     public static class Pout extends ImageActionSlash {
         public Pout() {
             super("Pout", "Pouts at the specified user.", EmoteReference.TALKING,
@@ -264,7 +321,10 @@ public class ActionCmds {
     }
 
     @Name("cuddle")
-    @Options(@Options.Option(type = OptionType.USER, name = "user", description = "The user to cuddle.", required = true))
+    @Options({
+            @Options.Option(type = OptionType.USER, name = "user", description = "The user to cuddle.", required = true),
+            @Options.Option(type = OptionType.STRING, name = "extra", description = "Extra users to cuddle and maybe a message you want to send.")
+    })
     public static class Cuddle extends ImageActionSlash {
         public Cuddle() {
             super("Cuddle", "Cuddles someone", EmoteReference.HEART,
