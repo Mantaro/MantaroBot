@@ -796,7 +796,7 @@ public class PetCmds {
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
                 var food = ctx.getOptionAsString("item");
-                var amount = ctx.getOptionAsInteger("item", 1);
+                var amount = ctx.getOptionAsInteger("amount", 1);
                 var marriage = dbUser.getData().getMarriage();
 
                 var isFull = ctx.getOptionAsBoolean("full");
