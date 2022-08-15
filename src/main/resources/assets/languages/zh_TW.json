@@ -50,7 +50,7 @@
       "mop_not_enough": "%1$s你的粉塵高度少於5%%， 所以掃除不會有什麼作用。",
       "milk": "%1$s所有藥水效果已清除。",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `/buy key`",
+        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `/buy item:key`",
         "no_crate": "%1$s你需要一個寶箱！你能透過貨幣指令獲得寶箱。",
         "success": "%1$s你開啟了一個寶箱且得到了：%2$s%3$s。恭喜！",
         "success_high": "%1$s你獲得了以下等級超過三星的物品：%2$s。數量如上所示",
@@ -153,7 +153,7 @@
     },
     "fish": {
       "dust": "%1$s時機已經過了，你的桶子只有灰塵。(灰塵高度 %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `/equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `/buy rod`",
+      "no_rod": "%1$sYou don't have any equipped rod. Use `/equip item:<rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `/buy item:rod`",
       "trash": {
         "overflow": "%1$s你在釣魚的時候釣到了一些垃圾，但是你的背包是滿的，所以只能把它們丟回水裡...",
         "success": "%1$s在安靜的釣魚時，你釣到了漂浮中的 %2$s，但那看起來一點都不值錢 :("
@@ -163,7 +163,7 @@
       },
       "crate": {
         "overflow": "你在釣魚的時候找到了 **%1$s**，但是你已經擁有太多了，所以只能把它丟回水裡...",
-        "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `/opencrate <crate name>`. You need a crate key!"
+        "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `/opencrate crate:<crate name>`. You need a crate key!"
       },
       "autoequip": {
         "success": "%1$s自動裝備了 **%2$s** 到你的釣竿欄位。"
@@ -180,7 +180,7 @@
       "bait": "有隻魚把你的魚餌吃掉了!",
       "missing_equipped": "%1$s你原本有支已裝備的 %2$s，但是你已經把庫存都用光了！已裝備釣竿已重設。",
       "broken_drop": "%1$s你的釣竿壞掉了，但是你還可以修復它。得到損壞物品：%2$s *%3$s*",
-      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `/equip <rod name>` to start your adventure!"
+      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `/equip item:<rod name>` to start your adventure!"
     },
     "softban": {
       "no_permission": "%1$sYou can't soft-ban: You need the `Ban Users` permission.",
@@ -195,27 +195,27 @@
     },
     "music_usage": {
       "1": "*如何使用Mantaro的音樂功能？*",
-      "2": "- To **queue songs from youtube or soundcloud** use `/play` For example: `/play https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
-      "3": "- To **search for a song on youtube** use `/play <search term>` (without the leading < and >) For example: `/play see you again` (You need to select the number, just *type the number* after the selection box pops up!)",
-      "4": "- To **search for a song on soundcloud** use `/play soundcloud <search term>` For example `/play soundcloud hot milk`",
-      "5": "- To **check the queue** you just type `/queue`",
+      "2": "- To **queue songs from youtube or soundcloud** use `/play` For example: `/play song:https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
+      "3": "- To **search for a song on youtube** use `/play song:<search term>` (without the leading < and >) For example: `/play song:see you again` (You need to select the number, just *type the number* after the selection box pops up!)",
+      "4": "- To **search for a song on soundcloud** use `/play song:<search term> soundcloud:true` For example `/play song:hot milk soundcloud:true`",
+      "5": "- To **check the queue** you just type `/queue show`",
       "6": "- To **remove a track from the queue** you just need to use `/removetrack` It takes as an argument the position the song is queued at (you can check in on queue)",
       "7": "- To **pause or unpause** just use `/pause`",
       "8": "- To **stop the music and unbind the player** use `/stop`",
       "9": "- To **shuffle the queue** just use `/shuffle`",
       "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue by setting the queue boolean to true on the command.\n",
-      "11": "For more info please use `/help <command name>` (without the <> and replace command name with the name of the command you want)",
+      "11": "For more info please use `/help command:<command name>` (without the <> and replace command name with the name of the command you want)",
       "12": "謝謝使用Mantaro，享受你的音樂吧!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
+      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile language lang:<language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "music_general": {
       "music_error": {
         "timeout": "%1$s無法連接至%2$s：連線超時。試著改變伺服器區域並再試一次。",
         "unknown": "%1$s無法連接至%2$s：未知錯誤。"
       },
-      "not_working": "%1$sMusic is currently not working due to Youtube blocking traffic from most big bots. Our Patreon bot still is working, so you can try it if you wish by donating $4/month to Mantaro. This will also help us redirect our efforts towards fixing music as a whole.\nPlease check <https://patreon.com/mantaro>\n\nWe're sorry for the inconveniences. Try using soundcloud search! (`/play soundcloud <search term>)`",
+      "not_working": "%1$sMusic is currently not working due to Youtube blocking traffic from most big bots. Our Patreon bot still is working, so you can try it if you wish by donating $4/month to Mantaro. This will also help us redirect our efforts towards fixing music as a whole.\nPlease check <https://patreon.com/mantaro>\n\nWe're sorry for the inconveniences. Try using soundcloud search! (`/play song:<search term> soundcloud:true)`",
       "no_song": "%1$s你需要告訴我你想播的音樂! *(支援網址及關鍵字：YouTube, SoundCloud, Twitch)*",
       "not_playing": "%1$s我目前不在播放任何音樂。如果你覺得這是錯誤的話，請回報至<https://support.mantaro.site>",
       "dj_only": "%1$s你需要成為DJ才能使用這個指令。",
@@ -233,18 +233,18 @@
         "header_noreact": "傳送 `&p >>` 或 `&p <<` 來切換頁數。",
         "no_track_found_np": "找不到曲目或名稱/持續時間",
         "header": "%1$s播放清單",
-        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `/queue 1`",
+        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?",
         "nothing_playing_2": "**如果這裡只有一首正在播放，那這邊真的就只剩灰塵了。你也可以加入更多歌曲!**",
         "np": "現正播放",
         "dj_np": "**用戶：** ",
         "page_overflow": "這裡啥都沒有。為何不返回一些頁面？",
-        "page_overflow_2": "If you think there are songs here but they don't appear, try using `/queue 1`",
+        "page_overflow_2": "If you think there are songs here but they don't appear, try using `/queue page:1`",
         "total_queue_time": "總播放時間",
         "total_size": "總播放量",
         "togglers": "重複 / 暫停",
         "playing_in": "正在播放",
         "footer": "總頁數：%1$d%2$s 目前頁數：%3$d",
-        "multiple_pages": " -> Use /queue <page> to change pages",
+        "multiple_pages": " -> Use /queue page:<page> to change pages",
         "page_react": " -> 反應以更改頁數",
         "no_channel": "沒有頻道 :(",
         "songs": "曲目",
@@ -273,7 +273,7 @@
       "loader": {
         "over_limit": "%1$s你加入的清單含有超過%2$d首歌曲，所以我將忽略多餘的歌曲。",
         "loaded_playlist": "%1$s已加入**%2$d首歌曲**進入播放清單:**%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`/play soundcloud <search term>` instead on the meanwhile. Direct links to youtube should work too.",
+        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`/play song:<search term> soundcloud:true` instead on the meanwhile. Direct links to youtube should work too.",
         "error_loading": "%1$s取得音樂時發生錯誤：%2$s。試著在試一次或使用別的鏈接？",
         "unknown_error_loading": "%1$s取得音樂時發生未知錯誤。試著在試一次或使用別的連接？",
         "over_queue_limit": "%1$s**無法加入 `%2$s`：清單長度超出限制(%3$s)**",
@@ -298,9 +298,9 @@
       "unpaused": "已回復播放。*(原本狀態為暫停中)*"
     },
     "rewind": {
-      "no_time": "%1$sYou need to tell me how much you want to rewind the song. *(Example: `/rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
+      "no_time": "%1$sYou need to tell me how much you want to rewind the song. *(Example: `/rewind time:1m45s` will rewind the song 1 minute and 45 seconds)*",
       "negative": "%1$s僅限正整數",
-      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `/rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
+      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `/rewind time:1m45s` will rewind the song 1 minute and 45 seconds)*",
       "before_beginning": "%1$s你無法倒轉至歌曲開頭之前",
       "success": "%1$s倒轉歌曲至：%2$s。"
     },
@@ -308,7 +308,7 @@
       "success": "%1$s已重新播放目前歌曲。"
     },
     "skipahead": {
-      "no_time": "%1$sYou need to tell me how much you want to skip ahead in the song. *(Example: `/skipahead 1m45s` will skip 1 minutes and 45 seconds from where you are on the song)*",
+      "no_time": "%1$sYou need to tell me how much you want to skip ahead in the song. *(Example: `/forward time:1m45s` will skip 1 minutes and 45 seconds from where you are on the song)*",
       "past_duration": "%1$s你無法快轉超過歌曲長度",
       "success": "%1$s已跳至%2$s。"
     },
@@ -392,7 +392,7 @@
     "custom": {
       "custom_notice": "This is a custom command.",
       "no_args": "%1$s你需要說明你用此指令想做些甚麼。運行指令 help 來看更多資訊！",
-      "incorrect_args": "%1$sIncorrect arguments. Check `/help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101 for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
+      "incorrect_args": "%1$sIncorrect arguments. Check `/help command:custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101 for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
       "error_running": "%1$s執行自定義指令時發生錯誤... 請檢查回應內容及長度 (無法超過2000字元)",
       "error_running_new": "%1$s執行自定義指令時發生錯誤。請檢查回應內容及長度。\n**錯誤：**\n```%2$s```",
       "not_loaded": "我還沒有完全載入完成... 自定義指令將會馬上開放使用!",
@@ -417,7 +417,7 @@
         "not_found": "%1$s我找不到該指令。",
         "header": "自定義指令%1$s原始回應。",
         "amount": "(包含%1$d個中的%2$d個)",
-        "too_large_view": "Too large to view here, use `/custom view %1$s %2$s`",
+        "too_large_view": "Too large to view here, use `/custom view name:%1$s response:%2$s`",
         "description": "這個清單包含所有此指令的原始回應(你創造給我的內容)。"
       },
       "clear": {
@@ -442,6 +442,9 @@
         "success": "從伺服器 `%2$s` 匯入了自定義指令 `%1$s` 的%3$d個回應。"
       },
       "edit": {
+        "header_slash": "Custom Command Edit",
+        "content_slash": "New content",
+        "content_slash_placeholder": "The new command content.",
         "no_command": "%1$s你需要指出你想編輯的自定義指令名稱。",
         "invalid_number": "%1$s你需要指出你想編輯的回應編號。",
         "no_index": "%1$s你無法編輯不存在的索引。",
@@ -463,11 +466,12 @@
       },
       "add": {
         "header_slash": "Custom Command Creation.",
-        "content_placeholder": "Command content goes here.",
-        "name_slash": "Custom Command name",
+        "content_placeholder": "Content goes here.",
+        "name_slash": "Name",
+        "content_slash": "Content",
         "custom_name_placeholder": "Name goes here.",
         "no_command": "%1$s你需要指出你想創建的指令名稱。",
-        "time_out": "%1$sThe time for this custom command interaction has ran out (or you cancelled it).",
+        "time_out": "%1$sThe time for this custom command interaction has ran out (or you cancelled it, or started a new one).",
         "not_enough_args": "%1$s你需要指出你想新增的指令名稱及回應。",
         "empty_content": "%1$s你需要指出這個自定義指令的內容。",
         "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
@@ -495,14 +499,14 @@
       "invalid_string": "%1$s字串 `{%2$s}` 無效，或是長於2000字元。",
       "invalid_json": "%1$s字串 `{%2$s}` 不是有效的JSON。",
       "invalid_link": "%1$s字串 `%2$s` 不是有效的連結。",
-      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `/custom unlockcommand <command name>` to unlock it."
+      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `/custom unlockcommand name:<command name>` to unlock it."
     },
     "mute": {
       "no_permissions": "%1$sYou need to have permission to Moderate Members in order to time out a user.",
       "no_users": "%1$sYou need to give me a user to time out.",
       "no_moderate_members": "%1$sI don't have permissions to administrate timeouts on this server.",
       "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
-      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute user 20m reason goes here`, for example.",
+      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute user:<user> time:20m reason:reason goes here`, for example.",
       "default_time_too_long": "%1$sThe default time out timeout length is too long (Maximum: 10 days)...",
       "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "time_too_long": "%1$sThe specified timeout length is too long (Maximum: 10 days)...",
@@ -581,17 +585,17 @@
       },
       "buyhouse": {
         "not_married": "%1$s你只能再已婚時買房子。這將有可能在未來更改。",
-        "no_house": "%1$sYou need a house item in your inventory. Use `/buy house` to get one.",
+        "no_house": "%1$sYou need a house item in your inventory. Use `/buy item:house` to get one.",
         "not_enough_money": "%1$s你沒有足夠的錢來購買房屋。(目前房屋價格：%2$d元)",
-        "no_name": "%1$sYou need to give your house a name! For example, `/marry house cozy house`",
+        "no_name": "%1$sYou need to give your house a name! For example, `/marry house name:cozy house`",
         "confirm": "%1$s你確定要買這棟房子嗎？這將從你的錢包中扣除%2$d元，然後你的房屋名稱將是%3$s。傳送 `yes` 確認或 `no` 取消。",
         "success": "%1$s你成功用 %2$d 元買了一棟房子！你的新房屋名稱是 %3$s，恭喜！",
         "cancel_success": "%1$s操作取消。"
       },
       "buycar": {
-        "no_car": "%1$sYou need to buy a car first! Use `/buy car` to get one.",
+        "no_car": "%1$sYou need to buy a car first! Use `/buy item:car` to get one.",
         "not_enough_money": "%1$s你沒有足夠的錢來購買汽車。(目前汽車價格：%2$d元)",
-        "no_name": "%1$sYou need to give your car a name! For example, `/marry car vroom`",
+        "no_name": "%1$sYou need to give your car a name! For example, `/marry car name:vroom`",
         "confirm": "%1$s你確定要買這台汽車嗎？這將從你的錢包中扣除%2$d元，然後你的汽車名稱將是%3$s。傳送 `yes` 確認或 `no` 取消。",
         "success": "%1$s你成功用 %2$d 元買了一台汽車！你的新車子名稱是 %3$s，恭喜！",
         "cancel_success": "%1$s操作取消。"
@@ -602,7 +606,7 @@
       "already_married_receipt": "%1$s你已經是他們的伴侶了，Aww",
       "already_married": "%1$s你已經有伴侶了。",
       "receipt_married": "%1$s他們已經有伴侶了。",
-      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `/buy 2 ring` and then try proposing again <3",
+      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `/buy amount:2 item:ring` and then try proposing again <3",
       "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$s你需要持有兩個戒指才能結婚 :(",
       "accepted": "%1$s**%2$s#%3$s**接受了**%4$s#%5$s**的求婚！",
@@ -631,7 +635,7 @@
       "claim": {
         "no_user": "%1$s你沒有提及任何用戶。",
         "locked": "%1$s你目前無法執行此操作。",
-        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `/profile claimlock remove` if they wish to do so.",
+        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `/profile claimlock remove:true` if they wish to do so.",
         "not_enough_money": "%1$s你沒有足夠的金錢來認領他 **(費用：%2$s)**",
         "not_enough_slots": "%1$s你沒有足夠的欄位來認領他。(全部欄位：%2$s，已使用：%3$s)",
         "success": "%1$s成功以 %3$,d 元認領 `%2$s`。已使用欄位：%4$s",
@@ -647,7 +651,7 @@
         "player_locked": "%1$s你目前無法執行此操作。",
         "scrapped": "%1$s已取消操作。",
         "success": "%1$s成功用 **%3$s 元** 取消認領了 `%2$s`。",
-        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID (`/waifu -id`) and append `-unknown` at the end."
+        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID (`/waifu list id:true`)."
       },
       "buyslot": {
         "locked": "%1$s你目前無法執行此操作。",
@@ -689,7 +693,7 @@
     },
     "coinflip": {
       "over_limit": "%1$s等等！最高只能連續丟1000次",
-      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions (For example, `/roll 100`)",
+      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions (For example, `/roll times:100`)",
       "success": "%1$s 你丟了 **%2$,d** 次硬幣並得到了 **%3$,d** 次正面和 **%4$,d** 次反面"
     },
     "inventory": {
@@ -705,15 +709,15 @@
       "new_calc_notice": "Please use `/inventory calculate` instead."
     },
     "cast": {
-      "no_item_specified": "%1$sYou didn't specify any items. For a list, check `/cast ls`",
+      "no_item_specified": "%1$sYou didn't specify any items. For a list, check `/cast list`",
       "no_item_found": "%1$sI didn't find any item matching that. Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `/cast star pick`",
-      "item_not_cast": "%1$sYou cannot cast this item. You can check `/cast ls` for a list of castable items. Try using the full name if you think you have the correct item.",
+      "item_not_cast": "%1$sYou cannot cast this item. You can check `/cast list` for a list of castable items. Try using the full name if you think you have the correct item.",
       "not_enough_money": "%1$s你沒有足夠的金錢來鑄造此物品。**(費用：%2$s)**",
       "no_item": "%1$s你沒有物品 *%2$s* 來進行鑄造。你需要 %3$,d 個。",
       "not_enough_items": "%1$s你沒有足夠的物品 *%2$s* 來鑄造 **%3$s**。**(需求：%4$s，擁有：%5$s)**",
       "success": "%1$s你成功的用 %5$,d 元鑄造了 %2$,dx %3$s **%4$s**。*鑄造花費：%6$s*",
       "no_tool": "%1$s你需要一個 %2$s 來進行鑄造！",
-      "not_equipped": "%1$sYou don't have any equipped wrench. Use `/equip <wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `/buy wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `/cast star pick 5`",
+      "not_equipped": "%1$sYou don't have any equipped wrench. Use `/equip item:<wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `/buy item:wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `/cast item item:star pick amount:5`",
       "too_many": "%1$s如果持續進行的話，你將擁有5000個以上該物品。試著鑄造少一點的數量？",
       "low_tier": "%1$s你至少需要一個等級二的扳手 (彗星扳手或更高) 來一次鑄造更多物品。你目前擁有等級 %2$s 的扳手。",
       "not_enough_wrench_level": "%1$s你的扳手等級不足以鑄造這個物品。也許裝備一隻更強壯的扳手？(*扳手等級：%2$s，需求等級：%3$s*)",
@@ -724,14 +728,14 @@
       "ls": {
         "header": "可鑄造物品清單",
         "cost": "鑄造花費：",
-        "desc": "This is a list of the items you can cast using `/cast`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "desc": "This is a list of the items you can cast using `/cast list`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       },
       "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `/useitem mop`?",
       "wrench_multiple_use": "小提示：*你無法使用要鑄造的扳手作為原料！*"
     },
     "market": {
       "dump": {
-        "replacement": "You can use `/dump` now. For example, instead of `~>market dump floppy` you can do `/dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
+        "replacement": "You can use `/dump` now. For example, instead of `~>market dump floppy` you can do `/dump item:floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
         "no_item": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想丟棄的物品名稱。",
         "invalid": "%1$s丟棄數量無效。",
         "non_existent": "%1$s你無法丟棄不存在的物品！試著使用更簡短的名稱或將他\"用引號包起來\"。",
@@ -747,7 +751,7 @@
         "success": "%1$s%2$s**%3$s** 在市場內的出售價格是 %4$s 元，買入價格為 %5$s 元。"
       },
       "sell": {
-        "replacement": "You can use `/sell` now. For example, instead of `~>market sell pick` you can do `/sell pick`. Please use the new command instead.",
+        "replacement": "You can use `/sell` now. For example, instead of `~>market sell pick` you can do `/sell item:pick`. Please use the new command instead.",
         "no_item": "%1$s你需要指出你想出售的物品名稱。",
         "no_item_amount": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想出售的物品名稱。",
         "invalid": "%1$s物品出售數量無效。",
@@ -763,21 +767,21 @@
         "success": "%1$s你出售了 %2$,d 個 **%3$s** 且獲得了 %4$,d 元！"
       },
       "buy": {
-        "replacement": "You can use `/buy` now. For example, instead of `~>market buy pick` you can do `/buy pick`. Please use the new command instead.",
+        "replacement": "You can use `/buy` now. For example, instead of `~>market buy pick` you can do `/buy item:pick`. Please use the new command instead.",
         "no_item": "%1$s你需要指出你想購買的物品名稱。",
         "no_item_amount": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想購買的物品名稱。",
         "invalid": "%1$s物品購買數量無效。",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `/buy 15 energy`",
+        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `/buy amount:15 item:energy`",
         "no_buy_price": "%1$s你無法購買不能被購買的物品。",
         "item_limit_reached": "%1$s你無法購買更多此物品。你最多只能擁有5000個同樣物品。",
         "success": "%1$s成功用 %4$,d 元購買了 %2$,d 個 %3$s。你目前還有 %5$,d 元。",
-        "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `/equip <item name>`",
-        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `/useitem <item name>`",
+        "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `/equip item:<item name>`",
+        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `/useitem item:<item name>`",
         "not_enough_money": "%1$s你沒有足夠的錢來購買此物品。你的錢包：%2$,d 元，你需要：%3$,d 元。",
         "success_breakable_upgrade": "你可以查看 <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> 獲得更多有關工具升級的資訊！"
       },
       "header": "Mantaro市場",
-      "reference": "\nYou can buy and sell items using `/buy <item>` and `/sell <item>` respectively. Check `/help market` for more info.",
+      "reference": "\nYou can buy and sell items using `/buy item:<item>` and `/sell item:<item>` respectively. Check `/help market` for more info.",
       "sell_price": "- **出售價格：**",
       "buy_price": "- **購買價格：**"
     },
@@ -846,7 +850,7 @@
         "header": "自動身分組清單",
         "role_give": "將給予身分組：",
         "no_autoroles": "這個伺服裡沒有任何自動身分組的設置。",
-        "description": "This are the current user-assignable auto roles on this server. You can use these by doing `/iam <name of the role>`"
+        "description": "This are the current user-assignable auto roles on this server. You can use these by doing `/iam add name:<name of the role>`"
       },
       "deleted_role": "%1$s這個自動身分組對應的身分組已被刪除",
       "already_assigned": "%1$s你已經擁有這個身分組了！",
@@ -893,10 +897,10 @@
         "too_long": "%1$s簡介過長！(一般用戶最多300字元，Premium用戶為500字元)",
         "success": "%1$sI set your profile description successfully. Check your shiny new profile with `/profile show`",
         "clear_success": "%1$s成功移除簡介。",
-        "time_out": "%1$sThe time to set your profile description has ran out (or you cancelled it)."
+        "time_out": "%1$sThe time to set your profile description has ran out (or you cancelled it, or started a new one)."
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge! For example, `/profile displaybadge claimer`",
+        "not_specified": "%1$sYou need to specify your main badge! For example, `/profile displaybadge badge:claimer`",
         "reset_success": "%1$s徽章將不會繼續顯示在你的頭像上！",
         "important_success": "%1$s你的展示徽章現在是你最有價值的徽章。",
         "no_such_badge": "%1$s找不到該徽章...\n你可用的徽章：%2$s",
@@ -961,7 +965,7 @@
         "success": "%1$s成功裝備了 %2$s *%3$s*，下次你使用相對應的貨幣指令時，該物品將會自動被選擇。",
         "not_suitable": "%1$s你無法裝備這個。",
         "not_equipped": "%1$s你尚未裝備這個。",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `/unequip <type>` (Type can be rod, axe, pick or wrench) if you wanna unequip it."
+        "already_equipped": "%1$sYou already have an item of this type equipped! Try `/unequip item:<type>` (Type can be rod, axe, pick or wrench) if you wanna unequip it."
       },
       "unequip": {
         "not_equipped": "%1$s你還沒有裝備這種類型的物品。",
@@ -976,17 +980,17 @@
       },
       "display": {
         "not_premium": "%1$s個人資料部件個人化僅適用於Premium用戶。\n查看 <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks> 獲得更多特權。",
-        "not_enough": "%1$sNot enough valid widgets to put on your profile (minimum: 3). If you're lost, check `/profile widgets ls`",
+        "not_enough": "%1$sNot enough valid widgets to put on your profile (minimum: 3). If you're lost, check `/profile widgets`",
         "success": "%1$s成功設定你的個人資料佈局。新佈局為 `%2$s`",
-        "ls": "%1$sList of profile components:\n%2$s **Widgets in Default Order:** `%3$s`\n%2$s **Your widgets:** `%4$s`\nYou can use `/profile widgets reset` to reset your profile display references",
+        "ls": "%1$sList of profile components:\n%2$s **Widgets in Default Order:** `%3$s`\n%2$s **Your widgets:** `%4$s`\nYou can use `/profile widgets order:reset` to reset your profile display references",
         "reset": "%1$s成功重設個人資料部件配置。",
-        "example": "\nExample: `/profile widgets header, credits, reputation, birthday, marriage, badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
+        "example": "\nExample: `/profile widgets order:header, credits, reputation, birthday, marriage, badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
       },
       "claimlock": {
         "removed": "%1$s成功重置你的認領鎖狀態。",
-        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/profile claimlock remove` to remove it later.",
-        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `/buy \"claim key\"`",
-        "already_locked": "%1$sYou're already claim locked. Use `/profile claimlock remove` to remove it."
+        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/profile claimlock remove:true` to remove it later.",
+        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `/buy item:claim key`",
+        "already_locked": "%1$sYou're already claim locked. Use `/profile claimlock remove:true` to remove it."
       },
       "autoequip": {
         "disable": "%1$s成功取消自動裝備。",
@@ -1019,7 +1023,7 @@
     },
     "badges": {
       "info": {
-        "not_specified": "%1$sYou need to specify a badge to see the info of. For example, `/badge info claimer`",
+        "not_specified": "%1$sYou need to specify a badge to see the info of. For example, `/badge info badge:claimer`",
         "not_found": "%1$s沒有此徽章...",
         "header": "%1$s 的徽章訊息",
         "achieved": "已達成"
@@ -1031,7 +1035,7 @@
       },
       "brief_success": "**%1$s 的徽章清單：**\n%2$s",
       "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `/profile` and then run this command again.\n",
-      "info_notice": "Use `/badges info <badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "info_notice": "Use `/badges info badge:<badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**別忘記你也可以獲得 [支持Mantaro開發] 的徽章 (https://patreon.com/mantaro)！**(可能需要幾分鐘來更新)\n\n",
       "no_badges": "(目前！) 還沒有徽章可顯示",
       "header": "%1$s 的徽章清單",
@@ -1084,7 +1088,7 @@
       },
       "no_time": "%1$sYou didn't specify the time or the time format is wrong. The format is a number followed by either d (days), h (hours), m (minutes) or s (seconds). For example, 1m45s is 1 minute, 45 seconds.",
       "no_time_arg": "%1$sYou didn't give me a time on the `-time` argument.",
-      "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `/remindme 1m do the dishes`)",
+      "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `/remindme add time:1m reminder:do the dishes`)",
       "too_long": "That's too much time... (Maximum: 180 days)",
       "success": "%1$sI'll remind you (%2$s) of `%3$s` in %4$s",
       "too_many_reminders": "%1$sYou have too many reminders! Try cancelling some?",
@@ -1231,7 +1235,7 @@
     "game": {
       "won_games": "%1$s%2$s 贏了 **%3$s 次遊戲**",
       "nothing_specified": "%1$s你並沒有指出任何要開始的遊戲...",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example: `/game lobby pokemon, trivia`",
+      "not_enough_games": "%1$sYou need to specify two games at least. For example: `~>game lobby pokemon, trivia`",
       "invalid_selection": "%1$s你需要指出至少兩個遊戲。(有效遊戲：character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$s你需要指出想遊玩的遊戲和次數。",
@@ -1289,7 +1293,7 @@
     "dailycrate": {
       "check": "%1$s你能夠在 **%2$s** 內再次領取每日寶箱。",
       "not_premium": "%1$s你還不是Premium！\n到 <https://patreon.com/mantaro> 查看更多資訊\n\nPremium用戶每次簽到將能領取一個高級寶箱，有更高的機率能開出高級工具和各種貨幣指令的掉落物 (4星和更高！)\n感謝你的考慮，我們需要你的幫助來持續運行Mantaro。感謝使用Mantaro <3",
-      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `/opencrate <crate name>`. You need to buy a crate key using `/buy key` to open it."
+      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `/opencrate crate:<crate name>`. You need to buy a crate key using `/buy item:key` to open it."
     },
     "prune": {
       "no_messages_specified": "%1$sYou specified no messages to prune.",
@@ -1300,7 +1304,7 @@
       "error_retrieving": "%1$sI found an unknown error while retrieving the history to prune the messages (Internal: %2$s %3$s)",
       "invalid_number": "%1$sPlease specify a valid number.",
       "not_valid": "%1$sThat's not a valid number of messages to delete.",
-      "less_than_five": "%1$sYou need to provide at least 5 messages. For example, use `/prune 20` to delete 20 messages.",
+      "less_than_five": "%1$sYou need to provide at least 5 messages. For example, use `/prune amount:20` to delete 20 messages.",
       "messages_too_old": "%1$sThere are no messages newer than 2 weeks old, discord won't let me delete them.",
       "success": "%1$sSuccessfully pruned %2$s messages from this channel.",
       "lack_perms": "%1$sLack of permission while pruning messages (No permission provided: %2$s)",
@@ -1322,7 +1326,7 @@
       "no_images": "%1$sThere are no images matching your search criteria. This could happen because the image service returned nothing, nothing useful, or you looked up prohibited tags.",
       "no_results": "%1$s**There aren't any more images or no results found**! Please try with a lower number or another search.",
       "error": "%1$sThere was an error while looking for an image...",
-      "wrong_argument": "%1$sWrong argument type. Check /help %2$s",
+      "wrong_argument": "%1$sWrong argument type. Check /help command:%2$s",
       "blacklisted_tag": "%1$sThis image tag has been blacklisted here by an administrator.",
       "error_tag": "%1$sThere was an error while looking for this tag.",
       "error_random": "%1$sThere was an error while looking for a random image.",
@@ -1347,14 +1351,14 @@
       "disabled_explicit": "%1$sThis server has disabled explicit/questionable imageboard searches regardless of the channel being marked as NSFW."
     },
     "pet": {
-      "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nThere's two types: Personal (for yourself) and Marriage (shared between your partner and you). Choose one with `/pet choice`. The default is Personal.\nFor more help, use `/help pet` and `/pet list` for a list of pets.",
-      "no_marriage": "%1$sYou need to be married to have a marriage pet. For now. Check `/help marry` and `/pet`",
-      "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. For now. Check `/help marry` and `/pet`",
+      "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nThere's two types: Personal (for yourself) and Marriage (shared between your partner and you). Choose one with `/pet choice`. The default is Personal.\nFor more help, use `/help command:pet` and `/pet list` for a list of pets.",
+      "no_marriage": "%1$sYou need to be married to have a marriage pet. For now. Check `/help command:marry` and `/pet`",
+      "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. For now. Check `/help command:marry` and `/pet`",
       "status": {
         "no_pet": "%1$sYou don't have any pets to check the status of. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
-        "pet_in_other_category": "\n%1$sYou have a pet on the %2$s choice (%3$s). You can switch to it with `/pet choice %2$s`",
+        "pet_in_other_category": "\n%1$sYou have a pet on the %2$s choice (%3$s). You can switch to it with `/pet choice type:%2$s`",
         "header": "%1$s 的狀態",
-        "description": "Remember to take care and love your pet :heart:\nSee `/pet` and `/help pet` for an explanation.",
+        "description": "Remember to take care and love your pet :heart:\nSee `/pet` and `/help command:pet` for an explanation.",
         "cost": "價格",
         "type": "類型",
         "abilities": "能力",
@@ -1411,10 +1415,10 @@
         "counter_100": "%1$s看來他們的頭會被你摸得很閃亮。"
       },
       "buy": {
-        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `/pet buy hello dog`). If you want a personal pet, first run `/pet choice personal`.",
-        "no_requirements": "%1$sYou need both a car and a house to go buy a pet! House: %2$s, Car: %3$s\nTo buy a house and a car use `/marry buyhouse` and `/marry buycar` :heart:",
+        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `/pet buy name:hello type:dog`). If you want a personal pet, first run `/pet choice personal`.",
+        "no_requirements": "%1$sYou need both a car and a house to go buy a pet! House: %2$s, Car: %3$s\nTo buy a house and a car use `/marry house` and `/marry car` :heart:",
         "no_house": "%1$s你需要寵物小屋才能購買寵物。能夠在市場購買。",
-        "no_egg": "%1$sYou need to have a Incubator Egg on your inventory to do this. You can cast it, check `/cast ls`",
+        "no_egg": "%1$sYou need to have a Incubator Egg on your inventory to do this. You can cast it, check `/cast list`",
         "already_has_pet": "%1$s你已經擁有寵物了。(寵物選擇為：%2$s)",
         "nothing_found": "%1$s找不到你指出的寵物類型。你指出了：`%2$s`，有效類型：`%3$s`",
         "not_enough_money": "%1$s你沒有足夠的錢來購買此寵物。價格：%2$,d 元，你的錢包：%3$,d 元",
@@ -1427,7 +1431,7 @@
       },
       "feed": {
         "no_pet": "%1$sYou don't have any pets to feed. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
-        "no_content": "%1$sYou need to specify what you want to feed your pet with. For example, `/pet feed steak`",
+        "no_content": "%1$sYou need to specify what you want to feed your pet with. For example, `/pet feed item:steak`",
         "no_item": "%1$s找不到你指定的物品。",
         "not_food": "%1$s等一下！這不是食物，也不是緊急食物！",
         "no_need": "%1$s你的寵物目前還不餓，他們還不想吃東西。",
@@ -1593,7 +1597,7 @@
       "title": "Mantaro 幫助",
       "base_category": "%1$s 類別的指令清單。如需詳細資訊，請參考我們的[維基](https://github.com/Mantaro/MantaroBot/wiki)。[貨幣系統教程](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
       "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
-      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help <name of command>`\n",
+      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help command:<name of command>`\n",
       "support": "如果你還是不清楚該如何使用，可以加入我們的[官方伺服](https://support.mantaro.site)。你也可以跟隨我的[Twitter](https://twitter.com/mantarodiscord)獲得更新訊息。\n",
       "patreon": "**[我們需要你的幫助來持續運行/更新Mantaro！點擊這裡獲取更多資訊。](https://www.patreon.com/mantaro)**",
       "disabled_commands": "僅顯示未禁用指令。禁用指令數量：%1$s",
@@ -1610,18 +1614,18 @@
       "options": "Options",
       "usage": "Usage",
       "optional": "(This is optional)",
-      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help cast item`.\nThis goes for all subcommands, as long as they have some sort of help."
+      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help command:cast item`.\nThis goes for all subcommands, as long as they have some sort of help."
     },
     "repair": {
       "no_item": "%1$s你需要指出你想修復的物品。如果你確定那是正確的，請輸入該物品的全名。",
       "no_item_found": "%1$s找不到該物品。如果你確定那是正確的，請輸入該物品的全名。",
       "no_main_item": "%1$s你沒有該物品 (%2$s)",
       "cant_repair": "%1$s**%2$s** 不是你能修復的物品。你只能修復壞掉的物品。",
-      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can equip one if needed (`/equip Comet Wrench`, for example)",
+      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can equip one if needed (`/equip item:Comet Wrench`, for example)",
       "no_tool_specified": "%1$s你指定了一把你不擁有的扳手 (%2$s)。請使用你擁有的工具或鑄造他。如果你確定那是正確的，請輸入該物品的全名。",
       "dust": "%1$s你的背包灰塵太多了，無法修復。灰塵高度：%2$s",
       "not_wrench": "%1$s你不能使用它作為扳手。如果名稱含有空格，記得使用引號。",
-      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. You can equip one if needed (`/equip Comet Wrench`, for example)",
+      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. You can equip one if needed (`/equip item:Comet Wrench`, for example)",
       "not_enough_money": "%1$s你沒有足夠的金錢來修復此物品。*(錢包：%2$,d，需求：%3$,d)*",
       "no_item_recipe": "%1$s你沒有物品 *%2$s* 來進行修復。",
       "not_enough_items": "%1$s你沒有足夠的 *%2$s* 來修復 **%3$s**。**(需求：%4$s，擁有：%5$s)**",
@@ -1675,7 +1679,7 @@
     "daily": {
       "check": "%1$s你能夠在 **%2$s** 內再次簽到。",
       "about_now": "差不多了",
-      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `/daily check:True`. Enjoy!",
+      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `/daily check:true`. Enjoy!",
       "errors": {
         "bot": "%1$s你無法將每日獎勵傳送給一個機器人。",
         "receipt_locked": "這個用戶目前無法領取每日獎勵。",
@@ -1737,12 +1741,12 @@
       "easter": "\n這裡滿滿的都是灰塵... 你可能想在他變得更亂之前清乾淨！"
     },
     "mine": {
-      "not_equipped": "%1$sYou don't have any equipped pick. Use `/equip <pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `/buy pick`",
+      "not_equipped": "%1$sYou don't have any equipped pick. Use `/equip item:<pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `/buy pick`",
       "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `/mine <pick name>`",
       "not_suitable": "%1$s你無法使用這個來挖礦！",
       "not_in_inventory": "%1$s你的背包裡沒有這種鎬子，切換到默認選擇。",
       "success": "%1$s你用 *%3$s* 開採了價值 **%2$,d 元** 的礦物",
-      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `/cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
+      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `/cast list` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
         "overflow": "Huh, you found %1$,d diamond(s) while mining, but you already had too much, so I sold them for you.",
         "success": "你在採礦時幸運的找到了 %1$s 顆鑽石，檢查你的背包！"
@@ -1758,7 +1762,7 @@
       },
       "crate": {
         "overflow": "你在挖礦時找到了一個 **%1$s**，不過你因為擁有太多了，就把他拋在後面了...",
-        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `/opencrate <crate name>`. You need a crate key, which you can buy using `/buy key`!"
+        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `/opencrate crate:<crate name>`. You need a crate key, which you can buy using `/buy item:key`!"
       },
       "autoequip": {
         "success": "%1$s自動裝備了 **%2$s** 到你的鎬子欄位。"
@@ -1771,14 +1775,14 @@
       "broken_drop_miss": "%1$s你的工具壞了，沒能把它找回來。"
     },
     "chop": {
-      "not_equipped": "%1$sYou don't have any equipped axe. Use `/equip <axe name>` to equip a axe and start your adventure! If you don't have any, first run `/buy axe`",
+      "not_equipped": "%1$sYou don't have any equipped axe. Use `/equip item:<axe name>` to equip a axe and start your adventure! If you don't have any, first run `/buy item:axe`",
       "dust": "%1$s那棵樹太脆弱了，你只得到了木屑。(灰塵高度 %2$d%%)",
       "autoequip": {
         "success": "%1$s自動裝備了 **%2$s** 到你的斧頭欄位。"
       },
       "crate": {
         "overflow": "你在伐木時找到了 **%1$s**，但是你已經擁有太多了，所以只能把它丟回水裡...",
-        "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `/opencrate <crate name>`. You need a crate key!"
+        "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `/opencrate crate:<crate name>`. You need a crate key!"
       },
       "overflow": "%1$s你在伐木時找到了一些資源，但是你已經擁有太多了，所以你決定將多出來的丟掉。",
       "success_only_item": "%1$s在伐木時，你用 *%3$s* 找到了 %2$s 且把他們放進背包裡了。",
@@ -1805,7 +1809,7 @@
       "credits": "元"
     },
     "leaderboard": {
-      "main_page_redirect": "You can see `/help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `/leaderboard money`",
+      "main_page_redirect": "You can see `/help command:leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `/leaderboard money`",
       "header": "Mantaro 排行榜",
       "money": "金錢排行榜",
       "reputation": "聲望排行榜",
@@ -1818,16 +1822,16 @@
       "claim": "Waifu認領排行榜",
       "inner": {
         "experience": "經驗",
-        "game": "%1sThis page shows the top 10 people who have won the most games.\n\nCheck out `/help game` or `/help trivia` for details on how games work!",
-        "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `/help waifu` for details on the waifu system.",
+        "game": "%1sThis page shows the top 10 people who have won the most games.\n\nCheck out `/help command:game` or `/help command:trivia` for details on how games work!",
+        "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `/help command:waifu` for details on the waifu system.",
         "money_old": "%1$s此頁面包含Mantaro上最有錢的前十名用戶 (在重置以前)。\n",
         "money": "%1$s此頁面包含Mantaro上最有錢的前十名用戶。刷指令可不簡單！",
         "rep": "%1s此頁面包含聲望最高的前十名用戶。",
-        "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `/help daily` for more info",
+        "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `/help command:daily` for more info",
         "lvl": "%1s此頁面包含等級最高的前十名用戶。\n\n你能通過說話得到經驗。經驗值有30秒的冷卻，指令的使用不會給予經驗值。",
-        "waifu": "%1sThis page shows the top 10 people with the most weighted waifu value.\n\nCheck out `/help waifu` for details on the waifu system.",
-        "gamble": "%1sThis page shows the top 10 people with the most gamble runs won.\n\nCheck out `/help gamble` for details on gamble.",
-        "slots": "%1sThis page shows the top 10 people with the most slots runs won.\n\nCheck out `/help slots` for details on slots."
+        "waifu": "%1sThis page shows the top 10 people with the most weighted waifu value.\n\nCheck out `/help command:waifu` for details on the waifu system.",
+        "gamble": "%1sThis page shows the top 10 people with the most gamble runs won.\n\nCheck out `/help command:gamble` for details on gamble.",
+        "slots": "%1sThis page shows the top 10 people with the most slots runs won.\n\nCheck out `/help command:slots` for details on slots."
       }
     },
     "iteminfo": {
@@ -2527,7 +2531,7 @@
       "lewd": "用太多次色情的指令了。真的太多了。開心嗎？",
       "ring": "讓你的婚姻變正式的東西。",
       "letter": "愛人的來信。",
-      "key": "Used to open various crates with `/opencrate <crate name>` or `/useitem <crate name>`",
+      "key": "Used to open various crates with `/opencrate crate:<crate name>` or `/useitem item:<crate name>`",
       "clothes": "你身上穿的東西。應該吧...",
       "diamond": "一個更好保存金錢的方法。他也很閃亮。也能讓你鑄造閃亮的東西。多棒啊。",
       "dress": "難道他不好看嗎？",
@@ -2580,10 +2584,10 @@
       "sparkle": "最稀有的寶石之一。記得別把它弄丟。能夠用來鑄造火花工具。",
       "sparkle_pick": "其中最堅固的一把鎬子。",
       "pizza": "好吃。",
-      "mine_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `/opencrate gem crate`",
-      "fish_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `/opencrate treasure`",
-      "mine_premium_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `/opencrate gem premium crate`",
-      "fish_premium_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `/opencrate premium treasure`",
+      "mine_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `/opencrate crate:gem crate`",
+      "fish_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `/opencrate crate:treasure`",
+      "mine_premium_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `/opencrate crate:gem premium crate`",
+      "fish_premium_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `/opencrate crate:premium treasure`",
       "comet_rod": "一支比較堅固的釣竿。",
       "star_rod": "一支更堅固的釣竿。",
       "sparkle_rod": "一支超級堅固的釣竿。",
@@ -2635,8 +2639,8 @@
       "broken_hellfire_pick": "挖礦時熄滅了的地獄鎬子。還是可回收的。",
       "broken_hellfire_axe": "挖礦時熄滅了的地獄斧頭。還是可回收的。",
       "broken_hellfire_rod": "挖礦時熄滅了的地獄釣竿。還是可回收的。",
-      "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `/opencrate chop crate`",
-      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `/opencrate chop premium crate`"
+      "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `/opencrate crate:chop crate`",
+      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `/opencrate crate:chop premium crate`"
     }
   },
   "buttons": {
