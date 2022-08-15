@@ -462,7 +462,12 @@
         "not_enough_args": "%1$sBạn cần phải ghi rõ câu lệnh bạn muốn sửa tên và cái tên mới của nó."
       },
       "add": {
+        "header_slash": "Custom Command Creation.",
+        "content_placeholder": "Command content goes here.",
+        "name_slash": "Custom Command name",
+        "custom_name_placeholder": "Name goes here.",
         "no_command": "%1$sBạn cần phải chỉ ra lệnh mà bạn muốn thêm vào.",
+        "time_out": "%1$sThe time for this custom command interaction has ran out (or you cancelled it).",
         "not_enough_args": "%1$sBạn cần phải đưa ra tên lệnh và cách phản hồi của lệnh mà bạn muốn thêm vào.",
         "empty_content": "%1$sBạn cần phải đưa ra nội dung của lệnh tùy chỉnh này",
         "too_long": "%1$sNội dung của lệnh này quá dài nên tui không thể hiển thị nó. Hãy đảm bảo rằng lệnh có ít hơn %2$,d ký tự.",
@@ -882,13 +887,13 @@
         "reset_success": "%1$sĐã đặt lại múi giờ thành công."
       },
       "description": {
-        "header": "Profile Description",
-        "content_placeholder": "Your description goes here.",
+        "header": "Profile Description.",
+        "content_placeholder": "Your profile description goes here.",
         "no_content": "%1$sYou didn't specify what you want on your description.",
         "too_long": "%1$sPhần mô tả của bạn quá dài! `(Giới hạn trong 300 kí tự cho mọi người và 500 kí tự cho người dùng cao cấp)`",
         "success": "%1$sI set your profile description successfully. Check your shiny new profile with `/profile show`",
         "clear_success": "%1$sĐã xoá thành công phần mô tả.",
-        "time_out": "%1$sThe time to set your profile description has ran out. Please run this command again."
+        "time_out": "%1$sThe time to set your profile description has ran out (or you cancelled it)."
       },
       "displaybadge": {
         "not_specified": "%1$sYou need to specify your main badge! For example, `/profile displaybadge claimer`",
@@ -1010,7 +1015,7 @@
       "hidelegacy": "%1$sTrạng thái thể hiện di sản hiện tại: `%2$s`",
       "tools_show": "%1$sShow tools",
       "level_show": "%1$sShow level",
-      "back": "%1$sGo back."
+      "back": "%1$sGo back"
     },
     "badges": {
       "info": {
@@ -1790,7 +1795,8 @@
         "no_tickets": "%1$sBạn muốn sử dụng vé nhưng bạn không có cái nào :<",
         "no_amount": "%1$sBạn không ghi rõ số lượng cụ thể!",
         "no_valid_amount": "%1$sĐó không phải là một số tiền hợp lệ! (Ví dụ về số tiền hợp lệ: 1000, 1k, 14000)",
-        "too_many_tickets": "%1$sBạn đang cố gắng sử dụng quá nhiều vé đánh bạc. Số lượng tối đa được phép là %2$d"
+        "too_many_tickets": "%1$sBạn đang cố gắng sử dụng quá nhiều vé đánh bạc. Số lượng tối đa được phép là %2$d",
+        "tickets_and_credits": "%1$sYou can only use tickets or credits, not both."
       },
       "roll": "%1$s**Bạn đã dùng %2$s và quay máy sổ xố**\n",
       "win": "Và bạn đã thắng **%1$,d** đồng và giữ được số tiền bạn cược (%2$,d đồng)! Thật may mắn!",
