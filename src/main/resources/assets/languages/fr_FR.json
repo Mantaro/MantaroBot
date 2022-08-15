@@ -462,7 +462,12 @@
         "not_enough_args": "%1$sTu dois spécifier la commande que tu veux renommer et son nouveau nom."
       },
       "add": {
+        "header_slash": "Custom Command Creation.",
+        "content_placeholder": "Command content goes here.",
+        "name_slash": "Custom Command name",
+        "custom_name_placeholder": "Name goes here.",
         "no_command": "$1$sTu dois spécifier la commande à ajouter.",
+        "time_out": "%1$sThe time for this custom command interaction has ran out (or you cancelled it).",
         "not_enough_args": "%1$sTu dois spécifier le nom et la réponse de la commande à ajouter.",
         "empty_content": "%1$sTu dois spécifier le contenu de cette commande personnalisée.",
         "too_long": "%1$sLe contenu de cette commande est trop long et le bot ne sera pas capable de l'afficher. Assure-toi qu'elle fasse moins de %2$,d caractères.",
@@ -882,13 +887,13 @@
         "reset_success": "%1$sTon fuseau horaire a été réinitialisé avec succès."
       },
       "description": {
-        "header": "Profile Description",
-        "content_placeholder": "Your description goes here.",
+        "header": "Profile Description.",
+        "content_placeholder": "Your profile description goes here.",
         "no_content": "%1$sYou didn't specify what you want on your description.",
         "too_long": "%1$sTa description est trop longue! (Limite de 300 caractères pour tout le monde et de 500 pour les utilisateurs premium)",
         "success": "%1$sI set your profile description successfully. Check your shiny new profile with `/profile show`",
         "clear_success": "%1$sDescription supprimée avec succès.",
-        "time_out": "%1$sThe time to set your profile description has ran out. Please run this command again."
+        "time_out": "%1$sThe time to set your profile description has ran out (or you cancelled it)."
       },
       "displaybadge": {
         "not_specified": "%1$sYou need to specify your main badge! For example, `/profile displaybadge claimer`",
@@ -1010,7 +1015,7 @@
       "hidelegacy": "%1$sLa visibilité du statut des crédits hérités est maintenant sur: `%2$s`",
       "tools_show": "%1$sShow tools",
       "level_show": "%1$sShow level",
-      "back": "%1$sGo back."
+      "back": "%1$sGo back"
     },
     "badges": {
       "info": {
@@ -1790,7 +1795,8 @@
         "no_tickets": "%1$sTu veux utiliser des tickets mais tu n’en as pas :<",
         "no_amount": "%1$sTu ne m'as pas donné de montant!",
         "no_valid_amount": "%1$sCe n'est pas un montant valide! (Exemple de montants valides : 1000, 1k, 14000)",
-        "too_many_tickets": "%1$sTu essaies d'utiliser trop de tickets. Maximum autorisé: %2$d"
+        "too_many_tickets": "%1$sTu essaies d'utiliser trop de tickets. Maximum autorisé: %2$d",
+        "tickets_and_credits": "%1$sYou can only use tickets or credits, not both."
       },
       "roll": "%1$s**Tu as utilisé %2$s et tu as lancé la machine**\n",
       "win": "Et tu as gagné **%1$,d** crédits et tu peux garder la mise (%2$,d credits)! Chaceux.se va !",
