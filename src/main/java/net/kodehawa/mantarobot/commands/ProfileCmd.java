@@ -470,7 +470,7 @@ public class ProfileCmd {
                         .setRequiredRange(5, MAX_LENGTH)
                         .build();
 
-                var id = "%s/%s/%s".formatted(Snow64.toSnow64(System.currentTimeMillis()), ctx.getAuthor().getId(), ctx.getChannel().getId());
+                var id = "%s/%s".formatted(ctx.getAuthor().getId(), ctx.getChannel().getId());
                 var modal = Modal.create(id, lang.get("commands.profile.description.header")).addActionRows(ActionRow.of(subject)).build();
                 ctx.replyModal(modal);
 

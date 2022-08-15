@@ -53,8 +53,10 @@ public class ModalOperations {
         RunningOperation o = OPERATIONS.get(modalId);
 
         //Already running?
-        if (o != null)
-            return null;
+        if (o != null) {
+            o.future.cancel(true);
+            OPERATIONS.remove(modalId);
+        }
 
         o = new RunningOperation(operation, new OperationFuture(modalId));
         OPERATIONS.put(modalId, o, timeoutSeconds, TimeUnit.SECONDS);

@@ -467,7 +467,7 @@
         "name_slash": "Custom Command name",
         "custom_name_placeholder": "Name goes here.",
         "no_command": "%1$sYou need to specify the command you want to add.",
-        "time_out": "%1$sThe time for this custom command interaction has ran out (or you cancelled it).",
+        "time_out": "%1$sThe time for this custom command interaction has ran out (or you cancelled it, or started a new one).",
         "not_enough_args": "%1$sYou need to specify the command name and the response of the command you want to add.",
         "empty_content": "%1$sYou need to specify the content of this custom command",
         "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
@@ -893,7 +893,7 @@
         "too_long": "%1$sThe description is too long! (Limit of 300 characters for everyone and 500 for premium users)",
         "success": "%1$sI set your profile description successfully. Check your shiny new profile with `/profile show`",
         "clear_success": "%1$sSuccessfully cleared description.",
-        "time_out": "%1$sThe time to set your profile description has ran out (or you cancelled it)."
+        "time_out": "%1$sThe time to set your profile description has ran out (or you cancelled it, or started a new one)."
       },
       "displaybadge": {
         "not_specified": "%1$sYou need to specify your main badge! For example, `/profile displaybadge claimer`",
