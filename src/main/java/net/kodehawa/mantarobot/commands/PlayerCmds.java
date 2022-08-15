@@ -487,9 +487,11 @@ public class PlayerCmds {
                         .build()
                 ).build();
 
-                ctx.getEvent().getHook().sendMessage(message)
-                        .addFile(badge.icon, "icon.png")
-                        .queue();
+                ctx.getEvent().deferReply().queue(success -> {
+                    ctx.getEvent().getHook().sendMessage(message)
+                            .addFile(badge.icon, "icon.png")
+                            .queue();
+                });
             }
         }
     }
