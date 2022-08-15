@@ -888,7 +888,7 @@
       },
       "description": {
         "header": "Profile Description.",
-        "content_placeholder": "Your profile description goes here.",
+        "content_placeholder": "The description goes here.",
         "no_content": "%1$sYou didn't specify what you want on your description.",
         "too_long": "%1$sA descrição é muita longa! (Limite de 300 caracteres para todos e 500 para usuários premium)",
         "success": "%1$sI set your profile description successfully. Check your shiny new profile with `/profile show`",
