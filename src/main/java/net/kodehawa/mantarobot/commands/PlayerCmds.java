@@ -235,11 +235,22 @@ public class PlayerCmds {
     @Description("Unequips an item from a slot.")
     @Category(CommandCategory.CURRENCY)
     @Options({
-            @Options.Option(type = OptionType.STRING, name = "item", description = "The item to unequip.", required = true)
+            @Options.Option(
+                    type = OptionType.STRING,
+                    name = "item",
+                    description = "The item to unequip.",
+                    required = true,
+                    choices = {
+                            @Options.Choice(description = "Equipped Pickaxe", value = "pick"),
+                            @Options.Choice(description = "Equipped Axe", value = "axe"),
+                            @Options.Choice(description = "Equipped Fishing Rod", value = "rod"),
+                            @Options.Choice(description = "Equipped Wrench", value = "wrench")
+                    }
+            )
     })
     @Help(
             description = "Unequips an item from a slot.",
-            usage = "`/unequip item:<pickaxe/rod/axe/wrench>`",
+            usage = "`/unequip item:<pick/rod/axe/wrench>`",
             parameters = {
                     @Help.Parameter(name = "item", description = "The item to unequip.")
             }
