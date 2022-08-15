@@ -198,7 +198,7 @@
       "2": "- To **queue songs from youtube or soundcloud** use `/play` For example: `/play song:https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
       "3": "- To **search for a song on youtube** use `/play song:<search term>` (without the leading < and >) For example: `/play song:see you again` (You need to select the number, just *type the number* after the selection box pops up!)",
       "4": "- To **search for a song on soundcloud** use `/play song:<search term> soundcloud:true` For example `/play song:hot milk soundcloud:true`",
-      "5": "- To **check the queue** you just type `/queue`",
+      "5": "- To **check the queue** you just type `/queue show`",
       "6": "- To **remove a track from the queue** you just need to use `/removetrack` It takes as an argument the position the song is queued at (you can check in on queue)",
       "7": "- To **pause or unpause** just use `/pause`",
       "8": "- To **stop the music and unbind the player** use `/stop`",
@@ -208,7 +208,7 @@
       "12": "Enjoy your music and thanks for using Mantaro!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile lang lang:<language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
+      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile language lang:<language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "music_general": {
       "music_error": {
@@ -233,7 +233,7 @@
         "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
         "no_track_found_np": "Nothing or title/duration not found",
         "header": "Queue for server %1$s",
-        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?`",
+        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?",
         "nothing_playing_2": "**If there is a song playing and you didn't add more songs, then there is actually just dust here. You can queue more songs as you desire!**",
         "np": "Currently playing",
         "dj_np": "**Queued by:** ",
@@ -651,7 +651,7 @@
         "player_locked": "%1$sYou cannot do this at the moment.",
         "scrapped": "%1$sCancelled waifu un-claiming.",
         "success": "%1$sSuccessfully unclaimed `%2$s` with a cost of **%3$s credits**.",
-        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID (`/waifu id:true`)."
+        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID (`/waifu list id:true`)."
       },
       "buyslot": {
         "locked": "%1$sYou're currently unable to perform this action.",
@@ -693,7 +693,7 @@
     },
     "coinflip": {
       "over_limit": "%1$sHold in there! The limit is 1,000 coin flips",
-      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions (For example, `/roll time:100`)",
+      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions (For example, `/roll times:100`)",
       "success": "%1$s Your result from **%2$,d** time(s) yielded **%3$,d** heads and **%4$,d** tails"
     },
     "inventory": {
