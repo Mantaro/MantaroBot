@@ -442,6 +442,9 @@
         "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %3$d responses."
       },
       "edit": {
+        "header_slash": "Custom Command Edit",
+        "content_slash": "New content",
+        "content_slash_placeholder": "The new command content.",
         "no_command": "%1$sYou need to specify what command you want to edit.",
         "invalid_number": "%1$sYou need to specify a correct number to change.",
         "no_index": "%1$sYou cannot edit a non-existent index.",
@@ -463,8 +466,9 @@
       },
       "add": {
         "header_slash": "Custom Command Creation.",
-        "content_placeholder": "Command content goes here.",
-        "name_slash": "Custom Command name",
+        "content_placeholder": "Content goes here.",
+        "name_slash": "Name",
+        "content_slash": "Content",
         "custom_name_placeholder": "Name goes here.",
         "no_command": "%1$sYou need to specify the command you want to add.",
         "time_out": "%1$sThe time for this custom command interaction has ran out (or you cancelled it, or started a new one).",

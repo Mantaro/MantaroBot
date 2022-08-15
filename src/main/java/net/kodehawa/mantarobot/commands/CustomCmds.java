@@ -529,11 +529,10 @@ public class CustomCmds {
             }
         }
 
-        @Description("Edits a custom command")
+        @Description("Edits a custom command. This will open a pop-up for content.")
         @Options({
                 @Options.Option(type = OptionType.STRING, name = "name", description = "The custom command to edit.", required = true),
                 @Options.Option(type = OptionType.INTEGER, name = "response", description = "The response number to edit.", required = true),
-                @Options.Option(type = OptionType.STRING, name = "content", description = "The content to put.", required = true),
                 @Options.Option(type = OptionType.BOOLEAN, name = "nsfw", description = "Whether the command is NSFW or not.", required = true)
         })
         @Help(
@@ -542,19 +541,114 @@ public class CustomCmds {
                 parameters = {
                         @Help.Parameter(name = "name", description = "The name of the custom command to edit."),
                         @Help.Parameter(name = "response", description = "The response number of the response to edit."),
-                        @Help.Parameter(name = "content", description = "The new content for the response."),
                         @Help.Parameter(name = "nsfw", description = "Whether the entire command should be marked as nsfw."),
                 }
         )
         public static class Edit extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                editCmd(ctx,
-                        ctx.getOptionAsString("name"),
-                        ctx.getOptionAsInteger("response"),
-                        ctx.getOptionAsString("content"),
-                        ctx.getOptionAsBoolean("nsfw")
-                );
+                if (!adminPredicate.test(ctx)) {
+                    return;
+                }
+
+                var lang = ctx.getLanguageContext();
+                var subject = TextInput.create("content", lang.get("commands.custom.edit.content_slash"), TextInputStyle.PARAGRAPH)
+                        .setPlaceholder(lang.get("commands.custom.add.content_slash_placeholder"))
+                        .setRequiredRange(5, 3900)
+                        .build();
+
+                var name = ctx.getOptionAsString("name");
+                var where = ctx.getOptionAsInteger("response");
+                var nsfw = ctx.getOptionAsBoolean("nsfw");
+                var id = "%s/%s".formatted(ctx.getAuthor().getId(), ctx.getChannel().getId());
+                var modal = Modal.create(id, lang.get("commands.custom.edit.header_slash")).addActionRows(ActionRow.of(subject)).build();
+                ctx.replyModal(modal);
+
+                ModalOperations.create(id, 180, new ModalOperation() {
+                    @Override
+                    public int modal(ModalInteractionEvent event) {
+                        // This might not be possible here, as we send only events based on the id.
+                        if (!event.getModalId().equalsIgnoreCase(id)) {
+                            return Operation.IGNORED;
+                        }
+
+                        if (event.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
+                            return Operation.IGNORED;
+                        }
+
+                        var contentRaw = event.getValue("content");
+                        if (contentRaw == null) {
+                            event.reply(lang.get("commands.custom.edit.empty_response").formatted(EmoteReference.ERROR))
+                                    .setEphemeral(true)
+                                    .queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        var commandContent = contentRaw.getAsString().trim();
+                        if (commandContent.isBlank()) {
+                            event.reply(lang.get("commands.custom.edit.empty_response").formatted(EmoteReference.ERROR))
+                                    .setEphemeral(true)
+                                    .queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        var custom = ctx.db().getCustomCommand(ctx.getGuild(), name);
+                        if (custom == null) {
+                            event.reply(lang.get("commands.custom.not_found").formatted(EmoteReference.ERROR2, name))
+                                    .setEphemeral(true)
+                                    .queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        if (custom.getData().isLocked()) {
+                            event.reply(lang.get("commands.custom.locked_command").formatted(EmoteReference.ERROR))
+                                    .setEphemeral(true)
+                                    .queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        var values = custom.getValues();
+                        if (where - 1 > values.size()) {
+                            event.reply(lang.get("commands.custom.edit.no_index").formatted(EmoteReference.ERROR))
+                                    .setEphemeral(true)
+                                    .queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        if (commandContent.isEmpty()) {
+                            event.reply(lang.get("commands.custom.edit.empty_response").formatted(EmoteReference.ERROR))
+                                    .setEphemeral(true)
+                                    .queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        if (commandContent.length() > 3900) {
+                            event.reply(lang.get("commands.custom.add.too_long").formatted(EmoteReference.ERROR, 3900))
+                                    .setEphemeral(true)
+                                    .queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        if (nsfw) {
+                            custom.getData().setNsfw(true);
+                        }
+
+                        custom.getValues().set(where - 1, commandContent);
+                        custom.saveAsync();
+                        customCommands.put(custom.getId(), custom);
+                        event.reply(lang.get("commands.custom.edit.success").formatted(EmoteReference.CORRECT, where, custom.getName())).queue();
+                        return Operation.COMPLETED;
+                    }
+
+                    @Override
+                    public void onExpire() {
+                        ModalOperation.super.onExpire();
+                        ctx.getEvent().getHook()
+                                .sendMessage(lang.get("commands.custom.add.time_out").formatted(EmoteReference.ERROR2))
+                                .setEphemeral(true)
+                                .queue();
+                    }
+                });
             }
         }
 

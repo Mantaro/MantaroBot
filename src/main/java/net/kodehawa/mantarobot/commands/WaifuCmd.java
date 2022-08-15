@@ -378,7 +378,6 @@ public class WaifuCmd {
                 final var claimerUser = ctx.getDBUser();
                 final var data = claimerUser.getData();
                 final var value = data.getWaifus().get(userId);
-
                 if (value == null) {
                     ctx.reply("commands.waifu.not_claimed", EmoteReference.ERROR);
                     return;
