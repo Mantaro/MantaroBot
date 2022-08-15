@@ -106,6 +106,7 @@ public class ItemCmds {
         protected void process(SlashContext ctx) {}
 
         @Name("item")
+        @Defer
         @Description("Cast an item.")
         @Options({
                 @Options.Option(type = OptionType.STRING, name = "item", description = "The item to cast.", required = true),
@@ -353,6 +354,7 @@ public class ItemCmds {
         protected void process(SlashContext ctx) {}
 
         @Name("item")
+        @Defer
         @Description("Repair an item.")
         @Help(description = """
                             Allows you to repair any broken item given you have the necessary elements.
@@ -541,6 +543,7 @@ public class ItemCmds {
         protected void process(SlashContext ctx) {}
 
         @Name("item")
+        @Defer
         @Description("Salvages an item.")
         @Options(@Options.Option(type = OptionType.STRING, name = "item", description = "The item to salvage.", required = true))
         @Help(description = """

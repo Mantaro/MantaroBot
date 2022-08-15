@@ -29,10 +29,7 @@ import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
 import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.meta.Category;
-import net.kodehawa.mantarobot.core.command.meta.Description;
-import net.kodehawa.mantarobot.core.command.meta.Help;
-import net.kodehawa.mantarobot.core.command.meta.Name;
+import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
@@ -105,6 +102,7 @@ public class CurrencyActionCmds {
     }
 
     @Name("mine")
+    @Defer // Just in case
     @Description("Mines minerals to gain some credits. A bit more lucrative than loot, but needs pickaxes.")
     @Category(CommandCategory.CURRENCY)
     @Help(description = "Mines minerals to gain some credits. A bit more lucrative than loot, but needs pickaxes.", usage = """
@@ -123,6 +121,7 @@ public class CurrencyActionCmds {
     }
 
     @Name("fish")
+    @Defer // Just in case
     @Description("Starts a fishing session.")
     @Category(CommandCategory.CURRENCY)
     @Help(description = "Starts a fishing session.", usage = """
@@ -141,6 +140,7 @@ public class CurrencyActionCmds {
     }
 
     @Name("chop")
+    @Defer // Just in case
     @Description("Starts a chopping session.")
     @Category(CommandCategory.CURRENCY)
     @Help(description = "Starts a chopping session.", usage = """

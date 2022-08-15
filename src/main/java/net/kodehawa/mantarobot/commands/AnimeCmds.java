@@ -54,6 +54,7 @@ public class AnimeCmds {
     }
 
     @Name("anime")
+    @Defer
     @Description("Get anime information from Kitsu.")
     @Category(CommandCategory.FUN)
     @Options({
@@ -122,6 +123,7 @@ public class AnimeCmds {
     }
 
     @Name("character")
+    @Defer
     @Description("Get character information from Kitsu.")
     @Category(CommandCategory.FUN)
     @Options({

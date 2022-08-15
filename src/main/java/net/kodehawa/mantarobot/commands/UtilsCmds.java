@@ -79,6 +79,7 @@ public class UtilsCmds {
         protected void process(SlashContext ctx) {}
 
         @Description("Adds a reminder.")
+        @Defer
         @Ephemeral
         @Options({
                 @Options.Option(type = OptionType.STRING, name = "time", description = "How much time until I remind you of it. Time is in this format: 1h20m (1 hour and 20m)", required = true),
@@ -150,20 +151,19 @@ public class UtilsCmds {
         }
 
         @Description("Cancels a reminder.")
-        @Ephemeral
         public static class Cancel extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
                 try {
                     var reminders = ctx.getDBUser().getData().getReminders();
                     if (reminders.isEmpty()) {
-                        ctx.reply("commands.remindme.no_reminders", EmoteReference.ERROR);
+                        ctx.replyEphemeral("commands.remindme.no_reminders", EmoteReference.ERROR);
                         return;
                     }
 
                     if (reminders.size() == 1) {
                         Reminder.cancel(ctx.getAuthor().getId(), reminders.get(0), Reminder.CancelReason.CANCEL); // Cancel first reminder.
-                        ctx.reply("commands.remindme.cancel.success", EmoteReference.CORRECT);
+                        ctx.replyEphemeral("commands.remindme.cancel.success", EmoteReference.CORRECT);
                     } else {
                         I18nContext lang = ctx.getLanguageContext();
                         List<ReminderObject> rems = getReminders(reminders);
@@ -179,12 +179,13 @@ public class UtilsCmds {
                                 });
                     }
                 } catch (Exception e) {
-                    ctx.reply("commands.remindme.no_reminders", EmoteReference.ERROR);
+                    ctx.replyEphemeral("commands.remindme.no_reminders", EmoteReference.ERROR);
                 }
             }
         }
 
         @Name("list")
+        @Defer
         @Ephemeral
         @Description("Lists your reminders")
         public static class ListReminders extends SlashCommand {

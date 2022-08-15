@@ -61,6 +61,7 @@ public class PremiumCmds {
         @Name("activate")
         @Description("Activates a premium key.")
         @Category(CommandCategory.UTILS)
+        @Defer // Just in case lol
         @Ephemeral
         @Options({
                 @Options.Option(type = OptionType.STRING, name = "key", description = "The key to use.", required = true)

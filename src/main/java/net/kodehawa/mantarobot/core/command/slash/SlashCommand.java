@@ -38,9 +38,9 @@ public abstract class SlashCommand {
     private CommandCategory category;
     private final CommandPermission permission;
     private Predicate<SlashContext> predicate = c -> true;
-    private final boolean ephemeral;
+    private boolean ephemeral = false;
     private final boolean guildOnly;
-    private final boolean defer;
+    private boolean defer = false;
     private HelpContent help;
 
     // This is basically the same as NewCommand, but the handling ought to be different everywhere else.
@@ -103,7 +103,7 @@ public abstract class SlashCommand {
 
         this.guildOnly = clazz.getAnnotation(GuildOnly.class) != null;
         this.ephemeral = clazz.getAnnotation(Ephemeral.class) != null;
-        this.defer = clazz.getAnnotation(NoDefer.class) == null;
+        this.defer = clazz.getAnnotation(Defer.class) != null;
 
         var h = clazz.getAnnotation(Help.class);
         if (h == null) {
@@ -121,6 +121,14 @@ public abstract class SlashCommand {
                     .setSeasonal(h.seasonal());
             this.help = builder.build();
         }
+    }
+
+    public void setEphemeral(boolean ephemeral) {
+        this.ephemeral = ephemeral;
+    }
+
+    public void setDefer(boolean defer) {
+        this.defer = defer;
     }
 
     public String getName() {
@@ -231,6 +239,7 @@ public abstract class SlashCommand {
         if (!getPredicate().test(ctx)) return;
         if (sub != null) {
             if (sub.defer()) {
+                System.out.println(sub.defer());
                 if (sub.isEphemeral()) ctx.deferEphemeral();
                 else ctx.defer();
             }
@@ -238,6 +247,7 @@ public abstract class SlashCommand {
             sub.process(ctx);
         } else {
             if (defer()) {
+                System.out.println(defer());
                 if (isEphemeral()) ctx.deferEphemeral();
                 else ctx.defer();
             }

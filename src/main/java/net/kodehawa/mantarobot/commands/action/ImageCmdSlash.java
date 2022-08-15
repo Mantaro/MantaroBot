@@ -37,6 +37,7 @@ public class ImageCmdSlash extends SlashCommand {
 
     public ImageCmdSlash(String desc, List<String> images, String toSend) {
         setCategory(CommandCategory.ACTION);
+        super.setDefer(true);
         this.images = images;
         this.toSend = toSend;
         setHelp(new HelpContent.Builder()
@@ -47,6 +48,7 @@ public class ImageCmdSlash extends SlashCommand {
 
     public ImageCmdSlash(String desc, String type, String toSend) {
         setCategory(CommandCategory.ACTION);
+        super.setDefer(true);
         this.images = Collections.emptyList();
         this.toSend = toSend;
         this.type = type;
@@ -58,6 +60,7 @@ public class ImageCmdSlash extends SlashCommand {
 
     public ImageCmdSlash(String desc, String type, String toSend, boolean noMentions) {
         setCategory(CommandCategory.ACTION);
+        super.setDefer(true);
         this.images = Collections.emptyList();
         this.toSend = toSend;
         this.noMentions = noMentions;

@@ -147,6 +147,7 @@ public class PetCmds {
         }
 
         @Description("Lets you choose whether you want to use a personal or marriage pet.")
+        @Defer
         @Options(@Options.Option(type = OptionType.STRING, name = "type", description = "The type to use. Either marriage or personal", required = true))
         public static class Choice extends SlashCommand {
             @Override
@@ -295,6 +296,7 @@ public class PetCmds {
         }
 
         @Name("pet")
+        @Defer
         @Description("Pets your pet. Cute.")
         public static class PetPet extends SlashCommand {
             @Override
@@ -347,6 +349,7 @@ public class PetCmds {
             }
         }
 
+        @Defer
         @Description("Cleans your pet when it's too dusty. Costs 600 credits.")
         public static class Clean extends SlashCommand {
             int basePrice = 600;
@@ -388,6 +391,7 @@ public class PetCmds {
             }
         }
 
+        @Defer
         @Description("Sells this pet. This will *reset all pet stats*. Just like buying a new tamagotchi.")
         public static class Sell extends SlashCommand {
             @Override
@@ -513,6 +517,7 @@ public class PetCmds {
             }
         }
 
+        @Defer
         @Description("Buys a pet to have adventures with. You need to buy a pet house in market first.")
         @Options({
                 @Options.Option(type = OptionType.STRING, name = "type", description = "The pet type. Use /pet list for a list.", required = true),
@@ -730,6 +735,7 @@ public class PetCmds {
             }
         }
 
+        @Defer
         @Description("Renames your pet.")
         @Options(@Options.Option(type = OptionType.STRING, name = "name", description = "The new name.", required = true))
         public static class Rename extends SlashCommand {
@@ -783,6 +789,7 @@ public class PetCmds {
             }
         }
 
+        @Defer
         @Description("Feeds your pet.")
         @Options({
                 @Options.Option(type = OptionType.STRING, name = "item", description = "The item to feed your pet with.", required = true),
@@ -870,6 +877,7 @@ public class PetCmds {
             }
         }
 
+        @Defer
         @Description("Hydrates your pet.")
         @Options({
                 @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of water to give the pet. Defaults to 1.", maxValue = 10),

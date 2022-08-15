@@ -80,6 +80,7 @@ public class PlayerCmds {
         cr.registerSlash(Badges.class);
     }
 
+    @Defer
     @Description("Gives 1 reputation to a user")
     @Category(CommandCategory.CURRENCY)
     @Options({
@@ -167,6 +168,7 @@ public class PlayerCmds {
         }
     }
 
+    @Defer
     @Description("Equips an item into a slot.")
     @Category(CommandCategory.CURRENCY)
     @Options({
@@ -229,6 +231,7 @@ public class PlayerCmds {
         }
     }
 
+    @Defer
     @Description("Unequips an item from a slot.")
     @Category(CommandCategory.CURRENCY)
     @Options({

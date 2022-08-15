@@ -69,6 +69,7 @@ public class MarryCmd {
         protected void process(SlashContext ctx) {}
 
         @Name("user")
+        @Defer
         @Description("Marries another user.")
         @Options({@Options.Option(type = OptionType.USER, name = "user", description = "The user to marry.", required = true)})
         @Help(
@@ -352,6 +353,7 @@ public class MarryCmd {
         }
 
         @Description("Creates a marriage letter.")
+        @Defer
         @Options({@Options.Option(type = OptionType.STRING, name = "content", description = "The content of the letter.", required = true)})
         @Help(
                 description = "Creates a marriage letter.",
@@ -471,6 +473,7 @@ public class MarryCmd {
         }
 
         @Description("Buys a house for the marriage. You need to buy a house in market first.")
+        @Defer
         @Options({@Options.Option(type = OptionType.STRING, name = "name", description = "The name of the house.", required = true)})
         @Help(
                 description = "Buys a house for the marriage. You need to buy a house in market first.",
@@ -564,6 +567,7 @@ public class MarryCmd {
         }
 
         @Description("Buys a car for the marriage. You need to buy a car in market first.")
+        @Defer
         @Options({@Options.Option(type = OptionType.STRING, name = "name", description = "The name of the car.", required = true)})
         @Help(
                 description = "Buys a car for the marriage. You need to buy a car in market first.",
@@ -655,6 +659,7 @@ public class MarryCmd {
     }
 
     @Description("Basically divorces you from whoever you are married to.")
+    @Defer
     @Category(CommandCategory.CURRENCY)
     public static class Divorce extends SlashCommand {
         @Override

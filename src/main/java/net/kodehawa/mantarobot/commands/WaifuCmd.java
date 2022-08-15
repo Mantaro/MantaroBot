@@ -192,6 +192,7 @@ public class WaifuCmd {
             }
         }
 
+        @Defer
         @Description("Opt-out of the waifu stuff. This will disable the waifu system permanently.")
         public static class OptOut extends SlashCommand {
             @Override
@@ -232,6 +233,7 @@ public class WaifuCmd {
             }
         }
 
+        @Defer
         @Description("Claim a waifu. Yeah, this is all fiction.")
         @Options({
                 @Options.Option(type = OptionType.USER, name = "user", description = "The user to claim.", required = true)
@@ -346,6 +348,7 @@ public class WaifuCmd {
             }
         }
 
+        @Defer
         @Description("Unclaims a waifu.")
         @Options({
                 @Options.Option(type = OptionType.USER, name = "user", description = "The user to unclaim. If unknown, use the id.")
@@ -430,6 +433,7 @@ public class WaifuCmd {
             }
         }
 
+        @Defer
         @Description("Buys a new waifu slot. Maximum slots are 30, costs get increasingly higher.")
         public static class BuySlot extends SlashCommand {
             @Override

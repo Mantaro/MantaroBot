@@ -184,6 +184,7 @@ public class CurrencyCmds {
     }
 
     @Name("opencrate")
+    @Defer
     @Description("Opens a loot crate.")
     @Category(CommandCategory.CURRENCY)
     @Options({
@@ -206,6 +207,7 @@ public class CurrencyCmds {
     }
 
     @Name("dailycrate")
+    @Defer
     @Description("Opens a daily premium loot crate.")
     @Category(CommandCategory.CURRENCY)
     @Help(description = "Opens a daily premium loot crate.", usage = "`/dailycrate` - You need a crate key to open any crate.")
@@ -239,6 +241,7 @@ public class CurrencyCmds {
     }
 
     @Name("use")
+    @Defer
     @Description("Use an item or show all usable items.")
     @Category(CommandCategory.CURRENCY)
     public static class Use extends SlashCommand {
