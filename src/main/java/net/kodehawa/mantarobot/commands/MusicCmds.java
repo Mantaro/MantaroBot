@@ -465,6 +465,7 @@ public class MusicCmds {
             } else content = "ytsearch: " + content;
         }
 
+        ctx.defer();
         MantaroBot.getInstance().getAudioManager().loadAndPlay(ctx, content, firstSelection, force, ctx.getLanguageContext());
         TextChannelGround.of(ctx.getChannel()).dropItemWithChance(0, 5);
     }
