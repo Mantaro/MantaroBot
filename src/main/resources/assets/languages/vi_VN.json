@@ -888,7 +888,7 @@
       },
       "description": {
         "header": "Profile Description.",
-        "content_placeholder": "Your profile description goes here.",
+        "content_placeholder": "The description goes here.",
         "no_content": "%1$sYou didn't specify what you want on your description.",
         "too_long": "%1$sPhần mô tả của bạn quá dài! `(Giới hạn trong 300 kí tự cho mọi người và 500 kí tự cho người dùng cao cấp)`",
         "success": "%1$sI set your profile description successfully. Check your shiny new profile with `/profile show`",
