@@ -239,7 +239,7 @@ public class ProfileCmd {
         public static class InventorySort extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                var typeString = ctx.getOptionAsString("sort");
+                var typeString = ctx.getOptionAsString("type");
                 final var type = Utils.lookupEnumString(typeString, InventorySortType.class);
 
                 if (type == null) {

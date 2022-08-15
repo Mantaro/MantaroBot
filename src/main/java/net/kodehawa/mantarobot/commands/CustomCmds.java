@@ -74,9 +74,8 @@ import static net.kodehawa.mantarobot.data.MantaroData.db;
 
 @Module
 public class CustomCmds {
-    public final static Pattern NAME_PATTERN = Pattern.compile("[a-zA-Z0-9_]+"),
-                                INVALID_CHARACTERS_PATTERN = Pattern.compile("[^a-zA-Z0-9_]"),
-                                NAME_WILDCARD_PATTERN = Pattern.compile("[a-zA-Z0-9_*]+");
+    public final static Pattern NAME_PATTERN = Pattern.compile("[a-zA-Z0-9_]+");
+    public final static Pattern INVALID_CHARACTERS_PATTERN = Pattern.compile("[^a-zA-Z0-9_]");
 
     private static final Map<String, CustomCommand> customCommands = new ConcurrentHashMap<>();
     private static final Logger log = LoggerFactory.getLogger(CustomCmds.class);
@@ -529,6 +528,7 @@ public class CustomCmds {
         }
 
         @Description("Edits a custom command. This will open a pop-up for content.")
+        @NoDefer
         @Options({
                 @Options.Option(type = OptionType.STRING, name = "name", description = "The custom command to edit.", required = true),
                 @Options.Option(type = OptionType.INTEGER, name = "response", description = "The response number to edit.", required = true),
@@ -552,7 +552,7 @@ public class CustomCmds {
 
                 var lang = ctx.getLanguageContext();
                 var subject = TextInput.create("content", lang.get("commands.custom.edit.content_slash"), TextInputStyle.PARAGRAPH)
-                        .setPlaceholder(lang.get("commands.custom.edit.content_placeholder"))
+                        .setPlaceholder(lang.get("commands.custom.edit.content_slash_placeholder"))
                         .setRequiredRange(5, 3900)
                         .build();
 
