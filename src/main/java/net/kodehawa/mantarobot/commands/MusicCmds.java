@@ -71,7 +71,7 @@ public class MusicCmds {
             @Options.Option(type = OptionType.STRING, name = "song", description = "The song to play. Can be an URL or a search term.", required = true),
             @Options.Option(type = OptionType.BOOLEAN, name = "soundcloud", description = "Whether to search in soundcloud. Only use to search."),
             @Options.Option(type = OptionType.BOOLEAN, name = "top", description = "Puts song at the start of the queue. Requires DJ permissions, or Manage Server."),
-            @Options.Option(type = OptionType.BOOLEAN, name = "first", description = "Plays the first search result. Only applies if a search is used."),
+            @Options.Option(type = OptionType.BOOLEAN, name = "first", description = "Whether to skip song selection and play the first song, when using search terms."),
     })
     @Help(
             description = """
@@ -79,7 +79,13 @@ public class MusicCmds {
                     If the bot is already connected to a channel, this will just queue the song. You can either search or put an URL.
                     You can set the soundcloud parameter to true to search in soundcloud's library.
                     """,
-            usage = "`/play [soundcloud] <query>` (Example: `/play bad guy` or `/play https://www.youtube.com/watch?v=DyDfgMOUjCI`)"
+            usage = "`/play song:<query> soundcloud:[true/false] top:[true/false] first:[true/false]` (Example: `/play song:bad guy` or `/play song:https://www.youtube.com/watch?v=DyDfgMOUjCI`)",
+            parameters = {
+                    @Help.Parameter(name = "song", description = "The song to play. Can be an URL or a search term."),
+                    @Help.Parameter(name = "soundcloud", description = "Whether to search in soundcloud. Only use to search.", optional = true),
+                    @Help.Parameter(name = "top", description = "Puts song at the start of the queue. Requires DJ permissions, or Manage Server.", optional = true),
+                    @Help.Parameter(name = "first", description = "Whether to skip song selection and play the first song, when using search terms.", optional = true),
+            }
     )
     public static class Play extends SlashCommand {
         @Override
@@ -276,11 +282,15 @@ public class MusicCmds {
     @Options({
             @Options.Option(type = OptionType.BOOLEAN, name = "queue", description = "Repeat the entire queue instead of only the current song.")
     })
-    @Help(description = """
+    @Help(
+            description = """
             Repeats a song or the queue, or disables it. This command is a toggle.
             It will **disable** repeat if it's ran when it's turned on, and of course enable repeat if repeat it's off.
             To repeat the queue, pass true to the queue argument.
-            """)
+            """,
+            usage = "/repeat queue:[true/false]",
+            parameters = @Help.Parameter(name = "queue", description = "Repeat the entire queue instead of only the current song.", optional = true)
+    )
     public static class Repeat extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
@@ -384,10 +394,12 @@ public class MusicCmds {
     @Options({
             @Options.Option(type = OptionType.INTEGER, name = "volume", description = "The volume to use. Values are 4-100. Leave empty to check current volume.", minValue = 4, maxValue = 100),
     })
-    @Help(description = """
-                    Sets the playback volume. Use `~>volume` to check the volume.
+    @Help(
+            description = """
+                    Sets the playback volume. Use `/volume` to check the volume.
                     **This is a *donator-only* feature!**
-                    """)
+                    """
+    )
     public static class Volume extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {

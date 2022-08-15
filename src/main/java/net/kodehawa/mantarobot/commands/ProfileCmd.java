@@ -127,7 +127,7 @@ public class ProfileCmd {
         @Options({@Options.Option(type = OptionType.USER, name = "user", description = "The user to see the profile of.")})
         @Help(
                 description = "See your profile, or someone else's profile.",
-                usage = "`/profile show [user]`",
+                usage = "`/profile show user:[user]`",
                 parameters = {@Help.Parameter(name = "user", description = "The user to see the profile of.", optional = true)}
         )
 
@@ -217,12 +217,23 @@ public class ProfileCmd {
 
         @Description("Sort your inventory.")
         @Ephemeral
-        @Options({@Options.Option(type = OptionType.STRING, name = "sort", description = "The sort type. If nothing is specified, it prints a list.")})
+        @Options({@Options.Option(
+                type = OptionType.STRING,
+                name = "type",
+                description = "The sort type. If nothing is specified, it prints a list.",
+                choices = {
+                        @Options.Choice(description = "Sort by individual value", value = "value"),
+                        @Options.Choice(description = "Sort by amount", value = "amount"),
+                        @Options.Choice(description = "Sort by type", value = "type"),
+                        @Options.Choice(description = "Sort by total value", value = "value_total"),
+                        @Options.Choice(description = "Sort randomly", value = "random"),
+                }
+        )})
         @Help(
                 description = "Lets you sort your inventory using specified presets.",
-                usage = "`/profile sort [preset]`",
+                usage = "`/profile sort type:[preset]`",
                 parameters = {
-                        @Help.Parameter(name = "preset", description = "The sort type. Possible values: VALUE, VALUE_TOTAL, AMOUNT, TYPE, RANDOM.")
+                        @Help.Parameter(name = "type", description = "The sort type to use.")
                 }
         )
         public static class InventorySort extends SlashCommand {
@@ -255,7 +266,7 @@ public class ProfileCmd {
         @Options({@Options.Option(type = OptionType.BOOLEAN, name = "disable", description = "Disable autoequip.")})
         @Help(
                 description = "Enables auto equip, or disables it if specified.",
-                usage = "`/profile autoequip [disable]`",
+                usage = "`/profile autoequip disable:[true/false]`",
                 parameters = {@Help.Parameter(name = "disable", description = "Whether to disable it.", optional = true)}
         )
         public static class AutoEquip extends SlashCommand {
@@ -297,7 +308,7 @@ public class ProfileCmd {
         @Options({@Options.Option(type = OptionType.STRING, name = "timezone", description = "The timezone to use.", required = true)})
         @Help(
                 description = "Sets your profile timezone.",
-                usage = "`/profile timezone [timezone]` - You can look up your timezone by googling what is my timezone.",
+                usage = "`/profile timezone timezone:[zone]` - You can look up your timezone by googling what is my timezone.",
                 parameters = {@Help.Parameter(name = "timezone", description = "The timezone to use.")}
         )
         public static class Timezone extends SlashCommand {
@@ -349,7 +360,7 @@ public class ProfileCmd {
         @Options({@Options.Option(type = OptionType.STRING, name = "badge", description = "The badge to display, reset/none to reset it or no badge. If nothing is specified, it prints a list.")})
         @Help(
                 description = "Sets your profile display badge.",
-                usage = "`/profile badge [badge]` - Use reset to reset the badge to the default one and use none to show no badge.",
+                usage = "`/profile displaybadge badge:[badge name]` - Use reset to reset the badge to the default one and use none to show no badge.",
                 parameters = {@Help.Parameter(name = "badge", description = "The badge to use.")}
         )
         public static class DisplayBadge extends SlashCommand {
@@ -406,7 +417,7 @@ public class ProfileCmd {
         @Options({@Options.Option(type = OptionType.STRING, name = "lang", description = "The language to use. See /mantaro language for a list.", required = true)})
         @Help(
                 description = "Sets your profile language.",
-                usage = "`/profile language [lang]`",
+                usage = "`/profile language lang:[lang code]`",
                 parameters = {@Help.Parameter(name = "lang", description = "The language to use. See /mantaro language for a list.")}
         )
         public static class Language extends SlashCommand {
@@ -440,8 +451,8 @@ public class ProfileCmd {
         @Options({@Options.Option(type = OptionType.BOOLEAN, name = "clear", description = "Clear your profile description if set to true.")})
         @Help(
                 description = "Sets your profile description. The max length is 300 if you're not premium and 500 if you are. The pop-up will time out in 3 minutes.",
-                usage = "`/profile description [content]`",
-                parameters = {@Help.Parameter(name = "content", description = "The content of the description. This cannot contain new lines on slash commands, sadly.")}
+                usage = "`/profile description clear:[true/false]`",
+                parameters = {@Help.Parameter(name = "clear", description = "TClear your profile description if set to true.")}
         )
         public static class DescriptionCommand extends SlashCommand {
             @Override
@@ -542,7 +553,7 @@ public class ProfileCmd {
         @Options({@Options.Option(type = OptionType.USER, name = "user", description = "The user to see stats for.")})
         @Help(
                 description = "See your profile stats, or someone else's profile stats.",
-                usage = "`/profile stats [user]`",
+                usage = "`/profile stats user:[user]`",
                 parameters = {@Help.Parameter(name = "user", description = "The user to see the stats of.", optional = true)}
         )
         public static class Stats extends SlashCommand {

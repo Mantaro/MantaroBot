@@ -292,7 +292,7 @@ public class InfoCmds {
 
         @Name("user")
         @Description("See information about specific users.")
-        @Help(description = "See information about specific users.", usage = "`/userinfo [user]`", parameters = {
+        @Help(description = "See information about specific users.", usage = "`/info user user:[user]`", parameters = {
                 @Help.Parameter(name = "user", description = "The user you want to look.", optional = true)
         })
         @Options({

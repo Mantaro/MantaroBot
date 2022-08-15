@@ -38,6 +38,7 @@ import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.awt.*;
+import java.lang.annotation.Annotation;
 import java.util.Random;
 
 import static net.kodehawa.mantarobot.commands.image.ImageboardUtils.getImage;
@@ -150,7 +151,7 @@ public class ImageCmds {
         @Help(description = "Sends images of catgirl(s). Maybe.",
                 usage = """
                 `/catgirl` - Sends images of normal catgirls.
-                `/catgirl nsfw` - Sends images of lewd catgirls. (Only works on NSFW channels)
+                `/catgirl nsfw:true` - Sends images of lewd catgirls. (Only works on NSFW channels)
                 """, parameters = {
                     @Help.Parameter(name = "nsfw", description = "Whether to send a NSFW image.")
                 }
@@ -197,7 +198,7 @@ public class ImageCmds {
             usage =
                     """
                     `/e621` - Retrieves a random image.
-                    `/e621 [tags]` - Retrieves a image with the specified tags.
+                    `/e621 tags:[tag list]` - Retrieves a image with the specified tags.
                     """,
             parameters = {
                     @Help.Parameter(name = "tags", description = TAG_HELP, optional = true)
@@ -227,7 +228,7 @@ public class ImageCmds {
                     """,
             usage =  """
                     `/e926` - Retrieves a random image.
-                    `/e926 [tags]` - Retrieves a image with the specified tags.
+                    `/e926 tags:[tag list]` - Retrieves a image with the specified tags.
                     """,
             parameters = {
                     @Help.Parameter(name = "tags", description = TAG_HELP, optional = true)
@@ -251,7 +252,7 @@ public class ImageCmds {
                     """,
             usage = """
                     `/konachan` - Retrieves a random image.
-                    `/konachan [rating] [tags]` - Retrieves a image with the specified tags.
+                    `/konachan rating:[rating] tags:[tag list]` - Retrieves a image with the specified tags.
                     """,
             parameters = {
                     @Help.Parameter(name = "rating", description = RATING_HELP, optional = true),
@@ -259,7 +260,17 @@ public class ImageCmds {
             }
     )
     @Options({
-            @Options.Option(type = OptionType.STRING, name = "rating", description = "Image rating. Can either be random, safe, questionable or explicit."),
+            @Options.Option(
+                    type = OptionType.STRING,
+                    name = "rating",
+                    description = "Image rating. Can either be random, safe, questionable or explicit.",
+                    choices = {
+                            @Options.Choice(description = "Safe for Work Image", value = "safe"),
+                            @Options.Choice(description = "Questionable/Potentially Unsafe Image", value = "questionable"),
+                            @Options.Choice(description = "Not Safe for Work (NSFW/Explicit) Image", value = "explicit"),
+                            @Options.Choice(description = "Random (any of the above) Image", value = "random")
+                    }
+            ),
             @Options.Option(type = OptionType.STRING, name = "tags", description = "Image tags, separated by a space.")
     })
     public static class Konachan extends SlashCommand {
@@ -287,7 +298,7 @@ public class ImageCmds {
                     """,
             usage = """
                     `/yandere` - Retrieves a random image.
-                    `/yandere [rating] [tags]` - Retrieves a image with the specified tags.
+                    `/yandere rating:[rating] tags:[tag list]` - Retrieves a image with the specified tags.
                     """,
             parameters = {
                     @Help.Parameter(name = "rating", description = RATING_HELP, optional = true),
@@ -295,7 +306,17 @@ public class ImageCmds {
             }
     )
     @Options({
-            @Options.Option(type = OptionType.STRING, name = "rating", description = "Image rating. Can either be random, safe, questionable or explicit."),
+            @Options.Option(
+                    type = OptionType.STRING,
+                    name = "rating",
+                    description = "Image rating. Can either be random, safe, questionable or explicit.",
+                    choices = {
+                            @Options.Choice(description = "Safe for Work Image", value = "safe"),
+                            @Options.Choice(description = "Questionable/Potentially Unsafe Image", value = "questionable"),
+                            @Options.Choice(description = "Not Safe for Work (NSFW/Explicit) Image", value = "explicit"),
+                            @Options.Choice(description = "Random (any of the above) Image", value = "random")
+                    }
+            ),
             @Options.Option(type = OptionType.STRING, name = "tags", description = "Image tags, separated by a space.")
     })
     public static class Yandere extends SlashCommand {
@@ -323,7 +344,7 @@ public class ImageCmds {
                     """,
             usage = """
                     `/gelbooru` - Retrieves a random image.
-                    `/gelbooru [rating] [tags]` - Retrieves a image with the specified tags.
+                    `/gelbooru rating:[rating] tags:[tag list]` - Retrieves a image with the specified tags.
                     """,
             parameters = {
                     @Help.Parameter(name = "rating", description = RATING_HELP, optional = true),
@@ -331,7 +352,17 @@ public class ImageCmds {
             }
     )
     @Options({
-            @Options.Option(type = OptionType.STRING, name = "rating", description = "Image rating. Can either be random, safe, questionable or explicit."),
+            @Options.Option(
+                    type = OptionType.STRING,
+                    name = "rating",
+                    description = "Image rating. Can either be random, safe, questionable or explicit.",
+                    choices = {
+                            @Options.Choice(description = "Safe for Work Image", value = "safe"),
+                            @Options.Choice(description = "Questionable/Potentially Unsafe Image", value = "questionable"),
+                            @Options.Choice(description = "Not Safe for Work (NSFW/Explicit) Image", value = "explicit"),
+                            @Options.Choice(description = "Random (any of the above) Image", value = "random")
+                    }
+            ),
             @Options.Option(type = OptionType.STRING, name = "tags", description = "Image tags, separated by a space.")
     })
     public static class Gelbooru extends SlashCommand {
@@ -355,7 +386,7 @@ public class ImageCmds {
     @Help(description = "Retrieves images from the safebooru image board. This command can only be used in NSFW channels.",
             usage = """
                     `/safebooru` - Retrieves a random image.
-                    `/safebooru [tags]` - Retrieves a image with the specified tags.
+                    `/safebooru tags:[tag list]` - Retrieves a image with the specified tags.
                     """,
             parameters = {
                     @Help.Parameter(name = "tags", description = TAG_HELP, optional = true)
@@ -385,7 +416,7 @@ public class ImageCmds {
                 """,
             usage = """
                 `/rule34` - Retrieves a random image.
-                `/rule34 [tags]` - Retrieves a image with the specified tags.
+                `/rule34 tags:[tag list]` - Retrieves a image with the specified tags.
                 """,
             parameters = {
                     @Help.Parameter(name = "tags", description = TAG_HELP, optional = true)
@@ -410,7 +441,7 @@ public class ImageCmds {
                     """,
             usage = """
                     `/danbooru` - Retrieves a random image.
-                    `/danbooru [rating] [tags]` - Retrieves a image with the specified tags.
+                    `/danbooru rating:[rating] tags:[tag list]` - Retrieves a image with the specified tags.
                     """,
             parameters = {
                     @Help.Parameter(name = "rating", description = RATING_HELP, optional = true),
@@ -418,7 +449,17 @@ public class ImageCmds {
             }
     )
     @Options({
-            @Options.Option(type = OptionType.STRING, name = "rating", description = "Image rating. Can either be random, safe, questionable or explicit."),
+            @Options.Option(
+                    type = OptionType.STRING,
+                    name = "rating",
+                    description = "Image rating. Can either be random, safe, questionable or explicit.",
+                    choices = {
+                            @Options.Choice(description = "Safe for Work Image", value = "safe"),
+                            @Options.Choice(description = "Questionable/Potentially Unsafe Image", value = "questionable"),
+                            @Options.Choice(description = "Not Safe for Work (NSFW/Explicit) Image", value = "explicit"),
+                            @Options.Choice(description = "Random (any of the above) Image", value = "random")
+                    }
+            ),
             @Options.Option(type = OptionType.STRING, name = "tags", description = "Image tags, separated by a space.")
     })
     public static class Danbooru extends SlashCommand {

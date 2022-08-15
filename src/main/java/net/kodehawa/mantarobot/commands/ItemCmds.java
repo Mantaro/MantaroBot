@@ -117,7 +117,7 @@ public class ItemCmds {
                             Casting requires you to have the necessary materials to cast the item, and it has a cost of `item value / 2`.
                             Cast-able items are only able to be acquired by this command. They're non-buyable items, though you can sell them for a profit.
                             You need to equip a wrench if you want to use it. Wrenches have no broken type.""",
-                usage = "`/cast item <item> [amount]`",
+                usage = "`/cast item item:<item name> amount:[amount]`",
                 parameters = {
                         @Help.Parameter(name = "item", description = "The item to cast."),
                         @Help.Parameter(name = "amount", description = "The amount of the item to cast, 1 by default. Depends on your wrench, maximum is 10.", optional = true)
@@ -358,7 +358,7 @@ public class ItemCmds {
                             Allows you to repair any broken item given you have the necessary elements.
                             Repairing requires you to have the necessary materials to cast the item, and it has a cost of `item value / 3`.
                             """,
-                usage = "`/repair <item>`",
+                usage = "`/repair item:<item name of the broken version>`",
                 parameters = @Help.Parameter(name = "item", description = "The item to repair. You can check a list of repairable items using `/repair list`")
         )
         @Options({
@@ -546,7 +546,7 @@ public class ItemCmds {
         @Help(description = """
                             Salvages an item. Useful when you can't repair it but wanna get something back.
                             The cost is 1/3rd of the item price.""",
-            usage = "`/salvage <item>`",
+            usage = "`/salvage item:<item name of the broken version>`",
             parameters = @Help.Parameter(name = "item", description = "The item to salvage.")
         )
         public static class SalvageItem extends SlashCommand {
@@ -690,7 +690,7 @@ public class ItemCmds {
     @Options({
             @Options.Option(type = OptionType.STRING, name = "item", description = "The item to see the info of.", required = true)
     })
-    @Help(description = "Shows the information of an item.", usage = "`/iteminfo <item>`", parameters = @Help.Parameter(name = "item", description = "The name of the item."))
+    @Help(description = "Shows the information of an item.", usage = "`/iteminfo item:<item name>`", parameters = @Help.Parameter(name = "item", description = "The name of the item."))
     public static class ItemInfo extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {

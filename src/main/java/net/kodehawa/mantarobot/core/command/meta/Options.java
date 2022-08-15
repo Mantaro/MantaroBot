@@ -24,6 +24,12 @@ public @interface Options {
                 default 1;
         int maxValue()
                 default Integer.MAX_VALUE;
+        Choice[] choices() default {};
     }
-
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({})
+    @interface Choice {
+        String description();
+        String value();
+    }
 }

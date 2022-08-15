@@ -24,10 +24,7 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.meta.Category;
-import net.kodehawa.mantarobot.core.command.meta.Description;
-import net.kodehawa.mantarobot.core.command.meta.Name;
-import net.kodehawa.mantarobot.core.command.meta.Options;
+import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
@@ -74,6 +71,13 @@ public class MarryCmd {
         @Name("user")
         @Description("Marries another user.")
         @Options({@Options.Option(type = OptionType.USER, name = "user", description = "The user to marry.", required = true)})
+        @Help(
+                description = "Marry another user.",
+                usage = "/marry user user:<user>",
+                parameters = {
+                        @Help.Parameter(name = "user", description = "The user to marry.")
+                }
+        )
         public static class MarryUser extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -349,6 +353,13 @@ public class MarryCmd {
 
         @Description("Creates a marriage letter.")
         @Options({@Options.Option(type = OptionType.STRING, name = "content", description = "The content of the letter.", required = true)})
+        @Help(
+                description = "Creates a marriage letter.",
+                usage = "/marry crateletter content:<letter content>",
+                parameters = {
+                        @Help.Parameter(name = "content", description = "The content of the letter.")
+                }
+        )
         public static class CreateLetter extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -409,7 +420,7 @@ public class MarryCmd {
                     if (!e.getUser().getId().equals(author.getId())) {
                         return Operation.IGNORED;
                     }
-                    
+
                     var button = e.getButton().getId();
                     var hook = e.getHook();
                     if (button == null) {
@@ -461,6 +472,13 @@ public class MarryCmd {
 
         @Description("Buys a house for the marriage. You need to buy a house in market first.")
         @Options({@Options.Option(type = OptionType.STRING, name = "name", description = "The name of the house.", required = true)})
+        @Help(
+                description = "Buys a house for the marriage. You need to buy a house in market first.",
+                usage = "/marry house name:<name>",
+                parameters = {
+                        @Help.Parameter(name = "name", description = "Name for the new house.")
+                }
+        )
         public static class House extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -485,7 +503,7 @@ public class MarryCmd {
                     ctx.reply("commands.marry.buyhouse.not_enough_money", EmoteReference.ERROR, housePrice);
                     return;
                 }
-                
+
                 if (name.length() > 150) {
                     ctx.reply("commands.pet.buy.too_long", EmoteReference.ERROR);
                     return;
@@ -496,7 +514,7 @@ public class MarryCmd {
                 ButtonOperations.create(message, 30, (e) -> {
                     if (!e.getUser().equals(ctx.getAuthor()))
                         return Operation.IGNORED;
-                    
+
                     var button = e.getButton().getId();
                     var hook = e.getHook();
                     if (button == null) {
@@ -547,6 +565,13 @@ public class MarryCmd {
 
         @Description("Buys a car for the marriage. You need to buy a car in market first.")
         @Options({@Options.Option(type = OptionType.STRING, name = "name", description = "The name of the car.", required = true)})
+        @Help(
+                description = "Buys a car for the marriage. You need to buy a car in market first.",
+                usage = "/marry car name:<name>",
+                parameters = {
+                        @Help.Parameter(name = "name", description = "Name for the new car.")
+                }
+        )
         public static class Car extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -556,7 +581,7 @@ public class MarryCmd {
                 var marriage = dbUser.getData().getMarriage();
                 var name = ctx.getOptionAsString("name");
                 var languageContext = ctx.getLanguageContext();
-                
+
                 if (marriage == null) {
                     ctx.reply("commands.marry.general.not_married", EmoteReference.ERROR);
                     return;
@@ -582,7 +607,7 @@ public class MarryCmd {
                 ButtonOperations.create(message, 30, (e) -> {
                     if (!e.getUser().equals(ctx.getAuthor()))
                         return Operation.IGNORED;
-                    
+
                     var button = e.getButton().getId();
                     var hook = e.getHook();
                     if (button == null) {

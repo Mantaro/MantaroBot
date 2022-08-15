@@ -236,7 +236,7 @@ public class WaifuCmd {
         @Options({
                 @Options.Option(type = OptionType.USER, name = "user", description = "The user to claim.", required = true)
         })
-        @Help(description = "Claim a waifu. Yeah, this is all fiction.", usage = "`/waifu claim <user>`", parameters = {
+        @Help(description = "Claim a waifu. Yeah, this is all fiction.", usage = "`/waifu claim user:<user>`", parameters = {
                 @Help.Parameter(name = "user", description = "The user to claim.")
         })
         public static class Claim extends SlashCommand {
@@ -348,12 +348,10 @@ public class WaifuCmd {
 
         @Description("Unclaims a waifu.")
         @Options({
-                @Options.Option(type = OptionType.USER, name = "user", description = "The user to unclaim. If unknown, use the id."),
-                @Options.Option(type = OptionType.USER, name = "id", description = "The user id of the user to unclaim.")
+                @Options.Option(type = OptionType.USER, name = "user", description = "The user to unclaim. If unknown, use the id.")
         })
-        @Help(description = "Unclaims a waifu.", usage = "`/waifu unclaim [id] <user>`", parameters = {
-                @Help.Parameter(name = "user", description = "The user to unclaim."),
-                @Help.Parameter(name = "id", description = "The ID of the user to unclaim. Only use if user doesn't work.", optional = true)
+        @Help(description = "Unclaims a waifu.", usage = "`/waifu unclaim user:<user or id>`", parameters = {
+                @Help.Parameter(name = "user", description = "The user to unclaim.")
         })
         public static class Unclaim extends SlashCommand {
             @Override
@@ -364,29 +362,19 @@ public class WaifuCmd {
                     return;
                 }
 
-                final var user = ctx.getOptionAsUser("user");
-                final var id = ctx.getOptionAsString("id");
-                final var isId = !id.isBlank();
-                if (user == null && !isId) {
+                final var user = ctx.getOptionAsGlobalUser("user");
+                if (user == null) {
                     ctx.reply("commands.waifu.unclaim.no_user", EmoteReference.ERROR);
                     return;
                 }
 
-                final var toLookup = isId ? ctx.retrieveUserById(id) : user;
-                final var isUnknown = isId && user == null;
-                if (toLookup == null && !isUnknown) {
-                    ctx.reply("commands.waifu.unclaim.not_found", EmoteReference.ERROR);
-                    return;
-                }
-
-                //It'll only be null if -unknown is passed with an unknown ID. This is unclaim, so this check is a bit irrelevant though.
-                if (!isUnknown && toLookup.isBot()) {
+                if (user.isBot()) {
                     ctx.reply("commands.waifu.bot", EmoteReference.ERROR);
                     return;
                 }
 
-                final var userId = isUnknown ? id : toLookup.getId();
-                final var name = isUnknown ? "Unknown User" : toLookup.getName();
+                final var userId = user.getId();
+                final var name = user.getName();
                 final var claimerUser = ctx.getDBUser();
                 final var data = claimerUser.getData();
                 final var value = data.getWaifus().get(userId);
@@ -396,8 +384,8 @@ public class WaifuCmd {
                     return;
                 }
 
-                final var claimedPlayer = ctx.getPlayer(toLookup);
-                final var currentValue = calculateWaifuValue(claimedPlayer, toLookup).getFinalValue();
+                final var claimedPlayer = ctx.getPlayer(user);
+                final var currentValue = calculateWaifuValue(claimedPlayer, user).getFinalValue();
                 final var valuePayment = (long) (currentValue * 0.15);
                 //Send confirmation message.
                 var message = ctx.sendResult(ctx.getLanguageContext().get("commands.waifu.unclaim.confirmation").formatted(EmoteReference.MEGA, name, valuePayment, EmoteReference.STOPWATCH));
@@ -490,7 +478,7 @@ public class WaifuCmd {
         @Options({
                 @Options.Option(type = OptionType.USER, name = "user", description = "The user to check stats for. Yourself, if nothing specified.")
         })
-        @Help(description = "Shows your waifu stats or the stats or someone else.", usage = "`/waifu stats [user]`", parameters = {
+        @Help(description = "Shows your waifu stats or the stats or someone else.", usage = "`/waifu stats user:[user]`", parameters = {
                 @Help.Parameter(name = "user", description = "The user to check. Yourself, if nothing specified.", optional = true),
         })
         public static class Stats extends SlashCommand {

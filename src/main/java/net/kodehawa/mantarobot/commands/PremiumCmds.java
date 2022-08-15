@@ -66,8 +66,8 @@ public class PremiumCmds {
                 @Options.Option(type = OptionType.STRING, name = "key", description = "The key to use.", required = true)
         })
         @Help(
-                description = "Activates a premium key. Example: `/premium activate a4e98f07-1a32-4dcc-b53f-c540214d54ec`. No, that isn't a valid key.",
-                usage = "`/premium activate [key]`",
+                description = "Activates a premium key. Example: `/premium activate key:a4e98f07-1a32-4dcc-b53f-c540214d54ec`. No, that isn't a valid key.",
+                usage = "`/premium activate key:[key]`",
                 parameters = {
                         @Help.Parameter(name = "key", description = "The key to activate. If it's a server key, make sure to run this command in the server where you want to enable premium on.")
                 }
@@ -150,7 +150,7 @@ public class PremiumCmds {
         })
         @Help(
                 description = "Checks the premium status of a user.",
-                usage = "`/premium check [user]`",
+                usage = "`/premium check user:[user]`",
                 parameters = {
                         @Help.Parameter(name = "user", description = "The user to check for. Yourself if empty.", optional = true)
                 }
