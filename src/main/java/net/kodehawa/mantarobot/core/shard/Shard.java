@@ -98,13 +98,13 @@ public class Shard {
         //insert $CURRENT_YEAR meme here
         var now = OffsetDateTime.now();
         if (now.getMonth() == Month.DECEMBER && now.getDayOfMonth() == 25) {
-            getJDA().getPresence().setActivity(Activity.playing(String.format("%shelp | %s", config().get().prefix[0], "Merry Christmas!")));
+            getJDA().getPresence().setActivity(Activity.playing(String.format("/help | %s", "Merry Christmas!")));
             return;
         } else if (now.getMonth() == Month.JANUARY && now.getDayOfMonth() == 1) {
-            getJDA().getPresence().setActivity(Activity.playing(String.format("%shelp | %s", config().get().prefix[0], "Happy New Year!")));
+            getJDA().getPresence().setActivity(Activity.playing(String.format("/help | %s", "Happy New Year!")));
             return;
         }
 
-        getJDA().getPresence().setActivity(Activity.playing(String.format("%shelp", config().get().prefix[0])));
+        getJDA().getPresence().setActivity(Activity.playing("/help"));
     }
 }
