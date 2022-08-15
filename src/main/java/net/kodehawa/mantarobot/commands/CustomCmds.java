@@ -337,12 +337,11 @@ public class CustomCmds {
 
                 var nameInput = TextInput.create("name", lang.get("commands.custom.add.name_slash"), TextInputStyle.SHORT)
                         .setPlaceholder(lang.get("commands.custom.add.custom_name_placeholder"))
-                        .setRequiredRange(2, 50)
+                        .setRequiredRange(2, 49)
                         .build();
 
                 var nsfw = ctx.getOptionAsBoolean("nsfw");
                 var id = "%s/%s/%s".formatted(Snow64.toSnow64(System.currentTimeMillis()), ctx.getAuthor().getId(), ctx.getChannel().getId());
-                System.out.println(id);
                 var modal = Modal.create(id, lang.get("commands.custom.add.header_slash")).addActionRows(ActionRow.of(nameInput), ActionRow.of(subject)).build();
                 ctx.replyModal(modal);
 
