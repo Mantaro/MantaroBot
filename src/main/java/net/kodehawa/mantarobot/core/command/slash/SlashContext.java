@@ -265,6 +265,7 @@ public class SlashContext implements IContext {
         }
 
         slash.replyModal(modal).queue();
+        deferred = true; // This will defer it!
     }
 
     public WebhookMessageUpdateAction<Message> editAction(MessageEmbed embed) {

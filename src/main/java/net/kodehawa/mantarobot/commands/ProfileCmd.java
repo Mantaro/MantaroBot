@@ -23,6 +23,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
@@ -43,6 +44,7 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.slash.*;
 import net.kodehawa.mantarobot.core.listeners.operations.ModalOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.ModalOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
@@ -437,7 +439,7 @@ public class ProfileCmd {
         @NoDefer
         @Options({@Options.Option(type = OptionType.BOOLEAN, name = "clear", description = "Clear your profile description if set to true.")})
         @Help(
-                description = "Sets your profile description. The max length is 300 if you're not premium and 500 if you are.",
+                description = "Sets your profile description. The max length is 300 if you're not premium and 500 if you are. The pop-up will time out in 3 minutes.",
                 usage = "`/profile description [content]`",
                 parameters = {@Help.Parameter(name = "content", description = "The content of the description. This cannot contain new lines on slash commands, sadly.")}
         )
@@ -468,51 +470,71 @@ public class ProfileCmd {
                         .setRequiredRange(5, MAX_LENGTH)
                         .build();
 
-                var id = Snow64.toSnow64(System.currentTimeMillis()) + "-" + ctx.getAuthor().getId();
+                var id = "%s/%s/%s".formatted(Snow64.toSnow64(System.currentTimeMillis()), ctx.getAuthor().getId(), ctx.getChannel().getId());
                 var modal = Modal.create(id, lang.get("commands.profile.description.header")).addActionRows(ActionRow.of(subject)).build();
                 ctx.replyModal(modal);
 
                 // effectively final moment
                 var finalLength = MAX_LENGTH;
-                ModalOperations.create(id, 180, event -> {
-                    // This might not be possible here, as we send only events based on the id.
-                    if (!event.getModalId().equalsIgnoreCase(id)) {
-                        return Operation.IGNORED;
-                    }
+                ModalOperations.create(id, 180, new ModalOperation() {
+                    @Override
+                    public int modal(ModalInteractionEvent event) {
+                        // This might not be possible here, as we send only events based on the id.
+                        if (!event.getModalId().equalsIgnoreCase(id)) {
+                            return Operation.IGNORED;
+                        }
 
-                    if (event.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
-                        return Operation.IGNORED;
-                    }
+                        if (event.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
+                            return Operation.IGNORED;
+                        }
 
-                    var description = event.getValue("description");
-                    if (description == null) {
-                        event.reply(lang.get("commands.profile.description.no_content").formatted(EmoteReference.ERROR))
+                        var description = event.getValue("description");
+                        if (description == null) {
+                            event.reply(lang.get("commands.profile.description.no_content").formatted(EmoteReference.ERROR))
+                                    .setEphemeral(true)
+                                    .queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        var desc = description.getAsString();
+                        if (desc.isBlank()) {
+                            event.reply(lang.get("commands.profile.description.no_content").formatted(EmoteReference.ERROR))
+                                    .setEphemeral(true)
+                                    .queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        if (desc.length() > finalLength) {
+                            event.reply(lang.get("commands.profile.description.too_long").formatted(EmoteReference.ERROR))
+                                    .setEphemeral(true)
+                                    .queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        desc = Utils.DISCORD_INVITE.matcher(desc).replaceAll("-discord invite link-");
+                        desc = Utils.DISCORD_INVITE_2.matcher(desc).replaceAll("-discord invite link-");
+
+                        var player = ctx.getPlayer();
+                        player.getData().setDescription(desc);
+                        event.reply(lang.get("commands.profile.description.success").formatted(EmoteReference.POPPER))
                                 .setEphemeral(true)
                                 .queue();
+
+                        player.getData().addBadgeIfAbsent(Badge.WRITER);
+                        player.saveUpdating();
                         return Operation.COMPLETED;
                     }
 
-                    var desc = description.getAsString();
-                    if (desc.length() > finalLength) {
-                        event.reply(lang.get("commands.profile.description.too_long").formatted(EmoteReference.ERROR))
+                    @Override
+                    public void onExpire() {
+                        ModalOperation.super.onExpire();
+                        ctx.getEvent().getHook()
+                                .sendMessage(lang.get("commands.profile.description.time_out").formatted(EmoteReference.ERROR2))
                                 .setEphemeral(true)
                                 .queue();
-                        return Operation.COMPLETED;
                     }
-
-                    desc = Utils.DISCORD_INVITE.matcher(desc).replaceAll("-discord invite link-");
-                    desc = Utils.DISCORD_INVITE_2.matcher(desc).replaceAll("-discord invite link-");
-
-                    var player = ctx.getPlayer();
-                    player.getData().setDescription(desc);
-                    event.reply(lang.get("commands.profile.description.success").formatted(EmoteReference.POPPER))
-                            .setEphemeral(true)
-                            .queue();
-
-                    player.getData().addBadgeIfAbsent(Badge.WRITER);
-                    player.saveUpdating();
-                    return Operation.COMPLETED;
                 });
+
             }
         }
 
@@ -634,6 +656,12 @@ public class ProfileCmd {
             var userLooked = ctx.getTarget();
             if (userLooked.isBot()) {
                 ctx.reply("commands.profile.bot_notice", EmoteReference.ERROR);
+                return;
+            }
+
+            // Could this even happen?
+            if (ctx.getGuild().getMember(userLooked) == null) {
+                ctx.sendLocalized("general.slash_member_lookup_failure", EmoteReference.ERROR);
                 return;
             }
 

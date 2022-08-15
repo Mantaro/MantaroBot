@@ -22,7 +22,12 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.Modal;
+import net.dv8tion.jda.api.interactions.components.text.TextInput;
+import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.custom.CustomCommandHandler;
 import net.kodehawa.mantarobot.commands.custom.v3.Parser;
@@ -33,6 +38,9 @@ import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
+import net.kodehawa.mantarobot.core.listeners.operations.ModalOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.ModalOperation;
+import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
@@ -44,6 +52,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.CustomCommand;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
@@ -309,16 +318,177 @@ public class CustomCmds {
             }
         }
 
-        @Description("Add a custom command.")
-        @Options({
-                @Options.Option(type = OptionType.STRING, name = "name", description = "The custom command to remove a response from.", required = true),
-                @Options.Option(type = OptionType.STRING, name = "content", description = "The content of the command.", required = true),
-                @Options.Option(type = OptionType.BOOLEAN, name = "nsfw", description = "Whether the command is NSFW or not.", required = true)
-        })
+        @Description("Add a custom command. This will open a pop-up.")
+        @NoDefer // Can't defer on pop-ups. No issue, just don't defer at all.
+        @Options(@Options.Option(type = OptionType.BOOLEAN, name = "nsfw", description = "Whether the command is NSFW or not.", required = true))
+        @Help(description = "Add a custom command. This will open a pop-up. The pop-up will time out in 5 minutes.")
         public static class Add extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                addCmd(ctx, ctx.getOptionAsString("name"), ctx.getOptionAsString("content"), ctx.getOptionAsBoolean("nsfw"));
+                if (!adminPredicate.test(ctx)) {
+                    return;
+                }
+
+                var lang = ctx.getLanguageContext();
+                var subject = TextInput.create("content", lang.get("commands.custom.add.header_slash"), TextInputStyle.PARAGRAPH)
+                        .setPlaceholder(lang.get("commands.custom.add.content_placeholder"))
+                        .setRequiredRange(5, 3900)
+                        .build();
+
+                var nameInput = TextInput.create("name", lang.get("commands.custom.add.name_slash"), TextInputStyle.SHORT)
+                        .setPlaceholder(lang.get("commands.custom.add.custom_name_placeholder"))
+                        .setRequiredRange(2, 50)
+                        .build();
+
+                var nsfw = ctx.getOptionAsBoolean("nsfw");
+                var id = "%s/%s/%s".formatted(Snow64.toSnow64(System.currentTimeMillis()), ctx.getAuthor().getId(), ctx.getChannel().getId());
+                System.out.println(id);
+                var modal = Modal.create(id, lang.get("commands.custom.add.header_slash")).addActionRows(ActionRow.of(nameInput), ActionRow.of(subject)).build();
+                ctx.replyModal(modal);
+
+                ModalOperations.create(id, 300, new ModalOperation() {
+                    @Override
+                    public int modal(ModalInteractionEvent event) {
+                        // This might not be possible here, as we send only events based on the id.
+                        if (!event.getModalId().equalsIgnoreCase(id)) {
+                            return Operation.IGNORED;
+                        }
+
+                        if (event.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
+                            return Operation.IGNORED;
+                        }
+
+                        var contentRaw = event.getValue("content");
+                        if (contentRaw == null) {
+                            event.reply(lang.get("commands.custom.add.empty_content").formatted(EmoteReference.ERROR))
+                                    .setEphemeral(true)
+                                    .queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        var content = contentRaw.getAsString().trim();
+                        if (content.isBlank()) {
+                            event.reply(lang.get("commands.custom.add.empty_content").formatted(EmoteReference.ERROR))
+                                    .setEphemeral(true)
+                                    .queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        if (content.length() > 3900) {
+                            event.reply(lang.get("commands.custom.add.too_long").formatted(EmoteReference.ERROR, 3900))
+                                    .setEphemeral(true)
+                                    .queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        var nameRaw = event.getValue("name");
+                        if (nameRaw == null) {
+                            event.reply(lang.get("commands.custom.add.not_enough_args").formatted(EmoteReference.ERROR))
+                                    .setEphemeral(true)
+                                    .queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        var name = nameRaw.getAsString().trim();
+                        if (name.isBlank()) {
+                            event.reply(lang.get("commands.custom.add.not_enough_args").formatted(EmoteReference.ERROR))
+                                    .setEphemeral(true)
+                                    .queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        if (!NAME_PATTERN.matcher(name).matches()) {
+                            event.reply(lang.get("commands.custom.character_not_allowed").formatted(EmoteReference.ERROR))
+                                    .setEphemeral(true)
+                                    .queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        if (name.length() >= 50) {
+                            event.reply(lang.get("commands.custom.name_too_long").formatted(EmoteReference.ERROR))
+                                    .setEphemeral(true)
+                                    .queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        if (CommandProcessor.REGISTRY.commands().containsKey(name)) {
+                            event.reply(lang.get("commands.custom.already_exists").formatted(EmoteReference.ERROR, name))
+                                    .setEphemeral(true)
+                                    .queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        content = content.replace("@everyone", "[nice meme]").replace("@here", "[you tried]");
+                        if (content.contains("v3:")) {
+                            try {
+                                new Parser(content).parse();
+                            } catch (SyntaxException e) {
+                                event.reply(lang.get("commands.custom.new_error").formatted(EmoteReference.ERROR, e.getMessage()))
+                                        .setEphemeral(true)
+                                        .queue();
+                                return Operation.COMPLETED;
+                            }
+                        }
+
+                        var custom = CustomCommand.of(ctx.getGuild().getId(), name, Collections.singletonList(content));
+                        var c = ctx.db().getCustomCommand(ctx.getGuild(), name);
+                        if (c != null) {
+                            if (custom.getData().isLocked()) {
+                                event.reply(lang.get("commands.custom.locked_command").formatted(EmoteReference.ERROR2))
+                                        .setEphemeral(true)
+                                        .queue();
+                                return Operation.COMPLETED;
+                            }
+
+                            final var values = c.getValues();
+                            var customLimit = 50;
+                            if (ctx.getConfig().isPremiumBot() || ctx.getDBGuild().isPremium()) {
+                                customLimit = 100;
+                            }
+
+                            if (values.size() > customLimit) {
+                                event.reply(lang.get("commands.custom.add.too_many_responses").formatted(EmoteReference.ERROR2, values.size()))
+                                        .setEphemeral(true)
+                                        .queue();
+                                return Operation.COMPLETED;
+                            }
+
+                            custom.getValues().addAll(values);
+                        } else {
+                            // Are the first two checks redundant?
+                            if (!ctx.getConfig().isPremiumBot() && !ctx.getDBGuild().isPremium() && ctx.db().getCustomCommands(ctx.getGuild()).size() > 100) {
+                                event.reply(lang.get("commands.custom.add.too_many_commands").formatted(EmoteReference.ERROR2))
+                                        .setEphemeral(true)
+                                        .queue();
+                                return Operation.COMPLETED;
+                            }
+                        }
+
+                        custom.getData().setOwner(ctx.getAuthor().getId());
+                        if (nsfw) {
+                            custom.getData().setNsfw(true);
+                        }
+
+                        // save at DB
+                        custom.save();
+                        // reflect at local
+                        customCommands.put(custom.getId(), custom);
+
+                        event.reply(lang.get("commands.custom.add.success").formatted(EmoteReference.CORRECT, name))
+                                .queue();
+
+                        return Operation.COMPLETED;
+                    }
+
+                    @Override
+                    public void onExpire() {
+                        ModalOperation.super.onExpire();
+                        ctx.getEvent().getHook()
+                                .sendMessage(lang.get("commands.custom.add.time_out").formatted(EmoteReference.ERROR2))
+                                .setEphemeral(true)
+                                .queue();
+                    }
+                });
             }
         }
 

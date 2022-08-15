@@ -155,22 +155,28 @@ public class GambleCmds {
             var stats = ctx.db().getPlayerStats(ctx.getAuthor());
             var moneyAmount = 50L;
 
-            var money = ctx.getOptionAsString("credits", "50"); //Since it can be expressed in M or K.
+            var moneyAbsolute = ctx.getOptionAsString("credits"); // If this isn't null, we specified credits.
+            var money = ctx.getOptionAsString("credits", "50"); // Since it can be expressed in M or K.
             var coinSelect = ctx.getOptionAsBoolean("useticket");
             var ticketAmount = ctx.getOptionAsLong("ticketamount", 1);
 
+            if (coinSelect && moneyAbsolute != null) {
+                ctx.reply("commands.slots.errors.tickets_and_credits", EmoteReference.ERROR);
+                return;
+            }
+
             // No need to parse if we aren't gonna use it.
-            if (!coinSelect && !money.equals("50")) {
+            if (!coinSelect && moneyAbsolute != null) {
                 try {
                     var parsed = new RoundedMetricPrefixFormat().parseObject(money, new ParsePosition(0));
                     if (parsed == null) {
-                        ctx.sendLocalized("commands.slots.errors.no_valid_amount", EmoteReference.ERROR);
+                        ctx.reply("commands.slots.errors.no_valid_amount", EmoteReference.ERROR);
                         return;
                     }
 
                     moneyAmount = Math.max(1, Math.abs(parsed));
                 } catch (NumberFormatException e) {
-                    ctx.sendLocalized("general.invalid_number", EmoteReference.ERROR);
+                    ctx.reply("general.invalid_number", EmoteReference.ERROR);
                     return;
                 }
             }
@@ -289,7 +295,7 @@ public class GambleCmds {
 
     private static void slots(IContext ctx, Player player, PlayerStats stats, long money, long coinAmount, boolean ticket) {
         var playerInventory = player.getInventory();
-        var slotsChance = 25; //25% raw chance of winning, completely random chance of winning on the other random iteration
+        var slotsChance = 25; // 25% raw chance of winning, completely random chance of winning on the other random iteration
         var isWin = false;
         var coinSelect = false;
 
