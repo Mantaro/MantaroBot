@@ -273,14 +273,6 @@ public class CustomCmds {
             }
         }
 
-        @Description("Clear ALL custom commands for this server.")
-        public static class ClearAll extends SlashCommand {
-            @Override
-            protected void process(SlashContext ctx) {
-                clearCommand(ctx);
-            }
-        }
-
         @Description("Rename a custom command.")
         @Options({
                 @Options.Option(type = OptionType.STRING, name = "name", description = "The custom command to rename.", required = true),
@@ -1082,6 +1074,10 @@ public class CustomCmds {
     }
 
     private static void clearCommand(IContext ctx) {
+        if (!adminPredicate.test(ctx)) {
+            return;
+        }
+
         // TODO: add confirmation dialog
         if (!ctx.getMember().hasPermission(Permission.MANAGE_SERVER)) {
             return;
@@ -1100,6 +1096,10 @@ public class CustomCmds {
     }
 
     public static void renameCmd(IContext ctx, String cmd, String value) {
+        if (!adminPredicate.test(ctx)) {
+            return;
+        }
+
         if (!NAME_PATTERN.matcher(cmd).matches() || !NAME_PATTERN.matcher(value).matches()) {
             ctx.sendLocalized("commands.custom.character_not_allowed", EmoteReference.ERROR);
             return;
@@ -1140,6 +1140,10 @@ public class CustomCmds {
     }
 
     public static void lockCmd(IContext ctx, String name) {
+        if (!adminPredicate.test(ctx)) {
+            return;
+        }
+
         if (!ctx.getMember().hasPermission(Permission.MANAGE_SERVER)) {
             ctx.sendLocalized("commands.custom.lockcommand.no_permission", EmoteReference.ERROR);
             return;
@@ -1163,6 +1167,10 @@ public class CustomCmds {
     }
 
     public static void unlockCmd(IContext ctx, String name) {
+        if (!adminPredicate.test(ctx)) {
+            return;
+        }
+
         if (!ctx.getMember().hasPermission(Permission.MANAGE_SERVER)) {
             ctx.sendLocalized("commands.custom.lockcommand.no_permission", EmoteReference.ERROR);
             return;

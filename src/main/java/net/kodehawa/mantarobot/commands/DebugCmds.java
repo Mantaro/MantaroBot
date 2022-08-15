@@ -183,14 +183,17 @@ public class DebugCmds {
             if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false))
                 return;
 
-            ctx.reply(
-                    String.format(
-                            Utils.getLocaleFromLanguage(ctx.getI18nContext()),
-                            languageContext.get("commands.ping.text"), EmoteReference.MEGA,
-                            languageContext.get("commands.ping.display"),
-                            ctx.getJDA().getRestPing(), ctx.getJDA().getGatewayPing()
-                    )
-            );
+            ctx.defer();
+            ctx.getJDA().getRestPing().queue(ping -> {
+                ctx.reply(
+                        String.format(
+                                Utils.getLocaleFromLanguage(ctx.getI18nContext()),
+                                languageContext.get("commands.ping.text"), EmoteReference.MEGA,
+                                languageContext.get("commands.ping.display"),
+                                ping, ctx.getJDA().getGatewayPing()
+                        )
+                );
+            });
         }
     }
 
