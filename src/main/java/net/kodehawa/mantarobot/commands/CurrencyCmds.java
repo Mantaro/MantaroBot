@@ -109,7 +109,7 @@ public class CurrencyCmds {
                 @Options.Option(type = OptionType.USER, name = "user", description = "The user to get the inventory of.")
         })
         @Help(description = "Shows your inventory or a user's inventory",
-                usage = "`/inventory [user]`",
+                usage = "`/inventory user:[user]`",
                 parameters = {
                         @Help.Parameter(name = "user", description = "The user to get the inventory of.", optional = true)
                 })
@@ -129,7 +129,7 @@ public class CurrencyCmds {
                 @Options.Option(type = OptionType.USER, name = "user", description = "The user to get the inventory of.")
         })
         @Help(description = "Shows your brief inventory or a user's inventory",
-                usage = "`/inventory brief [user]`",
+                usage = "`/inventory brief user:[user]`",
                 parameters = {
                         @Help.Parameter(name = "user", description = "The user to get the inventory of.", optional = true)
                 })
@@ -149,7 +149,7 @@ public class CurrencyCmds {
                 @Options.Option(type = OptionType.USER, name = "user", description = "The user to get the inventory value of.")
         })
         @Help(description = "Calculate an inventory's worth.",
-                usage = "`/inventory calculate [user]`",
+                usage = "`/inventory calculate user:[user]`",
                 parameters = {
                         @Help.Parameter(name = "user", description = "The user to get the inventory value of.", optional = true)
                 })
@@ -170,7 +170,7 @@ public class CurrencyCmds {
             @Options.Option(type = OptionType.USER, name = "user", description = "The user to get the level of.")
     })
     @Help(description = "Show your level or someone else's level.",
-            usage = "`/level [user]`",
+            usage = "`/level user:[user]`",
             parameters = {
                     @Help.Parameter(name = "user", description = "The user to get the level of.", optional = true)
             })
@@ -191,7 +191,7 @@ public class CurrencyCmds {
     })
     @Help(
             description = "Opens a loot crate.",
-            usage = "`/opencrate [crate]`",
+            usage = "`/opencrate crate:[crate name]`",
             parameters = {
                     @Help.Parameter(name = "crate", description = "The crate to open", optional = true)
             }
@@ -256,7 +256,7 @@ public class CurrencyCmds {
                     Uses an item.
                     You need to have the item to use it, and the item has to be marked as *interactive*.
                     """,
-                usage = "`/useitem [item] [amount]`",
+                usage = "`/useitem item:[item name] amount:[amount]`",
                 parameters = {
                         @Help.Parameter(name = "item", description = "The item to use"),
                         @Help.Parameter(name = "amount", description = "The amount of the item to use. Maximum of 15.", optional = true)

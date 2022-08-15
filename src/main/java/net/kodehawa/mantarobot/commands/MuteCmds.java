@@ -50,7 +50,7 @@ public class MuteCmds {
             @Options.Option(type = OptionType.STRING, name = "time", description = "The amount of time to mute the user for."),
             @Options.Option(type = OptionType.STRING, name = "reason", description = "The reason of the mute.")
     })
-    @Help(description = "Mutes the specified user.", usage = "`/mute <user> <time>`", parameters = {
+    @Help(description = "Mutes the specified user.", usage = "`/mute user:<user> time:<time> reason:[reason]`", parameters = {
             @Help.Parameter(name = "user", description = "The user to mute."),
             @Help.Parameter(
                     name = "time", description = """
@@ -151,6 +151,10 @@ public class MuteCmds {
     @Options({
             @Options.Option(type = OptionType.USER, name = "user", description = "The user to remove the timeout from.", required = true),
             @Options.Option(type = OptionType.STRING, name = "reason", description = "The reason for it.")
+    })
+    @Help(description = "Removes the timeout from a user.", usage = "`/unmute user:<user> reason:[reason]`", parameters = {
+            @Help.Parameter(name = "user", description = "The user to unmute."),
+            @Help.Parameter(name = "reason", description = "The reason of the unmute. This will show in the logs, if enabled.", optional = true)
     })
     public static class UnMute extends SlashCommand {
         @Override

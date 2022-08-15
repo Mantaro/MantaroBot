@@ -96,7 +96,7 @@ public class MoneyCmds {
                     @Help.Parameter(name = "user", description = "The user to give your daily to, without this it gives it to yourself.", optional = true),
                     @Help.Parameter(name = "check", description = "Whether you want to check if you can claim your daily", optional = true)
             },
-            usage = "`/daily [@user] [check]`"
+            usage = "`/daily user:[user] check:[true/false]`"
     )
     public static class Daily extends SlashCommand {
         @Override
@@ -127,7 +127,7 @@ public class MoneyCmds {
     })
     @Help(
             description = "Shows your current balance or another person's balance",
-            usage = "`/balance [user]`",
+            usage = "`/balance user:[user]`",
             parameters = { @Help.Parameter(name = "user", description = "The user to check the balance of.", optional = true) }
     )
     public static class Balance extends SlashCommand {

@@ -105,7 +105,7 @@ public class GambleCmds {
     })
     @Help(
             description = "Gambles your money away. It's like Vegas, but without real money and without the impending doom. Kinda.",
-            usage = "`/gamble [amount]` - amount can be all, half, quarter, an amount of money, or a percentage of your money.",
+            usage = "`/gamble amount:[credits]` - amount can be all, half, quarter, an amount of money, or a percentage of your money.",
             parameters = {
                     // Can't use a text block here, because it doesn't let me use String#formatted on annotation values?
                     @Help.Parameter(
@@ -138,8 +138,8 @@ public class GambleCmds {
                         """,
             usage = """
                     `/slots` - Default one, 50 credits.
-                    `/slots [credits]` - Puts x credits on the slot machine. You can put a maximum of 50,000 credits.
-                    /slots [useticket] [ticketamount]` - Rolls the slot machine with the specified slot coins.
+                    `/slots credits:[credits]` - Puts x credits on the slot machine. You can put a maximum of 50,000 credits.
+                    /slots useticket:[true/false] ticketamount:[ticket count]` - Rolls the slot machine with the specified slot coins.
                     Using tickets increases your chance by 6 to 12%. Maximum amount of tickets allowed is 100.
                     """,
             parameters = {

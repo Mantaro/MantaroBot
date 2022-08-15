@@ -224,6 +224,14 @@ public class CustomCmds {
                 @Options.Option(type = OptionType.STRING, name = "name", description = "The custom command to view", required = true),
                 @Options.Option(type = OptionType.INTEGER, name = "response", description = "The response to view", required = true)
         })
+        @Help(
+                description = "Views the response of a custom command.",
+                usage = "/custom view name:<name> response:[response num]",
+                parameters = {
+                        @Help.Parameter(name = "name", description = "The name of the custom command to view."),
+                        @Help.Parameter(name = "response", description = "The response number of the response to view (shown on /custom raw)."),
+                }
+        )
         public static class View extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -235,6 +243,13 @@ public class CustomCmds {
         @Options({
                 @Options.Option(type = OptionType.STRING, name = "name", description = "The custom command to view.", required = true)
         })
+        @Help(
+                description = "View a custom command in raw form.",
+                usage = "/custom raw name:<name>",
+                parameters = {
+                        @Help.Parameter(name = "name", description = "The name of the custom command to view.")
+                }
+        )
         public static class Raw extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -246,6 +261,13 @@ public class CustomCmds {
         @Options({
                 @Options.Option(type = OptionType.STRING, name = "name", description = "The custom command to view.", required = true)
         })
+        @Help(
+                description = "Shows information about a custom command.",
+                usage = "/custom info name:<name>",
+                parameters = {
+                        @Help.Parameter(name = "name", description = "The name of the custom command to view info of.")
+                }
+        )
         public static class Info extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -266,6 +288,14 @@ public class CustomCmds {
                 @Options.Option(type = OptionType.STRING, name = "name", description = "The custom command to rename.", required = true),
                 @Options.Option(type = OptionType.STRING, name = "new", description = "What to rename it to.", required = true)
         })
+        @Help(
+                description = "Shows information about a custom command.",
+                usage = "/custom rename name:<name> new:<new name>",
+                parameters = {
+                        @Help.Parameter(name = "name", description = "The name of the custom command to rename."),
+                        @Help.Parameter(name = "new", description = "The new name to use")
+                }
+        )
         public static class Rename extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -300,6 +330,14 @@ public class CustomCmds {
                 @Options.Option(type = OptionType.STRING, name = "name", description = "The custom command to remove a response from.", required = true),
                 @Options.Option(type = OptionType.INTEGER, name = "response", description = "The response to remove.", required = true)
         })
+        @Help(
+                description = "Deletes a response from a custom command.",
+                usage = "/custom deleteresponse name:<name> response:[response num]",
+                parameters = {
+                        @Help.Parameter(name = "name", description = "The name of the custom command to delete a response of."),
+                        @Help.Parameter(name = "response", description = "The response number of the response to delete (shown on /custom raw)."),
+                }
+        )
         public static class DeleteResponse extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -498,6 +536,16 @@ public class CustomCmds {
                 @Options.Option(type = OptionType.STRING, name = "content", description = "The content to put.", required = true),
                 @Options.Option(type = OptionType.BOOLEAN, name = "nsfw", description = "Whether the command is NSFW or not.", required = true)
         })
+        @Help(
+                description = "Deletes a response from a custom command.",
+                usage = "/custom edit name:<name> response:[response num] content:[new response content] nsfw:[true/false]",
+                parameters = {
+                        @Help.Parameter(name = "name", description = "The name of the custom command to edit."),
+                        @Help.Parameter(name = "response", description = "The response number of the response to edit."),
+                        @Help.Parameter(name = "content", description = "The new content for the response."),
+                        @Help.Parameter(name = "nsfw", description = "Whether the entire command should be marked as nsfw."),
+                }
+        )
         public static class Edit extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {

@@ -88,7 +88,7 @@ public class PlayerCmds {
     })
     @Help(
             description = "Gives a reputation point to a user. This command is only usable every 12 hours.",
-            usage = "`/reputation <user> [check]` - Give a reputation point to a specified user. Use check if you wanna check if you can give it.",
+            usage = "`/reputation user:<user> check:[true/false]` - Give a reputation point to a specified user. Use check if you wanna check if you can give it.",
             parameters = {
                     @Help.Parameter(name = "user", description = "The user to give reputation to"),
                     @Help.Parameter(name = "check", description = "Check if you can give reputation", optional = true)
@@ -174,7 +174,7 @@ public class PlayerCmds {
     })
     @Help(
             description = "Equips an item into a slot.",
-            usage = "`/equip [item]`",
+            usage = "`/equip item:<item name>`",
             parameters = {
                     @Help.Parameter(name = "item", description = "The item to equip.")
             }
@@ -236,7 +236,7 @@ public class PlayerCmds {
     })
     @Help(
             description = "Unequips an item from a slot.",
-            usage = "`/unequip [item]`",
+            usage = "`/unequip item:<pickaxe/rod/axe/wrench>`",
             parameters = {
                     @Help.Parameter(name = "item", description = "The item to unequip.")
             }
@@ -349,7 +349,7 @@ public class PlayerCmds {
                 @Options.Option(type = OptionType.BOOLEAN, name = "brief", description = "Whether to see it in brief format.")
         })
         @Help(description = "Shows your badge list, or someone else's list.",
-                usage = "`/badges show [user] [brief]`",
+                usage = "`/badges show user:[user] brief:[true/false]`",
                 parameters = {
                         @Help.Parameter(name = "user", description = "The user to check. If none, you.", optional = true),
                         @Help.Parameter(name = "brief", description = "Whether to show this in brief format. Default is false.", optional = true),

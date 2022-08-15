@@ -132,8 +132,8 @@ public class MiscCmds {
     @Help(
             description = "Get or remove an autorole that your server administrators have set up.",
             usage = """
-                    /iam add [name] - Get the autorole with the specified name.
-                    /iam not [name] - Remove the autorole with the specified name.
+                    /iam add name:[iam role name] - Get the autorole with the specified name.
+                    /iam not name:[iam role name] - Remove the autorole with the specified name.
                     /iam list - Check the list of autoroles.
                     """
     )
@@ -256,10 +256,10 @@ public class MiscCmds {
             @Options.Option(type = OptionType.STRING, name = "image", description = "An image URL for the poll"),
     })
     @Help(description = "Creates a poll.", usage = """
-            `/poll <name> <time> <options> [image]`
+            `/poll name:<name> time:<time> options:<poll options> image:[image url]`
             To cancel the running poll type &cancelpoll. Only the person who started it or an Admin can cancel it.
             The bot needs to be able to send and read messages on the channel this is ran for this to work.
-            Example: `/poll test poll 10m30s "hi there","wew","owo what's this"`
+            Example: `/poll name:test poll time:10m30s options:"hi there","wew","owo what's this"`
             """, parameters = {
                 @Help.Parameter(name = "name", description = "The name of the option."),
                 @Help.Parameter(name = "time", description = "The time the poll is gonna run for. The format is as follows `1m30s` for 1 minute and 30 seconds. Maximum poll runtime is 45 minutes."),

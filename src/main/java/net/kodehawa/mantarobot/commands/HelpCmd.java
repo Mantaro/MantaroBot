@@ -86,7 +86,7 @@ public class HelpCmd {
     })
     @Help(
             description = "The command you're using right now. Shows a list of commands or the command usage.",
-            usage = "`/help [command]`",
+            usage = "`/help command:[command path]`",
             parameters = {
                     @Help.Parameter(
                             name = "command",

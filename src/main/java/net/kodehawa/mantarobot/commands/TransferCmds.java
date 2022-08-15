@@ -87,7 +87,7 @@ public class TransferCmds {
                     The maximum amount you can transfer at once is 500000 credits.
                     Current tax rate is 8%%.
                     """,
-            usage = "`/transfer <@user> <money>` - Transfers money to x player.",
+            usage = "`/transfer user:<user> money:<amount>` - Transfers money to x player.",
             parameters = {
                     @Help.Parameter(name = "user", description = "The user to transfer money to."),
                     @Help.Parameter(name = "money", description = "The amount to transfer to the user.")
@@ -197,7 +197,7 @@ public class TransferCmds {
     })
     @Help(
             description = "Transfers items from you to another player.",
-            usage = "`/transferitems <user> <item> [amount]`",
+            usage = "`/transferitems user:<user> item:<item name> amount:[amount]`",
             parameters = {
                     @Help.Parameter(name = "user", description = "The user to transfer money to. Needs to be in the server you're running the command in."),
                     @Help.Parameter(name = "amount", description = "The amount of the item to transfer. If not specified, this is 1. Maximum is 5000.", optional = true),

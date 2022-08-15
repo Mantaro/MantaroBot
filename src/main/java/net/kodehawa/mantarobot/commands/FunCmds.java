@@ -68,7 +68,7 @@ public class FunCmds {
     @Options({
             @Options.Option(type = OptionType.INTEGER, name = "times", description = "The amount of times to flip the coin.", maxValue = 100)
     })
-    @Help(description = "Flips a coin with a defined number of repetitions.", usage = "`/coinflip [times]` - Flips a coin x number of times",
+    @Help(description = "Flips a coin with a defined number of repetitions.", usage = "`/coinflip times:[n]` - Flips a coin x number of times",
             parameters = {
                 @Help.Parameter(name = "times", description = "The amount of times to flip the coin.", optional = true)
             })
@@ -94,7 +94,7 @@ public class FunCmds {
     @Options({
             @Options.Option(type = OptionType.USER, name = "user", description = "The user to rate.", required = true)
     })
-    @Help(description = "Rates your waifu from zero to 100. Results may vary.", usage = "`/ratewaifu <user>`", parameters = {
+    @Help(description = "Rates your waifu from zero to 100. Results may vary.", usage = "`/ratewaifu user:<user>`", parameters = {
             @Help.Parameter(name = "user", description = "The user to rate.")
     })
     public static class RateWaifu extends SlashCommand {
@@ -130,8 +130,8 @@ public class FunCmds {
                     By default, this command will roll a 6-sized dice 1 time.
                     """,
             usage = """
-                    `/roll [times]`: Rolls a dice of the specified size the specified times.
-                    D20 Format: For this, 1d20 would be `~>roll -size 20 -amount 1` or just `1d20` (aka DND format)
+                    `/roll times:[dnd format]`: Rolls a dice of the specified size the specified times.
+                    D20 Format: For this, 1d20 would be `~>roll times:1d20` (aka DND format)
                     """,
             parameters = {@Help.Parameter(name = "times", description = "The amount of times to roll, in d20 format")}
     )
@@ -192,7 +192,7 @@ public class FunCmds {
     @Options({
             @Options.Option(type = OptionType.USER, name = "user", description = "The user to compare with.", required = true)
     })
-    @Help(description = "Calculates the love between 2 discord users. Results may vary. This is random, for real.", usage = "`/love [user]`",
+    @Help(description = "Calculates the love between 2 discord users. Results may vary. This is random, for real.", usage = "`/love user:[user]`",
     parameters = {
             @Help.Parameter(name = "user", description = "The user to compare with.")
     })

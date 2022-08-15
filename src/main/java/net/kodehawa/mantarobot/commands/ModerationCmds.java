@@ -51,7 +51,7 @@ public class ModerationCmds {
             @Options.Option(type = OptionType.USER, name = "user", description = "The user to soft-ban.", required = true),
             @Options.Option(type = OptionType.STRING, name = "reason", description = "The soft-ban reason.")
     })
-    @Help(description = "Bans the specified user.", usage = "`/softban <user> [reason]`", parameters = {
+    @Help(description = "Bans the specified user.", usage = "`/softban user:<user> reason:[reason]`", parameters = {
             @Help.Parameter(name = "user", description = "The user to soft-ban."),
             @Help.Parameter(name = "reason", description = "The soft-ban reason.", optional = true)
     })

@@ -204,8 +204,8 @@ public class MarketCmd {
                 @Options.Option(type = OptionType.STRING, name = "item", description = "The item name.", required = true)
         })
         @Help(
-                description = "Looks up the price of an item.", 
-                usage = "`/market price [item]`",
+                description = "Looks up the price of an item.",
+                usage = "`/market price item:<item>`",
                 parameters = {
                         @Help.Parameter(name = "item", description = "The item name.")
                 }
@@ -229,7 +229,7 @@ public class MarketCmd {
     @Help(
             description = "Buys an item",
             usage = """
-                    To buy an item do `/buy <amount> <item>`. The maximum amount is 5000.
+                    To buy an item do `/buy amount:<amount> item:<item name>`. The maximum amount is 5000.
                     """,
             parameters = {
                     @Help.Parameter(name = "amount", description = "The amount of the item to buy."),
@@ -253,7 +253,7 @@ public class MarketCmd {
     @Help(
             description = "Sells an item",
             usage = """
-                    To sell an item do `/sell <amount> <item>`. The maximum amount is the amount of items you have.
+                    To sell an item do `/sell amount:<amount> item:<item name>`. The maximum amount is the amount of items you have.
                     """,
             parameters = {
                     @Help.Parameter(name = "amount", description = "The amount of the item to sell."),
@@ -278,7 +278,7 @@ public class MarketCmd {
     @Help(
             description = "Dumps an item",
             usage = """
-                    To dump an item do `/dump <amount> <item>`.
+                    To dump an item do `/dump amount:<amount> item:<item name>`.
                     """,
             parameters = {
                     @Help.Parameter(name = "amount", description = "The amount of the item to dump"),
@@ -574,7 +574,7 @@ public class MarketCmd {
                 EmoteReference.MARKET, item.getEmoji() + " ", item.getName(), item.getValue(), Math.round(item.getValue() * 0.9)
         );
     }
-    
+
     private static void dump(IContext ctx, String itemName, int itemNumber, IncreasingRateLimiter rateLimiter) {
         if (itemNumber < 1) {
             ctx.sendLocalized("commands.market.dump.invalid", EmoteReference.ERROR);

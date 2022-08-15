@@ -18,6 +18,7 @@
 package net.kodehawa.mantarobot.core.command.slash;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
@@ -82,6 +83,18 @@ public abstract class SlashCommand {
                 if (option.type() == OptionType.INTEGER || option.type() == OptionType.NUMBER) {
                     data.setMinValue(option.minValue())
                             .setMaxValue(option.maxValue());
+                }
+
+                if (option.choices().length > 0 && option.type().canSupportChoices()) {
+                    data.addChoices(Arrays.stream(option.choices()).map(choice -> {
+                        if (option.type() == OptionType.NUMBER) {
+                            return new Command.Choice(choice.description(), Double.parseDouble(choice.value()));
+                        } else if (option.type() == OptionType.INTEGER) {
+                            return new Command.Choice(choice.description(), Integer.parseInt(choice.value()));
+                        } else {
+                            return new Command.Choice(choice.description(), choice.value());
+                        }
+                    }).toList());
                 }
 
                 types.add(data);
