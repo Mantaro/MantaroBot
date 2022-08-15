@@ -581,7 +581,10 @@ public class ProfileCmd {
         }
 
         @Description("Set the profile widget order. This is premium-only.")
-        @Options({@Options.Option(type = OptionType.STRING, name = "order", description = "The widget order. Use reset to reset them. If nothing is specified, it prints a list.")})
+        @Options({
+                @Options.Option(type = OptionType.STRING, name = "order", description = "The widget order. Use reset to reset them. If nothing is specified, it prints a list."),
+                @Options.Option(type = OptionType.BOOLEAN, name = "reset", description = "Set to true if you want to reset the order.")
+        })
         public static class Widgets extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -595,10 +598,17 @@ public class ProfileCmd {
 
                 var player = ctx.getPlayer();
                 var playerData = player.getData();
-                var content = ctx.getOptionAsString("order");
+                if (ctx.getOptionAsBoolean("reset")) {
+                    playerData.getProfileComponents().clear();
+                    player.save();
 
+                    ctx.replyEphemeral("commands.profile.display.reset", EmoteReference.CORRECT);
+                    return;
+                }
+
+                var content = ctx.getOptionAsString("order");
                 if (content == null) {
-                    ctx.replyEphemeral(
+                    ctx.replyEphemeralRaw(
                             lang.get("commands.profile.display.ls") +
                                     lang.get("commands.profile.display.example"),
                             EmoteReference.ZAP, EmoteReference.BLUE_SMALL_MARKER,
@@ -609,14 +619,6 @@ public class ProfileCmd {
                                             .map(Enum::name)
                                             .collect(Collectors.joining(", "))
                     );
-                    return;
-                }
-
-                if (content.equalsIgnoreCase("reset")) {
-                    playerData.getProfileComponents().clear();
-                    player.save();
-
-                    ctx.replyEphemeral("commands.profile.display.reset", EmoteReference.CORRECT);
                     return;
                 }
 
