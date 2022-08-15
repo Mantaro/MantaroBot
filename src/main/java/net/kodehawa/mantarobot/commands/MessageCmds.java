@@ -51,7 +51,7 @@ public class MessageCmds {
             @Options.Option(type = OptionType.BOOLEAN, name = "botonly", description = "Only prune messages from bots"),
             @Options.Option(type = OptionType.BOOLEAN, name = "skippinned", description = "Don't prune pinned messages"),
             @Options.Option(type = OptionType.USER, name = "user", description = "Only prune messages from the specified user"),
-            @Options.Option(type = OptionType.STRING, name = "reason", description = "The prune reason.")
+            @Options.Option(type = OptionType.STRING, name = "reason", description = "The prune reason")
     })
     @Help(
             description = "Prunes X amount of messages from a channel. Requires Message Manage permission.",
@@ -61,6 +61,7 @@ public class MessageCmds {
                     @Help.Parameter(name = "user", description = "Only prune from this specific user.", optional = true),
                     @Help.Parameter(name = "botonly", description = "Only prune bot messages.", optional = true),
                     @Help.Parameter(name = "skippinned", description = "Don't prune pinned messages.", optional = true),
+                    @Help.Parameter(name = "reason", description = "The reason you used this command. Will show up in mod logs if enabled.", optional = true),
             }
     )
     public static class Prune extends SlashCommand {

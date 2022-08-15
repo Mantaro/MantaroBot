@@ -23,6 +23,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.Modal;
@@ -654,7 +655,12 @@ public class ProfileCmd {
 
         // start of badge assigning
         final var mh = MantaroBot.getInstance().getShardManager().getGuildById("213468583252983809");
-        final var mhMember = mh == null ? null : mh.retrieveMemberById(userLooked.getId()).useCache(true).complete();
+        Member mhMember = null;
+        if (mh != null) {
+            try {
+                mhMember = mh.retrieveMemberById(userLooked.getId()).useCache(true).complete();
+            } catch (ErrorResponseException ignored) { } // Expected UNKNOWN_MEMBER
+        }
 
         Badge.assignBadges(player, player.getStats(), dbUser);
         var christmasBadgeAssign = inv.asList()
