@@ -223,8 +223,8 @@ public class MarketCmd {
     @Description("Buys an item.")
     @Category(CommandCategory.CURRENCY)
     @Options({
-            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to buy.", maxValue = 5000, required = true),
-            @Options.Option(type = OptionType.STRING, name = "item", description = "The item to buy", required = true)
+            @Options.Option(type = OptionType.STRING, name = "item", description = "The item to buy", required = true),
+            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to buy.", maxValue = 5000)
     })
     @Help(
             description = "Buys an item",
@@ -247,8 +247,8 @@ public class MarketCmd {
     @Description("Sells an item.")
     @Category(CommandCategory.CURRENCY)
     @Options({
-            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to sell.", maxValue = 5000, required = true),
-            @Options.Option(type = OptionType.STRING, name = "item", description = "The item to sell", required = true)
+            @Options.Option(type = OptionType.STRING, name = "item", description = "The item to sell", required = true),
+            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to sell.", maxValue = 5000)
     })
     @Help(
             description = "Sells an item",
@@ -272,8 +272,8 @@ public class MarketCmd {
     @Description("Dumps an item.")
     @Category(CommandCategory.CURRENCY)
     @Options({
-            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to dump.", maxValue = 5000, required = true),
-            @Options.Option(type = OptionType.STRING, name = "item", description = "The item to dump", required = true)
+            @Options.Option(type = OptionType.STRING, name = "item", description = "The item to dump", required = true),
+            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to dump.", maxValue = 5000)
     })
     @Help(
             description = "Dumps an item",
