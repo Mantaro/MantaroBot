@@ -607,7 +607,7 @@ public class ProfileCmd {
                 }
 
                 var content = ctx.getOptionAsString("order");
-                if (content == null) {
+                if (content == null || content.equalsIgnoreCase("ls")) {
                     ctx.replyEphemeralRaw(
                             lang.get("commands.profile.display.ls") +
                                     lang.get("commands.profile.display.example"),
@@ -633,7 +633,7 @@ public class ProfileCmd {
                 }
 
                 if (newComponents.size() < 3) {
-                    ctx.replyEphemeral(lang.get("commands.profile.display.not_enough") +
+                    ctx.replyEphemeralRaw(lang.get("commands.profile.display.not_enough") +
                             lang.get("commands.profile.display.example"), EmoteReference.WARNING
                     );
 

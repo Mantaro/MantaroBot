@@ -24,10 +24,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.meta.Category;
-import net.kodehawa.mantarobot.core.command.meta.Description;
-import net.kodehawa.mantarobot.core.command.meta.Help;
-import net.kodehawa.mantarobot.core.command.meta.Name;
+import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
@@ -163,6 +160,7 @@ public class DebugCmds {
     }
 
     @Name("ping")
+    @Defer
     @Description("Checks the response time of the bot.")
     @Category(CommandCategory.INFO)
     @Help(description = "Plays Ping-Pong with Discord and prints out the result.")
@@ -183,7 +181,6 @@ public class DebugCmds {
             if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false))
                 return;
 
-            ctx.defer();
             ctx.getJDA().getRestPing().queue(ping -> {
                 ctx.reply(
                         String.format(

@@ -357,7 +357,7 @@ public class CustomCmds {
                 }
 
                 var lang = ctx.getLanguageContext();
-                var subject = TextInput.create("content", lang.get("commands.custom.add.header_slash"), TextInputStyle.PARAGRAPH)
+                var subject = TextInput.create("content", lang.get("commands.custom.add.content_slash"), TextInputStyle.PARAGRAPH)
                         .setPlaceholder(lang.get("commands.custom.add.content_placeholder"))
                         .setRequiredRange(5, 3900)
                         .build();
