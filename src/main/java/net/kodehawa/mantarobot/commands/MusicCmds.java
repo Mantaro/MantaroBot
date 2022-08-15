@@ -30,10 +30,7 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.meta.Category;
-import net.kodehawa.mantarobot.core.command.meta.Description;
-import net.kodehawa.mantarobot.core.command.meta.Help;
-import net.kodehawa.mantarobot.core.command.meta.Options;
+import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -66,6 +63,7 @@ public class MusicCmds {
     }
 
     @Description("Plays a song.")
+    @Defer // We call getHook directly, need to defer this.
     @Category(CommandCategory.MUSIC)
     @Options({
             @Options.Option(type = OptionType.STRING, name = "song", description = "The song to play. Can be an URL or a search term.", required = true),
@@ -465,7 +463,6 @@ public class MusicCmds {
             } else content = "ytsearch: " + content;
         }
 
-        ctx.defer();
         MantaroBot.getInstance().getAudioManager().loadAndPlay(ctx, content, firstSelection, force, ctx.getLanguageContext());
         TextChannelGround.of(ctx.getChannel()).dropItemWithChance(0, 5);
     }

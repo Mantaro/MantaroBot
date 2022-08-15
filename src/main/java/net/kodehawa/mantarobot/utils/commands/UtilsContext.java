@@ -59,8 +59,13 @@ public class UtilsContext {
     public Message send(String message) {
         if (slashEvent == null)
             return channel.sendMessage(message).complete();
-        else
+        else {
+            if (!slashEvent.isAcknowledged()) {
+                slashEvent.deferReply().queue();
+            }
+
             return slashEvent.getHook().editOriginal(message).complete();
+        }
     }
 
     public Message send(MessageEmbed message) {

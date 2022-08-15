@@ -131,11 +131,8 @@ public class Poll extends Lobby {
             }
 
             // Pain peko.
-            ctx.getEvent().deferReply().queue();
-            ctx.getEvent()
-                    .getHook()
-                    .sendMessageEmbeds(builder.build())
-                    .queue(message -> createPoll(ctx, message, languageContext));
+            ctx.getEvent().deferReply().queue(s -> s.sendMessageEmbeds(builder.build())
+                    .queue(message -> createPoll(ctx, message, languageContext)));
 
             InteractiveOperations.create(getChannel(), Long.parseLong(owner), timeout, e -> {
                 if (e.getAuthor().getId().equals(owner)) {
