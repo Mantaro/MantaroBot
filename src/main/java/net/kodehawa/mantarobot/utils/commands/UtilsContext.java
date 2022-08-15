@@ -67,9 +67,8 @@ public class UtilsContext {
         if (slashEvent == null)
             return channel.sendMessageEmbeds(message).complete();
         else {
-            // What kind of meme is this?
             if (!slashEvent.isAcknowledged()) {
-                slashEvent.getHook().getInteraction();
+                slashEvent.deferReply().queue();
             }
 
             return slashEvent.getHook().editOriginalEmbeds(message).setContent("").complete();

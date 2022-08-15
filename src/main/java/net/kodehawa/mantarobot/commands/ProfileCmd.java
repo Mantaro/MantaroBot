@@ -428,7 +428,7 @@ public class ProfileCmd {
                     var newContext = new I18nContext(ctx.getDBGuild().getData(), dbUser.getData());
 
                     dbUser.saveUpdating();
-                    ctx.replyEphemeral(newContext.get("commands.profile.lang.success"), EmoteReference.CORRECT, content);
+                    ctx.replyEphemeralRaw(newContext.get("commands.profile.lang.success"), EmoteReference.CORRECT, content);
                 } else {
                     ctx.replyEphemeral("commands.profile.lang.invalid", EmoteReference.ERROR);
                 }
