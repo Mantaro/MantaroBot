@@ -52,7 +52,6 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.CustomCommand;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
@@ -553,7 +552,7 @@ public class CustomCmds {
 
                 var lang = ctx.getLanguageContext();
                 var subject = TextInput.create("content", lang.get("commands.custom.edit.content_slash"), TextInputStyle.PARAGRAPH)
-                        .setPlaceholder(lang.get("commands.custom.add.content_slash_placeholder"))
+                        .setPlaceholder(lang.get("commands.custom.edit.content_placeholder"))
                         .setRequiredRange(5, 3900)
                         .build();
 
