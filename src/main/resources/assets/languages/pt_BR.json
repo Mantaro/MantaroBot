@@ -462,7 +462,12 @@
         "not_enough_args": "%1$sVocê precisa especificar o comando que você quer renomear e o novo nome."
       },
       "add": {
+        "header_slash": "Custom Command Creation.",
+        "content_placeholder": "Command content goes here.",
+        "name_slash": "Custom Command name",
+        "custom_name_placeholder": "Name goes here.",
         "no_command": "%1$sVocê tem que especificar o comando que você quer adicionar.",
+        "time_out": "%1$sThe time for this custom command interaction has ran out (or you cancelled it).",
         "not_enough_args": "%1$sVocê tem que especificar o nome do comando e a resposta do comando que você quer adicionar.",
         "empty_content": "%1$sVocê precisa especificar o conteúdo deste comando personalizado",
         "too_long": "%1$sO conteúdo deste comando é muito longo e o bot não é capaz de mostrar. Certifique-se de que o comando tem menos que %2$,d caracteres.",
@@ -882,13 +887,13 @@
         "reset_success": "%1$sTempo redefinido com sucesso."
       },
       "description": {
-        "header": "Profile Description",
-        "content_placeholder": "Your description goes here.",
+        "header": "Profile Description.",
+        "content_placeholder": "Your profile description goes here.",
         "no_content": "%1$sYou didn't specify what you want on your description.",
         "too_long": "%1$sA descrição é muita longa! (Limite de 300 caracteres para todos e 500 para usuários premium)",
         "success": "%1$sI set your profile description successfully. Check your shiny new profile with `/profile show`",
         "clear_success": "%1$sDescrição apagada com sucesso.",
-        "time_out": "%1$sThe time to set your profile description has ran out. Please run this command again."
+        "time_out": "%1$sThe time to set your profile description has ran out (or you cancelled it)."
       },
       "displaybadge": {
         "not_specified": "%1$sVocê precisa especificar sua insígnia principal! Por exemplo, `profile displaybadge claimer`",
@@ -1010,7 +1015,7 @@
       "hidelegacy": "%1$sO status de Ocultar Créditos de Patrimônio é: `%2$s`",
       "tools_show": "%1$sShow tools",
       "level_show": "%1$sShow level",
-      "back": "%1$sGo back."
+      "back": "%1$sGo back"
     },
     "badges": {
       "info": {
@@ -1790,7 +1795,8 @@
         "no_tickets": "%1$sVocê tentou usar tickets mas você não tem nenhum :<",
         "no_amount": "%1$sVocê não especificou a quantidade!",
         "no_valid_amount": "%1$sIsso não é uma quantia válida de dinheiro! (Exemplo de quantias válidas: 1000, 1k, 14000)",
-        "too_many_tickets": "%1$sVocê está tentando usar muitos tickets de caça-níquel. Máximo permitido é %2$d"
+        "too_many_tickets": "%1$sVocê está tentando usar muitos tickets de caça-níquel. Máximo permitido é %2$d",
+        "tickets_and_credits": "%1$sYou can only use tickets or credits, not both."
       },
       "roll": "%1$s**Você usou %2$s e rolou o caça-níquel**\n",
       "win": "E você ganhou **%1$d** créditos e pode ficar com o que você apostou (%2$d créditos)! Sortudo!",
