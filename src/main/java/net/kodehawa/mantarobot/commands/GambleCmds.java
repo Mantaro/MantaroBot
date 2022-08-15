@@ -154,8 +154,8 @@ public class GambleCmds {
             var player = ctx.getPlayer();
             var stats = ctx.db().getPlayerStats(ctx.getAuthor());
             var moneyAmount = 50L;
-
             var moneyAbsolute = ctx.getOptionAsString("credits"); // If this isn't null, we specified credits.
+
             var money = ctx.getOptionAsString("credits", "50"); // Since it can be expressed in M or K.
             var coinSelect = ctx.getOptionAsBoolean("useticket");
             var ticketAmount = ctx.getOptionAsLong("ticketamount", 1);
