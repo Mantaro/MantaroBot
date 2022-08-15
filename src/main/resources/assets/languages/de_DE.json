@@ -462,7 +462,12 @@
         "not_enough_args": "%1$sDu musst den Befehl angeben, den du umbenennen willst und den neuen Namen."
       },
       "add": {
+        "header_slash": "Custom Command Creation.",
+        "content_placeholder": "Command content goes here.",
+        "name_slash": "Custom Command name",
+        "custom_name_placeholder": "Name goes here.",
         "no_command": "%1$sDu musst den Befehl angeben, den du hinzufügen willst.",
+        "time_out": "%1$sThe time for this custom command interaction has ran out (or you cancelled it).",
         "not_enough_args": "%1$sDu musst den Befehlsnamen und die Antwort für den Befehl angeben, den du hinzufügen willst.",
         "empty_content": "%1$sDu musst den Inhalt für diesen benutzerdefinierten Befehl angeben.",
         "too_long": "%1$sDer Inhalt des Befehls ist zu lang und der Bot wird nicht in der Lage sein ihn darzustellen. Stelle sicher, dass der Befehl weniger als %2$,d Zeichen hat.",
@@ -882,13 +887,13 @@
         "reset_success": "%1$sZeitzone erfolgreich zurückgesetzt."
       },
       "description": {
-        "header": "Profile Description",
-        "content_placeholder": "Your description goes here.",
+        "header": "Profile Description.",
+        "content_placeholder": "Your profile description goes here.",
         "no_content": "%1$sYou didn't specify what you want on your description.",
         "too_long": "%1$sDie Beschreibung ist zu lang! (Limit von 300 Zeichen für alle und 500 für Premium-Nutzer)",
         "success": "%1$sI set your profile description successfully. Check your shiny new profile with `/profile show`",
         "clear_success": "%1$sBeschreibung erfolgreich gelöscht.",
-        "time_out": "%1$sThe time to set your profile description has ran out. Please run this command again."
+        "time_out": "%1$sThe time to set your profile description has ran out (or you cancelled it)."
       },
       "displaybadge": {
         "not_specified": "%1$sYou need to specify your main badge! For example, `/profile displaybadge claimer`",
@@ -1010,7 +1015,7 @@
       "hidelegacy": "%1$sLegacy credits hide status is now: `%2$s`",
       "tools_show": "%1$sShow tools",
       "level_show": "%1$sShow level",
-      "back": "%1$sGo back."
+      "back": "%1$sGo back"
     },
     "badges": {
       "info": {
@@ -1790,7 +1795,8 @@
         "no_tickets": "%1$sDu willst Tickets benutzen, hast aber keine :<",
         "no_amount": "%1$sDu hast keine Anzahl angegeben!",
         "no_valid_amount": "%1$sDas ist keine gültige Menge an Geld! (Beispiele: 1000, 1k, 14000)",
-        "too_many_tickets": "%1$sDu versuchst zu viele Automatentickets zu nutzen. Das Maximum ist %2$d"
+        "too_many_tickets": "%1$sDu versuchst zu viele Automatentickets zu nutzen. Das Maximum ist %2$d",
+        "tickets_and_credits": "%1$sYou can only use tickets or credits, not both."
       },
       "roll": "%1$s**Du hast %2$s genutzt und am Automaten gespielt**\n",
       "win": "Und du hast **%1$,d** Credits gewonnen und behältst, was du gesetzt hast (%2$,d Credits)! Glück!",
