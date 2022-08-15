@@ -48,7 +48,7 @@ public abstract class ContextCommand<T> {
             this.permission = p.value();
         }
         this.ephemeral = clazz.getAnnotation(Ephemeral.class) != null;
-        this.defer = clazz.getAnnotation(NoDefer.class) == null;
+        this.defer = clazz.getAnnotation(Defer.class) != null;
         this.guildOnly = clazz.getAnnotation(GuildOnly.class) != null;
     }
 

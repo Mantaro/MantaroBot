@@ -335,6 +335,7 @@ public class ActionCmds {
 
     @Subscribe
     public void register(CommandRegistry cr) {
+        // This all are deferred in the parent class.
         cr.registerSlash(Pat.class);
         cr.registerSlash(Hug.class);
         cr.registerSlash(Kiss.class);

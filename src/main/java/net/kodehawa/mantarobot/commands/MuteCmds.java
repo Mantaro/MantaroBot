@@ -21,10 +21,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.meta.Category;
-import net.kodehawa.mantarobot.core.command.meta.Description;
-import net.kodehawa.mantarobot.core.command.meta.Help;
-import net.kodehawa.mantarobot.core.command.meta.Options;
+import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -44,6 +41,7 @@ public class MuteCmds {
     }
 
     @Description("Times out a user.")
+    @Defer
     @Category(CommandCategory.MODERATION)
     @Options({
             @Options.Option(type = OptionType.USER, name = "user", description = "The user to mute.", required = true),
@@ -147,6 +145,7 @@ public class MuteCmds {
     }
 
     @Description("Removes the timeout from a user.")
+    @Defer
     @Category(CommandCategory.MODERATION)
     @Options({
             @Options.Option(type = OptionType.USER, name = "user", description = "The user to remove the timeout from.", required = true),

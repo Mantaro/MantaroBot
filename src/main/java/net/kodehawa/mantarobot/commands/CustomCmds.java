@@ -355,7 +355,6 @@ public class CustomCmds {
         }
 
         @Description("Add a custom command. This will open a pop-up.")
-        @NoDefer // Can't defer on pop-ups. No issue, just don't defer at all.
         @Options(@Options.Option(type = OptionType.BOOLEAN, name = "nsfw", description = "Whether the command is NSFW or not.", required = true))
         @Help(description = "Add a custom command. This will open a pop-up. The pop-up will time out in 5 minutes.")
         public static class Add extends SlashCommand {
@@ -528,7 +527,6 @@ public class CustomCmds {
         }
 
         @Description("Edits a custom command. This will open a pop-up for content.")
-        @NoDefer
         @Options({
                 @Options.Option(type = OptionType.STRING, name = "name", description = "The custom command to edit.", required = true),
                 @Options.Option(type = OptionType.INTEGER, name = "response", description = "The response number to edit.", required = true),

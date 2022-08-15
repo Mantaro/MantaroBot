@@ -98,6 +98,7 @@ public class GambleCmds {
     }
 
     @Name("gamble")
+    @Defer // Just in case
     @Description("Gambles your money away. It's like Vegas, but without the impending doom.")
     @Category(CommandCategory.CURRENCY)
     @Options({
@@ -123,6 +124,7 @@ public class GambleCmds {
     }
 
     @Name("slots")
+    @Defer // Just in case
     @Description("Rolls the slot machine.")
     @Category(CommandCategory.CURRENCY)
     @Options({

@@ -101,6 +101,7 @@ public class ImageCmds {
         @Override
         protected void process(SlashContext ctx) {}
         @Name("cat")
+        @Defer
         @Description("Sends a random cat image. Really cute stuff.")
         @Help(description = "Sends a random cat image. Really cute stuff, you know?")
         public static class Cat extends SlashCommand {
@@ -124,6 +125,7 @@ public class ImageCmds {
         }
 
         @Name("dog")
+        @Defer
         @Description("Sends a random dog image. Really cute stuff.")
         @Help(description = "Sends a random dog image. Really cute stuff, you know?")
         public static class Dog extends SlashCommand {
@@ -147,6 +149,7 @@ public class ImageCmds {
         }
 
         @Name("catgirl")
+        @Defer
         @Description("Sends images of catgirl(s). Maybe.")
         @Help(description = "Sends images of catgirl(s). Maybe.",
                 usage = """
@@ -187,6 +190,7 @@ public class ImageCmds {
     }
 
     @Name("e621")
+    @Defer
     @Description("Retrieves images from the e621 (furry) image board. (Only works on NSFW channels)")
     @Category(CommandCategory.IMAGE)
     @Help(description = """
@@ -219,6 +223,7 @@ public class ImageCmds {
     }
 
     @Name("e926")
+    @Defer
     @Description("Retrieves images from the e926 (furry) image board. (Only works on NSFW channels)")
     @Category(CommandCategory.IMAGE)
     @Help(description = """
@@ -245,6 +250,7 @@ public class ImageCmds {
     }
 
     @Name("konachan")
+    @Defer
     @Description("Retrieves images from the konachan image board. (Only works on NSFW channels)")
     @Category(CommandCategory.IMAGE)
     @Help(description = """
@@ -289,6 +295,7 @@ public class ImageCmds {
     }
 
     @Name("yandere")
+    @Defer
     @Description("Retrieves images from the Yande.re image board. (Only works on NSFW channels)")
     @Category(CommandCategory.IMAGE)
     @Help(description = """
@@ -335,6 +342,7 @@ public class ImageCmds {
     }
 
     @Name("gelbooru")
+    @Defer
     @Description("Retrieves images from the Gelbooru image board. (Only works on NSFW channels)")
     @Category(CommandCategory.IMAGE)
     @Help(description = """
@@ -381,6 +389,7 @@ public class ImageCmds {
     }
 
     @Name("safebooru")
+    @Defer
     @Description("Retrieves images from the safebooru image board. (Only works on NSFW channels)")
     @Category(CommandCategory.IMAGE)
     @Help(description = "Retrieves images from the safebooru image board. This command can only be used in NSFW channels.",
@@ -408,6 +417,7 @@ public class ImageCmds {
     }
 
     @Name("rule34")
+    @Defer
     @Description("Retrieves images from the Rule34 image board. (Only works on NSFW channels)")
     @Category(CommandCategory.IMAGE)
     @Help(description = """
@@ -433,6 +443,7 @@ public class ImageCmds {
     }
 
     @Name("danbooru")
+    @Defer
     @Description("Retrieves images from the danbooru image board. (Only works on NSFW channels)")
     @Category(CommandCategory.IMAGE)
     @Help(description = """

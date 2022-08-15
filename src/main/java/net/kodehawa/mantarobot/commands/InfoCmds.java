@@ -66,7 +66,6 @@ public class InfoCmds {
         protected void process(SlashContext ctx) {}
 
         @Name("support")
-        @NoDefer
         @Description("Shows a link to the support server")
         @Help(description = "Shows a link to the support server")
         public static class Support extends SlashCommand {
@@ -77,7 +76,6 @@ public class InfoCmds {
         }
 
         @Name("donate")
-        @NoDefer
         @Description("Shows the donation methods in case you want to support Mantaro.")
         @Help(description = "Shows the donation methods in case you want to support Mantaro.")
         public static class Donate extends SlashCommand {
@@ -91,7 +89,6 @@ public class InfoCmds {
         }
 
         @Name("language")
-        @NoDefer
         @Description("Shows how to change the server and user languages, along with a language list.")
         @Help(description =
                 """
@@ -111,7 +108,6 @@ public class InfoCmds {
         }
 
         @Description("Shows the message the bot sends when it's added to a server.")
-        @NoDefer
         @Help(description = "Shows the message the bot sends when it's added to a server.")
         public static class Welcome extends SlashCommand {
             @Override
@@ -143,7 +139,6 @@ public class InfoCmds {
             }
         }
         @Name("invite")
-        @NoDefer
         @Description("Gives you a bot OAuth invite link and some other important links.")
         @Help(description = "Gives you a bot OAuth invite link and some other important links.")
         public static class Invite extends SlashCommand {
@@ -178,8 +173,9 @@ public class InfoCmds {
         }
 
         @Name("shardlist")
-        @Description("Returns information about shards.")
+        @Defer
         @Ephemeral
+        @Description("Returns information about shards.")
         @Help(description = "Returns information about shards.")
         public static class ShardInfo extends SlashCommand {
             @Override
@@ -229,7 +225,6 @@ public class InfoCmds {
         }
 
         @Name("shard")
-        @NoDefer
         @Description("Returns in what shard I am.")
         @Help(description = "Returns in what shard I am.")
         public static class Shard extends SlashCommand {

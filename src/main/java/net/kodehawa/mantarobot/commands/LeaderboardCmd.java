@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.utils.leaderboards.CachedLeaderboardMember;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.Category;
+import net.kodehawa.mantarobot.core.command.meta.Defer;
 import net.kodehawa.mantarobot.core.command.meta.Description;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
@@ -144,6 +145,7 @@ public class LeaderboardCmd {
         }
 
         @Description("Sends the gamble leaderboard.")
+        @Defer
         public static class Gamble extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -162,6 +164,7 @@ public class LeaderboardCmd {
         }
 
         @Description("Sends the slots leaderboard.")
+        @Defer
         public static class Slots extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -180,6 +183,7 @@ public class LeaderboardCmd {
         }
 
         @Description("Sends the reputation leaderboard.")
+        @Defer
         public static class Reputation extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -204,6 +208,7 @@ public class LeaderboardCmd {
         }
 
         @Description("Sends the level leaderboard.")
+        @Defer
         public static class Level extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -229,6 +234,7 @@ public class LeaderboardCmd {
         }
 
         @Description("Sends the daily streak leaderboard.")
+        @Defer
         public static class Daily extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -254,6 +260,7 @@ public class LeaderboardCmd {
         }
 
         @Description("Sends the waifu claim leaderboard.")
+        @Defer
         public static class Claim extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -279,6 +286,7 @@ public class LeaderboardCmd {
         }
 
         @Description("Sends the game wins leaderboard.")
+        @Defer
         public static class Games extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {

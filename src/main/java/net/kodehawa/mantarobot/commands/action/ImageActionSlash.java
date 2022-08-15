@@ -53,6 +53,7 @@ public class ImageActionSlash extends SlashCommand {
     public ImageActionSlash(String name, String desc, EmoteReference emoji,
                           String format, List<String> images, String lonelyLine, String botLine, boolean swap) {
         super.setCategory(CommandCategory.ACTION);
+        super.setDefer(true);
         this.name = name;
         this.desc = desc;
         this.format = format;
@@ -72,6 +73,7 @@ public class ImageActionSlash extends SlashCommand {
     public ImageActionSlash(String name, String desc, EmoteReference emoji,
                           String format, String type, String lonelyLine, String botLine) {
         super.setCategory(CommandCategory.ACTION);
+        super.setDefer(true);
         this.name = name;
         this.desc = desc;
         this.format = format;
@@ -91,6 +93,7 @@ public class ImageActionSlash extends SlashCommand {
     public ImageActionSlash(String name, String desc, EmoteReference emoji,
                           String format, String type, String lonelyLine, String botLine, boolean swap) {
         super.setCategory(CommandCategory.ACTION);
+        super.setDefer(true);
         this.name = name;
         this.desc = desc;
         this.format = format;

@@ -51,7 +51,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -146,7 +145,6 @@ public class ProfileCmd {
         }
 
         @Description("Toggles the ability to do action commands to you.")
-        @Ephemeral
         public static class ToggleAction extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -156,10 +154,10 @@ public class ProfileCmd {
 
                 if (isDisabled) {
                     userData.setActionsDisabled(false);
-                    ctx.reply("commands.profile.toggleaction.enabled", EmoteReference.CORRECT);
+                    ctx.replyEphemeral("commands.profile.toggleaction.enabled", EmoteReference.CORRECT);
                 } else {
                     userData.setActionsDisabled(true);
-                    ctx.reply("commands.profile.toggleaction.disabled", EmoteReference.CORRECT);
+                    ctx.replyEphemeral("commands.profile.toggleaction.disabled", EmoteReference.CORRECT);
                 }
 
                 dbUser.save();
@@ -167,7 +165,6 @@ public class ProfileCmd {
         }
 
         @Description("Locks you from being claimed. Use remove to remove it.")
-        @Ephemeral
         @Options({@Options.Option(type = OptionType.BOOLEAN, name = "remove", description = "Remove claimlock.")})
         public static class ClaimLock extends SlashCommand {
             @Override
@@ -194,14 +191,13 @@ public class ProfileCmd {
                 }
 
                 playerData.setClaimLocked(true);
-                ctx.reply("commands.profile.claimlock.success", EmoteReference.CORRECT);
+                ctx.replyEphemeral("commands.profile.claimlock.success", EmoteReference.CORRECT);
                 inventory.process(new ItemStack(ItemReference.CLAIM_KEY, -1));
                 player.saveUpdating();
             }
         }
 
         @Description("Toggles the display of legacy credits.")
-        @Ephemeral
         public static class ToggleLegacy extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -211,12 +207,11 @@ public class ProfileCmd {
                 data.setHiddenLegacy(toSet);
 
                 player.saveUpdating();
-                ctx.reply("commands.profile.hidelegacy", EmoteReference.CORRECT, data.isHiddenLegacy());
+                ctx.replyEphemeral("commands.profile.hidelegacy", EmoteReference.CORRECT, data.isHiddenLegacy());
             }
         }
 
         @Description("Sort your inventory.")
-        @Ephemeral
         @Options({@Options.Option(
                 type = OptionType.STRING,
                 name = "type",
@@ -257,12 +252,11 @@ public class ProfileCmd {
                 playerData.setInventorySortType(type);
                 player.saveUpdating();
 
-                ctx.reply("commands.profile.inventorysort.success", EmoteReference.CORRECT, type.toString().toLowerCase());
+                ctx.replyEphemeral("commands.profile.inventorysort.success", EmoteReference.CORRECT, type.toString().toLowerCase());
             }
         }
 
         @Description("Toggles auto-equipping a new tool on break. Use disable to disable it.")
-        @Ephemeral
         @Options({@Options.Option(type = OptionType.BOOLEAN, name = "disable", description = "Disable autoequip.")})
         @Help(
                 description = "Enables auto equip, or disables it if specified.",
@@ -277,19 +271,18 @@ public class ProfileCmd {
 
                 if (ctx.getOptionAsBoolean("disable")) {
                     data.setAutoEquip(false);
-                    ctx.reply("commands.profile.autoequip.disable", EmoteReference.CORRECT);
+                    ctx.replyEphemeral("commands.profile.autoequip.disable", EmoteReference.CORRECT);
                     user.saveUpdating();
                     return;
                 }
 
                 data.setAutoEquip(true);
-                ctx.reply("commands.profile.autoequip.success", EmoteReference.CORRECT);
+                ctx.replyEphemeral("commands.profile.autoequip.success", EmoteReference.CORRECT);
                 user.saveUpdating();
             }
         }
 
         @Description("Hide or show the member id/tag from profile/waifu ls.")
-        @Ephemeral
         public static class HideTag extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -299,12 +292,11 @@ public class ProfileCmd {
                 data.setPrivateTag(!data.isPrivateTag());
                 user.saveUpdating();
 
-                ctx.reply("commands.profile.hide_tag.success", EmoteReference.POPPER, data.isPrivateTag());
+                ctx.replyEphemeral("commands.profile.hide_tag.success", EmoteReference.POPPER, data.isPrivateTag());
             }
         }
 
         @Description("Sets your profile timezone.")
-        @Ephemeral
         @Options({@Options.Option(type = OptionType.STRING, name = "timezone", description = "The timezone to use.", required = true)})
         @Help(
                 description = "Sets your profile timezone.",
@@ -328,19 +320,19 @@ public class ProfileCmd {
                 if (timezone.equalsIgnoreCase("reset")) {
                     dbUser.getData().setTimezone(null);
                     dbUser.saveAsync();
-                    ctx.reply("commands.profile.timezone.reset_success", EmoteReference.CORRECT);
+                    ctx.replyEphemeral("commands.profile.timezone.reset_success", EmoteReference.CORRECT);
                     return;
                 }
 
                 if (!Utils.isValidTimeZone(timezone)) {
-                    ctx.reply("commands.profile.timezone.invalid", EmoteReference.ERROR);
+                    ctx.replyEphemeral("commands.profile.timezone.invalid", EmoteReference.ERROR);
                     return;
                 }
 
                 try {
                     Utils.formatDate(LocalDateTime.now(Utils.timezoneToZoneID(timezone)), dbUser.getData().getLang());
                 } catch (DateTimeException e) {
-                    ctx.reply("commands.profile.timezone.invalid", EmoteReference.ERROR);
+                    ctx.replyEphemeral("commands.profile.timezone.invalid", EmoteReference.ERROR);
                     return;
                 }
 
@@ -351,12 +343,11 @@ public class ProfileCmd {
 
                 dbUser.getData().setTimezone(timezone);
                 dbUser.saveUpdating();
-                ctx.reply("commands.profile.timezone.success", EmoteReference.CORRECT, timezone);
+                ctx.replyEphemeral("commands.profile.timezone.success", EmoteReference.CORRECT, timezone);
             }
         }
 
         @Description("Sets your display badge.")
-        @Ephemeral
         @Options({@Options.Option(type = OptionType.STRING, name = "badge", description = "The badge to display, reset/none to reset it or no badge. If nothing is specified, it prints a list.")})
         @Help(
                 description = "Sets your profile display badge.",
@@ -371,7 +362,7 @@ public class ProfileCmd {
                 var badgeString = ctx.getOptionAsString("badge");
                 if (badgeString.equalsIgnoreCase("none")) {
                     data.setShowBadge(false);
-                    ctx.reply("commands.profile.displaybadge.reset_success", EmoteReference.CORRECT);
+                    ctx.replyEphemeral("commands.profile.displaybadge.reset_success", EmoteReference.CORRECT);
                     player.saveUpdating();
                     return;
                 }
@@ -379,14 +370,14 @@ public class ProfileCmd {
                 if (badgeString.equalsIgnoreCase("reset")) {
                     data.setMainBadge(null);
                     data.setShowBadge(true);
-                    ctx.reply("commands.profile.displaybadge.important_success", EmoteReference.CORRECT);
+                    ctx.replyEphemeral("commands.profile.displaybadge.important_success", EmoteReference.CORRECT);
                     player.saveUpdating();
                     return;
                 }
 
                 var badge = Badge.lookupFromString(badgeString);
                 if (badge == null) {
-                    ctx.reply("commands.profile.displaybadge.no_such_badge", EmoteReference.ERROR,
+                    ctx.replyEphemeral("commands.profile.displaybadge.no_such_badge", EmoteReference.ERROR,
                             player.getData().getBadges().stream()
                                     .map(Badge::getDisplay)
                                     .collect(Collectors.joining(", "))
@@ -396,7 +387,7 @@ public class ProfileCmd {
                 }
 
                 if (!data.getBadges().contains(badge)) {
-                    ctx.reply("commands.profile.displaybadge.player_missing_badge", EmoteReference.ERROR,
+                    ctx.replyEphemeral("commands.profile.displaybadge.player_missing_badge", EmoteReference.ERROR,
                             player.getData().getBadges().stream()
                                     .map(Badge::getDisplay)
                                     .collect(Collectors.joining(", "))
@@ -408,12 +399,11 @@ public class ProfileCmd {
                 data.setShowBadge(true);
                 data.setMainBadge(badge);
                 player.saveUpdating();
-                ctx.reply("commands.profile.displaybadge.success", EmoteReference.CORRECT, badge.display);
+                ctx.replyEphemeral("commands.profile.displaybadge.success", EmoteReference.CORRECT, badge.display);
             }
         }
 
         @Description("Sets your profile language.")
-        @Ephemeral
         @Options({@Options.Option(type = OptionType.STRING, name = "lang", description = "The language to use. See /mantaro language for a list.", required = true)})
         @Help(
                 description = "Sets your profile language.",
@@ -428,7 +418,7 @@ public class ProfileCmd {
                 if (content.equalsIgnoreCase("reset")) {
                     dbUser.getData().setLang(null);
                     dbUser.saveUpdating();
-                    ctx.reply("commands.profile.lang.reset_success", EmoteReference.CORRECT);
+                    ctx.replyEphemeral("commands.profile.lang.reset_success", EmoteReference.CORRECT);
                     return;
                 }
 
@@ -438,16 +428,15 @@ public class ProfileCmd {
                     var newContext = new I18nContext(ctx.getDBGuild().getData(), dbUser.getData());
 
                     dbUser.saveUpdating();
-                    ctx.reply(newContext.get("commands.profile.lang.success"), EmoteReference.CORRECT, content);
+                    ctx.replyEphemeral(newContext.get("commands.profile.lang.success"), EmoteReference.CORRECT, content);
                 } else {
-                    ctx.reply("commands.profile.lang.invalid", EmoteReference.ERROR);
+                    ctx.replyEphemeral("commands.profile.lang.invalid", EmoteReference.ERROR);
                 }
             }
         }
 
         @Name("description")
         @Description("Sets your profile description. This will open a modal (pop-up).")
-        @NoDefer
         @Options({@Options.Option(type = OptionType.BOOLEAN, name = "clear", description = "Clear your profile description if set to true.")})
         @Help(
                 description = "Sets your profile description. The max length is 300 if you're not premium and 500 if you are. The pop-up will time out in 3 minutes.",
@@ -562,7 +551,7 @@ public class ProfileCmd {
                 var toLookup = ctx.getOptionAsUser("user", ctx.getAuthor());
                 var lang = ctx.getLanguageContext();
                 if (toLookup.isBot()) {
-                    ctx.reply("commands.profile.bot_notice", EmoteReference.ERROR);
+                    ctx.replyEphemeral("commands.profile.bot_notice", EmoteReference.ERROR);
                     return;
                 }
 
@@ -600,7 +589,7 @@ public class ProfileCmd {
                 var lang = ctx.getLanguageContext();
 
                 if (!user.isPremium()) {
-                    ctx.reply("commands.profile.display.not_premium", EmoteReference.ERROR);
+                    ctx.replyEphemeral("commands.profile.display.not_premium", EmoteReference.ERROR);
                     return;
                 }
 
@@ -609,7 +598,7 @@ public class ProfileCmd {
                 var content = ctx.getOptionAsString("order");
 
                 if (content == null) {
-                    ctx.reply(
+                    ctx.replyEphemeral(
                             lang.get("commands.profile.display.ls") +
                                     lang.get("commands.profile.display.example"),
                             EmoteReference.ZAP, EmoteReference.BLUE_SMALL_MARKER,
@@ -627,7 +616,7 @@ public class ProfileCmd {
                     playerData.getProfileComponents().clear();
                     player.save();
 
-                    ctx.reply("commands.profile.display.reset", EmoteReference.CORRECT);
+                    ctx.replyEphemeral("commands.profile.display.reset", EmoteReference.CORRECT);
                     return;
                 }
 
@@ -642,7 +631,7 @@ public class ProfileCmd {
                 }
 
                 if (newComponents.size() < 3) {
-                    ctx.reply(lang.get("commands.profile.display.not_enough") +
+                    ctx.replyEphemeral(lang.get("commands.profile.display.not_enough") +
                             lang.get("commands.profile.display.example"), EmoteReference.WARNING
                     );
 
@@ -652,7 +641,7 @@ public class ProfileCmd {
                 playerData.setProfileComponents(newComponents);
                 player.save();
 
-                ctx.reply("commands.profile.display.success",
+                ctx.replyEphemeral("commands.profile.display.success",
                         EmoteReference.CORRECT, newComponents.stream().map(Enum::name).collect(Collectors.joining(", "))
                 );
             }
@@ -660,23 +649,22 @@ public class ProfileCmd {
     }
 
     @Name("Show currency profile")
-    @Ephemeral
     public static class ProfileContext extends ContextCommand<User> {
         @Override
         protected void process(InteractionContext<User> ctx) {
             var userLooked = ctx.getTarget();
             if (userLooked.isBot()) {
-                ctx.reply("commands.profile.bot_notice", EmoteReference.ERROR);
+                ctx.replyEphemeral("commands.profile.bot_notice", EmoteReference.ERROR);
                 return;
             }
 
             // Could this even happen?
             if (ctx.getGuild().getMember(userLooked) == null) {
-                ctx.sendLocalized("general.slash_member_lookup_failure", EmoteReference.ERROR);
+                ctx.replyEphemeral("general.slash_member_lookup_failure", EmoteReference.ERROR);
                 return;
             }
 
-            ctx.send(buildProfile(ctx, userLooked));
+            ctx.replyEphemeral(buildProfile(ctx, userLooked));
         }
     }
 

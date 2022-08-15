@@ -81,6 +81,7 @@ public class MoneyCmds {
     }
 
     @Name("daily")
+    @Defer
     @Description("Gives you some credits per day and a reward for claiming it everyday.")
     @Category(CommandCategory.CURRENCY)
     @Options({
@@ -106,6 +107,7 @@ public class MoneyCmds {
     }
 
     @Name("loot")
+    @Defer
     @Description("Loot the current chat for random items.")
     @Category(CommandCategory.CURRENCY)
     @Help(description =
