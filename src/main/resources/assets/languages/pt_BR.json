@@ -686,7 +686,7 @@
     "roll": {
       "success": "%1$sVocê ganhou **%2$s**%3$s",
       "amount": "Fazendo **%1$,d** jogadas.",
-      "more_than_10": "... e mais %2$s rolls",
+      "more_than_10": "... and %1$s more rolls",
       "total": "(Total: %1$,d)",
       "size": "\nFazendo **%1$,d rolls** com um dado de **%2$,d lados**.",
       "incorrect_format": "Você tem que especificar a quantidade no formato do d20. Por exemplo, pra rolar 2 dados de 16 lados, você pode fazer 2d16."
