@@ -585,17 +585,17 @@
       },
       "buyhouse": {
         "not_married": "%1$sTu ne peux acheter une maison qu'en étant marié.e. Cela pourrait changer à l'avenir.",
-        "no_house": "%1$sYou need a house item in your inventory. Use `/buy item:house` to get one.",
+        "no_house": "%1$sTu dois posséder une maison dans ton inventaire. Utilise `/buy item:house` pour en avoir une.",
         "not_enough_money": "%1$sTu n'as pas assez d'argent pour acheter plus d'emplacements! (Prix actuel d'une maison: %2$d crédits.)",
-        "no_name": "%1$sYou need to give your house a name! For example, `/marry house name:cozy house`",
+        "no_name": "%1$sVous devez nommer votre maison! Par exemple, `/marry house name:maison cozy`",
         "confirm": "%1$sTu es sûr.e de vouloir acheter cette maison? Le prix déduit de ton portefeuille est %2$d et le nom de ta maison sera %3$s. Envoie `yes` pour confirmer ou `no` pour annuler.",
         "success": "%1$sTu as acheté ta maison pour %2$d crédits avec succès. Le nom de ton nouveau nid douillet est %3$s, profites-en!",
         "cancel_success": "%1$sOpération annulée."
       },
       "buycar": {
-        "no_car": "%1$sYou need to buy a car first! Use `/buy item:car` to get one.",
+        "no_car": "%1$sTu dois d'abord acheter une voiture! Utilise `/buy item:car` pour ce faire.",
         "not_enough_money": "%1$sTu n'as pas assez d'argent pour acheter une voiture! (Prix actuel d'une voiture: %2$d crédits.)",
-        "no_name": "%1$sYou need to give your car a name! For example, `/marry car name:vroom`",
+        "no_name": "%1$sVous devez nommer votre voiture! Par exemple, `/marry car name:vroom`",
         "confirm": "%1$sTu es sûr.e de vouloir acheter cette voiture? Le prix déduit de ton portefeuille est %2$d et le nom de ta voiture sera %3$s. Envoie `yes` pour confirmer ou `no` pour annuler.",
         "success": "%1$sTu as acheté ta voiture pour %2$d crédits avec succès. Le nom de ton nouveau bolide est %3$s, profites-en!",
         "cancel_success": "%1$sOpération annulée."
@@ -606,8 +606,8 @@
       "already_married_receipt": "%1$sTu es déjà marié à lui-elle, aww.",
       "already_married": "%1$sTu es déjà marié.e.",
       "receipt_married": "%1$sCet utilisateur est déjà marié.e.",
-      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `/buy amount:2 item:ring` and then try proposing again <3",
-      "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
+      "no_ring": "%1$sTu ne peux pas faire une demande sans deux bagues de mariage ! Tu peux les acheter en faisant `/buy amount:2 item:ring` et ensuite, essaie de refaire ta demande <3",
+      "confirmation": "%1$s%2$s, appuie sur **yes** ou **no** pour accepter ou refuser la demande en mariage de %3$s\n%4$sIl y a un délai d'attente de 120 secondes.",
       "ring_check_fail": "%1$sTu ne peux pas te marier avec moins de deux bagues de mariage dans ton inventaire :(",
       "accepted": "%1$s**%2$s#%3$s** a accepté la demande de **%4$s#%5$s**!",
       "denied": "%1$sa refusé la demande de **%2$s**",
@@ -635,7 +635,7 @@
       "claim": {
         "no_user": "%1$sTu n'as mentionné aucun utilisateur à acheter.",
         "locked": "%1$sTu es actuellement incapable d'exécuter cette action.",
-        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `/profile claimlock remove:true` if they wish to do so.",
+        "key_locked": "%1$sLa personne que tu tentes d'acquérir est verrouillée. Elle peut se déverrouiller en faisant la commande `/profile claimlock remove:true` si elle le souhaite.",
         "not_enough_money": "%1$sTu n'as pas assez d'argent pour acheter cette waifu **(Cout: %2$s crédits)**",
         "not_enough_slots": "%1$sTu n'as pas assez d'emplacements disponibles pour accueillir cette waifu. (Emplacements au total : %2$s, Emplacements utilisés : %3$s)",
         "success": "%1$sAcheté.e `%2$s` avec succès pour %3$,d crédits. Emplacements utilisés: %4$s",
@@ -686,7 +686,7 @@
     "roll": {
       "success": "%1$sTu as eu **%2$s**%3$s",
       "amount": "Faisant **%1$d** tirages.",
-      "more_than_10": "... et %2$s lancés de plus",
+      "more_than_10": "... and %1$s more rolls",
       "total": "(Total: %1$,d)",
       "size": "\nEn train de lancer **%1$,d fois** un dé à **%2$,d faces**.",
       "incorrect_format": "Tu dois spécifier le montant en format d20. Par exemple, pour lancer 2 dés à 16 faces, tu peux dire 2d16."
@@ -698,7 +698,7 @@
     },
     "inventory": {
       "bot_notice": "%1$sIci, les bots n'ont pas d'inventaire. Eh bien, quelquefois tu peux souhaiter qu'ils en aient un mais alors ça serait seulement `/dump`",
-      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `/inventory show`. Enjoy your day!*",
+      "brief": "**Inventaire de %1$s** %2$s\n\n*Pour une version détaillée, utilise la commande `/inventory show`. Bonne journée !*",
       "calculate": "%1$s%2$s recevra **%3$,d crédits** si tous les objets sont vendus.",
       "header": "inventaire de %1$s",
       "format": "%1$sPrix:%2$s📥%3$,d %4$s📤%5$,d\n%6$s%7$s",
@@ -709,15 +709,15 @@
       "new_calc_notice": "Utilise `/inventory calculate` à la place."
     },
     "cast": {
-      "no_item_specified": "%1$sYou didn't specify any items. For a list, check `/cast list`",
+      "no_item_specified": "%1$sTu n'as spécifié aucun objet. Pour avoir la liste complète, utilise `/cast list`",
       "no_item_found": "%1$sJe n'ai pas trouvé l'objet dont tu me parles. Assure-toi de me donner le nom complet pour éviter les confusions ou alors montre-moi l'emoji quand c'est possible. Exemple : `/cast star pick`",
-      "item_not_cast": "%1$sYou cannot cast this item. You can check `/cast list` for a list of castable items. Try using the full name if you think you have the correct item.",
+      "item_not_cast": "%1$sTu ne peux pas fabriquer cet objet. Va voir la liste avec `/cast list` pour savoir ce que tu peux fabriquer. Si tu penses être dans le bon, utilise le nom complet, le problème vient peut-être de là.",
       "not_enough_money": "%1$sTu n'as pas assez d’argent pour fabriquer ça. **(Cout : %2$s)**",
       "no_item": "%1$sTu n'as pas l'objet nécessaire *%2$s* pour procéder à cette fabrication. Tu en as besoin.",
       "not_enough_items": "%1$sTu n'as pas assez de *%2$s* pour faire une **%3$s**. **(Nécessaires : %4$s, Possédés : %5$s)**",
       "success": "%1$sTu as fabriqué %2$,dx %3$s **%4$s** avec succès pour %5$,d crédits. *Matériaux utilisés : %6$s*",
       "no_tool": "%1$sTu as besoin d'un.e %2$s pour procéder à cette fabrication!",
-      "not_equipped": "%1$sYou don't have any equipped wrench. Use `/equip item:<wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `/buy item:wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `/cast item item:star pick amount:5`",
+      "not_equipped": "%1$sTu n'as pas équipé de clé. Utilise `/equip item:<nom de la clé>` pour équiper une clé et commencer ton aventure! Si tu n'en as pas, commence par en acheter une avec `/buy item:wrench`.\nTu n'as plus besoin de spécifier le type de clé utilisée dans cette commande. Pour fabriquer plusieurs objets, met le nombre devant le nom de l'objet. Par exemple: `/cast item item:star pick amount:5`",
       "too_many": "%1$sTu auras plus de 5000 exemplaires de cet objet si tu continues. Essaie d'en faire moins ?!",
       "low_tier": "%1$sTu as besoin d'une clé de Tier 2 au minimum (la clé de comète) pour forger plus d'objets. Ta clé actuelle est de Tier %2$s.",
       "not_enough_wrench_level": "%1$sTa clé n'est pas assez puissante pour forger cet objet. Spécifie peut-être une plus puissante ? (*Niveau de ta clé : %2$s, Niveau nécessaire : %3$s*)",
@@ -728,14 +728,14 @@
       "ls": {
         "header": "Liste des objets à fabriquer",
         "cost": "Cout de la fabrication: ",
-        "desc": "This is a list of the items you can cast using `/cast list`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "desc": "C'est la liste de tous les objets que tu peux fabriquer un utilisant `/cast list`.\nTu dois utiliser le nom complet, l'abréviation ou l'emoji pour le faire.\n**La fabrication a un cout de la moitié du prix de l'objet. Le cout de la fabrication apparaitra ci-dessous.**\nLes clés de tier 2 et 3 sont respectivement la clé de comète et la clé scintillante."
       },
       "dust": "%1$sTu ne peux pas fabriquer de nouveaux objets avec autant de poussière dans ton inventaire! *(Niveau de poussière : %2$s%%)*. Pourquoi ne pas le laver en utilisant `/useitem mop`?",
       "wrench_multiple_use": "Astuce : *Tu ne peux pas utiliser la clé avec laquelle tu essaies de forger comme ingrédient !*"
     },
     "market": {
       "dump": {
-        "replacement": "You can use `/dump` now. For example, instead of `~>market dump floppy` you can do `/dump item:floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
+        "replacement": "Tu peux simplement utiliser `/dump` maintenant. Au lieu de `~>market dump floppy` tu peux simplement faire `/dump item:floppy` Utilise la nouvelle commande s'il te plait... Je me demande ce qui est arrivé à toutes ces disquettes.",
         "no_item": "%1$sTu dois préciser la quantité (s'il n'y en a qu'un, pas besoin de préciser la quantité) et le nom du ou des objet.s que tu veux jeter.",
         "invalid": "%1$sNombre invalide d'objets à jeter.",
         "non_existent": "%1$sImpossible de jeter un élément inexistant!",
@@ -751,7 +751,7 @@
         "success": "%1$sLe prix de %2$s**%3$s** au marché est de %4$s crédits à l'achat et tu peux avoir %5$s crédits si tu le vends."
       },
       "sell": {
-        "replacement": "You can use `/sell` now. For example, instead of `~>market sell pick` you can do `/sell item:pick`. Please use the new command instead.",
+        "replacement": "Tu peux utiliser `/sell` maintenant. Par exemple, au lieu de `~>market sell pick` tu peux faire `/sell item:pick`. Utilise la nouvelle commande s'il te plait.",
         "no_item": "%1$sTu dois spécifier l'objet à vendre.",
         "no_item_amount": "%1$sTu dois préciser la quantité (s'il n'y en a qu'un, pas besoin de préciser) et l'objet que tu veux vendre.",
         "invalid": "%1$sNombre d'objets à vendre invalide.",
@@ -767,21 +767,21 @@
         "success": "%1$sTu as vendu %2$,d **%3$s** et as gagné %4$,d crédits!"
       },
       "buy": {
-        "replacement": "You can use `/buy` now. For example, instead of `~>market buy pick` you can do `/buy item:pick`. Please use the new command instead.",
+        "replacement": "Tu peux utiliser `/buy` maintenant. Par exemple, au lieu de `~>market buy pick` tu peux faire `/buy item:pick`. Utilise la nouvelle commande s'il te plait.",
         "no_item": "%1$sTu dois spécifier l'objet à acheter.",
         "no_item_amount": "%1$sTu dois spécifier un montant de cet objet (si c'est seulement 1, pas besoin de spécifier) et l'objet que tu veux acheter.",
         "invalid": "%1$sNombre d'objets à acheter invalide.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `/buy amount:15 item:energy`",
+        "non_existent": "%1$sTu ne peux pas acheter un objet inexistant. Si tu es perdu.e, tu peux essayer de taper le nom raccourci ou de mettre le nom entre guillemets. De plus, le nombre d'objets doit être présent avant le nom de l'objet, par exemple : `/buy amount:15 item:energy`",
         "no_buy_price": "%1$sTu ne peux pas acheter un objet qui n'est pas achetable.",
         "item_limit_reached": "%1$sTu ne peux pas en acheter plus. Tu ne peux en avoir que 5000 comme pour chaque objet.",
         "success": "%1$sAchat de %2$,d %3$s pour %4$,d crédits. Tu as désormais %5$,d crédits.",
-        "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `/equip item:<item name>`",
-        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `/useitem item:<item name>`",
+        "success_breakable": "%1$sa acheté %2$,d %3$s pour %4$,d crédits avec succès. Tu as maintenant %5$,d crédits. Tu peux équiper cet objet avec `/equip item:<nom de l'objet>`",
+        "success_potion": "%1$sa acheté %2$,d %3$s pour %4$,d crédits avec succès. Tu as maintenant %5$,d crédits. Tu peux utiliser cet objet avec `/useitem item:<nom de l'objet>`",
         "not_enough_money": "%1$sTu n'as pas assez d'argent pour acheter cet objet. Portefeuille: %2$,d crédits, Valeur: %3$,d crédits.",
         "success_breakable_upgrade": "Clique ici <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> pour plus d'informations sur les améliorations d'outils!"
       },
       "header": "Marché de Mantaro",
-      "reference": "\nYou can buy and sell items using `/buy item:<item>` and `/sell item:<item>` respectively. Check `/help market` for more info.",
+      "reference": "\nTu peux acheter et vendre des objets en utilisant `/buy item:<objet>` et `/sell item:<objet>`. Utilise `/help market` pour plus d'infos.",
       "sell_price": "- **Prix de vente:**",
       "buy_price": "- **Prix d'achat:**"
     },
@@ -850,7 +850,7 @@
         "header": "Liste des autorôles",
         "role_give": "Donne le rôle:",
         "no_autoroles": "Il n'y a pas d'autorôles sur ce serveur.",
-        "description": "This are the current user-assignable auto roles on this server. You can use these by doing `/iam add name:<name of the role>`"
+        "description": "Voici les rôles auto-assignables de ce serveur. Tu peux te les attribuer en faisant `/iam add name:<nom du rôle>`"
       },
       "deleted_role": "%1$sLe rôle auquel correspond cet autorôle a été supprimé",
       "already_assigned": "%1$sTu as déjà ce rôle, idiot!",
@@ -891,16 +891,16 @@
         "reset_success": "%1$sTon fuseau horaire a été réinitialisé avec succès."
       },
       "description": {
-        "header": "Profile Description.",
-        "content_placeholder": "The description goes here.",
+        "header": "Description du profil.",
+        "content_placeholder": "La description prend place ici.",
         "no_content": "%1$sYou didn't specify what you want on your description.",
         "too_long": "%1$sTa description est trop longue! (Limite de 300 caractères pour tout le monde et de 500 pour les utilisateurs premium)",
-        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `/profile show`",
+        "success": "%1$sJ'ai défini ta description avec succès. Tu peux voir ton profil tout neuf en faisant `/profile show`",
         "clear_success": "%1$sDescription supprimée avec succès.",
         "time_out": "%1$sThe time to set your profile description has ran out (or you cancelled it, or started a new one)."
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge! For example, `/profile displaybadge badge:claimer`",
+        "not_specified": "%1$sTu dois spécifier ton badge principal ! Par exemple, `/profile displaybadge badge:claimer`",
         "reset_success": "%1$sAucun badge ne seras montré en haut de ton profil à compter de maintenant!",
         "important_success": "%1$sTon badge accroché est vraiment le plus important.",
         "no_such_badge": "%1$sIl n'existe pas de tel badge...\nTes badges: %2$s",
@@ -965,7 +965,7 @@
         "success": "%1$sTu as équipé %2$s *%3$s* avec succès, ce qui ne sera pas oublié la prochaine fois que tu utilises une commande monétaire.",
         "not_suitable": "%1$sTu ne peux pas équiper cela.",
         "not_equipped": "%1$sTu n'as pas équipé ça.",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `/unequip item:<type>` (Type can be rod, axe, pick or wrench) if you wanna unequip it."
+        "already_equipped": "%1$sTu as déjà équipé un objet de ce type ! Essaie `/unequip item:<type>` (Le type peut être rod, axe, pick ou wrench) pour le déséquiper."
       },
       "unequip": {
         "not_equipped": "%1$sTu n'as rien d'équipé à cet emplacement.",
@@ -980,17 +980,17 @@
       },
       "display": {
         "not_premium": "%1$sLa personnalisation des gadgets de profil n'est disponible qu'aux utilisateurs prime. Pour avoir plus de d'avantages, visite <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
-        "not_enough": "%1$sNot enough valid widgets to put on your profile (minimum: 3). If you're lost, check `/profile widgets`",
+        "not_enough": "%1$sPas assez de gadgets valides à mettre sur ton profil (minimum: 3). Si tu es perdu.e, regarde `/profile widgets`",
         "success": "%1$sTon nouveau fond a bien été appliqué à ton profil. Ton nouveau fond est `%2$s`",
-        "ls": "%1$sList of profile components:\n%2$s **Widgets in Default Order:** `%3$s`\n%2$s **Your widgets:** `%4$s`\nYou can use `/profile widgets order:reset` to reset your profile display references",
+        "ls": "%1$sListe des composants du profil:\n%2$s **Gadgets dans l'ordre par défaut:** `%3$s`\n%2$s **Tes gadgets:** `%4$s`\nTu peux utiliser `/profile widgets order:reset` pour réinitialiser tes préférences d'affichage",
         "reset": "%1$sL'ordre des gadget par défaut a bien été rétabli.",
-        "example": "\nExample: `/profile widgets order:header, credits, reputation, birthday, marriage, badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
+        "example": "\nExemple : `/profile widgets order:header, credits, reputation, birthday, marriage, badges`\n*Ça fonctionne dans tous les sens, l'ordre donné ici est celui dans lequel ils apparaitront sur ton profil*"
       },
       "claimlock": {
         "removed": "%1$sRéinitialisation de ton statut de verrouillage Waifu opéré avec succès.",
-        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/profile claimlock remove:true` to remove it later.",
-        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `/buy item:claim key`",
-        "already_locked": "%1$sYou're already claim locked. Use `/profile claimlock remove:true` to remove it."
+        "success": "%1$sTu ne peux plus être acquis.e comme Waifu. Cette action a utilisé une clé. Utilise la commande `/profile claimlock remove:true` pour l'enlever.",
+        "no_key": "%1$sTu n'as pas de 'claim key' pour faire ça. Tu peux en acheter une au marché en utilisant `/buy item:claim key`",
+        "already_locked": "%1$sTu es déjà verrouillé.e. Utilise `/profile claimlock remove:true` pour l'annuler."
       },
       "autoequip": {
         "disable": "%1$sAuto-equip désactivé.",
@@ -1017,7 +1017,7 @@
       "potion": "Potion active",
       "no_potion": "Aucune potion active.",
       "hidelegacy": "%1$sLa visibilité du statut des crédits hérités est maintenant sur: `%2$s`",
-      "tools_show": "%1$sShow tools",
+      "tools_show": "%1$sAfficher les outils",
       "level_show": "%1$sShow level",
       "back": "%1$sGo back"
     },
@@ -1762,7 +1762,7 @@
       },
       "crate": {
         "overflow": "Tu as trouvé un *%1$s* mais tu en avais déjà trop donc la laissé derrière toi...",
-        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `/opencrate crate:<crate name>`. You need a crate key, which you can buy using `/buy item:key`!"
+        "success": "Tu as trouvé un %1$s **%2$s** en minant et tu l'as emporté. Vas-y ouvre-le avec `/opencrate crate:<nom du coffre>`. N'oublie pas d'acheter une clé en utilisant `/buy item:key`!"
       },
       "autoequip": {
         "success": "%1$sTu as choisi d'activer l'auto-équip, j'ai donc remplacé ta **%2$s** automatiquement"
@@ -1782,7 +1782,7 @@
       },
       "crate": {
         "overflow": "Tu as trouvé **%1$s** en bucheronnant, mais tu en avais déjà trop, donc nous avons tout rendu à la nature...",
-        "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `/opencrate crate:<crate name>`. You need a crate key!"
+        "success": "Tu as trouvé un %1$s **%2$s** en bucheronnant et tu le ramasses. Allez ouvre-le en écrivant `/opencrate crate:<nom du coffre>`. Tu auras besoin d'une clé pour l’ouvrir !"
       },
       "overflow": "%1$sTu as trouvé quelques trucs en bucheronnant mais tu ne pouvais pas porter une plus grande quantité de certains objets. Nous les avons donc laissés là.",
       "success_only_item": "%1$sEn coupant du bois tranquillement, tu as trouvé %2$s grâce à ta *%3$s* et tu les as gardés.",
@@ -1809,7 +1809,7 @@
       "credits": "crédits"
     },
     "leaderboard": {
-      "main_page_redirect": "You can see `/help command:leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `/leaderboard money`",
+      "main_page_redirect": "Envoie `/help command:leaderboard` pour une liste des tableaux disponnibles.\nSi tu cherches celui de l'argent, envoie `/leaderboard money`",
       "header": "Classements Mantaro",
       "money": "Classements Argent",
       "reputation": "Classements Réputation",
@@ -1822,16 +1822,16 @@
       "claim": "Classements Waifu Appropriée",
       "inner": {
         "experience": "Expérience",
-        "game": "%1sThis page shows the top 10 people who have won the most games.\n\nCheck out `/help command:game` or `/help command:trivia` for details on how games work!",
-        "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `/help command:waifu` for details on the waifu system.",
+        "game": "%1sCette page montre le top 10 des gens qui ont gagnés le plus de parties.\n\nVa voir `/help command:game` ou `/help command:trivia` pour les détails!",
+        "claim": "%1sCette page montre le top 10 des gens qui se sont le plus fait acheter en tant que Waifu.\n\nVa voir `/help command:waifu` pour plus de détails.",
         "money_old": "%1$sCette page montre le top 10 des gens les plus riches de Mantaro (avant le reset)!\n",
         "money": "%1$sCette page montre le top 10 des gens les plus riches de Mantaro. C'est difficile d'être avare!",
         "rep": "%1sCette page montre le top 10 des gens qui ont le plus de réputation.",
-        "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `/help command:daily` for more info",
+        "streak": "%1sCette page montre le top 10 des gens qui ont le plus gros streak journalier.\n\nVa voir `/help command:daily` pour plus de détails",
         "lvl": "%1sCette page montre le top 10 des gens qui ont le plus de niveaux.\n\nLes niveaux sont gagnés en parlant. Les commandes ne comptent pas et l'expérience a 30 secondes de pause.",
-        "waifu": "%1sThis page shows the top 10 people with the most weighted waifu value.\n\nCheck out `/help command:waifu` for details on the waifu system.",
-        "gamble": "%1sThis page shows the top 10 people with the most gamble runs won.\n\nCheck out `/help command:gamble` for details on gamble.",
-        "slots": "%1sThis page shows the top 10 people with the most slots runs won.\n\nCheck out `/help command:slots` for details on slots."
+        "waifu": "%1sCette page montre le top 10 des gens qui ont le plus de valeur Waifu.\n\nVa voir `/help command:waifu` pour plus de détails.",
+        "gamble": "%1sCette page montre le top 10 des gens qui ont le plus de paris gagnés.\n\nVa voir `/help command:gamble` pour plus de détails.",
+        "slots": "%1sCette page montre le top 10 des gens qui ont le plus de slots gagnés.\n\nVa voir `/help command:slots` pour plus de détails."
       }
     },
     "iteminfo": {
@@ -1852,11 +1852,11 @@
         "tier": "Wrench Tier (to craft):",
         "tier_raw": "Wrench Tier:",
         "increase": "Money Increase:",
-        "diamond_drop": "Diamond Drop Range:",
+        "diamond_drop": "Chance d'obtenir des Diamants :",
         "gem_luck": "Sparkle / Gem Luck",
         "buff": "Item Buff:",
         "reduction": "Multiplier reduction:",
-        "multiple_cast": "Can cast multiple:"
+        "multiple_cast": "Possibilité d'en fabriquer plusieurs :"
       },
       "success_tiered": "**Informations de l'objet** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s\n%1$s**Prix d'achat:** %8$s %9$s\n%1$s**Prix de vente:** %10$s %11$s",
       "success": "**Informations de l'objet** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Prix d'achat:** %7$s %8$s\n%1$s**Prix de vente:** %9$s %10$s"
@@ -2033,7 +2033,7 @@
       "autorole": "%1$sTu ne peux pas assigner un autorôle comme rôle d'anniversaire. N'oublie pas qu'il s'agit d’un rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé.",
       "warning": "%1$sN'oublie pas qu'il s'agit d’un rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé. Si tu as le moindre doute sur la configuration, n'hésite pas à rejoindre le serveur de support et à demander. Tu peux aussi regarder `~>opts help birthday enable` par exemple.",
       "warning_1": "C'est à cause du fonctionnement du rôle: Ça assigne un rôle temporaire à ceux dont l'anniversaire arrive et leur enlève une fois le jour passé. **Ce qui veut dire qu'il leur sera enlevé une fois le jour passé**. Fais bien attention à ce que tu fais, la moindre erreur de configuration peut avoir de terribles conséquences (vraiment) !",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Birthday-101> for more info.",
+      "warning_2": "Le rôle *doit être un rôle nouvellement créé ou un rôle que tu n'utilises pour personne d'autre*. Il NE DOIT PAS être déjà attribué à qui que ce soit. Les utilisateurs doivent autoriser ce serveur à annoncer leur anniversaire en utilisant la commande `/birthday allowserver` sinon il n'apparaitra pas! Lis <https://github.com/Mantaro/MantaroBot/wiki/Birthday-101> pour plus d'infos.",
       "warning_3": "En plus, le \"birthday cache\" (ce qui est utilisé pour les stocker) est seulement mis à jour toutes les 23 heures. Ce qui veut dire que si tu programmes l'annonceur la veille de ton anniversaire pour le tester **ça ne va pas** fonctionner.",
       "warning_4": "Envoie **yes** si tu es d’accord de mettre le rôle %2$s comme rôle anniversaire et **no** sinon. Tu as 45 secondes.",
       "success": "%1$sLe log des anniversaires a été activé sur ce serveur dans les paramètres -> Salon: `%2$s (%3$s)` et rôle: `%4$s (%5$s)`",
@@ -2199,7 +2199,7 @@
       "success": "%1$sOptions réinitialisées!"
     },
     "birthday_test": {
-      "no_user": "%1$sYou need to specify a user to test the assigner with. Just mention them.",
+      "no_user": "%1$sTu dois mentionner une personne sur laquelle faire le test.",
       "no_bd_channel": "%1$sAucun salon d'anniversaire défini!",
       "no_bd_role": "%1$sTu n'as pas défini de rôle pour le programme d'anniversaires! Assure-toi d'en avoir créé un nouveau.",
       "no_talk_permission": "%1$sLe bot ne peut pas parler dans le salon d'anniversaires, vérifie les permissions.",
@@ -2511,7 +2511,7 @@
       "sparkle_rod": "Un peu de paillettes par-ci, un peu de paillettes par-là!\nTu as pulvérisé des paillettes sur le fil de ta canne à pêche.\nTu sembles confus.e. Comment cela peut-il attirer les poissons?\nLe monde est fait de nombreux mystères et voici l'un d'eux. Peut-être que cela t'aidera à amasser plus de crédits. Peut-être que ça t'apportera de la satisfaction.\nLa brillance que ça laisse dans la mer est impressionnante, si bien que tu pourrais la fixer des heures durant. Peut-être que tu as fait le bon choix après tout.",
       "hellfire_rod": "Les réactions entre les éléments peuvent être très étrangeset dangereuses. Tu as maitrisé les éléments par les passé mais désormais, les fusionner avec ta canne à pêche semble difficile. Peut-être était-ce la lumière, peut-être était-ce le feu, mais tu devais le faire. Ça semble fonctionner, le poisson vient à toi en abondance en quantité incomparable. Et pourtant, tu es toujours là, te demandant si tu as fait le bon choix.",
       "wrench": "A run of the mill wrench you can buy from the market. Useful for repairing items.",
-      "comet_wrench": "A Wrench infused with pieces of Comet Gems. Somehow it feels way sturdier.",
+      "comet_wrench": "Une clé infusée avec des morceaux de comètes. Quelque part elle semble beaucoup plus mastoc.",
       "sparkle_wrench": "Une clé infusée avec des morceaux de paillettes. Quelque part elle semble plus mastoc."
     },
     "description": {
@@ -2531,7 +2531,7 @@
       "lewd": "Trop de commandes obscènes, vraiment trop! Tu prends ton pied hein !?",
       "ring": "C'est ce qui rend ton mariage officiel quoi.",
       "letter": "Une lettre de l'amour de ta vie.",
-      "key": "Used to open various crates with `/opencrate crate:<crate name>` or `/useitem item:<crate name>`",
+      "key": "Utilisée pour ouvrir divers coffres avec `/opencrate crate:<nom du coffre>` ou `/useitem item:<nom du coffre>`",
       "clothes": "En gros, ce que vous portez. Espérons ...",
       "diamond": "Fondamentalement, une meilleure façon d'économiser votre argent. C'est brillant aussi. Comme c'est bien.",
       "dress": "N'est-ce-pas mignon ?",
@@ -2584,10 +2584,10 @@
       "sparkle": "Un des joyaux les plus rares. Assurez-vous de le garder. C'est utilisé pour fabriquer pioche et canne à pêche scintillantes.",
       "sparkle_pick": "L'une des pioches les plus solides qui soit.",
       "pizza": "Délicieux.",
-      "mine_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `/opencrate crate:gem crate`",
-      "fish_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `/opencrate crate:treasure`",
-      "mine_premium_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `/opencrate crate:gem premium crate`",
-      "fish_premium_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `/opencrate crate:premium treasure`",
+      "mine_crate": "Coffre au trésor trouvé en minant. Il y a peut-être des trucs intéressants dedans. Peut être ouvert avec `/opencrate crate:gem crate`",
+      "fish_crate": "Coffre au trésor trouvé en pêchant. Il pourrait contenir de belles choses. Peut être ouvert avec `/opencrate crate:treasure`",
+      "mine_premium_crate": "Coffre au trésor trouvé en minant. Il y a peut-être des trucs intéressants dedans. Peut être ouvert avec `/opencrate crate:gem premium crate`",
+      "fish_premium_crate": "Coffre au trésor trouvé en pêchant. Il pourrait contenir de belles choses. Peut être ouvert avec `/opencrate crate:premium treasure`",
       "comet_rod": "Une canne à pêche légèrement plus solide.",
       "star_rod": "Une canne à pêche plus solide.",
       "sparkle_rod": "Une canne à pêche bien plus solide.",
@@ -2639,8 +2639,8 @@
       "broken_hellfire_pick": "Une pioche des enfers qui s'est éteinte durant une session de minage, il y a toujours de l'espoir pour la réparer.",
       "broken_hellfire_axe": "Une hache des enfers qui s'est éteinte durant une session de bucheronnage, il y a toujours de l'espoir pour la réparer.",
       "broken_hellfire_rod": "Une canne des enfers qui s'est éteinte durant une session de pêche, il y a toujours de l'espoir pour la réparer.",
-      "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `/opencrate crate:chop crate`",
-      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `/opencrate crate:chop premium crate`"
+      "chop_crate": "Coffre au trésor trouvé en bucheronnant. Il y a peut-être des trucs intéressants dedans. Peut être ouvert avec `/opencrate crate:chop crate`",
+      "chop_premium_crate": "Coffre au trésor trouvé en bucheronnant. Il y a peut-être des trucs intéressants dedans. Peut être ouvert avec `/opencrate create:chop premium crate`"
     }
   },
   "buttons": {
