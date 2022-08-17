@@ -77,7 +77,7 @@
     "invalid_character": "%1$sЭто недопустимый персонаж.",
     "invalid_action": "Ты не можешь сделать это, дурашка.",
     "interactive_running": "%1$sНа этом канале уже использована подобная команда (которая принадлежит вам).",
-    "buy_sell_paged_react": "Use the message buttons to move between pages.\n%1$s",
+    "buy_sell_paged_react": "Используйте кнопки под сообщением для перемещения между страницами.\n%1$s",
     "buy_sell_paged_text": "Используйте **&p >>** и **&p <<** для перемещения между страницами.\n%1$s",
     "buy_sell_paged_reference": "**Рекомендуем %1$s Купить %2$s Продать.**",
     "cancelled": "%1$sЗапрос отменен.",
@@ -782,8 +782,8 @@
       },
       "header": "Магазин Mantaro",
       "reference": "\nYou can buy and sell items using `/buy item:<item>` and `/sell item:<item>` respectively. Check `/help market` for more info.",
-      "sell_price": "- **Цена Продажи:**",
-      "buy_price": "- **Цена Покупки:**"
+      "sell_price": "- **Цена продажи:**",
+      "buy_price": "- **Цена покупки:**"
     },
     "itemtransfer": {
       "transfer_yourself_note": "%1$sВы не можете передать предмет себе.",
