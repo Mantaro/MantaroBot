@@ -789,6 +789,7 @@
       "transfer_yourself_note": "%1$sDu kannst keinen Gegenstand an dich selbst senden!",
       "bot_notice": "%1$sDu kannst keinen Gegenstand an einen Bot senden.",
       "locked_notice": "%1$sDu kannst momentan keine Gegenstände senden. (Nutzer gesperrt)",
+      "locked_notice_other": "%1$sYou cannot transfer items to this user for now. (Player is locked)",
       "hidden_item": "%1$sDu kannst diesen Gegenstand nicht versenden!",
       "overflow": "%1$sDieser Nutzer hat bereits das Maximum von diesem Gegenstand (5000).",
       "overflow_after": "%1$sNach der Übergabe des Gegenstands hätte der Spieler mehr als das Maximum von diesem Gegenstand (5000).",
