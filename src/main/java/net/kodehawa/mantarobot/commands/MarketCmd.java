@@ -660,8 +660,8 @@ public class MarketCmd {
 
             player.addMoney(money);
             player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
-            ctx.sendLocalized("commands.market.sell.success", EmoteReference.CORRECT, Math.abs(many), toSell.getName(), money);
             player.save();
+            ctx.sendLocalized("commands.market.sell.success", EmoteReference.CORRECT, Math.abs(many), toSell.getName(), money);
         } catch (Exception e) {
             ctx.send(EmoteReference.ERROR + ctx.getLanguageContext().get("general.invalid_syntax"));
         }
@@ -712,7 +712,7 @@ public class MarketCmd {
                 player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
 
                 //Due to player data being updated here too.
-                player.saveAsync();
+                player.save();
 
                 var playerMoney = player.getCurrentMoney();
                 var message = "commands.market.buy.success";

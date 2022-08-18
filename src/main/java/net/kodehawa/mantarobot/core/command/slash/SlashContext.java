@@ -144,9 +144,7 @@ public class SlashContext implements IContext {
         if (deferred) {
             slash.getHook().sendMessage(source.formatted(args)).queue();
         } else {
-            slash.deferReply()
-                    .setContent(source.formatted(args))
-                    .queue();
+            slash.reply(source.formatted(args)).queue();
         }
     }
 
@@ -154,9 +152,7 @@ public class SlashContext implements IContext {
         if (deferred) {
             slash.getHook().sendMessage(i18n.get(source).formatted(args)).queue();
         } else {
-            slash.deferReply()
-                    .setContent(i18n.get(source).formatted(args))
-                    .queue();
+            slash.reply(i18n.get(source).formatted(args)).queue();
         }
     }
 
@@ -166,8 +162,7 @@ public class SlashContext implements IContext {
                     .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                     .queue();
         } else {
-            slash.deferReply()
-                    .setContent(i18n.get(source).formatted(args))
+            slash.reply(i18n.get(source).formatted(args))
                     .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                     .queue();
         }
@@ -177,9 +172,7 @@ public class SlashContext implements IContext {
         if (deferred) {
             slash.getHook().sendMessage(text).queue();
         } else {
-            slash.deferReply()
-                    .setContent(text)
-                    .queue();
+            slash.reply(text).queue();
         }
     }
 
@@ -187,9 +180,7 @@ public class SlashContext implements IContext {
         if (deferred) {
             slash.getHook().sendMessage(message).queue();
         } else {
-            slash.deferReply()
-                    .setContent(message.getContentRaw())
-                    .queue();
+            slash.reply(message.getContentRaw()).queue();
         }
     }
 
@@ -199,8 +190,7 @@ public class SlashContext implements IContext {
                     .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                     .queue();
         } else {
-            slash.deferReply()
-                    .setContent(text)
+            slash.reply(text)
                     .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                     .queue();
         }
@@ -211,7 +201,7 @@ public class SlashContext implements IContext {
             slash.getHook().sendMessageEmbeds(embed)
                     .queue(success -> {}, Throwable::printStackTrace);
         } else {
-            slash.deferReply().addEmbeds(embed)
+            slash.replyEmbeds(embed)
                     .queue(success -> {}, Throwable::printStackTrace);
         }
     }
@@ -220,8 +210,8 @@ public class SlashContext implements IContext {
         if (deferred) {
             slash.getHook().sendMessage(source.formatted(args)).queue();
         } else {
-            slash.deferReply(true)
-                    .setContent(source.formatted(args))
+            slash.reply(source.formatted(args))
+                    .setEphemeral(true)
                     .queue();
         }
     }
@@ -230,8 +220,8 @@ public class SlashContext implements IContext {
         if (deferred) {
             slash.getHook().sendMessage(i18n.get(source).formatted(args)).queue();
         } else {
-            slash.deferReply(true)
-                    .setContent(i18n.get(source).formatted(args))
+            slash.reply(i18n.get(source).formatted(args))
+                    .setEphemeral(true)
                     .queue();
         }
     }
@@ -242,8 +232,8 @@ public class SlashContext implements IContext {
                     .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                     .queue();
         } else {
-            slash.deferReply(true)
-                    .setContent(i18n.get(source).formatted(args))
+            slash.reply(i18n.get(source).formatted(args))
+                    .setEphemeral(true)
                     .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                     .queue();
         }
@@ -254,7 +244,8 @@ public class SlashContext implements IContext {
             slash.getHook().sendMessageEmbeds(embed)
                     .queue(success -> {}, Throwable::printStackTrace);
         } else {
-            slash.deferReply(true).addEmbeds(embed)
+            slash.replyEmbeds(embed)
+                    .setEphemeral(true)
                     .queue(success -> {}, Throwable::printStackTrace);
         }
     }
@@ -370,8 +361,8 @@ public class SlashContext implements IContext {
                     .addActionRows(actionRow)
                     .queue();
         } else {
-            slash.deferReply()
-                    .setContent(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format))
+            slash.reply(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format))
+                    .setEphemeral(true)
                     .addActionRows(actionRow)
                     .queue();
         }

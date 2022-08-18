@@ -155,6 +155,10 @@ public class DiscordUtils {
                                                          Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
                                                          Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
         var r = embedList(list, toString);
+        if (!ctx.getEvent().isAcknowledged()) {
+            ctx.defer();
+        }
+
         var m = ctx.getEvent().getHook()
                 .editOriginalEmbeds(toEmbed.apply(r.getLeft()))
                 .setContent("")
