@@ -25,21 +25,22 @@ Thank you.
 # Credits
 You may add yourself to this table or ask to be added while making a translation.
 
-| Language | Name |
-|:--------:|:-----|
-| Spanish | Kodehawa#3457 ([@Kodehawa](https://github.com/Kodehawa)), agupal#4466 |
-| German | Vrontis#8513 ([@Vrontis](https://github.com/Vrontis)), Five#0001, Tamos#0534 |
-| Lithuanian | Ghostwolf#0001 ([@TheOnlyGhostwolf](https://github.com/TheOnlyGhostwolf)) |
-| Dutch | JynXi#4043 |
-| French | Baba#3647 ([@thebaba98](https://github.com/thebaba98)) |
-| Arabic | ZeusRoyal#8888 |
-| Filipino | FlightlessAzrael#8086, 昭義明 \| Nhalrath#0181([@Nhalrath](https://github.com/Nhalrath))
-| Japanese | NDQ1049#1231, tuna#0660 |
-| Dutch | rabbit#0001, ~ Pixi#9999 |
-| Polish | \`Anomcia.#8089 |
-| Portuguese | ai ai ai#7478 |
-| Turkish | Avalicia#6666 |
-| Chinese (Simplified) | So-Now-What#0460 |
-| Chinese (Traditional) | Alan72104#4011 |
-| Hindi | Spaghettified_Cat#2052 |
-| Russian | █𝓷𝓲𝓻𝓲𝔂𝓪 𝓸𝓷𝓵𝓲𝓷𝓮█#0001 |
+| Language              | Names                                                                                                                                     |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| Spanish               | Kodehawa#3457 ([@Kodehawa](https://github.com/Kodehawa)), agupal#4466                                                                     |
+| German                | Vrontis#8513 ([@Vrontis](https://github.com/Vrontis)), Five#0001, Tamos#0534, unkenfuss#9780 ([@unkenfuss](https://github.com/unkenfuss)) | 
+| Lithuanian            | Ghostwolf#0001 ([@TheOnlyGhostwolf](https://github.com/TheOnlyGhostwolf))                                                                 |                                                         |
+| Dutch                 | JynXi#4043                                                                                                                                |                                                         |
+| French                | Baba#3647 ([@thebaba98](https://github.com/thebaba98))                                                                                    |                                                         |
+| Arabic                | ZeusRoyal#8888                                                                                                                            |                                                         |
+| Filipino              | FlightlessAzrael#8086, 昭義明, Nhalrath#0181([@Nhalrath](https://github.com/Nhalrath))                                                       |
+| Japanese              | NDQ1049#1231, tuna#0660                                                                                                                   |                                                         |
+| Dutch                 | rabbit#0001, ~ Pixi#9999                                                                                                                  |                                                         |
+| Polish                | \`Anomcia.#8089                                                                                                                           |                                                         |
+| Portuguese            | ai ai ai#7478                                                                                                                             |                                                         |
+| Turkish               | Avalicia#6666                                                                                                                             |                                                         |
+| Chinese (Simplified)  | So-Now-What#0460                                                                                                                          |                                                         |
+| Chinese (Traditional) | Alan72104#4011                                                                                                                            |                                                         |
+| Hindi                 | Spaghettified_Cat#2052                                                                                                                    |                                                         |
+| Russian               | █𝓷𝓲𝓻𝓲𝔂𝓪 𝓸𝓷𝓵𝓲𝓷𝓮█#0001                                                                                                          |
+| Vietnamese            | Horizuki#9595                                                                                                                             |
