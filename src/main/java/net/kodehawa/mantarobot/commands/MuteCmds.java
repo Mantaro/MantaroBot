@@ -81,7 +81,7 @@ public class MuteCmds {
             }
 
             if (!ctx.getMember().hasPermission(Permission.MODERATE_MEMBERS)) {
-                ctx.sendLocalized("commands.mute.no_permissions", EmoteReference.ERROR);
+                ctx.reply("commands.mute.no_permissions", EmoteReference.ERROR);
                 return;
             }
 
@@ -170,7 +170,7 @@ public class MuteCmds {
             var logReason = reason.isEmpty() ? placeholderReason : reason;
 
             if (!ctx.getMember().hasPermission(Permission.MODERATE_MEMBERS)) {
-                ctx.sendLocalized("commands.unmute.no_permissions", EmoteReference.ERROR);
+                ctx.reply("commands.unmute.no_permissions", EmoteReference.ERROR);
                 return;
             }
 
@@ -181,7 +181,7 @@ public class MuteCmds {
 
             var member = ctx.getGuild().getMember(user);
             if (member == null) {
-                ctx.sendLocalized("commands.unmute.no_mentions", EmoteReference.ERROR);
+                ctx.reply("commands.unmute.no_mentions", EmoteReference.ERROR);
                 return;
             }
 

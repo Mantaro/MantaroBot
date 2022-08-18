@@ -78,12 +78,12 @@ public class SlashContext implements IContext {
     }
 
     public void defer() {
-        slash.deferReply().queue();
+        slash.deferReply().complete();
         deferred = true;
     }
 
     public void deferEphemeral() {
-        slash.deferReply(true).queue();
+        slash.deferReply(true).complete();
         deferred = true;
     }
 
@@ -270,7 +270,7 @@ public class SlashContext implements IContext {
 
     public WebhookMessageUpdateAction<Message> editAction(MessageEmbed embed) {
         if (!slash.isAcknowledged()) {
-            slash.deferReply().queue();
+            slash.deferReply().complete();
         }
 
         return slash.getHook().editOriginalEmbeds(embed).setContent("");
@@ -278,7 +278,7 @@ public class SlashContext implements IContext {
 
     public void edit(MessageEmbed embed) {
         if (!slash.isAcknowledged()) {
-            slash.deferReply().queue();
+            slash.deferReply().complete();
         }
 
         slash.getHook().editOriginalEmbeds(embed).setContent("")
@@ -287,7 +287,7 @@ public class SlashContext implements IContext {
 
     public void edit(String s) {
         if (!slash.isAcknowledged()) {
-            slash.deferReply().queue();
+            slash.deferReply().complete();
         }
 
         slash.getHook().editOriginal(s).setEmbeds(Collections.emptyList()).queue();
@@ -297,7 +297,7 @@ public class SlashContext implements IContext {
         if (!slash.isAcknowledged()) {
             slash.deferReply()
                     .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
-                    .queue();
+                    .complete();
         }
 
         // Assume its stripped already? No stripped version.
@@ -309,7 +309,7 @@ public class SlashContext implements IContext {
 
     public void edit(String s, Object... args) {
         if (!slash.isAcknowledged()) {
-            slash.deferReply().queue();
+            slash.deferReply().complete();
         }
 
         slash.getHook().editOriginal(i18n.get(s).formatted(args))
@@ -322,7 +322,7 @@ public class SlashContext implements IContext {
         if (!slash.isAcknowledged()) {
             slash.deferReply()
                     .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
-                    .queue();
+                    .complete();
         }
 
         slash.getHook().editOriginal(i18n.get(s).formatted(args))
@@ -333,7 +333,7 @@ public class SlashContext implements IContext {
 
     public WebhookMessageUpdateAction<Message> editAction(String s) {
         if (!slash.isAcknowledged()) {
-            slash.deferReply().queue();
+            slash.deferReply().complete();
         }
 
         return slash.getHook().editOriginal(s).setEmbeds(Collections.emptyList());
@@ -395,7 +395,7 @@ public class SlashContext implements IContext {
     @Override
     public Message sendResult(String s) {
         if (!slash.isAcknowledged()) {
-            slash.deferReply().queue();
+            slash.deferReply().complete();
         }
 
         return slash.getHook().sendMessage(s).allowedMentions(EnumSet.noneOf(Message.MentionType.class)).complete();
@@ -404,7 +404,7 @@ public class SlashContext implements IContext {
     @Override
     public Message sendResult(MessageEmbed e) {
         if (!slash.isAcknowledged()) {
-            slash.deferReply().queue();
+            slash.deferReply().complete();
         }
 
         return slash.getHook().sendMessageEmbeds(e).complete();

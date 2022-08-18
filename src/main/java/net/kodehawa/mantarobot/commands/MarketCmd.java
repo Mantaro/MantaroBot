@@ -622,7 +622,6 @@ public class MarketCmd {
 
         var player = ctx.getPlayer();
         var playerInventory = player.getInventory();
-
         try {
             if (item.isEmpty()) {
                 ctx.sendLocalized("commands.market.sell.no_item",  EmoteReference.ERROR);
