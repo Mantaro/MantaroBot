@@ -461,7 +461,6 @@ public class CurrencyActionCmds {
 
         ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.mine.autoequip.success");
         message += "\n\n" + (languageContext.get("commands.mine.success") + reminder).formatted(item.getEmojiDisplay(), money, item.getName());
-
         ctx.sendStripped(message);
     }
 
