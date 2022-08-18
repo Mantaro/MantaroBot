@@ -80,13 +80,13 @@ public class MuteCmds {
                 time = Math.abs(Utils.parseTime(maybeTime));
             }
 
-            if (!ctx.getSelfMember().hasPermission(Permission.MODERATE_MEMBERS)) {
-                ctx.reply("commands.mute.no_moderate_members", EmoteReference.ERROR);
+            if (!ctx.getMember().hasPermission(Permission.MODERATE_MEMBERS)) {
+                ctx.sendLocalized("commands.mute.no_permissions", EmoteReference.ERROR);
                 return;
             }
 
-            if (!ctx.getMember().hasPermission(Permission.MODERATE_MEMBERS)) {
-                ctx.sendLocalized("commands.mute.no_permissions", EmoteReference.ERROR);
+            if (!ctx.getSelfMember().hasPermission(Permission.MODERATE_MEMBERS)) {
+                ctx.reply("commands.mute.no_moderate_members", EmoteReference.ERROR);
                 return;
             }
 
@@ -107,11 +107,6 @@ public class MuteCmds {
                 return;
             }
 
-            if (member.isTimedOut()) {
-                ctx.reply("commands.mute.already_muted", EmoteReference.WARNING);
-                return;
-            }
-
             if (!ctx.getSelfMember().canInteract(member)) {
                 ctx.reply("commands.mute.self_hierarchy_error", EmoteReference.ERROR);
                 return;
@@ -119,6 +114,11 @@ public class MuteCmds {
 
             if (!ctx.getMember().canInteract(member)) {
                 ctx.reply("commands.mute.user_hierarchy_error", EmoteReference.ERROR);
+                return;
+            }
+
+            if (member.isTimedOut()) {
+                ctx.reply("commands.mute.already_muted", EmoteReference.WARNING);
                 return;
             }
 
@@ -169,13 +169,13 @@ public class MuteCmds {
             var placeholderReason = "Not specified";
             var logReason = reason.isEmpty() ? placeholderReason : reason;
 
-            if (!ctx.getSelfMember().hasPermission(Permission.MODERATE_MEMBERS)) {
-                ctx.reply("commands.mute.no_moderate_members", EmoteReference.ERROR);
+            if (!ctx.getMember().hasPermission(Permission.MODERATE_MEMBERS)) {
+                ctx.sendLocalized("commands.unmute.no_permissions", EmoteReference.ERROR);
                 return;
             }
 
-            if (!ctx.getMember().hasPermission(Permission.MODERATE_MEMBERS)) {
-                ctx.sendLocalized("commands.unmute.no_permissions", EmoteReference.ERROR);
+            if (!ctx.getSelfMember().hasPermission(Permission.MODERATE_MEMBERS)) {
+                ctx.reply("commands.mute.no_moderate_members", EmoteReference.ERROR);
                 return;
             }
 

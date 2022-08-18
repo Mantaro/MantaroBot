@@ -147,12 +147,24 @@ public class FunCmds {
 
             var times = ctx.getOptionAsString("times", "");
             if (!times.isBlank()) {
-                var d20 = RPGDice.parse(times);
+                RPGDice d20;
+                try {
+                    d20 = RPGDice.parse(times);
+                } catch (Exception e) {
+                    ctx.replyEphemeral("commands.roll.incorrect_format", EmoteReference.ERROR);
+                    return;
+                }
+
                 if (d20 != null) {
                     size = d20.faces();
                     amount = d20.rolls();
                 } else {
-                    ctx.reply("commands.roll.incorrect_format", EmoteReference.ERROR);
+                    ctx.replyEphemeral("commands.roll.incorrect_format", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (amount < 1 || size < 1) {
+                    ctx.replyEphemeral("commands.roll.incorrect_format", EmoteReference.ERROR);
                     return;
                 }
 
@@ -172,7 +184,7 @@ public class FunCmds {
 
             var sumString = result.stream().limit(10).map(Object::toString).collect(Collectors.joining(", "));
             if (result.size() > 10) {
-                sumString += ctx.getLanguageContext().get("commands.roll.more_than_10").formatted(sum - 10);
+                sumString += ctx.getLanguageContext().get("commands.roll.more_than_10").formatted(result.size() - 10);
             }
             sumString += " " + ctx.getLanguageContext().get("commands.roll.total").formatted(sum);
 

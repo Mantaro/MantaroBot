@@ -378,7 +378,6 @@ public class CurrencyCmds {
             protected void call(Context ctx, String content, String[] args) {
                 ctx.findMember(content, members -> {
                     var member = ctx.getMember();
-
                     if (!content.isEmpty()) {
                         member = CustomFinderUtil.findMember(content, members, ctx);
                     }
@@ -411,10 +410,7 @@ public class CurrencyCmds {
         registry.register("opencrate", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                var arguments = ctx.getOptionalArguments();
-                content = Utils.replaceArguments(arguments, content, "season", "s").trim();
-                var player = ctx.getPlayer();
-                openCrate(ctx, content, player);
+                openCrate(ctx, content, ctx.getPlayer());
             }
 
             @Override

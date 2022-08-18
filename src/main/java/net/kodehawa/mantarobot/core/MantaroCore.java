@@ -98,6 +98,7 @@ public class MantaroCore {
     private final CommandProcessor commandProcessor = new CommandProcessor();
     private EventBus shardEventBus;
     private ShardManager shardManager;
+    private int restPing;
 
     public MantaroCore(Config config, boolean isDebug) {
         this.config = config;
@@ -401,6 +402,14 @@ public class MantaroCore {
         return Collections.unmodifiableCollection(shards.values());
     }
 
+    public int getRestPing() {
+        return restPing;
+    }
+
+    public void setRestPing(int restPing) {
+        this.restPing = restPing;
+    }
+
     public void registerSlash(List<CommandData> data) {
         if (MantaroBot.getInstance().isMasterNode()) {
             var jda = getShard(0).getJDA();
@@ -481,6 +490,7 @@ public class MantaroCore {
         }
 
         bot.startCheckingBirthdays();
+        startMonitor();
         var slashList = CommandProcessor.REGISTRY.getCommandManager().getSlashCommandsList();
         log.info("Attempted to register slash commands (@Module). List size: {}", slashList.size());
         var userContextList = CommandProcessor.REGISTRY.getCommandManager().getContextUserCommandsList();
@@ -491,7 +501,7 @@ public class MantaroCore {
 
     private void startUpdaters() {
         log.info("Starting bot list count executor...");
-        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mantaro-Server Count Update")).scheduleAtFixedRate(() -> {
+        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mantaro Server Count Updater")).scheduleAtFixedRate(() -> {
             try {
                 var serverCount = 0L;
                 //Fetch actual guild count.
@@ -514,6 +524,18 @@ public class MantaroCore {
                 ex.printStackTrace();
             }
         }, 0, 10, TimeUnit.MINUTES);
+    }
+
+    private void startMonitor() {
+        log.info("Starting latency monitor...");
+        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mantaro Latency Monitor")).scheduleAtFixedRate(() -> {
+            var shard = 0;
+            if (ExtraRuntimeOptions.FROM_SHARD.isPresent()) {
+                shard = ExtraRuntimeOptions.FROM_SHARD.getAsInt() + 1;
+            }
+
+            setRestPing(shards.get(shard).getJDA().getRestPing().complete().intValue());
+        }, 0, 30, TimeUnit.SECONDS);
     }
 
     private static class ShardStartListener implements EventListener {

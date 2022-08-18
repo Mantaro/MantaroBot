@@ -22,6 +22,7 @@ import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
@@ -235,17 +236,23 @@ public abstract class SlashCommand {
 
     public final void execute(SlashContext ctx) {
         var sub = getSubCommands().get(ctx.getSubCommand());
+        // If this is over 2500ms, we should attempt to defer instead, as discord might be lagging.
+        var averageLatencyMax = MantaroBot.getInstance().getCore().getRestPing() * 4;
 
-        if (!getPredicate().test(ctx)) return;
+        // Predicate failure
+        if (!getPredicate().test(ctx)) {
+            return;
+        }
+
         if (sub != null) {
-            if (sub.defer()) {
+            if (sub.defer() || averageLatencyMax > 2500) {
                 if (sub.isEphemeral()) ctx.deferEphemeral();
                 else ctx.defer();
             }
 
             sub.process(ctx);
         } else {
-            if (defer()) {
+            if (defer() || averageLatencyMax > 2500) {
                 if (isEphemeral()) ctx.deferEphemeral();
                 else ctx.defer();
             }

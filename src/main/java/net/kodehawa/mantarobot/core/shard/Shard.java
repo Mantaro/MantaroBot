@@ -39,9 +39,7 @@ import static net.kodehawa.mantarobot.data.MantaroData.config;
 
 public class Shard {
     private static final Logger log = LoggerFactory.getLogger(Shard.class);
-    private final Cache<Long, Optional<CachedMessage>> messageCache =
-            CacheBuilder.newBuilder().concurrencyLevel(5).maximumSize(2500).build();
-
+    private final Cache<Long, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(5).maximumSize(2500).build();
     private final MantaroEventManager manager = new MantaroEventManager();
     private final int id;
     private final EventListener listener;
@@ -80,12 +78,6 @@ public class Shard {
     @CheckReturnValue
     public EventListener getListener() {
         return listener;
-    }
-
-    @Nullable
-    @CheckReturnValue
-    public JDA getNullableJDA() {
-        return jda;
     }
 
     @Nonnull

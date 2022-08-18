@@ -18,6 +18,7 @@
 package net.kodehawa.mantarobot.core.command.slash;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 
@@ -93,16 +94,18 @@ public abstract class ContextCommand<T> {
     }
 
     public final void execute(InteractionContext<T> ctx) {
-        if (defer()) {
+        // If this is over 2500ms, we should attempt to defer instead, as discord might be lagging.
+        var averageLatencyMax = MantaroBot.getInstance().getCore().getRestPing() * 4;
+        if (!getPredicate().test(ctx)) {
+            return;
+        }
+
+        if (defer() || averageLatencyMax > 2500) {
             if (ephemeral) {
                 ctx.deferEphemeral();
             } else {
                 ctx.defer();
             }
-        }
-
-        if (!getPredicate().test(ctx)) {
-            return;
         }
 
         process(ctx);

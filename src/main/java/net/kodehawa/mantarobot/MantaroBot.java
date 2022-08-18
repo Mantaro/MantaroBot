@@ -295,7 +295,7 @@ public class MantaroBot {
         ScheduledExecutorService postExecutor = Executors.newSingleThreadScheduledExecutor(
                 new ThreadFactoryBuilder().setNameFormat("Mantaro Statistics Posting").build()
         );
-        postExecutor.scheduleAtFixedRate(() -> postStats(getShardManager()), 10, 20, TimeUnit.MINUTES);
+        postExecutor.scheduleAtFixedRate(() -> postStats(getShardManager()), 10, 10, TimeUnit.MINUTES);
     }
 
     public void startCheckingBirthdays() {

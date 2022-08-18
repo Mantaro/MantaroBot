@@ -128,7 +128,7 @@ public class GambleCmds {
     @Description("Rolls the slot machine.")
     @Category(CommandCategory.CURRENCY)
     @Options({
-            @Options.Option(type = OptionType.STRING, name = "credits", description = "The amount of credits to put. Default is 50 if not specifed."),
+            @Options.Option(type = OptionType.STRING, name = "credits", description = "The amount of credits to put. Default is 50 if not specified."),
             @Options.Option(type = OptionType.BOOLEAN, name = "useticket", description = "Whether to use a ticket. False by default"),
             @Options.Option(type = OptionType.INTEGER, name = "ticketamount", description = "The amount of tickets to put. Only works if credits isn't specified.")
     })
