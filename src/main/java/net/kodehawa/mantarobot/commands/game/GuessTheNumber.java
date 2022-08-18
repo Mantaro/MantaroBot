@@ -20,19 +20,20 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.List;
 import java.util.Random;
 
 public class GuessTheNumber extends Game<Object> {
+    private static final ManagedDatabase managedDatabase = MantaroData.db();
     private static final int maxAttempts = 5;
     private final Random r = new Random();
     private int attempts = 1;
@@ -92,15 +93,11 @@ public class GuessTheNumber extends Game<Object> {
                     }
 
                     if (contentRaw.equals(String.valueOf(number))) {
-                        var unifiedPlayer = UnifiedPlayer.of(e.getAuthor(), config.getCurrentSeason());
-                        var player = unifiedPlayer.getPlayer();
-                        var seasonalPlayer = unifiedPlayer.getSeasonalPlayer();
+                        var player = managedDatabase.getPlayer(e.getAuthor());
                         var gains = 140;
 
-                        unifiedPlayer.addMoney(gains);
+                        player.addMoney(gains);
                         player.getData().setGamesWon(player.getData().getGamesWon() + 1);
-                        seasonalPlayer.getData().setGamesWon(seasonalPlayer.getData().getGamesWon() + 1);
-
                         if (player.getData().getGamesWon() == 100) {
                             player.getData().addBadgeIfAbsent(Badge.GAMER);
                         }
@@ -113,8 +110,7 @@ public class GuessTheNumber extends Game<Object> {
                             player.getData().addBadgeIfAbsent(Badge.APPROACHING_DESTINY);
                         }
 
-                        unifiedPlayer.saveUpdating();
-
+                        player.saveUpdating();
                         TextChannelGround.of(e.getChannel()).dropItemWithChance(ItemReference.FLOPPY_DISK, 3);
                         channel.sendMessageFormat(languageContext.get("commands.game.lobby.won_game"),
                                 EmoteReference.MEGA, e.getMember().getEffectiveName(), gains

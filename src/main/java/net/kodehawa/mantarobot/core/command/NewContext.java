@@ -20,7 +20,6 @@ package net.kodehawa.mantarobot.core.command;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.command.argument.ArgumentParseError;
 import net.kodehawa.mantarobot.core.command.argument.Arguments;
@@ -380,18 +379,6 @@ public class NewContext {
 
     public Player getPlayer(String id) {
         return managedDatabase.getPlayer(id);
-    }
-
-    public SeasonPlayer getSeasonPlayer() {
-        return managedDatabase.getPlayerForSeason(getUser(), config.getCurrentSeason());
-    }
-
-    public SeasonPlayer getSeasonPlayer(User user) {
-        return managedDatabase.getPlayerForSeason(user, config.getCurrentSeason());
-    }
-
-    public SeasonPlayer getSeasonPlayer(Member member) {
-        return managedDatabase.getPlayerForSeason(member, config.getCurrentSeason());
     }
 
     public MantaroBot getBot() {

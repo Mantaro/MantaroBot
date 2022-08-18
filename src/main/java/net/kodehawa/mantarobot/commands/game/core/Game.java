@@ -20,16 +20,17 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class Game<T> {
+    private static final ManagedDatabase managedDatabase = MantaroData.db();
     protected final Config config = MantaroData.config().get();
     private int attempts = 1;
 
@@ -88,14 +89,11 @@ public abstract class Game<T> {
                     .trim();
 
             if (expectedAnswer.stream().map(String::valueOf).anyMatch(contentRaw::equalsIgnoreCase)) {
-                var unifiedPlayer = UnifiedPlayer.of(e.getAuthor(), config.getCurrentSeason());
-                var player = unifiedPlayer.getPlayer();
+                var player = managedDatabase.getPlayer(e.getAuthor());
                 var data = player.getData();
-                var seasonalPlayer = unifiedPlayer.getSeasonalPlayer();
-                var seasonalPlayerData = seasonalPlayer.getData();
 
                 var gains = 70 + extra;
-                unifiedPlayer.addMoney(gains);
+                player.addMoney(gains);
 
                 if (data.getGamesWon() == 100) {
                     data.addBadgeIfAbsent(Badge.GAMER);
@@ -105,9 +103,8 @@ public abstract class Game<T> {
                     data.addBadgeIfAbsent(Badge.ADDICTED_GAMER);
                 }
 
-                seasonalPlayerData.setGamesWon(seasonalPlayerData.getGamesWon() + 1);
                 data.setGamesWon(data.getGamesWon() + 1);
-                unifiedPlayer.saveUpdating();
+                player.saveUpdating();
 
                 TextChannelGround.of(e.getChannel()).dropItemWithChance(ItemReference.FLOPPY_DISK, 3);
                 channel.sendMessageFormat(

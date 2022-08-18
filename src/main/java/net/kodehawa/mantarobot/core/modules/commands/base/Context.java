@@ -26,7 +26,6 @@ import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.concurrent.Task;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -205,18 +204,6 @@ public class Context implements IContext {
         return commandName;
     }
 
-    public SeasonPlayer getSeasonPlayer() {
-        return managedDatabase.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
-    }
-
-    public SeasonPlayer getSeasonPlayer(User user) {
-        return managedDatabase.getPlayerForSeason(user, getConfig().getCurrentSeason());
-    }
-
-    public SeasonPlayer getSeasonPlayer(Member member) {
-        return managedDatabase.getPlayerForSeason(member, getConfig().getCurrentSeason());
-    }
-
     public PlayerStats getPlayerStats() {
         return managedDatabase.getPlayerStats(getMember());
     }
@@ -235,11 +222,6 @@ public class Context implements IContext {
 
     public MantaroObj getMantaroData() {
         return managedDatabase.getMantaroData();
-    }
-
-    public boolean isSeasonal() {
-        Map<String, String> optionalArguments = getOptionalArguments();
-        return optionalArguments.containsKey("season") || optionalArguments.containsKey("s");
     }
 
     public boolean hasReactionPerms() {
