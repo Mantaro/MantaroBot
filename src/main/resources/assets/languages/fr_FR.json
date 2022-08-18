@@ -789,6 +789,7 @@
       "transfer_yourself_note": "%1$sTu ne peux pas te transférer des objets à toi-même.",
       "bot_notice": "%1$sTu ne peux pas transférer des objets à un bot!",
       "locked_notice": "%1$sTu ne peux pas transférer des objets pour le moment. (Le joueur est bloqué)",
+      "locked_notice_other": "%1$sYou cannot transfer items to this user for now. (Player is locked)",
       "hidden_item": "%1$sTu ne peux pas transférer cet objet.",
       "overflow": "%1$sCe joueur a la nombre maximum (5000) de cet objet.",
       "overflow_after": "%1$sAprès avoir transféré l'objet, le joueur aurait plus que le maximum (5000) de cet objet.",
@@ -941,7 +942,7 @@
         "sharks_caught": "Requins attrapés",
         "crates_open": "Coffres ouverts",
         "times_mop": "Nombre de dépoussiérages",
-        "daily": "Passages quotidiens",
+        "daily": "Multiplicateur de gains",
         "daily_at": "Dernier gain quotidien",
         "waifu_claimed": "Nombre de fois où tu es devenu.e waifu",
         "waifu_locked": "Verrouillage Waifu",
@@ -1687,18 +1688,18 @@
         "same_user": "%1$sUtilise la commande daily te mentionner... Enfin si tu comptais le faire :P"
       },
       "streak": {
-        "up": "Streak actuel: `%1$sx`",
-        "first_time": "Première réclamation de gain journalier, amuse-toi bien! (Reviens demain !!)",
+        "up": "Multiplicateur actuel : `%1$,dx`",
+        "first_time": "Première réclamation de gain journalier, amuse-toi bien ! (Reviens demain !!)",
         "lost_streak": {
-          "normal": "Plus de 2 jours sont passés depuis ta dernière réclamation donc ton streak de `%1$dx` a été remis à 0 :(",
-          "watch": "Même ta `Montre magique` n'a pu arrêter le court du temps aussi longtemps. Même en utilisant toutes les montres magiques du monde ton streak de `%1$dx` repartirait de zéro :("
+          "normal": "Plus de 2 jours sont passés depuis ta dernière réclamation donc ton multiplicateur de `%1$dx` a été remis à 0 :(",
+          "watch": "Même ta `Montre magique` n'a pu arrêter le court du temps aussi longtemps. Même en utilisant toutes les montres magiques du monde ton multiplicateur de `%1$dx` repartirait de zéro :("
         },
-        "bonus": "\nTu as obtenu un bonus de $%1$s pour avoir réclamé ton gain journalier 5 jours d'affilée ou plus! (Inclus dans l'argent montré!)",
+        "bonus": "Tu as obtenu un bonus de $%1$s pour avoir réclamé ton multiplicateur de gains 5 jours d'affilée ou plus ! (Inclus dans l'argent montré !)",
         "given": {
-          "up": "Augmentation du streak! Streak actuel : `%1$dx`.\n*Le streak a été appliqué à ton profil!*",
-          "bonus": "%1$s gagne un bonus de $%2$s pour avoir réclamé son streak journalier 5 jours ou plus! (Inclus dans l'argent montré!)"
+          "up": "Augmentation du multiplicateur ! Multiplicateur actuel : `%1$,dx`.\n*Le multiplicateur a été appliqué à ton profil!*",
+          "bonus": "%1$s gagne un bonus de $%2$,d pour avoir réclamé son multiplicateur de gains 5 jours d'affilée ou plus ! (Inclus dans l'argent montré !)"
         },
-        "watch_used": "Tes `Montres magiques` ont sauvé ton streak! Tu en as utilisé `%1$d` pour allonger la vie de ton streak à %2$dx, il t'en reste `%3$d`!"
+        "watch_used": "Tes `Montres magiques` ont sauvé ton multiplicateur ! Tu en as utilisé `%1$d` pour allonger la vie de ton multiplicateur à %2$dx, il t'en reste `%3$d` !"
       },
       "given_credits": "%1$sJ'ai donné **$%2$,d** crédits à %3$s",
       "credits": "%1$sTu reçois **$%2$,d** crédits journaliers.",
@@ -1706,8 +1707,8 @@
         "get_premium": "On a besoin de ton aide pour garder Mantaro en vie! Va sur <https://patreon.com/mantaro> pour plus d'infos. **Tu peux obtenir jusqu'au double de crédits grâce au Premium!** L'abonnement commence à seulement 2$/mois, le prix d'un en-cas!",
         "already_premium": "Merci de soutenir Mantaro. Sans l'aide de gens comme toi on ne pourrait pas garder Mantaro en vie :heart:"
       },
-      "crate": "Tu as gagné un coffre au trésor pour avoir obtenu un multiplicateur journalier de 20.",
-      "watch_get": "Tu as gagné une `Montre magique` parce que ton streak est un multiple de 50! Profites-en!"
+      "crate": "Tu as gagné un coffre au trésor pour avoir obtenu un multiplicateur de gains de 20.",
+      "watch_get": "Tu as gagné une `Montre magique` parce que ton multiplicateur est un multiple de 50 ! Profites-en !"
     },
     "gamble": {
       "no_credits": "%1$sTu es à sec. Cherche quelques crédits d'abord peut-être.",
@@ -1815,7 +1816,7 @@
       "reputation": "Classements Réputation",
       "gamble": "Classements Gains Paris",
       "slots": "Classements Gains Slots",
-      "daily": "Classement Streak Journalier",
+      "daily": "Classement des multiplicateurs de gains",
       "level": "Classement Niveaux",
       "game": "Classement Parties Gagnées",
       "waifu": "Classements Valeur Waifu",
@@ -1827,7 +1828,7 @@
         "money_old": "%1$sCette page montre le top 10 des gens les plus riches de Mantaro (avant le reset)!\n",
         "money": "%1$sCette page montre le top 10 des gens les plus riches de Mantaro. C'est difficile d'être avare!",
         "rep": "%1sCette page montre le top 10 des gens qui ont le plus de réputation.",
-        "streak": "%1sCette page montre le top 10 des gens qui ont le plus gros streak journalier.\n\nVa voir `/help command:daily` pour plus de détails",
+        "streak": "%1sCette page montre le top 10 des gens qui ont le plus gros multiplicateur journalier.\n\nVa voir `/help command:daily` pour plus de détails",
         "lvl": "%1sCette page montre le top 10 des gens qui ont le plus de niveaux.\n\nLes niveaux sont gagnés en parlant. Les commandes ne comptent pas et l'expérience a 30 secondes de pause.",
         "waifu": "%1sCette page montre le top 10 des gens qui ont le plus de valeur Waifu.\n\nVa voir `/help command:waifu` pour plus de détails.",
         "gamble": "%1sCette page montre le top 10 des gens qui ont le plus de paris gagnés.\n\nVa voir `/help command:gamble` pour plus de détails.",
@@ -2606,7 +2607,7 @@
       "broken_star_rod": "Canne des étoiles qui a cassé durant une session de pêche, il y a toujours de l'espoir pour la réparer.",
       "incubator_egg": "Le catalyseur dont tu as besoin pour rappeler tes animaux de compagnie personnels à la maison.",
       "water_bottle": "Un objet qui guérit par magie la soif de votre animal.",
-      "magic_watch": "Une montre magique qui ralentit le temps en cas de besoin. Elle sera utilisée automatiquement pour sauver ton streak!",
+      "magic_watch": "Une montre magique qui ralentit le temps en cas de besoin. Elle sera utilisée automatiquement pour sauver ton multiplicateur !",
       "pet_house": "La maison de tes animaux de compagnie. De temps à autres. Parfois ils se laissent juste choir quelque part dehors.",
       "steak": "Très goutu pour les adeptes de viande.",
       "chicken": "Très goutu pour les adeptes de viande mais ça vient d'un poulet cette fois.",
