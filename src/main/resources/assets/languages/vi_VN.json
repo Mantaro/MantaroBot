@@ -789,6 +789,7 @@
       "transfer_yourself_note": "%1$sBạn không thể tự chuyển đồ cho bản thân.",
       "bot_notice": "%1$sBạn không thể chuyển đồ cho bot.",
       "locked_notice": "%1$sBạn hiện không thể chuyển đồ được. (Người chơi bị khoá)",
+      "locked_notice_other": "%1$sYou cannot transfer items to this user for now. (Player is locked)",
       "hidden_item": "%1$sBạn không thể chuyển món đồ này!",
       "overflow": "%1$sNgười này đã đạt đến số lượng tối đa (5000) của vật phẩm này.",
       "overflow_after": "%1$sSau khi chuyển vật phẩm, người chơi sẽ có nhiều hơn số lượng tối đa (5000) của vật phẩm này.",
