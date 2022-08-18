@@ -789,6 +789,7 @@
       "transfer_yourself_note": "%1$sNo puedes transferirte items a ti mismo!",
       "bot_notice": "%1$sNo puedes transferirle items a un bot.",
       "locked_notice": "%1$sNo puedes transferir items ahora.",
+      "locked_notice_other": "%1$sYou cannot transfer items to this user for now. (Player is locked)",
       "hidden_item": "%1$sNo puedes transferir este item!",
       "overflow": "%1$sEste jugador tiene el máximo (5000) de este ítem.",
       "overflow_after": "%1$sDespués de transferir este ítem, el jugador tendría más del monto máximo (5000) de este ítem.",
