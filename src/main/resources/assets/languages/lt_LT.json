@@ -789,6 +789,7 @@
       "transfer_yourself_note": "%1$sTu negali perduoti daiktų sau.",
       "bot_notice": "%1$sTu negali perduoti daiktų bot'ui.",
       "locked_notice": "%1$sTu kolkas negali perduoti daiktų. (Narys yra užrakintas)",
+      "locked_notice_other": "%1$sYou cannot transfer items to this user for now. (Player is locked)",
       "hidden_item": "%1$sTu negali perduoti šio daikto!",
       "overflow": "%1$sThis player has the maximum amount (5000) of this item.",
       "overflow_after": "%1$sAfter transferring the item, the player would have more than the maximum amount (5000) of this item.",
