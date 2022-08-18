@@ -789,6 +789,7 @@
       "transfer_yourself_note": "%1$sAnda tidak boleh memindahkan item kepada diri anda.",
       "bot_notice": "%1$sAnda tidak boleh memindahkan item kepada bot.",
       "locked_notice": "%1$sAnda tidak dapat memindahkan item sekarang. (Pemain telah dikunci)",
+      "locked_notice_other": "%1$sYou cannot transfer items to this user for now. (Player is locked)",
       "hidden_item": "%1$sAnda tidak boleh memindahkan item ini!",
       "overflow": "%1$sPemain ini sudah mempunyai bilangan item ini yang maksimum (5000).",
       "overflow_after": "%1$sSetelah memindahkan item itu, pemain tersebut akan mempunyai lebih daripada bilangan item ini yang maksimum (5000).",
