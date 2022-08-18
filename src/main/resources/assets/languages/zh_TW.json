@@ -789,6 +789,7 @@
       "transfer_yourself_note": "%1$s你無法傳送物品給自己。",
       "bot_notice": "%1$s你無法傳送物品給一個機器人。",
       "locked_notice": "%1$s你目前無法傳送物品。(用戶已被鎖定)",
+      "locked_notice_other": "%1$sYou cannot transfer items to this user for now. (Player is locked)",
       "hidden_item": "%1$s你無法傳送這個物品。",
       "overflow": "%1$s該用戶已經擁有5000個 (最大數量) 該物品了。",
       "overflow_after": "%1$s傳送完這些物品之後，該用戶將擁有超過5000個 (最大數量) 該物品。",
