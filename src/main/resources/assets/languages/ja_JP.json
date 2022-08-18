@@ -789,6 +789,7 @@
       "transfer_yourself_note": "%1$sYou cannot transfer items to yourself.",
       "bot_notice": "%1$sボットに商品を送ることができません。",
       "locked_notice": "%1$s今は商品を送ることができません。（プレーヤーロック）",
+      "locked_notice_other": "%1$sYou cannot transfer items to this user for now. (Player is locked)",
       "hidden_item": "%1$sこの商品を送ることができません！",
       "overflow": "%1$sThis player has the maximum amount (5000) of this item.",
       "overflow_after": "%1$sAfter transferring the item, the player would have more than the maximum amount (5000) of this item.",
