@@ -160,7 +160,6 @@ public class DebugCmds {
     }
 
     @Name("ping")
-    @Defer
     @Description("Checks the response time of the bot.")
     @Category(CommandCategory.INFO)
     @Help(description = "Plays Ping-Pong with Discord and prints out the result.")

@@ -656,17 +656,17 @@ public class ProfileCmd {
         protected void process(InteractionContext<User> ctx) {
             var userLooked = ctx.getTarget();
             if (userLooked.isBot()) {
-                ctx.replyEphemeral("commands.profile.bot_notice", EmoteReference.ERROR);
+                ctx.reply("commands.profile.bot_notice", EmoteReference.ERROR);
                 return;
             }
 
             // Could this even happen?
             if (ctx.getGuild().getMember(userLooked) == null) {
-                ctx.replyEphemeral("general.slash_member_lookup_failure", EmoteReference.ERROR);
+                ctx.reply("general.slash_member_lookup_failure", EmoteReference.ERROR);
                 return;
             }
 
-            ctx.replyEphemeral(buildProfile(ctx, userLooked));
+            ctx.reply(buildProfile(ctx, userLooked));
         }
     }
 

@@ -98,13 +98,8 @@ public class InteractionContext<T> implements IContext {
     public UtilsContext getUtilsContext() {
         return new UtilsContext(getGuild(), getMember(), getChannel(), getLanguageContext(), event);
     }
-    
-    public void defer() {
-        event.deferReply().complete();
-        deferred = true;
-    }
 
-    public void deferEphemeral() {
+    public void defer() {
         event.deferReply(true).complete();
         deferred = true;
     }
@@ -113,7 +108,7 @@ public class InteractionContext<T> implements IContext {
         if (deferred) {
             event.getHook().sendMessage(source.formatted(args)).queue();
         } else {
-            event.reply(source.formatted(args)).queue();
+            event.reply(source.formatted(args)).setEphemeral(true).queue();
         }
     }
 
@@ -121,7 +116,7 @@ public class InteractionContext<T> implements IContext {
         if (deferred) {
             event.getHook().sendMessage(i18n.get(source).formatted(args)).queue();
         } else {
-            event.reply(i18n.get(source).formatted(args)).queue();
+            event.reply(i18n.get(source).formatted(args)).setEphemeral(true).queue();
         }
     }
 
@@ -133,23 +128,24 @@ public class InteractionContext<T> implements IContext {
         } else {
             event.reply(i18n.get(source).formatted(args))
                     .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .setEphemeral(true)
                     .queue();
         }
     }
 
     public void reply(String text) {
         if (deferred) {
-            event.getHook().sendMessage(text).queue();
+            event.getHook().sendMessage(text).setEphemeral(true).queue();
         } else {
-            event.reply(text).queue();
+            event.reply(text).setEphemeral(true).queue();
         }
     }
 
     public void reply(Message message) {
         if (deferred) {
-            event.getHook().sendMessage(message).queue();
+            event.getHook().sendMessage(message).setEphemeral(true).queue();
         } else {
-            event.reply(message.getContentRaw()).queue();
+            event.reply(message.getContentRaw()).setEphemeral(true).queue();
         }
     }
 
@@ -161,54 +157,12 @@ public class InteractionContext<T> implements IContext {
         } else {
             event.reply(text)
                     .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .setEphemeral(true)
                     .queue();
         }
     }
 
     public void reply(MessageEmbed embed) {
-        if (deferred) {
-            event.getHook().sendMessageEmbeds(embed)
-                    .queue(success -> {}, Throwable::printStackTrace);
-        } else {
-            event.replyEmbeds(embed)
-                    .queue(success -> {}, Throwable::printStackTrace);
-        }
-    }
-
-    public void replyEphemeralRaw(String source, Object... args) {
-        if (deferred) {
-            event.getHook().sendMessage(source.formatted(args)).queue();
-        } else {
-            event.reply(source.formatted(args))
-                    .setEphemeral(true)
-                    .queue();
-        }
-    }
-
-    public void replyEphemeral(String source, Object... args) {
-        if (deferred) {
-            event.getHook().sendMessage(i18n.get(source).formatted(args)).queue();
-        } else {
-            event.reply(i18n.get(source).formatted(args))
-                    .setEphemeral(true)
-                    .queue();
-        }
-    }
-
-    public void replyEphemeralStripped(String source, Object... args) {
-        if (deferred) {
-            event.getHook().sendMessage(i18n.get(source).formatted(args))
-                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
-                    .queue();
-        } else {
-            event.reply(i18n.get(source).formatted(args))
-                    .setEphemeral(true)
-                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
-                    .queue();
-        }
-    }
-
-    public void replyEphemeral(MessageEmbed embed) {
         if (deferred) {
             event.getHook().sendMessageEmbeds(embed)
                     .queue(success -> {}, Throwable::printStackTrace);

@@ -29,7 +29,6 @@ public abstract class ContextCommand<T> {
     private final CommandPermission permission;
     private Predicate<InteractionContext<T>> predicate = c -> true;
     private final boolean guildOnly;
-    private final boolean ephemeral;
     private final boolean defer;
 
     // This is basically the same as NewCommand, but the handling ought to be different everywhere else.
@@ -48,7 +47,7 @@ public abstract class ContextCommand<T> {
         } else {
             this.permission = p.value();
         }
-        this.ephemeral = clazz.getAnnotation(Ephemeral.class) != null;
+
         this.defer = clazz.getAnnotation(Defer.class) != null;
         this.guildOnly = clazz.getAnnotation(GuildOnly.class) != null;
     }
@@ -101,11 +100,7 @@ public abstract class ContextCommand<T> {
         }
 
         if (defer() || averageLatencyMax > 2500) {
-            if (ephemeral) {
-                ctx.deferEphemeral();
-            } else {
-                ctx.defer();
-            }
+            ctx.defer();
         }
 
         process(ctx);
