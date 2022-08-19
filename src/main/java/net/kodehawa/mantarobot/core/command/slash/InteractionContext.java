@@ -20,6 +20,7 @@ package net.kodehawa.mantarobot.core.command.slash;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.Modal;
 import net.dv8tion.jda.api.requests.restaction.WebhookMessageUpdateAction;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -99,12 +100,12 @@ public class InteractionContext<T> implements IContext {
     }
     
     public void defer() {
-        event.deferReply().queue();
+        event.deferReply().complete();
         deferred = true;
     }
 
     public void deferEphemeral() {
-        event.deferReply(true).queue();
+        event.deferReply(true).complete();
         deferred = true;
     }
 
@@ -112,9 +113,7 @@ public class InteractionContext<T> implements IContext {
         if (deferred) {
             event.getHook().sendMessage(source.formatted(args)).queue();
         } else {
-            event.deferReply()
-                    .setContent(source.formatted(args))
-                    .queue();
+            event.reply(source.formatted(args)).queue();
         }
     }
 
@@ -122,9 +121,7 @@ public class InteractionContext<T> implements IContext {
         if (deferred) {
             event.getHook().sendMessage(i18n.get(source).formatted(args)).queue();
         } else {
-            event.deferReply()
-                    .setContent(i18n.get(source).formatted(args))
-                    .queue();
+            event.reply(i18n.get(source).formatted(args)).queue();
         }
     }
 
@@ -134,41 +131,7 @@ public class InteractionContext<T> implements IContext {
                     .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                     .queue();
         } else {
-            event.deferReply()
-                    .setContent(i18n.get(source).formatted(args))
-                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
-                    .queue();
-        }
-    }
-
-    public void replyEphemeralRaw(String source, Object... args) {
-        if (deferred) {
-            event.getHook().sendMessage(source.formatted(args)).queue();
-        } else {
-            event.deferReply(true)
-                    .setContent(source.formatted(args))
-                    .queue();
-        }
-    }
-
-    public void replyEphemeral(String source, Object... args) {
-        if (deferred) {
-            event.getHook().sendMessage(i18n.get(source).formatted(args)).queue();
-        } else {
-            event.deferReply(true)
-                    .setContent(i18n.get(source).formatted(args))
-                    .queue();
-        }
-    }
-
-    public void replyEphemeralStripped(String source, Object... args) {
-        if (deferred) {
-            event.getHook().sendMessage(i18n.get(source).formatted(args))
-                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
-                    .queue();
-        } else {
-            event.deferReply(true)
-                    .setContent(i18n.get(source).formatted(args))
+            event.reply(i18n.get(source).formatted(args))
                     .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                     .queue();
         }
@@ -178,9 +141,7 @@ public class InteractionContext<T> implements IContext {
         if (deferred) {
             event.getHook().sendMessage(text).queue();
         } else {
-            event.deferReply()
-                    .setContent(text)
-                    .queue();
+            event.reply(text).queue();
         }
     }
 
@@ -188,9 +149,7 @@ public class InteractionContext<T> implements IContext {
         if (deferred) {
             event.getHook().sendMessage(message).queue();
         } else {
-            event.deferReply()
-                    .setContent(message.getContentRaw())
-                    .queue();
+            event.reply(message.getContentRaw()).queue();
         }
     }
 
@@ -200,8 +159,7 @@ public class InteractionContext<T> implements IContext {
                     .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                     .queue();
         } else {
-            event.deferReply()
-                    .setContent(text)
+            event.reply(text)
                     .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                     .queue();
         }
@@ -212,8 +170,41 @@ public class InteractionContext<T> implements IContext {
             event.getHook().sendMessageEmbeds(embed)
                     .queue(success -> {}, Throwable::printStackTrace);
         } else {
-            event.deferReply().addEmbeds(embed)
+            event.replyEmbeds(embed)
                     .queue(success -> {}, Throwable::printStackTrace);
+        }
+    }
+
+    public void replyEphemeralRaw(String source, Object... args) {
+        if (deferred) {
+            event.getHook().sendMessage(source.formatted(args)).queue();
+        } else {
+            event.reply(source.formatted(args))
+                    .setEphemeral(true)
+                    .queue();
+        }
+    }
+
+    public void replyEphemeral(String source, Object... args) {
+        if (deferred) {
+            event.getHook().sendMessage(i18n.get(source).formatted(args)).queue();
+        } else {
+            event.reply(i18n.get(source).formatted(args))
+                    .setEphemeral(true)
+                    .queue();
+        }
+    }
+
+    public void replyEphemeralStripped(String source, Object... args) {
+        if (deferred) {
+            event.getHook().sendMessage(i18n.get(source).formatted(args))
+                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .queue();
+        } else {
+            event.reply(i18n.get(source).formatted(args))
+                    .setEphemeral(true)
+                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .queue();
         }
     }
 
@@ -222,14 +213,24 @@ public class InteractionContext<T> implements IContext {
             event.getHook().sendMessageEmbeds(embed)
                     .queue(success -> {}, Throwable::printStackTrace);
         } else {
-            event.deferReply(true).addEmbeds(embed)
+            event.replyEmbeds(embed)
+                    .setEphemeral(true)
                     .queue(success -> {}, Throwable::printStackTrace);
         }
     }
 
+    public void replyModal(Modal modal) {
+        if (deferred) {
+            throw new IllegalStateException("Cannot reply to a deferred interaction with a modal.");
+        }
+
+        event.replyModal(modal).queue();
+        deferred = true; // This will defer it!
+    }
+
     public WebhookMessageUpdateAction<Message> editAction(MessageEmbed embed) {
         if (!event.isAcknowledged()) {
-            event.deferReply().queue();
+            event.deferReply().complete();
         }
 
         return event.getHook().editOriginalEmbeds(embed).setContent("");
@@ -237,7 +238,8 @@ public class InteractionContext<T> implements IContext {
 
     public void edit(MessageEmbed embed) {
         if (!event.isAcknowledged()) {
-            event.deferReply().queue();
+            reply(embed);
+            return;
         }
 
         event.getHook().editOriginalEmbeds(embed).setContent("")
@@ -246,7 +248,8 @@ public class InteractionContext<T> implements IContext {
 
     public void edit(String s) {
         if (!event.isAcknowledged()) {
-            event.deferReply().queue();
+            replyRaw(s);
+            return;
         }
 
         event.getHook().editOriginal(s).setEmbeds(Collections.emptyList()).queue();
@@ -254,9 +257,8 @@ public class InteractionContext<T> implements IContext {
 
     public void editStripped(String s) {
         if (!event.isAcknowledged()) {
-            event.deferReply()
-                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
-                    .queue();
+            replyStripped(s);
+            return;
         }
 
         // Assume its stripped already? No stripped version.
@@ -268,7 +270,8 @@ public class InteractionContext<T> implements IContext {
 
     public void edit(String s, Object... args) {
         if (!event.isAcknowledged()) {
-            event.deferReply().queue();
+            reply(s, args);
+            return;
         }
 
         event.getHook().editOriginal(i18n.get(s).formatted(args))
@@ -279,9 +282,8 @@ public class InteractionContext<T> implements IContext {
 
     public void editStripped(String s, Object... args) {
         if (!event.isAcknowledged()) {
-            event.deferReply()
-                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
-                    .queue();
+            replyStripped(s, args);
+            return;
         }
 
         event.getHook().editOriginal(i18n.get(s).formatted(args))
@@ -292,7 +294,7 @@ public class InteractionContext<T> implements IContext {
 
     public WebhookMessageUpdateAction<Message> editAction(String s) {
         if (!event.isAcknowledged()) {
-            event.deferReply().queue();
+            event.deferReply().complete();
         }
 
         return event.getHook().editOriginal(s).setEmbeds(Collections.emptyList());
@@ -302,12 +304,11 @@ public class InteractionContext<T> implements IContext {
         // Sending embeds while supressing the failure callbacks leads to very hard
         // to debug bugs, so enable it.
         if (deferred) {
-            event.replyEmbeds(embed)
+            event.getHook().sendMessageEmbeds(embed)
                     .addActionRows(actionRow)
                     .queue(success -> {}, Throwable::printStackTrace);
         } else {
-            event.deferReply()
-                    .addEmbeds(embed)
+            event.replyEmbeds(embed)
                     .addActionRows(actionRow)
                     .queue(success -> {}, Throwable::printStackTrace);
         }
@@ -326,20 +327,15 @@ public class InteractionContext<T> implements IContext {
     @Override
     public void sendFormat(String message, Collection<ActionRow> actionRow, Object... format) {
         if (deferred) {
-            event.reply(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format))
+            event.getHook().sendMessage(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format))
                     .addActionRows(actionRow)
                     .queue();
         } else {
-            event.deferReply()
-                    .setContent(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format))
+            event.reply(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format))
+                    .setEphemeral(true)
                     .addActionRows(actionRow)
                     .queue();
         }
-    }
-
-    @Override
-    public ManagedDatabase db() {
-        return null;
     }
 
     @Override
@@ -360,16 +356,16 @@ public class InteractionContext<T> implements IContext {
     @Override
     public Message sendResult(String s) {
         if (!event.isAcknowledged()) {
-            event.deferReply().queue();
+            event.deferReply().complete();
         }
 
-        return event.getHook().sendMessage(s).complete();
+        return event.getHook().sendMessage(s).allowedMentions(EnumSet.noneOf(Message.MentionType.class)).complete();
     }
 
     @Override
     public Message sendResult(MessageEmbed e) {
         if (!event.isAcknowledged()) {
-            event.deferReply().queue();
+            event.deferReply().complete();
         }
 
         return event.getHook().sendMessageEmbeds(e).complete();
@@ -388,6 +384,11 @@ public class InteractionContext<T> implements IContext {
     @Override
     public void sendLocalizedStripped(String s, Object... args) {
         replyStripped(s, args);
+    }
+
+    @Override
+    public ManagedDatabase db() {
+        return managedDatabase;
     }
 
     @Override

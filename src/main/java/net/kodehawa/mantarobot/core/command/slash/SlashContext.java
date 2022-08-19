@@ -269,7 +269,8 @@ public class SlashContext implements IContext {
 
     public void edit(MessageEmbed embed) {
         if (!slash.isAcknowledged()) {
-            slash.deferReply().complete();
+            reply(embed);
+            return;
         }
 
         slash.getHook().editOriginalEmbeds(embed).setContent("")
@@ -278,7 +279,8 @@ public class SlashContext implements IContext {
 
     public void edit(String s) {
         if (!slash.isAcknowledged()) {
-            slash.deferReply().complete();
+            replyRaw(s);
+            return;
         }
 
         slash.getHook().editOriginal(s).setEmbeds(Collections.emptyList()).queue();
@@ -286,9 +288,8 @@ public class SlashContext implements IContext {
 
     public void editStripped(String s) {
         if (!slash.isAcknowledged()) {
-            slash.deferReply()
-                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
-                    .complete();
+            replyStripped(s);
+            return;
         }
 
         // Assume its stripped already? No stripped version.
@@ -300,7 +301,8 @@ public class SlashContext implements IContext {
 
     public void edit(String s, Object... args) {
         if (!slash.isAcknowledged()) {
-            slash.deferReply().complete();
+            reply(s, args);
+            return;
         }
 
         slash.getHook().editOriginal(i18n.get(s).formatted(args))
@@ -311,9 +313,8 @@ public class SlashContext implements IContext {
 
     public void editStripped(String s, Object... args) {
         if (!slash.isAcknowledged()) {
-            slash.deferReply()
-                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
-                    .complete();
+            replyStripped(s, args);
+            return;
         }
 
         slash.getHook().editOriginal(i18n.get(s).formatted(args))

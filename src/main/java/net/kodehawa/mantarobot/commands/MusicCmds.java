@@ -63,7 +63,6 @@ public class MusicCmds {
     }
 
     @Description("Plays a song.")
-    @Defer // We call getHook directly, need to defer this.
     @Category(CommandCategory.MUSIC)
     @Options({
             @Options.Option(type = OptionType.STRING, name = "song", description = "The song to play. Can be an URL or a search term.", required = true),

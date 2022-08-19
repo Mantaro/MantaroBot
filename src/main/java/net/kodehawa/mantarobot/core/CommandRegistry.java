@@ -258,8 +258,8 @@ public class CommandRegistry {
     // Process (user) context interaction.
     public void process(UserContextInteractionEvent event) {
         if (event.getGuild() == null) {
-            event.deferReply(true)
-                    .setContent("This bot does not accept commands in Private Messages. You can add it to your server at https://add.mantaro.site")
+            event.reply("This bot does not accept commands in Private Messages. You can add it to your server at https://add.mantaro.site")
+                    .setEphemeral(true)
                     .queue();
             return;
         }
@@ -276,15 +276,15 @@ public class CommandRegistry {
 
         if (mantaroData.getBlackListedGuilds().contains(guild.getId())) {
             log.debug("Got command from blacklisted guild {}, dropping", guild.getId());
-            event.deferReply(true)
-                    .setContent("Not accepting commands from this server.")
+            event.reply("Not accepting commands from this server.")
+                    .setEphemeral(true)
                     .queue();
             return;
         }
 
         if (!cmd.getPermission().test(event.getMember())) {
-            event.deferReply(true)
-                    .setContent(EmoteReference.STOP + "You have no permissions to trigger this command :(")
+            event.reply(EmoteReference.STOP + "You have no permissions to trigger this command :(")
+                    .setEphemeral(true)
                     .queue();
             return;
         }
@@ -308,8 +308,8 @@ public class CommandRegistry {
     // Process slash commands.
     public void process(SlashCommandInteractionEvent event) {
         if (event.getGuild() == null) {
-            event.deferReply(true)
-                    .setContent("This bot does not accept commands in Private Messages. You can add it to your server at https://add.mantaro.site")
+            event.reply("This bot does not accept commands in Private Messages. You can add it to your server at https://add.mantaro.site")
+                    .setEphemeral(true)
                     .queue();
             return;
         }
@@ -328,8 +328,8 @@ public class CommandRegistry {
 
         if (mantaroData.getBlackListedGuilds().contains(guild.getId())) {
             log.debug("Got command from blacklisted guild {}, dropping", guild.getId());
-            event.deferReply(true)
-                    .setContent("Not accepting commands from this server.")
+            event.reply("Not accepting commands from this server.")
+                    .setEphemeral(true)
                     .queue();
             return;
         }
@@ -409,27 +409,27 @@ public class CommandRegistry {
                 return;
             }
 
-            event.deferReply(true).setContent("""
+            event.reply("""
                     :x: You have been blocked from using all of Mantaro's functions, likely for botting or hitting the spam filter.
                     If you wish to get more details on why or appeal the ban, send an email to `contact@mantaro.site`. Make sure to be sincere.
                     """
-            ).queue();
+            ).setEphemeral(true).queue();
             return;
         }
 
         // If we are in the patreon bot, deny all requests from unknown guilds.
         if (config.isPremiumBot() && !config.isOwner(author) && !dbGuild.isPremium()) {
-            event.deferReply(true).setContent("""
+            event.reply("""
                             :x: Seems like you're trying to use the Patreon bot when this guild is **not** marked as premium.
                             **If you think this is an error please contact Kodehawa#3457 or poke me on #donators in the support guild**
                             If you didn't contact Kodehawa prior to adding this bot to this server, please do so so we can link it to your pledge.
                             """
-            ).queue();
+            ).setEphemeral(true).queue();
             return;
         }
 
         if (!cmd.getPermission().test(member)) {
-            event.deferReply(true).setContent(EmoteReference.STOP + "You have no permissions to trigger this command :(").queue();
+            event.reply(EmoteReference.STOP + "You have no permissions to trigger this command :(").setEphemeral(true).queue();
             return;
         }
         // !! Permission check end
@@ -558,10 +558,9 @@ public class CommandRegistry {
     }
 
     public void sendDisabledNotice(SlashCommandInteractionEvent event, CommandDisableLevel level) {
-        event.deferReply(true)
-                .setContent("%sThis command is disabled on this server. Reason: %s"
-                        .formatted(EmoteReference.ERROR, Utils.capitalize(level.getName()))
-        ).queue();
+        event.reply("%sThis command is disabled on this server. Reason: %s"
+                .formatted(EmoteReference.ERROR, Utils.capitalize(level.getName()))
+        ).setEphemeral(true).queue();
     }
 
     private static String name(Command c, String userInput) {

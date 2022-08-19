@@ -61,7 +61,7 @@ public class UtilsContext {
             return channel.sendMessage(message).complete();
         else {
             if (!slashEvent.isAcknowledged()) {
-                slashEvent.deferReply().queue();
+                slashEvent.deferReply().complete();
             }
 
             return slashEvent.getHook().editOriginal(message).complete();
@@ -73,7 +73,7 @@ public class UtilsContext {
             return channel.sendMessageEmbeds(message).complete();
         else {
             if (!slashEvent.isAcknowledged()) {
-                slashEvent.deferReply().queue();
+                slashEvent.deferReply().complete();
             }
 
             return slashEvent.getHook().editOriginalEmbeds(message).setContent("").complete();
