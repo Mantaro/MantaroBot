@@ -88,7 +88,6 @@ public class CurrencyCmds {
     @Subscribe
     public void register(CommandRegistry cr) {
         cr.registerSlash(InventoryCommand.class);
-        cr.registerSlash(Level.class);
         cr.registerSlash(OpenCrate.class);
         cr.registerSlash(DailyCrate.class);
         cr.registerSlash(Tools.class);
