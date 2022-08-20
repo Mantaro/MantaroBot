@@ -34,7 +34,10 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import org.json.JSONObject;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,86 +47,11 @@ import java.util.regex.Pattern;
 public class MiscCmds {
     private final static Pattern pollOptionSeparator = Pattern.compile(",\\s*");
 
-    public static void iamFunction(String autoroleName, IContext ctx) {
-        iamFunction(autoroleName, ctx, null);
-    }
-
-    public static void iamFunction(String autoroleName, IContext ctx, String message) {
-        var dbGuild = ctx.db().getGuild(ctx.getGuild());
-        var autoroles = dbGuild.getData().getAutoroles();
-
-        if (autoroles.containsKey(autoroleName)) {
-            var role = ctx.getGuild().getRoleById(autoroles.get(autoroleName));
-            if (role == null) {
-                ctx.sendLocalized("commands.iam.deleted_role", EmoteReference.ERROR);
-
-                // delete the non-existent autorole.
-                dbGuild.getData().getAutoroles().remove(autoroleName);
-                dbGuild.saveAsync();
-            } else {
-                if (ctx.getMember().getRoles().stream().anyMatch(r1 -> r1.getId().equals(role.getId()))) {
-                    ctx.sendLocalized("commands.iam.already_assigned", EmoteReference.ERROR);
-                    return;
-                }
-                try {
-                    ctx.getGuild().addRoleToMember(ctx.getMember(), role)
-                            .reason("Auto-assignable roles assigner (~>iam)")
-                            .queue(aVoid -> {
-                                if (message == null || message.isEmpty())
-                                    ctx.sendLocalized("commands.iam.success", EmoteReference.OK, ctx.getAuthor().getName(), role.getName());
-                                else
-                                    //Simple stuff for custom commands. (iamcustom:)
-                                    ctx.send(message);
-                            });
-                } catch (PermissionException pex) {
-                    ctx.sendLocalized("commands.iam.error", EmoteReference.ERROR, role.getName());
-                }
-            }
-        } else {
-            ctx.sendLocalized("commands.iam.no_role", EmoteReference.ERROR);
-        }
-    }
-
-    public static void iamnotFunction(String autoroleName, IContext ctx) {
-        iamnotFunction(autoroleName, ctx, null);
-    }
-
-    public static void iamnotFunction(String autoroleName, IContext ctx, String message) {
-        var dbGuild = ctx.db().getGuild(ctx.getGuild());
-        var autoroles = dbGuild.getData().getAutoroles();
-
-        if (autoroles.containsKey(autoroleName)) {
-            Role role = ctx.getGuild().getRoleById(autoroles.get(autoroleName));
-            if (role == null) {
-                ctx.sendLocalized("commands.iam.deleted_role", EmoteReference.ERROR);
-                dbGuild.getData().getAutoroles().remove(autoroleName);
-                dbGuild.saveAsync();
-            } else {
-                if (ctx.getMember().getRoles().stream().noneMatch(r1 -> r1.getId().equals(role.getId()))) {
-                    ctx.sendLocalized("commands.iamnot.not_assigned", EmoteReference.ERROR);
-                    return;
-                }
-
-                try {
-                    ctx.getGuild().removeRoleFromMember(ctx.getMember(), role).queue(__ -> {
-                        if (message == null || message.isEmpty())
-                            ctx.sendLocalized("commands.iamnot.success", EmoteReference.OK, ctx.getAuthor().getName(), role.getName());
-                        else
-                            ctx.sendLocalized(message);
-                    });
-                } catch (PermissionException pex) {
-                    ctx.sendLocalized("commands.iam.error", EmoteReference.ERROR, role.getName());
-                }
-            }
-        } else {
-            ctx.sendLocalized("commands.iam.no_role", EmoteReference.ERROR);
-        }
-    }
-
     @Subscribe
     public void register(CommandRegistry cr) {
         cr.registerSlash(IAm.class);
         cr.registerSlash(CreatePoll.class);
+        cr.registerSlash(EightBall.class);
     }
 
     @Name("iam")
@@ -246,6 +174,27 @@ public class MiscCmds {
         }
     }
 
+    @Name("8ball")
+    @Defer
+    @Description("Retrieves an answer from the almighty 8ball.")
+    @Options(@Options.Option(type = OptionType.STRING, name = "question", description = "The question to ask.", required = true))
+    public static class EightBall extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {
+            var question = ctx.getOptionAsString("question");
+            var textEncoded = URLEncoder.encode(question.replace("/", "|"), StandardCharsets.UTF_8);
+            var json = Utils.httpRequest("https://8ball.delegator.com/magic/JSON/%1s".formatted(textEncoded));
+
+            if (json == null) {
+                ctx.reply("commands.8ball.error", EmoteReference.ERROR);
+                return;
+            }
+
+            String answer = new JSONObject(json).getJSONObject("magic").getString("answer");
+            ctx.replyRaw("\uD83D\uDCAC " + answer + ".");
+        }
+    }
+
     @Name("poll")
     @Description("Creates a poll.")
     @Category(CommandCategory.UTILS)
@@ -253,7 +202,7 @@ public class MiscCmds {
             @Options.Option(type = OptionType.STRING, name = "name", description = "The poll name.", required = true),
             @Options.Option(type = OptionType.STRING, name = "time", description = "The time the poll will run for. (Format example: 1m25s for 1 minute 25 seconds)", required = true),
             @Options.Option(type = OptionType.STRING, name = "options", description = "The poll options, separated by commas.", required = true),
-            @Options.Option(type = OptionType.STRING, name = "image", description = "An image URL for the poll"),
+            @Options.Option(type = OptionType.STRING, name = "image", description = "An image URL for the poll."),
     })
     @Help(description = "Creates a poll.", usage = """
             `/poll name:<name> time:<time> options:<poll options> image:[image url]`
@@ -298,5 +247,81 @@ public class MiscCmds {
                     .build()
                     .startPoll(ctx);
         }
+    }
+
+    public static void iamFunction(String autoroleName, IContext ctx, String message) {
+        var dbGuild = ctx.db().getGuild(ctx.getGuild());
+        var autoroles = dbGuild.getData().getAutoroles();
+
+        if (autoroles.containsKey(autoroleName)) {
+            var role = ctx.getGuild().getRoleById(autoroles.get(autoroleName));
+            if (role == null) {
+                ctx.sendLocalized("commands.iam.deleted_role", EmoteReference.ERROR);
+
+                // delete the non-existent autorole.
+                dbGuild.getData().getAutoroles().remove(autoroleName);
+                dbGuild.saveAsync();
+            } else {
+                if (ctx.getMember().getRoles().stream().anyMatch(r1 -> r1.getId().equals(role.getId()))) {
+                    ctx.sendLocalized("commands.iam.already_assigned", EmoteReference.ERROR);
+                    return;
+                }
+                try {
+                    ctx.getGuild().addRoleToMember(ctx.getMember(), role)
+                            .reason("Auto-assignable roles assigner (~>iam)")
+                            .queue(aVoid -> {
+                                if (message == null || message.isEmpty())
+                                    ctx.sendLocalized("commands.iam.success", EmoteReference.OK, ctx.getAuthor().getName(), role.getName());
+                                else
+                                    //Simple stuff for custom commands. (iamcustom:)
+                                    ctx.send(message);
+                            });
+                } catch (PermissionException pex) {
+                    ctx.sendLocalized("commands.iam.error", EmoteReference.ERROR, role.getName());
+                }
+            }
+        } else {
+            ctx.sendLocalized("commands.iam.no_role", EmoteReference.ERROR);
+        }
+    }
+
+    public static void iamnotFunction(String autoroleName, IContext ctx, String message) {
+        var dbGuild = ctx.db().getGuild(ctx.getGuild());
+        var autoroles = dbGuild.getData().getAutoroles();
+
+        if (autoroles.containsKey(autoroleName)) {
+            Role role = ctx.getGuild().getRoleById(autoroles.get(autoroleName));
+            if (role == null) {
+                ctx.sendLocalized("commands.iam.deleted_role", EmoteReference.ERROR);
+                dbGuild.getData().getAutoroles().remove(autoroleName);
+                dbGuild.saveAsync();
+            } else {
+                if (ctx.getMember().getRoles().stream().noneMatch(r1 -> r1.getId().equals(role.getId()))) {
+                    ctx.sendLocalized("commands.iamnot.not_assigned", EmoteReference.ERROR);
+                    return;
+                }
+
+                try {
+                    ctx.getGuild().removeRoleFromMember(ctx.getMember(), role).queue(__ -> {
+                        if (message == null || message.isEmpty())
+                            ctx.sendLocalized("commands.iamnot.success", EmoteReference.OK, ctx.getAuthor().getName(), role.getName());
+                        else
+                            ctx.sendLocalized(message);
+                    });
+                } catch (PermissionException pex) {
+                    ctx.sendLocalized("commands.iam.error", EmoteReference.ERROR, role.getName());
+                }
+            }
+        } else {
+            ctx.sendLocalized("commands.iam.no_role", EmoteReference.ERROR);
+        }
+    }
+
+    public static void iamFunction(String autoroleName, IContext ctx) {
+        iamFunction(autoroleName, ctx, null);
+    }
+
+    public static void iamnotFunction(String autoroleName, IContext ctx) {
+        iamnotFunction(autoroleName, ctx, null);
     }
 }

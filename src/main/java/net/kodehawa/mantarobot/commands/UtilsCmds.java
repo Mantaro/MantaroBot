@@ -17,13 +17,11 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.reminders.Reminder;
 import net.kodehawa.mantarobot.commands.utils.reminders.ReminderObject;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -39,17 +37,13 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import org.json.JSONObject;
 import redis.clients.jedis.Jedis;
 
 import java.awt.*;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -68,7 +62,6 @@ public class UtilsCmds {
     public void register(CommandRegistry cr) {
         cr.registerSlash(Time.class);
         cr.registerSlash(RemindMe.class);
-        cr.registerSlash(Urban.class);
     }
 
     @Description("Reminds you of something.")
@@ -271,67 +264,6 @@ public class UtilsCmds {
             }
 
             ctx.reply("commands.time.success", EmoteReference.CLOCK, dateFormat, timezone);
-        }
-    }
-
-    @Description("Retrieves definitions from Urban Dictionary.")
-    @Category(CommandCategory.UTILS)
-    @Options({
-            @Options.Option(type = OptionType.STRING, name = "term", description = "The term to look for.", required = true),
-            @Options.Option(type = OptionType.INTEGER, name = "number", description = "The definition number to show. Usually up to 5.")
-    })
-    @Help(description = "Retrieves definitions from **Urban Dictionary**.", usage = "`/urban term:<term> number:[entry number]`", parameters = {
-            @Help.Parameter(name = "term", description = "The term to look for."),
-            @Help.Parameter(name = "number", description = "The definition number to show. Usually up to 5.", optional = true)
-    })
-    public static class Urban extends SlashCommand {
-        @Override
-        protected void process(SlashContext ctx) {
-            if (!ctx.isChannelNSFW()) {
-                ctx.reply("commands.urban.nsfw_notice", EmoteReference.ERROR);
-                return;
-            }
-
-            var languageContext = ctx.getLanguageContext();
-            var lookUp = ctx.getOptionAsString("term");
-            var definitionNumber = ctx.getOptionAsLong("number");
-            var url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(lookUp, StandardCharsets.UTF_8);
-            var json = Utils.httpRequest(url);
-            UrbanData data;
-
-            try {
-                data = JsonDataManager.fromJson(json, UrbanData.class);
-            } catch (JsonProcessingException e) {
-                ctx.reply("commands.urban.error", EmoteReference.ERROR);
-                e.printStackTrace();
-                return;
-            }
-
-            if (data == null || data.getList() == null || data.getList().isEmpty()) {
-                ctx.send(EmoteReference.ERROR + languageContext.get("general.no_results"));
-                return;
-            }
-
-            var urbanData = data.getList().get((int) definitionNumber);
-            var definition = urbanData.getDefinition();
-            ctx.reply(new EmbedBuilder()
-                    .setAuthor(languageContext.get("commands.urban.header")
-                                    .formatted(lookUp), urbanData.getPermalink(), ctx.getAuthor().getEffectiveAvatarUrl()
-                    )
-                    .setThumbnail("https://i.imgur.com/PbXqLrS.png")
-                    .setDescription(languageContext.get("general.definition") + " " + (definitionNumber + 1))
-                    .setColor(Color.GREEN)
-                    .addField(EmoteReference.PENCIL.toHeaderString() + languageContext.get("general.definition"),
-                            StringUtils.limit(definition, 1000), false
-                    )
-                    .addField(EmoteReference.ZAP.toHeaderString() + languageContext.get("general.example"),
-                            StringUtils.limit(urbanData.getExample(), 800), false
-                    )
-                    .addField(":thumbsup:", urbanData.thumbs_up, true)
-                    .addField(":thumbsdown:", urbanData.thumbs_down, true)
-                    .setFooter(languageContext.get("commands.urban.footer"), null)
-                    .build()
-            );
         }
     }
 
