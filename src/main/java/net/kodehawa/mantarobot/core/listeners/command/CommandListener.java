@@ -44,6 +44,7 @@ import org.slf4j.LoggerFactory;
 import java.util.IllegalFormatException;
 import java.util.Optional;
 import java.util.Random;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -109,24 +110,120 @@ public class CommandListener implements EventListener {
     }
 
     private void onSlash(SlashCommandInteractionEvent event) {
-        if (commandProcessor.runSlash(event)) {
-            // Remove running flag
-            try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
-                jedis.del("commands-running-" + event.getUser().getId());
+        try {
+            if (commandProcessor.runSlash(event)) {
+                // Remove running flag
+                try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
+                    jedis.del("commands-running-" + event.getUser().getId());
+                }
+
+                commandTotal++;
+            }
+        } catch (ReqlError e) {
+            // So much just went wrong...
+            e.printStackTrace();
+        } catch (CompletionException e) {
+            log.error("Missed interaction ack time?", e);
+        } catch (LanguageKeyNotFoundException e) {
+            var id = Snow64.toSnow64(event.getIdLong());
+            event.reply("%sWrong language key found, please report on the support server (At <https://support.mantaro.site>) with error ID `%s` (On shard %s).\n%sMessage: *%s*".formatted(
+                    EmoteReference.ERROR, id, event.getJDA().getShardInfo().getShardId(), EmoteReference.ZAP, e.getMessage())
+            ).setEphemeral(true).queue();
+
+            log.warn("Missing i18n key. Check this. ID: {}", id, e);
+        } catch (IllegalFormatException e) {
+            var id = Snow64.toSnow64(event.getIdLong());
+            event.reply("%sWe found at error when trying to format a String. Please report on the support server (At <https://support.mantaro.site>) with error ID `%s` (On Shard %s)".formatted(
+                    EmoteReference.ERROR, id, event.getJDA().getShardInfo().getShardId()
+            )).setEphemeral(true).queue();
+
+            log.warn("Wrong String format. Check this. ID: {}", id, e);
+        } catch (PermissionException e) {
+            if (e.getPermission() != Permission.UNKNOWN) {
+                event.reply("%sI don't have permission to do this :(\nI need the permission: **%s**".formatted(EmoteReference.ERROR, e.getPermission().getName()))
+                        .setEphemeral(true)
+                        .queue();
+            } else {
+                event.reply("I cannot perform this action due to the lack of permission! " +
+                                "Is the role I might be trying to assign higher than my role? Do I have the correct permissions/hierarchy to perform this action?")
+                        .setEphemeral(true)
+                        .queue();
             }
 
-            commandTotal++;
+            log.warn("Caught unexpected Permission issue?", e);
+        } catch (Exception e) {
+            var id = Snow64.toSnow64(event.getIdLong());
+            if (event.getGuild() == null) {
+                log.error("Error happened on command: {} (Error ID: {}). Guild ID is null?", event.getCommandString(), id, e);
+                return;
+            }
+
+            var context = I18n.of(event.getGuild());
+            event.reply("%s%s (Unexpected error, ID: `%s`): Shard %s\n%s".formatted(
+                    EmoteReference.ERROR, context.get("general.boom_quotes"), id,
+                    event.getJDA().getShardInfo().getShardId(), context.get("general.generic_error"))
+            ).setEphemeral(true).queue();
+
+            log.error("Error happened on command: {} (Error ID: {})", event.getCommandString(), id, e);
         }
     }
 
     private void onUserContext(UserContextInteractionEvent event) {
-        if (commandProcessor.runContextUser(event)) {
-            // Remove running flag
-            try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
-                jedis.del("commands-running-" + event.getUser().getId());
+        try {
+            if (commandProcessor.runContextUser(event)) {
+                // Remove running flag
+                try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
+                    jedis.del("commands-running-" + event.getUser().getId());
+                }
+
+                commandTotal++;
+            }
+        } catch (ReqlError e) {
+            // So much just went wrong...
+            e.printStackTrace();
+        } catch (CompletionException e) {
+            log.error("Missed interaction ack time?", e);
+        } catch (LanguageKeyNotFoundException e) {
+            var id = Snow64.toSnow64(event.getIdLong());
+            event.reply("%sWrong language key found, please report on the support server (At <https://support.mantaro.site>) with error ID `%s` (On shard %s).\n%sMessage: *%s*".formatted(
+                    EmoteReference.ERROR, id, event.getJDA().getShardInfo().getShardId(), EmoteReference.ZAP, e.getMessage())
+            ).setEphemeral(true).queue();
+
+            log.warn("Missing i18n key. Check this. ID: {}", id, e);
+        } catch (IllegalFormatException e) {
+            var id = Snow64.toSnow64(event.getIdLong());
+            event.reply("%sWe found at error when trying to format a String. Please report on the support server (At <https://support.mantaro.site>) with error ID `%s` (On Shard %s)".formatted(
+                    EmoteReference.ERROR, id, event.getJDA().getShardInfo().getShardId()
+            )).setEphemeral(true).queue();
+
+            log.warn("Wrong String format. Check this. ID: {}", id, e);
+        } catch (PermissionException e) {
+            if (e.getPermission() != Permission.UNKNOWN) {
+                event.reply("%sI don't have permission to do this :(\nI need the permission: **%s**".formatted(EmoteReference.ERROR, e.getPermission().getName()))
+                        .setEphemeral(true)
+                        .queue();
+            } else {
+                event.reply("I cannot perform this action due to the lack of permission! " +
+                                "Is the role I might be trying to assign higher than my role? Do I have the correct permissions/hierarchy to perform this action?")
+                        .setEphemeral(true)
+                        .queue();
             }
 
-            commandTotal++;
+            log.warn("Caught unexpected Permission issue?", e);
+        } catch (Exception e) {
+            var id = Snow64.toSnow64(event.getIdLong());
+            if (event.getGuild() == null) {
+                log.error("Error happened on command: {} (Error ID: {}). Guild ID is null?", event.getCommandString(), id, e);
+                return;
+            }
+
+            var context = I18n.of(event.getGuild());
+            event.reply("%s%s (Unexpected error, ID: `%s`): Shard %s\n%s".formatted(
+                    EmoteReference.ERROR, context.get("general.boom_quotes"), id,
+                    event.getJDA().getShardInfo().getShardId(), context.get("general.generic_error"))
+            ).setEphemeral(true).queue();
+
+            log.error("Error happened on command: {} (Error ID: {})", event.getCommandString(), id, e);
         }
     }
 

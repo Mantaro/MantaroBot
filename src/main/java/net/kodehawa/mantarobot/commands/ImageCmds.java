@@ -38,7 +38,6 @@ import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.awt.*;
-import java.lang.annotation.Annotation;
 import java.util.Random;
 
 import static net.kodehawa.mantarobot.commands.image.ImageboardUtils.getImage;

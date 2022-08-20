@@ -39,9 +39,9 @@ public abstract class SlashCommand {
     private CommandCategory category;
     private final CommandPermission permission;
     private Predicate<SlashContext> predicate = c -> true;
-    private boolean ephemeral = false;
+    private boolean ephemeral;
     private final boolean guildOnly;
-    private boolean defer = false;
+    private boolean defer;
     private HelpContent help;
 
     // This is basically the same as NewCommand, but the handling ought to be different everywhere else.

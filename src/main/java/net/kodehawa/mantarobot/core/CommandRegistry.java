@@ -69,12 +69,12 @@ public class CommandRegistry {
     private final CommandManager newCommands = new CommandManager();
     private final RateLimiter rl = new RateLimiter(TimeUnit.HOURS, 1);
 
-    public CommandRegistry(Map<String, Command> commands, Map<String, SlashCommand> slashCommands) {
+    public CommandRegistry(Map<String, Command> commands) {
         this.commands = Preconditions.checkNotNull(commands);
     }
 
     public CommandRegistry() {
-        this(new HashMap<>(), new HashMap<>());
+        this(new HashMap<>());
     }
 
     public Map<String, Command> commands() {
@@ -360,6 +360,10 @@ public class CommandRegistry {
         }
 
         final var member = event.getMember();
+        if (member == null) {
+            return;
+        }
+
         final var roles = member.getRoles();
         final var channelDisabledCommands = guildData.getChannelSpecificDisabledCommands().get(channel.getId());
         if (channelDisabledCommands != null && channelDisabledCommands.contains(name)) {
@@ -450,9 +454,8 @@ public class CommandRegistry {
         renewPremiumKey(managedDatabase, author, dbUser, guildData);
 
         cmd.execute(new SlashContext(event, new I18nContext(guildData, userData)));
-
-        commandLog.debug("Slash command: {}, User: {} ({}), Guild: {}, Channel: {}" ,
-                cmd.getName(), author.getAsTag(), author.getId(), guild.getId(), channel.getId()
+        commandLog.debug("Slash command: {}, User: {} ({}), Guild: {}, Channel: {}, Options: {}" ,
+                cmd.getName(), author.getAsTag(), author.getId(), guild.getId(), channel.getId(), event.getOptions()
         );
 
         final var end = System.currentTimeMillis();

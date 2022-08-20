@@ -47,7 +47,7 @@ public abstract class NewCommand {
         }
         this.aliases = Arrays.stream(clazz.getAnnotationsByType(Alias.class))
                 .map(Alias::value).toList();
-        var c = clazz.getAnnotation(net.kodehawa.mantarobot.core.command.meta.Category.class);
+        var c = clazz.getAnnotation(Category.class);
         if (c == null) {
             this.category = null;
         } else {
