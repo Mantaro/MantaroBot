@@ -491,12 +491,20 @@ public class MantaroCore {
 
         bot.startCheckingBirthdays();
         startMonitor();
-        var slashList = CommandProcessor.REGISTRY.getCommandManager().getSlashCommandsList();
-        log.info("Attempted to register slash commands (@Module). List size: {}", slashList.size());
-        var userContextList = CommandProcessor.REGISTRY.getCommandManager().getContextUserCommandsList();
-        log.info("Attempted to register context commands (@Module). List size: {}", userContextList.size());
 
-        registerSlash(ListUtils.union(slashList, userContextList));
+        var slashList = CommandProcessor.REGISTRY.getCommandManager().getSlashCommandsList();
+        log.info("[Controller] Attempted to register slash commands (@Module). List size: {}", slashList.size());
+        var userContextList = CommandProcessor.REGISTRY.getCommandManager().getContextUserCommandsList();
+        log.info("[Controller] Attempted to register context commands (@Module). List size: {}", userContextList.size());
+
+        var union = ListUtils.union(slashList, userContextList);
+        registerSlash(union);
+
+        LogUtils.log(
+                """
+                Loaded all slash commands. Current count is %,d (Slash: %,d, Context: %,d)"""
+                        .formatted(union.size(), slashList.size(), userContextList.size())
+        );
     }
 
     private void startUpdaters() {

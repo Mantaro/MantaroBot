@@ -174,8 +174,9 @@ public class MiscCmds {
         }
     }
 
-    @Name("8ball")
     @Defer
+    @Name("8ball")
+    @Category(CommandCategory.FUN)
     @Description("Retrieves an answer from the almighty 8ball.")
     @Options(@Options.Option(type = OptionType.STRING, name = "question", description = "The question to ask.", required = true))
     public static class EightBall extends SlashCommand {

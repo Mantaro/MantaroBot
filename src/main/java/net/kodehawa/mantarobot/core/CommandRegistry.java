@@ -291,6 +291,17 @@ public class CommandRegistry {
 
         final var author = event.getUser();
         final var dbGuild = managedDatabase.getGuild(event.getGuild());
+        // If we are in the patreon bot, deny all requests from unknown guilds.
+        if (config.isPremiumBot() && !config.isOwner(author) && !dbGuild.isPremium()) {
+            event.reply("""
+                            :x: Seems like you're trying to use the Patreon bot when this guild is **not** marked as premium.
+                            **If you think this is an error please contact Kodehawa#3457 or poke me on #donators in the support guild**
+                            If you didn't contact Kodehawa prior to adding this bot to this server, please do so so we can link it to your pledge.
+                            """
+            ).setEphemeral(true).queue();
+            return;
+        }
+
         final var guildData = dbGuild.getData();
         final var dbUser = managedDatabase.getUser(author);
         final var userData = dbUser.getData();
