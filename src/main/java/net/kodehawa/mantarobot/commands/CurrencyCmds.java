@@ -163,26 +163,6 @@ public class CurrencyCmds {
         }
     }
 
-    @Name("level")
-    @Description("Show your level or someone else's level.")
-    @Category(CommandCategory.CURRENCY)
-    @Options({
-            @Options.Option(type = OptionType.USER, name = "user", description = "The user to get the level of.")
-    })
-    @Help(description = "Show your level or someone else's level.",
-            usage = "`/level user:[user]`",
-            parameters = {
-                    @Help.Parameter(name = "user", description = "The user to get the level of.", optional = true)
-            })
-    public static class Level extends SlashCommand {
-        @Override
-        protected void process(SlashContext ctx) {
-            var member = ctx.getOptionAsMember("user", ctx.getMember());
-            var player = ctx.getPlayer(member);
-            showLevel(ctx, member, player);
-        }
-    }
-
     @Name("opencrate")
     @Defer
     @Description("Opens a loot crate.")
