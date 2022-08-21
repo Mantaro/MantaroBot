@@ -182,28 +182,17 @@
       "broken_drop": "%1$sJoran anda patah, tetapi anda boleh membaikinya. Item rosak: %2$s *%3$s*",
       "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `/equip item:<rod name>` to start your adventure!"
     },
-    "softban": {
-      "no_permission": "%1$sYou can't soft-ban: You need the `Ban Users` permission.",
-      "no_permission_self": "%1$sMaaf! Saya tidak mempunyai kebenaran untuk melarang ahli dalam pelayan ini.",
-      "no_users": "%1$sYou need to give me a user to soft-ban.",
-      "hierarchy_conflict": "%1$sYou cannot soft-ban a user in a higher hierarchy than you",
-      "yourself_note": "%1$sMengapa awak cuba melarang lembut diri awak?",
-      "self_hierarchy_conflict": "%1$sTidak boleh melarang lembut ahli: %2$s, dia lebih tinggi atau hierarki yang sama daripada saya!",
-      "success": "%1$s%2$s. **(%3$s dilarang lembut)**",
-      "error": "%1$sRalat larangan lembut [%2$s]: (Tidak ada kebenaran yang diberikan: %3$s)",
-      "unknown_error": "%1$sRalat tidak diketahui semasa melarang lembut %2$s: *(Ralat? %3$s: %4$s)*"
-    },
     "music_usage": {
       "1": "*Bagaimanakah menggunakan muzik di Mantaro?*",
       "2": "- To **queue songs from youtube or soundcloud** use `/play` For example: `/play song:https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
-      "3": "- To **search for a song on youtube** use `/play song:<search term>` (without the leading < and >) For example: `/play song:see you again` (You need to select the number, just *type the number* after the selection box pops up!)",
+      "3": "- To **search for a song on youtube** use `/play song:<search term>` (without the leading < and >) For example: `/play song:see you again` (You need to select the number, just *select the number* after the selection box pops up!)",
       "4": "- To **search for a song on soundcloud** use `/play song:<search term> soundcloud:true` For example `/play song:hot milk soundcloud:true`",
       "5": "- To **check the queue** you just type `/queue show`",
       "6": "- To **remove a track from the queue** you just need to use `/removetrack` It takes as an argument the position the song is queued at (you can check in on queue)",
       "7": "- To **pause or unpause** just use `/pause`",
       "8": "- To **stop the music and unbind the player** use `/stop`",
       "9": "- To **shuffle the queue** just use `/shuffle`",
-      "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue by setting the queue boolean to true on the command.\n",
+      "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue running `/repeat queue:True`.\n",
       "11": "For more info please use `/help command:<command name>` (without the <> and replace command name with the name of the command you want)",
       "12": "Nikmati muzik anda dan terima kasih kerana menggunakan Mantaro!"
     },
@@ -215,7 +204,6 @@
         "timeout": "%1$sTidak dapat menyambung ke %2$s: sambungan tamat. Cuba mengubah rantau pelayan dan jalankan arahan sekali lagi.",
         "unknown": "%1$sTidak dapat menyambung ke %2$s: ralat tidak diketahui."
       },
-      "not_working": "%1$sMusic is currently not working due to Youtube blocking traffic from most big bots. Our Patreon bot still is working, so you can try it if you wish by donating $4/month to Mantaro. This will also help us redirect our efforts towards fixing music as a whole.\nPlease check <https://patreon.com/mantaro>\n\nWe're sorry for the inconveniences. Try using soundcloud search! (`/play song:<search term> soundcloud:true)`",
       "no_song": "%1$sAnda perlu memberitahu saya lagu apa yang ingin anda mainkan! *(YouTube, Soundcloud, URL Twitch atau pertanyaan carian dibenarkan)*",
       "not_playing": "%1$sSaya tidak bermain apa-apa. Sekiranya anda yakin ini adalah kesilapan, laporkan ini di <https://support.mantaro.site>",
       "dj_only": "%1$sAnda perlu menjadi DJ untuk menggunakan arahan ini.",
@@ -226,7 +214,7 @@
       "track_error": "%1$sAduh, saya menemui masalah semasa memainkan lagu ini! Maaf atas kesulitan, saya akan cuba memainkan yang berikutnya jika ada.",
       "queue_finished": "%1$sSelesai memainkan antrian semasa! Harap anda menikmatinya :heart:",
       "soundcloud_no_args": "%1$sAnda perlu memberi saya nama lagu, saya bukan ahli silap mata jadi saya tidak dapat meneka :(",
-      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `/forceplay` instead, which will play the first result.",
+      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `/play first:True song:<song>`, which will play the first result.",
       "no_vc_found": "%1$sSaya tidak tersambung ke mana-mana saluran suara walaupun sepatutnya? Cuba lagi.",
       "queue": {
         "header_field": "Arahan",
@@ -266,7 +254,7 @@
       "listener": {
         "paused": "%1$sPemain sedang dihentikan kerana saya dibisukan :(",
         "resumed": "%1$sPlayback dilanjutkan kerana ada yang baru tersambung!",
-        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `/resume` to manually resume playback.",
+        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `/pause` to manually resume playback.",
         "left_alone": "%1$sSaya akan tinggalkan **%2$s** dalam tempoh dua minit kerana saya ditinggalkan sendirian :(",
         "leave": "%1$sSaya memutuskan untuk tinggalkan **%2$s** kerana saya ditinggalkan sendirian :("
       },
@@ -280,7 +268,7 @@
         "over_32_minutes": "%1$s**Tidak dapat mengantri `%2$s`: Trek ini melebihi %3$s.** (Tempoh lagu yang dilaporkan ialah %4$s). Anda boleh mendapatkan had tempoh trek yang lebih panjang dan playback siaran langsung dengan Mantaro Premium! Baca lebih lanjut di <https://patreon.com/mantaro>.",
         "fair_queue_limit_reached": "%1$s**Melebihi tahap antrian adil %2$d (Terlalu banyak lagu yang sama)**",
         "loaded_song": "%1$sDitambah ke antrian -> **%2$s** *(%3$s)*",
-        "selection_text": "Pilihan lagu. Taipkan nombor lagu untuk meneruskan.",
+        "selection_text": "Song selection. Select the song number to continue.",
         "timeout_text": "This timeouts in 30 seconds."
       },
       "premium_beg": "%1$sConsider donating on <https://patreon.com/mantaro> if you like me, even a small donation will help towards keeping the bot alive (Check `/donate` for more info!)",
@@ -433,14 +421,6 @@
         "no_command": "%1$sAnda perlu memberitahu saya arahan apa yang ingin anda padamkan.",
         "success": "%1$sArahan Kustom `%2$s` Telah Dipadamkan"
       },
-      "import": {
-        "no_command": "%1$sAnda perlu memberitahu saya arahan apa yang ingin anda mengimport.",
-        "not_found": "%1$sThere are no custom commands matching your search query.\n**This command might not work properly!**\nIn such cases, you can manually copy the command using the output of `/custom raw` instead.",
-        "header": "`%1$s` (Respons: %2$s) - Pelayan: `%3$s`",
-        "selection": "Memilih Arahan:",
-        "note": "(Anda hanya boleh memilih arahan dari pelayan yang telah anda sertai)",
-        "success": "Arahan kustom `%1$s` telah diimport dari pelayan `%2$s` dengan sebanyak %3$d respons."
-      },
       "edit": {
         "header_slash": "Custom Command Edit",
         "content_slash": "New content",
@@ -588,7 +568,7 @@
         "no_house": "%1$sYou need a house item in your inventory. Use `/buy item:house` to get one.",
         "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk membeli sebuah rumah. (Harga rumah semasa: %2$d kredit)",
         "no_name": "%1$sYou need to give your house a name! For example, `/marry house name:cozy house`",
-        "confirm": "%1$sAdakah anda pasti akan membeli rumah ini? Harga yang dipotong dari dompet anda ialah %2$d dan rumah anda dinamakan %3$s. Taip `yes` untuk sahkan dan `no` untuk membatalkan.",
+        "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Click on `yes` to confirm and `no` to cancel.",
         "success": "%1$sAnda berjaya membeli sebuah rumah untuk harga %2$d kredit. Nama rumah baru anda ialah %3$s, tahniah!",
         "cancel_success": "%1$sOperasi dibatalkan."
       },
@@ -596,7 +576,7 @@
         "no_car": "%1$sYou need to buy a car first! Use `/buy item:car` to get one.",
         "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk membeli sebuah kereta. (Harga kereta semasa: %2$d kredit)",
         "no_name": "%1$sYou need to give your car a name! For example, `/marry car name:vroom`",
-        "confirm": "%1$sAdakah anda pasti akan membeli kereta ini? Harga yang dipotong dari dompet anda ialah %2$d dan kereta anda dinamakan %3$s. Taip `yes` untuk sahkan dan `no` untuk membatalkan.",
+        "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Click on `yes` to confirm and `no` to cancel.",
         "success": "%1$sAnda berjaya membeli sebuah kereta untuk harga %2$d kredit. Nama kereta baru anda ialah %3$s, tahniah!",
         "cancel_success": "%1$sOperasi dibatalkan."
       },
@@ -614,7 +594,7 @@
       "ratelimit_message": "Kenapa awak nak berkahwin sebanyak ini?"
     },
     "divorce": {
-      "confirm": "%1$sAdakah anda pasti akan menamatkan perkahwinan ini? Wang yang dibelanjakan untuk membeli rumah dan kereta akan dibahagikan kepada dua. Taip `yes` untuk meneruskan dan `no` untuk membatalkan. **Haiwan peliharaan anda akan hilang, kerana ia terikat dengan perkahwinan**",
+      "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Click on `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
       "cancelled": "%1$sPerceraian dibatalkan.",
       "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?\nWanna unclaim a Waifu? Use `/waifu unclaim` instead.",
       "success": "%1$sSekarang anda bujang. Saya rasa itu baiklah. %2$s",
@@ -646,7 +626,7 @@
       "unclaim": {
         "no_user": "%1$sAnda perlu menyebut seorang waifu untuk disingkirkan.",
         "not_claimed": "%1$sPengguna ini bukan waifu anda!",
-        "confirmation": "%1$sAdakah anda *pasti* akan menyingkirkan %2$s? Kos untuk menyingkirkan waifu ini ialah **%3$s kredit**. Taip *yes* untuk sahkan dan *no* untuk membatalkan\n%4$sMasa ini akan tamat dalam 1 minit.",
+        "confirmation": "%1$sAre you *sure* you want to un-claim %2$s? The cost to un-claim this waifu is **%3$s credits**. Click on *yes* to confirm or *no* to cancel\n%4$sThis times out in 1 minute.",
         "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk menyingkirkan waifu ini!",
         "player_locked": "%1$sAnda tidak dapat melakukan ini buat masa ini.",
         "scrapped": "%1$sPenyingkiran waifu dibatalkan.",
@@ -661,7 +641,7 @@
       },
       "optout": {
         "notice": "%1$sAnda telah opt-out dari sistem waifu, jadi anda tidak boleh menggunakan ini.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `/profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `/profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nClick on `yes` to opt-out PERMANENTLY or `no` to cancel this and go back to safety.",
         "success": "%1$sAnda berjaya opt-out dari sistem waifu.",
         "cancelled": "%1$sOperasi opt-out dibatalkan.",
         "claim_notice": "%1$sPengguna yang anda cuba menuntut sudah opt-out.",
@@ -730,7 +710,7 @@
         "cost": "Kos Penciptaan: ",
         "desc": "This is a list of the items you can cast using `/cast list`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       },
-      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `/useitem mop`?",
+      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `/use item item:mop`?",
       "wrench_multiple_use": "Tip: *Anda tidak boleh menggunakan perengkuh yang sedang anda cuba mencipta sebagai bahan!*"
     },
     "market": {
@@ -756,7 +736,7 @@
         "no_item_amount": "%1$sAnda perlu menyatakan bilangan item tersebut (jika hanya satu, anda tidak perlu menyatakan bilangan) dan item yang ingin anda menjual.",
         "invalid": "%1$sNombor item untuk dijual tidak sah.",
         "all": {
-          "confirmation": "%1$sAdakah anda *pasti* akan menjual **semua** item anda? Ini akan mengosongkan *keseluruhan* inventori anda. Jika anda ingin menjual item individu sila gunakan bilangannya. Taip *yes* untuk sahkan dan *no* untuk membatalkan",
+          "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? This will clear your *whole* inventory. If you wanna sell individual items please use the amount. Click on *yes* to confirm and *no* to cancel",
           "success": "%1$sAnda telah menjual semua item inventori dan mendapat %2$,d kredit!",
           "cancelled": "%1$sBerjaya dibatalkan."
         },
@@ -776,7 +756,7 @@
         "item_limit_reached": "%1$sAnda tidak boleh membeli item itu lagi. Anda hanya boleh mempunyai maksimum 5000 bagi setiap item.",
         "success": "%1$sBerjaya membeli %2$,d %3$s untuk harga %4$,d kredit. Kini, anda mempunyai %5$,d kredit.",
         "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `/equip item:<item name>`",
-        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `/useitem item:<item name>`",
+        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `/use item item:<item name>`",
         "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk membeli item ini. Semasa: %2$,d kredit, Diperlukan: %3$,d kredit.",
         "success_breakable_upgrade": "Anda boleh melihat <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> untuk maklumat lanjut tentang cara menaik taraf peralatan anda!"
       },
@@ -972,7 +952,7 @@
         "not_equipped": "%1$sAnda tidak memasang apa-apa pada slot ini.",
         "no_content": "%1$sAnda perlu menyatakan jenis peralatan yang ingin disingkirkan, sama ada `pick, axe, rod, wrench`",
         "invalid_type": "%1$sJenis tidak sah. Jenis yang sah ialah `pick, axe, rod, wrench`",
-        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool, which means your currently equipped tool will break.",
+        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Click on `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool, which means your currently equipped tool will break, unless unused.",
         "success": "%1$sBerjaya menyingkirkan slot %2$s anda.",
         "equipment_recover": "\nDisebabkan anda tidak pernah menggunakan peralatan anda, anda mendapat %1$s anda kembali!",
         "broken_equipment_recover": "\nPeralatan anda pernah digunakan, tetapi anda mendapat %1$s kembali, anda boleh membaikinya sekiranya anda memerlukannya nanti!",
@@ -1031,11 +1011,11 @@
       },
       "ls": {
         "header": "Senarai Lencana",
-        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `/profile` and then run `/badges` again.\nGood luck, badge hunters!",
+        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `/profile show` and then run `/badges show` again.\nGood luck, badge hunters!",
         "obtained": "**Obtained:** %s"
       },
       "brief_success": "**Lencana %1$s:**\n%2$s",
-      "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `/profile` and then run this command again.\n",
+      "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `/profile show` and then run this command again.\n",
       "info_notice": "Use `/badges info badge:<badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**Anda boleh mendapatkan lencana atas [sokongan anda terhadap pembangunan Mantaro!](https://patreon.com/mantaro)!** (Ia mungkin mengambil beberapa minit untuk diproses)\n\n",
       "no_badges": "Tiada lencana untuk dipaparkan",
@@ -1076,10 +1056,6 @@
       "leap": "Hari jadi anda adalah 29 Februari, ini bermaksud bahawa ia akan diumumkan pada 29 Februari pada tahun lompat, dan 28 Februari pada tahun biasa.",
       "already_allowed": "%1$sAnda sudah membenarkan pelayan ini untuk menunjukkan hari jadi anda."
     },
-    "choose": {
-      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `/choose anime manga \"sleeping out\"`)",
-      "success": "%1$sSaya memilih `%2$s`"
-    },
     "remindme": {
       "nothing_specified": "%1$sApakah yang dapat saya mengingatkan anda jika anda tidak memberi saya perkara untuk diingatkan? Oh! Saya akan mengingatkan anda agar menetapkan peringatan!",
       "no_reminders": "%1$sAnda tidak menetapkan sebarang peringatan lagi.",
@@ -1088,7 +1064,6 @@
         "select": "Sila memilih peringatan yang ingin anda batalkan."
       },
       "no_time": "%1$sYou didn't specify the time or the time format is wrong. The format is a number followed by either d (days), h (hours), m (minutes) or s (seconds). For example, 1m45s is 1 minute, 45 seconds.",
-      "no_time_arg": "%1$sAnda tidak memberi saya masa pada argumen `-time`.",
       "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `/remindme add time:1m reminder:do the dishes`)",
       "too_long": "Tempoh itu terlalu panjang... (Maksimum: 180 hari)",
       "success": "%1$sI'll remind you (%2$s) of `%3$s` in %4$s",
@@ -1102,15 +1077,6 @@
       "error": "%1$sSaya terjumpa ralat semasa mencari zon masa tersebut dari buku besar di situ... atau mungkin ia tidak sah.",
       "user_no_timezone": "%1$sPengguna yang anda sebut tidak menetapkan zon masa dalam profilnya."
     },
-    "urban": {
-      "no_args": "%1$sAnda perlu memberitahu saya istilah yang ingin anda mencari dari Urban Dictionary.",
-      "header": "Definisi Urban Dictionary untuk %1$s",
-      "too_many_args": "%1$sTerlalu banyak argumen! Format halaman ialah `nama->nombor halaman`",
-      "main_def": "Definisi utama.",
-      "footer": "Maklumat dari Urban Dictionary",
-      "nsfw_notice": "%1$sArahan ini hanya boleh digunakan dalam saluran NSFW disebabkan sifat keputusannya.",
-      "error": "%1$sTerdapat ralat semasa memproses respons dari UD. Cuba lagi?"
-    },
     "activatekey": {
       "check": {
         "key_valid_for": "%1$sKunci anda adalah sah untuk %2$s hari lagi :heart:",
@@ -1123,14 +1089,6 @@
       "user_already_premium": "%1$sAnda sudah menjadi premium :heart:",
       "user_successful": "%1$sKini anda menjadi **Premium** :heart:\nSekiranya anda berikrar di Patreon, kunci ini terikat kepada ikrar anda.",
       "mp": "Mantaro Patreon tidak menggunakan kunci, sebaliknya, ia dijamin bahawa ia premium melalui hakikatnya bahawa bot tersebut berfungsi."
-    },
-    "claimkey": {
-      "not_patron": "%1$sAnda bukan penaung, jadi anda tidak boleh melakukan ini. Sekiranya anda ingin menyokong Mantaro dan mendapatkan faedah bersamanya, periksalah <https://www.patreon.com/mantaro>\nSekiranya anda sedang berikrar dan anda melihat mesej ini, ia bermaksud anda tidak mempunyai kunci yang aktif. Sila memastikan bahawa anda telah mengaktifkan kunci yang sepatutnya telah dihantar kepada anda oleh Mantaro.",
-      "already_top": "%1$sAnda telah menuntut semua kunci yang anda mempunyai. Jika terdapat salah satu yang telah luput, sila hubungi pelayan sokongan kami di <https://support.mantaro.site> (Walau mereka sepatutnya dibaharui secara automatik)",
-      "successful": "%1$sBerjaya menuntut kunci `%2$s`. Anda telah menuntut sebanyak %3$s kunci dan mempunyai %4$s kunci lagi untuk dituntut. Kunci ini berjenis %5$s. (Sekiranya ini merupakan kunci pelayan, gunakannya di pelayan yang mana anda inginkannya)",
-      "cant_dm": "%1%sSaya tidak dapat menghantar kunci kepada anda akibat tetapan privasi anda, nampaknya, jadi ia tidak dapat dihasilkan.",
-      "success": "%1$sMaklumat telah dihantar melalui DM.",
-      "invalid_scope": "%1$sInvalid key scope! Valid are `user` and `guild`. Without any arguments, this command defaults to `user`. Example: `/claimkey guild` or `/claimkey user`"
     },
     "vipstatus": {
       "user": {
@@ -1353,13 +1311,13 @@
     },
     "pet": {
       "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nThere's two types: Personal (for yourself) and Marriage (shared between your partner and you). Choose one with `/pet choice`. The default is Personal.\nFor more help, use `/help command:pet` and `/pet list` for a list of pets.",
-      "no_marriage": "%1$sYou need to be married to have a marriage pet. For now. Check `/help command:marry` and `/pet`",
-      "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. For now. Check `/help command:marry` and `/pet`",
+      "no_marriage": "%1$sYou need to be married to have a marriage pet. Check `/help command:marry` and `/pet explanation`",
+      "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. Check `/help command:marry` and `/pet explanation`",
       "status": {
-        "no_pet": "%1$sYou don't have any pets to check the status of. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sYou don't have any pets to check the status of. Check `/pet explanation` for an explanation. (Choice: %2$s)%3$s",
         "pet_in_other_category": "\n%1$sYou have a pet on the %2$s choice (%3$s). You can switch to it with `/pet choice type:%2$s`",
         "header": "Status %1$s",
-        "description": "Remember to take care and love your pet :heart:\nSee `/pet` and `/help command:pet` for an explanation.",
+        "description": "Remember to take care and love your pet :heart:\nSee `/pet explanation` and `/help command:pet` for an explanation.",
         "cost": "Harga",
         "type": "Jenis",
         "abilities": "Keupayaan",
@@ -1392,7 +1350,7 @@
         "success": "%1$sBerjaya menetapkan pilihan anda kepada: %2$s %3$s"
       },
       "level": {
-        "no_pet": "%1$sYou don't have any pets to check the level of. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sYou don't have any pets to check the level of. Check `/pet explanation` for an explanation. (Choice: %2$s)%3$s",
         "success": "%1$sLevel **%2$s**: **%3$,d** (%4$,d XP / %5$,d XP)"
       },
       "list": {
@@ -1401,8 +1359,8 @@
         "header": "%1$s**Haiwan Peliharaan tersedia Semasa**\n\n%2$s\n\n%3$s**Penerangan keupayaan:**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sYou don't have any pets to pat. Check `/pet` for an explanation. (Choice: %2$s)",
-        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `/pet` for an explanation.",
+        "no_pet": "%1$sYou don't have any pets to pat. Check `/pet explanation` for an explanation. (Choice: %2$s)",
+        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `/pet explanation` for an explanation.",
         "personal_pet_other": "%1$sAnda tidak dapat membelai haiwan peliharaan peribadi orang lain. Buat masa ini.",
         "ratelimit_message": "Anda boleh membelai haiwan peliharaan anda sebanyak 25 kali. Setelah itu anda perlu menunggu selama masa tersebut di atas untuk 25 belaian lagi.",
         "too_many": "Bagaimanakah anda mendapat belaian sebanyak itu?"
@@ -1423,7 +1381,7 @@
         "already_has_pet": "%1$sAnda sudah memiliki haiwan peliharaan. (Pilihan semasa: %2$s)",
         "nothing_found": "%1$sTidak dapat mencari jenis haiwan peliharaan yang telah anda nyatakan. Dinyatakan: `%2$s`, Jenis sah: `%3$s`",
         "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk membeli haiwan peliharaan ini. Nilai: %2$,d kredit, Dompet: %3$,d kredit",
-        "confirm": "%1$sAdakah anda pasti akan membeli haiwan peliharaan ini? Nama: %2$s, Jenis: %3$s, Kos: %4$,d kredit. Pilihan: %5$s. Taip `yes` untuk meneruskan, `no` jika tidak.",
+        "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Choice: %5$s. Click on `yes` to continue, `no` otherwise.",
         "success": "%1$sTahniah! Anda berdua berjaya menjadi pemilik `%2$s%3$s` yang bangga dan ia dinamakan `%4$s`. Kos untuk membeli haiwan peliharaan ini ialah %5$,d kredit dan pilihan haiwan peliharaan ini merupakan: %6$s",
         "success_personal": "%1$sTahniah! Anda berjaya menjadi pemilik `%2$s%3$s` yang bangga dan ia dinamakan `%4$s`. Kos untuk membeli haiwan peliharaan ini ialah %5$,d kredit dan pilihan haiwan peliharaan ini merupakan: %6$s",
         "cancel_success": "%1$sOperasi dibatalkan.",
@@ -1431,7 +1389,7 @@
         "no_marriage_marry": "%1$sI don't see any marriage here..."
       },
       "feed": {
-        "no_pet": "%1$sYou don't have any pets to feed. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sYou don't have any pets to feed. Check `/pet explanation` for an explanation. (Choice: %2$s)%3$s",
         "no_content": "%1$sYou need to specify what you want to feed your pet with. For example, `/pet feed item:steak`",
         "no_item": "%1$sSaya tidak menjumpai item yang telah anda nyatakan.",
         "not_food": "%1$sEh tunggu! Ini bukan makanan, atau makanan kecemasan!",
@@ -1442,7 +1400,7 @@
         "too_much": "%1$sMungkin memberinya lebih kurang makanan? Jika tidak, anda akan membazirkan makanan! (Bilangan digunakan akan melebihi 100%% kelaparan)"
       },
       "water": {
-        "no_pet": "%1$sYou don't have any pets to water. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sYou don't have any pets to give water to. Check `/pet explanation` for an explanation. (Choice: %2$s)%3$s",
         "no_need": "%1$sHaiwan peliharaan anda tidak dahaga, jadi ia tidak mahu minum buat masa ini.",
         "not_inventory": "%1$sAnda tidak mempunyai Botol Air. Pastikan ia di dalam inventori anda.",
         "not_enough_inventory": "%1$sAnda tidak mempunyai botol air yang mencukupi di dalam inventori anda! Anda memerlukan %2$s.",
@@ -1470,8 +1428,8 @@
       "remove": {
         "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk dipinggirkan. (Pilihan: %2$s)%3$s",
         "no_pet_confirm": "%1$sI don't see any pet here...",
-        "confirm": "%1$sAdakah anda pasti akan meminggirkan haiwan peliharaan ini? Pasangan perkahwinan akan menerima %2$,d kredit, dan anda juga akan menerima %2$,d kredit.\nTaip `yes` untuk sahkan atau `no` jika tidak. Anda diingatkan bahawa bayaran balik ini tidak berdasarkan level atau yang lain-lain, jadi anggaplah ini sebagai membeli tamagotchi yang baru atau sesuatu yang hampir sama.",
-        "confirm_personal": "%1$sAdakah anda pasti akan meminggirkan haiwan peliharaan ini? Anda akan menerima %2$,d kredit.\nTaip `yes` untuk sahkan atau `no` jika tidak. Anda diingatkan bahawa bayaran balik ini tidak berdasarkan level atau yang lain-lain, jadi anggaplah ini sebagai membeli tamagotchi yang baru atau sesuatu yang hampir sama.",
+        "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$,d credits, and you will receive %2$,d credits aswell.\nClick on `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
+        "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$,d credits.\nClick on `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
         "success": "%1$sBerjaya meminggirkan haiwan peliharaan. Setiap orang dalam perkahwinan ini telah menerima %2$s kredit sebagai bayaran balik.",
         "success_personal": "%1$sBerjaya meminggirkan haiwan peliharaan. Anda telah menerima %2$s kredit sebagai bayaran balik."
       },
@@ -1640,7 +1598,7 @@
     },
     "anime": {
       "no_args": "%1$sAnda perlu memberitahu saya anime apa yang ingin anda mencari.",
-      "selection_start": "Taip nombor anime yang ingin anda memilih.",
+      "selection_start": "Select the number of the anime you want to select.",
       "information_footer": "Information provided by Kitsu.io.",
       "no_results": "%1$sTiada keputusan...",
       "malformed_result": "%1$sSaya mendapat keputusan API yang sah untuk carian spesifik ini. Mungkin cuba lagi dengan istilah carian yang lain?",
@@ -1663,7 +1621,7 @@
     },
     "character": {
       "no_args": "%1$sAnda perlu memberitahu saya watak yang ingin anda mencari.",
-      "selection_start": "Taip nombor watak yang ingin anda memilih.",
+      "selection_start": "Select the number of the character you want to select.",
       "error": "%1$s**Saya janji saya tidak jatuhkan w-waifu anda, tolong maafkan saya!**\nSaya menerima `%2$s` semasa cuba memproses arahan ini. (ralat dalaman)",
       "information_header": "Maklumat watak %1$s",
       "information": "Maklumat",
@@ -1716,7 +1674,7 @@
       "invalid_money_or_modifier": "%1$sSila menaip nombor sah yang lebih kurang atau sama dengan baki semasa anda ataupun `all` untuk berjudi semua kredit anda.",
       "not_enough_money": "%1$sSila menaip nilai yang ada dalam baki anda.",
       "invalid_percentage": "%1$sSila menaip nilai peratusan yang sah.",
-      "confirmation_message": "%1$sAnda akan berjudi sebanyak **%2$,d** kredit (yang nampaknya agak banyak). Adakah anda pasti? Taip **yes** untuk meneruskan dan **no** jika tidak.",
+      "confirmation_message": "%1$sYou're about to bet **%2$,d** credits (which seems to be a lot). Are you sure? Select **yes** to continue and **no** otherwise.",
       "cancelled_bet": "%1$sPerjudian dibatalkan.",
       "win": "%1$sTahniah, anda memenangi %2$,d kredit dan dapat menyimpan apa yang anda mempunyai.",
       "win_overflow": "%1$sTahniah, anda memenangi %2$,d kredit. Tetapi anda sudah mempunyai terlalu banyak kredit. Beg anda meluap-luap.",
@@ -1742,10 +1700,7 @@
       "easter": "\nNampaknya anda mendapat banyak habuk di sini... Mungkin anda hendak membersihkannya sebelum ia menjadi terlalu kotor!"
     },
     "mine": {
-      "not_equipped": "%1$sYou don't have any equipped pick. Use `/equip item:<pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `/buy pick`",
-      "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `/mine <pick name>`",
-      "not_suitable": "%1$sIni bukan beliung yang boleh anda gunakan untuk melombong!",
-      "not_in_inventory": "%1$sAnda tidak mempunyai beliung ini dalam inventori anda, sedang menukar kepada beliung default.",
+      "not_equipped": "%1$sYou don't have any equipped pick. Use `/equip item:<pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `/buy item:pick`",
       "success": "%1$sAnda melombong mineral yang bernilai **$%2$,d kredit**, menggunakan *%3$s*",
       "reminder": "\n*You can cast better picks using the gems you get while mining. Check `/cast list` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
@@ -2532,7 +2487,7 @@
       "lewd": "Banyaknya arahan lewd. Terlalu banyak. Berseronok tak?",
       "ring": "Menjadikan perkahwinan anda rasmi.",
       "letter": "Surat daripada kekasih anda.",
-      "key": "Used to open various crates with `/opencrate crate:<crate name>` or `/useitem item:<crate name>`",
+      "key": "Used to open various crates with `/opencrate crate:<crate name>` or `/use item item:<crate name>`",
       "clothes": "Dipakai pada diri anda. Haraplah ya...",
       "diamond": "Cara yang baik untuk menabung wang. Ia berkilat juga. Dan membolehkan anda mencipta benda berkilat. Bagusnya.",
       "dress": "Comel kan?",
