@@ -156,7 +156,10 @@ public class PetCmds {
 
         @Description("Lets you choose whether you want to use a personal or marriage pet.")
         @Defer
-        @Options(@Options.Option(type = OptionType.STRING, name = "type", description = "The type to use. Either marriage or personal", required = true))
+        @Options(@Options.Option(type = OptionType.STRING, name = "type", description = "The type to use. Either marriage or personal", required = true, choices = {
+                @Options.Choice(description = "Marriage Pet", value = "marriage"),
+                @Options.Choice(description = "Personal Pet", value = "personal")
+        }))
         public static class Choice extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
