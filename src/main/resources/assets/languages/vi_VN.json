@@ -182,28 +182,17 @@
       "broken_drop": "%1$sCần câu của bạn đã gãy mất rồi, nhưng bạn có thể sửa nó. Bạn nhận lại đồ hỏng: %2$s*%3$s*",
       "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `/equip item:<rod name>` to start your adventure!"
     },
-    "softban": {
-      "no_permission": "%1$sYou can't soft-ban: You need the `Ban Users` permission.",
-      "no_permission_self": "%1$sXin lỗi! Tôi không có quyền cấm thành viên ở máy chủ này.",
-      "no_users": "%1$sYou need to give me a user to soft-ban.",
-      "hierarchy_conflict": "%1$sYou cannot soft-ban a user in a higher hierarchy than you",
-      "yourself_note": "%1$sTại sao bạn lại tự đi cấm tạm thời bản thân?",
-      "self_hierarchy_conflict": "%1$sKhông thể cấm tạm thời thành viên: %2$s, họ có vai trò cao hơn hoặc ngang bằng tôi!",
-      "success": "%1$s%2$s. **(%3$s đã bị cấm tạm thời)**",
-      "error": "%1$sLỗi cấm tạm thời [%2$s]: (Không được cấp quyền: %3$s)",
-      "unknown_error": "%1$sLỗi không xác định xảy ra khi đang cố cấm tạm thời %2$s: *(Có đúng là lỗi không nhỉ? %3$s: %4$s)*"
-    },
     "music_usage": {
       "1": "*Làm thế nào để sử dụng chức năng âm nhạc trong Mantaro?*",
       "2": "- To **queue songs from youtube or soundcloud** use `/play` For example: `/play song:https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
-      "3": "- To **search for a song on youtube** use `/play song:<search term>` (without the leading < and >) For example: `/play song:see you again` (You need to select the number, just *type the number* after the selection box pops up!)",
+      "3": "- To **search for a song on youtube** use `/play song:<search term>` (without the leading < and >) For example: `/play song:see you again` (You need to select the number, just *select the number* after the selection box pops up!)",
       "4": "- To **search for a song on soundcloud** use `/play song:<search term> soundcloud:true` For example `/play song:hot milk soundcloud:true`",
       "5": "- To **check the queue** you just type `/queue show`",
       "6": "- To **remove a track from the queue** you just need to use `/removetrack` It takes as an argument the position the song is queued at (you can check in on queue)",
       "7": "- To **pause or unpause** just use `/pause`",
       "8": "- To **stop the music and unbind the player** use `/stop`",
       "9": "- To **shuffle the queue** just use `/shuffle`",
-      "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue by setting the queue boolean to true on the command.\n",
+      "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue running `/repeat queue:True`.\n",
       "11": "For more info please use `/help command:<command name>` (without the <> and replace command name with the name of the command you want)",
       "12": "Tận hưởng âm nhạc và cảm ơn vì đã sử dụng Mantaro!"
     },
@@ -215,7 +204,6 @@
         "timeout": "%1$sKhông thể kết nối với %2$s: hết giờ kết nối. Hãy thử đổi vùng máy chủ và chạy lại lệnh một lần nữa.",
         "unknown": "%1$sKhông thể kết nối đến kênh %2$s: Lỗi không xác định."
       },
-      "not_working": "%1$sMusic is currently not working due to Youtube blocking traffic from most big bots. Our Patreon bot still is working, so you can try it if you wish by donating $4/month to Mantaro. This will also help us redirect our efforts towards fixing music as a whole.\nPlease check <https://patreon.com/mantaro>\n\nWe're sorry for the inconveniences. Try using soundcloud search! (`/play song:<search term> soundcloud:true)`",
       "no_song": "%1$sBạn cần phải nói cho tôi biết bạn muốn nghe bài nào! *(Youtube, Soundcloud, Twitch URL hoặc các từ khoá tìm kiếm đều được)*",
       "not_playing": "%1$sTôi đang không phát bài nào cả. Nếu bạn nghĩ đây là lỗi, hãy báo cáo lại cho chúng tôi tại <https://support.mantaro.site>",
       "dj_only": "%1$sBạn cần phải là DJ để có thể sử dụng lệnh này.",
@@ -226,7 +214,7 @@
       "track_error": "%1$sÚi, có vấn đề khi phát bài này rồi! Xin nhỗi nha. Tôi sẽ phát bài tiếp theo ngay đây nếu có.",
       "queue_finished": "%1$sĐã hoàn tất danh sách phát! Tôi mong là bạn đã thưởng thức nó :heart:",
       "soundcloud_no_args": "%1$sBạn cần phải cho tui cái tên bài hát chứ. Tui có phải ảo thuật gia đâu mà đoán được :(",
-      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `/forceplay` instead, which will play the first result.",
+      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `/play first:True song:<song>`, which will play the first result.",
       "no_vc_found": "%1$sTôi không được kết nối với bất kì kênh thoại nào mặc dù tôi cần phải làm như thế? Thử lại đii.",
       "queue": {
         "header_field": "Hướng dẫn",
@@ -266,7 +254,7 @@
       "listener": {
         "paused": "%1$sTạm dừng chơi nhạc bởi vì tôi bị tắt tiếng :(",
         "resumed": "%1$sTiếp tục phát nhạc bởi vì có người tham gia!",
-        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `/resume` to manually resume playback.",
+        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `/pause` to manually resume playback.",
         "left_alone": "%1$sTôi sẽ rời **%2$s** trong 2 phút vì tôi bị mọi người bỏ rơi :(",
         "leave": "%1$sTôi quyết định rời **%2$s** bởi vì mọi người bỏ tui một mình :("
       },
@@ -280,7 +268,7 @@
         "over_32_minutes": "%1$s**Không thể đặt bài hát chờ `%2$s`: Bản âm thanh dài hơn %3$s. **(Bản âm thanh đã bị báo cáo có độ dài %4$s).\nBạn có thể có được giới hạn phát lại các bản âm thanh, phát lại livestream dài hơn với Mantaro Premium! Xem thông tin chi tiết tại <https://patreon.com/mantaro>.",
         "fair_queue_limit_reached": "%1$s**Vượt quá mức xếp hàng chờ của %2$d (Quá nhiều bài hát giống hệt nhau)**",
         "loaded_song": "%1$sĐã thêm vào danh sách phát -> **%2$s** *(%3$s)*",
-        "selection_text": "Lựa chọn bài hát. Nhập số của bài hát để tiếp tục.",
+        "selection_text": "Song selection. Select the song number to continue.",
         "timeout_text": "This timeouts in 30 seconds."
       },
       "premium_beg": "%1$sConsider donating on <https://patreon.com/mantaro> if you like me, even a small donation will help towards keeping the bot alive (Check `/donate` for more info!)",
@@ -433,14 +421,6 @@
         "no_command": "%1$sBạn cần phải cho tôi biết bạn muốn xóa lệnh nào.",
         "success": "%1$sĐã xóa bỏ lệnh tùy chỉnh `%2$s`"
       },
-      "import": {
-        "no_command": "%1$sBạn phải nói cho tôi biết bạn muốn sao chép về máy chủ này lệnh nào.",
-        "not_found": "%1$sThere are no custom commands matching your search query.\n**This command might not work properly!**\nIn such cases, you can manually copy the command using the output of `/custom raw` instead.",
-        "header": "`%1$s` (Số phản hồi: %2$s) - Máy chủ: `%3$s`",
-        "selection": "Chọn lệnh:",
-        "note": "(Bạn chỉ có thể chọn lệnh tùy chỉnh từ máy chủ mà bạn đang là thành viên)",
-        "success": "Sao chép lệnh tùy chỉnh `%1$s` từ máy chủ `%2$s` với tổng %3$d phản hồi."
-      },
       "edit": {
         "header_slash": "Custom Command Edit",
         "content_slash": "New content",
@@ -588,7 +568,7 @@
         "no_house": "%1$sYou need a house item in your inventory. Use `/buy item:house` to get one.",
         "not_enough_money": "%1$s Bạn không có đủ tiền để mua căn nhà. (Giá hiện tại của căn nhà: %2$d đồng)",
         "no_name": "%1$sYou need to give your house a name! For example, `/marry house name:cozy house`",
-        "confirm": "%1$sBạn có chắc là bạn muốn mua căn nhà này? Số tiền sẽ bị trừ đi trong ví bạn là %2$d và căn nhà được đặt tên là %3$s. Nhấn `yes` để xác nhận và `no` để huỷ.",
+        "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Click on `yes` to confirm and `no` to cancel.",
         "success": "%1$sBạn đã mua thành công căn nhà này với giá %2$d đồng. Tên của ngôi nhà mới đầy ấm cúng này là %3$s!",
         "cancel_success": "%1$sĐã huỷ câu lệnh."
       },
@@ -596,7 +576,7 @@
         "no_car": "%1$sYou need to buy a car first! Use `/buy item:car` to get one.",
         "not_enough_money": "%1$sBạn không có đủ tiền để mua xe. (Giá hiện tại của chiếc xe: %2$d đồng)",
         "no_name": "%1$sYou need to give your car a name! For example, `/marry car name:vroom`",
-        "confirm": "%1$sBạn có chắc bạn đang mua chiếc xe này? Số tiền sẽ bị trừ đi trong ví bạn là %2$d và chiếc xe được đặt tên là %3$s. Nhấn `yes` để xác nhận và `no` để huỷ.",
+        "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Click on `yes` to confirm and `no` to cancel.",
         "success": "%1$sBạn đã mua thành công chiếc xe này với giá %2$d đồng. Tên của chiếc xe mới nhanh nhẹn này là %3$s!",
         "cancel_success": "%1$sĐã huỷ câu lệnh."
       },
@@ -614,7 +594,7 @@
       "ratelimit_message": "Tại sao bạn lại muốn cưới đến mức này cơ chứ?"
     },
     "divorce": {
-      "confirm": "%1$sBạn có chắc bạn muốn kết thúc cuộc hôn nhân này không? Số tiền bỏ ra cho thú nuôi, nhà cửa và xe cộ sẽ được chia làm hai phần. Nhấn `yes` để xác nhận và `no` để huỷ. **Thú nuôi của bạn sẽ biến mất vì nó gắn với cuộc hôn nhân**",
+      "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Click on `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
       "cancelled": "%1$sHuỷ ly hôn.",
       "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?\nWanna unclaim a Waifu? Use `/waifu unclaim` instead.",
       "success": "%1$sGiờ bạn đã là một người độc thân. Có lẽ đó là một điều tốt.\n%2$s",
@@ -646,7 +626,7 @@
       "unclaim": {
         "no_user": "%1$sBạn cần đề cập đến một waifu để bỏ.",
         "not_claimed": "%1$sNgười dùng này không phải waifu của bạn!",
-        "confirmation": "%1$sBạn có *chắc chắn* muốn bỏ %2$s không? Giá phải trả để bỏ waifu này là **%3$s đồng**. Gõ *yes* để xác nhận hoặc *no* để huỷ\n%4$sCó hiệu lực trong vòng 1 phút.",
+        "confirmation": "%1$sAre you *sure* you want to un-claim %2$s? The cost to un-claim this waifu is **%3$s credits**. Click on *yes* to confirm or *no* to cancel\n%4$sThis times out in 1 minute.",
         "not_enough_money": "%1$sBạn không có đủ tiền để bỏ waifu này!",
         "player_locked": "%1$sBạn không thể làm điều đó vào lúc này.",
         "scrapped": "%1$sĐã huỷ ý định bỏ waifu.",
@@ -661,7 +641,7 @@
       },
       "optout": {
         "notice": "%1$sBạn không thể dùng nó vì bạn đã chọn bỏ toàn bộ hệ thống waifu.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `/profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `/profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nClick on `yes` to opt-out PERMANENTLY or `no` to cancel this and go back to safety.",
         "success": "%1$sBạn đã bỏ thành công toàn bộ hệ thống waifu.",
         "cancelled": "%1$sĐã huỷ lệnh bỏ hệ thống.",
         "claim_notice": "%1$sNgười dùng bạn đang cố nhận làm waifu đã bỏ hệ thống.",
@@ -730,7 +710,7 @@
         "cost": "Giá chế tạo: ",
         "desc": "This is a list of the items you can cast using `/cast list`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       },
-      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `/useitem mop`?",
+      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `/use item item:mop`?",
       "wrench_multiple_use": "Lời khuyên: *Bạn không thể sử dụng chiếc cờ lê bạn đang cố dùng để chế tạo như một nguyên liệu được!*"
     },
     "market": {
@@ -756,7 +736,7 @@
         "no_item_amount": "%1$sBạn cần ghi rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải ghi ra) và tên của đồ vật bạn muốn bán.",
         "invalid": "%1$sSố không hợp lệ để có thể bán.",
         "all": {
-          "confirmation": "%1$sBạn có chắc chắn muốn bán **tất cả** đồ của bạn? Điều này sẽ làm *mọi đồ vật* trong túi đồ của bạn biến mất. Nếu bạn muốn bán một món đồ đơn lẻ, hãy gõ số lượng. Gõ *yes* để đồng ý và *no* để huỷ",
+          "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? This will clear your *whole* inventory. If you wanna sell individual items please use the amount. Click on *yes* to confirm and *no* to cancel",
           "success": "%1$sBạn đã bán hết đồ trong túi đồ của bạn và nhận được %2$,d đồng!",
           "cancelled": "%1$sĐã huỷ thành công."
         },
@@ -776,7 +756,7 @@
         "item_limit_reached": "%1$sBạn không thể mua nhiều hơn nữa. Bạn chỉ có thể có tối đa 5000 cho mỗi vật phẩm bất kì.",
         "success": "%1$sĐã mua thành công %2$,d %3$s với giá %4$,d đồng. Giờ bạn còn %5$,d đồng.",
         "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `/equip item:<item name>`",
-        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `/useitem item:<item name>`",
+        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `/use item item:<item name>`",
         "not_enough_money": "%1$sBạn không có đủ tiền để mua món đồ này. Tài sản của bạn: %2$,d đồng, Cần: %3$,d đồng.",
         "success_breakable_upgrade": "Hãy ghé qua <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> để biết thêm thông tin chi tiết về cách nâng cấp các dụng cụ nhé!"
       },
@@ -972,7 +952,7 @@
         "not_equipped": "%1$sBạn không trang bị bất kì thứ gì tại ô này.",
         "no_content": "%1$sBạn cần ghi rõ loại dụng cụ bạn muốn tháo, có thể là `pick, rod, axe, wrench`",
         "invalid_type": "%1$sLoại không hợp lệ. Những loại đồ hợp lệ là `pick, axe, rod, wrench`",
-        "confirm": "%1$sBạn có chắc là bạn muốn **tháo** %2$s %3$s? Gõ `yes` để đồng ý, `no` để huỷ. Điều này sẽ trả lại bạn phiên bản bị hỏng của công cụ hiện được trang bị, đồng nghĩa với việc công cụ hiện được trang bị của bạn sẽ bị hỏng.",
+        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Click on `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool, which means your currently equipped tool will break, unless unused.",
         "success": "%1$sĐã tháo %2$s thành công.",
         "equipment_recover": "\nDo bạn chưa từng xài dụng cụ này, nên bạn đã nhận lại %1$s!",
         "broken_equipment_recover": "\nDo bạn đã từng xài dụng cụ này, nên bạn nhận lại %1$s, bạn có thể sửa chữa nếu bạn cần sau này!",
@@ -1031,11 +1011,11 @@
       },
       "ls": {
         "header": "Danh sách huy hiệu có thể nhận được",
-        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `/profile` and then run `/badges` again.\nGood luck, badge hunters!",
+        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `/profile show` and then run `/badges show` again.\nGood luck, badge hunters!",
         "obtained": "**Nhận được:**%s"
       },
       "brief_success": "**Huy hiệu của %1$s:**\n%2$s",
-      "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `/profile` and then run this command again.\n",
+      "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `/profile show` and then run this command again.\n",
       "info_notice": "Use `/badges info badge:<badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**Bạn có thể nhận được huy hiệu cho việc [hỗ trợ phát triển Mantaro!](https://patreon.com/mantaro)!** (Việc nhận huy hiệu có thể sẽ mất chút thời gian)\n\n",
       "no_badges": "Không có huy hiệu để xem (hoặc chưa có!)",
@@ -1076,10 +1056,6 @@
       "leap": "Sinh nhật của bạn là vào ngày 29 tháng 2, có nghĩa là nó sẽ được công bố vào ngày 29 vào các năm nhuận và vào ngày 28 tháng 2 vào các năm không nhuận.",
       "already_allowed": "%1$sBạn đã cho phép máy chủ này hiển thị ngày sinh của bạn."
     },
-    "choose": {
-      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `/choose anime manga \"sleeping out\"`)",
-      "success": "%1$sTôi chọn `%2$s`"
-    },
     "remindme": {
       "nothing_specified": "%1$sKhông đặt lời nhắc mà đòi tôi nhắc à? Hay là cậu muốn tôi nhắc cậu đặt lời nhắc chăng?!",
       "no_reminders": "%1$sBạn không có đặt lời nhắc nào cả.",
@@ -1088,7 +1064,6 @@
         "select": "Chọn lời nhắc mà bạn muốn xoá."
       },
       "no_time": "%1$sYou didn't specify the time or the time format is wrong. The format is a number followed by either d (days), h (hours), m (minutes) or s (seconds). For example, 1m45s is 1 minute, 45 seconds.",
-      "no_time_arg": "%1$sBạn đã không đưa tôi thời gian trong đối số `-time`.",
       "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `/remindme add time:1m reminder:do the dishes`)",
       "too_long": "Thời gian đó quá dài... (Tối đa: 180 ngày)",
       "success": "%1$sI'll remind you (%2$s) of `%3$s` in %4$s",
@@ -1102,15 +1077,6 @@
       "error": "%1$sTôi đã tìm thấy lỗi khi tìm kiếm múi giờ trong cuốn sách lớn ở đó... hoặc có thể là múi giờ không hợp lệ.",
       "user_no_timezone": "%1$sNgười mà bạn đề cập đến không có đặt múi giờ."
     },
-    "urban": {
-      "no_args": "%1$sBạn cần phải ghi cho tôi biết bạn muốn tìm gì trên Từ điển Urban chứ.",
-      "header": "Định nghĩa của %1$s trên Từ điển Urban",
-      "too_many_args": "%1$sQuá nhiều đối số! Định dạng trang là `tên->số trang`",
-      "main_def": "Định nghĩa chính.",
-      "footer": "Thông tin được cung cấp bởi Từ điển Urban",
-      "nsfw_notice": "%1$sLệnh này chỉ có thể được sử dụng trong các kênh NSFW do bản chất các kết quả của nó.",
-      "error": "%1$sĐã xảy ra lỗi khi xử lý phản hồi từ UD. Thử lại?"
-    },
     "activatekey": {
       "check": {
         "key_valid_for": "%1$sKey của bạn có giá trị trong %2$s ngày nữa :heart:",
@@ -1123,14 +1089,6 @@
       "user_already_premium": "%1$sTài khoản của bạn vốn đã là cao cấp :heart:",
       "user_successful": "%1$sBạn hiện là **Premium** :heart:\nNếu bạn đang đăng kí ở Patreon, chìa khóa này sẽ được liên kết với đăng kí của bạn.",
       "mp": "Mantaro Patreon không sử dụng key, thay vào đó nó là cao cấp sẵn và tự hoạt động."
-    },
-    "claimkey": {
-      "not_patron": "%1$sBạn không phải là patron, thế nên bạn không thể làm điều này. Nếu bạn muốn ủng hộ Mantaro và đặc quyền kèm theo đó, hãy nhấn vào <https://www.patreon.com/mantaro>\nNếu bạn đã đăng ký và nhìn thấy tin nhắn này, có nghĩa là bạn chưa kích hoạt key. Làm ơn kiểm tra kĩ lại và chắc chắn rằng bạn đã kích hoạt key Mantaro nhắn riêng cho bạn.",
-      "already_top": "%1$sBạn đã nhận tất cả các chìa khóa bạn có. Nếu bất kỳ chìa khoá nào trong số chúng đã hết hạn, vui lòng truy cập máy chủ hỗ trợ tại <https://support.mantaro.site> (Mặc dù chúng sẽ tự động gia hạn)",
-      "successful": "%1$sThành công nhận key với mã `%2$s`. Bạn đã nhận tổng cộng %3$s key trong số %4$s chưa nhận. Đây là key thuộc loại %5$s (Nếu đây là key của máy chủ, bạn có thể sử dụng lên bất cứ máy chủ nào bạn muốn)",
-      "cant_dm": "%1%sTôi không thể gửi key vào tin nhắn riêng của bạn vì cài đặt bảo mật, có lẽ vậy, nên key đã không được tạo.",
-      "success": "%1$sĐã gửi thông tin qua tin nhắn riêng.",
-      "invalid_scope": "%1$sInvalid key scope! Valid are `user` and `guild`. Without any arguments, this command defaults to `user`. Example: `/claimkey guild` or `/claimkey user`"
     },
     "vipstatus": {
       "user": {
@@ -1353,13 +1311,13 @@
     },
     "pet": {
       "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nThere's two types: Personal (for yourself) and Marriage (shared between your partner and you). Choose one with `/pet choice`. The default is Personal.\nFor more help, use `/help command:pet` and `/pet list` for a list of pets.",
-      "no_marriage": "%1$sYou need to be married to have a marriage pet. For now. Check `/help command:marry` and `/pet`",
-      "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. For now. Check `/help command:marry` and `/pet`",
+      "no_marriage": "%1$sYou need to be married to have a marriage pet. Check `/help command:marry` and `/pet explanation`",
+      "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. Check `/help command:marry` and `/pet explanation`",
       "status": {
-        "no_pet": "%1$sYou don't have any pets to check the status of. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sYou don't have any pets to check the status of. Check `/pet explanation` for an explanation. (Choice: %2$s)%3$s",
         "pet_in_other_category": "\n%1$sYou have a pet on the %2$s choice (%3$s). You can switch to it with `/pet choice type:%2$s`",
         "header": "Trạng thái của %1$s",
-        "description": "Remember to take care and love your pet :heart:\nSee `/pet` and `/help command:pet` for an explanation.",
+        "description": "Remember to take care and love your pet :heart:\nSee `/pet explanation` and `/help command:pet` for an explanation.",
         "cost": "Giá",
         "type": "Loại",
         "abilities": "Kĩ năng",
@@ -1392,7 +1350,7 @@
         "success": "%1$sĐặt thành công lựa chọn của bạn thành: %2$s %3$s"
       },
       "level": {
-        "no_pet": "%1$sYou don't have any pets to check the level of. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sYou don't have any pets to check the level of. Check `/pet explanation` for an explanation. (Choice: %2$s)%3$s",
         "success": "%1$sCấp độ của **%2$s**: **%3$,d** (%4$,d XP / %5$,d XP)"
       },
       "list": {
@@ -1401,8 +1359,8 @@
         "header": "%1$s**Thú nuôi hiện có sẵn**\n\n%2$s\n\n%3$s**Giải thích về khả năng:**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sYou don't have any pets to pat. Check `/pet` for an explanation. (Choice: %2$s)",
-        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `/pet` for an explanation.",
+        "no_pet": "%1$sYou don't have any pets to pat. Check `/pet explanation` for an explanation. (Choice: %2$s)",
+        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `/pet explanation` for an explanation.",
         "personal_pet_other": "%1$sBạn không thể xoa đầu thú cưng của người khác vào lúc này.",
         "ratelimit_message": "Bạn có thể vỗ về thú cưng của mình tối đa 25 lần. Sau đó, bạn sẽ phải đợi khoảng thời gian trên cho 25 lần vỗ nữa.",
         "too_many": "Làm thế nào mà bạn thậm chí xoa đầu nhiều như thế này?"
@@ -1423,7 +1381,7 @@
         "already_has_pet": "%1$sBạn đã có sẵn thú cưng. (Lựa chọn hiện tại: %2$s)",
         "nothing_found": "%1$sKhông thể tìm thấy loại vật nuôi bạn đã chỉ định. Bạn đã chỉ định: `%2$s`, Loại hợp lệ: `%3$s`",
         "not_enough_money": "%1$sBạn không có đủ tiền để mua thú nuôi này. Cần: %2$,d đồng, Tài sản của bạn: %3$,d đồng",
-        "confirm": "%1$sBạn có chắc là muốn mua thú nuôi này chứ? Tên: %2$s, Loại: %3$s, Giá: %4$,d đồng. Lựa chọn: %5$s. Gõ `yes` để đồng ý, nếu không thì gõ `no`.",
+        "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Choice: %5$s. Click on `yes` to continue, `no` otherwise.",
         "success": "%1$sChúc mừng! Bây giờ hai bạn đã là người chủ đáng quý của `%2$s%3$s` với cái tên mà hai bạn đặt là `%4$s`. Giá để mua thú nuôi này là %5$,d đồng và sự lựa chọn là: %6$s",
         "success_personal": "%1$sChúc mừng! Bây giờ bạn đã là người chủ đáng quý của `%2$s%3$s` với cái tên mà bạn đặt là `%4$s`. Giá để mua thú nuôi này là %5$,d đồng và sự lựa chọn là: %6$s",
         "cancel_success": "%1$sĐã huỷ câu lệnh.",
@@ -1431,7 +1389,7 @@
         "no_marriage_marry": "%1$sTôi không thấy cuộc hôn nhân nào ở đây..."
       },
       "feed": {
-        "no_pet": "%1$sYou don't have any pets to feed. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sYou don't have any pets to feed. Check `/pet explanation` for an explanation. (Choice: %2$s)%3$s",
         "no_content": "%1$sYou need to specify what you want to feed your pet with. For example, `/pet feed item:steak`",
         "no_item": "%1$sTôi không tìm thấy vật phẩm mà bạn chỉ ra.",
         "not_food": "%1$sỒ nhìn kìa! Đây không phải là đồ ăn, cũng không phải đồ tiếp tế!",
@@ -1442,7 +1400,7 @@
         "too_much": "%1$sHay là cho nó ít thức ăn hơn đi? Bạn đang lãng phí thức ăn đó! (Số lượng bạn đưa ra vượt quá 100%% thanh thức ăn)"
       },
       "water": {
-        "no_pet": "%1$sYou don't have any pets to water. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sYou don't have any pets to give water to. Check `/pet explanation` for an explanation. (Choice: %2$s)%3$s",
         "no_need": "%1$sThú cưng của bạn không khát, nên có lẽ hiện giờ nó không muốn uống.",
         "not_inventory": "%1$sBạn không có chai nước. Hãy chắc chắn rằng nó nằm trong túi đồ của bạn.",
         "not_enough_inventory": "%1$sKhông đủ chai nước có trong túi đồ của bạn. Bạn cần %2$s.",
@@ -1470,8 +1428,8 @@
       "remove": {
         "no_pet": "%1$sBạn không có thú cưng để xoá. (Lựa chọn %2$s)%3$s",
         "no_pet_confirm": "%1$sTôi không thấy con vật nào cả...",
-        "confirm": "%1$sBạn có chắc chắn là muốn xoá thú nuôi này không? Nửa kia của bạn sẽ nhận được %2$,d đồng, và bạn cũng nhận được %2$,d đồng.\nGõ `yes` để đồng ý hoặc `no` để huỷ. Hãy nhận thức được rằng sự hoàn trả không đi kèm với cấp độ hay bất kì thứ gì khác, nó giống như mua một tomagotchi mới hoặc tương tự như vậy.",
-        "confirm_personal": "%1$sBạn có chắc chắn là muốn xoá thú nuôi này không? Bạn sẽ được hoàn lại %2$,d đồng.\nGõ `yes` để đồng ý hoặc `no` để huỷ. Hãy nhận thức được rằng sự hoàn trả không đi kèm với cấp độ hay bất kì thứ gì khác, nó giống như mua một tomagotchi mới hoặc tương tự như vậy.",
+        "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$,d credits, and you will receive %2$,d credits aswell.\nClick on `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
+        "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$,d credits.\nClick on `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
         "success": "%1$sĐã bán thú nuôi thành công. Cả hai bên sẽ nhận được %2$s đồng như là sự hoàn trả.",
         "success_personal": "%1$sĐã bán thú nuôi thành công. Bạn sẽ nhận được %2$s đồng như là sự hoàn trả."
       },
@@ -1640,7 +1598,7 @@
     },
     "anime": {
       "no_args": "%1$sBạn cần phải cho tôi biết bạn muốn xem anime nào.",
-      "selection_start": "Gõ số của anime bạn muốn chọn.",
+      "selection_start": "Select the number of the anime you want to select.",
       "information_footer": "Information provided by Kitsu.io.",
       "no_results": "%1$sKhông có kết quả...",
       "malformed_result": "%1$sTôi nhận được kết quả API sai cho tìm kiếm này. Có thể thử với một cụm từ tìm kiếm khác?",
@@ -1663,7 +1621,7 @@
     },
     "character": {
       "no_args": "%1$sBạn cần phải cho tôi biết bạn muốn tìm kiếm nhân vật nào.",
-      "selection_start": "Gõ số của nhân vật bạn muốn chọn.",
+      "selection_start": "Select the number of the character you want to select.",
       "error": "%1$s**Tôi thề là tôi không làm rơi waifu của bạn, làm ơn tha cho tui TwT!**\nTôi nhận được `%2$s` khi đang cố gắng chạy lệnh. (lỗi bên trong)",
       "information_header": "Thông tin của nhân vật %1$s",
       "information": "Thông tin",
@@ -1716,7 +1674,7 @@
       "invalid_money_or_modifier": "%1$sVui lòng nhập một số hợp lệ nhỏ hơn hoặc bằng số dư hiện tại của bạn hoặc `all` để đánh bạc tất cả tiền có trong tài khoản của bạn.",
       "not_enough_money": "%1$sLàm ơn hãy nhập một số trong đủ khả năng chi trả của bạn.",
       "invalid_percentage": "%1$sVui lòng nhập giá trị phần trăm hợp lệ.",
-      "confirmation_message": "%1$sBạn đang cược **%2$,d* đồng (có vẻ là rất nhiều). Bạn có chắc với quyết định của mình chứ? Nhấn **yes** để đồng ý và **no** để huỷ.",
+      "confirmation_message": "%1$sYou're about to bet **%2$,d** credits (which seems to be a lot). Are you sure? Select **yes** to continue and **no** otherwise.",
       "cancelled_bet": "%1$sĐã huỷ cược.",
       "win": "%1$sChúc mừng, bạn đã thắng %2$,d đồng và giữ lại được số tiền bạn đặt cược.",
       "win_overflow": "%1$sChúc mừng, bạn đã thắng %2$,d đồng. Nhưng vì bạn đã có quá nhiều tiền. Nên túi tiền bị tràn ra.",
@@ -1742,10 +1700,7 @@
       "easter": "\nCó vẻ như bạn đang có quá nhiều bụi ở đây... Có thể bạn sẽ muốn dọn nó trước khi nó trở thành một mớ hỗn độn đấy!"
     },
     "mine": {
-      "not_equipped": "%1$sYou don't have any equipped pick. Use `/equip item:<pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `/buy pick`",
-      "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `/mine <pick name>`",
-      "not_suitable": "%1$sĐây không phải là một cây cuốc bạn có thể dùng để đào!",
-      "not_in_inventory": "%1$sBạn không có cây cuốc này trong tủ đồ của bạn, đang đổi sang cây cuốc mặc định.",
+      "not_equipped": "%1$sYou don't have any equipped pick. Use `/equip item:<pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `/buy item:pick`",
       "success": "%1$sBạn đào được khoáng chất trị giá **$%2$,d đồng**, bằng *%3$s*",
       "reminder": "\n*You can cast better picks using the gems you get while mining. Check `/cast list` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
@@ -2532,7 +2487,7 @@
       "lewd": "Có quá nhiều lệnh 18+. Rất rất nhiều. Có vui không?",
       "ring": "Thường là thứ làm cho cuộc hôn nhân của bạn trở nên chính thức.",
       "letter": "Một bức thư từ người thương của bạn.",
-      "key": "Used to open various crates with `/opencrate crate:<crate name>` or `/useitem item:<crate name>`",
+      "key": "Used to open various crates with `/opencrate crate:<crate name>` or `/use item item:<crate name>`",
       "clothes": "Chủ yếu là thứ gì mà bạn mặc. Hy vọng thế...",
       "diamond": "Thường là một cách tốt hơn để bạn giữ tiền. Nó cũng sáng bóng nữa. Hãy để tiền của bạn trở nên bóng loáng. Thật tuyệt vời.",
       "dress": "Nó thật đáng yêu phải không?",
