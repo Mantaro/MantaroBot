@@ -182,17 +182,6 @@
       "broken_drop": "%1$sYour rod broke, but you can repair it. Got broken item: %2$s *%3$s*",
       "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `/equip item:<rod name>` to start your adventure!"
     },
-    "softban": {
-      "no_permission": "%1$sYou can't soft-ban: You need the `Ban Users` permission.",
-      "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server.",
-      "no_users": "%1$sYou need to give me a user to soft-ban.",
-      "hierarchy_conflict": "%1$sYou cannot soft-ban a user in a higher hierarchy than you",
-      "yourself_note": "%1$sWhy are you trying to soft-ban yourself?",
-      "self_hierarchy_conflict": "%1$sCannot soft-ban member: %2$s, they are higher or the same hierarchy than I am!",
-      "success": "%1$s%2$s. **(%3$s got soft-banned)**",
-      "error": "%1$sError soft-banning [%2$s]: (No permission provided: %3$s)",
-      "unknown_error": "%1$sUnknown error while soft-banning %2$s: *(Error? %3$s: %4$s)*"
-    },
     "music_usage": {
       "1": "*How to use music in Mantaro?*",
       "2": "- To **queue songs from youtube or soundcloud** use `/play` For example: `/play song:https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
@@ -1101,15 +1090,6 @@
       "success": "%1$sIt's %2$s in the %3$s timezone.",
       "error": "%1$sI found an error while looking for the timezone in the big book over there... or it could be invalid.",
       "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
-    },
-    "urban": {
-      "no_args": "%1$sYou need to tell me what term to look for in Urban Dictionary.",
-      "header": "Urban Dictionary definition for %1$s",
-      "too_many_args": "%1$sToo many arguments! Page format is `name->page number`",
-      "main_def": "Main definition.",
-      "footer": "Information by Urban Dictionary",
-      "nsfw_notice": "%1$sThis command can only be used in NSFW channels due to the nature of its results.",
-      "error": "%1$sThere was an error processing the response from UD. Try again?"
     },
     "activatekey": {
       "check": {
