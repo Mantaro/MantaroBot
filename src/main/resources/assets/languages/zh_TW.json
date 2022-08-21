@@ -182,28 +182,17 @@
       "broken_drop": "%1$s你的釣竿壞掉了，但是你還可以修復它。得到損壞物品：%2$s *%3$s*",
       "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `/equip item:<rod name>` to start your adventure!"
     },
-    "softban": {
-      "no_permission": "%1$sYou can't soft-ban: You need the `Ban Users` permission.",
-      "no_permission_self": "%1$s對不起! 我沒有驅逐成員的權限。",
-      "no_users": "%1$sYou need to give me a user to soft-ban.",
-      "hierarchy_conflict": "%1$sYou cannot soft-ban a user in a higher hierarchy than you",
-      "yourself_note": "%1$s你怎麼會想試著soft ban(軟驅逐)你自己？",
-      "self_hierarchy_conflict": "%1$s無法soft ban(軟驅逐)成員：%2$s，他的身分組跟我一樣或比我高!",
-      "success": "%1$s%2$s. **%3$s 被soft ban(軟驅逐)了**",
-      "error": "%1$ssoft ban(軟驅逐)錯誤 [%2$s]：(沒有權限：%3$s)",
-      "unknown_error": "%1$s在嘗試soft ban(軟驅逐)的時候發生未知錯誤 %2$s：*(Error? %3$s：%4$s)*"
-    },
     "music_usage": {
       "1": "*如何使用Mantaro的音樂功能？*",
       "2": "- To **queue songs from youtube or soundcloud** use `/play` For example: `/play song:https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
-      "3": "- To **search for a song on youtube** use `/play song:<search term>` (without the leading < and >) For example: `/play song:see you again` (You need to select the number, just *type the number* after the selection box pops up!)",
+      "3": "- To **search for a song on youtube** use `/play song:<search term>` (without the leading < and >) For example: `/play song:see you again` (You need to select the number, just *select the number* after the selection box pops up!)",
       "4": "- To **search for a song on soundcloud** use `/play song:<search term> soundcloud:true` For example `/play song:hot milk soundcloud:true`",
       "5": "- To **check the queue** you just type `/queue show`",
       "6": "- To **remove a track from the queue** you just need to use `/removetrack` It takes as an argument the position the song is queued at (you can check in on queue)",
       "7": "- To **pause or unpause** just use `/pause`",
       "8": "- To **stop the music and unbind the player** use `/stop`",
       "9": "- To **shuffle the queue** just use `/shuffle`",
-      "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue by setting the queue boolean to true on the command.\n",
+      "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue running `/repeat queue:True`.\n",
       "11": "For more info please use `/help command:<command name>` (without the <> and replace command name with the name of the command you want)",
       "12": "謝謝使用Mantaro，享受你的音樂吧!"
     },
@@ -215,7 +204,6 @@
         "timeout": "%1$s無法連接至%2$s：連線超時。試著改變伺服器區域並再試一次。",
         "unknown": "%1$s無法連接至%2$s：未知錯誤。"
       },
-      "not_working": "%1$sMusic is currently not working due to Youtube blocking traffic from most big bots. Our Patreon bot still is working, so you can try it if you wish by donating $4/month to Mantaro. This will also help us redirect our efforts towards fixing music as a whole.\nPlease check <https://patreon.com/mantaro>\n\nWe're sorry for the inconveniences. Try using soundcloud search! (`/play song:<search term> soundcloud:true)`",
       "no_song": "%1$s你需要告訴我你想播的音樂! *(支援網址及關鍵字：YouTube, SoundCloud, Twitch)*",
       "not_playing": "%1$s我目前不在播放任何音樂。如果你覺得這是錯誤的話，請回報至<https://support.mantaro.site>",
       "dj_only": "%1$s你需要成為DJ才能使用這個指令。",
@@ -226,7 +214,7 @@
       "track_error": "%1$s播放這首曲目時發生了些問題! 不便之處敬請見諒，如果還有的話我會先播放下一首的。",
       "queue_finished": "%1$s目前清單已播放完畢！希望你喜歡使用我 :heart:",
       "soundcloud_no_args": "%1$s你需要給我歌曲名稱，我可不是隨猜即中的魔法師 :(",
-      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `/forceplay` instead, which will play the first result.",
+      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `/play first:True song:<song>`, which will play the first result.",
       "no_vc_found": "%1$s我還沒有連接到任何語音頻道？再試一次。",
       "queue": {
         "header_field": "使用說明",
@@ -266,7 +254,7 @@
       "listener": {
         "paused": "%1$s我被靜音了，暫停播放中 :(",
         "resumed": "%1$s有人加入了! 繼續播放中",
-        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `/resume` to manually resume playback.",
+        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `/pause` to manually resume playback.",
         "left_alone": "%1$s孤單的我會在2分鐘內離開**%2$s** :(",
         "leave": "%1$s我決定離開**%2$s**因為現在只剩我一人 :("
       },
@@ -280,7 +268,7 @@
         "over_32_minutes": "%1$s**無法加入 `%2$s` 至清單：長度超過 %3$s。**(歌曲長度為 %4$s)。\n你可以使用Mantaro Premium取得更高的長度限制和直播播放！查看 <https://patreon.com/mantaro> 獲得更多訊息。",
         "fair_queue_limit_reached": "%1$s**超出公平播放數量%2$d (相同歌曲數目過多)**",
         "loaded_song": "%1$s已加入清單 -> **%2$s** *(%3$s)*",
-        "selection_text": "歌曲選擇，輸入歌曲編號以繼續。",
+        "selection_text": "Song selection. Select the song number to continue.",
         "timeout_text": "This timeouts in 30 seconds."
       },
       "premium_beg": "%1$sConsider donating on <https://patreon.com/mantaro> if you like me, even a small donation will help towards keeping the bot alive (Check `/donate` for more info!)",
@@ -433,14 +421,6 @@
         "no_command": "%1$s你需要告訴我你想取消哪條指令。",
         "success": "%1$s已移除自定義指令 `%2$s`"
       },
-      "import": {
-        "no_command": "%1$s你需要告訴我你想匯入哪條指令。",
-        "not_found": "%1$sThere are no custom commands matching your search query.\n**This command might not work properly!**\nIn such cases, you can manually copy the command using the output of `/custom raw` instead.",
-        "header": "`%1$s` (回應：%2$s) - 伺服器：`%3$s`",
-        "selection": "選擇指令：",
-        "note": "(你只能選擇你所在伺服器中的自定義指令)",
-        "success": "從伺服器 `%2$s` 匯入了自定義指令 `%1$s` 的%3$d個回應。"
-      },
       "edit": {
         "header_slash": "Custom Command Edit",
         "content_slash": "New content",
@@ -588,7 +568,7 @@
         "no_house": "%1$sYou need a house item in your inventory. Use `/buy item:house` to get one.",
         "not_enough_money": "%1$s你沒有足夠的錢來購買房屋。(目前房屋價格：%2$d元)",
         "no_name": "%1$sYou need to give your house a name! For example, `/marry house name:cozy house`",
-        "confirm": "%1$s你確定要買這棟房子嗎？這將從你的錢包中扣除%2$d元，然後你的房屋名稱將是%3$s。傳送 `yes` 確認或 `no` 取消。",
+        "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Click on `yes` to confirm and `no` to cancel.",
         "success": "%1$s你成功用 %2$d 元買了一棟房子！你的新房屋名稱是 %3$s，恭喜！",
         "cancel_success": "%1$s操作取消。"
       },
@@ -596,7 +576,7 @@
         "no_car": "%1$sYou need to buy a car first! Use `/buy item:car` to get one.",
         "not_enough_money": "%1$s你沒有足夠的錢來購買汽車。(目前汽車價格：%2$d元)",
         "no_name": "%1$sYou need to give your car a name! For example, `/marry car name:vroom`",
-        "confirm": "%1$s你確定要買這台汽車嗎？這將從你的錢包中扣除%2$d元，然後你的汽車名稱將是%3$s。傳送 `yes` 確認或 `no` 取消。",
+        "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Click on `yes` to confirm and `no` to cancel.",
         "success": "%1$s你成功用 %2$d 元買了一台汽車！你的新車子名稱是 %3$s，恭喜！",
         "cancel_success": "%1$s操作取消。"
       },
@@ -614,7 +594,7 @@
       "ratelimit_message": "你為什麼想結那麼多次婚？"
     },
     "divorce": {
-      "confirm": "%1$s你確定要結束這場婚姻嗎？花在寵物，房子和車子上的錢將會被平分給你們。傳送 `yes` 繼續或 `no` 取消。**屬於你婚姻的寵物將會消失**",
+      "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Click on `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
       "cancelled": "%1$s已取消離婚。",
       "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?\nWanna unclaim a Waifu? Use `/waifu unclaim` instead.",
       "success": "%1$s你現在是單身了。我猜這樣也不錯。\n%2$s",
@@ -646,7 +626,7 @@
       "unclaim": {
         "no_user": "%1$s你需要先提及一個Waifu來取消認領。",
         "not_claimed": "%1$s這個人不是你的Waifu!",
-        "confirmation": "%1$s你真的*確定*要取消認領 %2$s 嗎？取消認領這個Waifu的費用是 **%3$s 元**。傳送 `yes` 確認或 `no` 取消。\n%4$s這將在一分內超時。",
+        "confirmation": "%1$sAre you *sure* you want to un-claim %2$s? The cost to un-claim this waifu is **%3$s credits**. Click on *yes* to confirm or *no* to cancel\n%4$sThis times out in 1 minute.",
         "not_enough_money": "%1$s你沒有足夠的金錢來取消認領這位Waifu！",
         "player_locked": "%1$s你目前無法執行此操作。",
         "scrapped": "%1$s已取消操作。",
@@ -661,7 +641,7 @@
       },
       "optout": {
         "notice": "%1$s你已經選擇退出了Waifu系統，所以你不能使用這個指令。",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `/profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `/profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nClick on `yes` to opt-out PERMANENTLY or `no` to cancel this and go back to safety.",
         "success": "%1$s你已經選擇退出了Waifu系統。",
         "cancelled": "%1$s已取消選擇退出。",
         "claim_notice": "%1$s你正在認領的用戶已選擇退出。",
@@ -730,7 +710,7 @@
         "cost": "鑄造花費：",
         "desc": "This is a list of the items you can cast using `/cast list`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       },
-      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `/useitem mop`?",
+      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `/use item item:mop`?",
       "wrench_multiple_use": "小提示：*你無法使用要鑄造的扳手作為原料！*"
     },
     "market": {
@@ -756,7 +736,7 @@
         "no_item_amount": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想出售的物品名稱。",
         "invalid": "%1$s物品出售數量無效。",
         "all": {
-          "confirmation": "%1$s你真的*確定*要出售你**所有**的物品嗎？這將會清除你的*整個*背包。如果你想出售個別的物品，別忘記加上數量。傳送 *yes* 確認或 *no* 取消",
+          "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? This will clear your *whole* inventory. If you wanna sell individual items please use the amount. Click on *yes* to confirm and *no* to cancel",
           "success": "%1$s你出售了你的所有物品且獲得了 %2$,d 元！",
           "cancelled": "%1$s取消成功。"
         },
@@ -776,7 +756,7 @@
         "item_limit_reached": "%1$s你無法購買更多此物品。你最多只能擁有5000個同樣物品。",
         "success": "%1$s成功用 %4$,d 元購買了 %2$,d 個 %3$s。你目前還有 %5$,d 元。",
         "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `/equip item:<item name>`",
-        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `/useitem item:<item name>`",
+        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `/use item item:<item name>`",
         "not_enough_money": "%1$s你沒有足夠的錢來購買此物品。你的錢包：%2$,d 元，你需要：%3$,d 元。",
         "success_breakable_upgrade": "你可以查看 <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> 獲得更多有關工具升級的資訊！"
       },
@@ -972,7 +952,7 @@
         "not_equipped": "%1$s你還沒有裝備這種類型的物品。",
         "no_content": "%1$s你需要指出你想取消裝備的類型，類型可以是 `pick, axe, rod 或 wrench` (分別是 鎬子 斧頭 釣竿 和 扳手)",
         "invalid_type": "%1$s類型無效。有效類型為 `pick, axe, rod 和 wrench`",
-        "confirm": "%1$s你確定想要**取消裝備**你的 %2$s %3$s 嗎？傳送 `yes` 確認，`no` 取消。你將會收到當前工具的損壞版本，也代表著你取消裝備的工具將會立即損壞。",
+        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Click on `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool, which means your currently equipped tool will break, unless unused.",
         "success": "%1$s已取消裝備你的%2$s欄位。",
         "equipment_recover": "\n由於你從未使用過這個裝備，你拿回了你的%1$s！",
         "broken_equipment_recover": "\n這個裝備已經被使用過，所以你得到了%1$s，不過你還是可以修復他的！",
@@ -1031,11 +1011,11 @@
       },
       "ls": {
         "header": "可取得徽章清單",
-        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `/profile` and then run `/badges` again.\nGood luck, badge hunters!",
+        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `/profile show` and then run `/badges show` again.\nGood luck, badge hunters!",
         "obtained": "**已取得：**%s"
       },
       "brief_success": "**%1$s 的徽章清單：**\n%2$s",
-      "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `/profile` and then run this command again.\n",
+      "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `/profile show` and then run this command again.\n",
       "info_notice": "Use `/badges info badge:<badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**別忘記你也可以獲得 [支持Mantaro開發] 的徽章 (https://patreon.com/mantaro)！**(可能需要幾分鐘來更新)\n\n",
       "no_badges": "(目前！) 還沒有徽章可顯示",
@@ -1076,10 +1056,6 @@
       "leap": "你的生日是二月29日，代表他將會在閏年的29日或平年的28日被宣布。",
       "already_allowed": "%1$s你已經允許此伺服器宣布你的生日。"
     },
-    "choose": {
-      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `/choose anime manga \"sleeping out\"`)",
-      "success": "%1$sI choose `%2$s`"
-    },
     "remindme": {
       "nothing_specified": "%1$sWhat could I remind you of if you don't give me what to remind you? Oh! Lemme remind you of setting a reminder!",
       "no_reminders": "%1$sYou have no reminders set.",
@@ -1088,7 +1064,6 @@
         "select": "Select the reminder you want to cancel."
       },
       "no_time": "%1$sYou didn't specify the time or the time format is wrong. The format is a number followed by either d (days), h (hours), m (minutes) or s (seconds). For example, 1m45s is 1 minute, 45 seconds.",
-      "no_time_arg": "%1$sYou didn't give me a time on the `-time` argument.",
       "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `/remindme add time:1m reminder:do the dishes`)",
       "too_long": "That's too much time... (Maximum: 180 days)",
       "success": "%1$sI'll remind you (%2$s) of `%3$s` in %4$s",
@@ -1102,15 +1077,6 @@
       "error": "%1$sI found an error while looking for the timezone in the big book over there... or it could be invalid.",
       "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
     },
-    "urban": {
-      "no_args": "%1$s你需要告訴我你想在 Urban Dictionary 上查詢的字彙。",
-      "header": "%1$s 在 Urban Dictionary 上的定義",
-      "too_many_args": "%1$s參數過多！頁數格式是 `名稱->頁數`",
-      "main_def": "主要定義。",
-      "footer": "由 Urban Dictionary 提供",
-      "nsfw_notice": "%1$s由於其結果的性質，該指令只能被用於NSFW的頻道裡。",
-      "error": "%1$s處理UD結果時發生錯誤。也許在試一次？"
-    },
     "activatekey": {
       "check": {
         "key_valid_for": "%1$s你的密鑰還有 %2$s 天有效 :heart:",
@@ -1123,14 +1089,6 @@
       "user_already_premium": "%1$s你已經有Premium了 :heart:",
       "user_successful": "%1$s你已成為 **Premium** :heart:\n如果你使用Patreon贊助，這個密鑰則與你的用戶連結。",
       "mp": "Mantaro Patreon 並不需要任何密鑰，因為這個機器人本身就是Premium。"
-    },
-    "claimkey": {
-      "not_patron": "%1$s你還不是我們Patreon上的贊助者，無法做這件事情。如果你想支持Mantaro並獲得Mantaro上的特殊待遇，請查看 <https://www.patreon.com/mantaro>\n如果你已是贊助者但還繼續收到這則訊息，表示你的密鑰還未被啟動。請再次確定你已經啟動了Mantaro私訊給你的密鑰。",
-      "already_top": "%1$s你已經領取了你擁有的所有密鑰。如果其中一個已過期，請到我們的支援伺服 <https://support.mantaro.site> 詢問 (他們應該會自動更新)",
-      "successful": "%1$s成功領取密鑰 `%2$s`。你總共領取了 %3$s 個密鑰，還剩 %4$s 個可以領取。該密鑰的類型為 %5$s。(如果這是一個 guild [伺服器] 密鑰，將他使用在你想要的伺服器裡面)",
-      "cant_dm": "%1%s由於你的隱私設置讓阻止我私訊你密鑰，所以他還沒被產生。",
-      "success": "%1$s已發送私訊給你。",
-      "invalid_scope": "%1$sInvalid key scope! Valid are `user` and `guild`. Without any arguments, this command defaults to `user`. Example: `/claimkey guild` or `/claimkey user`"
     },
     "vipstatus": {
       "user": {
@@ -1353,13 +1311,13 @@
     },
     "pet": {
       "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nThere's two types: Personal (for yourself) and Marriage (shared between your partner and you). Choose one with `/pet choice`. The default is Personal.\nFor more help, use `/help command:pet` and `/pet list` for a list of pets.",
-      "no_marriage": "%1$sYou need to be married to have a marriage pet. For now. Check `/help command:marry` and `/pet`",
-      "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. For now. Check `/help command:marry` and `/pet`",
+      "no_marriage": "%1$sYou need to be married to have a marriage pet. Check `/help command:marry` and `/pet explanation`",
+      "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. Check `/help command:marry` and `/pet explanation`",
       "status": {
-        "no_pet": "%1$sYou don't have any pets to check the status of. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sYou don't have any pets to check the status of. Check `/pet explanation` for an explanation. (Choice: %2$s)%3$s",
         "pet_in_other_category": "\n%1$sYou have a pet on the %2$s choice (%3$s). You can switch to it with `/pet choice type:%2$s`",
         "header": "%1$s 的狀態",
-        "description": "Remember to take care and love your pet :heart:\nSee `/pet` and `/help command:pet` for an explanation.",
+        "description": "Remember to take care and love your pet :heart:\nSee `/pet explanation` and `/help command:pet` for an explanation.",
         "cost": "價格",
         "type": "類型",
         "abilities": "能力",
@@ -1392,7 +1350,7 @@
         "success": "%1$s成功設置寵物選擇為：%2$s %3$s"
       },
       "level": {
-        "no_pet": "%1$sYou don't have any pets to check the level of. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sYou don't have any pets to check the level of. Check `/pet explanation` for an explanation. (Choice: %2$s)%3$s",
         "success": "%1$s**%2$s** 的等級：**%3$,d** (%4$,d XP / %5$,d XP)"
       },
       "list": {
@@ -1401,8 +1359,8 @@
         "header": "%1$s**目前可用的寵物**\n\n%2$s\n\n%3$s**能力說明：**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sYou don't have any pets to pat. Check `/pet` for an explanation. (Choice: %2$s)",
-        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `/pet` for an explanation.",
+        "no_pet": "%1$sYou don't have any pets to pat. Check `/pet explanation` for an explanation. (Choice: %2$s)",
+        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `/pet explanation` for an explanation.",
         "personal_pet_other": "%1$s你無法撫摸其他人的個人寵物。至少現在不行。",
         "ratelimit_message": "你最多可以撫摸你的寵物25次。到達之後將需要等待一個小時才能再次撫摸25次。",
         "too_many": "你是怎麼撫摸那麼多次的？"
@@ -1423,7 +1381,7 @@
         "already_has_pet": "%1$s你已經擁有寵物了。(寵物選擇為：%2$s)",
         "nothing_found": "%1$s找不到你指出的寵物類型。你指出了：`%2$s`，有效類型：`%3$s`",
         "not_enough_money": "%1$s你沒有足夠的錢來購買此寵物。價格：%2$,d 元，你的錢包：%3$,d 元",
-        "confirm": "%1$s你確定要購買這個寵物嗎？名稱：%2$s，種類：%3$s，價格：%4$,d 元。寵物選擇為 %5$s。傳送 `yes` 確認或 `no` 取消。",
+        "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Choice: %5$s. Click on `yes` to continue, `no` otherwise.",
         "success": "%1$s恭喜！你們現在是 `%2$s%3$s` 的主人了，他的名字叫 `%4$s`。你花了 %5$,d 元購買，寵物選擇為 %6$s",
         "success_personal": "%1$s恭喜！你現在是 `%2$s%3$s` 的主人了，他的名字叫 `%4$s`。你花了 %5$,d 元購買，寵物選擇為 %6$s",
         "cancel_success": "%1$s操作取消。",
@@ -1431,7 +1389,7 @@
         "no_marriage_marry": "%1$s我找不到任何婚姻..."
       },
       "feed": {
-        "no_pet": "%1$sYou don't have any pets to feed. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sYou don't have any pets to feed. Check `/pet explanation` for an explanation. (Choice: %2$s)%3$s",
         "no_content": "%1$sYou need to specify what you want to feed your pet with. For example, `/pet feed item:steak`",
         "no_item": "%1$s找不到你指定的物品。",
         "not_food": "%1$s等一下！這不是食物，也不是緊急食物！",
@@ -1442,7 +1400,7 @@
         "too_much": "%1$s也許給他少一點食物看看？不要浪費食物！(增加的飢餓度將超過100%%)"
       },
       "water": {
-        "no_pet": "%1$sYou don't have any pets to water. Check `/pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sYou don't have any pets to give water to. Check `/pet explanation` for an explanation. (Choice: %2$s)%3$s",
         "no_need": "%1$s你的寵物目前還不口渴，他們還不想喝水。",
         "not_inventory": "%1$s你還沒有水瓶。確保他在你的背包裡。",
         "not_enough_inventory": "%1$s你背包裡的水瓶不夠！你需要 %2$s 個。",
@@ -1470,8 +1428,8 @@
       "remove": {
         "no_pet": "%1$s你沒有寵物可以丟棄。(寵物選擇為：%2$s)%3$s",
         "no_pet_confirm": "%1$s我找不到任何寵物...",
-        "confirm": "%1$s你確定要丟棄你的寵物嗎？你將獲得 %2$,d 元，與你結婚的人也將獲得 %2$,d 元。\n傳送 `yes` 確認或 `no` 取消。請記得你的退款不會隨著寵物等級增加，就像你在買新的電子雞一樣。",
-        "confirm_personal": "%1$s你確定要丟棄你的寵物嗎？你將被退回 %2$,d 元。\n傳送 `yes` 確認或 `no` 取消。請記得你的退款金額不會隨著寵物等級增加，就像在買新的電子雞一樣。",
+        "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$,d credits, and you will receive %2$,d credits aswell.\nClick on `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
+        "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$,d credits.\nClick on `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
         "success": "%1$s成功丟棄寵物。此婚姻中的每個人都獲得了 %2$s 元作為補償。",
         "success_personal": "%1$s成功丟棄寵物。你獲得了 %2$s 元作為補償。"
       },
@@ -1640,7 +1598,7 @@
     },
     "anime": {
       "no_args": "%1$s你需要指出你想查看的動畫名稱。",
-      "selection_start": "輸入你想要選擇的動畫號碼。",
+      "selection_start": "Select the number of the anime you want to select.",
       "information_footer": "Information provided by Kitsu.io.",
       "no_results": "%1$s找不到任何結果...",
       "malformed_result": "%1$s我在搜尋時得到了錯誤的API結果。也許試試看另一個關鍵字？",
@@ -1663,7 +1621,7 @@
     },
     "character": {
       "no_args": "%1$s你需要指出你想查看的角色名稱。",
-      "selection_start": "輸入你想要選擇的角色號碼。",
+      "selection_start": "Select the number of the character you want to select.",
       "error": "%1$s**我發誓我絕對沒有忘-忘記你的Waifu，請原諒我！**\n我在處理指令時發生了 `%2$s`。(內部錯誤)",
       "information_header": "%1$s的角色訊息",
       "information": "訊息",
@@ -1716,7 +1674,7 @@
       "invalid_money_or_modifier": "%1$s請輸入一個小於或等於你所有金錢的正確數字，或使用 `all` 來賭掉所有金錢。",
       "not_enough_money": "%1$s請輸入一個在你的金錢範圍內的值。",
       "invalid_percentage": "%1$s請輸入一個正確的百分比。",
-      "confirmation_message": "%1$s你即將下注 **%2$,d** 元 (這似乎很多)。確定要這樣做嗎？ 傳送 **yes** 確認或 **no** 取消。",
+      "confirmation_message": "%1$sYou're about to bet **%2$,d** credits (which seems to be a lot). Are you sure? Select **yes** to continue and **no** otherwise.",
       "cancelled_bet": "%1$s已取消賭注。",
       "win": "%1$s恭喜，你贏了 %2$,d 元並保留了你原本擁有的錢。",
       "win_overflow": "%1$s恭喜，你贏了 %2$,d 元。不過你原本就擁有了太多錢了。你的袋子滿出來了。",
@@ -1742,10 +1700,7 @@
       "easter": "\n這裡滿滿的都是灰塵... 你可能想在他變得更亂之前清乾淨！"
     },
     "mine": {
-      "not_equipped": "%1$sYou don't have any equipped pick. Use `/equip item:<pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `/buy pick`",
-      "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `/mine <pick name>`",
-      "not_suitable": "%1$s你無法使用這個來挖礦！",
-      "not_in_inventory": "%1$s你的背包裡沒有這種鎬子，切換到默認選擇。",
+      "not_equipped": "%1$sYou don't have any equipped pick. Use `/equip item:<pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `/buy item:pick`",
       "success": "%1$s你用 *%3$s* 開採了價值 **%2$,d 元** 的礦物",
       "reminder": "\n*You can cast better picks using the gems you get while mining. Check `/cast list` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
@@ -2532,7 +2487,7 @@
       "lewd": "用太多次色情的指令了。真的太多了。開心嗎？",
       "ring": "讓你的婚姻變正式的東西。",
       "letter": "愛人的來信。",
-      "key": "Used to open various crates with `/opencrate crate:<crate name>` or `/useitem item:<crate name>`",
+      "key": "Used to open various crates with `/opencrate crate:<crate name>` or `/use item item:<crate name>`",
       "clothes": "你身上穿的東西。應該吧...",
       "diamond": "一個更好保存金錢的方法。他也很閃亮。也能讓你鑄造閃亮的東西。多棒啊。",
       "dress": "難道他不好看嗎？",
