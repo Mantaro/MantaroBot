@@ -119,6 +119,14 @@ public class PetCmds {
             return ctx -> RatelimitUtils.ratelimit(rl, ctx, false);
         }
 
+        @Description("Shows an explanation about the pet system.")
+        public static class Explanation extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                ctx.sendLocalized("commands.pet.explanation");
+            }
+        }
+
         @Name("list")
         @Description("Lists the available pet types.")
         public static class PetList extends SlashCommand {
