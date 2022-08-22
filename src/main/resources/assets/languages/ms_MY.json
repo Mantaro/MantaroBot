@@ -97,7 +97,7 @@
       "next": "Seterusnya",
       "close": "Tutup"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `/shard`) when reporting!",
+    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `/mantaro shard`) when reporting!",
     "boom_quotes": [
       "Nampaknya Megumin telah meletupkan istana kami...",
       "Uh-oh, nampaknya tuan saya terlupa beberapa angka kosong dan satu di atas lantai :<",
@@ -1370,7 +1370,7 @@
         "cute_not_animal": "%1$s**%2$s** tersenyum dengan gembira apabila anda membelainya. **Kiraan belaian: %3$s**.%4$s",
         "nothing": "%1$s**%2$s** hanya duduk di situ, tanpa membuat apa-apa. **Kiraan belaian: %3$s**.%4$s",
         "cheer": "%1$sReaksi **%2$s** sangat comel sehingga ia menceriakan anda. **Kiraan belaian: %3$s**.%4$s",
-        "scare": "%1$sHaiwan peliharaan anda takut apabila anda mebelainya. Mungkin ia terlalu tetiba? **Kiraan belaian: %3$s**.%4$s",
+        "scare": "%1$s**%2$s** got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
         "counter_100": "%1$sNampaknya kepalanya akan berkilat dengan belaian sebanyak itu."
       },
       "buy": {
@@ -1470,7 +1470,6 @@
       "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk selamatkan item ini. *(Dompet: %2$,d, Diperlukan: %3$,d)*",
       "dust": "%1$sInventori anda terlalu berhabuk untuk menyelamatkan sesuatu item, cuba membersihkannya dengan menggunakan mop.",
       "no_returnables": "%1$sItem ini tiada elemen penyelamatan yang dapat dipulangkan.",
-      "item_broke": "%1$sPerengkuh anda (%1$s) patah semasa cuba menyelamatkan item ini :(",
       "success": "%1$sBerjaya selamatkan %2$s dan mendapat %3$s. Kosnya ialah %4$s kredit.",
       "ls": {
         "header": "Senarai Penyelamatan Item",
@@ -1581,14 +1580,12 @@
       "no_main_item": "%1$sAnda tidak mempunyai item yang sedang anda cuba membaiki (%2$s)",
       "cant_repair": "%1$s**%2$s** ia bukan item yang dapat anda membaiki. Anda hanya boleh membaiki item yang sudah patah.",
       "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can equip one if needed (`/equip item:Comet Wrench`, for example)",
-      "no_tool_specified": "%1$sAnda tidak mempunyai perengkuh yang telah anda nyatakan (%2$s). Sila menggunakan peralatan yang anda mempunyai atau menciptanya. Jika anda yakin bahawa item tersebut adalah betul, cuba menggunakan nama penuhnya.",
       "dust": "%1$sInventori anda terlalu berhabuk untuk menjalankan pembaikan. Tahap habuk: %2$s",
       "not_wrench": "%1$sAnda tidak boleh menggunakan ini sebagai perengkuh. Gunakan tanda petik jika nama tersebut mengandungi ruang di antara perkataan.",
       "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. You can equip one if needed (`/equip item:Comet Wrench`, for example)",
       "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk membaiki item ini. *(Dompet: %2$,d, Diperlukan: %3$,d)*",
       "no_item_recipe": "%1$sAnda tidak mempunyai *%2$s* yang diperlukan untuk menjalankan pembaikan ini.",
       "not_enough_items": "%1$sAnda tidak mempunyai *%2$s* yang mencukupi untuk membaiki **%3$s**. **(Diperlukan: %4$s, Semasa: %5$s)**",
-      "item_broke": "%1$sMalangnya, perengkuh anda (%1$s) patah semasa membaiki item ini, tapi anda masih mendapat item anda!",
       "success": "%1$sPembaikan berjaya! Item dibaiki %2$s **%3$s** -> %4$s **%5$s**. Kos pembaikan ialah *%6$s* kredit dan resipi untuk membaikinya ialah *%7$s*.",
       "ls": {
         "header": "Senarai Pembaikan Item",
@@ -1674,7 +1671,6 @@
       "invalid_money_or_modifier": "%1$sSila menaip nombor sah yang lebih kurang atau sama dengan baki semasa anda ataupun `all` untuk berjudi semua kredit anda.",
       "not_enough_money": "%1$sSila menaip nilai yang ada dalam baki anda.",
       "invalid_percentage": "%1$sSila menaip nilai peratusan yang sah.",
-      "confirmation_message": "%1$sYou're about to bet **%2$,d** credits (which seems to be a lot). Are you sure? Select **yes** to continue and **no** otherwise.",
       "cancelled_bet": "%1$sPerjudian dibatalkan.",
       "win": "%1$sTahniah, anda memenangi %2$,d kredit dan dapat menyimpan apa yang anda mempunyai.",
       "win_overflow": "%1$sTahniah, anda memenangi %2$,d kredit. Tetapi anda sudah mempunyai terlalu banyak kredit. Beg anda meluap-luap.",
