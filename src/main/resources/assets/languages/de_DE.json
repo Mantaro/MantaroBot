@@ -97,7 +97,7 @@
       "next": "Nächste",
       "close": "Schließen"
     },
-    "generic_error": "Wenn du willst, tritt unserem **Support Server** bei (`https://support.mantaro.site`), oder schau auf unserer GitHub Seite nach (`https://github.com/Kodehawa/MantaroBot`). Bitte sag denen, dass sie aufhören sollen mich hochzujagen und bitte vergiss nicht die Fehler-ID, den Befehl den du benutzt hast und deine Node (steht in `/shard`) beim Melden eines Fehlers!",
+    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `/mantaro shard`) when reporting!",
     "boom_quotes": [
       "Offenbar hat Megumin unser Schloss in die Luft gejagt...",
       "Uh-oh, offenbar hat unser Meister ein paar Nullen und Einsen auf dem Boden vergessen :<",
@@ -1370,7 +1370,7 @@
         "cute_not_animal": "%1$s**%2$s** schaut dich fröhlich an, während du seinen Kopf streichelst. **Streichelzähler: %3$s**.%4$s",
         "nothing": "%1$s**%2$s** sitzt nur da und macht nichts. **Streichelzähler: %3$s**.%4$s",
         "cheer": "%1$s**%2$s**s Reaktion war so niedlich, dass es dich aufgeheitert hat. **Streichelzähler: %3$s**%4$s",
-        "scare": "%1$sDas Haustier hat sich erschreckt, als du es gestreichelt hast. War es eventuell etwas zu plötzlich? **Streichelzähler: %3$s**.%4$s",
+        "scare": "%1$s**%2$s** got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
         "counter_100": "%1$sEs scheint, als würde der Kopf von so vielen Streicheleinheiten anfangen zu glänzen."
       },
       "buy": {
@@ -1470,7 +1470,6 @@
       "not_enough_money": "%1$sYou don't have enough money to salvage this item. *(Wallet: %2$,d, Needed: %3$,d)*",
       "dust": "%1$sDein Inventar ist zu staubig, um eine Gegenstandsausschlachtung zu versuchen, versuche es mit einem Mop sauberzumachen.",
       "no_returnables": "%1$sDieser Gegenstand hat keine wiederverwendbaren Materialien.",
-      "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
       "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.",
       "ls": {
         "header": "Liste ausschlachtbarer Gegenstände",
@@ -1581,14 +1580,12 @@
       "no_main_item": "%1$sYou don't have the item you're trying to repair (%2$s)",
       "cant_repair": "%1$s**%2$s** ist kein reparierbarer Gegenstand. Du kannst nur kaputte Gegenstände reparieren.",
       "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can equip one if needed (`/equip item:Comet Wrench`, for example)",
-      "no_tool_specified": "%1$sYou specified a wrench you don't have (%2$s). Please use a tool you have or cast it. If you think you have the correct item, try using the full name.",
       "dust": "%1$sDein Inventar ist zu verstaubt, um eine Reparatur durchzuführen. Staublevel: %2$s",
       "not_wrench": "%1$sDu kannst das nicht als Schraubenschlüssel verwenden. Vergiss nicht Anführungszeichen zu verwenden, falls der Name Leerzeichen beinhaltet.",
       "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. You can equip one if needed (`/equip item:Comet Wrench`, for example)",
       "not_enough_money": "%1$sYou don't have enough money to repair this item. *(Wallet: %2$,d, Needed: %3$,d)*",
       "no_item_recipe": "%1$sDu hast nicht die benötigten *%2$s*, um diese Reparatur durchzuführen.",
       "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair on a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
-      "item_broke": "%1$sSadly, your wrench (%1$s) broke while repairing this item, but you still got your item!",
       "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
       "ls": {
         "header": "Liste reparierbarer Gegenstände",
@@ -1674,7 +1671,6 @@
       "invalid_money_or_modifier": "%1$sBitte gebe eine gültige Zahl, geringer oder gleich deinem aktuellen Guthaben, ein, oder `all`, um alle deine Credits zu setzen.",
       "not_enough_money": "%1$sBitte gebe eine Zahl innerhalb deines Guthabens ein.",
       "invalid_percentage": "%1$sBite gebe eine gültige Prozentzahl ein.",
-      "confirmation_message": "%1$sYou're about to bet **%2$,d** credits (which seems to be a lot). Are you sure? Select **yes** to continue and **no** otherwise.",
       "cancelled_bet": "%1$sWette abgebrochen.",
       "win": "%1$sGratulation, du gewinnst %2$,d Credits und behältst, was du hattest.",
       "win_overflow": "%1$sGratulation, du gewinnst %2$,d Credits. Leider hattest du schon zu viele Credits. Deine Tasche ist übergelaufen.",
