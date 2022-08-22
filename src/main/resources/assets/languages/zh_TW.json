@@ -97,7 +97,7 @@
       "next": "Next",
       "close": "Close"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `/shard`) when reporting!",
+    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `/mantaro shard`) when reporting!",
     "boom_quotes": [
       "看似惠惠把我們的城堡炸掉了...",
       "Uh oh... 我的主人好像把一些0和1留在桌上了 :<",
@@ -1370,7 +1370,7 @@
         "cute_not_animal": "%1$s你一邊輕拍**%2$s**，他也一邊快樂地露出笑容。**撫摸次數：%3$s**。%4$s",
         "nothing": "%1$s**%2$s**只是坐在那邊，什麼也不做。**撫摸次數：%3$s**。%4$s",
         "cheer": "%1$s**%2$s**的反應使你感到非常快樂。**撫摸次數：%3$s**。%4$s",
-        "scare": "%1$s你的寵物在被你撫摸時嚇到了。也許你來的太突然了？**撫摸次數：%3$s**。%4$s",
+        "scare": "%1$s**%2$s** got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
         "counter_100": "%1$s看來他們的頭會被你摸得很閃亮。"
       },
       "buy": {
@@ -1470,7 +1470,6 @@
       "not_enough_money": "%1$s你沒有足夠的金錢來回收此物品。*(錢包：%2$,d，需求：%3$,d)*",
       "dust": "%1$s你的背包灰塵太多了，無法執行此回收，試著用拖把來清潔他。",
       "no_returnables": "%1$s這個物品沒有可回收的元素。",
-      "item_broke": "%1$s你在回收這個物品的時候弄壞了你的扳手 (%1$s) :(",
       "success": "%1$s成功回收 %2$s，你得到了 %3$s。回收費用為 %4$s 元。",
       "ls": {
         "header": "可回收物品清單",
@@ -1581,14 +1580,12 @@
       "no_main_item": "%1$s你沒有該物品 (%2$s)",
       "cant_repair": "%1$s**%2$s** 不是你能修復的物品。你只能修復壞掉的物品。",
       "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can equip one if needed (`/equip item:Comet Wrench`, for example)",
-      "no_tool_specified": "%1$s你指定了一把你不擁有的扳手 (%2$s)。請使用你擁有的工具或鑄造他。如果你確定那是正確的，請輸入該物品的全名。",
       "dust": "%1$s你的背包灰塵太多了，無法修復。灰塵高度：%2$s",
       "not_wrench": "%1$s你不能使用它作為扳手。如果名稱含有空格，記得使用引號。",
       "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. You can equip one if needed (`/equip item:Comet Wrench`, for example)",
       "not_enough_money": "%1$s你沒有足夠的金錢來修復此物品。*(錢包：%2$,d，需求：%3$,d)*",
       "no_item_recipe": "%1$s你沒有物品 *%2$s* 來進行修復。",
       "not_enough_items": "%1$s你沒有足夠的 *%2$s* 來修復 **%3$s**。**(需求：%4$s，擁有：%5$s)**",
-      "item_broke": "%1$s可惜的，你的扳手 (%1$s) 在修復過程中壞掉了，不過你還是獲得了你的物品！",
       "success": "%1$s修復成功！已修復物品 %2$s **%3$s** -> %4$s **%5$s**。此修復費用為 *%6$s* 元，材料為 *%7$s*。",
       "ls": {
         "header": "可修復物品清單",
@@ -1674,7 +1671,6 @@
       "invalid_money_or_modifier": "%1$s請輸入一個小於或等於你所有金錢的正確數字，或使用 `all` 來賭掉所有金錢。",
       "not_enough_money": "%1$s請輸入一個在你的金錢範圍內的值。",
       "invalid_percentage": "%1$s請輸入一個正確的百分比。",
-      "confirmation_message": "%1$sYou're about to bet **%2$,d** credits (which seems to be a lot). Are you sure? Select **yes** to continue and **no** otherwise.",
       "cancelled_bet": "%1$s已取消賭注。",
       "win": "%1$s恭喜，你贏了 %2$,d 元並保留了你原本擁有的錢。",
       "win_overflow": "%1$s恭喜，你贏了 %2$,d 元。不過你原本就擁有了太多錢了。你的袋子滿出來了。",
