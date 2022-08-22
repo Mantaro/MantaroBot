@@ -1,17 +1,18 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
 package net.kodehawa.mantarobot.commands;
@@ -626,12 +627,14 @@ public class MarryCmd {
 
                         // People like to mess around lol.
                         if (!playerInventoryConfirmed.containsItem(ItemReference.CAR)) {
-                            hook.editOriginal(languageContext.get("commands.marry.buycar.no_car")).queue();
+                            hook.editOriginal(languageContext.get("commands.marry.buycar.no_car"))
+                                    .setActionRows().queue();
                             return Operation.COMPLETED;
                         }
 
                         if (playerConfirmed.getCurrentMoney() < carPrice) {
-                            hook.editOriginal(languageContext.get("commands.marry.buycar.not_enough_money")).queue();
+                            hook.editOriginal(languageContext.get("commands.marry.buycar.not_enough_money"))
+                                    .setActionRows().queue();
                             return Operation.COMPLETED;
                         }
 
@@ -643,12 +646,14 @@ public class MarryCmd {
                         marriageConfirmed.getData().setCarName(finalContent);
                         marriageConfirmed.save();
 
-                        hook.editOriginal(languageContext.get("commands.marry.buycar.success").formatted(EmoteReference.POPPER, carPrice, finalContent)).queue();
+                        hook.editOriginal(languageContext.get("commands.marry.buycar.success").formatted(EmoteReference.POPPER, carPrice, finalContent))
+                                .setActionRows().queue();
                         return Operation.COMPLETED;
                     }
 
                     if (button.equals("no")) {
-                        hook.editOriginal(languageContext.get("commands.marry.buycar.cancel_success").formatted(EmoteReference.CORRECT)).queue();
+                        hook.editOriginal(languageContext.get("commands.marry.buycar.cancel_success").formatted(EmoteReference.CORRECT))
+                                .setActionRows().queue();
                         return Operation.COMPLETED;
                     }
 
@@ -687,7 +692,7 @@ public class MarryCmd {
                     final var divorceeDBUser = ctx.getDBUser();
                     final var marriage = divorceeDBUser.getData().getMarriage();
                     if (marriage == null) {
-                        hook.editOriginal(languageContext.get("commands.divorce.not_married").formatted(EmoteReference.ERROR)).queue();
+                        hook.editOriginal(languageContext.get("commands.divorce.not_married").formatted(EmoteReference.ERROR)).setActionRows().queue();
                         return Operation.COMPLETED;
                     }
 
@@ -742,10 +747,10 @@ public class MarryCmd {
                         extra = languageContext.get("commands.divorce.split").formatted(portion);
                     }
 
-                    hook.editOriginal(languageContext.get("commands.divorce.success").formatted(EmoteReference.CORRECT, extra)).queue();
+                    hook.editOriginal(languageContext.get("commands.divorce.success").formatted(EmoteReference.CORRECT, extra)).setActionRows().queue();
                     return Operation.COMPLETED;
                 } else if (buttonId.equals("no")) {
-                    ctx.reply("commands.divorce.cancelled", EmoteReference.CORRECT);
+                    hook.editOriginal(languageContext.get("commands.divorce.cancelled").formatted(EmoteReference.CORRECT)).setActionRows().queue();
                     return Operation.COMPLETED;
                 }
 

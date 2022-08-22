@@ -605,7 +605,7 @@ public class HelpCmd {
                 "unequip", "badges", "activatekey", "premium", "transfer", "itemtransfer", "pet",
                 "waifu", "play", "shuffle", "np", "repeat", "skip", "stop", "ns", "volume", "forceplay",
                 "lyrics", "playnow", "rewind", "forward", "restartsong", "removetrack", "move",
-                "cast", "salvage", "repair", "marry", "divorce", "mute", "unmute"
+                "cast", "salvage", "repair", "marry", "divorce", "mute", "unmute", "remindme"
         );
     }
 

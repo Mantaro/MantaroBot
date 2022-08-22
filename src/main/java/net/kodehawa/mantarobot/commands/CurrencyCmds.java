@@ -711,13 +711,8 @@ public class CurrencyCmds {
         }
 
         if (brief) {
-            var inventory = lang.get("commands.inventory.sorted_by")
-                    .formatted(playerData
-                            .getInventorySortType()
-                            .toString()
-                            .toLowerCase()
-                            .replace("_", " ")
-                    ) + "\n\n" +
+            var inventory = lang.get("commands.inventory.sorted_by").formatted(lang.get(playerData.getInventorySortType().getTranslate()))
+                    + "\n\n" +
                     inventoryList.stream()
                             .sorted(playerData.getInventorySortType().getSort().comparator())
                             .map(is -> is.getItem().getEmoji() + "\u2009 x" + is.getAmount() + " \u2009\u2009")

@@ -1,17 +1,18 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
 package net.kodehawa.mantarobot.commands.action;
@@ -37,10 +38,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class ImageActionSlash extends SlashCommand {
-    private final String desc;
     private final String format;
     private final String lonelyLine;
-    private final String name;
     private final WeebAPIRequester weebapi = new WeebAPIRequester();
     private final Random rand = new Random();
     private final IncreasingRateLimiter rateLimiter;
@@ -54,8 +53,6 @@ public class ImageActionSlash extends SlashCommand {
                           String format, List<String> images, String lonelyLine, String botLine, boolean swap) {
         super.setCategory(CommandCategory.ACTION);
         super.setDefer(true);
-        this.name = name;
-        this.desc = desc;
         this.format = format;
         this.emoji = emoji;
         this.images = images;
@@ -74,8 +71,6 @@ public class ImageActionSlash extends SlashCommand {
                           String format, String type, String lonelyLine, String botLine) {
         super.setCategory(CommandCategory.ACTION);
         super.setDefer(true);
-        this.name = name;
-        this.desc = desc;
         this.format = format;
         this.emoji = emoji;
         this.images = Collections.emptyList();
@@ -94,8 +89,6 @@ public class ImageActionSlash extends SlashCommand {
                           String format, String type, String lonelyLine, String botLine, boolean swap) {
         super.setCategory(CommandCategory.ACTION);
         super.setDefer(true);
-        this.name = name;
-        this.desc = desc;
         this.format = format;
         this.emoji = emoji;
         this.images = Collections.emptyList();
