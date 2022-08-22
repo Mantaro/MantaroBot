@@ -686,7 +686,14 @@
       "brief_notice": "Puedes usar `/inventory brief` para ver una versión mas compacta.",
       "sorted_by": " *(ordenado por: %1$s)*",
       "new_brief_notice": "Por favor usa `/inventory brief` en lugar de este comando.",
-      "new_calc_notice": "Por favor usa `/inventory calculate` en lugar de este comando."
+      "new_calc_notice": "Por favor usa `/inventory calculate` en lugar de este comando.",
+      "sort": {
+        "amount": "Amount",
+        "value": "Value",
+        "type": "Type",
+        "total": "Total Value",
+        "random": "Random"
+      }
     },
     "cast": {
       "no_item_specified": "%1$sNo especficiaste ningún item. Para ver una lista, revisa `/cast list`",
