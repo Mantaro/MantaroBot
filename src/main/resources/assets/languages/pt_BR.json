@@ -97,7 +97,7 @@
       "next": "Próximo",
       "close": "Fechar"
     },
-    "generic_error": "Se você quiser, entre no nosso **servidor de suporte** (`https://support.mantaro.site`), ou confira nossa página no GitHub (`https://github.com/Kodehawa/MantaroBot`). Por favor fale para eles pararem de me explodir e por favor não se esqueça do ID do Erro, o comando que você usou e o node (veja em `~>shard`) quando reportar!",
+    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `/mantaro shard`) when reporting!",
     "boom_quotes": [
       "Aparentemente Megumin explodiu nosso castelo...",
       "Uh-oh, aparentemente meu mestre esqueceu alguns zeros e ums no chão :<",
@@ -1370,7 +1370,7 @@
         "cute_not_animal": "%1$s**%2$s** sorri alegremente enquanto você acaricia sua cabeça. **Contador de carinho: %3$s**.%4$s",
         "nothing": "%1$s**%2$s** apenas senta ali, sem fazer nada. **Contador de carinho: %3$s**.%4$s",
         "cheer": "%1$s a reação de **%2$s** foi tão fofa que conseguiu te animar. **Contador de carinho: %3$s**.%4$s",
-        "scare": "%1$sO pet ficou assustando quando você deu carinho pra ele. Talvez tenha sido muito inesperado? **Contador de carinho: %3$s**.%4$s",
+        "scare": "%1$s**%2$s** got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
         "counter_100": "%1$sParece que a cabeça deles ficará brilhando com tantos carinhos."
       },
       "buy": {
@@ -1470,7 +1470,6 @@
       "not_enough_money": "%1$sVocê não tem dinheiro suficiente para salvar este item. *(Carteira: %2$,d, Necessário: %3$,d)*",
       "dust": "%1$sSeu inventário tá muito sujo pra tentar resgatar um item, tente limpar com um esfregão.",
       "no_returnables": "%1$sEste item não possui elementos resgate retornáveis.",
-      "item_broke": "%1$sSua chave inglesa (%1$s) quebrou enquanto tentava resgatar este item :(",
       "success": "%1$sResgatado com sucesso %2$s e você ganhou %3$s de retorno. O custo foi %4$s créditos.",
       "ls": {
         "header": "Lista de Itens Resgatáveis",
@@ -1581,14 +1580,12 @@
       "no_main_item": "%1$sVocê não o item que você está tentando consertar (%2$s)",
       "cant_repair": "%1$s**%2$s** não é um item que você pode consertar. Você só pode consertar itens quebrados.",
       "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can equip one if needed (`/equip item:Comet Wrench`, for example)",
-      "no_tool_specified": "%1$sVocê especificou uma chave inglesa que você não tem (%2$s). Por favor use a ferramenta que você tem ou confeccione ela. Se você acha que tem o item correto, tente usar o nome completo.",
       "dust": "%1$sSeu inventário está muito sujo pra consertar. Nível de poeira: %2$s",
       "not_wrench": "%1$sVocê não pode usar isso como uma chave inglesa. Lembre-se de usar aspas se o nome contém espaços.",
       "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. You can equip one if needed (`/equip item:Comet Wrench`, for example)",
       "not_enough_money": "%1$sVocê não tem dinheiro suficiente pra consertar este item. *(Carteira: %2$,d, Necessário: %3$,d)*",
       "no_item_recipe": "%1$sVocê não tem a necessária *%2$s* pra consertar isso.",
       "not_enough_items": "%1$sVocê não tem o suficiente de *%2$s* pra fazer este reparo em uma **%3$s**. **(Necessário: %4$s, Atual: %5$s)**",
-      "item_broke": "%1$sInfelizmente, sua chave inglesa (%1$s) quebrou enquanto consertava esse item, mas você ainda ganhou seu item!",
       "success": "%1$sReparo realizado com sucesso! Item consertado %2$s **%3$s** -> %4$s **%5$s**. O conserto custou *%6$s* créditos e a receita utilizada foi *%7$s*.",
       "ls": {
         "header": "Lista de Itens reparáveis ",
@@ -1674,7 +1671,6 @@
       "invalid_money_or_modifier": "%1$sPor favor, digite um número válido menor ou igual ao seu saldo atual ou `all` para apostar todos os seus créditos.",
       "not_enough_money": "%1$sPor favor digite um valor dentro do seu saldo.",
       "invalid_percentage": "%1$sPor favor, digite um valor percentual válido.",
-      "confirmation_message": "%1$sYou're about to bet **%2$,d** credits (which seems to be a lot). Are you sure? Select **yes** to continue and **no** otherwise.",
       "cancelled_bet": "%1$sAposta cancelada.",
       "win": "%1$sParabéns, você ganhou %2$d créditos e pode ficar com o que você tinha.",
       "win_overflow": "%1$sParabéns, você ganhou %2$d créditos. Mas você já tem muitos créditos. Sua bolsa transbordou.",
