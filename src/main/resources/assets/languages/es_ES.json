@@ -754,7 +754,7 @@
         "non_existent": "%1$sNo puedes comprar un ítem que no existe. Si estás perdido/a, intenta usar el nombre corto o pon el nombre \"entre comillas\". También ten en cuenta que el monto va antes del nombre, por ejemplo: `/buy amount:15 item:energy`",
         "no_buy_price": "%1$sNo puedes comprar un item que no se puede comprar.",
         "item_limit_reached": "%1$sNo puedes comprar más de ese ítem. El máximo de ítems es de 5000 por stack.",
-        "success": "%1$sCompraste %2$,d %3$s por %4$,d créditos correctamente Ahora tienes %5$,d créditos.",
+        "success": "%1$sCompraste %2$,d %3$s por %4$,d créditos correctamente. Ahora tienes %5$,d créditos.",
         "success_breakable": "%1$sHas comprado %2$,d %3$s por %4$,d créditos. Ahora tienes %5$,d créditos. Puedes equipar esto usando `/equip item:<item name>`",
         "success_potion": "%1$sHas comprado %2$,d %3$s por %4$,d créditos. Ahora tienes %5$,d créditos. Puedes usar esta poción o buff usando `/useitem item:<item name>`",
         "not_enough_money": "%1$sNo tienes suficiente dinero para comprar este ítem. Actual: %2$,d creditos, Necesitas: %3$,d cŕeditos.",
@@ -1073,7 +1073,7 @@
     },
     "time": {
       "invalid_timezone": "%1$sEsa no es una zona horaria válida.",
-      "success": "%1$sSon las %2$s en la zona horaria %3$s",
+      "success": "%1$sEs el %2$s en la zona horaria %3$s.",
       "error": "%1$sEncontré un error mientras buscaba la zona horaria en el libro grande de ahí... bueno, o capaz que es inválida.",
       "user_no_timezone": "%1$sEl usuario que mencionaste no tiene una zona horaria puesta en su perfil."
     },
