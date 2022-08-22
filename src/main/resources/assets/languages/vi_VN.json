@@ -97,7 +97,7 @@
       "next": "Kế tiếp",
       "close": "Đóng"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `/shard`) when reporting!",
+    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `/mantaro shard`) when reporting!",
     "boom_quotes": [
       "Dường như Megumin đã làm nổ lâu đài của chúng ta...",
       "Ớ ớ, hình như chủ nhân của tôi đã để quên vài số 0 và số 1 trên sàn nhà rồi :<",
@@ -1370,7 +1370,7 @@
         "cute_not_animal": "%1$s**%2$s** hạnh phúc mỉm cười khi bạn xoa đầu nó. **Số lần xoa đầu: %3$s**.%4$s",
         "nothing": "%1$s**%2$s** chỉ ngồi đó, và không làm gì cả. **Số lần xoa đầu: %3$s**.%4$s",
         "cheer": "Phản ứng của %1$s**%2$s** quá dễ thương nên nó đã làm bạn vui lên. **Số lần xoa đầu: %3$s**.%4$s",
-        "scare": "%1$sThú cưng sợ hãi khi bạn vỗ về chúng. Có lẽ là do quá đột ngột chăng? **Số lần xoa đầu: %3$s**.%4$s",
+        "scare": "%1$s**%2$s** got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
         "counter_100": "%1$sCó vẻ như đầu của nó sẽ trở nên sáng bóng sau nhiều lần xoa."
       },
       "buy": {
@@ -1470,7 +1470,6 @@
       "not_enough_money": "%1$sBạn không có đủ tiền để phân rã vật phẩm này. *(Ví của bạn có: %2$,d, Cần: %3$,d)*",
       "dust": "%1$sTúi đồ của bạn không sạch sẽ để phân rã vật phẩm này, hãy thử lau dọn bằng chổi.",
       "no_returnables": "%1$sVật phẩm này không có gì để có thể trả lại.",
-      "item_broke": "%1$sCờ lê của bạn (%1$s) đã vỡ khi đang cố gắng phân rã vật phẩm này :(",
       "success": "%1$sĐã phân rã thành công %2$s và nhận lại %3$s. Chi phí là %4$s đồng.",
       "ls": {
         "header": "Danh sách các món đồ có thể phân rã",
@@ -1581,14 +1580,12 @@
       "no_main_item": "%1$sBạn không có vật phẩm mà bạn đang cố sửa chữa (%2$s)",
       "cant_repair": "%1$s**%2$s** không phải là một món đồ bạn có thể sửa. Bạn chỉ có thể sửa đồ đã hỏng.",
       "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can equip one if needed (`/equip item:Comet Wrench`, for example)",
-      "no_tool_specified": "%1$sBạn đã chỉ ra một cờ lê mà bạn không có (%2$s). Làm ơn hãy sử dụng dụng cụ bạn có hoặc chế tạo chúng. Nếu bạn nghĩ là bạn đã có vật phẩm, hãy thử sử dụng tên đầy đủ.",
       "dust": "%1$sTúi đồ của bạn quá bẩn để thực hiện việc sửa chữa. Bụi cấp: %2$s",
       "not_wrench": "%1$sBạn không thể dùng đồ này làm cờ lê. Nhớ dùng ngoặc kép nếu tên của đồ có chứa dấu cách.",
       "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. You can equip one if needed (`/equip item:Comet Wrench`, for example)",
       "not_enough_money": "%1$sBạn không có đủ tiền để sửa chữa vật phẩm này. *(Ví của bạn có: %2$,d, Cần: %3$,d)*",
       "no_item_recipe": "%1$sBạn không có *%2$s* để thực hiện quá trình sửa chữa này.",
       "not_enough_items": "%1$sBạn không có đủ *%2$s* để thực hiện sửa chữa lên **%3$s**. **(Cần: %4$s, Hiện có: %5$s)**",
-      "item_broke": "%1$sĐáng buồn, cờ lê của bạn (%1$s) đã vỡ khi đang sửa chữa vật phẩm, nhưng bạn vẫn nhận được vật phẩm!",
       "success": "%1$sSửa đồ thành công! Đã sửa từ %2$s **%3$s** -> %4$s **%5$s**. Sửa chữa mất *%6$s* đồng và nguyên liệu để sửa nó là *%7$s*.",
       "ls": {
         "header": "Danh sách đồ có thể sửa chữa",
@@ -1674,7 +1671,6 @@
       "invalid_money_or_modifier": "%1$sVui lòng nhập một số hợp lệ nhỏ hơn hoặc bằng số dư hiện tại của bạn hoặc `all` để đánh bạc tất cả tiền có trong tài khoản của bạn.",
       "not_enough_money": "%1$sLàm ơn hãy nhập một số trong đủ khả năng chi trả của bạn.",
       "invalid_percentage": "%1$sVui lòng nhập giá trị phần trăm hợp lệ.",
-      "confirmation_message": "%1$sYou're about to bet **%2$,d** credits (which seems to be a lot). Are you sure? Select **yes** to continue and **no** otherwise.",
       "cancelled_bet": "%1$sĐã huỷ cược.",
       "win": "%1$sChúc mừng, bạn đã thắng %2$,d đồng và giữ lại được số tiền bạn đặt cược.",
       "win_overflow": "%1$sChúc mừng, bạn đã thắng %2$,d đồng. Nhưng vì bạn đã có quá nhiều tiền. Nên túi tiền bị tràn ra.",
