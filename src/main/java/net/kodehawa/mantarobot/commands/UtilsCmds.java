@@ -19,9 +19,9 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.utils.SplitUtil;
 import net.kodehawa.mantarobot.commands.utils.reminders.Reminder;
 import net.kodehawa.mantarobot.commands.utils.reminders.ReminderObject;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -168,7 +168,7 @@ public class UtilsCmds {
                                         .setFooter(lang.get("general.timeout").formatted(10), null).build(),
                                 sr -> {
                                     Reminder.cancel(ctx.getAuthor().getId(), sr.id + ":" + sr.getUserId(), Reminder.CancelReason.CANCEL);
-                                    ctx.editAction(EmoteReference.CORRECT + "Cancelled your reminder").setActionRows().queue();
+                                    ctx.editAction(EmoteReference.CORRECT + "Cancelled your reminder").setComponents().queue();
                                 });
                     }
                 } catch (Exception e) {
@@ -205,9 +205,7 @@ public class UtilsCmds {
                     ).append("\n");
                 }
 
-                var toSend = new MessageBuilder().append(builder.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
-                var split = toSend.stream().map(Message::getContentRaw).toList();
-
+                var split = SplitUtil.split(builder.toString(), Message.MAX_CONTENT_LENGTH, true, SplitUtil.Strategy.NEWLINE);
                 DiscordUtils.listButtons(ctx.getUtilsContext(), 60, split);
             }
         }

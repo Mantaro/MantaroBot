@@ -18,8 +18,10 @@
 package net.kodehawa.mantarobot.commands.utils.birthday;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.utils.SplitUtil;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
@@ -36,6 +38,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -103,7 +106,7 @@ public class BirthdayTask {
             // else we're gonna find ourselves quite often hitting ratelimits, which might slow the whole
             // bot down. Therefore, we're just gonna get all of the messages we need to send and *slowly*
             // send them over the course of a few minutes, instead of trying to send them all at once.
-            Map<BirthdayGuildInfo, Queue<Message>> toSend = new HashMap<>();
+            Map<BirthdayGuildInfo, List<MessageCreateBuilder>> toSend = new HashMap<>();
             List<BirthdayRoleInfo> roleBackoffAdd = new ArrayList<>();
             List<BirthdayRoleInfo> roleBackoffRemove = new ArrayList<>();
 
@@ -145,9 +148,10 @@ public class BirthdayTask {
                         // @formatter:on
 
                         int birthdayNumber = 0;
-                        var birthdayAnnouncerText = new MessageBuilder();
-                        birthdayAnnouncerText.append(guildLanguageContext.get("general.birthday")).append("\n\n");
-                        List<Message> messageList = new ArrayList<>();
+                        var birthdayAnnouncerText = new StringBuilder();
+                        birthdayAnnouncerText.append(guildLanguageContext.get("general.birthday"))
+                                .append("\n\n");
+                        List<MessageCreateData> messageList = new ArrayList<>();
                         List<Long> nullMembers = new ArrayList<>();
 
                         for (var data : guildMap.entrySet()) {
@@ -218,12 +222,38 @@ public class BirthdayTask {
                         if (birthdayNumber != 0) {
                             var holder = new BirthdayMessageHolder(messageList);
                             birthdayAnnouncerText.append(holder.getMessage());
-                            birthdayAnnouncerText.setEmbeds(holder.getEmbeds());
+                            var splitMessage = SplitUtil.split(birthdayAnnouncerText.toString(), 2000, true, SplitUtil.Strategy.NEWLINE);
+                            var counter = new AtomicInteger();
+                            var splitEmbeds = holder.getEmbeds().stream()
+                                    .collect(Collectors.groupingBy(it -> counter.getAndIncrement() / 10))
+                                    .values().stream().toList();
 
-                            toSend.put(
-                                    new BirthdayGuildInfo(guild.getId(), channel.getId()),
-                                    birthdayAnnouncerText.buildAll(MessageBuilder.SplitPolicy.NEWLINE)
-                            );
+                            if (splitMessage.size() == 1 && splitEmbeds.size() == 1) {
+                                toSend.put(
+                                        new BirthdayGuildInfo(guild.getId(), channel.getId()),
+                                        List.of(new MessageCreateBuilder().setContent(splitMessage.get(0)).setEmbeds(splitEmbeds.get(0)))
+                                );
+                            } else {
+                                List<MessageCreateBuilder> birthdayMessageList = new ArrayList<>();
+                                // There's probably, definitely a better way to handle this.
+                                if (splitMessage.size() > 1) {
+                                    splitMessage.forEach(s -> new MessageCreateBuilder().setContent(s));
+                                }
+
+                                if (splitEmbeds.size() > 1) {
+                                    var counterEmbed = new AtomicInteger();
+                                    for(var e : splitEmbeds) {
+                                        var current = counterEmbed.getAndIncrement();
+                                        if (current < birthdayMessageList.size() - 1) {
+                                            birthdayMessageList.get(current).addEmbeds(e);
+                                        } else {
+                                            birthdayMessageList.add(new MessageCreateBuilder().setEmbeds(e));
+                                        }
+                                    }
+                                }
+
+                                toSend.put(new BirthdayGuildInfo(guild.getId(), channel.getId()), birthdayMessageList);
+                            }
                         }
 
                         // If any of the member lookups to discord returned null, remove them.
@@ -266,8 +296,8 @@ public class BirthdayTask {
                         if (channel == null)
                             continue;
 
-                        messages.forEach(message -> channel.sendMessage(message)
-                                .allowedMentions(EnumSet.of(
+                        messages.forEach(message -> channel.sendMessage(message.build())
+                                .setAllowedMentions(EnumSet.of(
                                         Message.MentionType.USER, Message.MentionType.CHANNEL,
                                         Message.MentionType.ROLE, Message.MentionType.EMOJI)
                                 )
@@ -344,8 +374,8 @@ public class BirthdayTask {
         }
     }
 
-    private static Message buildBirthdayMessage(String message, StandardGuildMessageChannel channel, Member user) {
-        MessageBuilder builder = new MessageBuilder();
+    private static MessageCreateData buildBirthdayMessage(String message, StandardGuildMessageChannel channel, Member user) {
+        MessageCreateBuilder builder = new MessageCreateBuilder();
         if (message.contains("$(")) {
             message = new DynamicModifiers()
                     .mapFromBirthday("event", channel, user, channel.getGuild())
@@ -377,29 +407,29 @@ public class BirthdayTask {
                     try {
                         embed = JsonDataManager.fromJson('{' + json + '}', EmbedJSON.class);
                     } catch (Exception e) {
-                        builder.append(EmoteReference.ERROR2)
-                                .append("The string\n```json\n{")
-                                .append(json)
-                                .append("}```\n")
-                                .append("Is not a valid birthday message (failed to Convert to EmbedJSON). Check the wiki for more information.\n");
+                        builder.addContent(EmoteReference.ERROR2.toHeaderString())
+                                .addContent("The string\n```json\n{")
+                                .addContent(json)
+                                .addContent("}```\n")
+                                .addContent("Is not a valid birthday message (failed to Convert to EmbedJSON). Check the wiki for more information.\n");
 
                         // So I know what is going on, regardless.
                         e.printStackTrace();
                         return builder.build();
                     }
 
-                    var msgBuilder = new MessageBuilder().setEmbeds(embed.gen(null));
+                    var msgBuilder = new MessageCreateBuilder().setEmbeds(embed.gen(null));
                     if (!extra.isEmpty()) {
-                        msgBuilder.append(extra).append("\n");
+                        msgBuilder.addContent(extra).addContent("\n");
                     }
 
                     return msgBuilder.build();
                 }
             } catch (Exception e) {
                 if (e.getMessage().toLowerCase().contains("url must be a valid")) {
-                    builder.append("Failed to send birthday message: Wrong image URL in thumbnail, image, footer and/or author.\n");
+                    builder.addContent("Failed to send birthday message: Wrong image URL in thumbnail, image, footer and/or author.\n");
                 } else {
-                    builder.append("Failed to send birthday message: Unknown error, try checking your message.\n");
+                    builder.addContent("Failed to send birthday message: Unknown error, try checking your message.\n");
                 }
 
                 return builder.build();
@@ -407,21 +437,21 @@ public class BirthdayTask {
         }
 
         // No match.
-        builder.append(message).append("\n");
+        builder.addContent(message).addContent("\n");
         return builder.build();
     }
 
     private static class BirthdayMessageHolder {
-        public List<Message> message;
+        public List<MessageCreateData> message;
 
-        BirthdayMessageHolder(List<Message> message) {
+        BirthdayMessageHolder(List<MessageCreateData> message) {
             this.message = message;
         }
 
         public String getMessage() {
             StringBuilder builder = new StringBuilder();
             for (var msg : message) {
-                builder.append(msg.getContentRaw());
+                builder.append(msg.getContent());
             }
 
             return builder.toString();

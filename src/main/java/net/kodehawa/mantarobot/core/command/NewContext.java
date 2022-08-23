@@ -19,6 +19,8 @@ package net.kodehawa.mantarobot.core.command;
 
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.FileUpload;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.command.argument.ArgumentParseError;
@@ -45,7 +47,6 @@ import java.util.Optional;
 public class NewContext {
     private final ManagedDatabase managedDatabase = MantaroData.db();
     private final Config config = MantaroData.config().get();
-
     private static final StringSplitter SPLITTER = new StringSplitter();
 
     private final Message message;
@@ -254,7 +255,7 @@ public class NewContext {
         return message.getGuild();
     }
 
-    public void send(Message message) {
+    public void send(MessageCreateData message) {
         getChannel().sendMessage(message).queue();
     }
 
@@ -263,7 +264,7 @@ public class NewContext {
     }
 
     public void sendFile(byte[] bytes, String name) {
-        getChannel().sendFile(bytes, name).queue();
+        getChannel().sendFiles(FileUpload.fromData(bytes, name)).queue();
     }
 
     public void sendFormat(String message, Object... format) {
@@ -284,13 +285,13 @@ public class NewContext {
 
     public void sendStripped(String message) {
         getChannel().sendMessageFormat(message)
-                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
     }
 
     public void sendStrippedLocalized(String localizedMessage, Object... args) {
         getChannel().sendMessageFormat(i18n.get(localizedMessage), args)
-                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
     }
 

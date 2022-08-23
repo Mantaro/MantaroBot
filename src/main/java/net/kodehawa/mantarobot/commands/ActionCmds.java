@@ -190,7 +190,7 @@ public class ActionCmds {
         })
         public static class Lewd extends ImageCmdSlash {
             public Lewd() {
-                super("T-Too lewd!", "lewd", "commands.action.lewd");
+                super("lewd", "commands.action.lewd");
             }
         }
 
@@ -201,7 +201,7 @@ public class ActionCmds {
         })
         public static class Meow extends ImageCmdSlash {
             public Meow() {
-                super("Meows at the specified user.", MEOW.get(), "commands.action.meow");
+                super(MEOW.get(), "commands.action.meow");
             }
         }
 
@@ -212,7 +212,7 @@ public class ActionCmds {
         })
         public static class Nom extends ImageCmdSlash {
             public Nom() {
-                super("*nom nom*", "nom", "commands.action.nom");
+                super("nom", "commands.action.nom");
             }
         }
 
@@ -220,7 +220,7 @@ public class ActionCmds {
         @Description("When it's just too much to handle.")
         public static class FaceDesk extends ImageCmdSlash {
             public FaceDesk() {
-                super("When it's just too much to handle.", "banghead", "commands.action.facedesk", true);
+                super("banghead", "commands.action.facedesk", true);
             }
         }
 

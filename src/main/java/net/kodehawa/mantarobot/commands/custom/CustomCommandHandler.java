@@ -1,26 +1,27 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
 package net.kodehawa.mantarobot.commands.custom;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.kodehawa.mantarobot.commands.MiscCmds;
 import net.kodehawa.mantarobot.commands.custom.legacy.ConditionalCustoms;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
@@ -31,6 +32,7 @@ import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 
+import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -79,9 +81,9 @@ public class CustomCommandHandler {
                 // Matcher: Replace all \ with \\.
                 var json = escape.matcher(value).replaceAll("\\\\\\\\");
                 var embed = JsonDataManager.fromJson('{' + json + '}', EmbedJSON.class);
-                var builder = new MessageBuilder();
+                var builder = new MessageCreateBuilder();
                 builder.setEmbeds(embed.gen(ctx.getMember()));
-                builder.setActionRows(ActionRow.of(Button.primary("yes", ctx.getLanguageContext().get("commands.custom.custom_notice")).asDisabled()));
+                builder.setComponents(ActionRow.of(Button.primary("yes", ctx.getLanguageContext().get("commands.custom.custom_notice")).asDisabled()));
 
                 ctx.send(builder.build());
             } catch (IllegalArgumentException invalid) {
@@ -103,9 +105,9 @@ public class CustomCommandHandler {
                     return;
                 }
 
-                var builder = new MessageBuilder();
+                var builder = new MessageCreateBuilder();
                 builder.setEmbeds(new EmbedBuilder().setImage(value).setColor(ctx.getMember().getColor()).build());
-                builder.setActionRows(ActionRow.of(Button.primary("yes", ctx.getLanguageContext().get("commands.custom.custom_notice")).asDisabled()));
+                builder.setComponents(ActionRow.of(Button.primary("yes", ctx.getLanguageContext().get("commands.custom.custom_notice")).asDisabled()));
 
                 ctx.send(builder.build());
             } catch (IllegalArgumentException invalid) {
@@ -157,20 +159,22 @@ public class CustomCommandHandler {
             return;
         }
 
-        MessageBuilder builder = new MessageBuilder().setContent(filtered.matcher(response).replaceAll("-filtered regex-"));
-        builder.setActionRows(ActionRow.of(Button.primary("yes", ctx.getLanguageContext().get("commands.custom.custom_notice")).asDisabled()));
+        MessageCreateBuilder builder = new MessageCreateBuilder().addContent(filtered.matcher(response).replaceAll("-filtered regex-"));
+        builder.setComponents(ActionRow.of(Button.primary("yes", ctx.getLanguageContext().get("commands.custom.custom_notice")).asDisabled()));
 
         if (preview) {
-            builder.append("\n\n")
-                    .append(EmoteReference.WARNING)
-                    .append("**This is a preview of how a CC with this content would look like, ALL MENTIONS ARE DISABLED ON THIS MODE.**\n")
-                    .append("`Command preview requested by: ")
-                    .append(ctx.getAuthor().getAsTag())
-                    .append("`");
+            builder.addContent("\n\n")
+                    .addContent(EmoteReference.WARNING.toHeaderString())
+                    .addContent("**This is a preview of how a CC with this content would look like, ALL MENTIONS ARE DISABLED ON THIS MODE.**\n")
+                    .addContent("`Command preview requested by: ")
+                    .addContent(ctx.getAuthor().getAsTag())
+                    .addContent("`");
 
-            builder.denyMentions(Message.MentionType.ROLE, Message.MentionType.USER, Message.MentionType.EVERYONE, Message.MentionType.HERE);
+            var disallowed = EnumSet.of(Message.MentionType.ROLE, Message.MentionType.USER, Message.MentionType.EVERYONE, Message.MentionType.HERE);
+            builder.setAllowedMentions(EnumSet.complementOf(disallowed));
         } else {
-            builder.denyMentions(Message.MentionType.ROLE, Message.MentionType.EVERYONE, Message.MentionType.HERE);
+            var disallowed = EnumSet.of(Message.MentionType.ROLE, Message.MentionType.EVERYONE, Message.MentionType.HERE);
+            builder.setAllowedMentions(EnumSet.complementOf(disallowed));
         }
 
         ctx.send(builder.build());

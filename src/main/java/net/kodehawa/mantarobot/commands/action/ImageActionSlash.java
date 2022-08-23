@@ -18,9 +18,9 @@
 package net.kodehawa.mantarobot.commands.action;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
@@ -186,23 +186,23 @@ public class ImageActionSlash extends SlashCommand {
                 }
             }
 
-            var toSend = new MessageBuilder()
-                    .append(emoji)
-                    .append(String.format(languageContext.get(format),
+            var toSend = new MessageCreateBuilder()
+                    .addContent(emoji.toHeaderString())
+                    .addContent(String.format(languageContext.get(format),
                             "**%s**".formatted(mentioned),
                             "**%s**".formatted(ctx.getMember().getEffectiveName()))
                     );
 
             if (filtered) {
-                toSend.append("\n").append(
+                toSend.addContent("\n").addContent(
                         String.format(languageContext.get("commands.action.filtered"), EmoteReference.WARNING)
                 );
             }
 
             if (swapNames) {
-                toSend = new MessageBuilder()
-                        .append(emoji)
-                        .append(String.format(
+                toSend = new MessageCreateBuilder()
+                        .addContent(emoji.toHeaderString())
+                        .addContent(String.format(
                                 languageContext.get(format),
                                 "**%s**".formatted(mentioned),
                                 "**%s**".formatted(member.getEffectiveName()))
@@ -210,17 +210,17 @@ public class ImageActionSlash extends SlashCommand {
             }
 
             if (isLonely(ctx, user)) {
-                toSend = new MessageBuilder()
-                        .append("**")
-                        .append(languageContext.get(lonelyLine))
-                        .append("**");
+                toSend = new MessageCreateBuilder()
+                        .addContent("**")
+                        .addContent(languageContext.get(lonelyLine))
+                        .addContent("**");
             }
 
             if (isMentioningBot(ctx, user)) {
-                toSend = new MessageBuilder()
-                        .append("**")
-                        .append(languageContext.get(botLine))
-                        .append("**");
+                toSend = new MessageCreateBuilder()
+                        .addContent("**")
+                        .addContent(languageContext.get(botLine))
+                        .addContent("**");
             }
 
             toSend.setEmbeds(new EmbedBuilder()

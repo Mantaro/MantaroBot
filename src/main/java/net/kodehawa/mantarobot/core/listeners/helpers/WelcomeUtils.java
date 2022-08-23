@@ -1,10 +1,27 @@
+/*
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
+ *
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
+ */
+
 package net.kodehawa.mantarobot.core.listeners.helpers;
 
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -78,18 +95,18 @@ public class WelcomeUtils {
                             return;
                         }
 
-                        var builder = new MessageBuilder().setEmbeds(embed.gen(null));
+                        var builder = new MessageCreateBuilder().setEmbeds(embed.gen(null));
                         if (!extra.isEmpty()) {
-                            builder.append(extra);
+                            builder.addContent(extra);
                         }
 
                         if (test) {
-                            builder.append("\n**This is a test message. No mentions will be shown or resolved.**");
+                            builder.addContent("\n**This is a test message. No mentions will be shown or resolved.**");
                         }
 
                         tc.sendMessage(builder.build())
                                 // Allow role mentions here, per popular request :P
-                                .allowedMentions(test ? EnumSet.noneOf(Message.MentionType.class) : EnumSet.of(Message.MentionType.USER, Message.MentionType.ROLE))
+                                .setAllowedMentions(test ? EnumSet.noneOf(Message.MentionType.class) : EnumSet.of(Message.MentionType.USER, Message.MentionType.ROLE))
                                 .queue(success -> { }, error -> tc.sendMessage("Failed to send join/leave message.").queue()
                         );
 
@@ -110,7 +127,7 @@ public class WelcomeUtils {
             }
 
             tc.sendMessage(message)
-                    .allowedMentions(test ? EnumSet.noneOf(Message.MentionType.class) : EnumSet.of(Message.MentionType.USER, Message.MentionType.ROLE))
+                    .setAllowedMentions(test ? EnumSet.noneOf(Message.MentionType.class) : EnumSet.of(Message.MentionType.USER, Message.MentionType.ROLE))
                     .queue(success -> { }, failure -> tc.sendMessage("Failed to send join/leave message.").queue());
         }
     }

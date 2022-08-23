@@ -19,12 +19,11 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.utils.SplitUtil;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -721,10 +720,8 @@ public class CurrencyCmds {
             var message = ctx.getLanguageContext().get("commands.inventory.brief")
                     .formatted(user.getName(), inventory);
 
-            // Kind of a roundabout way to do it, but JDA spliiter works and I don't feel like doing it *again*.
-            var toSend = new MessageBuilder().append(message).buildAll(MessageBuilder.SplitPolicy.SPACE);
-            var split = toSend.stream().map(Message::getContentRaw).collect(Collectors.toList());
-            DiscordUtils.listButtons(ctx.getUtilsContext(), 60, split);
+            var toSend = SplitUtil.split(message, 2000, SplitUtil.Strategy.NEWLINE);
+            DiscordUtils.listButtons(ctx.getUtilsContext(), 60, toSend);
             return;
         }
 

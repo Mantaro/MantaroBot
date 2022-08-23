@@ -22,7 +22,6 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import lavalink.client.io.Link;
 import lavalink.client.player.IPlayer;
 import lavalink.client.player.event.PlayerEventListenerAdapter;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -159,16 +158,13 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                 //Avoid massive spam of "now playing..." when repeating songs.
                 if (lastMessageSentAt == 0 || lastMessageSentAt + 10000 < System.currentTimeMillis()) {
                     getRequestedTextChannel().sendMessage(
-                            new MessageBuilder()
-                                    .append(String.format(
-                                            language.get("commands.music_general.np_message"),
-                                            "\uD83D\uDCE3", title,
-                                            AudioCmdUtils.getDurationMinutes(trackLength),
-                                            voiceChannel.getName(), user != null ?
-                                                    String.format(language.get("general.requested_by"),
-                                                            String.format("**%s**", user.getUser().getAsTag())) : "")
-                                    )
-                                    .build()
+                            String.format(
+                                language.get("commands.music_general.np_message"),
+                                "\uD83D\uDCE3", title,
+                                AudioCmdUtils.getDurationMinutes(trackLength),
+                                voiceChannel.getName(), user != null ?
+                                        String.format(language.get("general.requested_by"),
+                                                String.format("**%s**", user.getUser().getAsTag())) : "")
                     ).queue(message -> {
                         if (getRequestedTextChannel() != null) {
                             lastMessageSentAt = System.currentTimeMillis();

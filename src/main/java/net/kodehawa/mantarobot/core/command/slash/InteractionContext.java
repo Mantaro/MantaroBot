@@ -21,8 +21,9 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.Modal;
-import net.dv8tion.jda.api.requests.restaction.WebhookMessageUpdateAction;
+import net.dv8tion.jda.api.requests.restaction.WebhookMessageEditAction;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -123,11 +124,11 @@ public class InteractionContext<T> implements IContext {
     public void replyStripped(String source, Object... args) {
         if (deferred) {
             event.getHook().sendMessage(i18n.get(source).formatted(args))
-                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
                     .queue();
         } else {
             event.reply(i18n.get(source).formatted(args))
-                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
                     .setEphemeral(true)
                     .queue();
         }
@@ -141,22 +142,22 @@ public class InteractionContext<T> implements IContext {
         }
     }
 
-    public void reply(Message message) {
+    public void reply(MessageCreateData message) {
         if (deferred) {
             event.getHook().sendMessage(message).setEphemeral(true).queue();
         } else {
-            event.reply(message.getContentRaw()).setEphemeral(true).queue();
+            event.reply(message.getContent()).setEphemeral(true).queue();
         }
     }
 
     public void replyStripped(String text) {
         if (deferred) {
             event.getHook().sendMessage(text)
-                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
                     .queue();
         } else {
             event.reply(text)
-                    .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
                     .setEphemeral(true)
                     .queue();
         }
@@ -182,7 +183,7 @@ public class InteractionContext<T> implements IContext {
         deferred = true; // This will defer it!
     }
 
-    public WebhookMessageUpdateAction<Message> editAction(MessageEmbed embed) {
+    public WebhookMessageEditAction<Message> editAction(MessageEmbed embed) {
         if (!event.isAcknowledged()) {
             event.deferReply().complete();
         }
@@ -230,7 +231,7 @@ public class InteractionContext<T> implements IContext {
 
         event.getHook().editOriginal(i18n.get(s).formatted(args))
                 .setEmbeds(Collections.emptyList())
-                .setActionRows()
+                .setComponents()
                 .queue();
     }
 
@@ -242,11 +243,11 @@ public class InteractionContext<T> implements IContext {
 
         event.getHook().editOriginal(i18n.get(s).formatted(args))
                 .setEmbeds(Collections.emptyList())
-                .setActionRows()
+                .setComponents()
                 .queue();
     }
 
-    public WebhookMessageUpdateAction<Message> editAction(String s) {
+    public WebhookMessageEditAction<Message> editAction(String s) {
         if (!event.isAcknowledged()) {
             event.deferReply().complete();
         }
@@ -259,11 +260,11 @@ public class InteractionContext<T> implements IContext {
         // to debug bugs, so enable it.
         if (deferred) {
             event.getHook().sendMessageEmbeds(embed)
-                    .addActionRows(actionRow)
+                    .setComponents(actionRow)
                     .queue(success -> {}, Throwable::printStackTrace);
         } else {
             event.replyEmbeds(embed)
-                    .addActionRows(actionRow)
+                    .setComponents(actionRow)
                     .queue(success -> {}, Throwable::printStackTrace);
         }
     }
@@ -282,12 +283,12 @@ public class InteractionContext<T> implements IContext {
     public void sendFormat(String message, Collection<ActionRow> actionRow, Object... format) {
         if (deferred) {
             event.getHook().sendMessage(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format))
-                    .addActionRows(actionRow)
+                    .setComponents(actionRow)
                     .queue();
         } else {
             event.reply(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format))
                     .setEphemeral(true)
-                    .addActionRows(actionRow)
+                    .setComponents(actionRow)
                     .queue();
         }
     }
@@ -298,7 +299,7 @@ public class InteractionContext<T> implements IContext {
     }
 
     @Override
-    public void send(Message message) {
+    public void send(MessageCreateData message) {
         reply(message);
     }
 
@@ -313,7 +314,7 @@ public class InteractionContext<T> implements IContext {
             event.deferReply().complete();
         }
 
-        return event.getHook().sendMessage(s).allowedMentions(EnumSet.noneOf(Message.MentionType.class)).complete();
+        return event.getHook().sendMessage(s).setAllowedMentions(EnumSet.noneOf(Message.MentionType.class)).complete();
     }
 
     @Override

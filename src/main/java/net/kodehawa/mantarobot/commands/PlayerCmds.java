@@ -19,12 +19,12 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.dv8tion.jda.api.utils.FileUpload;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
@@ -298,7 +298,7 @@ public class PlayerCmds {
                     var equippedFinal = equipmentFinal.getEquipment().get(type);
                     if (equippedFinal == null) {
                         hook.editOriginal(lang.get("commands.profile.unequip.not_equipped").formatted(EmoteReference.ERROR))
-                                .setActionRows()
+                                .setComponents()
                                 .queue();
                         return InteractiveOperation.COMPLETED;
                     }
@@ -336,11 +336,11 @@ public class PlayerCmds {
                     playerFinal.save();
 
                     hook.editOriginal(lang.get("commands.profile.unequip.success").formatted(EmoteReference.CORRECT, type.name().toLowerCase()) + part)
-                            .setActionRows()
+                            .setComponents()
                             .queue();
                 } else if (button.getId().equalsIgnoreCase("no")) {
                     hook.editOriginal(lang.get("commands.profile.unequip.cancelled").formatted(EmoteReference.WARNING))
-                            .setActionRows()
+                            .setComponents()
                             .queue();
                     return InteractiveOperation.COMPLETED;
                 }
@@ -472,7 +472,7 @@ public class PlayerCmds {
 
                 var player = ctx.getPlayer();
                 var lang = ctx.getLanguageContext();
-                var message = new MessageBuilder().setEmbeds(new EmbedBuilder()
+                ctx.getEvent().replyEmbeds(new EmbedBuilder()
                         .setAuthor(String.format(lang.get("commands.badges.info.header"), badge.display))
                         .setDescription(String.join("\n",
                                         EmoteReference.BLUE_SMALL_MARKER + "**" + lang.get("general.name") + ":** " + badge.display,
@@ -485,9 +485,8 @@ public class PlayerCmds {
                         .setThumbnail("attachment://icon.png")
                         .setColor(Color.CYAN)
                         .build()
-                ).build();
-
-                ctx.getEvent().reply(message).addFile(badge.icon, "icon.png").queue();
+                    ).addFiles(FileUpload.fromData(badge.icon, "icon.png"))
+                    .queue();
             }
         }
     }

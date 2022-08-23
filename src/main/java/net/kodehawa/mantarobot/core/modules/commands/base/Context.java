@@ -24,7 +24,9 @@ import net.dv8tion.jda.api.entities.channel.attribute.IAgeRestrictedChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.FileUpload;
 import net.dv8tion.jda.api.utils.concurrent.Task;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
@@ -246,7 +248,7 @@ public class Context implements IContext {
         return MantaroData.db().getMarriage(userData.getMarriageId());
     }
 
-    public void send(Message message) {
+    public void send(MessageCreateData message) {
         getChannel().sendMessage(message).queue();
     }
 
@@ -273,7 +275,7 @@ public class Context implements IContext {
     }
 
     public void send(String message, ActionRow... actionRow) {
-        getChannel().sendMessage(message).setActionRows(actionRow).queue();
+        getChannel().sendMessage(message).setComponents(actionRow).queue();
     }
 
     public void sendFormat(String message, Object... format) {
@@ -286,20 +288,20 @@ public class Context implements IContext {
     public void sendFormatStripped(String message, Object... format) {
         getChannel().sendMessage(
                 String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format)
-        ).allowedMentions(EnumSet.noneOf(Message.MentionType.class)).queue();
+        ).setAllowedMentions(EnumSet.noneOf(Message.MentionType.class)).queue();
     }
 
     public void sendFormat(String message, Collection<ActionRow> actionRow, Object... format) {
         getChannel().sendMessage(
                 String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format)
-        ).setActionRows(actionRow).queue();
+        ).setComponents(actionRow).queue();
     }
 
     public void send(MessageEmbed embed, ActionRow... actionRow) {
         // Sending embeds while supressing the failure callbacks leads to very hard
         // to debug bugs, so enable it.
         getChannel().sendMessageEmbeds(embed)
-                .setActionRows(actionRow).queue(success -> {}, Throwable::printStackTrace);
+                .setComponents(actionRow).queue(success -> {}, Throwable::printStackTrace);
     }
 
     public void send(MessageEmbed embed) {
@@ -319,14 +321,14 @@ public class Context implements IContext {
     @Override
     public void sendLocalizedStripped(String s, Object... args) {
         getChannel().sendMessage(languageContext.get(s).formatted(args))
-                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
     }
 
     public void sendLocalized(String localizedMessage, Collection<ActionRow> actionRow, Object... args) {
         // Stop swallowing issues with String replacements (somehow really common)
         getChannel().sendMessage(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), languageContext.get(localizedMessage), args))
-                .setActionRows(actionRow).queue(success -> {}, Throwable::printStackTrace);
+                .setComponents(actionRow).queue(success -> {}, Throwable::printStackTrace);
     }
 
 
@@ -335,19 +337,19 @@ public class Context implements IContext {
     }
 
     public void sendLocalized(String localizedMessage, ActionRow... actionRow) {
-        getChannel().sendMessage(languageContext.get(localizedMessage)).setActionRows(actionRow).queue();
+        getChannel().sendMessage(languageContext.get(localizedMessage)).setComponents(actionRow).queue();
     }
 
     public void sendStripped(String message) {
         getChannel().sendMessage(message)
-                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
     }
 
     public void sendStrippedLocalized(String localizedMessage, Object... args) {
         getChannel().sendMessage(String.format(
                 Utils.getLocaleFromLanguage(getLanguageContext()), languageContext.get(localizedMessage), args)
-        ).allowedMentions(EnumSet.noneOf(Message.MentionType.class)).queue();
+        ).setAllowedMentions(EnumSet.noneOf(Message.MentionType.class)).queue();
     }
 
     public Task<List<Member>> findMember(String query, Consumer<List<Member>> success) {
@@ -361,7 +363,7 @@ public class Context implements IContext {
     }
 
     public void sendFile(byte[] file, String name) {
-        getChannel().sendFile(file, name).queue();
+        getChannel().sendFiles(FileUpload.fromData(file, name)).queue();
     }
 
     public boolean isUserBlacklisted(String id) {

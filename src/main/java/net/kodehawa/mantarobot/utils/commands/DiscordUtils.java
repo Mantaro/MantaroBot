@@ -124,7 +124,7 @@ public class DiscordUtils {
             if (button.getId().equals("cancel")) {
                 e.getHook().editOriginal(ctx.getLanguageContext().get("commands.profile.unequip.cancelled").formatted(EmoteReference.OK))
                         .setEmbeds()
-                        .setActionRows()
+                        .setComponents()
                         .queue();
 
                 return Operation.COMPLETED;

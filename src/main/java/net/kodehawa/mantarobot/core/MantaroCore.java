@@ -30,12 +30,12 @@ import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.SessionController;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import net.dv8tion.jda.api.utils.messages.MessageRequest;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
@@ -193,7 +193,7 @@ public class MantaroCore {
         try {
             // Don't allow mentioning @everyone, @here or @role (can be overridden in a per-command context, but we only ever re-enable role)
             var deny = EnumSet.of(Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.ROLE);
-            MessageAction.setDefaultMentions(EnumSet.complementOf(deny));
+            MessageRequest.setDefaultMentions(EnumSet.complementOf(deny));
 
             // Gateway Intents to enable.
             // We used to have GUILD_PRESENCES here for caching before, since chunking wasn't possible, but we needed to remove it.

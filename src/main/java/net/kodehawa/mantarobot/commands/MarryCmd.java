@@ -183,13 +183,13 @@ public class MarryCmd {
 
                         if (proposingMarriageFinal != null) {
                             hook.editOriginal(languageContext.get("commands.marry.already_married").formatted(EmoteReference.ERROR))
-                                    .setActionRows().queue();
+                                    .setComponents().queue();
                             return Operation.COMPLETED;
                         }
 
                         if (proposedToMarriageFinal != null) {
                             hook.editOriginal(languageContext.get("commands.marry.receipt_married").formatted(EmoteReference.ERROR))
-                                    .setActionRows().queue();
+                                    .setComponents().queue();
                             return Operation.COMPLETED;
                         }
 
@@ -199,7 +199,7 @@ public class MarryCmd {
 
                         if (proposingPlayerFinalInventory.getAmount(ItemReference.RING) < 2) {
                             hook.editOriginal(languageContext.get("commands.marry.ring_check_fail").formatted(EmoteReference.ERROR))
-                                    .setActionRows().queue();
+                                    .setComponents().queue();
                             return Operation.COMPLETED;
                         }
 
@@ -231,7 +231,7 @@ public class MarryCmd {
                         hook.editOriginal(languageContext.get("commands.marry.accepted").formatted(
                                 EmoteReference.POPPER, e.getUser().getName(), e.getUser().getDiscriminator(),
                                 proposingUser.getName(), proposingUser.getDiscriminator()
-                        )).setActionRows().queue();
+                        )).setComponents().queue();
 
                         // Add the badge to the married couple.
                         proposingPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
@@ -254,7 +254,7 @@ public class MarryCmd {
 
                     if (buttonId.equals("no")) {
                         hook.editOriginal(languageContext.get("commands.marry.denied").formatted(EmoteReference.CORRECT, proposingUser.getName()))
-                                .setActionRows().queue();
+                                .setComponents().queue();
 
                         // Well, we have a badge for this too. Consolation prize I guess.
                         final var proposingPlayer = ctx.getPlayer(proposingUser);
@@ -439,13 +439,13 @@ public class MarryCmd {
                         //We need to do most of the checks all over again just to make sure nothing important slipped through.
                         if (currentMarriageFinal == null) {
                             hook.editOriginal(languageContext.get("commands.marry.loveletter.no_marriage")
-                                    .formatted(EmoteReference.SAD)).setActionRows().queue();
+                                    .formatted(EmoteReference.SAD)).setComponents().queue();
                             return Operation.COMPLETED;
                         }
 
                         if (!inventoryFinal.containsItem(ItemReference.LOVE_LETTER)) {
                             hook.editOriginal(languageContext.get("commands.marry.loveletter.no_letter")
-                                    .formatted(EmoteReference.SAD)).setActionRows().queue();
+                                    .formatted(EmoteReference.SAD)).setComponents().queue();
                             return Operation.COMPLETED;
                         }
 
@@ -459,12 +459,12 @@ public class MarryCmd {
 
                         hook.editOriginal(languageContext.get("commands.marry.loveletter.confirmed")
                                 .formatted(EmoteReference.CORRECT))
-                                .setActionRows().queue();
+                                .setComponents().queue();
                         return Operation.COMPLETED;
                     } else if (button.equals("no")) {
                         hook.editOriginal(languageContext.get("commands.marry.loveletter.scrapped")
                                 .formatted(EmoteReference.CORRECT))
-                                .setActionRows().queue();
+                                .setComponents().queue();
                         return Operation.COMPLETED;
                     }
 
@@ -533,12 +533,12 @@ public class MarryCmd {
 
                         // People like to mess around lol.
                         if (!playerInventoryConfirmed.containsItem(ItemReference.HOUSE)) {
-                            hook.editOriginal(languageContext.get("commands.marry.buyhouse.no_house")).setActionRows().queue();
+                            hook.editOriginal(languageContext.get("commands.marry.buyhouse.no_house")).setComponents().queue();
                             return Operation.COMPLETED;
                         }
 
                         if (playerConfirmed.getCurrentMoney() < housePrice) {
-                            hook.editOriginal(languageContext.get("commands.marry.buyhouse.not_enough_money")).setActionRows().queue();
+                            hook.editOriginal(languageContext.get("commands.marry.buyhouse.not_enough_money")).setComponents().queue();
                             return Operation.COMPLETED;
                         }
 
@@ -552,13 +552,13 @@ public class MarryCmd {
                         marriageConfirmed.save();
 
                         hook.editOriginal(languageContext.get("commands.marry.buyhouse.success").formatted(EmoteReference.POPPER, housePrice, finalContent))
-                                .setActionRows().queue();
+                                .setComponents().queue();
                         return Operation.COMPLETED;
                     }
 
                     if (button.equals("no")) {
                         hook.editOriginal(languageContext.get("commands.marry.buyhouse.cancel_success").formatted(EmoteReference.CORRECT))
-                                .setActionRows().queue();
+                                .setComponents().queue();
                         return Operation.COMPLETED;
                     }
 
@@ -628,13 +628,13 @@ public class MarryCmd {
                         // People like to mess around lol.
                         if (!playerInventoryConfirmed.containsItem(ItemReference.CAR)) {
                             hook.editOriginal(languageContext.get("commands.marry.buycar.no_car"))
-                                    .setActionRows().queue();
+                                    .setComponents().queue();
                             return Operation.COMPLETED;
                         }
 
                         if (playerConfirmed.getCurrentMoney() < carPrice) {
                             hook.editOriginal(languageContext.get("commands.marry.buycar.not_enough_money"))
-                                    .setActionRows().queue();
+                                    .setComponents().queue();
                             return Operation.COMPLETED;
                         }
 
@@ -647,13 +647,13 @@ public class MarryCmd {
                         marriageConfirmed.save();
 
                         hook.editOriginal(languageContext.get("commands.marry.buycar.success").formatted(EmoteReference.POPPER, carPrice, finalContent))
-                                .setActionRows().queue();
+                                .setComponents().queue();
                         return Operation.COMPLETED;
                     }
 
                     if (button.equals("no")) {
                         hook.editOriginal(languageContext.get("commands.marry.buycar.cancel_success").formatted(EmoteReference.CORRECT))
-                                .setActionRows().queue();
+                                .setComponents().queue();
                         return Operation.COMPLETED;
                     }
 
@@ -692,7 +692,7 @@ public class MarryCmd {
                     final var divorceeDBUser = ctx.getDBUser();
                     final var marriage = divorceeDBUser.getData().getMarriage();
                     if (marriage == null) {
-                        hook.editOriginal(languageContext.get("commands.divorce.not_married").formatted(EmoteReference.ERROR)).setActionRows().queue();
+                        hook.editOriginal(languageContext.get("commands.divorce.not_married").formatted(EmoteReference.ERROR)).setComponents().queue();
                         return Operation.COMPLETED;
                     }
 
@@ -747,10 +747,10 @@ public class MarryCmd {
                         extra = languageContext.get("commands.divorce.split").formatted(portion);
                     }
 
-                    hook.editOriginal(languageContext.get("commands.divorce.success").formatted(EmoteReference.CORRECT, extra)).setActionRows().queue();
+                    hook.editOriginal(languageContext.get("commands.divorce.success").formatted(EmoteReference.CORRECT, extra)).setComponents().queue();
                     return Operation.COMPLETED;
                 } else if (buttonId.equals("no")) {
-                    hook.editOriginal(languageContext.get("commands.divorce.cancelled").formatted(EmoteReference.CORRECT)).setActionRows().queue();
+                    hook.editOriginal(languageContext.get("commands.divorce.cancelled").formatted(EmoteReference.CORRECT)).setComponents().queue();
                     return Operation.COMPLETED;
                 }
 

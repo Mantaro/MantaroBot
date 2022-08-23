@@ -1,24 +1,25 @@
 /*
- * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2022 David Rubio Escares / Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
 package net.kodehawa.mantarobot.commands.action;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
@@ -28,7 +29,10 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -164,18 +168,18 @@ public class ImageActionCmd extends NoArgsCommand {
                 }
             }
 
-            var toSend = new MessageBuilder()
-                    .append(emoji)
-                    .append(String.format(languageContext.get(format),
+            var toSend = new MessageCreateBuilder()
+                    .addContent(emoji.toHeaderString())
+                    .addContent(String.format(languageContext.get(format),
                             "**%s**".formatted(noMentions(mentionedMembers)),
                             "**%s**".formatted(ctx.getMember().getEffectiveName()))
                     );
 
 
             if (swapNames) {
-                toSend = new MessageBuilder()
-                        .append(emoji)
-                        .append(String.format(
+                toSend = new MessageCreateBuilder()
+                        .addContent(emoji.toHeaderString())
+                        .addContent(String.format(
                                 languageContext.get(format),
                                 "**%s**".formatted(ctx.getMember().getEffectiveName()),
                                 "**%s**".formatted(noMentions(mentionedMembers))
@@ -183,21 +187,21 @@ public class ImageActionCmd extends NoArgsCommand {
             }
 
             if (isLonely(ctx)) {
-                toSend = new MessageBuilder()
-                        .append("**")
-                        .append(languageContext.get(lonelyLine))
-                        .append("**");
+                toSend = new MessageCreateBuilder()
+                        .addContent("**")
+                        .addContent(languageContext.get(lonelyLine))
+                        .addContent("**");
             }
 
             if (isMentioningBot(ctx)) {
-                toSend = new MessageBuilder()
-                        .append("**")
-                        .append(languageContext.get(botLine))
-                        .append("**");
+                toSend = new MessageCreateBuilder()
+                        .addContent("**")
+                        .addContent(languageContext.get(botLine))
+                        .addContent("**");
             }
 
             if (filtered) {
-                toSend.append("\n").append(
+                toSend.addContent("\n").addContent(
                         String.format(languageContext.get("commands.action.filtered"), EmoteReference.WARNING)
                 );
             }
