@@ -447,9 +447,9 @@
       "add": {
         "header_slash": "Custom Command Creation.",
         "content_placeholder": "Content goes here.",
-        "name_slash": "Name",
-        "content_slash": "Content",
-        "custom_name_placeholder": "Name goes here.",
+        "name_slash": "İsim",
+        "content_slash": "İçerik",
+        "custom_name_placeholder": "İsim buraya gelecek.",
         "no_command": "%1$sNe komutu eklemek istediğini belirtmen gerekir.",
         "time_out": "%1$sThe time for this custom command interaction has ran out (or you cancelled it, or started a new one).",
         "not_enough_args": "%1$sEklemek istediğin komutun ismini ve yanıtını belirtmeniz gerekir.",
@@ -646,8 +646,8 @@
         "cancelled": "%1$sCancelled opt-out operation.",
         "claim_notice": "%1$sThe user you're trying to claim opted out.",
         "lookup_notice": "%1$sThe user you're trying to lookup opted out.",
-        "yes_button": "Yes, I want to opt-out.",
-        "no_button": "No, take me back."
+        "yes_button": "Evet, çıkmak istiyorum.",
+        "no_button": "Hayır, beni geri al."
       },
       "header": "Waifu List",
       "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$,d waifus as of now.*\n\nIf you wish to check your waifu stats, use `/waifu stats`\n\n",
@@ -667,7 +667,7 @@
       "success": "%1$sYou got **%2$s**%3$s",
       "amount": "Doing **%1$d** rolls.",
       "more_than_10": "... and %1$s more rolls",
-      "total": "(Total: %1$,d)",
+      "total": "(Toplam: %1$,d)",
       "size": "\nDoing **%1$,d rolls** with a die of **%2$,d sides**.",
       "incorrect_format": "You need to specify the amount in d20 format. For example, to roll 2 dies of 16 sides, you can do 2d16."
     },
@@ -692,7 +692,7 @@
         "value": "Value",
         "type": "Type",
         "total": "Total Value",
-        "random": "Random"
+        "random": "Rastgele"
       }
     },
     "cast": {
@@ -879,8 +879,8 @@
         "reset_success": "%1$sSuccessfully reset your timezone."
       },
       "description": {
-        "header": "Profile Description.",
-        "content_placeholder": "The description goes here.",
+        "header": "Profil Açıklaması.",
+        "content_placeholder": "Açıklama buraya gelecek.",
         "no_content": "%1$sYou didn't specify what you want on your description.",
         "too_long": "%1$sThe description is too long! (Limit of 300 characters for everyone and 500 for premium users)",
         "success": "%1$sI set your profile description successfully. Check your shiny new profile with `/profile show`",
@@ -910,8 +910,8 @@
         "disabled": "%1$sDisabled actions from being done to you."
       },
       "pet": {
-        "header": "Active Pet",
-        "none": "No active pet"
+        "header": "Aktif Evcil Hayvan",
+        "none": "Aktif evcil hayvan yok"
       },
       "stats": {
         "header": "%1$s için profil istatistikleri",
@@ -919,10 +919,10 @@
         "market": "Market Kullanıldı",
         "potion": "Aktif İksir",
         "potion_type": "İksir Tipi",
-        "buff": "Buff",
+        "buff": "Güçlendirme",
         "buff_type": "Buff Tipi",
-        "experience": "Experience (Old)",
-        "mine_xp": "Mining Experience",
+        "experience": "Deneyim (Eski)",
+        "mine_xp": "Madencilik Deneyimi",
         "fish_xp": "Fishing Experience",
         "chop_xp": "Chopping Experience",
         "activity_xp": "Activity Experience",
@@ -991,7 +991,7 @@
       "credits": "Para",
       "old_credits": "Legacy Credits",
       "level": "Seviye",
-      "activity_xp": "Activity XP",
+      "activity_xp": "Etkinlik XP'si",
       "xp": "XP",
       "rep": "İtibar",
       "birthday": "Doğumgünü",
@@ -1076,8 +1076,8 @@
       "too_long": "That's too much time... (Maximum: 180 days)",
       "success": "%1$sI'll remind you (%2$s) of `%3$s` in %4$s",
       "too_many_reminders": "%1$sYou have too many reminders! Try cancelling some?",
-      "content": "Content",
-      "due_at": "Due at"
+      "content": "İçerik",
+      "due_at": "Sebebiyle"
     },
     "time": {
       "invalid_timezone": "%1$sGeçerli bir zamandilimi değil.",
@@ -2092,235 +2092,235 @@
       "no_role": "%1$sThere's no autorole **%2$s**, so I can't add it."
     },
     "autoroles_category_remove": {
-      "no_args": "%1$sYou need to specify the name of the category (and the name of the iam role if you want to remove one from an existing category).",
-      "success_new": "%1$sRemoved auto-assignable list category **%2$s**",
-      "success": "%1$sRemoved auto-assignable role **%2$s** from list category **%3$s**",
-      "no_category": "%1$sThere's no category **%2$s**"
+      "no_args": "%1$sKategorinin adını (ve mevcut bir kategoriden birini kaldırmak istiyorsanız iam rolünün adını) belirtmeniz gerekir.",
+      "success_new": "%1$sOtomatik atanabilir liste kategorisi kaldırıldı **%2$s**",
+      "success": "%1$sOtomatik atanabilir rol **%2$s** liste kategorisinden **%3$s** kaldırıldı",
+      "no_category": "%1$s**%2$s** kategorisi yok"
     },
     "autoroles_remove": {
-      "no_args": "%1$sYou need to specify the name of the iam you want to remove.",
-      "not_found": "%1$sI couldn't find an auto-assignable role with that name",
-      "success": "%1$sRemoved auto-assignable role %2$s"
+      "no_args": "%1$sKaldırmak istediğiniz iam'in adını belirtmeniz gerekir.",
+      "not_found": "%1$sBu ada sahip otomatik atanabilir bir rol bulamadım",
+      "success": "%1$s%2$s otomatik atanabilir rolü kaldırıldı"
     },
     "autoroles_clear": {
-      "success": "%1$sCleared all auto-assignable roles!"
+      "success": "%1$sTüm otomatik atanabilir roller temizlendi!"
     },
     "admincustom": {
-      "no_args": "%1$sYou need to specify if you want it to be true or false (true to lock CC creation to Admins/Bot Commander only)",
-      "admin_only": "Custom command creation is now admin only.",
-      "everyone": "Custom command creation can now be done by anyone.",
-      "not_bool": "%1$sSilly, that's not a boolean value (true or false)!"
+      "no_args": "%1$sDoğru veya yanlış olmasını isteyip istemediğinizi belirtmeniz gerekir (CC oluşturma işlemini yalnızca Admins/Bot Commander'a kilitlemek için true yapın)",
+      "admin_only": "Özel komutlar oluşturma artık yalnızca Yöneticiler tarafından kullanılabilir.",
+      "everyone": "Özel komutlar oluşturmak artık herkesin kullanımına açık.",
+      "not_bool": "%1$sAptalca, bu bir boole değeri değil (doğru veya yanlış)!"
     },
     "timedisplay_set": {
-      "mode_not_specified": "%1$sYou need to specify a mode (12h or 24h)",
-      "12h": "%1$sSet time display mode to 12h",
-      "24h": "%1$sSet time display mode to 24h",
-      "invalid": "%1$sNot a valid choice. Valid choices: **24h**, **12h**"
+      "mode_not_specified": "%1$sBir mod belirtmeniz gerekir (12h veya 24h)",
+      "12h": "%1$sSaat görüntüleme modunu 12 saate ayarlayın",
+      "24h": "%1$sSaat görüntüleme modunu 24 saat olarak ayarlayın",
+      "invalid": "%1$sGeçerli bir seçim değil. Geçerli seçenekler: **24h**, **12h**"
     },
     "server_role_disallow": {
-      "no_name": "%1$sYou need to specify the name of the role!",
-      "public_role": "%1$sYou cannot disable the everyone role from using commands!",
-      "success": "%1$sDisabled role %2$s from executing commands."
+      "no_name": "%1$sRolün adını belirtmeniz gerekiyor!",
+      "public_role": "%1$severyone rolünü komutları kullanmaktan devre dışı bırakamazsınız!",
+      "success": "%1$s%2$s rolünün komutları yürütmesi devre dışı bırakıldı."
     },
     "server_role_allow": {
-      "no_name": "%1$sYou need to specify the name of the role you want to allow (has to be disallowed already for this to do anything, since allow is default)!",
-      "not_disabled": "%1$sThis role isn't disabled! (All roles are enabled by default)",
-      "success": "%1$sAllowed role %2$s to execute commands."
+      "no_name": "%1$sİzin vermek istediğiniz rolün adını belirtmeniz gerekir (bunun herhangi bir şey yapması için zaten izin verilmemesi gerekir, çünkü izin varsayılandır)!",
+      "not_disabled": "%1$sBu rol devre dışı değil! (Tüm roller varsayılan olarak etkindir)",
+      "success": "%1$s%2$s rolünün komutları yürütmesine izin verildi."
     },
     "server_ignorebots_autoroles_toggle": {
-      "success": "%1$sSet bot autorole ignore to: **%2$s**"
+      "success": "%1$sBotun otomatik rolünü yoksaymasını şu şekilde ayarla: **%2$s**"
     },
     "server_ignorebots_joinleave_toggle": {
-      "success": "%1$sSet bot join/leave ignore to: **%2$s**"
+      "success": "%1$sBot katılma/ayrılma mesajlarını yoksaymayı şuna ayarla: **%2$s**"
     },
     "levelupmessages_channel_set": {
-      "no_channel": "%1$sYou need to specify a channel to show level-up messages!",
-      "success": "%1$sThe level-up channel has been set to: %2$s"
+      "no_channel": "%1$sSeviye atlama mesajlarını göstermek için bir kanal belirlemeniz gerekiyor!",
+      "success": "%1$sSeviye atlama kanalı %2$s olarak ayarlandı"
     },
     "birthday_message_set": {
-      "no_message": "%1$sYou need to specify the message you want to show on birthday. *Tip: The username of the person is done using the $(user) argument on the message*",
-      "success": "%1$sServer birthday message set to: %2$s"
+      "no_message": "%1$sDoğum gününde göstermek istediğiniz mesajı belirtmeniz gerekmektedir. *İpucu: Kişinin kullanıcı adı, mesajdaki $(user) argümanı kullanılarak yapılır*",
+      "success": "%1$sSunucu doğum günü mesajı %2$s olarak ayarlandı"
     },
     "birthday_message_clear": {
-      "success": "%1$sCleared birthday message!"
+      "success": "%1$sDoğum günü mesajı silindi!"
     },
     "defaultmutetimeout_set": {
-      "too_short": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
-      "not_specified": "%1$sYou have to specify a mute timeout in the format of 1m20s, for example.",
-      "wrong_format": "%1$sWrong time format. You have to specify a mute timeout in the format of 1m20s, for example.",
-      "too_long": "%1$sThe time specified is too long...",
-      "negative_notice": "You cannot mute someone for negative time!",
-      "success": "%1$sSuccessfully set default mute timeout to *%2$s* (%3$dms)"
+      "too_short": "%1$sBelirtilen sessize alma zaman aşımı uzunluğu 10 saniyeden az.\nDoğru formatı kullandığınızdan emin misiniz? Örneğin 20 dakika için 20m, 1 saat için 1h veya her ikisinin (1h45m) ​​herhangi bir kombinasyonunu kullanın.",
+      "not_specified": "%1$sÖrneğin 1m20s biçiminde bir sessiz zaman aşımı belirtmelisiniz.",
+      "wrong_format": "%1$sYanlış zaman formatı. Örneğin 1m20s biçiminde bir sessiz zaman aşımı belirtmelisiniz.",
+      "too_long": "%1$sBelirtilen süre çok uzun...",
+      "negative_notice": "Birini negatif bir sürede susturamazsınız!",
+      "success": "%1$sVarsayılan sessize alma zaman aşımını başarıyla *%2$s* (%3$dms) olarak ayarladınız"
     },
     "defaultmutetimeout_reset": {
-      "success": "%1$sSuccessfully reset timeout."
+      "success": "%1$sZaman aşımını başarıyla sıfırladın."
     },
     "reset:all": {
-      "success": "%1$sCorrectly reset your options!"
+      "success": "%1$sSeçeneklerinizi doğru şekilde sıfırlayın!"
     },
     "birthday_test": {
       "no_user": "%1$sYou need to specify a user to test the assigner with. Just mention them.",
-      "no_bd_channel": "%1$sYou don't have any birthday channel set!",
-      "no_bd_role": "%1$sYou don't have any role set for the birthday setter! Make sure you create a new role for it.",
-      "no_talk_permission": "%1$sThe bot cannot speak on the birthday channel. Check channel permissions.",
-      "cannot_interact": "%1$sThe bot is unable to interact with the birthday role. (This means the birthday role is higher than the bot's highest role on the role hierarchy, put it below and try again)",
-      "no_role_permission": "%1$sThe bot is missing the Manage Roles permission.",
-      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role **%4$s**\nKeep in mind the birthday testing message won't ping anyone nor any roles. The actual message can ping users and roles, but can't ping everyone or here.",
-      "error": "%1$sOw... There was an error while sending the message on channel %2$s for user **%3$s** and role %4$s"
+      "no_bd_channel": "%1$sHerhangi bir doğum günü kanalınız yok!",
+      "no_bd_role": "%1$sDoğum günü belirleyicisi için belirlenmiş bir rolünüz yok! Bunun için yeni bir rol oluşturduğunuzdan emin olun.",
+      "no_talk_permission": "%1$sBot doğum günü kanalında konuşamaz. Kanal izinlerini kontrol edin.",
+      "cannot_interact": "%1$sBot, doğum günü rolüyle etkileşim kuramaz. (Bu, doğum günü rolünün, rol sıralamasındaki botun en yüksek rolünden daha yüksek olduğu anlamına gelir, aşağıya koyun ve tekrar deneyin)",
+      "no_role_permission": "%1$sBot, Rolleri Yönetme izninine sahip değil.",
+      "success": "%1$sTamamlandı! İleti, **%3$s** kullanıcısı için %2$s kanalında gönderildi. **%4$s** rolüne atandılar\nDoğum günü testi mesajının kimseye veya herhangi bir role ping atmadığını unutmayın. Asıl mesaj, kullanıcılara ve rollere ping atabilir, ancak herkese veya buraya ping atamaz.",
+      "error": "%1$sOw... **%3$s** kullanıcısı ve %4$s rolü için %2$s kanalında mesaj gönderilirken bir hata oluştu"
     },
     "usermessage_joinmessage_add": {
-      "no_message": "%1$sYou need to specify what extra message you want me to say when someone joins!",
-      "success": "%1$sAdded `%2$s` to the extra join messages successfully."
+      "no_message": "%1$sBirisi katıldığında söylememi istediğiniz ekstra mesajı belirtmeniz gerekiyor!",
+      "success": "%1$sEkstra katılma mesajlarına başarıyla `%2$s` eklendi."
     },
     "usermessage_joinmessage_remove": {
-      "no_message": "%1$sYou need to specify the index of the message you want to remove!",
-      "success": "%1$sRemoved `%2$s (index %3$d)` from the extra join messages successfully.",
-      "wrong_index": "%1$sThat index doesn't exist! Use `~>opts usermessage joinmessage list` to see all of the available indexes"
+      "no_message": "%1$sKaldırmak istediğiniz mesajın dizinini belirtmeniz gerekiyor!",
+      "success": "%1$sEkstra katılma mesajlarından `%2$s (dizin %3$d)` başarıyla kaldırıldı.",
+      "wrong_index": "%1$sO dizin yok! Kullanılabilir tüm dizinleri görmek için `~>opts usermessage joinmessage list` kullanın"
     },
     "usermessage_joinmessage_clear": {
-      "success": "%1$sCleared all extra join messages."
+      "success": "%1$sTüm ekstra katılma mesajları temizlendi."
     },
     "usermessage_joinmessage_list": {
-      "header": "Extra join messages list. %1$s\n%2$s",
-      "no_extras": "%1$sThere isn't any extra join messages here..."
+      "header": "Ekstra katılma mesajları listesi. %1$s\n%2$s",
+      "no_extras": "%1$sBurada fazladan katılma mesajı yok..."
     },
     "usermessage_leavemessage_add": {
-      "no_message": "%1$sYou need to specify what extra message you want me to say when someone leaves!",
-      "success": "%1$sAdded `%2$s` to the extra leave messages successfully."
+      "no_message": "%1$sBiri ayrıldığında söylememi istediğiniz ekstra mesajı belirtmeniz gerekiyor!",
+      "success": "%1$sEkstra ayrılma mesajlarına `%2$s` başarıyla eklendi."
     },
     "usermessage_leavemessage_remove": {
-      "no_message": "%1$sYou need to specify the index of the message you want to remove!",
-      "success": "%1$sRemoved `%2$s (index %3$d)` from the extra leave messages successfully.",
-      "wrong_index": "%1$sThat index doesn't exist! Use `~>opts usermessage leavemessage list` to see all of the available indexes"
+      "no_message": "%1$sKaldırmak istediğiniz mesajın dizinini belirtmeniz gerekiyor!",
+      "success": "%1$sEkstra ayrılma mesajlarından `%2$s (dizin %3$d)` başarıyla kaldırıldı.",
+      "wrong_index": "%1$sO dizin yok! Kullanılabilir tüm dizinleri görmek için `~>opts usermessage joinmessage list` kullanın"
     },
     "usermessage_leavemessage_clear": {
-      "success": "%1$sCleared all extra leave messages."
+      "success": "%1$sTüm ekstra ayrılma mesajları temizlendi."
     },
     "usermessage_leavemessage_list": {
-      "header": "Extra leave messages list. %1$s\n%2$s",
-      "no_extras": "%1$sThere isn't any extra leave messages here..."
+      "header": "Ekstra ayrılma mesajları listesi. %1$s\n%2$s",
+      "no_extras": "%1$sBurada fazladan ayrılma mesajı yok..."
     },
     "modlog_blacklistwords_add": {
-      "no_word": "%1$sYou didn't specify any word to add to the modlog blacklist.",
-      "success": "%1$sWord `%2$s` successfully added to the modlog blacklist.",
-      "too_many": "%1$sThere are already too many words on the blacklist (more than 20)."
+      "no_word": "%1$sModeratör günlüğü kara listesine eklenecek herhangi bir kelime belirtmediniz.",
+      "success": "%1$s`%2$s` kelimesi moderatör günlüğü kara listesine başarıyla eklendi.",
+      "too_many": "%1$sKara listede zaten çok fazla kelime var (20'den fazla)."
     },
     "modlog_blacklistwords_remove": {
-      "not_in": "%1$sWord `%2$s` isn't in the blacklist.",
-      "success": "%1$sSuccesfully removed word `%2$s` from the modlog blacklist."
+      "not_in": "%1$s`%2$s` kelimesi kara listede değil.",
+      "success": "%1$sModeratör günlüğü kara listesinden `%2$s` sözcüğü başarıyla kaldırıldı."
     },
     "logs_editmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone edits a message!",
-      "success": "%1$sMessage edit message set to: `%2$s`",
-      "reset_success": "%1$sReset logs edit message."
+      "no_message": "%1$sBirisi bir mesajı düzenlediğinde söylememi istediğiniz mesajı belirtmeniz gerekiyor!",
+      "success": "%1$sMesaj düzenleme mesajı `%2$s` olarak ayarlandı",
+      "reset_success": "%1$sGünlüklerdeki düzenleme mesajlarını sıfırlandı."
     },
     "logs_deletemessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone deletes a message!",
-      "success": "%1$sMessage delete message set to: `%2$s`",
-      "reset_success": "%1$sReset logs delete message."
+      "no_message": "%1$sBirisi bir mesajı sildiğinde söylememi istediğiniz mesajı belirtmeniz gerekiyor!",
+      "success": "%1$sMesaj silinme mesajı `%2$s` olarak ayarlandı",
+      "reset_success": "%1$sGünlüklerdeki mesaj silme mesajlarını sıfırlandı."
     },
     "djrole_set": {
-      "no_role": "%1$sYou need to give me a role to use as the DJ role.",
-      "success": "%1$sSuccessfully set the DJ role to %2$s."
+      "no_role": "%1$sBana DJ rolü olarak kullanmam için bir rol vermelisin.",
+      "success": "%1$sDJ rolünü başarıyla %2$s olarak ayarladın."
     },
     "djrole_reset": {
-      "not_set": "%1$sYou have no custom DJ role set.",
-      "success": "%1$sSuccessfully reset the DJ role."
+      "not_set": "%1$sÖzel bir DJ rolünüz yok.",
+      "success": "%1$sDJ rolünü başarıyla sıfırladın."
     },
     "showdisablewarning": {
-      "success": "%1$sDisplay warning on disabled command is set to: %2$s"
+      "success": "%1$sDevre dışı bırakılan komutta uyarı gösterme şuna ayarlandı: %2$s"
     },
     "birthdayblacklist": {
-      "no_args": "%1$sYou need to specify who to blacklist from birthday announcements.",
+      "no_args": "%1$sDoğum günü duyurularından kimlerin kara listeye alınacağını belirtmeniz gerekiyor.",
       "add": {
-        "success": "%1$sSuccessfully added %2$s (%3$s) to the birthday announcement blacklist for this server."
+        "success": "%1$sBu sunucu için doğum günü duyurusu kara listesine %2$s (%3$s) başarıyla eklendi."
       },
       "remove": {
-        "success": "%1$sSuccessfully removed %2$s (%3$s) from the birthday announcement blacklist for this server."
+        "success": "%1$s%2$s (%3$s) bu sunucunun doğum günü duyurusu kara listesinden başarıyla kaldırıldı."
       }
     },
     "imageboard_disableexplicit": {
-      "success": "%1$sDisabled explicit/questionable imageboard searches regardless of channel type."
+      "success": "%1$sKanal türünden bağımsız olarak açık/şüpheli görüntü panosu aramaları devre dışı bırakıldı."
     },
     "imageboard_enableexplicit": {
-      "already_enabled": "%1$sExplicit/questionable imageboard searches are already enabled. Keep in mind they only work in NSFW channels.",
-      "success": "%1$sRe-enabled explicit/questionable imageboard searches."
+      "already_enabled": "%1$sAçık/şüpheli görüntü panosu aramaları zaten etkin. Yalnızca NSFW kanallarında çalıştıklarını unutmayın.",
+      "success": "%1$sAçık/şüpheli görüntü panosu aramaları yeniden etkinleştirildi."
     },
     "lobby": {
       "disable": {
-        "success": "%1$sSuccessfully disabled game lobby/multiple."
+        "success": "%1$sOyun lobisi/çoklu başarıyla devre dışı bırakıldı."
       },
       "enable": {
-        "already_enabled": "%1$sGame lobby/multiple isn't disabled on this server.",
-        "success": "%1$sSuccessfully enabled game lobby/multiple. (If it was previously disabled)"
+        "already_enabled": "%1$sOyun lobisi/çoklu bu sunucuda devre dışı bırakılmamış.",
+        "success": "%1$sOyun lobisi/çoklu başarıyla etkinleştirildi. (Daha önce devre dışı bırakılmışsa)"
       }
     },
-    "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
-    "help_opts_notice": "%1$sYou cannot disable the options or the help command.",
-    "no_command": "%1$sNo command called %2$s",
-    "invalid_role": "%1$sThat's not a valid role!"
+    "invalid_category": "%1$sGeçersiz bir kategori girdiniz. Devre dışı bırakılacak (büyük/küçük harfe duyarlı olmayan) geçerli kategorilerin bir listesi aşağıda gösterilecektir.\n```md%2$s```",
+    "help_opts_notice": "%1$sSeçenekleri veya yardım komutunu devre dışı bırakamazsınız.",
+    "no_command": "%1$s%2$s adında bir komut yok",
+    "invalid_role": "%1$sBu geçerli bir rol değil!"
   },
   "discord_permissions": {
-    "create_instant_invite": "Create Instant Invite",
-    "kick_members": "Kick Members",
-    "ban_members": "Ban Members",
-    "administrator": "Administrator",
-    "manage_channel": "Manage Channels",
-    "manage_server": "Manage Server",
-    "message_add_reaction": "Add Reactions",
-    "view_audit_logs": "View Audit Logs",
-    "view_channel": "Read Text Channels & See Voice Channels",
-    "message_read": "Read Messages",
-    "message_write": "Send Messages",
-    "message_tts": "Send TTS Messages",
-    "message_manage": "Manage Messages",
-    "message_embed_links": "Embed Links",
-    "message_attach_files": "Attach Files",
-    "message_history": "Read History",
-    "message_mention_everyone": "Mention Everyone",
-    "message_ext_emoji": "Use External Emojis",
-    "voice_connect": "Connect",
-    "voice_speak": "Speak",
-    "voice_mute_others": "Mute Members",
-    "voice_deaf_others": "Deafen Members",
-    "voice_move_others": "Move Members",
-    "voice_use_vad": "Use Voice Activity",
-    "nickname_change": "Change Nickname",
-    "nickname_manage": "Manage Nicknames",
-    "manage_roles": "Manage Roles",
-    "manage_permissions": "Manage Permissions",
-    "manage_webhooks": "Manage Webhooks",
-    "manage_emotes": "Manage Emojis",
-    "priority_speaker": "Priority Speaker",
-    "request_to_speak": "Request to Speak"
+    "create_instant_invite": "Anlık Davet Oluştur",
+    "kick_members": "Üyeleri At",
+    "ban_members": "Üyeleri Yasakla",
+    "administrator": "Yönetici",
+    "manage_channel": "Kanalları Yönet",
+    "manage_server": "Sunucuyu Yönet",
+    "message_add_reaction": "Tepki Ekle",
+    "view_audit_logs": "Denetim Kaydını Görüntüle",
+    "view_channel": "Metin Kanallarını Okuyun ve Ses Kanallarını Görün",
+    "message_read": "Mesajları Oku",
+    "message_write": "Mesaj Gönder",
+    "message_tts": "Metin Okuma Mesajı Gönder",
+    "message_manage": "Mesajları Yönet",
+    "message_embed_links": "Bağlantı Yerleştir",
+    "message_attach_files": "Dosya Ekle",
+    "message_history": "Geçmişi Okuma",
+    "message_mention_everyone": "Herkesten Bahset",
+    "message_ext_emoji": "Harici Emojiler Kullan",
+    "voice_connect": "Bağlan",
+    "voice_speak": "Konuş",
+    "voice_mute_others": "Üyeleri Sustur",
+    "voice_deaf_others": "Üyeleri Sağırlaştır",
+    "voice_move_others": "Üyeleri Taşı",
+    "voice_use_vad": "Ses Eylemini Kullan",
+    "nickname_change": "Kullanıcı Adı Değiştir",
+    "nickname_manage": "Kullanıcı Adlarını Yönet",
+    "manage_roles": "Rolleri Yönet",
+    "manage_permissions": "İzinleri Yönet",
+    "manage_webhooks": "Webhookları Yönet",
+    "manage_emotes": "Emojileri Yönet",
+    "priority_speaker": "Öncelikli Konuşmacı",
+    "request_to_speak": "Konuşma İsteği"
   },
   "items": {
     "categories": {
-      "collectable": "Collectible Item",
-      "common": "Common Item",
-      "rare": "Rare Item",
-      "premium": "Premium Item",
-      "cast_mine": "Casted Mine Item",
-      "mine": "Mined Item",
-      "fish": "Fished Item",
-      "fish_rare": "Fished Item (Rare)",
-      "mine_rare": "Mined Item (Rare)",
-      "crate": "Loot Crate",
-      "chop_drop": "Chopped Item",
-      "potion": "Potion",
-      "buff": "Buff",
-      "wrench": "Wrench",
-      "waifu": "Waifu Item",
-      "mine_pick": "Pickaxe",
-      "mine_rare_pick": "Pickaxe (Rare)",
-      "fish_rod": "Fishing Rod",
-      "fish_rod_rare": "Fishing Rod (Rare)",
-      "chop_axe": "Axe",
-      "chop_axe_rare": "Axe (Rare)",
-      "broken": "Broken Item",
-      "pet": "Pet Item",
-      "pet_food": "Pet Food",
-      "deprecated": "Deprecated",
+      "collectable": "Koleksiyon Ögesi",
+      "common": "Sıradan Eşya",
+      "rare": "Nadir Eşya",
+      "premium": "Premium Eşyalar",
+      "cast_mine": "Döküm Maden Eşyaları",
+      "mine": "Maden Eşyaları",
+      "fish": "Balık Eşyaları",
+      "fish_rare": "Balık Eşyaları (Nadir)",
+      "mine_rare": "Maden Eşyaları (Nadir)",
+      "crate": "Ganimet Sandığı",
+      "chop_drop": "Doğranmış Eşyalar",
+      "potion": "İksir",
+      "buff": "Güçlendirme",
+      "wrench": "İngiliz Anahtarı",
+      "waifu": "Waifu Eşyaları",
+      "mine_pick": "Kazma",
+      "mine_rare_pick": "Kazma (Nadir)",
+      "fish_rod": "Balık Oltası",
+      "fish_rod_rare": "Balık Oltası (Nadir)",
+      "chop_axe": "Balta",
+      "chop_axe_rare": "Balta (Nadir)",
+      "broken": "Kırılan Eşyalar",
+      "pet": "Evcil Hayvan Eşyaları",
+      "pet_food": "Evcil Hayvan Yemekleri",
+      "deprecated": "Kullanımdan kaldırıldı",
       "interactive": "Etkileşimli Ögeler"
     },
     "headphones": "Kulaklık",
@@ -2481,7 +2481,7 @@
       "floppy": "Bazı oyunlar olabilir. Disketi kopyalamayın.",
       "maths": "Ah, matematiğimi unuttum.",
       "racket": "Discord ile pinpon oyununu birkaç milisaniye farkla kazandım. Belki.",
-      "loaded_die": "Stolen from the `/roll` command.",
+      "loaded_die": "`/roll` komutundan çalındı.",
       "forgotten": "Hiç indirilmedi. Muhtemelen telif hakkı alınmıştır.",
       "pencil": "Bizde bunlardan bolca var!",
       "moneybag": "Başka?",
@@ -2604,11 +2604,11 @@
     }
   },
   "buttons": {
-    "yes": "Yes",
-    "no": "No",
-    "accept": "Accept",
-    "deny": "Deny",
-    "cancel": "Cancel"
+    "yes": "Evet",
+    "no": "Hayır",
+    "accept": "Kabul Et",
+    "deny": "Reddet",
+    "cancel": "İptal"
   },
   "time": {
     "day": "gün",
