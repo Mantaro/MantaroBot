@@ -40,7 +40,6 @@ import java.util.regex.Pattern;
 @SuppressWarnings("ALL")
 public class RoundedMetricPrefixFormat extends Format {
     private static final long serialVersionUID = 1;
-
     private static final String[] METRIC_PREFIXES = new String[]{"", "k", "M", "G", "T"};
 
     /**
@@ -48,7 +47,7 @@ public class RoundedMetricPrefixFormat extends Format {
      */
     private static final Integer MAX_LENGTH = 5;
     private static final Pattern TRAILING_DECIMAL_POINT = Pattern.compile("[0-9]+\\.[kMGT]");
-    private static final Pattern METRIC_PREFIXED_NUMBER = Pattern.compile("-?[0-9]+(\\.[0-9])?[kMGT]");
+    private static final Pattern METRIC_PREFIXED_NUMBER = Pattern.compile("[0-9]+(\\.[0-9])?[kMGT]");
 
     @Override
     public StringBuffer format(Object obj, @NotNull StringBuffer output, @NotNull FieldPosition pos) {
@@ -93,23 +92,19 @@ public class RoundedMetricPrefixFormat extends Format {
      * @return Long
      */
     @Override
-    public Long parseObject(String source, @NotNull ParsePosition pos) {
+    public Double parseObject(String source, @NotNull ParsePosition pos) {
         if (StringUtils.isNumeric(source)) {
-            //I don't need decimals. Original returned Object and not Long because it kept decimals.
             pos.setIndex(source.length());
-            return Long.parseLong(source);
+            return Double.parseDouble(source);
         } else if (METRIC_PREFIXED_NUMBER.matcher(source).matches()) {
-            var isNegative = source.charAt(0) == '-';
             var length = source.length();
-
-            var number = isNegative ? source.substring(1, length - 1) : source.substring(0, length - 1);
+            var number = source.substring(0, length - 1);
             var metricPrefix = Character.toString(source.charAt(length - 1));
 
-            var absoluteNumber = 0L;
+            var absoluteNumber = 0D;
             try {
-                absoluteNumber = Long.parseLong(number);
-            } catch (NumberFormatException ignored) {
-            }
+                absoluteNumber = Double.parseDouble(number);
+            } catch (NumberFormatException ignored) { }
 
             int index = 0;
 
@@ -121,12 +116,12 @@ public class RoundedMetricPrefixFormat extends Format {
 
             var exponent = 3 * index;
             var factor = Math.pow(10, exponent);
-            factor *= isNegative ? -1 : 1;
+            factor *= 1;
 
             pos.setIndex(source.length());
-            var result = (float) absoluteNumber * (long) factor;
+            var result = absoluteNumber * (long) factor;
 
-            return (long) result;
+            return result;
         }
 
         return null;

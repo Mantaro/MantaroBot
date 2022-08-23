@@ -177,7 +177,7 @@ public class GambleCmds {
                         return;
                     }
 
-                    moneyAmount = Math.max(1, Math.abs(parsed));
+                    moneyAmount = Math.max(1, Math.abs(parsed.longValue()));
                 } catch (NumberFormatException e) {
                     ctx.reply("general.invalid_number", EmoteReference.ERROR);
                     return;
@@ -202,7 +202,7 @@ public class GambleCmds {
                         .setDescription("Gambles your money away. It's like Vegas, but without real money and without the impending doom. Kinda.")
                         .setUsage("`~>gamble <all/half/quarter>` or `~>gamble <amount>` or `~>gamble <percentage>`")
                         .addParameter("amount", "How much money you want to gamble. " +
-                                "You can also express this on K (10k is 10000, for example). The maximum amount you can gamble at once is " + GAMBLE_MAX_MONEY + " credits.")
+                                "You can also express this on k (10k is 10000, for example). The maximum amount you can gamble at once is " + GAMBLE_MAX_MONEY + " credits.")
                         .addParameter("all/half/quarter",
                                 "How much of your money you want to gamble, but if you're too lazy to type the number (half = 50% of all of your money)")
                         .addParameter("percentage", "The percentage of money you want to gamble. Works anywhere from 1% to 100%.")
@@ -258,12 +258,13 @@ public class GambleCmds {
 
                 if (args.length >= 1 && !coinSelect) {
                     try {
-                        var parsed = new RoundedMetricPrefixFormat().parseObject(args[0], new ParsePosition(0));
-                        if (parsed == null) {
+                        var parsedRaw = new RoundedMetricPrefixFormat().parseObject(args[0], new ParsePosition(0));
+                        if (parsedRaw == null) {
                             ctx.sendLocalized("commands.slots.errors.no_valid_amount", EmoteReference.ERROR);
                             return;
                         }
 
+                        var parsed = parsedRaw.longValue();
                         money = Math.abs(parsed);
                     } catch (NumberFormatException e) {
                         ctx.sendLocalized("general.invalid_number", EmoteReference.ERROR);
@@ -461,11 +462,17 @@ public class GambleCmds {
                     luck = 18 + (int) (multiplier * 12) + secureRandom.nextInt(18);
                 }
                 default -> {
-                    i = amount.endsWith("%")
-                            ? Math.round(PERCENT_FORMAT.get().parse(amount).doubleValue() * player.getCurrentMoney())
-                            : new RoundedMetricPrefixFormat().parseObject(amount, new ParsePosition(0));
+                    i = 0;
+                    if (amount.endsWith("%")) {
+                        i = Math.round(PERCENT_FORMAT.get().parse(amount).doubleValue() * player.getCurrentMoney());
+                    } else {
+                        var parsed = new RoundedMetricPrefixFormat().parseObject(amount, new ParsePosition(0));
+                        if (parsed != null) {
+                            i = parsed.longValue();
+                        }
+                    }
 
-                    if (i > player.getCurrentMoney() || i < 0) {
+                    if (i > player.getCurrentMoney() || i < 1) {
                         throw new UnsupportedOperationException();
                     }
 
