@@ -686,7 +686,14 @@
       "brief_notice": "You can use `/inventory brief` to get a mobile friendly version.",
       "sorted_by": " *(disusun mengikut: %1$s)*",
       "new_brief_notice": "Please use `/inventory brief` instead.",
-      "new_calc_notice": "Please use `/inventory calculate` instead."
+      "new_calc_notice": "Please use `/inventory calculate` instead.",
+      "sort": {
+        "amount": "Amount",
+        "value": "Value",
+        "type": "Type",
+        "total": "Total Value",
+        "random": "Random"
+      }
     },
     "cast": {
       "no_item_specified": "%1$sYou didn't specify any items. For a list, check `/cast list`",
