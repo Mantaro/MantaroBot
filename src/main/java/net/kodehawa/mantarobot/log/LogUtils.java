@@ -36,7 +36,7 @@ public class LogUtils {
     private static final Logger log = LoggerFactory.getLogger(LogUtils.class);
 
     private final static String ICON_URL = "https://i.imgur.com/h5FQyuf.png";
-    private static final String WEBHOOK_START = "https://discordapp.com/api/webhooks/";
+    private static final String WEBHOOK_START = "https://discord.com/api/webhooks/";
     private static WebhookClient LOGBACK_WEBHOOK;
     private static WebhookClient SHARD_WEBHOOK;
     private static WebhookClient SPAMBOT_WEBHOOK;
