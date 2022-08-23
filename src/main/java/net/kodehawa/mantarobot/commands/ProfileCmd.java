@@ -84,7 +84,7 @@ public class ProfileCmd {
     // A small white square.
     private static final String LIST_MARKER = "\u25AB\uFE0F";
     private static final List<ProfileComponent> defaultOrder;
-    private static final List<ProfileComponent> noOldOrder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES, PET);
+    private static final List<ProfileComponent> noOldOrder = createLinkedList(HEADER, CREDITS, EXPERIENCE, BIRTHDAY, REPUTATION, MARRIAGE, INVENTORY, BADGES, PET);
     private static final IncreasingRateLimiter profileRatelimiter = new IncreasingRateLimiter.Builder()
             .limit(2) //twice every 10m
             .spamTolerance(2)
@@ -98,9 +98,9 @@ public class ProfileCmd {
     static {
         final var config = MantaroData.config().get();
         if (config.isPremiumBot() || config.isSelfHost()) {
-            defaultOrder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES, PET);
+            defaultOrder = createLinkedList(HEADER, CREDITS, EXPERIENCE, BIRTHDAY, REPUTATION, MARRIAGE, INVENTORY, BADGES, PET);
         } else {
-            defaultOrder = createLinkedList(HEADER, CREDITS, OLD_CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES, PET);
+            defaultOrder = createLinkedList(HEADER, CREDITS, OLD_CREDITS, EXPERIENCE, BIRTHDAY, REPUTATION, MARRIAGE, INVENTORY, BADGES, PET);
         }
     }
 

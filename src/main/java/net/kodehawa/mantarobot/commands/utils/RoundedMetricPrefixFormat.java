@@ -46,10 +46,8 @@ public class RoundedMetricPrefixFormat extends Format {
     /**
      * The maximum number of characters in the output, excluding the negative sign
      */
-    private static final Integer MAX_LENGTH = 4;
-
+    private static final Integer MAX_LENGTH = 5;
     private static final Pattern TRAILING_DECIMAL_POINT = Pattern.compile("[0-9]+\\.[kMGT]");
-
     private static final Pattern METRIC_PREFIXED_NUMBER = Pattern.compile("-?[0-9]+(\\.[0-9])?[kMGT]");
 
     @Override

@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.utils;
 
 import com.rethinkdb.net.Connection;
 import net.kodehawa.mantarobot.MantaroInfo;
+import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -39,6 +40,7 @@ import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.text.FieldPosition;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -77,6 +79,8 @@ public class Utils {
     private static final char POP_DIRECTIONAL_ISOLATE = '\u2069';
     private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
     private static final Config config = MantaroData.config().get();
+
+    private static final RoundedMetricPrefixFormat prefixFormat = new RoundedMetricPrefixFormat();
 
     /**
      * Capitalizes the first letter of a string.
@@ -588,6 +592,10 @@ public class Utils {
         }
 
         return null;
+    }
+
+    public static String roundPrefixNumber(Object number) {
+        return prefixFormat.format(number, new StringBuffer(6), new FieldPosition(0)).toString();
     }
 
     public static <T> Map<T, T> toMap(final T[][] array) {

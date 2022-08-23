@@ -90,15 +90,6 @@ public enum StatsComponent {
     }),
 
     EXPERIENCE(EmoteReference.ZAP, lang -> lang.get("commands.profile.stats.experience"), holder -> {
-        var data = holder.getPlayerData();
-        var mine = data.getMiningExperience();
-        var fish = data.getFishingExperience();
-        var chop = data.getChopExperience();
-
-        return "**Mine:** %,d XP, **Fish:** %,d XP, **Chop:** %,d XP".formatted(mine, fish, chop);
-    }),
-
-    EXPERIENCE_OLD(EmoteReference.ZAP, lang -> lang.get("commands.profile.stats.experience"), holder -> {
         var experienceNext = (long) (holder.getPlayer().getLevel() * Math.log10(holder.getPlayer().getLevel()) * 1000) +
                 (50 * holder.getPlayer().getLevel() / 2);
 
@@ -113,7 +104,7 @@ public enum StatsComponent {
         var fish = data.getFishingExperience();
         var chop = data.getChopExperience();
 
-        return "**Mine:** %,d XP, **Fish:** %,d XP, **Chop:** %,d XP".formatted(mine, fish, chop);
+        return "**Mine:** %,d XP | **Fish:** %,d XP | **Chop:** %,d XP".formatted(mine, fish, chop);
     }),
 
     SHARKS_CAUGHT(EmoteReference.SHARK, lang -> lang.get("commands.profile.stats.sharks_caught"),

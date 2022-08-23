@@ -31,6 +31,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.text.FieldPosition;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -65,7 +66,15 @@ public enum ProfileComponent {
     LEVEL(EmoteReference.ZAP, i18nContext -> i18nContext.get("commands.profile.level"), (holder, i18nContext) -> {
         var player = holder.getPlayer();
         return String.format("%d (%s: %,d)", player.getLevel(), i18nContext.get("commands.profile.xp"), player.getData().getExperience());
-    }),
+    }, true, false),
+    EXPERIENCE(EmoteReference.ZAP, i18nContext -> i18nContext.get("commands.profile.activity_xp"), (holder, i18nContext) -> {
+        var data = holder.getPlayer().getData();
+        var mine = Utils.roundPrefixNumber(data.getMiningExperience());
+        var fish = Utils.roundPrefixNumber(data.getFishingExperience());
+        var chop = Utils.roundPrefixNumber(data.getChopExperience());
+
+        return "**Mine:** %s XP | **Fish:** %s XP | **Chop:** %s XP".formatted(mine, fish, chop);
+    }, true, false),
     BIRTHDAY(EmoteReference.POPPER, i18nContext -> i18nContext.get("commands.profile.birthday"), (holder, i18nContext) -> {
         var data = holder.getDbUser().getData();
 
@@ -83,7 +92,7 @@ public enum ProfileComponent {
             e.printStackTrace();
             return i18nContext.get("commands.profile.not_specified");
         }
-    }, true, false),
+    }),
     MARRIAGE(EmoteReference.HEART, i18nContext -> i18nContext.get("commands.profile.married"), (holder, i18nContext) -> {
         var userData = holder.getDbUser().getData();
         var currentMarriage = holder.getMarriage();
