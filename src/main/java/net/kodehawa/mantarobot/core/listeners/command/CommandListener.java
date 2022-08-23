@@ -27,33 +27,26 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.LanguageKeyNotFoundException;
 import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimiter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.IllegalFormatException;
 import java.util.Optional;
-import java.util.Random;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class CommandListener implements EventListener {
-    private static final RateLimiter experienceRatelimiter = new RateLimiter(TimeUnit.SECONDS, 18);
     private static final Logger log = LoggerFactory.getLogger(CommandListener.class);
     // Commands ran this session.
     private static int commandTotal = 0;
-    private final Random random = new Random();
     private final CommandProcessor commandProcessor;
     private final ExecutorService threadPool;
     private final Cache<Long, Optional<CachedMessage>> messageCache;
@@ -236,52 +229,6 @@ public class CommandListener implements EventListener {
                 }
 
                 commandTotal++;
-            } else {
-                try {
-                    // Only run experience if no command has been executed, avoids weird race conditions when saving player status.
-                    // Only run experience if the user is not rate limited (clears every 30 seconds) and if the member is not null.
-                    // This will never get here if it's a bot or a webhook message due to the check we do on line 78.
-                    if (random.nextInt(15) > 7 && event.getMember() != null && experienceRatelimiter.process(event.getAuthor())) {
-                        // If a command is running on another node, don't handle (this is an issue due to multiple different Player objects)
-                        try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
-                            var running = jedis.get("commands-running-" + event.getAuthor().getId());
-                            if (running != null) {
-                                return;
-                            }
-                        }
-
-                        // Don't run the experience handler on this channel if there's an InteractiveOperation running as there might be issues with
-                        // some nasty race conditions involving player save.
-                        if (InteractiveOperations.get(event.getChannel()).size() > 0) {
-                            return;
-                        }
-
-                        // Same reason as above, but twice as cursed.
-                        if (GameLobby.LOBBYS.containsKey(event.getChannel().getIdLong())) {
-                            return;
-                        }
-
-                        var player = MantaroData.db().getPlayer(event.getAuthor());
-                        var data = player.getData();
-                        if (player.isLocked()) {
-                            return;
-                        }
-
-                        // Set level to 1 if level is zero.
-                        if (player.getLevel() == 0) {
-                            player.setLevel(1);
-                        }
-
-                        // Increment player experience by a random number between 1 and 5.
-                        data.setExperience(data.getExperience() + random.nextInt(5));
-                        var level = player.getLevel();
-                        if (data.getExperience() > (level * Math.log10(player.getLevel()) * 1000) + (50 * level / 2D)) {
-                            player.setLevel(level + 1);
-                        }
-
-                        player.saveUpdating();
-                    }
-                } catch (Exception ignored) { }
             }
         } catch (IllegalFormatException e) {
             var id = Snow64.toSnow64(event.getMessage().getIdLong());
