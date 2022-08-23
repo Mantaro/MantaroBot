@@ -207,32 +207,6 @@ public class LeaderboardCmd {
             }
         }
 
-        @Description("Sends the level leaderboard.")
-        @Defer
-        public static class Level extends SlashCommand {
-            @Override
-            protected void process(SlashContext ctx) {
-                var levelLeaderboard = getLeaderboard("players", "level",
-                        player -> player.g("id"),
-                        player -> player.pluck("id", "level", r.hashMap("data", "experience")));
-
-                send(ctx,
-                        generateLeaderboardEmbed(ctx,
-                                ctx.getLanguageContext().get("commands.leaderboard.inner.lvl")
-                                        .formatted(EmoteReference.ZAP), "commands.leaderboard.level", levelLeaderboard,
-                                map -> {
-                                    @SuppressWarnings("unchecked")
-                                    var experience = ((Map<String, Object>) map.get("data")).get("experience");
-                                    return Pair.of(
-                                            getMember(ctx, map.get("id").toString().split(":")[0]),
-                                            map.get("level").toString() + "\n -" +
-                                                    ctx.getLanguageContext().get("commands.leaderboard.inner.experience") + ":** " +
-                                                    experience + "**");
-                                }, "%s**%s#%s** - %s").build()
-                );
-            }
-        }
-
         @Description("Sends the daily streak leaderboard.")
         @Defer
         public static class Daily extends SlashCommand {
