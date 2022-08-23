@@ -188,12 +188,24 @@ public class CurrencyCmds {
     @Defer
     @Description("Opens a daily premium loot crate.")
     @Category(CommandCategory.CURRENCY)
+    @Options(@Options.Option(type = OptionType.BOOLEAN, name = "check", description = "Check whether you can claim one or not."))
     @Help(description = "Opens a daily premium loot crate.", usage = "`/dailycrate` - You need a crate key to open any crate.")
     public static class DailyCrate extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
             if (!ctx.getDBUser().isPremium()) {
                 ctx.reply("commands.dailycrate.not_premium", EmoteReference.ERROR);
+                return;
+            }
+
+            if (ctx.getOptionAsBoolean("check")) {
+                long rl = dailyCrateRatelimiter.getRemaniningCooldown(ctx.getAuthor());
+
+                ctx.reply("commands.dailycrate.check", EmoteReference.TALKING,
+                        (rl) > 0 ? Utils.formatDuration(ctx.getLanguageContext(), rl) :
+                                //Yes, this is intended to be daily.about_now, just reusing strings.
+                                ctx.getLanguageContext().get("commands.daily.about_now")
+                );
                 return;
             }
 
