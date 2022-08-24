@@ -107,7 +107,6 @@ public class RoundedMetricPrefixFormat extends Format {
             } catch (NumberFormatException ignored) { }
 
             int index = 0;
-
             for (; index < METRIC_PREFIXES.length; index++) {
                 if (METRIC_PREFIXES[index].equals(metricPrefix)) {
                     break;
@@ -116,11 +115,10 @@ public class RoundedMetricPrefixFormat extends Format {
 
             var exponent = 3 * index;
             var factor = Math.pow(10, exponent);
-            factor *= 1;
 
             pos.setIndex(source.length());
-            var result = absoluteNumber * (long) factor;
 
+            var result = absoluteNumber * (long) factor;
             return result;
         }
 

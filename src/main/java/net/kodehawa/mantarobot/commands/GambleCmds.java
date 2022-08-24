@@ -264,8 +264,7 @@ public class GambleCmds {
                             return;
                         }
 
-                        var parsed = parsedRaw.longValue();
-                        money = Math.abs(parsed);
+                        money = Math.max(1, Math.abs(parsedRaw.longValue()));
                     } catch (NumberFormatException e) {
                         ctx.sendLocalized("general.invalid_number", EmoteReference.ERROR);
                         return;
