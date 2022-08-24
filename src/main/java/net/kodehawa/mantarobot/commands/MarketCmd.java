@@ -745,7 +745,8 @@ public class MarketCmd {
             return;
         }
 
-        if (!ctx.getGuild().getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+        // Slash does not need Embed Links permissions
+        if (!ctx.getGuild().getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS) && ctx instanceof Context) {
             ctx.sendLocalized("general.missing_embed_permissions");
             return;
         }
