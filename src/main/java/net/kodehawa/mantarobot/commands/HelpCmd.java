@@ -105,7 +105,7 @@ public class HelpCmd {
                 return;
             }
 
-            var command = ctx.getOptionAsString("command", "");
+            var command = ctx.getOptionAsString("command", "").toLowerCase();
             if (command.isBlank()) {
                 buildHelpSlash(ctx);
             } else {
