@@ -222,7 +222,8 @@ public class ProfileCmd {
                         @Options.Choice(description = "Sort by type", value = "type"),
                         @Options.Choice(description = "Sort by total value", value = "value_total"),
                         @Options.Choice(description = "Sort randomly", value = "random"),
-                }
+                },
+                required = true
         )})
         @Help(
                 description = "Lets you sort your inventory using specified presets.",
@@ -360,6 +361,17 @@ public class ProfileCmd {
                 var player = ctx.getPlayer();
                 var data = player.getData();
                 var badgeString = ctx.getOptionAsString("badge");
+                var badge = Badge.lookupFromString(badgeString);
+                if (badge == null) {
+                    ctx.replyEphemeral("commands.profile.displaybadge.no_such_badge", EmoteReference.ERROR,
+                            player.getData().getBadges().stream()
+                                    .map(Badge::getDisplay)
+                                    .collect(Collectors.joining(", "))
+                    );
+
+                    return;
+                }
+
                 if (badgeString.equalsIgnoreCase("none")) {
                     data.setShowBadge(false);
                     ctx.replyEphemeral("commands.profile.displaybadge.reset_success", EmoteReference.CORRECT);
@@ -372,17 +384,6 @@ public class ProfileCmd {
                     data.setShowBadge(true);
                     ctx.replyEphemeral("commands.profile.displaybadge.important_success", EmoteReference.CORRECT);
                     player.saveUpdating();
-                    return;
-                }
-
-                var badge = Badge.lookupFromString(badgeString);
-                if (badge == null) {
-                    ctx.replyEphemeral("commands.profile.displaybadge.no_such_badge", EmoteReference.ERROR,
-                            player.getData().getBadges().stream()
-                                    .map(Badge::getDisplay)
-                                    .collect(Collectors.joining(", "))
-                    );
-
                     return;
                 }
 
@@ -441,7 +442,7 @@ public class ProfileCmd {
         @Help(
                 description = "Sets your profile description. The max length is 300 if you're not premium and 500 if you are. The pop-up will time out in 3 minutes.",
                 usage = "`/profile description clear:[true/false]`",
-                parameters = {@Help.Parameter(name = "clear", description = "TClear your profile description if set to true.")}
+                parameters = {@Help.Parameter(name = "clear", description = "Clear your profile description if set to true.")}
         )
         public static class DescriptionCommand extends SlashCommand {
             @Override
