@@ -261,7 +261,6 @@ public class InfoCmds {
         @Override
         protected void process(SlashContext ctx) {
             var user = ctx.getOptionAsUser("user", ctx.getAuthor());
-
             var languageContext = ctx.getLanguageContext();
             var member = ctx.getGuild().getMember(user);
 
@@ -414,6 +413,10 @@ public class InfoCmds {
     private static void userInfo(IContext ctx, User user) {
         var guildData = ctx.getDBGuild().getData();
         var member = ctx.getGuild().getMember(user);
+        if (member == null) {
+            ctx.sendLocalized("general.slash_member_lookup_failure", EmoteReference.ERROR);
+            return;
+        }
 
         var roles = member.getRoles().stream()
                 .map(Role::getName)

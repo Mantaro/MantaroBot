@@ -542,7 +542,15 @@ public class MantaroCore {
                 shard = ExtraRuntimeOptions.FROM_SHARD.getAsInt() + 1;
             }
 
-            setRestPing(shards.get(shard).getJDA().getRestPing().complete().intValue());
+            var previous = getRestPing();
+            var value = shards.get(shard).getJDA().getRestPing().complete().intValue();
+            if (previous < 625 && value > 625) {
+                log.warn("Detected lag! This will defer Slash Commands until it's resolved.");
+            } else if (previous > 625 && value < 625) {
+                log.warn("Disabled Slash Command auto-defer.");
+            }
+
+            setRestPing(value);
         }, 0, 30, TimeUnit.SECONDS);
     }
 

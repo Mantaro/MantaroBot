@@ -155,6 +155,11 @@ public class CurrencyCmds {
             @Override
             protected void process(SlashContext ctx) {
                 var member = ctx.getOptionAsMember("user", ctx.getMember());
+                if (member == null) {
+                    ctx.reply("general.slash_member_lookup_failure", EmoteReference.ERROR);
+                    return;
+                }
+
                 var player = ctx.getPlayer(member);
                 calculateInventory(ctx, member, player);
             }

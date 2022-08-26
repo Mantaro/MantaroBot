@@ -560,6 +560,7 @@ public class MoneyCmds {
             user = toCheck;
             isExternal = true;
         }
+
         if (user.isBot()) {
             ctx.sendLocalized("commands.balance.bot_notice", EmoteReference.ERROR);
             return;
