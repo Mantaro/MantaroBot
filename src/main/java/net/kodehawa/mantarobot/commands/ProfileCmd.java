@@ -355,7 +355,7 @@ public class ProfileCmd {
             protected void process(SlashContext ctx) {
                 var player = ctx.getPlayer();
                 var data = player.getData();
-                var badgeString = ctx.getOptionAsString("badge");
+                var badgeString = ctx.getOptionAsString("badge", "");
                 var badge = Badge.lookupFromString(badgeString);
                 if (badge == null) {
                     ctx.replyEphemeral("commands.profile.displaybadge.no_such_badge", EmoteReference.ERROR,

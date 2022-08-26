@@ -198,8 +198,8 @@ public class TransferCmds {
             usage = "`/transferitems user:<user> item:<item name> amount:[amount]`",
             parameters = {
                     @Help.Parameter(name = "user", description = "The user to transfer money to. Needs to be in the server you're running the command in."),
+                    @Help.Parameter(name = "item", description = "The item to transfer. Can be a shorten name."),
                     @Help.Parameter(name = "amount", description = "The amount of the item to transfer. If not specified, this is 1. Maximum is 5000.", optional = true),
-                    @Help.Parameter(name = "item", description = "The item to transfer. Can be a shorten name.")
             }
     )
     public static class TransferItems extends SlashCommand {
