@@ -351,7 +351,7 @@ public class WaifuCmd {
         @Defer
         @Description("Unclaims a waifu.")
         @Options({
-                @Options.Option(type = OptionType.USER, name = "user", description = "The user to unclaim. If unknown, use the id.")
+                @Options.Option(type = OptionType.USER, name = "user", description = "The user to unclaim. If unknown, use the id.", required = true)
         })
         @Help(description = "Unclaims a waifu.", usage = "`/waifu unclaim user:<user or id>`", parameters = {
                 @Help.Parameter(name = "user", description = "The user to unclaim.")

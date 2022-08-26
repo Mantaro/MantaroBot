@@ -179,7 +179,7 @@ public class TransferCmds {
 
                 toTransfer.saveUpdating();
                 transferRatelimiter.limit(toTransfer.getUserId());
-                ctx.reply("commands.transfer.success", EmoteReference.CORRECT, toSend, amountTransfer, giveTo.getName());
+                ctx.reply("commands.transfer.success", EmoteReference.CORRECT, toSend, amountTransfer, giveTo.getAsMention());
             } else {
                 ctx.reply("commands.transfer.receipt_overflow_notice", EmoteReference.ERROR);
             }
@@ -312,7 +312,7 @@ public class TransferCmds {
                 player.save();
                 giveToPlayer.save();
                 ctx.reply("commands.itemtransfer.success", EmoteReference.OK,
-                        ctx.getMember().getEffectiveName(), amount, item.getName(), giveTo.getName()
+                        ctx.getMember().getEffectiveName(), amount, item.getName(), giveTo.getAsMention()
                 );
             } else {
                 ctx.reply("commands.itemtransfer.error", EmoteReference.ERROR);

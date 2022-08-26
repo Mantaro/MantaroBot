@@ -237,13 +237,8 @@ public class ProfileCmd {
             protected void process(SlashContext ctx) {
                 var typeString = ctx.getOptionAsString("type");
                 final var type = Utils.lookupEnumString(typeString, InventorySortType.class);
-
-                if (type == null) {
-                    ctx.reply("commands.profile.inventorysort.not_valid",
-                            EmoteReference.ERROR, Arrays.stream(InventorySortType.values())
-                                    .map(b1 -> b1.toString().toLowerCase())
-                                    .collect(Collectors.joining(", "))
-                    );
+                if (type == null) { // This should literally never happen, though.
+                    ctx.replyEphemeral("commands.profile.inventorysort.not_valid", EmoteReference.ERROR);
                     return;
                 }
 

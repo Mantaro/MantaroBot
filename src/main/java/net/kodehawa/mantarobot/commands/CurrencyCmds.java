@@ -249,7 +249,7 @@ public class CurrencyCmds {
                     Uses an item.
                     You need to have the item to use it, and the item has to be marked as *interactive*.
                     """,
-                usage = "`/useitem item:[item name] amount:[amount]`",
+                usage = "`/use item item:[item name] amount:[amount]`",
                 parameters = {
                         @Help.Parameter(name = "item", description = "The item to use"),
                         @Help.Parameter(name = "amount", description = "The amount of the item to use. Maximum of 15.", optional = true)

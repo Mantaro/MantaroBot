@@ -441,12 +441,14 @@ public class MoneyCmds {
         }
 
         // Build Message
-        var toSend = new StringBuilder((targetOther ?
-                languageContext.get("commands.daily.given_credits")
-                        .formatted(EmoteReference.CORRECT, dailyMoney, otherUser.getName()) :
-                languageContext.get("commands.daily.credits")
-                        .formatted(EmoteReference.CORRECT, dailyMoney)) + "\n"
-        );
+        var toSend = new StringBuilder();
+        if (targetOther) {
+            toSend.append(languageContext.get("commands.daily.given_credits")
+                            .formatted(EmoteReference.CORRECT, dailyMoney, ((ctx instanceof SlashContext) ? otherUser.getAsMention() : otherUser.getName()))
+            ).append("\n");
+        } else {
+            toSend.append(languageContext.get("commands.daily.credits").formatted(EmoteReference.CORRECT, dailyMoney)).append("\n");
+        }
 
         for (var string : returnMessage) {
             toSend.append("\n").append(string);
