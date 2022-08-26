@@ -513,11 +513,6 @@ public class ImageCmds {
 
     private static void sendImage(SlashContext ctx, ImageBoard<?> image,
                                   boolean nsfwOnly, String name, String rating, String tags) {
-        if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
-            ctx.reply("general.missing_embed_permissions");
-            return;
-        }
-
         if (tags.isEmpty()) {
             getImage(image, ImageRequestType.RANDOM, nsfwOnly, name, rating, tags, ctx);
         } else {

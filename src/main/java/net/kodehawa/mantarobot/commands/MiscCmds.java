@@ -192,7 +192,7 @@ public class MiscCmds {
             }
 
             String answer = new JSONObject(json).getJSONObject("magic").getString("answer");
-            ctx.replyRaw("\uD83D\uDCAC " + answer + ".");
+            ctx.reply("\uD83D\uDCAC " + answer + ".");
         }
     }
 

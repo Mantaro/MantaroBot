@@ -119,11 +119,6 @@ public class WaifuCmd {
                     return;
                 }
 
-                if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
-                    ctx.reply("general.missing_embed_permissions");
-                    return;
-                }
-
                 final var description = userData.getWaifus().isEmpty() ?
                         lang.get("commands.waifu.waifu_header") + "\n" + lang.get("commands.waifu.no_waifu") :
                         lang.get("commands.waifu.waifu_header");
@@ -493,11 +488,6 @@ public class WaifuCmd {
 
                 if (playerData.isWaifuout()) {
                     ctx.reply("commands.waifu.optout.notice", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
-                    ctx.reply("general.missing_embed_permissions");
                     return;
                 }
 

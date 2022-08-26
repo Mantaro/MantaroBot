@@ -87,14 +87,7 @@ public class LeaderboardCmd {
 
         @Override
         public Predicate<SlashContext> getPredicate() {
-            return ctx -> {
-                if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
-                    ctx.send("general.missing_embed_permissions");
-                    return false;
-                }
-
-                return RatelimitUtils.ratelimit(rateLimiter, ctx, null);
-            };
+            return ctx -> RatelimitUtils.ratelimit(rateLimiter, ctx, null);
         }
 
         @Description("Sends the money leaderboard.")

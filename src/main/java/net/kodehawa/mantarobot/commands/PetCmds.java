@@ -342,7 +342,7 @@ public class PetCmds {
                 pet.increasePats();
 
                 if (pet.getPatCounter() > 50_000_000) { // how?
-                    ctx.reply("commands.pet.pat.too_many");
+                    ctx.replyLocalized("commands.pet.pat.too_many");
                     return;
                 }
 

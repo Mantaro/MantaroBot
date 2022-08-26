@@ -169,6 +169,14 @@ public class SlashContext implements IContext {
         }
     }
 
+    public void replyLocalized(String text) {
+        if (deferred) {
+            slash.getHook().sendMessage(i18n.get(text)).queue();
+        } else {
+            slash.reply(i18n.get(text)).queue();
+        }
+    }
+
     public void reply(String text) {
         if (deferred) {
             slash.getHook().sendMessage(text).queue();

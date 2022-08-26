@@ -238,11 +238,6 @@ public class MusicCmds {
         public static class Show extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
-                    ctx.reply("general.missing_embed_permissions");
-                    return;
-                }
-
                 var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
                 embedForQueue(ctx, musicManager, ctx.getLanguageContext());
                 TextChannelGround.of(ctx.getChannel()).dropItemWithChance(0, 10);
