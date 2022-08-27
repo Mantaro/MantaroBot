@@ -215,7 +215,7 @@ public class ProfileCmd {
         @Options({@Options.Option(
                 type = OptionType.STRING,
                 name = "type",
-                description = "The sort type. If nothing is specified, it prints a list.",
+                description = "The sort type.",
                 choices = {
                         @Options.Choice(description = "Sort by individual value", value = "value"),
                         @Options.Choice(description = "Sort by amount", value = "amount"),

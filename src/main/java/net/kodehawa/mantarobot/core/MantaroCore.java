@@ -412,6 +412,7 @@ public class MantaroCore {
 
     public void registerSlash(List<CommandData> data) {
         if (MantaroBot.getInstance().isMasterNode()) {
+            log.info("[Controller] Attempted to register Slash/Context commands (@Module). List size: {}", data.size());
             var jda = getShard(0).getJDA();
             jda.updateCommands().addCommands(data).queue();
         }
@@ -491,20 +492,18 @@ public class MantaroCore {
 
         bot.startCheckingBirthdays();
         startMonitor();
-
         var slashList = CommandProcessor.REGISTRY.getCommandManager().getSlashCommandsList();
-        log.info("[Controller] Attempted to register slash commands (@Module). List size: {}", slashList.size());
         var userContextList = CommandProcessor.REGISTRY.getCommandManager().getContextUserCommandsList();
-        log.info("[Controller] Attempted to register context commands (@Module). List size: {}", userContextList.size());
-
         var union = ListUtils.union(slashList, userContextList);
         registerSlash(union);
 
-        LogUtils.log(
-                """
-                Loaded all slash commands. Current count is %,d (Slash: %,d, Context: %,d)"""
-                        .formatted(union.size(), slashList.size(), userContextList.size())
-        );
+        if (bot.isMasterNode()) {
+            LogUtils.log(
+                    """
+                    Loaded all slash commands. Current count is %,d (Slash: %,d, Context: %,d)"""
+                            .formatted(union.size(), slashList.size(), userContextList.size())
+            );
+        }
     }
 
     private void startUpdaters() {

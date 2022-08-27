@@ -617,7 +617,7 @@ public class HelpCmd {
                 {"guildinfo", "info server"},
                 {"me", "profile"},
                 {"badge", "badges"},
-                {"vipstatus", "premium"},
+                {"vipstatus", "premium user"},
                 {"give", "transfer"},
                 {"itemtransfer", "transferitems"},
                 {"p", "play"},
