@@ -200,11 +200,11 @@ public class WaifuCmd {
 
                 var message = ctx.sendResult(ctx.getLanguageContext().get("commands.waifu.optout.warning").formatted(EmoteReference.WARNING));
                 ButtonOperations.create(message, 60, e -> {
-                    final var playerFinal = ctx.getPlayer();
-                    if (!e.getUser().getId().equals(ctx.getAuthor().getId())) {
+                    if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                         return Operation.IGNORED;
                     }
 
+                    final var playerFinal = ctx.getPlayer();
                     final var button = e.getButton().getId();
                     if (button == null) {
                         return Operation.IGNORED;
@@ -387,7 +387,7 @@ public class WaifuCmd {
                 //Send confirmation message.
                 var message = ctx.sendResult(ctx.getLanguageContext().get("commands.waifu.unclaim.confirmation").formatted(EmoteReference.MEGA, name, valuePayment, EmoteReference.STOPWATCH));
                 ButtonOperations.create(message, 60, (ie) -> {
-                    if (!ie.getUser().getId().equals(ctx.getAuthor().getId())) {
+                    if (ie.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                         return Operation.IGNORED;
                     }
 

@@ -445,8 +445,9 @@ public class PetCmds {
                 player.save();
 
                 ButtonOperations.create(message, 60, event -> {
-                    if (!event.getUser().equals(ctx.getAuthor()))
+                    if (event.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                         return Operation.IGNORED;
+                    }
 
                     var button = event.getButton();
                     if (button.getId() == null) {
@@ -620,7 +621,7 @@ public class PetCmds {
                         String.format(ctx.getLanguageContext().get("commands.pet.buy.confirm"), EmoteReference.WARNING, name, type, toBuy.getCost(), petChoice.getReadableName())
                 );
                 ButtonOperations.create(message, 60, event -> {
-                    if (!event.getUser().equals(ctx.getAuthor())) {
+                    if (event.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                         return Operation.IGNORED;
                     }
 

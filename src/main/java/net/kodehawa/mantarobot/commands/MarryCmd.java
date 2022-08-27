@@ -420,7 +420,7 @@ public class MarryCmd {
 
                 //Start the operation.
                 ButtonOperations.create(message, 60, e -> {
-                    if (!e.getUser().getId().equals(author.getId())) {
+                    if (e.getUser().getIdLong() != author.getIdLong()) {
                         return Operation.IGNORED;
                     }
 
@@ -516,8 +516,9 @@ public class MarryCmd {
                 var finalContent = Utils.HTTP_URL.matcher(name).replaceAll("-url-");
                 var message = ctx.sendResult(String.format(languageContext.get("commands.marry.buyhouse.confirm"), EmoteReference.WARNING, housePrice, finalContent));
                 ButtonOperations.create(message, 30, (e) -> {
-                    if (!e.getUser().equals(ctx.getAuthor()))
+                    if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                         return Operation.IGNORED;
+                    }
 
                     var button = e.getButton().getId();
                     var hook = e.getHook();
@@ -610,8 +611,9 @@ public class MarryCmd {
                 var finalContent = Utils.HTTP_URL.matcher(name).replaceAll("-url-");
                 var message = ctx.sendResult(String.format(languageContext.get("commands.marry.buycar.confirm"), EmoteReference.WARNING, carPrice, finalContent));
                 ButtonOperations.create(message, 30, (e) -> {
-                    if (!e.getUser().equals(ctx.getAuthor()))
+                    if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                         return Operation.IGNORED;
+                    }
 
                     var button = e.getButton().getId();
                     var hook = e.getHook();
