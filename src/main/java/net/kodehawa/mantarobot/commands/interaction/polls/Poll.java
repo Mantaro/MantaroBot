@@ -211,7 +211,7 @@ public class Poll extends Lobby {
 
             @Override
             public void onCancel() {
-                ctx.edit(languageContext.get("commands.poll.cancelled"), EmoteReference.CORRECT);
+                ctx.edit("commands.poll.cancelled", EmoteReference.CORRECT);
                 onExpire();
             }
 

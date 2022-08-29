@@ -230,7 +230,7 @@ public class BirthdayCmd {
                         }
 
                         var birthdays = guildCurrentBirthdays.entrySet().stream()
-                                .sorted(Comparator.comparingLong(i -> i.getValue().day))
+                                .sorted(Comparator.comparingLong(i -> i.getValue().day()))
                                 .filter(birthday -> ids.contains(birthday.getKey()))
                                 .limit(100).toList();
 
@@ -288,8 +288,8 @@ public class BirthdayCmd {
 
                         var calendarMonth = calendar.get(Calendar.MONTH) + 1;
                         var birthdays = guildCurrentBirthdays.entrySet().stream()
-                                .filter(bds -> bds.getValue().month == calendarMonth)
-                                .sorted(Comparator.comparingLong(i -> i.getValue().day))
+                                .filter(bds -> bds.getValue().month() == calendarMonth)
+                                .sorted(Comparator.comparingLong(i -> i.getValue().day()))
                                 .limit(100).toList();
 
                         if (birthdays.isEmpty()) {
@@ -322,12 +322,12 @@ public class BirthdayCmd {
                     var bd = guildCurrentBirthdays.get(i.getIdLong());
                     // So I don't forget later: this is equivalent to day + (month * 31)
                     // And this is so we get a stable sort of day/month
-                    return (int) (bd.day + (bd.month << 5));
+                    return (int) (bd.day() + (bd.month() << 5));
                 })).toList();
 
         for (Member member : memberSort) {
             var birthday = guildCurrentBirthdays.get(member.getIdLong());
-            builder.append("+ %-20s : %s ".formatted(StringUtils.limit(member.getEffectiveName(), 20), birthday.getDay() + "-" + birthday.getMonth()));
+            builder.append("+ %-20s : %s ".formatted(StringUtils.limit(member.getEffectiveName(), 20), birthday.day() + "-" + birthday.month()));
             builder.append("\n");
         }
 

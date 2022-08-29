@@ -142,8 +142,8 @@ public class BirthdayTask {
                                 .filter(map -> guildData.getAllowedBirthdays().contains(String.valueOf(map.getKey())))
                                 .filter(map ->
                                         // Only check for current month or last month!
-                                        map.getValue().getBirthday().substring(3, 5).equals(month) ||
-                                        map.getValue().getBirthday().substring(3, 5).equals(lastMonth)
+                                        map.getValue().birthday().substring(3, 5).equals(month) ||
+                                        map.getValue().birthday().substring(3, 5).equals(lastMonth)
                                 ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
                         // @formatter:on
 
@@ -155,7 +155,7 @@ public class BirthdayTask {
                         List<Long> nullMembers = new ArrayList<>();
 
                         for (var data : guildMap.entrySet()) {
-                            var birthday = data.getValue().getBirthday();
+                            var birthday = data.getValue().birthday();
                             if (guildData.getBirthdayBlockedIds().contains(String.valueOf(data.getKey()))) {
                                 continue;
                             }

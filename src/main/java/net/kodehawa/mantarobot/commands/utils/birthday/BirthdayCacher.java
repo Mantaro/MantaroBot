@@ -98,44 +98,10 @@ public class BirthdayCacher {
         return cachedBirthdays;
     }
 
-    public static class BirthdayData {
-        public String birthday;
-        public long day;
-        public long month;
-
-        public BirthdayData(String birthday, long day, long month) {
-            this.birthday = birthday;
-            this.day = day;
-            this.month = month;
-        }
-
-        public String getBirthday() {
-            return this.birthday;
-        }
-
-        public void setBirthday(String birthday) {
-            this.birthday = birthday;
-        }
-
-        public long getDay() {
-            return this.day;
-        }
-
-        public void setDay(long day) {
-            this.day = day;
-        }
-
-        public long getMonth() {
-            return this.month;
-        }
-
-        public void setMonth(long month) {
-            this.month = month;
-        }
-
+    public record BirthdayData(String birthday, long day, long month) {
         @Override
         public String toString() {
-            return birthday;
-        }
+                return birthday;
+            }
     }
 }
