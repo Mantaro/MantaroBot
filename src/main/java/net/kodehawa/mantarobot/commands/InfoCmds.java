@@ -355,7 +355,7 @@ public class InfoCmds {
         @Options({
                 @Options.Option(type = OptionType.ROLE, name = "role", description = "The role to see the information of.", required = true)
         })
-        @Help(description = "See information about a role.", usage = "`/roleinfo <role>`", parameters = {
+        @Help(description = "See information about a role.", usage = "`/info role role:[role name]`", parameters = {
                 @Help.Parameter(name = "role", description = "The role you want to see the information of.")
         })
         public static class RoleInfo extends SlashCommand {

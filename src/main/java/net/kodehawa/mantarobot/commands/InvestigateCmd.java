@@ -270,11 +270,11 @@ public class InvestigateCmd {
         }
     }
 
-    private record InvestigatedMessage(String id, String authorName, String authorDiscriminator, String authorId, boolean bot, String raw, String content) {
+    private record InvestigatedMessage(String id, String authorName, String authorDiscriminator, String authorId, boolean bot, String raw, String content, Message.Interaction command) {
         static InvestigatedMessage from(Message message) {
                 return new InvestigatedMessage(message.getId(), message.getAuthor().getName(),
                         message.getAuthor().getDiscriminator(), message.getAuthor().getId(),
-                        message.getAuthor().isBot(), message.getContentRaw(), message.getContentStripped());
+                        message.getAuthor().isBot(), message.getContentRaw(), message.getContentStripped(), message.getInteraction());
             }
 
             OffsetDateTime timestamp() {
@@ -282,18 +282,18 @@ public class InvestigateCmd {
             }
 
             String format() {
-                return "%s - %s - %-37s (%-20s bot = %5s): %s".formatted(
+                return "%s - %s - %-37s (%-20s bot = %5s): %s for command %s".formatted(
                         timestamp(),
                         id,
                         authorName + "#" + authorDiscriminator,
                         authorId + ",",
                         bot,
-                        content
+                        content, command == null ? "" : "%s ran by %d (%s)".formatted(command.getName(), command.getUser().getIdLong(), command.getUser().getAsTag())
                 );
             }
 
             JSONObject toJson() {
-                return new JSONObject()
+                var object = new JSONObject()
                         .put("id", id)
                         .put("timestamp", timestamp())
                         .put("author", new JSONObject()
@@ -304,6 +304,18 @@ public class InvestigateCmd {
                         )
                         .put("content", content)
                         .put("raw", raw);
+
+                if (command != null) {
+                    object.put("command", new JSONObject()
+                            .put("name", command.getName())
+                            .put("type", command.getType())
+                            .put("username", command.getUser().getName())
+                            .put("userdiscriminator", command.getUser().getDiscriminator())
+                            .put("userid", command.getUser().getIdLong())
+                    );
+                }
+
+                return object;
             }
         }
 }
