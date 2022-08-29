@@ -171,7 +171,7 @@ public class GambleCmds {
             // No need to parse if we aren't gonna use it.
             if (!coinSelect && moneyAbsolute != null) {
                 try {
-                    var parsed = new RoundedMetricPrefixFormat().parseObject(money, new ParsePosition(0));
+                    var parsed = new RoundedMetricPrefixFormat().parseObject(money);
                     if (parsed == null) {
                         ctx.reply("commands.slots.errors.no_valid_amount", EmoteReference.ERROR);
                         return;
@@ -258,7 +258,7 @@ public class GambleCmds {
 
                 if (args.length >= 1 && !coinSelect) {
                     try {
-                        var parsedRaw = new RoundedMetricPrefixFormat().parseObject(args[0], new ParsePosition(0));
+                        var parsedRaw = new RoundedMetricPrefixFormat().parseObject(args[0]);
                         if (parsedRaw == null) {
                             ctx.sendLocalized("commands.slots.errors.no_valid_amount", EmoteReference.ERROR);
                             return;
@@ -465,7 +465,7 @@ public class GambleCmds {
                     if (amount.endsWith("%")) {
                         i = Math.round(PERCENT_FORMAT.get().parse(amount).doubleValue() * player.getCurrentMoney());
                     } else {
-                        var parsed = new RoundedMetricPrefixFormat().parseObject(amount, new ParsePosition(0));
+                        var parsed = new RoundedMetricPrefixFormat().parseObject(amount);
                         if (parsed != null) {
                             i = parsed.longValue();
                         }

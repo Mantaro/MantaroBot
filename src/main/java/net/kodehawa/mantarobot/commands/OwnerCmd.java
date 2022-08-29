@@ -125,14 +125,12 @@ public class OwnerCmd {
 
             var player = db.getPlayer(user);
             var dbUser = db.getUser(user);
-            var seasonalPlayerData = db.getPlayerForSeason(user, Season.SECOND);
 
             try {
                 var jsonPlayer = JsonDataManager.toJson(player);
                 var jsonUser = JsonDataManager.toJson(dbUser);
-                var jsonSeason = JsonDataManager.toJson(seasonalPlayerData);
 
-                var total = "Player:\n%s\n ---- \nUser:\n%s\n ---- \nSeason:\n%s".formatted(jsonPlayer, jsonUser, jsonSeason);
+                var total = "Player:\n%s\n ---- \nUser:\n%s\n".formatted(jsonPlayer, jsonUser);
                 byte[] bytes = total.getBytes(StandardCharsets.UTF_8);
 
                 if (bytes.length > 7_800_000) {

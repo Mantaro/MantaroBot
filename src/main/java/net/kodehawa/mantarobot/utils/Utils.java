@@ -595,7 +595,7 @@ public class Utils {
     }
 
     public static String roundPrefixNumber(Object number) {
-        return prefixFormat.format(number, new StringBuffer(6), new FieldPosition(0)).toString();
+        return prefixFormat.format(number, new StringBuffer(6)).toString();
     }
 
     public static <T> Map<T, T> toMap(final T[][] array) {
