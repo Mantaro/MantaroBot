@@ -251,9 +251,9 @@ public class AudioCmdUtils {
         }
 
         // Set the custom guild music channel from the db value
-        VoiceChannel guildMusicChannel = null;
+        AudioChannel guildMusicChannel = null;
         if (guildData.getMusicChannel() != null) {
-            guildMusicChannel = guild.getVoiceChannelById(guildData.getMusicChannel());
+            guildMusicChannel = guild.getChannelById(AudioChannel.class, guildData.getMusicChannel());
         }
 
         final var link = MantaroBot.getInstance().getAudioManager().getMusicManager(guild).getLavaLink();
@@ -282,7 +282,7 @@ public class AudioCmdUtils {
         // Assume last channel it's the one it was attempting to connect to? (on the one below this too)
         // If the link is CONNECTED and the lastChannel is not the one it's already connected to, reject connection
         if (linkState == Link.State.CONNECTED && lastChannel != null && !lastChannel.equals(voiceChannel.getId())) {
-            var vc = guild.getVoiceChannelById(lastChannel);
+            var vc = guild.getChannelById(AudioChannel.class, lastChannel);
 
             // Workaround for a bug in lavalink that gives us Link.State.CONNECTED and a channel that doesn't exist anymore.
             // This is a little cursed.
@@ -296,7 +296,7 @@ public class AudioCmdUtils {
 
         // If the link is CONNECTING and the lastChannel is not the one it's already connected to, reject connection
         if (linkState == Link.State.CONNECTING && lastChannel != null && !lastChannel.equals(voiceChannel.getId())) {
-            var vc = guild.getVoiceChannelById(lastChannel);
+            var vc = guild.getChannelById(AudioChannel.class, lastChannel);
 
             // Workaround for a bug in lavalink that gives us Link.State.CONNECTING and a channel that doesn't exist anymore.
             // This is a little cursed.
