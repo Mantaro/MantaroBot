@@ -25,7 +25,7 @@ import java.util.function.Function;
 
 /**
  * Similar to {@link BasicParser}, but catches any thrown exceptions and allows having custom handling
- * of them them, or defaulting to an empty result.
+ * of them, or defaulting to an empty result.
  *
  * @param <T> Resulting type of the transformation.
  */

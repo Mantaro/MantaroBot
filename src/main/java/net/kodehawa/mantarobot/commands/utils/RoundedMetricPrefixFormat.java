@@ -21,9 +21,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
-import java.text.FieldPosition;
-import java.text.Format;
-import java.text.ParsePosition;
 import java.util.regex.Pattern;
 
 /**
@@ -32,13 +29,13 @@ import java.util.regex.Pattern;
  * Numbers under 1000 will be unchanged. Refer to the tests for further examples.
  * <p>
  * <p>
- * Literally taken out of
- * https://stackoverflow.com/questions/4753251/how-to-go-about-formatting-1200-to-1-2k-in-java
+ * Base taken out of
+ * <a href="https://stackoverflow.com/questions/4753251/how-to-go-about-formatting-1200-to-1-2k-in-java">...</a>
  * Answer isn't the first one so gotta scroll up.
  * Decided to take this answer as I felt like it was the most complete one and had support for reversal.
+ * 2022: Reply seems gone now. This isn't exactly the original reply's code anymore, but it was based on it.
  */
-public class RoundedMetricPrefixFormat extends Format {
-    private static final long serialVersionUID = 1;
+public class RoundedMetricPrefixFormat {
     private static final String[] METRIC_PREFIXES = new String[]{"", "k", "M", "G", "T"};
 
     /**
@@ -48,10 +45,9 @@ public class RoundedMetricPrefixFormat extends Format {
     private static final Pattern TRAILING_DECIMAL_POINT = Pattern.compile("[0-9]+\\.[kMGT]");
     private static final Pattern METRIC_PREFIXED_NUMBER = Pattern.compile("[0-9]+(\\.[0-9])?[kMGT]");
 
-    @Override
-    public StringBuffer format(Object obj, @NotNull StringBuffer output, @NotNull FieldPosition pos) {
+    public StringBuffer format(Object obj, @NotNull StringBuffer output) {
         var number = Double.parseDouble(obj.toString());
-        // if the number is negative,
+        // If the number is negative,
         // convert it to a positive number and add the minus sign to the output at the end
         var isNegative = number < 0;
         number = Math.abs(number);
@@ -86,15 +82,13 @@ public class RoundedMetricPrefixFormat extends Format {
      * }
      * </pre>
      *
+     * This will only output absolute numbers.
      * @param source a number that may have a metric prefix
-     * @param pos    if parsing succeeds, this should be updated to the index after the last parsed character
      * @return Long
      */
-    @Override
-    public Double parseObject(String source, @NotNull ParsePosition pos) {
+    public Double parseObject(String source) {
         if (StringUtils.isNumeric(source)) {
-            pos.setIndex(source.length());
-            return Double.parseDouble(source);
+            return Math.abs(Double.parseDouble(source));
         } else if (METRIC_PREFIXED_NUMBER.matcher(source).matches()) {
             var length = source.length();
             var number = source.substring(0, length - 1);
@@ -114,11 +108,9 @@ public class RoundedMetricPrefixFormat extends Format {
 
             var exponent = 3 * index;
             var factor = Math.pow(10, exponent);
-
-            pos.setIndex(source.length());
-
-            var result = absoluteNumber * (long) factor;
-            return result;
+            // This should already be absolute, as we do not parse negative numbers with the regex used,
+            // nor do we take it into account in the calculations done here.
+            return absoluteNumber * (long) factor;
         }
 
         return null;

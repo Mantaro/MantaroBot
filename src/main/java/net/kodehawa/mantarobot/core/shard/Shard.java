@@ -30,13 +30,10 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.time.Month;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.Optional;
-
-import static net.kodehawa.mantarobot.data.MantaroData.config;
 
 public class Shard {
     private static final Logger log = LoggerFactory.getLogger(Shard.class);

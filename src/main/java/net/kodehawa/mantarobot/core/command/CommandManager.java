@@ -166,7 +166,7 @@ public class CommandManager {
         }
     }
 
-    private static SlashCommand registerSubcommands(SlashCommand command) {
+    private static void registerSubcommands(SlashCommand command) {
         for (var inner : command.getClass().getDeclaredClasses()) {
             if (!SlashCommand.class.isAssignableFrom(inner)) continue;
             if (inner.isLocalClass() || inner.isAnonymousClass()) continue;
@@ -180,7 +180,6 @@ public class CommandManager {
             command.addSubCommand(sub.getName(), sub);
         }
 
-        return command;
     }
 
     private static void registerSubcommands(NewCommand command) {

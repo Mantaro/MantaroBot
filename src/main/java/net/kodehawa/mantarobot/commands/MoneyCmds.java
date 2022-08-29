@@ -306,7 +306,7 @@ public class MoneyCmds {
 
             toAddMoneyTo = ctx.getPlayer(otherUser);
         } else {
-            // This is here so you dont overwrite yourself....
+            // This is here so you don't overwrite yourself....
             authorPlayer = toAddMoneyTo;
             authorPlayerData = authorPlayer.getData();
         }

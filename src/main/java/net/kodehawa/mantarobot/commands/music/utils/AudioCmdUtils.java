@@ -105,7 +105,11 @@ public class AudioCmdUtils {
         var length = trackScheduler.getQueue().stream()
                 .filter(track -> track.getDuration() != Long.MAX_VALUE)
                 .mapToLong(value -> value.getInfo().length).sum();
-        var voiceChannel = selfMember.getVoiceState().getChannel();
+        AudioChannel voiceChannel = null;
+        if (selfMember.getVoiceState() != null) {
+            voiceChannel = selfMember.getVoiceState().getChannel();
+        }
+
         var builder = new EmbedBuilder()
                 .setAuthor(String.format(lang.get("commands.music_general.queue.header"),
                         guild.getName()), null, guild.getIconUrl())
@@ -114,6 +118,7 @@ public class AudioCmdUtils {
         // error: local variables referenced from a lambda expression must be final or effectively final
         // sob
         final var np = nowPlaying;
+        AudioChannel finalVoiceChannel = voiceChannel;
         IntIntObjectFunction<EmbedBuilder> supplier = (p, total) ->{
             // Cursed, but should work?
             // Fields were getting duplicated since the supplier was called everytime
@@ -143,7 +148,7 @@ public class AudioCmdUtils {
                             true
                     )
                     .addField(EmoteReference.MEGA.toHeaderString() + lang.get("commands.music_general.queue.playing_in"),
-                            voiceChannel == null ? lang.get("commands.music_general.queue.no_channel") : voiceChannel.getName(),
+                            finalVoiceChannel == null ? lang.get("commands.music_general.queue.no_channel") : finalVoiceChannel.getName(),
                             true
                     )
                     .setFooter(String.format("Total Pages: %s | Current: %s", total, p),
@@ -212,6 +217,11 @@ public class AudioCmdUtils {
     }
 
     public static CompletionStage<Boolean> connectToVoiceChannel(SlashContext ctx, I18nContext lang) {
+        if (ctx.getMember().getVoiceState() == null) {
+            ctx.edit("commands.music_general.connect.user_no_vc", EmoteReference.ERROR);
+            return completedFuture(false);
+        }
+
         final var voiceChannel = ctx.getMember().getVoiceState().getChannel();
         final var guild = ctx.getGuild();
         final var selfMember = guild.getSelfMember();

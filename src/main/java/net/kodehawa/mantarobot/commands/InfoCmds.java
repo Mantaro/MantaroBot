@@ -260,14 +260,13 @@ public class InfoCmds {
     public static class Avatar extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            var user = ctx.getOptionAsUser("user", ctx.getAuthor());
+            var member = ctx.getOptionAsMember("user", ctx.getMember());
             var languageContext = ctx.getLanguageContext();
-            var member = ctx.getGuild().getMember(user);
 
             var embed = new EmbedBuilder()
                     .setColor(ctx.getMemberColor(member))
                     .setAuthor(
-                            languageContext.get("commands.avatar.result").formatted(user.getName()),
+                            languageContext.get("commands.avatar.result").formatted(member.getEffectiveName()),
                             null, member.getEffectiveAvatarUrl()
                     )
                     .setImage(member.getEffectiveAvatarUrl() + "?size=1024")

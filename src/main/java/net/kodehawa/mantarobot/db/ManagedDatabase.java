@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.db;
 
-import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Connection;
 import com.rethinkdb.net.Result;
 import net.dv8tion.jda.api.entities.Guild;
@@ -25,8 +24,6 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
-import net.kodehawa.mantarobot.commands.currency.seasons.Season;
-import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.db.entities.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -175,31 +172,6 @@ public class ManagedDatabase {
     @CheckReturnValue
     public Player getPlayer(@Nonnull Member member) {
         return getPlayer(member.getUser());
-    }
-
-    @Nonnull
-    @CheckReturnValue
-    public SeasonPlayer getPlayerForSeason(@Nonnull String userId, Season season) {
-        log("Requesting player {} (season {}) from rethink", userId, season);
-        SeasonPlayer player = r.table(SeasonPlayer.DB_TABLE).get(userId + ":" + season).runAtom(conn, SeasonPlayer.class);
-        return player == null ? SeasonPlayer.of(userId, season) : player;
-    }
-
-    @Nonnull
-    @CheckReturnValue
-    public SeasonPlayer getPlayerForSeason(@Nonnull User user, Season season) {
-        return getPlayerForSeason(user.getId(), season);
-    }
-
-    @Nonnull
-    @CheckReturnValue
-    public SeasonPlayer getPlayerForSeason(@Nonnull Member member, Season season) {
-        return getPlayerForSeason(member.getUser(), season);
-    }
-
-    @CheckReturnValue
-    public long getAmountSeasonalPlayers() {
-        return r.table(SeasonPlayer.DB_TABLE).count().runAtom(conn, OptArgs.of("read_mode", "outdated"), Long.class);
     }
 
     @Nonnull

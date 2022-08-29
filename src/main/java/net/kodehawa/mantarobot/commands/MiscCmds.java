@@ -126,10 +126,10 @@ public class MiscCmds {
                             var roleId = autoroles.get(iam);
                             if (roleId != null) {
                                 Role role = ctx.getGuild().getRoleById(roleId);
-                                if (role == null)
+                                if (role == null) {
                                     continue;
+                                }
 
-                                // Päin
                                 roleString.append(languageContext.get("commands.iam.list.role")).append(" `")
                                         .append(iam)
                                         .append("`, ")

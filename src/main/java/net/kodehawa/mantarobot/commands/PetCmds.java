@@ -363,7 +363,7 @@ public class PetCmds {
         @Defer
         @Description("Cleans your pet when it's too dusty. Costs 600 credits.")
         public static class Clean extends SlashCommand {
-            int basePrice = 600;
+            final int basePrice = 600;
 
             @Override
             protected void process(SlashContext ctx) {

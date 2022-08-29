@@ -372,7 +372,7 @@ public class CurrencyActionCmds {
 
                 extraItem = extra.get(random.nextInt(extra.size()));
                 extraGem = new ItemStack(extraItem,
-                        extraItem instanceof CastedGem ? Math.max(1, random.nextInt(2)) : Math.max(1, random.nextInt(3))
+                        extraItem instanceof CastedGem ? 1 : Math.max(1, random.nextInt(3))
                 );
             }
 

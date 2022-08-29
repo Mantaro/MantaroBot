@@ -88,10 +88,9 @@ public class InteractiveOperations {
      * @param channel        The id of the {@link net.dv8tion.jda.api.entities.TextChannel} we want this Operation to run on.
      * @param timeoutSeconds How much seconds until it stops listening to us.
      * @param operation      The {@link InteractiveOperation} itself.
-     * @return The uncompleted {@link Future<Void>} of this InteractiveOperation.
      */
-    public static Future<Void> create(MessageChannel channel, long userId, long timeoutSeconds, InteractiveOperation operation) {
-        return create(channel.getIdLong(), userId, timeoutSeconds, operation);
+    public static void create(MessageChannel channel, long userId, long timeoutSeconds, InteractiveOperation operation) {
+        create(channel.getIdLong(), userId, timeoutSeconds, operation);
     }
 
     /**
@@ -102,9 +101,8 @@ public class InteractiveOperations {
      * @param channelId      The id of the {@link net.dv8tion.jda.api.entities.TextChannel} we want this Operation to run on.
      * @param timeoutSeconds How much seconds until it stops listening to us.
      * @param operation      The {@link InteractiveOperation} itself.
-     * @return The uncompleted {@link Future<Void>} of this InteractiveOperation.
      */
-    public static Future<Void> create(long channelId, long userId, long timeoutSeconds, InteractiveOperation operation) {
+    public static void create(long channelId, long userId, long timeoutSeconds, InteractiveOperation operation) {
         if (timeoutSeconds < 1)
             throw new IllegalArgumentException("Timeout is less than 1 second");
 
@@ -123,8 +121,6 @@ public class InteractiveOperations {
         RunningOperation o = new RunningOperation(operation, userId, channelId, timeoutSeconds * 1000);
         l.add(o);
         OPS.put(channelId, l);
-
-        return o.future;
     }
 
     /**

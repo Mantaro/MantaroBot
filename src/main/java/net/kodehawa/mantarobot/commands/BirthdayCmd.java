@@ -267,6 +267,7 @@ public class BirthdayCmd {
                     month = specifiedMonth - 1;
                 }
 
+                //noinspection MagicConstant
                 calendar.set(calendar.get(Calendar.YEAR), (int) month, Calendar.MONDAY);
                 try {
                     if (cacher != null) {

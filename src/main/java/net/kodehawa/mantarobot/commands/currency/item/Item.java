@@ -44,7 +44,7 @@ public class Item {
     private final String translatedName;
     private final String alias;
     private final boolean petOnly;
-    private List<String> aliases = new ArrayList<>();
+    private final List<String> aliases = new ArrayList<>();
 
     public Item(ItemType type, String emoji, String name, String alias, String translatedName,
                 String desc, long value, boolean sellable, boolean buyable, boolean hidden, long maxSize,

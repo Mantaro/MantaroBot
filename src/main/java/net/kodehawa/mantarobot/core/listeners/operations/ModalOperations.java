@@ -43,7 +43,7 @@ public class ModalOperations {
     }
 
     // We have to already reply with a modal seemingly.
-    public static Future<Void> create(String modalId, long timeoutSeconds, ModalOperation operation) {
+    public static void create(String modalId, long timeoutSeconds, ModalOperation operation) {
         if (timeoutSeconds < 1)
             throw new IllegalArgumentException("Timeout is less than 1 second");
 
@@ -61,7 +61,6 @@ public class ModalOperations {
         o = new RunningOperation(operation, new OperationFuture(modalId));
         OPERATIONS.put(modalId, o, timeoutSeconds, TimeUnit.SECONDS);
 
-        return o.future;
     }
 
     public static class ModalListener implements EventListener {

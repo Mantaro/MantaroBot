@@ -76,7 +76,7 @@ public class ProfileCmd {
     private static final Pattern offsetRegex = Pattern.compile("(?:UTC|GMT)[+-][0-9]{1,2}(:[0-9]{1,2})?", Pattern.CASE_INSENSITIVE);
 
     // Discord makes it so multiple spaces get only rendered as one, but half-width spaces don't.
-    // So therefore you get this cursed *thing* for formatting.
+    // So you get this cursed *thing* for formatting.
     private static final String SEPARATOR = "\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009";
     private static final String SEPARATOR_ONE = "\u2009\u2009";
     private static final String SEPARATOR_HALF = "\u2009";

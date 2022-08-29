@@ -21,6 +21,7 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveAllEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
 
+@SuppressWarnings("SameReturnValue")
 @FunctionalInterface
 public interface ReactionOperation extends Operation {
     int add(MessageReactionAddEvent event);

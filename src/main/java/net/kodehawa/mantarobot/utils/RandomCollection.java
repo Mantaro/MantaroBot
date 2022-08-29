@@ -35,14 +35,13 @@ public class RandomCollection<E> {
         this.random = random;
     }
 
-    public RandomCollection<E> add(double weight, E result) {
+    public void add(double weight, E result) {
         if (weight <= 0) {
-            return this;
+            throw new IllegalArgumentException("Weight should be over zero.");
         }
 
         total += weight;
         map.put(total, result);
-        return this;
     }
 
     public E next() {

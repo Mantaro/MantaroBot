@@ -127,6 +127,10 @@ public class CommandRegistry {
         }
 
         final var member = event.getMember();
+        if (member == null) { // Shouldn't be possible at this stage?
+            return;
+        }
+
         final var roles = member.getRoles();
         final var channelDisabledCommands = guildData.getChannelSpecificDisabledCommands().get(channel.getId());
         if (channelDisabledCommands != null && channelDisabledCommands.contains(name(cmd, cmdName))) {

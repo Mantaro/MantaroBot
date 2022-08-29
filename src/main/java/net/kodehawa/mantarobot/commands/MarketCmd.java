@@ -239,7 +239,7 @@ public class MarketCmd {
     public static class Buy extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            buy(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount", 1), buyRatelimiter);
+            buy(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount", 1));
         }
     }
 
@@ -263,7 +263,7 @@ public class MarketCmd {
     public static class Sell extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            sell(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount", 1), sellRatelimiter);
+            sell(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount", 1));
         }
     }
 
@@ -288,7 +288,7 @@ public class MarketCmd {
     public static class Dump extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            dump(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount", 1), dumpRatelimit);
+            dump(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount", 1));
         }
     }
 
@@ -438,7 +438,7 @@ public class MarketCmd {
                     }
                 }
 
-                sell(ctx, itemName, itemNumber, sellRatelimiter);
+                sell(ctx, itemName, itemNumber);
             }
 
             @Override
@@ -493,7 +493,7 @@ public class MarketCmd {
                     }
                 }
 
-                buy(ctx, itemName, itemNumber, buyRatelimiter);
+                buy(ctx, itemName, itemNumber);
             }
 
             @Override
@@ -535,7 +535,7 @@ public class MarketCmd {
                     }
                 }
 
-                dump(ctx, itemName, itemNumber, dumpRatelimit);
+                dump(ctx, itemName, itemNumber);
             }
 
             @Override
@@ -575,7 +575,7 @@ public class MarketCmd {
         );
     }
 
-    private static void dump(IContext ctx, String itemName, int itemNumber, IncreasingRateLimiter rateLimiter) {
+    private static void dump(IContext ctx, String itemName, int itemNumber) {
         if (itemNumber < 1) {
             ctx.sendLocalized("commands.market.dump.invalid", EmoteReference.ERROR);
             return;
@@ -601,7 +601,7 @@ public class MarketCmd {
             return;
         }
 
-        if (rateLimiter != null && !RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
+        if (dumpRatelimit != null && !RatelimitUtils.ratelimit(dumpRatelimit, ctx, false)) {
             return;
         }
 
@@ -614,7 +614,7 @@ public class MarketCmd {
         ctx.sendLocalized("commands.market.dump.success", EmoteReference.CORRECT, itemNumber, item.getEmoji(), item.getName());
     }
 
-    private static void sell(IContext ctx, String item, int amount, IncreasingRateLimiter rateLimiter) {
+    private static void sell(IContext ctx, String item, int amount) {
         if (amount < 1) {
             ctx.sendLocalized("commands.market.sell.invalid", EmoteReference.ERROR);
             return;
@@ -650,7 +650,7 @@ public class MarketCmd {
                 return;
             }
 
-            if (rateLimiter != null && !RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
+            if (sellRatelimiter != null && !RatelimitUtils.ratelimit(sellRatelimiter, ctx, false)) {
                 return;
             }
 
@@ -667,7 +667,7 @@ public class MarketCmd {
         }
     }
 
-    private static void buy(IContext ctx, String itemName, int itemNumber, IncreasingRateLimiter rateLimiter) {
+    private static void buy(IContext ctx, String itemName, int itemNumber) {
         var languageContext = ctx.getLanguageContext();
         var player = ctx.getPlayer();
         if (itemNumber < 1) {
@@ -700,7 +700,7 @@ public class MarketCmd {
                 return;
             }
 
-            if (rateLimiter != null && !RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
+            if (buyRatelimiter != null && !RatelimitUtils.ratelimit(buyRatelimiter, ctx, false)) {
                 return;
             }
 

@@ -25,7 +25,6 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.FileUpload;
-import net.dv8tion.jda.api.utils.concurrent.Task;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
@@ -352,8 +351,8 @@ public class Context implements IContext {
         ).setAllowedMentions(EnumSet.noneOf(Message.MentionType.class)).queue();
     }
 
-    public Task<List<Member>> findMember(String query, Consumer<List<Member>> success) {
-        return CustomFinderUtil.lookupMember(getGuild(), this, query).onSuccess(s -> {
+    public void findMember(String query, Consumer<List<Member>> success) {
+        CustomFinderUtil.lookupMember(getGuild(), this, query).onSuccess(s -> {
             try {
                 success.accept(s);
             } catch (Exception ex) {

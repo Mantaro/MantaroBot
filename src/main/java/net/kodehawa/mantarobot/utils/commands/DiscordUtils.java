@@ -139,21 +139,23 @@ public class DiscordUtils {
         }, buttons);
     }
 
-    public static <T> Future<Void> selectListButton(IContext ctx, List<T> list,
-                                                    Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
-                                                    Consumer<T> valueConsumer) {
-        return selectListButton(ctx, list, toString, toEmbed, valueConsumer, (o) -> { });
+    public static <T> void selectListButton(IContext ctx, List<T> list,
+                                            Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
+                                            Consumer<T> valueConsumer) {
+        selectListButton(ctx, list, toString, toEmbed, valueConsumer, (o) -> {
+        });
     }
 
-    public static <T> Future<Void> selectListButtonSlash(SlashContext ctx, List<T> list,
-                                                    Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
-                                                    Consumer<T> valueConsumer) {
-        return selectListButtonSlash(ctx, list, toString, toEmbed, valueConsumer, (o) -> { });
+    public static <T> void selectListButtonSlash(SlashContext ctx, List<T> list,
+                                                 Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
+                                                 Consumer<T> valueConsumer) {
+        selectListButtonSlash(ctx, list, toString, toEmbed, valueConsumer, (o) -> {
+        });
     }
 
-    public static <T> Future<Void> selectListButtonSlash(SlashContext ctx, List<T> list,
-                                                         Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
-                                                         Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
+    public static <T> void selectListButtonSlash(SlashContext ctx, List<T> list,
+                                                 Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
+                                                 Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
         var r = embedList(list, toString);
         if (!ctx.getEvent().isAcknowledged()) {
             ctx.defer();
@@ -168,12 +170,12 @@ public class DiscordUtils {
             throw new IllegalArgumentException("Too many options on ActionRow, attempted " + list.size() + ". Max: 20.");
         }
 
-        return selectIntButton(ctx, m, r.getRight(), i -> valueConsumer.accept(list.get(i - 1)), cancelConsumer);
+        selectIntButton(ctx, m, r.getRight(), i -> valueConsumer.accept(list.get(i - 1)), cancelConsumer);
     }
 
-    public static <T> Future<Void> selectListButton(IContext ctx, List<T> list,
-                                              Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
-                                              Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
+    public static <T> void selectListButton(IContext ctx, List<T> list,
+                                            Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
+                                            Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
         var r = embedList(list, toString);
         var m = ctx.sendResult(toEmbed.apply(r.getLeft()));
 
@@ -181,24 +183,24 @@ public class DiscordUtils {
             throw new IllegalArgumentException("Too many options on ActionRow, attempted " + list.size() + ". Max: 20.");
         }
 
-        return selectIntButton(ctx, m, r.getRight(), i -> valueConsumer.accept(list.get(i - 1)), cancelConsumer);
+        selectIntButton(ctx, m, r.getRight(), i -> valueConsumer.accept(list.get(i - 1)), cancelConsumer);
     }
 
-    public static Future<Void> listButtons(UtilsContext ctx, int timeoutSeconds, int length,
-                                    IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
+    public static void listButtons(UtilsContext ctx, int timeoutSeconds, int length,
+                                   IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
         if (parts.length == 0) {
-            return null;
+            return;
         }
 
         List<MessageEmbed> embeds = buildSplitEmbed(supplier, length, parts);
         if (embeds.size() == 1) {
             ctx.send(embeds.get(0));
-            return null;
+            return;
         }
 
         var index = new AtomicInteger();
         var message = ctx.send(embeds.get(0));
-        return ButtonOperations.create(message, timeoutSeconds, new ButtonOperation() {
+        ButtonOperations.create(message, timeoutSeconds, new ButtonOperation() {
             @Override
             public int click(ButtonInteractionEvent e) {
                 if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong())
@@ -255,6 +257,7 @@ public class DiscordUtils {
 
                 return Operation.IGNORED;
             }
+
             @Override
             public void onExpire() {
                 message.editMessageComponents(ActionRow.of(DEFAULT_COMPONENTS_DISABLED)).queue();
@@ -262,19 +265,19 @@ public class DiscordUtils {
         }, DEFAULT_COMPONENTS_FIRST);
     }
 
-    public static Future<Void> listButtons(UtilsContext ctx, int timeoutSeconds, List<String> parts) {
+    public static void listButtons(UtilsContext ctx, int timeoutSeconds, List<String> parts) {
         if (parts.size() == 0) {
-            return null;
+            return;
         }
 
         if (parts.size() == 1) {
             ctx.send(parts.get(0));
-            return null;
+            return;
         }
 
         var index = new AtomicInteger();
         var m = ctx.send(parts.get(0));
-        return ButtonOperations.create(m, timeoutSeconds, new ButtonOperation() {
+        ButtonOperations.create(m, timeoutSeconds, new ButtonOperation() {
             @Override
             public int click(ButtonInteractionEvent e) {
                 if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong())
@@ -339,23 +342,23 @@ public class DiscordUtils {
         }, DEFAULT_COMPONENTS_FIRST);
     }
 
-    public static Future<Void> listButtons(UtilsContext ctx, int timeoutSeconds, int length,
-                                    IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
-        return listButtons(ctx, timeoutSeconds, length, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
+    public static void listButtons(UtilsContext ctx, int timeoutSeconds, int length,
+                                   IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
+        listButtons(ctx, timeoutSeconds, length, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
     }
 
-    public static Future<Void> listButtons(UtilsContext ctx, int timeoutSeconds,
-                                    IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
+    public static void listButtons(UtilsContext ctx, int timeoutSeconds,
+                                   IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
         // Passing an empty String[] array to List#toArray makes it convert to a array of strings, god knows why.
         // Javadoc below just so I don't forget:
         // (...) If the list fits in the specified array, it is returned therein.
         // Otherwise, a new array is allocated with the runtime type of the specified array and the size of this list.
-        return listButtons(ctx, timeoutSeconds, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
+        listButtons(ctx, timeoutSeconds, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
     }
 
-    public static Future<Void> listButtons(UtilsContext ctx, int timeoutSeconds, EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
+    public static void listButtons(UtilsContext ctx, int timeoutSeconds, EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
         if (parts.size() == 0) {
-            return null;
+            return;
         }
 
         for (MessageEmbed.Field f : parts.get(0)) {
@@ -364,13 +367,13 @@ public class DiscordUtils {
 
         if (parts.size() == 1) {
             ctx.send(base.build());
-            return null;
+            return;
         }
 
         base.setFooter("Total Pages: %s | Thanks for using Mantaro ❤️".formatted(parts.size()), ctx.getAuthor().getEffectiveAvatarUrl());
         var index = new AtomicInteger();
         var message = ctx.send(base.build());
-        return ButtonOperations.create(message, timeoutSeconds, new ButtonOperation() {
+        ButtonOperations.create(message, timeoutSeconds, new ButtonOperation() {
             @Override
             public int click(ButtonInteractionEvent e) {
                 if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {

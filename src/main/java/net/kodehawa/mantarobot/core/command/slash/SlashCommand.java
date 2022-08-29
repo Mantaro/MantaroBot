@@ -140,8 +140,8 @@ public abstract class SlashCommand {
         return description;
     }
 
-    public SlashCommand addSubCommand(String name, SlashCommand command) {
-        return subCommands.put(name, command);
+    public void addSubCommand(String name, SlashCommand command) {
+        subCommands.put(name, command);
     }
 
     public Map<String, SlashCommand> getSubCommands() {

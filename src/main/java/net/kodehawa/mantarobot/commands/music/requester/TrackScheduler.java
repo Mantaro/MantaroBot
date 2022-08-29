@@ -22,6 +22,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import lavalink.client.io.Link;
 import lavalink.client.player.IPlayer;
 import lavalink.client.player.event.PlayerEventListenerAdapter;
+import net.dv8tion.jda.api.entities.AudioChannel;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -202,8 +203,9 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
     }
 
     public int getRequiredVotes() {
-        var listeners = (int) getGuild().getVoiceChannelById(getAudioPlayer().getChannel())
+        var listeners = (int) getGuild().getChannelById(AudioChannel.class, getAudioPlayer().getChannel())
                 .getMembers().stream()
+                .filter(m -> m.getVoiceState() != null) // Shouldn't happen?
                 .filter(m -> !m.getUser().isBot() && !m.getVoiceState().isDeafened())
                 .count();
 

@@ -441,51 +441,26 @@ public class BirthdayTask {
         return builder.build();
     }
 
-    private static class BirthdayMessageHolder {
-        public List<MessageCreateData> message;
-
-        BirthdayMessageHolder(List<MessageCreateData> message) {
-            this.message = message;
-        }
-
+    private record BirthdayMessageHolder(List<MessageCreateData> message) {
         public String getMessage() {
-            StringBuilder builder = new StringBuilder();
-            for (var msg : message) {
-                builder.append(msg.getContent());
+                StringBuilder builder = new StringBuilder();
+                for (var msg : message) {
+                    builder.append(msg.getContent());
+                }
+
+                return builder.toString();
             }
 
-            return builder.toString();
-        }
+            public List<MessageEmbed> getEmbeds() {
+                List<MessageEmbed> embeds = new ArrayList<>();
+                for (var msg : message) {
+                    embeds.addAll(msg.getEmbeds());
+                }
 
-        public List<MessageEmbed> getEmbeds() {
-            List<MessageEmbed> embeds = new ArrayList<>();
-            for (var msg : message) {
-                embeds.addAll(msg.getEmbeds());
+                return embeds;
             }
-
-            return embeds;
         }
-    }
 
-    private static class BirthdayGuildInfo {
-        public String guildId;
-        public String channelId;
-
-        BirthdayGuildInfo(String guildId, String channelId) {
-            this.guildId = guildId;
-            this.channelId = channelId;
-        }
-    }
-
-    private static class BirthdayRoleInfo {
-        public String guildId;
-        public String memberId;
-        public Role role;
-
-        BirthdayRoleInfo(String guildId, String memberId, Role role) {
-            this.guildId = guildId;
-            this.memberId = memberId;
-            this.role = role;
-        }
-    }
+    private record BirthdayGuildInfo(String guildId, String channelId) { }
+    private record BirthdayRoleInfo(String guildId, String memberId, Role role) { }
 }
