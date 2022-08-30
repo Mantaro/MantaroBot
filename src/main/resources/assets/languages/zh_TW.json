@@ -148,7 +148,7 @@
       "title": "Slash commands transition",
       "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site",
+      "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site.\nFor more help, use the new wiki at https://www.mantaro.site/mantaro-wiki/",
       "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site"
     },
     "fish": {
@@ -888,7 +888,7 @@
         "time_out": "%1$sThe time to set your profile description has ran out (or you cancelled it, or started a new one)."
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge! For example, `/profile displaybadge badge:claimer`",
+        "not_specified": "%1$sYou need to specify your main badge! For example, `/badges display badge:claimer`",
         "reset_success": "%1$s徽章將不會繼續顯示在你的頭像上！",
         "important_success": "%1$s你的展示徽章現在是你最有價值的徽章。",
         "no_such_badge": "%1$s找不到該徽章...\n你可用的徽章：%2$s",
@@ -976,9 +976,9 @@
       },
       "claimlock": {
         "removed": "%1$s成功重置你的認領鎖狀態。",
-        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/profile claimlock remove:true` to remove it later.",
+        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/waifu claimlock remove:true` to remove it later.",
         "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `/buy item:claim key`",
-        "already_locked": "%1$sYou're already claim locked. Use `/profile claimlock remove:true` to remove it."
+        "already_locked": "%1$sYou're already claim locked. Use `/waifu claimlock remove:true` to remove it."
       },
       "autoequip": {
         "disable": "%1$s成功取消自動裝備。",
@@ -1374,11 +1374,11 @@
         "too_many": "你是怎麼撫摸那麼多次的？"
       },
       "pet_reactions": {
-        "cute": "%1$s你一邊摸摸**%2$s**，他也一邊搖搖尾巴。**撫摸次數：%3$s**。%4$s",
-        "cute_not_animal": "%1$s你一邊輕拍**%2$s**，他也一邊快樂地露出笑容。**撫摸次數：%3$s**。%4$s",
-        "nothing": "%1$s**%2$s**只是坐在那邊，什麼也不做。**撫摸次數：%3$s**。%4$s",
-        "cheer": "%1$s**%2$s**的反應使你感到非常快樂。**撫摸次數：%3$s**。%4$s",
-        "scare": "%1$s**%2$s** got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
+        "cute": "%1$s**%2$s** happily wags their tail as you caress their head.%3$s",
+        "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head.%3$s",
+        "nothing": "%1$s**%2$s** just sits there, doing nothing.%3$s",
+        "cheer": "%1$s**%2$s**'s reaction was so cute it managed to cheer you up.%3$s",
+        "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden?.%3$s",
         "counter_100": "%1$s看來他們的頭會被你摸得很閃亮。"
       },
       "buy": {
@@ -2528,7 +2528,7 @@
       "cobweb": "地底內蜘蛛殘留下來的。也許它值得一些錢。",
       "fragment": "古代寶石的碎片。適用於鑄造。",
       "mop": "一種快速清理灰塵的方式。我猜你周圍一定有很多。",
-      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `/profile claimlock`",
+      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `/waifu claimlock`",
       "coffee": "以愉快的方式來開始你的一天。",
       "waifu_pill": "當你的其中一個Waifu價值高於20000時，將帶給你挖礦和釣魚時的顯著優勢。可維持三次活動。",
       "bait": "使你更有機會釣到魚。",
