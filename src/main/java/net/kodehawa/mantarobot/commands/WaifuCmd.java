@@ -24,6 +24,8 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kodehawa.mantarobot.commands.currency.Waifu;
+import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
+import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.*;
@@ -59,6 +61,17 @@ public class WaifuCmd {
             .pool(MantaroData.getDefaultJedisPool())
             .prefix("waifu")
             .build();
+
+    private static final IncreasingRateLimiter claimlockRatelimiter = new IncreasingRateLimiter.Builder()
+            .limit(1)
+            .spamTolerance(2)
+            .cooldown(2, TimeUnit.MINUTES)
+            .maxCooldown(3, TimeUnit.MINUTES)
+            .randomIncrement(false)
+            .pool(MantaroData.getDefaultJedisPool())
+            .prefix("claimlock")
+            .build();
+
 
     @Subscribe
     public void register(CommandRegistry cr) {
@@ -183,6 +196,43 @@ public class WaifuCmd {
 
                     player.save();
                 }
+            }
+        }
+
+        @Description("Locks you from being claimed. Use remove to remove it.")
+        @Options({@Options.Option(type = OptionType.BOOLEAN, name = "remove", description = "Remove claimlock.")})
+        public static class ClaimLock extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                final var player = ctx.getPlayer();
+                final var playerData = player.getData();
+
+                if (ctx.getOptionAsBoolean("remove")) {
+                    playerData.setClaimLocked(false);
+                    ctx.replyEphemeral("commands.profile.claimlock.removed", EmoteReference.CORRECT);
+                    player.saveUpdating();
+                    return;
+                }
+
+                if (playerData.isClaimLocked()) {
+                    ctx.replyEphemeral("commands.profile.claimlock.already_locked", EmoteReference.CORRECT);
+                    return;
+                }
+
+                var inventory = player.getInventory();
+                if (!inventory.containsItem(ItemReference.CLAIM_KEY)) {
+                    ctx.replyEphemeral("commands.profile.claimlock.no_key", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (!RatelimitUtils.ratelimit(claimlockRatelimiter, ctx, false)) {
+                    return;
+                }
+
+                playerData.setClaimLocked(true);
+                ctx.replyEphemeral("commands.profile.claimlock.success", EmoteReference.CORRECT);
+                inventory.process(new ItemStack(ItemReference.CLAIM_KEY, -1));
+                player.save();
             }
         }
 

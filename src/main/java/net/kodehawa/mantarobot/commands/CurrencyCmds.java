@@ -180,7 +180,7 @@ public class CurrencyCmds {
                 playerData.setInventorySortType(type);
                 player.saveUpdating();
 
-                ctx.replyEphemeral("commands.profile.inventorysort.success", EmoteReference.CORRECT, type.toString().toLowerCase());
+                ctx.replyEphemeral("commands.profile.inventorysort.success", EmoteReference.CORRECT, ctx.getLanguageContext().get(type.getTranslate()));
             }
         }
 

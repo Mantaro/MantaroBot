@@ -261,10 +261,6 @@ public class PetCmds {
                                 "**%d%%**".formatted(pet.getDust()), true
                         )
                         .addField(
-                                EmoteReference.BLUE_HEART.toHeaderString() + language.get("commands.pet.status.pet"),
-                                "**%,d**".formatted(pet.getPatCounter()), true
-                        )
-                        .addField(
                                 EmoteReference.HEART.toHeaderString() + language.get("commands.pet.status.health"),
                                 "**%,d / 100**".formatted(pet.getHealth()), true
                         )
@@ -339,24 +335,7 @@ public class PetCmds {
 
                 var message = pet.handlePat().getMessage();
                 var extraMessage = "";
-                pet.increasePats();
-
-                if (pet.getPatCounter() > 50_000_000) { // how?
-                    ctx.replyLocalized("commands.pet.pat.too_many");
-                    return;
-                }
-
-                if (pet.getPatCounter() % 100 == 0) {
-                    extraMessage += "\n\n" + String.format(lang.get("commands.pet.pet_reactions.counter_100"), EmoteReference.BLUE_HEART);
-                }
-
-                if (choice == PetChoice.MARRIAGE) {
-                    marriage.saveUpdating();
-                } else {
-                    player.saveUpdating();
-                }
-
-                ctx.replyStripped(message, pet.getType().getEmoji(), pet.getName(), pet.getPatCounter(), extraMessage);
+                ctx.replyStripped(message, pet.getType().getEmoji(), pet.getName(), extraMessage);
             }
         }
 
@@ -683,7 +662,7 @@ public class PetCmds {
 
                                 hook.editOriginal(lang.get("commands.pet.buy.no_requirements").formatted(
                                         EmoteReference.ERROR, marriageDataConfirmed.hasHouse(), marriageDataConfirmed.hasCar()
-                                )).queue();
+                                )).setComponents().queue();
                                 return Operation.COMPLETED;
                             }
 
@@ -713,12 +692,12 @@ public class PetCmds {
                             hook.editOriginal(lang.get("commands.pet.buy.success").formatted(
                                     EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), finalName,
                                     toBuy.getCost(), petChoiceConfirmed.getReadableName()
-                            )).queue();
+                            )).setComponents().queue();
                         } else {
                             hook.editOriginal(lang.get("commands.pet.buy.success_personal").formatted(
                                     EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), finalName,
                                     toBuy.getCost(), petChoiceConfirmed.getReadableName()
-                            )).queue();
+                            )).setComponents().queue();
                         }
 
                         return Operation.COMPLETED;

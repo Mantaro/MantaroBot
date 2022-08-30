@@ -39,7 +39,6 @@ import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
 import net.kodehawa.mantarobot.commands.currency.profile.StatsComponent;
-import net.kodehawa.mantarobot.commands.currency.profile.inventory.InventorySortType;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.slash.*;
@@ -161,39 +160,6 @@ public class ProfileCmd {
                 }
 
                 dbUser.save();
-            }
-        }
-
-        @Description("Locks you from being claimed. Use remove to remove it.")
-        @Options({@Options.Option(type = OptionType.BOOLEAN, name = "remove", description = "Remove claimlock.")})
-        public static class ClaimLock extends SlashCommand {
-            @Override
-            protected void process(SlashContext ctx) {
-                final var player = ctx.getPlayer();
-                final var playerData = player.getData();
-
-                if (ctx.getOptionAsBoolean("remove")) {
-                    playerData.setClaimLocked(false);
-                    ctx.reply("commands.profile.claimlock.removed", EmoteReference.CORRECT);
-                    player.saveUpdating();
-                    return;
-                }
-
-                if (playerData.isClaimLocked()) {
-                    ctx.reply("commands.profile.claimlock.already_locked", EmoteReference.CORRECT);
-                    return;
-                }
-
-                var inventory = player.getInventory();
-                if (!inventory.containsItem(ItemReference.CLAIM_KEY)) {
-                    ctx.reply("commands.profile.claimlock.no_key", EmoteReference.ERROR);
-                    return;
-                }
-
-                playerData.setClaimLocked(true);
-                ctx.replyEphemeral("commands.profile.claimlock.success", EmoteReference.CORRECT);
-                inventory.process(new ItemStack(ItemReference.CLAIM_KEY, -1));
-                player.saveUpdating();
             }
         }
 
