@@ -84,7 +84,7 @@
     "sellout": "Erwäge auf [Patreon](https://www.patreon.com/mantaro) zu spenden, falls du mich magst, selbst eine kleine Spende würde mir helfen den Bot am Laufen zu halten!",
     "deprecated": "Nicht länger genutzt",
     "space_notice": "Wenn der Name Leerzeichen beinhaltet, versuche \"ihn in Anführungzeichen zu setzen\". Die Befehlshilfe kann dir wahrscheinlich weiter helfen.",
-    "missing_embed_permissions": "Der Bot braucht die Berechtigung \"Links einbetten\", um diesen Befehl anzuzeigen. Bitte gebe dem Bot die benötigte Berechtigung (gehe sicher und überprüfe die Kanal- und Kategorieberechtigungen). Wenn du mehr Hilfe brauchst gehe bitte auf <https://support.mantaro.site>. Du kannst aber auch das Wiki, unter <https://wiki.mantaro.site> für mehr Informationen über den Bot lesen.",
+    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://www.mantaro.site/mantaro-wiki> for more information about the bot.",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Du kannst den Befehl in %3$s wieder nutzen.**",
       "spam_1": "Mach bitte eine Pause, das wäre auch für deine Gesundheit gut. **Beachte, dass das Ratelimit weiter erhöht wird, wenn du es, bevor es ausläuft, weiterversuchst!**",
@@ -97,7 +97,7 @@
       "next": "Nächste",
       "close": "Schließen"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `/mantaro shard`) when reporting!",
+    "generic_error": "Wenn du willst, tritt unserem **Support Server** bei (`https://support.mantaro.site`), oder schau auf unserer GitHub Seite nach (`https://github.com/Kodehawa/MantaroBot`). Bitte sag denen, dass sie aufhören sollen mich hochzujagen und bitte vergiss nicht die Fehler-ID, den Befehl den du benutzt hast und deine Node (steht in `/mantaro shard`) beim Melden eines Fehlers!",
     "boom_quotes": [
       "Offenbar hat Megumin unser Schloss in die Luft gejagt...",
       "Uh-oh, offenbar hat unser Meister ein paar Nullen und Einsen auf dem Boden vergessen :<",
@@ -148,12 +148,12 @@
       "title": "Slash commands transition",
       "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description_image": "Um Slash-Befehle für manche Bild-Befehle auszuführen, versuche den Befehl mit dem Präfix `/image` stattdessen. Zum Beispiel, `~>catgirl` wird zu `/image catgirl`. Befehle für Imageboards sind nicht davon betroffen.\n\nWenn du die Slash-Befehle nicht siehst, füge den Bot erneut dem Server mit dem Einladungslink unter https://add.mantaro.site hinzu",
+      "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site.\nFor more help, use the new wiki at https://www.mantaro.site/mantaro-wiki/",
       "description_2": "Um Slash-Befehle auszuführen, versuche den Befehl mit dem Präfix `/` stattdessen. Zum Beispiel, `~>ping` wird zu `/ping` (und drücke Tab)\n\nWenn du die Slash-Befehle nicht siehst, füge den Bot erneut dem Server mit dem Einladungslink unter https://add.mantaro.site hinzu"
     },
     "fish": {
       "dust": "%1$sDer Tag ist zu Ende und dein Eimer hat nur Staub gesammelt. (Verstaubung %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `/equip item:<rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `/buy item:rod`",
+      "no_rod": "%1$sDu hast keine Angel ausgerüstet. Nutze `/equip item:<Name der Angel>`, um eine Angel auszurüsten, und mit dem Fischen zu beginnen! Wenn du keine Angel hast, nutze erst `/buy item:rod`",
       "trash": {
         "overflow": "%1$sDu hast beim Angeln etwas Müll gefunden, aber dein Inventar war voll, also mussten wir es ins Wasser werfen...",
         "success": "%1$sWährend du ruhig angelst, findest du %2$s, aber es scheint nur Müll zu sein :("
@@ -163,7 +163,7 @@
       },
       "crate": {
         "overflow": "Du hast eine **%1$s** beim Fischen gefunden, aber du hattest bereits zu viele, daher haben wir sie zurück in den Ozean geworfen...",
-        "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `/opencrate crate:<crate name>`. You need a crate key!"
+        "success": "Du hast eine %1$s **%2$s** beim Fischen gefunden und hast sie mitgenommen. Los, öffne sie mit `/opencrate crate:<Truhenname>`. Du brauchst dazu einen Truhenschlüssel!"
       },
       "autoequip": {
         "success": "%1$sDu hast das automatische Ersetzen von kaputten Werkzeugen aktiviert, also habe ich dir eine neue **%2$s** in deinem Angelslot ausgerüstet."
@@ -180,19 +180,19 @@
       "bait": "Der Fisch hat deinen Köder geschluckt!",
       "missing_equipped": "%1$sDu hattest eine %2$s Angelrute ausgerüstet, aber keine Angelrute der Art im Inventar! Die ausgerüstete Angelrute wurde zurückgesetzt.",
       "broken_drop": "%1$sDeine Angel ist kaputt gegangen, aber du kannst sie reparieren. Kaputten Gegenstand erhalten: %2$s *%3$s*",
-      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `/equip item:<rod name>` to start your adventure!"
+      "no_rod_equipped": "%1$sDu hast keine Angelrute ausgerüstet. Rüste eine mit `/equip item:<Typ>` aus, um dein Abenteuer zu beginnen!"
     },
     "music_usage": {
       "1": "*Wie benutze ich Mantaros Musik?*",
       "2": "- To **queue songs from youtube or soundcloud** use `/play` For example: `/play song:https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
-      "3": "- To **search for a song on youtube** use `/play song:<search term>` (without the leading < and >) For example: `/play song:see you again` (You need to select the number, just *select the number* after the selection box pops up!)",
+      "3": "- Um **Songs von YouTube zu suchen**, nutze `/play song:<Suchbegriff>` (ohne das < und >). Zum Beispiel: `~>play song:see you again` (Du musst eine Nummer wählen, *wähle* einfach die Nummer, wenn die Auswahl auftaucht!)",
       "4": "- To **search for a song on soundcloud** use `/play song:<search term> soundcloud:true` For example `/play song:hot milk soundcloud:true`",
-      "5": "- To **check the queue** you just type `/queue show`",
-      "6": "- To **remove a track from the queue** you just need to use `/removetrack` It takes as an argument the position the song is queued at (you can check in on queue)",
+      "5": "- Um **die Warteschlange einzusehen**, nutze einfach `/queue show`",
+      "6": "- Um **einen Song aus der Warteschlange zu entfernen**, nutze `/removetrack`. Es benötigt als Argument die Position von dem Song, den du entfernen möchtest (du kannst es in der Warteschlange nachschauen)",
       "7": "- To **pause or unpause** just use `/pause`",
       "8": "- To **stop the music and unbind the player** use `/stop`",
       "9": "- To **shuffle the queue** just use `/shuffle`",
-      "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue running `/repeat queue:True`.\n",
+      "10": "- Und zuletzt, um ein **Lied zu wiederholen**, benutze `/repeat`. Benutze `/repeat` während die Wiederholung an ist, um es abzuschalten. Du kannst die Warteschlange mit `/repeat queue:True` wiederholen.\n",
       "11": "For more info please use `/help command:<command name>` (without the <> and replace command name with the name of the command you want)",
       "12": "Genieße deine Musik und danke, dass du Mantaro benutzt!"
     },
@@ -214,7 +214,7 @@
       "track_error": "%1$sEtwas lief schief beim Spielen dieses Songs, ich werde den nächsten Song spielen, wenn es einen gibt.",
       "queue_finished": "%1$sAktuelle Warteschlange abgespielt! Ich hoffe dir hats gefallen :heart:",
       "soundcloud_no_args": "%1$sDu musst mir einen Songnamen nennen, ich bin kein Magier, daher kann ich ihn nicht erraten. :(",
-      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `/play first:True song:<song>`, which will play the first result.",
+      "missing_embed_permissions": "%1$sDu musst dem Bot die Berechtigung \"Links einbetten\" geben, um dieses Menü anzuzeigen. Wenn du das Menü überspringen möchtest, nutze `/play first:True song:<song>`, was automatisch das erste Ergebnis abspielt.",
       "no_vc_found": "%1$sIch bin in keinem Sprachkanal, obwohl ich es sein sollte? Versuche es erneut.",
       "queue": {
         "header_field": "Anleitung",
@@ -254,7 +254,7 @@
       "listener": {
         "paused": "%1$sWiedergabe pausieren, weil ich gemuted wurde :(",
         "resumed": "%1$sFortsetzen der Wiedergabe, weil jemand beigetreten ist!",
-        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `/pause` to manually resume playback.",
+        "not_resumed": "%1$sJemand ist beigetreten, aber die Wiedergabe wurde nicht fortgeführt, da ich manuell pausiert wurde. Benutze `/pause`, um die Wiedergabe fortzuführen.",
         "left_alone": "%1$sIch verlasse **%2$s** in 2 Minuten, weil ich allein gelassen wurde. :(",
         "leave": "%1$sIch habe **%2$s** verlassen, weil ich allein gelassen wurde. :("
       },
@@ -286,9 +286,9 @@
       "unpaused": "Wiedergabe wird fortgesetzt. *(Wiedergabe wurde zuvor pausiert)*"
     },
     "rewind": {
-      "no_time": "%1$sYou need to tell me how much you want to rewind the song. *(Example: `/rewind time:1m45s` will rewind the song 1 minute and 45 seconds)*",
+      "no_time": "%1$sDu musst mir sagen, wie weit das Lied zurückgespult werden soll. *(Beispiel: `/rewind time:1m45s` würde das Lied um 1 Minute und 45 Sekunden zurückspulen)*",
       "negative": "%1$sNur positive Zahlen",
-      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `/rewind time:1m45s` will rewind the song 1 minute and 45 seconds)*",
+      "too_little": "%1$sDu musst das korrekte Format verwenden. Bitte schau in die Befehlshilfe. *(Beispiel: `/rewind time:1m45s` würde das Lied um 1 Minute und 45 Sekunden zurückspulen)*",
       "before_beginning": "%1$sSDu kannst nicht vor dem Beginn eines Songs springen",
       "success": "%1$sLied zurückspulen zu: %2$s."
     },
@@ -296,7 +296,7 @@
       "success": "%1$sSong neu gestartet."
     },
     "skipahead": {
-      "no_time": "%1$sYou need to tell me how much you want to skip ahead in the song. *(Example: `/forward time:1m45s` will skip 1 minutes and 45 seconds from where you are on the song)*",
+      "no_time": "%1$sDu musst mir sagen, wie weit das Lied vorgespult werden soll. *(Beispiel: `/forward time:1m45s` würde das Lied um 1 Minute und 45 Sekunden vorspulen)*",
       "past_duration": "%1$sDu kannst die Dauer eines Songs nicht überspringen",
       "success": "%1$sVorgesprungen zu %2$s."
     },
@@ -380,7 +380,7 @@
     "custom": {
       "custom_notice": "Das ist ein benutzerdefinierter Befehl.",
       "no_args": "%1$sDu musst angeben, was du mit dem Befehl tun willst. Schau dir die Befehlshilfe für mehr Infos an!",
-      "incorrect_args": "%1$sIncorrect arguments. Check `/help command:custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101 for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
+      "incorrect_args": "%1$sIncorrect arguments. Check `/help command:custom` or https://www.mantaro.site/mantaro-wiki/guides/custom-commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
       "error_running": "%1$sFehler beim Ausführen eines benutzerdefinierten Befehls ... Bitte überprüfe den Inhalt und die Länge der Antwort (max. 2000 Zeichen).",
       "error_running_new": "%1$sFehler beim ausführen eines benutzerdefinierten Befehls. Prüfe die Antworten, den Inhalt und die Länge (max. 2000 Zeichen).\n**Fehler:**\n```%2$s```",
       "not_loaded": "Der Bot wurde noch nicht vollständig gebootet ... benutzerdefinierte Befehle werden in Kürze verfügbar sein!",
@@ -390,10 +390,10 @@
       "new_error": "%1$sDer benutzerdefinierte Befehle, den du versuchst zu erstellen hat einen Fehler (v3, prüfe den Inhalt).\n**Fehler:**\n```%2$s```",
       "ls": {
         "header": "Befehle für diesen Server",
-        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101)\n \n**List:**",
+        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/currency/101)\n \n**List:**",
         "footer": "Anzahl aller benutzerdefinierten Befehle dieses Servers: %1$s"
       },
-      "invalid": "%1$sUngültige Befehlsauswahl. Sieh vielleicht ein mal in das Wiki <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
+      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://www.mantaro.site/mantaro-wiki/guides/custom-commands>.",
       "view": {
         "invalid": "%1$sDu musst den Befehl und die Antwortnummer angeben!",
         "not_found": "%1$sKein benutzerdefinierten Befehl mit diesem Namen gefunden!",
@@ -405,7 +405,7 @@
         "not_found": "%1$sIch kann diesen Befehl nicht finden.",
         "header": "Befehl: %1$s",
         "amount": "(Zeige %1$d Antworten von %2$d)",
-        "too_large_view": "Too large to view here, use `/custom view name:%1$s response:%2$s`",
+        "too_large_view": "Zu groß, um es anzuzeigen, nutze `/custom view name:%1$s response:%2$s`",
         "description": "Dies ist eine Liste aller Antworten dieses Befehls im Rohformat (Das, was du beim Befehl eigegeben hast)."
       },
       "clear": {
@@ -479,18 +479,18 @@
       "invalid_string": "%1$sDer String `{%2$s}`  ist nicht gültig oder die Ausgabe ist länger als 2000 Zeichen.",
       "invalid_json": "%1$sDer String `{%2$s}` ist eine ungültige JSON.",
       "invalid_link": "%1$sDer String `%2$s` ist kein gültiger Link.",
-      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `/custom unlockcommand name:<command name>` to unlock it."
+      "locked_command": "%1$sDu kannst diesen Befehl weder editieren, noch löschen, während er gesperrt ist, bitte nutze `/custom unlockcommand name:<command name>`, um ihn zu entsperren."
     },
     "mute": {
       "no_permissions": "%1$sYou need to have permission to Moderate Members in order to time out a user.",
       "no_users": "%1$sYou need to give me a user to time out.",
       "no_moderate_members": "%1$sI don't have permissions to administrate timeouts on this server.",
       "time_not_specified": "%1$sDu wolltest eine Mute-Zeit, hast aber nicht angeben für wie lange.",
-      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute user:<user> time:20m reason:reason goes here`, for example.",
-      "default_time_too_long": "%1$sThe default time out timeout length is too long (Maximum: 10 days)...",
+      "time_not_specified_generic": "%1$sDu hast keine Zeit angegeben. Zum Beispiel, wenn du für 20 Minuten stummschalten willst, solltest du `/mute user:<user> time:20m reason:hier die Begründung` ausführen.",
+      "default_time_too_long": "%1$sDie Standard Timeout-Zeit ist zu lang (Maximum: 10 Tage)...",
       "time_too_little": "%1$sDie angegebene Mute-Zeit ist weniger als 10 Sekunden.\nBist du dir sicher, dass du das richtige Format genutzt hast? Für 20 Minuten, nutze 20m, für 1 Stunde, nutze 1h, oder jede Kombination aus beiden (1h45m) als Beispiel.",
       "time_too_long": "%1$sThe specified timeout length is too long (Maximum: 10 days)...",
-      "already_muted": "%1$sThis user is already timed out. Please do `/unmute` to un-mute them.",
+      "already_muted": "%1$sDieser Nutzer hat bereits einen Timeout. Bitte benutze `/unmute`, um ihn zu entfernen.",
       "self_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
       "user_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
       "success": "%1$sSuccessfully timed out **%2$s** for %3$s",
@@ -541,11 +541,11 @@
         "empty": "%1$sDu kannst den Liebesbrief nicht leer lassen.",
         "no_marriage": "%1$sDu bist nicht verheiratet und du kannst keinen Liebesbrief an dich selbst schreiben...",
         "not_proposing_player": "%1$sDu bist nicht derjenige, der diesen Antrag gestellt hat!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `/marry status`",
+        "already_done": "%1$sDie Ehe hat bereits einen Liebesbrief. Schau ihn dir unter `/marry status` an.",
         "too_long": "%1$sDer Liebesbrief ist zu lang (maximal 500 Zeichen).",
         "cannot_see": "%1$sIch kann den Nutzer, mit dem du verheiratet bist, nicht sehen... Vielleicht ist er mit mir auf keinem Server?",
         "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s. Click yes to accept, no to scrap.",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `/marry status`",
+        "confirmed": "%1$sDer Liebesbrief wurde erfolgreich an deine Liebe zugestellt! Schau ihn dir mit `/marry status` an.",
         "scrapped": "%1$sDu hast immer noch Zeit, um darüber nachzudenken, was du schreiben willst, kein Grund zur Eile!"
       },
       "status": {
@@ -565,17 +565,17 @@
       },
       "buyhouse": {
         "not_married": "%1$sDu kannst nur ein Haus kaufen, wenn du verheiratet bist. Dies könnte sich in Zukunft ändern.",
-        "no_house": "%1$sYou need a house item in your inventory. Use `/buy item:house` to get one.",
+        "no_house": "%1$sDu brauchst ein Haus-Gegenstand in deinem Inventar. Nutze `/buy item:house`, um einen zu bekommen.",
         "not_enough_money": "%1$sDu hast nicht genug Geld, um ein Haus zu kaufen. (Aktueller Hauspreis: %2$d Credits)",
-        "no_name": "%1$sYou need to give your house a name! For example, `/marry house name:cozy house`",
+        "no_name": "%1$sDu musst deinem Haus einen Namen geben! Als Beispiel, `/marry house item:gemütliches Haus`",
         "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Click on `yes` to confirm and `no` to cancel.",
         "success": "%1$sDu hast erfolgreich ein Haus für %2$d Credits gekauft. Der Name deines neuen gemütlichen Zuhauses ist %3$s, viel Spaß!",
         "cancel_success": "%1$sKauf abgebrochen."
       },
       "buycar": {
-        "no_car": "%1$sYou need to buy a car first! Use `/buy item:car` to get one.",
+        "no_car": "%1$sDu musst zuerst ein Auto kaufen! Nutze `/buy item:car`, um eins zu bekommen.",
         "not_enough_money": "%1$sDu hast nicht genug Geld, um ein Auto zu kaufen. (Aktueller Autopreis: %2$d Credits)",
-        "no_name": "%1$sYou need to give your car a name! For example, `/marry car name:vroom`",
+        "no_name": "%1$sDu musst deinem Auto einen Namen geben! Als Beispiel, `/marry car name:Vroom`",
         "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Click on `yes` to confirm and `no` to cancel.",
         "success": "%1$sDu hast erfolgreich ein Auto für %2$d Credits gekauft. Der Name deines neuen schnellen Autos ist %3$s, viel Spaß!",
         "cancel_success": "%1$sKauf abgebrochen."
@@ -586,15 +586,15 @@
       "already_married_receipt": "%1$sIhr seid bereits verheiratet, aww.",
       "already_married": "%1$sDu bist bereits verheiratet.",
       "receipt_married": "%1$sDieser Benutzer ist bereits verheiratet.",
-      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `/buy amount:2 item:ring` and then try proposing again <3",
-      "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
+      "no_ring": "%1$sOhne zwei Ringe kannst du nicht heiraten! Du kannst diese mit `/buy amount:2 item:ring` kaufen und dann versuch es erneut <3",
+      "confirmation": "%1$s%2$s, beantworte den Heiratsantrag von %3$s mit den Knöpfen **Ja** oder **Nein**.\n%4$sDies läuft in 120 Sekunden ab.",
       "ring_check_fail": "%1$sDu kannst nicht mit weniger als zwei Ringen in deinem Inventar heiraten!",
       "accepted": "%1$s**%2$s#%3$s** hat den Antrag von **%4$s#%5$s** angenommen!",
       "denied": "%1$sAntrag von **%2$s** abgelehnt.",
       "ratelimit_message": "Warum willst du so viel heiraten?"
     },
     "divorce": {
-      "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Click on `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
+      "confirm": "%1$sBist du dir sicher, dass du diese Ehe beenden willst? Das Geld, das für Haustiere, Häuser und Autos ausgegeben wurde, wird geteilt. Wähle `Ja`, um fortzufahren und `Nein`, um abzubrechen. **Dein Haustier wird verschwinden, da es an die Ehe gebunden ist**",
       "cancelled": "%1$sSchreidung abgebrochen.",
       "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?\nWanna unclaim a Waifu? Use `/waifu unclaim` instead.",
       "success": "%1$sJetzt bist du Single. Das ist nett, denke ich zumindest.\n%2$s",
@@ -615,7 +615,7 @@
       "claim": {
         "no_user": "%1$sDu hast keinen Nutzer zum Beanspruchen erwähnt.",
         "locked": "%1$sDu bist aktuell nicht in der Lage diese Aktion durchzuführen.",
-        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `/profile claimlock remove:true` if they wish to do so.",
+        "key_locked": "%1$sDer Nutzer, den du beanspruchen wolltest, ist vor Beanspruchung geschützt. Die Person kann dies mit `/profile claimlock remove:True` entfernen.",
         "not_enough_money": "%1$sDu hast nicht genug Geld, um diese Waifu zu beanspruchen **(Kosten: %2$s Credits)**",
         "not_enough_slots": "%1$sDu hast nicht genug Plätze verfügbar, um diese Waifu zu beanspruchen. (Plätze: %2$s, Benutzt: %3$s)",
         "success": "%1$s`%2$s` erfolgreich für %3$,d Credits beansprucht. Benutzte Plätze: %4$s",
@@ -626,7 +626,7 @@
       "unclaim": {
         "no_user": "%1$sDu musst eine Waifu erwähnen, auf die du verzichten willst.",
         "not_claimed": "%1$sDieser Nutzer ist nicht deine Waifu!",
-        "confirmation": "%1$sAre you *sure* you want to un-claim %2$s? The cost to un-claim this waifu is **%3$s credits**. Click on *yes* to confirm or *no* to cancel\n%4$sThis times out in 1 minute.",
+        "confirmation": "%1$sBist du *sicher*, dass du auf %2$s verzichten willst? Die Kosten, um auf diese Waifu zu verzichten sind **%3$s Credits**. Wähle *Ja* zum bestätigen oder *Nein* zum abbrechen\n%4$sDies endet in einer Minute.",
         "not_enough_money": "%1$sDu hast nicht genug Geld, um auf diese Waifu zu verzichten!",
         "player_locked": "%1$sDu kannst das aktuell nicht tun.",
         "scrapped": "%1$sWaifu-Verzicht abgebrochen.",
@@ -641,7 +641,7 @@
       },
       "optout": {
         "notice": "%1$sDu hast dich dagegen entschieden, das Waiu-System zu nutzen, daher kannst du es nicht nutzen.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `/profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nClick on `yes` to opt-out PERMANENTLY or `no` to cancel this and go back to safety.",
+        "warning": "%1$sWillst du dich wirklich dagegen entscheiden das Waifu-System zu nutzen? DIE ENTSCHEIDUNG IST ENDGÜLTIG UND KANN NICHT RÜCKGÄNGIG GEMACHT WERDEN.\nWenn du nur nicht neu beansprucht werden willst und das Waifu-System sonst wie üblich nutzen möchtest, benutze stattdessen `~>profile claimlock`.\nDu wirst niemanden mehr beanspruchen und auch nicht mehr beansprucht werden können, und alle Beanspruchungen auf dich werden entfernt.\nWähle aus `Ja` um PERMANENT ausgeschlossen zu werden oder `Nein`, um diese Aktion abzubrechen und sicher zurückzugehen.",
         "success": "%1$sDu hast dich erfolgreich gegen das Waifu-System entschieden.",
         "cancelled": "%1$sEntscheidung abgebrochen.",
         "claim_notice": "%1$sDer Nutzer, den du versuchst zu beanspruchen, hat sich gegen das Waifu-System entschieden.",
@@ -765,7 +765,7 @@
         "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `/equip item:<item name>`",
         "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `/use item item:<item name>`",
         "not_enough_money": "%1$sDu hast nicht genug Geld, um diesen Gegenstand zu kaufen. Aktuell: %2$,d Credits, Benötigt: %3$,d Credits.",
-        "success_breakable_upgrade": "Du kannst unter <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> nachschauen für mehr Informationen, wie du deine Werkzeuge upgraden kannst!"
+        "success_breakable_upgrade": "You can check <https://www.mantaro.site/mantaro-wiki/currency/103> for more information on how to upgrade your tools!"
       },
       "header": "Mantaros Markt",
       "reference": "\nYou can buy and sell items using `/buy item:<item>` and `/sell item:<item>` respectively. Check `/help market` for more info.",
@@ -819,7 +819,7 @@
       "invalid_amount": "%1$sDie Anzahl muss eine gültige Zahl zwischen `1` und `15` sein!"
     },
     "opts": {
-      "note": "%1$sHey, wenn du verloren bist oder Hilfe bei der Verwendung von Optionen benötigst, besuche <https://github.com/Mantaro/MantaroBot/wiki/Configuration>, um eine Anleitung zur Verwendung von Optionen zu erhalten. \nHinweis: Nur Administratoren, Personen mit Server verwalten oder Personen mit der Bot-Commander-Rolle können diesen Befehl verwenden! ",
+      "note": "%1$sHey, if you're lost or want help on using opts, check <https://www.mantaro.site/mantaro-wiki/basics/server-configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!",
       "list": {
         "header": "**Mantaros Optionen Liste**\n%1$s*Alle Optionen müssen mit `~>opts` beginnen wenn du sie benutzt*\n%2$s"
       },
@@ -888,7 +888,7 @@
         "time_out": "%1$sThe time to set your profile description has ran out (or you cancelled it, or started a new one)."
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge! For example, `/profile displaybadge badge:claimer`",
+        "not_specified": "%1$sYou need to specify your main badge! For example, `/badges display badge:claimer`",
         "reset_success": "%1$sKein Abzeichen wird jetzt oben auf deinem Profil angezeigt!",
         "important_success": "%1$sDein Display-Abzeichen ist jetzt das wichtigste.",
         "no_such_badge": "%1$sEs gibt kein solches Abzeichen...\nDeine verfügbaren Abzeichen: %2$s",
@@ -921,7 +921,7 @@
         "potion_type": "Trankart",
         "buff": "Verbesserung",
         "buff_type": "Verbesserungsart",
-        "experience": "Erfahrung",
+        "experience": "Experience (Old)",
         "mine_xp": "Bergbauerfahrung",
         "fish_xp": "Angelerfahrung",
         "chop_xp": "Holzfällererfahrung",
@@ -967,7 +967,7 @@
         "cancelled": "%1$sAblegen abgebrochen."
       },
       "display": {
-        "not_premium": "%1$sProfilwidgetpersonalisierung ist nur für Premiumnutzer verfügbar. Für mehr Vorteile, siehe <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
+        "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://www.mantaro.site/mantaro-wiki/basics/premium-perks>",
         "not_enough": "%1$sNot enough valid widgets to put on your profile (minimum: 3). If you're lost, check `/profile widgets`",
         "success": "%1$sDein neues Profillayout wurde erfolgreich angewendet. Das neue Layout ist `%2$s`",
         "ls": "%1$sList of profile components:\n%2$s **Widgets in Default Order:** `%3$s`\n%2$s **Your widgets:** `%4$s`\nYou can use `/profile widgets order:reset` to reset your profile display references",
@@ -976,9 +976,9 @@
       },
       "claimlock": {
         "removed": "%1$sDein Beanspruchungsschutz wurde erfolgreich zurückgesetzt.",
-        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/profile claimlock remove:true` to remove it later.",
+        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/waifu claimlock remove:true` to remove it later.",
         "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `/buy item:claim key`",
-        "already_locked": "%1$sYou're already claim locked. Use `/profile claimlock remove:true` to remove it."
+        "already_locked": "%1$sYou're already claim locked. Use `/waifu claimlock remove:true` to remove it."
       },
       "autoequip": {
         "disable": "%1$sAuomatischen Ausrüsten wurde deaktiviert.",
@@ -991,6 +991,7 @@
       "credits": "Credits",
       "old_credits": "Alte Credits",
       "level": "Level",
+      "activity_xp": "Activity XP",
       "xp": "EP",
       "rep": "Ruf",
       "birthday": "Geburtstag",
@@ -1023,7 +1024,7 @@
       },
       "brief_success": "**%1$ss Abzeichen:**\n%2$s",
       "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `/profile show` and then run this command again.\n",
-      "info_notice": "Use `/badges info badge:<badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "info_notice": "Use `/badges info badge:<badge name>` to get more information about a badge. [You can also check the wiki](https://www.mantaro.site/mantaro-wiki/currency/badges)\n",
       "donate_notice": "**Du kannst ein Abzeichen für das [Unterstützung von Mantaros Entwicklung bekommen](https://patreon.com/mantaro)!** (Es könnte ein paar Minuten zum Verarbeiten brauchen)\n\n",
       "no_badges": "Keine Abzeichen (noch!)",
       "header": "Abzeichen erreicht von %1$s",
@@ -1373,11 +1374,11 @@
         "too_many": "Wie hast du es geschafft, so oft zu streicheln?"
       },
       "pet_reactions": {
-        "cute": "%1$s**%2$s** wackelt fröhlich mit seinem Schwanz, während du seinen Kopf streichelst. **Streichelzähler: %3$s**.%4$s",
-        "cute_not_animal": "%1$s**%2$s** schaut dich fröhlich an, während du seinen Kopf streichelst. **Streichelzähler: %3$s**.%4$s",
-        "nothing": "%1$s**%2$s** sitzt nur da und macht nichts. **Streichelzähler: %3$s**.%4$s",
-        "cheer": "%1$s**%2$s**s Reaktion war so niedlich, dass es dich aufgeheitert hat. **Streichelzähler: %3$s**%4$s",
-        "scare": "%1$s**%2$s** got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
+        "cute": "%1$s**%2$s** happily wags their tail as you caress their head.%3$s",
+        "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head.%3$s",
+        "nothing": "%1$s**%2$s** just sits there, doing nothing.%3$s",
+        "cheer": "%1$s**%2$s**'s reaction was so cute it managed to cheer you up.%3$s",
+        "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden?.%3$s",
         "counter_100": "%1$sEs scheint, als würde der Kopf von so vielen Streicheleinheiten anfangen zu glänzen."
       },
       "buy": {
@@ -1560,9 +1561,9 @@
     },
     "help": {
       "title": "Mantaro-Hilfe",
-      "base_category": "Befehlsliste für Kategorie %1$s. Für eine detaillierte Anleitung zur Benutzung von Mantaro, schau bitte ins [Wiki](https://github.com/Mantaro/MantaroBot/wiki). [Währungsanleitung](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
-      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help command:<name of command>`\n",
+      "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://www.mantaro.site/mantaro-wiki). [Currency Guide](https://www.mantaro.site/mantaro-wiki/currency/101)\n",
+      "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://www.mantaro.site/mantaro-wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
+      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://www.mantaro.site/mantaro-wiki).\nRemember you can get more information on a command using `/help command:<name of command>`\n",
       "support": "Wenn du immer noch Hilfe brauchst, kannst du dem [Supportserver](https://support.mantaro.site) beitreten. Für Neuigkeiten kannst du mir auch auf [Twitter](https://twitter.com/mantarodiscord) folgen.\n",
       "patreon": "**[Wir brauchen deine Hilfe, um Mantaro online zu halten! Klicke hier für mehr Informationen.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Zeige nur nicht deaktivierte Befehle. Gesamte deaktivierte Befehle: %1$s",
@@ -1573,7 +1574,7 @@
         "no_help": "%1$sEs gibt keine weitere Hilfe für diesen Befehl.",
         "not_found": "%1$sEinen Befehl mit diesem Namen gibt es nicht"
       },
-      "too_long": "Fehler beim Anzeigen der Hilfe für den Unterbefehl. Schaue ins [Wiki](https://github.com/Mantaro/MantaroBot/wiki) für mehr Informationen zu diesem Befehl.",
+      "too_long": "Error displaying sub-command help. Check the [wiki](https://www.mantaro.site/mantaro-wiki) for more information on this specific command.",
       "include_warning": "**Don't include <> or [] on the command itself.**",
       "help_header": "Command help for %s",
       "options": "Options",
@@ -1637,7 +1638,7 @@
       "bot_notice": "%1$sBots können kein Geld haben.",
       "external_balance": "%1$ss Guthaben lautet **$%2$,d Credits.**",
       "own_balance": "Dein Guthaben ist **$%1$,d Credits.**%2$s",
-      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once."
+      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://www.mantaro.site/mantaro-wiki/currency/101>. This will only be shown once."
     },
     "daily": {
       "check": "%1$s`Du kannst deine täglichen Credits in **%2$s** abholen.",
@@ -1705,7 +1706,7 @@
     "mine": {
       "not_equipped": "%1$sYou don't have any equipped pick. Use `/equip item:<pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `/buy item:pick`",
       "success": "%1$sDu hast mit einer *%3$s* Mineralien im Wert von **%2$,d Credits** abgebaut",
-      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `/cast list` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
+      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `/cast list` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://www.mantaro.site/mantaro-wiki/currency/103>",
       "diamond": {
         "overflow": "Huh, you found %1$,d diamond(s) while mining, but you already had too much, so I sold them for you.",
         "success": "Huch! Du hattest Glück und hast beim Abbauen %1$s Diamant(en) gefunden, schau in dein Inventar!"
@@ -1805,7 +1806,7 @@
         "durability": "Durability",
         "desc": "Description",
         "upgrade": "Schaust du zum Upgraden?",
-        "upgrade_content": "Klicke [hier](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade)\nfür mehr Informationen, wie du deine Werkzeuge upgraden kannst!"
+        "upgrade_content": "Click [here](https://www.mantaro.site/mantaro-wiki/currency/103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
       },
       "attribute": {
         "tier": "Wrench Tier (to craft):",
@@ -1828,7 +1829,7 @@
   },
   "options": {
     "options": "Mantaro Optionen",
-    "error_general": "%1$sIncorrect usage or missing arguments. Make sure the first argument doesn't start with a new line!\nIf you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
+    "error_general": "%1$sIncorrect usage or missing arguments. Make sure the first argument doesn't start with a new line!\nIf you're lost or want help on using opts, check <https://www.mantaro.site/mantaro-wiki/basics/server-configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sKann keine Werten empfangen. Merkwürdige Sache...",
       "header": "Optionen für Server **%1$s** gesetzt",
@@ -1992,7 +1993,7 @@
       "autorole": "%1$sDu kannst nicht die autorole-Rolle als Geburtstagsrolle setzen! Beachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird.",
       "warning": "%1$sBeachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird. Wenn du Zweifel daran hast, wie du sie konfigurieren musst, kannst du immer dem Support-Server beitreten und fragen. Du kannst auch `~>opts help birthday enable` für ein Beispiel anschauen",
       "warning_1": "So funktioniert der Geburtstagsanzeiger: Er vergibt eine temporäre Rolle an die Personen, die Geburtstag haben und nimmt ihnen die Rolle ab, wenn der Tag endet. **Das bedeutet, dass jeder mit der Geburtstagrolle die Rolle verliert, wenn der Geburtstag endet**. Bitte sei vorsichtig, wenn du auswählst welche Rolle du nutzen willst, da eine Fehleinstellung böse Folgen haben kann (sehr böse)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Birthday-101> for more info.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://www.mantaro.site/mantaro-wiki/guides/birthday-announcer> for more info.",
       "warning_3": "Außerdem wird der Cache (das was benutzt wird um die Geburtstage zu speichern) nur alle 23 Stunden aktualisiert. Das bedeutet wenn du heute deinen Geburtstag auf Morgen setzt wird es **nicht** funktionieren",
       "warning_4": "Gebe **yes** ein, wenn du zustimmst, die Rolle %2$s als Geburtstagsrolle zu setzen, und **no** zum abbrechen. Diese Wahl endet in 45 Sekunden.",
       "success": "%1$sGeburtstagslogging auf diesem Server mit Parametern aktiviert -> Kanal `%2$s (%3$s)` und Rolle: `%4$s (%5$s)`",
@@ -2527,7 +2528,7 @@
       "cobweb": "Rückstände von Spinnen in den Minen. Ich wundere mich, ob das was wert ist.",
       "fragment": "Fragment eines antiken Juwels. Nützlich zum Verarbeiten.",
       "mop": "Eine wunderbare Art, um all den Staub um dich herum wegzuwischen. Ich wette da ist viel.",
-      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `/profile claimlock`",
+      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `/waifu claimlock`",
       "coffee": "Ein wunderbarer Start in den Tag.",
       "waifu_pill": "Gibt dir einen großen Vorteil beim Abbauen und Fischen, wenn eine deiner Waifus über 20000 wert ist. Hält 3 Runden.",
       "bait": "Erhöht deine Wahrscheinlichkeit Fische zu fangen.",

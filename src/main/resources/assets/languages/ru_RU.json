@@ -84,7 +84,7 @@
     "sellout": "Если вам нравится Мантаро, подумайте о пожертвовании на [Patreon](https://www.patreon.com/mantaro), даже небольшое пожертвование поможет сохранить жизнь бота!",
     "deprecated": "Больше не используется",
     "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
-    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://wiki.mantaro.site> for more information about the bot.",
+    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://www.mantaro.site/mantaro-wiki> for more information about the bot.",
     "ratelimit": {
       "header": "%1$s%2$s (Достигнут лимит)\n **Вы сможете снова использовать эту команду через %3$s.**",
       "spam_1": "Остановитесь и отдохните, это полезно для вашего здоровья. **Время запроса продолжит увеличиваться, если вы продолжишь спамить!**",
@@ -148,7 +148,7 @@
       "title": "Slash commands transition",
       "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site",
+      "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site.\nFor more help, use the new wiki at https://www.mantaro.site/mantaro-wiki/",
       "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site"
     },
     "fish": {
@@ -380,7 +380,7 @@
     "custom": {
       "custom_notice": "This is a custom command.",
       "no_args": "%1$sВы должны указать, что вы желаете сделать с этой командой. Для более подробной информации введите команду: `~>help`!",
-      "incorrect_args": "%1$sIncorrect arguments. Check `/help command:custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101 for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
+      "incorrect_args": "%1$sIncorrect arguments. Check `/help command:custom` or https://www.mantaro.site/mantaro-wiki/guides/custom-commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
       "error_running": "%1$sОшибка при выполнении кастомной команды... пожалуйста проверьте внимательнее содержание и длину (оно не может быть более 2000 слов).",
       "error_running_new": "%1$sОшибка при использовании кастомной команды. Проверьте ответ, содержание и его длину.\n**Ошибка:**\n```%2$s```",
       "not_loaded": "Бот ещё не полностью загрузился...Кастомные команды станут доступны в ближайшее время!",
@@ -390,10 +390,10 @@
       "new_error": "%1$sПользовательская команда, которую вы пытаетесь создать, содержит ошибку (v3. проверьте ее содержимое) .\n**Ошибка:**\n```%2$s```",
       "ls": {
         "header": "Команды для этого сервера",
-        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101)\n \n**List:**",
+        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/currency/101)\n \n**List:**",
         "footer": "Общее количество кастомных команд на этом сервере: %1$s"
       },
-      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
+      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://www.mantaro.site/mantaro-wiki/guides/custom-commands>.",
       "view": {
         "invalid": "%1$sВам необходимо указать команду!",
         "not_found": "%1$sЗдесь нет кастомной команды с таким именем.",
@@ -765,7 +765,7 @@
         "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `/equip item:<item name>`",
         "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `/use item item:<item name>`",
         "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits.",
-        "success_breakable_upgrade": "Вы можете проверить <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> для получения дополнительной информации о том, как улучшить свои инструменты!"
+        "success_breakable_upgrade": "You can check <https://www.mantaro.site/mantaro-wiki/currency/103> for more information on how to upgrade your tools!"
       },
       "header": "Магазин Mantaro",
       "reference": "\nYou can buy and sell items using `/buy item:<item>` and `/sell item:<item>` respectively. Check `/help market` for more info.",
@@ -819,7 +819,7 @@
       "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `15`!"
     },
     "opts": {
-      "note": "%1$sХей, проверь <https://github.com/Mantaro/MantaroBot/wiki/Configuration> там есть вся нужна информация по opts.\nЗаметка: Только администраторы или люди с ролью Bot Commander могут использовать эту команду!",
+      "note": "%1$sHey, if you're lost or want help on using opts, check <https://www.mantaro.site/mantaro-wiki/basics/server-configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!",
       "list": {
         "header": "**Список функций Mantaro**\n%1$s*Все команды должны иметь префикс `~>opts` когда вы используете их*\n%2$s"
       },
@@ -888,7 +888,7 @@
         "time_out": "%1$sThe time to set your profile description has ran out (or you cancelled it, or started a new one)."
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge! For example, `/profile displaybadge badge:claimer`",
+        "not_specified": "%1$sYou need to specify your main badge! For example, `/badges display badge:claimer`",
         "reset_success": "%1$sЗначки больше не будут отображаться в вашем профиле!",
         "important_success": "%1$sОтображаемый значок включен.",
         "no_such_badge": "%1$sУ вас нет такого значка...\nДоступные вам значки: %2$s",
@@ -921,7 +921,7 @@
         "potion_type": "Тип зелья",
         "buff": "Бафф",
         "buff_type": "Тип баффа",
-        "experience": "Опыт",
+        "experience": "Experience (Old)",
         "mine_xp": "Опыт Шахтёрства",
         "fish_xp": "Опыт Рыбалки",
         "chop_xp": "Chopping Experience",
@@ -967,7 +967,7 @@
         "cancelled": "%1$sCancelled operation."
       },
       "display": {
-        "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
+        "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://www.mantaro.site/mantaro-wiki/basics/premium-perks>",
         "not_enough": "%1$sNot enough valid widgets to put on your profile (minimum: 3). If you're lost, check `/profile widgets`",
         "success": "%1$sОтображение профиля обновлено: `%2$s`",
         "ls": "%1$sList of profile components:\n%2$s **Widgets in Default Order:** `%3$s`\n%2$s **Your widgets:** `%4$s`\nYou can use `/profile widgets order:reset` to reset your profile display references",
@@ -976,9 +976,9 @@
       },
       "claimlock": {
         "removed": "%1$sУспешно сброшен статус вашего вайфу замка.",
-        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/profile claimlock remove:true` to remove it later.",
+        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/waifu claimlock remove:true` to remove it later.",
         "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `/buy item:claim key`",
-        "already_locked": "%1$sYou're already claim locked. Use `/profile claimlock remove:true` to remove it."
+        "already_locked": "%1$sYou're already claim locked. Use `/waifu claimlock remove:true` to remove it."
       },
       "autoequip": {
         "disable": "%1$sУспешно отключёна авто-экипировка.",
@@ -991,6 +991,7 @@
       "credits": "Кредитов",
       "old_credits": "Legacy Credits",
       "level": "Уровень",
+      "activity_xp": "Activity XP",
       "xp": "ОП",
       "rep": "Репутация",
       "birthday": "День рождения",
@@ -1023,7 +1024,7 @@
       },
       "brief_success": "**%1$s's значки:**\n%2$s",
       "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `/profile show` and then run this command again.\n",
-      "info_notice": "Use `/badges info badge:<badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "info_notice": "Use `/badges info badge:<badge name>` to get more information about a badge. [You can also check the wiki](https://www.mantaro.site/mantaro-wiki/currency/badges)\n",
       "donate_notice": "**Вы можете получить значок за [поддержку разработчиков Mantaro!](https://patreon.com/mantaro)!** (Процесс может занять несколько минут)\n\n",
       "no_badges": "Нет значков для отображения (пока что!)",
       "header": "Полученные значки %1$s",
@@ -1373,11 +1374,11 @@
         "too_many": "How did you even get this many pats?"
       },
       "pet_reactions": {
-        "cute": "%1$s**%2$s** happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
-        "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head. **Pat counter: %3$s**.%4$s",
-        "nothing": "%1$s**%2$s** just sits there, doing nothing. **Pat counter: %3$s**.%4$s",
-        "cheer": "%1$s**%2$s**'s reaction was so cute it managed to cheer you up. **Pat counter: %3$s**.%4$s",
-        "scare": "%1$s**%2$s** got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
+        "cute": "%1$s**%2$s** happily wags their tail as you caress their head.%3$s",
+        "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head.%3$s",
+        "nothing": "%1$s**%2$s** just sits there, doing nothing.%3$s",
+        "cheer": "%1$s**%2$s**'s reaction was so cute it managed to cheer you up.%3$s",
+        "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden?.%3$s",
         "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
       },
       "buy": {
@@ -1560,9 +1561,9 @@
     },
     "help": {
       "title": "Помощь Мантаро",
-      "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
-      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help command:<name of command>`\n",
+      "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://www.mantaro.site/mantaro-wiki). [Currency Guide](https://www.mantaro.site/mantaro-wiki/currency/101)\n",
+      "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://www.mantaro.site/mantaro-wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
+      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://www.mantaro.site/mantaro-wiki).\nRemember you can get more information on a command using `/help command:<name of command>`\n",
       "support": "If you're still lost you can join the [support server](https://support.mantaro.site). You can also follow me on [Twitter](https://twitter.com/mantarodiscord) for updates.\n",
       "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Отображаются только не отключенные команды. Всего отключенных команд: %1$s",
@@ -1573,7 +1574,7 @@
         "no_help": "%1$sДля этой команды нет расширенной справки.",
         "not_found": "%1$sКоманды с таким названием не существует"
       },
-      "too_long": "Error displaying sub-command help. Check the [wiki](https://github.com/Mantaro/MantaroBot/wiki) for more information on this specific command.",
+      "too_long": "Error displaying sub-command help. Check the [wiki](https://www.mantaro.site/mantaro-wiki) for more information on this specific command.",
       "include_warning": "**Don't include <> or [] on the command itself.**",
       "help_header": "Command help for %s",
       "options": "Options",
@@ -1637,7 +1638,7 @@
       "bot_notice": "%1$sУ ботов нет денег.",
       "external_balance": "%1$s имеет **$%2$d кредитов.**",
       "own_balance": "Ваш баланс **$%1$,d кредитов.**%2$s",
-      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once."
+      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://www.mantaro.site/mantaro-wiki/currency/101>. This will only be shown once."
     },
     "daily": {
       "check": "%1$sВы сможете получить свой ежедневный платеж В: **%2$s.**",
@@ -1705,7 +1706,7 @@
     "mine": {
       "not_equipped": "%1$sYou don't have any equipped pick. Use `/equip item:<pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `/buy item:pick`",
       "success": "%1$sВы успешно добыли ресурсов на **$%2$s кредитов**, используя *%3$s*",
-      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `/cast list` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
+      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `/cast list` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://www.mantaro.site/mantaro-wiki/currency/103>",
       "diamond": {
         "overflow": "Huh, you found %1$,d diamond(s) while mining, but you already had too much, so I sold them for you.",
         "success": "Ух! Вы были %1$s настолько везучим, что нашли алмаз, во время раскопок, проверьте свой инвентарь!"
@@ -1805,7 +1806,7 @@
         "durability": "Durability",
         "desc": "Description",
         "upgrade": "Looking to upgrade?",
-        "upgrade_content": "Click [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
+        "upgrade_content": "Click [here](https://www.mantaro.site/mantaro-wiki/currency/103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
       },
       "attribute": {
         "tier": "Wrench Tier (to craft):",
@@ -1828,7 +1829,7 @@
   },
   "options": {
     "options": "Настройки Мантаро",
-    "error_general": "%1$sIncorrect usage or missing arguments. Make sure the first argument doesn't start with a new line!\nIf you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
+    "error_general": "%1$sIncorrect usage or missing arguments. Make sure the first argument doesn't start with a new line!\nIf you're lost or want help on using opts, check <https://www.mantaro.site/mantaro-wiki/basics/server-configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sНельзя получить значения. Странная вещь...",
       "header": "Настройки установлены для сервера **%1$s**.",
@@ -1992,7 +1993,7 @@
       "autorole": "%1$sВы не можете установить роль autorole в качестве роли дня рождения! Помните, что роль дня рождения - это роль, которая назначается человеку, когда наступает день рождения, а затем удаляется, когда день проходит.",
       "warning": "%1$sПомните, что роль дня рождения - это роль, которая назначается человеку, когда наступает день рождения, а затем удаляется, когда день проходит. Если у вас есть какие-либо сомнения относительно его настройки, вы всегда можете присоединяйтесь к нашему серверу поддержки и спросить. Вы также можете проверить `~> opts help birthday enable` для примера.",
       "warning_1": "Это происходит из-за того, как работает присваиватель дня рождения: он назначает временную роль человеку, у которого день рождения, и отменяет её назначение по истечению дня рождения. **Это означает, что каждый, у кого есть роль дня рождения, будет иметь роль в день, когда проходит его день рождения**. Пожалуйста, будьте осторожны при выборе роли для использования, так как неправильная конфигурация может привести к (на самом деле) плохим вещам!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Birthday-101> for more info.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://www.mantaro.site/mantaro-wiki/guides/birthday-announcer> for more info.",
       "warning_3": "Кроме того, кэш дня рождения (что используется для их хранения) обновляется только каждые 23 часа. То есть, если вы установите свой день рождения сегодня на завтра, чтобы протестировать этот извещатель, он **не будет** работать",
       "warning_4": "Введите **да**, если вы согласны установить роль%2$s как роль дня рождения, а **нет** - отменить. Это время ожидания через 45 секунд.",
       "success": "%1$sНа этом сервере включено ведение журнала дня рождения с параметрами -> Канал: `%2$s (%3$s)` и роль: `%4$s (%5$s)`",
@@ -2527,7 +2528,7 @@
       "cobweb": "Что-то, оставленное пауком, в пещере. Удивлюсь, если это имеент хоть какую-то ценность.",
       "fragment": "Фрагмент древнего драгоценного камня. Полезен для отливки.",
       "mop": "Замечательный способ убрать всю пыль в округе. Бьюсю об заклад, её много.",
-      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `/profile claimlock`",
+      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `/waifu claimlock`",
       "coffee": "Замечательный способ начать свой день.",
       "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 3 sessions.",
       "bait": "Повышает твой шанс выловить рыбу.",
