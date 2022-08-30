@@ -148,7 +148,7 @@
       "title": "Slash commands transition",
       "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description_image": "Um Slash-Befehle für manche Bild-Befehle auszuführen, versuche den Befehl mit dem Präfix `/image` stattdessen. Zum Beispiel, `~>catgirl` wird zu `/image catgirl`. Befehle für Imageboards sind nicht davon betroffen.\n\nWenn du die Slash-Befehle nicht siehst, füge den Bot erneut dem Server mit dem Einladungslink unter https://add.mantaro.site hinzu",
+      "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site.\nFor more help, use the new wiki at https://www.mantaro.site/mantaro-wiki/",
       "description_2": "Um Slash-Befehle auszuführen, versuche den Befehl mit dem Präfix `/` stattdessen. Zum Beispiel, `~>ping` wird zu `/ping` (und drücke Tab)\n\nWenn du die Slash-Befehle nicht siehst, füge den Bot erneut dem Server mit dem Einladungslink unter https://add.mantaro.site hinzu"
     },
     "fish": {
@@ -888,7 +888,7 @@
         "time_out": "%1$sThe time to set your profile description has ran out (or you cancelled it, or started a new one)."
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge! For example, `/profile displaybadge badge:claimer`",
+        "not_specified": "%1$sYou need to specify your main badge! For example, `/badges display badge:claimer`",
         "reset_success": "%1$sKein Abzeichen wird jetzt oben auf deinem Profil angezeigt!",
         "important_success": "%1$sDein Display-Abzeichen ist jetzt das wichtigste.",
         "no_such_badge": "%1$sEs gibt kein solches Abzeichen...\nDeine verfügbaren Abzeichen: %2$s",
@@ -976,9 +976,9 @@
       },
       "claimlock": {
         "removed": "%1$sDein Beanspruchungsschutz wurde erfolgreich zurückgesetzt.",
-        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/profile claimlock remove:true` to remove it later.",
+        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/waifu claimlock remove:true` to remove it later.",
         "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `/buy item:claim key`",
-        "already_locked": "%1$sYou're already claim locked. Use `/profile claimlock remove:true` to remove it."
+        "already_locked": "%1$sYou're already claim locked. Use `/waifu claimlock remove:true` to remove it."
       },
       "autoequip": {
         "disable": "%1$sAuomatischen Ausrüsten wurde deaktiviert.",
@@ -1374,11 +1374,11 @@
         "too_many": "Wie hast du es geschafft, so oft zu streicheln?"
       },
       "pet_reactions": {
-        "cute": "%1$s**%2$s** wackelt fröhlich mit seinem Schwanz, während du seinen Kopf streichelst. **Streichelzähler: %3$s**.%4$s",
-        "cute_not_animal": "%1$s**%2$s** schaut dich fröhlich an, während du seinen Kopf streichelst. **Streichelzähler: %3$s**.%4$s",
-        "nothing": "%1$s**%2$s** sitzt nur da und macht nichts. **Streichelzähler: %3$s**.%4$s",
-        "cheer": "%1$s**%2$s**s Reaktion war so niedlich, dass es dich aufgeheitert hat. **Streichelzähler: %3$s**%4$s",
-        "scare": "%1$s**%2$s** got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
+        "cute": "%1$s**%2$s** happily wags their tail as you caress their head.%3$s",
+        "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head.%3$s",
+        "nothing": "%1$s**%2$s** just sits there, doing nothing.%3$s",
+        "cheer": "%1$s**%2$s**'s reaction was so cute it managed to cheer you up.%3$s",
+        "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden?.%3$s",
         "counter_100": "%1$sEs scheint, als würde der Kopf von so vielen Streicheleinheiten anfangen zu glänzen."
       },
       "buy": {
@@ -2528,7 +2528,7 @@
       "cobweb": "Rückstände von Spinnen in den Minen. Ich wundere mich, ob das was wert ist.",
       "fragment": "Fragment eines antiken Juwels. Nützlich zum Verarbeiten.",
       "mop": "Eine wunderbare Art, um all den Staub um dich herum wegzuwischen. Ich wette da ist viel.",
-      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `/profile claimlock`",
+      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `/waifu claimlock`",
       "coffee": "Ein wunderbarer Start in den Tag.",
       "waifu_pill": "Gibt dir einen großen Vorteil beim Abbauen und Fischen, wenn eine deiner Waifus über 20000 wert ist. Hält 3 Runden.",
       "bait": "Erhöht deine Wahrscheinlichkeit Fische zu fangen.",
