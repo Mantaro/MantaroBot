@@ -888,7 +888,7 @@
         "time_out": "%1$sThe time to set your profile description has ran out (or you cancelled it, or started a new one)."
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge! For example, `/profile displaybadge badge:claimer`",
+        "not_specified": "%1$sYou need to specify your main badge! For example, `/badges display badge:claimer`",
         "reset_success": "%1$sNo badge will show on the top of your profile now!",
         "important_success": "%1$sYour display badge is now the most important one.",
         "no_such_badge": "%1$sThere's no such badge...\nYour available badges: %2$s",

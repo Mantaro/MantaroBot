@@ -302,62 +302,6 @@ public class ProfileCmd {
             }
         }
 
-        @Description("Sets your display badge.")
-        @Options({@Options.Option(type = OptionType.STRING, name = "badge", description = "The badge to display, reset/none to reset it or no badge. If nothing is specified, it prints a list.")})
-        @Help(
-                description = "Sets your profile display badge.",
-                usage = "`/profile displaybadge badge:[badge name]` - Use reset to reset the badge to the default one and use none to show no badge.",
-                parameters = {@Help.Parameter(name = "badge", description = "The badge to use.")}
-        )
-        public static class DisplayBadge extends SlashCommand {
-            @Override
-            protected void process(SlashContext ctx) {
-                var player = ctx.getPlayer();
-                var data = player.getData();
-                var badgeString = ctx.getOptionAsString("badge", "");
-                var badge = Badge.lookupFromString(badgeString);
-                if (badge == null) {
-                    ctx.replyEphemeral("commands.profile.displaybadge.no_such_badge", EmoteReference.ERROR,
-                            player.getData().getBadges().stream()
-                                    .map(Badge::getDisplay)
-                                    .collect(Collectors.joining(", "))
-                    );
-
-                    return;
-                }
-
-                if (badgeString.equalsIgnoreCase("none")) {
-                    data.setShowBadge(false);
-                    ctx.replyEphemeral("commands.profile.displaybadge.reset_success", EmoteReference.CORRECT);
-                    player.saveUpdating();
-                    return;
-                }
-
-                if (badgeString.equalsIgnoreCase("reset")) {
-                    data.setMainBadge(null);
-                    data.setShowBadge(true);
-                    ctx.replyEphemeral("commands.profile.displaybadge.important_success", EmoteReference.CORRECT);
-                    player.saveUpdating();
-                    return;
-                }
-
-                if (!data.getBadges().contains(badge)) {
-                    ctx.replyEphemeral("commands.profile.displaybadge.player_missing_badge", EmoteReference.ERROR,
-                            player.getData().getBadges().stream()
-                                    .map(Badge::getDisplay)
-                                    .collect(Collectors.joining(", "))
-                    );
-
-                    return;
-                }
-
-                data.setShowBadge(true);
-                data.setMainBadge(badge);
-                player.saveUpdating();
-                ctx.replyEphemeral("commands.profile.displaybadge.success", EmoteReference.CORRECT, badge.display);
-            }
-        }
-
         @Description("Sets your profile language.")
         @Options({@Options.Option(type = OptionType.STRING, name = "lang", description = "The language to use. See /mantaro language for a list.", required = true)})
         @Help(
