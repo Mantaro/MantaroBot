@@ -84,7 +84,7 @@
     "sellout": "Nếu bạn thích tui thì hãy cân nhắc việc ủng hộ trên [Patreon](https://www.patreon.com/mantaro). Ngay cả một khoản ủng hộ nhỏ cũng sẽ giúp tui tiếp tục hoạt động đó!",
     "deprecated": "Không còn được sử dụng",
     "space_notice": "Nếu tên của vật phẩm có bao gồm khoảng trống, hãy thử \"đặt nó trong ngoặc kép\". Có lẽ sử dụng câu lệnh trợ giúp có thể sẽ hỗ trợ nhiều hơn cho bạn.",
-    "missing_embed_permissions": "Tôi không có quyền Đính Kèm Liên Kết để thực hiện câu lệnh này. Làm ơn hãy cho tôi những quyền hạn cần thiết đó (Hãy chắn chắc rằng bạn sẽ kiểm tra thiết lập quyền hạn của các kênh và các mục). Nếu bạn cần sự hỗ trợ thì hãy đến <https://support.mantaro.site>. Bạn cũng có thể kiểm tra wiki tại <https://wiki.mantaro.site> về thông tin của tôi.",
+    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://www.mantaro.site/mantaro-wiki> for more information about the bot.",
     "ratelimit": {
       "header": "%1$s%2$s (lệnh có thời gian chờ)\n **Bạn có thể sử dụng lệnh này sau %3$s.**",
       "spam_1": "Nghỉ ngơi đi, nó sẽ tốt cho sức khỏe của bạn. *Hãy nhớ rằng thời gian chờ sẽ tăng nếu bạn cứ cố thử lại trước khi nó được đặt lại!*",
@@ -380,7 +380,7 @@
     "custom": {
       "custom_notice": "Đây là một câu lệnh tuỳ chỉnh.",
       "no_args": "%1$sBạn cần phải xác định bạn muốn làm gì với lệnh này. Kiểm tra lệnh trợ giúp để biết thêm thông tin!",
-      "incorrect_args": "%1$sIncorrect arguments. Check `/help command:custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101 for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
+      "incorrect_args": "%1$sIncorrect arguments. Check `/help command:custom` or https://www.mantaro.site/mantaro-wiki/guides/custom-commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
       "error_running": "%1$sLỗi trong khi chạy lệnh tùy chỉnh... vui lòng kiểm tra lại độ dài và nội dung phản hồi (không quá 2000 kí tự).",
       "error_running_new": "%1$sLỗi khi chạy lệnh tùy chỉnh. Kiểm tra phản hồi, nội dung và độ dài.\n **Lỗi**\n```%2$s```",
       "not_loaded": "Bot vẫn chưa được khởi động đầy đủ... các lệnh tùy chỉnh sẽ xuất hiện trong thời gian sớm nhất!",
@@ -390,10 +390,10 @@
       "new_error": "%1$sLệnh tùy chỉnh mà bạn đang cố tạo ra có lỗi (v3, kiểm tra nội dung).\n**Lỗi:**\n```%2$s```",
       "ls": {
         "header": "Các lệnh của máy chủ này.",
-        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101)\n \n**List:**",
+        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/currency/101)\n \n**List:**",
         "footer": "Tổng số lệnh tùy chỉnh trong máy chủ: %1$s"
       },
-      "invalid": "%1$sSự lựa chọn câu lệnh bất hợp lệ. Có lẽ bạn nên xem qua trang wiki tại <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
+      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://www.mantaro.site/mantaro-wiki/guides/custom-commands>.",
       "view": {
         "invalid": "%1$sBạn cần chỉ định lệnh và số phản hồi!",
         "not_found": "%1$sKhông có lệnh tùy chỉnh với tên đó ở đây.",
@@ -765,7 +765,7 @@
         "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `/equip item:<item name>`",
         "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `/use item item:<item name>`",
         "not_enough_money": "%1$sBạn không có đủ tiền để mua món đồ này. Tài sản của bạn: %2$,d đồng, Cần: %3$,d đồng.",
-        "success_breakable_upgrade": "Hãy ghé qua <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> để biết thêm thông tin chi tiết về cách nâng cấp các dụng cụ nhé!"
+        "success_breakable_upgrade": "You can check <https://www.mantaro.site/mantaro-wiki/currency/103> for more information on how to upgrade your tools!"
       },
       "header": "Chợ Mantaro",
       "reference": "\nYou can buy and sell items using `/buy item:<item>` and `/sell item:<item>` respectively. Check `/help market` for more info.",
@@ -819,7 +819,7 @@
       "invalid_amount": "%1$sSố lượng sử dụng cần ở trong khoảng từ `1` đến `15`!"
     },
     "opts": {
-      "note": "%1$sNày, nếu bạn đang lúng túng hoặc muốn được trợ giúp trong việc sử dụng lệnh cài đặt, hãy truy cập <https://github.com/Mantaro/MantaroBot/wiki/Configuration> để được hướng dẫn.\nLưu ý: Chỉ những được cấp quyền người quản lý (Administrator), quản lý máy chủ (Manage Server) hoặc những người có vai trò quản lý bot mới được dùng lệnh này!",
+      "note": "%1$sHey, if you're lost or want help on using opts, check <https://www.mantaro.site/mantaro-wiki/basics/server-configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!",
       "list": {
         "header": "**Danh sách các lệnh cài đặt trong Mantaro**\n%1$s*Tất cả các lệnh cài đặt đều phải được đặt sau `~>opts` khi dùng*\n%2$s"
       },
@@ -967,7 +967,7 @@
         "cancelled": "%1$sĐã huỷ câu lệnh."
       },
       "display": {
-        "not_premium": "%1$sCá nhân hóa hồ sơ chỉ có sẵn cho người dùng cao cấp. Để biết thêm các đặc quyền, bạn có thể xem tại <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
+        "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://www.mantaro.site/mantaro-wiki/basics/premium-perks>",
         "not_enough": "%1$sNot enough valid widgets to put on your profile (minimum: 3). If you're lost, check `/profile widgets`",
         "success": "%1$sĐã đặt thành công bố cục mới cho hồ sơ của bạn. Bố cục mới là `%2$s`",
         "ls": "%1$sList of profile components:\n%2$s **Widgets in Default Order:** `%3$s`\n%2$s **Your widgets:** `%4$s`\nYou can use `/profile widgets order:reset` to reset your profile display references",
@@ -1024,7 +1024,7 @@
       },
       "brief_success": "**Huy hiệu của %1$s:**\n%2$s",
       "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `/profile show` and then run this command again.\n",
-      "info_notice": "Use `/badges info badge:<badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "info_notice": "Use `/badges info badge:<badge name>` to get more information about a badge. [You can also check the wiki](https://www.mantaro.site/mantaro-wiki/currency/badges)\n",
       "donate_notice": "**Bạn có thể nhận được huy hiệu cho việc [hỗ trợ phát triển Mantaro!](https://patreon.com/mantaro)!** (Việc nhận huy hiệu có thể sẽ mất chút thời gian)\n\n",
       "no_badges": "Không có huy hiệu để xem (hoặc chưa có!)",
       "header": "Thành tích huy hiệu của %1$s",
@@ -1561,9 +1561,9 @@
     },
     "help": {
       "title": "Trợ giúp Mantaro",
-      "base_category": "Danh sách lệnh cho loại lệnh %1$s. Để được hướng dẫn cụ thể, hãy xem [wiki](https://github.com/Mantaro/MantaroBot/wiki) và [Hướng dẫn mua bán](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
-      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `/help command:<name of command>`\n",
+      "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://www.mantaro.site/mantaro-wiki). [Currency Guide](https://www.mantaro.site/mantaro-wiki/currency/101)\n",
+      "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://www.mantaro.site/mantaro-wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
+      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://www.mantaro.site/mantaro-wiki).\nRemember you can get more information on a command using `/help command:<name of command>`\n",
       "support": "Nếu bạn vẫn không biết làm gì thì có thể tham gia [máy chủ hỗ trợ](https://support.mantaro.site). Bạn cũng có thể theo dõi chúng tôi trên [Twitter](https://twitter.com/mantarodiscord) về cập nhật.\n",
       "patreon": "**[Chúng tôi cần sự giúp đỡ của bạn để Mantaro tiếp tục hoạt động! Nhấn vào đây để biết thêm.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Chỉ hiển thị các lệnh không bị vô hiệu hóa. Tổng số lệnh bị vô hiệu hóa: %1$s",
@@ -1574,7 +1574,7 @@
         "no_help": "%1$sKhông có trợ giúp mở rộng nào được đặt cho lệnh này.",
         "not_found": "%1$sLệnh với tên này không tồn tại"
       },
-      "too_long": "Lỗi khi hiển thị trợ giúp lệnh phụ. Kiểm tra [wiki](https://github.com/Mantaro/MantaroBot/wiki) để biết thêm thông tin về lệnh này.",
+      "too_long": "Error displaying sub-command help. Check the [wiki](https://www.mantaro.site/mantaro-wiki) for more information on this specific command.",
       "include_warning": "**Don't include <> or [] on the command itself.**",
       "help_header": "Command help for %s",
       "options": "Options",
@@ -1638,7 +1638,7 @@
       "bot_notice": "%1$sBot không có tiền.",
       "external_balance": "Số tiền của %1$s là **$%2$,d đồng.**",
       "own_balance": "Số tiền của bạn là **$%1$,d đồng.**%2$s",
-      "new_player": "\nXin chào! Tôi thấy bạn có vẻ là chiếu mới ở đây. Hướng dẫn này sẽ giúp bạn rất nhiều: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. Dòng này chỉ hiển thị một lần."
+      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://www.mantaro.site/mantaro-wiki/currency/101>. This will only be shown once."
     },
     "daily": {
       "check": "%1$sBạn sẽ nhận được phần thưởng hàng ngày trong vòng: **%2$s.**",
@@ -1706,7 +1706,7 @@
     "mine": {
       "not_equipped": "%1$sYou don't have any equipped pick. Use `/equip item:<pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `/buy item:pick`",
       "success": "%1$sBạn đào được khoáng chất trị giá **$%2$,d đồng**, bằng *%3$s*",
-      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `/cast list` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
+      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `/cast list` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://www.mantaro.site/mantaro-wiki/currency/103>",
       "diamond": {
         "overflow": "Ủa, bạn đào được %1$,d viên kim cương, nhưng bạn đã có quá nhiều, nên tôi đã bán nó cho bạn.",
         "success": "Ủa! Bạn may mắn nhặt được %1$s kim cương trong lúc đào, hãy xem túi đồ của bạn!"
@@ -1806,7 +1806,7 @@
         "durability": "Độ bền",
         "desc": "Mô tả",
         "upgrade": "Đang tìm cách nâng cấp?",
-        "upgrade_content": "Nhấn vào [đây](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) để biết thêm thông tin chi tiết về cách nâng cấp các dụng cụ nhé!"
+        "upgrade_content": "Click [here](https://www.mantaro.site/mantaro-wiki/currency/103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
       },
       "attribute": {
         "tier": "Wrench Tier (to craft):",
@@ -1829,7 +1829,7 @@
   },
   "options": {
     "options": "Tùy chọn Mantaro",
-    "error_general": "%1$sSử dụng không chính xác hoặc thiếu đối số. Hãy đảm bảo rằng đối số đầu tiên không bắt đầu bằng một dòng mới!\nNếu bạn không biết làm gì hoặc muốn được trợ giúp về cách sử dụng opts, hãy xem <https://github.com/Mantaro/MantaroBot/wiki/Configuration> để biết hướng dẫn về cách sử dụng opts. Nếu bạn gặp bất kỳ vấn đề nào sau khi đọc wiki, hãy truy cập <https://support.mantaro.site>",
+    "error_general": "%1$sIncorrect usage or missing arguments. Make sure the first argument doesn't start with a new line!\nIf you're lost or want help on using opts, check <https://www.mantaro.site/mantaro-wiki/basics/server-configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sKhông thể truy xuất giá trị. Kỳ thật...",
       "header": "Tuỳ chọn được đặt cho máy chủ **%1$s**.",
@@ -1993,7 +1993,7 @@
       "autorole": "%1$sBạn không thể đặt vai trò của tất cả mọi người thành vai trò sinh nhật! Hãy nhớ rằng vai trò sinh nhật là một vai trò tự động đưa cho người đó khi sinh nhật họ tới, và bị gỡ sau ngày đó.",
       "warning": "%1$sHãy nhớ rằng vai trò sinh nhật là một vai trò được gắn cho người đó khi sinh nhật sinh nhật họ tới, và bị gỡ sau khi ngày đó qua đi. Bạn cũng có thể ghi `~>opts help birthday enable` để làm ví dụ.",
       "warning_1": "Điều này là do cách thức hoạt động của công cụ gắn ngày sinh: Nó gắn một vai trò tạm thời cho người có ngày sinh và gỡ khi ngày sinh nhật trôi qua. **Điều này có nghĩa là tất cả mọi người có vai trò trong ngày sinh nhật sẽ bị xóa vai trò ngày vào ngày hôm sau**. Hãy cẩn thận khi chọn vai trò, vì sai một li là đi luôn cái máy chủ đấy (không đùa đâu)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Birthday-101> for more info.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://www.mantaro.site/mantaro-wiki/guides/birthday-announcer> for more info.",
       "warning_3": "Ngoài ra, bộ nhớ đệm sinh nhật (những gì được sử dụng để lưu trữ) chỉ được cập nhật sau mỗi 23 giờ. Có nghĩa là nếu bạn đặt ngày sinh của mình từ hôm nay sang ngày mai để kiểm tra thì nó sẽ **không** hoạt động.",
       "warning_4": "Nhấn **yes** nếu bạn đồng ý đặt vai trò %2$s làm vai trò sinh nhật, và **no** để huỷ. Thời gian chờ là 45 giây.",
       "success": "%1$sNhật kí thông báo ngày sinh trên máy chủ này với biến -> Kênh: `%2$s (%3$s)` và vai trò: `%4$s (%5$s)`",
