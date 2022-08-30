@@ -148,7 +148,7 @@
       "title": "Transition vers les commandes \"slash\"",
       "description_alias": "%1$s**La commande que tu essaies d'utiliser est devenue une \"commande slash\".** Essaie de la lancer avec / comme préfixe. **Cette commande était un alias**. Essaie de lancer l'originale (`/%2$s`).\n\nLes commandes slash deviennent le nouveau moyen d'utiliser les commandes selon la ligne de conduite de Discord. **Les commandes fonctionnant toujours avec le préfixe deviendront des commandes slash uniquement**\nLes alias ont été retirées pour laisser place aux commandes slash puisqu'il n'y a pas assez de place pour les ajouter (Discord nous donne un maximum de 100 commandes).",
       "description": "%1$s**La commande que tu essaies d'utiliser est devenue une \"commande slash\".** Essaie de la lancer avec / comme préfixe (`/%2$s`).\n\nLes commandes slash deviennent le nouveau moyen d'utiliser les commandes selon la ligne de conduite de Discord. **Les commandes fonctionnant toujours avec le préfixe deviendront des commandes slash uniquement**\nLes alias ont été retirées pour laisser place aux commandes slash puisqu'il n'y a pas assez de place pour les ajouter (Discord nous donne un maximum de 100 commandes).",
-      "description_image": "Pour lancer une commande slash, pour certaines commandes d'images, essaie de l'utiliser avec `/image` comme préfixe au lieu de celui que tu utilises. Par exemple, `/catgirl` devient `/image catgirl`. Tu ne dois pas faire ça pour les commandes recherchant dans les banques d'images.\n\nSi tu ne vois pas les commandes slash, re-invite le bot en utilisant le lien d'invitation disponible sur https://add.mantaro.site",
+      "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site.\nFor more help, use the new wiki at https://www.mantaro.site/mantaro-wiki/",
       "description_2": "Pour lancer une commande slash, essaie de l'utiliser avec `/` comme préfixe au lieu de celui que tu utilises. Par exemple, `/ping` devient `/ping` (et appuie sur tab)\n\nSi tu ne vois pas les commandes slash, re-invite le bot en utilisant le lien d'invitation disponible sur https://add.mantaro.site"
     },
     "fish": {
@@ -888,7 +888,7 @@
         "time_out": "%1$sThe time to set your profile description has ran out (or you cancelled it, or started a new one)."
       },
       "displaybadge": {
-        "not_specified": "%1$sTu dois spécifier ton badge principal ! Par exemple, `/profile displaybadge badge:claimer`",
+        "not_specified": "%1$sYou need to specify your main badge! For example, `/badges display badge:claimer`",
         "reset_success": "%1$sAucun badge ne seras montré en haut de ton profil à compter de maintenant!",
         "important_success": "%1$sTon badge accroché est vraiment le plus important.",
         "no_such_badge": "%1$sIl n'existe pas de tel badge...\nTes badges: %2$s",
@@ -976,9 +976,9 @@
       },
       "claimlock": {
         "removed": "%1$sRéinitialisation de ton statut de verrouillage Waifu opéré avec succès.",
-        "success": "%1$sTu ne peux plus être acquis.e comme Waifu. Cette action a utilisé une clé. Utilise la commande `/profile claimlock remove:true` pour l'enlever.",
+        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/waifu claimlock remove:true` to remove it later.",
         "no_key": "%1$sTu n'as pas de 'claim key' pour faire ça. Tu peux en acheter une au marché en utilisant `/buy item:claim key`",
-        "already_locked": "%1$sTu es déjà verrouillé.e. Utilise `/profile claimlock remove:true` pour l'annuler."
+        "already_locked": "%1$sYou're already claim locked. Use `/waifu claimlock remove:true` to remove it."
       },
       "autoequip": {
         "disable": "%1$sAuto-equip désactivé.",
@@ -1374,11 +1374,11 @@
         "too_many": "Comment as-tu obtenu autant de caresses?"
       },
       "pet_reactions": {
-        "cute": "%1$s**%2$s** remue joyeusement sa queue pendant que tu caresses sa tête. **Compteur de caresses:%3$s**.%4$s",
-        "cute_not_animal": "%1$s**%2$s** sourit joyeusement pendant que vous caressez sa tête. **Compteur de caresses:%3$s**.%4$s",
-        "nothing": "%1$s**%2$s** reste assis.e à ne rien faire. **Compteur de caresses: %3$s**.%4$s ",
-        "cheer": "%1$sLa réaction de **%2$s** est si mignonne qu'elle te redonne le sourire. **Compteur de caresses: %3$s**.%4$s ",
-        "scare": "%1$s**%2$s** got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
+        "cute": "%1$s**%2$s** happily wags their tail as you caress their head.%3$s",
+        "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head.%3$s",
+        "nothing": "%1$s**%2$s** just sits there, doing nothing.%3$s",
+        "cheer": "%1$s**%2$s**'s reaction was so cute it managed to cheer you up.%3$s",
+        "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden?.%3$s",
         "counter_100": "%1$sOn dirait que sa tête va finir par briller avec autant de caresses."
       },
       "buy": {
@@ -2528,7 +2528,7 @@
       "cobweb": "Un truc laissé par une araignée au fond de la mine. Je me demande ce que ça vaut.",
       "fragment": "Fragment d'une gemme trouvé en minant.",
       "mop": "Une bonne manière de nettoyer toute la poussière qui vous entoure. Je suis sûr qu'il y en a beaucoup.",
-      "claim_key": "Cet objet te rendre inobtenable (en tant que Waifu) dés que tu auras fais la commande `/profile claimlock`",
+      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `/waifu claimlock`",
       "coffee": "Une très bonne façon de commencer votre journée",
       "waifu_pill": "Te donne un avantage significatif sur le minage et la pêche si l’une de tes Waifus est évaluée à plus de 20 000. Dure 3 sessions.",
       "bait": "Te donne une plus grande chance d'attraper du poisson.",
