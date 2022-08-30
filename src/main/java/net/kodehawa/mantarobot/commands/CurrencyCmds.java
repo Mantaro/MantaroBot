@@ -406,40 +406,6 @@ public class CurrencyCmds {
     }
 
     @Subscribe
-    public void level(CommandRegistry cr) {
-        cr.register("level", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                ctx.findMember(content, members -> {
-                    var member = ctx.getMember();
-                    if (!content.isEmpty()) {
-                        member = CustomFinderUtil.findMember(content, members, ctx);
-                    }
-
-                    if (member == null) {
-                        return;
-                    }
-
-                    var player = ctx.getPlayer(member);
-                    showLevel(ctx, member, player);
-                });
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Checks your level or the level of another user.")
-                        .setUsage("~>level [user]")
-                        .addParameterOptional("user",
-                                "The user to check the id of. Can be a mention, tag or id.")
-                        .build();
-            }
-        });
-
-        cr.registerAlias("level", "rank");
-    }
-
-    @Subscribe
     public void lootcrate(CommandRegistry registry) {
         registry.register("opencrate", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
@@ -519,7 +485,7 @@ public class CurrencyCmds {
                         int amount = 1;
                         if (arguments.containsKey("amount")) {
                             try {
-                                amount = Math.abs(Integer.parseInt(arguments.get("amount")));
+                                amount = Math.max(1, Math.abs(Integer.parseInt(arguments.get("amount"))));
                             } catch (NumberFormatException e) {
                                 ctx.sendLocalized("commands.useitem.invalid_amount", EmoteReference.WARNING);
                                 return;
@@ -713,25 +679,6 @@ public class CurrencyCmds {
         //Ratelimit handled here
         //Check ItemHelper.openLootCrate for implementation details.
         item.getAction().test(ctx, false);
-    }
-
-    private static void showLevel(IContext ctx, Member member, Player player) {
-        if (member.getUser().isBot()) {
-            ctx.sendLocalized("commands.level.bot_notice", EmoteReference.ERROR);
-            return;
-        }
-
-        var experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2);
-        if (member.getUser().getIdLong() == ctx.getAuthor().getIdLong()) {
-            ctx.sendLocalized("commands.level.own_success",
-                    EmoteReference.ZAP, player.getLevel(), player.getData().getExperience(), experienceNext
-            );
-        } else {
-            ctx.sendLocalized("commands.level.success_other",
-                    EmoteReference.ZAP, member.getUser().getAsTag(), player.getLevel(),
-                    player.getData().getExperience(), experienceNext
-            );
-        }
     }
 
     private static void calculateInventory(IContext ctx, Member member, Player player) {

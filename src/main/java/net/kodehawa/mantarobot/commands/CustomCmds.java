@@ -972,7 +972,7 @@ public class CustomCmds {
     }
 
     private static void listCustoms(IContext ctx) {
-        if (!ctx.getGuild().getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+        if (!ctx.getGuild().getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS) && ctx instanceof Context) {
             ctx.sendLocalized("general.missing_embed_permissions");
             return;
         }
