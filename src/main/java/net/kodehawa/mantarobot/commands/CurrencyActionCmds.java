@@ -502,9 +502,9 @@ public class CurrencyActionCmds {
         if (chance < 10) {
             //Here your fish rod got dusty. Yes, on the sea.
             var level = userData.increaseDustLevel(random.nextInt(4));
-            ctx.sendLocalized("commands.fish.dust", EmoteReference.TALKING, level);
             dbUser.saveUpdating();
 
+            ctx.sendLocalized("commands.fish.dust", EmoteReference.TALKING, level);
             ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.fish.autoequip.success");
             return;
         } else if (chance < 20) {

@@ -209,8 +209,9 @@ public class WaifuCmd {
 
                 if (ctx.getOptionAsBoolean("remove")) {
                     playerData.setClaimLocked(false);
-                    ctx.replyEphemeral("commands.profile.claimlock.removed", EmoteReference.CORRECT);
                     player.saveUpdating();
+
+                    ctx.replyEphemeral("commands.profile.claimlock.removed", EmoteReference.CORRECT);
                     return;
                 }
 
@@ -230,9 +231,10 @@ public class WaifuCmd {
                 }
 
                 playerData.setClaimLocked(true);
-                ctx.replyEphemeral("commands.profile.claimlock.success", EmoteReference.CORRECT);
                 inventory.process(new ItemStack(ItemReference.CLAIM_KEY, -1));
                 player.save();
+
+                ctx.replyEphemeral("commands.profile.claimlock.success", EmoteReference.CORRECT);
             }
         }
 
@@ -261,8 +263,8 @@ public class WaifuCmd {
 
                     if (button.equals("yes")) {
                         playerFinal.getData().setWaifuout(true);
-                        ctx.edit("commands.waifu.optout.success", EmoteReference.CORRECT);
                         playerFinal.saveUpdating();
+                        ctx.edit("commands.waifu.optout.success", EmoteReference.CORRECT);
                         return Operation.COMPLETED;
                     } else if (button.equals("no")) {
                         ctx.edit("commands.waifu.optout.cancelled", EmoteReference.CORRECT);

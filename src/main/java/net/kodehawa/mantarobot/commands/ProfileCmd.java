@@ -192,14 +192,16 @@ public class ProfileCmd {
 
                 if (ctx.getOptionAsBoolean("disable")) {
                     data.setAutoEquip(false);
-                    ctx.replyEphemeral("commands.profile.autoequip.disable", EmoteReference.CORRECT);
                     user.saveUpdating();
+
+                    ctx.replyEphemeral("commands.profile.autoequip.disable", EmoteReference.CORRECT);
                     return;
                 }
 
                 data.setAutoEquip(true);
-                ctx.replyEphemeral("commands.profile.autoequip.success", EmoteReference.CORRECT);
                 user.saveUpdating();
+
+                ctx.replyEphemeral("commands.profile.autoequip.success", EmoteReference.CORRECT);
             }
         }
 
@@ -318,8 +320,9 @@ public class ProfileCmd {
                 if (ctx.getOptionAsBoolean("clear")) {
                     var player = ctx.getPlayer();
                     player.getData().setDescription(null);
-                    ctx.reply("commands.profile.description.clear_success", EmoteReference.CORRECT);
                     player.saveUpdating();
+
+                    ctx.reply("commands.profile.description.clear_success", EmoteReference.CORRECT);
                     return;
                 }
 

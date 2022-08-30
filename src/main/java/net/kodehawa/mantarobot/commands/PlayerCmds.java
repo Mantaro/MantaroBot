@@ -259,7 +259,6 @@ public class PlayerCmds {
         @Override
         protected void process(SlashContext ctx) {
             var content = ctx.getOptionAsString("item");
-
             var dbUser = ctx.getDBUser();
             var equipment = dbUser.getData().getEquippedItems();
             var type = PlayerEquipment.EquipmentType.fromString(content);
@@ -449,16 +448,18 @@ public class PlayerCmds {
 
                 if (badgeString.equalsIgnoreCase("none")) {
                     data.setShowBadge(false);
-                    ctx.replyEphemeral("commands.profile.displaybadge.reset_success", EmoteReference.CORRECT);
                     player.saveUpdating();
+
+                    ctx.replyEphemeral("commands.profile.displaybadge.reset_success", EmoteReference.CORRECT);
                     return;
                 }
 
                 if (badgeString.equalsIgnoreCase("reset")) {
                     data.setMainBadge(null);
                     data.setShowBadge(true);
-                    ctx.replyEphemeral("commands.profile.displaybadge.important_success", EmoteReference.CORRECT);
                     player.saveUpdating();
+
+                    ctx.replyEphemeral("commands.profile.displaybadge.important_success", EmoteReference.CORRECT);
                     return;
                 }
 
