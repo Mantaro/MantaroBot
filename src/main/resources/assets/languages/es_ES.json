@@ -148,7 +148,7 @@
       "title": "Transición a comandos de barra lateral",
       "description_alias": "%1$s**El comando que estás intentando correr se ha movido solo a barra lateral.** Intenta correrlo con el prefijo /. **Este comando era un alias**. Intenta usar el comando original (`/%2$s`).\n\nLos comandos de barra lateral son la nueva forma de usar comandos según las reglas de Discord. **Los comandos que aún funcionan con un prefijo eventualmente solo admitirán barra lateral.**\nLos alias han sido removidos para los comandos de barra lateral ya que no había suficiente espacio (Discord solo nos deja agregar 100 comandos).",
       "description": "%1$s**El comando que estás intentando correr se ha movido solo a barra lateral.** Intenta correrlo con el prefijo / (`/%2$s`).\n\nLos comandos de barra lateral son la nueva forma de usar comandos según las reglas de Discord. **Los comandos que aún funcionan con un prefijo eventualmente solo admitirán barra lateral.**\nLos alias han sido removidos para los comandos de barra lateral ya que no había suficiente espacio (Discord solo nos deja agregar 100 comandos).",
-      "description_image": "Para usar un comando de barra lateral con algunos comandos de imágenes, intenta usar el comando con el prefijo `/image` en lugar del que se usaba antes. Por ejemplo, `/catgirl` se volvió `/image catgirl`. Los comandos de boorus no siguen este formato.\n\nSi no ves los comandos de barra lateral, intenta re-añadir el bot usando el link de invitación en https://add.mantaro.site",
+      "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site.\nFor more help, use the new wiki at https://www.mantaro.site/mantaro-wiki/",
       "description_2": "Para usar un comando de barra lateral, intenta usar el comando con el prefijo `/` en lugar del que estabas usando, por ejemplo `~>ping` se volvió `/ping` (y presiona tabulador)\n\nSi no ves los comandos de barra lateral, intenta re-añadir el bot usando el link de invitación en https://add.mantaro.site"
     },
     "fish": {
@@ -888,7 +888,7 @@
         "time_out": "%1$sEl tiempo para cambiar la descripción de tu perfil se ha acabado (o lo cancelaste, o empezaste una nueva)."
       },
       "displaybadge": {
-        "not_specified": "%1$sNecesitas especificar el trofeo a mostrar. Por ejemplo, `/profile displaybadge badge:claimer`",
+        "not_specified": "%1$sYou need to specify your main badge! For example, `/badges display badge:claimer`",
         "reset_success": "%1$sNo se mostrará ningún trofeo en tu perfil desde ahora.",
         "important_success": "%1$sSe mostrará el trofeo más importante (por jerarquía) en tu perfil desde ahora.",
         "no_such_badge": "%1$sEse trofeo no existe...\nTus trofeos: %2$s",
@@ -976,9 +976,9 @@
       },
       "claimlock": {
         "removed": "%1$sHe reiniciado el estado de tu bloqueo de reclamaciones.",
-        "success": "%1$sYa no puedes ser reclamado como waifu. Se utilizó una llave de reclamo. Usa `/profile claimlock remove:true` para eliminarla.",
+        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/waifu claimlock remove:true` to remove it later.",
         "no_key": "%1$sNo tiene una clave de reclamo para hacer esto. Puedes comprar uno en el market usando `/buy item:claim key`",
-        "already_locked": "%1$sYa te bloqueaste de ser claimeado. Usa `/profile claimlock remove:true` para removerlo."
+        "already_locked": "%1$sYou're already claim locked. Use `/waifu claimlock remove:true` to remove it."
       },
       "autoequip": {
         "disable": "%1$sAuto-equip fue correctamente deshabilitado.",
@@ -1374,11 +1374,11 @@
         "too_many": "¿Como conseguiste tantos pats?"
       },
       "pet_reactions": {
-        "cute": "%1$s**%2$s** mueve su colita felizmente mientras le acaricias la cabeza. **Contador de caricias: %3$s**.%4$s",
-        "cute_not_animal": "%1$s**%2$s** sonríe felizmente mientras le acaricias su cabeza. **Contador de caricias: %3$s**.%4$s",
-        "nothing": "%1$s**%2$s** está sentada ahí, sin hacer nada.. **Contador de caricias: %3$s**.%4$s",
-        "cheer": "%1$sLa reacción de **%2$s** ha sido tan tierna que te ha alegrado el día. **Contador de caricias: %3$s**.%4$s",
-        "scare": "%1$s**%2$s** se asustó cuando le acariciaste la cabeza. ¿Tal vez fue muy súbito? **Contador de caricias: %3$s**.%4$s",
+        "cute": "%1$s**%2$s** happily wags their tail as you caress their head.%3$s",
+        "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head.%3$s",
+        "nothing": "%1$s**%2$s** just sits there, doing nothing.%3$s",
+        "cheer": "%1$s**%2$s**'s reaction was so cute it managed to cheer you up.%3$s",
+        "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden?.%3$s",
         "counter_100": "%1$sCreo que su cabeza empezará a brillar con tantas caricias."
       },
       "buy": {
@@ -2528,7 +2528,7 @@
       "cobweb": "Algo que una araña dejó atrás en las minas. ¿Me pregunto si valdrá algo?.",
       "fragment": "Fragmentos de una gema ancestral. Útil para crear ítems.",
       "mop": "Una forma increíble de barrer todo el polvo que has acumulado. Me imagino que hay bastante.",
-      "claim_key": "Este ítem te hace no reclamable (como una waifu) cuando usas `/profile claimlock`",
+      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `/waifu claimlock`",
       "coffee": "Una forma increíble de empezar tu día.",
       "waifu_pill": "Te da una notable ventaja en la minería y pesca si una de tus waifus vale más de 20.000 créditos. Dura 3 sesiones.",
       "bait": "Te da una mayor chance de capturar peces.",
