@@ -84,7 +84,7 @@
     "sellout": "Considera donar en patreon.com/mantaro si te gusta como soy, ¡hasta una donación pequeña nos ayuda a mantener el bot vivo!",
     "deprecated": "Ya no se usa",
     "space_notice": "Si el nombre contiene espacios, intenta \"ponerlo entre comillas\". Probablemente la ayuda del comando te pueda decir más.",
-    "missing_embed_permissions": "Al bot le falta el permiso de Insertar Enlaces, el cual necesario para mostrar este comando. Por favor dáselo al bot (y revisa que tambien lo tenga en la categoría y el canal porcia). Si necesitas más ayuda, puedes ir a <https://support.mantaro.site>. También puedes revisar la wiki en <https://wiki.mantaro.site> para más información sobre el bot.",
+    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://www.mantaro.site/mantaro-wiki> for more information about the bot.",
     "ratelimit": {
       "header": "%1$s%2$s (Tasa limitada)\n **Podrás usar este comando en %3$s.**",
       "spam_1": "Por favor descansa, es bueno para tu salud. **¡Recuerda que el limite de tarifa seguirá incrementando si lo intentas antes de que el tiempo de espera se reinicie!**",
@@ -380,7 +380,7 @@
     "custom": {
       "custom_notice": "Este es un comando personalizado.",
       "no_args": "%1$sNecesitas decirme que quieres hacer aquí! Revisa la ayuda del comando para más información.",
-      "incorrect_args": "%1$sArgumentos incorrectos. Revisa `/help command:custom` o https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101 (en Inglés) para ver como usar este comando. Si tienes problemas luego de leer la wiki o no la entiendes, entra a <https://support.mantaro.site>",
+      "incorrect_args": "%1$sIncorrect arguments. Check `/help command:custom` or https://www.mantaro.site/mantaro-wiki/guides/custom-commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
       "error_running": "%1$sHe encontrado un error mientras intentaba ejecutar un comando personalizado... porfavor revisa el contenido y su extensión (no puede ser más de 2000 caracteres).",
       "error_running_new": "%1$sError al ejecutar un comando personalizado. Revisa la respuesta, el contenido y su longitud.\n**Error:**\n```%2$s```",
       "not_loaded": "Hey! Aún me estoy iniciando. Los comandos personalizados estarán disponibles bastante pronto, en cuanto termine de iniciar.",
@@ -390,10 +390,10 @@
       "new_error": "%1$sEl comando personalizado que estás intentando ejecutar tiene un error (v3, revisa el contenido).\n**Error:**\n```%2$s```",
       "ls": {
         "header": "Comandos para este servidor",
-        "description": "**Esto muestra todos los comandos personalizados (creados por usuarios) de este servidor.** Estos comandos sólo funcionarán en el servidor actual.\n\nLos comandos personalizados son comandos creados por usuarios (normalmente administradores del servidor) los cuales pueden manejar una gran cantidad de situaciones, incluso pudiendo simular comandos de acción.\nPara más información sobre crear comandos personalizados, revisa [esta página de la wiki.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101)\n \n**Lista:**",
+        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/currency/101)\n \n**List:**",
         "footer": "Total de comandos personalizados para este servidor: %1$s"
       },
-      "invalid": "%1$sSelección invalida. Puede que quieras darle una mirada a la wiki <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
+      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://www.mantaro.site/mantaro-wiki/guides/custom-commands>.",
       "view": {
         "invalid": "%1$sNecesitas especificar el comando y el número de la respuesta!",
         "not_found": "%1$sNo hay un comando personalizado con ese nombre aquí!",
@@ -765,7 +765,7 @@
         "success_breakable": "%1$sHas comprado %2$,d %3$s por %4$,d créditos. Ahora tienes %5$,d créditos. Puedes equipar esto usando `/equip item:<item name>`",
         "success_potion": "%1$sHas comprado %2$,d %3$s por %4$,d créditos. Ahora tienes %5$,d créditos. Puedes usar esta poción o buff usando `/useitem item:<item name>`",
         "not_enough_money": "%1$sNo tienes suficiente dinero para comprar este ítem. Actual: %2$,d creditos, Necesitas: %3$,d cŕeditos.",
-        "success_breakable_upgrade": "Puedes revisar <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> para más información sobre como mejorar tus herramientas!"
+        "success_breakable_upgrade": "You can check <https://www.mantaro.site/mantaro-wiki/currency/103> for more information on how to upgrade your tools!"
       },
       "header": "La tiendita de Mantaro",
       "reference": "\nPuedes vender y comprar ítems usando `/buy item:<item>` y `/sell item:<item>` respectivamente. Revisa `/help market` para más información.",
@@ -819,7 +819,7 @@
       "invalid_amount": "%1$sLa cantidad debe ser un número válido entre \"1\" y \"15\"!"
     },
     "opts": {
-      "note": "%1$sHey, si estás perdido intentando entender las opciones o no recuerdas este comando, revisa <https://github.com/Mantaro/MantaroBot/wiki/Configuration> para una guía de como usar opts (sólo en ingles).\nNota: Sólo los administradores, gente con Manejar Servidor o gente con el rol Bot Commander pueden usar este comando!",
+      "note": "%1$sHey, if you're lost or want help on using opts, check <https://www.mantaro.site/mantaro-wiki/basics/server-configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!",
       "list": {
         "header": "**Lista de Opciones de Mantaro**\n%1$s*Todas las opciones deben incluir `~>opts` como prefijo (el comando en sí) cuando desees usarlas.*\n%2$s"
       },
@@ -967,7 +967,7 @@
         "cancelled": "%1$sOperación cancelada."
       },
       "display": {
-        "not_premium": "%1$sLa personalización del widget de perfil solo está disponible para usuarios premium. Para obtener más ventajas, puede consultar <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
+        "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://www.mantaro.site/mantaro-wiki/basics/premium-perks>",
         "not_enough": "%1$sNo hay suficientes widgets válidos para poner en tu perfil (mínimo: 3). Si estas perdido, revisa `/profile widgets`",
         "success": "%1$sCorrectamente cambiada la disposición de tu perfil. La nueva disposición es `%2$s`",
         "ls": "%1$sLista de los componentes del perfil:\n%2$s **Orden por defecto de los Widgets:** `%3$s`\n%2$s **Tus widgets:** `%4$s`\nPuedes usar `/profile widgets order:reset` para reiniciar tus componentes",
@@ -1024,7 +1024,7 @@
       },
       "brief_success": "**Trofeos de %1$s**\n%2$s",
       "profile_notice": "Si crees que tienes un trofeo pero no aparece aquí, usa `/profile show` y luego ejecuta este comando denuevo.\n",
-      "info_notice": "Usa `/badges info badge:<badge name>` para obtener más información sobre una insignia. [También puedes consultar la wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "info_notice": "Use `/badges info badge:<badge name>` to get more information about a badge. [You can also check the wiki](https://www.mantaro.site/mantaro-wiki/currency/badges)\n",
       "donate_notice": "**¡Puedes conseguir un trofeo por [ayudar a mantener el bot vivo](https://patreon.com/mantaro)!** (Puede que tome unos minutos para procesar)\n\n",
       "no_badges": "No hay trofeos para mostrar (¡aún!)",
       "header": "Trofeos logrados por %1$s",
@@ -1561,9 +1561,9 @@
     },
     "help": {
       "title": "Ayuda de Mantaro",
-      "base_category": "Lista de comandos para %1$s. Para una guia detallada, por favor revisa la [wiki]\n(https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base_prefix": "**Lista de comandos con prefijo**. Para una guia detallada, ve nuestra [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRecuerda que puedes conseguir más información usando `~>help <name of command>`, para ver todos los comandos usa `/help` y presiona tabulador.\n**Recuerda que muchos comandos ahora solo usan barra lateral, esto solo muestra los comandos con prefijo.**\n",
-      "base": "**Lista de comandos de barra lateral**. Para una guia detallada, ve nuestra [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRecuerda que puedes conseguir más información sobre un comando utilizando `/help command:<name of command>`\n",
+      "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://www.mantaro.site/mantaro-wiki). [Currency Guide](https://www.mantaro.site/mantaro-wiki/currency/101)\n",
+      "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://www.mantaro.site/mantaro-wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
+      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://www.mantaro.site/mantaro-wiki).\nRemember you can get more information on a command using `/help command:<name of command>`\n",
       "support": "Si necesitas más ayuda puedes unirte al [servidor de soporte](https://support.mantaro.site). Puedes seguirme en [Twitter](https://twitter.com/mantarodiscord) para ver las actualizaciones.\n",
       "patreon": "**[¡Necesitamos tu ayuda para mantener Mantaro en línea! Haz clic aquí para más información.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Solo mostrando los comandos habilitados. Comandos deshabilitados: %1$s",
@@ -1574,7 +1574,7 @@
         "no_help": "%1$sNo hay ayuda extendida para este comando.",
         "not_found": "%1$sNo hay ningún comando con ese nombre."
       },
-      "too_long": "Error mostrando la ayuda para este sub-comando. Mira la [wiki](https://github.com/Mantaro/MantaroBot/wiki) para más información sobre este comando en específico.",
+      "too_long": "Error displaying sub-command help. Check the [wiki](https://www.mantaro.site/mantaro-wiki) for more information on this specific command.",
       "include_warning": "**No incluyas <> o [] en el comando en sí.**",
       "help_header": "Ayuda para el comando %s",
       "options": "Opciones",
@@ -1638,7 +1638,7 @@
       "bot_notice": "%1$sLos bots no pueden tener créditos...",
       "external_balance": "%1$s tiene **$%2$,d créditos.**",
       "own_balance": "Tienes **$%1$,d créditos.**%2$s",
-      "new_player": "\nHoli! Veo que puedes ser nuevo/a. Esta guia te ayudará bastante: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101> (en inglés). Esto solo lo verás una vez."
+      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://www.mantaro.site/mantaro-wiki/currency/101>. This will only be shown once."
     },
     "daily": {
       "check": "%1$sPodrás acumular tus créditos diarios en: **%2$s.**",
@@ -1706,7 +1706,7 @@
     "mine": {
       "not_equipped": "%1$sNo tienes ningun pico equipado. Usa `/equip item:<nombre del pico>` para equiparte uno y empezar tu aventura. Si no tienes ningún pico, usa `/buy item:pick`",
       "success": "%1$sMinaste piedras preciosas con un valor de **$%2$,d créditos**, utlilizando un *%3$s*",
-      "reminder": "\n*Puedes crear mejores picos con las gemas que consigues minando. Revisa `/cast list` para ver una lista de los ítems que puedes crear*\nPara una guía de como mejorar tus herramientas, lee <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
+      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `/cast list` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://www.mantaro.site/mantaro-wiki/currency/103>",
       "diamond": {
         "overflow": "Huh, encontraste %1$,d diamante(s) minando, pero tenías muchos, así que los vendí por tí.",
         "success": "¡Huh, tuviste suerte y encontraste %1$s diamante(s) mientras minabas! Revisa tu inventario."
@@ -1806,7 +1806,7 @@
         "durability": "Durabilidad",
         "desc": "Descripción",
         "upgrade": "¿Buscas mejorar?",
-        "upgrade_content": "Puedes revisar más información [aquí](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) para más información sobre como mejorar tus herramientas!"
+        "upgrade_content": "Click [here](https://www.mantaro.site/mantaro-wiki/currency/103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
       },
       "attribute": {
         "tier": "Nivel de la Llave Inglesa (para crear):",
@@ -1829,7 +1829,7 @@
   },
   "options": {
     "options": "Configuraciones de Mantaro",
-    "error_general": "%1$sUso incorrecto o faltan argumentos. ¡Asegúrate que el primer argumento no empieze con un salto de línea!\nSi estás perdido o necesitas ayuda usando opts, revisa <https://github.com/Mantaro/MantaroBot/wiki/Configuration> (en inglés) para una guía sobre como usar opts. Si tienes algun problema luego de leer la wiki, anda a <https://support.mantaro.site>",
+    "error_general": "%1$sIncorrect usage or missing arguments. Make sure the first argument doesn't start with a new line!\nIf you're lost or want help on using opts, check <https://www.mantaro.site/mantaro-wiki/basics/server-configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sDatos no encontrados. Que raro...",
       "header": "Configuraciones para este servidor **%1$s**",
@@ -1993,7 +1993,7 @@
       "autorole": "%1$sNo puedes utilizar un rol autorole como rol de cumpleaños! Recuerda que el rol de cumpleaños es un rol que se asigna a la persona el día de su cumpleaños, y luego es removida al terminar el día.",
       "warning": "%1$sRecuerda que el rol de cumpleaños es un rol que se asigna a la persona el día de su cumpleaños, y luego es removida al terminar el día. Si tienes alguna duda de como configurarlo, siempre puedes unirte al servidor de soporte y preguntar. También puedes usar `~>opts help birthday enable` para tener un ejemplo.",
       "warning_1": "Esto es debido a como el asignador de cumpleaños funciona: Le asigna un rol temporal a la persona en su cumpleaños, y lo remueve una vez que termine el día de su cumpleaños. **Esto quiere decir que todos aquellos con el rol de cumpleaños lo tendrán removido una vez que termine el día de su cumpleaños**. Por favor ten cuidado a la hora de elegir el rol a usar, pues un detalle de este tipo puede llegar a causar muchos problemas (en serio)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Birthday-101> for more info.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://www.mantaro.site/mantaro-wiki/guides/birthday-announcer> for more info.",
       "warning_3": "Adicionalmente, el caché de los cumpleaños (que es donde se almacenan) es actualizada cada 23 horas. Esto significa que si pones tu cumpleaños hoy to revisar si el anunciador funciona mañana, **no** va a funcionar.",
       "warning_4": "Escribe **yes** si estas de acuerdo con usar el rol %2$s como rol de cumpleaños, o escribe **no** para cancelar. Este mensaje se cancela en 45 segundos.",
       "success": "%1$sRegistro de mensajes de cumpleaños ha sido habilitado en este servidor con los parametros -> Canal: `%2$s (%3$s)` y rol: `%4$s (%5$s)`",
