@@ -211,47 +211,6 @@ public class ProfileCmd {
             }
         }
 
-        @Description("Sort your inventory.")
-        @Options({@Options.Option(
-                type = OptionType.STRING,
-                name = "type",
-                description = "The sort type.",
-                choices = {
-                        @Options.Choice(description = "Sort by individual value", value = "value"),
-                        @Options.Choice(description = "Sort by amount", value = "amount"),
-                        @Options.Choice(description = "Sort by type", value = "type"),
-                        @Options.Choice(description = "Sort by total value", value = "value_total"),
-                        @Options.Choice(description = "Sort randomly", value = "random"),
-                },
-                required = true
-        )})
-        @Help(
-                description = "Lets you sort your inventory using specified presets.",
-                usage = "`/profile sort type:[preset]`",
-                parameters = {
-                        @Help.Parameter(name = "type", description = "The sort type to use.")
-                }
-        )
-        public static class InventorySort extends SlashCommand {
-            @Override
-            protected void process(SlashContext ctx) {
-                var typeString = ctx.getOptionAsString("type");
-                final var type = Utils.lookupEnumString(typeString, InventorySortType.class);
-                if (type == null) { // This should literally never happen, though.
-                    ctx.replyEphemeral("commands.profile.inventorysort.not_valid", EmoteReference.ERROR);
-                    return;
-                }
-
-                final var player = ctx.getPlayer();
-                final var playerData = player.getData();
-
-                playerData.setInventorySortType(type);
-                player.saveUpdating();
-
-                ctx.replyEphemeral("commands.profile.inventorysort.success", EmoteReference.CORRECT, type.toString().toLowerCase());
-            }
-        }
-
         @Description("Toggles auto-equipping a new tool on break. Use disable to disable it.")
         @Options({@Options.Option(type = OptionType.BOOLEAN, name = "disable", description = "Disable autoequip.")})
         @Help(
