@@ -462,10 +462,10 @@ public class MantaroListener implements EventListener {
                         .addField(EmoteReference.PENCIL.toHeaderString() + "Important Links",
                         """
                                 [Support Server](https://support.mantaro.site) - The place to check if you're lost or if there's an issue with the bot.
-                                [Official Wiki](https://github.com/Mantaro/MantaroBot/wiki/) - Good place to check if you're lost.
-                                [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22) - Great customizability for your server needs!
-                                [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101) - A lot of fun to be had!
-                                [Configuration](https://github.com/Mantaro/MantaroBot/wiki/Configuration) -  Customizability for your server needs!
+                                [Official Wiki](https://www.mantaro.site/mantaro-wiki) - Good place to check if you're lost.
+                                [Custom Commands](https://www.mantaro.site/mantaro-wiki/guides/custom-commands) - Great customizability for your server needs!
+                                [Currency Guide](https://www.mantaro.site/mantaro-wiki/currency/101) - A lot of fun to be had!
+                                [Configuration](https://www.mantaro.site/mantaro-wiki/basics/server-configuration) -  Customizability for your server needs!
                                 [Patreon](https://patreon.com/mantaro) - Help Mantaro's development directly by donating a small amount of money each month.
                                 [Official Website](https://mantaro.site) - A cool website.""",
                                 true

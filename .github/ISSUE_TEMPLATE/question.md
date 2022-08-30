@@ -9,7 +9,7 @@ assignees: ''
 
 **Before submitting I have:**\
 (Simply replace the space inside the brackets with an X for the things you have done)
-- [ ] Read the [FAQ](https://github.com/Mantaro/MantaroBot/wiki/FAQ) to make sure my question is not answered there.
+- [ ] Read the [FAQ](https://www.mantaro.site/mantaro-wiki/basics/FAQ) to make sure my question is not answered there.
 - [ ] Checked `~>help <command name>` (if this is command related) to make sure my question is not answered there
 
 <!-- 

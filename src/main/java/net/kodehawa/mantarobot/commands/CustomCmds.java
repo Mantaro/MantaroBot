@@ -197,7 +197,7 @@ public class CustomCmds {
             Manages the Custom Commands of the current server.
             If you wish to allow normal people to make custom commands, run `~>opts admincustom false`.
             Running the above isn't exactly recommended, but works for small servers.
-            See subcommands for more commands, or refer to the [wiki](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22)
+            See subcommands for more commands, or refer to the [wiki](https://www.mantaro.site/mantaro-wiki/guides/custom-commands)
             """, usage = "`/custom [sub command]`")
     public static class Custom extends SlashCommand {
         @Override
@@ -662,7 +662,7 @@ public class CustomCmds {
                                 Manages the Custom Commands of the current server.
                                 If you wish to allow normal people to make custom commands, run `~>opts admincustom false`.
                                 Running the above isn't exactly recommended, but works for small servers.
-                                See subcommands for more commands, or refer to the [wiki](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22)
+                                See subcommands for more commands, or refer to the [wiki](https://www.mantaro.site/mantaro-wiki/guides/custom-commands)
                                 """
                         )
                         .setUsage("`~>custom <sub command>`")

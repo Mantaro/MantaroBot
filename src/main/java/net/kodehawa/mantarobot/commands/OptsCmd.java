@@ -153,7 +153,7 @@ public class OptsCmd {
                         .setDescription("This command allows you to change Mantaro settings for this server.\n" +
                                 "All values set are local and NOT global, meaning that they will only effect this server. " +
                                 "No, you can't give away currency or give yourself coins or anything like that.")
-                        .setUsage("Check https://github.com/Mantaro/MantaroBot/wiki/Configuration for a guide on how to use opts. Welcome to the jungle.")
+                        .setUsage("Check https://www.mantaro.site/mantaro-wiki/basics/server-configuration for a guide on how to use opts. Welcome to the jungle.")
                         .build();
             }
         }).addOption("check:data", new Option("Data check.",

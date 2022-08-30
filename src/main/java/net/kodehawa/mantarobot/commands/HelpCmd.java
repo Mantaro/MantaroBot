@@ -229,7 +229,7 @@ public class HelpCmd {
 
                 ctx.send(builder.build(),
                         ActionRow.of(
-                                Button.link("https://wiki.mantaro.site", "Check the wiki!"),
+                                Button.link("https://www.mantaro.site/mantaro-wiki", "Check the wiki!"),
                                 Button.link("https://support.mantaro.site", "Get support here")
                         )
                 );
@@ -375,7 +375,7 @@ public class HelpCmd {
 
                     ctx.send(builder.build(),
                             ActionRow.of(
-                                    Button.link("https://wiki.mantaro.site", "Check the wiki!"),
+                                    Button.link("https://www.mantaro.site/mantaro-wiki", "Check the wiki!"),
                                     Button.link("https://support.mantaro.site", "Get support here")
                             )
                     );
@@ -453,7 +453,7 @@ public class HelpCmd {
         ctx.send(embed.build(),
                 ActionRow.of(
                         Button.link("https://patreon.com/mantaro", "Patreon"),
-                        Button.link("https://wiki.mantaro.site", "More Help"),
+                        Button.link("https://www.mantaro.site/mantaro-wiki", "More Help"),
                         Button.link("https://support.mantaro.site", "Support Server"),
                         Button.link("https://twitter.com/mantarodiscord", "Twitter")
                 )
@@ -529,7 +529,7 @@ public class HelpCmd {
         ctx.send(embed.build(),
                 ActionRow.of(
                         Button.link("https://patreon.com/mantaro", "Patreon"),
-                        Button.link("https://wiki.mantaro.site", "More Help"),
+                        Button.link("https://www.mantaro.site/mantaro-wiki", "More Help"),
                         Button.link("https://support.mantaro.site", "Support Server"),
                         Button.link("https://twitter.com/mantarodiscord", "Twitter")
                 )

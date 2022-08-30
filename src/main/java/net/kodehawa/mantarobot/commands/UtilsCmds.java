@@ -295,7 +295,7 @@ public class UtilsCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(Context ctx, I18nContext languageContext, String content) {
-                        ctx.send(EmoteReference.OK + "**For Mantaro's documentation please visit:** https://github.com/Mantaro/MantaroBot/wiki/Home");
+                        ctx.send(EmoteReference.OK + "**For Mantaro's documentation please visit:** https://www.mantaro.site/mantaro-wiki");
                     }
                 };
             }
@@ -308,42 +308,42 @@ public class UtilsCmds {
             } // addSubCommand meme incoming...
         }.addSubCommand("opts", (ctx, s) ->
                 ctx.send(EmoteReference.OK + "**For Mantaro's documentation on `~>opts` and general bot options please visit:** " +
-                        "https://github.com/Mantaro/MantaroBot/wiki/Configuration"))
+                        "https://www.mantaro.site/mantaro-wiki/basics/server-configuration"))
                 .addSubCommand("custom", (ctx, s) ->
                         ctx.send(EmoteReference.OK + "**For Mantaro's documentation on custom commands please visit:** " +
-                                "https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101"))
+                                "https://www.mantaro.site/mantaro-wiki/guides/custom-commands"))
                 .addSubCommand("modifiers", (ctx, s) ->
                         ctx.send(EmoteReference.OK + "**For Mantaro's documentation in custom commands modifiers please visit:** " +
-                                "https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-Modifiers"))
+                                "https://www.mantaro.site/mantaro-wiki/guides/modifiers"))
                 .addSubCommand("commands", (ctx, s) ->
                         ctx.send(EmoteReference.OK + "**For Mantaro's documentation on commands and usage please visit:** " +
-                                "https://github.com/Mantaro/MantaroBot/wiki/Command-reference-and-documentation"))
+                                "https://www.mantaro.site/mantaro-wiki/commands/permissions and navigate the pages in the section."))
                 .addSubCommand("faq", (ctx, s) ->
                         ctx.send(EmoteReference.OK + "**For Mantaro's FAQ please visit:** " +
-                                "https://github.com/Mantaro/MantaroBot/wiki/FAQ"))
+                                "https://www.mantaro.site/mantaro-wiki/basics/FAQ"))
                 .addSubCommand("badges", (ctx, s) ->
                         ctx.send(EmoteReference.OK + "**For Mantaro's badge documentation please visit:**" +
-                                " https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation"))
+                                "https://www.mantaro.site/mantaro-wiki/currency/badges"))
                 .addSubCommand("tos", (ctx, s) ->
                         ctx.send(EmoteReference.OK + "**For Mantaro's ToS please visit:** " +
-                                "https://github.com/Mantaro/MantaroBot/wiki/Terms-of-Service"))
+                                "https://www.mantaro.site/mantaro-wiki/legal/terms-of-service"))
                 .addSubCommand("usermessage", (ctx, s) ->
                         ctx.send(EmoteReference.OK + "**For Mantaro's Welcome and Leave message tutorial please visit:** " +
-                                "https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial"))
+                                "https://www.mantaro.site/mantaro-wiki/guides/welcome-and-leave-messages"))
                 .addSubCommand("premium", (ctx, s) ->
                         ctx.send(EmoteReference.OK + "**To see what Mantaro's Premium features offer please visit:** " +
-                                "https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks"))
+                                "https://www.mantaro.site/mantaro-wiki/basics/premium-perks"))
                 .addSubCommand("currency", (ctx, s) ->
                         ctx.send(EmoteReference.OK + "**For a Currency guide, please visit:** " +
-                                "https://github.com/Mantaro/MantaroBot/wiki/Currency-101"))
+                                "https://www.mantaro.site/mantaro-wiki/currency/101"))
                 .addSubCommand("items", (ctx, s) ->
                         ctx.send(EmoteReference.OK + "**For a list of items, please visit:**" +
-                                " https://github.com/Mantaro/MantaroBot/wiki/Item-Documentation"))
+                                "https://www.mantaro.site/mantaro-wiki/currency/items"))
                 .addSubCommand("overview", (ctx, s) ->
                         ctx.send(EmoteReference.OK + "**For a feature overview, check:** https://mantaro.site/features.html"))
                 .addSubCommand("birthday", (ctx, s) ->
                         ctx.send(EmoteReference.OK + "**For a guide on the birthday system, please visit:**" +
-                                " https://github.com/Mantaro/MantaroBot/wiki/Birthday-101"))
+                                "https://www.mantaro.site/mantaro-wiki/guides/birthday-announcer"))
         );
     }
 }

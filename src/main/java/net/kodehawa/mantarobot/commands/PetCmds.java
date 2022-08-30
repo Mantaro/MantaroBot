@@ -107,7 +107,7 @@ public class PetCmds {
     @Help(description =
                 """
                 Pet commands.
-                For a better explanation of the pet system, check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).
+                For a better explanation of the pet system, check the [wiki](https://www.mantaro.site/mantaro-wiki).
                 This command contains an explanation of what pets are. Check subcommands for the available actions.
                 """)
     public static class Pet extends SlashCommand {

@@ -35,9 +35,9 @@
 ## Configuration
 
 *   A customizable prefix! Use `~>opts prefix set` with your prefix (example `~>opts prefix set !` to set another prefix!
-*   Enjoy over 60 Options to change to your liking! ([See here for more info](https://github.com/Mantaro/MantaroBot/wiki/Configuration))
-*   [Fully featured welcome/leave message implementation](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial). Embeds and all!
-*   [Birthday announcer](https://github.com/Mantaro/MantaroBot/wiki/Birthday-101). You won't miss them anymore!
+*   Enjoy over 60 Options to change to your liking! ([See here for more info](https://www.mantaro.site/mantaro-wiki/basics/server-configuration))
+*   [Fully featured welcome/leave message implementation](https://www.mantaro.site/mantaro-wiki/guides/welcome-and-leave-messages). Embeds and all!
+*   [Birthday announcer](https://www.mantaro.site/mantaro-wiki/guides/birthday-announcer). You won't miss them anymore!
 *   Options include but are not limited to a birthday announcer, server logs, music announcements and much more
 
 ## Misc

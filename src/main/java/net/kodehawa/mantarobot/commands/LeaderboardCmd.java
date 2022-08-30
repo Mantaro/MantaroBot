@@ -403,9 +403,9 @@ public class LeaderboardCmd {
         ctx.send(
                 embed,
                 ActionRow.of(
-                        Button.link("https://github.com/Mantaro/MantaroBot/wiki/Terms-of-Service", "Terms of Service"),
-                        Button.link("https://wiki.mantaro.site", "Wiki"),
-                        Button.link("https://github.com/Mantaro/MantaroBot/wiki/Currency-101", "Currency Guide")
+                        Button.link("https://www.mantaro.site/mantaro-wiki/legal/terms-of-service", "Terms of Service"),
+                        Button.link("https://www.mantaro.site/mantaro-wiki", "Wiki"),
+                        Button.link("https://www.mantaro.site/mantaro-wiki/currency/101", "Currency Guide")
                 )
         );
     }

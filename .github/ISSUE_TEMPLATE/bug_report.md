@@ -10,7 +10,7 @@ assignees: ''
 **Before submitting I have:**\
 (Simply replace the space inside the brackets with an X for the things you have done)
 - [ ] Made sure this is actual unintended behaviour.
-- [ ] Double checked the [FAQ](https://github.com/Mantaro/MantaroBot/wiki/FAQ) for potential misunderstandings.
+- [ ] Double checked the [FAQ](https://www.mantaro.site/mantaro-wiki/basics/FAQ) for potential misunderstandings.
 - [ ] Double checked `~>help <command name>` (if this is command related) for potential misunderstandings.
 
 **Describe the bug**
