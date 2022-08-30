@@ -1379,7 +1379,7 @@
         "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head.%3$s",
         "nothing": "%1$s**%2$s** just sits there, doing nothing.%3$s",
         "cheer": "%1$s**%2$s**'s reaction was so cute it managed to cheer you up.%3$s",
-        "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden?.%3$s",
+        "scare": "%1$s**%2$s** got scared when you patted them. Maybe it was too sudden?.%3$s",
         "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
       },
       "buy": {

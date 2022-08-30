@@ -515,7 +515,6 @@ public class CurrencyActionCmds {
             var selected = common.get(random.nextInt(common.size()));
             if (playerInventory.getAmount(selected) >= 5000) {
                 ctx.sendLocalized("commands.fish.trash.overflow", EmoteReference.SAD);
-
                 ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.fish.autoequip.success");
                 return;
             }
