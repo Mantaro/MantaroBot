@@ -159,7 +159,7 @@ public class CurrencyCmds {
         )})
         @Help(
                 description = "Lets you sort your inventory using specified presets.",
-                usage = "`/profile sort type:[preset]`",
+                usage = "`/inventory sort type:[preset]`",
                 parameters = {
                         @Help.Parameter(name = "type", description = "The sort type to use.")
                 }
