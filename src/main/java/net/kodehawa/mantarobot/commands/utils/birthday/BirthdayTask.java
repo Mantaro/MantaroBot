@@ -273,7 +273,7 @@ public class BirthdayTask {
                         if (guild == null)
                             continue;
 
-                        final var channel = guild.getTextChannelById(channelId);
+                        final var channel = guild.getChannelById(GuildMessageChannel.class, channelId);
                         if (channel == null)
                             continue;
 
