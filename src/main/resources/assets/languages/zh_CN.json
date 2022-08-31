@@ -390,7 +390,7 @@
       "new_error": "%1$s你正在新增的自订指令有错误 (v3，检查内容)。\n**错误:**\n```%2$s```",
       "ls": {
         "header": "此伺服的自订指令。",
-        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/currency/101)\n \n**List:**",
+        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands. The commands listed here use the bot prefix, not Slash Commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/currency/101)\n \n**List:**",
         "footer": "此伺服器的自定义指令数量: %1$s"
       },
       "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://www.mantaro.site/mantaro-wiki/guides/custom-commands>.",
@@ -1378,7 +1378,7 @@
         "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head.%3$s",
         "nothing": "%1$s**%2$s** just sits there, doing nothing.%3$s",
         "cheer": "%1$s**%2$s**'s reaction was so cute it managed to cheer you up.%3$s",
-        "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden?.%3$s",
+        "scare": "%1$s**%2$s** got scared when you patted them. Maybe it was too sudden?.%3$s",
         "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
       },
       "buy": {
