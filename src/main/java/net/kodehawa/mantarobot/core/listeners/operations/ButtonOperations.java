@@ -53,7 +53,7 @@ public class ButtonOperations {
 
         // TODO: i18n
         if (!message.getChannel().canTalk()) {
-            message.editMessage("The bot needs Message Read and Message Write on this channel to display buttons.").queue();
+            message.editMessage("The bot needs View Channel and Message Write on this channel (or Send Messages in Threads if in a thread) to display buttons.").queue();
             return null;
         }
 
@@ -75,7 +75,7 @@ public class ButtonOperations {
         }
 
         if (!message.getChannel().canTalk()) {
-            message.editMessage("The bot needs Message Read and Message Write on this channel to display buttons.").queue();
+            message.editMessage("The bot needs View Channel and Message Write on this channel (or Send Messages in Threads if in a thread) to display buttons.").queue();
             return null;
         }
 
@@ -97,7 +97,7 @@ public class ButtonOperations {
         }
 
         if (!message.getChannel().canTalk()) {
-            message.editMessage("The bot needs Message Read and Message Write on this channel to display buttons.").queue();
+            message.editMessage("The bot needs View Channel and Message Write on this channel (or Send Messages in Threads if in a thread) to display buttons.").queue();
             return null;
         }
 
