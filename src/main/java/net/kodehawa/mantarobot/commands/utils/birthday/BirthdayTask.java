@@ -258,6 +258,8 @@ public class BirthdayTask {
                         }
 
                         if (birthdayNumber != 0) {
+                            // add the very last builder (it is not already added)
+                            if (!currentBuilder.isEmpty()) birthdayMessageList.add(currentBuilder);
                             toSend.put(new BirthdayGuildInfo(guild.getId(), channel.getId()), birthdayMessageList);
                         }
 
