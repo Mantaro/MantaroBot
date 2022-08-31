@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands.utils.birthday;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.utils.SplitUtil;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
@@ -208,7 +209,27 @@ public class BirthdayTask {
                                             birthdayMessageList.add(currentBuilder);
                                             currentBuilder = new MessageCreateBuilder();
                                         }
-                                        currentBuilder.addContent(messagePair.left());
+                                        try {
+                                            List<String> parts = SplitUtil.split(
+                                                    messagePair.left(),
+                                                    Message.MAX_CONTENT_LENGTH,
+                                                    SplitUtil.Strategy.NEWLINE,
+                                                    SplitUtil.Strategy.WHITESPACE
+                                            );
+                                            // only one part so it fits in a single message as ensured by SplitUtil
+                                            if (parts.size() == 1) {
+                                                currentBuilder.addContent(parts.get(0));
+                                            } else {
+                                                // every single of these (except the last one) parts is guaranteed to be exactly the message content length
+                                                // meaning we need a new builder for all of them and the last builder will be used going forward
+                                                for (String split : parts) {
+                                                    currentBuilder = new MessageCreateBuilder().addContent(split);
+                                                }
+                                            }
+                                        } catch (IllegalStateException e) {
+                                            log.debug("Failed to use SplitUtil to ensure birthday message length: {}", messagePair.left());
+                                            continue;
+                                        }
                                     }
                                     if (messagePair.right() != null) {
                                         // embed does not fit; create a new builder and add the old to the list
@@ -379,7 +400,8 @@ public class BirthdayTask {
             // Somehow (?) this fails sometimes? I really dunno how, but sure.
             try {
                 extra = message.substring(0, modIndex - modifier.length()).trim();
-            } catch (Exception ignored) { }
+            } catch (Exception ignored) {
+            }
 
             try {
                 if (modifier.equals("embed")) {
@@ -416,6 +438,9 @@ public class BirthdayTask {
         return Pair.of(message + "\n", null);
     }
 
-    private record BirthdayGuildInfo(String guildId, String channelId) { }
-    private record BirthdayRoleInfo(String guildId, String memberId, Role role) { }
+    private record BirthdayGuildInfo(String guildId, String channelId) {
+    }
+
+    private record BirthdayRoleInfo(String guildId, String memberId, Role role) {
+    }
 }
