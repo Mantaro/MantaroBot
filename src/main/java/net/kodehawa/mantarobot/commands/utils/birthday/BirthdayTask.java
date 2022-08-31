@@ -204,11 +204,6 @@ public class BirthdayTask {
                                     roleBackoffAdd.add(new BirthdayRoleInfo(guild.getId(), member.getId(), birthdayRole));
                                     final Pair<String, MessageEmbed> messagePair = buildBirthdayMessage(birthdayMessage, channel, member);
                                     if (messagePair.left() != null) {
-                                        // content does not fit; create a new builder and add the old to the list
-                                        if (currentBuilder.getContent().length() + messagePair.left().length() > Message.MAX_CONTENT_LENGTH) {
-                                            birthdayMessageList.add(currentBuilder);
-                                            currentBuilder = new MessageCreateBuilder();
-                                        }
                                         try {
                                             List<String> parts = SplitUtil.split(
                                                     messagePair.left(),
@@ -218,7 +213,14 @@ public class BirthdayTask {
                                             );
                                             // only one part so it fits in a single message as ensured by SplitUtil
                                             if (parts.size() == 1) {
-                                                currentBuilder.addContent(parts.get(0));
+                                                String part = parts.get(0);
+                                                // content does however not fit into the existing builder;
+                                                // create a new builder and add the old to the list
+                                                if (currentBuilder.getContent().length() + part.length() > Message.MAX_CONTENT_LENGTH) {
+                                                    birthdayMessageList.add(currentBuilder);
+                                                    currentBuilder = new MessageCreateBuilder();
+                                                }
+                                                currentBuilder.addContent(part);
                                             } else {
                                                 // every single of these (except the last one) parts is guaranteed to be exactly the message content length
                                                 // meaning we need a new builder for all of them and the last builder will be used going forward
