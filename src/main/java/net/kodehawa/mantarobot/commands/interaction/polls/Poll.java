@@ -81,18 +81,18 @@ public class Poll extends Lobby {
     public void startPoll(SlashContext ctx) {
         try {
             if (!isCompliant) {
-                ctx.reply(languageContext.get("commands.poll.invalid"), EmoteReference.WARNING);
+                ctx.reply("commands.poll.invalid", EmoteReference.WARNING);
                 getRunningPolls().remove(getChannel().getId());
                 return;
             }
 
             if (isPollAlreadyRunning(getChannel())) {
-                ctx.reply(languageContext.get("commands.poll.other_poll_running"), EmoteReference.WARNING);
+                ctx.reply("commands.poll.other_poll_running", EmoteReference.WARNING);
                 return;
             }
 
             if (!getGuild().getSelfMember().hasPermission(getChannel(), Permission.MESSAGE_ADD_REACTION)) {
-                ctx.reply(languageContext.get("commands.poll.no_reaction_perms"), EmoteReference.ERROR);
+                ctx.reply("commands.poll.no_reaction_perms", EmoteReference.ERROR);
                 getRunningPolls().remove(getChannel().getId());
                 return;
             }
@@ -109,7 +109,7 @@ public class Poll extends Lobby {
                     .collect(Collectors.joining("\n"));
 
             if (toShow.length() > 1014) {
-                ctx.reply(languageContext.get("commands.poll.too_long"), EmoteReference.ERROR);
+                ctx.reply("commands.poll.too_long", EmoteReference.ERROR);
                 getRunningPolls().remove(getChannel().getId());
                 return;
             }
@@ -148,7 +148,7 @@ public class Poll extends Lobby {
             runningPolls.put(getChannel().getId(), this);
         } catch (Exception e) {
             e.printStackTrace();
-            ctx.reply(languageContext.get("commands.poll.error"), EmoteReference.ERROR);
+            ctx.reply("commands.poll.error", EmoteReference.ERROR);
         }
     }
 
