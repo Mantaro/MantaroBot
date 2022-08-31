@@ -237,7 +237,7 @@ public class BirthdayTask {
                                 List<MessageCreateBuilder> birthdayMessageList = new ArrayList<>();
                                 // There's probably, definitely a better way to handle this.
                                 if (splitMessage.size() > 1) {
-                                    splitMessage.forEach(s -> new MessageCreateBuilder().setContent(s));
+                                    splitMessage.forEach(s -> birthdayMessageList.add(new MessageCreateBuilder().setContent(s)));
                                 }
 
                                 if (splitEmbeds.size() > 1) {
@@ -292,7 +292,7 @@ public class BirthdayTask {
                         if (guild == null)
                             continue;
 
-                        final var channel = guild.getTextChannelById(channelId);
+                        final var channel = guild.getChannelById(StandardGuildMessageChannel.class, channelId);
                         if (channel == null)
                             continue;
 
@@ -399,7 +399,9 @@ public class BirthdayTask {
             // Somehow (?) this fails sometimes? I really dunno how, but sure.
             try {
                 extra = message.substring(0, modIndex - modifier.length()).trim();
-            } catch (Exception ignored) { }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
 
             try {
                 if (modifier.equals("embed")) {
@@ -430,6 +432,7 @@ public class BirthdayTask {
                     builder.addContent("Failed to send birthday message: Wrong image URL in thumbnail, image, footer and/or author.\n");
                 } else {
                     builder.addContent("Failed to send birthday message: Unknown error, try checking your message.\n");
+                    e.printStackTrace();
                 }
 
                 return builder.build();

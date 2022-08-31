@@ -239,7 +239,7 @@ public class MusicUtilCmds {
                     return;
                 } catch (Exception e) {
                     if (e instanceof PermissionException) {
-                        ctx.reply("commands.move.cannot_connect", EmoteReference.ERROR);
+                        ctx.edit("commands.move.cannot_connect", EmoteReference.ERROR);
                         return;
                     }
 
@@ -249,6 +249,11 @@ public class MusicUtilCmds {
             }
 
             try {
+                final var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                if (isNotInCondition(ctx, musicManager.getLavaLink())) {
+                    return;
+                }
+
                 var link = audioManager.getMusicManager(ctx.getGuild()).getLavaLink();
                 ctx.reply("commands.move.success", EmoteReference.OK, channel.getName());
                 AudioCmdUtils.openAudioConnection(ctx, link, channel, ctx.getLanguageContext());

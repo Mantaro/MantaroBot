@@ -318,7 +318,7 @@ public class UserMessageOptions extends OptionHandler {
                 **Example**: `~>opts usermessage joinmessages add hi`
                 """, "Adds a new join message", ((ctx, args) -> {
             if (args.length == 0) {
-                ctx.sendLocalized("options.usermessage_joinmessages_add.no_message", EmoteReference.ERROR);
+                ctx.sendLocalized("options.usermessage_joinmessage_add.no_message", EmoteReference.ERROR);
                 return;
             }
 
@@ -338,7 +338,7 @@ public class UserMessageOptions extends OptionHandler {
                 **Example**: `~>opts usermessage joinmessages remove 1`
                 """, "Removes a join message", ((ctx, args) -> {
             if (args.length == 0) {
-                ctx.sendLocalized("options.usermessage_joinmessages_remove.no_message", EmoteReference.ERROR);
+                ctx.sendLocalized("options.usermessage_joinmessage_remove.no_message", EmoteReference.ERROR);
                 return;
             }
 
