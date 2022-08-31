@@ -96,9 +96,12 @@ public class CommandRegistry {
     // Process non-slash commands.
     // We filter non-guild events early on.
     public void process(MessageReceivedEvent event, DBGuild dbGuild, String cmdName, String content, String prefix, boolean isMention) {
+        if (cmdName.length() >= 50) {
+            return;
+        }
+
         final var managedDatabase = MantaroData.db();
         final var start = System.currentTimeMillis();
-
         var command = commands.get(cmdName.toLowerCase());
         var guildData = dbGuild.getData();
 

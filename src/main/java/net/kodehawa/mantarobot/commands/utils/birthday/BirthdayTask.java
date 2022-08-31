@@ -235,10 +235,7 @@ public class BirthdayTask {
                                 );
                             } else {
                                 List<MessageCreateBuilder> birthdayMessageList = new ArrayList<>();
-                                // There's probably, definitely a better way to handle this.
-                                if (splitMessage.size() > 1) {
-                                    splitMessage.forEach(s -> birthdayMessageList.add(new MessageCreateBuilder().setContent(s)));
-                                }
+                                splitMessage.forEach(s -> birthdayMessageList.add(new MessageCreateBuilder().setContent(s)));
 
                                 if (splitEmbeds.size() > 1) {
                                     var counterEmbed = new AtomicInteger();
@@ -249,6 +246,12 @@ public class BirthdayTask {
                                         } else {
                                             birthdayMessageList.add(new MessageCreateBuilder().setEmbeds(e));
                                         }
+                                    }
+                                } else if (splitEmbeds.size() == 1) {
+                                    if (splitMessage.isEmpty()) {
+                                        birthdayMessageList.add(new MessageCreateBuilder().setEmbeds(splitEmbeds.get(0)));
+                                    } else {
+                                        birthdayMessageList.get(0).addEmbeds(splitEmbeds.get(0));
                                     }
                                 }
 

@@ -51,6 +51,12 @@ public class ButtonOperations {
             throw new IllegalArgumentException("Must provide a message sent by the bot");
         }
 
+        // TODO: i18n
+        if (!message.getChannel().canTalk()) {
+            message.editMessage("The bot needs Message Read and Message Write on this channel to display buttons.").queue();
+            return null;
+        }
+
         Future<Void> f = create(message.getIdLong(), timeoutSeconds, operation);
         if (f == null) {
             return null;
@@ -68,6 +74,11 @@ public class ButtonOperations {
             throw new IllegalArgumentException("Must provide a message sent by the bot");
         }
 
+        if (!message.getChannel().canTalk()) {
+            message.editMessage("The bot needs Message Read and Message Write on this channel to display buttons.").queue();
+            return null;
+        }
+
         Future<Void> f = create(message.getIdLong(), timeoutSeconds, operation);
         if (f == null) {
             return null;
@@ -83,6 +94,11 @@ public class ButtonOperations {
     public static Future<Void> createRows(Message message, long timeoutSeconds, ButtonOperation operation, Collection<ActionRow> defaultButtons) {
         if (!message.getAuthor().equals(message.getJDA().getSelfUser())) {
             throw new IllegalArgumentException("Must provide a message sent by the bot");
+        }
+
+        if (!message.getChannel().canTalk()) {
+            message.editMessage("The bot needs Message Read and Message Write on this channel to display buttons.").queue();
+            return null;
         }
 
         Future<Void> f = create(message.getIdLong(), timeoutSeconds, operation);

@@ -1105,6 +1105,11 @@ public class CustomCmds {
             return;
         }
 
+        if (cmd.length() >= 50) {
+            ctx.sendLocalized("commands.custom.name_too_long", EmoteReference.ERROR);
+            return;
+        }
+
         if (CommandProcessor.REGISTRY.commands().containsKey(value)) {
             ctx.sendLocalized("commands.custom.already_exists", EmoteReference.ERROR);
             return;
