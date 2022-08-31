@@ -223,6 +223,7 @@ public class BirthdayTask {
                                                 // every single of these (except the last one) parts is guaranteed to be exactly the message content length
                                                 // meaning we need a new builder for all of them and the last builder will be used going forward
                                                 for (String split : parts) {
+                                                    birthdayMessageList.add(currentBuilder);
                                                     currentBuilder = new MessageCreateBuilder().addContent(split);
                                                 }
                                             }
