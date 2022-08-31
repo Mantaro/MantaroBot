@@ -166,9 +166,9 @@ public class UtilsCmds {
                                 r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle(lang.get("commands.remindme.cancel.select"), null)
                                         .setDescription(r1)
                                         .setFooter(lang.get("general.timeout").formatted(10), null).build(),
-                                sr -> {
+                                (sr, hook) -> {
                                     Reminder.cancel(ctx.getAuthor().getId(), sr.id + ":" + sr.getUserId(), Reminder.CancelReason.CANCEL);
-                                    ctx.editAction(EmoteReference.CORRECT + "Cancelled your reminder").setComponents().queue();
+                                    hook.editOriginal(EmoteReference.CORRECT + "Cancelled your reminder").setEmbeds().setComponents().queue();
                                 });
                     }
                 } catch (Exception e) {

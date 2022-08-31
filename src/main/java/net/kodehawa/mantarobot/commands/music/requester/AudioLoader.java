@@ -23,6 +23,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
@@ -239,7 +240,7 @@ public class AudioLoader implements AudioLoadResultHandler {
                                 ctx.getAuthor().getEffectiveAvatarUrl()
                         )
                         .build(),
-                selected -> loadSingle(selected, false, db.getGuild(ctx.getGuild()), db.getUser(ctx.getMember()))
+                (selected, hook) -> loadSingle(selected, false, db.getGuild(ctx.getGuild()), db.getUser(ctx.getMember()))
         );
 
         Metrics.TRACK_EVENTS.labels("tracks_search").inc();
