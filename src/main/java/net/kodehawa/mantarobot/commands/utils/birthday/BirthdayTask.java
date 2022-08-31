@@ -222,7 +222,7 @@ public class BirthdayTask {
                         if (birthdayNumber != 0) {
                             var holder = new BirthdayMessageHolder(messageList);
                             birthdayAnnouncerText.append(holder.getMessage());
-                            var splitMessage = SplitUtil.split(birthdayAnnouncerText.toString(), 2000, true, SplitUtil.Strategy.NEWLINE);
+                            var splitMessage = SplitUtil.split(birthdayAnnouncerText.toString(), 2000, false, SplitUtil.Strategy.NEWLINE);
                             var counter = new AtomicInteger();
                             var splitEmbeds = holder.getEmbeds().stream()
                                     .collect(Collectors.groupingBy(it -> counter.getAndIncrement() / 10))
@@ -451,10 +451,10 @@ public class BirthdayTask {
         public String getMessage() {
                 StringBuilder builder = new StringBuilder();
                 for (var msg : message) {
-                    builder.append(msg.getContent());
+                    builder.append(msg.getContent()).append("\n");
                 }
 
-                return builder.toString();
+                return builder.toString().trim();
             }
 
             public List<MessageEmbed> getEmbeds() {

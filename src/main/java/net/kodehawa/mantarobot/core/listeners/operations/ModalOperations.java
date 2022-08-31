@@ -53,7 +53,6 @@ public class ModalOperations {
         RunningOperation o = OPERATIONS.get(modalId);
         //Already running?
         if (o != null) {
-            o.operation.onExpire();
             o.future.cancel(true);
             OPERATIONS.remove(modalId);
         }
