@@ -233,7 +233,7 @@ public class CustomCmds {
         public static class View extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                viewCommands(ctx, ctx.getOptionAsString("name"), ctx.getOptionAsInteger("response"));
+                viewCommands(ctx, ctx.getOptionAsString("name"), ctx.getOptionAsInteger("response") - 1);
             }
         }
 
