@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$s **%2$s** kanalına başarılı bir şekilde bağlandım!",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$sDolu olan bir kanala bağlanamıyorum!",
         "non_existent_channel": "%1$sOlmayan bir kanal mı? Bir ses kanalı kulup sildiyseniz sorunun sebebi bu olabiilr.\n Ben halletmeye çalıştım şimdi, komutu tekrar deneyebilirsin.",
         "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
@@ -249,7 +250,8 @@
         "missing_permission_speak": "%1$sYeterli rütbeye sahip olmadığım için müziği çalamıyorum. (%2$s).",
         "channel_locked": "%1$sSadece bir kanalda müzik çalabilirim **%2$s**.",
         "already_connected": "%1$s**%2$s** kanalına zaten bağlıyım! (`move` komutunu kullanarak beni başka kanala alabilirsin!)",
-        "attempting_to_connect": "%1$s**%2$s** kanalına zaten katılmaya çalışıyorum! (`move` komutunu kullanarak beni başka kanala alabilirsin!)"
+        "attempting_to_connect": "%1$s**%2$s** kanalına zaten katılmaya çalışıyorum! (`move` komutunu kullanarak beni başka kanala alabilirsin!)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
       },
       "listener": {
         "paused": "%1$sBeni mutelediğin için çalmıyorum işte :(",
