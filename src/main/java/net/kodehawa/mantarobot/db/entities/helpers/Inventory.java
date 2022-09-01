@@ -86,7 +86,7 @@ public class Inventory {
 
     public void process(List<ItemStack> is) {
         if (merge(is)) {
-            LOGGER.error("Unhandled 'overflow' at " + Thread.currentThread().getStackTrace()[2] + ". <@182245310024777728> check it out");
+            LOGGER.error("Unhandled 'overflow' at " + Thread.currentThread().getStackTrace()[2]);
         }
     }
 

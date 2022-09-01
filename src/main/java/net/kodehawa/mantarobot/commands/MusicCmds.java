@@ -70,7 +70,6 @@ public class MusicCmds {
             @Options.Option(type = OptionType.BOOLEAN, name = "top", description = "Puts song at the start of the queue. Requires DJ permissions, or Manage Server."),
             @Options.Option(type = OptionType.BOOLEAN, name = "first", description = "Whether to skip song selection and play the first song, when using search terms."),
     })
-    @Defer // External operation to YouTube moment.
     @Help(
             description = """
                     Play songs! This connects to the voice channel you're connected to and starts playing music.

@@ -231,7 +231,12 @@ public class MiscCmds {
             try {
                 timeout = Utils.parseTime(ctx.getOptionAsString("time"));
             } catch (Exception e) {
-                ctx.sendLocalized("commands.poll.incorrect_time_format", EmoteReference.ERROR);
+                ctx.reply("commands.poll.incorrect_time_format", EmoteReference.ERROR);
+                return;
+            }
+
+            if (timeout == 0) {
+                ctx.reply("commands.poll.incorrect_time_format", EmoteReference.ERROR);
                 return;
             }
 

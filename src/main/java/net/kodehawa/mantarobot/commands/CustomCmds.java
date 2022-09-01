@@ -1105,7 +1105,7 @@ public class CustomCmds {
             return;
         }
 
-        if (cmd.length() >= 50) {
+        if (value.length() >= 50) {
             ctx.sendLocalized("commands.custom.name_too_long", EmoteReference.ERROR);
             return;
         }
