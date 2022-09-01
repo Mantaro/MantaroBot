@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$s Pomyślnie połączono z kanałem **%2$s**!",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$sNie mogę się połączyć z tym kanałem, ponieważ jest pełny!",
         "non_existent_channel": "%1$sW odpowiedzi otrzymałem nieistniejący kanał. Jeśli ustawisz kanał głosowy, a następnie go usuniesz, może to być przyczyną. Zresetujemy Twój kanał muzyczny dla Ciebie, spróbuj odtworzyć muzykę ponownie.",
         "user_no_vc": "%1$s**Proszę dołączyć do kanału głosowego**. Jeśli jesteś w kanale głosowym, a bot właśnie się rozłączył, proszę ponownie dołączyć do kanału.",
@@ -249,7 +250,8 @@
         "missing_permission_speak": "%1$sNie mogę mówić na tym kanale ze względu na brak uprawnień (%2$s).",
         "channel_locked": "%1$sMogę tylko odtwarzać muzykę na tym kanale **%2$s**.",
         "already_connected": "%1$sMam już połączenie na kanale **%2$s**! (Użyj polecenia `move`, aby przenieść mnie na inny kanał)",
-        "attempting_to_connect": "%1$sI nie może się połączyć z tym kanałem ze względu na brak uprawnień (%2$s)"
+        "attempting_to_connect": "%1$sI nie może się połączyć z tym kanałem ze względu na brak uprawnień (%2$s)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
       },
       "listener": {
         "paused": "%1$sZatrzymywanie, ponieważ zostałam wyciszona :(",
