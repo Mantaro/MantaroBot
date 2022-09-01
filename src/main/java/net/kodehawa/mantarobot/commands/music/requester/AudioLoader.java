@@ -206,6 +206,76 @@ public class AudioLoader implements AudioLoadResultHandler {
         Metrics.TRACK_EVENTS.labels("tracks_load").inc();
     }
 
+    // Yes, this is repeated twice. I need the hook for the search stuff.
+    private void loadSingle(InteractionHook hook, AudioTrack audioTrack, boolean silent, DBGuild dbGuild, DBUser dbUser) {
+        final var trackInfo = audioTrack.getInfo();
+        final var trackScheduler = musicManager.getTrackScheduler();
+        final var guildData = dbGuild.getData();
+        var i18nContext = new I18nContext(language);
+
+        audioTrack.setUserData(ctx.getAuthor().getId());
+
+        final var title = trackInfo.title;
+        final var length = trackInfo.length;
+
+        long queueLimit = MAX_QUEUE_LENGTH;
+        if (guildData.getMusicQueueSizeLimit() != null && guildData.getMusicQueueSizeLimit() > 1) {
+            queueLimit = guildData.getMusicQueueSizeLimit();
+        }
+
+        var fqSize = guildData.getMaxFairQueue();
+        ConcurrentLinkedDeque<AudioTrack> queue = trackScheduler.getQueue();
+
+        if (queue.size() > queueLimit && !dbUser.isPremium() && !dbGuild.isPremium()) {
+            if (!silent) {
+                hook.editOriginal(i18nContext.get("commands.music_general.loader.over_queue_limit").formatted(EmoteReference.WARNING, title, queueLimit))
+                        .setComponents()
+                        .queue();
+            }
+            return;
+        }
+
+        if (trackInfo.length > MAX_SONG_LENGTH && (!dbUser.isPremium() && !dbGuild.isPremium())) {
+            hook.editOriginal(i18nContext.get("commands.music_general.loader.over_32_minutes").formatted(
+                    EmoteReference.WARNING, title,
+                    Utils.formatDuration(i18nContext, MAX_SONG_LENGTH),
+                    Utils.formatDuration(i18nContext, length)
+            )).setComponents().queue();
+            return;
+        }
+
+        // Comparing if the URLs are the same to be 100% sure they're just not spamming the same url over and over again.
+        if (queue.stream().filter(track -> trackInfo.uri.equals(track.getInfo().uri)).count() > fqSize && !silent) {
+            hook.editOriginal(i18nContext.get("commands.music_general.loader.fair_queue_limit_reached").formatted(EmoteReference.ERROR, fqSize + 1))
+                    .setComponents()
+                    .queue();
+            return;
+        }
+
+        trackScheduler.queue(audioTrack, insertFirst);
+        trackScheduler.setRequestedChannel(ctx.getChannel().getIdLong());
+
+        if (!silent) {
+            var player = db.getPlayer(ctx.getAuthor());
+            var badge = APIUtils.getHushBadge(audioTrack.getIdentifier(), Utils.HushType.MUSIC);
+            if (badge != null) {
+                player.getData().addBadgeIfAbsent(badge);
+                player.saveUpdating();
+            }
+
+            var duration = Utils.formatDuration(i18nContext, length);
+            if (length == Long.MAX_VALUE) {
+                duration = "stream";
+            }
+
+            hook.editOriginal(i18nContext.get("commands.music_general.loader.loaded_song").formatted(EmoteReference.CORRECT, title, duration))
+                    .setComponents().queue();
+        }
+
+        Metrics.TRACK_EVENTS.labels("tracks_load").inc();
+    }
+
+
     private void onSearch(AudioPlaylist playlist) {
         final var list = playlist.getTracks();
         
@@ -240,7 +310,7 @@ public class AudioLoader implements AudioLoadResultHandler {
                                 ctx.getAuthor().getEffectiveAvatarUrl()
                         )
                         .build(),
-                (selected, hook) -> loadSingle(selected, false, db.getGuild(ctx.getGuild()), db.getUser(ctx.getMember()))
+                (selected, hook) -> loadSingle(hook, selected, false, db.getGuild(ctx.getGuild()), db.getUser(ctx.getMember()))
         );
 
         Metrics.TRACK_EVENTS.labels("tracks_search").inc();
