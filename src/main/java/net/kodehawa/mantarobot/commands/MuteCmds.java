@@ -118,6 +118,11 @@ public class MuteCmds {
                 return;
             }
 
+            if (member.hasPermission(Permission.ADMINISTRATOR)) {
+                ctx.reply("commands.mute.user_hierarchy_error", EmoteReference.ERROR);
+                return;
+            }
+
             if (member.isTimedOut()) {
                 ctx.reply("commands.mute.already_muted", EmoteReference.WARNING);
                 return;

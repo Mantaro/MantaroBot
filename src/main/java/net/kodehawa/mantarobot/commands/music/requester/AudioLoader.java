@@ -228,6 +228,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         if (queue.size() > queueLimit && !dbUser.isPremium() && !dbGuild.isPremium()) {
             if (!silent) {
                 hook.editOriginal(i18nContext.get("commands.music_general.loader.over_queue_limit").formatted(EmoteReference.WARNING, title, queueLimit))
+                        .setEmbeds()
                         .setComponents()
                         .queue();
             }
@@ -239,13 +240,14 @@ public class AudioLoader implements AudioLoadResultHandler {
                     EmoteReference.WARNING, title,
                     Utils.formatDuration(i18nContext, MAX_SONG_LENGTH),
                     Utils.formatDuration(i18nContext, length)
-            )).setComponents().queue();
+            )).setEmbeds().setComponents().queue();
             return;
         }
 
         // Comparing if the URLs are the same to be 100% sure they're just not spamming the same url over and over again.
         if (queue.stream().filter(track -> trackInfo.uri.equals(track.getInfo().uri)).count() > fqSize && !silent) {
             hook.editOriginal(i18nContext.get("commands.music_general.loader.fair_queue_limit_reached").formatted(EmoteReference.ERROR, fqSize + 1))
+                    .setEmbeds()
                     .setComponents()
                     .queue();
             return;
@@ -267,7 +269,9 @@ public class AudioLoader implements AudioLoadResultHandler {
             }
 
             hook.editOriginal(i18nContext.get("commands.music_general.loader.loaded_song").formatted(EmoteReference.CORRECT, title, duration))
-                    .setComponents().queue();
+                    .setEmbeds()
+                    .setComponents()
+                    .queue();
         }
 
         Metrics.TRACK_EVENTS.labels("tracks_load").inc();
