@@ -32,6 +32,7 @@ import com.sedmelluq.lava.extensions.youtuberotator.planner.RotatingNanoIpRouteP
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.IpBlock;
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.Ipv6Block;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.StageChannel;
 import net.kodehawa.mantarobot.commands.music.requester.AudioLoader;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
@@ -131,6 +132,13 @@ public class MantaroAudioManager {
 
                 if (scheduler.getQueue().isEmpty()) {
                     scheduler.setRepeatMode(null);
+                }
+
+                var state = scheduler.getGuild().getSelfMember().getVoiceState();
+                if (state != null && state.getChannel() != null && state instanceof StageChannel stageChannel) {
+                    try {
+                        stageChannel.requestToSpeak().queue();
+                    } catch (IllegalStateException ignored) { } // Race?
                 }
 
                 var loader = new AudioLoader(musicManager, ctx, skipSelection, addFirst);
