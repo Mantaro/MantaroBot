@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$sConnecté avec succès au salon vocal **%2$s**!",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$sJe ne peux pas me connecter à ce salon vocal car il est plein!!",
         "non_existent_channel": "%1$sSalon vocal inexistant. Si tu configures un salon vocal et que tu le supprimes, cela peut en être la cause.\n J'ai réinitialisé ton salon musical pour toi, essaies de jouer la musique de nouveau.",
         "user_no_vc": "%1$s**Rejoins un salon vocal s'il te plait**. Si tu es dans un salon vocal et que le bot vient de se déconnecter, re-rejoins le salon à la place.",
@@ -249,7 +250,8 @@
         "missing_permission_speak": "%1$sJe ne peux pas parler dans ce salon vocal car je n'ai pas la permission de le faire  (%2$s).",
         "channel_locked": "%1$sJe peux uniquement jouer de la musique dans ce salon vocal **%2$s**.",
         "already_connected": "%1$sJe suis déjà connecté à un salon vocal **%2$s**! (Utilises la commande `move` pour me déplacer dans un autre salon vocal)",
-        "attempting_to_connect": "%1$sJ'essaie déjà de me connecter au salon vocal **%2$s**! (Utilises la commande `move` pour me déplacer dans un autre salon vocal)"
+        "attempting_to_connect": "%1$sJ'essaie déjà de me connecter au salon vocal **%2$s**! (Utilises la commande `move` pour me déplacer dans un autre salon vocal)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
       },
       "listener": {
         "paused": "%1$sMusique en pause parce qu'on m'a rendu muet :(",
