@@ -149,7 +149,7 @@ public class ImageActionSlash extends SlashCommand {
         }
 
         try {
-            var user = ctx.getOptionAsUser("user");
+            var user = ctx.getOptionAsMember("user");
             if (user == null) { // Shouldn't be possible, but just in case.
                 ctx.reply("commands.action.no_mention", EmoteReference.ERROR);
                 return;
@@ -205,7 +205,7 @@ public class ImageActionSlash extends SlashCommand {
                         .addContent(String.format(
                                 languageContext.get(format),
                                 "**%s**".formatted(mentioned),
-                                "**%s**".formatted(member.getEffectiveName()))
+                                "**%s**".formatted(ctx.getMember().getEffectiveName()))
                         );
             }
 
@@ -236,11 +236,11 @@ public class ImageActionSlash extends SlashCommand {
         }
     }
 
-    private boolean isMentioningBot(SlashContext ctx, User user) {
+    private boolean isMentioningBot(SlashContext ctx, Member user) {
         return user.getIdLong() == ctx.getSelfUser().getIdLong();
     }
 
-    private boolean isLonely(SlashContext ctx, User user) {
+    private boolean isLonely(SlashContext ctx, Member user) {
         return user.getIdLong() == ctx.getAuthor().getIdLong();
     }
 }

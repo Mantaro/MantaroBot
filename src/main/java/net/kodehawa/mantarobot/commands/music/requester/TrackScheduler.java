@@ -22,10 +22,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import lavalink.client.io.Link;
 import lavalink.client.player.IPlayer;
 import lavalink.client.player.event.PlayerEventListenerAdapter;
-import net.dv8tion.jda.api.entities.AudioChannel;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.*;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.data.I18n;
@@ -220,11 +217,11 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         queue.addAll(tempList);
     }
 
-    public TextChannel getRequestedTextChannel() {
+    public GuildMessageChannel getRequestedTextChannel() {
         if (requestedChannel == 0)
             return null;
 
-        return MantaroBot.getInstance().getShardManager().getTextChannelById(requestedChannel);
+        return MantaroBot.getInstance().getShardManager().getChannelById(GuildMessageChannel.class, requestedChannel);
     }
 
     public void stop() {

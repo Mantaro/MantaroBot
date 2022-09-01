@@ -82,7 +82,7 @@ public class ImageCmdSlash extends SlashCommand {
         }
 
         builder.appendDescription(EmoteReference.TALKING.toString());
-        var user = ctx.getOptionAsUser("user");
+        var user = ctx.getOptionAsMember("user");
         if (user != null && !noMentions) {
             var member = ctx.getGuild().getMember(user);
             builder.appendDescription("**%s**, ".formatted(member.getEffectiveName()));

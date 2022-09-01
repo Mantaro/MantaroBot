@@ -402,9 +402,7 @@ public class BirthdayTask {
             // Somehow (?) this fails sometimes? I really dunno how, but sure.
             try {
                 extra = message.substring(0, modIndex - modifier.length()).trim();
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
+            } catch (Exception ignored) { } // no extra
 
             try {
                 if (modifier.equals("embed")) {
