@@ -149,10 +149,9 @@ public class MarryCmd {
                     return;
 
                 // Send confirmation message.
-                var message = ctx.sendResult(String.format(
-                        languageContext.get("commands.marry.confirmation")
-                                .formatted(EmoteReference.MEGA, proposedToUser.getName(), ctx.getAuthor().getName(), EmoteReference.STOPWATCH)
-                ));
+                var message = ctx.sendResult(languageContext.get("commands.marry.confirmation")
+                        .formatted(EmoteReference.MEGA, proposedToUser.getName(), ctx.getAuthor().getName(), EmoteReference.STOPWATCH)
+                );
 
                 ButtonOperations.create(message, 120, (e) -> {
                     // Ignore all messages from anyone that isn't the user we already proposed to. Waiting for confirmation...

@@ -114,7 +114,7 @@ public class SlashContext implements IContext {
     }
 
     public Guild getGuild() {
-        return getChannel().getGuild();
+        return slash.getGuild();
     }
 
     public User getSelfUser() {
