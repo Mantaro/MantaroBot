@@ -190,8 +190,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         if (!silent) {
             var player = db.getPlayer(ctx.getAuthor());
             var badge = APIUtils.getHushBadge(audioTrack.getIdentifier(), Utils.HushType.MUSIC);
-            if (badge != null) {
-                player.getData().addBadgeIfAbsent(badge);
+            if (badge != null && player.getData().addBadgeIfAbsent(badge)) {
                 player.saveUpdating();
             }
 
@@ -258,8 +257,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         if (!silent) {
             var player = db.getPlayer(ctx.getAuthor());
             var badge = APIUtils.getHushBadge(audioTrack.getIdentifier(), Utils.HushType.MUSIC);
-            if (badge != null) {
-                player.getData().addBadgeIfAbsent(badge);
+            if (badge != null && player.getData().addBadgeIfAbsent(badge)) {
                 player.saveUpdating();
             }
 
