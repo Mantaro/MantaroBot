@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$s成功连接到**%2$s**!",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$s频道人数已满!",
         "non_existent_channel": "%1$s频道不存在，可能是被你主动删除了。\n 我顺便帮你重设了音乐频道，试着再次播播看。",
         "user_no_vc": "%1$s 请加入一个音频频道～ 如果Mantaro连接突然断开了，请重新加入之前所在的音频频道～",
@@ -249,7 +250,8 @@
         "missing_permission_speak": "%1$s我需要权限(%2$s)才能播放音乐。",
         "channel_locked": "%1$s我只能在**%2$s**裡播放。",
         "already_connected": "%1$s我已经在**%2$s**裡面了! (使用`move`指令来移动我)",
-        "attempting_to_connect": "%1$s我正在连接到**%2$s**! (使用`move`指令来移动我)"
+        "attempting_to_connect": "%1$s我正在连接到**%2$s**! (使用`move`指令来移动我)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
       },
       "listener": {
         "paused": "%1$s我被静音了，暂停播放中 :(",
