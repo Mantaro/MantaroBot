@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$sConectado al canal de voz **%2$s**!",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$sNo puedo conectarme a ese canal de voz porque está lleno!",
         "non_existent_channel": "%1$sRecibí un canal de voz no existente como respuesta. Si bloqueaste el bot en un solo canal de voz y después eliminaste ese canal, esa podría ser la causa.\nReseteé el canal de voz por tí, intenta reproducir la canción denuevo.",
         "user_no_vc": "%1$s**Por favor únete a un canal de voz**. Si estás en un canal de voz y el bot se desconectó, solo debes desconectarte y volver a unirte al canal.",
@@ -249,7 +250,8 @@
         "missing_permission_speak": "%1$sNo puedo hablar en ese canal de voz porque me faltan permisos (%2$s).",
         "channel_locked": "%1$sSólo puedo reproducir música en el canal de voz **%2$s**!",
         "already_connected": "%1$sYa estoy conectado al canal de voz **%2$s**! (Usa el comando `move` para moverme a otro canal)",
-        "attempting_to_connect": "%1$sEstoy intentando conectarme al canal de voz **%2$s** en este momento! (Usa el comando `move` para moverme a otro canal)"
+        "attempting_to_connect": "%1$sEstoy intentando conectarme al canal de voz **%2$s** en este momento! (Usa el comando `move` para moverme a otro canal)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
       },
       "listener": {
         "paused": "%1$sPausando el reproductor porque me mutearon :(",
