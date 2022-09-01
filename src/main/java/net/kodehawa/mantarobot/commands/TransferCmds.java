@@ -240,12 +240,12 @@ public class TransferCmds {
             var itemString = ctx.getOptionAsString("item");
             var item = ItemHelper.fromAnyNoId(itemString, ctx.getLanguageContext()).orElse(null);
             if (item == null) {
-                ctx.reply("general.item_lookup.not_found");
+                ctx.replyLocalized("general.item_lookup.not_found");
                 return;
             }
 
             if (item == ItemReference.CLAIM_KEY) {
-                ctx.reply("general.item_lookup.claim_key");
+                ctx.replyLocalized("general.item_lookup.claim_key");
                 return;
             }
 

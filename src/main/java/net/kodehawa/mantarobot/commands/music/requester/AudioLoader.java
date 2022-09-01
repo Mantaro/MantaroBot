@@ -125,7 +125,7 @@ public class AudioLoader implements AudioLoadResultHandler {
 
     @Override
     public void noMatches() {
-        ctx.edit(language.get("commands.music_general.loader.no_matches"), EmoteReference.ERROR);
+        ctx.edit("commands.music_general.loader.no_matches", EmoteReference.ERROR);
     }
 
     @Override

@@ -346,6 +346,7 @@ public class CustomCmds {
             }
         }
 
+        @ModalInteraction
         @Description("Add a custom command. This will open a pop-up.")
         @Options(@Options.Option(type = OptionType.BOOLEAN, name = "nsfw", description = "Whether the command is NSFW or not.", required = true))
         @Help(description = "Add a custom command. This will open a pop-up. The pop-up will time out in 5 minutes.")
@@ -518,6 +519,7 @@ public class CustomCmds {
             }
         }
 
+        @ModalInteraction
         @Description("Edits a custom command. This will open a pop-up for content.")
         @Options({
                 @Options.Option(type = OptionType.STRING, name = "name", description = "The custom command to edit.", required = true),

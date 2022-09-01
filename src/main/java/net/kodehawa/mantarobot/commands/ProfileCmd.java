@@ -303,6 +303,7 @@ public class ProfileCmd {
         }
 
         @Name("description")
+        @ModalInteraction
         @Description("Sets your profile description. This will open a modal (pop-up).")
         @Options({@Options.Option(type = OptionType.BOOLEAN, name = "clear", description = "Clear your profile description if set to true.")})
         @Help(
