@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$sチャンネル **%2$s** への接続に成功しました！",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$sチャンネルが満員のため参加できません!",
         "non_existent_channel": "%1$s存在しないチャンネルを確認しました。 ボイスチャンネルを設定後そのチャンネルを削除したことが原因で起きることがあります。\nミュージックチャンネルをリセットしました、再度お試しください。",
         "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
@@ -249,7 +250,8 @@
         "missing_permission_speak": "%1$s権限 (%2$s) が制限されているため、喋ることができません。",
         "channel_locked": "%1$s私はこのチャンネル **%2$s** でのみ音楽再生が可能です。",
         "already_connected": "%1$sすでにチャンネル **%2$s** に参加しています! (`move`コマンドを使用して他のチャンネルに移動させることができます。)",
-        "attempting_to_connect": "%1$sすでにチャンネル **%2$s** に参加を試行中です! (`move`コマンドを使用して他のチャンネルに移動させることができます)"
+        "attempting_to_connect": "%1$sすでにチャンネル **%2$s** に参加を試行中です! (`move`コマンドを使用して他のチャンネルに移動させることができます)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
       },
       "listener": {
         "paused": "%1$sミュートされたため、再生を一時停止します。 (・_・、)",
