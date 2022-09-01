@@ -190,16 +190,19 @@ public class AudioCmdUtils {
 
                 var stageInstance = channel.getStageInstance();
                 if (stageInstance == null) {
-                    channel.createStageInstance("Music").setTopic("Music by Mantaro").queue(inst -> inst.getChannel().requestToSpeak().queue());
+                    ctx.edit("commands.music_general.connect.no_stage_here", EmoteReference.ERROR);
+                    return completedFuture(null);
                 } else {
                     stageInstance.getChannel().requestToSpeak().queue();
                 }
+
+                ctx.edit("commands.music_general.connect.success_stage", EmoteReference.MEGA, userChannel.getName());
+            } else {
+                ctx.edit("commands.music_general.connect.success", EmoteReference.MEGA, userChannel.getName());
             }
 
-            ctx.edit("commands.music_general.connect.success", EmoteReference.MEGA, userChannel.getName());
             return completedFuture(null);
         } catch (NullPointerException e) {
-            e.printStackTrace();
             ctx.edit("commands.music_general.connect.non_existent_channel", EmoteReference.ERROR);
 
             //Reset custom channel.
