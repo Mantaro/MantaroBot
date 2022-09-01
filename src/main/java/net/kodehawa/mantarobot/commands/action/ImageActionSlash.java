@@ -204,8 +204,8 @@ public class ImageActionSlash extends SlashCommand {
                         .addContent(emoji.toHeaderString())
                         .addContent(String.format(
                                 languageContext.get(format),
-                                "**%s**".formatted(mentioned),
-                                "**%s**".formatted(ctx.getMember().getEffectiveName()))
+                                "**%s**".formatted(ctx.getMember().getEffectiveName()),
+                                "**%s**".formatted(mentioned))
                         );
             }
 
