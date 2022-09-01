@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$sتم بنجاح الإتصال بالروم**%2$s**!",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$sلايمكنني الإتصال بهذا الروم لانه ممتلئ!",
         "non_existent_channel": "%1$sتلقيت روم غير موجود كرد. إذا قمت بتعيين روم صوتي ثم حذفته، فقد يكون هذا هو السبب.\nتم إعادة تعيين قناتك للموسيقى، جرب تشغيل الموسيقى مره أخرى.",
         "user_no_vc": "%1$s**الرجاء الدخول الى روم صوتي **. اذا كنت في روم صوتي وغادر البوت الروم يُرجى مغادرة الروم الصوتي والدخول مرة أخرى.",
@@ -249,7 +250,8 @@
         "missing_permission_speak": "%1$sلايمكنني التكلم بهذه القناه، لأنني لا أملك الصلاحية (%2$s).",
         "channel_locked": "%1$sيمكنني تشغيل الموسيقى في الروم **%2$s** فقط.",
         "already_connected": "%1$sأنا بالفعل مُتصل بالروم**%2$s** (إستخدم أمر `move` لنقلي الى روم صوتي أُخرى)",
-        "attempting_to_connect": "%1$sأنا أُحاول الإتصال بالروم **%2$s**! (إستخدم أمر `move` لنقلي الى قناة أخرى)"
+        "attempting_to_connect": "%1$sأنا أُحاول الإتصال بالروم **%2$s**! (إستخدم أمر `move` لنقلي الى قناة أخرى)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
       },
       "listener": {
         "paused": "%1$sتم إيقاف تشغيل الأغاني مؤقتاً لأنني حصلت على ميوت :(",
