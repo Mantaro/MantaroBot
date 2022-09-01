@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$s成功連接到**%2$s**!",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$s頻道人數已滿!",
         "non_existent_channel": "%1$s頻道不存在，可能是被你主動刪除了。\n 我順便幫你重設了音樂頻道，試著再次播播看。",
         "user_no_vc": "%1$s**請加入語音頻道**。如果你還在頻道內但我突然離開了，請重新加入頻道。",
@@ -249,7 +250,8 @@
         "missing_permission_speak": "%1$s我需要權限(%2$s)才能播放音樂。",
         "channel_locked": "%1$s我只能在**%2$s**裡播放。",
         "already_connected": "%1$s我已經在**%2$s**裡面了! (使用 `move` 指令來移動我)",
-        "attempting_to_connect": "%1$s我正在連接到**%2$s**! (使用 `move` 指令來移動我)"
+        "attempting_to_connect": "%1$s我正在連接到**%2$s**! (使用 `move` 指令來移動我)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
       },
       "listener": {
         "paused": "%1$s我被靜音了，暫停播放中 :(",
