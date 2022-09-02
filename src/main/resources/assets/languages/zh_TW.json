@@ -251,7 +251,8 @@
         "channel_locked": "%1$s我只能在**%2$s**裡播放。",
         "already_connected": "%1$s我已經在**%2$s**裡面了! (使用 `move` 指令來移動我)",
         "attempting_to_connect": "%1$s我正在連接到**%2$s**! (使用 `move` 指令來移動我)",
-        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$s我被靜音了，暫停播放中 :(",
