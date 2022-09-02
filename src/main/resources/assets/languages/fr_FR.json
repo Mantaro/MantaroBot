@@ -251,7 +251,8 @@
         "channel_locked": "%1$sJe peux uniquement jouer de la musique dans ce salon vocal **%2$s**.",
         "already_connected": "%1$sJe suis déjà connecté à un salon vocal **%2$s**! (Utilises la commande `move` pour me déplacer dans un autre salon vocal)",
         "attempting_to_connect": "%1$sJ'essaie déjà de me connecter au salon vocal **%2$s**! (Utilises la commande `move` pour me déplacer dans un autre salon vocal)",
-        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sMusique en pause parce qu'on m'a rendu muet :(",
