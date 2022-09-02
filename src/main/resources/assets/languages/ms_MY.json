@@ -251,7 +251,8 @@
         "channel_locked": "%1$sSaya hanya boleh bermain muzik dalam saluran **%2$s**.",
         "already_connected": "%1$sSaya sudah tersambung ke saluran **%2$s**! (Gunakan arahan `move` untuk memindahkan saya ke saluran yang lain)",
         "attempting_to_connect": "%1$sSaya sedang cuba untuk menyambung ke saluran **%2$s**! (Gunakan arahan `move` untuk memindahkan saya ke saluran yang lain)",
-        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sPemain sedang dihentikan kerana saya dibisukan :(",
