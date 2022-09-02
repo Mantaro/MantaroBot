@@ -251,7 +251,8 @@
         "channel_locked": "%1$sEu só posso tocar música no canal **%2$s**.",
         "already_connected": "%1$sJá estou conectada no canal **%2$s**! (Use o comando `move` para me mover para outro canal)",
         "attempting_to_connect": "%1$sEu já estou tentando me conectar ao canal **%2$s**! (Use o comando `move` para me mover para outro canal)",
-        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sPausando o player porque eu fui mutada :(",
