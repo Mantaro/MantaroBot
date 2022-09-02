@@ -251,7 +251,8 @@
         "channel_locked": "%1$sЯ могу играть музыку только в канале **%2$s**.",
         "already_connected": "%1$sЯ уже подключен к голосовому каналу **%2$s**! (Используйте команду `move`, чтобы перенести меня в интересующий вас канал)",
         "attempting_to_connect": "%1$sЯ уже пытаюсь подключиться к каналу **%2$s**! (Используйте команду `move`, чтобы перенести меня в интересующий вас канал)",
-        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sВоспроизведение приостановлено, я получил мут :(",
