@@ -251,7 +251,8 @@
         "channel_locked": "%1$s私はこのチャンネル **%2$s** でのみ音楽再生が可能です。",
         "already_connected": "%1$sすでにチャンネル **%2$s** に参加しています! (`move`コマンドを使用して他のチャンネルに移動させることができます。)",
         "attempting_to_connect": "%1$sすでにチャンネル **%2$s** に参加を試行中です! (`move`コマンドを使用して他のチャンネルに移動させることができます)",
-        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sミュートされたため、再生を一時停止します。 (・_・、)",
