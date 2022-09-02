@@ -251,7 +251,8 @@
         "channel_locked": "%1$sMogę tylko odtwarzać muzykę na tym kanale **%2$s**.",
         "already_connected": "%1$sMam już połączenie na kanale **%2$s**! (Użyj polecenia `move`, aby przenieść mnie na inny kanał)",
         "attempting_to_connect": "%1$sI nie może się połączyć z tym kanałem ze względu na brak uprawnień (%2$s)",
-        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sZatrzymywanie, ponieważ zostałam wyciszona :(",
