@@ -251,7 +251,8 @@
         "channel_locked": "%1$sTôi chỉ có thể chơi nhạc tại kênh **%2$s**.",
         "already_connected": "%1$sTôi đang kết nối đến kênh **%2$s**! (Dùng lệnh `move` để chuyển tôi đến kênh khác)",
         "attempting_to_connect": "%1$sTôi đã cố gắng kết nối với kênh **%2$s**! (Dùng lệnh `move` để chuyển tôi đến kênh khác)",
-        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sTạm dừng chơi nhạc bởi vì tôi bị tắt tiếng :(",
