@@ -251,7 +251,8 @@
         "channel_locked": "%1$sIk kan maar muziek afspelen in één kanaal **%2$s**.",
         "already_connected": "%1$sIk heb al verbinding met kanaal **%2$s**! (Gebruik de `move` opdracht om mij naar een ander kanaal te verplaatsen)",
         "attempting_to_connect": "%1$sIk probeer al verbinding te maken met kanaal **%2$s**! (Gebruik de `move` opdracht om mij naar een ander kanaal te verplaatsen)",
-        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sDe muziek is gepauzeerd aangezien ik gemute ben :(",
