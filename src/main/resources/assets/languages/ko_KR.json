@@ -251,7 +251,8 @@
         "channel_locked": "%1$s**%2$s**에서만 오직 음악을 재생할 수 있어요.",
         "already_connected": "%1$s**%2$s**채널에 이미 접속했어요! (`move` 명령어를 사용해서 다른 채널로 이동 시켜주세요)",
         "attempting_to_connect": "%1$s**%2$s**채널에 이미 접속을 시도했어요! (`move` 명령어를 사용해서 다른 채널로 이동 시켜주세요)",
-        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$s제가 음소거 되었기 때문에 플레이어를 멈추는 중이에요 ㅠㅠ",
