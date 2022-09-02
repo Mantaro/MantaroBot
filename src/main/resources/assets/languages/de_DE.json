@@ -251,7 +251,8 @@
         "channel_locked": "%1$sIch kann nur Musik in dem Kanal **%2$s** abspielen!",
         "already_connected": "%1$sIch bin bereits in einem  anderen Kanal **%2$s**! (Verwende den `move` Befehl, um mich in einen anderen Kanal zu bewegen)",
         "attempting_to_connect": "%1$sIch versuche bereits, eine Verbindung zum Kanal herzustellen **%2$s**! (Verwende den `move` Befehl, um mich zu einem anderen Kanal zu bewegen)",
-        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sWiedergabe pausieren, weil ich gemuted wurde :(",
