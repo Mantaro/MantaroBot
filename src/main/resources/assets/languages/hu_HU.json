@@ -251,7 +251,8 @@
         "channel_locked": "%1$sCsak ezen a csatornán tudok zenét lejátszani **%2$s**.",
         "already_connected": "%1$sMár csatlakozva vagyok ehhez a csatornához: %2$s (használd a `move` parancsot hogy átmozgass egy másik csatornába)",
         "attempting_to_connect": "%1$sMár csatlakozni próbálok ehhez a csatornához: %2$s (használd a `move` parancsot hogy átmozgass egy másik csatornába)",
-        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sLejátszás szüneteltetése, mert némítottak :(",
