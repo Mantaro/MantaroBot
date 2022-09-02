@@ -251,7 +251,8 @@
         "channel_locked": "%1$sيمكنني تشغيل الموسيقى في الروم **%2$s** فقط.",
         "already_connected": "%1$sأنا بالفعل مُتصل بالروم**%2$s** (إستخدم أمر `move` لنقلي الى روم صوتي أُخرى)",
         "attempting_to_connect": "%1$sأنا أُحاول الإتصال بالروم **%2$s**! (إستخدم أمر `move` لنقلي الى قناة أخرى)",
-        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sتم إيقاف تشغيل الأغاني مؤقتاً لأنني حصلت على ميوت :(",
