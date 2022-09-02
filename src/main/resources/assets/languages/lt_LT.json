@@ -251,7 +251,8 @@
         "channel_locked": "%1$sAš galiu groti muziką tik **%2$s** kanale.",
         "already_connected": "%1$sAš jau prisijungusi prie **%2$s** kanalo! (Naudok `move` komandą, kad perkeltum mane į kitą kanalą)",
         "attempting_to_connect": "%1$sAš jau bandau prisijugti prie **%2$s** kanalo! (Naudok `move` komandą, kad perkeltum mane į kitą kanalą)",
-        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?"
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sPristabdau grotuvą, nes buvau užtildyta :(",
