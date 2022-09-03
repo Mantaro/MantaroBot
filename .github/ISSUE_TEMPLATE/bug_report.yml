@@ -5,7 +5,8 @@ labels: ["bug"]
 body:
   - type: markdown
     attributes:
-      value: For general questions please instead visit our (support server)[https://support.mantaro.site].
+      value: |-
+        For general questions please instead visit our (support server)[https://support.mantaro.site].
   - type: checkboxes
     attributes:
       label: Before submitting, I have
