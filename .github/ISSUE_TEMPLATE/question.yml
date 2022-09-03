@@ -1,0 +1,24 @@
+name: Suggestion/Feature Request
+description: Report a bug within Mantaro
+title: "[Question]: "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: If you are not banned from it, please instead consider using our (support server)[https://support.mantaro.site] to ask questions.
+  - type: checkboxes
+    attributes:
+      label: Before submitting, I have
+      description: Please ensure you have done all the below things before you submit.
+      options:
+        - label: Read the [FAQ](https://www.mantaro.site/mantaro-wiki/basics/FAQ) to make sure my question is not answered there.
+          required: true
+        - label: Checked `/help command:<command name>` to make sure my question is not answered there (if command related) .
+          required: true
+  - type: textarea
+    attributes:
+      label: Your question
+      description: Please ask your question with the most possible detail.
+      placeholder: My question is...
+    validations:
+      required: true

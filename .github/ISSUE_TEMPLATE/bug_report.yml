@@ -1,0 +1,47 @@
+name: Bug Report
+description: Report a bug within Mantaro
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: For general questions please instead visit our (support server)[https://support.mantaro.site].
+  - type: checkboxes
+    attributes:
+      label: Before submitting, I have
+      description: Please ensure you have done all the below things before you submit.
+      options:
+        - label: Made sure this is actual unintended behaviour.
+          required: true
+        - label: Double-checked the [FAQ](https://www.mantaro.site/mantaro-wiki/basics/FAQ) for potential misunderstandings.
+          required: true
+        - label: Double-checked `/help command:<command name>` for potential misunderstandings (if command related).
+          required: true
+  - type: textarea
+    attributes:
+      label: Describe the bug
+      description: Provide a clear and concise description of the bug you are experiencing.
+      placeholder: I attempted...
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: Provide the steps you did to trigger this bug.
+      placeholder: I did...
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected behaviour
+      description: Provide information about what you expected to happen.
+      placeholder: I expected...
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Additional context
+      description: Provide any additional context or words you would like to lose about the bug here.
+      placeholder: I...
+    validations:
+      required: false
