@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |-
-        If you are not banned from it, please instead consider using our (support server)[https://support.mantaro.site] to ask questions.
+        If you are not banned from it, please instead consider using our [support server](https://support.mantaro.site) to ask questions.
   - type: checkboxes
     attributes:
       label: Before submitting, I have
