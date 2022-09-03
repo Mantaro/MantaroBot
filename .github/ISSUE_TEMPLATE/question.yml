@@ -1,5 +1,5 @@
 name: Question
-description: Report a bug within Mantaro
+description: Ask a general question about Mantaro
 title: "[Question]: "
 labels: ["question"]
 body:

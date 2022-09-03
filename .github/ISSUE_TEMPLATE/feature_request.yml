@@ -1,5 +1,5 @@
 name: Suggestion/Feature Request
-description: Report a bug within Mantaro
+description: Suggest a new feature or an addition to an existing feature
 title: "[Suggestion/Feature Request]: "
 labels: ["feature request"]
 body:
