@@ -342,7 +342,8 @@
         "remove": "%1$s**Je stem is verwijderd** Je hebt nog %2$d stem(men) nodig om het nummer over te slaan!"
       },
       "success": "%1$sHet aantal stemmen dat nodig is om een nummer over te slaan is behaald, het nummer wordt overgeslagen...",
-      "no_track": "%1$sEr is geen nummer om over te slaan, dus ik kan helaas niets doen..."
+      "no_track": "%1$sEr is geen nummer om over te slaan, dus ik kan helaas niets doen...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` is geen geldige reeks.",
