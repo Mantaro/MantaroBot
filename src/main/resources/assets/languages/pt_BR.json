@@ -342,7 +342,8 @@
         "remove": "%1$s**Seu voto foi removido** Você precisa de mais %2$d voto(s) para pular!"
       },
       "success": "%1$sMeta de votos alcançada, pulando música...",
-      "no_track": "%1$sNão tem música para pular, então eu não posso fazer nada..."
+      "no_track": "%1$sNão tem música para pular, então eu não posso fazer nada...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` não é uma variedade válida.",
