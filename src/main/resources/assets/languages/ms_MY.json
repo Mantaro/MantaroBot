@@ -342,7 +342,8 @@
         "remove": "%1$s**Undian anda telah dibatalkan** Anda memerlukan %2$d undian lagi untuk melangkau!"
       },
       "success": "%1$sBilangan undian yang dikehendaki telah tercapai, lagu sedang dilangkau...",
-      "no_track": "%1$sNampaknya tiada trek untuk dilangkau, jadi saya tidak boleh membuat apa-apa..."
+      "no_track": "%1$sNampaknya tiada trek untuk dilangkau, jadi saya tidak boleh membuat apa-apa...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` bukan julat yang sah.",
