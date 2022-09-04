@@ -342,7 +342,8 @@
         "remove": "%1$s**تم ازالة تصويتك** تحتاج %2$d المزيد من الاصوات(s) لتخطي!"
       },
       "success": "%1$sوصلت إلى العدد المطلوب من الأصوات، تخطت الأغنية...",
-      "no_track": "%1$sيبدو أنه لا يوجد مسار للتخطي ، لذلك لا يمكنني فعل أي شيء..."
+      "no_track": "%1$sيبدو أنه لا يوجد مسار للتخطي ، لذلك لا يمكنني فعل أي شيء...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s`ليس نطاقا صالحا.",
