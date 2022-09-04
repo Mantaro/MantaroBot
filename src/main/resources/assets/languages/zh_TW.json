@@ -342,7 +342,8 @@
         "remove": "%1$s**你的投票已被刪除** 你需要多%2$d的票才能跳過！"
       },
       "success": "%1$s已達到了需要的票數，正在跳過歌曲...",
-      "no_track": "%1$s看起來沒有歌曲可以跳過，所以我甚麼也做不了..."
+      "no_track": "%1$s看起來沒有歌曲可以跳過，所以我甚麼也做不了...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` 不是一個有效的範圍。",
