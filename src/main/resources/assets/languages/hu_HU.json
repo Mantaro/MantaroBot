@@ -342,7 +342,8 @@
         "remove": "%1$s**A szavazatod törölve**! Még %2$d szavat kell, hogy a következő számra ugorjunk!"
       },
       "success": "%1$sElértem a kívánt szavazatszámot, zene átugrása...",
-      "no_track": "%1$sNem találtam mit átugrani, Nem tudok csinálni semmit..."
+      "no_track": "%1$sNem találtam mit átugrani, Nem tudok csinálni semmit...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` nem érvényes tartomány.",
