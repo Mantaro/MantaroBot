@@ -342,7 +342,8 @@
         "remove": "%1$s**Has eliminado tu voto!** Necesitan %2$d voto(s) más para saltarse esta canción!"
       },
       "success": "%1$sHan alcanzado la cantidad necesaria de votos, saltando esta canción...",
-      "no_track": "%1$sNo encuentro ninguna canción para saltarme, así que no puedo hacer nada..."
+      "no_track": "%1$sNo encuentro ninguna canción para saltarme, así que no puedo hacer nada...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` no es un rango válido!",
