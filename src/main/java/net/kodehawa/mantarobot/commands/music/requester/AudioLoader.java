@@ -133,13 +133,15 @@ public class AudioLoader implements AudioLoadResultHandler {
         if (failureCount == 0) {
             if (exception.getMessage() == null) {
                 ctx.edit("commands.music_general.loader.unknown_error_loading", EmoteReference.ERROR);
+            } else {
+                ctx.edit("commands.music_general.loader.error_loading", EmoteReference.ERROR, exception.getMessage());
             }
 
-            ctx.edit("commands.music_general.loader.error_loading", EmoteReference.ERROR, exception.getMessage());
+            // Just in case.
+            exception.printStackTrace();
         }
 
         Metrics.TRACK_EVENTS.labels("tracks_failed").inc();
-        exception.printStackTrace();
         failureCount++;
     }
 
