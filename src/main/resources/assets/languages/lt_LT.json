@@ -342,7 +342,8 @@
         "remove": "%1$s**Tavo balsas buvo pašalintas!** Tau reikia dar %2$d balsų(o), kad praleistum!"
       },
       "success": "%1$sPasiektas reikiamų balsų skaičius, daina praleidžiama...",
-      "no_track": "%1$sAtrodo, kad nėra jokios dainos, kurią galėčiau praleisti, tai aš nieko negaliu padaryti..."
+      "no_track": "%1$sAtrodo, kad nėra jokios dainos, kurią galėčiau praleisti, tai aš nieko negaliu padaryti...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` nėra teisinga apimtis.",
