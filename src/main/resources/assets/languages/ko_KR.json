@@ -342,7 +342,8 @@
         "remove": "%1$s**투표가 제거되었어요** 건너뛰려면 %2$d개의 투표가 더 필요해요!"
       },
       "success": "%1$s필요한 득표 수에 도달했어요, 노래 건너뛰는 중...",
-      "no_track": "%1$s건너뛸 트랙이 없는 것 같아서 아무것도 할 수가 없어요..."
+      "no_track": "%1$s건너뛸 트랙이 없는 것 같아서 아무것도 할 수가 없어요...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s `%2$s`은(는) 잘못된 범위예요.",
