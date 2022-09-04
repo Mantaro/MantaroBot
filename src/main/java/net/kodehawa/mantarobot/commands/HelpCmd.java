@@ -116,7 +116,7 @@ public class HelpCmd {
                     if (split.length > 0) {
                         var parent = split[0];
                         var parentCmd = CommandProcessor.REGISTRY.getCommandManager().slashCommands().get(parent);
-                        if (!parentCmd.getSubCommands().isEmpty()) {
+                        if (parentCmd != null && !parentCmd.getSubCommands().isEmpty()) {
                             var sub = split[1];
                             var subCmd = parentCmd.getSubCommands().get(sub);
                             if (subCmd != null) {

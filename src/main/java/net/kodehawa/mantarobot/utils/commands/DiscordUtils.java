@@ -266,6 +266,12 @@ public class DiscordUtils {
     }
 
     public static void listButtons(UtilsContext ctx, int timeoutSeconds, List<String> parts) {
+        // TODO: i18n
+        if (!ctx.getChannel().canTalk()) {
+            ctx.send("The bot needs View Channel and Message Write on this channel (or Send Messages in Threads if in a thread) to display buttons.");
+            return;
+        }
+
         if (parts.size() == 0) {
             return;
         }

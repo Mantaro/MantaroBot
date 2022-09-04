@@ -140,12 +140,12 @@ public class MusicCmds {
                 var author = ctx.getAuthor();
                 var guildData = ctx.getDBGuild().getData();
 
-                if (!guildData.isMusicVote()) {
+                if (!guildData.isMusicVote()) { // force option in this case is pretty much useless, so checking for it doesn't do much.
                     ctx.reply("commands.skip.success", EmoteReference.CORRECT);
                     scheduler.nextTrack(true, true);
                 } else {
-                    var canForce = isSongOwner(scheduler, author) || isDJ(ctx, ctx.getMember());
                     if (ctx.getOptionAsBoolean("force")) {
+                        var canForce = isSongOwner(scheduler, author) || isDJ(ctx, ctx.getMember());
                         if (canForce) {
                             ctx.reply("commands.skip.dj_skip", EmoteReference.CORRECT);
                             scheduler.nextTrack(true, true);
