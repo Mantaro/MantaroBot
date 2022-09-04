@@ -342,7 +342,8 @@
         "remove": "%1$s**あなたの票を取り消しました** スキップにはあと %2$d票 必要です！"
       },
       "success": "%1$s必要な票数を獲得しました、曲をスキップします…",
-      "no_track": "%1$sスキップするための曲がなさそうです、私には何もできません…"
+      "no_track": "%1$sスキップするための曲がなさそうです、私には何もできません…",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` は有効な範囲ではありません。",
