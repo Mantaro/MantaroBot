@@ -342,7 +342,8 @@
         "remove": "%1$s**Ton vote a été supprimé** Tu as besoin de %2$d more vote(s) vote(s) supplémentaire(s) pour passer une chanson!"
       },
       "success": "%1$sNombre de votes requis atteint, je passe la chanson...",
-      "no_track": "%1$sAucune piste à passer, donc je ne peux rien faire..."
+      "no_track": "%1$sAucune piste à passer, donc je ne peux rien faire...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` n'est pas une plage valide.",
