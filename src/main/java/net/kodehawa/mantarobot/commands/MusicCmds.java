@@ -129,19 +129,6 @@ public class MusicCmds {
     public static class Skip extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            if (ctx.getOptionAsBoolean("force")) {
-                var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
-                var scheduler = musicManager.getTrackScheduler();
-
-                if (isNotInCondition(ctx, musicManager.getLavaLink())) {
-                    return;
-                }
-
-                ctx.sendLocalized("commands.forceskip.success", EmoteReference.CORRECT);
-                scheduler.nextTrack(true, true);
-                return;
-            }
-
             try {
                 var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
                 var scheduler = musicManager.getTrackScheduler();
@@ -151,18 +138,24 @@ public class MusicCmds {
                 }
 
                 var author = ctx.getAuthor();
-                if (isSongOwner(scheduler, author) || isDJ(ctx, ctx.getMember())) {
-                    ctx.reply("commands.skip.dj_skip", EmoteReference.CORRECT);
-                    scheduler.nextTrack(true, true);
-                    return;
-                }
-
                 var guildData = ctx.getDBGuild().getData();
 
                 if (!guildData.isMusicVote()) {
                     ctx.reply("commands.skip.success", EmoteReference.CORRECT);
                     scheduler.nextTrack(true, true);
                 } else {
+                    var canForce = isSongOwner(scheduler, author) || isDJ(ctx, ctx.getMember());
+                    if (ctx.getOptionAsBoolean("force")) {
+                        if (canForce) {
+                            ctx.reply("commands.skip.dj_skip", EmoteReference.CORRECT);
+                            scheduler.nextTrack(true, true);
+                        } else {
+                            ctx.reply("commands.skip.cannot_force", EmoteReference.ERROR);
+                        }
+
+                        return;
+                    }
+
                     List<String> voteSkips = scheduler.getVoteSkips();
                     var requiredVotes = scheduler.getRequiredVotes();
 
