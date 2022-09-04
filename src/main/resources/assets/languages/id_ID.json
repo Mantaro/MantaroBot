@@ -342,7 +342,8 @@
         "remove": "%1$s**Votingmu telah dihapus** Kamu butuh %2$d vote lagi untuk skip!"
       },
       "success": "%1$sJumlah vote terpenuhi, melewati lagu...",
-      "no_track": "%1$sSepertinya tidak ada trek untuk dilewati, jadi aku tidak bisa apa-apa..."
+      "no_track": "%1$sSepertinya tidak ada trek untuk dilewati, jadi aku tidak bisa apa-apa...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` bukan nilai yang valid.",
