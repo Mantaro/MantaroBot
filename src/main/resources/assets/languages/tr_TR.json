@@ -342,7 +342,8 @@
         "remove": "%1$s**Oyun silindi!** %2$d tane daha oy lazım ki şarkıyı geçelim!"
       },
       "success": "%1$sYeterli oya ulaşıldı, şarkı geçiliyor...",
-      "no_track": "%1$sGeçilecek şarkı yok ki, hiçbir şey yapamıyorum..."
+      "no_track": "%1$sGeçilecek şarkı yok ki, hiçbir şey yapamıyorum...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` geçerli bir yelpaze değil.",
