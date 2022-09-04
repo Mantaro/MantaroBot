@@ -342,7 +342,8 @@
         "remove": "%1$s**Phiếu bầu của bạn đã bị xóa** Bạn cần %2$d phiều bầu nữa để bỏ qua!"
       },
       "success": "%1$sĐã đạt đủ số phiếu cần thiết, bỏ qua bài hát...",
-      "no_track": "%1$sHình như ở đây không có bài hát nào để bỏ qua, vì vậy bạn không thể làm gì cả..."
+      "no_track": "%1$sHình như ở đây không có bài hát nào để bỏ qua, vì vậy bạn không thể làm gì cả...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` không phải là một phạm vi hợp lệ.",
