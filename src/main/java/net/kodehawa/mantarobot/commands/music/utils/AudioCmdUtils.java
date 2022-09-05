@@ -273,6 +273,10 @@ public class AudioCmdUtils {
                 return completedFuture(false);
             }
 
+            if (voiceChannel instanceof StageChannel && guild.getSelfMember().hasPermission(Permission.VOICE_MUTE_OTHERS)) {
+                guild.requestToSpeak();
+            }
+
             // If the link is not currently connected or connecting, accept connection and call openAudioConnection
             if (linkState != Link.State.CONNECTED && linkState != Link.State.CONNECTING) {
                 return openAudioConnection(ctx, link, voiceChannel, lang);
@@ -317,7 +321,16 @@ public class AudioCmdUtils {
                 log.debug("We seemed to hit a Lavalink/JDA bug? Null voice channel, but {} state.", linkState);
             }
 
+            if (voiceChannel instanceof StageChannel && guild.getSelfMember().hasPermission(Permission.VOICE_MUTE_OTHERS)) {
+                guild.requestToSpeak();
+            }
+
             return openAudioConnection(ctx, link, voiceChannel, lang);
+        }
+
+
+        if (voiceChannel instanceof StageChannel && guild.getSelfMember().hasPermission(Permission.VOICE_MUTE_OTHERS)) {
+            guild.requestToSpeak();
         }
 
         // Nothing to connect to, but pass true so we can load the song (for example, it's already connected)
