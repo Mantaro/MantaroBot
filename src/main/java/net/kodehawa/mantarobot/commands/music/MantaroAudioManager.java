@@ -134,6 +134,13 @@ public class MantaroAudioManager {
                     scheduler.setRepeatMode(null);
                 }
 
+                var state = scheduler.getGuild().getSelfMember().getVoiceState();
+                if (state != null && state.getChannel() != null && state instanceof StageChannel stageChannel) {
+                    try {
+                        stageChannel.requestToSpeak().queue();
+                    } catch (IllegalStateException ignored) { } // Race?
+                }
+
                 var loader = new AudioLoader(musicManager, ctx, skipSelection, addFirst);
                 playerManager.loadItemOrdered(musicManager, trackUrl, loader);
             }
