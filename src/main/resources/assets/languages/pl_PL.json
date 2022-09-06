@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$s Pomyślnie połączono z kanałem **%2$s**!",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$sNie mogę się połączyć z tym kanałem, ponieważ jest pełny!",
         "non_existent_channel": "%1$sW odpowiedzi otrzymałem nieistniejący kanał. Jeśli ustawisz kanał głosowy, a następnie go usuniesz, może to być przyczyną. Zresetujemy Twój kanał muzyczny dla Ciebie, spróbuj odtworzyć muzykę ponownie.",
         "user_no_vc": "%1$s**Proszę dołączyć do kanału głosowego**. Jeśli jesteś w kanale głosowym, a bot właśnie się rozłączył, proszę ponownie dołączyć do kanału.",
@@ -249,7 +250,9 @@
         "missing_permission_speak": "%1$sNie mogę mówić na tym kanale ze względu na brak uprawnień (%2$s).",
         "channel_locked": "%1$sMogę tylko odtwarzać muzykę na tym kanale **%2$s**.",
         "already_connected": "%1$sMam już połączenie na kanale **%2$s**! (Użyj polecenia `move`, aby przenieść mnie na inny kanał)",
-        "attempting_to_connect": "%1$sI nie może się połączyć z tym kanałem ze względu na brak uprawnień (%2$s)"
+        "attempting_to_connect": "%1$sI nie może się połączyć z tym kanałem ze względu na brak uprawnień (%2$s)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sZatrzymywanie, ponieważ zostałam wyciszona :(",
@@ -339,7 +342,8 @@
         "remove": "%1$s**Twój głos został usunięty** Potrzebujesz %2$d więcej głos(ów) do pominięcia!\nJesteś zadowolony z wyniku!"
       },
       "success": "%1$sOsiągnął wymaganą ilość głosów, pomijając piosenkę...",
-      "no_track": "%1$sWydaje się, że nie ma ścieżki do pominięcia, więc nie mogę nic zrobić..."
+      "no_track": "%1$sWydaje się, że nie ma ścieżki do pominięcia, więc nie mogę nic zrobić...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` nie jest prawidłowym zakresem.",

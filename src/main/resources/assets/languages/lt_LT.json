@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$sSėkmingai prisijungta prie **%2$s** kanalo!",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$sNegaliu prisijungti prie to kanalo, nes jis pilnas!",
         "non_existent_channel": "%1$sGavau neegzistuojantį kanalą kaip atsakymą. Jeigu tu nustatei balso kanalą, bet jį paskui ištrynei, tai galėtų būti priežastis.\n Mes atstatėme tau muzikos kanalą, pabandyk vėl sugroti muziką.",
         "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
@@ -249,7 +250,9 @@
         "missing_permission_speak": "%1$sAš negaliu kalbėti šiame kanale, nes neturiu leidimų (%2$s).",
         "channel_locked": "%1$sAš galiu groti muziką tik **%2$s** kanale.",
         "already_connected": "%1$sAš jau prisijungusi prie **%2$s** kanalo! (Naudok `move` komandą, kad perkeltum mane į kitą kanalą)",
-        "attempting_to_connect": "%1$sAš jau bandau prisijugti prie **%2$s** kanalo! (Naudok `move` komandą, kad perkeltum mane į kitą kanalą)"
+        "attempting_to_connect": "%1$sAš jau bandau prisijugti prie **%2$s** kanalo! (Naudok `move` komandą, kad perkeltum mane į kitą kanalą)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sPristabdau grotuvą, nes buvau užtildyta :(",
@@ -339,7 +342,8 @@
         "remove": "%1$s**Tavo balsas buvo pašalintas!** Tau reikia dar %2$d balsų(o), kad praleistum!"
       },
       "success": "%1$sPasiektas reikiamų balsų skaičius, daina praleidžiama...",
-      "no_track": "%1$sAtrodo, kad nėra jokios dainos, kurią galėčiau praleisti, tai aš nieko negaliu padaryti..."
+      "no_track": "%1$sAtrodo, kad nėra jokios dainos, kurią galėčiau praleisti, tai aš nieko negaliu padaryti...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` nėra teisinga apimtis.",

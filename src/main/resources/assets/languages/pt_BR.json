@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$sConectada com sucesso no canal **%2$s**!",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$sEu não consigo conectar nesse canal porque está cheio!",
         "non_existent_channel": "%1$sEu recebi um canal inexistente como resposta. Se você definiu um canal de voz e depois apagou, essa pode ser a causa.\n Nós redefinimos seu canal de música para você, tente reproduzir a música novamente.",
         "user_no_vc": "%1$s**Por favor entre em um canal de voz**. Se você está em um canal de voz e o bot desconectou, por favor reentre no canal.",
@@ -249,7 +250,9 @@
         "missing_permission_speak": "%1$sNão posso falar neste canal devido à falta de permissões (%2$s).",
         "channel_locked": "%1$sEu só posso tocar música no canal **%2$s**.",
         "already_connected": "%1$sJá estou conectada no canal **%2$s**! (Use o comando `move` para me mover para outro canal)",
-        "attempting_to_connect": "%1$sEu já estou tentando me conectar ao canal **%2$s**! (Use o comando `move` para me mover para outro canal)"
+        "attempting_to_connect": "%1$sEu já estou tentando me conectar ao canal **%2$s**! (Use o comando `move` para me mover para outro canal)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sPausando o player porque eu fui mutada :(",
@@ -339,7 +342,8 @@
         "remove": "%1$s**Seu voto foi removido** Você precisa de mais %2$d voto(s) para pular!"
       },
       "success": "%1$sMeta de votos alcançada, pulando música...",
-      "no_track": "%1$sNão tem música para pular, então eu não posso fazer nada..."
+      "no_track": "%1$sNão tem música para pular, então eu não posso fazer nada...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` não é uma variedade válida.",

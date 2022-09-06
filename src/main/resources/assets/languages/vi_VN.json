@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$sKết nối thành công vào kênh **%2$s**!",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$sTôi không thể vào được kênh đó vì nó đã đầy người!",
         "non_existent_channel": "%1$sTôi nhận được phản hồi là kênh này không tồn tại. Nếu bạn tạo một kênh thoại và xóa nó đi thì điều này có thể là lý do.\n Chúng tôi đã cài đặt lại kênh nhạc cho bạn, hãy thử bật lại nhạc.",
         "user_no_vc": "%1$s**Hãy vào một kênh thoại**. Nếu bạn đang trong một kênh thoại mà tôi vừa đăng xuất ra thì hãy tham gia lại kênh thoại đó.",
@@ -249,7 +250,9 @@
         "missing_permission_speak": "%1$sTôi không thể phát âm thanh trong kênh này vì thiếu sự cho phép (%2$s).",
         "channel_locked": "%1$sTôi chỉ có thể chơi nhạc tại kênh **%2$s**.",
         "already_connected": "%1$sTôi đang kết nối đến kênh **%2$s**! (Dùng lệnh `move` để chuyển tôi đến kênh khác)",
-        "attempting_to_connect": "%1$sTôi đã cố gắng kết nối với kênh **%2$s**! (Dùng lệnh `move` để chuyển tôi đến kênh khác)"
+        "attempting_to_connect": "%1$sTôi đã cố gắng kết nối với kênh **%2$s**! (Dùng lệnh `move` để chuyển tôi đến kênh khác)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sTạm dừng chơi nhạc bởi vì tôi bị tắt tiếng :(",
@@ -339,7 +342,8 @@
         "remove": "%1$s**Phiếu bầu của bạn đã bị xóa** Bạn cần %2$d phiều bầu nữa để bỏ qua!"
       },
       "success": "%1$sĐã đạt đủ số phiếu cần thiết, bỏ qua bài hát...",
-      "no_track": "%1$sHình như ở đây không có bài hát nào để bỏ qua, vì vậy bạn không thể làm gì cả..."
+      "no_track": "%1$sHình như ở đây không có bài hát nào để bỏ qua, vì vậy bạn không thể làm gì cả...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` không phải là một phạm vi hợp lệ.",

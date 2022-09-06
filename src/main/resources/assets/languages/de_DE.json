@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$sVerbunden mit Kanal **%2$s**!",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$sIch kann keine Verbindung zu diesem Kanal herstellen, da dieser voll ist!",
         "non_existent_channel": "%1$sIch habe einen nicht vorhandenen Kanal als Antwort erhalten. Wenn du einen Sprachkanal einstellst und ihn dann löschst, könnte das die Ursache sein.\n Ich setze deinen Musikkanal für dich zurück und versuche, die Musik erneut abzuspielen.",
         "user_no_vc": "%1$s**Bitte betrete einen Sprachkanal**. Solltest du in einem Sprachkanal sein und der Bot gerade erst die Verbindung getrennt haben, bitte verbinde dich erneut mit dem Sprachkanal.",
@@ -249,7 +250,9 @@
         "missing_permission_speak": "%1$sIch kann nicht in diesem Kanal sprechen, weil ich keine Erlaubnis habe (%2$s).",
         "channel_locked": "%1$sIch kann nur Musik in dem Kanal **%2$s** abspielen!",
         "already_connected": "%1$sIch bin bereits in einem  anderen Kanal **%2$s**! (Verwende den `move` Befehl, um mich in einen anderen Kanal zu bewegen)",
-        "attempting_to_connect": "%1$sIch versuche bereits, eine Verbindung zum Kanal herzustellen **%2$s**! (Verwende den `move` Befehl, um mich zu einem anderen Kanal zu bewegen)"
+        "attempting_to_connect": "%1$sIch versuche bereits, eine Verbindung zum Kanal herzustellen **%2$s**! (Verwende den `move` Befehl, um mich zu einem anderen Kanal zu bewegen)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sWiedergabe pausieren, weil ich gemuted wurde :(",
@@ -339,7 +342,8 @@
         "remove": "%1$s**Deine Stimme wurde entfernt!** Du benötigst %2$d mehr Stimmen zum Überspringen!"
       },
       "success": "%1$sErreichte die erforderliche Anzahl von Stimmen, überspringe den Song...",
-      "no_track": "%1$sEs scheint keinen Song zum Überspringen zu geben, also kann ich nichts machen..."
+      "no_track": "%1$sEs scheint keinen Song zum Überspringen zu geben, also kann ich nichts machen...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` ist keine gültige Folge!",

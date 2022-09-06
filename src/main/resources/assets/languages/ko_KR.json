@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$s성공적으로 **%2$s** 채널에 연결했어요!",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$s채널이 꽉 차서 제가 연결이 안 돼요!",
         "non_existent_channel": "%1$s존재하지 않는 채널을 응답으로 받았어요. 음성 채널을 설정한 다음 삭제하면 그 원인이 될 수 있어요.\n 음악 채널을 다시 설정했어요. 음악을 재생해 보세요.",
         "user_no_vc": "%1$s**음성 채널**에 참여하세요. 음성 채널에 있는데 봇 연결이 끊겼으면 대신 채널을 다시 참여하세요.",
@@ -249,7 +250,9 @@
         "missing_permission_speak": "%1$s권한이 부족해서 이 채널에서 말할 수 없어요 (%2$s).",
         "channel_locked": "%1$s**%2$s**에서만 오직 음악을 재생할 수 있어요.",
         "already_connected": "%1$s**%2$s**채널에 이미 접속했어요! (`move` 명령어를 사용해서 다른 채널로 이동 시켜주세요)",
-        "attempting_to_connect": "%1$s**%2$s**채널에 이미 접속을 시도했어요! (`move` 명령어를 사용해서 다른 채널로 이동 시켜주세요)"
+        "attempting_to_connect": "%1$s**%2$s**채널에 이미 접속을 시도했어요! (`move` 명령어를 사용해서 다른 채널로 이동 시켜주세요)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$s제가 음소거 되었기 때문에 플레이어를 멈추는 중이에요 ㅠㅠ",
@@ -339,7 +342,8 @@
         "remove": "%1$s**투표가 제거되었어요** 건너뛰려면 %2$d개의 투표가 더 필요해요!"
       },
       "success": "%1$s필요한 득표 수에 도달했어요, 노래 건너뛰는 중...",
-      "no_track": "%1$s건너뛸 트랙이 없는 것 같아서 아무것도 할 수가 없어요..."
+      "no_track": "%1$s건너뛸 트랙이 없는 것 같아서 아무것도 할 수가 없어요...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s `%2$s`은(는) 잘못된 범위예요.",

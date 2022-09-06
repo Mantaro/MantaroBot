@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$sSuccessfully connected to channel **%2$s**!",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$sI can't connect to that channel because it is full!",
         "non_existent_channel": "%1$sI received a non-existent channel as response. If you set a voice channel and then deleted it, that might be the cause.\n We reset your music channel for you, try to play the music again.",
         "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
@@ -249,7 +250,9 @@
         "missing_permission_speak": "%1$sI cannot speak in this channel due to the lack of permissions (%2$s).",
         "channel_locked": "%1$sI can only play music on channel **%2$s**.",
         "already_connected": "%1$sI'm already connected on channel **%2$s**! (Use the `move` command to move me to another channel)",
-        "attempting_to_connect": "%1$sI'm already trying to connect to channel **%2$s**! (Use the `move` command to move me to another channel)"
+        "attempting_to_connect": "%1$sI'm already trying to connect to channel **%2$s**! (Use the `move` command to move me to another channel)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sPausing player because I got muted :(",
@@ -339,7 +342,8 @@
         "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to skip!"
       },
       "success": "%1$sReached the required amount of votes, skipping song...",
-      "no_track": "%1$sThere seems to be no track to skip, so I cannot do anything..."
+      "no_track": "%1$sThere seems to be no track to skip, so I cannot do anything...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` is not a valid range.",

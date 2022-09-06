@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$sSikeresen csatlakoztam a következő hangcsatornához: **%2$s**!",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$sNem tudok csatlakozni, mert tele van a csatorna!",
         "non_existent_channel": "%1$sNem létező csatornába próbáltál behívni. Ha beállítottál egy hangcsatornát, majd törölted, akkor ez lehet az oka.\n Visszaállítottuk a zenecsatornádat, próbáld meg újra lejátszani a zenét.",
         "user_no_vc": "%1$s**Kérlek csatlakozz egy hangcsatornához**. Ha hangcsatornában vagy és a bot kilépett akkor kérlek lépj újra.",
@@ -249,7 +250,9 @@
         "missing_permission_speak": "%1$sNincs jogom ebben a csatornában beszélni (%2$s).",
         "channel_locked": "%1$sCsak ezen a csatornán tudok zenét lejátszani **%2$s**.",
         "already_connected": "%1$sMár csatlakozva vagyok ehhez a csatornához: %2$s (használd a `move` parancsot hogy átmozgass egy másik csatornába)",
-        "attempting_to_connect": "%1$sMár csatlakozni próbálok ehhez a csatornához: %2$s (használd a `move` parancsot hogy átmozgass egy másik csatornába)"
+        "attempting_to_connect": "%1$sMár csatlakozni próbálok ehhez a csatornához: %2$s (használd a `move` parancsot hogy átmozgass egy másik csatornába)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sLejátszás szüneteltetése, mert némítottak :(",
@@ -339,7 +342,8 @@
         "remove": "%1$s**A szavazatod törölve**! Még %2$d szavat kell, hogy a következő számra ugorjunk!"
       },
       "success": "%1$sElértem a kívánt szavazatszámot, zene átugrása...",
-      "no_track": "%1$sNem találtam mit átugrani, Nem tudok csinálni semmit..."
+      "no_track": "%1$sNem találtam mit átugrani, Nem tudok csinálni semmit...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` nem érvényes tartomány.",

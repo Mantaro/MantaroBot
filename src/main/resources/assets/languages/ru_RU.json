@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$sУспешно подключен к каналу **%2$s**!",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$sЯ не могу подключиться к вашему каналу потому что он полный!",
         "non_existent_channel": "%1$sВы указали несуществующий канал. Скорее всего вы создали голосовой канал и удалили его. \n Мы сбросили ваш голосовой канал, попробуйте ещё раз.",
         "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
@@ -249,7 +250,9 @@
         "missing_permission_speak": "%1$sУ меня нет разрешения на разговор в этом канале (%2$s).",
         "channel_locked": "%1$sЯ могу играть музыку только в канале **%2$s**.",
         "already_connected": "%1$sЯ уже подключен к голосовому каналу **%2$s**! (Используйте команду `move`, чтобы перенести меня в интересующий вас канал)",
-        "attempting_to_connect": "%1$sЯ уже пытаюсь подключиться к каналу **%2$s**! (Используйте команду `move`, чтобы перенести меня в интересующий вас канал)"
+        "attempting_to_connect": "%1$sЯ уже пытаюсь подключиться к каналу **%2$s**! (Используйте команду `move`, чтобы перенести меня в интересующий вас канал)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sВоспроизведение приостановлено, я получил мут :(",
@@ -339,7 +342,8 @@
         "remove": "%1$s**Твой голос был отменен** Вам нужно ещё %2$d голос(ов) для пропуска!"
       },
       "success": "%1$sДостигнуто необходимое количество голосов, трек был пропущен...",
-      "no_track": "%1$sКажется нет трека, который я мог бы пропустить, если он все ещё проигрывается, повторите попытку"
+      "no_track": "%1$sКажется нет трека, который я мог бы пропустить, если он все ещё проигрывается, повторите попытку",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` неправильный диапазон.",

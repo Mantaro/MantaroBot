@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$sBerjaya menyambung ke saluran **%2$s**!",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$sSaya tidak boleh menyambung ke saluran tersebut kerana ia penuh!",
         "non_existent_channel": "%1$sSaya menerima saluran yang tidak wujud sebagai respons. Jika anda telah menetapkan sebuah saluran suara lalu memadamkannya, mungkin itulah puncanya.\n Kami telah menetapkan semula saluran muzik bagi anda, cuba memainkan muzik sekali lagi.",
         "user_no_vc": "%1$s**Sila menyambung ke sebuah saluran suara**. Jika anda tersambung ke saluran suara dan sambungan bot baru sahaja diputuskan, tolong menyambung semula ke saluran suara tersebut.",
@@ -249,7 +250,9 @@
         "missing_permission_speak": "%1$sSaya tidak dapat bersuara dalam saluran ini disebabkan kekurangan kebenaran (%2$s).",
         "channel_locked": "%1$sSaya hanya boleh bermain muzik dalam saluran **%2$s**.",
         "already_connected": "%1$sSaya sudah tersambung ke saluran **%2$s**! (Gunakan arahan `move` untuk memindahkan saya ke saluran yang lain)",
-        "attempting_to_connect": "%1$sSaya sedang cuba untuk menyambung ke saluran **%2$s**! (Gunakan arahan `move` untuk memindahkan saya ke saluran yang lain)"
+        "attempting_to_connect": "%1$sSaya sedang cuba untuk menyambung ke saluran **%2$s**! (Gunakan arahan `move` untuk memindahkan saya ke saluran yang lain)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sPemain sedang dihentikan kerana saya dibisukan :(",
@@ -339,7 +342,8 @@
         "remove": "%1$s**Undian anda telah dibatalkan** Anda memerlukan %2$d undian lagi untuk melangkau!"
       },
       "success": "%1$sBilangan undian yang dikehendaki telah tercapai, lagu sedang dilangkau...",
-      "no_track": "%1$sNampaknya tiada trek untuk dilangkau, jadi saya tidak boleh membuat apa-apa..."
+      "no_track": "%1$sNampaknya tiada trek untuk dilangkau, jadi saya tidak boleh membuat apa-apa...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` bukan julat yang sah.",

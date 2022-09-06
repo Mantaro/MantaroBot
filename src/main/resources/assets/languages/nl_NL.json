@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$sSuccessvol verbinding gemaakt met het kanaal **%2$s**!",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$sIk kan geen verbinding maken met dit kanaal omdat hij vol is!",
         "non_existent_channel": "%1$sIk krijg terug dat dit kanaal niet bestaat. Het kan zijn dat je een spraak-kanaal hebt aangemaakt en daarna weer verwijderd.\n Ik heb het muziek-kanaal gereset, probeer nogmaals om muziek af te spelen.",
         "user_no_vc": "%1$s**Sluit u aan bij een spraakkanaal**. Als je in een spraakkanaal zit en de bot zojuist is losgekoppeld, sluit je dan opnieuw aan bij het kanaal.",
@@ -249,7 +250,9 @@
         "missing_permission_speak": "%1$sIk kan geen geluid laten horen omdat ik daar geen toestemming voor heb (%2$s).",
         "channel_locked": "%1$sIk kan maar muziek afspelen in één kanaal **%2$s**.",
         "already_connected": "%1$sIk heb al verbinding met kanaal **%2$s**! (Gebruik de `move` opdracht om mij naar een ander kanaal te verplaatsen)",
-        "attempting_to_connect": "%1$sIk probeer al verbinding te maken met kanaal **%2$s**! (Gebruik de `move` opdracht om mij naar een ander kanaal te verplaatsen)"
+        "attempting_to_connect": "%1$sIk probeer al verbinding te maken met kanaal **%2$s**! (Gebruik de `move` opdracht om mij naar een ander kanaal te verplaatsen)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sDe muziek is gepauzeerd aangezien ik gemute ben :(",
@@ -339,7 +342,8 @@
         "remove": "%1$s**Je stem is verwijderd** Je hebt nog %2$d stem(men) nodig om het nummer over te slaan!"
       },
       "success": "%1$sHet aantal stemmen dat nodig is om een nummer over te slaan is behaald, het nummer wordt overgeslagen...",
-      "no_track": "%1$sEr is geen nummer om over te slaan, dus ik kan helaas niets doen..."
+      "no_track": "%1$sEr is geen nummer om over te slaan, dus ik kan helaas niets doen...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` is geen geldige reeks.",
