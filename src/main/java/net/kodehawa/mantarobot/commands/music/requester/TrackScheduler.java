@@ -120,6 +120,11 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         }
 
         final var guild = MantaroBot.getInstance().getShardManager().getGuildById(guildId);
+        if (guild == null) { // I mean, sure...
+            onStop();
+            return;
+        }
+
         final var dbGuild = MantaroData.db().getGuild(guildId);
 
         if (dbGuild.getData().isMusicAnnounce() && requestedChannel != 0 && getRequestedTextChannel() != null) {
@@ -239,8 +244,6 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
     }
 
     private void onStop() {
-        final var managedDatabase = MantaroData.db();
-        final var lavalinkPlayer = getAudioPlayer().getPlayer();
         getVoteStop().clear();
         getVoteSkips().clear();
 
@@ -251,6 +254,8 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
             return;
         }
 
+        final var managedDatabase = MantaroData.db();
+        final var lavalinkPlayer = getAudioPlayer().getPlayer();
         var premium = managedDatabase.getGuild(guild).isPremium();
         try {
             final var ch = getRequestedTextChannel();
