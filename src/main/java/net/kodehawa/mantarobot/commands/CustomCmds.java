@@ -599,7 +599,7 @@ public class CustomCmds {
                         }
 
                         var values = custom.getValues();
-                        if (where - 1 > values.size()) {
+                        if (values.size() < where) {
                             event.reply(lang.get("commands.custom.edit.no_index").formatted(EmoteReference.ERROR))
                                     .setEphemeral(true)
                                     .queue();

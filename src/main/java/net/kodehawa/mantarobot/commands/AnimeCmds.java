@@ -194,7 +194,7 @@ public class AnimeCmds {
         try {
             final var attributes = animeData.getAttributes();
             final var title = attributes.getCanonicalTitle();
-            final var releaseDate = attributes.getStartDate();
+            final var releaseDate = attributes.getStartDate() == null ? lang.get("general.unknown") : attributes.getStartDate();
             final var endDate = attributes.getEndDate();
             final var animeDescription = attributes.getSynopsis() == null ? "" :
                     StringEscapeUtils.unescapeHtml4(attributes.getSynopsis().replace("<br>", " "));

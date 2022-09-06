@@ -53,12 +53,6 @@ public class AudioCmdUtils {
         final var guild = ctx.getGuild();
         final var selfMember = ctx.getSelfMember();
         final var channel = ctx.getChannel();
-
-        if (!selfMember.hasPermission(channel, Permission.MESSAGE_EMBED_LINKS)) {
-            ctx.reply(lang.get("commands.music_general.queue.no_embed"), EmoteReference.ERROR);
-            return;
-        }
-
         final var trackScheduler = musicManager.getTrackScheduler();
         final var toSend = getQueueList(trackScheduler.getQueue());
         final var musicPlayer = trackScheduler.getMusicPlayer();
