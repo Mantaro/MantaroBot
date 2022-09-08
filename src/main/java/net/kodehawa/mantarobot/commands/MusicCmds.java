@@ -144,8 +144,8 @@ public class MusicCmds {
                     ctx.reply("commands.skip.success", EmoteReference.CORRECT);
                     scheduler.nextTrack(true, true);
                 } else {
+                    var canForce = isSongOwner(scheduler, author) || isDJ(ctx, ctx.getMember());
                     if (ctx.getOptionAsBoolean("force")) {
-                        var canForce = isSongOwner(scheduler, author) || isDJ(ctx, ctx.getMember());
                         if (canForce) {
                             ctx.reply("commands.skip.dj_skip", EmoteReference.CORRECT);
                             scheduler.nextTrack(true, true);
@@ -170,7 +170,11 @@ public class MusicCmds {
                             return;
                         }
 
-                        ctx.reply("commands.skip.vote.submit", EmoteReference.OK, requiredVotes - voteSkips.size());
+                        if (canForce) {
+                            ctx.reply("commands.skip.vote.submit_force_allowed", EmoteReference.OK, requiredVotes - voteSkips.size());
+                        } else {
+                            ctx.reply("commands.skip.vote.submit", EmoteReference.OK, requiredVotes - voteSkips.size());
+                        }
                     }
                 }
 
