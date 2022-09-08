@@ -339,6 +339,7 @@
       "dj_skip": "%1$sDJ quyết định bỏ qua bài hát này.",
       "vote": {
         "submit": "%1$s**Phiếu bầu của bạn đã được gửi đi** Bạn cần %2$d phiều bầu nữa để bỏ qua!",
+        "submit_force_allowed": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!\nYou're a DJ or queued this song. If you wanted to skip without requiring voting use `/skip force:True`",
         "remove": "%1$s**Phiếu bầu của bạn đã bị xóa** Bạn cần %2$d phiều bầu nữa để bỏ qua!"
       },
       "success": "%1$sĐã đạt đủ số phiếu cần thiết, bỏ qua bài hát...",
