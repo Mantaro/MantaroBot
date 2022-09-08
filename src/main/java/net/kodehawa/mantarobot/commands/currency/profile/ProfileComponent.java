@@ -54,7 +54,7 @@ public enum ProfileComponent {
         }
     }, true, false),
     CREDITS(EmoteReference.MONEY, i18nContext -> i18nContext.get("commands.profile.credits"),
-            (holder, i18nContext) -> String.valueOf(holder.getPlayer().getCurrentMoney()),
+            (holder, i18nContext) -> String.format(Utils.getLocaleFromLanguage(i18nContext), "$ %,d", holder.getPlayer().getCurrentMoney()),
             true, false
     ),
     OLD_CREDITS(EmoteReference.DOLLAR, i18nContext -> i18nContext.get("commands.profile.old_credits"), (holder, i18nContext) ->
@@ -64,7 +64,7 @@ public enum ProfileComponent {
     REPUTATION(EmoteReference.REP, i18nContext -> i18nContext.get("commands.profile.rep"), (holder, i18nContext) -> String.valueOf(holder.getPlayer().getReputation())),
     LEVEL(EmoteReference.ZAP, i18nContext -> i18nContext.get("commands.profile.level"), (holder, i18nContext) -> {
         var player = holder.getPlayer();
-        return String.format("%d (%s: %,d)", player.getLevel(), i18nContext.get("commands.profile.xp"), player.getData().getExperience());
+        return String.format(Utils.getLocaleFromLanguage(i18nContext), "%d (%s: %,d)", player.getLevel(), i18nContext.get("commands.profile.xp"), player.getData().getExperience());
     }, true, false),
     EXPERIENCE(EmoteReference.ZAP, i18nContext -> i18nContext.get("commands.profile.activity_xp"), (holder, i18nContext) -> {
         var data = holder.getPlayer().getData();
