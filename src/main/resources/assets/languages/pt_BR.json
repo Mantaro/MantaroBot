@@ -24,13 +24,13 @@
     "description": "Descrição",
     "options": "Opções",
     "find_members_failure": "%1$Nenhum membro encontrado com seus critérios de busca :(",
-    "find_roles_failure": "%1$sDidn't find any roles that match your search criteria :(",
-    "too_many_roles": "%1$sToo many roles found, maybe refine your search?\n**Roles found:** %2$s",
-    "role_select": "Select the Role:",
-    "find_channels_failure": "%1$sCannot find any text channel with that name :(",
-    "find_voice_channels_failure": "%1$sCannot find any voice channel with that name :(",
-    "too_many_channels": "%1$sToo many channels found, maybe refine your search?\n**Channels found:** %2$s",
-    "channel_select": "Select the Channel:",
+    "find_roles_failure": "%1$sNão encontrei nenhum cargo com seus critérios de busca :(",
+    "too_many_roles": "%1$sMuitos cargos foram encontrado, não seria melhor refinar sua pesquisa?\n**Cargos encontrados:** %2$s",
+    "role_select": "Selecione o Cargo:",
+    "find_channels_failure": "%1$sNão foi possível encontrar um canal de texto com esse nome :(",
+    "find_voice_channels_failure": "%1$sNão foi possível encontrar um canal de voz com esse nome :(",
+    "too_many_channels": "%1$sMuitos canais foram encontrados, não seria melhor refinar sua pesquisa?\n**Canais encontrados:** %2$s",
+    "channel_select": "Selecione o Canal:",
     "too_many_members": "%1$sMuitos membros encontrados, talvez melhore sua pesquisa? (ex. use nome#discriminador)\n**Membros encontrados:** %2$s",
     "too_many_mentions": "%1$sPor favor mencione apenas um membro pra procurar.",
     "query_too_small": "%1$sSeu critério de pesquisa é muito pequeno. Certifique-se de que você está procurando por pelo menos 4 personagens. Se o nome de usuário for muito pequeno, é melhor você usar o nome de usuário#discriminador ou o id do usuário.",
@@ -38,7 +38,7 @@
     "invalid_syntax": "Sintaxe inválido.",
     "birthday": "**Novos aniversário pra hoje, deseje a eles um Feliz Aniversário!**",
     "member_lookup_failure": "%1$sNão foi encontrado um membro com esse nome :(",
-    "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
+    "slash_member_lookup_failure": "%1$sO usuário fornecido não parece estar nesse servidor.",
     "item_lookup": {
       "no_item_emoji": "Não há um item associado a esse emoji.",
       "no_item_name": "Não há um item associado a este nome.",
@@ -50,7 +50,7 @@
       "mop_not_enough": "%1$sSeu nível de poeira é 5%%, então limpar não será muito útil.",
       "milk": "%1$sEfeitos de poção removidos.",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `/buy item:key`",
+        "no_key": "%1$sVocê precisa de uma chave de baú pra abrir um baú. Está fechado! Você pode comprar uma usando `/buy item:key`",
         "no_crate": "%1$sVocê precisa de um baú! Você geralmente ganha baús dos comandos de moeda.",
         "success": "%1$sVocê abriu o baú e ganhou: %2$s%3$s. Parabéns!",
         "success_high": "%1$sVocê ganhou os seguintes itens com uma raridade maior que 3 estrelas: %2$s. A quantidade do item foi mostrada acima",
@@ -84,7 +84,7 @@
     "sellout": "Considere doar no [Patreon](https://www.patreon.com/mantaro) se você gosta de mim, até mesmo uma pequena doação vai ajudar para continuar com o bot de pé!",
     "deprecated": "Não sendo mais usado",
     "space_notice": "Se o nome tem espaço, tente \"coloca-lo entre aspas\". Provavelmente o comando help pode te dizer mais.",
-    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://www.mantaro.site/mantaro-wiki> for more information about the bot.",
+    "missing_embed_permissions": "O bot está sem a permissão de Inserir Links que é necessária pra mostrar esse comando. Por favor dê as permissões necessárias ao bot (certifique-se de checar as permissões do canal e categoria). Por favor se você precisar de mais ajuda vá para <https://support.mantaro.site>. Você também pode checar a wiki em <https://www.mantaro.site/mantaro-wiki> pra mais informações sobre o bot.",
     "ratelimit": {
       "header": "%1$s%2$s (Limite de Taxa)\n **Você poderá usar este comando novamente em %3$s.**",
       "spam_1": "Por favor descanse, faz bem pra saúde. **Lembre-se que o limite de taxa irá continuar aumentando se você tentar antes do tempo resetar!**",
@@ -97,7 +97,7 @@
       "next": "Próximo",
       "close": "Fechar"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `/mantaro shard`) when reporting!",
+    "generic_error": "Se você quiser, entre no nosso **servidor de suporte** (`https://support.mantaro.site`), ou confira nossa página no GitHub (`https://github.com/Kodehawa/MantaroBot`). Por favor fale para eles pararem de me explodir e por favor não se esqueça do ID do Erro, o comando que você usou e o node (veja em `/mantaro shard`) quando reportar!",
     "boom_quotes": [
       "Aparentemente Megumin explodiu nosso castelo...",
       "Uh-oh, aparentemente meu mestre esqueceu alguns zeros e ums no chão :<",
@@ -148,7 +148,7 @@
       "title": "Transição para os comandos de barra",
       "description_alias": "%1$s**O comando que você está tentando usar foi movido para os Comandos de Barra só.** Tente usar com / sendo o prefixo. **Esse comando era uma variação**. Tente usar o comando original. (`/%2$s`).\n\nComandos de Barra são os novos tipos de comandos de acordo com as Diretrizes do Discord.\n**Os comandos que ainda funcionam com prefixos vão eventualmente ser apenas de barra.**\nComandos variáveis foram removidos dos Comandos de Barra pois não tem espaço suficiente para adicioná-los (o Discord nos permite adicionar só 100 comandos).",
       "description": "%1$s**O comando que você está tentando usar foi movido para os Comandos de Barra só.** Tente usar com / sendo o prefixo (`/%2$s`).\n\nComandos de Barra são os novos tipos de comandos de acordo com as Diretrizes do Discord.\n**Os comandos que ainda funcionam com prefixos vão eventualmente ser apenas de barra.**\nComandos variáveis foram removidos dos Comandos de Barra pois não tem espaço suficiente para adicioná-los (o Discord nos permite adicionar só 100 comandos).",
-      "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site.\nFor more help, use the new wiki at https://www.mantaro.site/mantaro-wiki/",
+      "description_image": "Pra usar um comando de barra pra alguns comandos de imagens, tente usar o comando com `/image` como prefixo ao invés do que você está usando. Por exemplo, `~>catgirl` vira `/image catgirl`. Os comando de imageboard não precisam disso.\n\nSe você não achar o comando de barra, re-adicione o bot usando o link de convite em https://add.mantaro.site\nPra mais ajuda, use a nova wiki em https://www.mantaro.site/mantaro-wiki/",
       "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site\nFor more help, use the new wiki at https://www.mantaro.site/mantaro-wiki/"
     },
     "fish": {
@@ -339,6 +339,7 @@
       "dj_skip": "%1$sO DJ decidiu pular",
       "vote": {
         "submit": "%1$s**Seu voto foi submetido** Você precisa de mais %2$d voto(s) para pular!",
+        "submit_force_allowed": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!\nYou're a DJ or queued this song. If you wanted to skip without requiring voting use `/skip force:True`",
         "remove": "%1$s**Seu voto foi removido** Você precisa de mais %2$d voto(s) para pular!"
       },
       "success": "%1$sMeta de votos alcançada, pulando música...",
@@ -382,7 +383,7 @@
       "none": "Não há prefixo personalizado definido neste servidor."
     },
     "custom": {
-      "custom_notice": "Esse é um comando personalizado.",
+      "custom_notice": "Isso é um comando personalizado.",
       "no_args": "%1$sVocê precisa especificar o que você quer fazer com este comando. Cheque o comando de ajuda para mais informações!",
       "incorrect_args": "%1$sIncorrect arguments. Check `/help command:custom` or https://www.mantaro.site/mantaro-wiki/guides/custom-commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
       "error_running": "%1$sErro ao executar o comando personalizado... por favor, verifique o conteúdo da resposta e comprimento (não pode ter mais de 2000 caracteres).",
@@ -394,7 +395,7 @@
       "new_error": "%1$sO comando personalizado que você está tentando criar tem um erro (v3, cheque o conteúdo).\n**Erro:**\n```%2$s```",
       "ls": {
         "header": "Comandos para este servidor",
-        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands. The commands listed here use the bot prefix, not Slash Commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/currency/101)\n \n**List:**",
+        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands. The commands listed here use the bot prefix, not Slash Commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/guides/custom-commands)\n \n**List:**",
         "footer": "Total de comandos personalizados neste servidor: %1$s"
       },
       "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://www.mantaro.site/mantaro-wiki/guides/custom-commands>.",
@@ -849,6 +850,7 @@
       "success": "%1$s%2$s, você ganhou o cargo **%3$s**",
       "error": "%1$sEu não posso tirar de você **%2$s** de você. Certifique-se de que eu tenho permissão para adicionar cargos (Gerenciar Cargos) e que meu cargo é maior que **%2$s**",
       "no_role": "%1$sNão tem nenhum cargo com o nome especificado.",
+      "privileged_role": "%1$sThis role has administrative permissions that prevent me from giving it.",
       "no_iam": "%1$sVocê tem que especificar qual cargo auto-atribuível você quer atribuir a si mesmo!"
     },
     "iamnot": {
@@ -1127,7 +1129,8 @@
       "patreon": "Garantia",
       "linked": "Vinculado",
       "linked_to": "Vinculado a",
-      "keys_claimed": "Keys Reinvidicadas"
+      "keys_claimed": "Keys Reinvidicadas",
+      "premium_bot": "%1$sMantaro Patreon uses no keys. The server/user is premium if they can use the bot. Thanks you <3"
     },
     "support": {
       "info": "%1$sCaso precise de ajuda, entre no servidor de suporte <https://support.mantaro.site> e faça uma pergunta em #support channel!"
@@ -1993,6 +1996,7 @@
     },
     "birthday_enable": {
       "no_args": "%1$sVocê tem que especificar o nome do canal e o nome do cargo.",
+      "administrative_role": "%1$sThis role contains administrative permissions and therefore cannot be set as a Birthday role.",
       "public_role": "%1$sVocê não pode definir o cargo everyone como um cargo de aniversário! Lembre-se que o cargo de aniversário é um cargo que é atribuído para a pessoa quando o aniversário dela vem, e é removido quando o dia passa.",
       "autorole": "%1$sVocê não pode definir o cargo autorole como um cargo de aniversário! Lembre-se que o cargo de aniversário é um cargo que é atribuído para a pessoa quando o aniversário dela vem, e é removido quando o dia passa.",
       "warning": "%1$sLembre-se que o cargo de aniversário é um cargo que é atribuído para a pessoa quando o aniversário dela vem, e é removido quando o dia passa.Se você tem alguma dúvida sobre como configurá-lo, você pode sempre entrar no nosso servidor de suporte e perguntar. Você também pode checar `~>opts help birthday enable` por exemplo.",
@@ -2021,6 +2025,7 @@
       "no_role_found": "%1$sEu não consegui encontrar um cargo com esse nome. Se o cargo tiver espaços, tente envolvê-lo entre aspas.",
       "hierarchy_conflict": "%1$sEste cargo é colocado acima do seu cargo mais alto, portanto, você não pode colocá-lo como autorole!",
       "self_hierarchy_conflict": "%1$sEste cargo é colocado acima do meu cargo mais alto, portanto, você não pode colocá-lo como autorole!",
+      "permissions_conflict": "%1$sYou cannot set an autorole with administrative permissions, even if you have them.",
       "success": "%1$sO cargo automático do servidor agora é: **%2$s** (Posição: %3$d)"
     },
     "autorole_unbind": {
@@ -2086,6 +2091,7 @@
       "no_role_found": "%1$sEu não achei um cargo com esse nome!\nSe o nome do cargoSe o nome do cargoo tiver espaços, coloque-o entre aspas tipo assim: \"Nome do Cargo\"",
       "hierarchy_conflict": "%1$sEste cargo é colocado acima do seu cargo mais alto, portanto, você não pode colocá-lo como um cargo auto-atribuível!",
       "self_hierarchy_conflict": "%1$sEste cargo é colocado acima do meu cargo mais alto, portanto, você não pode colocá-lo como um cargo auto-atribuível!",
+      "permissions_conflict": "%1$sYou cannot add iam roles with administrative permissions, even if you have them.",
       "success": "%1$sAdicionado o cargo auto-atribuível **%2$s**, que dá o cargo **%3$s**"
     },
     "autoroles_category_add": {
