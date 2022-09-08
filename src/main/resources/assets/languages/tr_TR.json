@@ -339,6 +339,7 @@
       "dj_skip": "%1$sDiji niki şarkıyı geçti.",
       "vote": {
         "submit": "%1$s**Oyun geçerli!** %2$d tane daha oy lazım ki şarkıyı geçelim!",
+        "submit_force_allowed": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!\nYou're a DJ or queued this song. If you wanted to skip without requiring voting use `/skip force:True`",
         "remove": "%1$s**Oyun silindi!** %2$d tane daha oy lazım ki şarkıyı geçelim!"
       },
       "success": "%1$sYeterli oya ulaşıldı, şarkı geçiliyor...",
