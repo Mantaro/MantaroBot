@@ -394,7 +394,7 @@
       "new_error": "%1$s만들려는 사용자 정의 명령어에 오류가 있어요(v3, 내용 확인).\n**Error:**\n```%2$s```",
       "ls": {
         "header": "이 서버에 대한 명령어예요.",
-        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands. The commands listed here use the bot prefix, not Slash Commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/currency/101)\n \n**List:**",
+        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands. The commands listed here use the bot prefix, not Slash Commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/guides/custom-commands)\n \n**List:**",
         "footer": "이 서버의 총 사용자 정의 명령어: %1$s개"
       },
       "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://www.mantaro.site/mantaro-wiki/guides/custom-commands>.",
@@ -849,6 +849,7 @@
       "success": "%1$s%2$s, you've been given the **%3$s** role",
       "error": "%1$sI couldn't take **%2$s** from you. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
       "no_role": "%1$sThere isn't an autorole with the specified name.",
+      "privileged_role": "%1$sThis role has administrative permissions that prevent me from giving it.",
       "no_iam": "%1$sYou need to specify which auto-assignable role you want to assign yourself!"
     },
     "iamnot": {
@@ -1127,7 +1128,8 @@
       "patreon": "Pledge",
       "linked": "Linked",
       "linked_to": "Linked to",
-      "keys_claimed": "Extra Keys Claimed"
+      "keys_claimed": "Extra Keys Claimed",
+      "premium_bot": "%1$sMantaro Patreon uses no keys. The server/user is premium if they can use the bot. Thanks you <3"
     },
     "support": {
       "info": "%1$sIf you need support, head to the support server over to <https://support.mantaro.site> and ask your question in the #support channel!"
@@ -1993,6 +1995,7 @@
     },
     "birthday_enable": {
       "no_args": "%1$sYou need to specify the channel name and the role name.",
+      "administrative_role": "%1$sThis role contains administrative permissions and therefore cannot be set as a Birthday role.",
       "public_role": "%1$sYou cannot set the everyone role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
       "autorole": "%1$sYou cannot set the autorole role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
       "warning": "%1$sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
@@ -2021,6 +2024,7 @@
       "no_role_found": "%1$sI couldn't find a role with that name. If the role has spaces, try wrapping it in quotes.",
       "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as autorole!",
       "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as autorole!",
+      "permissions_conflict": "%1$sYou cannot set an autorole with administrative permissions, even if you have them.",
       "success": "%1$sThe server autorole is now set to: **%2$s** (Position: %3$d)"
     },
     "autorole_unbind": {
@@ -2086,6 +2090,7 @@
       "no_role_found": "%1$sI didn't find a role with that name!\nIf the role name has spaces wrap it in quotes like this: \"Role Name\"",
       "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as an auto-assignable role!",
       "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as an auto-assignable role!",
+      "permissions_conflict": "%1$sYou cannot add iam roles with administrative permissions, even if you have them.",
       "success": "%1$sAdded auto-assignable role **%2$s**, which gives the role **%3$s**"
     },
     "autoroles_category_add": {
