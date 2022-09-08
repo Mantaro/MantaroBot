@@ -339,6 +339,7 @@
       "dj_skip": "%1$sDJ選擇了去跳過此歌曲。",
       "vote": {
         "submit": "%1$s**你已成功投票了** 你需要多%2$d的票才能跳過！",
+        "submit_force_allowed": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!\nYou're a DJ or queued this song. If you wanted to skip without requiring voting use `/skip force:True`",
         "remove": "%1$s**你的投票已被刪除** 你需要多%2$d的票才能跳過！"
       },
       "success": "%1$s已達到了需要的票數，正在跳過歌曲...",
