@@ -339,6 +339,7 @@
       "dj_skip": "%1$sDJ nusprendė praleisti",
       "vote": {
         "submit": "%1$s**Tavo balsas buvo įrašytas!** Tau reikia dar %2$d balsų(-o), kad praleistum!",
+        "submit_force_allowed": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!\nYou're a DJ or queued this song. If you wanted to skip without requiring voting use `/skip force:True`",
         "remove": "%1$s**Tavo balsas buvo pašalintas!** Tau reikia dar %2$d balsų(o), kad praleistum!"
       },
       "success": "%1$sPasiektas reikiamų balsų skaičius, daina praleidžiama...",
