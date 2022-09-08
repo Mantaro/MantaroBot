@@ -339,6 +339,7 @@
       "dj_skip": "%1$sDJ решил скипнуть трек :(",
       "vote": {
         "submit": "%1$s**Твой голос был учтен** Вам нужно ещё %2$d голос(ов) для пропуска!",
+        "submit_force_allowed": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!\nYou're a DJ or queued this song. If you wanted to skip without requiring voting use `/skip force:True`",
         "remove": "%1$s**Твой голос был отменен** Вам нужно ещё %2$d голос(ов) для пропуска!"
       },
       "success": "%1$sДостигнуто необходимое количество голосов, трек был пропущен...",
