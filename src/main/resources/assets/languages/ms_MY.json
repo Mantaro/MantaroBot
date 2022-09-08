@@ -339,6 +339,7 @@
       "dj_skip": "%1$sDJ telah memutuskan untuk melangkau lagu ini.",
       "vote": {
         "submit": "%1$s**Undian anda telah dihantar** Anda memerlukan %2$d undian lagi untuk melangkau!",
+        "submit_force_allowed": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!\nYou're a DJ or queued this song. If you wanted to skip without requiring voting use `/skip force:True`",
         "remove": "%1$s**Undian anda telah dibatalkan** Anda memerlukan %2$d undian lagi untuk melangkau!"
       },
       "success": "%1$sBilangan undian yang dikehendaki telah tercapai, lagu sedang dilangkau...",
