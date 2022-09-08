@@ -339,6 +339,7 @@
       "dj_skip": "%1$sDe DJ heeft besloten om het nummer over te slaan",
       "vote": {
         "submit": "%1$s**Je stem is ingediend** Je hebt nog %2$d stem(men) nodig om het nummer over te slaan!",
+        "submit_force_allowed": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!\nYou're a DJ or queued this song. If you wanted to skip without requiring voting use `/skip force:True`",
         "remove": "%1$s**Je stem is verwijderd** Je hebt nog %2$d stem(men) nodig om het nummer over te slaan!"
       },
       "success": "%1$sHet aantal stemmen dat nodig is om een nummer over te slaan is behaald, het nummer wordt overgeslagen...",
