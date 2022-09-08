@@ -114,7 +114,7 @@ public class AudioLoader implements AudioLoadResultHandler {
             }
 
             ctx.editStripped("commands.music_general.loader.loaded_playlist",
-                    EmoteReference.SATELLITE, count, playlist.getName(),
+                    EmoteReference.SATELLITE, count, MarkdownSanitizer.sanitize(playlist.getName()),
                     Utils.formatDuration(i18nContext,
                             playlist.getTracks()
                                     .stream()
