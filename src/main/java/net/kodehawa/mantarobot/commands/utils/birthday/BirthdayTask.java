@@ -377,7 +377,7 @@ public class BirthdayTask {
         }
     }
 
-    private static MessageCreateData buildBirthdayMessage(String message, StandardGuildMessageChannel channel, Member user) {
+    public static MessageCreateData buildBirthdayMessage(String message, StandardGuildMessageChannel channel, Member user) {
         MessageCreateBuilder builder = new MessageCreateBuilder();
         if (message.contains("$(")) {
             message = new DynamicModifiers()

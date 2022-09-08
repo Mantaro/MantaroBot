@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import com.google.common.base.Strings;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -196,7 +195,7 @@ public class InfoCmds {
                     var shardId = Integer.parseInt(shard.getKey());
 
                     builder.append("%-7s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s".formatted(
-                            Strings.padStart(String.valueOf(shardId), 2, '0') + " / " + ctx.getBot().getShardManager().getShardsTotal(),
+                            shardId + " / " + ctx.getBot().getShardManager().getShardsTotal(),
                             jsonData.getString("shard_status"),
                             jsonData.getLong("cached_users"),
                             jsonData.getLong("guild_count"),

@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.patreon.PatreonPledge;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
@@ -126,14 +127,9 @@ public class DBGuild implements ManagedObject {
         //Patreon bot link check.
         String linkedTo = getData().getMpLinkedTo();
         if (config.isPremiumBot() && linkedTo != null && key == null) { //Key should always be null in MP anyway.
-            Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(linkedTo);
-            // The API returned an exception, return true anyway. (Pledge = false, amount = 100000 is basically impossible)
-            if (pledgeInfo != null && !pledgeInfo.left() && pledgeInfo.right().equals("100000")) {
-                return true;
-            }
-
-            if (pledgeInfo != null && pledgeInfo.left() && Double.parseDouble(pledgeInfo.right()) >= 4) {
-                // Subscribed to MP properly, return true.
+            PatreonPledge pledgeInfo = APIUtils.getFullPledgeInformation(linkedTo);
+            if (pledgeInfo != null && pledgeInfo.getReward().getKeyAmount() >= 3) {
+                // Subscribed to MP properly.
                 return true;
             }
         }

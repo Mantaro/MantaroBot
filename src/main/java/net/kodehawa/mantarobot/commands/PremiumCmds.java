@@ -164,6 +164,11 @@ public class PremiumCmds {
                 var data = dbUser.getData();
                 var isLookup = toCheck.getIdLong() != ctx.getAuthor().getIdLong();
 
+                if (ctx.getConfig().isPremiumBot()) {
+                    ctx.reply("commands.vipstatus.premium_bot", EmoteReference.CORRECT);
+                    return;
+                }
+
                 if (!dbUser.isPremium()) {
                     ctx.reply("commands.vipstatus.user.not_premium", EmoteReference.ERROR, toCheck.getAsTag());
                     return;
@@ -174,9 +179,7 @@ public class PremiumCmds {
                         .setAuthor(isLookup ? String.format(lang.get("commands.vipstatus.user.header_other"), toCheck.getName())
                                 : lang.get("commands.vipstatus.user.header"), null, toCheck.getEffectiveAvatarUrl()
                         );
-
                 var currentKey = ctx.db().getPremiumKey(data.getPremiumKey());
-
                 if (currentKey == null || currentKey.validFor() < 1) {
                     ctx.reply("commands.vipstatus.user.not_premium", toCheck.getAsTag(), EmoteReference.ERROR);
                     return;
@@ -265,6 +268,11 @@ public class PremiumCmds {
                 var dbGuild = ctx.getDBGuild();
                 if (!dbGuild.isPremium()) {
                     ctx.reply("commands.vipstatus.guild.not_premium", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (ctx.getConfig().isPremiumBot() && dbGuild.isPremium()) {
+                    ctx.reply("commands.vipstatus.premium_bot", EmoteReference.CORRECT);
                     return;
                 }
 

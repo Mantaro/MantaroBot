@@ -33,6 +33,16 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * <p>This class defines the x ratelimit that will be taken into account when x user inputs a command.</p>
+ * <p>The user will be not able to use the command until the ratelimit gets lifted, and instead it will send a message saying how much time is left (usually managed in
+ * Currency commands themselves).</p>
+ * <p>When the ratelimit gets reset, if the user tries to use the command again it will start all over again.</p>
+ * <p>This is a distributed (shared between all nodes) and increasing (higher the more you hit it) ratelimiter</p>
+ * <p>This class normally does the work of making abusable commands not-so abusable, like ~>loot. Also sorts daily or timely timeouts for other commands like daily and rep.*</p>
+ *
+ * @author natanbc
+ */
 public class IncreasingRateLimiter {
     private static final String SCRIPT;
 

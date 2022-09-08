@@ -29,15 +29,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * This class defines the x ratelimit that will be taken into account when x user inputs a command.
- * The user will be not able to use the command until the ratelimit gets lifted, and instead it will send a message saying how much time is left (usually managed in
- * Currency commands themselves).
- * When the ratelimit gets reset, if the user tries to use the command again it will start all over again.
- * <p>
- * This class normally does the work of making abusable commands not-so abusable, like ~>loot. Also sorts daily or timely timeouts for other commands like daily and rep.
- * <p>
- * Made by natanbc, modified by Kodehawa.
+ * <p>This class defines the x ratelimit that will be taken into account when x user inputs a command.
+ * <p>The user will be not able to use the command until the ratelimit gets lifted, and instead it will send a message saying how much time is left (usually managed in
+ * Currency commands themselves).</p>
+ * <p>When the ratelimit gets reset, if the user tries to use the command again it will start all over again.</p>
  *
+ * @author natanbc, modified by Kodehawa.
  * @since 01-06-2017
  */
 public class RateLimiter {
