@@ -339,6 +339,7 @@
       "dj_skip": "%1$sUn DJ de este servidor ha decidido saltarse esta canción!",
       "vote": {
         "submit": "%1$s**Tu voto ha sido tomado en cuenta!** Necesitan %2$d voto(s) más para saltarse esta canción!",
+        "submit_force_allowed": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!\nYou're a DJ or queued this song. If you wanted to skip without requiring voting use `/skip force:True`",
         "remove": "%1$s**Has eliminado tu voto!** Necesitan %2$d voto(s) más para saltarse esta canción!"
       },
       "success": "%1$sHan alcanzado la cantidad necesaria de votos, saltando esta canción...",
