@@ -173,9 +173,9 @@ public class TransferCmds {
             var rl = partyRateLimiter.limit(partyKey);
             if (rl.getTriesLeft() < 1) {
                 ctx.reply(EmoteReference.STOPWATCH +
-                                ctx.getLanguageContext().get("commands.transfer.party").formatted(giveTo.getName()) +
-                                " (Ratelimited)\n **You'll be able to transfer to this user again in " +
-                                Utils.formatDuration(ctx.getLanguageContext(), rl.getCooldown()) + ".**"
+                        ctx.getLanguageContext().get("commands.transfer.party").formatted(giveTo.getName()) +
+                        " (Ratelimited)\n **You'll be able to transfer to this user again in " +
+                        Utils.formatDuration(ctx.getLanguageContext(), rl.getCooldown()) + ".**"
                 );
 
                 RatelimitUtils.ratelimitedUsers.computeIfAbsent(ctx.getAuthor().getIdLong(), __ -> new AtomicInteger()).incrementAndGet();

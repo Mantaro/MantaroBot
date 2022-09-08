@@ -70,7 +70,7 @@ public class AudioCmdUtils {
             }
 
             nowPlaying = String.format("**[%s](%s)** (%s)\n%s",
-                    MarkdownSanitizer.escape(playingTrack.getInfo().title, true),
+                    MarkdownSanitizer.escape(playingTrack.getInfo().title),
                     playingTrack.getInfo().uri,
                     getDurationMinutes(playingTrack.getInfo().length),
                     dj != null ? lang.get("commands.music_general.queue.dj_np") + dj.getUser().getAsTag() : ""

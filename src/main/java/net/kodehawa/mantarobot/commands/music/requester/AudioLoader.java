@@ -23,7 +23,9 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.interactions.InteractionHook;
+import net.dv8tion.jda.api.utils.MarkdownSanitizer;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
@@ -41,6 +43,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 
 import java.awt.*;
+import java.util.EnumSet;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
 
@@ -110,7 +113,7 @@ public class AudioLoader implements AudioLoadResultHandler {
                 count++;
             }
 
-            ctx.edit("commands.music_general.loader.loaded_playlist",
+            ctx.editStripped("commands.music_general.loader.loaded_playlist",
                     EmoteReference.SATELLITE, count, playlist.getName(),
                     Utils.formatDuration(i18nContext,
                             playlist.getTracks()
@@ -201,7 +204,8 @@ public class AudioLoader implements AudioLoadResultHandler {
                 duration = "stream";
             }
 
-            ctx.edit("commands.music_general.loader.loaded_song", EmoteReference.CORRECT, title, duration);
+            var displayTitle = MarkdownSanitizer.sanitize(title);
+            ctx.editStripped("commands.music_general.loader.loaded_song", EmoteReference.CORRECT, displayTitle, duration);
         }
 
         Metrics.TRACK_EVENTS.labels("tracks_load").inc();
@@ -270,7 +274,9 @@ public class AudioLoader implements AudioLoadResultHandler {
                 duration = "stream";
             }
 
-            hook.editOriginal(i18nContext.get("commands.music_general.loader.loaded_song").formatted(EmoteReference.CORRECT, title, duration))
+            var displayTitle = MarkdownSanitizer.sanitize(title);
+            hook.editOriginal(i18nContext.get("commands.music_general.loader.loaded_song").formatted(EmoteReference.CORRECT, displayTitle, duration))
+                    .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
                     .setEmbeds()
                     .setComponents()
                     .queue();

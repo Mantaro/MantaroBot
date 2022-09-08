@@ -301,8 +301,8 @@ public class SlashContext implements IContext {
             return;
         }
 
-        // Assume its stripped already? No stripped version.
         slash.getHook().editOriginal(s)
+                .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .setEmbeds(Collections.emptyList())
                 .queue();
     }
@@ -327,6 +327,7 @@ public class SlashContext implements IContext {
         }
 
         slash.getHook().editOriginal(i18n.get(s).formatted(args))
+                .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .setEmbeds(Collections.emptyList())
                 .setComponents()
                 .queue();
