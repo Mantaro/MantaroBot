@@ -394,7 +394,7 @@
       "new_error": "%1$sDer benutzerdefinierte Befehle, den du versuchst zu erstellen hat einen Fehler (v3, prüfe den Inhalt).\n**Fehler:**\n```%2$s```",
       "ls": {
         "header": "Befehle für diesen Server",
-        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands. The commands listed here use the bot prefix, not Slash Commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/currency/101)\n \n**List:**",
+        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands. The commands listed here use the bot prefix, not Slash Commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/guides/custom-commands)\n \n**List:**",
         "footer": "Anzahl aller benutzerdefinierten Befehle dieses Servers: %1$s"
       },
       "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://www.mantaro.site/mantaro-wiki/guides/custom-commands>.",
@@ -849,6 +849,7 @@
       "success": "%1$s%2$s, du hast die **%3$s** Rolle erhalten.",
       "error": "%1$sIch konnte die **%2$s** Rolle nicht von dir entfernen. Stelle sicher, dass ich Rollen verwalten kann und die Rolle **%2$s** niedriger als meine höchste Rolle ist",
       "no_role": "%1$sThere isn't an autorole with the specified name.",
+      "privileged_role": "%1$sThis role has administrative permissions that prevent me from giving it.",
       "no_iam": "%1$sDu musst angeben welche automatisch zuweisbare Rolle du dir selbst geben willst!"
     },
     "iamnot": {
@@ -1127,7 +1128,8 @@
       "patreon": "Unterstützung",
       "linked": "Verlinkt",
       "linked_to": "Verlinkt mit",
-      "keys_claimed": "Schlüssel beansprucht"
+      "keys_claimed": "Schlüssel beansprucht",
+      "premium_bot": "%1$sMantaro Patreon uses no keys. The server/user is premium if they can use the bot. Thanks you <3"
     },
     "support": {
       "info": "%1$sSolltest du Hilfe benötigen, schau auf dem Supportserver (<https://support.mantaro.site>) vorbei und stell deine Frage im #support-Channel!"
@@ -1993,6 +1995,7 @@
     },
     "birthday_enable": {
       "no_args": "%1$sDu musst den Kanal- und Rollennamen angeben.",
+      "administrative_role": "%1$sThis role contains administrative permissions and therefore cannot be set as a Birthday role.",
       "public_role": "%1$sDu kannst die everyone-Rolle nicht als Geburtstagsrolle setzen! Beachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird.",
       "autorole": "%1$sDu kannst nicht die autorole-Rolle als Geburtstagsrolle setzen! Beachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird.",
       "warning": "%1$sBeachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird. Wenn du Zweifel daran hast, wie du sie konfigurieren musst, kannst du immer dem Support-Server beitreten und fragen. Du kannst auch `~>opts help birthday enable` für ein Beispiel anschauen",
@@ -2021,6 +2024,7 @@
       "no_role_found": "%1$sIch konnte keine Rolle mit dem Namen finden. Sollte der Rollenname Leerzeichen enthalten, versuche Anführungszeichen drum rum zu setzen.",
       "hierarchy_conflict": "%1$sDiese Rolle ist höher als deine höchste Rolle, daher kannst du sie nicht als Autorolle zuweisen!",
       "self_hierarchy_conflict": "%1$sDiese Rolle ist höher als meine höchste Rolle, daher kannst du sie nicht als Autorolle zuweisen!",
+      "permissions_conflict": "%1$sYou cannot set an autorole with administrative permissions, even if you have them.",
       "success": "%1$sDie Server-Autorolle ist jetzt auf: **%2$s** (Position: %3$d) gesetzt"
     },
     "autorole_unbind": {
@@ -2086,6 +2090,7 @@
       "no_role_found": "%1$sIch habe keine Rolle mit dem Namen gefunden!\nWenn der Rollenname Leerzeichen enthält, verwende Anführungszeichen: \"Rollenname\"",
       "hierarchy_conflict": "%1$sDiese Rolle ist höher als deine höchste Rolle, daher kannst du sie nicht als automatisch zuzuweisende Rolle setzen!",
       "self_hierarchy_conflict": "%1$sDiese Rolle ist höher als meine höchste Rolle, daher kannst du sie nicht als automatisch zuzuweisende Rolle setzen!",
+      "permissions_conflict": "%1$sYou cannot add iam roles with administrative permissions, even if you have them.",
       "success": "%1$sAutorolle **%2$s** hinzugefügt, diese gibt die Rolle **%3$s**"
     },
     "autoroles_category_add": {
