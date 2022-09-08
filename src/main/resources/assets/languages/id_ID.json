@@ -339,6 +339,7 @@
       "dj_skip": "%1$sDJ melewati lagu ini.",
       "vote": {
         "submit": "%1$s**Voting telah dikirim** Kamu butuh %2$d vote lagi untuk skip!",
+        "submit_force_allowed": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!\nYou're a DJ or queued this song. If you wanted to skip without requiring voting use `/skip force:True`",
         "remove": "%1$s**Votingmu telah dihapus** Kamu butuh %2$d vote lagi untuk skip!"
       },
       "success": "%1$sJumlah vote terpenuhi, melewati lagu...",
