@@ -339,6 +339,7 @@
       "dj_skip": "%1$sقرر الـDJ تخطي هذه الاغنية.",
       "vote": {
         "submit": "%1$s**تم تقديم تصويتك** تحتاج الى %2$d المزيد من الاصوات(s) لتخطي!",
+        "submit_force_allowed": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!\nYou're a DJ or queued this song. If you wanted to skip without requiring voting use `/skip force:True`",
         "remove": "%1$s**تم ازالة تصويتك** تحتاج %2$d المزيد من الاصوات(s) لتخطي!"
       },
       "success": "%1$sوصلت إلى العدد المطلوب من الأصوات، تخطت الأغنية...",
