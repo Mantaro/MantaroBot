@@ -228,8 +228,11 @@ public class BirthdayTask {
                                                 // every single of these (except the last one) parts is guaranteed to be exactly the message content length
                                                 // meaning we need a new content for all of them and the last element will be used going forward
                                                 String last = parts.remove(parts.size() - 1);
-                                                contentList.addAll(parts);
+                                                // we have to add the current content even if it still has space, as it might
+                                                // break continuity in the messages if we merge them out of order
+                                                contentList.add(currentContent.toString());
                                                 currentContent = new StringBuilder(last);
+                                                contentList.addAll(parts);
                                             }
                                         } catch (IllegalStateException e) {
                                             log.debug("Failed to use SplitUtil to ensure birthday message length: {}", messagePair.left());
