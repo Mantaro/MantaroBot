@@ -263,10 +263,10 @@ public class BirthdayTask {
                                     .map(m -> new MessageCreateBuilder().addContent(m))
                                     .toList();
                             // partition embed list into chunks of 10
-                            List<List<MessageEmbed>> embedBuilders = Lists.partition(embedList, Message.MAX_EMBED_COUNT);
+                            List<List<MessageEmbed>> embedPartition = Lists.partition(embedList, Message.MAX_EMBED_COUNT);
                             // add embeds to the first n (n = size) MessageCreateBuilder
-                            for (int i = 0; i < embedBuilders.size(); i++) {
-                                builders.get(i).addEmbeds(embedBuilders.get(i));
+                            for (int i = 0; i < embedPartition.size(); i++) {
+                                builders.get(i).addEmbeds(embedPartition.get(i));
                             }
                             toSend.put(new BirthdayGuildInfo(guild.getId(), channel.getId()), builders);
                         }
