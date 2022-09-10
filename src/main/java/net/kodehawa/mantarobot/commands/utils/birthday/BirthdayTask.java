@@ -234,6 +234,10 @@ public class BirthdayTask {
                                                 currentContent = new StringBuilder(last);
                                                 contentList.addAll(parts);
                                             }
+                                            // add a new line to separate this b-day message from the next
+                                            // Note: this is going to be trimmed by discord if at the end
+                                            // meaning checking length *should* not be necessary
+                                            currentContent.append("\n");
                                         } catch (IllegalStateException e) {
                                             log.debug("Failed to use SplitUtil to ensure birthday message length: {}", messagePair.left());
                                             continue;
@@ -260,7 +264,10 @@ public class BirthdayTask {
 
                         if (birthdayNumber != 0) {
                             // add the last build content to the list if it wasn't empty
-                            if (!currentContent.isEmpty()) contentList.add(currentContent.toString());
+                            // \n check is here to avoid any potential "cannot send an empty message"
+                            if (!currentContent.isEmpty() && !currentContent.toString().equals("\n")) {
+                                contentList.add(currentContent.toString());
+                            }
                             // map messages to MessageCreateBuilder
                             List<MessageCreateBuilder> builders = contentList.stream()
                                     .map(m -> new MessageCreateBuilder().addContent(m))
