@@ -3,3 +3,9 @@ contact_links:
   - name: General Support
     url: https://support.mantaro.site
     about: Please join our official support server for general questions. You will get your answer there much quicker.
+  - name: Wiki Support
+    url: https://github.com/Mantaro/mantaro-wiki/issues/new
+    about: To report issues with mantaro's documentation please visit the dedicated issue page.
+  - name: Embed Builder Support
+    url: https://github.com/Mantaro/mantaro-embed-builder/issues/new
+    about: To report issues with mantaro's embed builder please visit the dedicated issue page.

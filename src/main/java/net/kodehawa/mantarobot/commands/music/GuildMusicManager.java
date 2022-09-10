@@ -44,7 +44,6 @@ public class GuildMusicManager {
 
     private void leave() {
         var guild = trackScheduler.getGuild();
-
         if (guild == null) {
             getLavaLink().destroy();
             return;
@@ -55,7 +54,7 @@ public class GuildMusicManager {
         final var requestedTextChannel = trackScheduler.getRequestedTextChannel();
         final var voiceState = guild.getSelfMember().getVoiceState();
 
-        if (requestedTextChannel != null && voiceState != null && voiceState.getChannel() != null) {
+        if (requestedTextChannel != null && requestedTextChannel.canTalk() && voiceState != null && voiceState.getChannel() != null) {
             requestedTextChannel.sendMessageFormat(
                     trackScheduler.getLanguage().get("commands.music_general.listener.leave"),
                     EmoteReference.SAD, voiceState.getChannel().getName()

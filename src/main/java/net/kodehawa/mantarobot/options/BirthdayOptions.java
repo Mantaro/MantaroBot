@@ -21,6 +21,8 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
+import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -29,6 +31,7 @@ import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.FinderUtils;
@@ -99,10 +102,9 @@ public class BirthdayOptions extends OptionHandler {
                         message = dbGuild.getData().getBirthdayMessage().replace("$(user)", m.getEffectiveName()).replace("$(usermention)", m.getAsMention());
                     }
 
-                    //Value used in lambda... blabla :c
-                    final String finalMessage = message;
+                    final MessageCreateData finalMessage = BirthdayTask.buildBirthdayMessage(message, birthdayChannel, m);
                     guild.addRoleToMember(m, birthdayRole).queue(
-                            success -> birthdayChannel.sendMessage(finalMessage).queue(
+                            success -> birthdayChannel.sendMessage(finalMessage).addContent("\n" + ctx.getGuildLanguageContext().get("general.birthday") + " (test message)").queue(
                                     s -> ctx.sendLocalized("options.birthday_test.success",
                                             EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()
                                     ), error -> ctx.sendLocalized("options.birthday_test.error",
@@ -150,6 +152,11 @@ public class BirthdayOptions extends OptionHandler {
 
                 if (guildData.getGuildAutoRole() != null && roleObj.getId().equals(guildData.getGuildAutoRole())) {
                     ctx.sendLocalized("options.birthday_enable.autorole", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(Utils.isRoleAdministrative(roleObj)) {
+                    ctx.sendLocalized("options.birthday_enable.administrative_role", EmoteReference.ERROR);
                     return;
                 }
 

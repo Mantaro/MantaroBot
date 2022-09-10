@@ -38,7 +38,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
@@ -54,12 +53,6 @@ public class AudioCmdUtils {
         final var guild = ctx.getGuild();
         final var selfMember = ctx.getSelfMember();
         final var channel = ctx.getChannel();
-
-        if (!selfMember.hasPermission(channel, Permission.MESSAGE_EMBED_LINKS)) {
-            ctx.reply(lang.get("commands.music_general.queue.no_embed"), EmoteReference.ERROR);
-            return;
-        }
-
         final var trackScheduler = musicManager.getTrackScheduler();
         final var toSend = getQueueList(trackScheduler.getQueue());
         final var musicPlayer = trackScheduler.getMusicPlayer();
@@ -77,7 +70,7 @@ public class AudioCmdUtils {
             }
 
             nowPlaying = String.format("**[%s](%s)** (%s)\n%s",
-                    MarkdownSanitizer.escape(playingTrack.getInfo().title, true),
+                    MarkdownSanitizer.escape(playingTrack.getInfo().title),
                     playingTrack.getInfo().uri,
                     getDurationMinutes(playingTrack.getInfo().length),
                     dj != null ? lang.get("commands.music_general.queue.dj_np") + dj.getUser().getAsTag() : ""
@@ -160,7 +153,7 @@ public class AudioCmdUtils {
         DiscordUtils.listButtons(ctx.getUtilsContext(), 150, supplier, split);
     }
 
-    public static CompletionStage<Void> openAudioConnection(SlashContext ctx, JdaLink link,
+    public static CompletionStage<Boolean> openAudioConnection(SlashContext ctx, JdaLink link,
                                                             AudioChannel userChannel, I18nContext lang) {
         final var textChannel = ctx.getChannel();
         final var userChannelMembers = userChannel.getMembers();
@@ -170,36 +163,41 @@ public class AudioCmdUtils {
             if (vc.getUserLimit() <= userChannelMembers.size()
                     && vc.getUserLimit() > 0 && !selfMember.hasPermission(Permission.MANAGE_CHANNEL)) {
                 ctx.edit("commands.music_general.connect.full_channel", EmoteReference.ERROR);
-                return completedFuture(null);
+                return completedFuture(false);
             }
         }
 
         try {
-            // This used to be a CompletableFuture that went through a listener
-            // which is now useless bc im 99% sure you can't listen to the connection status on LL.
-            joinVoiceChannel(link, userChannel);
-
             // Stage channel support
             if (userChannel instanceof StageChannel channel) {
                 if (!selfMember.hasPermission(Permission.REQUEST_TO_SPEAK)) {
                     ctx.edit("commands.music_general.connect.missing_permissions_connect",
                             EmoteReference.ERROR, lang.get("discord_permissions.voice_connect")
                     );
-                    return completedFuture(null);
+                    return completedFuture(false);
                 }
 
                 var stageInstance = channel.getStageInstance();
                 if (stageInstance == null) {
-                    channel.createStageInstance("Music").setTopic("Music by Mantaro").queue(inst -> inst.getChannel().requestToSpeak().queue());
-                } else {
-                    stageInstance.getChannel().requestToSpeak().queue();
+                    ctx.edit("commands.music_general.connect.no_stage_here", EmoteReference.ERROR);
+                    return completedFuture(false);
                 }
+
+                ctx.edit("commands.music_general.connect.success_stage", EmoteReference.MEGA, userChannel.getName());
+            } else {
+                // Not a stage channel, so we don't need to do much.
+                ctx.edit("commands.music_general.connect.success", EmoteReference.MEGA, userChannel.getName());
             }
 
-            ctx.edit("commands.music_general.connect.success", EmoteReference.MEGA, userChannel.getName());
-            return completedFuture(null);
+            try {
+                joinVoiceChannel(link, userChannel);
+            } catch (Exception e) {
+                ctx.edit("commands.music_general.connect.error", EmoteReference.ERROR);
+                return completedFuture(false);
+            }
+
+            return completedFuture(true);
         } catch (NullPointerException e) {
-            e.printStackTrace();
             ctx.edit("commands.music_general.connect.non_existent_channel", EmoteReference.ERROR);
 
             //Reset custom channel.
@@ -210,9 +208,9 @@ public class AudioCmdUtils {
                 dbGuild.saveAsync();
             }
 
-            CompletableFuture<Void> future = new CompletableFuture<>();
-            future.completeExceptionally(e);
-            return future;
+            // Return as false, returning exceptionally here could fail in the handling we have done
+            // even if it's the right thing to do.
+            return completedFuture(false);
         }
     }
 
@@ -271,8 +269,7 @@ public class AudioCmdUtils {
 
             // If the link is not currently connected or connecting, accept connection and call openAudioConnection
             if (linkState != Link.State.CONNECTED && linkState != Link.State.CONNECTING) {
-                return openAudioConnection(ctx, link, voiceChannel, lang)
-                        .thenApply(__ -> true);
+                return openAudioConnection(ctx, link, voiceChannel, lang);
             }
 
             // Nothing to connect to, but pass true so we can load the song (for example, it's already connected)
@@ -314,7 +311,7 @@ public class AudioCmdUtils {
                 log.debug("We seemed to hit a Lavalink/JDA bug? Null voice channel, but {} state.", linkState);
             }
 
-            return openAudioConnection(ctx, link, voiceChannel, lang).thenApply(__ -> true);
+            return openAudioConnection(ctx, link, voiceChannel, lang);
         }
 
         // Nothing to connect to, but pass true so we can load the song (for example, it's already connected)

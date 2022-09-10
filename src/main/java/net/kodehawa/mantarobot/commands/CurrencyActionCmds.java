@@ -56,6 +56,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -607,28 +608,32 @@ public class CurrencyActionCmds {
             }
 
             List<ItemStack> list = new ArrayList<>(amount);
-            var overflow = false;
-
+            AtomicBoolean overflow = new AtomicBoolean(false);
             for (int i = 0; i < amount; i++) {
                 Item it = fishItems.next();
-                if (playerInventory.getAmount(it) >= 5000) {
-                    overflow = true;
-                    continue;
-                }
-
                 list.add(new ItemStack(it, 1));
             }
-            // END OF ITEM ADD HANDLING
 
-            if (overflow) {
+            ArrayList<ItemStack> ita = new ArrayList<>();
+            var stack = ItemStack.reduce(list);
+            stack.forEach(it -> {
+                if (playerInventory.getAmount(it.getItem()) + it.getAmount() <= 5000) {
+                    ita.add(it);
+                } else {
+                    overflow.set(true);
+                }
+            });
+
+            // END OF ITEM ADD HANDLING
+            if (overflow.get()) {
                 extraMessage += "\n" + languageContext.get("commands.fish.overflow")
                         .formatted(EmoteReference.SAD);
             }
 
-            List<ItemStack> reducedList = ItemStack.reduce(list);
-            playerInventory.process(reducedList);
-            var itemDisplay = ItemStack.toString(reducedList);
-            var foundFish = !reducedList.isEmpty();
+            var reduced = ItemStack.reduce(ita);
+            playerInventory.process(reduced);
+            var itemDisplay = ItemStack.toString(reduced);
+            var foundFish = !reduced.isEmpty();
 
             //Add fisher badge if the player found fish successfully.
             if (foundFish) {
@@ -642,7 +647,6 @@ public class CurrencyActionCmds {
                 extraMessage += "\n" + EmoteReference.MEGA +
                         languageContext.get("commands.fish.fossil_success").formatted(ItemReference.SHELL.getEmojiDisplay());
             }
-
 
             var bonus = money;
             if (random.nextBoolean()) {
@@ -762,45 +766,48 @@ public class CurrencyActionCmds {
             RandomCollection<Item> items = new RandomCollection<>();
             var toDrop = handleChopDrop();
             toDrop.forEach(i -> items.add(3, i));
-            boolean overflow = false;
+            AtomicBoolean overflow = new AtomicBoolean(false);
 
-            List<Item> list = new ArrayList<>(amount);
+            List<ItemStack> list = new ArrayList<>(amount);
             for (int i = 0; i < amount; i++) {
                 Item it = items.next();
-                if (playerInventory.getAmount(it) >= 5000) {
-                    overflow = true;
-                    continue;
-                }
-
-                list.add(it);
-            }
-
-            if (overflow) {
-                extraMessage += "\n" + languageContext.get("commands.chop.overflow").formatted(EmoteReference.SAD);
+                list.add(new ItemStack(it, 1));
             }
 
             ArrayList<ItemStack> ita = new ArrayList<>();
-            list.forEach(it -> ita.add(new ItemStack(it, 1)));
-            var found = !ita.isEmpty();
+            var stack = ItemStack.reduce(list);
+            stack.forEach(it -> {
+                if (playerInventory.getAmount(it.getItem()) + it.getAmount() <= 5000) {
+                    ita.add(it);
+                } else {
+                    overflow.set(true);
+                }
+            });
 
+            if (overflow.get()) {
+                extraMessage += "\n" + languageContext.get("commands.chop.overflow").formatted(EmoteReference.SAD);
+            }
+
+            var found = !ita.isEmpty();
             // Make so it drops some decent amount of wood lol
             if (ita.stream().anyMatch(is -> is.getItem() == ItemReference.WOOD)) {
+                // There should only be one, as we merged it beforehand.
+                var wood = ita.stream().filter(is -> is.getItem() == ItemReference.WOOD).toList();
                 int am = Math.max(1, random.nextInt(7));
-                if (playerInventory.getAmount(ItemReference.WOOD) + am <= 5000) {
+                if (playerInventory.getAmount(ItemReference.WOOD) + am + wood.get(0).getAmount() <= 5000) {
                     ita.add(new ItemStack(ItemReference.WOOD, am));
                 }
             } else if (found) {
                 // Guarantee at least one wood.
-                if (playerInventory.getAmount(ItemReference.WOOD) < 5000) {
+                if (playerInventory.getAmount(ItemReference.WOOD) + 1 <= 5000) {
                     ita.add(new ItemStack(ItemReference.WOOD, 1));
                 }
             }
 
             // Reduce item stacks (aka join them) and process it.
-            var reducedStack = ItemStack.reduce(ita);
-            var itemDisplay = ItemStack.toString(reducedStack);
-
-            playerInventory.process(reducedStack);
+            var reduced = ItemStack.reduce(ita);
+            var itemDisplay = ItemStack.toString(reduced);
+            playerInventory.process(reduced);
 
             // Ah yes, sellout
             var bonus = money;

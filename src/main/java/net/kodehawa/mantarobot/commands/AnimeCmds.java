@@ -107,7 +107,7 @@ public class AnimeCmds {
                                 .setThumbnail("https://i.imgur.com/VwlGqdk.png")
                                 .setFooter(languageContext.get("commands.anime.information_footer"), ctx.getAuthor().getAvatarUrl())
                                 .build(),
-                        anime -> animeData(ctx, languageContext, anime));
+                        (anime, hook) -> animeData(ctx, languageContext, anime));
             } catch (JsonProcessingException jex) {
                 jex.printStackTrace();
                 ctx.reply("commands.anime.no_results", EmoteReference.ERROR);
@@ -175,7 +175,7 @@ public class AnimeCmds {
                                 .setThumbnail("https://i.imgur.com/VwlGqdk.png")
                                 .setFooter(languageContext.get("commands.anime.information_footer"), ctx.getAuthor().getAvatarUrl())
                                 .build(),
-                        character -> characterData(ctx, languageContext, character));
+                        (character, hook)  -> characterData(ctx, languageContext, character));
             } catch (JsonProcessingException jex) {
                 jex.printStackTrace();
                 ctx.reply("commands.anime.no_results", EmoteReference.ERROR);
@@ -194,7 +194,7 @@ public class AnimeCmds {
         try {
             final var attributes = animeData.getAttributes();
             final var title = attributes.getCanonicalTitle();
-            final var releaseDate = attributes.getStartDate();
+            final var releaseDate = attributes.getStartDate() == null ? lang.get("general.unknown") : attributes.getStartDate();
             final var endDate = attributes.getEndDate();
             final var animeDescription = attributes.getSynopsis() == null ? "" :
                     StringEscapeUtils.unescapeHtml4(attributes.getSynopsis().replace("<br>", " "));

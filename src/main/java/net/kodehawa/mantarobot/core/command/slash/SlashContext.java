@@ -114,7 +114,7 @@ public class SlashContext implements IContext {
     }
 
     public Guild getGuild() {
-        return getChannel().getGuild();
+        return slash.getGuild();
     }
 
     public User getSelfUser() {
@@ -301,8 +301,8 @@ public class SlashContext implements IContext {
             return;
         }
 
-        // Assume its stripped already? No stripped version.
         slash.getHook().editOriginal(s)
+                .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .setEmbeds(Collections.emptyList())
                 .queue();
     }
@@ -327,6 +327,7 @@ public class SlashContext implements IContext {
         }
 
         slash.getHook().editOriginal(i18n.get(s).formatted(args))
+                .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .setEmbeds(Collections.emptyList())
                 .setComponents()
                 .queue();
@@ -542,30 +543,24 @@ public class SlashContext implements IContext {
     }
 
     public User getOptionAsGlobalUser(String name) {
+        return getOptionAsGlobalUser(name, null);
+    }
+
+    public User getOptionAsGlobalUser(String name, User def) {
         var option = getOption(name);
         if (option == null) {
-            return null;
+            return def;
         }
 
         return option.getAsUser();
     }
 
     public User getOptionAsUser(String name) {
-        var option = getOption(name);
-        if (option == null || option.getAsMember() == null) {
-            return null;
-        }
-
-        return option.getAsUser();
+        return getOptionAsUser(name, null);
     }
 
     public Member getOptionAsMember(String name) {
-        var option = getOption(name);
-        if (option == null || option.getAsMember() == null) {
-            return null;
-        }
-
-        return option.getAsMember();
+        return getOptionAsMember(name, null);
     }
 
     public Member getOptionAsMember(String name, Member def) {
@@ -587,12 +582,7 @@ public class SlashContext implements IContext {
     }
 
     public String getOptionAsString(String name) {
-        var option = getOption(name);
-        if (option == null) {
-            return null;
-        }
-
-        return option.getAsString();
+        return getOptionAsString(name, null);
     }
 
     public String getOptionAsString(String name, String def) {
@@ -605,13 +595,7 @@ public class SlashContext implements IContext {
     }
 
     public long getOptionAsLong(String name) {
-        var option = getOption(name);
-        if (option == null) {
-            return 0;
-        }
-
-        // This is very much just making sure...
-        return Math.max(1, Math.abs(option.getAsLong()));
+        return getOptionAsLong(name, 0);
     }
 
     public long getOptionAsLong(String name, long def) {
@@ -620,16 +604,12 @@ public class SlashContext implements IContext {
             return def;
         }
 
+        // This is very much just making sure...
         return Math.max(1, Math.abs(option.getAsLong()));
     }
 
     public int getOptionAsInteger(String name) {
-        var option = getOption(name);
-        if (option == null) {
-            return 0;
-        }
-
-        return (int) Math.max(1, Math.abs(option.getAsLong()));
+        return getOptionAsInteger(name, 0);
     }
 
     public int getOptionAsInteger(String name, int def) {

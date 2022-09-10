@@ -25,6 +25,7 @@ import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.FinderUtils;
 
@@ -63,6 +64,11 @@ public class AutoRoleOptions extends OptionHandler {
 
                 if (!ctx.getSelfMember().canInteract(role)) {
                     ctx.sendLocalized("options.autorole_set.self_hierarchy_conflict", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(Utils.isRoleAdministrative(role)) {
+                    ctx.sendLocalized("options.autorole_set.permissions_conflict", EmoteReference.ERROR);
                     return;
                 }
 
@@ -117,6 +123,11 @@ public class AutoRoleOptions extends OptionHandler {
 
                 if (!ctx.getSelfMember().canInteract(role)) {
                     ctx.sendLocalized("options.autoroles_add.self_hierarchy_conflict", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(Utils.isRoleAdministrative(role)) {
+                    ctx.sendLocalized("options.autoroles_add.permissions_conflict", EmoteReference.ERROR);
                     return;
                 }
 

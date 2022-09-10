@@ -231,7 +231,12 @@ public class MiscCmds {
             try {
                 timeout = Utils.parseTime(ctx.getOptionAsString("time"));
             } catch (Exception e) {
-                ctx.sendLocalized("commands.poll.incorrect_time_format", EmoteReference.ERROR);
+                ctx.reply("commands.poll.incorrect_time_format", EmoteReference.ERROR);
+                return;
+            }
+
+            if (timeout == 0) {
+                ctx.reply("commands.poll.incorrect_time_format", EmoteReference.ERROR);
                 return;
             }
 
@@ -267,9 +272,15 @@ public class MiscCmds {
                     ctx.sendLocalized("commands.iam.already_assigned", EmoteReference.ERROR);
                     return;
                 }
+
+                if(Utils.isRoleAdministrative(role)) {
+                    ctx.sendLocalized("commands.iam.privileged_role", EmoteReference.ERROR);
+                    return;
+                }
+
                 try {
                     ctx.getGuild().addRoleToMember(ctx.getMember(), role)
-                            .reason("Auto-assignable roles assigner (~>iam)")
+                            .reason("Auto-assignable roles assigner (/iam)")
                             .queue(aVoid -> {
                                 if (message == null || message.isEmpty())
                                     ctx.sendLocalized("commands.iam.success", EmoteReference.OK, ctx.getAuthor().getName(), role.getName());

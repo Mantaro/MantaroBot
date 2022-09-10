@@ -21,6 +21,7 @@ import com.google.common.cache.Cache;
 import com.rethinkdb.gen.exc.ReqlError;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.GenericEvent;
+import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -119,31 +120,24 @@ public class CommandListener implements EventListener {
             log.error("Missed interaction ack time?", e);
         } catch (LanguageKeyNotFoundException e) {
             var id = Snow64.toSnow64(event.getIdLong());
-            event.reply("%sWrong language key found, please report on the support server (At <https://support.mantaro.site>) with error ID `%s` (On shard %s).\n%sMessage: *%s*".formatted(
-                    EmoteReference.ERROR, id, event.getJDA().getShardInfo().getShardId(), EmoteReference.ZAP, e.getMessage())
-            ).setEphemeral(true).queue();
-
             log.warn("Missing i18n key. Check this. ID: {}", id, e);
+
+            sendSlashError(event,"%sWrong language key found, please report on the support server (At <https://support.mantaro.site>) with error ID `%s` (On shard %s).\n%sMessage: *%s*",
+                    EmoteReference.ERROR, id, event.getJDA().getShardInfo().getShardId(), EmoteReference.ZAP, e.getMessage());
         } catch (IllegalFormatException e) {
             var id = Snow64.toSnow64(event.getIdLong());
-            event.reply("%sWe found at error when trying to format a String. Please report on the support server (At <https://support.mantaro.site>) with error ID `%s` (On Shard %s)".formatted(
-                    EmoteReference.ERROR, id, event.getJDA().getShardInfo().getShardId()
-            )).setEphemeral(true).queue();
-
             log.warn("Wrong String format. Check this. ID: {}", id, e);
-        } catch (PermissionException e) {
-            if (e.getPermission() != Permission.UNKNOWN) {
-                event.reply("%sI don't have permission to do this :(\nI need the permission: **%s**".formatted(EmoteReference.ERROR, e.getPermission().getName()))
-                        .setEphemeral(true)
-                        .queue();
-            } else {
-                event.reply("I cannot perform this action due to the lack of permission! " +
-                                "Is the role I might be trying to assign higher than my role? Do I have the correct permissions/hierarchy to perform this action?")
-                        .setEphemeral(true)
-                        .queue();
-            }
 
+            sendSlashError(event, "%sWe found at error when trying to format a String. Please report on the support server (At <https://support.mantaro.site>) with error ID `%s` (On Shard %s)",
+                    EmoteReference.ERROR, id, event.getJDA().getShardInfo().getShardId());
+        } catch (PermissionException e) {
             log.warn("Caught unexpected Permission issue?", e);
+            if (e.getPermission() != Permission.UNKNOWN) {
+                sendSlashError(event, "%sI don't have permission to do this :(\nI need the permission: **%s**", EmoteReference.ERROR, e.getPermission().getName());
+            } else {
+                sendSlashError(event, "I cannot perform this action due to the lack of permission! " +
+                        "Is the role I might be trying to assign higher than my role? Do I have the correct permissions/hierarchy to perform this action?");
+            }
         } catch (Exception e) {
             var id = Snow64.toSnow64(event.getIdLong());
             if (event.getGuild() == null) {
@@ -151,13 +145,12 @@ public class CommandListener implements EventListener {
                 return;
             }
 
-            var context = I18n.of(event.getGuild());
-            event.reply("%s%s (Unexpected error, ID: `%s`): Shard %s\n%s".formatted(
-                    EmoteReference.ERROR, context.get("general.boom_quotes"), id,
-                    event.getJDA().getShardInfo().getShardId(), context.get("general.generic_error"))
-            ).setEphemeral(true).queue();
-
             log.error("Error happened on command: {} (Error ID: {})", event.getCommandString(), id, e);
+            var context = I18n.of(event.getGuild());
+            sendSlashError(event, "%s%s (Unexpected error, ID: `%s`): Shard %s\n%s",
+                    EmoteReference.ERROR, context.get("general.boom_quotes"), id,
+                    event.getJDA().getShardInfo().getShardId(), context.get("general.generic_error")
+            );
         }
     }
 
@@ -178,31 +171,22 @@ public class CommandListener implements EventListener {
             log.error("Missed interaction ack time?", e);
         } catch (LanguageKeyNotFoundException e) {
             var id = Snow64.toSnow64(event.getIdLong());
-            event.reply("%sWrong language key found, please report on the support server (At <https://support.mantaro.site>) with error ID `%s` (On shard %s).\n%sMessage: *%s*".formatted(
-                    EmoteReference.ERROR, id, event.getJDA().getShardInfo().getShardId(), EmoteReference.ZAP, e.getMessage())
-            ).setEphemeral(true).queue();
-
             log.warn("Missing i18n key. Check this. ID: {}", id, e);
+            sendSlashError(event,"%sWrong language key found, please report on the support server (At <https://support.mantaro.site>) with error ID `%s` (On shard %s).\n%sMessage: *%s*",
+                    EmoteReference.ERROR, id, event.getJDA().getShardInfo().getShardId(), EmoteReference.ZAP, e.getMessage());
         } catch (IllegalFormatException e) {
             var id = Snow64.toSnow64(event.getIdLong());
-            event.reply("%sWe found at error when trying to format a String. Please report on the support server (At <https://support.mantaro.site>) with error ID `%s` (On Shard %s)".formatted(
-                    EmoteReference.ERROR, id, event.getJDA().getShardInfo().getShardId()
-            )).setEphemeral(true).queue();
-
             log.warn("Wrong String format. Check this. ID: {}", id, e);
+            sendSlashError(event, "%sWe found at error when trying to format a String. Please report on the support server (At <https://support.mantaro.site>) with error ID `%s` (On Shard %s)",
+                    EmoteReference.ERROR, id, event.getJDA().getShardInfo().getShardId());
         } catch (PermissionException e) {
-            if (e.getPermission() != Permission.UNKNOWN) {
-                event.reply("%sI don't have permission to do this :(\nI need the permission: **%s**".formatted(EmoteReference.ERROR, e.getPermission().getName()))
-                        .setEphemeral(true)
-                        .queue();
-            } else {
-                event.reply("I cannot perform this action due to the lack of permission! " +
-                                "Is the role I might be trying to assign higher than my role? Do I have the correct permissions/hierarchy to perform this action?")
-                        .setEphemeral(true)
-                        .queue();
-            }
-
             log.warn("Caught unexpected Permission issue?", e);
+            if (e.getPermission() != Permission.UNKNOWN) {
+                sendSlashError(event, "%sI don't have permission to do this :(\nI need the permission: **%s**", EmoteReference.ERROR, e.getPermission().getName());
+            } else {
+                sendSlashError(event, "I cannot perform this action due to the lack of permission! " +
+                        "Is the role I might be trying to assign higher than my role? Do I have the correct permissions/hierarchy to perform this action?");
+            }
         } catch (Exception e) {
             var id = Snow64.toSnow64(event.getIdLong());
             if (event.getGuild() == null) {
@@ -210,13 +194,12 @@ public class CommandListener implements EventListener {
                 return;
             }
 
-            var context = I18n.of(event.getGuild());
-            event.reply("%s%s (Unexpected error, ID: `%s`): Shard %s\n%s".formatted(
-                    EmoteReference.ERROR, context.get("general.boom_quotes"), id,
-                    event.getJDA().getShardInfo().getShardId(), context.get("general.generic_error"))
-            ).setEphemeral(true).queue();
-
             log.error("Error happened on command: {} (Error ID: {})", event.getCommandString(), id, e);
+            var context = I18n.of(event.getGuild());
+            sendSlashError(event, "%s%s (Unexpected error, ID: `%s`): Shard %s\n%s",
+                    EmoteReference.ERROR, context.get("general.boom_quotes"), id,
+                    event.getJDA().getShardInfo().getShardId(), context.get("general.generic_error")
+            );
         }
     }
 
@@ -297,6 +280,14 @@ public class CommandListener implements EventListener {
             }
 
             log.error("Error happened on command: {} (Error ID: {})", event.getMessage().getContentRaw(), id, e);
+        }
+    }
+
+    private void sendSlashError(GenericCommandInteractionEvent event, String message, Object... args) {
+        if (event.isAcknowledged()) {
+            event.getHook().sendMessage(String.format(message, args)).queue();
+        } else {
+            event.reply(String.format(message, args)).setEphemeral(true).queue();
         }
     }
 }

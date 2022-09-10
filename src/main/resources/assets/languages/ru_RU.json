@@ -149,7 +149,7 @@
       "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site.\nFor more help, use the new wiki at https://www.mantaro.site/mantaro-wiki/",
-      "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site"
+      "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site\nFor more help, use the new wiki at https://www.mantaro.site/mantaro-wiki/"
     },
     "fish": {
       "dust": "%1$sДень закончился и ваше ведро собрало только пыль. (Уровень пыли %2$s%%)",
@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$sУспешно подключен к каналу **%2$s**!",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$sЯ не могу подключиться к вашему каналу потому что он полный!",
         "non_existent_channel": "%1$sВы указали несуществующий канал. Скорее всего вы создали голосовой канал и удалили его. \n Мы сбросили ваш голосовой канал, попробуйте ещё раз.",
         "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
@@ -249,7 +250,9 @@
         "missing_permission_speak": "%1$sУ меня нет разрешения на разговор в этом канале (%2$s).",
         "channel_locked": "%1$sЯ могу играть музыку только в канале **%2$s**.",
         "already_connected": "%1$sЯ уже подключен к голосовому каналу **%2$s**! (Используйте команду `move`, чтобы перенести меня в интересующий вас канал)",
-        "attempting_to_connect": "%1$sЯ уже пытаюсь подключиться к каналу **%2$s**! (Используйте команду `move`, чтобы перенести меня в интересующий вас канал)"
+        "attempting_to_connect": "%1$sЯ уже пытаюсь подключиться к каналу **%2$s**! (Используйте команду `move`, чтобы перенести меня в интересующий вас канал)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sВоспроизведение приостановлено, я получил мут :(",
@@ -336,10 +339,12 @@
       "dj_skip": "%1$sDJ решил скипнуть трек :(",
       "vote": {
         "submit": "%1$s**Твой голос был учтен** Вам нужно ещё %2$d голос(ов) для пропуска!",
+        "submit_force_allowed": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!\nYou're a DJ or queued this song. If you wanted to skip without requiring voting use `/skip force:True`",
         "remove": "%1$s**Твой голос был отменен** Вам нужно ещё %2$d голос(ов) для пропуска!"
       },
       "success": "%1$sДостигнуто необходимое количество голосов, трек был пропущен...",
-      "no_track": "%1$sКажется нет трека, который я мог бы пропустить, если он все ещё проигрывается, повторите попытку"
+      "no_track": "%1$sКажется нет трека, который я мог бы пропустить, если он все ещё проигрывается, повторите попытку",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` неправильный диапазон.",
@@ -390,7 +395,7 @@
       "new_error": "%1$sПользовательская команда, которую вы пытаетесь создать, содержит ошибку (v3. проверьте ее содержимое) .\n**Ошибка:**\n```%2$s```",
       "ls": {
         "header": "Команды для этого сервера",
-        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands. The commands listed here use the bot prefix, not Slash Commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/currency/101)\n \n**List:**",
+        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands. The commands listed here use the bot prefix, not Slash Commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/guides/custom-commands)\n \n**List:**",
         "footer": "Общее количество кастомных команд на этом сервере: %1$s"
       },
       "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://www.mantaro.site/mantaro-wiki/guides/custom-commands>.",
@@ -845,6 +850,7 @@
       "success": "%1$s%2$s, вам выдана роль **%3$s**",
       "error": "%1$sЯ не могу снять с вас роль **%2$s**. Убедитесь, что у меня есть разрешение на добавление ролей (Управление ролями) и что моя роль выше **%2$s**",
       "no_role": "%1$sАвтоматической роли с указанным именем не существует.",
+      "privileged_role": "%1$sThis role has administrative permissions that prevent me from giving it.",
       "no_iam": "%1$sВы не указали роль, которую нужно выдать себе!"
     },
     "iamnot": {
@@ -1123,7 +1129,8 @@
       "patreon": "Залог",
       "linked": "Привязан",
       "linked_to": "Привязан с",
-      "keys_claimed": "Ключей активировано"
+      "keys_claimed": "Ключей активировано",
+      "premium_bot": "%1$sMantaro Patreon uses no keys. The server/user is premium if they can use the bot. Thanks you <3"
     },
     "support": {
       "info": "%1$sЕсли вам нужна поддержка, то пожалуйста зайдите на наш сервер поддержки на <https://support.mantaro.site> и задайте ваш вопрос в канале #support !"
@@ -1989,6 +1996,7 @@
     },
     "birthday_enable": {
       "no_args": "%1$sВы должны указать название канала и роли.",
+      "administrative_role": "%1$sThis role contains administrative permissions and therefore cannot be set as a Birthday role.",
       "public_role": "%1$sВы не можете установить роль 'everyone' как роль дня рождения! Помните, что роль дня рождения - это роль, которая назначается человеку, когда наступает день рождения, а затем удаляется, когда день проходит.",
       "autorole": "%1$sВы не можете установить роль autorole в качестве роли дня рождения! Помните, что роль дня рождения - это роль, которая назначается человеку, когда наступает день рождения, а затем удаляется, когда день проходит.",
       "warning": "%1$sПомните, что роль дня рождения - это роль, которая назначается человеку, когда наступает день рождения, а затем удаляется, когда день проходит. Если у вас есть какие-либо сомнения относительно его настройки, вы всегда можете присоединяйтесь к нашему серверу поддержки и спросить. Вы также можете проверить `~> opts help birthday enable` для примера.",
@@ -2017,6 +2025,7 @@
       "no_role_found": "%1$sНе удалось найти роль с этим именем. Если в названии роли есть пробелы, попробуйте заключить ее в кавычки.",
       "hierarchy_conflict": "%1$sЭта роль выше вашей самой высокой роли, поэтому вы не можете поставить ее как авто-роль!",
       "self_hierarchy_conflict": "%1$sЭта роль выше моей самой высокой роли, поэтому вы не можете поставить ее как авто-роль!",
+      "permissions_conflict": "%1$sYou cannot set an autorole with administrative permissions, even if you have them.",
       "success": "%1$sАвто-роль сервера теперь установлена на: **%2$s** (Позиция: %3$d)"
     },
     "autorole_unbind": {
@@ -2082,6 +2091,7 @@
       "no_role_found": "%1$sЯ не нашел роль с этим именем!\nЕсли в имени роли есть пробелы, заключите его в кавычки следующим образом:\"Имя роли\"",
       "hierarchy_conflict": "%1$sЭта роль выше вашей самой высокой роли, поэтому вы не можете использовать ее как автоматически назначаемую роль! ",
       "self_hierarchy_conflict": "%1$sЭта роль выше моей самой высокой роли, поэтому ее нельзя назначить в качестве автоматически назначаемой роли!",
+      "permissions_conflict": "%1$sYou cannot add iam roles with administrative permissions, even if you have them.",
       "success": "%1$sДоавлена автоматически назначаемая роль **%2$s**, которая даёт роль **%3$s**"
     },
     "autoroles_category_add": {

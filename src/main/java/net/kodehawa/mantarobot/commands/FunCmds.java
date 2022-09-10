@@ -203,7 +203,8 @@ public class FunCmds {
     @Description("Calculates the love between 2 discord users. Results may vary.")
     @Category(CommandCategory.FUN)
     @Options({
-            @Options.Option(type = OptionType.USER, name = "user", description = "The user to compare with.", required = true)
+            @Options.Option(type = OptionType.USER, name = "user", description = "The user to compare with.", required = true),
+            @Options.Option(type = OptionType.USER, name = "otheruser", description = "Another user to compare with.")
     })
     @Help(description = "Calculates the love between 2 discord users. Results may vary. This is random, for real.", usage = "`/love user:[user]`",
     parameters = {
@@ -220,15 +221,19 @@ public class FunCmds {
 
             String result;
             long[] ids = new long[2];
-            List<String> listDisplay = new ArrayList<>();
             String toDisplay;
 
-            listDisplay.add("\uD83D\uDC97  %s#%s".formatted(user.getName(), user.getDiscriminator()));
-            listDisplay.add("\uD83D\uDC97  %s#%s".formatted(ctx.getAuthor().getName(), ctx.getAuthor().getDiscriminator()));
-            toDisplay = String.join("\n", listDisplay);
+            if (ctx.getOptionAsUser("otheruser") != null) {
+                var otherUser = ctx.getOptionAsUser("otheruser");
+                ids[0] = otherUser.getIdLong();
+                ids[1] = user.getIdLong();
+                toDisplay = ("\uD83D\uDC97  %s\n\uD83D\uDC97  %s".formatted(user.getAsTag(), otherUser.getAsTag()));
+            } else {
+                ids[0] = ctx.getAuthor().getIdLong();
+                ids[1] = user.getIdLong();
+                toDisplay = ("\uD83D\uDC97  %s\n\uD83D\uDC97  %s".formatted(user.getAsTag(), ctx.getAuthor().getAsTag()));
+            }
 
-            ids[0] = ctx.getAuthor().getIdLong();
-            ids[1] = user.getIdLong();
             var percentage = (ids[0] == ids[1] ? 101 : r.nextInt(101)); // last value is exclusive, so 101.
             var languageContext = ctx.getLanguageContext();
 

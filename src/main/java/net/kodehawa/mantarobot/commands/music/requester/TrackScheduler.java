@@ -22,10 +22,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import lavalink.client.io.Link;
 import lavalink.client.player.IPlayer;
 import lavalink.client.player.event.PlayerEventListenerAdapter;
-import net.dv8tion.jda.api.entities.AudioChannel;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.*;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.data.I18n;
@@ -123,6 +120,11 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         }
 
         final var guild = MantaroBot.getInstance().getShardManager().getGuildById(guildId);
+        if (guild == null) { // I mean, sure...
+            onStop();
+            return;
+        }
+
         final var dbGuild = MantaroData.db().getGuild(guildId);
 
         if (dbGuild.getData().isMusicAnnounce() && requestedChannel != 0 && getRequestedTextChannel() != null) {
@@ -220,11 +222,11 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         queue.addAll(tempList);
     }
 
-    public TextChannel getRequestedTextChannel() {
+    public GuildMessageChannel getRequestedTextChannel() {
         if (requestedChannel == 0)
             return null;
 
-        return MantaroBot.getInstance().getShardManager().getTextChannelById(requestedChannel);
+        return MantaroBot.getInstance().getShardManager().getChannelById(GuildMessageChannel.class, requestedChannel);
     }
 
     public void stop() {
@@ -242,8 +244,6 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
     }
 
     private void onStop() {
-        final var managedDatabase = MantaroData.db();
-        final var lavalinkPlayer = getAudioPlayer().getPlayer();
         getVoteStop().clear();
         getVoteSkips().clear();
 
@@ -254,6 +254,8 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
             return;
         }
 
+        final var managedDatabase = MantaroData.db();
+        final var lavalinkPlayer = getAudioPlayer().getPlayer();
         var premium = managedDatabase.getGuild(guild).isPremium();
         try {
             final var ch = getRequestedTextChannel();

@@ -18,6 +18,8 @@
 package net.kodehawa.mantarobot.utils;
 
 import com.rethinkdb.net.Connection;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Role;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -607,6 +609,17 @@ public class Utils {
             map.put(entry[0], entry[1]);
         }
         return map;
+    }
+
+    // Basically returns true if the role has a role that can mess around with other users.
+    // Usually this check wouldn't be needed, as we check for interaction permissions, but this is just an extra check to
+    // avoid foot-guns.
+    public static boolean isRoleAdministrative(Role role) {
+        return role.hasPermission(Permission.ADMINISTRATOR) || role.hasPermission(Permission.BAN_MEMBERS) ||
+                role.hasPermission(Permission.KICK_MEMBERS) || role.hasPermission(Permission.MANAGE_SERVER) ||
+                role.hasPermission(Permission.MANAGE_ROLES) || role.hasPermission(Permission.MANAGE_PERMISSIONS) ||
+                role.hasPermission(Permission.MANAGE_CHANNEL) || role.hasPermission(Permission.MANAGE_WEBHOOKS) ||
+                role.hasPermission(Permission.MODERATE_MEMBERS) || role.hasPermission(Permission.VOICE_MUTE_OTHERS);
     }
 
     public enum HushType {

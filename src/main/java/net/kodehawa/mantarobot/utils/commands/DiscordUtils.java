@@ -22,6 +22,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
@@ -40,6 +41,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.IntConsumer;
@@ -93,7 +95,7 @@ public class DiscordUtils {
     }
 
     public static Future<Void> selectIntButton(IContext ctx, Message message, int max,
-                                               IntConsumer valueConsumer, Consumer<Void> cancelConsumer) {
+                                               BiConsumer<Integer, InteractionHook> valueConsumer, Consumer<Void> cancelConsumer) {
         int count = 0;
         List<ActionRow> buttons = new ArrayList<>();
         List<Button> temp = new ArrayList<>();
@@ -131,7 +133,7 @@ public class DiscordUtils {
             }
 
             try {
-                valueConsumer.accept(Integer.parseInt(button.getId()));
+                valueConsumer.accept(Integer.parseInt(button.getId()), e.getHook());
                 return Operation.COMPLETED;
             } catch (Exception ignored) { }
 
@@ -142,20 +144,18 @@ public class DiscordUtils {
     public static <T> void selectListButton(IContext ctx, List<T> list,
                                             Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
                                             Consumer<T> valueConsumer) {
-        selectListButton(ctx, list, toString, toEmbed, valueConsumer, (o) -> {
-        });
+        selectListButton(ctx, list, toString, toEmbed, (t, v) -> valueConsumer.accept(t), (o) -> {});
     }
 
     public static <T> void selectListButtonSlash(SlashContext ctx, List<T> list,
                                                  Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
-                                                 Consumer<T> valueConsumer) {
-        selectListButtonSlash(ctx, list, toString, toEmbed, valueConsumer, (o) -> {
-        });
+                                                 BiConsumer<T, InteractionHook> valueConsumer) {
+        selectListButtonSlash(ctx, list, toString, toEmbed, valueConsumer, (o) -> {});
     }
 
     public static <T> void selectListButtonSlash(SlashContext ctx, List<T> list,
                                                  Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
-                                                 Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
+                                                 BiConsumer<T, InteractionHook> valueConsumer, Consumer<Void> cancelConsumer) {
         var r = embedList(list, toString);
         if (!ctx.getEvent().isAcknowledged()) {
             ctx.defer();
@@ -170,12 +170,12 @@ public class DiscordUtils {
             throw new IllegalArgumentException("Too many options on ActionRow, attempted " + list.size() + ". Max: 20.");
         }
 
-        selectIntButton(ctx, m, r.getRight(), i -> valueConsumer.accept(list.get(i - 1)), cancelConsumer);
+        selectIntButton(ctx, m, r.getRight(), (i, h) -> valueConsumer.accept(list.get(i - 1), h), cancelConsumer);
     }
 
     public static <T> void selectListButton(IContext ctx, List<T> list,
                                             Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
-                                            Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
+                                            BiConsumer<T, InteractionHook> valueConsumer, Consumer<Void> cancelConsumer) {
         var r = embedList(list, toString);
         var m = ctx.sendResult(toEmbed.apply(r.getLeft()));
 
@@ -183,7 +183,7 @@ public class DiscordUtils {
             throw new IllegalArgumentException("Too many options on ActionRow, attempted " + list.size() + ". Max: 20.");
         }
 
-        selectIntButton(ctx, m, r.getRight(), i -> valueConsumer.accept(list.get(i - 1)), cancelConsumer);
+        selectIntButton(ctx, m, r.getRight(), (i, h) -> valueConsumer.accept(list.get(i - 1), h), cancelConsumer);
     }
 
     public static void listButtons(UtilsContext ctx, int timeoutSeconds, int length,
@@ -266,6 +266,12 @@ public class DiscordUtils {
     }
 
     public static void listButtons(UtilsContext ctx, int timeoutSeconds, List<String> parts) {
+        // TODO: i18n
+        if (!ctx.getChannel().canTalk()) {
+            ctx.send("The bot needs View Channel and Message Write on this channel (or Send Messages in Threads if in a thread) to display buttons.");
+            return;
+        }
+
         if (parts.size() == 0) {
             return;
         }

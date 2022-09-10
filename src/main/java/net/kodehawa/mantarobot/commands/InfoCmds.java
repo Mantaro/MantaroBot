@@ -219,7 +219,6 @@ public class InfoCmds {
                     );
                 }
 
-                ctx.reply("Building list...");
                 DiscordUtils.listButtons(ctx.getUtilsContext(), 150, messages);
             }
         }

@@ -23,6 +23,9 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.interactions.InteractionHook;
+import net.dv8tion.jda.api.utils.MarkdownSanitizer;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
@@ -40,6 +43,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 
 import java.awt.*;
+import java.util.EnumSet;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
 
@@ -109,8 +113,8 @@ public class AudioLoader implements AudioLoadResultHandler {
                 count++;
             }
 
-            ctx.edit("commands.music_general.loader.loaded_playlist",
-                    EmoteReference.SATELLITE, count, playlist.getName(),
+            ctx.editStripped("commands.music_general.loader.loaded_playlist",
+                    EmoteReference.SATELLITE, count, MarkdownSanitizer.sanitize(playlist.getName()),
                     Utils.formatDuration(i18nContext,
                             playlist.getTracks()
                                     .stream()
@@ -124,7 +128,7 @@ public class AudioLoader implements AudioLoadResultHandler {
 
     @Override
     public void noMatches() {
-        ctx.getChannel().sendMessageFormat(language.get("commands.music_general.loader.no_matches"), EmoteReference.ERROR).queue();
+        ctx.edit("commands.music_general.loader.no_matches", EmoteReference.ERROR);
     }
 
     @Override
@@ -132,13 +136,15 @@ public class AudioLoader implements AudioLoadResultHandler {
         if (failureCount == 0) {
             if (exception.getMessage() == null) {
                 ctx.edit("commands.music_general.loader.unknown_error_loading", EmoteReference.ERROR);
+            } else {
+                ctx.edit("commands.music_general.loader.error_loading", EmoteReference.ERROR, exception.getMessage());
             }
 
-            ctx.edit("commands.music_general.loader.error_loading", EmoteReference.ERROR, exception.getMessage());
+            // Just in case.
+            exception.printStackTrace();
         }
 
         Metrics.TRACK_EVENTS.labels("tracks_failed").inc();
-        exception.printStackTrace();
         failureCount++;
     }
 
@@ -189,8 +195,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         if (!silent) {
             var player = db.getPlayer(ctx.getAuthor());
             var badge = APIUtils.getHushBadge(audioTrack.getIdentifier(), Utils.HushType.MUSIC);
-            if (badge != null) {
-                player.getData().addBadgeIfAbsent(badge);
+            if (badge != null && player.getData().addBadgeIfAbsent(badge)) {
                 player.saveUpdating();
             }
 
@@ -199,11 +204,87 @@ public class AudioLoader implements AudioLoadResultHandler {
                 duration = "stream";
             }
 
-            ctx.edit("commands.music_general.loader.loaded_song", EmoteReference.CORRECT, title, duration);
+            var displayTitle = MarkdownSanitizer.sanitize(title);
+            ctx.editStripped("commands.music_general.loader.loaded_song", EmoteReference.CORRECT, displayTitle, duration);
         }
 
         Metrics.TRACK_EVENTS.labels("tracks_load").inc();
     }
+
+    // Yes, this is repeated twice. I need the hook for the search stuff.
+    private void loadSingle(InteractionHook hook, AudioTrack audioTrack, boolean silent, DBGuild dbGuild, DBUser dbUser) {
+        final var trackInfo = audioTrack.getInfo();
+        final var trackScheduler = musicManager.getTrackScheduler();
+        final var guildData = dbGuild.getData();
+        var i18nContext = new I18nContext(language);
+
+        audioTrack.setUserData(ctx.getAuthor().getId());
+
+        final var title = trackInfo.title;
+        final var length = trackInfo.length;
+
+        long queueLimit = MAX_QUEUE_LENGTH;
+        if (guildData.getMusicQueueSizeLimit() != null && guildData.getMusicQueueSizeLimit() > 1) {
+            queueLimit = guildData.getMusicQueueSizeLimit();
+        }
+
+        var fqSize = guildData.getMaxFairQueue();
+        ConcurrentLinkedDeque<AudioTrack> queue = trackScheduler.getQueue();
+
+        if (queue.size() > queueLimit && !dbUser.isPremium() && !dbGuild.isPremium()) {
+            if (!silent) {
+                hook.editOriginal(i18nContext.get("commands.music_general.loader.over_queue_limit").formatted(EmoteReference.WARNING, title, queueLimit))
+                        .setEmbeds()
+                        .setComponents()
+                        .queue();
+            }
+            return;
+        }
+
+        if (trackInfo.length > MAX_SONG_LENGTH && (!dbUser.isPremium() && !dbGuild.isPremium())) {
+            hook.editOriginal(i18nContext.get("commands.music_general.loader.over_32_minutes").formatted(
+                    EmoteReference.WARNING, title,
+                    Utils.formatDuration(i18nContext, MAX_SONG_LENGTH),
+                    Utils.formatDuration(i18nContext, length)
+            )).setEmbeds().setComponents().queue();
+            return;
+        }
+
+        // Comparing if the URLs are the same to be 100% sure they're just not spamming the same url over and over again.
+        if (queue.stream().filter(track -> trackInfo.uri.equals(track.getInfo().uri)).count() > fqSize && !silent) {
+            hook.editOriginal(i18nContext.get("commands.music_general.loader.fair_queue_limit_reached").formatted(EmoteReference.ERROR, fqSize + 1))
+                    .setEmbeds()
+                    .setComponents()
+                    .queue();
+            return;
+        }
+
+        trackScheduler.queue(audioTrack, insertFirst);
+        trackScheduler.setRequestedChannel(ctx.getChannel().getIdLong());
+
+        if (!silent) {
+            var player = db.getPlayer(ctx.getAuthor());
+            var badge = APIUtils.getHushBadge(audioTrack.getIdentifier(), Utils.HushType.MUSIC);
+            if (badge != null && player.getData().addBadgeIfAbsent(badge)) {
+                player.saveUpdating();
+            }
+
+            var duration = Utils.formatDuration(i18nContext, length);
+            if (length == Long.MAX_VALUE) {
+                duration = "stream";
+            }
+
+            var displayTitle = MarkdownSanitizer.sanitize(title);
+            hook.editOriginal(i18nContext.get("commands.music_general.loader.loaded_song").formatted(EmoteReference.CORRECT, displayTitle, duration))
+                    .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .setEmbeds()
+                    .setComponents()
+                    .queue();
+        }
+
+        Metrics.TRACK_EVENTS.labels("tracks_load").inc();
+    }
+
 
     private void onSearch(AudioPlaylist playlist) {
         final var list = playlist.getTracks();
@@ -239,7 +320,7 @@ public class AudioLoader implements AudioLoadResultHandler {
                                 ctx.getAuthor().getEffectiveAvatarUrl()
                         )
                         .build(),
-                selected -> loadSingle(selected, false, db.getGuild(ctx.getGuild()), db.getUser(ctx.getMember()))
+                (selected, hook) -> loadSingle(hook, selected, false, db.getGuild(ctx.getGuild()), db.getUser(ctx.getMember()))
         );
 
         Metrics.TRACK_EVENTS.labels("tracks_search").inc();

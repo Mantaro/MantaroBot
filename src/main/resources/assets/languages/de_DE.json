@@ -149,7 +149,7 @@
       "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site.\nFor more help, use the new wiki at https://www.mantaro.site/mantaro-wiki/",
-      "description_2": "Um Slash-Befehle auszuführen, versuche den Befehl mit dem Präfix `/` stattdessen. Zum Beispiel, `~>ping` wird zu `/ping` (und drücke Tab)\n\nWenn du die Slash-Befehle nicht siehst, füge den Bot erneut dem Server mit dem Einladungslink unter https://add.mantaro.site hinzu"
+      "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site\nFor more help, use the new wiki at https://www.mantaro.site/mantaro-wiki/"
     },
     "fish": {
       "dust": "%1$sDer Tag ist zu Ende und dein Eimer hat nur Staub gesammelt. (Verstaubung %2$s%%)",
@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$sVerbunden mit Kanal **%2$s**!",
+        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
         "full_channel": "%1$sIch kann keine Verbindung zu diesem Kanal herstellen, da dieser voll ist!",
         "non_existent_channel": "%1$sIch habe einen nicht vorhandenen Kanal als Antwort erhalten. Wenn du einen Sprachkanal einstellst und ihn dann löschst, könnte das die Ursache sein.\n Ich setze deinen Musikkanal für dich zurück und versuche, die Musik erneut abzuspielen.",
         "user_no_vc": "%1$s**Bitte betrete einen Sprachkanal**. Solltest du in einem Sprachkanal sein und der Bot gerade erst die Verbindung getrennt haben, bitte verbinde dich erneut mit dem Sprachkanal.",
@@ -249,7 +250,9 @@
         "missing_permission_speak": "%1$sIch kann nicht in diesem Kanal sprechen, weil ich keine Erlaubnis habe (%2$s).",
         "channel_locked": "%1$sIch kann nur Musik in dem Kanal **%2$s** abspielen!",
         "already_connected": "%1$sIch bin bereits in einem  anderen Kanal **%2$s**! (Verwende den `move` Befehl, um mich in einen anderen Kanal zu bewegen)",
-        "attempting_to_connect": "%1$sIch versuche bereits, eine Verbindung zum Kanal herzustellen **%2$s**! (Verwende den `move` Befehl, um mich zu einem anderen Kanal zu bewegen)"
+        "attempting_to_connect": "%1$sIch versuche bereits, eine Verbindung zum Kanal herzustellen **%2$s**! (Verwende den `move` Befehl, um mich zu einem anderen Kanal zu bewegen)",
+        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
+        "error": "%1$sThere was an unexpected error trying to connect to this channel."
       },
       "listener": {
         "paused": "%1$sWiedergabe pausieren, weil ich gemuted wurde :(",
@@ -336,10 +339,12 @@
       "dj_skip": "%1$sDer DJ entschied sich das Lied zu überspringen.",
       "vote": {
         "submit": "%1$s**Deine Stimme wurde abgegeben!** Du benötigst %2$d mehr Stimmen zum Überspringen!",
+        "submit_force_allowed": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!\nYou're a DJ or queued this song. If you wanted to skip without requiring voting use `/skip force:True`",
         "remove": "%1$s**Deine Stimme wurde entfernt!** Du benötigst %2$d mehr Stimmen zum Überspringen!"
       },
       "success": "%1$sErreichte die erforderliche Anzahl von Stimmen, überspringe den Song...",
-      "no_track": "%1$sEs scheint keinen Song zum Überspringen zu geben, also kann ich nichts machen..."
+      "no_track": "%1$sEs scheint keinen Song zum Überspringen zu geben, also kann ich nichts machen...",
+      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` ist keine gültige Folge!",
@@ -390,7 +395,7 @@
       "new_error": "%1$sDer benutzerdefinierte Befehle, den du versuchst zu erstellen hat einen Fehler (v3, prüfe den Inhalt).\n**Fehler:**\n```%2$s```",
       "ls": {
         "header": "Befehle für diesen Server",
-        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands. The commands listed here use the bot prefix, not Slash Commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/currency/101)\n \n**List:**",
+        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands. The commands listed here use the bot prefix, not Slash Commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/guides/custom-commands)\n \n**List:**",
         "footer": "Anzahl aller benutzerdefinierten Befehle dieses Servers: %1$s"
       },
       "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://www.mantaro.site/mantaro-wiki/guides/custom-commands>.",
@@ -845,6 +850,7 @@
       "success": "%1$s%2$s, du hast die **%3$s** Rolle erhalten.",
       "error": "%1$sIch konnte die **%2$s** Rolle nicht von dir entfernen. Stelle sicher, dass ich Rollen verwalten kann und die Rolle **%2$s** niedriger als meine höchste Rolle ist",
       "no_role": "%1$sThere isn't an autorole with the specified name.",
+      "privileged_role": "%1$sThis role has administrative permissions that prevent me from giving it.",
       "no_iam": "%1$sDu musst angeben welche automatisch zuweisbare Rolle du dir selbst geben willst!"
     },
     "iamnot": {
@@ -1123,7 +1129,8 @@
       "patreon": "Unterstützung",
       "linked": "Verlinkt",
       "linked_to": "Verlinkt mit",
-      "keys_claimed": "Schlüssel beansprucht"
+      "keys_claimed": "Schlüssel beansprucht",
+      "premium_bot": "%1$sMantaro Patreon uses no keys. The server/user is premium if they can use the bot. Thanks you <3"
     },
     "support": {
       "info": "%1$sSolltest du Hilfe benötigen, schau auf dem Supportserver (<https://support.mantaro.site>) vorbei und stell deine Frage im #support-Channel!"
@@ -1989,6 +1996,7 @@
     },
     "birthday_enable": {
       "no_args": "%1$sDu musst den Kanal- und Rollennamen angeben.",
+      "administrative_role": "%1$sThis role contains administrative permissions and therefore cannot be set as a Birthday role.",
       "public_role": "%1$sDu kannst die everyone-Rolle nicht als Geburtstagsrolle setzen! Beachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird.",
       "autorole": "%1$sDu kannst nicht die autorole-Rolle als Geburtstagsrolle setzen! Beachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird.",
       "warning": "%1$sBeachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird. Wenn du Zweifel daran hast, wie du sie konfigurieren musst, kannst du immer dem Support-Server beitreten und fragen. Du kannst auch `~>opts help birthday enable` für ein Beispiel anschauen",
@@ -2017,6 +2025,7 @@
       "no_role_found": "%1$sIch konnte keine Rolle mit dem Namen finden. Sollte der Rollenname Leerzeichen enthalten, versuche Anführungszeichen drum rum zu setzen.",
       "hierarchy_conflict": "%1$sDiese Rolle ist höher als deine höchste Rolle, daher kannst du sie nicht als Autorolle zuweisen!",
       "self_hierarchy_conflict": "%1$sDiese Rolle ist höher als meine höchste Rolle, daher kannst du sie nicht als Autorolle zuweisen!",
+      "permissions_conflict": "%1$sYou cannot set an autorole with administrative permissions, even if you have them.",
       "success": "%1$sDie Server-Autorolle ist jetzt auf: **%2$s** (Position: %3$d) gesetzt"
     },
     "autorole_unbind": {
@@ -2082,6 +2091,7 @@
       "no_role_found": "%1$sIch habe keine Rolle mit dem Namen gefunden!\nWenn der Rollenname Leerzeichen enthält, verwende Anführungszeichen: \"Rollenname\"",
       "hierarchy_conflict": "%1$sDiese Rolle ist höher als deine höchste Rolle, daher kannst du sie nicht als automatisch zuzuweisende Rolle setzen!",
       "self_hierarchy_conflict": "%1$sDiese Rolle ist höher als meine höchste Rolle, daher kannst du sie nicht als automatisch zuzuweisende Rolle setzen!",
+      "permissions_conflict": "%1$sYou cannot add iam roles with administrative permissions, even if you have them.",
       "success": "%1$sAutorolle **%2$s** hinzugefügt, diese gibt die Rolle **%3$s**"
     },
     "autoroles_category_add": {

@@ -36,7 +36,6 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
-import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
 import java.time.OffsetDateTime;
@@ -57,7 +56,17 @@ public class TransferCmds {
             .pool(MantaroData.getDefaultJedisPool())
             .prefix("transfer")
             .build();
-    private static final RateLimiter partyRateLimiter = new RateLimiter(TimeUnit.MINUTES, 10);
+
+    private static final IncreasingRateLimiter partyRateLimiter = new IncreasingRateLimiter.Builder()
+            .spamTolerance(2)
+            .limit(1)
+            .cooldown(10, TimeUnit.MINUTES)
+            .randomIncrement(false)
+            .pool(MantaroData.getDefaultJedisPool())
+            .premiumAware(false)
+            .prefix("transferparty")
+            .build();
+
     private static final IncreasingRateLimiter itemTransferRatelimiter = new IncreasingRateLimiter.Builder()
             .spamTolerance(2)
             .limit(1)
@@ -161,11 +170,12 @@ public class TransferCmds {
                 return;
 
             var partyKey = ctx.getAuthor().getId() + ":" + giveTo.getId();
-            if (!partyRateLimiter.process(partyKey)) {
+            var rl = partyRateLimiter.limit(partyKey);
+            if (rl.getTriesLeft() < 1) {
                 ctx.reply(EmoteReference.STOPWATCH +
-                                ctx.getLanguageContext().get("commands.transfer.party").formatted(giveTo.getName()) +
-                                " (Ratelimited)\n **You'll be able to transfer to this user again in " +
-                                Utils.formatDuration(ctx.getLanguageContext(), partyRateLimiter.tryAgainIn(partyKey)) + ".**"
+                        ctx.getLanguageContext().get("commands.transfer.party").formatted(giveTo.getName()) +
+                        " (Ratelimited)\n **You'll be able to transfer to this user again in " +
+                        Utils.formatDuration(ctx.getLanguageContext(), rl.getCooldown()) + ".**"
                 );
 
                 RatelimitUtils.ratelimitedUsers.computeIfAbsent(ctx.getAuthor().getIdLong(), __ -> new AtomicInteger()).incrementAndGet();
@@ -240,12 +250,12 @@ public class TransferCmds {
             var itemString = ctx.getOptionAsString("item");
             var item = ItemHelper.fromAnyNoId(itemString, ctx.getLanguageContext()).orElse(null);
             if (item == null) {
-                ctx.reply("general.item_lookup.not_found");
+                ctx.replyLocalized("general.item_lookup.not_found");
                 return;
             }
 
             if (item == ItemReference.CLAIM_KEY) {
-                ctx.reply("general.item_lookup.claim_key");
+                ctx.replyLocalized("general.item_lookup.claim_key");
                 return;
             }
 

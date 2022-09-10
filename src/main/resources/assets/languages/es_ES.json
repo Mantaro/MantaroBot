@@ -148,8 +148,8 @@
       "title": "Transición a comandos de barra lateral",
       "description_alias": "%1$s**El comando que estás intentando correr se ha movido solo a barra lateral.** Intenta correrlo con el prefijo /. **Este comando era un alias**. Intenta usar el comando original (`/%2$s`).\n\nLos comandos de barra lateral son la nueva forma de usar comandos según las reglas de Discord. **Los comandos que aún funcionan con un prefijo eventualmente solo admitirán barra lateral.**\nLos alias han sido removidos para los comandos de barra lateral ya que no había suficiente espacio (Discord solo nos deja agregar 100 comandos).",
       "description": "%1$s**El comando que estás intentando correr se ha movido solo a barra lateral.** Intenta correrlo con el prefijo / (`/%2$s`).\n\nLos comandos de barra lateral son la nueva forma de usar comandos según las reglas de Discord. **Los comandos que aún funcionan con un prefijo eventualmente solo admitirán barra lateral.**\nLos alias han sido removidos para los comandos de barra lateral ya que no había suficiente espacio (Discord solo nos deja agregar 100 comandos).",
-      "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site.\nFor more help, use the new wiki at https://www.mantaro.site/mantaro-wiki/",
-      "description_2": "Para usar un comando de barra lateral, intenta usar el comando con el prefijo `/` en lugar del que estabas usando, por ejemplo `~>ping` se volvió `/ping` (y presiona tabulador)\n\nSi no ves los comandos de barra lateral, intenta re-añadir el bot usando el link de invitación en https://add.mantaro.site"
+      "description_image": "Para usar un comando de barra lateral con algunos comandos de imágenes, intenta usar el comando con el prefijo `/image` en lugar del que se usaba antes. Por ejemplo, `/catgirl` se volvió `/image catgirl`. Los comandos de boorus no siguen este formato.\n\nSi no ves los comandos de barra lateral, intenta re-añadir el bot usando el link de invitación en https://add.mantaro.site}\nPara más ayuda, revisa la nueva guía (en inglés) https://www.mantaro.site/mantaro-wiki/",
+      "description_2": "Para usar un comando de barra lateral, intenta usar el comando con el prefijo `/` en lugar del que estabas usando, por ejemplo `~>ping` se volvió `/ping` (y presiona tabulador)\n\nSi no ves los comandos de barra lateral, intenta re-añadir el bot usando el link de invitación en https://add.mantaro.site\nPara más ayuda, revisa la nueva guía (en inglés) https://www.mantaro.site/mantaro-wiki/"
     },
     "fish": {
       "dust": "%1$sEl sol se pone, y tu tarro para recolectar pescados solo logró acumular polvo. (Dust level: %2$s%%)",
@@ -242,6 +242,7 @@
       },
       "connect": {
         "success": "%1$sConectado al canal de voz **%2$s**!",
+        "success_stage": "%1$sMe conecté al canal de Stage **%2$s**! Asegúrate de promover al bot como Hablador para escucharlo.",
         "full_channel": "%1$sNo puedo conectarme a ese canal de voz porque está lleno!",
         "non_existent_channel": "%1$sRecibí un canal de voz no existente como respuesta. Si bloqueaste el bot en un solo canal de voz y después eliminaste ese canal, esa podría ser la causa.\nReseteé el canal de voz por tí, intenta reproducir la canción denuevo.",
         "user_no_vc": "%1$s**Por favor únete a un canal de voz**. Si estás en un canal de voz y el bot se desconectó, solo debes desconectarte y volver a unirte al canal.",
@@ -249,7 +250,9 @@
         "missing_permission_speak": "%1$sNo puedo hablar en ese canal de voz porque me faltan permisos (%2$s).",
         "channel_locked": "%1$sSólo puedo reproducir música en el canal de voz **%2$s**!",
         "already_connected": "%1$sYa estoy conectado al canal de voz **%2$s**! (Usa el comando `move` para moverme a otro canal)",
-        "attempting_to_connect": "%1$sEstoy intentando conectarme al canal de voz **%2$s** en este momento! (Usa el comando `move` para moverme a otro canal)"
+        "attempting_to_connect": "%1$sEstoy intentando conectarme al canal de voz **%2$s** en este momento! (Usa el comando `move` para moverme a otro canal)",
+        "no_stage_here": "%1$sNo hay ningún canal de Stage aquí, intenta iniciar uno.",
+        "error": "%1$sHubo un error desconocido mientras me intentaba conectar a este canal."
       },
       "listener": {
         "paused": "%1$sPausando el reproductor porque me mutearon :(",
@@ -336,10 +339,12 @@
       "dj_skip": "%1$sUn DJ de este servidor ha decidido saltarse esta canción!",
       "vote": {
         "submit": "%1$s**Tu voto ha sido tomado en cuenta!** Necesitan %2$d voto(s) más para saltarse esta canción!",
+        "submit_force_allowed": "%1$s**Tu voto ha sido contado** Necesitas %2$d voto(s) más para saltar la canción actual!\nEres un DJ o pusiste la canción actual en cola. Si quieres saltartela sin votos, usa `/skip force:True`",
         "remove": "%1$s**Has eliminado tu voto!** Necesitan %2$d voto(s) más para saltarse esta canción!"
       },
       "success": "%1$sHan alcanzado la cantidad necesaria de votos, saltando esta canción...",
-      "no_track": "%1$sNo encuentro ninguna canción para saltarme, así que no puedo hacer nada..."
+      "no_track": "%1$sNo encuentro ninguna canción para saltarme, así que no puedo hacer nada...",
+      "cannot_force": "%1$sNecesitas ser un DJ o la persona que puso esta canción en la cola para saltarte esta canción de manera forzada."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` no es un rango válido!",
@@ -380,7 +385,7 @@
     "custom": {
       "custom_notice": "Este es un comando personalizado.",
       "no_args": "%1$sNecesitas decirme que quieres hacer aquí! Revisa la ayuda del comando para más información.",
-      "incorrect_args": "%1$sIncorrect arguments. Check `/help command:custom` or https://www.mantaro.site/mantaro-wiki/guides/custom-commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
+      "incorrect_args": "%1$sArgumentos incorrectos. Revisa `/help command:custom` o https://www.mantaro.site/mantaro-wiki/guides/custom-commands (en Inglés) para ver como usar este comando. Si tienes problemas luego de leer la wiki o no la entiendes, entra a <https://support.mantaro.site>",
       "error_running": "%1$sHe encontrado un error mientras intentaba ejecutar un comando personalizado... porfavor revisa el contenido y su extensión (no puede ser más de 2000 caracteres).",
       "error_running_new": "%1$sError al ejecutar un comando personalizado. Revisa la respuesta, el contenido y su longitud.\n**Error:**\n```%2$s```",
       "not_loaded": "Hey! Aún me estoy iniciando. Los comandos personalizados estarán disponibles bastante pronto, en cuanto termine de iniciar.",
@@ -390,10 +395,10 @@
       "new_error": "%1$sEl comando personalizado que estás intentando ejecutar tiene un error (v3, revisa el contenido).\n**Error:**\n```%2$s```",
       "ls": {
         "header": "Comandos para este servidor",
-        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands. The commands listed here use the bot prefix, not Slash Commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/currency/101)\n \n**List:**",
+        "description": "**Esto muestra todos los comandos personalizados (creados por usuarios) de este servidor.** Estos comandos sólo funcionarán en el servidor actual.\n\nLos comandos personalizados son comandos creados por usuarios (normalmente administradores del servidor) los cuales pueden manejar una gran cantidad de situaciones, incluso pudiendo simular comandos de acción.\nPara más información sobre crear comandos personalizados, revisa [esta página de la wiki.](https://www.mantaro.site/mantaro-wiki/guides/custom-commands)\n \n**Listado:**",
         "footer": "Total de comandos personalizados para este servidor: %1$s"
       },
-      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://www.mantaro.site/mantaro-wiki/guides/custom-commands>.",
+      "invalid": "%1$sSelección invalida. Puede que quieras darle una mirada a la wiki <https://www.mantaro.site/mantaro-wiki/guides/custom-commands>.",
       "view": {
         "invalid": "%1$sNecesitas especificar el comando y el número de la respuesta!",
         "not_found": "%1$sNo hay un comando personalizado con ese nombre aquí!",
@@ -688,11 +693,11 @@
       "new_brief_notice": "Por favor usa `/inventory brief` en lugar de este comando.",
       "new_calc_notice": "Por favor usa `/inventory calculate` en lugar de este comando.",
       "sort": {
-        "amount": "Amount",
-        "value": "Value",
-        "type": "Type",
-        "total": "Total Value",
-        "random": "Random"
+        "amount": "Monto",
+        "value": "Valor",
+        "type": "Tipo",
+        "total": "Valor total",
+        "random": "Aleatorio"
       }
     },
     "cast": {
@@ -765,7 +770,7 @@
         "success_breakable": "%1$sHas comprado %2$,d %3$s por %4$,d créditos. Ahora tienes %5$,d créditos. Puedes equipar esto usando `/equip item:<item name>`",
         "success_potion": "%1$sHas comprado %2$,d %3$s por %4$,d créditos. Ahora tienes %5$,d créditos. Puedes usar esta poción o buff usando `/useitem item:<item name>`",
         "not_enough_money": "%1$sNo tienes suficiente dinero para comprar este ítem. Actual: %2$,d creditos, Necesitas: %3$,d cŕeditos.",
-        "success_breakable_upgrade": "You can check <https://www.mantaro.site/mantaro-wiki/currency/103> for more information on how to upgrade your tools!"
+        "success_breakable_upgrade": "Puedes revisar <https://www.mantaro.site/mantaro-wiki/currency/103> para más información sobre como mejorar tus herramientas!"
       },
       "header": "La tiendita de Mantaro",
       "reference": "\nPuedes vender y comprar ítems usando `/buy item:<item>` y `/sell item:<item>` respectivamente. Revisa `/help market` para más información.",
@@ -819,7 +824,7 @@
       "invalid_amount": "%1$sLa cantidad debe ser un número válido entre \"1\" y \"15\"!"
     },
     "opts": {
-      "note": "%1$sHey, if you're lost or want help on using opts, check <https://www.mantaro.site/mantaro-wiki/basics/server-configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!",
+      "note": "%1$sHey, si estás perdido intentando entender las opciones o no recuerdas este comando, revisa <https://www.mantaro.site/mantaro-wiki/basics/server-configuration> para una guía de como usar opts (sólo en ingles).\nNota: Sólo los administradores, gente con Manejar Servidor o gente con el rol Bot Commander pueden usar este comando!",
       "list": {
         "header": "**Lista de Opciones de Mantaro**\n%1$s*Todas las opciones deben incluir `~>opts` como prefijo (el comando en sí) cuando desees usarlas.*\n%2$s"
       },
@@ -845,6 +850,7 @@
       "success": "%1$s%2$s, te he dado el rol **%3$s**",
       "error": "%1$sNo pude quitarte el rol **%2$s**. Asegurate que tengo permiso para administrar roles y que mi rol prevalente está encima de **%2$s**",
       "no_role": "%1$sNo hay un auto-rol con el nombre especificado.",
+      "privileged_role": "%1$sEste rol tiene permisos administrativos, por lo que no puedo darlo.",
       "no_iam": "%1$sNecesitas especificar que rol auto-asignable deseas asignarte."
     },
     "iamnot": {
@@ -888,7 +894,7 @@
         "time_out": "%1$sEl tiempo para cambiar la descripción de tu perfil se ha acabado (o lo cancelaste, o empezaste una nueva)."
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge! For example, `/badges display badge:claimer`",
+        "not_specified": "%1$sNecesitas especificar el trofeo a mostrar. Por ejemplo, `/badges display badge:claimer`",
         "reset_success": "%1$sNo se mostrará ningún trofeo en tu perfil desde ahora.",
         "important_success": "%1$sSe mostrará el trofeo más importante (por jerarquía) en tu perfil desde ahora.",
         "no_such_badge": "%1$sEse trofeo no existe...\nTus trofeos: %2$s",
@@ -921,7 +927,7 @@
         "potion_type": "Tipo de Poción",
         "buff": "Mejora",
         "buff_type": "Tipo de Mejora",
-        "experience": "Experience (Old)",
+        "experience": "Experiencia (Antigua)",
         "mine_xp": "Experiencia En La Mina",
         "fish_xp": "Experiencia En La Pesca",
         "chop_xp": "Experiencia Cortando Árboles",
@@ -967,7 +973,7 @@
         "cancelled": "%1$sOperación cancelada."
       },
       "display": {
-        "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://www.mantaro.site/mantaro-wiki/basics/premium-perks>",
+        "not_premium": "%1$sLa personalización del widget de perfil solo está disponible para usuarios premium. Para obtener más ventajas, puede consultar <https://www.mantaro.site/mantaro-wiki/basics/premium-perks>",
         "not_enough": "%1$sNo hay suficientes widgets válidos para poner en tu perfil (mínimo: 3). Si estas perdido, revisa `/profile widgets`",
         "success": "%1$sCorrectamente cambiada la disposición de tu perfil. La nueva disposición es `%2$s`",
         "ls": "%1$sLista de los componentes del perfil:\n%2$s **Orden por defecto de los Widgets:** `%3$s`\n%2$s **Tus widgets:** `%4$s`\nPuedes usar `/profile widgets order:reset` para reiniciar tus componentes",
@@ -976,9 +982,9 @@
       },
       "claimlock": {
         "removed": "%1$sHe reiniciado el estado de tu bloqueo de reclamaciones.",
-        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/waifu claimlock remove:true` to remove it later.",
+        "success": "%1$sYa no puedes ser reclamado como waifu. Se utilizó una llave de reclamo. Usa `/waifu claimlock remove:true` para eliminarla después.",
         "no_key": "%1$sNo tiene una clave de reclamo para hacer esto. Puedes comprar uno en el market usando `/buy item:claim key`",
-        "already_locked": "%1$sYou're already claim locked. Use `/waifu claimlock remove:true` to remove it."
+        "already_locked": "%1$sYa te bloqueaste de ser claimeado. Usa `/waifu claimlock remove:true` para removerlo."
       },
       "autoequip": {
         "disable": "%1$sAuto-equip fue correctamente deshabilitado.",
@@ -991,7 +997,7 @@
       "credits": "Créditos",
       "old_credits": "Créditos Viejos",
       "level": "Nivel",
-      "activity_xp": "Activity XP",
+      "activity_xp": "EXP de Actividad",
       "xp": "XP",
       "rep": "Reputación",
       "birthday": "Cumpleaños",
@@ -1024,7 +1030,7 @@
       },
       "brief_success": "**Trofeos de %1$s**\n%2$s",
       "profile_notice": "Si crees que tienes un trofeo pero no aparece aquí, usa `/profile show` y luego ejecuta este comando denuevo.\n",
-      "info_notice": "Use `/badges info badge:<badge name>` to get more information about a badge. [You can also check the wiki](https://www.mantaro.site/mantaro-wiki/currency/badges)\n",
+      "info_notice": "Usa `/badges info badge:<badge name>` para obtener más información sobre una insignia. [También puedes consultar la wiki](https://www.mantaro.site/mantaro-wiki/currency/badges)\n",
       "donate_notice": "**¡Puedes conseguir un trofeo por [ayudar a mantener el bot vivo](https://patreon.com/mantaro)!** (Puede que tome unos minutos para procesar)\n\n",
       "no_badges": "No hay trofeos para mostrar (¡aún!)",
       "header": "Trofeos logrados por %1$s",
@@ -1123,7 +1129,8 @@
       "patreon": "Patrocinio",
       "linked": "Enlazada",
       "linked_to": "Enlazada a",
-      "keys_claimed": "Llaves Extra Reclamadas"
+      "keys_claimed": "Llaves Extra Reclamadas",
+      "premium_bot": "%1$sMantaro Patreon uses no keys. The server/user is premium if they can use the bot. Thanks you <3"
     },
     "support": {
       "info": "%1$sSi necesitas soporte, anda al servidor de soporte en <https://support.mantaro.site> y pregunta en el canal #support!"
@@ -1806,7 +1813,7 @@
         "durability": "Durabilidad",
         "desc": "Descripción",
         "upgrade": "¿Buscas mejorar?",
-        "upgrade_content": "Click [here](https://www.mantaro.site/mantaro-wiki/currency/103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
+        "upgrade_content": "Puedes revisar más información [aquí](https://www.mantaro.site/mantaro-wiki/currency/103#tools---getting-an-upgrade) para más información sobre como mejorar tus herramientas!"
       },
       "attribute": {
         "tier": "Nivel de la Llave Inglesa (para crear):",
@@ -1829,7 +1836,7 @@
   },
   "options": {
     "options": "Configuraciones de Mantaro",
-    "error_general": "%1$sIncorrect usage or missing arguments. Make sure the first argument doesn't start with a new line!\nIf you're lost or want help on using opts, check <https://www.mantaro.site/mantaro-wiki/basics/server-configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
+    "error_general": "%1$sUso incorrecto o faltan argumentos. ¡Asegúrate que el primer argumento no empieze con un salto de línea!\nSi estás perdido o necesitas ayuda usando opts, revisa <https://www.mantaro.site/mantaro-wiki/basics/server-configuration> (en inglés) para una guía sobre como usar opts. Si tienes algun problema luego de leer la wiki, anda a <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sDatos no encontrados. Que raro...",
       "header": "Configuraciones para este servidor **%1$s**",
@@ -1989,6 +1996,7 @@
     },
     "birthday_enable": {
       "no_args": "%1$sNecesitas especificar el nombre del canal y del rol.",
+      "administrative_role": "%1$sThis role contains administrative permissions and therefore cannot be set as a Birthday role.",
       "public_role": "%1$sNo puedes usar el rol everyone como rol de cumpleaños! Recuerda que el rol de cumpleaños es un rol que se asigna a la persona el día de su cumpleaños, y luego es removida al terminar el día.",
       "autorole": "%1$sNo puedes utilizar un rol autorole como rol de cumpleaños! Recuerda que el rol de cumpleaños es un rol que se asigna a la persona el día de su cumpleaños, y luego es removida al terminar el día.",
       "warning": "%1$sRecuerda que el rol de cumpleaños es un rol que se asigna a la persona el día de su cumpleaños, y luego es removida al terminar el día. Si tienes alguna duda de como configurarlo, siempre puedes unirte al servidor de soporte y preguntar. También puedes usar `~>opts help birthday enable` para tener un ejemplo.",
@@ -2017,6 +2025,7 @@
       "no_role_found": "%1$sNo pude encontrar un rol con ese nombre. Si el nombre del rol tiene espacios, intenta ponerlo en comillas.",
       "hierarchy_conflict": "%1$sEste rol está en una posición mayor que tu mayor rol, por lo tanto no puede ser utilizado como autorole!",
       "self_hierarchy_conflict": "%1$sEste rol está en una posición mayor que mi mayor rol, por lo tanto no puede ser utilizado como autorole!",
+      "permissions_conflict": "%1$sYou cannot set an autorole with administrative permissions, even if you have them.",
       "success": "%1$sEl autorole en el servidor ahora es: **%2$s** (Posición: %3$d)"
     },
     "autorole_unbind": {
@@ -2082,6 +2091,7 @@
       "no_role_found": "%1$sNo encontré un rol con ese nombre!",
       "hierarchy_conflict": "%1$sEste rol está en una posición mayor que tu mayor rol, por lo tanto no puede ser utilizado como un rol autoasignable!",
       "self_hierarchy_conflict": "%1$sEste rol está en una posición mayor que mi mayor rol, por lo tanto no puede ser utilizado como un rol autoasignable!",
+      "permissions_conflict": "%1$sYou cannot add iam roles with administrative permissions, even if you have them.",
       "success": "%1$sEl rol autoasignable **%2$s** ha sido agregado, el cual te da el rol **%3$s**"
     },
     "autoroles_category_add": {

@@ -1,0 +1,34 @@
+name: Suggestion/Feature Request
+description: Suggest a new feature or an addition to an existing feature
+title: "[Suggestion/Feature Request]: "
+labels: ["feature request"]
+body:
+  - type: markdown
+    attributes:
+      value: |-
+        For general questions please instead visit our [support server](https://support.mantaro.site).
+  - type: checkboxes
+    attributes:
+      label: Before submitting, I have
+      description: Please ensure you have done all the below things before you submit.
+      options:
+        - label: Double-checked existing Issues/Pull Requests for a similar feature (including closed ones).
+          required: true
+        - label: Double-checked the feature does not exist already in either the same or differing way.
+          required: true
+        - label: Double-checked the feature has not been rejected before.
+          required: true
+  - type: textarea
+    attributes:
+      label: Describe what you would like us to add
+      description: Provide a clear and concise description of your suggestion.
+      placeholder: I would like...
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Additional context
+      description: Provide any additional context or words you would like to lose about your suggestion here here.
+      placeholder: I...
+    validations:
+      required: false

@@ -94,7 +94,7 @@ public class VoiceChannelListener implements EventListener {
             if (scheduler.getCurrentTrack() != null && scheduler.getRequestedTextChannel() != null) {
                 var textChannel = scheduler.getRequestedTextChannel();
                 //Didn't ratelimit this one because mute can only be done by admins and such? Don't think it'll get abused.
-                if (textChannel.canTalk()) {
+                if (textChannel != null && textChannel.canTalk()) {
                     textChannel.sendMessageFormat(
                             scheduler.getLanguage().get("commands.music_general.listener.paused"),
                             EmoteReference.SAD

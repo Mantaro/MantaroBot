@@ -41,6 +41,7 @@ public abstract class SlashCommand {
     private Predicate<SlashContext> predicate = c -> true;
     private boolean ephemeral;
     private final boolean guildOnly;
+    private final boolean modal;
     private boolean defer;
     private HelpContent help;
 
@@ -104,6 +105,7 @@ public abstract class SlashCommand {
 
         this.guildOnly = clazz.getAnnotation(GuildOnly.class) != null;
         this.ephemeral = clazz.getAnnotation(Ephemeral.class) != null;
+        this.modal = clazz.getAnnotation(ModalInteraction.class) != null;
         this.defer = clazz.getAnnotation(Defer.class) != null;
 
         var h = clazz.getAnnotation(Help.class);
@@ -244,15 +246,16 @@ public abstract class SlashCommand {
             return;
         }
 
+        var forceDefer = averageLatencyMax > 2500 && !modal;
         if (sub != null) {
-            if (sub.defer() || averageLatencyMax > 2500) {
+            if (sub.defer() || forceDefer) {
                 if (sub.isEphemeral()) ctx.deferEphemeral();
                 else ctx.defer();
             }
 
             sub.process(ctx);
         } else {
-            if (defer() || averageLatencyMax > 2500) {
+            if (defer() || forceDefer) {
                 if (isEphemeral()) ctx.deferEphemeral();
                 else ctx.defer();
             }
