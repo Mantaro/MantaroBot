@@ -25,6 +25,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.utils.MarkdownSanitizer;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
@@ -208,17 +209,15 @@ public class MusicCmds {
             npEmbed.setAuthor(languageContext.get("commands.np.header"), null, ctx.getGuild().getIconUrl())
                     .setThumbnail("https://i.imgur.com/FWKIR7N.png")
                     .setDescription("""
-                                        \u23ef %s
-                                        
-                                        **[%s](%s)** `(%s/%s)`
-                                        """.formatted(Utils.getProgressBar(now, total),
-                                    trackInfo.title,
-                                    trackInfo.uri,
-                                    AudioCmdUtils.getDurationMinutes(now), total == Long.MAX_VALUE ?
-                                            "stream" : AudioCmdUtils.getDurationMinutes(total)
+                                    \u23ef %s
+                                    
+                                    **[%s](%s)** `(%s/%s)`
+                                    """
+                            .formatted(Utils.getProgressBar(now, total),
+                                    MarkdownSanitizer.sanitize(trackInfo.title), trackInfo.uri,
+                                    AudioCmdUtils.getDurationMinutes(now), total == Long.MAX_VALUE ? "stream" : AudioCmdUtils.getDurationMinutes(total)
                             )
-                    ).setFooter("Enjoy the music! <3. " +
-                            "Use ~>lyrics current to see the lyrics of the current song!", ctx.getAuthor().getAvatarUrl());
+                    ).setFooter("Enjoy the music! <3", ctx.getAuthor().getAvatarUrl());
 
             ctx.reply(npEmbed.build());
             TextChannelGround.of(ctx.getChannel()).dropItemWithChance(0, 10);
@@ -525,7 +524,7 @@ public class MusicCmds {
             // We can't do anything if voiceChannel is null, so send not connected.
             if (voiceState == null || voiceState.getChannel() == null) {
                 sendNotConnectedToMyChannel(ctx);
-                return true; //No player to stop/change?
+                return true; // No player to stop/change?
             }
 
             // There's voice state but it isn't on a voice channel (how?), or the person is connected to another VC.
@@ -537,7 +536,7 @@ public class MusicCmds {
             // No self voice state?
             if (selfVoiceState == null) {
                 ctx.reply("commands.music_general.no_player", EmoteReference.ERROR);
-                return true; //No player to stop/change?
+                return true; // No player to stop/change?
             }
 
             return false;

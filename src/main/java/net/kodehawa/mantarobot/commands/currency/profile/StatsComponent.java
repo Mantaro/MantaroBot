@@ -128,7 +128,7 @@ public enum StatsComponent {
         if (playerData.getLastDailyAt() == 0) {
             return holder.getI18nContext().get("commands.profile.stats.never");
         } else {
-            return Utils.formatDate(playerData.getLastDailyAt(), holder.getUserData().getLang());
+            return "<t:%s>".formatted(playerData.getLastDailyAt() / 1000);
         }
     }),
 

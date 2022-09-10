@@ -200,7 +200,7 @@ public class UtilsCmds {
                             String.format("**%,d.-** %s: *%s*. %s: **<t:%s>**",
                                     i.incrementAndGet(), ctx.getLanguageContext().get("commands.remindme.content"),
                                     rems.getReminder(), ctx.getLanguageContext().get("commands.remindme.due_at"),
-                                    rems.getScheduledAtMillis() / 1000
+                                    rems.getTime() / 1000
                             )
                     ).append("\n");
                 }
