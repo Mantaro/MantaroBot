@@ -17,6 +17,7 @@
 
 package net.kodehawa.mantarobot.commands.utils.birthday;
 
+import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.utils.SplitUtil;
@@ -148,10 +149,10 @@ public class BirthdayTask {
 
                         int birthdayNumber = 0;
                         List<Long> nullMembers = new ArrayList<>();
-                        MessageCreateBuilder currentBuilder = new MessageCreateBuilder()
-                                .addContent(guildLanguageContext.get("general.birthday"))
-                                .addContent("\n\n");
-                        List<MessageCreateBuilder> birthdayMessageList = new ArrayList<>();
+                        StringBuilder currentContent = new StringBuilder(guildLanguageContext.get("general.birthday"))
+                                .append("\n\n");
+                        List<String> contentList = new ArrayList<>();
+                        List<MessageEmbed> embedList = new ArrayList<>();
 
                         for (var data : guildMap.entrySet()) {
                             var birthday = data.getValue().birthday();
@@ -205,6 +206,7 @@ public class BirthdayTask {
                                     final Pair<String, MessageEmbed> messagePair = buildBirthdayMessage(birthdayMessage, channel, member);
                                     if (messagePair.left() != null) {
                                         try {
+                                            // ensure the content itself does not exceed 2000 characters
                                             List<String> parts = SplitUtil.split(
                                                     messagePair.left(),
                                                     Message.MAX_CONTENT_LENGTH,
@@ -212,22 +214,22 @@ public class BirthdayTask {
                                                     SplitUtil.Strategy.WHITESPACE
                                             );
                                             // only one part so it fits in a single message as ensured by SplitUtil
+                                            // we proceed by checking if it fits into the current content
                                             if (parts.size() == 1) {
                                                 String part = parts.get(0);
-                                                // content does however not fit into the existing builder;
-                                                // create a new builder and add the old to the list
-                                                if (currentBuilder.getContent().length() + part.length() > Message.MAX_CONTENT_LENGTH) {
-                                                    birthdayMessageList.add(currentBuilder);
-                                                    currentBuilder = new MessageCreateBuilder();
+                                                // it does not fit into the current content, add the current one to the list
+                                                // and create a new one
+                                                if (currentContent.length() + part.length() > Message.MAX_CONTENT_LENGTH) {
+                                                    contentList.add(currentContent.toString());
+                                                    currentContent = new StringBuilder();
                                                 }
-                                                currentBuilder.addContent(part);
+                                                currentContent.append(part);
                                             } else {
                                                 // every single of these (except the last one) parts is guaranteed to be exactly the message content length
-                                                // meaning we need a new builder for all of them and the last builder will be used going forward
-                                                for (String split : parts) {
-                                                    birthdayMessageList.add(currentBuilder);
-                                                    currentBuilder = new MessageCreateBuilder().addContent(split);
-                                                }
+                                                // meaning we need a new content for all of them and the last element will be used going forward
+                                                String last = parts.remove(parts.size() - 1);
+                                                contentList.addAll(parts);
+                                                currentContent = new StringBuilder(last);
                                             }
                                         } catch (IllegalStateException e) {
                                             log.debug("Failed to use SplitUtil to ensure birthday message length: {}", messagePair.left());
@@ -235,12 +237,8 @@ public class BirthdayTask {
                                         }
                                     }
                                     if (messagePair.right() != null) {
-                                        // embed does not fit; create a new builder and add the old to the list
-                                        if (currentBuilder.getEmbeds().size() + 1 > Message.MAX_EMBED_COUNT) {
-                                            birthdayMessageList.add(currentBuilder);
-                                            currentBuilder = new MessageCreateBuilder();
-                                        }
-                                        currentBuilder.addEmbeds(messagePair.right());
+                                        // add embed to list
+                                        embedList.add(messagePair.right());
                                     }
                                     membersAssigned++;
                                     birthdayNumber++;
@@ -258,9 +256,19 @@ public class BirthdayTask {
                         }
 
                         if (birthdayNumber != 0) {
-                            // add the very last builder (it is not already added)
-                            if (!currentBuilder.isEmpty()) birthdayMessageList.add(currentBuilder);
-                            toSend.put(new BirthdayGuildInfo(guild.getId(), channel.getId()), birthdayMessageList);
+                            // add the last build content to the list if it wasn't empty
+                            if (!currentContent.isEmpty()) contentList.add(currentContent.toString());
+                            // map messages to MessageCreateBuilder
+                            List<MessageCreateBuilder> builders = contentList.stream()
+                                    .map(m -> new MessageCreateBuilder().addContent(m))
+                                    .toList();
+                            // partition embed list into chunks of 10
+                            List<List<MessageEmbed>> embedBuilders = Lists.partition(embedList, Message.MAX_EMBED_COUNT);
+                            // add embeds to the first n (n = size) MessageCreateBuilder
+                            for (int i = 0; i < embedBuilders.size(); i++) {
+                                builders.get(i).addEmbeds(embedBuilders.get(i));
+                            }
+                            toSend.put(new BirthdayGuildInfo(guild.getId(), channel.getId()), builders);
                         }
 
                         // If any of the member lookups to discord returned null, remove them.
