@@ -564,13 +564,12 @@ public class CustomCmds {
                     return;
                 }
 
-
                 var id = "%s/%s".formatted(ctx.getAuthor().getId(), ctx.getChannel().getId());
                 var content = cc.getValues().get(where - 1);
 
                 var subject = TextInput.create("content", lang.get("commands.custom.edit.content_slash"), TextInputStyle.PARAGRAPH)
                         .setPlaceholder(lang.get("commands.custom.edit.content_slash_placeholder"))
-                        .setValue(content)
+                        .setValue(content.isBlank() ? null : content)
                         .setRequiredRange(5, 3900)
                         .build();
 
