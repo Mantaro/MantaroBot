@@ -460,7 +460,7 @@
         "not_enough_args": "%1$sBạn cần phải đưa ra tên lệnh và cách phản hồi của lệnh mà bạn muốn thêm vào.",
         "empty_content": "%1$sBạn cần phải đưa ra nội dung của lệnh tùy chỉnh này",
         "too_long": "%1$sNội dung của lệnh này quá dài nên tui không thể hiển thị nó. Hãy đảm bảo rằng lệnh có ít hơn %2$,d ký tự.",
-        "success": "%1$sĐã lưu lệnh `%2$s`",
+        "success": "%1$sSaved to command `%2$s`\nRemember: To access a custom command you create, you have to run it using Mantaro's prefix (for example `~>%2$s`), not Slash Commands.",
         "too_many_responses": "%1$sCó quá nhiều phản hồi (%2$s) cho câu lệnh này. Giới hạn này được nhân đôi (lên đến 100) cho các máy chủ cao cấp (Xem qua <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sĐã có quá nhiều lệnh ở máy chủ này, nên bạn không thể tạo thêm được nữa (+100). Điều này có thể được bỏ qua với máy chủ cao cấp (Chi tiết tại <https://patreon.com/mantaro>)."
       },
