@@ -62,9 +62,10 @@ public abstract class Game<T> {
 
         var languageContext = lobby.getLanguageContext();
         if (button.getId().equals("end-game")) {
-            event.getHook().editOriginal(
+            event.getHook().editOriginal("").setComponents().queue();
+            event.getHook().sendMessage(
                     languageContext.get("commands.game.lobby.ended_game").formatted(EmoteReference.CORRECT, expectedAnswerRaw)
-            ).setEmbeds().setComponents().queue();
+            ).queue();
 
             lobby.startNextGame(true);
             return Operation.COMPLETED;
@@ -99,9 +100,10 @@ public abstract class Game<T> {
         }
 
         if (attempts >= maxAttempts) {
-            event.getHook().editOriginal(
+            event.getHook().editOriginal("").setComponents().queue();
+            event.getHook().sendMessage(
                     languageContext.get("commands.game.lobby.all_attempts_used").formatted(EmoteReference.ERROR, expectedAnswerRaw)
-            ).setEmbeds().setComponents().queue();
+            ).queue();
 
             lobby.startNextGame(true); // This should take care of removing the lobby, actually.
             return Operation.COMPLETED;
@@ -140,18 +142,19 @@ public abstract class Game<T> {
             }
         }
 
+        var ctx = lobby.getContext();
         if (players.contains(e.getAuthor().getId())) {
             if (contentRaw.equalsIgnoreCase("end")) {
-                channel.sendMessageFormat(languageContext.get("commands.game.lobby.ended_game"),
+                ctx.reply("commands.game.lobby.ended_game",
                         EmoteReference.CORRECT, expectedAnswer.stream().map(String::valueOf).collect(Collectors.joining(", "))
-                ).queue();
+                );
 
                 lobby.startNextGame(true);
                 return Operation.COMPLETED;
             }
 
             if (contentRaw.equalsIgnoreCase("endlobby")) {
-                channel.sendMessageFormat(languageContext.get("commands.game.lobby.ended_lobby"), EmoteReference.CORRECT).queue();
+                ctx.reply("commands.game.lobby.ended_lobby", EmoteReference.CORRECT);
                 lobby.getGamesToPlay().clear();
                 lobby.startNextGame(true);
                 return Operation.COMPLETED;
@@ -182,27 +185,22 @@ public abstract class Game<T> {
                 player.saveUpdating();
 
                 TextChannelGround.of(e.getChannel()).dropItemWithChance(ItemReference.FLOPPY_DISK, 3);
-                channel.sendMessageFormat(
-                        languageContext.get("commands.game.lobby.won_game"), EmoteReference.MEGA, e.getMember().getEffectiveName(), gains
-                ).queue();
+                ctx.reply("commands.game.lobby.won_game", EmoteReference.MEGA, e.getMember().getEffectiveName(), gains);
 
                 lobby.startNextGame(true);
                 return Operation.COMPLETED;
             }
 
             if (attempts >= maxAttempts) {
-                channel.sendMessageFormat(languageContext.get("commands.game.lobby.all_attempts_used"),
+                ctx.reply("commands.game.lobby.all_attempts_used",
                         EmoteReference.ERROR, expectedAnswer.stream().map(String::valueOf).collect(Collectors.joining(", "))
-                ).queue();
+                );
 
                 lobby.startNextGame(true); // This should take care of removing the lobby, actually.
                 return Operation.COMPLETED;
             }
 
-            channel.sendMessageFormat(languageContext.get("commands.game.lobby.incorrect_answer"),
-                    EmoteReference.ERROR, (maxAttempts - attempts)
-            ).queue();
-
+            ctx.reply("commands.game.lobby.incorrect_answer", EmoteReference.ERROR, (maxAttempts - attempts));
             setAttempts(getAttempts() + 1);
             return Operation.IGNORED;
         }

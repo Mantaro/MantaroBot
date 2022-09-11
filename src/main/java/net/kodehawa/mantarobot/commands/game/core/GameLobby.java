@@ -21,6 +21,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
@@ -47,13 +48,13 @@ public class GameLobby extends Lobby {
     }
 
     public boolean gameLoaded = false;
-    IContext context;
+    SlashContext context;
     LinkedList<Game<?>> gamesToPlay;
     Guild guild;
     List<String> players;
     I18nContext languageContext;
 
-    public GameLobby(IContext ctx, I18nContext languageContext, List<String> players, LinkedList<Game<?>> games) {
+    public GameLobby(SlashContext ctx, I18nContext languageContext, List<String> players, LinkedList<Game<?>> games) {
         super(ctx.getGuild().getId(), ctx.getChannel().getId());
         this.guild = ctx.getGuild();
         this.context = ctx;
@@ -116,7 +117,7 @@ public class GameLobby extends Lobby {
         });
     }
 
-    public IContext getContext() {
+    public SlashContext getContext() {
         return this.context;
     }
 

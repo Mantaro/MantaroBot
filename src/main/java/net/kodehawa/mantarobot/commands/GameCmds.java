@@ -18,7 +18,6 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.game.Character;
 import net.kodehawa.mantarobot.commands.game.*;
@@ -26,126 +25,95 @@ import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.*;
-import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
-import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.utils.Utils.createLinkedList;
 
 @Module
 public class GameCmds {
-    @Subscribe
-    public void game(CommandRegistry cr) {
-        final var rateLimiter = new IncreasingRateLimiter.Builder()
-                .limit(1)
-                .spamTolerance(3)
-                .cooldown(5, TimeUnit.SECONDS)
-                .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
-                .maxCooldown(10, TimeUnit.MINUTES)
-                .pool(MantaroData.getDefaultJedisPool())
-                .premiumAware(true)
-                .prefix("game")
-                .build();
+    public static final IncreasingRateLimiter triviaRatelimiter = new IncreasingRateLimiter.Builder()
+            .spamTolerance(1)
+            .limit(1)
+            .cooldown(16, TimeUnit.SECONDS)
+            .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
+            .maxCooldown(15, TimeUnit.MINUTES)
+            .pool(MantaroData.getDefaultJedisPool())
+            .prefix("trivia")
+            .build();
 
-        SimpleTreeCommand gameCommand = cr.register("game", new SimpleTreeCommand(CommandCategory.GAMES) {
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Plays a little game. Maybe a big game, who knows, life is full of surprises.")
-                        .setUsage("`~>game <game> [@user]`")
-                        .addParameter("game", "The game you want to play, refer to subcommands.")
-                        .addParameterOptional("user", "Whoever you want to play this game with.")
-                        .build();
-            }
-        }.addSubCommand("character", new SubCommand() {
-            @Override
-            public String description() {
-                return "Starts an instance of Guess the character (anime)";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                startGame(new Character(), ctx);
-            }
-        }).addSubCommand("pokemon", new SubCommand() {
-            @Override
-            public String description() {
-                return "Starts an instance of \"Guess that Pokemon / Who's that Pokemon?\"";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                startGame(new Pokemon(), ctx);
-            }
-        }).addSubCommand("number", new SubCommand() {
-            @Override
-            public String description() {
-                return "Starts an instance of Guess the Number!";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                startGame(new GuessTheNumber(), ctx);
-            }
-        }));
-
-        gameCommand.setPredicate(ctx -> {
-            if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
-                ctx.sendLocalized("general.missing_embed_permissions");
-                return false;
-            }
-
-            return RatelimitUtils.ratelimit(rateLimiter, ctx, null);
-        });
-
-        //Sub-commands.
-        gameCommand.addSubCommand("wins", new SubCommand() {
-            @Override
-            public String description() {
-                return "Shows how many games you've won.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                ctx.findMember(content, members -> {
-                    var member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
-                    if (member == null) {
-                        return;
-                    }
-
-                    ctx.sendStrippedLocalized("commands.game.won_games",
-                            EmoteReference.POPPER, member.getEffectiveName(), ctx.getPlayer(member).getData().getGamesWon()
-                    );
-                });
-            }
-        });
-
-        gameCommand.createSubCommandAlias("pokemon", "pokémon");
-        gameCommand.createSubCommandAlias("number", "guessthatnumber");
-        gameCommand.createSubCommandAlias("number", "guessthenumber");
-    }
+    public static final IncreasingRateLimiter gameRatelimiter = new IncreasingRateLimiter.Builder()
+            .limit(1)
+            .spamTolerance(3)
+            .cooldown(10, TimeUnit.SECONDS)
+            .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
+            .maxCooldown(10, TimeUnit.MINUTES)
+            .pool(MantaroData.getDefaultJedisPool())
+            .premiumAware(true)
+            .prefix("game")
+            .build();
 
     @Subscribe
     public void register(CommandRegistry cr) {
+        cr.registerSlash(GameCommand.class);
         cr.registerSlash(TriviaCommand.class);
+    }
+
+    @Name("game")
+    @Category(CommandCategory.GAMES)
+    @Description("Plays a little game. Maybe a big game, who knows, life is full of surprises.")
+    public static class GameCommand extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {}
+
+        @Name("character")
+        @Defer
+        @Description("Anime character names.")
+        public static class CharacterCommand extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                startGame(new Character(), ctx);
+            }
+        }
+
+        @Name("pokemon")
+        @Defer
+        @Description("Who's that pokemon?")
+        public static class PokemonCommand extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                startGame(new Pokemon(), ctx);
+            }
+        }
+
+        @Name("number")
+        @Defer
+        @Description("Guess the number.")
+        public static class GuessCommand extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                startGame(new GuessTheNumber(), ctx);
+            }
+        }
+
+        @Override
+        public Predicate<SlashContext> getPredicate() {
+            return context -> RatelimitUtils.ratelimit(gameRatelimiter, context, null);
+        }
     }
 
     @Name("trivia")
@@ -162,19 +130,9 @@ public class GameCmds {
             You have 10 attempts and 60 seconds to answer, otherwise the game ends.
             """)
     public static class TriviaCommand extends SlashCommand {
-        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
-                .spamTolerance(1)
-                .limit(1)
-                .cooldown(16, TimeUnit.SECONDS)
-                .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
-                .maxCooldown(15, TimeUnit.MINUTES)
-                .pool(MantaroData.getDefaultJedisPool())
-                .prefix("trivia")
-                .build();
-
         @Override
         protected void process(SlashContext ctx) {
-            if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
+            if (!RatelimitUtils.ratelimit(triviaRatelimiter, ctx)) {
                 return;
             }
 
@@ -184,11 +142,11 @@ public class GameCmds {
         }
     }
 
-    private void startGame(Game<?> game, IContext ctx) {
+    private static void startGame(Game<?> game, SlashContext ctx) {
         startGames(createLinkedList(game), ctx);
     }
 
-    private static void startGames(LinkedList<Game<?>> games, IContext ctx) {
+    private static void startGames(LinkedList<Game<?>> games, SlashContext ctx) {
         if (checkRunning(ctx)) {
             return;
         }
@@ -196,7 +154,7 @@ public class GameCmds {
         List<String> players = new ArrayList<>();
         players.add(ctx.getAuthor().getId());
         if (games.size() > 1) {
-            ctx.sendLocalized("commands.game.lobby_started", EmoteReference.CORRECT, games.stream()
+            ctx.reply("commands.game.lobby_started", EmoteReference.CORRECT, games.stream()
                     .map(Game::name)
                     .collect(Collectors.joining(", "))
             );
@@ -206,17 +164,16 @@ public class GameCmds {
         lobby.startFirstGame();
     }
 
-    private static boolean checkRunning(IContext ctx) {
+    private static boolean checkRunning(SlashContext ctx) {
         if (GameLobby.LOBBYS.containsKey(ctx.getChannel().getIdLong())) {
             var dbGuild = MantaroData.db().getGuild(ctx.getGuild());
-
             if (dbGuild.getData().getGameTimeoutExpectedAt() != null &&
                     (Long.parseLong(dbGuild.getData().getGameTimeoutExpectedAt()) < System.currentTimeMillis())) {
                 GameLobby.LOBBYS.remove(ctx.getChannel().getIdLong()); // remove old lobby if dropped
-                ctx.sendLocalized("commands.game.game_timeout_drop", EmoteReference.ERROR);
+                ctx.reply("commands.game.game_timeout_drop", EmoteReference.ERROR);
                 return false;
             } else {
-                ctx.sendLocalized("commands.game.other_lobby_running", EmoteReference.ERROR);
+                ctx.reply("commands.game.other_lobby_running", EmoteReference.ERROR);
                 return true;
             }
         }

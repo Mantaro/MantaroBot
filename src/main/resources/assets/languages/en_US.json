@@ -1221,7 +1221,8 @@
         "fetch_error": "%1$sError while starting trivia. Seemingly Open Trivia DB is having trouble.",
         "possibilities": "Possibilities",
         "difficulty": "Difficulty",
-        "category": "Category"
+        "category": "Category",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Question: %2$s, Answer: %3$s"
       },
       "number": {
         "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
@@ -1244,7 +1245,7 @@
       "lobby": {
         "ended_game": "%1$sEnded game. Possible answers were: %2$s",
         "ended_lobby": "%1$sEnded lobby correctly! Thanks for playing.",
-        "all_attempts_used": "%1$sAlready used all attempts, ending game. Possible answers were: %2$s",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Answer: %2$s",
         "incorrect_answer": "%1$sThat's not it, you have %2$d attempts remaining.",
         "won_game": "%1$s**%2$s** just won $%3$,d credits by answering correctly!"
       },

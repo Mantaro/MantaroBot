@@ -72,7 +72,7 @@ public class Trivia extends Game<String> {
                     return;
                 }
 
-                ((SlashContext) lobby.getContext()).edit("commands.game.lobby_timed_out", EmoteReference.ERROR, answerRaw);
+                lobby.getContext().edit("commands.game.lobby_timed_out", EmoteReference.ERROR, answerRaw);
                 GameLobby.LOBBYS.remove(lobby.getChannel().getIdLong());
             }
 
