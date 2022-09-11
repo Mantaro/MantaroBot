@@ -18,7 +18,6 @@
 package net.kodehawa.mantarobot.commands.custom.v3;
 
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
@@ -98,7 +97,7 @@ public class CCv3 {
                 return "{If: missing required parameter <rhs/iftrue>}";
             }
             String input1 = args.get(0).evaluate();
-            String compare = args.get(1).evaluate();
+            String compare = args.get(1).evaluate().strip();
 
             int resultIdx;
             BiPredicate<String, String> comparator = comparators.get(compare);
@@ -280,9 +279,7 @@ public class CCv3 {
             }
             String iam = args.get(0).evaluate();
             String ctn = args.stream().skip(1).map(Operation.Argument::evaluate).collect(Collectors.joining(" "));
-
-            MessageReceivedEvent event = context.event();
-
+            
             if (ctn.isEmpty())
                 MiscCmds.iamnotFunction(iam, context.getCommandContext());
             else
