@@ -460,7 +460,7 @@
         "not_enough_args": "%1$s你需要指出你想新增的指令名称及回应。",
         "empty_content": "%1$s你需要指出这个自定义指令的内容。",
         "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
-        "success": "%1$s已加到指令`%2$s`",
+        "success": "%1$sSaved to command `%2$s`\nRemember: To access a custom command you create, you have to run it using Mantaro's prefix (for example `~>%2$s`), not Slash Commands.",
         "too_many_responses": "%1$s此指令有太多回应了 (%2$s)。高级伺服器将提供双倍的限制 (至100)。(浏览<https://patreon.com/mantaro>)",
         "too_many_commands": "%1%s此伺服器的自定义指令数量已超过限制 (+100)，你无法再新增更多。高级伺服器将无视这个限制。(浏览<https://patreon.com/mantaro>)"
       },
