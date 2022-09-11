@@ -460,7 +460,7 @@
         "not_enough_args": "%1$sDu musst den Befehlsnamen und die Antwort für den Befehl angeben, den du hinzufügen willst.",
         "empty_content": "%1$sDu musst den Inhalt für diesen benutzerdefinierten Befehl angeben.",
         "too_long": "%1$sDer Inhalt des Befehls ist zu lang und der Bot wird nicht in der Lage sein ihn darzustellen. Stelle sicher, dass der Befehl weniger als %2$,d Zeichen hat.",
-        "success": "%1$sBefehl `%2$s` gespeichert!",
+        "success": "%1$sSaved to command `%2$s`\nRemember: To access a custom command you create, you have to run it using Mantaro's prefix (for example `~>%2$s`), not Slash Commands.",
         "too_many_responses": "%1$sEs gibt zu viele Antworten (%2$s) für diesen Befehl. Das Limit ist für Premium-Server (siehe <https://patreon.com/mantaro>) verdoppelt (bis zu 100)",
         "too_many_commands": "%1%sEs gibt zu viele Befehle auf diesem Server, daher kannst du keine weiteren hinzufügen (+100). Dies kann von Premium-Servern umgangen werden (Check <https://patreon.com/mantaro>)."
       },
