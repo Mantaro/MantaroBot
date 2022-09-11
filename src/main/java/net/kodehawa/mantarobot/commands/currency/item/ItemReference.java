@@ -604,9 +604,9 @@ public class ItemReference {
             MOON_PICK = new Pickaxe(ItemType.MINE_RARE_PICK, EmoteReference.MOON_PICK.getDiscordNotation(),
                     "Moon Pickaxe", "items.moon_pick", "items.description.moon_pick",
                     2, 7, 1000, true, false,
-                    "1;3;2;5;10", 320, 140, 4,
+                    "1;1;3;2;5;10", 320, 140, 4,
                     388, 290, 5,
-                    "items.explanation.moon_pick", 83, 18, 76, 101
+                    "items.explanation.moon_pick", 10, 83, 18, 76, 101
             ),
 
             HELLFIRE_PICK = new Pickaxe(ItemType.MINE_RARE_PICK_NODROP, EmoteReference.HELLFIRE_PICK.getDiscordNotation(),
