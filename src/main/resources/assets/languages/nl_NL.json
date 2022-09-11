@@ -460,7 +460,7 @@
         "not_enough_args": "%1$sJe moet de opdracht naam specificeren en het antwoord van de opdracht die u wilt toevoegen.",
         "empty_content": "%1$sYou need to specify the content of this custom command",
         "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
-        "success": "%1$sOpgeslagen in opdrachten `%2$s`",
+        "success": "%1$sSaved to command `%2$s`\nRemember: To access a custom command you create, you have to run it using Mantaro's prefix (for example `~>%2$s`), not Slash Commands.",
         "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
       },
