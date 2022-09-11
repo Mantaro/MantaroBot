@@ -543,16 +543,41 @@ public class CustomCmds {
                 }
 
                 var lang = ctx.getLanguageContext();
-                var subject = TextInput.create("content", lang.get("commands.custom.edit.content_slash"), TextInputStyle.PARAGRAPH)
-                        .setPlaceholder(lang.get("commands.custom.edit.content_slash_placeholder"))
-                        .setRequiredRange(5, 3900)
-                        .build();
-
                 var name = ctx.getOptionAsString("name");
                 var where = ctx.getOptionAsInteger("response");
                 var nsfw = ctx.getOptionAsBoolean("nsfw");
+
+                var cc = ctx.db().getCustomCommand(ctx.getGuild(), name);
+                if (cc == null) {
+                    ctx.replyEphemeral("commands.custom.not_found", EmoteReference.ERROR2, name);
+                    return;
+                }
+
+                if (cc.getData().isLocked()) {
+                    ctx.replyEphemeral("commands.custom.locked_command", EmoteReference.ERROR);
+                    return;
+                }
+
+                var values = cc.getValues();
+                if (values.size() < where) {
+                    ctx.replyEphemeral("commands.custom.edit.no_index", EmoteReference.ERROR);
+                    return;
+                }
+
+
                 var id = "%s/%s".formatted(ctx.getAuthor().getId(), ctx.getChannel().getId());
-                var modal = Modal.create(id, lang.get("commands.custom.edit.header_slash")).addActionRows(ActionRow.of(subject)).build();
+                var content = cc.getValues().get(where - 1);
+
+                var subject = TextInput.create("content", lang.get("commands.custom.edit.content_slash"), TextInputStyle.PARAGRAPH)
+                        .setPlaceholder(lang.get("commands.custom.edit.content_slash_placeholder"))
+                        .setValue(content)
+                        .setRequiredRange(5, 3900)
+                        .build();
+
+                var modal = Modal.create(id, lang.get("commands.custom.edit.header_slash"))
+                        .addActionRows(ActionRow.of(subject))
+                        .build();
+
                 ctx.replyModal(modal);
 
                 ModalOperations.create(id, 180, new ModalOperation() {
@@ -583,6 +608,7 @@ public class CustomCmds {
                             return Operation.COMPLETED;
                         }
 
+                        // Get again just in case.
                         var custom = ctx.db().getCustomCommand(ctx.getGuild(), name);
                         if (custom == null) {
                             event.reply(lang.get("commands.custom.not_found").formatted(EmoteReference.ERROR2, name))
