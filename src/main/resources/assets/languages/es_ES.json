@@ -460,7 +460,7 @@
         "not_enough_args": "%1$sNecesitas especificar el nombre del comando y la respuesta del comando que quieres añadir.",
         "empty_content": "%1$sNecesitas especificar el contenido de este comando personalizado",
         "too_long": "%1$sEl contenido de este comando es muy largo y el bot no podrá mostrarlo. Asegúrate que el comando tenga menos de %2$,d caracteres.",
-        "success": "%1$sHe guardado el comando personalizado `%2$s` exitosamente!",
+        "success": "%1$sSaved to command `%2$s`\nRemember: To access a custom command you create, you have to run it using Mantaro's prefix (for example `~>%2$s`), not Slash Commands.",
         "too_many_responses": "%1$sHay muchas respuestas (%2$s) en este comando. El límite es el doble (hasta 100) para servidores premium (Revisa <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sHay demasiados comandos en este servidor, por lo que no puedes agregar más (+100). Este límite puede ser sobrepasado en guilds premium (revisa <https://patreon.com/mantaro>)."
       },
