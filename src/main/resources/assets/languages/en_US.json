@@ -1250,7 +1250,7 @@
       },
       "lobby_time_out": "%1$sThe time ran out! The correct answer is: %2$s",
       "end_footer": "You have 5 attempts and 60 seconds. (Type end to end the game)",
-      "trivia_end_footer": "You have %1$s attempts and 60 seconds. (Type end to end the game)",
+      "trivia_end_footer": "You have %1$s attempts and 60 seconds. (Click end to end the game)",
       "error": "%1$sI found an error while setting up the game... (internal error)",
       "error_missing_permissions": "%1$sI can't attach files. Please check permissions.",
       "character_load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
@@ -2619,7 +2619,8 @@
     "no": "No",
     "accept": "Accept",
     "deny": "Deny",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "end": "End"
   },
   "time": {
     "day": "day",

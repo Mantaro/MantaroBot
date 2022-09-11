@@ -77,7 +77,7 @@ public class Pokemon extends ImageGame {
             var data = JsonDataManager.fromJson(APIUtils.getFrom("/mantaroapi/bot/pokemon"), PokemonGameData.class);
             expectedAnswer = data.getNames();
             sendEmbedImage(lobby.getChannel(), data.getImage(), eb ->
-                    eb.setAuthor(languageContext.get("commands.game.pokemon.header"), null, lobby.getEvent().getAuthor().getEffectiveAvatarUrl())
+                    eb.setAuthor(languageContext.get("commands.game.pokemon.header"), null, lobby.getContext().getAuthor().getEffectiveAvatarUrl())
                             .setFooter(languageContext.get("commands.game.pokemon.footer"), null)
             ).queue(success -> lobby.setGameLoaded(true));
             return true;

@@ -19,8 +19,8 @@ package net.kodehawa.mantarobot.commands.game.core;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
+import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
@@ -47,16 +47,16 @@ public class GameLobby extends Lobby {
     }
 
     public boolean gameLoaded = false;
-    MessageReceivedEvent event;
+    IContext context;
     LinkedList<Game<?>> gamesToPlay;
     Guild guild;
     List<String> players;
     I18nContext languageContext;
 
-    public GameLobby(MessageReceivedEvent event, I18nContext languageContext, List<String> players, LinkedList<Game<?>> games) {
-        super(event.getGuild().getId(), event.getChannel().getId());
-        this.guild = event.getGuild();
-        this.event = event;
+    public GameLobby(IContext ctx, I18nContext languageContext, List<String> players, LinkedList<Game<?>> games) {
+        super(ctx.getGuild().getId(), ctx.getChannel().getId());
+        this.guild = ctx.getGuild();
+        this.context = ctx;
         this.players = players;
         this.languageContext = languageContext;
         this.gamesToPlay = games;
@@ -64,23 +64,22 @@ public class GameLobby extends Lobby {
 
     @Override
     public String toString() {
-        return String.format("GameLobby{%s, %s, players:%d, channel:%s}", event.getGuild(),
+        return String.format("GameLobby{%s, %s, players:%d, channel:%s}", context.getGuild(),
                 gamesToPlay.stream().map(Game::name).collect(Collectors.toList()), players.size(), getChannel());
     }
 
     public void startFirstGame() {
         if (gamesToPlay.getFirst().onStart(this)) {
-            setGameLoaded(false);
-            LOBBYS.put(event.getChannel().getIdLong(), this);
+            LOBBYS.put(context.getChannel().getIdLong(), this);
 
             var dbGuild = MantaroData.db().getGuild(guild);
             dbGuild.getData().setGameTimeoutExpectedAt(String.valueOf(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(70)));
-            dbGuild.save();
+            dbGuild.saveUpdating();
 
             gamesToPlay.getFirst().call(this, players);
         } else {
             //if first game fails we need this.
-            LOBBYS.put(event.getChannel().getIdLong(), this);
+            LOBBYS.put(context.getChannel().getIdLong(), this);
             startNextGame(false);
         }
     }
@@ -117,8 +116,8 @@ public class GameLobby extends Lobby {
         });
     }
 
-    public MessageReceivedEvent getEvent() {
-        return this.event;
+    public IContext getContext() {
+        return this.context;
     }
 
     public LinkedList<Game<?>> getGamesToPlay() {

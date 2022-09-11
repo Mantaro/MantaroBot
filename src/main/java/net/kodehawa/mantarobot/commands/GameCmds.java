@@ -19,14 +19,17 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.game.Character;
 import net.kodehawa.mantarobot.commands.game.*;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.meta.*;
+import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
@@ -45,15 +48,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 import static net.kodehawa.mantarobot.utils.Utils.createLinkedList;
 
 @Module
 public class GameCmds {
-    private final Map<String, Function<TriviaDifficulty, Game<?>>> games = new HashMap<>();
-    private final int MAX_GAME_AMOUNT = 8;
-    private final int MAX_GAME_AMOUNT_PREMIUM = 12;
-
     @Subscribe
     public void game(CommandRegistry cr) {
         final var rateLimiter = new IncreasingRateLimiter.Builder()
@@ -66,11 +64,6 @@ public class GameCmds {
                 .premiumAware(true)
                 .prefix("game")
                 .build();
-
-        games.put("pokemon", (d) -> new Pokemon());
-        games.put("number", (d) -> new GuessTheNumber());
-        games.put("character", (d) -> new Character());
-        games.put("trivia", Trivia::new);
 
         SimpleTreeCommand gameCommand = cr.register("game", new SimpleTreeCommand(CommandCategory.GAMES) {
             @Override
@@ -145,166 +138,31 @@ public class GameCmds {
             }
         });
 
-        gameCommand.addSubCommand("lobby", new SubCommand() {
-            @Override
-            public String description() {
-                return """
-                        Starts a game lobby. For example `~>game lobby pokemon, trivia` will start pokemon and then trivia.
-                        If you want to specify the difficulty of trivia, you can use the `-diff` parameter.
-                        Example: `~>game lobby pokemon, trivia -diff hard`
-                        """;
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                var guildData = ctx.getDBGuild().getData();
-                if (guildData.isGameMultipleDisabled()) {
-                    ctx.sendLocalized("commands.game.disabled_multiple", EmoteReference.ERROR);
-                    return;
-                }
-
-                var args = ctx.getOptionalArguments();
-                var difficulty = getTriviaDifficulty(ctx);
-                content = Utils.replaceArguments(args, content, "diff");
-                if (difficulty != null) {
-                    content = content.replace(args.get("diff"), "").trim();
-                }
-
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.game.nothing_specified", EmoteReference.ERROR);
-                    return;
-                }
-
-                var split = Utils.mentionPattern.matcher(content).replaceAll("").split(", ");
-                if (split.length <= 1) {
-                    ctx.sendLocalized("commands.game.not_enough_games", EmoteReference.ERROR);
-                    return;
-                }
-
-                var userData = ctx.getDBUser().getData();
-                var key = MantaroData.db().getPremiumKey(userData.getPremiumKey());
-                var premium = key != null && key.getDurationDays() > 1;
-                if (split.length > (premium ? MAX_GAME_AMOUNT_PREMIUM : MAX_GAME_AMOUNT)) {
-                    ctx.sendLocalized(
-                            "commands.game.too_many_games", EmoteReference.ERROR, MAX_GAME_AMOUNT, MAX_GAME_AMOUNT_PREMIUM
-                    );
-                    return;
-                }
-
-                LinkedList<Game<?>> gameList = new LinkedList<>();
-                for (var arg : split) {
-                    var game = games.get(arg.trim());
-
-                    if (game == null) {
-                        continue;
-                    }
-
-                    var finalGame = game.apply(difficulty);
-                    if (finalGame == null) {
-                        continue;
-                    }
-
-                    gameList.add(finalGame);
-                }
-
-                if (gameList.size() <= 1) {
-                    ctx.sendLocalized("commands.game.invalid_selection", EmoteReference.ERROR);
-                    return;
-                }
-
-                startGames(gameList, ctx);
-            }
-        });
-
-        gameCommand.addSubCommand("multiple", new SubCommand() {
-            @Override
-            public String description() {
-                return """
-                        Starts multiple instances of one game. For example `~>game multiple trivia 5` will start trivia 5 times.
-                        To do it with multiple users, you can use `~>game multiple <game> [@user...] <amount>`
-                        """;
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                var guildData = ctx.getDBGuild().getData();
-                if (guildData.isGameMultipleDisabled()) {
-                    ctx.sendLocalized("commands.game.disabled_multiple", EmoteReference.ERROR);
-                    return;
-                }
-
-                content = Utils.replaceArguments(ctx.getOptionalArguments(), content, "diff");
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.game.nothing_specified", EmoteReference.ERROR);
-                    return;
-                }
-
-                var difficulty = getTriviaDifficulty(ctx);
-                var args = ctx.getOptionalArguments();
-                if (difficulty != null) {
-                    content = content.replace(args.get("diff"), "").trim();
-                }
-
-                var strippedContent = Utils.mentionPattern.matcher(content).replaceAll("");
-                var values = SPLIT_PATTERN.split(strippedContent, 2);
-                if (values.length < 2) {
-                    ctx.sendLocalized("commands.game.multiple.invalid", EmoteReference.ERROR);
-                    return;
-                }
-
-                var number = 0;
-                try {
-                    number = Integer.parseInt(values[1]);
-                } catch (Exception e) {
-                    ctx.sendLocalized("commands.game.multiple.invalid_times", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (number > MAX_GAME_AMOUNT) {
-                    ctx.sendLocalized(
-                            "commands.game.too_many_games", EmoteReference.ERROR, MAX_GAME_AMOUNT, MAX_GAME_AMOUNT_PREMIUM
-                    );
-
-                    return;
-                }
-
-                LinkedList<Game<?>> gameList = new LinkedList<>();
-                for (var i = 0; i < number; i++) {
-                    var value = values[0];
-                    var trimmedValue = value.trim();
-
-                    if (trimmedValue.length() == 0) {
-                        continue;
-                    }
-
-                    var game = games.get(trimmedValue);
-
-                    if (game == null) {
-                        continue;
-                    }
-
-                    var g = game.apply(difficulty);
-                    gameList.add(g);
-                }
-
-                // No games queued?
-                if (gameList.isEmpty()) {
-                    ctx.sendLocalized("commands.game.multiple.invalid", EmoteReference.ERROR);
-                    return;
-                }
-
-                startGames(gameList, ctx);
-            }
-        });
-
         gameCommand.createSubCommandAlias("pokemon", "pokémon");
         gameCommand.createSubCommandAlias("number", "guessthatnumber");
         gameCommand.createSubCommandAlias("number", "guessthenumber");
     }
 
     @Subscribe
-    public void trivia(CommandRegistry cr) {
-        final var rateLimiter = new IncreasingRateLimiter.Builder()
+    public void register(CommandRegistry cr) {
+        cr.registerSlash(TriviaCommand.class);
+    }
+
+    @Name("trivia")
+    @Category(CommandCategory.GAMES)
+    @Description("Starts a trivia game.")
+    @Options(@Options.Option(type = OptionType.STRING, name = "difficulty", description = "The game difficulty", choices = {
+            @Options.Choice(description = "Easy", value = "easy"),
+            @Options.Choice(description = "Medium", value = "medium"),
+            @Options.Choice(description = "Hard", value = "hard")
+    })
+    )
+    @Help(description = """
+            Starts an instance of a trivia game.
+            You have 10 attempts and 60 seconds to answer, otherwise the game ends.
+            """)
+    public static class TriviaCommand extends SlashCommand {
+        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .spamTolerance(1)
                 .limit(1)
                 .cooldown(16, TimeUnit.SECONDS)
@@ -314,98 +172,29 @@ public class GameCmds {
                 .prefix("trivia")
                 .build();
 
-        cr.register("trivia", new SimpleCommand(CommandCategory.GAMES) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
-                    return;
-                }
-
-                if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
-                    ctx.sendLocalized("general.missing_embed_permissions");
-                    return;
-                }
-
-                var diff = "";
-                var mentions = ctx.getMentionedUsers();
-                var roleMentions = ctx.getMessage().getMentions().getRoles();
-
-                if (args.length > 0) {
-                    diff = args[0].toLowerCase();
-                }
-
-                var difficulty = Utils.lookupEnumString(diff, TriviaDifficulty.class);
-
-                if (difficulty == null && (mentions.isEmpty() && roleMentions.isEmpty()) && !content.isEmpty()) {
-                    ctx.sendLocalized("commands.game.trivia.wrong_diff", EmoteReference.ERROR);
-                    return;
-                }
-
-                startGames(createLinkedList(new Trivia(difficulty)), ctx);
+        @Override
+        protected void process(SlashContext ctx) {
+            if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
+                return;
             }
 
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription(
-                                """
-                                Starts an instance of a trivia game.
-                                You have 10 attempts and 60 seconds to answer, otherwise the game ends.
-                                """
-                        )
-                        .setUsage("`~>trivia [@user] [difficulty]` - Starts a new game of trivia")
-                        .addParameterOptional("@user", "Whoever you want to play trivia with.")
-                        .addParameterOptional("difficulty",
-                                "The difficulty of the game, it can be easy, medium or hard.")
-                        .build();
-            }
-        });
+            var diff = ctx.getOptionAsString("difficulty", "");
+            var difficulty = Utils.lookupEnumString(diff, TriviaDifficulty.class);
+            startGames(createLinkedList(new Trivia(difficulty)), ctx);
+        }
     }
 
-    private void startGame(Game<?> game, Context ctx) {
+    private void startGame(Game<?> game, IContext ctx) {
         startGames(createLinkedList(game), ctx);
     }
 
-    private void startGames(LinkedList<Game<?>> games, Context ctx) {
+    private static void startGames(LinkedList<Game<?>> games, IContext ctx) {
         if (checkRunning(ctx)) {
             return;
         }
 
         List<String> players = new ArrayList<>();
         players.add(ctx.getAuthor().getId());
-        final var mentionedRoles = ctx.getMessage().getMentions().getRoles();
-
-        if (!mentionedRoles.isEmpty()) {
-            var strBuilder = new StringBuilder();
-            mentionedRoles.forEach(role ->
-                    ctx.getGuild().getMembersWithRoles(role).forEach(user -> {
-                        if (!user.getUser().getId().equals(ctx.getSelfUser().getId())) {
-                            players.add(user.getUser().getId());
-                        }
-
-                        strBuilder.append(user.getEffectiveName()).append(" ");
-                    })
-            );
-
-            ctx.sendLocalized("commands.game.started_mp_role", EmoteReference.MEGA, strBuilder.toString());
-        }
-
-        final var mentionedUsers = ctx.getMentionedUsers();
-        if (!mentionedUsers.isEmpty()) {
-            var users = mentionedUsers.stream()
-                    .filter(u -> !u.isBot())
-                    .map(User::getName)
-                    .collect(Collectors.joining("\n"));
-
-            for (var user : mentionedUsers) {
-                if (!user.getId().equals(ctx.getSelfUser().getId()) && !user.isBot())
-                    players.add(user.getId());
-            }
-
-            if (players.size() > 1)
-                ctx.sendLocalized("commands.game.started_mp_user", EmoteReference.MEGA, users);
-        }
-
         if (games.size() > 1) {
             ctx.sendLocalized("commands.game.lobby_started", EmoteReference.CORRECT, games.stream()
                     .map(Game::name)
@@ -413,11 +202,11 @@ public class GameCmds {
             );
         }
 
-        var lobby = new GameLobby(ctx.getEvent(), ctx.getLanguageContext(), players, games);
+        var lobby = new GameLobby(ctx, ctx.getLanguageContext(), players, games);
         lobby.startFirstGame();
     }
 
-    private boolean checkRunning(Context ctx) {
+    private static boolean checkRunning(IContext ctx) {
         if (GameLobby.LOBBYS.containsKey(ctx.getChannel().getIdLong())) {
             var dbGuild = MantaroData.db().getGuild(ctx.getGuild());
 
@@ -434,19 +223,5 @@ public class GameCmds {
 
         // not currently running
         return false;
-    }
-
-    private TriviaDifficulty getTriviaDifficulty(Context ctx) {
-        var arguments = ctx.getOptionalArguments();
-        TriviaDifficulty difficulty = null;
-        var arg = arguments.get("diff");
-        if (arg != null) {
-            var enumDiff = Utils.lookupEnumString(arg, TriviaDifficulty.class);
-            if (enumDiff != null) {
-                difficulty = enumDiff;
-            }
-        }
-
-        return difficulty;
     }
 }

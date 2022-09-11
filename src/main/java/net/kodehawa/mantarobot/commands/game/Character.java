@@ -89,7 +89,7 @@ public class Character extends ImageGame {
 
             characterNameL.add(characterName);
             sendEmbedImage(lobby.getChannel(), imageUrl, eb -> eb
-                    .setAuthor(languageContext.get("commands.game.character_start"), null, lobby.getEvent().getAuthor().getEffectiveAvatarUrl())
+                    .setAuthor(languageContext.get("commands.game.character_start"), null, lobby.getContext().getAuthor().getEffectiveAvatarUrl())
                     .setFooter(languageContext.get("commands.game.end_footer"), null)
             ).queue(success -> lobby.setGameLoaded(true));
             return true;

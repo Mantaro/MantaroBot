@@ -113,7 +113,6 @@ public class ButtonOperations {
         return f;
     }
 
-
     public static Future<Void> create(long messageId, long timeoutSeconds, ButtonOperation operation) {
         if (timeoutSeconds < 1)
             throw new IllegalArgumentException("Timeout is less than 1 second");
