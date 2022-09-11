@@ -460,7 +460,7 @@
         "not_enough_args": "%1$sيجب عليك تحديد اسم الأمر و الإستجابة للأمر الذي تريد ان تضيفه. ",
         "empty_content": "%1$sتحتاج الى تحديد محتوى الأمر المخصص ",
         "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
-        "success": "%1$sتم الحفظ في الأمر `%2$s`.",
+        "success": "%1$sSaved to command `%2$s`\nRemember: To access a custom command you create, you have to run it using Mantaro's prefix (for example `~>%2$s`), not Slash Commands.",
         "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sيوجد الكثير من الأوامر في هذا الخادم، لايمكنك إضافة أكثر من 100 أمر. يمكنك تجاوز هذا اذا كان لديك premium guilds. (تفقد <https://patreon.com/mantaro> )."
       },
