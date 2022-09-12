@@ -268,15 +268,21 @@ public class BirthdayTask {
                             if (!currentContent.isEmpty() && !currentContent.toString().equals("\n")) {
                                 contentList.add(currentContent.toString());
                             }
+
                             // map messages to MessageCreateBuilder
                             List<MessageCreateBuilder> builders = contentList.stream()
                                     .map(m -> new MessageCreateBuilder().addContent(m))
-                                    .toList();
+                                    .collect(Collectors.toList()); // list needs to be mutable
+
                             // partition embed list into chunks of 10
                             List<List<MessageEmbed>> embedPartition = Lists.partition(embedList, Message.MAX_EMBED_COUNT);
                             // add embeds to the first n (n = size) MessageCreateBuilder
                             for (int i = 0; i < embedPartition.size(); i++) {
-                                builders.get(i).addEmbeds(embedPartition.get(i));
+                                if (i >= builders.size()) {
+                                    builders.add(new MessageCreateBuilder().addEmbeds(embedPartition.get(i)));
+                                } else {
+                                    builders.get(i).addEmbeds(embedPartition.get(i));
+                                }
                             }
                             toSend.put(new BirthdayGuildInfo(guild.getId(), channel.getId()), builders);
                         }
