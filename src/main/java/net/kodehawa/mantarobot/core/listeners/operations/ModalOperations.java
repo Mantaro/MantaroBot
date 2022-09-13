@@ -33,7 +33,11 @@ import java.util.concurrent.TimeUnit;
 public class ModalOperations {
     private static final EventListener LISTENER = new ModalListener();
     private static final ExpiringMap<String, RunningOperation> OPERATIONS = ExpiringMap.builder()
-            .asyncExpirationListener((key, value) -> ((RunningOperation) value).operation.onExpire())
+            .asyncExpirationListener((key, value) -> {
+                try {
+                    ((RunningOperation) value).operation.onExpire();
+                } catch (Exception ignored) { }
+            })
             .variableExpiration()
             .build();
 

@@ -1,28 +1,23 @@
 /*
- * Copyright (C) 2016-2020 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016 Kodehawa
  *
- *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  Mantaro is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Mantaro.  If not, see http://www.gnu.org/licenses/
+ * along with Mantaro. If not, see http://www.gnu.org/licenses/
+ *
  */
 
-/* Mantaro's build.gradle */
-
-//Plugins
 plugins {
-    //Compiles Java
     id 'java'
-    //Adds an Executable Manifest
     id 'application'
-    //Creates FatJars
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
@@ -131,8 +126,7 @@ def lint = [
         "removal",
         "requires-automatic",
         "requires-transitive-automatic",
-        // removed because "non-transient instance field of a serializable class declared with a non-serializable type", believe me
-        // i know
+        // removed because "non-transient instance field of a serializable class declared with a non-serializable type", believe me i know
         //"serial",
         "static",
         "try",

@@ -51,7 +51,6 @@ public class InteractiveOperations {
         });
 
         Metrics.THREAD_POOL_COLLECTOR.add("interactive-operations-timeout", s);
-
         s.scheduleAtFixedRate(() -> OPS.values().removeIf(list -> {
             list.removeIf(RunningOperation::isTimedOut);
             return list.isEmpty();

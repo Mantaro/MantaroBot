@@ -569,12 +569,14 @@ public class CustomCmds {
 
                 var subject = TextInput.create("content", lang.get("commands.custom.edit.content_slash"), TextInputStyle.PARAGRAPH)
                         .setPlaceholder(lang.get("commands.custom.edit.content_slash_placeholder"))
-                        .setValue(content.isBlank() ? null : content)
-                        .setRequiredRange(5, 3900)
-                        .build();
+                        .setRequiredRange(5, 3900);
+
+                if (content != null && !content.isBlank() && content.length() <= 3900) {
+                    subject.setValue(content);
+                }
 
                 var modal = Modal.create(id, lang.get("commands.custom.edit.header_slash"))
-                        .addActionRows(ActionRow.of(subject))
+                        .addActionRows(ActionRow.of(subject.build()))
                         .build();
 
                 ctx.replyModal(modal);

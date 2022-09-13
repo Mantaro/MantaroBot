@@ -37,7 +37,11 @@ public class ButtonOperations {
     private static final EventListener LISTENER = new ButtonOperations.ButtonListener();
 
     private static final ExpiringMap<Long, ButtonOperations.RunningOperation> OPERATIONS = ExpiringMap.builder()
-            .asyncExpirationListener((key, value) -> ((ButtonOperations.RunningOperation) value).operation.onExpire())
+            .asyncExpirationListener((key, value) -> {
+                try {
+                    ((ButtonOperations.RunningOperation) value).operation.onExpire();
+                } catch (Exception ignored) {}
+            })
             .variableExpiration()
             .build();
 
