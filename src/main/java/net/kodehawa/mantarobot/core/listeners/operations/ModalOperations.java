@@ -20,26 +20,35 @@ package net.kodehawa.mantarobot.core.listeners.operations;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
-import net.jodah.expiringmap.ExpiringMap;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ModalOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
+import net.kodehawa.mantarobot.utils.exporters.Metrics;
 
 import javax.annotation.Nonnull;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 // This one is probably the shortest one, since we already have to reply with a modal.
 public class ModalOperations {
     private static final EventListener LISTENER = new ModalListener();
-    private static final ExpiringMap<String, RunningOperation> OPERATIONS = ExpiringMap.builder()
-            .asyncExpirationListener((key, value) -> {
-                try {
-                    ((RunningOperation) value).operation.onExpire();
-                } catch (Exception ignored) { }
-            })
-            .variableExpiration()
-            .build();
+    private static final ConcurrentHashMap<String, RunningOperation> OPERATIONS = new ConcurrentHashMap<>();
+    private static final ExecutorService timeoutProcessor = Executors.newCachedThreadPool(r -> {
+        Thread t = new Thread(r);
+        t.setDaemon(true);
+        t.setName("ModalOperations-TimeoutAction-Processor-%s");
+        return t;
+    });
+
+    static {
+        ScheduledExecutorService s = Executors.newScheduledThreadPool(10, r -> {
+            Thread t = new Thread(r);
+            t.setDaemon(true);
+            t.setName("ModalOperations-Timeout-Processor");
+            return t;
+        });
+
+        Metrics.THREAD_POOL_COLLECTOR.add("modal-operations-timeout", s);
+        s.scheduleAtFixedRate(() -> OPERATIONS.values().removeIf(op -> op.isTimedOut(true)), 1, 1, TimeUnit.SECONDS);
+    }
 
     public static Future<Void> get(String interactionId) {
         RunningOperation o = OPERATIONS.get(interactionId);
@@ -61,9 +70,8 @@ public class ModalOperations {
             OPERATIONS.remove(modalId);
         }
 
-        o = new RunningOperation(operation, new OperationFuture(modalId));
-        OPERATIONS.put(modalId, o, timeoutSeconds, TimeUnit.SECONDS);
-
+        o = new RunningOperation(operation, new OperationFuture(modalId), TimeUnit.SECONDS.toNanos(timeoutSeconds));
+        OPERATIONS.put(modalId, o);
     }
 
     public static class ModalListener implements EventListener {
@@ -93,9 +101,6 @@ public class ModalOperations {
                     // Operation has been completed. We can remove this from the running operations list and go on.
                     OPERATIONS.remove(interactionId);
                     o.future.complete(null);
-                } else if (i == Operation.RESET_TIMEOUT) {
-                    // Reset the expiration of this specific operation.
-                    OPERATIONS.resetExpiration(interactionId);
                 }
             }
         }
@@ -105,7 +110,39 @@ public class ModalOperations {
         return LISTENER;
     }
 
-    private record RunningOperation(ModalOperation operation, OperationFuture future) { }
+    private static class RunningOperation {
+        private final ModalOperation operation;
+        private final OperationFuture future;
+        private long timeout;
+        private boolean expired;
+
+        private RunningOperation(ModalOperation operation, OperationFuture future, long timeout) {
+            this.expired = false;
+            this.operation = operation;
+            this.future = future;
+            this.timeout = timeout;
+
+            resetTimeout();
+        }
+
+        boolean isTimedOut(boolean expire) {
+            if (expired) {
+                return true;
+            }
+
+            boolean out = timeout - System.nanoTime() < 0;
+            if (out && expire) {
+                timeoutProcessor.submit(operation::onExpire);
+                expired = true;
+            }
+
+            return out;
+        }
+
+        void resetTimeout() {
+            timeout = System.nanoTime() + timeout;
+        }
+    }
 
     private static class OperationFuture extends CompletableFuture<Void> {
         private final String id;

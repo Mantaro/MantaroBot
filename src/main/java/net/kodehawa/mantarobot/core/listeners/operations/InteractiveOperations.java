@@ -39,7 +39,6 @@ import java.util.stream.Collectors;
 public class InteractiveOperations {
     //The listener used to check interactive operations.
     private static final EventListener LISTENER = new InteractiveListener();
-
     private static final ConcurrentHashMap<Long, List<RunningOperation>> OPS = new ConcurrentHashMap<>();
 
     static {
