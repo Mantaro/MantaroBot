@@ -113,16 +113,14 @@ public class ModalOperations {
     private static class RunningOperation {
         private final ModalOperation operation;
         private final OperationFuture future;
-        private long timeout;
+        private final long timeout;
         private boolean expired;
 
         private RunningOperation(ModalOperation operation, OperationFuture future, long timeout) {
             this.expired = false;
             this.operation = operation;
             this.future = future;
-            this.timeout = timeout;
-
-            resetTimeout();
+            this.timeout = System.nanoTime() + timeout;
         }
 
         boolean isTimedOut(boolean expire) {
@@ -132,15 +130,20 @@ public class ModalOperations {
 
             boolean out = timeout - System.nanoTime() < 0;
             if (out && expire) {
-                timeoutProcessor.submit(operation::onExpire);
+                try {
+                    timeoutProcessor.submit(() -> {
+                        try {
+                            operation.onExpire();
+                        } catch (Exception ignored) {}
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace(); // what?
+                }
+
                 expired = true;
             }
 
             return out;
-        }
-
-        void resetTimeout() {
-            timeout = System.nanoTime() + timeout;
         }
     }
 
