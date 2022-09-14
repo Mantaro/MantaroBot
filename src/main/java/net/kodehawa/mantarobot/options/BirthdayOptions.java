@@ -20,6 +20,7 @@ package net.kodehawa.mantarobot.options;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
@@ -37,6 +38,8 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.FinderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.EnumSet;
 
 @Option
 public class BirthdayOptions extends OptionHandler {
@@ -104,13 +107,15 @@ public class BirthdayOptions extends OptionHandler {
 
                     final MessageCreateData finalMessage = BirthdayTask.buildBirthdayMessage(message, birthdayChannel, m);
                     guild.addRoleToMember(m, birthdayRole).queue(
-                            success -> birthdayChannel.sendMessage(finalMessage).addContent("\n" + ctx.getGuildLanguageContext().get("general.birthday") + " (test message)").queue(
-                                    s -> ctx.sendLocalized("options.birthday_test.success",
-                                            EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()
-                                    ), error -> ctx.sendLocalized("options.birthday_test.error",
-                                            EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()
-                                    )
-                            ), error -> ctx.sendLocalized("options.birthday_test.error",
+                            success -> birthdayChannel.sendMessage(finalMessage).addContent("\n" + ctx.getGuildLanguageContext().get("general.birthday") + " (test message)")
+                                    .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                                    .queue(
+                                            s -> ctx.sendLocalized("options.birthday_test.success",
+                                                    EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()
+                                            ), error -> ctx.sendLocalized("options.birthday_test.error",
+                                                    EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()
+                                    )),
+                            error -> ctx.sendLocalized("options.birthday_test.error",
                                     EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()
                             ));
                 } catch (Exception e) {
