@@ -24,14 +24,12 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveAllEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
-import net.jodah.expiringmap.ExpiringMap;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ReactionOperation;
+import net.kodehawa.mantarobot.utils.exporters.Metrics;
 
 import javax.annotation.Nonnull;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
@@ -39,11 +37,25 @@ import java.util.function.Consumer;
 public final class ReactionOperations {
     //The listener used to check reactions
     private static final EventListener LISTENER = new ReactionListener();
+    private static final ConcurrentHashMap<Long, RunningOperation> OPERATIONS = new ConcurrentHashMap<>();
+    private static final ExecutorService timeoutProcessor = Executors.newCachedThreadPool(r -> {
+        Thread t = new Thread(r);
+        t.setDaemon(true);
+        t.setName("ReactionOperations-TimeoutAction-Processor-%s");
+        return t;
+    });
 
-    private static final ExpiringMap<Long, RunningOperation> OPERATIONS = ExpiringMap.builder()
-            .asyncExpirationListener((key, value) -> ((RunningOperation) value).operation.onExpire())
-            .variableExpiration()
-            .build();
+    static {
+        ScheduledExecutorService s = Executors.newScheduledThreadPool(10, r -> {
+            Thread t = new Thread(r);
+            t.setDaemon(true);
+            t.setName("ReactionOperations-Timeout-Processor");
+            return t;
+        });
+
+        Metrics.THREAD_POOL_COLLECTOR.add("reactions-operations-timeout", s);
+        s.scheduleAtFixedRate(() -> OPERATIONS.values().removeIf(op -> op.isTimedOut(true)), 1, 1, TimeUnit.SECONDS);
+    }
 
     public static Future<Void> get(Message message) {
         if (!message.getAuthor().equals(message.getJDA().getSelfUser())) {
@@ -90,8 +102,8 @@ public final class ReactionOperations {
             return o.future;
         }
 
-        o = new RunningOperation(operation, new OperationFuture(messageId));
-        OPERATIONS.put(messageId, o, timeoutSeconds, TimeUnit.SECONDS);
+        o = new RunningOperation(operation, new OperationFuture(messageId), TimeUnit.SECONDS.toNanos(timeoutSeconds));
+        OPERATIONS.put(messageId, o);
 
         return o.future;
     }
@@ -126,8 +138,8 @@ public final class ReactionOperations {
         if (o != null)
             return null;
 
-        o = new RunningOperation(operation, new OperationFuture(messageId));
-        OPERATIONS.put(messageId, o, timeoutSeconds, TimeUnit.SECONDS);
+        o = new RunningOperation(operation, new OperationFuture(messageId), TimeUnit.SECONDS.toNanos(timeoutSeconds));
+        OPERATIONS.put(messageId, o);
 
         return o.future;
     }
@@ -166,9 +178,6 @@ public final class ReactionOperations {
                     //Operation has been completed. We can remove this from the running operations list and go on.
                     OPERATIONS.remove(messageId);
                     o.future.complete(null);
-                } else if (i == Operation.RESET_TIMEOUT) {
-                    //Reset the expiration of this specific operation.
-                    OPERATIONS.resetExpiration(messageId);
                 }
 
                 return;
@@ -192,9 +201,6 @@ public final class ReactionOperations {
                     //Operation has been completed. We can remove this from the running operations list and go on.
                     OPERATIONS.remove(messageId);
                     o.future.complete(null);
-                } else if (i == Operation.RESET_TIMEOUT) {
-                    //Reset the expiration of this specific operation.
-                    OPERATIONS.resetExpiration(messageId);
                 }
 
                 return;
@@ -214,9 +220,6 @@ public final class ReactionOperations {
                     //Operation has been completed. We can remove this from the running operations list and go on.
                     OPERATIONS.remove(messageId);
                     o.future.complete(null);
-                } else if (i == Operation.RESET_TIMEOUT) {
-                    //Reset the expiration of this specific operation.
-                    OPERATIONS.resetExpiration(messageId);
                 }
             }
         }
@@ -242,7 +245,42 @@ public final class ReactionOperations {
         message.addReaction(Emoji.fromUnicode(reaction(defaultReactions[0]))).queue(c.get(), ignore);
     }
 
-    private record RunningOperation(ReactionOperation operation, OperationFuture future) { }
+    private static class RunningOperation {
+        private final ReactionOperation operation;
+        private final OperationFuture future;
+        private final long timeout;
+        private boolean expired;
+
+        private RunningOperation(ReactionOperation operation, OperationFuture future, long timeout) {
+            this.expired = false;
+            this.operation = operation;
+            this.future = future;
+            this.timeout = System.nanoTime() + timeout;
+        }
+
+        boolean isTimedOut(boolean expire) {
+            if (expired) {
+                return true;
+            }
+
+            boolean out = timeout - System.nanoTime() < 0;
+            if (out && expire) {
+                try {
+                    timeoutProcessor.submit(() -> {
+                        try {
+                            operation.onExpire();
+                        } catch (Exception ignored) {}
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace(); // what?
+                }
+
+                expired = true;
+            }
+
+            return out;
+        }
+    }
 
     private static class OperationFuture extends CompletableFuture<Void> {
         private final long id;

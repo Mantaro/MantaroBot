@@ -23,23 +23,35 @@ import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import net.jodah.expiringmap.ExpiringMap;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ButtonOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
+import net.kodehawa.mantarobot.utils.exporters.Metrics;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class ButtonOperations {
     private static final EventListener LISTENER = new ButtonOperations.ButtonListener();
+    private static final ConcurrentHashMap<Long, RunningOperation> OPERATIONS = new ConcurrentHashMap<>();
+    private static final ExecutorService timeoutProcessor = Executors.newCachedThreadPool(r -> {
+        Thread t = new Thread(r);
+        t.setDaemon(true);
+        t.setName("ButtonOperations-TimeoutAction-Processor-%s");
+        return t;
+    });
 
-    private static final ExpiringMap<Long, ButtonOperations.RunningOperation> OPERATIONS = ExpiringMap.builder()
-            .asyncExpirationListener((key, value) -> ((ButtonOperations.RunningOperation) value).operation.onExpire())
-            .variableExpiration()
-            .build();
+    static {
+        ScheduledExecutorService s = Executors.newScheduledThreadPool(10, r -> {
+            Thread t = new Thread(r);
+            t.setDaemon(true);
+            t.setName("ButtonOperations-Timeout-Processor");
+            return t;
+        });
+
+        Metrics.THREAD_POOL_COLLECTOR.add("button-operations-timeout", s);
+        s.scheduleAtFixedRate(() -> OPERATIONS.values().removeIf(op -> op.isTimedOut(true)), 1, 1, TimeUnit.SECONDS);
+    }
 
     public static Future<Void> get(Long messageId) {
         RunningOperation o = OPERATIONS.get(messageId);
@@ -113,7 +125,6 @@ public class ButtonOperations {
         return f;
     }
 
-
     public static Future<Void> create(long messageId, long timeoutSeconds, ButtonOperation operation) {
         if (timeoutSeconds < 1)
             throw new IllegalArgumentException("Timeout is less than 1 second");
@@ -123,12 +134,13 @@ public class ButtonOperations {
 
         RunningOperation o = OPERATIONS.get(messageId);
 
-        //Already running?
-        if (o != null)
+        // Already running?
+        if (o != null) {
             return null;
+        }
 
-        o = new RunningOperation(operation, new OperationFuture(messageId));
-        OPERATIONS.put(messageId, o, timeoutSeconds, TimeUnit.SECONDS);
+        o = new RunningOperation(operation, new OperationFuture(messageId), TimeUnit.SECONDS.toNanos(timeoutSeconds));
+        OPERATIONS.put(messageId, o);
 
         return o.future;
     }
@@ -161,9 +173,6 @@ public class ButtonOperations {
                     //Operation has been completed. We can remove this from the running operations list and go on.
                     OPERATIONS.remove(messageId);
                     o.future.complete(null);
-                } else if (i == Operation.RESET_TIMEOUT) {
-                    //Reset the expiration of this specific operation.
-                    OPERATIONS.resetExpiration(messageId);
                 }
             }
         }
@@ -173,7 +182,42 @@ public class ButtonOperations {
         return LISTENER;
     }
 
-    private record RunningOperation(ButtonOperation operation, OperationFuture future) { }
+    private static class RunningOperation {
+        private final ButtonOperation operation;
+        private final OperationFuture future;
+        private final long timeout;
+        private boolean expired;
+
+        private RunningOperation(ButtonOperation operation, OperationFuture future, long timeout) {
+            this.expired = false;
+            this.operation = operation;
+            this.future = future;
+            this.timeout = System.nanoTime() + timeout;
+        }
+
+        boolean isTimedOut(boolean expire) {
+            if (expired) {
+                return true;
+            }
+
+            boolean out = timeout - System.nanoTime() < 0;
+            if (out && expire) {
+                try {
+                    timeoutProcessor.submit(() -> {
+                        try {
+                            operation.onExpire();
+                        } catch (Exception ignored) {}
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace(); // what?
+                }
+
+                expired = true;
+            }
+
+            return out;
+        }
+    }
 
     private static class OperationFuture extends CompletableFuture<Void> {
         private final long id;

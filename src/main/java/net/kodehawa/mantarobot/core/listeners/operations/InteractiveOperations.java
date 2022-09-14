@@ -39,7 +39,6 @@ import java.util.stream.Collectors;
 public class InteractiveOperations {
     //The listener used to check interactive operations.
     private static final EventListener LISTENER = new InteractiveListener();
-
     private static final ConcurrentHashMap<Long, List<RunningOperation>> OPS = new ConcurrentHashMap<>();
 
     static {
@@ -51,7 +50,6 @@ public class InteractiveOperations {
         });
 
         Metrics.THREAD_POOL_COLLECTOR.add("interactive-operations-timeout", s);
-
         s.scheduleAtFixedRate(() -> OPS.values().removeIf(list -> {
             list.removeIf(RunningOperation::isTimedOut);
             return list.isEmpty();
