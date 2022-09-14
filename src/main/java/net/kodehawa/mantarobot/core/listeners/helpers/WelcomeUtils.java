@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
 
 public class WelcomeUtils {
     private static final SecureRandom RANDOM = new SecureRandom();
-    private static final Pattern MODIFIER_PATTERN = Pattern.compile("\\b\\p{L}*:\\b");
+    private static final Pattern MODIFIER_PATTERN = Pattern.compile("\\p{L}*:");
 
     public static void sendJoinLeaveMessage(User user, Guild guild, TextChannel tc, List<String> extraMessages, String msg) {
         sendJoinLeaveMessage(user, guild, tc, extraMessages, msg, false);
