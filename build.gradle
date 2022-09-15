@@ -70,7 +70,7 @@ dependencies {
 
     // Core
     implementation 'io.github.classgraph:classgraph:4.8.149'
-    implementation 'ch.qos.logback:logback-classic:1.4.0'
+    implementation 'ch.qos.logback:logback-classic:1.4.1'
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'org.java-websocket:Java-WebSocket:1.5.3'
