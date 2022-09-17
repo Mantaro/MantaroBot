@@ -273,7 +273,7 @@ public class MiscCmds {
                     return;
                 }
 
-                if(Utils.isRoleAdministrative(role)) {
+                if (Utils.isRoleAdministrative(role)) {
                     ctx.sendLocalized("commands.iam.privileged_role", EmoteReference.ERROR);
                     return;
                 }
