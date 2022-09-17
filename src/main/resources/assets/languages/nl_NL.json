@@ -24,7 +24,7 @@
     "description": "Beschrijving",
     "options": "Opties",
     "find_members_failure": "%1$sGeen gebruikers gevonden met jouw zoekcriteria :(",
-    "find_roles_failure": "%1$sDidn't find any roles that match your search criteria :(",
+    "find_roles_failure": "%1$s geen rollen gevonden die aan jouw zoekcriteria voldoen :(",
     "too_many_roles": "%1$sToo many roles found, maybe refine your search?\n**Roles found:** %2$s",
     "role_select": "Select the Role:",
     "find_channels_failure": "%1$sCannot find any text channel with that name :(",
