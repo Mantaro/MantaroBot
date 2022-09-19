@@ -405,7 +405,7 @@ public class BirthdayTask {
         }
     }
 
-    private static Pair<String, MessageEmbed> buildBirthdayMessage(String message, StandardGuildMessageChannel channel, Member user) {
+    public static Pair<String, MessageEmbed> buildBirthdayMessage(String message, StandardGuildMessageChannel channel, Member user) {
         if (message.contains("$(")) {
             message = new DynamicModifiers()
                     .mapFromBirthday("event", channel, user, channel.getGuild())

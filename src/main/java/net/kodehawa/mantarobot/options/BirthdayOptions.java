@@ -21,7 +21,9 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -32,6 +34,7 @@ import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
+import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -105,9 +108,16 @@ public class BirthdayOptions extends OptionHandler {
                         message = dbGuild.getData().getBirthdayMessage().replace("$(user)", m.getEffectiveName()).replace("$(usermention)", m.getAsMention());
                     }
 
-                    final MessageCreateData finalMessage = BirthdayTask.buildBirthdayMessage(message, birthdayChannel, m);
+                    final Pair<String, MessageEmbed> finalMessage = BirthdayTask.buildBirthdayMessage(message, birthdayChannel, m);
+                    var msg = new MessageCreateBuilder().setContent(finalMessage.left())
+                            .addContent("\n" + ctx.getGuildLanguageContext().get("general.birthday") + " (test message)");
+
+                    if (finalMessage.right() != null) {
+                        msg.addEmbeds(finalMessage.right());
+                    }
+
                     guild.addRoleToMember(m, birthdayRole).queue(
-                            success -> birthdayChannel.sendMessage(finalMessage).addContent("\n" + ctx.getGuildLanguageContext().get("general.birthday") + " (test message)")
+                            success -> birthdayChannel.sendMessage(msg.build())
                                     .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
                                     .queue(
                                             s -> ctx.sendLocalized("options.birthday_test.success",
