@@ -51,6 +51,11 @@ public class VoiceChannelListener implements EventListener {
     private void onGuildVoiceMove(GuildVoiceMoveEvent event) {
         if (event.getChannelJoined().getMembers().contains(event.getGuild().getSelfMember())) {
             onJoin(event.getChannelJoined());
+
+            // Check if we're alone.
+            // It might seem weird to call onLeave, but this is basically what this method does: check if we're alone,
+            // then schedule leave if we are alone.
+            onLeave(event.getChannelJoined());
         }
 
         if (event.getChannelLeft().getMembers().contains(event.getGuild().getSelfMember())) {
@@ -67,8 +72,27 @@ public class VoiceChannelListener implements EventListener {
     private void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {
         if (event.getChannelLeft().getMembers().contains(event.getGuild().getSelfMember())) {
             onLeave(event.getChannelLeft());
+        } else { // We're not on the VC anymore?
+            var musicManager = MantaroBot.getInstance()
+                    .getAudioManager()
+                    .getMusicManager(event.getGuild());
+
+            if (musicManager == null) {
+                return;
+            }
+
+            var scheduler = musicManager.getTrackScheduler();
+            var musicPlayer = scheduler.getMusicPlayer();
+            if (musicPlayer.getPlayingTrack() != null && !musicPlayer.isPaused()) {
+                musicPlayer.stopTrack();
+            }
+
+            scheduler.getQueue().clear();
+            // Stop the music player.
+            scheduler.nextTrack(true, true);
         }
     }
+
 
     private void onGuildVoiceMute(GuildVoiceMuteEvent event) {
         if (event.getMember().getUser().getIdLong() != event.getJDA().getSelfUser().getIdLong()) {

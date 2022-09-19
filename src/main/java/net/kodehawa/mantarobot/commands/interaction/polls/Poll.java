@@ -203,7 +203,7 @@ public class Poll extends Lobby {
                             .collect(Collectors.joining("\n"));
 
                     embedBuilder.addField(languageContext.get("commands.poll.results"), "```diff\n" + votes + "```", false);
-                    ctx.edit(embedBuilder.build());
+                    message.editMessageEmbeds(embedBuilder.build()).setContent("").queue();
                 });
 
                 getRunningPolls().remove(getChannel().getId());
@@ -211,7 +211,7 @@ public class Poll extends Lobby {
 
             @Override
             public void onCancel() {
-                ctx.edit("commands.poll.cancelled", EmoteReference.CORRECT);
+                message.editMessage(languageContext.get("commands.poll.cancelled").formatted(EmoteReference.CORRECT)).queue();
                 onExpire();
             }
 

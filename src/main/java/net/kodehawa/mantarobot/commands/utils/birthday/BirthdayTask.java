@@ -43,7 +43,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class BirthdayTask {
-    private static final Pattern MODIFIER_PATTERN = Pattern.compile("\\b\\p{L}*:\\b");
+    private static final Pattern MODIFIER_PATTERN = Pattern.compile("\\p{L}*:");
     private static final Logger log = LoggerFactory.getLogger(BirthdayTask.class);
     private static final DateTimeFormatter dayMonthFormat = DateTimeFormatter.ofPattern("dd-MM");
     private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");

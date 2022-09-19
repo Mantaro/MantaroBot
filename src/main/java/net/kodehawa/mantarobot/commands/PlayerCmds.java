@@ -516,7 +516,7 @@ public class PlayerCmds {
         @Description("Shows info about a badge.")
         @Category(CommandCategory.CURRENCY)
         @Options({
-                @Options.Option(type = OptionType.STRING, name = "badge", description = "The badge to check info for.")
+                @Options.Option(type = OptionType.STRING, name = "badge", description = "The badge to check info for.", required = true)
         })
         public static class Info extends SlashCommand {
             @Override

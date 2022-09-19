@@ -334,13 +334,20 @@ public class ProfileCmd {
                 }
 
                 var lang = ctx.getLanguageContext();
-                var subject = TextInput.create("description", lang.get("commands.profile.description.header"), TextInputStyle.PARAGRAPH)
+                var description = ctx.getPlayer().getData().getDescription();
+                var subjectBuilder = TextInput.create("description", lang.get("commands.profile.description.header"), TextInputStyle.PARAGRAPH)
                         .setPlaceholder(lang.get("commands.profile.description.content_placeholder"))
-                        .setRequiredRange(5, MAX_LENGTH)
-                        .build();
+                        .setRequiredRange(5, MAX_LENGTH);
 
+                if (description != null && !description.isBlank()) {
+                    subjectBuilder.setValue(description);
+                }
+
+                var subject = subjectBuilder.build();
                 var id = "%s/%s".formatted(ctx.getAuthor().getId(), ctx.getChannel().getId());
-                var modal = Modal.create(id, lang.get("commands.profile.description.header")).addActionRows(ActionRow.of(subject)).build();
+                var modal = Modal.create(id, lang.get("commands.profile.description.header"))
+                        .addActionRows(ActionRow.of(subject))
+                        .build();
                 ctx.replyModal(modal);
 
                 // effectively final moment

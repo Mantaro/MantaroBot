@@ -255,13 +255,13 @@ public class WaifuCmd {
                         return Operation.IGNORED;
                     }
 
-                    final var playerFinal = ctx.getPlayer();
                     final var button = e.getButton().getId();
                     if (button == null) {
                         return Operation.IGNORED;
                     }
 
                     if (button.equals("yes")) {
+                        final var playerFinal = ctx.getPlayer();
                         playerFinal.getData().setWaifuout(true);
                         playerFinal.saveUpdating();
                         ctx.edit("commands.waifu.optout.success", EmoteReference.CORRECT);

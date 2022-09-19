@@ -299,7 +299,7 @@ public class TransferCmds {
                 giveToPlayer.save();
                 ctx.reply("commands.itemtransfer.success",
                         EmoteReference.OK, ctx.getMember().getEffectiveName(), 1,
-                        item.getName(), giveTo.getName()
+                        item.getName(), giveTo.getAsMention()
                 );
 
                 return;
