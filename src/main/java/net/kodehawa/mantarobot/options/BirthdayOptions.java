@@ -109,8 +109,9 @@ public class BirthdayOptions extends OptionHandler {
                     }
 
                     final Pair<String, MessageEmbed> finalMessage = BirthdayTask.buildBirthdayMessage(message, birthdayChannel, m);
-                    var msg = new MessageCreateBuilder().setContent(finalMessage.left())
-                            .addContent("\n" + ctx.getGuildLanguageContext().get("general.birthday") + " (test message)");
+                    var msg = new MessageCreateBuilder()
+                            .addContent("\n" + ctx.getGuildLanguageContext().get("general.birthday") + " (test message)\n")
+                            .addContent(finalMessage.left());
 
                     if (finalMessage.right() != null) {
                         msg.addEmbeds(finalMessage.right());
