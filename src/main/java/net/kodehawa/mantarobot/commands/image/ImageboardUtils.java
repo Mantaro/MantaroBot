@@ -234,7 +234,7 @@ public class ImageboardUtils {
             // very nsfl tags
             "dismemberment", "death", "decapitation", "guro", "eye_socket", "necrophilia",
             "rape", "gangrape", "gore", "gross", "bruise", "asphyxiation", "scat",
-            "strangling", "torture",
+            "strangling", "torture", "vore", "digestion", "stomach_(organ)", "inside_creature",
             // Not quite a bad tag, just filter it out for R34
             "video"
     );
