@@ -21,6 +21,8 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import net.kodehawa.mantarobot.commands.action.cache.ImageCache;
+import net.kodehawa.mantarobot.commands.action.cache.ImageCacheType;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
@@ -29,6 +31,8 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
+import net.kodehawa.mantarobot.utils.data.JsonDataManager;
+import redis.clients.jedis.args.ExpiryOption;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -126,12 +130,7 @@ public class ImageActionSlash extends SlashCommand {
         var random = "";
         try {
             if (type != null) {
-                var result = weebapi.getRandomImageByType(type, false, "gif");
-                if (result == null) {
-                    ctx.sendLocalized("commands.action.error_retrieving", EmoteReference.SAD);
-                    return;
-                }
-
+                var result = ImageCache.getImage(weebapi.getRandomImageByType(type, false, "gif"), type);
                 var image = result.url();
                 images = Collections.singletonList(image);
                 random = images.get(0); //Guaranteed random selection :^).
