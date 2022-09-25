@@ -129,6 +129,7 @@ public class ImageActionCmd extends NoArgsCommand {
                 random = images.get(rand.nextInt(images.size()));
             }
         } catch (Exception e) {
+            e.printStackTrace();
             ctx.sendLocalized("commands.action.error_retrieving", EmoteReference.ERROR);
             return;
         }

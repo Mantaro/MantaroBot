@@ -139,6 +139,7 @@ public class ImageActionSlash extends SlashCommand {
                 random = images.get(rand.nextInt(images.size()));
             }
         } catch (Exception e) {
+            e.printStackTrace();
             ctx.reply("commands.action.error_retrieving", EmoteReference.ERROR);
             return;
         }
