@@ -101,10 +101,7 @@ public class ImageboardUtils {
             if (type == ImageRequestType.TAGS) {
                 api.search(list, ratingEnum).async(
                         requestedImages -> sendImage0(ctx, requestedImages, imageboard, blackListedImageTags),
-                        failure -> {
-                            failure.printStackTrace();
-                            ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.ERROR);
-                        }
+                        failure -> ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.ERROR)
                 );
             } else if (type == ImageRequestType.RANDOM) {
                 api.search(ratingEnum).async(
