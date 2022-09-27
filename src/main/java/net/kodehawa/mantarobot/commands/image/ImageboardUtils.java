@@ -110,6 +110,7 @@ public class ImageboardUtils {
                 );
             }
         } catch (Exception e) {
+            e.printStackTrace();
             ctx.reply("commands.imageboard.error_general", EmoteReference.ERROR);
         }
     }
@@ -234,7 +235,7 @@ public class ImageboardUtils {
             // very nsfl tags
             "dismemberment", "death", "decapitation", "guro", "eye_socket", "necrophilia",
             "rape", "gangrape", "gore", "gross", "bruise", "asphyxiation", "scat",
-            "strangling", "torture",
+            "strangling", "torture", "vore", "digestion", "stomach_(organ)", "inside_creature",
             // Not quite a bad tag, just filter it out for R34
             "video"
     );
@@ -246,6 +247,11 @@ public class ImageboardUtils {
     private static void imageEmbed(SlashContext ctx, String url, String width, String height,
                                    String tags, Rating rating, String imageboard) {
         var languageContext = ctx.getLanguageContext();
+        var finalTags = (tags == null ? "None" : tags);
+        if (finalTags.length() > 1016) {
+            finalTags = finalTags.substring(0, 1016) + "(...)";
+        }
+
         var builder = new EmbedBuilder()
                 .setAuthor(languageContext.get("commands.imageboard.found_image"), url, ctx.getAuthor().getEffectiveAvatarUrl())
                 .setImage(url)
@@ -263,7 +269,7 @@ public class ImageboardUtils {
                         height + " px", true
                 )
                 .addField(EmoteReference.PENCIL.toHeaderString() + languageContext.get("commands.imageboard.tags"),
-                        "`" + (tags == null ? "None" : tags) + "`", false
+                        "`" + finalTags + "`", false
                 )
                 .setFooter(languageContext.get("commands.imageboard.load_notice") +
                                 (imageboard.equals("rule34") ? " " + languageContext.get("commands.imageboard.rule34_notice") : ""),

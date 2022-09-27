@@ -107,5 +107,6 @@ public class WeebAPIRequester {
         }
     }
 
-    public record WeebAPIObject(String id, String url, String fileType, boolean nsfw, String type, List<String> tags) { }
+    public record WeebAPIObject(String id, String url, String fileType, boolean nsfw, String type, List<WeebAPITag> tags) { }
+    public record WeebAPITag(String user, boolean hidden, String name) { }
 }
