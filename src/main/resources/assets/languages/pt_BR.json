@@ -149,11 +149,11 @@
       "description_alias": "%1$s**O comando que você está tentando usar foi movido para os Comandos de Barra só.** Tente usar com / sendo o prefixo. **Esse comando era uma variação**. Tente usar o comando original. (`/%2$s`).\n\nComandos de Barra são os novos tipos de comandos de acordo com as Diretrizes do Discord.\n**Os comandos que ainda funcionam com prefixos vão eventualmente ser apenas de barra.**\nComandos variáveis foram removidos dos Comandos de Barra pois não tem espaço suficiente para adicioná-los (o Discord nos permite adicionar só 100 comandos).",
       "description": "%1$s**O comando que você está tentando usar foi movido para os Comandos de Barra só.** Tente usar com / sendo o prefixo (`/%2$s`).\n\nComandos de Barra são os novos tipos de comandos de acordo com as Diretrizes do Discord.\n**Os comandos que ainda funcionam com prefixos vão eventualmente ser apenas de barra.**\nComandos variáveis foram removidos dos Comandos de Barra pois não tem espaço suficiente para adicioná-los (o Discord nos permite adicionar só 100 comandos).",
       "description_image": "Pra usar um comando de barra pra alguns comandos de imagens, tente usar o comando com `/image` como prefixo ao invés do que você está usando. Por exemplo, `~>catgirl` vira `/image catgirl`. Os comando de imageboard não precisam disso.\n\nSe você não achar o comando de barra, re-adicione o bot usando o link de convite em https://add.mantaro.site\nPra mais ajuda, use a nova wiki em https://www.mantaro.site/mantaro-wiki/",
-      "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site\nFor more help, use the new wiki at https://www.mantaro.site/mantaro-wiki/"
+      "description_2": "Pra usar um comando de barra, tente usar o comando com o prefixo `/` ao invés do que você está usando. Por exemplo, `~>ping` se torna `/ping` (e pressione tab)\n\nse você não vê os comandos de barra, re-adicione o bot usando o link de convite em https://add.antaro.site\nPra mais ajuda, use a nova wiki em https://www.mantaro.site/mantaro-wiki/"
     },
     "fish": {
       "dust": "%1$sO dia acabou, e seu balde de peixe só acumulou poeira. (Nível de poeira %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `/equip item:<rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `/buy item:rod`",
+      "no_rod": "%1$sVocê não tem uma vara equipada. Use `/equip item:<rod name>` pra equipar uma vara e começar sua viagem de pesca! Se você não tem uma vara, primeiro use `/buy item:rod`",
       "trash": {
         "overflow": "%1$sVocê encontrou algum lixo enquanto pescava, mas seu inventário estava cheio, então tivemos que jogá-lo de volta na água...",
         "success": "%1$sEnquanto você calmamente pescava, você encontrou um flutuante %2$s mas parece ser apenas lixo :("
@@ -163,7 +163,7 @@
       },
       "crate": {
         "overflow": "Você encontrou um **%1$s** enquanto pescava, mas você já tinha muitos, então jogamos de volta no oceano...",
-        "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `/opencrate crate:<crate name>`. You need a crate key!"
+        "success": "Você encontrou %1$s **%2$s** enquanto pescava e foi buscá-lo. Vá e abra com `/opencrate crate:<crate name>`. Você precisa de uma chave de baú!"
       },
       "autoequip": {
         "success": "%1$s**%2$s**Equipado automaticamente no seu slot de peixe."
@@ -180,24 +180,24 @@
       "bait": "O peixe comeu sua isca no processo!",
       "missing_equipped": "%1$sVocê tinha equipado uma %2$s vara, mas você não tem mais desse tipo no seu inventário! Vara equipada foi resetada.",
       "broken_drop": "%1$sSua vara quebrou, mas você pode conserta-la. Item quebrado ganho: %2$s *%3$s*",
-      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `/equip item:<rod name>` to start your adventure!"
+      "no_rod_equipped": "%1$sVocê não tem uma vara equipada. Pra equipar uma você precisa usar `/equip item:<rod name>` pra começar sua aventura!"
     },
     "music_usage": {
       "1": "*Como usar música na Mantaro?*",
-      "2": "- To **queue songs from youtube or soundcloud** use `/play` For example: `/play song:https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
-      "3": "- To **search for a song on youtube** use `/play song:<search term>` (without the leading < and >) For example: `/play song:see you again` (You need to select the number, just *select the number* after the selection box pops up!)",
-      "4": "- To **search for a song on soundcloud** use `/play song:<search term> soundcloud:true` For example `/play song:hot milk soundcloud:true`",
-      "5": "- To **check the queue** you just type `/queue show`",
+      "2": "- Pra **colocar músicas do youtube ou sondcloud** use `/play` Por exemplo: `/play song:https://www.youtube.com/watch?aAolFWjGfMs` *Ela vai se conectar automaticamente pro canal de voz que você está*",
+      "3": "- Pra **pesquisar uma música no youtube** use `/play song:<search term>` (sem o < e >) Por exemplo: `/play song:see you again` (Você precisar selecionar o número, apenas *selecione o número* quando a caixa de seleção aparece!)",
+      "4": "- Pra **pesquisar uma música no soundcloud** use `/play song:<search term> soundcloud:true` Por exemplo `/play song hot milk soundcloud:true`",
+      "5": "- Pra **checar a fila** você só precisa digitar `/queue show`",
       "6": "- Pra **remover uma música da fila** você só precisa usar `/removetrack`` Isso leva como um argumento a posição em que a música está na fila (você pode checar na fila)",
       "7": "- Pra **pausar ou despausar** apenas use `/pause`",
       "8": "- Pra **parar a música desvincular o player** use `/stop`",
       "9": "- Pra **embaralhar a fila** apenas use `/shuffle`",
-      "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue running `/repeat queue:True`.\n",
-      "11": "For more info please use `/help command:<command name>` (without the <> and replace command name with the name of the command you want)",
+      "10": "- E por último, pra **repetir uma música** use `/repeat`. Usando `/repeat` enquanto a repetição estiver ativada, irá desativar. Você pode repetir uma fila usando `/repeat queue:True`.\n",
+      "11": "Pra mais informações, por favor use `/help command:<command name>` (sem o <> e substitua command name pelo comando que você quer)",
       "12": "Aprecie sua música e obrigado por usar a Mantaro!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile language lang:<language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
+      "info": "%1$sVocê pode mudar o idioma do servidor (se aplicável) usando `~>opt language set <language code>`. Sua preferência de idioma pessoal pode ser trocada usando `/profile language lang:<language code>`.\n**Idiomas disponíveis:** `%2$s`\nSe o seu idioma não está aqui e se você quiser ajudar, sinta-se livre pra entrar no servidor de suporte e se juntar ao esforço de tradução!"
     },
     "music_general": {
       "music_error": {
@@ -214,19 +214,19 @@
       "track_error": "%1$sOuch, alguma coisa deu errado enquanto tocava essa música! Desculpe pelo inconveniente, Eu vou tentar tocar a próxima se tiver uma disponível.",
       "queue_finished": "%1$sTerminei de tocar a fila atual! Espero que tenha gostado :heart:",
       "soundcloud_no_args": "%1$sVocê tem que me dar o nome de uma música para tocar, Eu não sou um mágico, então não posso adivinhar :(",
-      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `/play first:True song:<song>`, which will play the first result.",
+      "missing_embed_permissions": "%1$sVocê precisa dar ao bot a permissão de Inserir Links pra exibir o menu. Se você quiser pular o menu, use `/play first:True song:<song>`, que tocará o primeiro resultado.",
       "no_vc_found": "%1$sEu não estou conectada a nenhum CdV mesmo que eu deveria estar? Tente novamente.",
       "queue": {
         "header_field": "Instruções",
         "header_noreact": "Use `&p >>` e `&p <<` para mover entre páginas.",
         "no_track_found_np": "Nada ou título/duração não encontrada",
         "header": "Fila para o servidor %1$s",
-        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?",
+        "nothing_playing": "Nada aqui, apenas poeira. Por que não coloca umas músicas?",
         "nothing_playing_2": "**Se houver uma música tocando e você não adicionar mais músicas, então há apenas poeira aqui. Você pode colocar mais músicas como deseja!**",
         "np": "Tocando agora",
         "dj_np": "**Colocado por:** ",
         "page_overflow": "Nada aqui, apenas poeira. Por que você não volta algumas páginas??",
-        "page_overflow_2": "If you think there are songs here but they don't appear, try using `/queue page:1`",
+        "page_overflow_2": "Se você acha que têm músicas aqui mas elas não aparecem, tente usar `/queue page:1`",
         "total_queue_time": "Tempo total da fila",
         "total_size": "Tamanho total da fila",
         "togglers": "Repetir / Pausar",
