@@ -55,7 +55,7 @@ public class MusicCmds {
 
     @Subscribe
     public void register(CommandRegistry cr) {
-        if (config.isPremiumBot() || config.isSelfHost() || config.isTesting()) {
+        if (config.musicEnable()) {
             cr.registerSlash(Play.class);
             cr.registerSlash(Pause.class);
             cr.registerSlash(Skip.class);
@@ -71,6 +71,7 @@ public class MusicCmds {
     }
 
     @Name("play")
+    @Description("Deprecation notice.")
     @Category(CommandCategory.MUSIC)
     public static class PlayPlaceholder extends SlashCommand {
         @Override
@@ -83,7 +84,6 @@ public class MusicCmds {
     @Category(CommandCategory.MUSIC)
     @Options({
             @Options.Option(type = OptionType.STRING, name = "song", description = "The song to play. Can be an URL or a search term.", required = true),
-            @Options.Option(type = OptionType.BOOLEAN, name = "soundcloud", description = "Whether to search in soundcloud. Only use to search."),
             @Options.Option(type = OptionType.BOOLEAN, name = "top", description = "Puts song at the start of the queue. Requires DJ permissions, or Manage Server."),
             @Options.Option(type = OptionType.BOOLEAN, name = "first", description = "Whether to skip song selection and play the first song, when using search terms."),
     })
@@ -106,10 +106,10 @@ public class MusicCmds {
         protected void process(SlashContext ctx) {
             boolean force = ctx.getOptionAsBoolean("top");
             if (!force) {
-                play(ctx, ctx.getOptionAsString("song"), ctx.getOptionAsBoolean("soundcloud"), false, ctx.getOptionAsBoolean("first"));
+                play(ctx, ctx.getOptionAsString("song"), false, ctx.getOptionAsBoolean("first"));
             } else {
                 if (isDJ(ctx, ctx.getMember())) {
-                    play(ctx, ctx.getOptionAsString("song"), ctx.getOptionAsBoolean("soundcloud"), true, ctx.getOptionAsBoolean("first"));
+                    play(ctx, ctx.getOptionAsString("song"), true, ctx.getOptionAsBoolean("first"));
                 } else {
                     ctx.sendLocalized("commands.music_general.dj_only", EmoteReference.ERROR);
                 }
@@ -450,7 +450,7 @@ public class MusicCmds {
         }
     }
 
-    private static void play(SlashContext ctx, String content, boolean soundcloud, boolean force, boolean firstSelection) {
+    private static void play(SlashContext ctx, String content, boolean force, boolean firstSelection) {
         if (content.trim().isEmpty()) {
             ctx.reply("commands.music_general.no_song", EmoteReference.ERROR);
             return;

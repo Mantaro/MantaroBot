@@ -65,7 +65,7 @@ public class MusicUtilCmds {
 
     @Subscribe
     public void register(CommandRegistry cr) {
-        if (config.isPremiumBot() || config.isSelfHost() || config.isTesting()) {
+        if (config.musicEnable()) {
             cr.registerSlash(RestartSong.class);
             cr.registerSlash(Forward.class);
             cr.registerSlash(Rewind.class);

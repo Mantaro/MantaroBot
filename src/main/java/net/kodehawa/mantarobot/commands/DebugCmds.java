@@ -153,7 +153,7 @@ public class DebugCmds {
                     + "Shards: " + bot.getShardManager().getShardsTotal() + " (This: " + jda.getShardInfo().getShardId() + ")" + "\n"
                     + "Threads: " + "%,d (Node: %,d)".formatted(totalThreadCount, Thread.activeCount()) + "\n"
                     + "Commands Used: " + "%,d (Node: %,d)".formatted(totalCommandCount, CommandListener.getCommandTotal()) + "\n"
-                    + "Overall: " + "[ Players: %,d, Queue: %,d ]".formatted(players, queueSize) + "\n"
+                    + (ctx.getConfig().musicEnable() ? "Overall: " + "[ Players: %,d, Queue: %,d ]".formatted(players, queueSize) + "\n" : "")
                     + "```"
             );
         }

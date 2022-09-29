@@ -203,31 +203,50 @@ public class MantaroCore {
                     GatewayIntent.MESSAGE_CONTENT, // Receive message content.
                     GatewayIntent.GUILD_MESSAGE_REACTIONS,  // Receive message reactions, used for reaction menus.
                     GatewayIntent.GUILD_MEMBERS, // Receive member events, needed for mod features *and* welcome/leave messages.
-                    GatewayIntent.GUILD_VOICE_STATES, // Receive voice states, needed so Member#getVoiceState doesn't return null.
             };
 
-            var disabledIntents = EnumSet.of(
-                    CacheFlag.ACTIVITY, CacheFlag.EMOJI, CacheFlag.CLIENT_STATUS,
-                    CacheFlag.ROLE_TAGS, CacheFlag.ONLINE_STATUS, CacheFlag.STICKER
-            );
+            // This is used so we can fire PostLoadEvent properly.
+            var shardStartListener = new ShardStartListener();
+            Object[] eventListeners;
 
-            log.info("Using intents {}", Arrays.stream(toEnable)
+            var enabled = new ArrayList<>(List.of(toEnable));
+            EnumSet<CacheFlag> disabledIntents;
+            if (config.musicEnable()) {
+                disabledIntents = EnumSet.of(
+                        CacheFlag.ACTIVITY, CacheFlag.EMOJI, CacheFlag.CLIENT_STATUS,
+                        CacheFlag.ROLE_TAGS, CacheFlag.ONLINE_STATUS, CacheFlag.STICKER
+                );
+
+                eventListeners = new Object[]{
+                        VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
+                        ReactionOperations.listener(), MantaroBot.getInstance().getLavaLink(),
+                        ButtonOperations.listener(), ModalOperations.listener(), shardStartListener
+                };
+
+                enabled.add(GatewayIntent.GUILD_VOICE_STATES); // Receive voice states, needed so Member#getVoiceState doesn't return null.
+            } else {
+                disabledIntents = EnumSet.of(
+                        CacheFlag.ACTIVITY, CacheFlag.EMOJI, CacheFlag.CLIENT_STATUS,
+                        CacheFlag.ROLE_TAGS, CacheFlag.ONLINE_STATUS, CacheFlag.STICKER,
+                        CacheFlag.VOICE_STATE
+                );
+
+                eventListeners = new Object[]{
+                        InteractiveOperations.listener(), ReactionOperations.listener(),
+                        ButtonOperations.listener(), ModalOperations.listener(), shardStartListener
+                };
+            }
+
+            log.info("Using intents {}", enabled.stream()
                     .map(Enum::name)
                     .collect(Collectors.joining(", "))
             );
 
-            // This is used so we can fire PostLoadEvent properly.
-            var shardStartListener = new ShardStartListener();
-
-            var shardManager = DefaultShardManagerBuilder.create(config.token, Arrays.asList(toEnable))
+            var shardManager = DefaultShardManagerBuilder.create(config.token, enabled)
                     // Can't do chunking with Gateway Intents enabled, fun, but don't need it anymore.
                     .setChunkingFilter(ChunkingFilter.NONE)
                     .setSessionController(controller)
-                    .addEventListeners(
-                            VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
-                            ReactionOperations.listener(), MantaroBot.getInstance().getLavaLink(),
-                            ButtonOperations.listener(), ModalOperations.listener(), shardStartListener
-                    )
+                    .addEventListeners(eventListeners)
                     .addEventListenerProviders(List.of(
                             id -> new CommandListener(commandProcessor, threadPool, getShard(id).getMessageCache()),
                             id -> new MantaroListener(threadPool, getShard(id).getMessageCache()),
@@ -236,10 +255,13 @@ public class MantaroCore {
                     .setEventManagerProvider(id -> getShard(id).getManager())
                     // Don't spam on mass-prune.
                     .setBulkDeleteSplittingEnabled(false)
-                    .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavaLink().getVoiceInterceptor())
                     .disableCache(disabledIntents)
                     .setActivity(Activity.playing("Hold on to your seatbelts!"));
-            
+
+            if (config.musicEnable()) {
+                shardManager.setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavaLink().getVoiceInterceptor());
+            }
+
             /* only create eviction strategies that will get used */
             List<Integer> shardIds;
             int latchCount;
@@ -306,7 +328,6 @@ public class MantaroCore {
 
             // Use a LRU cache policy.
             shardManager.setMemberCachePolicy(new EvictingCachePolicy(shardIds, () -> leastRecentlyUsed(config.memberCacheSize)));
-    
             MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
 
             log.info("Spawning {} shards...", latchCount);
