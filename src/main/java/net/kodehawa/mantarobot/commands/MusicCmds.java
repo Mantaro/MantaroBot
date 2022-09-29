@@ -36,6 +36,8 @@ import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
@@ -49,18 +51,32 @@ import static net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils.embedFo
 @Module
 public class MusicCmds {
     private static final Logger log = LoggerFactory.getLogger(MusicCmds.class);
+    private final Config config = MantaroData.config().get();
 
     @Subscribe
     public void register(CommandRegistry cr) {
-        cr.registerSlash(Play.class);
-        cr.registerSlash(Pause.class);
-        cr.registerSlash(Skip.class);
-        cr.registerSlash(Queue.class);
-        cr.registerSlash(NowPlaying.class);
-        cr.registerSlash(Repeat.class);
-        cr.registerSlash(Shuffle.class);
-        cr.registerSlash(Stop.class);
-        cr.registerSlash(Volume.class);
+        if (config.isPremiumBot() || config.isSelfHost() || config.isTesting()) {
+            cr.registerSlash(Play.class);
+            cr.registerSlash(Pause.class);
+            cr.registerSlash(Skip.class);
+            cr.registerSlash(Queue.class);
+            cr.registerSlash(NowPlaying.class);
+            cr.registerSlash(Repeat.class);
+            cr.registerSlash(Shuffle.class);
+            cr.registerSlash(Stop.class);
+            cr.registerSlash(Volume.class);
+        } else {
+            cr.registerSlash(PlayPlaceholder.class);
+        }
+    }
+
+    @Name("play")
+    @Category(CommandCategory.MUSIC)
+    public static class PlayPlaceholder extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) {
+            ctx.reply("commands.music_general.play_deprecated", EmoteReference.WARNING);
+        }
     }
 
     @Description("Plays a song.")
@@ -443,14 +459,7 @@ public class MusicCmds {
         try {
             new URL(content);
         } catch (Exception e) {
-            if (content.startsWith("soundcloud")) {
-                var name = content.substring("soundcloud".length()).trim();
-                if (name.isEmpty()) {
-                    ctx.reply("commands.music_general.soundcloud_no_args", EmoteReference.ERROR);
-                    return;
-                }
-                content = "scsearch: " + content;
-            } else content = "ytsearch: " + content;
+            content = "scsearch: " + content;
         }
 
         MantaroBot.getInstance().getAudioManager().loadAndPlay(ctx, content, firstSelection, force, ctx.getLanguageContext());

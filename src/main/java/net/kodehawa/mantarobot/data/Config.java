@@ -65,6 +65,7 @@ public class Config {
     public boolean isSelfHost = false;
     public int memberCacheSize = 10_000;
     public boolean handleRatelimits = true;
+    public boolean testing = false;
 
     public Config() { }
 
@@ -238,5 +239,9 @@ public class Config {
 
     public String getYtPSId() {
         return ytPSId;
+    }
+
+    public boolean isTesting() {
+        return testing;
     }
 }

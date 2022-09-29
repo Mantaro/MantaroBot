@@ -22,6 +22,7 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.bandcamp.BandcampAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.beam.BeamAudioSourceManager;
+import com.sedmelluq.discord.lavaplayer.source.nico.NicoAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.soundcloud.SoundCloudAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.twitch.TwitchStreamAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.vimeo.VimeoAudioSourceManager;
@@ -64,40 +65,7 @@ public class MantaroAudioManager {
         this.musicManagers = new ConcurrentHashMap<>();
         this.playerManager = new DefaultAudioPlayerManager();
 
-        //Youtube is special because rotation stuff.
-        var youtubeAudioSourceManager = new YoutubeAudioSourceManager();
-        var config = MantaroData.config().get();
-
-        //IPv6 rotation config start
-        if (!config.getIpv6Block().isEmpty()) {
-            AbstractRoutePlanner planner;
-            var block = config.getIpv6Block();
-            List<IpBlock> blocks = Collections.singletonList(new Ipv6Block(block));
-
-            //Damn you, YouTube.
-            if (config.getExcludeAddress().isEmpty()) {
-                planner = new RotatingNanoIpRoutePlanner(blocks);
-            } else {
-                try {
-                    var blacklistedGW = InetAddress.getByName(config.getExcludeAddress());
-                    planner = new RotatingNanoIpRoutePlanner(
-                            blocks, inetAddress -> !inetAddress.equals(blacklistedGW)
-                    );
-                } catch (Exception e) {
-                    //Fallback: did I screw up putting the IP in? lmao
-                    planner = new RotatingNanoIpRoutePlanner(blocks);
-                    e.printStackTrace();
-                }
-            }
-
-            new YoutubeIpRotatorSetup(planner)
-                    .forSource(youtubeAudioSourceManager)
-                    .setup();
-        }
-        //IPv6 rotation config end
-
-        //Register source manager and configure the Player
-        playerManager.registerSourceManager(youtubeAudioSourceManager);
+        //Register source managers and configure the Player
         playerManager.registerSourceManager(SoundCloudAudioSourceManager.createDefault());
         playerManager.registerSourceManager(new BandcampAudioSourceManager());
         playerManager.registerSourceManager(new VimeoAudioSourceManager());

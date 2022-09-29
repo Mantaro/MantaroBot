@@ -35,6 +35,7 @@ import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -60,14 +61,17 @@ public class MusicUtilCmds {
             .pool(MantaroData.getDefaultJedisPool())
             .prefix("move")
             .build();
+    private final Config config = MantaroData.config().get();
 
     @Subscribe
     public void register(CommandRegistry cr) {
-        cr.registerSlash(RestartSong.class);
-        cr.registerSlash(Forward.class);
-        cr.registerSlash(Rewind.class);
-        cr.registerSlash(Move.class);
-        cr.registerSlash(RemoveTrack.class);
+        if (config.isPremiumBot() || config.isSelfHost() || config.isTesting()) {
+            cr.registerSlash(RestartSong.class);
+            cr.registerSlash(Forward.class);
+            cr.registerSlash(Rewind.class);
+            cr.registerSlash(Move.class);
+            cr.registerSlash(RemoveTrack.class);
+        }
     }
 
     @Description("Restarts the playback of the current song.")
