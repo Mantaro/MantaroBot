@@ -50,32 +50,6 @@ public class CustomCommandHandler {
 
     {
         specialHandlers.put("text", (ctx, value, args) -> ctx.send(value));
-        //noinspection CommentedOutCode
-        specialHandlers.put("play", (ctx, value, args) -> {
-            ctx.send("This has been temporarily disabled due to slash commands limitations. Might be re-enabled later.");
-            /*
-             GuildData data = ctx.getDBGuild().getData();
-             if (data.getDisabledCommands().contains("play")) {
-             ctx.send(EmoteReference.ERROR + "The play command is disabled on this server. Cannot run this custom command.");
-             return;
-             }
-
-             List<String> channelDisabledCommands = data.getChannelSpecificDisabledCommands().get(ctx.getChannel().getId());
-             if (channelDisabledCommands != null && channelDisabledCommands.contains("play")) {
-             ctx.send(EmoteReference.ERROR + "The play command is disabled on this channel. Cannot run this custom command.");
-             return;
-             }
-
-             try {
-             new URL(value);
-             } catch (Exception ignored) {
-             value = "ytsearch: " + value;
-             }
-
-             MantaroBot.getInstance().getAudioManager().loadAndPlay(ctx, value, false, false, ctx.getLanguageContext());
-             */
-        });
-
         specialHandlers.put("embed", (ctx, value, args) -> {
             try {
                 // Matcher: Replace all \ with \\.
