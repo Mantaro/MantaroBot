@@ -200,6 +200,7 @@
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile language lang:<language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "music_general": {
+      "play_deprecated": "%1$sDue to circumstances outside of our control, we're unable to provide music playback on Mantaro.",
       "music_error": {
         "timeout": "%1$sUnable to connect to %2$s: connection timed out. Try changing the server region and running the command again.",
         "unknown": "%1$sUnable to connect to %2$s: unknown error."
