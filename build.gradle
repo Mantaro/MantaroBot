@@ -22,7 +22,7 @@ plugins {
 }
 
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
-def ver = new Version(major: 7, minor: 0, revision: "2")
+def ver = new Version(major: 7, minor: 1, revision: 0)
 version ver.toString()
 
 sourceCompatibility = JavaVersion.VERSION_16

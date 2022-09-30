@@ -224,6 +224,7 @@ public class MantaroCore {
                 };
 
                 enabled.add(GatewayIntent.GUILD_VOICE_STATES); // Receive voice states, needed so Member#getVoiceState doesn't return null.
+                log.info("Music has been enabled.");
             } else {
                 disabledIntents = EnumSet.of(
                         CacheFlag.ACTIVITY, CacheFlag.EMOJI, CacheFlag.CLIENT_STATUS,
@@ -235,6 +236,7 @@ public class MantaroCore {
                         InteractiveOperations.listener(), ReactionOperations.listener(),
                         ButtonOperations.listener(), ModalOperations.listener(), shardStartListener
                 };
+                log.info("Music has been disabled.");
             }
 
             log.info("Using intents {}", enabled.stream()
