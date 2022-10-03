@@ -142,13 +142,15 @@ public class MantaroBot {
                 shardId -> getShardManager().getShardById(shardId)
         );
 
-        for (var node : config.getLavalinkNodes()) {
-            lavaLink.addNode(new URI(node), config.lavalinkPass);
-        }
+        if (config.musicEnable()) {
+            for (var node : config.getLavalinkNodes()) {
+                lavaLink.addNode(new URI(node), config.lavalinkPass);
+            }
 
-        // Choose the server with the lowest player amount
-        lavaLink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getPlayerPenalty);
-        lavaLink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getCpuPenalty);
+            // Choose the server with the lowest player amount
+            lavaLink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getPlayerPenalty);
+            lavaLink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getCpuPenalty);
+        }
 
         core = new MantaroCore(config, ExtraRuntimeOptions.DEBUG);
         audioManager = new MantaroAudioManager();

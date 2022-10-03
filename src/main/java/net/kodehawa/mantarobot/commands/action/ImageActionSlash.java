@@ -40,7 +40,6 @@ import java.util.stream.Collectors;
 public class ImageActionSlash extends SlashCommand {
     private final String format;
     private final String lonelyLine;
-    private final WeebAPIRequester weebapi = new WeebAPIRequester();
     private final Random rand = new Random();
     private final IncreasingRateLimiter rateLimiter;
     private List<String> images;
@@ -126,7 +125,7 @@ public class ImageActionSlash extends SlashCommand {
         var random = "";
         try {
             if (type != null) {
-                var result = ImageCache.getImage(weebapi.getRandomImageByType(type, false, "gif"), type);
+                var result = ImageCache.getImage(type);
                 var image = result.url();
                 images = Collections.singletonList(image);
                 random = images.get(0); //Guaranteed random selection :^).

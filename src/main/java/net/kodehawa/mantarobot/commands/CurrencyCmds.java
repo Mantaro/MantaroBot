@@ -723,7 +723,7 @@ public class CurrencyCmds {
             var message = ctx.getLanguageContext().get("commands.inventory.brief")
                     .formatted(user.getName(), inventory);
 
-            var toSend = SplitUtil.split(message, 2000, SplitUtil.Strategy.NEWLINE);
+            var toSend = SplitUtil.split(message, 2000, SplitUtil.Strategy.NEWLINE, SplitUtil.Strategy.WHITESPACE);
             DiscordUtils.listButtons(ctx.getUtilsContext(), 60, toSend);
             return;
         }

@@ -22,6 +22,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import net.kodehawa.mantarobot.commands.action.WeebAPIRequester;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -30,8 +32,12 @@ public class ImageCache {
 
     @JsonIgnore
     private static final Random rand = new Random();
+    @JsonIgnore
+    private static final WeebAPIRequester weebAPI = new WeebAPIRequester();
 
+    private static final Logger log = LoggerFactory.getLogger(ImageCache.class);
     private final List<ImageCacheType> images = new ArrayList<>();
+
     public List<ImageCacheType> getImages() {
         return images;
     }
@@ -42,7 +48,15 @@ public class ImageCache {
     }
 
     @JsonIgnore
-    public static WeebAPIRequester.WeebAPIObject getImage(WeebAPIRequester.WeebAPIObject result, String type) throws NoSuchElementException, JsonProcessingException {
+    public static WeebAPIRequester.WeebAPIObject getImage(String type) throws NoSuchElementException, JsonProcessingException {
+        // Having this on the method call itself caused this to fail prematurely.
+        WeebAPIRequester.WeebAPIObject result = null;
+        try {
+            result = weebAPI.getRandomImageByType(type, false, "gif");
+        } catch (Exception e) {
+            log.debug("Error getting image from WeebAPI, attempting fallback", e);
+        }
+
         if (result != null) {
             try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
                 var cached = jedis.hget("image-cache", type);
@@ -59,7 +73,7 @@ public class ImageCache {
 
                     // Expire the entire cache in 6 hours, assuming we have no expiry set.
                     if (jedis.ttl("image-cache") == -1) { // NX option was added in Redis 7, and I spent a solid 20 minutes without realizing this.
-                        jedis.expire("image-cache", TimeUnit.HOURS.toSeconds(6));
+                        jedis.expire("image-cache", TimeUnit.DAYS.toSeconds(10));
                     }
                 }
             }

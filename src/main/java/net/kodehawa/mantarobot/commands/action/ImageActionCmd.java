@@ -42,7 +42,6 @@ public class ImageActionCmd extends NoArgsCommand {
     private final String format;
     private final String lonelyLine;
     private final String name;
-    private final WeebAPIRequester weebAPI = new WeebAPIRequester();
     private final Random rand = new Random();
     private final IncreasingRateLimiter rateLimiter;
     private List<String> images;
@@ -116,7 +115,7 @@ public class ImageActionCmd extends NoArgsCommand {
         var random = "";
         try {
             if (type != null) {
-                var result = ImageCache.getImage(weebAPI.getRandomImageByType(type, false, "gif"), type);
+                var result = ImageCache.getImage(type);
                 var image = result.url();
                 images = Collections.singletonList(image);
                 random = images.get(0); //Guaranteed random selection :^).
