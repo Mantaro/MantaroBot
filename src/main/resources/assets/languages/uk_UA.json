@@ -265,7 +265,7 @@
       "loader": {
         "over_limit": "%1$sThe queue you added had more than %2$d songs, so we added songs until this limit and ignored the rest.",
         "loaded_playlist": "%1$sДодано **%2$d пісні** в чергу плейлиста: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`/play song:<search term> soundcloud:true` instead on the meanwhile. Direct links to youtube should work too.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$sПомилка при отриманні музики: %2$s. Може, спробувати ще раз чи спробувати інше посилання?",
         "unknown_error_loading": "%1$sНевідома помилка при отриманні музики. Може, спробувати ще раз чи спробувати інше посилання?",
         "over_queue_limit": "%1$s**Не вдалося поставити в чергу `%2$s`: Перевищено ліміт пісень у черзі (%3$s)**",
