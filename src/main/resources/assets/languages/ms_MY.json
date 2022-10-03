@@ -265,7 +265,7 @@
       "loader": {
         "over_limit": "%1$sAntrian yang telah anda tambah mempunyai lebih daripada %2$d buah lagu, jadi kami telah menambahkan lagu-lagu sehingga had ini dan mengabaikan yang lain.",
         "loaded_playlist": "%1$s**%2$d buah lagu** telah ditambah ke antrian playlist: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`/play song:<search term> soundcloud:true` instead on the meanwhile. Direct links to youtube should work too.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$sRalat semasa mendapatkan muzik: %2$s. Mungkin anda boleh cuba sekali lagi atau mencuba pautan yang lain?",
         "unknown_error_loading": "%1$sRalat tidak diketahui semasa mendapatkan muzik. Mungkin anda boleh cuba sekali lagi atau mencuba pautan yang lain?",
         "over_queue_limit": "%1$s**Tidak dapat mengantri `%2$s`: Melepasi had lagu antrian (%3$s)**",
