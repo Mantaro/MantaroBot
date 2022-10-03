@@ -265,7 +265,7 @@
       "loader": {
         "over_limit": "%1$sA lista amit hozzáadtál többet tartalmazott, mint %2$d zeneszám, hozzáadtam annyit amennyit lehetett, a többit figyelmen kívül hagytam.",
         "loaded_playlist": "%1$sHozzáadtam **%2$d** számot a lejátszási listához: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`/play song:<search term> soundcloud:true` instead on the meanwhile. Direct links to youtube should work too.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$sHiba a %2$s zene lekérése közben. Próbáld újra, vagy esetleg egy másik linket?",
         "unknown_error_loading": "%1$sHiba a zene lekérése közben. Próbáld újra, vagy esetleg egy másik linket?",
         "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
