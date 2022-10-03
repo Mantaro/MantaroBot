@@ -164,7 +164,7 @@ public class PlayerCmds {
             player.addReputation(1L);
             player.saveUpdating();
 
-            ctx.reply("commands.rep.success", EmoteReference.CORRECT, usr.getAsTag());
+            ctx.reply("commands.rep.success", EmoteReference.CORRECT, usr.getAsMention());
         }
     }
 
