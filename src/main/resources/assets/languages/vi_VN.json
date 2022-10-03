@@ -265,7 +265,7 @@
       "loader": {
         "over_limit": "%1$sDanh sách phát mà bạn thêm vào đã nhiều hơn %2$d bài hát, vì vậy chúng tôi sẽ thêm các bài hát cho đến giới hạn và bỏ những bài còn lại đi.",
         "loaded_playlist": "%1$sThêm **%2$d bài hát** để xếp hàng trong danh sách phát: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`/play song:<search term> soundcloud:true` instead on the meanwhile. Direct links to youtube should work too.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$sLỗi xảy ra trong khi tìm kiếm nhạc: %2$s. Có lẽ bạn nên thử một lần nữa hoặc sử dụng một liên kết khác?",
         "unknown_error_loading": "%1$sLỗi không xác định xảy ra trong khi tìm kiếm nhạc. Có lẽ bạn thử lại một lần nữa hoặc sử dụng một liên kết khác?",
         "over_queue_limit": "%1$s**Không thể đặt bài hát chờ `%2$s`: Số bài hát trong danh sách phát đã vượt quá giới hạn (%3$s)**",
