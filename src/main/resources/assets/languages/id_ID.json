@@ -265,7 +265,7 @@
       "loader": {
         "over_limit": "%1$sThe queue you added had more than %2$d songs, so we added songs until this limit and ignored the rest.",
         "loaded_playlist": "%1$sAdded **%2$d songs** to queue on playlist: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`/play song:<search term> soundcloud:true` instead on the meanwhile. Direct links to youtube should work too.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$sError while fetching music: %2$s. Maybe give it a try again or try another link?",
         "unknown_error_loading": "%1$sKesalahan tidak diketahui saat mengambil data musik. Mau mencobanya lagi atau coba tautan lain?",
         "over_queue_limit": "%1$s**Tidak bisa menambah `%2$s`: Melebihi batas lagu dalam antrean (%3$s)**",
