@@ -301,6 +301,11 @@ public class AudioLoader implements AudioLoadResultHandler {
             return;
         }
 
+        if (list.isEmpty()) {
+            ctx.edit("commands.music_general.loader.no_matches", EmoteReference.ERROR);
+            return;
+        }
+
         DiscordUtils.selectListButtonSlash(ctx, list.subList(0, Math.min(5, list.size())),
                 track -> String.format(
                         "%s**[%s](%s)** (%s)",
