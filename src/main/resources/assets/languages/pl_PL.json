@@ -265,7 +265,7 @@
       "loader": {
         "over_limit": "%1$sKolejka, którą dodałeś miała więcej niż %2$d piosenek, więc dodawaliśmy piosenki do tego limitu i ignorowaliśmy resztę.",
         "loaded_playlist": "%1$sDodano **%2$d piosenek** do kolejki na playliście: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`/play song:<search term> soundcloud:true` instead on the meanwhile. Direct links to youtube should work too.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$sError while fetching music: %2$s. Maybe give it a try again or try another link?",
         "unknown_error_loading": "%1$sUnknown error while fetching music. Maybe give it a try again or try another link?",
         "over_queue_limit": "%1$s**Nie można ustawić w kolejce `%2$s`: przekroczono limit utworów w kolejce (%3$s)**",
