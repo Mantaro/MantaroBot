@@ -265,7 +265,7 @@
       "loader": {
         "over_limit": "%1$s你加入的清單含有超過%2$d首歌曲，所以我將忽略多餘的歌曲。",
         "loaded_playlist": "%1$s已加入**%2$d首歌曲**進入播放清單:**%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`/play song:<search term> soundcloud:true` instead on the meanwhile. Direct links to youtube should work too.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$s取得音樂時發生錯誤：%2$s。試著在試一次或使用別的鏈接？",
         "unknown_error_loading": "%1$s取得音樂時發生未知錯誤。試著在試一次或使用別的連接？",
         "over_queue_limit": "%1$s**無法加入 `%2$s`：清單長度超出限制(%3$s)**",
