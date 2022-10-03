@@ -265,7 +265,7 @@
       "loader": {
         "over_limit": "%1$sDe afspeellijst die je hebt toegevoegd bevat meer dan %2$d nummers, dus ik heb zoveel mogelijk nummers toegevoegd totdat deze limiet bereikt was. De rest is genegeerd.",
         "loaded_playlist": "%1$sIk heb **%2$d nummers** toegevoegd aan de afspeellijst van de afspeellijst: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sHet zoeken heeft geen resultaten opgeleverd. Als dit wordt weergegeven voor * alle nummers * waarnaar je probeert te zoeken, kun je `/play song:soundcloud <zoekterm> soundcloud:true` proberen te gebruiken. Directe koppelingen naar youtube zouden ook moeten werken.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$sFout bij het ophalen van muziek: %2$s. Misschien nog eens proberen of een andere link proberen?",
         "unknown_error_loading": "%1$sOnbeknde fout bij het ophalen van muziek. Misschien nog eens proberen of een andere link proberen?",
         "over_queue_limit": "%1$s **Kan het nummer `%2$s` niet toevoegen aan de afspeellijst: Het limiet van het aantal nummers in de afspeellijst is bereikt (%3$s)**",
