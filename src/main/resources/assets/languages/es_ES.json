@@ -265,7 +265,7 @@
       "loader": {
         "over_limit": "%1$sLa cola que agregaste tiene más de %2$d canciones, así que agregué canciones hasta el límite e ignoré el resto.",
         "loaded_playlist": "%1$sAñadidas **%2$d canciones** a la cola en la lista de reproducción: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sLa búsqueda no arrojó resultados. Si esto aparece para *todas las canciones* que intentas buscar, podrías intentar usar `/play song:<search term> soundcloud:true` en su lugar. Links directos de youtube y soundcloud deberían funcionar también.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$sHubo un error buscando música: %2$s. Intenta denuevo o prueba otro link?",
         "unknown_error_loading": "%1$sHubo un error buscando música. Intenta denuevo o prueba otro enlace?",
         "over_queue_limit": "%1$s**No lo he podido poner en la cola `%2$s`: El límite de canciones en cola ha sido sobrepasado (%3$s)**",
