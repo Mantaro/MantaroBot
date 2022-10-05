@@ -209,7 +209,8 @@ public class PetCmds {
                 var language = ctx.getLanguageContext();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
-                var pet = getCurrentPet(ctx, ctx.getPlayer(), marriage, "commands.pet.status.no_pet");
+                var player = ctx.getPlayer();
+                var pet = getCurrentPet(ctx, player, marriage, "commands.pet.status.no_pet");
                 if (pet == null) {
                     return;
                 }
@@ -223,6 +224,10 @@ public class PetCmds {
                         .setAuthor(String.format(language.get("commands.pet.status.header"), name), null, ctx.getAuthor().getEffectiveAvatarUrl())
                         .setColor(Color.PINK)
                         .setDescription(language.get("commands.pet.status.description"))
+                        .addField(
+                                EmoteReference.MONEY.toHeaderString() + language.get("commands.pet.status.choice"),
+                                "%s".formatted(player.getData().getActiveChoice(marriage)), true
+                        )
                         .addField(
                                 EmoteReference.MONEY.toHeaderString() + language.get("commands.pet.status.cost"),
                                 "%,d".formatted(pet.getType().getCost()), true
