@@ -1344,6 +1344,7 @@
         "stamina": "Estâmina",
         "dust": "Poeira (%)",
         "pet": "Carinhos",
+        "choice": "Choice",
         "buildup": "Acréscimo de Crédios / Itens",
         "buildup_coin": "Acréscimo de Créditos",
         "buildup_stats": "%1$,d créditos / %2$,d itens",
