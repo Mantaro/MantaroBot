@@ -1344,6 +1344,7 @@
         "stamina": "Ausdauer",
         "dust": "Dust (%)",
         "pet": "Streicheleinheiten",
+        "choice": "Choice",
         "buildup": "Credit- / Gegenstandsaufbau",
         "buildup_coin": "Creditaufbau",
         "buildup_stats": "%1$,d credits / %2$,d items",
