@@ -53,7 +53,7 @@ public class ImageboardUtils {
             DefaultImageBoards.E621, false
     );
 
-    public static void getImage(ImageBoard<?> api, ImageRequestType type, boolean nsfwOnly, String imageboard, String rating, String tags, SlashContext ctx) {
+    public static void getImage(ImageBoard<?> api, ImageRequestType type, boolean nsfwOnly, String imageboard, String rating, String tags, String excludeTags, SlashContext ctx) {
         Rating ratingEnum = Rating.SAFE;
         if (!nsfwOnly) {
             ratingEnum = lookupRating(rating);
@@ -84,7 +84,12 @@ public class ImageboardUtils {
             ratingEnum = null;
         }
 
-        List<String> list = tags.isEmpty() ? Collections.emptyList() : List.of(tags.split("\\s+"));
+        List<String> excludeList = excludeTags.isEmpty() ? new ArrayList<>(1) :
+                new ArrayList<>(Arrays.asList(excludeTags.split("\\s+"))).stream().map(s -> "-" + s).toList();
+
+        List<String> list = tags.isEmpty() ? new ArrayList<>() : new ArrayList<>(Arrays.asList(tags.split("\\s+")));
+
+        list.addAll(excludeList);
         var limit = Optional.ofNullable(maxQuerySize.get(api)).orElse(10);
         if (list.size() > limit) {
             ctx.reply("commands.imageboard.too_many_tags", EmoteReference.ERROR, imageboard, limit);

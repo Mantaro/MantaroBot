@@ -71,7 +71,7 @@ public class ImageCache {
                     cache.getImages().add(new ImageCacheType(result.type(), result.url(), result.id()));
                     jedis.hset("image-cache", type, JsonDataManager.toJson(cache));
 
-                    // Expire the entire cache in 6 hours, assuming we have no expiry set.
+                    // Expire the entire cache in 10 days, assuming we have no expiry set.
                     if (jedis.ttl("image-cache") == -1) { // NX option was added in Redis 7, and I spent a solid 20 minutes without realizing this.
                         jedis.expire("image-cache", TimeUnit.DAYS.toSeconds(10));
                     }
