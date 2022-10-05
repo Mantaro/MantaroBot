@@ -1344,6 +1344,7 @@
         "stamina": "Energía",
         "dust": "Polvo (%)",
         "pet": "Caricias",
+        "choice": "Choice",
         "buildup": "Aumento de Créditos / Items",
         "buildup_coin": "Aumento de Créditos",
         "buildup_stats": "%1$,d créditos / %2$,d ítems",
