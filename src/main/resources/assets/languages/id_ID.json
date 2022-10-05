@@ -1344,6 +1344,7 @@
         "stamina": "Stamina",
         "dust": "Debu (%)",
         "pet": "Pats",
+        "choice": "Choice",
         "buildup": "Kredit / Penumpukan Item",
         "buildup_coin": "Penumpukan Kredit",
         "buildup_stats": "%1$,d credits / %2$,d items",
