@@ -1344,6 +1344,7 @@
         "stamina": "耐力",
         "dust": "骯髒度 (%)",
         "pet": "撫摸次數",
+        "choice": "Choice",
         "buildup": "金錢 / 掉落物獎勵",
         "buildup_coin": "金錢獎勵",
         "buildup_stats": "%1$,d 元 / %2$,d 個物品",
