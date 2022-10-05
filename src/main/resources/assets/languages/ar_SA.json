@@ -1344,6 +1344,7 @@
         "stamina": "قوة",
         "dust": "Dust (%)",
         "pet": "تربيتات",
+        "choice": "Choice",
         "buildup": "Credit / Item Buildup",
         "buildup_coin": "Credit Buildup",
         "buildup_stats": "%1$,d كريدت / %2$,d غرض",
