@@ -1344,6 +1344,7 @@
         "stamina": "Endurance",
         "dust": "Poussière (%)",
         "pet": "Caresses",
+        "choice": "Choice",
         "buildup": "Crédits / objets accumulés",
         "buildup_coin": "Crédits accumulés",
         "buildup_stats": "%1$,d crédits / %2$,d objets",
