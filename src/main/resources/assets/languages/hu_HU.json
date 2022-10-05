@@ -200,6 +200,7 @@
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile language lang:<language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "music_general": {
+      "play_deprecated": "%1$sDue to circumstances outside of our control, we're unable to provide music playback on Mantaro.",
       "music_error": {
         "timeout": "%1$s Nem sikerült csatlakozni a: %2$s: kapcsolati időtúlépés. \nPróbáld meg megváltoztatni a szerver régióját, és futtasd a parancsot újra.",
         "unknown": "%1$sNem sikerült csatlakozni a következőhöz: %2$s: ismeretlen hiba."
@@ -264,7 +265,7 @@
       "loader": {
         "over_limit": "%1$sA lista amit hozzáadtál többet tartalmazott, mint %2$d zeneszám, hozzáadtam annyit amennyit lehetett, a többit figyelmen kívül hagytam.",
         "loaded_playlist": "%1$sHozzáadtam **%2$d** számot a lejátszási listához: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`/play song:<search term> soundcloud:true` instead on the meanwhile. Direct links to youtube should work too.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$sHiba a %2$s zene lekérése közben. Próbáld újra, vagy esetleg egy másik linket?",
         "unknown_error_loading": "%1$sHiba a zene lekérése közben. Próbáld újra, vagy esetleg egy másik linket?",
         "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
@@ -460,7 +461,7 @@
         "not_enough_args": "%1$sYou need to specify the command name and the response of the command you want to add.",
         "empty_content": "%1$sYou need to specify the content of this custom command",
         "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
-        "success": "%1$sSaved to command `%2$s`",
+        "success": "%1$sSaved to command `%2$s`\nRemember: To access a custom command you create, you have to run it using Mantaro's prefix (for example `~>%2$s`), not Slash Commands.",
         "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
       },

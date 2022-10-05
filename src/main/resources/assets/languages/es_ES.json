@@ -200,6 +200,7 @@
       "info": "%1$sPuedes cambiar el idioma del servidor (si aplica) usando `~>opts language set <código del idioma>`. Tu preferencia de idioma personal puede ser cambiada usando `/profile language lang:<código del idioma>`.\n**Idiomas disponibles:** `%2$s`\nSi tu idioma no está aquí y quieres ayudar, siéntete libre de ingresar al servidor de soporte y sumarte al esfuerzo para traducir Mantaro!"
     },
     "music_general": {
+      "play_deprecated": "%1$sDue to circumstances outside of our control, we're unable to provide music playback on Mantaro.",
       "music_error": {
         "timeout": "%1$sNo he podido conectarme a %2$s: tiempo de espera para la conexión agotado. Intenta cambiar la región del servidor y usando el comando nuevamente.",
         "unknown": "%1$sNo he podido conectarme a %2$s: error desconocido."
@@ -264,7 +265,7 @@
       "loader": {
         "over_limit": "%1$sLa cola que agregaste tiene más de %2$d canciones, así que agregué canciones hasta el límite e ignoré el resto.",
         "loaded_playlist": "%1$sAñadidas **%2$d canciones** a la cola en la lista de reproducción: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sLa búsqueda no arrojó resultados. Si esto aparece para *todas las canciones* que intentas buscar, podrías intentar usar `/play song:<search term> soundcloud:true` en su lugar. Links directos de youtube y soundcloud deberían funcionar también.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$sHubo un error buscando música: %2$s. Intenta denuevo o prueba otro link?",
         "unknown_error_loading": "%1$sHubo un error buscando música. Intenta denuevo o prueba otro enlace?",
         "over_queue_limit": "%1$s**No lo he podido poner en la cola `%2$s`: El límite de canciones en cola ha sido sobrepasado (%3$s)**",
@@ -460,7 +461,7 @@
         "not_enough_args": "%1$sNecesitas especificar el nombre del comando y la respuesta del comando que quieres añadir.",
         "empty_content": "%1$sNecesitas especificar el contenido de este comando personalizado",
         "too_long": "%1$sEl contenido de este comando es muy largo y el bot no podrá mostrarlo. Asegúrate que el comando tenga menos de %2$,d caracteres.",
-        "success": "%1$sHe guardado el comando personalizado `%2$s` exitosamente!",
+        "success": "%1$sSaved to command `%2$s`\nRemember: To access a custom command you create, you have to run it using Mantaro's prefix (for example `~>%2$s`), not Slash Commands.",
         "too_many_responses": "%1$sHay muchas respuestas (%2$s) en este comando. El límite es el doble (hasta 100) para servidores premium (Revisa <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sHay demasiados comandos en este servidor, por lo que no puedes agregar más (+100). Este límite puede ser sobrepasado en guilds premium (revisa <https://patreon.com/mantaro>)."
       },

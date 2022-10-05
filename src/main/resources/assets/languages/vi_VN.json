@@ -200,6 +200,7 @@
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile language lang:<language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "music_general": {
+      "play_deprecated": "%1$sDue to circumstances outside of our control, we're unable to provide music playback on Mantaro.",
       "music_error": {
         "timeout": "%1$sKhông thể kết nối với %2$s: hết giờ kết nối. Hãy thử đổi vùng máy chủ và chạy lại lệnh một lần nữa.",
         "unknown": "%1$sKhông thể kết nối đến kênh %2$s: Lỗi không xác định."
@@ -264,7 +265,7 @@
       "loader": {
         "over_limit": "%1$sDanh sách phát mà bạn thêm vào đã nhiều hơn %2$d bài hát, vì vậy chúng tôi sẽ thêm các bài hát cho đến giới hạn và bỏ những bài còn lại đi.",
         "loaded_playlist": "%1$sThêm **%2$d bài hát** để xếp hàng trong danh sách phát: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`/play song:<search term> soundcloud:true` instead on the meanwhile. Direct links to youtube should work too.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$sLỗi xảy ra trong khi tìm kiếm nhạc: %2$s. Có lẽ bạn nên thử một lần nữa hoặc sử dụng một liên kết khác?",
         "unknown_error_loading": "%1$sLỗi không xác định xảy ra trong khi tìm kiếm nhạc. Có lẽ bạn thử lại một lần nữa hoặc sử dụng một liên kết khác?",
         "over_queue_limit": "%1$s**Không thể đặt bài hát chờ `%2$s`: Số bài hát trong danh sách phát đã vượt quá giới hạn (%3$s)**",
@@ -460,7 +461,7 @@
         "not_enough_args": "%1$sBạn cần phải đưa ra tên lệnh và cách phản hồi của lệnh mà bạn muốn thêm vào.",
         "empty_content": "%1$sBạn cần phải đưa ra nội dung của lệnh tùy chỉnh này",
         "too_long": "%1$sNội dung của lệnh này quá dài nên tui không thể hiển thị nó. Hãy đảm bảo rằng lệnh có ít hơn %2$,d ký tự.",
-        "success": "%1$sĐã lưu lệnh `%2$s`",
+        "success": "%1$sSaved to command `%2$s`\nRemember: To access a custom command you create, you have to run it using Mantaro's prefix (for example `~>%2$s`), not Slash Commands.",
         "too_many_responses": "%1$sCó quá nhiều phản hồi (%2$s) cho câu lệnh này. Giới hạn này được nhân đôi (lên đến 100) cho các máy chủ cao cấp (Xem qua <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sĐã có quá nhiều lệnh ở máy chủ này, nên bạn không thể tạo thêm được nữa (+100). Điều này có thể được bỏ qua với máy chủ cao cấp (Chi tiết tại <https://patreon.com/mantaro>)."
       },

@@ -24,7 +24,7 @@
     "description": "Beschrijving",
     "options": "Opties",
     "find_members_failure": "%1$sGeen gebruikers gevonden met jouw zoekcriteria :(",
-    "find_roles_failure": "%1$sDidn't find any roles that match your search criteria :(",
+    "find_roles_failure": "%1$s geen rollen gevonden die aan jouw zoekcriteria voldoen :(",
     "too_many_roles": "%1$sToo many roles found, maybe refine your search?\n**Roles found:** %2$s",
     "role_select": "Select the Role:",
     "find_channels_failure": "%1$sCannot find any text channel with that name :(",
@@ -200,6 +200,7 @@
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile language lang:<language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "music_general": {
+      "play_deprecated": "%1$sDue to circumstances outside of our control, we're unable to provide music playback on Mantaro.",
       "music_error": {
         "timeout": "%1$sKan geen verbinding maken met %2$s: verbinding is verlopen. Probeer de serverregio te wijzigen en voer het commando opnieuw uit.",
         "unknown": "%1$sKan geen verbinding maken met %2$s: onbekende fout."
@@ -264,7 +265,7 @@
       "loader": {
         "over_limit": "%1$sDe afspeellijst die je hebt toegevoegd bevat meer dan %2$d nummers, dus ik heb zoveel mogelijk nummers toegevoegd totdat deze limiet bereikt was. De rest is genegeerd.",
         "loaded_playlist": "%1$sIk heb **%2$d nummers** toegevoegd aan de afspeellijst van de afspeellijst: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sHet zoeken heeft geen resultaten opgeleverd. Als dit wordt weergegeven voor * alle nummers * waarnaar je probeert te zoeken, kun je `/play song:soundcloud <zoekterm> soundcloud:true` proberen te gebruiken. Directe koppelingen naar youtube zouden ook moeten werken.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$sFout bij het ophalen van muziek: %2$s. Misschien nog eens proberen of een andere link proberen?",
         "unknown_error_loading": "%1$sOnbeknde fout bij het ophalen van muziek. Misschien nog eens proberen of een andere link proberen?",
         "over_queue_limit": "%1$s **Kan het nummer `%2$s` niet toevoegen aan de afspeellijst: Het limiet van het aantal nummers in de afspeellijst is bereikt (%3$s)**",
@@ -460,7 +461,7 @@
         "not_enough_args": "%1$sJe moet de opdracht naam specificeren en het antwoord van de opdracht die u wilt toevoegen.",
         "empty_content": "%1$sYou need to specify the content of this custom command",
         "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
-        "success": "%1$sOpgeslagen in opdrachten `%2$s`",
+        "success": "%1$sSaved to command `%2$s`\nRemember: To access a custom command you create, you have to run it using Mantaro's prefix (for example `~>%2$s`), not Slash Commands.",
         "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
       },

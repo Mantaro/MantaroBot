@@ -200,6 +200,7 @@
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile language lang:<language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "music_general": {
+      "play_deprecated": "%1$sDue to circumstances outside of our control, we're unable to provide music playback on Mantaro.",
       "music_error": {
         "timeout": "%1$sTidak dapat menyambung ke %2$s: sambungan tamat. Cuba mengubah rantau pelayan dan jalankan arahan sekali lagi.",
         "unknown": "%1$sTidak dapat menyambung ke %2$s: ralat tidak diketahui."
@@ -264,7 +265,7 @@
       "loader": {
         "over_limit": "%1$sAntrian yang telah anda tambah mempunyai lebih daripada %2$d buah lagu, jadi kami telah menambahkan lagu-lagu sehingga had ini dan mengabaikan yang lain.",
         "loaded_playlist": "%1$s**%2$d buah lagu** telah ditambah ke antrian playlist: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`/play song:<search term> soundcloud:true` instead on the meanwhile. Direct links to youtube should work too.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$sRalat semasa mendapatkan muzik: %2$s. Mungkin anda boleh cuba sekali lagi atau mencuba pautan yang lain?",
         "unknown_error_loading": "%1$sRalat tidak diketahui semasa mendapatkan muzik. Mungkin anda boleh cuba sekali lagi atau mencuba pautan yang lain?",
         "over_queue_limit": "%1$s**Tidak dapat mengantri `%2$s`: Melepasi had lagu antrian (%3$s)**",
@@ -460,7 +461,7 @@
         "not_enough_args": "%1$sAnda harus menyatakan nama arahan dan respons arahan yang ingin anda tambahkan.",
         "empty_content": "%1$sAnda perlu menyatakan kandungan arahan kustom ini",
         "too_long": "%1$sKandungan arahan ini terlalu panjang dan bot tidak akan dapat memaparkannya. Pastikan arahan tersebut tidak melebihi %2$,d aksara.",
-        "success": "%1$sDisimpan ke arahan `%2$s`",
+        "success": "%1$sSaved to command `%2$s`\nRemember: To access a custom command you create, you have to run it using Mantaro's prefix (for example `~>%2$s`), not Slash Commands.",
         "too_many_responses": "%1$sTerlalu banyak respons (%2$s) dalam arahan ini. Had ini adalah dua kali ganda (sebanyak 100) bagi pelayan premium (Periksa <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sTerlalu banyak arahan dalam pelayan ini, jadi anda tidak dapat menambah lagi (+100). Had ini boleh diabaikan oleh pelayan premium (Periksa <https://patreon.com/mantaro>)."
       },

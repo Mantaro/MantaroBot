@@ -200,6 +200,7 @@
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile language lang:<language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "music_general": {
+      "play_deprecated": "%1$sDue to circumstances outside of our control, we're unable to provide music playback on Mantaro.",
       "music_error": {
         "timeout": "%1$sNicht in der Lage zu %2$s zu verbinden: Verbindungsfehler. Versuche die Serverregion zu ändern und versuch den Befehl erneut.",
         "unknown": "%1$sNicht in der Lage zu %2$s zu verbinden: Unbekannter Fehler."
@@ -264,7 +265,7 @@
       "loader": {
         "over_limit": "%1$sDie Warteschlange, die du hinzugefügt hast, überschreitet %2$d Songs, also habe ich nur so viele hinzugefügt und den Rest ignoriert.",
         "loaded_playlist": "%1$s**%2$d Songs** der Warteschlange hinzugefügt: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`/play song:<search term> soundcloud:true` instead on the meanwhile. Direct links to youtube should work too.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$sFehler beim Abrufen der Musik: %2$s. Versuche es vielleicht nochmal, oder probiere einen anderen Link?",
         "unknown_error_loading": "%1$sUnbekannter Fehler beim Abrufen der Musik. Versuche es vielleicht nochmal, oder probiere einen anderen Link?",
         "over_queue_limit": "%1$s**Konnte `%2$s` nicht der Warteschlange hinzufügen: Songlimit überschritten (%3$s)**",
@@ -460,7 +461,7 @@
         "not_enough_args": "%1$sDu musst den Befehlsnamen und die Antwort für den Befehl angeben, den du hinzufügen willst.",
         "empty_content": "%1$sDu musst den Inhalt für diesen benutzerdefinierten Befehl angeben.",
         "too_long": "%1$sDer Inhalt des Befehls ist zu lang und der Bot wird nicht in der Lage sein ihn darzustellen. Stelle sicher, dass der Befehl weniger als %2$,d Zeichen hat.",
-        "success": "%1$sBefehl `%2$s` gespeichert!",
+        "success": "%1$sSaved to command `%2$s`\nRemember: To access a custom command you create, you have to run it using Mantaro's prefix (for example `~>%2$s`), not Slash Commands.",
         "too_many_responses": "%1$sEs gibt zu viele Antworten (%2$s) für diesen Befehl. Das Limit ist für Premium-Server (siehe <https://patreon.com/mantaro>) verdoppelt (bis zu 100)",
         "too_many_commands": "%1%sEs gibt zu viele Befehle auf diesem Server, daher kannst du keine weiteren hinzufügen (+100). Dies kann von Premium-Servern umgangen werden (Check <https://patreon.com/mantaro>)."
       },

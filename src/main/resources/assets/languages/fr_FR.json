@@ -200,6 +200,7 @@
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile language lang:<language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "music_general": {
+      "play_deprecated": "%1$sDue to circumstances outside of our control, we're unable to provide music playback on Mantaro.",
       "music_error": {
         "timeout": "%1$sImpossible de se connecter à %2$s: la connexion a expiré. Essaie de changer la région du serveur et d'exécuter à nouveau la commande.",
         "unknown": "%1$sImpossible de se connecter à %2$s: erreur inconnue."
@@ -264,7 +265,7 @@
       "loader": {
         "over_limit": "%1$sLa liste de lecture que tu as ajouté a plus de %2$d musiques, alors j'ai ajouté uniquement les musiques jusqu'au nombre limite et j'ai ignoré les autres.",
         "loaded_playlist": "%1$sAjout de **%2$d musiques** à la file d'attente de la playlist: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sLa recherche n'a donné aucun résultat. Si cela apparait pour *toutes les chansons* pour lesquelles tu as fait une recherche, utilise `/play song:<terme de la recherche> soundcloud:true` à la place. Les liens directs vers YouTube devraient également fonctionner.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$sErreur en recherchant la musique: %2$s. Réessaie de nouveau ou utilise un autre lien?",
         "unknown_error_loading": "%1$sErreur inconnue en recherchant de la musique. Réessaie de nouveau ou utilise un autre lien?",
         "over_queue_limit": "%1$s**Je n'ai pas pu ajouter de musique à la file d'attente' %2$s: Limite de titres dans la liste de lecture dépassée (%3$s)**",
@@ -460,7 +461,7 @@
         "not_enough_args": "%1$sTu dois spécifier le nom et la réponse de la commande à ajouter.",
         "empty_content": "%1$sTu dois spécifier le contenu de cette commande personnalisée.",
         "too_long": "%1$sLe contenu de cette commande est trop long et le bot ne sera pas capable de l'afficher. Assure-toi qu'elle fasse moins de %2$,d caractères.",
-        "success": "%1$sCommande `%2$s` sauvegardée",
+        "success": "%1$sSaved to command `%2$s`\nRemember: To access a custom command you create, you have to run it using Mantaro's prefix (for example `~>%2$s`), not Slash Commands.",
         "too_many_responses": "%1$sIl y a trop de réponses (%2$s) pour cette commande. Cette limite est doublée (jusque 100) pour les serveurs Premium (Va sur <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sIl y a déjà trop de commande personnalisées sur ce serveur(+100), donc tu ne peux plus en ajouter. Sauf si tu deviens premium (Va sur <https://patreon.com/mantaro>)."
       },

@@ -200,6 +200,7 @@
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile language lang:<language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "music_general": {
+      "play_deprecated": "%1$sDue to circumstances outside of our control, we're unable to provide music playback on Mantaro.",
       "music_error": {
         "timeout": "%1$sНевозможно подключиться к %2$s: время подключения вышло. Попробуйте сменить регион сервера и повторить запрос.",
         "unknown": "%1$sНевозможно подключиться к %2$s: неизвестная ошибка."
@@ -264,7 +265,7 @@
       "loader": {
         "over_limit": "%1$sВы добавили в очередь более %2$d треков и достигли лимита.",
         "loaded_playlist": "%1$sДобавлено **%2$d треков** в очередь данного плейлиста: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`/play song:<search term> soundcloud:true` instead on the meanwhile. Direct links to youtube should work too.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$sError while fetching music: %2$s. Maybe give it a try again or try another link?",
         "unknown_error_loading": "%1$sUnknown error while fetching music. Maybe give it a try again or try another link?",
         "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
@@ -460,7 +461,7 @@
         "not_enough_args": "%1$sВам нужно указать имя команды и ответ для команды, которую вы хотите добавить.",
         "empty_content": "%1$sВам необходимо указать содержимое этой пользовательской команды",
         "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
-        "success": "%1$sСохранено для команды `%2$s`",
+        "success": "%1$sSaved to command `%2$s`\nRemember: To access a custom command you create, you have to run it using Mantaro's prefix (for example `~>%2$s`), not Slash Commands.",
         "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sНа этом сервере слишком много команд, поэтому вы не можете добавить больше (+100). Премиум-гильдии могут обойти это (см. <https://patreon.com/mantaro>)."
       },

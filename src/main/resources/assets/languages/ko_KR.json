@@ -200,6 +200,7 @@
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile language lang:<language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "music_general": {
+      "play_deprecated": "%1$sDue to circumstances outside of our control, we're unable to provide music playback on Mantaro.",
       "music_error": {
         "timeout": "%1$s%2$s에 연결할 수 없어요: 연결 시간이 초과되었어요. 서버 영역을 변경하고 명령을 다시 실행할게요.",
         "unknown": "%1$sUnable to connect to %2$s: unknown error."
@@ -264,7 +265,7 @@
       "loader": {
         "over_limit": "%1$s대기열에 %2$d 이상의 노래를 추가했어요, 그래서 이 제안까지 노래를 추가하고 나머지는 무시할게요.",
         "loaded_playlist": "%1$s**%2$d개 음악** 재생목록을 대기열에 추가했어요: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`/play song:<search term> soundcloud:true` instead on the meanwhile. Direct links to youtube should work too.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$sError while fetching music: %2$s. Maybe give it a try again or try another link?",
         "unknown_error_loading": "%1$sUnknown error while fetching music. Maybe give it a try again or try another link?",
         "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
@@ -460,7 +461,7 @@
         "not_enough_args": "%1$s추가할 명령어의 명령어 이름과 응답을 지정해야 해요.",
         "empty_content": "%1$s이 사용자 정의 명령어의 내용을 지정해야 해요",
         "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
-        "success": "%1$s`%2$s` 명령어를 저장했어요",
+        "success": "%1$sSaved to command `%2$s`\nRemember: To access a custom command you create, you have to run it using Mantaro's prefix (for example `~>%2$s`), not Slash Commands.",
         "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
         "too_many_commands": "%1이 서버에 명령어가 너무 많아서 더 이상 추가할 수 없어요(+100개). 프리미엄 길드에서 우회할 수 있어요(클릭<https://patreon.com/mantaro>)."
       },
