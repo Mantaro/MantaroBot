@@ -1344,6 +1344,7 @@
         "stamina": "Stamina",
         "dust": "Habuk (%)",
         "pet": "Belaian",
+        "choice": "Choice",
         "buildup": "Kenaikan Kredit / Item",
         "buildup_coin": "Kenaikan Kredit",
         "buildup_stats": "%1$,d kredit / %2$,d item",
