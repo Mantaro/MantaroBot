@@ -2557,9 +2557,9 @@
       "sparkle_pick": "Een van de sterkste pikhouwelen die er is.",
       "pizza": "Lekker.",
       "mine_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `/opencrate crate:gem crate`",
-      "fish_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `/opencrate crate:treasure`",
-      "mine_premium_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `/opencrate crate:gem premium crate`",
-      "fish_premium_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `/opencrate crate:premium treasure`",
+      "fish_crate": "Een schat die je tijdens het vissen hebt gevonden. Misschien zitten er wel leuke dingen in. Kan worden geopend met `~>opencrate crate:treasure`",
+      "mine_premium_crate": "Een juweeltje dat je hebt gevonden tijdens het mijnen. Misschien zitten er wel leuke dingen in. Kan worden geopend met `~>opencrate crate:gem premium crate`",
+      "fish_premium_crate": "Een schat die je tijdens het vissen hebt gevonden. Misschien zitten er wel leuke dingen in. Kan worden geopend met `~>opencrate crate:premium treasure`",
       "comet_rod": "Een beetje sterkere hengel.",
       "star_rod": "Een sterkere hengel.",
       "sparkle_rod": "Een veel sterkere hengel.",
@@ -2611,8 +2611,8 @@
       "broken_hellfire_pick": "Een hellevuur pikhouweel die brak tijdens het hakken. Nog steeds te redden.",
       "broken_hellfire_axe": "Een hellevuur bijl die brak tijdens het mijnen. Nog steeds te redden.",
       "broken_hellfire_rod": "Een hellevuur hengel die brak tijdens het hakken. Nog steeds te redden.",
-      "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `/opencrate crate:chop crate`",
-      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `/opencrate crate:chop premium crate`"
+      "chop_crate": "Een kist die je vond tijdens het hakken. Kan goed spul bevatten. Te openen met `/opencrate crate:chop crate`",
+      "chop_premium_crate": "Een kist die je vond tijdens het hakken. Kan goed spul bevatten. Kan geopend worden met `/opencrate crate:chop premium crate`"
     }
   },
   "buttons": {
