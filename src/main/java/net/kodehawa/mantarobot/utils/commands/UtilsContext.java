@@ -18,6 +18,10 @@
 package net.kodehawa.mantarobot.utils.commands;
 
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.*;
+import net.dv8tion.jda.api.entities.channel.attribute.*;
+import net.dv8tion.jda.api.entities.channel.middleman.*;
+import net.dv8tion.jda.api.entities.channel.concrete.*;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 

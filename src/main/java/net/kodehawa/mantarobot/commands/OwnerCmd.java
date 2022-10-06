@@ -479,6 +479,10 @@ public class OwnerCmd {
                     import net.kodehawa.mantarobot.utils.*;
                     import net.kodehawa.mantarobot.utils.eval.*;
                     import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.*;
+import net.dv8tion.jda.api.entities.channel.attribute.*;
+import net.dv8tion.jda.api.entities.channel.middleman.*;
+import net.dv8tion.jda.api.entities.channel.concrete.*;
                     import java.util.*;
                     import java.util.stream.*;
                     import java.util.function.*;

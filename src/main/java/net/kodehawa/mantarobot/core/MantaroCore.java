@@ -27,6 +27,7 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
+import net.dv8tion.jda.api.exceptions.InvalidTokenException;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -70,7 +71,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
-import javax.security.auth.login.LoginException;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.*;
@@ -352,7 +352,7 @@ public class MantaroCore {
                     e.printStackTrace();
                 }
             });
-        } catch (LoginException e) {
+        } catch (InvalidTokenException e) {
             throw new IllegalStateException(e);
         }
 

@@ -18,7 +18,7 @@
 package net.kodehawa.mantarobot.commands.interaction;
 
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.kodehawa.mantarobot.MantaroBot;
 
 public class Lobby {
