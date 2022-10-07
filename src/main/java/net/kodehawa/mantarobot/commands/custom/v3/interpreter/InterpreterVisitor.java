@@ -17,7 +17,12 @@
 
 package net.kodehawa.mantarobot.commands.custom.v3.interpreter;
 
-import net.kodehawa.mantarobot.commands.custom.v3.ast.*;
+import net.kodehawa.mantarobot.commands.custom.v3.ast.LiteralNode;
+import net.kodehawa.mantarobot.commands.custom.v3.ast.MultiNode;
+import net.kodehawa.mantarobot.commands.custom.v3.ast.Node;
+import net.kodehawa.mantarobot.commands.custom.v3.ast.NodeVisitor;
+import net.kodehawa.mantarobot.commands.custom.v3.ast.OperationNode;
+import net.kodehawa.mantarobot.commands.custom.v3.ast.VariableNode;
 
 import java.util.stream.Collectors;
 

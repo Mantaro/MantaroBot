@@ -24,7 +24,10 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.meta.*;
+import net.kodehawa.mantarobot.core.command.meta.Category;
+import net.kodehawa.mantarobot.core.command.meta.Description;
+import net.kodehawa.mantarobot.core.command.meta.Help;
+import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
@@ -47,7 +50,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
+import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.getAvailableProcessors;
+import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.getFreeMemory;
+import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.getInstanceCPUUsage;
+import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.getTotalMemory;
+import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.start;
 
 @Module
 public class DebugCmds {

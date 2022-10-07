@@ -40,8 +40,17 @@ import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
 import net.kodehawa.mantarobot.commands.currency.profile.StatsComponent;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.meta.*;
-import net.kodehawa.mantarobot.core.command.slash.*;
+import net.kodehawa.mantarobot.core.command.meta.Category;
+import net.kodehawa.mantarobot.core.command.meta.Description;
+import net.kodehawa.mantarobot.core.command.meta.Help;
+import net.kodehawa.mantarobot.core.command.meta.ModalInteraction;
+import net.kodehawa.mantarobot.core.command.meta.Name;
+import net.kodehawa.mantarobot.core.command.meta.Options;
+import net.kodehawa.mantarobot.core.command.slash.ContextCommand;
+import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.slash.InteractionContext;
+import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.listeners.operations.ModalOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ModalOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
@@ -67,7 +76,16 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent.*;
+import static net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent.BADGES;
+import static net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent.BIRTHDAY;
+import static net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent.CREDITS;
+import static net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent.EXPERIENCE;
+import static net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent.HEADER;
+import static net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent.INVENTORY;
+import static net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent.MARRIAGE;
+import static net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent.OLD_CREDITS;
+import static net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent.PET;
+import static net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent.REPUTATION;
 import static net.kodehawa.mantarobot.utils.Utils.createLinkedList;
 
 @Module

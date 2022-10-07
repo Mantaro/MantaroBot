@@ -17,9 +17,17 @@
 
 package net.kodehawa.mantarobot.commands.custom.v3;
 
-import net.kodehawa.mantarobot.commands.custom.v3.ast.*;
+import net.kodehawa.mantarobot.commands.custom.v3.ast.LiteralNode;
+import net.kodehawa.mantarobot.commands.custom.v3.ast.MultiNode;
+import net.kodehawa.mantarobot.commands.custom.v3.ast.Node;
+import net.kodehawa.mantarobot.commands.custom.v3.ast.OperationNode;
+import net.kodehawa.mantarobot.commands.custom.v3.ast.VariableNode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 
 public class Parser {
     private static final Map<TokenType, Parselet> PARSELETS = new HashMap<>() {{

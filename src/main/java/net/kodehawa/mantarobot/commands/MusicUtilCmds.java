@@ -47,7 +47,9 @@ import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-import static net.kodehawa.mantarobot.commands.MusicCmds.*;
+import static net.kodehawa.mantarobot.commands.MusicCmds.isDJ;
+import static net.kodehawa.mantarobot.commands.MusicCmds.isNotInCondition;
+import static net.kodehawa.mantarobot.commands.MusicCmds.isSongOwner;
 import static org.apache.commons.lang3.StringUtils.replaceEach;
 
 @Module

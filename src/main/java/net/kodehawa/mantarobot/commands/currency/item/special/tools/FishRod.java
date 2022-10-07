@@ -19,7 +19,8 @@ package net.kodehawa.mantarobot.commands.currency.item.special.tools;
 
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
-import net.kodehawa.mantarobot.commands.currency.item.special.helpers.*;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Attribute;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.ItemUsage;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
