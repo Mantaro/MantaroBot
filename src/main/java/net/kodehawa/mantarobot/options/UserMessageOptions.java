@@ -18,7 +18,7 @@
 package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.api.entities.StandardGuildMessageChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.StandardGuildMessageChannel;
 import net.kodehawa.mantarobot.core.listeners.helpers.WelcomeUtils;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.core.OptionHandler;

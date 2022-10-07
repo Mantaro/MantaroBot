@@ -34,7 +34,12 @@ import net.kodehawa.mantarobot.db.entities.helpers.quests.Quest;
 import net.kodehawa.mantarobot.db.entities.helpers.quests.QuestTracker;
 
 import java.security.SecureRandom;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 @JsonIgnoreProperties(ignoreUnknown = true)

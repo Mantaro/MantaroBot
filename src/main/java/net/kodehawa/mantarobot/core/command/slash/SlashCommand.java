@@ -23,12 +23,25 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.core.command.meta.*;
+import net.kodehawa.mantarobot.core.command.meta.Category;
+import net.kodehawa.mantarobot.core.command.meta.Defer;
+import net.kodehawa.mantarobot.core.command.meta.Description;
+import net.kodehawa.mantarobot.core.command.meta.Ephemeral;
+import net.kodehawa.mantarobot.core.command.meta.GuildOnly;
+import net.kodehawa.mantarobot.core.command.meta.Help;
+import net.kodehawa.mantarobot.core.command.meta.ModalInteraction;
+import net.kodehawa.mantarobot.core.command.meta.Name;
+import net.kodehawa.mantarobot.core.command.meta.Options;
+import net.kodehawa.mantarobot.core.command.meta.Permission;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 public abstract class SlashCommand {

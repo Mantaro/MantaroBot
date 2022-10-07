@@ -19,7 +19,10 @@ package net.kodehawa.mantarobot.core.command.slash;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.core.command.meta.*;
+import net.kodehawa.mantarobot.core.command.meta.Defer;
+import net.kodehawa.mantarobot.core.command.meta.GuildOnly;
+import net.kodehawa.mantarobot.core.command.meta.Name;
+import net.kodehawa.mantarobot.core.command.meta.Permission;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 
 import java.util.function.Predicate;

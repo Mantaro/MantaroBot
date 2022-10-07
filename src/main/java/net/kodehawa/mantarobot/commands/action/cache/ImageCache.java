@@ -25,7 +25,11 @@ import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class ImageCache {

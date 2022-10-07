@@ -23,7 +23,12 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.utils.annotations.ConfigName;
 import net.kodehawa.mantarobot.utils.annotations.HiddenConfig;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 // The HiddenConfig annotation is used to not interfere with serialization of old configs: backwards compatibility.

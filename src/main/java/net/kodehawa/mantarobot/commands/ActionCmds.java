@@ -19,7 +19,12 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.kodehawa.mantarobot.commands.action.*;
+import net.kodehawa.mantarobot.commands.action.ImageActionCmd;
+import net.kodehawa.mantarobot.commands.action.ImageActionSlash;
+import net.kodehawa.mantarobot.commands.action.ImageCmd;
+import net.kodehawa.mantarobot.commands.action.ImageCmdSlash;
+import net.kodehawa.mantarobot.commands.action.TextActionCmd;
+import net.kodehawa.mantarobot.commands.action.TextActionSlash;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Description;

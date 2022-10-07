@@ -27,6 +27,7 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
+import net.dv8tion.jda.api.exceptions.InvalidTokenException;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -70,15 +71,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
-import javax.security.auth.login.LoginException;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static net.kodehawa.mantarobot.core.LoadState.*;
+import static net.kodehawa.mantarobot.core.LoadState.LOADED;
+import static net.kodehawa.mantarobot.core.LoadState.LOADING;
+import static net.kodehawa.mantarobot.core.LoadState.POSTLOAD;
+import static net.kodehawa.mantarobot.core.LoadState.PRELOAD;
 import static net.kodehawa.mantarobot.core.cache.EvictionStrategy.leastRecentlyUsed;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
 
@@ -352,7 +365,7 @@ public class MantaroCore {
                     e.printStackTrace();
                 }
             });
-        } catch (LoginException e) {
+        } catch (InvalidTokenException e) {
             throw new IllegalStateException(e);
         }
 

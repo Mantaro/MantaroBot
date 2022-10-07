@@ -44,7 +44,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.IntConsumer;
 
 public class DiscordUtils {
     private static final Config config = MantaroData.config().get();

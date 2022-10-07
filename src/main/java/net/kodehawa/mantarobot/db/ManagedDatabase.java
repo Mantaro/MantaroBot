@@ -24,7 +24,14 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
-import net.kodehawa.mantarobot.db.entities.*;
+import net.kodehawa.mantarobot.db.entities.CustomCommand;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.MantaroObj;
+import net.kodehawa.mantarobot.db.entities.Marriage;
+import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.PlayerStats;
+import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

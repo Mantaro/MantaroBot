@@ -21,7 +21,11 @@ import com.google.common.base.Preconditions;
 import net.kodehawa.mantarobot.utils.Utils;
 import okhttp3.Request;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

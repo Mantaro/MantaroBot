@@ -20,7 +20,7 @@ package net.kodehawa.mantarobot.commands.interaction.polls;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
@@ -33,7 +33,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Future;

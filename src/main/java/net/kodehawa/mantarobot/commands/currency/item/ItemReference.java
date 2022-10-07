@@ -17,7 +17,11 @@
 
 package net.kodehawa.mantarobot.commands.currency.item;
 
-import net.kodehawa.mantarobot.commands.currency.item.special.*;
+import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
+import net.kodehawa.mantarobot.commands.currency.item.special.Fish;
+import net.kodehawa.mantarobot.commands.currency.item.special.Food;
+import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
+import net.kodehawa.mantarobot.commands.currency.item.special.Water;
 import net.kodehawa.mantarobot.commands.currency.item.special.gems.CastedGem;
 import net.kodehawa.mantarobot.commands.currency.item.special.gems.Gem;
 import net.kodehawa.mantarobot.commands.currency.item.special.gems.Sparkle;
