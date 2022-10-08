@@ -524,7 +524,7 @@ public enum Badge {
     ),
 
     COMPULSIVE_BUYER("Compulsive Buyer", "\uD83D\uDDDE",
-            "Succesfully use market buy or sell more than 1,000 times.",
+            "Successfully use market buy or sell more than 1,000 times.",
             91, 92,
             (player, stats, dbUser) -> player.getData().getMarketUsed() > 1000, false
     ),
