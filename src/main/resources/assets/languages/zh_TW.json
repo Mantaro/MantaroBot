@@ -468,12 +468,12 @@
       "lockcommand": {
         "no_permission": "%1$s你需要權限**管理伺服器**才能夠鎖定和解鎖指令。",
         "no_command": "%1$s你需要指出你想鎖定的指令名稱。",
-        "success": "%1$s已成功鎖定指令 `%2$s`。你將需要解鎖他來進行編輯。"
+        "success": "%1$sSuccessfully locked the `%2$s` command. You'll need to unlock it for further edits."
       },
       "unlockcommand": {
         "no_command": "%1$s你需要指出你想解鎖的指令名稱。",
         "not_locked": "%1$s這條指令尚未被鎖定。",
-        "success": "%1$s已成功解鎖指令 `%2$s`。你將需要鎖定他來避免編輯。"
+        "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
       },
       "character_not_allowed": "%1$s自定義指令名稱內不允許使用這個字符。",
       "already_exists": "%1$s指令 `%2$s` 已經存在且是默認的指令。",
@@ -982,13 +982,13 @@
         "example": "\nExample: `/profile widgets order:header, credits, reputation, birthday, marriage, badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
       },
       "claimlock": {
-        "removed": "%1$s成功重置你的認領鎖狀態。",
+        "removed": "%1$sSuccessfully reset your claim lock status.",
         "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/waifu claimlock remove:true` to remove it later.",
         "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `/buy item:claim key`",
         "already_locked": "%1$sYou're already claim locked. Use `/waifu claimlock remove:true` to remove it."
       },
       "autoequip": {
-        "disable": "%1$s成功取消自動裝備。",
+        "disable": "%1$sSuccessfully disabled auto-equip.",
         "success": "%1$s已開啟自動裝備。"
       },
       "badge_header": "%1$s 展示徽章",
@@ -1413,7 +1413,7 @@
         "no_need": "%1$s你的寵物目前還不餓，他們還不想吃東西。",
         "not_inventory": "%1$s你沒有該物品。確定你擁有他且有正確的數量 (%2$s)。",
         "not_applicable": "%1$s你不能將這種食物餵給你的寵物。",
-        "success": "%1$s太棒了！成功餵養你的寵物 %3$s 個 `%2$s`，他回復了 %4$s%% 飢餓度。現在為 %5$s%%。",
+        "success": "%1$sYay! Successfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now %5$s%% satisfied.",
         "too_much": "%1$s也許給他少一點食物看看？不要浪費食物！(增加的飢餓度將超過100%%)"
       },
       "water": {
@@ -1422,7 +1422,7 @@
         "not_inventory": "%1$s你還沒有水瓶。確保他在你的背包裡。",
         "not_enough_inventory": "%1$s你背包裡的水瓶不夠！你需要 %2$s 個。",
         "too_much": "%1$s也許給他少一點水看看？水是很珍貴的！(增加的口渴度將超過100%%)",
-        "success": "%1$s太棒了！成功給了你的寵物 %2$d 瓶水，他回復了 %3$s%% 口渴度。現在為 %4$s%%。"
+        "success": "%1$sYay! Successfully gave your pet %2$d water and it recovered %3$s%% of their thirst. Their thirst is now %4$s%% quenched."
       },
       "activity": {
         "low_stamina": "%1$s**%2$s** 的耐力過低。給他一些水和食物來補充。",
@@ -1975,7 +1975,7 @@
       "success": "%1$s已將記錄時區設置為 `%2$s`。此時區將被用於訊息記錄來顯示時間。"
     },
     "logs_timezonereset": {
-      "success": "%1$s記錄時區已重設。"
+      "success": "%1$sSuccessfully reset log timezone."
     },
     "lobby_reset": {
       "success": "%1$s大廳已重設。"
@@ -2219,7 +2219,7 @@
     },
     "modlog_blacklistwords_remove": {
       "not_in": "%1$sWord `%2$s` isn't in the blacklist.",
-      "success": "%1$sSuccesfully removed word `%2$s` from the modlog blacklist."
+      "success": "%1$sSuccessfully removed word `%2$s` from the modlog blacklist."
     },
     "logs_editmessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone edits a message!",
