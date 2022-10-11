@@ -15,7 +15,7 @@
  *
  */
 
-package net.kodehawa.mantarobot.utils;
+package net.kodehawa.mantarobot.utils.commands;
 
 import java.util.NavigableMap;
 import java.util.Random;

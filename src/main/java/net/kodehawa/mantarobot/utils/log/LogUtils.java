@@ -15,7 +15,7 @@
  *
  */
 
-package net.kodehawa.mantarobot.log;
+package net.kodehawa.mantarobot.utils.log;
 
 import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.WebhookClientBuilder;

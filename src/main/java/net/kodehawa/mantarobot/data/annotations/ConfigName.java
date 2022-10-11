@@ -15,9 +15,12 @@
  *
  */
 
-package net.kodehawa.mantarobot.utils;
+package net.kodehawa.mantarobot.data.annotations;
 
-@FunctionalInterface
-public interface TriConsumer<T, U, V> {
-    void accept(T t, U u, V v);
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ConfigName {
+    String value() default "unknown";
 }
