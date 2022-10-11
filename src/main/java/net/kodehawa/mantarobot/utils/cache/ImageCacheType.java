@@ -15,6 +15,6 @@
  *
  */
 
-package net.kodehawa.mantarobot.commands.action.cache;
+package net.kodehawa.mantarobot.utils.cache;
 
 public record ImageCacheType(String type, String url, String id) { }

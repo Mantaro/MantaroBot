@@ -15,7 +15,7 @@
  *
  */
 
-package net.kodehawa.mantarobot.commands.action.cache;
+package net.kodehawa.mantarobot.utils.cache;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -33,7 +33,6 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class ImageCache {
-
     @JsonIgnore
     private static final Random rand = new Random();
     @JsonIgnore
