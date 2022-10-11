@@ -23,6 +23,9 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.StandardGuildChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.StandardGuildMessageChannel;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -72,7 +75,7 @@ public class BirthdayOptions extends OptionHandler {
                 final var guildData = dbGuild.getData();
                 final var guild = ctx.getGuild();
 
-                var birthdayChannel = guildData.getBirthdayChannel() == null ? null : guild.getTextChannelById(guildData.getBirthdayChannel());
+                var birthdayChannel = guildData.getBirthdayChannel() == null ? null : guild.getChannelById(StandardGuildMessageChannel.class, guildData.getBirthdayChannel());
                 var birthdayRole = guildData.getBirthdayRole() == null ? null : guild.getRoleById(guildData.getBirthdayRole());
 
                 if (birthdayChannel == null) {
