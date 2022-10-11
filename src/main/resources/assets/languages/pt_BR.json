@@ -468,12 +468,12 @@
       "lockcommand": {
         "no_permission": "%1$sVocê precisa da permissão de Gerenciar Servidor pra bloquear e desbloquear comandos.",
         "no_command": "%1$sVocê tem que especificar o comando que você quer bloquear.",
-        "success": "%1$sBloqueado com sucesso o comando `%2$s`. Você precisará desbloquear para futuras edições."
+        "success": "%1$sSuccessfully locked the `%2$s` command. You'll need to unlock it for further edits."
       },
       "unlockcommand": {
         "no_command": "%1$sVocê tem que especificar o comando que você quer desbloquear.",
         "not_locked": "%1$sEste comando não está bloqueado.",
-        "success": "%1$sDesbloqueado com sucesso o comando `%2$s`. Você precisará bloquear depois se você quiser evitar futuras edições."
+        "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
       },
       "character_not_allowed": "%1$sEste caractere não é permitido em nomes de comandos personalizados.",
       "already_exists": "%1$sO comando `%2$s` já existe e é um comando padrão do bot.",
@@ -982,13 +982,13 @@
         "example": "\nExample: `/profile widgets order:header, credits, reputation, birthday, marriage, badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
       },
       "claimlock": {
-        "removed": "%1$sResetado com sucesso seu status de claim lock.",
+        "removed": "%1$sSuccessfully reset your claim lock status.",
         "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/waifu claimlock remove:true` to remove it later.",
         "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `/buy item:claim key`",
         "already_locked": "%1$sYou're already claim locked. Use `/waifu claimlock remove:true` to remove it."
       },
       "autoequip": {
-        "disable": "%1$sAuto-equipar desativado com sucesso.",
+        "disable": "%1$sSuccessfully disabled auto-equip.",
         "success": "%1$sAuto-equipar ativado."
       },
       "badge_header": "%1$sInsígnia Exibida",
@@ -1344,6 +1344,7 @@
         "stamina": "Estâmina",
         "dust": "Poeira (%)",
         "pet": "Carinhos",
+        "choice": "Choice",
         "buildup": "Acréscimo de Crédios / Itens",
         "buildup_coin": "Acréscimo de Créditos",
         "buildup_stats": "%1$,d créditos / %2$,d itens",
@@ -1412,7 +1413,7 @@
         "no_need": "%1$sSeu pet não está faminto, então ele não quer comer agora.",
         "not_inventory": "%1$sVocê não tem o item que você quer dar pro pet comer. Certifique-se de que está em seu inventário e de que você tem a quantidade certa (%2$s).",
         "not_applicable": "%1$sVocê não pode dar essa comida pra esse tipo de pet.",
-        "success": "%1$sYay! Pet alimentado com sucesso com `%2$s` x%3$s e ele recuperou %4$s%% de sua fome. A fome agora está %5$s%% satisfeita.",
+        "success": "%1$sYay! Successfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now %5$s%% satisfied.",
         "too_much": "%1$sQue tal um pouco menos de comida? Você só vai desperdiçar com esse tanto aí! (A quantidade que você colocou é mais do que a necessária para recuperar 100%% da fome)"
       },
       "water": {
@@ -1421,7 +1422,7 @@
         "not_inventory": "%1$sVocê não tem uma Garrafa d'Água. Certifique-se de que está em seu inventário.",
         "not_enough_inventory": "%1$sVocê não tem garrafas d'água suficiente no seu inventário! Você precisa de %2$s.",
         "too_much": "%1$sQue tal dar um pouco menos de água? Você só vai desperdiçar água com esse tanto aí! (A quantidade que você colocou é mais do que a necessária para recuperar 100%% da sede)",
-        "success": "%1$sYay! %2$d de água foi dada com sucesso ao seu pet e ele recuperou %3$s%% de sua sede. A sede dele agora está %4$s%% apagada."
+        "success": "%1$sYay! Successfully gave your pet %2$d water and it recovered %3$s%% of their thirst. Their thirst is now %4$s%% quenched."
       },
       "activity": {
         "low_stamina": "%1$s**%2$s** tem uma estâmina muito baixa. Dê a ele comida/água para reabastecer.",
@@ -1974,7 +1975,7 @@
       "success": "%1$sFuso horário modificado para `%2$s`. Este fuso horário será utilizado para indicar as horas nos registros de moderação."
     },
     "logs_timezonereset": {
-      "success": "%1$sFuso horário dos registros resetado com sucesso."
+      "success": "%1$sSuccessfully reset log timezone."
     },
     "lobby_reset": {
       "success": "%1$sResetando o lobby corretamente."
@@ -2218,7 +2219,7 @@
     },
     "modlog_blacklistwords_remove": {
       "not_in": "%1$sPalavra `%2$s` não está na lista negra.",
-      "success": "%1$sRemovido com sucesso a palavra `%2$s` do modlog da lista negra."
+      "success": "%1$sSuccessfully removed word `%2$s` from the modlog blacklist."
     },
     "logs_editmessage": {
       "no_message": "%1$sVocê precisa especificar qual mensagem que você quer que eu diga quando alguém editar uma mensagem!",

@@ -468,12 +468,12 @@
       "lockcommand": {
         "no_permission": "%1$sAnda memerlukan kebenaran Mengurus Pelayan untuk mengunci dan membuka arahan.",
         "no_command": "%1$sAnda harus menyatakan arahan yang ingin anda mengunci.",
-        "success": "%1$sBerjaya mengunci arahan `%2$s`. Anda hendaklah membukanya untuk mengedit lebih lanjut."
+        "success": "%1$sSuccessfully locked the `%2$s` command. You'll need to unlock it for further edits."
       },
       "unlockcommand": {
         "no_command": "%1$sAnda harus menyatakan arahan yang ingin anda membuka.",
         "not_locked": "%1$sArahan ini tidak dikunci.",
-        "success": "%1$sBerjaya membuka arahan `%2$s`. Anda hendaklah menguncinya nanti jika ingin mengelakkan edit selanjutnya."
+        "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
       },
       "character_not_allowed": "%1$sAksara ini tidak dibenarkan dalam nama arahan kustom.",
       "already_exists": "%1$sArahan `%2$s` sudah wujud, ia merupakan arahan bot secara default.",
@@ -982,13 +982,13 @@
         "example": "\nExample: `/profile widgets order:header, credits, reputation, birthday, marriage, badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
       },
       "claimlock": {
-        "removed": "%1$sBerjaya menetapkan status kunci tuntutan anda.",
+        "removed": "%1$sSuccessfully reset your claim lock status.",
         "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/waifu claimlock remove:true` to remove it later.",
         "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `/buy item:claim key`",
         "already_locked": "%1$sYou're already claim locked. Use `/waifu claimlock remove:true` to remove it."
       },
       "autoequip": {
-        "disable": "%1$sPasangan auto telah dimatikan.",
+        "disable": "%1$sSuccessfully disabled auto-equip.",
         "success": "%1$sPasangan auto telah diaktifkan."
       },
       "badge_header": "%1$s Lencana Paparan",
@@ -1344,6 +1344,7 @@
         "stamina": "Stamina",
         "dust": "Habuk (%)",
         "pet": "Belaian",
+        "choice": "Choice",
         "buildup": "Kenaikan Kredit / Item",
         "buildup_coin": "Kenaikan Kredit",
         "buildup_stats": "%1$,d kredit / %2$,d item",
@@ -1412,7 +1413,7 @@
         "no_need": "%1$sHaiwan peliharaan anda tidak lapar, jadi ia tidak mahu makan buat masa ini.",
         "not_inventory": "%1$sAnda tidak mempunyai makanan yang ingin diberi kepada haiwan peliharaan anda. Pastikan ia di dalam inventori anda dan anda mempunyai bilangan yang betul (%2$s).",
         "not_applicable": "%1$sAnda tidak boleh memberi makanan ini kepada jenis haiwan peliharaan anda.",
-        "success": "%1$sSyabas! Haiwan peliharaan anda telah diberi makanan `%2$s` x%3$s dan ia memulihkan %4$s%% kelaparannya. Kini, kelaparannya ialah %5$s%% kenyang.",
+        "success": "%1$sYay! Successfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now %5$s%% satisfied.",
         "too_much": "%1$sMungkin memberinya lebih kurang makanan? Jika tidak, anda akan membazirkan makanan! (Bilangan digunakan akan melebihi 100%% kelaparan)"
       },
       "water": {
@@ -1421,7 +1422,7 @@
         "not_inventory": "%1$sAnda tidak mempunyai Botol Air. Pastikan ia di dalam inventori anda.",
         "not_enough_inventory": "%1$sAnda tidak mempunyai botol air yang mencukupi di dalam inventori anda! Anda memerlukan %2$s.",
         "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (The amount used would surpass 100%% thirst)",
-        "success": "%1$sSyabas! Haiwan peliharaan anda telah diberi %2$d air dan ia memulihkan %3$s%% kedahagaannya. Kini, kedahagaannya ialah %4$s%% dihilangkan."
+        "success": "%1$sYay! Successfully gave your pet %2$d water and it recovered %3$s%% of their thirst. Their thirst is now %4$s%% quenched."
       },
       "activity": {
         "low_stamina": "%1$s**%2$s** mempunyai stamina yang amat rendah. Memberinya makanan/air untuk memulihkannya.",
@@ -1974,7 +1975,7 @@
       "success": "%1$sZon masa log ditetapkan kepada `%2$s`. Zon masa ini akan digunakan untuk memaparkan pada log moderasi."
     },
     "logs_timezonereset": {
-      "success": "%1$sZon masa log berjaya ditetapkan semula."
+      "success": "%1$sSuccessfully reset log timezone."
     },
     "lobby_reset": {
       "success": "%1$sLobi telah ditetapkan semula."
@@ -2218,7 +2219,7 @@
     },
     "modlog_blacklistwords_remove": {
       "not_in": "%1$sPerkataan `%2$s` tidak ada di dalam senarai hitam.",
-      "success": "%1$sPerkataan `%2$s` berjaya dipadamkan dari senarai hitam modlog."
+      "success": "%1$sSuccessfully removed word `%2$s` from the modlog blacklist."
     },
     "logs_editmessage": {
       "no_message": "%1$sAnda perlu menyatakan mesej apa yang anda mahu saya menghantar apabila seseorang mengedit mesej!",

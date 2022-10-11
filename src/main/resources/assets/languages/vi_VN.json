@@ -468,12 +468,12 @@
       "lockcommand": {
         "no_permission": "%1$sBạn cần quyền quản lý máy chủ (Manage Server) để khoá và mở khoá câu lệnh trên.",
         "no_command": "%1$sBạn cần ghi rõ câu lệnh mà bạn muốn khoá.",
-        "success": "%1$sKhoá thành công câu lệnh `%2$s`. Bạn sẽ cần mở khoá nó trước khi thực hiện các thao tác khác."
+        "success": "%1$sSuccessfully locked the `%2$s` command. You'll need to unlock it for further edits."
       },
       "unlockcommand": {
         "no_command": "%1$sBạn cần phải ghi rõ ra câu lệnh mà bạn muốn mở khoá.",
         "not_locked": "%1$sCâu lệnh này không bị khoá.",
-        "success": "%1$sMở khoá thành công câu lệnh `%2$s`. Bạn sẽ cần khoá nó sau này nếu bạn muốn tránh thực hiện các thao tác khác."
+        "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
       },
       "character_not_allowed": "%1$sKý tự này không được phép có ở tên của lệnh tùy chỉnh.",
       "already_exists": "%1$sLệnh `%2$s` đã tồn tại và nó là lệnh mặc định của bot.",
@@ -982,13 +982,13 @@
         "example": "\nExample: `/profile widgets order:header, credits, reputation, birthday, marriage, badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
       },
       "claimlock": {
-        "removed": "%1$sĐặt lại thành công trạng thái khóa xác nhận quyền sở hữu của bạn.",
+        "removed": "%1$sSuccessfully reset your claim lock status.",
         "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/waifu claimlock remove:true` to remove it later.",
         "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `/buy item:claim key`",
         "already_locked": "%1$sYou're already claim locked. Use `/waifu claimlock remove:true` to remove it."
       },
       "autoequip": {
-        "disable": "%1$sĐã vô hiệu hoá tự động trang bị thành công.",
+        "disable": "%1$sSuccessfully disabled auto-equip.",
         "success": "%1$sĐã bật chức năng tự động trang bị."
       },
       "badge_header": "%1$sHuy hiệu hiển thị",
@@ -1344,6 +1344,7 @@
         "stamina": "Thể lực",
         "dust": "Độ bẩn (%)",
         "pet": "Xoa đầu",
+        "choice": "Choice",
         "buildup": "Đồng / Vật phẩm tăng lên",
         "buildup_coin": "Tiền tăng lên",
         "buildup_stats": "%1$,d đồng / %2$,d vật phẩm",
@@ -1412,7 +1413,7 @@
         "no_need": "%1$sThú cưng của bạn không đói, nên có lẽ hiện giờ nó không muốn ăn.",
         "not_inventory": "%1$sBạn không có đồ ăn mà bạn muốn cho thú cưng của mình ăn. Hãy chắc chắn rằng nó trong túi đồ của bạn và bạn nhập đúng số lượng (%2$s).",
         "not_applicable": "%1$sBạn không thể cho thú cưng ăn đồ ăn không cùng loại này được.",
-        "success": "%1$sYay! Thành công cho thú cưng của bạn ăn `%3$s %2$s` và hồi được %4$s%% thanh thức ăn. Thanh thức ăn của thú cưng hiện giờ là %5$s%%.",
+        "success": "%1$sYay! Successfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now %5$s%% satisfied.",
         "too_much": "%1$sHay là cho nó ít thức ăn hơn đi? Bạn đang lãng phí thức ăn đó! (Số lượng bạn đưa ra vượt quá 100%% thanh thức ăn)"
       },
       "water": {
@@ -1421,7 +1422,7 @@
         "not_inventory": "%1$sBạn không có chai nước. Hãy chắc chắn rằng nó nằm trong túi đồ của bạn.",
         "not_enough_inventory": "%1$sKhông đủ chai nước có trong túi đồ của bạn. Bạn cần %2$s.",
         "too_much": "%1$sHay là cho nó ít thức uống hơn đi? Bạn đang lãng phí đồ uống đó! (Số lượng bạn đưa ra vượt quá 100%% thanh khát)",
-        "success": "%1$sYay! Thành công cho thú cưng của bạn uống %2$d chai nước và hồi được %3$s%% độ khát. Thanh khát của thú cưng hiện giờ là %4$s%%."
+        "success": "%1$sYay! Successfully gave your pet %2$d water and it recovered %3$s%% of their thirst. Their thirst is now %4$s%% quenched."
       },
       "activity": {
         "low_stamina": "%1$sThể lực hiện tại của **%2$s** thực sự rất thấp. Hãy cho nó ăn/uống để hồi phục.",
@@ -1974,7 +1975,7 @@
       "success": "%1$sChỉnh múi giờ nhật kí thành `%2$s`. Múi giờ này sẽ được sử dụng để hiển thị thời gian trên nhật ký chỉnh sửa."
     },
     "logs_timezonereset": {
-      "success": "%1$sĐã đặt lại múi giờ nhật kí thành công."
+      "success": "%1$sSuccessfully reset log timezone."
     },
     "lobby_reset": {
       "success": "%1$sĐã đặt lại sảnh."
@@ -2218,7 +2219,7 @@
     },
     "modlog_blacklistwords_remove": {
       "not_in": "%1$sTừ `%2$s` không nằm trong danh sách đen.",
-      "success": "%1$sĐã loại bỏ từ `%2$s` ra khỏi danh sách đen modlog."
+      "success": "%1$sSuccessfully removed word `%2$s` from the modlog blacklist."
     },
     "logs_editmessage": {
       "no_message": "%1$sBạn phải ghi rõ tin nhắn bạn muốn tui nói khi ai đó chỉnh sửa tin nhắn chứ!",
