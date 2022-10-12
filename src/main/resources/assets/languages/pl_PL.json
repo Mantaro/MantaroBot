@@ -36,7 +36,7 @@
     "query_too_small": "%1$sTwoje zapytanie jest za krótkie. Upewnij się, że wyszukujesz co najmniej 4 znaki. Jeśli nazwa użytkownika jest zbyt krótka, lepiej użyć nazwy użytkownika#dyskryminator lub id użytkownika.",
     "dust": "Jest tutaj tylko kurz.",
     "invalid_syntax": "Niepoprawna składnia.",
-    "birthday": "**New birthdays for today, wish them Happy Birthday!**",
+    "birthday": "**Dzisiejsze urodziny, życzę wam wszystkiego najlepszego!**",
     "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
     "item_lookup": {
@@ -1053,23 +1053,23 @@
       "success": "%1$sAdded reputation to **%2$s**"
     },
     "birthday": {
-      "reset": "%1$sCorrectly reset birthday date.",
-      "no_guild_birthdays": "%1$sThings seems a bit empty here.\nRemember that cache refreshes every 23h and that now people have to run `/birthday allowserver` to allow this server to announce their birthdays.",
-      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `/birthday allowserver` to allow this server to announce their birthdays.",
-      "cache_not_running": "%1$sThe Birthday cacher doesn't seem to be running (internal error) :(",
-      "error": "%1$sSomething went wrong while getting birthdays (internal error) :(",
-      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out. Showing up to 100 results.\n",
-      "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `/birthday allowserver`. Showing up to 100 results.",
-      "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `/birthday 16-11` for the 16th of November).\nIf the month or day has only one digit you need to append a 0 to it. For example, 14/7 would become 14/07 and 7/12 would become 07/12.",
-      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `/birthday allowserver`%3$s",
-      "invalid_month": "%1$sThat's not a valid month number! (Valid months are numbers from 1 to 12)",
-      "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `/birthday allowserver`",
-      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part.",
-      "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `/birthday denyserver` on this server.",
-      "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `/birthday allowserver` on this server.",
-      "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `/birthday allowserver` instead. This is the default.",
-      "leap": "Your birthday is on the 29th of February, which means it'll get announced on the 29th on leap years, and on the 28th of February on non-leap years.",
-      "already_allowed": "%1$sYou already allowed this server to show your birthday."
+      "reset": "%1$sPoprawnie zresetowano datę urodzin.",
+      "no_guild_birthdays": "%1$sWydaje się, że jest tu trochę pusto.\nPamiętaj, że pamięć podręczna odświeża się co 23 godziny oraz że osoby muszą użyć `/birthday allowserver`, aby umożliwić temu serwerowi ogłaszanie ich urodzin.",
+      "no_guild_month_birthdays": "%1$sW tym miesiącu nie ma urodzin (%2$s) Hej :(\n%3$sJeśli właśnie ustawiłeś ogłaszanie urodzin, poczekaj chwilę, aż go uruchomię. (Cache odświeża się co 23h)\nPamiętaj, że teraz osoby muszą użyć `/birthday allowserver`, aby umożliwić temu serwerowi ogłaszanie ich urodzin.",
+      "cache_not_running": "%1$sWygląda na to, że pamięć podręczna urodzin nie działa (błąd wewnętrzny) :(",
+      "error": "%1$sCoś poszło nie tak podczas pobierania urodzin (błąd wewnętrzny) :(",
+      "header": "**%1$s's Urodziny na %2$s**\nPamięć podręczna urodzin jest aktualizowana co 23 godziny, więc jeśli twoje urodziny nie pojawiają się tutaj, nie panikuj i przeczekaj. Pokazuje do 100 wyników.\n",
+      "full_header": "**%1$s's Urodziny**\n%2$s\nPamiętaj, że urodziny są zapisywane w pamięci podręcznej co 23 godziny i trzeba użyć polecenia `/birthday allowserver`. Pokazuje do 100 wyników.",
+      "error_date": "%1$sWprowadzona data jest nieprawidłowa lub nie mogę jej poprawnie przeanalizować. Spróbuj z poprawnym formatowaniem.\nPamiętaj, że format daty to `dd/mm` (Na przykład użyj `/birthday 16-11` aby ustawić datę 16 listopada).\nJeśli miesiąc lub dzień ma tylko jedną cyfrę, musisz dopisać do niego 0. Na przykład 14/7 to 14/07, natomiast 7/12 będzie 07/12.",
+      "added_birthdate": "%1$sPomyślnie dodano datę urodzenia. Nowa data urodzin: %2$s *(Format: dd-MM)* [day-month]. Aby ten serwer ogłaszał Twoje urodziny, musisz teraz użyć `/birthday allowserver`%3$s",
+      "invalid_month": "%1$sTo nie jest prawidłowy numer miesiąca! (Ważne miesiące to liczby od 01 do 12)",
+      "no_content": "%1$sMusisz podać swoją datę urodzenia, `remove`, aby zresetować ją lub `month`, aby sprawdzić listę miesięcy urodzinowych. Następnie, aby ten serwer ogłosił twoje urodziny, musisz użyć `/birthday allowserver`",
+      "new_format": "%1$sNowy format daty to po prostu `dd-mm` (dzień-miesiąc, na przykład 20-10 to 20 październik). Nie musisz teraz wpisywać roku, więc możesz pominąć tę część.",
+      "allowed_server": "%1$sZezwolono temu serwerowi na ogłaszanie twoich urodzin. Aby odmówić w przyszłości, po prostu użyj `/birthday denyserver` na tym serwerze.",
+      "denied": "%1$sOdmówiono temu serwerowi ogłoszenia twoich urodzin. Aby zezwolić na to w przyszłości, po prostu użyj `/birthday allowserver` na tym serwerze.",
+      "already_denied": "%1$sTen serwer nie może ogłosić twoich urodzin. Jeśli chcesz na to zezwolić, użyj zamiast tego `/birthday allowserver`. (Ustawienie domyślne)",
+      "leap": "Twoje urodziny są 29 lutego, co oznacza, że zostaną ogłoszone 29 lutego w latach przestępnych, a 28 lutego w latach innych niż przestępne.",
+      "already_allowed": "%1$sZezwoliłeś już temu serwerowi na pokazywanie Twoich urodzin."
     },
     "remindme": {
       "nothing_specified": "%1$sWhat could I remind you of if you don't give me what to remind you? Oh! Lemme remind you of setting a reminder!",
@@ -1997,21 +1997,21 @@
       "success": "%1$sSuccessfully un-blacklisted %2$s from image search."
     },
     "birthday_enable": {
-      "no_args": "%1$sYou need to specify the channel name and the role name.",
-      "administrative_role": "%1$sThis role contains administrative permissions and therefore cannot be set as a Birthday role.",
-      "public_role": "%1$sYou cannot set the everyone role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
-      "autorole": "%1$sYou cannot set the autorole role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
-      "warning": "%1$sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
-      "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and un-assigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://www.mantaro.site/mantaro-wiki/guides/birthday-announcer> for more info.",
-      "warning_3": "Additionally the birthday cache (what is used to store them) is only updated every 23 hours. Meaning if you set your birthday today to tomorrow to test this announcer it will **not** work.",
-      "warning_4": "Type **yes** if you agree to set the role %2$s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
-      "success": "%1$sBirthday logging enabled on this server with parameters -> Channel: `%2$s (%3$s)` and role: `%4$s (%5$s)`",
-      "error_channel_1": "%1$sI didn't find a channel or role!",
-      "error_channel_2": "*Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".* If the role contains spaces \"wrap it in quotes like this\""
+      "no_args": "%1$sMusisz podać nazwę kanału i nazwę roli.",
+      "administrative_role": "%1$sTa rola zawiera uprawnienia administracyjne i dlatego nie może być ustawiona jako rola urodzinowa.",
+      "public_role": "%1$sNie możesz ustawić roli `everyone` jako roli urodzinowej! Pamiętaj, że rola urodzinowa to rola, która jest przypisywana do osoby, gdy nadejdą urodziny, a następnie usuwana, gdy dzień mija.",
+      "autorole": "%1$sNie możesz ustawić roli `autorole` jako roli urodzinowej! Pamiętaj, że rola urodzinowa to rola, która jest przypisywana do osoby, gdy nadejdą urodziny, a następnie usuwana, gdy dzień mija.",
+      "warning": "%1$sPamiętaj, że rola urodzinowa to rola, która jest przypisywana osobie, gdy nadejdą urodziny, a następnie usuwana, gdy dzień minie. Jeśli masz wątpliwości, jak ją skonfigurować, zawsze możesz dołączyć do naszej gildii wsparcia i zapytać. Możesz także sprawdzić na przykład `~>opts help birthday enable`.",
+      "warning_1": "Dzieje się tak ze względu na sposób działania narzędzia do przypisywania urodzin: przypisuje on tymczasową rolę osobie, która ma urodziny, i cofa ją, gdy minie dzień urodzin. **Oznacza to, że wszyscy z rolą urodzinową zostaną jej pozbawieni w dniu, w którym miną ich urodziny**. Zachowaj ostrożność podczas wybierania roli, ponieważ błędna konfiguracja może spowodować niepożądane rzeczy (naprawdę)!",
+      "warning_2": "Rola ta *musi być nowo utworzoną rolą lub rolą, do której nikt nie jest przypisany*. NIE MOŻE to być rola, która jest już przypisana do kogokolwiek. Użytkownicy będą musieli zezwolić temu serwerowi na ogłaszanie swoich urodzin za pomocą `/birthday allowserver` w przeciwnym razie ich urodziny nie pojawią się! Przeczytaj <https://www.mantaro.site/mantaro-wiki/guides/birthday-announcer>, aby uzyskać więcej informacji.",
+      "warning_3": "Dodatkowo pamięć podręczna urodzin (to, co służy do ich przechowywania) jest aktualizowane tylko co 23 godziny. Oznacza to, że jeśli ustawisz swoje urodziny dzisiaj na jutro, aby przetestować ten komunikator, to to **nie** zadziała.",
+      "warning_4": "Wpisz **yes** jeśli zgadzasz się ustawić rolę %2$s jako rolę urodzinową lub **no**, aby anulować. Czas na odpowiedź mija po 45 sekundach.",
+      "success": "%1$Rejestrowanie urodzin zostało włączone na tym serwerze z następującymi ustawieniami -> Kanał: `%2$s (%3$s)` Rola: `%4$s (%5$s)`",
+      "error_channel_1": "%1$sNie znalazłam kanału lub roli!",
+      "error_channel_2": "*Pamiętaj, że nie musisz nadmieniać roli ani kanału, wystarczy wpiszesz jego nazwę w kolejności <kanał> <rola>, oczywiśćie bez \"<>\".* Jeśli rola zawiera spacje \"wpisz ją w cudzysłowie w ten sposób\""
     },
     "birthday_disable": {
-      "success": "%1$sBirthday logging has been disabled on this server"
+      "success": "%1$sRejestrowanie urodzin zostało wyłączone na tym serwerze"
     },
     "prefix_set": {
       "no_prefix": "%1$sYou need to tell me what prefix you want to use.",
@@ -2150,11 +2150,11 @@
       "success": "%1$sThe level-up channel has been set to: %2$s"
     },
     "birthday_message_set": {
-      "no_message": "%1$sYou need to specify the message you want to show on birthday. *Tip: The username of the person is done using the $(user) argument on the message*",
-      "success": "%1$sServer birthday message set to: %2$s"
+      "no_message": "%1$sMusisz określić wiadomość, którą chcesz pokazać w dniu urodzin. *Wskazówka: nazwa użytkownika jest wykonywana za pomocą argumentu $(user) w wiadomości*",
+      "success": "%1$sWiadomość o urodzinach na serwerze ustawiono na: %2$s"
     },
     "birthday_message_clear": {
-      "success": "%1$sCleared birthday message!"
+      "success": "%1$sUsunięto wiadomość urodzinową!"
     },
     "defaultmutetimeout_set": {
       "too_short": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
@@ -2171,14 +2171,14 @@
       "success": "%1$sCorrectly reset your options!"
     },
     "birthday_test": {
-      "no_user": "%1$sYou need to specify a user to test the assigner with. Just mention them.",
-      "no_bd_channel": "%1$sYou don't have any birthday channel set!",
-      "no_bd_role": "%1$sYou don't have any role set for the birthday setter! Make sure you create a new role for it.",
-      "no_talk_permission": "%1$sThe bot cannot speak on the birthday channel. Check channel permissions.",
-      "cannot_interact": "%1$sThe bot is unable to interact with the birthday role. (This means the birthday role is higher than the bot's highest role on the role hierarchy, put it below and try again)",
-      "no_role_permission": "%1$sThe bot is missing the Manage Roles permission.",
-      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role **%4$s**\nKeep in mind the birthday testing message won't ping anyone nor any roles. The actual message can ping users and roles, but can't ping everyone or here.",
-      "error": "%1$sOw... There was an error while sending the message on channel %2$s for user **%3$s** and role %4$s"
+      "no_user": "%1$sMusisz określić użytkownika, na którym chcesz to przetestować. Wystarczy o nim wspomnieć.",
+      "no_bd_channel": "%1$sNie masz ustawionego kanału urodzinowego!",
+      "no_bd_role": "%1$sNie masz żadnej ustawionej roli, która zostanie przypisana osobie w dniu urodzin! Upewnij się, że masz na ten cel przygotowaną nową nieużywaną rolę.",
+      "no_talk_permission": "%1$sBot nie może pisać na kanale urodzinowym. Sprawdź uprawnienia kanału.",
+      "cannot_interact": "%1$sBot nie może wchodzić w interakcje z rolą urodzinową. (Oznacza to, że rola urodzinowa jest wyższa niż najwyższa rola bota w hierarchii ról, umieść ją poniżej i spróbuj ponownie)",
+      "no_role_permission": "%1$sBot nie ma uprawnień do zarządzania rolami.",
+      "success": "%1$sGotowe! Wiadomość została wysłana na kanale %2$s dla użytkownika **%3$s**. Przypisano mu rolę **%4$s**\nPamiętaj, że wiadomość o urodzinach nie będzie pingować `anyone` ani żadnej roli. Wiadomość może pingować użytkowników i role, ale nie można pingować `everyone` ani `here`.",
+      "error": "%1$sOh... Wystąpił błąd podczas wysyłania wiadomości na kanale %2$s dla użytkownika **%3$s** i roli %4$s"
     },
     "usermessage_joinmessage_add": {
       "no_message": "%1$sYou need to specify what extra message you want me to say when someone joins!",
@@ -2243,12 +2243,12 @@
       "success": "%1$sDisplay warning on disabled command is set to: %2$s"
     },
     "birthdayblacklist": {
-      "no_args": "%1$sYou need to specify who to blacklist from birthday announcements.",
+      "no_args": "%1$sMusisz określić, kogo umieścić na czarnej liście dotyczącej ogłoszeń urodzinowych.",
       "add": {
-        "success": "%1$sSuccessfully added %2$s (%3$s) to the birthday announcement blacklist for this server."
+        "success": "%1$sPomyślnie dodano %2$s (%3$s) do czarnej listy ogłoszeń urodzinowych dla tego serwera."
       },
       "remove": {
-        "success": "%1$sSuccessfully removed %2$s (%3$s) from the birthday announcement blacklist for this server."
+        "success": "%1$sPomyślnie usunięto %2$s (%3$s) z czarnej listy ogłoszeń urodzinowych dla tego serwera"
       }
     },
     "imageboard_disableexplicit": {
