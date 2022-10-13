@@ -230,8 +230,8 @@ public class PetCmds {
                         .setColor(Color.PINK)
                         .setDescription(language.get("commands.pet.status.description"))
                         .addField(
-                                EmoteReference.MONEY.toHeaderString() + language.get("commands.pet.status.choice"),
-                                "%s".formatted(player.getData().getActiveChoice(marriage)), true
+                                EmoteReference.ZAP.toHeaderString() + language.get("commands.pet.status.choice"),
+                                "%s".formatted(player.getData().getActiveChoice(marriage).getReadableName()), true
                         )
                         .addField(
                                 EmoteReference.MONEY.toHeaderString() + language.get("commands.pet.status.cost"),
