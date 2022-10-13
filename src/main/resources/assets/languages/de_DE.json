@@ -71,7 +71,7 @@
         "thanks_message": "Danke dir für das Unterstützen von Mantaro. Ohne die Hilfe von Personen, wie dir, könnten wir Mantaro nicht am Laufen halten. :heart:",
         "thanks_message_daily": "Danke dir für das Unterstützen von Mantaro. Ohne die Hilfe von Personen, wie dir, könnten wir Mantaro nicht am Laufen halten. :heart: Du bekommst auch die doppelte Menge an Credits als Bonus!"
       },
-      "twitter": "Wusstest du, dass wir einen Twitter Account haben? Folge uns at (at)mantarodiscord <https://twitter.com/mantarodiscord> für Updates und tolles Zeug."
+      "twitter": "Wusstest du, dass wir einen Twitter Account haben? Folge uns auf (at)mantarodiscord <https://twitter.com/mantarodiscord> für Updates und tolles Zeug."
     },
     "mention_user_required": "%1$sDu musst einen Benutzer erwähnen.",
     "invalid_character": "%1$sDas ist kein erlaubtes Zeichen.",
@@ -1266,7 +1266,7 @@
       "nothing_found": "%1$sI didn't find any crate matching your query. Make sure you used the correct name."
     },
     "dailycrate": {
-      "check": "%1$s`Du kannst deine täglichen Kiste in **%2$s** abholen.",
+      "check": "%1$sDu kannst deine täglichen Kiste in **%2$s** abholen.",
       "not_premium": "%1$sDu bist kein Premium.\nBitte schau für mehr unter <https://patreon.com/mantaro> nach\n\nAls Premiumnutzer kannst du jeden Tag mit diesem Befehl eine Premium Truhe erhalten, welche eine größere Chance hat, höherstufigere Werkzeuge zu enthalten und bessere Gegenstände bei den verschiedenen Währungsbefehlen (4 Sterne und höher!)\nDanke für deine Unterstützung, die wir benötigen um Mantaro am Leben zu halten. Danke das du Mantaro benutzt <3",
       "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `/opencrate crate:<crate name>`. You need to buy a crate key using `/buy item:key` to open it."
     },
@@ -1650,7 +1650,7 @@
       "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://www.mantaro.site/mantaro-wiki/currency/101>. This will only be shown once."
     },
     "daily": {
-      "check": "%1$s`Du kannst deine täglichen Credits in **%2$s** abholen.",
+      "check": "%1$sDu kannst deine täglichen Credits in **%2$s** abholen.",
       "about_now": "jetzt",
       "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `/daily check:true`. Enjoy!",
       "errors": {
@@ -1740,7 +1740,7 @@
       "item_broke_autoequip": "*Hint: You can use `/profile autoequip` and it'll automatically equip the item for you when it breaks, assuming you have one in your inventory.*",
       "waifu_help": "Deine Waifu gesellte sich zu deinem Minenabenteuer und ihr habt beide eine größere Beute bekommen!",
       "missing_equipped": "%1$sDu hattest eine %2$s Spitzhacke ausgerüstet, aber keine Spitzhacke der Art im Inventar! Die ausgerüstete Spitzhacke wurde zurückgesetzt.",
-      "broken_drop": "%1$sDeine Spitzhacke ist kaputt gegangen, aber du kannst sie reparieren. Kaputten Gegenstand erhalten: %2$s *%3$s*",
+      "broken_drop": "%1$sDein Werkzeug ist kaputt gegangen aber du kannst sie reparieren. Kaputten Gegenstand erhalten: %2$s *%3$s*",
       "broken_drop_miss": "%1$sYour tool broke and you didn't quite manage to get it back."
     },
     "chop": {
@@ -2047,7 +2047,7 @@
       "success": "%1$sErfolgreich den Nutzerbeitrittslogkanal zurückgesetzt!"
     },
     "usermessage_leave_channel": {
-      "no_channel": "%1$sDu musst mir einen Kanal für die Abschiedsnachrit nennen.",
+      "no_channel": "%1$sDu musst mir einen Kanal für die Abschiedsnachricht nennen.",
       "success": "%1$sDer Nutzeraustrittslogkanal ist jetzt: %2$s"
     },
     "usermessage_leave_resetchannel": {
