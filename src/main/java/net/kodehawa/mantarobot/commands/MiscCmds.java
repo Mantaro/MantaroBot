@@ -23,7 +23,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
+import net.kodehawa.mantarobot.commands.utils.polls.Poll;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Defer;
@@ -229,7 +229,6 @@ public class MiscCmds {
     public static class CreatePoll extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            var builder = Poll.builder();
             var options = pollOptionSeparator.split(ctx.getOptionAsString("options").replaceAll(String.valueOf('"'), ""));
             long timeout;
 
@@ -245,18 +244,27 @@ public class MiscCmds {
                 return;
             }
 
-            var image = ctx.getOptionAsString("image");
-            if (image != null && !image.isBlank()) {
-                builder.setImage(image);
-            }
+            // TODO: poll list, poll cancel, probably will need to split it into a subcommand chain
+            // TODO: limit available running polls, limit name length to 500 (will throw in purpose otherwise)
+            // Probably make it poll start, poll list and poll cancel (like remindme but more ig)
+            // GuildData#getRunningPolls for db side: [full id: messageId, channelId, name, time], should be enough to make a jump url.
+            try {
+                var builder = Poll.builder();
+                builder.guildId(ctx.getGuild().getId())
+                        .channelId(ctx.getChannel().getId())
+                        .options(List.of(options))
+                        .name(ctx.getOptionAsString("name"))
+                        .time(timeout + System.currentTimeMillis());
 
-            builder.setEvent(ctx.getEvent())
-                    .setName(ctx.getOptionAsString("name"))
-                    .setTimeout(timeout)
-                    .setOptions(options)
-                    .setLanguage(ctx.getLanguageContext())
-                    .build()
-                    .startPoll(ctx);
+                var image = ctx.getOptionAsString("image");
+                if (image != null && !image.isBlank()) {
+                    builder.image(image);
+                }
+
+                builder.build().start(ctx);
+            } catch (IllegalArgumentException e) {
+                ctx.reply("commands.poll.invalid", EmoteReference.WARNING);
+            }
         }
     }
 

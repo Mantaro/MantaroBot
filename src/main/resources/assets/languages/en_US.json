@@ -865,7 +865,7 @@
       "other_poll_running": "%1$sThere seems to be another poll running here...",
       "no_reaction_perms": "%1$sSeems like I cannot add reactions here...",
       "too_long": "%1$sThis was too long to show. Try with less options?",
-      "header": "Poll #%1$d created by %2$s",
+      "header": "Poll created by %1$s",
       "success": "**Poll started. React to the number to vote.**\n*%1$s*",
       "time": "You have %1$s to vote.",
       "error": "%1$sAn unknown error has occurred while setting up a poll. Maybe try again? (internal error)",
@@ -875,6 +875,7 @@
       "thank_note": "Thanks for your vote",
       "results": "Results",
       "cancelled": "%1$sCancelled poll",
+      "completed": "%1$sThis poll has ended. Results: %2$s",
       "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds)."
     },
     "profile": {

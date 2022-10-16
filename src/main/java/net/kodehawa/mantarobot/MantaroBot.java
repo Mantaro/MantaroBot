@@ -33,18 +33,19 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
+import net.kodehawa.mantarobot.commands.utils.polls.PollTask;
 import net.kodehawa.mantarobot.commands.utils.reminders.ReminderTask;
 import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.log.LogFilter;
-import net.kodehawa.mantarobot.utils.log.LogUtils;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.TracingPrintStream;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
+import net.kodehawa.mantarobot.utils.log.LogFilter;
+import net.kodehawa.mantarobot.utils.log.LogUtils;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONObject;
@@ -279,6 +280,12 @@ public class MantaroBot {
             );
             reminderExecutor.scheduleAtFixedRate(ReminderTask::handle, 0, 30, TimeUnit.SECONDS);
         }
+
+        // Handle the finished polls
+        ScheduledExecutorService pollExecutor = Executors.newSingleThreadScheduledExecutor(
+                new ThreadFactoryBuilder().setNameFormat("Mantaro Poll Handler").build()
+        );
+        pollExecutor.scheduleAtFixedRate(PollTask::handle, 0, 30, TimeUnit.SECONDS);
 
         // Yes, this is needed.
         ScheduledExecutorService ratelimitMapExecutor = Executors.newSingleThreadScheduledExecutor(
