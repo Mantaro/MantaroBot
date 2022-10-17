@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONObject;
@@ -107,7 +108,7 @@ public class Poll {
     }
 
     public String id() {
-        if (messageId == null || messageId.isEmpty()) {
+        if (messageId() == null) {
             throw new IllegalArgumentException("Haven't set message id!");
         }
 
@@ -116,7 +117,7 @@ public class Poll {
 
     @JsonIgnore
     private void setMessageId(String messageId) {
-        if (messageId() != null || !messageId().isEmpty()) {
+        if (messageId() != null) {
             throw new IllegalArgumentException("Already set message id!");
         }
 
@@ -211,17 +212,22 @@ public class Poll {
         cancel();
     }
 
+    // Cancel from inside
     public void cancel() {
+        cancel(id(), db.getGuild(getGuild()));
+    }
+
+    // Cancel from outside.
+    public static void cancel(String id, DBGuild dbGuild) {
         try (var redis = pool.getResource()) {
-            var data = redis.hget(table, id());
+            var data = redis.hget(table, id);
 
             redis.zrem(ztable, data);
-            redis.hdel(table, id());
+            redis.hdel(table, id);
         }
 
-        var dbGuild = db.getGuild(getGuild());
         var data = dbGuild.getData();
-        data.getRunningPolls().remove(id());
+        data.getRunningPolls().remove(id);
         dbGuild.save();
     }
 
@@ -239,8 +245,8 @@ public class Poll {
         dbGuild.save();
     }
 
-    public static Builder builder() {
-        return new Builder();
+    public static PollBuilder builder() {
+        return new PollBuilder();
     }
 
     public Guild getGuild() {
@@ -280,61 +286,4 @@ public class Poll {
     }
 
     public record PollDatabaseObject(String messageId, String channelId, String name, long time) { }
-
-    public static class Builder {
-        private String guildId;
-        private String channelId;
-        private String name;
-        private String image;
-        private List<String> options;
-        private long time;
-
-        public Builder guildId(String guildId) {
-            this.guildId = guildId;
-            return this;
-        }
-
-        public Builder channelId(String channelId) {
-            this.channelId = channelId;
-            return this;
-        }
-
-        public Builder name(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Builder image(String image) {
-            this.image = image;
-            return this;
-        }
-
-        public Builder options(List<String> options) {
-            this.options = options;
-            return this;
-        }
-
-        public Builder time(long time) {
-            this.time = time;
-            return this;
-        }
-
-        public Poll build() {
-            if (channelId == null)
-                throw new IllegalArgumentException("Channel ID cannot be null");
-            if (guildId == null)
-                throw new IllegalArgumentException("Guild ID cannot be null");
-            if (time <= 0)
-                throw new IllegalArgumentException("Time to remind must be positive and >0");
-            if (options.isEmpty())
-                throw new IllegalArgumentException("Options can't be empty");
-            if (options.size() > 9 || options.size() < 2)
-                throw new IllegalArgumentException("Too many or too little options");
-            if (name == null || name.length() > 500) {
-                throw new IllegalArgumentException("Empty or invalid name.");
-            }
-
-            return new Poll(guildId, channelId, "", name, image, options, time);
-        }
-    }
 }

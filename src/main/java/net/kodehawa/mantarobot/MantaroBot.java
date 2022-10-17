@@ -285,7 +285,7 @@ public class MantaroBot {
         ScheduledExecutorService pollExecutor = Executors.newSingleThreadScheduledExecutor(
                 new ThreadFactoryBuilder().setNameFormat("Mantaro Poll Handler").build()
         );
-        pollExecutor.scheduleAtFixedRate(PollTask::handle, 0, 30, TimeUnit.SECONDS);
+        pollExecutor.scheduleAtFixedRate(PollTask::handle, 0, 1, TimeUnit.MINUTES);
 
         // Yes, this is needed.
         ScheduledExecutorService ratelimitMapExecutor = Executors.newSingleThreadScheduledExecutor(
