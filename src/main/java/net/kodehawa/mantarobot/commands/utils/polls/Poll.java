@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
@@ -125,18 +124,13 @@ public class Poll {
     }
 
     public void start(SlashContext ctx) {
-        if (!getGuild().getSelfMember().hasPermission(getChannel(), Permission.MESSAGE_ADD_REACTION)) {
-            ctx.reply("commands.poll.no_reaction_perms", EmoteReference.ERROR);
-            return;
-        }
-
         var at = new AtomicInteger();
         var toShow = options().stream()
                 .map(opt -> String.format("#%01d.- %s", at.incrementAndGet(), opt))
                 .collect(Collectors.joining("\n"));
 
         if (toShow.length() > 1014) {
-            ctx.reply("commands.poll.too_long", EmoteReference.ERROR);
+            ctx.edit("commands.poll.too_long", EmoteReference.ERROR);
             return;
         }
 
@@ -269,14 +263,6 @@ public class Poll {
     }
 
     private static String[] reactions(int options) {
-        if (options < 2) {
-            throw new IllegalArgumentException("You need to add a minimum of 2 options.");
-        }
-
-        if (options > 9) {
-            throw new IllegalArgumentException("The maximum amount of options is 9.");
-        }
-
         var r = new String[options];
         for (int i = 0; i < options; i++) {
             r[i] = (char) ('\u0031' + i) + "\u20e3";

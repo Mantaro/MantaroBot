@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.exceptions.PermissionException;
@@ -240,6 +241,11 @@ public class MiscCmds {
         public static class CreatePoll extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
+                if (!ctx.getGuild().getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_ADD_REACTION)) {
+                    ctx.replyEphemeral("commands.poll.no_reaction_perms", EmoteReference.ERROR);
+                    return;
+                }
+
                 var options = pollOptionSeparator.split(
                         ctx.getOptionAsString("options").replaceAll(String.valueOf('"'), "")
                 );
