@@ -15,12 +15,6 @@
  *
  */
 
-package net.kodehawa.mantarobot.utils.annotations;
+package net.kodehawa.mantarobot.utils.cache;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
-@Retention(RetentionPolicy.RUNTIME)
-public @interface ConfigName {
-    String value() default "unknown";
-}
+public record ImageCacheType(String type, String url, String id) { }

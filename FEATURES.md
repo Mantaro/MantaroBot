@@ -35,15 +35,14 @@
 *   Enjoy over 60 Options to change to your liking! ([See here for more info](https://www.mantaro.site/mantaro-wiki/basics/server-configuration))
 *   [Fully featured welcome/leave message implementation](https://www.mantaro.site/mantaro-wiki/guides/welcome-and-leave-messages). Embeds and all!
 *   [Birthday announcer](https://www.mantaro.site/mantaro-wiki/guides/birthday-announcer). You won't miss them anymore!
-*   Options include but are not limited to a birthday announcer, server logs, music announcements and much more
+*   Options include but are not limited to a birthday announcer, server logs and much more
 
 ## Misc
 *   99.9% uptime and amazing and friendly support! (Support server: `https://support.mantaro.site`)
 *   A constantly updated and improved experience
-*   A reliable music system for your server!
 *   Check anime information with `/anime`.
 *   Create complex custom commands using two custom command system!
-*   Way way more to enjoy than we can possibly list here!
+*   Way more to enjoy than we can possibly list here!
 
 Invite Mantaro to your own server now!: https://add.mantaro.site/
 
@@ -51,16 +50,14 @@ Invite Mantaro to your own server now!: https://add.mantaro.site/
 
 *   **Action Commands** (`cuddle hug kiss pat poke pout slap tickle action`):
     Add anime GIF actions to your conversation and make them funnier
-*   **Music Commands** (`forward move noewplaying pause play queue removetrack repeat restartsong rewind shuffle skip stop volume`):
-    First class music with no delay or loss!
-*   **Custom Commands** (`custom`): 
+*   **Custom Commands** (`custom`):
     Use your creativity to the limit!
-*   **Anime Commands** (`anime character`): 
+*   **Anime Commands** (`anime character`):
     Find information about your favorite anime and characters.
-*   **Currency Commands** (`badges balance cast chop daily dailycrate equip fish gamble inventory iteminfo itemtransfer leaderboard level loot market mine opencrate pet profile rep repair salvage slots transfer unequip useitem`): 
+*   **Currency Commands** (`badges balance cast chop daily dailycrate equip fish gamble inventory iteminfo itemtransfer leaderboard level loot market mine opencrate pet profile rep repair salvage slots transfer unequip useitem`):
     A fully-featured currency system in Mantaro. Be one of the richest people in the global position and enjoy mining, looting, fishing, chopping, playing with pets and achievements!
 *   **Game Commands** (`game trivia`):
     Guess the Pokemon, Anime Character trivia, Trivia and Guess the number! All included fun for those boring Saturday afternoons.
 *   **Other Commands :**  
-`avatar donate help info invite lang music ping season mantaro stats vipstatus activatekey birthday remindme time 8ball poll iam iamnot`
+    `avatar donate help info invite lang ping season mantaro stats vipstatus activatekey birthday remindme time 8ball poll iam iamnot`
 *   **With many more to discover!**

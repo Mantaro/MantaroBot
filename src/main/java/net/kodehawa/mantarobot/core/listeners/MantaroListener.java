@@ -22,8 +22,13 @@ import com.google.common.cache.CacheLoader;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.*;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.ChannelType;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.events.GenericEvent;
+import net.dv8tion.jda.api.events.StatusChangeEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
@@ -34,6 +39,9 @@ import net.dv8tion.jda.api.events.http.HttpRequestEvent;
 import net.dv8tion.jda.api.events.message.MessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.MessageUpdateEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
+import net.dv8tion.jda.api.events.session.SessionDisconnectEvent;
+import net.dv8tion.jda.api.events.session.SessionResumeEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.exceptions.PermissionException;
@@ -51,7 +59,7 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
-import net.kodehawa.mantarobot.log.LogUtils;
+import net.kodehawa.mantarobot.utils.log.LogUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
@@ -164,13 +172,13 @@ public class MantaroListener implements EventListener {
             return;
         }
 
-        if (event instanceof DisconnectEvent evt) {
+        if (event instanceof SessionDisconnectEvent evt) {
             Metrics.SHARD_EVENTS.labels("disconnect").inc();
             onDisconnect(evt);
             return;
         }
 
-        if (event instanceof ResumedEvent) {
+        if (event instanceof SessionResumeEvent) {
             Metrics.SHARD_EVENTS.labels("resume").inc();
             return;
         }
@@ -417,25 +425,30 @@ public class MantaroListener implements EventListener {
         }
     }
 
-    private void onDisconnect(DisconnectEvent event) {
+    private void onDisconnect(SessionDisconnectEvent event) {
         if (event.isClosedByServer()) {
             final var clientCloseFrame = event.getClientCloseFrame();
             if (clientCloseFrame == null) {
                 LOG.warn("!! SHARD DISCONNECT [SERVER] CODE: [null close frame], disconnected with code {}",
                         event.getCloseCode());
+                Metrics.DISCONNECT_COUNTER.labels(String.valueOf(event.getCloseCode())).inc();
             } else {
                 LOG.warn("!! SHARD DISCONNECT [SERVER] CODE: [%d] %s%n"
                         .formatted(clientCloseFrame.getCloseCode(), event.getCloseCode()));
+                Metrics.DISCONNECT_COUNTER.labels(String.valueOf(clientCloseFrame.getCloseCode())).inc();
             }
         } else {
             final var clientCloseFrame = event.getClientCloseFrame();
             if (clientCloseFrame == null) {
                 LOG.warn("!! SHARD DISCONNECT [CLIENT] CODE: [null close frame?]");
+                Metrics.DISCONNECT_COUNTER.labels("none").inc();
             } else {
                 LOG.warn("!! SHARD DISCONNECT [CLIENT] CODE: [%d] %s%n"
                         .formatted(clientCloseFrame.getCloseCode(), clientCloseFrame.getCloseReason()));
+                Metrics.DISCONNECT_COUNTER.labels(String.valueOf(clientCloseFrame.getCloseCode())).inc();
             }
         }
+
     }
 
     private void onJoin(GuildJoinEvent event) {

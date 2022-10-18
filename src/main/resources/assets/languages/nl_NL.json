@@ -24,7 +24,7 @@
     "description": "Beschrijving",
     "options": "Opties",
     "find_members_failure": "%1$sGeen gebruikers gevonden met jouw zoekcriteria :(",
-    "find_roles_failure": "%1$sDidn't find any roles that match your search criteria :(",
+    "find_roles_failure": "%1$s geen rollen gevonden die aan jouw zoekcriteria voldoen :(",
     "too_many_roles": "%1$sToo many roles found, maybe refine your search?\n**Roles found:** %2$s",
     "role_select": "Select the Role:",
     "find_channels_failure": "%1$sCannot find any text channel with that name :(",
@@ -200,6 +200,7 @@
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile language lang:<language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "music_general": {
+      "play_deprecated": "%1$sDue to circumstances outside of our control, we're unable to provide music playback on Mantaro.",
       "music_error": {
         "timeout": "%1$sKan geen verbinding maken met %2$s: verbinding is verlopen. Probeer de serverregio te wijzigen en voer het commando opnieuw uit.",
         "unknown": "%1$sKan geen verbinding maken met %2$s: onbekende fout."
@@ -264,7 +265,7 @@
       "loader": {
         "over_limit": "%1$sDe afspeellijst die je hebt toegevoegd bevat meer dan %2$d nummers, dus ik heb zoveel mogelijk nummers toegevoegd totdat deze limiet bereikt was. De rest is genegeerd.",
         "loaded_playlist": "%1$sIk heb **%2$d nummers** toegevoegd aan de afspeellijst van de afspeellijst: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sHet zoeken heeft geen resultaten opgeleverd. Als dit wordt weergegeven voor * alle nummers * waarnaar je probeert te zoeken, kun je `/play song:soundcloud <zoekterm> soundcloud:true` proberen te gebruiken. Directe koppelingen naar youtube zouden ook moeten werken.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$sFout bij het ophalen van muziek: %2$s. Misschien nog eens proberen of een andere link proberen?",
         "unknown_error_loading": "%1$sOnbeknde fout bij het ophalen van muziek. Misschien nog eens proberen of een andere link proberen?",
         "over_queue_limit": "%1$s **Kan het nummer `%2$s` niet toevoegen aan de afspeellijst: Het limiet van het aantal nummers in de afspeellijst is bereikt (%3$s)**",
@@ -460,19 +461,19 @@
         "not_enough_args": "%1$sJe moet de opdracht naam specificeren en het antwoord van de opdracht die u wilt toevoegen.",
         "empty_content": "%1$sYou need to specify the content of this custom command",
         "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
-        "success": "%1$sOpgeslagen in opdrachten `%2$s`",
+        "success": "%1$sSaved to command `%2$s`\nRemember: To access a custom command you create, you have to run it using Mantaro's prefix (for example `~>%2$s`), not Slash Commands.",
         "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
       },
       "lockcommand": {
         "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
         "no_command": "%1$sJe moet aangeven welke opdracht je wilt vast zetten.",
-        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+        "success": "%1$sSuccessfully locked the `%2$s` command. You'll need to unlock it for further edits."
       },
       "unlockcommand": {
         "no_command": "%1$sJe moet aangeven welke opdracht je wilt ontgrendelen.",
         "not_locked": "%1$sThis command isn't locked.",
-        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+        "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
       },
       "character_not_allowed": "%1$sDit karakter is niet toegestaan in de naam van een eigen opdrachten.",
       "already_exists": "%1$sDe opdracht `%2$s` bestaat al en is een standaard bot opdracht.",
@@ -981,13 +982,13 @@
         "example": "\nExample: `/profile widgets order:header, credits, reputation, birthday, marriage, badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
       },
       "claimlock": {
-        "removed": "%1$sSuccesfully reset your claim lock status.",
+        "removed": "%1$sSuccessfully reset your claim lock status.",
         "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/waifu claimlock remove:true` to remove it later.",
         "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `/buy item:claim key`",
         "already_locked": "%1$sYou're already claim locked. Use `/waifu claimlock remove:true` to remove it."
       },
       "autoequip": {
-        "disable": "%1$sSuccesfully disabled auto-equip.",
+        "disable": "%1$sSuccessfully disabled auto-equip.",
         "success": "%1$sEnabled auto-equip."
       },
       "badge_header": "%1$s Display Badge",
@@ -1343,6 +1344,7 @@
         "stamina": "Uithoudingsvermogen",
         "dust": "Dust (%)",
         "pet": "Aaien",
+        "choice": "Choice",
         "buildup": "Credit / Item Buildup",
         "buildup_coin": "Credit Buildup",
         "buildup_stats": "%1$,d credits / %2$,d items",
@@ -1411,7 +1413,7 @@
         "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
         "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
         "not_applicable": "%1$sYou can't feed this food to your pet type.",
-        "success": "%1$sYay! Succesfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now %5$s%% satisfied.",
+        "success": "%1$sYay! Successfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now %5$s%% satisfied.",
         "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (The amount used would surpass 100%% hunger)"
       },
       "water": {
@@ -1420,7 +1422,7 @@
         "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
         "not_enough_inventory": "%1$sYou don't have enough water bottles in your inventory! You need %2$s.",
         "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (The amount used would surpass 100%% thirst)",
-        "success": "%1$sYay! Succesfully gave your pet %2$d water and it recovered %3$s%% of their thirst. Their thirst is now %4$s%% quenched."
+        "success": "%1$sYay! Successfully gave your pet %2$d water and it recovered %3$s%% of their thirst. Their thirst is now %4$s%% quenched."
       },
       "activity": {
         "low_stamina": "%1$s**%2$s** has a really low stamina. Give it food/water to replenish.",
@@ -1973,7 +1975,7 @@
       "success": "%1$sSet logs timezone to `%2$s`. This timezone will be used to display the time on moderation logs."
     },
     "logs_timezonereset": {
-      "success": "%1$sSuccesfully reset log timezone."
+      "success": "%1$sSuccessfully reset log timezone."
     },
     "lobby_reset": {
       "success": "%1$sHet de lobby correct gereset."
@@ -2217,7 +2219,7 @@
     },
     "modlog_blacklistwords_remove": {
       "not_in": "%1$sWord `%2$s` isn't in the blacklist.",
-      "success": "%1$sSuccesfully removed word `%2$s` from the modlog blacklist."
+      "success": "%1$sSuccessfully removed word `%2$s` from the modlog blacklist."
     },
     "logs_editmessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone edits a message!",
@@ -2555,9 +2557,9 @@
       "sparkle_pick": "Een van de sterkste pikhouwelen die er is.",
       "pizza": "Lekker.",
       "mine_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `/opencrate crate:gem crate`",
-      "fish_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `/opencrate crate:treasure`",
-      "mine_premium_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `/opencrate crate:gem premium crate`",
-      "fish_premium_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `/opencrate crate:premium treasure`",
+      "fish_crate": "Een schat die je tijdens het vissen hebt gevonden. Misschien zitten er wel leuke dingen in. Kan worden geopend met `~>opencrate crate:treasure`",
+      "mine_premium_crate": "Een juweeltje dat je hebt gevonden tijdens het mijnen. Misschien zitten er wel leuke dingen in. Kan worden geopend met `~>opencrate crate:gem premium crate`",
+      "fish_premium_crate": "Een schat die je tijdens het vissen hebt gevonden. Misschien zitten er wel leuke dingen in. Kan worden geopend met `~>opencrate crate:premium treasure`",
       "comet_rod": "Een beetje sterkere hengel.",
       "star_rod": "Een sterkere hengel.",
       "sparkle_rod": "Een veel sterkere hengel.",
@@ -2609,8 +2611,8 @@
       "broken_hellfire_pick": "Een hellevuur pikhouweel die brak tijdens het hakken. Nog steeds te redden.",
       "broken_hellfire_axe": "Een hellevuur bijl die brak tijdens het mijnen. Nog steeds te redden.",
       "broken_hellfire_rod": "Een hellevuur hengel die brak tijdens het hakken. Nog steeds te redden.",
-      "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `/opencrate crate:chop crate`",
-      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `/opencrate crate:chop premium crate`"
+      "chop_crate": "Een kist die je vond tijdens het hakken. Kan goed spul bevatten. Te openen met `/opencrate crate:chop crate`",
+      "chop_premium_crate": "Een kist die je vond tijdens het hakken. Kan goed spul bevatten. Kan geopend worden met `/opencrate crate:chop premium crate`"
     }
   },
   "buttons": {

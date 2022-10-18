@@ -19,7 +19,7 @@ package net.kodehawa.mantarobot.commands.custom.legacy;
 
 import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import net.kodehawa.mantarobot.utils.StringUtils;
-import net.kodehawa.mantarobot.utils.URLEncoding;
+import net.kodehawa.mantarobot.utils.Utils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -107,7 +107,7 @@ public class ConditionalCustoms {
         });
 
         //@url
-        functions.put("url", args -> URLEncoding.encode(String.join(";", args)));
+        functions.put("url", args -> Utils.encodeURL(String.join(";", args)));
 
         //@jsonescape
         functions.put("jsonescape", args -> {

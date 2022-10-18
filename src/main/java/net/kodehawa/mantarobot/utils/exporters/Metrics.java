@@ -81,4 +81,9 @@ public class Metrics {
             .name("patrons")
             .help("New patrons")
             .register();
+    public static final Counter DISCONNECT_COUNTER = Counter.build()
+            .name("disconnect")
+            .help("Session disconnects")
+            .labelNames("code")
+            .register();
 }

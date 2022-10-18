@@ -32,7 +32,12 @@ import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
 import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.meta.*;
+import net.kodehawa.mantarobot.core.command.meta.Category;
+import net.kodehawa.mantarobot.core.command.meta.Defer;
+import net.kodehawa.mantarobot.core.command.meta.Description;
+import net.kodehawa.mantarobot.core.command.meta.Help;
+import net.kodehawa.mantarobot.core.command.meta.Name;
+import net.kodehawa.mantarobot.core.command.meta.Options;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
@@ -209,7 +214,8 @@ public class PetCmds {
                 var language = ctx.getLanguageContext();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
-                var pet = getCurrentPet(ctx, ctx.getPlayer(), marriage, "commands.pet.status.no_pet");
+                var player = ctx.getPlayer();
+                var pet = getCurrentPet(ctx, player, marriage, "commands.pet.status.no_pet");
                 if (pet == null) {
                     return;
                 }
@@ -223,6 +229,10 @@ public class PetCmds {
                         .setAuthor(String.format(language.get("commands.pet.status.header"), name), null, ctx.getAuthor().getEffectiveAvatarUrl())
                         .setColor(Color.PINK)
                         .setDescription(language.get("commands.pet.status.description"))
+                        .addField(
+                                EmoteReference.ZAP.toHeaderString() + language.get("commands.pet.status.choice"),
+                                "%s".formatted(player.getData().getActiveChoice(marriage).getReadableName()), true
+                        )
                         .addField(
                                 EmoteReference.MONEY.toHeaderString() + language.get("commands.pet.status.cost"),
                                 "%,d".formatted(pet.getType().getCost()), true

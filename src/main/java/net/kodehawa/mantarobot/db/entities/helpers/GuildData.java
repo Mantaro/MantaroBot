@@ -20,10 +20,15 @@ package net.kodehawa.mantarobot.db.entities.helpers;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.kodehawa.mantarobot.commands.moderation.WarnAction;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.utils.annotations.ConfigName;
-import net.kodehawa.mantarobot.utils.annotations.HiddenConfig;
+import net.kodehawa.mantarobot.data.annotations.ConfigName;
+import net.kodehawa.mantarobot.data.annotations.HiddenConfig;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 // The HiddenConfig annotation is used to not interfere with serialization of old configs: backwards compatibility.

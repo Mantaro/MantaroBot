@@ -19,8 +19,8 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import net.dv8tion.jda.api.entities.ChannelType;
-import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.channel.ChannelType;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -47,7 +47,9 @@ import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-import static net.kodehawa.mantarobot.commands.MusicCmds.*;
+import static net.kodehawa.mantarobot.commands.MusicCmds.isDJ;
+import static net.kodehawa.mantarobot.commands.MusicCmds.isNotInCondition;
+import static net.kodehawa.mantarobot.commands.MusicCmds.isSongOwner;
 import static org.apache.commons.lang3.StringUtils.replaceEach;
 
 @Module
@@ -65,7 +67,7 @@ public class MusicUtilCmds {
 
     @Subscribe
     public void register(CommandRegistry cr) {
-        if (config.isPremiumBot() || config.isSelfHost() || config.isTesting()) {
+        if (config.musicEnable()) {
             cr.registerSlash(RestartSong.class);
             cr.registerSlash(Forward.class);
             cr.registerSlash(Rewind.class);

@@ -11,11 +11,12 @@ You can see more information about the bot itself by reading the summary on [her
 # Building your own Mantaro
 
 ## ⚠ **Read before attempting**
-The owners of Mantaro do not recommend compiling Mantaro as it is not documented, and most builds here will be extremely unstable and (probably) untested, probably including unfinished features. There's no *stable* branch, all the features are immediately added to upstream.\
+The owners of Mantaro do not recommend compiling Mantaro as it is not documented, and most builds you make from pulling the main branch will be extremely unstable and (definitely) untested, probably including unfinished features. There's no *stable* branch, all the features are immediately added to upstream. Yes, really.\
 You will however sometimes see a legacy branch, a branch we create before publishing larger update containing working code, it is highly recommended basing your building process from the legacy branch, as the master branch will very likely contain broken and non-working code, at least in a case where a legacy branch exist.
+The current legacy branch contains the pre-slash update (7.0.0) code.
 
 **We will not provide any support whatsoever in selfhosting or building the bot by yourself.**
-The reason for this is not only that the builds in here can be highly unstable, but also that there are very few people (two) who could actually help with questions regarding this, most of which are busy and not available to answer said questions. Most of the build process is pretty straightforward and outlined below, though.
+The reason for this is not only that the builds in here are highly unstable and untested, and also the fact that there are very few people (two) who could actually help with questions regarding this, most of which are busy and not available to answer said questions. Most of the build process is pretty straightforward and outlined below, though.
 
 ## Building the Bot
 
@@ -40,11 +41,11 @@ Make sure you pay close attention to the [license](https://github.com/Mantaro/Ma
 
 1.  Make sure you have the prerequisites installed and running.
 2.  Clone this repository (you can also fork this repo and clone your fork). 
-3.  Open a terminal (cmd.exe or any linux terminal) in the folder where you cloned this on.
+3.  Open a terminal (cmd.exe or any linux/macOS terminal) in the folder where you cloned this on.
 4.  Run `gradlew shadowJar`
 5.  Grab the jar from `build/libs`
 6.  Install `rethinkdb` and `redis`
-7.  On rethinkdb, create the `mantaro` database with the following tables: `mantaro, players, marriages, playerstats, users, guilds, keys, commands, seasonalplayers`
+7.  On rethinkdb, create the `mantaro` database with the following tables: `mantaro, players, marriages, playerstats, users, guilds, keys, commands`
 8.  Run it, wait a little for the bot to generate a file called `config.json`
 9.  Prepare yourself to start filling in some config values. You don't need to fill all values, though. The token and the user id are necessary to start up, you wanna set the owner IDs aswell to be able to use owner commands. Values you *need* to fill: `token clientId`, values you *need* to change: `"bucketFactor" : 1 "isSelfHost" : true`.
 9.  In config.json, you might want set the value needApi to false, or clone and run [the API](https://github.com/Kodehawa/mantaro-api))

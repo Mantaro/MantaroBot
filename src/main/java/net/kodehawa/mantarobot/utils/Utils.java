@@ -25,8 +25,8 @@ import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.annotations.ConfigName;
-import net.kodehawa.mantarobot.utils.annotations.HiddenConfig;
+import net.kodehawa.mantarobot.data.annotations.ConfigName;
+import net.kodehawa.mantarobot.data.annotations.HiddenConfig;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -40,13 +40,25 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.text.FieldPosition;
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -620,6 +632,14 @@ public class Utils {
                 role.hasPermission(Permission.MANAGE_ROLES) || role.hasPermission(Permission.MANAGE_PERMISSIONS) ||
                 role.hasPermission(Permission.MANAGE_CHANNEL) || role.hasPermission(Permission.MANAGE_WEBHOOKS) ||
                 role.hasPermission(Permission.MODERATE_MEMBERS) || role.hasPermission(Permission.VOICE_MUTE_OTHERS);
+    }
+
+    public static String decodeURL(String s) {
+        return URLDecoder.decode(s, StandardCharsets.UTF_8);
+    }
+
+    public static String encodeURL(String s) {
+        return URLEncoder.encode(s, StandardCharsets.UTF_8);
     }
 
     public enum HushType {

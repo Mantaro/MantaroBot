@@ -20,12 +20,12 @@ package net.kodehawa.mantarobot.commands.action;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
-import net.kodehawa.mantarobot.commands.action.cache.ImageCache;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.cache.ImageCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
@@ -40,7 +40,6 @@ import java.util.stream.Collectors;
 public class ImageActionSlash extends SlashCommand {
     private final String format;
     private final String lonelyLine;
-    private final WeebAPIRequester weebapi = new WeebAPIRequester();
     private final Random rand = new Random();
     private final IncreasingRateLimiter rateLimiter;
     private List<String> images;
@@ -126,7 +125,7 @@ public class ImageActionSlash extends SlashCommand {
         var random = "";
         try {
             if (type != null) {
-                var result = ImageCache.getImage(weebapi.getRandomImageByType(type, false, "gif"), type);
+                var result = ImageCache.getImage(type);
                 var image = result.url();
                 images = Collections.singletonList(image);
                 random = images.get(0); //Guaranteed random selection :^).

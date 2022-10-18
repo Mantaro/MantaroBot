@@ -149,11 +149,11 @@
       "description_alias": "%1$s**O comando que você está tentando usar foi movido para os Comandos de Barra só.** Tente usar com / sendo o prefixo. **Esse comando era uma variação**. Tente usar o comando original. (`/%2$s`).\n\nComandos de Barra são os novos tipos de comandos de acordo com as Diretrizes do Discord.\n**Os comandos que ainda funcionam com prefixos vão eventualmente ser apenas de barra.**\nComandos variáveis foram removidos dos Comandos de Barra pois não tem espaço suficiente para adicioná-los (o Discord nos permite adicionar só 100 comandos).",
       "description": "%1$s**O comando que você está tentando usar foi movido para os Comandos de Barra só.** Tente usar com / sendo o prefixo (`/%2$s`).\n\nComandos de Barra são os novos tipos de comandos de acordo com as Diretrizes do Discord.\n**Os comandos que ainda funcionam com prefixos vão eventualmente ser apenas de barra.**\nComandos variáveis foram removidos dos Comandos de Barra pois não tem espaço suficiente para adicioná-los (o Discord nos permite adicionar só 100 comandos).",
       "description_image": "Pra usar um comando de barra pra alguns comandos de imagens, tente usar o comando com `/image` como prefixo ao invés do que você está usando. Por exemplo, `~>catgirl` vira `/image catgirl`. Os comando de imageboard não precisam disso.\n\nSe você não achar o comando de barra, re-adicione o bot usando o link de convite em https://add.mantaro.site\nPra mais ajuda, use a nova wiki em https://www.mantaro.site/mantaro-wiki/",
-      "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site\nFor more help, use the new wiki at https://www.mantaro.site/mantaro-wiki/"
+      "description_2": "Pra usar um comando de barra, tente usar o comando com o prefixo `/` ao invés do que você está usando. Por exemplo, `~>ping` se torna `/ping` (e pressione tab)\n\nse você não vê os comandos de barra, re-adicione o bot usando o link de convite em https://add.antaro.site\nPra mais ajuda, use a nova wiki em https://www.mantaro.site/mantaro-wiki/"
     },
     "fish": {
       "dust": "%1$sO dia acabou, e seu balde de peixe só acumulou poeira. (Nível de poeira %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `/equip item:<rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `/buy item:rod`",
+      "no_rod": "%1$sVocê não tem uma vara equipada. Use `/equip item:<rod name>` pra equipar uma vara e começar sua viagem de pesca! Se você não tem uma vara, primeiro use `/buy item:rod`",
       "trash": {
         "overflow": "%1$sVocê encontrou algum lixo enquanto pescava, mas seu inventário estava cheio, então tivemos que jogá-lo de volta na água...",
         "success": "%1$sEnquanto você calmamente pescava, você encontrou um flutuante %2$s mas parece ser apenas lixo :("
@@ -163,7 +163,7 @@
       },
       "crate": {
         "overflow": "Você encontrou um **%1$s** enquanto pescava, mas você já tinha muitos, então jogamos de volta no oceano...",
-        "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `/opencrate crate:<crate name>`. You need a crate key!"
+        "success": "Você encontrou %1$s **%2$s** enquanto pescava e foi buscá-lo. Vá e abra com `/opencrate crate:<crate name>`. Você precisa de uma chave de baú!"
       },
       "autoequip": {
         "success": "%1$s**%2$s**Equipado automaticamente no seu slot de peixe."
@@ -180,26 +180,27 @@
       "bait": "O peixe comeu sua isca no processo!",
       "missing_equipped": "%1$sVocê tinha equipado uma %2$s vara, mas você não tem mais desse tipo no seu inventário! Vara equipada foi resetada.",
       "broken_drop": "%1$sSua vara quebrou, mas você pode conserta-la. Item quebrado ganho: %2$s *%3$s*",
-      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `/equip item:<rod name>` to start your adventure!"
+      "no_rod_equipped": "%1$sVocê não tem uma vara equipada. Pra equipar uma você precisa usar `/equip item:<rod name>` pra começar sua aventura!"
     },
     "music_usage": {
       "1": "*Como usar música na Mantaro?*",
-      "2": "- To **queue songs from youtube or soundcloud** use `/play` For example: `/play song:https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
-      "3": "- To **search for a song on youtube** use `/play song:<search term>` (without the leading < and >) For example: `/play song:see you again` (You need to select the number, just *select the number* after the selection box pops up!)",
-      "4": "- To **search for a song on soundcloud** use `/play song:<search term> soundcloud:true` For example `/play song:hot milk soundcloud:true`",
-      "5": "- To **check the queue** you just type `/queue show`",
+      "2": "- Pra **colocar músicas do youtube ou sondcloud** use `/play` Por exemplo: `/play song:https://www.youtube.com/watch?aAolFWjGfMs` *Ela vai se conectar automaticamente pro canal de voz que você está*",
+      "3": "- Pra **pesquisar uma música no youtube** use `/play song:<search term>` (sem o < e >) Por exemplo: `/play song:see you again` (Você precisar selecionar o número, apenas *selecione o número* quando a caixa de seleção aparece!)",
+      "4": "- Pra **pesquisar uma música no soundcloud** use `/play song:<search term> soundcloud:true` Por exemplo `/play song hot milk soundcloud:true`",
+      "5": "- Pra **checar a fila** você só precisa digitar `/queue show`",
       "6": "- Pra **remover uma música da fila** você só precisa usar `/removetrack`` Isso leva como um argumento a posição em que a música está na fila (você pode checar na fila)",
       "7": "- Pra **pausar ou despausar** apenas use `/pause`",
       "8": "- Pra **parar a música desvincular o player** use `/stop`",
       "9": "- Pra **embaralhar a fila** apenas use `/shuffle`",
-      "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue running `/repeat queue:True`.\n",
-      "11": "For more info please use `/help command:<command name>` (without the <> and replace command name with the name of the command you want)",
+      "10": "- E por último, pra **repetir uma música** use `/repeat`. Usando `/repeat` enquanto a repetição estiver ativada, irá desativar. Você pode repetir uma fila usando `/repeat queue:True`.\n",
+      "11": "Pra mais informações, por favor use `/help command:<command name>` (sem o <> e substitua command name pelo comando que você quer)",
       "12": "Aprecie sua música e obrigado por usar a Mantaro!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile language lang:<language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
+      "info": "%1$sVocê pode mudar o idioma do servidor (se aplicável) usando `~>opt language set <language code>`. Sua preferência de idioma pessoal pode ser trocada usando `/profile language lang:<language code>`.\n**Idiomas disponíveis:** `%2$s`\nSe o seu idioma não está aqui e se você quiser ajudar, sinta-se livre pra entrar no servidor de suporte e se juntar ao esforço de tradução!"
     },
     "music_general": {
+      "play_deprecated": "%1$sDevido a circunstâncias fora de nosso controle, não podemos providenciar comandos de música na Mantaro.",
       "music_error": {
         "timeout": "%1$sImpossível conectar no %2$s: conexão esgotada. Tente mudar a região do servidor e fazer o comando novamente.",
         "unknown": "%1$sNão foi possível conectar em %2$s: erro desconhecido."
@@ -214,25 +215,25 @@
       "track_error": "%1$sOuch, alguma coisa deu errado enquanto tocava essa música! Desculpe pelo inconveniente, Eu vou tentar tocar a próxima se tiver uma disponível.",
       "queue_finished": "%1$sTerminei de tocar a fila atual! Espero que tenha gostado :heart:",
       "soundcloud_no_args": "%1$sVocê tem que me dar o nome de uma música para tocar, Eu não sou um mágico, então não posso adivinhar :(",
-      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `/play first:True song:<song>`, which will play the first result.",
+      "missing_embed_permissions": "%1$sVocê precisa dar ao bot a permissão de Inserir Links pra exibir o menu. Se você quiser pular o menu, use `/play first:True song:<song>`, que tocará o primeiro resultado.",
       "no_vc_found": "%1$sEu não estou conectada a nenhum CdV mesmo que eu deveria estar? Tente novamente.",
       "queue": {
         "header_field": "Instruções",
         "header_noreact": "Use `&p >>` e `&p <<` para mover entre páginas.",
         "no_track_found_np": "Nada ou título/duração não encontrada",
         "header": "Fila para o servidor %1$s",
-        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?",
+        "nothing_playing": "Nada aqui, apenas poeira. Por que não coloca umas músicas?",
         "nothing_playing_2": "**Se houver uma música tocando e você não adicionar mais músicas, então há apenas poeira aqui. Você pode colocar mais músicas como deseja!**",
         "np": "Tocando agora",
         "dj_np": "**Colocado por:** ",
         "page_overflow": "Nada aqui, apenas poeira. Por que você não volta algumas páginas??",
-        "page_overflow_2": "If you think there are songs here but they don't appear, try using `/queue page:1`",
+        "page_overflow_2": "Se você acha que têm músicas aqui mas elas não aparecem, tente usar `/queue page:1`",
         "total_queue_time": "Tempo total da fila",
         "total_size": "Tamanho total da fila",
         "togglers": "Repetir / Pausar",
         "playing_in": "Tocando em",
         "footer": "Total de páginas: %1$d%2$s. Atualmente na página %3$d",
-        "multiple_pages": " -> Use /queue page:<page> to change pages",
+        "multiple_pages": " -> Use /queue page:<page> pra mudar as páginas",
         "page_react": " -> Reaja para mudar as páginas",
         "no_channel": "Sem canal :(",
         "songs": "música(s)",
@@ -242,7 +243,7 @@
       },
       "connect": {
         "success": "%1$sConectada com sucesso no canal **%2$s**!",
-        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
+        "success_stage": "%1$sConectada com sucesso ao canal de palco **%2$s**! Certifique-se de promover o bot pra Falante pra ouvir.",
         "full_channel": "%1$sEu não consigo conectar nesse canal porque está cheio!",
         "non_existent_channel": "%1$sEu recebi um canal inexistente como resposta. Se você definiu um canal de voz e depois apagou, essa pode ser a causa.\n Nós redefinimos seu canal de música para você, tente reproduzir a música novamente.",
         "user_no_vc": "%1$s**Por favor entre em um canal de voz**. Se você está em um canal de voz e o bot desconectou, por favor reentre no canal.",
@@ -251,27 +252,27 @@
         "channel_locked": "%1$sEu só posso tocar música no canal **%2$s**.",
         "already_connected": "%1$sJá estou conectada no canal **%2$s**! (Use o comando `move` para me mover para outro canal)",
         "attempting_to_connect": "%1$sEu já estou tentando me conectar ao canal **%2$s**! (Use o comando `move` para me mover para outro canal)",
-        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
-        "error": "%1$sThere was an unexpected error trying to connect to this channel."
+        "no_stage_here": "%1$sNão tem um Palco acontecendo aqui. Por que não começa um Palco?",
+        "error": "%1$sOcorreu um erro inesperado ao tentar se conectar a esse canal."
       },
       "listener": {
         "paused": "%1$sPausando o player porque eu fui mutada :(",
         "resumed": "%1$sVoltando a tocar porque alguém entrou!",
-        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `/pause` to manually resume playback.",
+        "not_resumed": "%1$sAlguém entrou, mas eu não retomei a reprodução porque fui pausada manualmente! Use `/resume` pra retomar manualmente a reprodução.",
         "left_alone": "%1$sIrei sair do **%2$s** em 2 minutos porque fiquei sozinha :(",
         "leave": "%1$sEu decidi sair do **%2$s** porque eu fiquei sozinha :("
       },
       "loader": {
         "over_limit": "%1$sA fila que você adicionou tem mais de %2$d músicas, então adicionamos músicas até esse limite e ignoramos o resto.",
         "loaded_playlist": "%1$sAdicionado **%2$d músicas** na fila da playlist: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`/play song:<search term> soundcloud:true` instead on the meanwhile. Direct links to youtube should work too.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$sErro ao buscar música: %2$s. Talvez tente novamente ou tente outro link?",
         "unknown_error_loading": "%1$sErro desconhecido ao buscar música. Talvez tente novamente ou tente com outro link?",
         "over_queue_limit": "%1$s**Não foi possível coloar na fila `%2$s`: Limite de músicas na fila ultrapassado (%3$s)**",
         "over_32_minutes": "%1$s**Não foi possível colocar na fila `%2$s`: A música é maior que %3$s.** (Tamanho de músicas suportadas é %4$s).\nVocê pode ganhar uma maior duração de música e playback de livestream com a Mantaro Premium!\nCheque <https://patreon.com/mantaro> para mais informações.",
         "fair_queue_limit_reached": "%1$s**Ultrapassou o nível da fila de %2$d (Muitas músicas que são exatamente iguais)**",
         "loaded_song": "%1$sAdicionado a fila -> **%2$s** *(%3$s)*",
-        "selection_text": "Song selection. Select the song number to continue.",
+        "selection_text": "Seleção de música. Selecione o número da música pra continuar.",
         "timeout_text": "Isso esgota em 30 segundos."
       },
       "premium_beg": "%1$sConsidere doar no<https://patreon.com/mantaro> se você gosta de mim, até mesmo uma pequena doação vai ajudar pra continuar com o bot de pé (Cheque `/donate` para mais informações!)",
@@ -289,9 +290,9 @@
       "unpaused": "Player despausado. *(O player foi pausado anteriormente)*"
     },
     "rewind": {
-      "no_time": "%1$sYou need to tell me how much you want to rewind the song. *(Example: `/rewind time:1m45s` will rewind the song 1 minute and 45 seconds)*",
+      "no_time": "%1$sVocê tem que me dizer o quanto que você quer voltar na música. *(Exemplo: `/rewind time:1m45` vai voltar 1 minuto e 45 segundos da música)*",
       "negative": "%1$sApenas números positivos",
-      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `/rewind time:1m45s` will rewind the song 1 minute and 45 seconds)*",
+      "too_little": "%1$sVocê tem que usar o formato certo. Por favor cheque o comando de ajuda. *(Exemplo: `/rewind time:1m45` vai voltar 1 minuto e 45 segundos da música)*",
       "before_beginning": "%1$sVocê não pode pular para antes do começo de uma música",
       "success": "%1$sVoltando música em: %2$s."
     },
@@ -299,7 +300,7 @@
       "success": "%1$sMúsica atual reiniciada."
     },
     "skipahead": {
-      "no_time": "%1$sYou need to tell me how much you want to skip ahead in the song. *(Example: `/forward time:1m45s` will skip 1 minutes and 45 seconds from where you are on the song)*",
+      "no_time": "%1$sVocê tem que me dizer o quanto você quer pular na música. *(Exemplo: `/skipahead time:1m45s` vai pular 1 minuto e 45 segundos de onde você está na música)*",
       "past_duration": "%1$sVocê não pode pular a duração de uma música",
       "success": "%1$sPulando música para %2$s."
     },
@@ -339,7 +340,7 @@
       "dj_skip": "%1$sO DJ decidiu pular",
       "vote": {
         "submit": "%1$s**Seu voto foi submetido** Você precisa de mais %2$d voto(s) para pular!",
-        "submit_force_allowed": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!\nYou're a DJ or queued this song. If you wanted to skip without requiring voting use `/skip force:True`",
+        "submit_force_allowed": "%1$s**Seu voto foi submetido** Você precisa de mais %2$d voto(s) pra pular! Você é o DJ ou colocou a música. Se você quiser pular a música sem requerer votação use `/skip force:True`",
         "remove": "%1$s**Seu voto foi removido** Você precisa de mais %2$d voto(s) para pular!"
       },
       "success": "%1$sMeta de votos alcançada, pulando música...",
@@ -460,19 +461,19 @@
         "not_enough_args": "%1$sVocê tem que especificar o nome do comando e a resposta do comando que você quer adicionar.",
         "empty_content": "%1$sVocê precisa especificar o conteúdo deste comando personalizado",
         "too_long": "%1$sO conteúdo deste comando é muito longo e o bot não é capaz de mostrar. Certifique-se de que o comando tem menos que %2$,d caracteres.",
-        "success": "%1$sSalvo no comando `%2$s`",
+        "success": "%1$sSaved to command `%2$s`\nRemember: To access a custom command you create, you have to run it using Mantaro's prefix (for example `~>%2$s`), not Slash Commands.",
         "too_many_responses": "%1$sHá muitas respostas (%2$s) para este comando. O limite é o dobro (até 100) para servidores premium (Veja em <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sHá muitos comandos nesse servidor, então você não pode adicionar mais (+100). Isso pode ser ignorado em guildas premium (Cheque <https://patreon.com/mantaro>)."
       },
       "lockcommand": {
         "no_permission": "%1$sVocê precisa da permissão de Gerenciar Servidor pra bloquear e desbloquear comandos.",
         "no_command": "%1$sVocê tem que especificar o comando que você quer bloquear.",
-        "success": "%1$sBloqueado com sucesso o comando `%2$s`. Você precisará desbloquear para futuras edições."
+        "success": "%1$sSuccessfully locked the `%2$s` command. You'll need to unlock it for further edits."
       },
       "unlockcommand": {
         "no_command": "%1$sVocê tem que especificar o comando que você quer desbloquear.",
         "not_locked": "%1$sEste comando não está bloqueado.",
-        "success": "%1$sDesbloqueado com sucesso o comando `%2$s`. Você precisará bloquear depois se você quiser evitar futuras edições."
+        "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
       },
       "character_not_allowed": "%1$sEste caractere não é permitido em nomes de comandos personalizados.",
       "already_exists": "%1$sO comando `%2$s` já existe e é um comando padrão do bot.",
@@ -981,13 +982,13 @@
         "example": "\nExample: `/profile widgets order:header, credits, reputation, birthday, marriage, badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
       },
       "claimlock": {
-        "removed": "%1$sResetado com sucesso seu status de claim lock.",
+        "removed": "%1$sSuccessfully reset your claim lock status.",
         "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/waifu claimlock remove:true` to remove it later.",
         "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `/buy item:claim key`",
         "already_locked": "%1$sYou're already claim locked. Use `/waifu claimlock remove:true` to remove it."
       },
       "autoequip": {
-        "disable": "%1$sAuto-equipar desativado com sucesso.",
+        "disable": "%1$sSuccessfully disabled auto-equip.",
         "success": "%1$sAuto-equipar ativado."
       },
       "badge_header": "%1$sInsígnia Exibida",
@@ -1343,6 +1344,7 @@
         "stamina": "Estâmina",
         "dust": "Poeira (%)",
         "pet": "Carinhos",
+        "choice": "Choice",
         "buildup": "Acréscimo de Crédios / Itens",
         "buildup_coin": "Acréscimo de Créditos",
         "buildup_stats": "%1$,d créditos / %2$,d itens",
@@ -1411,7 +1413,7 @@
         "no_need": "%1$sSeu pet não está faminto, então ele não quer comer agora.",
         "not_inventory": "%1$sVocê não tem o item que você quer dar pro pet comer. Certifique-se de que está em seu inventário e de que você tem a quantidade certa (%2$s).",
         "not_applicable": "%1$sVocê não pode dar essa comida pra esse tipo de pet.",
-        "success": "%1$sYay! Pet alimentado com sucesso com `%2$s` x%3$s e ele recuperou %4$s%% de sua fome. A fome agora está %5$s%% satisfeita.",
+        "success": "%1$sYay! Successfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now %5$s%% satisfied.",
         "too_much": "%1$sQue tal um pouco menos de comida? Você só vai desperdiçar com esse tanto aí! (A quantidade que você colocou é mais do que a necessária para recuperar 100%% da fome)"
       },
       "water": {
@@ -1420,7 +1422,7 @@
         "not_inventory": "%1$sVocê não tem uma Garrafa d'Água. Certifique-se de que está em seu inventário.",
         "not_enough_inventory": "%1$sVocê não tem garrafas d'água suficiente no seu inventário! Você precisa de %2$s.",
         "too_much": "%1$sQue tal dar um pouco menos de água? Você só vai desperdiçar água com esse tanto aí! (A quantidade que você colocou é mais do que a necessária para recuperar 100%% da sede)",
-        "success": "%1$sYay! %2$d de água foi dada com sucesso ao seu pet e ele recuperou %3$s%% de sua sede. A sede dele agora está %4$s%% apagada."
+        "success": "%1$sYay! Successfully gave your pet %2$d water and it recovered %3$s%% of their thirst. Their thirst is now %4$s%% quenched."
       },
       "activity": {
         "low_stamina": "%1$s**%2$s** tem uma estâmina muito baixa. Dê a ele comida/água para reabastecer.",
@@ -1973,7 +1975,7 @@
       "success": "%1$sFuso horário modificado para `%2$s`. Este fuso horário será utilizado para indicar as horas nos registros de moderação."
     },
     "logs_timezonereset": {
-      "success": "%1$sFuso horário dos registros resetado com sucesso."
+      "success": "%1$sSuccessfully reset log timezone."
     },
     "lobby_reset": {
       "success": "%1$sResetando o lobby corretamente."
@@ -2217,7 +2219,7 @@
     },
     "modlog_blacklistwords_remove": {
       "not_in": "%1$sPalavra `%2$s` não está na lista negra.",
-      "success": "%1$sRemovido com sucesso a palavra `%2$s` do modlog da lista negra."
+      "success": "%1$sSuccessfully removed word `%2$s` from the modlog blacklist."
     },
     "logs_editmessage": {
       "no_message": "%1$sVocê precisa especificar qual mensagem que você quer que eu diga quando alguém editar uma mensagem!",

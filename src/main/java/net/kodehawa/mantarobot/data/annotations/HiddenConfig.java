@@ -15,6 +15,10 @@
  *
  */
 
-package net.kodehawa.mantarobot.commands.action.cache;
+package net.kodehawa.mantarobot.data.annotations;
 
-public record ImageCacheType(String type, String url, String id) { }
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+@Retention(RetentionPolicy.RUNTIME)
+public @interface HiddenConfig { }

@@ -38,8 +38,8 @@ import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.log.LogFilter;
-import net.kodehawa.mantarobot.log.LogUtils;
+import net.kodehawa.mantarobot.utils.log.LogFilter;
+import net.kodehawa.mantarobot.utils.log.LogUtils;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.TracingPrintStream;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -142,13 +142,15 @@ public class MantaroBot {
                 shardId -> getShardManager().getShardById(shardId)
         );
 
-        for (var node : config.getLavalinkNodes()) {
-            lavaLink.addNode(new URI(node), config.lavalinkPass);
-        }
+        if (config.musicEnable()) {
+            for (var node : config.getLavalinkNodes()) {
+                lavaLink.addNode(new URI(node), config.lavalinkPass);
+            }
 
-        // Choose the server with the lowest player amount
-        lavaLink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getPlayerPenalty);
-        lavaLink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getCpuPenalty);
+            // Choose the server with the lowest player amount
+            lavaLink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getPlayerPenalty);
+            lavaLink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getCpuPenalty);
+        }
 
         core = new MantaroCore(config, ExtraRuntimeOptions.DEBUG);
         audioManager = new MantaroAudioManager();

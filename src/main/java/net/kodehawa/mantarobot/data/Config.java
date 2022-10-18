@@ -17,6 +17,7 @@
 
 package net.kodehawa.mantarobot.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.seasons.Season;
@@ -243,5 +244,10 @@ public class Config {
 
     public boolean isTesting() {
         return testing;
+    }
+
+    @JsonIgnore
+    public boolean musicEnable() {
+        return isPremiumBot() || isSelfHost() || isTesting();
     }
 }

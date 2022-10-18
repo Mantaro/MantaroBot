@@ -200,6 +200,7 @@
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile language lang:<language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "music_general": {
+      "play_deprecated": "%1$sDue to circumstances outside of our control, we're unable to provide music playback on Mantaro.",
       "music_error": {
         "timeout": "%1$sNicht in der Lage zu %2$s zu verbinden: Verbindungsfehler. Versuche die Serverregion zu ändern und versuch den Befehl erneut.",
         "unknown": "%1$sNicht in der Lage zu %2$s zu verbinden: Unbekannter Fehler."
@@ -264,7 +265,7 @@
       "loader": {
         "over_limit": "%1$sDie Warteschlange, die du hinzugefügt hast, überschreitet %2$d Songs, also habe ich nur so viele hinzugefügt und den Rest ignoriert.",
         "loaded_playlist": "%1$s**%2$d Songs** der Warteschlange hinzugefügt: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`/play song:<search term> soundcloud:true` instead on the meanwhile. Direct links to youtube should work too.",
+        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
         "error_loading": "%1$sFehler beim Abrufen der Musik: %2$s. Versuche es vielleicht nochmal, oder probiere einen anderen Link?",
         "unknown_error_loading": "%1$sUnbekannter Fehler beim Abrufen der Musik. Versuche es vielleicht nochmal, oder probiere einen anderen Link?",
         "over_queue_limit": "%1$s**Konnte `%2$s` nicht der Warteschlange hinzufügen: Songlimit überschritten (%3$s)**",
@@ -460,19 +461,19 @@
         "not_enough_args": "%1$sDu musst den Befehlsnamen und die Antwort für den Befehl angeben, den du hinzufügen willst.",
         "empty_content": "%1$sDu musst den Inhalt für diesen benutzerdefinierten Befehl angeben.",
         "too_long": "%1$sDer Inhalt des Befehls ist zu lang und der Bot wird nicht in der Lage sein ihn darzustellen. Stelle sicher, dass der Befehl weniger als %2$,d Zeichen hat.",
-        "success": "%1$sBefehl `%2$s` gespeichert!",
+        "success": "%1$sSaved to command `%2$s`\nRemember: To access a custom command you create, you have to run it using Mantaro's prefix (for example `~>%2$s`), not Slash Commands.",
         "too_many_responses": "%1$sEs gibt zu viele Antworten (%2$s) für diesen Befehl. Das Limit ist für Premium-Server (siehe <https://patreon.com/mantaro>) verdoppelt (bis zu 100)",
         "too_many_commands": "%1%sEs gibt zu viele Befehle auf diesem Server, daher kannst du keine weiteren hinzufügen (+100). Dies kann von Premium-Servern umgangen werden (Check <https://patreon.com/mantaro>)."
       },
       "lockcommand": {
         "no_permission": "%1$sDu brauchst die \"Server verwalten\"-Berechtigung, um Befehle zu (ent-)sperren.",
         "no_command": "%1$sDu musst den Befehl, den du sperren möchtest, angeben.",
-        "success": "%1$sDer Befehl `%2$s` wurde erfolgreich gesperrt. Um ihn weiter zu bearbeiten, musst du ihn entsperren."
+        "success": "%1$sSuccessfully locked the `%2$s` command. You'll need to unlock it for further edits."
       },
       "unlockcommand": {
         "no_command": "%1$sDu musst den Befehl angeben, den du entsperren möchtest.",
         "not_locked": "%1$sDieser Befehl ist nicht gesperrt.",
-        "success": "%1$sDer Befehl `%2$s` wurde erfolgreich entsperrt. Du musst ihn wieder sperren, um weitere Bearbeitungen zu verhindern."
+        "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
       },
       "character_not_allowed": "%1$sDieses Zeichen ist in benutzerdefinierten Befehlen nicht erlaubt..",
       "already_exists": "%1$sDer Befehl `%2$s` existiert bereits und es ist ein Standard-Bot-Befehl!",
@@ -981,13 +982,13 @@
         "example": "\nExample: `/profile widgets order:header, credits, reputation, birthday, marriage, badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
       },
       "claimlock": {
-        "removed": "%1$sDein Beanspruchungsschutz wurde erfolgreich zurückgesetzt.",
+        "removed": "%1$sSuccessfully reset your claim lock status.",
         "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/waifu claimlock remove:true` to remove it later.",
         "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `/buy item:claim key`",
         "already_locked": "%1$sYou're already claim locked. Use `/waifu claimlock remove:true` to remove it."
       },
       "autoequip": {
-        "disable": "%1$sAuomatischen Ausrüsten wurde deaktiviert.",
+        "disable": "%1$sSuccessfully disabled auto-equip.",
         "success": "%1$sAutomatisches Ausrüsten wurde aktiviert."
       },
       "badge_header": "%1$s Vorzeige-Abzeichen",
@@ -1343,6 +1344,7 @@
         "stamina": "Ausdauer",
         "dust": "Dust (%)",
         "pet": "Streicheleinheiten",
+        "choice": "Choice",
         "buildup": "Credit- / Gegenstandsaufbau",
         "buildup_coin": "Creditaufbau",
         "buildup_stats": "%1$,d credits / %2$,d items",
@@ -1411,7 +1413,7 @@
         "no_need": "%1$sDein Haustier ist nicht hungrig, also will es gerade auch nichts essen.",
         "not_inventory": "%1$sDu hast den Gegenstand, den du deinem Haustier verfüttern willst nicht. Stelle sicher, dass du ihn im Inventar hast und die richtige Anzahl (%2$s) besitzt.",
         "not_applicable": "%1$sDu kannst dieses Essen nicht diesem Haustier füttern.",
-        "success": "%1$sYay! Dein Haustier wurde erfolgreich mit `%2$s` x%3$s gefüttert und hat %4$s%% seines Hungers gesättigt. Es ist jetzt zu %5$s%% satt.",
+        "success": "%1$sYay! Successfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now %5$s%% satisfied.",
         "too_much": "%1$sGib ihm vielleicht ein bisschen weniger Futter? Du würdest sonst Futter verschwenden! (Der Betrag würde 100%% übersteigen)"
       },
       "water": {
@@ -1420,7 +1422,7 @@
         "not_inventory": "%1$sDu hast keine Wasserflasche im Inventar.",
         "not_enough_inventory": "%1$sDu hast nicht genügend Wasserflaschen in deinem Inventar! Du brauchst %2$s.",
         "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (The amount used would surpass 100%% thirst)",
-        "success": "%1$sYay! Du hast deinem Haustier erfolgreich %2$d mal Wasser gegeben und es hat %3$s%% seines Durstes gelöscht. Es ist jetzt zu %4$s%% sitt."
+        "success": "%1$sYay! Successfully gave your pet %2$d water and it recovered %3$s%% of their thirst. Their thirst is now %4$s%% quenched."
       },
       "activity": {
         "low_stamina": "%1$s**%2$s** hat sehr wenig Ausdauer. Gib ihm Essen/Trinken zum auffüllen.",
@@ -1973,7 +1975,7 @@
       "success": "%1$sLogzeitzone wurde auf `%2$s` gesetzt. Diese Zeitzone wird benutzt, um die Zeit in Moderationslogs anzuzeigen."
     },
     "logs_timezonereset": {
-      "success": "%1$sLogging-Zeitzone erfolgreich zurückgesetzt."
+      "success": "%1$sSuccessfully reset log timezone."
     },
     "lobby_reset": {
       "success": "%1$sLobby erfolgreich zurückgesetzt."
@@ -2217,7 +2219,7 @@
     },
     "modlog_blacklistwords_remove": {
       "not_in": "%1$sWort `%2$s` ist nicht auf der Blacklist.",
-      "success": "%1$sErfolgreich das Wort `%2$s` von der Modlog-Blacklist entfernt."
+      "success": "%1$sSuccessfully removed word `%2$s` from the modlog blacklist."
     },
     "logs_editmessage": {
       "no_message": "%1$sDu musst angeben, welche Nachricht ich ausgeben soll, wenn jemand eine Nachricht bearbeitet!",

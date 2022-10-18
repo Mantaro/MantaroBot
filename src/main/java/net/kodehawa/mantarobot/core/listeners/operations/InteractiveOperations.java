@@ -17,7 +17,7 @@
 
 package net.kodehawa.mantarobot.core.listeners.operations;
 
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
@@ -28,7 +28,13 @@ import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -79,11 +85,11 @@ public class InteractiveOperations {
     }
 
     /**
-     * Creates a new {@link InteractiveOperation} on the specified {@link net.dv8tion.jda.api.entities.TextChannel} id provided.
+     * Creates a new {@link InteractiveOperation} on the specified {@link net.dv8tion.jda.api.entities.channel.concrete.TextChannel} id provided.
      * This method will not make a new {@link InteractiveOperation} if there's already another one running.
      * You can check the return type to give a response to the user.
      *
-     * @param channel        The id of the {@link net.dv8tion.jda.api.entities.TextChannel} we want this Operation to run on.
+     * @param channel        The id of the {@link net.dv8tion.jda.api.entities.channel.concrete.TextChannel} we want this Operation to run on.
      * @param timeoutSeconds How much seconds until it stops listening to us.
      * @param operation      The {@link InteractiveOperation} itself.
      */
@@ -92,11 +98,11 @@ public class InteractiveOperations {
     }
 
     /**
-     * Creates a new {@link InteractiveOperation} on the specified {@link net.dv8tion.jda.api.entities.TextChannel} id provided.
+     * Creates a new {@link InteractiveOperation} on the specified {@link net.dv8tion.jda.api.entities.channel.concrete.TextChannel} id provided.
      * This method will not make a new {@link InteractiveOperation} if there's already another one running.
      * You can check the return type to give a response to the user.
      *
-     * @param channelId      The id of the {@link net.dv8tion.jda.api.entities.TextChannel} we want this Operation to run on.
+     * @param channelId      The id of the {@link net.dv8tion.jda.api.entities.channel.concrete.TextChannel} we want this Operation to run on.
      * @param timeoutSeconds How much seconds until it stops listening to us.
      * @param operation      The {@link InteractiveOperation} itself.
      */

@@ -18,7 +18,9 @@
 package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.annotations.Option;
@@ -32,12 +34,17 @@ import java.util.function.Consumer;
 
 @Option
 public class MusicOptions extends OptionHandler {
+    private final Config config = MantaroData.config().get();
     public MusicOptions() {
         setType(OptionType.MUSIC);
     }
 
     @Subscribe
     public void onRegistry(OptionRegistryEvent e) {
+        if (!config.musicEnable()) {
+            return;
+        }
+
         registerOption("fairqueue:max", "Fair queue maximum",
                 "Sets the maximum fairqueue value (max amount of the same song any user can add).\n" + "Example: `~>opts fairqueue max 5`",
                 "Sets the maximum fairqueue value.", (ctx, args) -> {

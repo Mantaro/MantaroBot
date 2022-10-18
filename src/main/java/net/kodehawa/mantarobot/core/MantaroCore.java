@@ -26,7 +26,8 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.GenericEvent;
-import net.dv8tion.jda.api.events.ReadyEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
+import net.dv8tion.jda.api.exceptions.InvalidTokenException;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -55,7 +56,7 @@ import net.kodehawa.mantarobot.core.shard.discord.BotGateway;
 import net.kodehawa.mantarobot.core.shard.jda.BucketedController;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.log.LogUtils;
+import net.kodehawa.mantarobot.utils.log.LogUtils;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -70,15 +71,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
-import javax.security.auth.login.LoginException;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static net.kodehawa.mantarobot.core.LoadState.*;
+import static net.kodehawa.mantarobot.core.LoadState.LOADED;
+import static net.kodehawa.mantarobot.core.LoadState.LOADING;
+import static net.kodehawa.mantarobot.core.LoadState.POSTLOAD;
+import static net.kodehawa.mantarobot.core.LoadState.PRELOAD;
 import static net.kodehawa.mantarobot.core.cache.EvictionStrategy.leastRecentlyUsed;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
 
@@ -203,31 +216,52 @@ public class MantaroCore {
                     GatewayIntent.MESSAGE_CONTENT, // Receive message content.
                     GatewayIntent.GUILD_MESSAGE_REACTIONS,  // Receive message reactions, used for reaction menus.
                     GatewayIntent.GUILD_MEMBERS, // Receive member events, needed for mod features *and* welcome/leave messages.
-                    GatewayIntent.GUILD_VOICE_STATES, // Receive voice states, needed so Member#getVoiceState doesn't return null.
             };
 
-            var disabledIntents = EnumSet.of(
-                    CacheFlag.ACTIVITY, CacheFlag.EMOJI, CacheFlag.CLIENT_STATUS,
-                    CacheFlag.ROLE_TAGS, CacheFlag.ONLINE_STATUS, CacheFlag.STICKER
-            );
+            // This is used so we can fire PostLoadEvent properly.
+            var shardStartListener = new ShardStartListener();
+            Object[] eventListeners;
 
-            log.info("Using intents {}", Arrays.stream(toEnable)
+            var enabled = new ArrayList<>(List.of(toEnable));
+            EnumSet<CacheFlag> disabledIntents;
+            if (config.musicEnable()) {
+                disabledIntents = EnumSet.of(
+                        CacheFlag.ACTIVITY, CacheFlag.EMOJI, CacheFlag.CLIENT_STATUS,
+                        CacheFlag.ROLE_TAGS, CacheFlag.ONLINE_STATUS, CacheFlag.STICKER
+                );
+
+                eventListeners = new Object[]{
+                        VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
+                        ReactionOperations.listener(), MantaroBot.getInstance().getLavaLink(),
+                        ButtonOperations.listener(), ModalOperations.listener(), shardStartListener
+                };
+
+                enabled.add(GatewayIntent.GUILD_VOICE_STATES); // Receive voice states, needed so Member#getVoiceState doesn't return null.
+                log.info("Music has been enabled.");
+            } else {
+                disabledIntents = EnumSet.of(
+                        CacheFlag.ACTIVITY, CacheFlag.EMOJI, CacheFlag.CLIENT_STATUS,
+                        CacheFlag.ROLE_TAGS, CacheFlag.ONLINE_STATUS, CacheFlag.STICKER,
+                        CacheFlag.VOICE_STATE
+                );
+
+                eventListeners = new Object[]{
+                        InteractiveOperations.listener(), ReactionOperations.listener(),
+                        ButtonOperations.listener(), ModalOperations.listener(), shardStartListener
+                };
+                log.info("Music has been disabled.");
+            }
+
+            log.info("Using intents {}", enabled.stream()
                     .map(Enum::name)
                     .collect(Collectors.joining(", "))
             );
 
-            // This is used so we can fire PostLoadEvent properly.
-            var shardStartListener = new ShardStartListener();
-
-            var shardManager = DefaultShardManagerBuilder.create(config.token, Arrays.asList(toEnable))
+            var shardManager = DefaultShardManagerBuilder.create(config.token, enabled)
                     // Can't do chunking with Gateway Intents enabled, fun, but don't need it anymore.
                     .setChunkingFilter(ChunkingFilter.NONE)
                     .setSessionController(controller)
-                    .addEventListeners(
-                            VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
-                            ReactionOperations.listener(), MantaroBot.getInstance().getLavaLink(),
-                            ButtonOperations.listener(), ModalOperations.listener(), shardStartListener
-                    )
+                    .addEventListeners(eventListeners)
                     .addEventListenerProviders(List.of(
                             id -> new CommandListener(commandProcessor, threadPool, getShard(id).getMessageCache()),
                             id -> new MantaroListener(threadPool, getShard(id).getMessageCache()),
@@ -236,10 +270,13 @@ public class MantaroCore {
                     .setEventManagerProvider(id -> getShard(id).getManager())
                     // Don't spam on mass-prune.
                     .setBulkDeleteSplittingEnabled(false)
-                    .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavaLink().getVoiceInterceptor())
                     .disableCache(disabledIntents)
                     .setActivity(Activity.playing("Hold on to your seatbelts!"));
-            
+
+            if (config.musicEnable()) {
+                shardManager.setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavaLink().getVoiceInterceptor());
+            }
+
             /* only create eviction strategies that will get used */
             List<Integer> shardIds;
             int latchCount;
@@ -306,7 +343,6 @@ public class MantaroCore {
 
             // Use a LRU cache policy.
             shardManager.setMemberCachePolicy(new EvictingCachePolicy(shardIds, () -> leastRecentlyUsed(config.memberCacheSize)));
-    
             MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
 
             log.info("Spawning {} shards...", latchCount);
@@ -329,7 +365,7 @@ public class MantaroCore {
                     e.printStackTrace();
                 }
             });
-        } catch (LoginException e) {
+        } catch (InvalidTokenException e) {
             throw new IllegalStateException(e);
         }
 

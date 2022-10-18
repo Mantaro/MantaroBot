@@ -23,11 +23,23 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.utils.FileUpload;
 import net.kodehawa.lib.imageboards.DefaultImageBoards;
 import net.kodehawa.lib.imageboards.ImageBoard;
-import net.kodehawa.lib.imageboards.entities.impl.*;
+import net.kodehawa.lib.imageboards.entities.impl.DanbooruImage;
+import net.kodehawa.lib.imageboards.entities.impl.FurryImage;
+import net.kodehawa.lib.imageboards.entities.impl.GelbooruImage;
+import net.kodehawa.lib.imageboards.entities.impl.KonachanImage;
+import net.kodehawa.lib.imageboards.entities.impl.Rule34Image;
+import net.kodehawa.lib.imageboards.entities.impl.SafeFurryImage;
+import net.kodehawa.lib.imageboards.entities.impl.SafebooruImage;
+import net.kodehawa.lib.imageboards.entities.impl.YandereImage;
 import net.kodehawa.mantarobot.commands.action.WeebAPIRequester;
 import net.kodehawa.mantarobot.commands.image.ImageRequestType;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.meta.*;
+import net.kodehawa.mantarobot.core.command.meta.Category;
+import net.kodehawa.mantarobot.core.command.meta.Defer;
+import net.kodehawa.mantarobot.core.command.meta.Description;
+import net.kodehawa.mantarobot.core.command.meta.Help;
+import net.kodehawa.mantarobot.core.command.meta.Name;
+import net.kodehawa.mantarobot.core.command.meta.Options;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -205,10 +217,13 @@ public class ImageCmds {
                     `/e621 tags:[tag list]` - Retrieves a image with the specified tags.
                     """,
             parameters = {
-                    @Help.Parameter(name = "tags", description = TAG_HELP, optional = true)
+                    @Help.Parameter(name = "tags", description = TAG_HELP, optional = true),
+                    @Help.Parameter(name = "excludetags", description = "Same as tags, but excludes them instead.", optional = true)
             })
     @Options({
-            @Options.Option(type = OptionType.STRING, name = "tags", description = "Image tags, separated by a space.")
+            @Options.Option(type = OptionType.STRING, name = "tags", description = "Image tags, separated by a space."),
+            @Options.Option(type = OptionType.STRING, name = "excludetags", description = "Image tags to exclude, separated by a space."),
+
     })
     public static class E621 extends SlashCommand {
         @Override
@@ -218,7 +233,8 @@ public class ImageCmds {
                 return;
             }
 
-            sendImage(ctx, e621, true, "e621", null, ctx.getOptionAsString("tags", ""));
+            sendImage(ctx, e621, true, "e621", null, ctx.getOptionAsString("tags", ""),
+                    ctx.getOptionAsString("excludetags", ""));
         }
     }
 
@@ -236,16 +252,19 @@ public class ImageCmds {
                     `/e926 tags:[tag list]` - Retrieves a image with the specified tags.
                     """,
             parameters = {
-                    @Help.Parameter(name = "tags", description = TAG_HELP, optional = true)
+                    @Help.Parameter(name = "tags", description = TAG_HELP, optional = true),
+                    @Help.Parameter(name = "excludetags", description = "Same as tags, but excludes them instead.", optional = true)
             }
     )
     @Options({
-            @Options.Option(type = OptionType.STRING, name = "tags", description = "Image tags, separated by a space.")
+            @Options.Option(type = OptionType.STRING, name = "tags", description = "Image tags, separated by a space."),
+            @Options.Option(type = OptionType.STRING, name = "excludetags", description = "Image tags to exclude, separated by a space."),
     })
     public static class E926 extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            sendImage(ctx, e926, false, "e926", "safe", ctx.getOptionAsString("tags", ""));
+            sendImage(ctx, e926, false, "e926", "safe", ctx.getOptionAsString("tags", ""),
+                    ctx.getOptionAsString("excludetags", ""));
         }
     }
 
@@ -262,7 +281,8 @@ public class ImageCmds {
                     """,
             parameters = {
                     @Help.Parameter(name = "rating", description = RATING_HELP, optional = true),
-                    @Help.Parameter(name = "tags", description = TAG_HELP, optional = true)
+                    @Help.Parameter(name = "tags", description = TAG_HELP, optional = true),
+                    @Help.Parameter(name = "excludetags", description = "Same as tags, but excludes them instead.", optional = true)
             }
     )
     @Options({
@@ -277,7 +297,8 @@ public class ImageCmds {
                             @Options.Choice(description = "Random (any of the above) Image", value = "random")
                     }
             ),
-            @Options.Option(type = OptionType.STRING, name = "tags", description = "Image tags, separated by a space.")
+            @Options.Option(type = OptionType.STRING, name = "tags", description = "Image tags, separated by a space."),
+            @Options.Option(type = OptionType.STRING, name = "excludetags", description = "Image tags to exclude, separated by a space."),
     })
     public static class Konachan extends SlashCommand {
         @Override
@@ -289,7 +310,8 @@ public class ImageCmds {
 
             sendImage(
                     ctx, konachan, false, "konachan",
-                    ctx.getOptionAsString("rating", "safe"), ctx.getOptionAsString("tags", "")
+                    ctx.getOptionAsString("rating", "safe"), ctx.getOptionAsString("tags", ""),
+                    ctx.getOptionAsString("excludetags", "")
             );
         }
     }
@@ -309,7 +331,8 @@ public class ImageCmds {
                     """,
             parameters = {
                     @Help.Parameter(name = "rating", description = RATING_HELP, optional = true),
-                    @Help.Parameter(name = "tags", description = TAG_HELP, optional = true)
+                    @Help.Parameter(name = "tags", description = TAG_HELP, optional = true),
+                    @Help.Parameter(name = "excludetags", description = "Same as tags, but excludes them instead.", optional = true)
             }
     )
     @Options({
@@ -324,7 +347,8 @@ public class ImageCmds {
                             @Options.Choice(description = "Random (any of the above) Image", value = "random")
                     }
             ),
-            @Options.Option(type = OptionType.STRING, name = "tags", description = "Image tags, separated by a space.")
+            @Options.Option(type = OptionType.STRING, name = "tags", description = "Image tags, separated by a space."),
+            @Options.Option(type = OptionType.STRING, name = "excludetags", description = "Image tags to exclude, separated by a space."),
     })
     public static class Yandere extends SlashCommand {
         @Override
@@ -336,7 +360,8 @@ public class ImageCmds {
 
             sendImage(
                     ctx, yandere, false, "yandere",
-                    ctx.getOptionAsString("rating", "safe"), ctx.getOptionAsString("tags", "")
+                    ctx.getOptionAsString("rating", "safe"), ctx.getOptionAsString("tags", ""),
+                    ctx.getOptionAsString("excludetags", "")
             );
         }
     }
@@ -356,7 +381,8 @@ public class ImageCmds {
                     """,
             parameters = {
                     @Help.Parameter(name = "rating", description = RATING_HELP, optional = true),
-                    @Help.Parameter(name = "tags", description = TAG_HELP, optional = true)
+                    @Help.Parameter(name = "tags", description = TAG_HELP, optional = true),
+                    @Help.Parameter(name = "excludetags", description = "Same as tags, but excludes them instead.", optional = true)
             }
     )
     @Options({
@@ -371,7 +397,8 @@ public class ImageCmds {
                             @Options.Choice(description = "Random (any of the above) Image", value = "random")
                     }
             ),
-            @Options.Option(type = OptionType.STRING, name = "tags", description = "Image tags, separated by a space.")
+            @Options.Option(type = OptionType.STRING, name = "tags", description = "Image tags, separated by a space."),
+            @Options.Option(type = OptionType.STRING, name = "excludetags", description = "Image tags to exclude, separated by a space."),
     })
     public static class Gelbooru extends SlashCommand {
         @Override
@@ -383,7 +410,8 @@ public class ImageCmds {
 
             sendImage(
                     ctx, gelbooru, false, "gelbooru",
-                    ctx.getOptionAsString("rating", "safe"), ctx.getOptionAsString("tags", "")
+                    ctx.getOptionAsString("rating", "safe"), ctx.getOptionAsString("tags", ""),
+                    ctx.getOptionAsString("excludetags", "")
             );
         }
     }
@@ -398,11 +426,13 @@ public class ImageCmds {
                     `/safebooru tags:[tag list]` - Retrieves a image with the specified tags.
                     """,
             parameters = {
-                    @Help.Parameter(name = "tags", description = TAG_HELP, optional = true)
+                    @Help.Parameter(name = "tags", description = TAG_HELP, optional = true),
+                    @Help.Parameter(name = "excludetags", description = "Same as tags, but excludes them instead.", optional = true)
             }
     )
     @Options({
-            @Options.Option(type = OptionType.STRING, name = "tags", description = "Image tags, separated by a space.")
+            @Options.Option(type = OptionType.STRING, name = "tags", description = "Image tags, separated by a space."),
+            @Options.Option(type = OptionType.STRING, name = "excludetags", description = "Image tags to exclude, separated by a space."),
     })
     public static class Safebooru extends SlashCommand {
         @Override
@@ -412,7 +442,8 @@ public class ImageCmds {
                 return;
             }
 
-            sendImage(ctx, safebooru, false, "safebooru", "safe", ctx.getOptionAsString("tags", ""));
+            sendImage(ctx, safebooru, false, "safebooru", "safe", ctx.getOptionAsString("tags", ""),
+                    ctx.getOptionAsString("excludetags", ""));
         }
     }
 
@@ -429,16 +460,19 @@ public class ImageCmds {
                 `/rule34 tags:[tag list]` - Retrieves a image with the specified tags.
                 """,
             parameters = {
-                    @Help.Parameter(name = "tags", description = TAG_HELP, optional = true)
+                    @Help.Parameter(name = "tags", description = TAG_HELP, optional = true),
+                    @Help.Parameter(name = "excludetags", description = "Same as tags, but excludes them instead.", optional = true)
             })
     @Options({
-            @Options.Option(type = OptionType.STRING, name = "tags", description = "Image tags, separated by a space.")
+            @Options.Option(type = OptionType.STRING, name = "tags", description = "Image tags, separated by a space."),
+            @Options.Option(type = OptionType.STRING, name = "excludetags", description = "Image tags to exclude, separated by a space."),
     })
     public static class Rule34 extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
             // This is nsfw-only, so its restricted to nsfw channels aswell, just not with a special message.
-            sendImage(ctx, rule34, true, "rule34", "explicit", ctx.getOptionAsString("tags", ""));
+            sendImage(ctx, rule34, true, "rule34", "explicit", ctx.getOptionAsString("tags", ""),
+                    ctx.getOptionAsString("excludetags", ""));
         }
     }
 
@@ -456,7 +490,8 @@ public class ImageCmds {
                     """,
             parameters = {
                     @Help.Parameter(name = "rating", description = RATING_HELP, optional = true),
-                    @Help.Parameter(name = "tags", description = TAG_HELP, optional = true)
+                    @Help.Parameter(name = "tags", description = TAG_HELP, optional = true),
+                    @Help.Parameter(name = "excludetags", description = "Same as tags, but excludes them instead.", optional = true)
             }
     )
     @Options({
@@ -471,7 +506,8 @@ public class ImageCmds {
                             @Options.Choice(description = "Random (any of the above) Image", value = "random")
                     }
             ),
-            @Options.Option(type = OptionType.STRING, name = "tags", description = "Image tags, separated by a space.")
+            @Options.Option(type = OptionType.STRING, name = "tags", description = "Image tags, separated by a space."),
+            @Options.Option(type = OptionType.STRING, name = "excludetags", description = "Image tags to exclude, separated by a space."),
     })
     public static class Danbooru extends SlashCommand {
         @Override
@@ -483,7 +519,8 @@ public class ImageCmds {
 
             sendImage(
                     ctx, danbooru, false, "danbooru",
-                    ctx.getOptionAsString("rating", "safe"), ctx.getOptionAsString("tags", "")
+                    ctx.getOptionAsString("rating", "safe"), ctx.getOptionAsString("tags", ""),
+                    ctx.getOptionAsString("excludetags", "")
             );
         }
     }
@@ -511,11 +548,11 @@ public class ImageCmds {
     }
 
     private static void sendImage(SlashContext ctx, ImageBoard<?> image,
-                                  boolean nsfwOnly, String name, String rating, String tags) {
-        if (tags.isEmpty()) {
-            getImage(image, ImageRequestType.RANDOM, nsfwOnly, name, rating, tags, ctx);
+                                  boolean nsfwOnly, String name, String rating, String tags, String excludeTags) {
+        if (tags.isEmpty() && excludeTags.isEmpty()) {
+            getImage(image, ImageRequestType.RANDOM, nsfwOnly, name, rating, tags, excludeTags, ctx);
         } else {
-            getImage(image, ImageRequestType.TAGS, nsfwOnly, name, rating, tags, ctx);
+            getImage(image, ImageRequestType.TAGS, nsfwOnly, name, rating, tags, excludeTags, ctx);
         }
     }
 }
