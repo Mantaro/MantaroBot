@@ -24,6 +24,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.utils.MarkdownSanitizer;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -125,26 +126,25 @@ public class Poll {
 
     public void start(SlashContext ctx) {
         var at = new AtomicInteger();
-        var toShow = options().stream()
-                .map(opt -> String.format("#%01d.- %s", at.incrementAndGet(), opt))
-                .collect(Collectors.joining("\n"));
-
-        if (toShow.length() > 1014) {
-            ctx.edit("commands.poll.too_long", EmoteReference.ERROR);
-            return;
-        }
 
         var user = ctx.getAuthor();
         var languageContext = ctx.getLanguageContext();
-
         var builder = new EmbedBuilder().setAuthor(String.format(languageContext.get("commands.poll.header"), user.getName()), null, user.getAvatarUrl())
-                .setDescription(String.format(languageContext.get("commands.poll.success"), name()))
-                .addField(EmoteReference.PENCIL.toHeaderString() + languageContext.get("general.options"),
-                        "```md\n" + toShow + "```", false
-                )
                 .setColor(Color.CYAN)
                 .setThumbnail("https://i.imgur.com/7TITtHb.png")
-                .setFooter(String.format(languageContext.get("commands.poll.time"), Utils.formatDuration(languageContext, time() - System.currentTimeMillis())), user.getAvatarUrl());
+                .setFooter(String.format(languageContext.get("commands.poll.time"),
+                        Utils.formatDuration(languageContext, time() - System.currentTimeMillis())), user.getAvatarUrl()
+                );
+
+        for (var option : options()) {
+            if (option.length() >= 1024) {
+                ctx.edit("commands.poll.too_long", EmoteReference.ERROR);
+                return;
+            }
+
+            builder.addField("Option #%01d".formatted(at.incrementAndGet()), MarkdownSanitizer.sanitize(option), false);
+        }
+
 
         var image = image();
         if (image != null && EmbedBuilder.URL_PATTERN.asPredicate().test(image)) {
