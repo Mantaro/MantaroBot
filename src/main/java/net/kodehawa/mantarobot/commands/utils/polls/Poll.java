@@ -125,7 +125,7 @@ public class Poll {
     }
 
     public void start(SlashContext ctx) {
-        var at = new AtomicInteger();
+        var at = 0;
 
         var user = ctx.getAuthor();
         var languageContext = ctx.getLanguageContext();
@@ -142,7 +142,7 @@ public class Poll {
                 return;
             }
 
-            builder.addField("Option #%01d".formatted(at.incrementAndGet()), MarkdownSanitizer.sanitize(option), false);
+            builder.addField("Option #%01d".formatted(++i, MarkdownSanitizer.sanitize(option), false);
         }
 
 

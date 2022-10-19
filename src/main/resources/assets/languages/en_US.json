@@ -883,15 +883,15 @@
       "too_much_time": "%1$sThe poll should be at most 2 days long.",
       "too_few_options": "%1$sPolls should at least have 2 options.",
       "too_many_options": "%1$sPolls cannot have more than 9 options.",
-      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds).",
+      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds), for example: 1m25s.",
       "cancel": {
         "no_polls": "%1$sThere's no running polls here.",
         "success": "%1$sCancelled this poll.",
         "select": "Select the poll you want to cancel."
       },
       "list": {
-        "header": "Running polls on %s.",
-        "description": "**This is a list of the running polls on this server**. You can cancel a poll by using `/poll cancel`.",
+        "header": "Running polls in %s.",
+        "description": "**This is a list of the running polls in this server**. You can cancel a poll by using `/poll cancel`.",
         "footer": "Thanks for using Mantaro <3 (Total Polls: %s)",
         "format_header": "Poll #%d",
         "format": "**Name:** %s, **due** <t:%s:R>, **[link](%s)**",
