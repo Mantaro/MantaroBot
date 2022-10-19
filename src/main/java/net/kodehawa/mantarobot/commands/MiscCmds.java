@@ -296,8 +296,8 @@ public class MiscCmds {
                 }
 
                 try {
-                    var builder = Poll.builder();
-                    builder.guildId(ctx.getGuild().getId())
+                    var builder = Poll.builder()
+                            .guildId(ctx.getGuild().getId())
                             .channelId(ctx.getChannel().getId())
                             .options(List.of(options))
                             .name(name)
