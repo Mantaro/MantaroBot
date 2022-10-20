@@ -38,7 +38,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisPool;
 
-import java.awt.*;
+import java.awt.Color;
 import java.beans.ConstructorProperties;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -142,7 +142,7 @@ public class Poll {
                 return;
             }
 
-            builder.addField("Option #%01d".formatted(++i, MarkdownSanitizer.sanitize(option), false);
+            builder.addField("Option #%01d".formatted(++at), MarkdownSanitizer.sanitize(option), false);
         }
 
 
@@ -166,6 +166,10 @@ public class Poll {
     }
 
     public void end() {
+        // Cancel poll before doing existing checks -- we don't want the object to dangle.
+        cancel();
+
+        // Checks before sending the final poll message.
         if (getGuild() == null)
             return;
 
@@ -202,13 +206,11 @@ public class Poll {
                         .queue();
             });
         });
-
-        cancel();
     }
 
     // Cancel from inside
     public void cancel() {
-        cancel(id(), db.getGuild(getGuild()));
+        cancel(id(), db.getGuild(guildId));
     }
 
     // Cancel from outside.
