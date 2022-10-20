@@ -52,7 +52,7 @@
       "crate": {
         "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `/buy item:key`",
         "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
-        "success": "%1$상자를 열고 얻었어요: %2$s%3$s. 축하해요!",
+        "success": "%1$s상자를 열고 얻었어요: %2$s%3$s. 축하해요!",
         "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
         "overflow": "하지만 이미 너무 많이 얻어서 초과된 양을 버리기로 결정했어요"
       },
