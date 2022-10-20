@@ -125,8 +125,18 @@ public class Poll {
     }
 
     public void start(SlashContext ctx) {
-        var at = 0;
+        // We might need this sanity checks in case we somehow get a delay on getting the call and the guild has already left.
+        // This has happened in Audio before, so better safe than sorry.
+        if (getGuild() == null)
+            return;
 
+        // Channel somehow doesn't exist anymore? Nowhere to send the message.
+        if (getChannel() == null) {
+            ctx.edit("commands.poll.invalid_channel", EmoteReference.ERROR);
+            return;
+        }
+
+        var at = 0;
         var user = ctx.getAuthor();
         var languageContext = ctx.getLanguageContext();
         var builder = new EmbedBuilder().setAuthor(String.format(languageContext.get("commands.poll.header"), user.getName()), null, user.getAvatarUrl())
