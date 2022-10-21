@@ -77,7 +77,7 @@ dependencies {
 
     // Database
     implementation 'com.rethinkdb:rethinkdb-driver:2.4.4'
-    implementation 'redis.clients:jedis:4.3.0'
+    implementation 'redis.clients:jedis:4.3.1'
 
     // Utilities
     implementation 'org.apache.commons:commons-lang3:3.12.0'
