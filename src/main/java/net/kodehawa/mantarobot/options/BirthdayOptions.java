@@ -23,8 +23,6 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
-import net.dv8tion.jda.api.entities.channel.middleman.StandardGuildChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.StandardGuildMessageChannel;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
@@ -112,8 +110,12 @@ public class BirthdayOptions extends OptionHandler {
 
                     final Pair<String, MessageEmbed> finalMessage = BirthdayTask.buildBirthdayMessage(message, birthdayChannel, m);
                     var msg = new MessageCreateBuilder()
-                            .addContent("\n" + ctx.getGuildLanguageContext().get("general.birthday") + " (test message)\n")
-                            .addContent(finalMessage.left());
+                            .addContent("\n" + ctx.getGuildLanguageContext().get("general.birthday") + " (test message)\n");
+
+                    var content = finalMessage.left();
+                    if (content != null && !content.isEmpty()) {
+                        msg.addContent(content);
+                    }
 
                     if (finalMessage.right() != null) {
                         msg.addEmbeds(finalMessage.right());
