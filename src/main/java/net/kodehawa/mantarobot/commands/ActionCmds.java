@@ -24,7 +24,6 @@ import net.kodehawa.mantarobot.commands.action.ImageActionSlash;
 import net.kodehawa.mantarobot.commands.action.ImageCmd;
 import net.kodehawa.mantarobot.commands.action.ImageCmdSlash;
 import net.kodehawa.mantarobot.commands.action.TextActionCmd;
-import net.kodehawa.mantarobot.commands.action.TextActionSlash;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Description;
@@ -226,14 +225,6 @@ public class ActionCmds {
         public static class FaceDesk extends ImageCmdSlash {
             public FaceDesk() {
                 super("banghead", "commands.action.facedesk", true);
-            }
-        }
-
-        @Name("tsundere")
-        @Description("B-Baka!")
-        public static class Tsundere extends TextActionSlash {
-            public Tsundere() {
-                super(EmoteReference.MEGA + "%s", TSUNDERE.get());
             }
         }
     }
