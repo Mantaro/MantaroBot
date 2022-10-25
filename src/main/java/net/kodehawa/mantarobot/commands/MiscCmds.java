@@ -246,7 +246,7 @@ public class MiscCmds {
                 return ctx -> {
                     // We should also add some kind of configurable role, probably.
                     if (!CommandPermission.ADMIN.test(ctx.getMember())) {
-                        ctx.replyEphemeral("commands.poll.no_reaction_perms", EmoteReference.ERROR);
+                        ctx.replyEphemeral("commands.poll.no_permissions", EmoteReference.ERROR);
                         return false;
                     }
 
