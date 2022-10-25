@@ -37,6 +37,7 @@ import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -44,7 +45,7 @@ import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONObject;
 
-import java.awt.*;
+import java.awt.Color;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -53,6 +54,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 @Module
@@ -239,6 +241,19 @@ public class MiscCmds {
 
         })
         public static class CreatePoll extends SlashCommand {
+            @Override
+            public Predicate<SlashContext> getPredicate() {
+                return ctx -> {
+                    // We should also add some kind of configurable role, probably.
+                    if (!CommandPermission.ADMIN.test(ctx.getMember())) {
+                        ctx.replyEphemeral("commands.poll.no_reaction_perms", EmoteReference.ERROR);
+                        return false;
+                    }
+
+                    return true;
+                };
+            }
+
             @Override
             protected void process(SlashContext ctx) {
                 if (!ctx.getGuild().getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_ADD_REACTION)) {
