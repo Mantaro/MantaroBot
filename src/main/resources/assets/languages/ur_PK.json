@@ -865,17 +865,40 @@
       "other_poll_running": "%1$sThere seems to be another poll running here...",
       "no_reaction_perms": "%1$sSeems like I cannot add reactions here...",
       "too_long": "%1$sThis was too long to show. Try with less options?",
-      "header": "Poll #%1$d created by %2$s",
+      "header": "Poll created by %1$s",
       "success": "**Poll started. React to the number to vote.**\n*%1$s*",
       "time": "You have %1$s to vote.",
+      "name_too_long": "%1$sThe name can only be up to 500 characters long.",
+      "too_many": "%1$sYou can only run up to 5 polls at once.",
       "error": "%1$sAn unknown error has occurred while setting up a poll. Maybe try again? (internal error)",
       "result_header": "Poll results",
       "result_screen": "**Showing results for the poll started by %1$s** with name: *%2$s*",
       "vote_results": "+Registered %1$d votes for option %2$s",
       "thank_note": "Thanks for your vote",
       "results": "Results",
-      "cancelled": "%1$sCancelled poll",
-      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds)."
+      "due_at": "due:",
+      "cancelled": "%1$sCancelled poll.",
+      "completed": "%1$sThis poll has ended. Results: %2$s",
+      "too_little_time": "%1$sThe poll should be at least 2 minutes long.",
+      "too_much_time": "%1$sThe poll should be at most 2 days long.",
+      "too_few_options": "%1$sPolls should at least have 2 options.",
+      "too_many_options": "%1$sPolls cannot have more than 9 options.",
+      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds), for example: 2m25s.",
+      "invalid_channel": "%1$sI can't find the channel you tried to start this poll on.",
+      "no_permissions": "%1$sYou need to have the Manage Server permission or the Bot Commander role to administrate polls.",
+      "cancel": {
+        "no_polls": "%1$sThere's no running polls here.",
+        "success": "%1$sCancelled this poll.",
+        "select": "Select the poll you want to cancel."
+      },
+      "list": {
+        "header": "Running polls in %s.",
+        "description": "**This is a list of the running polls in this server**. You can cancel a poll by using `/poll cancel`.",
+        "footer": "Thanks for using Mantaro <3 (Total Polls: %s)",
+        "format_header": "Poll #%d",
+        "format": "**Name:** %s, **due** <t:%s:R>, **[link](%s)**",
+        "empty": "%1$sThere are no running polls here."
+      }
     },
     "profile": {
       "timezone": {
