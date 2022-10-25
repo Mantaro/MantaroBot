@@ -103,7 +103,7 @@ public class Poll {
     }
 
     public List<String> options() {
-        return options;
+        return this.options;
     }
 
     public long time() {
@@ -149,7 +149,8 @@ public class Poll {
                         Utils.formatDuration(languageContext, time() - System.currentTimeMillis())), user.getAvatarUrl()
                 );
 
-        for (var option : options()) {
+        var filteredOptions = options().stream().filter(s -> !s.isBlank()).toList();
+        for (var option : filteredOptions) {
             if (option.length() >= 1024) {
                 ctx.edit("commands.poll.too_long", EmoteReference.ERROR);
                 return;
@@ -169,7 +170,7 @@ public class Poll {
         }
 
         var message = ctx.sendResult(builder.build());
-        var reactions = reactions(options().size());
+        var reactions = reactions(filteredOptions.size());
         for (String reaction : reactions) {
             message.addReaction(Emoji.fromUnicode(reaction)).queue();
         }
