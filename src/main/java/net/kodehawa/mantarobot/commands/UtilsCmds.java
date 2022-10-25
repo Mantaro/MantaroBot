@@ -168,7 +168,7 @@ public class UtilsCmds {
                         List<ReminderObject> rems = getReminders(reminders);
                         rems = rems.stream().filter(reminder -> reminder.time - System.currentTimeMillis() > 3).collect(Collectors.toList());
                         DiscordUtils.selectListButtonSlash(ctx, rems,
-                                r -> "%s, %s: %s".formatted(r.reminder, lang.get("commands.remindme.due_at"), Utils.formatDuration(lang, r.time - System.currentTimeMillis())),
+                                r -> "%s, %s: <t:%s:R>".formatted(r.reminder, lang.get("commands.remindme.due_at"), r.time / 1000),
                                 r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle(lang.get("commands.remindme.cancel.select"), null)
                                         .setDescription(r1)
                                         .setFooter(lang.get("general.timeout").formatted(10), null).build(),

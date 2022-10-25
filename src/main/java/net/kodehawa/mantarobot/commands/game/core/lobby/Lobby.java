@@ -15,7 +15,7 @@
  *
  */
 
-package net.kodehawa.mantarobot.commands.interaction;
+package net.kodehawa.mantarobot.commands.game.core.lobby;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;

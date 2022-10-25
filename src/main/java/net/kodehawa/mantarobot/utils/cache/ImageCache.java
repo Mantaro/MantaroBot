@@ -47,7 +47,9 @@ public class ImageCache {
 
     @JsonIgnore
     public boolean containsImage(String hash) {
-        return images.stream().anyMatch(type -> type.id().equals(hash));
+        return images.stream()
+                .filter(type -> type.id() != null) // How?
+                .anyMatch(type -> type.id().equals(hash));
     }
 
     @JsonIgnore
