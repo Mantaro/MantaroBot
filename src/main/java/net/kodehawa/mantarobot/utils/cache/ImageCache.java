@@ -72,7 +72,10 @@ public class ImageCache {
                     cache = JsonDataManager.fromJson(cached, ImageCache.class);
                 }
 
-                if (!cache.containsImage(result.id())) {
+                // How any of this ones can be null is out of my understanding
+                // but it happens
+                var pass = result.id() != null && result.type() != null && result.url() != null;
+                if (pass && !cache.containsImage(result.id())) {
                     cache.getImages().add(new ImageCacheType(result.type(), result.url(), result.id()));
                     jedis.hset("image-cache", type, JsonDataManager.toJson(cache));
 
