@@ -26,7 +26,7 @@ import net.kodehawa.mantarobot.commands.game.Pokemon;
 import net.kodehawa.mantarobot.commands.game.Trivia;
 import net.kodehawa.mantarobot.commands.game.TriviaDifficulty;
 import net.kodehawa.mantarobot.commands.game.core.Game;
-import net.kodehawa.mantarobot.commands.game.core.GameLobby;
+import net.kodehawa.mantarobot.commands.game.core.lobby.GameLobby;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;

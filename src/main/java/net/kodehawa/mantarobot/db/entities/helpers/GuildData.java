@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.db.entities.helpers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.kodehawa.mantarobot.commands.moderation.WarnAction;
+import net.kodehawa.mantarobot.commands.utils.polls.Poll;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.data.annotations.ConfigName;
 import net.kodehawa.mantarobot.data.annotations.HiddenConfig;
@@ -240,6 +241,9 @@ public class GuildData {
 
     @ConfigName("Disable questionable/explicit imageboard search")
     private boolean disableExplicit = false;
+
+    @HiddenConfig // its a list of polls
+    private Map<String, Poll.PollDatabaseObject> runningPolls = new HashMap<>();
 
     public GuildData() { }
 
@@ -913,5 +917,9 @@ public class GuildData {
 
     public void setDisableExplicit(boolean disableExplicit) {
         this.disableExplicit = disableExplicit;
+    }
+
+    public Map<String, Poll.PollDatabaseObject> getRunningPolls() {
+        return runningPolls;
     }
 }

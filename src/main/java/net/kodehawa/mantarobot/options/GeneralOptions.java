@@ -21,8 +21,7 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.entities.ISnowflake;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
-import net.kodehawa.mantarobot.commands.game.core.GameLobby;
-import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
+import net.kodehawa.mantarobot.commands.game.core.lobby.GameLobby;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
@@ -39,10 +38,8 @@ import java.util.stream.Collectors;
 public class GeneralOptions extends OptionHandler {
     @Subscribe
     public void onRegistry(OptionRegistryEvent e) {
-        registerOption("lobby:reset", "Lobby reset", "Fixes stuck game/poll/operations session.", (ctx) -> {
+        registerOption("lobby:reset", "Lobby reset", "Fixes stuck game/operations session.", (ctx) -> {
             GameLobby.LOBBYS.remove(ctx.getChannel().getIdLong());
-            Poll.getRunningPolls().remove(ctx.getChannel().getId());
-
             List<Future<Void>> stuck = InteractiveOperations.get(ctx.getChannel());
             if (stuck.size() > 0) {
                 stuck.forEach(f -> f.cancel(true));

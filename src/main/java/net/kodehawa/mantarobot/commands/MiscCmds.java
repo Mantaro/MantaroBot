@@ -19,11 +19,12 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
+import net.kodehawa.mantarobot.commands.utils.polls.Poll;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Defer;
@@ -36,16 +37,22 @@ import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONObject;
 
+import java.awt.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 @Module
@@ -55,7 +62,7 @@ public class MiscCmds {
     @Subscribe
     public void register(CommandRegistry cr) {
         cr.registerSlash(IAm.class);
-        cr.registerSlash(CreatePoll.class);
+        cr.registerSlash(PollCommand.class);
         cr.registerSlash(EightBall.class);
     }
 
@@ -202,19 +209,25 @@ public class MiscCmds {
     }
 
     @Name("poll")
-    @Description("Creates a poll.")
+    @Description("The hub for poll commands.")
     @Category(CommandCategory.UTILS)
-    @Options({
-            @Options.Option(type = OptionType.STRING, name = "name", description = "The poll name.", required = true),
-            @Options.Option(type = OptionType.STRING, name = "time", description = "The time the poll will run for. (Format example: 1m25s for 1 minute 25 seconds)", required = true),
-            @Options.Option(type = OptionType.STRING, name = "options", description = "The poll options, separated by commas.", required = true),
-            @Options.Option(type = OptionType.STRING, name = "image", description = "An image URL for the poll."),
-    })
-    @Help(description = "Creates a poll.", usage = """
-            `/poll name:<name> time:<time> options:<poll options> image:[image url]`
+    public static class PollCommand extends SlashCommand {
+        @Override
+        protected void process(SlashContext ctx) { }
+
+        @Name("create")
+        @Description("Creates a poll.")
+        @Options({
+                @Options.Option(type = OptionType.STRING, name = "name", description = "The poll name.", required = true),
+                @Options.Option(type = OptionType.STRING, name = "time", description = "The time the poll will run for. (Format example: 1m25s for 1 minute 25 seconds)", required = true),
+                @Options.Option(type = OptionType.STRING, name = "options", description = "The poll options, separated by commas.", required = true),
+                @Options.Option(type = OptionType.STRING, name = "image", description = "An image URL for the poll."),
+        })
+        @Help(description = "Creates a poll.", usage = """
+            `/poll create name:<name> time:<time> options:<poll options> image:[image url]`
             To cancel the running poll type &cancelpoll. Only the person who started it or an Admin can cancel it.
             The bot needs to be able to send and read messages on the channel this is ran for this to work.
-            Example: `/poll name:test poll time:10m30s options:"hi there","wew","owo what's this"`
+            Example: `/poll create name:test poll time:10m30s options:"hi there","wew","owo what's this"`
             """, parameters = {
                 @Help.Parameter(name = "name", description = "The name of the option."),
                 @Help.Parameter(name = "time", description = "The time the poll is gonna run for. The format is as follows `1m30s` for 1 minute and 30 seconds. Maximum poll runtime is 45 minutes."),
@@ -224,39 +237,164 @@ public class MiscCmds {
                         """),
                 @Help.Parameter(name = "image", description = "The image to embed to the poll.", optional = true)
 
-            }
-    )
-    public static class CreatePoll extends SlashCommand {
-        @Override
-        protected void process(SlashContext ctx) {
-            var builder = Poll.builder();
-            var options = pollOptionSeparator.split(ctx.getOptionAsString("options").replaceAll(String.valueOf('"'), ""));
-            long timeout;
+        })
+        public static class CreatePoll extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                if (!ctx.getGuild().getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_ADD_REACTION)) {
+                    ctx.replyEphemeral("commands.poll.no_reaction_perms", EmoteReference.ERROR);
+                    return;
+                }
 
-            try {
-                timeout = Utils.parseTime(ctx.getOptionAsString("time"));
-            } catch (Exception e) {
-                ctx.reply("commands.poll.incorrect_time_format", EmoteReference.ERROR);
-                return;
-            }
+                var options = pollOptionSeparator.split(
+                        ctx.getOptionAsString("options").replaceAll(String.valueOf('"'), "")
+                );
 
-            if (timeout == 0) {
-                ctx.reply("commands.poll.incorrect_time_format", EmoteReference.ERROR);
-                return;
-            }
+                long timeout;
+                try {
+                    timeout = Utils.parseTime(ctx.getOptionAsString("time"));
+                } catch (Exception e) {
+                    ctx.replyEphemeral("commands.poll.incorrect_time_format", EmoteReference.ERROR);
+                    return;
+                }
 
-            var image = ctx.getOptionAsString("image");
-            if (image != null && !image.isBlank()) {
-                builder.setImage(image);
-            }
+                if (timeout == 0) {
+                    ctx.replyEphemeral("commands.poll.incorrect_time_format", EmoteReference.ERROR);
+                    return;
+                }
 
-            builder.setEvent(ctx.getEvent())
-                    .setName(ctx.getOptionAsString("name"))
-                    .setTimeout(timeout)
-                    .setOptions(options)
-                    .setLanguage(ctx.getLanguageContext())
-                    .build()
-                    .startPoll(ctx);
+                var name = ctx.getOptionAsString("name");
+                if (name.length() > 500) {
+                    ctx.replyEphemeral("commands.poll.name_too_long", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (timeout < TimeUnit.MINUTES.toMillis(2)) {
+                    ctx.replyEphemeral("commands.poll.too_little_time", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (timeout > TimeUnit.DAYS.toMillis(2)) {
+                    ctx.replyEphemeral("commands.poll.too_much_time", EmoteReference.ERROR);
+                    return;
+                }
+
+                var guildData = ctx.getDBGuild().getData();
+                if (guildData.getRunningPolls().size() >= 5) {
+                    ctx.replyEphemeral("commands.poll.too_many", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (options.length < 2) {
+                    ctx.replyEphemeral("commands.poll.too_few_options", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (options.length > 9) {
+                    ctx.replyEphemeral("commands.poll.too_many_options", EmoteReference.ERROR);
+                    return;
+                }
+
+                try {
+                    var builder = Poll.builder()
+                            .guildId(ctx.getGuild().getId())
+                            .channelId(ctx.getChannel().getId())
+                            .options(List.of(options))
+                            .name(name)
+                            .time(timeout + System.currentTimeMillis());
+
+                    var image = ctx.getOptionAsString("image");
+                    if (image != null && !image.isBlank()) {
+                        builder.image(image);
+                    }
+
+                    builder.build().start(ctx);
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                    ctx.replyEphemeral("commands.poll.invalid", EmoteReference.WARNING);
+                }
+            }
+        }
+
+        @Name("list")
+        @Description("List running polls.")
+        public static class ListCommand extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                var guildData = ctx.getDBGuild().getData();
+                var polls = guildData.getRunningPolls();
+                if (polls.isEmpty()) {
+                    ctx.replyEphemeral("commands.poll.list.empty", EmoteReference.ERROR);
+                    return;
+                }
+
+                var lang = ctx.getLanguageContext();
+
+                var builder = new EmbedBuilder()
+                        .setAuthor(lang.get("commands.poll.list.header").formatted(ctx.getGuild().getName()), null, ctx.getAuthor().getEffectiveAvatarUrl())
+                        .setDescription(lang.get("commands.poll.list.description"))
+                        .setFooter(lang.get("commands.poll.list.footer").formatted(polls.size()));
+
+                var atomic = new AtomicInteger();
+                var pollList = polls.values()
+                        .stream()
+                        .sorted(Comparator.comparingLong(Poll.PollDatabaseObject::time))
+                        .toList();
+
+                for (var poll : pollList) {
+                    builder.addField(
+                            lang.get("commands.poll.list.format_header").formatted(atomic.incrementAndGet()),
+                            lang.get("commands.poll.list.format").formatted(
+                                    StringUtils.limit(poll.name(), 50), poll.time() / 1000,
+                                    "https://discord.com/channels/%s/%s/%s".formatted(ctx.getGuild().getId(), poll.channelId(), poll.messageId())),
+                            false
+                    );
+                }
+
+                ctx.send(builder.build());
+            }
+        }
+
+        @Name("cancel")
+        @Description("Cancels a poll.")
+        public static class CancelCommand extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                var dbGuild = ctx.getDBGuild();
+                var guildData = dbGuild.getData();
+                try {
+                    var polls = guildData.getRunningPolls();
+                    if (polls.isEmpty()) {
+                        ctx.replyEphemeral("commands.poll.cancel.no_polls", EmoteReference.ERROR);
+                        return;
+                    }
+
+                    if (polls.size() == 1) {
+                        Poll.cancel(polls.entrySet().iterator().next().getKey(), dbGuild);
+                        ctx.replyEphemeral("commands.poll.cancel.success", EmoteReference.CORRECT);
+                    } else {
+                        I18nContext lang = ctx.getLanguageContext();
+                        var poll = polls.values()
+                                .stream()
+                                .sorted(Comparator.comparingLong(Poll.PollDatabaseObject::time))
+                                .toList();
+
+                        DiscordUtils.selectListButtonSlash(ctx, poll,
+                                r -> "%s [link](%s), %s: %s".formatted(r.name(),
+                                        "https://discord.com/channels/%s/%s/%s".formatted(ctx.getGuild().getId(), r.channelId(), r.messageId()),
+                                        lang.get("commands.poll.due_at"), Utils.formatDuration(lang, r.time() - System.currentTimeMillis())),
+                                r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle(lang.get("commands.poll.cancel.select"), null)
+                                        .setDescription(r1)
+                                        .setFooter(lang.get("general.timeout").formatted(10), null).build(),
+                                (sr, hook) -> {
+                                    Poll.cancel(sr.channelId() + ":" + sr.messageId(), dbGuild);
+                                    hook.editOriginal(lang.get("commands.poll.cancel.success").formatted(EmoteReference.CORRECT)).setEmbeds().setComponents().queue();
+                                });
+                    }
+                } catch (Exception e) {
+                    ctx.replyEphemeral("commands.poll.cancel.no_polls", EmoteReference.ERROR);
+                }
+            }
         }
     }
 
