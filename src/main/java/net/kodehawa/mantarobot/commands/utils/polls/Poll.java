@@ -42,6 +42,7 @@ import java.awt.Color;
 import java.beans.ConstructorProperties;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Poll {
@@ -50,6 +51,8 @@ public class Poll {
     private static final ManagedDatabase db = MantaroData.db();
     private static final String ztable = "zpoll";
     private static final String table = "poll";
+
+    private static final Pattern numbers = Pattern.compile("\\d\\u20e3");
 
     // Jackson infuriates me sometimes...
     @JsonProperty("messageId")
@@ -204,6 +207,7 @@ public class Poll {
 
             var votes = message.getReactions().stream()
                     .filter(r -> react.getAndIncrement() <= options.size())
+                    .filter(r -> numbers.matcher(r.getEmoji().asUnicode().getFormatted()).matches())
                     .map(r -> String.format(languageContext.get("commands.poll.vote_results"),
                             r.getCount() - 1, options.get(counter.getAndIncrement()))
                     )
