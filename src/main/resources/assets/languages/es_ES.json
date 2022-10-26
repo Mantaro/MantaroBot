@@ -861,7 +861,7 @@
     },
     "poll": {
       "missing": "%1$sNo incluiste el argumento %2$s o este está vacio!\n%3$s",
-      "invalid": "%1$sEsta votación no se puede construir. **Recuerda que puedes poner un máximo de 9 y un mínimo de 2 opciones y el tiempo para que caduque debe ser menor a 45m y mayor que 30s.**\nLas opciones debes separarlas con una coma, por ejemplo `1,2,3` (¡sin espacios entre estas!). Para frases que usan espacios, usa comillas para envolverlas, de este modo funcionará. Si realmente no entiendes, revisa el ejemplo en `/help poll`",
+      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 2d and a minimum of 2m.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `/help poll`",
       "other_poll_running": "%1$sCreo que hay otra votación por aquí aún activa...",
       "no_reaction_perms": "%1$sNo puedo agregar reacciones aquí...",
       "too_long": "%1$sEsto es muy largo. Intenta con menos opciones?",
