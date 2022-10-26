@@ -861,7 +861,7 @@
     },
     "poll": {
       "missing": "%1$sJe hebt het %2$s argument niet toegevoegd of dit veld was leeg!\n%3$s",
-      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `/help poll`",
+      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 2d and a minimum of 2m.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `/help poll`",
       "other_poll_running": "%1$sEr lijkt hier nog een poll actief te zijn...",
       "no_reaction_perms": "%1$sHet lijkt erop dat ik hier geen reacties kan toevoegen...",
       "too_long": "%1$sThis was too long to show. Try with less options?",
