@@ -2205,11 +2205,11 @@
     },
     "usermessage_joinmessage_add": {
       "no_message": "%1$sVocê precisa especificar qual mensagem extra você quer que eu diga quando alguém entrar!",
-      "success": "%1$sAdicionada `%2$s` para a mensagem extra de entrada com sucesso."
+      "success": "%1$sAdded %2$s to the extra join messages successfully."
     },
     "usermessage_joinmessage_remove": {
       "no_message": "%1$sVocê precisa especificar o índice da mensagem que deseja remover!",
-      "success": "%1$sRemovido `%2$s (índice %3$d)` para a mensagem extra de entrada com sucesso.",
+      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra join messages successfully.",
       "wrong_index": "%1$sEsse índice não existe! Use `~>opts usermessage joinmessage list` para ver todos os índices disponíveis"
     },
     "usermessage_joinmessage_clear": {
@@ -2221,11 +2221,11 @@
     },
     "usermessage_leavemessage_add": {
       "no_message": "%1$sVocê precisa especificar qual mensagem extra você quer que eu diga quando alguém sair!",
-      "success": "%1$sAdicionada `%2$s` para a mensagem extra de saída com sucesso."
+      "success": "%1$sAdded %2$s to the extra leave messages successfully."
     },
     "usermessage_leavemessage_remove": {
       "no_message": "%1$sVocê precisa especificar o índice da mensagem que deseja remover!",
-      "success": "%1$sRemovido `%2$s (índice %3$d)` para a mensagem extra de saída com sucesso.",
+      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra leave messages successfully.",
       "wrong_index": "%1$sEsse índice não existe! Use `~>opts usermessage leavemessage list` para ver todos os índices disponíveis"
     },
     "usermessage_leavemessage_clear": {
