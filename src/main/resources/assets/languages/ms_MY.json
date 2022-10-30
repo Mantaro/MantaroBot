@@ -2205,11 +2205,11 @@
     },
     "usermessage_joinmessage_add": {
       "no_message": "%1$sAnda perlu menyatakan mesej tambahan apa yang anda mahu saya menghantar apabila seseorang menyertai pelayan ini!",
-      "success": "%1$s`%2$s` berjaya ditambah sebagai mesej penyertaan tambahan."
+      "success": "%1$sAdded %2$s to the extra join messages successfully."
     },
     "usermessage_joinmessage_remove": {
       "no_message": "%1$sAnda perlu menyatakan indeks mesej yang ingin anda padamkan!",
-      "success": "%1$s`%2$s (indeks %3$d)` berjaya dipadamkan dari mesej penyertaan tambahan.",
+      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra join messages successfully.",
       "wrong_index": "%1$sIndeks itu tidak wujud! Gunakan `~>opts usermessage joinmessage list` untuk melihat semua indeks yang ada"
     },
     "usermessage_joinmessage_clear": {
@@ -2221,11 +2221,11 @@
     },
     "usermessage_leavemessage_add": {
       "no_message": "%1$sAnda perlu menyatakan mesej tambahan apa yang anda mahu saya menghantar apabila seseorang meninggal pelayan ini!",
-      "success": "%1$s`%2$s` berjaya ditambah sebagai mesej peninggalan tambahan."
+      "success": "%1$sAdded %2$s to the extra leave messages successfully."
     },
     "usermessage_leavemessage_remove": {
       "no_message": "%1$sAnda perlu menyatakan indeks mesej yang ingin anda padamkan!",
-      "success": "%1$s`%2$s (indeks %3$d)` berjaya dipadamkan dari mesej peninggalan tambahan.",
+      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra leave messages successfully.",
       "wrong_index": "%1$sIndeks itu tidak wujud! Gunakan `~>opts usermessage leavemessage list` untuk melihat semua indeks yang ada"
     },
     "usermessage_leavemessage_clear": {
