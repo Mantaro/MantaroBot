@@ -2205,11 +2205,11 @@
     },
     "usermessage_joinmessage_add": {
       "no_message": "%1$sYou need to specify what extra message you want me to say when someone joins!",
-      "success": "%1$sAdded `%2$s` to the extra join messages successfully."
+      "success": "%1$sAdded %2$s to the extra join messages successfully."
     },
     "usermessage_joinmessage_remove": {
       "no_message": "%1$sYou need to specify the index of the message you want to remove!",
-      "success": "%1$sRemoved `%2$s (index %3$d)` from the extra join messages successfully.",
+      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra join messages successfully.",
       "wrong_index": "%1$sThat index doesn't exist! Use `~>opts usermessage joinmessage list` to see all of the available indexes"
     },
     "usermessage_joinmessage_clear": {
@@ -2221,11 +2221,11 @@
     },
     "usermessage_leavemessage_add": {
       "no_message": "%1$sيجب ان تحدد الرسالة الاضافية التي تريدني ان اقولها عندما يغادر أحدهم!",
-      "success": "%1$sتم اضافة `%2$s` الى رسائل مغادرة الاعضاء الاضافية."
+      "success": "%1$sAdded %2$s to the extra leave messages successfully."
     },
     "usermessage_leavemessage_remove": {
       "no_message": "%1$sYou need to specify the index of the message you want to remove!",
-      "success": "%1$sRemoved `%2$s (index %3$d)` from the extra leave messages successfully.",
+      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra leave messages successfully.",
       "wrong_index": "%1$sThat index doesn't exist! Use `~>opts usermessage leavemessage list` to see all of the available indexes"
     },
     "usermessage_leavemessage_clear": {
