@@ -2205,11 +2205,11 @@
     },
     "usermessage_joinmessage_add": {
       "no_message": "%1$sJe moet opgeven welk extra bericht je wilt dat ik zeg wanneer iemand de server joined!",
-      "success": "%1$sHet bericht `%2$s` is succesvol toegevoegd aan de extra berichten als iemand de server joined."
+      "success": "%1$sAdded %2$s to the extra join messages successfully."
     },
     "usermessage_joinmessage_remove": {
       "no_message": "%1$sJe moet de index opgeven van het bericht dat je wilt verwijderen!",
-      "success": "%1$sHet bericht `%2$s (index %3$d)` is succesvol verwijderd van de extra berichten als iemand de server joined.",
+      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra join messages successfully.",
       "wrong_index": "%1$sThat index doesn't exist! Use `~>opts usermessage joinmessage list` to see all of the available indexes"
     },
     "usermessage_joinmessage_clear": {
@@ -2221,11 +2221,11 @@
     },
     "usermessage_leavemessage_add": {
       "no_message": "%1$sJe moet aangeven welk extra bericht je wilt dat ik weergeef als iemand de server verlaat!",
-      "success": "%1$sHet bericht `%2$s` is succesvol toegevoegd aan de extra berichten als iemand de server verlaat."
+      "success": "%1$sAdded %2$s to the extra leave messages successfully."
     },
     "usermessage_leavemessage_remove": {
       "no_message": "%1$sJe moet de index opgeven van het bericht dat je wilt verwijderen!",
-      "success": "%1$sHet bericht `%2$s (index %3$d)` is succesvol verwijderd van de extra berichten als iemand de server verlaat.",
+      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra leave messages successfully.",
       "wrong_index": "%1$sThat index doesn't exist! Use `~>opts usermessage leavemessage list` to see all of the available indexes"
     },
     "usermessage_leavemessage_clear": {
