@@ -2205,11 +2205,11 @@
     },
     "usermessage_joinmessage_add": {
       "no_message": "%1$sTu dois me donner le message supplémentaire que tu veux que j'envoie lorsque quelqu'un nous rejoins!",
-      "success": "%1$sAjout de `%2$s` aux messages de bienvenue supplémentaires."
+      "success": "%1$sAdded %2$s to the extra join messages successfully."
     },
     "usermessage_joinmessage_remove": {
       "no_message": "%1$sTu dois me donner le numéro du message à supprimer!",
-      "success": "%1$sSuppression de `%2$s (numéro %3$d)` des messages de bienvenue supplémentaires.",
+      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra join messages successfully.",
       "wrong_index": "%1$sCe numéro n'est pas attribué! Utilise `~>opts usermessage joinmessages list` pour voir les messages et leur numéro"
     },
     "usermessage_joinmessage_clear": {
@@ -2221,11 +2221,11 @@
     },
     "usermessage_leavemessage_add": {
       "no_message": "%1$sTu dois me donner le message supplémentaire que tu veux que j'envoie lorsque quelqu'un nous quitte!",
-      "success": "%1$sAjout de `%2$s` aux messages de départ supplémentaires."
+      "success": "%1$sAdded %2$s to the extra leave messages successfully."
     },
     "usermessage_leavemessage_remove": {
       "no_message": "%1$sTu dois me donner le numéro du message à supprimer!",
-      "success": "%1$sSuppression de `%2$s (numéro %3$d)` des messages de départ supplémentaires.",
+      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra leave messages successfully.",
       "wrong_index": "%1$sCe numéro n'est pas attribué! Utilise ~>opts usermessage leavemessages list ` pour voir les messages et leur numéro"
     },
     "usermessage_leavemessage_clear": {
