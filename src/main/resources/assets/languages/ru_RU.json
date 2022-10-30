@@ -2205,11 +2205,11 @@
     },
     "usermessage_joinmessage_add": {
       "no_message": "%1$sВам нужно указать, какое сообщение вы хотите, чтобы я писал, когда кто-то присоединяется к серверу!",
-      "success": "%1$sДобавление `%2$s` в сообщения, которые говорят о присоединении к серверу, было успешным."
+      "success": "%1$sAdded %2$s to the extra join messages successfully."
     },
     "usermessage_joinmessage_remove": {
       "no_message": "%1$sВам нужно указать индекс сообщения, которые вы хотите удалить!",
-      "success": "%1$sУдаление `%2$s (индекс %3$d)` с сообщений, которые говорят о присоединении к серверу, было успешным.",
+      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra join messages successfully.",
       "wrong_index": "%1$sЭтого индекса не существует! Используйте `~>opts usermessage joinmessage list` чтобы увидеть все доступные индексы"
     },
     "usermessage_joinmessage_clear": {
@@ -2221,11 +2221,11 @@
     },
     "usermessage_leavemessage_add": {
       "no_message": "%1$sВам нужно указать индекс сообщения, которые вы хотите добавить!",
-      "success": "%1$sДобавление `%2$s` в сообщения, которые говорят об уходе с сервера, было успешным."
+      "success": "%1$sAdded %2$s to the extra leave messages successfully."
     },
     "usermessage_leavemessage_remove": {
       "no_message": "%1$sВам нужно указать индекс сообщения, которые вы хотите удалить!",
-      "success": "%1$sУдаление `%2$s (индекс %3$d)` с сообщений, которые говорят об уходе с сервера, было успешным.",
+      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra leave messages successfully.",
       "wrong_index": "%1$sЭтого индекса не существует! Используйте `~>opts usermessage leavemessage list` чтобы увидеть все доступные индексы"
     },
     "usermessage_leavemessage_clear": {
