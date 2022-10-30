@@ -2205,11 +2205,11 @@
     },
     "usermessage_joinmessage_add": {
       "no_message": "%1$sBirisi katıldığında söylememi istediğiniz ekstra mesajı belirtmeniz gerekiyor!",
-      "success": "%1$sEkstra katılma mesajlarına başarıyla `%2$s` eklendi."
+      "success": "%1$sAdded %2$s to the extra join messages successfully."
     },
     "usermessage_joinmessage_remove": {
       "no_message": "%1$sKaldırmak istediğiniz mesajın dizinini belirtmeniz gerekiyor!",
-      "success": "%1$sEkstra katılma mesajlarından `%2$s (dizin %3$d)` başarıyla kaldırıldı.",
+      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra join messages successfully.",
       "wrong_index": "%1$sO dizin yok! Kullanılabilir tüm dizinleri görmek için `~>opts usermessage joinmessage list` kullanın"
     },
     "usermessage_joinmessage_clear": {
@@ -2221,11 +2221,11 @@
     },
     "usermessage_leavemessage_add": {
       "no_message": "%1$sBiri ayrıldığında söylememi istediğiniz ekstra mesajı belirtmeniz gerekiyor!",
-      "success": "%1$sEkstra ayrılma mesajlarına `%2$s` başarıyla eklendi."
+      "success": "%1$sAdded %2$s to the extra leave messages successfully."
     },
     "usermessage_leavemessage_remove": {
       "no_message": "%1$sKaldırmak istediğiniz mesajın dizinini belirtmeniz gerekiyor!",
-      "success": "%1$sEkstra ayrılma mesajlarından `%2$s (dizin %3$d)` başarıyla kaldırıldı.",
+      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra leave messages successfully.",
       "wrong_index": "%1$sO dizin yok! Kullanılabilir tüm dizinleri görmek için `~>opts usermessage joinmessage list` kullanın"
     },
     "usermessage_leavemessage_clear": {
