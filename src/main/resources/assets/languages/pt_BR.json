@@ -861,7 +861,7 @@
     },
     "poll": {
       "missing": "%1$sVocê não incluiu o argumento de %2$s ou estava vazio!\n%3$s",
-      "invalid": "%1$sNão é possível fazer essa votação. **Lembre-se que as opções devem ter um máximo de 9 e no mínimo 2 e o limite do tempo deve ser no máximo 45m e no mínimo 30s.**\nOpções são separadas com vírgula, por exemplo `1,2,3` (sem espaços entre elas!). Pra frases que contenham espaços use aspas no início e no final delas. Se você estiver realmente perdido, tem um exemplo no `/help poll`",
+      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 2d and a minimum of 2m.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `/help poll`",
       "other_poll_running": "%1$sJá tem outra enquete acontecendo aqui...",
       "no_reaction_perms": "%1$sParece que eu não posso adicionar reações aqui...",
       "too_long": "%1$sIsso é muito longo pra mostrar. É melhor tentar com menos opções?",
@@ -2205,11 +2205,11 @@
     },
     "usermessage_joinmessage_add": {
       "no_message": "%1$sVocê precisa especificar qual mensagem extra você quer que eu diga quando alguém entrar!",
-      "success": "%1$sAdicionada `%2$s` para a mensagem extra de entrada com sucesso."
+      "success": "%1$sAdded %2$s to the extra join messages successfully."
     },
     "usermessage_joinmessage_remove": {
       "no_message": "%1$sVocê precisa especificar o índice da mensagem que deseja remover!",
-      "success": "%1$sRemovido `%2$s (índice %3$d)` para a mensagem extra de entrada com sucesso.",
+      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra join messages successfully.",
       "wrong_index": "%1$sEsse índice não existe! Use `~>opts usermessage joinmessage list` para ver todos os índices disponíveis"
     },
     "usermessage_joinmessage_clear": {
@@ -2221,11 +2221,11 @@
     },
     "usermessage_leavemessage_add": {
       "no_message": "%1$sVocê precisa especificar qual mensagem extra você quer que eu diga quando alguém sair!",
-      "success": "%1$sAdicionada `%2$s` para a mensagem extra de saída com sucesso."
+      "success": "%1$sAdded %2$s to the extra leave messages successfully."
     },
     "usermessage_leavemessage_remove": {
       "no_message": "%1$sVocê precisa especificar o índice da mensagem que deseja remover!",
-      "success": "%1$sRemovido `%2$s (índice %3$d)` para a mensagem extra de saída com sucesso.",
+      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra leave messages successfully.",
       "wrong_index": "%1$sEsse índice não existe! Use `~>opts usermessage leavemessage list` para ver todos os índices disponíveis"
     },
     "usermessage_leavemessage_clear": {

@@ -861,7 +861,7 @@
     },
     "poll": {
       "missing": "%1$sJe hebt het %2$s argument niet toegevoegd of dit veld was leeg!\n%3$s",
-      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `/help poll`",
+      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 2d and a minimum of 2m.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `/help poll`",
       "other_poll_running": "%1$sEr lijkt hier nog een poll actief te zijn...",
       "no_reaction_perms": "%1$sHet lijkt erop dat ik hier geen reacties kan toevoegen...",
       "too_long": "%1$sThis was too long to show. Try with less options?",
@@ -2205,11 +2205,11 @@
     },
     "usermessage_joinmessage_add": {
       "no_message": "%1$sJe moet opgeven welk extra bericht je wilt dat ik zeg wanneer iemand de server joined!",
-      "success": "%1$sHet bericht `%2$s` is succesvol toegevoegd aan de extra berichten als iemand de server joined."
+      "success": "%1$sAdded %2$s to the extra join messages successfully."
     },
     "usermessage_joinmessage_remove": {
       "no_message": "%1$sJe moet de index opgeven van het bericht dat je wilt verwijderen!",
-      "success": "%1$sHet bericht `%2$s (index %3$d)` is succesvol verwijderd van de extra berichten als iemand de server joined.",
+      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra join messages successfully.",
       "wrong_index": "%1$sThat index doesn't exist! Use `~>opts usermessage joinmessage list` to see all of the available indexes"
     },
     "usermessage_joinmessage_clear": {
@@ -2221,11 +2221,11 @@
     },
     "usermessage_leavemessage_add": {
       "no_message": "%1$sJe moet aangeven welk extra bericht je wilt dat ik weergeef als iemand de server verlaat!",
-      "success": "%1$sHet bericht `%2$s` is succesvol toegevoegd aan de extra berichten als iemand de server verlaat."
+      "success": "%1$sAdded %2$s to the extra leave messages successfully."
     },
     "usermessage_leavemessage_remove": {
       "no_message": "%1$sJe moet de index opgeven van het bericht dat je wilt verwijderen!",
-      "success": "%1$sHet bericht `%2$s (index %3$d)` is succesvol verwijderd van de extra berichten als iemand de server verlaat.",
+      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra leave messages successfully.",
       "wrong_index": "%1$sThat index doesn't exist! Use `~>opts usermessage leavemessage list` to see all of the available indexes"
     },
     "usermessage_leavemessage_clear": {

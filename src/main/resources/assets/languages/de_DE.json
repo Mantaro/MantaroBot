@@ -861,7 +861,7 @@
     },
     "poll": {
       "missing": "%1$sDu hast entweder das Argument %2$s vergessen oder leer gelassen!\n%3$s",
-      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `/help poll`",
+      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 2d and a minimum of 2m.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `/help poll`",
       "other_poll_running": "%1$sEs scheint eine andere Umfrage zu geben, die hier läuft...",
       "no_reaction_perms": "%1$sAnscheinend kann ich hier keine Reaktionen hinzufügen...",
       "too_long": "%1$sDas war zum Zeigen zu lang. Versuche es mit weniger Optionen.",
@@ -2205,11 +2205,11 @@
     },
     "usermessage_joinmessage_add": {
       "no_message": "%1$sDu musst mir eine zusätzliche Beitrittsnachricht angeben!",
-      "success": "%1$s`%2$s` zu den zusätzlichen Beitrittsnachrichten hinzugefügt."
+      "success": "%1$sAdded %2$s to the extra join messages successfully."
     },
     "usermessage_joinmessage_remove": {
       "no_message": "%1$sDu musst mir die Nummer der Nachricht angeben!",
-      "success": "%1$s`%2$s (Nummer %3$d)` von den zusätzlichen Beitrittsnachrichten entfernt.",
+      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra join messages successfully.",
       "wrong_index": "%1$sDiese Nummer existiert nicht! Nutze `~>opts usermessage joinmessage list`, um alle gültigen Nummern zu sehen!"
     },
     "usermessage_joinmessage_clear": {
@@ -2221,11 +2221,11 @@
     },
     "usermessage_leavemessage_add": {
       "no_message": "%1$sDu musst mir eine zusätzliche Austrittsnachricht angeben!",
-      "success": "%1$s`%2$s` zu den zusätzlichen Austrittsnachrichten hinzugefügt."
+      "success": "%1$sAdded %2$s to the extra leave messages successfully."
     },
     "usermessage_leavemessage_remove": {
       "no_message": "%1$sDu musst mir eine zusätzliche Austrittsnachricht angeben!",
-      "success": "%1$s`%2$s (Nummer %3$d)` von den zusätzlichen Austrittsnachrichten entfernt.",
+      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra leave messages successfully.",
       "wrong_index": "%1$sDiese Nummer existiert nicht! Nutze `~>opts usermessage leavemessage list`, um alle gültigen Nummern zu sehen!"
     },
     "usermessage_leavemessage_clear": {
