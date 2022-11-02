@@ -58,7 +58,7 @@
       },
       "potion_active": "%1$sBạn đã có sẵn hiệu ứng **%2$s** đang hoạt động và có số lượng tối đa có thể của nó!",
       "potion_not_found": "%1$sTôi không tìm thấy thuốc hay loại trang bị đó!",
-      "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s* (%4$dx). Check your shiny new effect on `/profile stats`",
+      "potion_applied": "%1$sÁp dụng thành công hiệu ứng **%2$s** thuộc loại *%3$s* (%4$dx). Xem hiệu ứng mới của bạn tại `/profile stats`",
       "potion_applied_multiple": "%1$sÁp dụng thành công **%2$s** của loại *%3$s*.\nBạn đã sử dụng hiệu ứng này, vì vậy chúng tôi sẽ xếp chồng nó lên. Kích thước xếp chồng hiện tại: %4$s",
       "max_stack_size": "%1$sBạn đã xếp chồng đầy tối đa %2$s mà bạn có thể. (Giới hạn tối đa: 15, Sau khi xếp chồng: %3$s)",
       "max_stack_size_2": "%1$sBạn không thể xếp chồng quá nhiều %2$s. (Giới hạn tối đa: 15, Số lượng vừa được xếp chồng: %3$s)",
@@ -67,7 +67,7 @@
     "campaigns": {
       "premium": {
         "generic_sellout": "Chúng tôi cần sự giúp đỡ của bạn để giữ cho Mantaro hoạt động và để phát triển máy chủ của Mantaro! Bạn có thể có được những đặc quyền tuyệt vời và **có thể lên đến gấp đôi số đồng mà bạn có thể thu được với Mantaro Premium**! Mọi hội viên sẽ bắt đầu chỉ với $2 mỗi tháng, rất chi là rẻ! Xem thông tin chi tiết tại <https://patreon.com/mantaro>. Cũng như việc lan truyền lời gọi của chúng tôi :heart:",
-        "daily_sellout": "We need your help to keep Mantaro alive!\nYou can get amazing perks and **double the daily credits** and access to `/dailycrate`! Memberships start at only $2 per month, check out more at <https://patreon.com/mantaro>.",
+        "daily_sellout": "Chúng tôi cần sự giúp đỡ của bạn để giữ cho Mantaro hoạt động!\nBạn có thể có được những đặc quyền tuyệt vời, **gấp đôi phần thưởng hằng ngày** và quyền sử dụng `/dailycrate`! Hội viên bắt đầu với $2 mỗi tháng, xem thông tin chi tiết tại <https://patreon.com/mantaro>.",
         "thanks_message": "Chúng tôi rất trân trọng sự giúp đỡ của bạn. Nếu không có sự giúp đỡ của mọi người, chúng tôi khó mà giữ cho Mantaro tiếp tục hoạt động được :heart:",
         "thanks_message_daily": "Chúng tôi rất trân trọng sự giúp đỡ của bạn. Nếu không có sự giúp đỡ của mọi người, chúng tôi khó mà giữ cho Mantaro hoạt động được :heart:\nBạn cũng nhận được gấp đôi số đồng như là một món quà nhỏ!"
       },
@@ -84,7 +84,7 @@
     "sellout": "Nếu bạn thích tui thì hãy cân nhắc việc ủng hộ trên [Patreon](https://www.patreon.com/mantaro). Ngay cả một khoản ủng hộ nhỏ cũng sẽ giúp tui tiếp tục hoạt động đó!",
     "deprecated": "Không còn được sử dụng",
     "space_notice": "Nếu tên của vật phẩm có bao gồm khoảng trống, hãy thử \"đặt nó trong ngoặc kép\". Có lẽ sử dụng câu lệnh trợ giúp có thể sẽ hỗ trợ nhiều hơn cho bạn.",
-    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://www.mantaro.site/mantaro-wiki> for more information about the bot.",
+    "missing_embed_permissions": "Tui không có quyền Đính Kèm Liên Kết để thực hiện câu lệnh này. Làm ơn hãy cho tui những quyền hạn cần thiết đó (Hãy chắn chắc rằng bạn sẽ kiểm tra thiết lập quyền hạn của các kênh và các danh mục). Nếu bạn cần hỗ trợ thì hãy đến <https://support.mantaro.site>. Ngoài ra bạn có thể xem wiki tại <https://www.mantaro.site/mantaro-wiki> để biết thêm về tui.",
     "ratelimit": {
       "header": "%1$s%2$s (lệnh có thời gian chờ)\n **Bạn có thể sử dụng lệnh này sau %3$s.**",
       "spam_1": "Nghỉ ngơi đi, nó sẽ tốt cho sức khỏe của bạn. *Hãy nhớ rằng thời gian chờ sẽ tăng nếu bạn cứ cố thử lại trước khi nó được đặt lại!*",
@@ -97,7 +97,7 @@
       "next": "Kế tiếp",
       "close": "Đóng"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `/mantaro shard`) when reporting!",
+    "generic_error": "Nếu bạn muốn, hãy tham gia **máy chủ hỗ trợ** (`https://support.mantaro.site`), hoặc xem qua trang GitHub của chúng tôi (`https://github.com/Kodehawa/MantaroBot`). Làm ơn hãy nói với họ để tránh việc tôi bị nổ và làm ơn đừng quên những ID lỗi, câu lệnh mà bạn đã sử dụng và số điểm phân phối (node) (xem trong `/mantaro shard) khi bạn báo cáo!",
     "boom_quotes": [
       "Dường như Megumin đã làm nổ lâu đài của chúng ta...",
       "Ớ ớ, hình như chủ nhân của tôi đã để quên vài số 0 và số 1 trên sàn nhà rồi :<",
