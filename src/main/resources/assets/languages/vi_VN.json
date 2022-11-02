@@ -36,9 +36,9 @@
     "query_too_small": "%1$sCâu tìm kiếm của bạn quá ngắn. Hãy đảm bảo rằng bạn đang tìm kiếm ít nhất 4 ký tự. Nếu tên người dùng quá ngắn, tốt nhất bạn nên ghi rõ `tên người dùng#số hiệu` hoặc id của người dùng.",
     "dust": "Ở đây chỉ có mỗi bụi.",
     "invalid_syntax": "Cú pháp không hợp lệ.",
-    "birthday": "**New birthdays for today, wish them Happy Birthday!**",
-    "member_lookup_failure": "%1$sCannot find any member with that name :(",
-    "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
+    "birthday": "**Ngày mới thêm tuổi mới, hãy Chúc mừng sinh nhật cho họ nào!**",
+    "member_lookup_failure": "%1$sKhông thể tìm thấy bất kì thành viên nào với tên đó :(",
+    "slash_member_lookup_failure": "%1$sNgười dùng bạn tìm kiếm dường như không ở trong máy chủ này.",
     "item_lookup": {
       "no_item_emoji": "Không có vật phẩm nào phù hợp với biểu tượng này.",
       "no_item_name": "Không có vật phẩm nào phù hợp với tên này.",
@@ -50,7 +50,7 @@
       "mop_not_enough": "%1$sMức độ bám bụi của bạn ít hơn 5%%, vì vậy lau dọn sẽ không quá hữu ích.",
       "milk": "%1$sĐã xóa bỏ hết tất cả các hiệu ứng của thuốc.",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `/buy item:key`",
+        "no_key": "%1$sBạn cần có một cái chìa khóa để mở hòm. Nó đã bị khóa! Hãy mua chìa khoá ngay bằng lệnh `/buy item:key`",
         "no_crate": "%1$sBạn cần phải có hòm để mở! Bạn sẽ thường nhận được hòm từ các lệnh tiền tệ.",
         "success": "%1$sBạn đã mở hòm và nhận được: %2$s%3$s. Chúc mừng!",
         "success_high": "%1$sChúc mừng bạn đã thu được vật phẩm với độ hiếm trên 3 sao này: %2$s. Số lượng vật phẩm thu được đã được thể hiện qua dòng tin nhắn trên",
