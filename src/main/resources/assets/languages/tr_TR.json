@@ -1813,7 +1813,7 @@
       "waifu": "Waifu Value leaderboard",
       "claim": "Waifu Claim leaderboard",
       "inner": {
-        "experience": "Experience",
+        "experience": "Deneyim",
         "game": "%1sThis page shows the top 10 people who have won the most games.\n\nCheck out `/help command:game` or `/help command:trivia` for details on how games work!",
         "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `/help command:waifu` for details on the waifu system.",
         "money_old": "%1$sThis page shows the top 10 richest people on Mantaro (before the reset).\n",
