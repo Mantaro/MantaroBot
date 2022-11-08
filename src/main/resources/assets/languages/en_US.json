@@ -1240,7 +1240,7 @@
         "difficulty": "Difficulty",
         "category": "Category",
         "all_attempts_used": "%1$sAlready used all attempts, ending game. Question: %2$s, Answer: %3$s",
-        "footer": "You have %1$s attempts and 1 minute (Click end to end the game)."
+        "footer": "You have %1$s attempt and 1 minute (Click end to end the game)."
       },
       "number": {
         "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",

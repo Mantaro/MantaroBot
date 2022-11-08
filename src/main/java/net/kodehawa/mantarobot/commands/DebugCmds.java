@@ -138,7 +138,8 @@ public class DebugCmds {
                     + " --------- Technical Information --------- \n\n"
                     + "Uptime: " + Utils.formatDuration(ctx.getI18nContext(), node.getLong("uptime")) + "\n"
                     + "Version: " + MantaroInfo.VERSION + " (Git: " + MantaroInfo.GIT_REVISION + ")\n"
-                    + "Libraries: " + "[ JDA: %s, LP: %s ]".formatted(JDAInfo.VERSION, PlayerLibrary.VERSION) + "\n"
+                    + "JDA: %s".formatted(JDAInfo.VERSION) + "\n"
+                    + (config.musicEnable() ? "Lava: %s".formatted(PlayerLibrary.VERSION) + "\n" : "")
                     + "Commands: [ Common: " +
                     CommandProcessor.REGISTRY.commands()
                             .values().stream()
@@ -153,14 +154,14 @@ public class DebugCmds {
                     + "Nodes: " + "%,d (Current: %,d)".formatted(clusterTotal, ctx.getBot().getNodeNumber()) + "\n"
                     + "CPU: " + "%.2f%% (Cores: %,d)".formatted(getInstanceCPUUsage() * 100, getAvailableProcessors()) + "\n"
                     + "Memory: " +  Utils.formatMemoryAmount(totalMemory) +
-                    " [Node: " + Utils.formatMemoryAmount(getTotalMemory() - getFreeMemory())  + "]"
+                    " (Node: " + Utils.formatMemoryAmount(getTotalMemory() - getFreeMemory())  + ")"
                     + "\n\n --------- Mantaro Information --------- \n\n"
                     + "Guilds: " + "%,d (Node: %,d)".formatted(guilds, shardManager.getGuildCache().size()) + "\n"
                     + "User Cache: " + "%,d (Node: %,d)".formatted(users, shardManager.getUserCache().size()) + "\n"
                     + "Shards: " + bot.getShardManager().getShardsTotal() + " (This: " + jda.getShardInfo().getShardId() + ")" + "\n"
                     + "Threads: " + "%,d (Node: %,d)".formatted(totalThreadCount, Thread.activeCount()) + "\n"
                     + "Commands Used: " + "%,d (Node: %,d)".formatted(totalCommandCount, CommandListener.getCommandTotal()) + "\n"
-                    + (ctx.getConfig().musicEnable() ? "Overall: " + "[ Players: %,d, Queue: %,d ]".formatted(players, queueSize) + "\n" : "")
+                    + (ctx.getConfig().musicEnable() ? "Music: " + "[ Players: %,d, Queue: %,d ]".formatted(players, queueSize) + "\n" : "")
                     + "```"
             );
         }

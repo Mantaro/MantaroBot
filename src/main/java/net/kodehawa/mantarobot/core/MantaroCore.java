@@ -56,13 +56,13 @@ import net.kodehawa.mantarobot.core.shard.discord.BotGateway;
 import net.kodehawa.mantarobot.core.shard.jda.BucketedController;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.log.LogUtils;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import net.kodehawa.mantarobot.utils.external.BotListPost;
+import net.kodehawa.mantarobot.utils.log.LogUtils;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.collections4.ListUtils;
@@ -227,13 +227,18 @@ public class MantaroCore {
             if (config.musicEnable()) {
                 disabledIntents = EnumSet.of(
                         CacheFlag.ACTIVITY, CacheFlag.EMOJI, CacheFlag.CLIENT_STATUS,
-                        CacheFlag.ROLE_TAGS, CacheFlag.ONLINE_STATUS, CacheFlag.STICKER
+                        CacheFlag.ROLE_TAGS, CacheFlag.ONLINE_STATUS, CacheFlag.STICKER,
+                        CacheFlag.SCHEDULED_EVENTS, CacheFlag.FORUM_TAGS
                 );
 
-                eventListeners = new Object[]{
-                        VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
-                        ReactionOperations.listener(), MantaroBot.getInstance().getLavaLink(),
-                        ButtonOperations.listener(), ModalOperations.listener(), shardStartListener
+                eventListeners = new Object[] {
+                        VOICE_CHANNEL_LISTENER,
+                        MantaroBot.getInstance().getLavaLink(),
+                        InteractiveOperations.listener(),
+                        ReactionOperations.listener(),
+                        ButtonOperations.listener(),
+                        ModalOperations.listener(),
+                        shardStartListener
                 };
 
                 enabled.add(GatewayIntent.GUILD_VOICE_STATES); // Receive voice states, needed so Member#getVoiceState doesn't return null.
@@ -242,17 +247,26 @@ public class MantaroCore {
                 disabledIntents = EnumSet.of(
                         CacheFlag.ACTIVITY, CacheFlag.EMOJI, CacheFlag.CLIENT_STATUS,
                         CacheFlag.ROLE_TAGS, CacheFlag.ONLINE_STATUS, CacheFlag.STICKER,
-                        CacheFlag.VOICE_STATE
+                        CacheFlag.SCHEDULED_EVENTS, CacheFlag.FORUM_TAGS, CacheFlag.VOICE_STATE
                 );
 
-                eventListeners = new Object[]{
-                        InteractiveOperations.listener(), ReactionOperations.listener(),
-                        ButtonOperations.listener(), ModalOperations.listener(), shardStartListener
+                eventListeners = new Object[] {
+                        InteractiveOperations.listener(),
+                        ReactionOperations.listener(),
+                        ButtonOperations.listener(),
+                        ModalOperations.listener(),
+                        shardStartListener
                 };
+
                 log.info("Music has been disabled.");
             }
 
-            log.info("Using intents {}", enabled.stream()
+            log.info("Using intents: {}", enabled.stream()
+                    .map(Enum::name)
+                    .collect(Collectors.joining(", "))
+            );
+
+            log.info("Disabled flags: {}", disabledIntents.stream()
                     .map(Enum::name)
                     .collect(Collectors.joining(", "))
             );
