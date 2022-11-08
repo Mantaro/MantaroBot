@@ -126,7 +126,7 @@ public class GameCmds {
 
     @Name("trivia")
     @Category(CommandCategory.GAMES)
-    @Description("Starts a trivia game.")
+    @Description("Trivia game.")
     @Options(@Options.Option(type = OptionType.STRING, name = "difficulty", description = "The game difficulty", choices = {
             @Options.Choice(description = "Easy", value = "easy"),
             @Options.Choice(description = "Medium", value = "medium"),

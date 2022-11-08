@@ -1254,6 +1254,13 @@
         "header": "Who's that pokemon?",
         "footer": "You have 5 attempts and 1 minute. (Type end to end the game)"
       },
+      "lobby": {
+        "ended_game": "%1$sEnded game. Possible answers were: %2$s",
+        "ended_lobby": "%1$sEnded lobby correctly! Thanks for playing.",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Answer: %2$s",
+        "incorrect_answer": "%1$sThat's not it, you have %2$d attempts remaining.",
+        "won_game": "%1$s**%2$s** just won $%3$,d credits by answering correctly!"
+      },
       "lobby_started": "%1$sStarted a new lobby! **Games: %2$s**\nYou can type `endlobby` to end all games and finish the lobby.",
       "game_timeout_drop": "%1$sSeems like I dropped a game here, but forgot to pick it up... I'll start your new game right up!",
       "other_lobby_running": "%1$sCannot start a new game lobby when there is a game currently running. (If this is an error, tell an admin to run `~>opts lobby reset`)",
