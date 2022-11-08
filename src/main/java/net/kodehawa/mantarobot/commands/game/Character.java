@@ -88,15 +88,15 @@ public class Character extends ImageGame {
 
             characterNameL.add(characterName);
             sendEmbedImage(lobby.getContext(), imageUrl, eb -> eb
-                    .setAuthor(languageContext.get("commands.game.character_start"), null, lobby.getContext().getAuthor().getEffectiveAvatarUrl())
-                    .setFooter(languageContext.get("commands.game.end_footer"), null)
+                    .setAuthor(languageContext.get("commands.game.character.start"), null, lobby.getContext().getAuthor().getEffectiveAvatarUrl())
+                    .setFooter(languageContext.get("commands.game.character.footer").formatted(maxAttempts), null)
             );
 
             lobby.setGameLoaded(true);
             return true;
         } catch (JsonProcessingException ex) {
             ex.printStackTrace();
-            lobby.getContext().edit("commands.game.character_load_error", EmoteReference.WARNING, characterName);
+            lobby.getContext().edit("commands.game.character.load_error", EmoteReference.WARNING, characterName);
 
             return false;
         } catch (InsufficientPermissionException ex) {

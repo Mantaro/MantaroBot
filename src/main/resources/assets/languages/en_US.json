@@ -1239,11 +1239,12 @@
         "possibilities": "Possibilities",
         "difficulty": "Difficulty",
         "category": "Category",
-        "all_attempts_used": "%1$sAlready used all attempts, ending game. Question: %2$s, Answer: %3$s"
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Question: %2$s, Answer: %3$s",
+        "footer": "You have %1$s attempts and 1 minute (Click end to end the game)."
       },
       "number": {
         "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
-        "nan": "%1$sThat's not even a number...",
+        "nan": "%1$sThat's not a number...",
         "ended_game": "%1$sEnded game. The number was: %2$d",
         "all_attempts_used": "%1$sAlready used all attempts, ending game. The number was: %2$d",
         "hint": "Hint: The number is %1$s than your input number.",
@@ -1252,7 +1253,7 @@
       },
       "pokemon": {
         "header": "Who's that pokemon?",
-        "footer": "You have 5 attempts and 1 minute. (Type end to end the game)"
+        "footer": "You have %1$d attempts and 1 minute. (Type end to end the game)"
       },
       "lobby": {
         "ended_game": "%1$sEnded game. Possible answers were: %2$s",
@@ -1261,19 +1262,18 @@
         "incorrect_answer": "%1$sThat's not it, you have %2$d attempts remaining.",
         "won_game": "%1$s**%2$s** just won $%3$,d credits by answering correctly!"
       },
-      "lobby_started": "%1$sStarted a new lobby! **Games: %2$s**\nYou can type `endlobby` to end all games and finish the lobby.",
+      "character": {
+        "start": "Guess the Anime Character",
+        "load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
+        "request_error": "%1$sError requesting a character from Kitsu API.",
+        "footer": "You have %1$d attempts and 1 minute (Type end to end the game)."
+      },
       "game_timeout_drop": "%1$sSeems like I dropped a game here, but forgot to pick it up... I'll start your new game right up!",
       "other_lobby_running": "%1$sCannot start a new game lobby when there is a game currently running. (If this is an error, tell an admin to run `~>opts lobby reset`)",
-      "lobby_time_out": "%1$sThe time ran out! The correct answer is: %2$s",
-      "end_footer": "You have 5 attempts and 60 seconds. (Type end to end the game)",
-      "trivia_end_footer": "You have %1$s attempts and 1 minute. (Click end to end the game)",
-      "error": "%1$sI found an error while setting up the game... (internal error)",
+      "lobby_timed_out": "%1$sThe time ran out! The correct answer is: %2$s",
+      "error": "%1$sI found an error while setting up the game (internal error).",
       "error_missing_permissions": "%1$sI can't attach files. Please check permissions.",
-      "character_load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
-      "character_request_error": "%1$sError requesting this character from Kitsu's API.",
-      "character_start": "Guess the character",
-      "too_many_games": "%1$sYou can start a maximum of %2$,d games at the same time with game lobby. (With Premium: %3$,d)",
-      "disabled_multiple": "%1$sThis server has game multiple/lobby disabled."
+      "too_many_games": "%1$sYou can start a maximum of %2$,d games at the same time with game lobby. (With Premium: %3$,d)"
     },
     "opencrate": {
       "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command).",

@@ -48,7 +48,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.utils.Utils.createLinkedList;
 
@@ -146,7 +145,7 @@ public class GameCmds {
 
             var diff = ctx.getOptionAsString("difficulty", "");
             var difficulty = Utils.lookupEnumString(diff, TriviaDifficulty.class);
-            startGames(createLinkedList(new Trivia(difficulty)), ctx);
+            startGame(new Trivia(difficulty), ctx);
         }
     }
 
@@ -161,11 +160,9 @@ public class GameCmds {
 
         List<String> players = new ArrayList<>();
         players.add(ctx.getAuthor().getId());
+        // I don't think this should happen anymore?
         if (games.size() > 1) {
-            ctx.reply("commands.game.lobby_started", EmoteReference.CORRECT, games.stream()
-                    .map(Game::name)
-                    .collect(Collectors.joining(", "))
-            );
+            throw new IllegalArgumentException("There shouldn't be more than one game per lobby session.");
         }
 
         var lobby = new GameLobby(ctx, ctx.getLanguageContext(), players, games);

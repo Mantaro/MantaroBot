@@ -142,7 +142,7 @@ public class Trivia extends Game<String> {
                             "`" + category + "`", true
                     )
                     .setFooter(String.format(
-                            languageContext.get("commands.game.trivia_end_footer"), 1),
+                            languageContext.get("commands.game.trivia.footer"), 1),
                             lobby.getContext().getAuthor().getAvatarUrl()
                     );
 

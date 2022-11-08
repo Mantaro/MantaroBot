@@ -71,20 +71,20 @@ public class Pokemon extends ImageGame {
     }
 
     public boolean onStart(GameLobby lobby) {
-        final var languageContext = lobby.getLanguageContext();
+        final var lang = lobby.getLanguageContext();
 
         try {
             var data = JsonDataManager.fromJson(APIUtils.getFrom("/mantaroapi/bot/pokemon"), PokemonGameData.class);
             expectedAnswer = data.getNames();
             sendEmbedImage(lobby.getContext(), data.getImage(), eb ->
-                    eb.setAuthor(languageContext.get("commands.game.pokemon.header"), null, lobby.getContext().getAuthor().getEffectiveAvatarUrl())
-                            .setFooter(languageContext.get("commands.game.pokemon.footer"), null)
+                    eb.setAuthor(lang.get("commands.game.pokemon.header"), null, lobby.getContext().getAuthor().getEffectiveAvatarUrl())
+                        .setFooter(lang.get("commands.game.pokemon.footer").formatted(maxAttempts), null)
             );
 
             lobby.setGameLoaded(true);
             return true;
         } catch (Exception e) {
-            lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.error"), EmoteReference.ERROR).queue();
+            lobby.getChannel().sendMessageFormat(lang.get("commands.game.error"), EmoteReference.ERROR).queue();
             log.warn("Exception while setting up a game", e);
             return false;
         }
