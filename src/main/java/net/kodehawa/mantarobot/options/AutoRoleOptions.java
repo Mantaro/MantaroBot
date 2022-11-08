@@ -77,7 +77,7 @@ public class AutoRoleOptions extends OptionHandler {
                 ctx.sendLocalized("options.autorole_set.success", EmoteReference.CORRECT, role.getName(), role.getPosition());
             };
 
-            Role role = FinderUtils.findRoleSelect(ctx, String.join(" ", args), consumer);
+            Role role = FinderUtils.findRoleSelect(ctx, ctx.getCustomContent(), consumer);
 
             if (role != null) {
                 consumer.accept(role);

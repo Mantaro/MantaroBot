@@ -59,18 +59,19 @@ public class PollBuilder {
 
     public Poll build() {
         if (channelId == null)
-            throw new IllegalArgumentException("Channel ID cannot be null");
+            throw new IllegalArgumentException("Channel ID cannot be null.");
         if (guildId == null)
-            throw new IllegalArgumentException("Guild ID cannot be null");
+            throw new IllegalArgumentException("Guild ID cannot be null.");
         if (time <= 0)
-            throw new IllegalArgumentException("Time to remind must be positive and > 0");
+            throw new IllegalArgumentException("Time to remind must be positive and > 0.");
         if (options.isEmpty())
-            throw new IllegalArgumentException("Options can't be empty");
-        if (options.size() > 9 || options.size() < 2)
-            throw new IllegalArgumentException("Too many or too little options");
-        if (name == null || name.length() > 500) {
-            throw new IllegalArgumentException("Empty or invalid name.");
-        }
+            throw new IllegalArgumentException("Options can't be empty.");
+        if (options.size() < 2)
+            throw new IllegalArgumentException("Too few options.");
+        if (options.size() > 9)
+            throw new IllegalArgumentException("Too many options.");
+        if (name == null || name.length() > 500)
+            throw new IllegalArgumentException("Empty or invalid (over 500 characters) name.");
 
         return new Poll(guildId, channelId, null, name, image, options, time);
     }

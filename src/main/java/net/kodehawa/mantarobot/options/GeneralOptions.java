@@ -115,7 +115,7 @@ public class GeneralOptions extends OptionHandler {
                 return;
             }
 
-            String word = String.join(" ", args);
+            String word = ctx.getCustomContent();
             guildData.getModLogBlacklistWords().add(word);
             dbGuild.save();
             ctx.sendLocalized("options.modlog_blacklistwords_add.success", EmoteReference.CORRECT, word);
@@ -133,7 +133,7 @@ public class GeneralOptions extends OptionHandler {
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
 
-            String word = String.join(" ", args);
+            String word = ctx.getCustomContent();
 
             if (!guildData.getModLogBlacklistWords().contains(word)) {
                 ctx.sendLocalized("options.modlog_blacklistwords_remove.not_in", EmoteReference.ERROR, word);

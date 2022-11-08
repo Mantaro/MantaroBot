@@ -62,7 +62,7 @@ public class BirthdayOptions extends OptionHandler {
                 return;
             }
 
-            String query = String.join(" ", args);
+            String query = ctx.getCustomContent();
             ctx.findMember(query, members -> {
                 final var m = CustomFinderUtil.findMemberDefault(query, members, ctx, ctx.getMember());
                 if (m == null) {
@@ -234,8 +234,7 @@ public class BirthdayOptions extends OptionHandler {
             var dbGuild = ctx.getDBGuild();
             var guildData = dbGuild.getData();
 
-            // Trim start/end whitespace and/or newlines.
-            String birthdayMessage = String.join(" ", args).trim();
+            String birthdayMessage = ctx.getCustomContent();
             guildData.setBirthdayMessage(birthdayMessage);
             dbGuild.saveUpdating();
             ctx.sendLocalized("options.birthday_message_set.success", EmoteReference.CORRECT, birthdayMessage);
@@ -262,7 +261,7 @@ public class BirthdayOptions extends OptionHandler {
                 return;
             }
 
-            String content = String.join(" ", args);
+            String content = ctx.getContent();
             ctx.findMember(content, members -> {
                 Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                 if (member == null)
@@ -283,7 +282,7 @@ public class BirthdayOptions extends OptionHandler {
                 return;
             }
 
-            String content = String.join(" ", args);
+            String content = ctx.getCustomContent();
             ctx.findMember(content, members -> {
                 Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                 if (member == null)

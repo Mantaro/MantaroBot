@@ -670,7 +670,7 @@ public class CommandOptions extends OptionHandler {
 
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
-            String roleName = String.join(" ", args);
+            String roleName = ctx.getCustomContent();
 
             Consumer<Role> consumer = (role) -> {
                 if (!guildData.getDisabledRoles().contains(role.getId())) {

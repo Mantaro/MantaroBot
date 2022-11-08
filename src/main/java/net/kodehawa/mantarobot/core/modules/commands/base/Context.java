@@ -53,7 +53,7 @@ import net.kodehawa.mantarobot.utils.commands.UtilsContext;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimitContext;
 import redis.clients.jedis.JedisPool;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.LinkedList;
@@ -71,6 +71,7 @@ public class Context implements IContext {
     private final boolean isMentionPrefix;
     private I18nContext languageContext;
     private String commandName = "";
+    private String customContent;
 
     public Context(MessageReceivedEvent event, I18nContext languageContext, String content, boolean isMentionPrefix) {
         this.event = event;
@@ -432,5 +433,18 @@ public class Context implements IContext {
         }
 
         return true;
+    }
+
+    // Both used for options.
+    public void setCustomContent(String str) {
+        this.customContent = str;
+    }
+
+    /**
+     * Get the custom (usually filtered) content. This is only used in options, do not call it anywhere else.
+     * @return The custom content that has been set using Context#setCustomContent
+     */
+    public String getCustomContent() {
+        return this.customContent;
     }
 }

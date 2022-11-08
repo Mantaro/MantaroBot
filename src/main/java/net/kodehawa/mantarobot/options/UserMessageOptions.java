@@ -264,7 +264,7 @@ public class UserMessageOptions extends OptionHandler {
 
             var dbGuild = ctx.getDBGuild();
             var guildData = dbGuild.getData();
-            var joinMessage = String.join(" ", args);
+            var joinMessage = ctx.getCustomContent();
 
             guildData.setJoinMessage(joinMessage);
             dbGuild.save();
@@ -294,7 +294,7 @@ public class UserMessageOptions extends OptionHandler {
 
             var dbGuild = ctx.getDBGuild();
             var guildData = dbGuild.getData();
-            var leaveMessage = String.join(" ", args);
+            var leaveMessage = ctx.getCustomContent();
 
             guildData.setLeaveMessage(leaveMessage);
             dbGuild.save();
@@ -324,7 +324,7 @@ public class UserMessageOptions extends OptionHandler {
 
             var dbGuild = ctx.getDBGuild();
             var guildData = dbGuild.getData();
-            var message = String.join(" ", args);
+            var message = ctx.getCustomContent();
 
             guildData.getExtraJoinMessages().add(message);
             dbGuild.save();
@@ -419,7 +419,7 @@ public class UserMessageOptions extends OptionHandler {
 
             var dbGuild = ctx.getDBGuild();
             var guildData = dbGuild.getData();
-            var message = String.join(" ", args);
+            var message = ctx.getCustomContent();
 
             guildData.getExtraLeaveMessages().add(message);
             dbGuild.save();

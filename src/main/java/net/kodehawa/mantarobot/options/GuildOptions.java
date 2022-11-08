@@ -209,7 +209,7 @@ public class GuildOptions extends OptionHandler {
                 return;
             }
 
-            String editMessage = String.join(" ", args);
+            String editMessage = ctx.getCustomContent();
             guildData.setEditMessageLog(editMessage);
             dbGuild.save();
             ctx.sendLocalized("options.logs_editmessage.success", EmoteReference.CORRECT, editMessage);
@@ -236,7 +236,7 @@ public class GuildOptions extends OptionHandler {
                 return;
             }
 
-            String deleteMessage = String.join(" ", args);
+            String deleteMessage = ctx.getCustomContent();
             guildData.setDeleteMessageLog(deleteMessage);
             dbGuild.save();
             ctx.sendLocalized("options.logs_deletemessage.success", EmoteReference.CORRECT, deleteMessage);
@@ -301,7 +301,7 @@ public class GuildOptions extends OptionHandler {
                 ctx.sendLocalized("options.djrole_set.success", EmoteReference.CORRECT, role.getName(), role.getPosition());
             };
 
-            Role role = FinderUtils.findRoleSelect(ctx, String.join(" ", args), consumer);
+            Role role = FinderUtils.findRoleSelect(ctx, ctx.getCustomContent(), consumer);
 
             if (role != null) {
                 consumer.accept(role);

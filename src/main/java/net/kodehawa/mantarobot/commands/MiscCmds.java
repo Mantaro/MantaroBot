@@ -217,6 +217,19 @@ public class MiscCmds {
         @Override
         protected void process(SlashContext ctx) { }
 
+        @Override
+        public Predicate<SlashContext> getPredicate() {
+            return ctx -> {
+                // We should also add some kind of configurable role, probably.
+                if (!CommandPermission.ADMIN.test(ctx.getMember())) {
+                    ctx.replyEphemeral("commands.poll.no_permissions", EmoteReference.ERROR);
+                    return false;
+                }
+
+                return true;
+            };
+        }
+
         @Name("create")
         @Description("Creates a poll.")
         @Options({
@@ -241,19 +254,6 @@ public class MiscCmds {
 
         })
         public static class CreatePoll extends SlashCommand {
-            @Override
-            public Predicate<SlashContext> getPredicate() {
-                return ctx -> {
-                    // We should also add some kind of configurable role, probably.
-                    if (!CommandPermission.ADMIN.test(ctx.getMember())) {
-                        ctx.replyEphemeral("commands.poll.no_permissions", EmoteReference.ERROR);
-                        return false;
-                    }
-
-                    return true;
-                };
-            }
-
             @Override
             protected void process(SlashContext ctx) {
                 if (!ctx.getGuild().getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_ADD_REACTION)) {
@@ -326,6 +326,7 @@ public class MiscCmds {
                     builder.build().start(ctx);
                 } catch (IllegalArgumentException e) {
                     e.printStackTrace();
+                    // This shouldn't happen, but I guess it could happen, so we're better off sending the error alongside.
                     ctx.replyEphemeral("commands.poll.invalid", EmoteReference.WARNING);
                 }
             }

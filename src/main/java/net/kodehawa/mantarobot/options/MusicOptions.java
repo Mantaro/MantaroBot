@@ -90,7 +90,7 @@ public class MusicOptions extends OptionHandler {
                 return;
             }
 
-            String channelName = String.join(" ", args);
+            String channelName = ctx.getCustomContent();
 
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();

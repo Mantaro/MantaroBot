@@ -133,6 +133,8 @@ public class OptsCmd {
                                 a = StringUtils.EMPTY_ARRAY;
                             }
 
+                            // Pass raw content without parsing multi-argument stuff, we don't need it for *everything*
+                            ctx.setCustomContent(content.substring(name.length()).trim());
                             callable.accept(ctx, a);
                             var player = MantaroData.db().getPlayer(ctx.getAuthor());
                             if (player.getData().addBadgeIfAbsent(Badge.DID_THIS_WORK)) {
