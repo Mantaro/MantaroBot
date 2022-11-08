@@ -133,18 +133,18 @@ public abstract class Game<T> {
             return Operation.IGNORED;
         }
 
-        var message = e.getMessage();
-        var contentRaw = message.getContentRaw();
-        var languageContext = lobby.getLanguageContext();
-
-        for (var s : MantaroData.config().get().getPrefix()) {
-            if (contentRaw.startsWith(s)) {
-                return Operation.IGNORED;
-            }
-        }
-
         var ctx = lobby.getContext();
         if (players.contains(e.getAuthor().getId())) {
+            var message = e.getMessage();
+            var contentRaw = message.getContentRaw();
+            var languageContext = lobby.getLanguageContext();
+
+            for (var s : MantaroData.config().get().getPrefix()) {
+                if (contentRaw.startsWith(s)) {
+                    return Operation.IGNORED;
+                }
+            }
+
             if (contentRaw.equalsIgnoreCase("end")) {
                 ctx.reply("commands.game.lobby.ended_game",
                         EmoteReference.CORRECT, expectedAnswer.stream().map(String::valueOf).collect(Collectors.joining(", "))

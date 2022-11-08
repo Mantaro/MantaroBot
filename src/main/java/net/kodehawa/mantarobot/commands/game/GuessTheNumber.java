@@ -51,17 +51,16 @@ public class GuessTheNumber extends Game<Object> {
                     return Operation.IGNORED;
                 }
 
-                final var contentRaw = e.getMessage().getContentRaw();
-                final var languageContext = lobby.getLanguageContext();
-
-                for (var s : MantaroData.config().get().getPrefix()) {
-                    if (contentRaw.startsWith(s)) {
-                        return Operation.IGNORED;
-                    }
-                }
-
                 var ctx = lobby.getContext();
                 if (players.contains(e.getAuthor().getId())) {
+                    final var contentRaw = e.getMessage().getContentRaw();
+                    final var languageContext = lobby.getLanguageContext();
+                    for (var s : MantaroData.config().get().getPrefix()) {
+                        if (contentRaw.startsWith(s)) {
+                            return Operation.IGNORED;
+                        }
+                    }
+
                     if (contentRaw.equalsIgnoreCase("end")) {
                         ctx.edit(languageContext.get("commands.game.number.ended_game"), EmoteReference.CORRECT, number);
                         lobby.startNextGame(true);

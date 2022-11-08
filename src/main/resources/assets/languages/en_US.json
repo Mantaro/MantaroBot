@@ -1265,7 +1265,6 @@
       "character": {
         "start": "Guess the Anime Character",
         "load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
-        "request_error": "%1$sError requesting a character from Kitsu API.",
         "footer": "You have %1$d attempts and 1 minute (Type end to end the game)."
       },
       "game_timeout_drop": "%1$sSeems like I dropped a game here, but forgot to pick it up... I'll start your new game right up!",
