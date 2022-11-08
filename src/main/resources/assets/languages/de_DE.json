@@ -1233,23 +1233,18 @@
     "game": {
       "won_games": "%1$s%2$s hat **%3$s Spiele** gewonnen!",
       "nothing_specified": "%1$sDu hast nichts zum Spielen angegeben!",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example: `~>game lobby pokemon, trivia`",
-      "invalid_selection": "%1$sDu musst mindestens zwei Spiele angeben. (gültige Spiele: character, pokemon, number, trivia)",
-      "multiple": {
-        "invalid": "%1$sDu musst das Spiel und die Häufigkeit angeben.",
-        "invalid_times": "%1$sUngültige Anzahl von Malen!",
-        "no_character": "%1$sDu kannst keine character Runden in game multiple oder einer Lobby aufgrund von AniList API Limitationen nutzen."
-      },
       "trivia": {
         "wrong_diff": "%1$sFalsche Schwierigkeit angegeben! (Unterstützt: easy (einfach), medium (mittel) and hard (schwer))",
         "fetch_error": "%1$sFehler beim Starten von Trivia. Scheinbar hat Open Trivia DB Probleme.",
         "possibilities": "Möglichkeiten",
         "difficulty": "Schwierigkeit",
-        "category": "Kategorie"
+        "category": "Kategorie",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Question: %2$s, Answer: %3$s",
+        "footer": "You have %1$s attempt and 1 minute (Click end to end the game)."
       },
       "number": {
         "start": "%1$sRate die Nummer! **Sie haben 5 Versuche und 1 Minute. Die Zahl liegt zwischen 0 und 150**",
-        "nan": "%1$sDas ist nicht einmal eine Nummer...",
+        "nan": "%1$sThat's not a number...",
         "ended_game": "%1$sBeendetes Spiel. Die Nummer war: %2$d",
         "all_attempts_used": "%1$sBereits alle Versuche genutzt, Spiel beendet. Die Nummer war: %2$d",
         "hint": "Tipp: Die Nummer ist %1$s all deine angegebene Nummer.",
@@ -1258,30 +1253,26 @@
       },
       "pokemon": {
         "header": "Welches Pokémon ist das?",
-        "footer": "Es stehen 5 Versuche und 75 Sekunden zur Verfügung. (Schreibe end um das Spiel zu beenden)"
+        "footer": "You have %1$d attempts and 1 minute. (Type end to end the game)"
       },
-      "started_mp_role": "%1$sBegann eine MP-Lobby mit allen Benutzern mit der angegebenen Rolle: **%2$s**",
-      "started_mp_user": "%1$sBegann eine MP-Lobby mit den Nutzern: **%2$s**",
-      "lobby_started": "%1$sBegann eine neue Lobby! **Spiele: %2$s**\nDu kannst `endlobby` schreiben um alle Spiele zu beenden.",
-      "game_timeout_drop": "%1$sScheint so, als hätte ich hier ein Spiel fallen lassen, aber vergessen, es aufzuheben. Ich werde dein neues Spiel beginnen!",
-      "other_lobby_running": "%1$sEine neue Spielelobby kann nicht gestartet werden, wenn gerade ein Spiel läuft. (Sollte dies ein Fehler sein, bitte einen Admin darum `~>opts lobby reset` auszuführen.)",
       "lobby": {
         "ended_game": "%1$sBeendetes Spiel. Mögliche Antworten waren: %2$s",
         "ended_lobby": "%1$sBeendete Lobby! Danke fürs Spielen!",
-        "all_attempts_used": "%1$sBereits alle Versuche genutzt, Spiel beendet. Mögliche Antworten waren: %2$s",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Answer: %2$s",
         "incorrect_answer": "%1$sDas ist es nicht, Sie haben %2$d Versuche übrig.",
         "won_game": "%1$s**%2$s** hat durch's korrekte Beantworten %3$,d Credits gewonnen!"
       },
-      "lobby_time_out": "%1$sDie Zeit ist abgelaufen! Die richtige Antwort ist: %2$s",
-      "end_footer": "Du hast 5 Versuche und 60 Sekunden. (Schreibe end, um das Spiel zu beenden)",
-      "trivia_end_footer": "Du hast %1$s Versuche und 60 Sekunden. (Gebe end ein, um das Spiel zu beenden)",
-      "error": "%1$sFehler beim Einrichten eines Spiels. (internal error)",
+      "character": {
+        "start": "Guess the Anime Character",
+        "load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
+        "footer": "You have %1$d attempts and 1 minute (Type end to end the game)."
+      },
+      "game_timeout_drop": "%1$sScheint so, als hätte ich hier ein Spiel fallen lassen, aber vergessen, es aufzuheben. Ich werde dein neues Spiel beginnen!",
+      "other_lobby_running": "%1$sEine neue Spielelobby kann nicht gestartet werden, wenn gerade ein Spiel läuft. (Sollte dies ein Fehler sein, bitte einen Admin darum `~>opts lobby reset` auszuführen.)",
+      "lobby_timed_out": "%1$sThe time ran out! The correct answer is: %2$s",
+      "error": "%1$sI found an error while setting up the game (internal error).",
       "error_missing_permissions": "%1$sIch kann keine Dateien anhängen. Bitte überprüfe meine Berechtigungen.",
-      "character_load_error": "%1$sMelden Sie dies bitte im offiziellen Server. Fehler beim Einrichten des Spiels für den zuvor gespeicherten Charakter: %2$s",
-      "character_request_error": "%1$sFehler beim Anfordern des Charakters von Kitsus API.",
-      "character_start": "Rate den Charakter",
-      "too_many_games": "%1$sYou can start a maximum of %2$,d games at the same time with game lobby. (With Premium: %3$,d)",
-      "disabled_multiple": "%1$sDieser Server hat \"game multiple/lobby\" deaktiviert."
+      "too_many_games": "%1$sYou can start a maximum of %2$,d games at the same time with game lobby. (With Premium: %3$,d)"
     },
     "opencrate": {
       "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command).",
@@ -2643,7 +2634,8 @@
     "no": "No",
     "accept": "Accept",
     "deny": "Deny",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "end": "End"
   },
   "time": {
     "day": "Tag",
