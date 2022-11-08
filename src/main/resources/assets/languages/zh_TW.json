@@ -1233,23 +1233,18 @@
     "game": {
       "won_games": "%1$s%2$s 贏了 **%3$s 次遊戲**",
       "nothing_specified": "%1$s你並沒有指出任何要開始的遊戲...",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example: `~>game lobby pokemon, trivia`",
-      "invalid_selection": "%1$s你需要指出至少兩個遊戲。(有效遊戲：character, pokemon, number, trivia)",
-      "multiple": {
-        "invalid": "%1$s你需要指出想遊玩的遊戲和次數。",
-        "invalid_times": "%1$s無效次數。記得那只能是一個整數。",
-        "no_character": "%1$s由於 AniList API 的限制，你無法在連續模式或大廳遊玩猜角色遊戲。"
-      },
       "trivia": {
         "wrong_diff": "%1$s難度錯誤！(有效難度：easy, medium, hard)",
         "fetch_error": "%1$s開始冷知識時發生錯誤。看來 Open Trivia DB 可能有些問題。",
         "possibilities": "可能答案",
         "difficulty": "難度",
-        "category": "類別"
+        "category": "類別",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Question: %2$s, Answer: %3$s",
+        "footer": "You have %1$s attempt and 1 minute (Click end to end the game)."
       },
       "number": {
         "start": "%1$s猜數字！**你有 5 次機會和 1 分鐘。該數字在 0 與 150 之間**",
-        "nan": "%1$s那根本就不是數字...",
+        "nan": "%1$sThat's not a number...",
         "ended_game": "%1$s已結束遊戲。數字是：%2$d",
         "all_attempts_used": "%1$s已使用完所有機會，遊戲結束。數字是：%2$d",
         "hint": "提示：該數字比你輸入的數字 %1$s。",
@@ -1258,30 +1253,26 @@
       },
       "pokemon": {
         "header": "這是哪隻神奇寶貝？",
-        "footer": "你有 5 次機會和 75 秒鐘。(傳送 end 來結束遊戲)"
+        "footer": "You have %1$d attempts and 1 minute. (Type end to end the game)"
       },
-      "started_mp_role": "%1$s已為身分組：**%2$s** 的所有用戶開始了多人大廳",
-      "started_mp_user": "%1$s已為用戶：**%2$s** 開始了多人大廳",
-      "lobby_started": "%1$s已開始了一個新的大廳！**遊戲：%2$s**\n你可以輸入 `endlobby` 來結束所有遊戲和大廳。",
-      "game_timeout_drop": "%1$s我好像在這邊忘記了一個遊戲... 我會馬上開始你的新遊戲！",
-      "other_lobby_running": "%1$s目前還有運行中的遊戲，無法開始一個新大廳。(如果這是錯誤的，請讓管理員運行 `~>opts lobby reset`)",
       "lobby": {
         "ended_game": "%1$s遊戲結束。可能的答案是：%2$s",
         "ended_lobby": "%1$s已正確結束大廳！感謝遊玩。",
-        "all_attempts_used": "%1$s已使用完所有機會，遊戲結束。可能的答案是：%2$s",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Answer: %2$s",
         "incorrect_answer": "%1$s答案錯誤，你還有 %2$d 次機會。",
         "won_game": "%1$s**%2$s** 回答了正確答案且獲得了 %3$,d 元！"
       },
-      "lobby_time_out": "%1$s時間已經到達！正確答案為：%2$s",
-      "end_footer": "你有 5 次機會和 60 秒鐘。(傳送 end 來結束遊戲)",
-      "trivia_end_footer": "你有 %1$s 次機會和 60 秒鐘。(傳送 end 來結束遊戲)",
-      "error": "%1$s開始遊戲時發生錯誤... (內部錯誤)",
+      "character": {
+        "start": "Guess the Anime Character",
+        "load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
+        "footer": "You have %1$d attempts and 1 minute (Type end to end the game)."
+      },
+      "game_timeout_drop": "%1$s我好像在這邊忘記了一個遊戲... 我會馬上開始你的新遊戲！",
+      "other_lobby_running": "%1$s目前還有運行中的遊戲，無法開始一個新大廳。(如果這是錯誤的，請讓管理員運行 `~>opts lobby reset`)",
+      "lobby_timed_out": "%1$sThe time ran out! The correct answer is: %2$s",
+      "error": "%1$sI found an error while setting up the game (internal error).",
       "error_missing_permissions": "%1$s我無法傳送文件。請檢查權限。",
-      "character_load_error": "%1$s無法為預先保存的角色：%2$s 開始遊戲。如果所有角色都發生這種情況，則可能只是暫時錯誤。",
-      "character_request_error": "%1$s從 Kitsu API 要求這個角色時產生錯誤。",
-      "character_start": "猜角色",
-      "too_many_games": "%1$s你只能在同一個大廳內開始最多 %2$,d 個遊戲。(Premium 用戶：%3$,d)",
-      "disabled_multiple": "%1$s此伺服器已禁用遊戲連續模式及大廳。"
+      "too_many_games": "%1$s你只能在同一個大廳內開始最多 %2$,d 個遊戲。(Premium 用戶：%3$,d)"
     },
     "opencrate": {
       "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command).",
@@ -2643,7 +2634,8 @@
     "no": "No",
     "accept": "Accept",
     "deny": "Deny",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "end": "End"
   },
   "time": {
     "day": "day",
