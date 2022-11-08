@@ -42,7 +42,7 @@ public class Pokemon extends ImageGame {
 
     @Override
     public void call(GameLobby lobby, List<String> players) {
-        InteractiveOperations.create(lobby.getChannel(), Long.parseLong(lobby.getPlayers().get(0)), 75, new InteractiveOperation() {
+        InteractiveOperations.create(lobby.getChannel(), Long.parseLong(lobby.getPlayers().get(0)), 60, new InteractiveOperation() {
             @Override
             public int run(MessageReceivedEvent event) {
                 return callDefault(event, lobby, players, expectedAnswer, getAttempts(), maxAttempts, 15);
@@ -76,10 +76,12 @@ public class Pokemon extends ImageGame {
         try {
             var data = JsonDataManager.fromJson(APIUtils.getFrom("/mantaroapi/bot/pokemon"), PokemonGameData.class);
             expectedAnswer = data.getNames();
-            sendEmbedImage(lobby.getChannel(), data.getImage(), eb ->
-                    eb.setAuthor(languageContext.get("commands.game.pokemon.header"), null, lobby.getEvent().getAuthor().getEffectiveAvatarUrl())
+            sendEmbedImage(lobby.getContext(), data.getImage(), eb ->
+                    eb.setAuthor(languageContext.get("commands.game.pokemon.header"), null, lobby.getContext().getAuthor().getEffectiveAvatarUrl())
                             .setFooter(languageContext.get("commands.game.pokemon.footer"), null)
-            ).queue(success -> lobby.setGameLoaded(true));
+            );
+
+            lobby.setGameLoaded(true);
             return true;
         } catch (Exception e) {
             lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.error"), EmoteReference.ERROR).queue();

@@ -60,35 +60,26 @@ public class GuessTheNumber extends Game<Object> {
                     }
                 }
 
+                var ctx = lobby.getContext();
                 if (players.contains(e.getAuthor().getId())) {
                     if (contentRaw.equalsIgnoreCase("end")) {
-                        channel.sendMessageFormat(languageContext.get("commands.game.number.ended_game"),
-                                EmoteReference.CORRECT, number
-                        ).queue();
-
+                        ctx.edit(languageContext.get("commands.game.number.ended_game"), EmoteReference.CORRECT, number);
                         lobby.startNextGame(true);
                         return Operation.COMPLETED;
                     }
 
                     if (contentRaw.equalsIgnoreCase("endlobby")) {
-                        channel.sendMessageFormat(languageContext.get("commands.game.lobby.ended_lobby"),
-                                EmoteReference.CORRECT
-                        ).queue();
-
+                        ctx.edit(languageContext.get("commands.game.lobby.ended_lobby"), EmoteReference.CORRECT);
                         lobby.getGamesToPlay().clear();
                         lobby.startNextGame(true);
                         return Operation.COMPLETED;
                     }
 
                     int parsedAnswer;
-
                     try {
                         parsedAnswer = Integer.parseInt(contentRaw);
                     } catch (NumberFormatException ex) {
-                        channel.sendMessageFormat(languageContext.get("commands.game.number.nan"),
-                                EmoteReference.ERROR
-                        ).queue();
-
+                        ctx.reply("commands.game.number.nan", EmoteReference.ERROR);
                         attempts = attempts + 1;
                         return Operation.IGNORED;
                     }
@@ -113,31 +104,27 @@ public class GuessTheNumber extends Game<Object> {
 
                         player.saveUpdating();
                         TextChannelGround.of(e.getChannel()).dropItemWithChance(ItemReference.FLOPPY_DISK, 3);
-                        channel.sendMessageFormat(languageContext.get("commands.game.lobby.won_game"),
-                                EmoteReference.MEGA, e.getMember().getEffectiveName(), gains
-                        ).queue();
 
+                        ctx.reply("commands.game.lobby.won_game", EmoteReference.MEGA, e.getMember().getEffectiveName(), gains);
                         lobby.startNextGame(true);
                         return Operation.COMPLETED;
                     }
 
                     if (attempts >= maxAttempts) {
-                        channel.sendMessageFormat(languageContext.get("commands.game.number.all_attempts_used"),
-                                EmoteReference.ERROR, number
-                        ).queue();
-
+                        ctx.reply("commands.game.number.all_attempts_used", EmoteReference.ERROR, number);
                         lobby.startNextGame(true); //This should take care of removing the lobby, actually.
                         return Operation.COMPLETED;
                     }
 
-                    channel.sendMessageFormat(languageContext.get("commands.game.lobby.incorrect_answer") + "\n" +
+                    ctx.sendFormat(languageContext.get("commands.game.lobby.incorrect_answer") + "\n" +
                             String.format(languageContext.get("commands.game.number.hint"),
                                     (parsedAnswer < number ? languageContext.get("commands.game.number.higher") :
                                             languageContext.get("commands.game.number.lower")
                                     )
 
                             ), EmoteReference.ERROR, (maxAttempts - attempts)
-                    ).queue();
+                    );
+
                     attempts = attempts + 1;
                     return Operation.IGNORED;
                 }
@@ -153,7 +140,7 @@ public class GuessTheNumber extends Game<Object> {
                     return;
                 }
 
-                channel.sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby_timed_out"), EmoteReference.ERROR, number).queue();
+                lobby.getContext().edit("commands.game.lobby_timed_out", EmoteReference.ERROR, number);
                 GameLobby.LOBBYS.remove(channel.getIdLong());
             }
 
@@ -167,10 +154,8 @@ public class GuessTheNumber extends Game<Object> {
     @Override
     public boolean onStart(GameLobby lobby) {
         number = r.nextInt(150);
-        lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.number.start"),
-                EmoteReference.THINKING
-        ).queue(success -> lobby.setGameLoaded(true));
-
+        lobby.getContext().reply("commands.game.number.start", EmoteReference.THINKING);
+        lobby.setGameLoaded(true);
         return true;
     }
 

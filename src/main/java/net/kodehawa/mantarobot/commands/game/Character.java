@@ -58,10 +58,9 @@ public class Character extends ImageGame {
                 if (lobby.getChannel() == null)
                     return;
 
-                lobby.getChannel().sendMessageFormat(
-                        lobby.getLanguageContext().get("commands.game.lobby_timed_out"),
+                lobby.getContext().reply("commands.game.lobby_timed_out",
                         EmoteReference.ERROR, String.join(" ,", characterNameL)
-                ).queue();
+                );
 
                 GameLobby.LOBBYS.remove(lobby.getChannel().getIdLong());
             }
@@ -88,23 +87,23 @@ public class Character extends ImageGame {
             }
 
             characterNameL.add(characterName);
-            sendEmbedImage(lobby.getChannel(), imageUrl, eb -> eb
-                    .setAuthor(languageContext.get("commands.game.character_start"), null, lobby.getEvent().getAuthor().getEffectiveAvatarUrl())
+            sendEmbedImage(lobby.getContext(), imageUrl, eb -> eb
+                    .setAuthor(languageContext.get("commands.game.character_start"), null, lobby.getContext().getAuthor().getEffectiveAvatarUrl())
                     .setFooter(languageContext.get("commands.game.end_footer"), null)
-            ).queue(success -> lobby.setGameLoaded(true));
+            );
+
+            lobby.setGameLoaded(true);
             return true;
         } catch (JsonProcessingException ex) {
             ex.printStackTrace();
-            lobby.getChannel().sendMessageFormat(
-                    languageContext.get("commands.game.character_load_error"), EmoteReference.WARNING, characterName
-            ).queue();
+            lobby.getContext().edit("commands.game.character_load_error", EmoteReference.WARNING, characterName);
 
             return false;
         } catch (InsufficientPermissionException ex) {
-            lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.error_missing_permissions"), EmoteReference.ERROR).queue();
+            lobby.getContext().edit("commands.game.error_missing_permissions", EmoteReference.ERROR);
             return false;
         } catch (Exception e) {
-            lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.error"), EmoteReference.ERROR).queue();
+            lobby.getContext().edit("commands.game.error", EmoteReference.ERROR);
             log.warn("Exception while setting up a game", e);
             return false;
         }

@@ -600,9 +600,6 @@ public class HelpCmd {
             }
         });
 
-        // TODO: port: GameCmds (1)
-        // Current count: 89, would be 90 with the one above.
-        // Note: How the heck am I gonna do GameCmds? Interactive stuff is hard now.
         cr.registerAlias("slash",
                 "info", "status", "shard", "shardinfo", "ping", "time", "prune",
                 "ban", "kick", "softban", "userinfo", "serverinfo", "avatar", "roleinfo",
@@ -613,7 +610,8 @@ public class HelpCmd {
                 "unequip", "badges", "activatekey", "premium", "transfer", "itemtransfer", "pet",
                 "waifu", "play", "shuffle", "np", "repeat", "skip", "stop", "ns", "volume", "forceplay",
                 "lyrics", "playnow", "rewind", "forward", "restartsong", "removetrack", "move",
-                "cast", "salvage", "repair", "marry", "divorce", "mute", "unmute", "remindme"
+                "cast", "salvage", "repair", "marry", "divorce", "mute", "unmute", "remindme",
+                "game", "trivia"
         );
     }
 
