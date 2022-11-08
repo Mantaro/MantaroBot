@@ -1233,23 +1233,18 @@
     "game": {
       "won_games": "%1$s%2$s heeft **%3$s spellen gewonnen**",
       "nothing_specified": "%1$sJe hebt niet opgegeven wat je wilt spelen ...",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example: `~>game lobby pokemon, trivia`",
-      "invalid_selection": "%1$sYou need to specify two games at least. (Valid games: character, pokemon, number, trivia)",
-      "multiple": {
-        "invalid": "%1$sJe moet aangeven welk spel je wilt spelen en hoevaak je dit spel wilt spelen",
-        "invalid_times": "%1$sOngeldig aantal keren. Vergeet niet dat het een geheel getal moet zijn.",
-        "no_character": "%1$sYou cannot use character game in game multiple or lobby due to AniList API limitations."
-      },
       "trivia": {
         "wrong_diff": "%1$sVerkeerde moeilijkheidsgraad opgegeven! (Ondersteund: easy, medium and hard)",
         "fetch_error": "%1$sFout bij het starten van trivia. Schijnbaar heeft Open Trivia DB problemen.",
         "possibilities": "Mogelijkheden",
         "difficulty": "Moeilijkheidsgraad",
-        "category": "Categorie"
+        "category": "Categorie",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Question: %2$s, Answer: %3$s",
+        "footer": "You have %1$s attempt and 1 minute (Click end to end the game)."
       },
       "number": {
         "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
-        "nan": "%1$sDat is niet eens een nummer ...",
+        "nan": "%1$sThat's not a number...",
         "ended_game": "%1$sSpel beëindigd. Het nummer was: %2$d",
         "all_attempts_used": "%1$sAlle pogingen zijn verbruikt, het spel wordt beëindigd. Het nummer was: %2$d",
         "hint": "Hint: Het nummer is %1$s dan het nummer dat jij opgaf.",
@@ -1258,30 +1253,26 @@
       },
       "pokemon": {
         "header": "Wie is deze Pokémon?",
-        "footer": "Je hebt 5 pogingen en 75 seconden. (Typ 'end' om het spel te beëindigen)"
+        "footer": "You have %1$d attempts and 1 minute. (Type end to end the game)"
       },
-      "started_mp_role": "%1$sBegon een multi-player lobby met alle gebruikers met de aangegeven rol: **%2$s**",
-      "started_mp_user": "%1$sStartte een multi-player lobby met gebruikers: **%2$s**",
-      "lobby_started": "%1$sNieuwe lobby gestart! **Games: %2$s**\nJe kunt `endlobby` typen om alle games te beëindigen en de lobby te voltooien.",
-      "game_timeout_drop": "%1$sHet lijkt erop dat ik hier een spel liet vallen, maar vergat het op te halen ... Ik begin je nieuwe spel meteen!",
-      "other_lobby_running": "%1$sKan geen nieuwe spellobby starten als er een game actief is. (Als dit een foutmelding is, vraag de Admin om `~>opts lobby reset` in te typen)",
       "lobby": {
         "ended_game": "%1$sSpel beëindigd. Mogelijke antwoorden waren: %2$s",
         "ended_lobby": "%1$sLobby goed afgesloten! Bedankt voor het spelen.",
-        "all_attempts_used": "%1$sAlle pogingen zijn gebruikt en het spel is beëindigd. Mogelijke antwoorden waren: %2$s",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Answer: %2$s",
         "incorrect_answer": "%1$sDat is het niet, je hebt nog %2$d kansen om het antwoord te raden.",
         "won_game": "%1$s**%2$s** heeft zojuist $%3$d credits gewonnen door het antwoord te raden!"
       },
-      "lobby_time_out": "%1$sDe tijd is op! Het juiste antwoord is: %2$s",
-      "end_footer": "Je hebt 5 pogingen en 60 seconden. (Typ 'end' om het spel te beëindigen)",
-      "trivia_end_footer": "Je hebt %1$s pogingen en 60 seconden. (Typ 'end' om het spel te beëindigen)",
-      "error": "%1$sIk heb een fout gevonden tijdens het instellen van de game... (interne foutmelding)",
+      "character": {
+        "start": "Guess the Anime Character",
+        "load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
+        "footer": "You have %1$d attempts and 1 minute (Type end to end the game)."
+      },
+      "game_timeout_drop": "%1$sHet lijkt erop dat ik hier een spel liet vallen, maar vergat het op te halen ... Ik begin je nieuwe spel meteen!",
+      "other_lobby_running": "%1$sKan geen nieuwe spellobby starten als er een game actief is. (Als dit een foutmelding is, vraag de Admin om `~>opts lobby reset` in te typen)",
+      "lobby_timed_out": "%1$sThe time ran out! The correct answer is: %2$s",
+      "error": "%1$sI found an error while setting up the game (internal error).",
       "error_missing_permissions": "%1$sI can't attach files. Please check permissions.",
-      "character_load_error": "%1$sRapporteer dit alstublieft op de officiële server. Het instellen van de game is mislukt voor het vooraf opgeslagen personage: %2$s",
-      "character_request_error": "%1$sError requesting this character from Kitsu's API.",
-      "character_start": "Raad het personage",
-      "too_many_games": "%1$sYou can start a maximum of %2$,d games at the same time with game lobby. (With Premium: %3$,d)",
-      "disabled_multiple": "%1$sThis server has game multiple/lobby disabled."
+      "too_many_games": "%1$sYou can start a maximum of %2$,d games at the same time with game lobby. (With Premium: %3$,d)"
     },
     "opencrate": {
       "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command).",
@@ -2643,7 +2634,8 @@
     "no": "No",
     "accept": "Accepteren",
     "deny": "Weigeren",
-    "cancel": "Annuleren"
+    "cancel": "Annuleren",
+    "end": "End"
   },
   "time": {
     "day": "dag",
