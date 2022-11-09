@@ -631,7 +631,12 @@ public class Utils {
                 role.hasPermission(Permission.KICK_MEMBERS) || role.hasPermission(Permission.MANAGE_SERVER) ||
                 role.hasPermission(Permission.MANAGE_ROLES) || role.hasPermission(Permission.MANAGE_PERMISSIONS) ||
                 role.hasPermission(Permission.MANAGE_CHANNEL) || role.hasPermission(Permission.MANAGE_WEBHOOKS) ||
-                role.hasPermission(Permission.MODERATE_MEMBERS) || role.hasPermission(Permission.VOICE_MUTE_OTHERS);
+                role.hasPermission(Permission.MODERATE_MEMBERS) || role.hasPermission(Permission.VOICE_MUTE_OTHERS) ||
+                role.hasPermission(Permission.VIEW_GUILD_INSIGHTS) || role.hasPermission(Permission.VIEW_AUDIT_LOGS) ||
+                role.hasPermission(Permission.MANAGE_EMOJIS_AND_STICKERS) || role.hasPermission(Permission.MANAGE_EVENTS) ||
+                role.hasPermission(Permission.NICKNAME_MANAGE) || role.hasPermission(Permission.MESSAGE_MANAGE) ||
+                role.hasPermission(Permission.VOICE_DEAF_OTHERS) || role.hasPermission(Permission.VOICE_MOVE_OTHERS) ||
+                role.hasPermission(Permission.MANAGE_THREADS);
     }
 
     public static String decodeURL(String s) {
