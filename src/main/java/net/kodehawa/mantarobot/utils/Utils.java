@@ -52,6 +52,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -93,6 +94,29 @@ public class Utils {
     private static final char POP_DIRECTIONAL_ISOLATE = '\u2069';
     private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
     private static final Config config = MantaroData.config().get();
+
+    private static final EnumSet<Permission> ADMINISTRATIVE_DISCORD_PERMISSIONS = EnumSet.of(
+            Permission.ADMINISTRATOR,
+            Permission.BAN_MEMBERS,
+            Permission.KICK_MEMBERS,
+            Permission.MANAGE_SERVER,
+            Permission.MANAGE_ROLES,
+            Permission.MANAGE_PERMISSIONS,
+            Permission.MANAGE_CHANNEL,
+            Permission.MANAGE_WEBHOOKS,
+            Permission.MODERATE_MEMBERS,
+            Permission.VOICE_MUTE_OTHERS,
+            Permission.VIEW_GUILD_INSIGHTS,
+            Permission.VIEW_AUDIT_LOGS,
+            Permission.MANAGE_EMOJIS_AND_STICKERS,
+            Permission.MANAGE_EVENTS,
+            Permission.NICKNAME_MANAGE,
+            Permission.MESSAGE_MANAGE,
+            Permission.VOICE_DEAF_OTHERS,
+            Permission.VOICE_MOVE_OTHERS,
+            Permission.MANAGE_THREADS
+
+    );
 
     private static final RoundedMetricPrefixFormat prefixFormat = new RoundedMetricPrefixFormat();
 
@@ -626,17 +650,14 @@ public class Utils {
     // Basically returns true if the role has a role that can mess around with other users.
     // Usually this check wouldn't be needed, as we check for interaction permissions, but this is just an extra check to
     // avoid foot-guns.
+    // This is only really used to avoid people setting roles with elevated permissions as
+    // birthday role etc.
+    // Important to note is that this only checks *explicitly* granted permissions.
+    // In other words the @everyone role permissions are ignored.
     public static boolean isRoleAdministrative(Role role) {
-        return role.hasPermission(Permission.ADMINISTRATOR) || role.hasPermission(Permission.BAN_MEMBERS) ||
-                role.hasPermission(Permission.KICK_MEMBERS) || role.hasPermission(Permission.MANAGE_SERVER) ||
-                role.hasPermission(Permission.MANAGE_ROLES) || role.hasPermission(Permission.MANAGE_PERMISSIONS) ||
-                role.hasPermission(Permission.MANAGE_CHANNEL) || role.hasPermission(Permission.MANAGE_WEBHOOKS) ||
-                role.hasPermission(Permission.MODERATE_MEMBERS) || role.hasPermission(Permission.VOICE_MUTE_OTHERS) ||
-                role.hasPermission(Permission.VIEW_GUILD_INSIGHTS) || role.hasPermission(Permission.VIEW_AUDIT_LOGS) ||
-                role.hasPermission(Permission.MANAGE_EMOJIS_AND_STICKERS) || role.hasPermission(Permission.MANAGE_EVENTS) ||
-                role.hasPermission(Permission.NICKNAME_MANAGE) || role.hasPermission(Permission.MESSAGE_MANAGE) ||
-                role.hasPermission(Permission.VOICE_DEAF_OTHERS) || role.hasPermission(Permission.VOICE_MOVE_OTHERS) ||
-                role.hasPermission(Permission.MANAGE_THREADS);
+        // as outlined by JDA docs getPermissions() == getPermissionsExplicit() for roles.
+        EnumSet<Permission> permissions = role.getPermissions();
+        return !Collections.disjoint(permissions, ADMINISTRATIVE_DISCORD_PERMISSIONS);
     }
 
     public static String decodeURL(String s) {
