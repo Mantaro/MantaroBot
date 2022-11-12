@@ -265,7 +265,7 @@
       "loader": {
         "over_limit": "%1$sA fila que você adicionou tem mais de %2$d músicas, então adicionamos músicas até esse limite e ignoramos o resto.",
         "loaded_playlist": "%1$sAdicionado **%2$d músicas** na fila da playlist: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
+        "no_matches": "%1$sA busca não encontrou nenhum resultado. Se você usou um link, tente procurá-lo.",
         "error_loading": "%1$sErro ao buscar música: %2$s. Talvez tente novamente ou tente outro link?",
         "unknown_error_loading": "%1$sErro desconhecido ao buscar música. Talvez tente novamente ou tente com outro link?",
         "over_queue_limit": "%1$s**Não foi possível coloar na fila `%2$s`: Limite de músicas na fila ultrapassado (%3$s)**",
@@ -345,7 +345,7 @@
       },
       "success": "%1$sMeta de votos alcançada, pulando música...",
       "no_track": "%1$sNão tem música para pular, então eu não posso fazer nada...",
-      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
+      "cannot_force": "%1$sVocê precisa ser um DJ ou a pessoa que colocou a música pra pular essa faixa com força."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` não é uma variedade válida.",
@@ -386,7 +386,7 @@
     "custom": {
       "custom_notice": "Isso é um comando personalizado.",
       "no_args": "%1$sVocê precisa especificar o que você quer fazer com este comando. Cheque o comando de ajuda para mais informações!",
-      "incorrect_args": "%1$sIncorrect arguments. Check `/help command:custom` or https://www.mantaro.site/mantaro-wiki/guides/custom-commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
+      "incorrect_args": "%1$sArgumentos incorretos. Cheque `/help command:custom` ou https://www.mantaro.site/mantaro-wiki/guides/custom-commands para mais ajuda em como usar isso. Se você tiver outras questões após ler a wiki vá para <https://support.mantaro.site>",
       "error_running": "%1$sErro ao executar o comando personalizado... por favor, verifique o conteúdo da resposta e comprimento (não pode ter mais de 2000 caracteres).",
       "error_running_new": "%1$sErro ao executar o comando personalizado. Cheque a resposta, conteúdo e comprimento.\n**Erro:**\n```%2$s```",
       "not_loaded": "O bot ainda não foi totalmente inicializado... comandos personalizados estarão disponíveis em breve!",
@@ -396,10 +396,10 @@
       "new_error": "%1$sO comando personalizado que você está tentando criar tem um erro (v3, cheque o conteúdo).\n**Erro:**\n```%2$s```",
       "ls": {
         "header": "Comandos para este servidor",
-        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands. The commands listed here use the bot prefix, not Slash Commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/guides/custom-commands)\n \n**List:**",
+        "description": "**Isso mostra todos os comandos (feitos por usuários) personalizados neste servidor.** Todo comando aqui não está com o bot de qualquer forma.\n\nComandos personalizados são comandos criados pelos usuários (geralmente os administradores do server) que pode lidar com um monte de situações diferentes, até simular comandos de ações. Os comandos listados aqui usam o prefixo do bot, não os Comandos de Barra.\nPara mais informações em como criar um comando personalizaos vá para [essa página da wiki.]\n(https://www.mantaro.site/mantaro-wiki/guides/custom-commands)\n \n**Lista:**",
         "footer": "Total de comandos personalizados neste servidor: %1$s"
       },
-      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://www.mantaro.site/mantaro-wiki/guides/custom-commands>.",
+      "invalid": "%1$sSeleção de comando inválida. Talvez seja melhor dar uma olhada na wiki em <https://www.mantaro.site/mantaro-wiki/guides/custom-commands>.",
       "view": {
         "invalid": "%1$sVocê precisa especificar o comando e o número da resposta!",
         "not_found": "%1$sNão há um comando personalizado com esse nome aqui.",
@@ -411,7 +411,7 @@
         "not_found": "%1$sEu não consigo encontrar este comando.",
         "header": "Comando \"%1$s\":",
         "amount": "(Mostrando %1$d respostas de %2$d)",
-        "too_large_view": "Too large to view here, use `/custom view name:%1$s response:%2$s`",
+        "too_large_view": "Muito longo pra ver aqui, use `/custom view name:%1$s response:%2$s`",
         "description": "Essa é uma lista de todas as respostas deste comando em um formato raw (que você insere no comando)."
       },
       "clear": {
@@ -428,9 +428,9 @@
         "success": "%1$sComando Personalizado `%2$s` Removido"
       },
       "edit": {
-        "header_slash": "Custom Command Edit",
-        "content_slash": "New content",
-        "content_slash_placeholder": "The new command content.",
+        "header_slash": "Edição de Comandos Personalizados",
+        "content_slash": "Conteúdo novo",
+        "content_slash_placeholder": "O novo conteúdo do comando.",
         "no_command": "%1$sVocê precisa especificar que comando você quer editar.",
         "invalid_number": "%1$sVocê precisa especificar um número correto para alterar.",
         "no_index": "%1$sVocê não pode editar um índice inexistente.",
@@ -451,10 +451,10 @@
         "not_enough_args": "%1$sVocê precisa especificar o comando que você quer renomear e o novo nome."
       },
       "add": {
-        "header_slash": "Custom Command Creation.",
-        "content_placeholder": "Content goes here.",
-        "name_slash": "Name",
-        "content_slash": "Content",
+        "header_slash": "Criação de Comando Personalizado.",
+        "content_placeholder": "Conteúdo vai aqui.",
+        "name_slash": "Nome",
+        "content_slash": "Conteúdo",
         "custom_name_placeholder": "Name goes here.",
         "no_command": "%1$sVocê tem que especificar o comando que você quer adicionar.",
         "time_out": "%1$sThe time for this custom command interaction has ran out (or you cancelled it, or started a new one).",
