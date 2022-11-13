@@ -47,20 +47,20 @@
     },
     "misc_item_usage": {
       "mop": "%1$sMadencilik gezileriniz boyunca biriktirdiğiniz tüm tozları temizlediniz.",
-      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
-      "milk": "%1$sCleared all potion effects.",
+      "mop_not_enough": "%1$sToz seviyeniz 5%%'ten az, bu nedenle paspaslamak çok yararlı olmaz.",
+      "milk": "%1$sTüm iksir etkileri temizlendi.",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `/buy item:key`",
-        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
+        "no_key": "%1$sBir sandık açmak için bir sandık anahtarına ihtiyacınız var. Kilitli! `/buy item:key` kullanarak bir tane satın alabilirsiniz",
+        "no_crate": "%1$sBir kasaya ihtiyacın var! Kasaları genellikle ekonomi komutlarından alırsınız.",
         "success": "%1$sKasayi actin, icinden: %2$s%3$s cikti. Tebrikler!",
-        "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
+        "success_high": "%1$sNadirliği 3 yıldızın üzerinde olan şu eşyalara sahipsin: %2$s. Öge miktarı yukarıda gösterildi",
         "overflow": "Zaten elinde cok fazla vardı, fazlaliktan kurtulmayi sectin!"
       },
       "potion_active": "%1$sZaten aktif olan bir **%2$s** iksir efektin var ustelik maksimum olarak kullaniyorsun!",
       "potion_not_found": "%1$sO iksir veya ekipman tipini bulamadim!",
-      "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s* (%4$dx). Check your shiny new effect on `/profile stats`",
+      "potion_applied": "%1$s**%2$s** efektinin *%3$s* (%4$dx) tipi başarıyla aktif edildi. Parıldayan yeni efektini `/profile stats` ile kontrol edebilirsin",
       "potion_applied_multiple": "%1$s**%2$s** efektinin *%3$s* tipi basariyla aktif edildi.\nYalniz bu efekt zaten vardi, ustune tekrar koyduk. Guncel: %4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
+      "max_stack_size": "%1$sSaklayabileceğin maksimum miktara (%2$s) zaten ulaştın. (Maksimum: 15, Sonrası: %3$s)",
       "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15, Attempted: %3$s)",
       "not_same_potion": "%1$sZaten %2$s tipi bir iksiriniz var, ust uste koymussunuz ve aktif etmisiniz, %3$s bu iksiri onun üzerine koyamazsin."
     },
@@ -90,14 +90,14 @@
       "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
       "spam_2": "\nBiraz duraklamak en iyi seçenek olacaktır...",
       "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
-      "spam_4": "\nIs this thing even on?"
+      "spam_4": "\nBu şey açık mı?"
     },
     "buttons": {
-      "previous": "Previous",
-      "next": "Next",
-      "close": "Close"
+      "previous": "Geri",
+      "next": "İleri",
+      "close": "Kapat"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `/mantaro shard`) when reporting!",
+    "generic_error": "İstersen, bizim **destek sunucumuza** katılabilirsiniz (Link `https://support.mantaro.site`), veya GitHub sayfasını kontrol edin (`https://github.com/Kodehawa/MantaroBot`). Lütfen beni pis pis kullanmalarına izin verme ve ERROR ID'yi raporlara eklemeyi unutma ( `/mantaro shard` da görülür)!",
     "boom_quotes": [
       "Görünüşe göre Magumin kalemizi işgal etmiş...",
       "Of sanırım, benim efendim sıfırlar veya birleri koymayı unutmuş :<",
@@ -141,19 +141,19 @@
     "info": "Bilgi",
     "currency": "Ekonomi",
     "pet": "Evcil hayvan",
-    "hidden": "Hidden"
+    "hidden": "Gizli"
   },
   "commands": {
     "slash": {
-      "title": "Slash commands transition",
-      "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site.\nFor more help, use the new wiki at https://www.mantaro.site/mantaro-wiki/",
-      "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site\nFor more help, use the new wiki at https://www.mantaro.site/mantaro-wiki/"
+      "title": "Eğik çizgi komutları geçişi",
+      "description_alias": "%1$s**Çalıştırmayı denediğiniz komut yalnızca Eğik Çizgi Komutlarıyla çalışıyor** Ön ek olarak / ile çalıştırmayı deneyin. **Bu komut bir takma addı**. Orijinal komutu çalıştırmayı deneyin (`/%2$s`).\n\nEğik Çizgi Komutları, Discord'un yönergelerine göre komutları kullanmanın yeni yoludur. **Hala ön eklerle çalışan komutlar sonunda yalnızca eğik çizgi ile çalışır duruma geldi** Eklememiz için yeterli alan olmadığından Eğik Çizgi Komutları için komut takma adları kaldırıldı (Discord bunun için yalnızca 100 komut eklememize izin veriyordu).",
+      "description": "%1$s**Çalıştırmayı denediğiniz komut yalnızca Eğik Çizgi Komutlarıyla çalışıyor** Ön ek olarak / ile çalıştırmayı deneyin (`/%2$s`).\n\nEğik Çizgi Komutları, Discord'un yönergelerine göre komutları kullanmanın yeni yoludur. **Hala ön eklerle çalışan komutlar sonunda yalnızca eğik çizgi ile çalışır duruma geldi** Eklememiz için yeterli alan olmadığından Eğik Çizgi Komutları için komut takma adları kaldırıldı (Discord bunun için yalnızca 100 komut eklememize izin veriyordu).",
+      "description_image": "Bazı görüntü komutları için eğik çizgi komutu çalıştırmak, komutu kullanmakta olduğunuz önek yerine `/image' önekiyle kullanmayı deneyin. Örneğin, \"~>catgirl\", \"/image catgirl\" olur. Imageboard komutları bunu takip etmez.\n\nEğik çizgi komutlarını görmüyorsanız, https://add.mantaro.site adresindeki davet bağlantısını kullanarak botu yeniden ekleyin.\nDaha fazla yardım için https://www.mantaro.site/mantaro-wiki/ adresindeki yeni wiki'yi kullanın",
+      "description_2": "Eğik çizgi komutu çalıştırmak için, komutu kullanmakta olduğunuz önek yerine `/` önekiyle kullanmayı deneyin. Örneğin, `~>ping`, `/ping` olur (ve Tab a basın)\n\nEğik çizgi komutlarını görmüyorsanız, https://add.mantaro.site adresindeki davet bağlantısını kullanarak botu yeniden ekleyin.\nDaha fazla yardım için https://www.mantaro.site/mantaro-wiki/ adresindeki yeni wiki'yi kullanın"
     },
     "fish": {
       "dust": "%1$sGün bitti ve balık kovanda sadece toz var. (Toz seviyesi %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `/equip item:<rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `/buy item:rod`",
+      "no_rod": "%1$sDonatılmış bir oltanız yok. Bir olta donatmak ve balık avına başlamak için `/equip item:<rod name>` kullanın! Oltanız yoksa, önce `/buy item:rod` komutunu çalıştırın",
       "trash": {
         "overflow": "%1$sGereksiz çöpler buldun balık tutarken ama envanterin dolu olduğu için onları denize geri fırlattın...",
         "success": "%1$sSakince balık tutarken %2$s su üstünde yüzdüğünü farkettin ama sadece bir çöp gibi :("
@@ -163,13 +163,13 @@
       },
       "crate": {
         "overflow": "Balık tutarken **%1$s** buldunuz, ama zaten elinde çok fazla vardı, bu yüzden onu suya geri fırlattın...",
-        "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `/opencrate crate:<crate name>`. You need a crate key!"
+        "success": "Balık tutarken %1$s **%2$s** buldun ve onu almaya yeltendin. Git ve onu `/opencrate crate:<crate name>` yazarak aç. Anahtara ihtiyacın olacak!"
       },
       "autoequip": {
         "success": "%1$sOtomatik olarak **%2$s** balık slotuna kuşanıldı."
       },
-      "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
-      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
+      "overflow": "%1$sBiraz balık buldunuz, ancak envanterinizin bir kısmı doluydu, bu yüzden birazını suya geri atmak zorunda kaldık.",
+      "success": "%1$sSakin bir şekilde balık tutarken *%3$s* kullanarak %2$s buldunuz ve onları kovanızda toplamaya devam ediyorsunuz.",
       "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
       "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
       "rod_broke": "%1$sBalık tutarken oltanı kırdın :(",
@@ -513,7 +513,7 @@
         "Y-yeterince hizli miydim?",
         "Napıyorsun?",
         "N-neye bakıyorsun?!",
-        "Huh.",
+        "Ha.",
         "İyi miydim?",
         "Ne düşünüyorsun?",
         "Bu genelde olur mu?",
@@ -524,12 +524,12 @@
         "Pang.",
         "Pung.",
         "Peng.",
-        "Wondering how I'd do",
-        "Any issue?",
-        "Ping-pong? Yay!",
-        "U-Uh... h-hi"
+        "Nasıl yapacağımı merak ediyorum",
+        "Bir problem mi var?",
+        "Ping-Pong? Evet!",
+        "U-Uh... m-merhaba"
       ],
-      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
+      "text": "%1$s*%2$s* -- **Ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
     "love": {
       "no_mention": "%1$sBir kullanıcıdan bahsetmelisin.",
@@ -543,7 +543,7 @@
     },
     "marry": {
       "loveletter": {
-        "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on. A love letter is given to you upon marriage.",
+        "no_letter": "%1$sEnvanterinizde aşk mektubu yok, bu yüzden mektup yazacak bir şeyin yok. Evlendikten sonra size bir aşk mektubu verilir.",
         "empty": "%1$sAşk mektubunu boş bırakamazsın.",
         "no_marriage": "%1$sEvli değilsiniz, kendinize aşk mektubu yazamazsınız...",
         "not_proposing_player": "%1$sBu evlilik teklifini yapan siz değilsiniz!",
@@ -555,19 +555,19 @@
         "scrapped": "%1$sAcele gerek yok, hala yazmak için zamanınız var!"
       },
       "status": {
-        "no_marriage": "%1$sYou aren't married, so I guess your status is uh... \"not married\" (If you see a marriage in your profile and see this message that means you are in the old system, try remarrying)",
-        "header": "Current Marriage Status",
-        "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
-        "date": "Marriage Date",
-        "age": "Marriage Age",
-        "love_letter": "Love Letter",
-        "waifus": "Waifu Ownership",
-        "house": "House Name",
-        "car": "Car Name",
-        "pet": "Pet Name (Type)"
+        "no_marriage": "%1$sEvli değilsin, bu yüzden sanırım durumun uh... \"evli değil\" (Eğer profilinde evli gözüktüğün halde bu mesajı alıyorsan, eski sistemdesin demektir. Boşanıp tekrar evlen.)",
+        "header": "Güncel Evlilik Statüsü",
+        "description_format": "%1$s**%2$s** ile **%3$s** arasındaki evlilik durumu",
+        "date": "Evlilik Tarihi",
+        "age": "Evlilik Yaşı",
+        "love_letter": "Aşk Mektubu",
+        "waifus": "Waifu Sahipliği",
+        "house": "Konut Adı",
+        "car": "Araç Adı",
+        "pet": "Evcil Hayvanın Adı (Türü)"
       },
       "general": {
-        "not_married": "%1$sYou're not married."
+        "not_married": "%1$sEvli değilsin."
       },
       "buyhouse": {
         "not_married": "%1$sYou can only buy a house while you're married. This might change in the future.",
@@ -655,15 +655,15 @@
         "yes_button": "Evet, çıkmak istiyorum.",
         "no_button": "Hayır, beni geri al."
       },
-      "header": "Waifu List",
+      "header": "Waifu Listesi",
       "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$,d waifus as of now.*\n\nIf you wish to check your waifu stats, use `/waifu stats`\n\n",
       "no_waifu": "No waifus to see here, just dust :(\nYou can get waifus by claiming someone! Use `/waifu claim` to get started.",
       "footer": "Total waifus: %1$d - available slots: %2$s",
       "value_format": "**- Value:**",
       "value_b_format": "**- Bought for:**",
-      "credits_format": " credits.",
-      "waifu_header": "**Your waifus:**",
-      "not_claimed": "%1$sYou haven't claimed this waifu."
+      "credits_format": " krediler.",
+      "waifu_header": "**Senin Waifuların:**",
+      "not_claimed": "%1$sBu Waifuya sahiplenmedin."
     },
     "ratewaifu": {
       "nothing_specified": "%1$sGive me a waifu to rate!",
@@ -690,7 +690,7 @@
       "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sThis inventory is empty! :(",
       "brief_notice": "You can use `/inventory brief` to get a mobile friendly version.",
-      "sorted_by": " *(sorted by: %1$s)*",
+      "sorted_by": " *(Tarafından sıralandı: %1$s)",
       "new_brief_notice": "Please use `/inventory brief` instead.",
       "new_calc_notice": "Please use `/inventory calculate` instead.",
       "sort": {
