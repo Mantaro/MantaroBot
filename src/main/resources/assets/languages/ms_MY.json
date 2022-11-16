@@ -39,6 +39,7 @@
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
     "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
+    "and": "and",
     "item_lookup": {
       "no_item_emoji": "Tiada item yang berkaitan dengan emoji ini.",
       "no_item_name": "Tiada item yang berkaitan dengan nama ini.",
@@ -415,6 +416,8 @@
         "description": "Berikut adalah senarai respons bagi arahan ini dalam format asal (apa yang anda masukkan ke dalam arahan)."
       },
       "clear": {
+        "confirmation": "%1$sWould you like to clear ALL the custom commands from this server? Click yes to continue, no otherwise.",
+        "cancelled": "%1$sCancelled clear operation.",
         "success": "%1$s**%2$d Arahan Kustom Telah Dipadamkan**. Arahan yang disematkan/dikunci tidak dipadamkan, anda boleh membukanya jika hendak."
       },
       "eval": {
@@ -474,6 +477,13 @@
         "no_command": "%1$sAnda harus menyatakan arahan yang ingin anda membuka.",
         "not_locked": "%1$sArahan ini tidak dikunci.",
         "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
+      "info": {
+        "header": "Custom Command Information for %1$s",
+        "owner": "**Owner:**",
+        "owner_id": "**Owner ID:**",
+        "nsfw": "**NSFW:**",
+        "responses": "**Responses:**"
       },
       "character_not_allowed": "%1$sAksara ini tidak dibenarkan dalam nama arahan kustom.",
       "already_exists": "%1$sArahan `%2$s` sudah wujud, ia merupakan arahan bot secara default.",
