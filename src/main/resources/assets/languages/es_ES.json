@@ -39,6 +39,7 @@
     "birthday": "**¡Nuevos cumpleaños de hoy, deséenles Feliz Cumpleaños!**",
     "member_lookup_failure": "%1$sNo puedo encontrar ningún miembro con ese nombre :(",
     "slash_member_lookup_failure": "%1$sEl usuario que me diste pareciera no estar en este servidor.",
+    "and": "and",
     "item_lookup": {
       "no_item_emoji": "No hay ningún objeto asociado con este emoji.",
       "no_item_name": "No hay ningún objeto asociado con este emoji.",
@@ -415,6 +416,8 @@
         "description": "Este es un listado de todas las respuesta de este comando en un formato sin procesar (lo que ingresas en el comando)."
       },
       "clear": {
+        "confirmation": "%1$sWould you like to clear ALL the custom commands from this server? Click yes to continue, no otherwise.",
+        "cancelled": "%1$sCancelled clear operation.",
         "success": "%1$s**He limpiado %2$d Comandos Personalizados**. Comandos bloqueados/fijados no fueron eliminados, desbloquéalos antes si quieres borrarlos."
       },
       "eval": {
@@ -474,6 +477,13 @@
         "no_command": "%1$sDebes especificar el comando que deseas desbloquear.",
         "not_locked": "%1$sEste comando no está bloqueado.",
         "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
+      "info": {
+        "header": "Custom Command Information for %1$s",
+        "owner": "**Owner:**",
+        "owner_id": "**Owner ID:**",
+        "nsfw": "**NSFW:**",
+        "responses": "**Responses:**"
       },
       "character_not_allowed": "%1$sEste carácter no está habilitado para ser usado en los nombres de comandos personalizados.",
       "already_exists": "%1$sEl comando `%2$s` ya existe y es un comando predeterminado del bot.",
