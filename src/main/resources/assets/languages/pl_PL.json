@@ -39,6 +39,7 @@
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
     "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
+    "and": "and",
     "item_lookup": {
       "no_item_emoji": "Nie ma elementu pasującego do tego emoji.",
       "no_item_name": "Nie ma elementu pasującego z tą nazwą.",
@@ -415,6 +416,8 @@
         "description": "Jest to lista wszystkich odpowiedzi tego polecenia w formacie surowym (co wprowadzasz do polecenia)."
       },
       "clear": {
+        "confirmation": "%1$sWould you like to clear ALL the custom commands from this server? Click yes to continue, no otherwise.",
+        "cancelled": "%1$sCancelled clear operation.",
         "success": "%1$s**Wyczyszczone %2$d niestandardowych poleceń** Komendy zablokowane/powiązane nie zostały usunięte, odblokuj je najpierw, jeśli chcesz."
       },
       "eval": {
@@ -474,6 +477,13 @@
         "no_command": "%1$sMusisz określić polecenie, które chcesz odblokować.",
         "not_locked": "%1$sTo polecenie nie jest zablokowane.",
         "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
+      "info": {
+        "header": "Custom Command Information for %1$s",
+        "owner": "**Owner:**",
+        "owner_id": "**Owner ID:**",
+        "nsfw": "**NSFW:**",
+        "responses": "**Responses:**"
       },
       "character_not_allowed": "%1$sTen znak nie jest dozwolony na niestandardowych nazwach poleceń.",
       "already_exists": "%1$sKomenda `%2$s` już istnieje i jest to domyślna komenda bota.",
