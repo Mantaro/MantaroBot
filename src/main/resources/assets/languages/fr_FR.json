@@ -39,6 +39,7 @@
     "birthday": "**Nouveaux anniversaires pour aujourd'hui, souhaitez leur un Joyeux Anniversaire !**",
     "member_lookup_failure": "%1$sJe n'ai trouvé aucun membre portant ce nom :(",
     "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
+    "and": "and",
     "item_lookup": {
       "no_item_emoji": "Il n'y a pas d'objet associé à cet emoji.",
       "no_item_name": "Il n'y a pas d'objet associé à ce nom.",
@@ -415,6 +416,8 @@
         "description": "Ceci est une liste de toutes les réponses de cette commande au format brut (ce que vous entrez dans la commande)."
       },
       "clear": {
+        "confirmation": "%1$sWould you like to clear ALL the custom commands from this server? Click yes to continue, no otherwise.",
+        "cancelled": "%1$sCancelled clear operation.",
         "success": "%1$s**%2$d commandes personnalisées ont été effacées**. Exception faite des commandes verrouillées/épinglées, débloque-les d'abord si tu souhaites les supprimer."
       },
       "eval": {
@@ -474,6 +477,13 @@
         "no_command": "%1$sTu dois spécifier la commande que tu veux déverrouiller.",
         "not_locked": "%1$sCette commande n'est pas verrouillée.",
         "success": "%1$sTu as déverrouillé la commande `%2$s` avec succès. Tu devras la verrouiller à nouveau si tu veux éviter de futures éditions."
+      },
+      "info": {
+        "header": "Custom Command Information for %1$s",
+        "owner": "**Owner:**",
+        "owner_id": "**Owner ID:**",
+        "nsfw": "**NSFW:**",
+        "responses": "**Responses:**"
       },
       "character_not_allowed": "%1$sCe caractère n'est pas autorisé pour les noms de commandes personnalisées.",
       "already_exists": "%1$sLa commande `%2$s` existe déjà.",
