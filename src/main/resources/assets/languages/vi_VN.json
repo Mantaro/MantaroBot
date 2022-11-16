@@ -39,6 +39,7 @@
     "birthday": "**Ngày mới thêm tuổi mới, hãy Chúc mừng sinh nhật cho họ nào!**",
     "member_lookup_failure": "%1$sKhông thể tìm thấy bất kì thành viên nào với tên đó :(",
     "slash_member_lookup_failure": "%1$sNgười dùng bạn tìm kiếm dường như không ở trong máy chủ này.",
+    "and": "and",
     "item_lookup": {
       "no_item_emoji": "Không có vật phẩm nào phù hợp với biểu tượng này.",
       "no_item_name": "Không có vật phẩm nào phù hợp với tên này.",
@@ -415,6 +416,8 @@
         "description": "Đây là danh sách tất cả các phản hồi của lệnh này ở định dạng nguyên mẫu (những gì bạn đưa vào lệnh)."
       },
       "clear": {
+        "confirmation": "%1$sWould you like to clear ALL the custom commands from this server? Click yes to continue, no otherwise.",
+        "cancelled": "%1$sCancelled clear operation.",
         "success": "%1$s**Đã dọn %2$d câu lệnh tuỳ chỉnh**. Không xoá các câu lệnh đã được khoá/ghim, hãy mở khoá chúng trước tiên nếu bạn muốn."
       },
       "eval": {
@@ -474,6 +477,13 @@
         "no_command": "%1$sBạn cần phải ghi rõ ra câu lệnh mà bạn muốn mở khoá.",
         "not_locked": "%1$sCâu lệnh này không bị khoá.",
         "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
+      "info": {
+        "header": "Custom Command Information for %1$s",
+        "owner": "**Owner:**",
+        "owner_id": "**Owner ID:**",
+        "nsfw": "**NSFW:**",
+        "responses": "**Responses:**"
       },
       "character_not_allowed": "%1$sKý tự này không được phép có ở tên của lệnh tùy chỉnh.",
       "already_exists": "%1$sLệnh `%2$s` đã tồn tại và nó là lệnh mặc định của bot.",
