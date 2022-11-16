@@ -39,6 +39,7 @@
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
     "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
+    "and": "and",
     "item_lookup": {
       "no_item_emoji": "沒有與此表情符號相關的物品。",
       "no_item_name": "沒有與此表情符號相關的名字。",
@@ -415,6 +416,8 @@
         "description": "這個清單包含所有此指令的原始回應(你創造給我的內容)。"
       },
       "clear": {
+        "confirmation": "%1$sWould you like to clear ALL the custom commands from this server? Click yes to continue, no otherwise.",
+        "cancelled": "%1$sCancelled clear operation.",
         "success": "%1$s**已清除%2$d個自定義指令**。已上鎖/釘選指令未刪除，你需要先解鎖他們。"
       },
       "eval": {
@@ -474,6 +477,13 @@
         "no_command": "%1$s你需要指出你想解鎖的指令名稱。",
         "not_locked": "%1$s這條指令尚未被鎖定。",
         "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
+      "info": {
+        "header": "Custom Command Information for %1$s",
+        "owner": "**Owner:**",
+        "owner_id": "**Owner ID:**",
+        "nsfw": "**NSFW:**",
+        "responses": "**Responses:**"
       },
       "character_not_allowed": "%1$s自定義指令名稱內不允許使用這個字符。",
       "already_exists": "%1$s指令 `%2$s` 已經存在且是默認的指令。",
