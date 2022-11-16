@@ -39,6 +39,7 @@
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
     "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
+    "and": "and",
     "item_lookup": {
       "no_item_emoji": "لا يوجد عنصر مرتبط بهذا الرمز.",
       "no_item_name": "لا يوجد عنصر مرتبط بهذا الاسم.",
@@ -415,6 +416,8 @@
         "description": "هذه قائمة بجميع ردود هذا الأمر على شكل خام (ما تدخله في الأمر)."
       },
       "clear": {
+        "confirmation": "%1$sWould you like to clear ALL the custom commands from this server? Click yes to continue, no otherwise.",
+        "cancelled": "%1$sCancelled clear operation.",
         "success": "%1$s**تم مسح %2$d أمر مُخصص **. الأوامر المقفلة/المثبتة لم تُحذف, قم بفك القفل عنهم اذا اردت حذفهم."
       },
       "eval": {
@@ -474,6 +477,13 @@
         "no_command": "%1$sيجب ان تحدد الأمر المُراد فك القفل عنه.",
         "not_locked": "%1$s هذا الأمر غير مُقفل.",
         "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
+      "info": {
+        "header": "Custom Command Information for %1$s",
+        "owner": "**Owner:**",
+        "owner_id": "**Owner ID:**",
+        "nsfw": "**NSFW:**",
+        "responses": "**Responses:**"
       },
       "character_not_allowed": "%1$sلايسمح بإستخدام هذا الحرف في أوامر الأسماء المخصصه. ",
       "already_exists": "%1$sهذا الأمر `%2$s` موجود بالفعل وانه أمر البوت الإفتراضي. ",
