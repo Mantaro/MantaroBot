@@ -39,6 +39,7 @@
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
     "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
+    "and": "and",
     "item_lookup": {
       "no_item_emoji": "اس ایموجی کے ساتھ کوئی آئٹم وابستہ نہیں ہے۔",
       "no_item_name": "اس نام کے ساتھ کوئی آئٹم وابستہ نہیں ہے۔",
@@ -415,6 +416,8 @@
         "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
       },
       "clear": {
+        "confirmation": "%1$sWould you like to clear ALL the custom commands from this server? Click yes to continue, no otherwise.",
+        "cancelled": "%1$sCancelled clear operation.",
         "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
       },
       "eval": {
@@ -474,6 +477,13 @@
         "no_command": "%1$sYou need to specify the command you want to unlock.",
         "not_locked": "%1$sThis command isn't locked.",
         "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
+      "info": {
+        "header": "Custom Command Information for %1$s",
+        "owner": "**Owner:**",
+        "owner_id": "**Owner ID:**",
+        "nsfw": "**NSFW:**",
+        "responses": "**Responses:**"
       },
       "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
       "already_exists": "%1$sThe command `%2$s` already exists and it's a default bot command.",
