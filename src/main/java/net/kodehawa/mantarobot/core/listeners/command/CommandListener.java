@@ -83,13 +83,9 @@ public class CommandListener implements EventListener {
 
             // We can't talk here, so we don't need to run anything.
             // Run this check before executing on the pool to avoid wasting a thread.
-            try {
-                if (!msg.getChannel().canTalk()) {
-                    return;
-                }
-            } catch (NullPointerException npe) { // For some reason we fail to get the permission container, assume we can't.
+            if (!msg.getChannel().canTalk()) {
                 return;
-            } // TODO: remove when they add forums.
+            }
 
             threadPool.execute(() -> onCommand(msg));
         }

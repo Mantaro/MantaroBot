@@ -47,7 +47,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -277,7 +277,6 @@ public class WaifuCmd {
                     }
 
                     return Operation.IGNORED;
-                    // TODO: Maybe double-check? This might be cursed with buttons.
                     // Well, old one was cursed if you didn't speak english...
                 }, Button.danger("yes", ctx.getLanguageContext().get("commands.waifu.optout.yes_button")),
                         Button.primary("no", ctx.getLanguageContext().get("commands.waifu.optout.no_button")));

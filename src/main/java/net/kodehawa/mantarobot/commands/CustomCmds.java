@@ -43,6 +43,7 @@ import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
+import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ModalOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ModalOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
@@ -803,7 +804,7 @@ public class CustomCmds {
                     ctn = Utils.DISCORD_INVITE.matcher(ctn).replaceAll("-invite link-");
                     ctn = Utils.DISCORD_INVITE_2.matcher(ctn).replaceAll("-invite link-");
 
-                    //Sadly no way to get the prefix used, so eval will have the old bug still.
+                    // Sadly no way to get the prefix used, so eval will have the old bug still.
                     // TODO: CANNOT PORT TO SLASH: somehow requires event from the old Context to function.
                     // THIS HAS TO CHANGE.
                     new CustomCommandHandler("", ctx, ctn).handle(true);
@@ -1092,19 +1093,20 @@ public class CustomCmds {
             return;
         }
 
+        var lang = ctx.getLanguageContext();
         var owner = command.getData().getOwner();
         var member = owner.isEmpty() ? null : ctx.getGuild().retrieveMemberById(owner).useCache(true).complete();
         ctx.send(new EmbedBuilder()
-                .setAuthor("Custom Command Information for " + cmd, null, ctx.getAuthor().getEffectiveAvatarUrl())
+                .setAuthor(lang.get("commands.custom.info.header").formatted(command.getName()), null, ctx.getAuthor().getEffectiveAvatarUrl())
                 .setDescription(
                         EmoteReference.BLUE_SMALL_MARKER +
-                                "**Owner:** " + (member == null ? "Nobody" : member.getUser().getAsTag()) + "\n" +
+                                lang.get("commands.custom.info.owner") + " " + (member == null ? lang.get("commands.profile.nobody") : member.getUser().getAsTag()) + "\n" +
                                 EmoteReference.BLUE_SMALL_MARKER +
-                                "**Owner ID:** " + (member == null ? "None" : member.getId()) + "\n" +
+                                lang.get("commands.custom.info.owner_id") + " " + (member == null ? lang.get("general.none") : member.getId()) + "\n" +
                                 EmoteReference.BLUE_SMALL_MARKER +
-                                "**NSFW:** " + command.getData().isNsfw() + "\n" +
+                                lang.get("commands.custom.info.nsfw") + " " + command.getData().isNsfw() + "\n" +
                                 EmoteReference.BLUE_SMALL_MARKER +
-                                "**Responses:** " + command.getValues().size() + "\n"
+                                lang.get("commands.custom.info.responses") + " " + command.getValues().size() + "\n"
                 )
                 .setThumbnail("https://i.imgur.com/jPL5Lof.png")
                 .build()
@@ -1116,21 +1118,46 @@ public class CustomCmds {
             return;
         }
 
-        // TODO: add confirmation dialog
         if (!ctx.getMember().hasPermission(Permission.MANAGE_SERVER)) {
             return;
         }
 
-        var customCommands = ctx.db().getCustomCommands(ctx.getGuild());
-        if (customCommands.isEmpty()) {
+        var cmds = ctx.db().getCustomCommands(ctx.getGuild());
+        if (cmds.isEmpty()) {
             ctx.sendLocalized("commands.custom.no_cc", EmoteReference.ERROR);
             return;
         }
 
-        int size = customCommands.size();
-        customCommands.stream().filter(cmd -> !cmd.getData().isLocked()).forEach(CustomCommand::deleteAsync);
-        customCommands.forEach(c -> CustomCmds.customCommands.remove(c.getId()));
-        ctx.sendLocalized("commands.custom.clear.success", EmoteReference.PENCIL, size);
+        var languageContext = ctx.getLanguageContext();
+        var message = ctx.sendResult(languageContext.get("commands.custom.clear.confirmation").formatted(EmoteReference.WARNING));
+        ButtonOperations.create(message, 60, e -> {
+            if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
+                return Operation.IGNORED;
+            }
+
+            final var button = e.getButton().getId();
+            if (button == null) {
+                return Operation.IGNORED;
+            }
+
+            if (button.equals("yes")) {
+                var customCommands = ctx.db().getCustomCommands(ctx.getGuild());
+                int size = customCommands.size();
+
+                customCommands.stream().filter(cmd -> !cmd.getData().isLocked()).forEach(CustomCommand::deleteAsync);
+                customCommands.forEach(c -> CustomCmds.customCommands.remove(c.getId()));
+
+                message.editMessageFormat(languageContext.get("commands.custom.clear.success"), EmoteReference.PENCIL, size)
+                        .queue();
+                return Operation.COMPLETED;
+            } else if (button.equals("no")) {
+                message.editMessageFormat(languageContext.get("commands.custom.clear.cancelled"), EmoteReference.CORRECT)
+                        .queue();
+                return Operation.COMPLETED;
+            }
+
+            return Operation.IGNORED;
+        });
     }
 
     public static void renameCmd(IContext ctx, String cmd, String value) {

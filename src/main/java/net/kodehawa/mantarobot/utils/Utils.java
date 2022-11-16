@@ -168,7 +168,7 @@ public class Utils {
 
         if (multiple) {
             var last = sb.lastIndexOf(", ");
-            sb.replace(last, last + 2, " and ");
+            sb.replace(last, last + 2, " " + lang.get("general.and") + " ");
         }
 
         return sb.toString();
