@@ -39,6 +39,7 @@
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
     "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
+    "and": "and",
     "item_lookup": {
       "no_item_emoji": "이 이모지와 관련된 아이템이 없네요.",
       "no_item_name": "이 이름과 관련된 아이템이 없네요.",
@@ -415,6 +416,8 @@
         "description": "이 명령은 원초적 형식(명령어에 입력하는 내용)으로 모든 응답의 목록이에요."
       },
       "clear": {
+        "confirmation": "%1$sWould you like to clear ALL the custom commands from this server? Click yes to continue, no otherwise.",
+        "cancelled": "%1$sCancelled clear operation.",
         "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
       },
       "eval": {
@@ -474,6 +477,13 @@
         "no_command": "%1$sYou need to specify the command you want to unlock.",
         "not_locked": "%1$sThis command isn't locked.",
         "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
+      "info": {
+        "header": "Custom Command Information for %1$s",
+        "owner": "**Owner:**",
+        "owner_id": "**Owner ID:**",
+        "nsfw": "**NSFW:**",
+        "responses": "**Responses:**"
       },
       "character_not_allowed": "%1$s이 문자는 사용자 정의 명령어의 이름에 사용할 수 없어요.",
       "already_exists": "%1$s`%2$s` 명령어는 이미 있어요. 기본적 봇 명령어예요.",
