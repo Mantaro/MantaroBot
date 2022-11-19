@@ -134,9 +134,17 @@ public class DebugCmds {
             var jda = ctx.getJDA();
             var shardManager = jda.getShardManager();
 
+            var uptime = node.getLong("uptime");
+            var uptimeString = String.format(
+                    "%s (%.2f lettuces, %.2f trusses)",
+                    Utils.formatDuration(ctx.getI18nContext(), uptime),
+                    uptime / 10 * 24 * 60 * 60 * 1000.0,
+                    uptime / 44 * 24 * 60 * 60 * 1000.0
+            );
+            
             ctx.reply("```prolog\n"
                     + " --------- Technical Information --------- \n\n"
-                    + "Uptime: " + Utils.formatDuration(ctx.getI18nContext(), node.getLong("uptime")) + "\n"
+                    + "Uptime: " + uptimeString + "\n"
                     + "Version: " + MantaroInfo.VERSION + " (Git: " + MantaroInfo.GIT_REVISION + ")\n"
                     + "JDA: %s".formatted(JDAInfo.VERSION) + "\n"
                     + (config.musicEnable() ? "Lava: %s".formatted(PlayerLibrary.VERSION) + "\n" : "")
