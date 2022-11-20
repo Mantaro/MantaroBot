@@ -138,8 +138,8 @@ public class DebugCmds {
             var uptimeString = String.format(
                     "%s (%.2f lettuces, %.2f trusses)",
                     Utils.formatDuration(ctx.getI18nContext(), uptime),
-                    uptime / 10 * 24 * 60 * 60 * 1000.0,
-                    uptime / 44 * 24 * 60 * 60 * 1000.0
+                    uptime / (10 * 24 * 60 * 60 * 1000.0),
+                    uptime / (44 * 24 * 60 * 60 * 1000.0)
             );
             
             ctx.reply("```prolog\n"
