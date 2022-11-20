@@ -59,16 +59,16 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
-import net.kodehawa.mantarobot.utils.log.LogUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
+import net.kodehawa.mantarobot.utils.log.LogUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
+import java.awt.Color;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -183,7 +183,12 @@ public class MantaroListener implements EventListener {
             return;
         }
 
-        if (event instanceof HttpRequestEvent) {
+        if (event instanceof HttpRequestEvent evt) {
+            var route = evt.getRoute().getBaseRoute().getRoute();
+            if (!route.equals("users/@me")) { // This creates a hilarious amount of noise, blame latency mon.
+                Metrics.HTTP_ROUTES.labels(evt.getRoute().getBaseRoute().getRoute()).inc();
+            }
+
             Metrics.HTTP_REQUESTS.inc();
         }
 

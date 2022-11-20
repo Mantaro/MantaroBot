@@ -86,4 +86,10 @@ public class Metrics {
             .help("Session disconnects")
             .labelNames("code")
             .register();
+    public static final Counter HTTP_ROUTES = Counter.build()
+            .name("http_routes")
+            .help("HTTP Requests per-route (to discord)")
+            .labelNames("route")
+            .register();
+
 }
