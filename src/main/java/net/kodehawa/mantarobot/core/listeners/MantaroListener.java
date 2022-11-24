@@ -184,9 +184,9 @@ public class MantaroListener implements EventListener {
         }
 
         if (event instanceof HttpRequestEvent evt) {
-            var route = evt.getRoute().getBaseRoute().getRoute();
-            if (!route.equals("users/@me")) { // This creates a hilarious amount of noise, blame latency mon.
-                Metrics.HTTP_ROUTES.labels(evt.getRoute().getBaseRoute().getRoute()).inc();
+            var rawRoute = evt.getRoute().getBaseRoute().getRoute();
+            if (!rawRoute.equals("users/@me")) { // This creates a hilarious amount of noise, blame latency mon.
+                Metrics.HTTP_ROUTES.labels(rawRoute).inc();
             }
 
             Metrics.HTTP_REQUESTS.inc();
