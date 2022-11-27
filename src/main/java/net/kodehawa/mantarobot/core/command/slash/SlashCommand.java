@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.core.command.meta.Ephemeral;
 import net.kodehawa.mantarobot.core.command.meta.GuildOnly;
 import net.kodehawa.mantarobot.core.command.meta.Help;
 import net.kodehawa.mantarobot.core.command.meta.ModalInteraction;
+import net.kodehawa.mantarobot.core.command.meta.NSFW;
 import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.meta.Options;
 import net.kodehawa.mantarobot.core.command.meta.Permission;
@@ -55,6 +56,7 @@ public abstract class SlashCommand {
     private boolean ephemeral;
     private final boolean guildOnly;
     private final boolean modal;
+    private final boolean nsfw;
     private boolean defer;
     private HelpContent help;
 
@@ -120,6 +122,7 @@ public abstract class SlashCommand {
         this.ephemeral = clazz.getAnnotation(Ephemeral.class) != null;
         this.modal = clazz.getAnnotation(ModalInteraction.class) != null;
         this.defer = clazz.getAnnotation(Defer.class) != null;
+        this.nsfw = clazz.getAnnotation(NSFW.class) != null;
 
         var h = clazz.getAnnotation(Help.class);
         if (h == null) {
@@ -165,6 +168,10 @@ public abstract class SlashCommand {
 
     public boolean isEphemeral() {
         return ephemeral;
+    }
+
+    public boolean isNsfw() {
+        return nsfw;
     }
 
     public boolean isOwnerCommand() {

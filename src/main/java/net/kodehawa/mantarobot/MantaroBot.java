@@ -173,18 +173,21 @@ public class MantaroBot {
         ImageBoard.setUserAgent(MantaroInfo.USER_AGENT);
         this.startExecutors();
 
-        // This is basically done because Andesite doesn't destroy players on shutdown
-        // when using LL compat. This causes players to not work on next startup.
+        // This is basically done because Andesite doesn't destroy players on shutdown when using LL compat.
+        // This causes players to not work on next startup.
         // Work around it by just killing/destroying all players before shutdown ends.
-        var thread = new ThreadFactoryBuilder().setNameFormat("Mantaro Shutdown Hook").build();
-        Runtime.getRuntime().addShutdownHook(thread.newThread(() -> {
-            log.info("Destroying all active players...");
-            for (var players : audioManager.getMusicManagers().entrySet()) {
-                players.getValue().getLavaLink().destroy();
-            }
+        // Only use this if music is enabled.
+        if (config.musicEnable()) {
+            var thread = new ThreadFactoryBuilder().setNameFormat("Mantaro Shutdown Hook").build();
+            Runtime.getRuntime().addShutdownHook(thread.newThread(() -> {
+                log.info("Destroying all active players...");
+                for (var players : audioManager.getMusicManagers().entrySet()) {
+                    players.getValue().getLavaLink().destroy();
+                }
 
-            log.info("Destroyed all players. Not aware of anything holding off shutdown now");
-        }));
+                log.info("Destroyed all players. Not aware of anything holding off shutdown now");
+            }));
+        }
     }
 
     public static void main(String[] args) {

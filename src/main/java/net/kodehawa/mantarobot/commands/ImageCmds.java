@@ -38,6 +38,7 @@ import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Defer;
 import net.kodehawa.mantarobot.core.command.meta.Description;
 import net.kodehawa.mantarobot.core.command.meta.Help;
+import net.kodehawa.mantarobot.core.command.meta.NSFW;
 import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.meta.Options;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
@@ -50,11 +51,10 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Random;
 
 import static net.kodehawa.mantarobot.commands.image.ImageboardUtils.getImage;
-import static net.kodehawa.mantarobot.commands.image.ImageboardUtils.nsfwCheck;
 
 @Module
 public class ImageCmds {
@@ -164,10 +164,8 @@ public class ImageCmds {
         @Defer
         @Description("Sends images of catgirl(s). Maybe.")
         @Help(description = "Sends images of catgirl(s). Maybe.",
-                usage = """
-                `/catgirl` - Sends images of normal catgirls.
-                `/catgirl nsfw:true` - Sends images of lewd catgirls. (Only works on NSFW channels)
-                """, parameters = {
+                usage = "`/catgirl` - Sends images of catgirls.",
+                parameters = {
                     @Help.Parameter(name = "nsfw", description = "Whether to send a NSFW image.")
                 }
         )
@@ -177,13 +175,8 @@ public class ImageCmds {
         public static class Catgirl extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                var nsfw = ctx.getOptionAsBoolean("nsfw");
-                if (nsfw && !nsfwCheck(ctx, true, true, null)) {
-                    return;
-                }
-
                 try {
-                    var result = weebAPIRequester.getRandomImageByType("neko", nsfw, null);
+                    var result = weebAPIRequester.getRandomImageByType("neko", false, null);
                     if (result == null) {
                         ctx.reply("commands.imageboard.catgirl.error");
                         return;
@@ -203,6 +196,7 @@ public class ImageCmds {
 
     @Name("e621")
     @Defer
+    @NSFW
     @Description("Retrieves images from the e621 (furry) image board. (Only works on NSFW channels)")
     @Category(CommandCategory.IMAGE)
     @Help(description = """
@@ -240,6 +234,7 @@ public class ImageCmds {
 
     @Name("e926")
     @Defer
+    @NSFW
     @Description("Retrieves images from the e926 (furry) image board. (Only works on NSFW channels)")
     @Category(CommandCategory.IMAGE)
     @Help(description = """
@@ -270,6 +265,7 @@ public class ImageCmds {
 
     @Name("konachan")
     @Defer
+    @NSFW
     @Description("Retrieves images from the konachan image board. (Only works on NSFW channels)")
     @Category(CommandCategory.IMAGE)
     @Help(description = """
@@ -318,6 +314,7 @@ public class ImageCmds {
 
     @Name("yandere")
     @Defer
+    @NSFW
     @Description("Retrieves images from the Yande.re image board. (Only works on NSFW channels)")
     @Category(CommandCategory.IMAGE)
     @Help(description = """
@@ -368,6 +365,7 @@ public class ImageCmds {
 
     @Name("gelbooru")
     @Defer
+    @NSFW
     @Description("Retrieves images from the Gelbooru image board. (Only works on NSFW channels)")
     @Category(CommandCategory.IMAGE)
     @Help(description = """
@@ -418,6 +416,7 @@ public class ImageCmds {
 
     @Name("safebooru")
     @Defer
+    @NSFW
     @Description("Retrieves images from the safebooru image board. (Only works on NSFW channels)")
     @Category(CommandCategory.IMAGE)
     @Help(description = "Retrieves images from the safebooru image board. This command can only be used in NSFW channels.",
@@ -449,6 +448,7 @@ public class ImageCmds {
 
     @Name("rule34")
     @Defer
+    @NSFW
     @Description("Retrieves images from the Rule34 image board. (Only works on NSFW channels)")
     @Category(CommandCategory.IMAGE)
     @Help(description = """
@@ -478,6 +478,7 @@ public class ImageCmds {
 
     @Name("danbooru")
     @Defer
+    @NSFW
     @Description("Retrieves images from the danbooru image board. (Only works on NSFW channels)")
     @Category(CommandCategory.IMAGE)
     @Help(description = """
