@@ -272,7 +272,7 @@ public class CommandRegistry {
         }
 
         var start = System.currentTimeMillis();
-        var cmd = getCommandManager().contextUserCommands().get(event.getCommandPath());
+        var cmd = getCommandManager().contextUserCommands().get(event.getFullCommandName());
         if (cmd == null) {
             return;
         }
