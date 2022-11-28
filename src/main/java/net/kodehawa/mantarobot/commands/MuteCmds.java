@@ -82,7 +82,12 @@ public class MuteCmds {
 
             var maybeTime = ctx.getOptionAsString("time");
             if (maybeTime != null) {
-                time = Math.abs(Utils.parseTime(maybeTime));
+                try {
+                    time = Math.abs(Utils.parseTime(maybeTime));
+                } catch (Exception e) {
+                    ctx.reply("commands.mute.time_too_long", EmoteReference.ERROR);
+                    return;
+                }
             }
 
             if (!ctx.getMember().hasPermission(Permission.MODERATE_MEMBERS)) {
