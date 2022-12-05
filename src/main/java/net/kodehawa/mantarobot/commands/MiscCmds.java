@@ -43,15 +43,14 @@ import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.json.JSONObject;
 
 import java.awt.Color;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
@@ -194,19 +193,33 @@ public class MiscCmds {
     @Description("Retrieves an answer from the almighty 8ball.")
     @Options(@Options.Option(type = OptionType.STRING, name = "question", description = "The question to ask.", required = true))
     public static class EightBall extends SlashCommand {
+        private final Random rand = new Random();
+        private final List<String> answers = Arrays.asList(
+                "It is certain.",
+                "It is decidedly so.",
+                "Without a doubt",
+                "Yes - definitely.",
+                "You may rely on it.",
+                "As I see it, yes.",
+                "Most likely.",
+                "Outlook good.",
+                "Yes.",
+                "Signs point to yes.",
+                "Reply hazy try again.",
+                "Ask again later.",
+                "Better not tell you now.",
+                "Cannot predict now.",
+                "Concentrate and ask again.",
+                "Don't count on it.",
+                "My reply is no.",
+                "My sources say no.",
+                "Outlook not so good.",
+                "Very doubtful."
+        );
+
         @Override
         protected void process(SlashContext ctx) {
-            var question = ctx.getOptionAsString("question");
-            var textEncoded = URLEncoder.encode(question.replace("/", "|"), StandardCharsets.UTF_8);
-            var json = Utils.httpRequest("https://8ball.delegator.com/magic/JSON/%1s".formatted(textEncoded));
-
-            if (json == null) {
-                ctx.reply("commands.8ball.error", EmoteReference.ERROR);
-                return;
-            }
-
-            String answer = new JSONObject(json).getJSONObject("magic").getString("answer");
-            ctx.reply("\uD83D\uDCAC " + answer + ".");
+            ctx.reply("\uD83D\uDCAC " + answers.get(rand.nextInt(answers.size())));
         }
     }
 
