@@ -1511,7 +1511,7 @@
       "not_enough_money": "%1$sUangmu tidak cukup untuk memungut item ini. *(Dompet: %2$,d, Butuh: %3$,d)*",
       "dust": "%1$sInventarismu terlalu kotor untuk memungut item, coba bersihkan pakai alat pel.",
       "no_returnables": "%1$sThis item has no returnable salvage elements.",
-      "success": "%1$sBerhasil memungut %2$s dan dapat %3$s. Ongkosnya %4$s kredit.",
+      "success": "%1$sSuccessfully salvaged %2$s %3$s and got %4$s %5$s in return. The cost was %6$s credits.",
       "ls": {
         "header": "Salvageable Item List",
         "cost": "Salvage Cost: ",
