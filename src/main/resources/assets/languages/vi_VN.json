@@ -1511,7 +1511,7 @@
       "not_enough_money": "%1$sBạn không có đủ tiền để phân rã vật phẩm này. *(Ví của bạn có: %2$,d, Cần: %3$,d)*",
       "dust": "%1$sTúi đồ của bạn không sạch sẽ để phân rã vật phẩm này, hãy thử lau dọn bằng chổi.",
       "no_returnables": "%1$sVật phẩm này không có gì để có thể trả lại.",
-      "success": "%1$sĐã phân rã thành công %2$s và nhận lại %3$s. Chi phí là %4$s đồng.",
+      "success": "%1$sSuccessfully salvaged %2$s %3$s and got %4$s %5$s in return. The cost was %6$s credits.",
       "ls": {
         "header": "Danh sách các món đồ có thể phân rã",
         "cost": "Giá phân rã: ",
