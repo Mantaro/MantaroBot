@@ -1511,7 +1511,7 @@
       "not_enough_money": "%1$s你沒有足夠的金錢來回收此物品。*(錢包：%2$,d，需求：%3$,d)*",
       "dust": "%1$s你的背包灰塵太多了，無法執行此回收，試著用拖把來清潔他。",
       "no_returnables": "%1$s這個物品沒有可回收的元素。",
-      "success": "%1$s成功回收 %2$s，你得到了 %3$s。回收費用為 %4$s 元。",
+      "success": "%1$sSuccessfully salvaged %2$s %3$s and got %4$s %5$s in return. The cost was %6$s credits.",
       "ls": {
         "header": "可回收物品清單",
         "cost": "回收花費：",
