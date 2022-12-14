@@ -53,7 +53,7 @@ import net.kodehawa.mantarobot.utils.commands.campaign.Campaign;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
-import java.awt.*;
+import java.awt.Color;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -641,7 +641,7 @@ public class ItemCmds {
                 stats.saveUpdating();
 
                 ItemHelper.handleItemDurability(wrenchItem, ctx, player, user, "commands.cast.autoequip.success");
-                ctx.reply("commands.salvage.success", wrenchItem.getEmojiDisplay(), item.getName(), toReturn.getName(), salvageCost);
+                ctx.reply("commands.salvage.success", wrenchItem.getEmojiDisplay(), item.getEmojiDisplay(), item.getName(), toReturn.getEmojiDisplay(), toReturn.getName(), salvageCost);
             }
         }
 
