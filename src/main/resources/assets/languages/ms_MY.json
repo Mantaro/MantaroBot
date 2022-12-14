@@ -1511,7 +1511,7 @@
       "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk selamatkan item ini. *(Dompet: %2$,d, Diperlukan: %3$,d)*",
       "dust": "%1$sInventori anda terlalu berhabuk untuk menyelamatkan sesuatu item, cuba membersihkannya dengan menggunakan mop.",
       "no_returnables": "%1$sItem ini tiada elemen penyelamatan yang dapat dipulangkan.",
-      "success": "%1$sBerjaya selamatkan %2$s dan mendapat %3$s. Kosnya ialah %4$s kredit.",
+      "success": "%1$sSuccessfully salvaged %2$s %3$s and got %4$s %5$s in return. The cost was %6$s credits.",
       "ls": {
         "header": "Senarai Penyelamatan Item",
         "cost": "Kos Penyelamatan: ",
