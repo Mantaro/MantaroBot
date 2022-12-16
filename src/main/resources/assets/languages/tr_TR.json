@@ -274,9 +274,9 @@
         "fair_queue_limit_reached": "%1$s** %2$d seviyesini geçmişiz (çok fazla aynı şarkıyı eklemişiz)**",
         "loaded_song": "%1$sListeye eklendi -> **%2$s** *(%3$s)*",
         "selection_text": "Şarkı seçimi. Devam etmek için şarkı numarasını seçin.",
-        "timeout_text": "This timeouts in 30 seconds."
+        "timeout_text": "30 saniye içinde bitecek."
       },
-      "premium_beg": "%1$sConsider donating on <https://patreon.com/mantaro> if you like me, even a small donation will help towards keeping the bot alive (Check `/donate` for more info!)",
+      "premium_beg": "%1$sBenden hoşlanıyorsanız <https://patreon.com/mantaro> üzerinden bağış yapmayı düşünün, küçük bir bağış bile botu canlı tutmaya yardımcı olur (Daha fazla bilgi için `/donate` adresini kontrol edin!)",
       "closed_connection": "%1$sSes bağlantısı kapanıyor!..."
     },
     "forceskip": {
@@ -288,12 +288,12 @@
     },
     "pause": {
       "paused": "Müzik çalar durakladı. *(Daha önce müzik çalar devam etmişti!)*",
-      "unpaused": "Player un-paused. *(Player was paused previously)*"
+      "unpaused": "Müzik devam ettirildi. *(Daha önce müzik duraklatılmıştı)*"
     },
     "rewind": {
-      "no_time": "%1$sYou need to tell me how much you want to rewind the song. *(Example: `/rewind time:1m45s` will rewind the song 1 minute and 45 seconds)*",
-      "negative": "%1$sPositive numbers only",
-      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `/rewind time:1m45s` will rewind the song 1 minute and 45 seconds)*",
+      "no_time": "%1$sBana şarkıyı ne kadar geri sarmak istediğini söylemelisin. *(Örnek: `/rewind time:1m45s`, şarkıyı 1 dakika 45 saniye geri sarar)*",
+      "negative": "%1$sYalnızca pozitif sayılar",
+      "too_little": "%1$sDoğru biçimi kullanmanız gerekir. Lütfen komut yardımına bakın. *(Örnek: `/rewind time:1m45s`, şarkıyı 1 dakika 45 saniye geri sarar)*",
       "before_beginning": "%1$sBir şarkının başlangıcından öteye geri alamam!",
       "success": "%1$sGeri sarıldı: %2$s."
     },
@@ -301,12 +301,12 @@
       "success": "%1$sŞu anki şarkıyı tekrarlıyorum."
     },
     "skipahead": {
-      "no_time": "%1$sYou need to tell me how much you want to skip ahead in the song. *(Example: `/forward time:1m45s` will skip 1 minutes and 45 seconds from where you are on the song)*",
+      "no_time": "%1$sŞarkıda ne kadar ileri atlamak istediğini bana söylemelisin. *(Örnek: `/forward time:1m45s` şarkıda bulunduğunuz yerden 1 dakika 45 saniye atlayacaktır)*",
       "past_duration": "%1$sŞarkı bittikten sonrasına gidemezsin.",
       "success": "%1$s %2$s saniye ileri aldık."
     },
     "move": {
-      "no_voice": "%1$sYou're not in a voice channel, or the bot isn't in one.",
+      "no_voice": "%1$sBir ses kanalında değilsiniz veya bot bir ses kanalında değil.",
       "attempt": "%1$sŞu anda olduğun kanala gelmeye çalışacağım!",
       "error_moving": "%1$sKanalı değiştirmeyi beceremedim.",
       "cannot_connect": "%1$sBağlanamıyorum: Konuşmaya veya o kanala girmeye yetkim olmayabilir.",
@@ -315,7 +315,7 @@
       "vc_not_found": "%1$sMüzik kanalı bulunamadı veya seçmedin!"
     },
     "shard": {
-      "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
+      "info": "**Parçasıyım %1$d / %2$d ** (Node %3$d / %4$d)\n\n**Parçası olduğum sunucular:** %5$,d sunucu\n**Önbelleğe Alınmış Kullanıcılar:** %6$,d kullanıcı\n**Önbelleğe Alınmış Üyeler:** %7$,d üye\n\nHerhangi bir yardıma ihtiyacınız olursa lütfen <https://support.mantaro.site> adresine gidin. Mantaro'yu kullandığınız için teşekkürler!"
     },
     "queue": {
       "clear": {
@@ -341,12 +341,12 @@
       "dj_skip": "%1$sDiji niki şarkıyı geçti.",
       "vote": {
         "submit": "%1$s**Oyun geçerli!** %2$d tane daha oy lazım ki şarkıyı geçelim!",
-        "submit_force_allowed": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!\nYou're a DJ or queued this song. If you wanted to skip without requiring voting use `/skip force:True`",
+        "submit_force_allowed": "%1$s**Oyunuz gönderildi** Atlamak için %2$d oy(lar)a daha ihtiyacınız var!\nBir DJ'sin veya bu şarkıyı sıraya aldın. Oylama gerektirmeden atlamak istiyorsanız `/skip force:True` kullanın",
         "remove": "%1$s**Oyun silindi!** %2$d tane daha oy lazım ki şarkıyı geçelim!"
       },
       "success": "%1$sYeterli oya ulaşıldı, şarkı geçiliyor...",
       "no_track": "%1$sGeçilecek şarkı yok ki, hiçbir şey yapamıyorum...",
-      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
+      "cannot_force": "%1$sBu parçayı zorla atlamak için bir DJ veya bu şarkıyı sıraya koyan kişi olmanız gerekir."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` geçerli bir yelpaze değil.",
@@ -367,11 +367,11 @@
       "cleanup": "%1$s **%2$d** kadar şarkı listeden çıkarıldı"
     },
     "volume": {
-      "no_player": "%1$sThere's nothing playing here.",
+      "no_player": "%1$sBurada çalan bir şey yok.",
       "check": "%1$sBu seansın ses seviyesi: %2$d\n\n%3$s",
       "success": "%1$sSes seviyesi değiştirildi %2$d\n\n%3$s",
       "no_args": "%1$sBana hangi ayarlamak istediğin ses seviyesini söylemen lazım (5 veya 100 arası).",
-      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to a user or a server, please, if you donate, join the support guild and ask for it."
+      "premium_only": "%1$sBu, yalnızca premium bir özelliktir. Bunun gibi premium avantajlar elde etmek için patreona (https://www.patreon.com/mantaro) göz atın. Anlayışınız için teşekkürler.\nPremium özellikler bir kullanıcıya veya bir sunucuya bağlı olabilir, lütfen bağışta bulunursanız destek sunucusuna katılın ve isteyin."
     },
     "lyrics": {
       "no_current_track": "%1$sŞu anda bu sunucuda çalan şarkı yok!",
@@ -380,14 +380,14 @@
       "footer": "Mantaro'yu kullandığınız için teşekkürler! Sayfa: %1$d, Toplam: %2$d."
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). %3$s.\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nTo reset the server prefix run `~>opts prefix clear`\nIf you have any questions, you can join <https://support.mantaro.site>",
-      "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
+      "header": "%1$sVarsayılan önekler şunlardır: %2$s veya botun adı (bunların hepsini yanıtlıyorum!). %3$s.\n`~>opts prefix set <prefix>` kullanarak yeni bir önek ayarlayabilirsiniz. <> dahil etmeyin.\nSunucu önekini sıfırlamak için `~>opts prefix clear` komutunu çalıştırın.\nHerhangi bir sorunuz varsa <https://support.mantaro.site> sitesine katılabilirsiniz",
+      "guild_prefix": "Sunucu öneki `%1$s` (Yalnızca bu sunucuda çalışır)",
       "none": "Bu sunucu da özel bir ön ek yok, varsayılanı kullanabilirsin."
     },
     "custom": {
-      "custom_notice": "This is a custom command.",
+      "custom_notice": "Bu özel bir komuttur.",
       "no_args": "%1$sBu komutla tam olarak ne yapmak istediğini bana söylemelisin, help yazarak daha fazla bilgiye ulaşabilirsin!",
-      "incorrect_args": "%1$sIncorrect arguments. Check `/help command:custom` or https://www.mantaro.site/mantaro-wiki/guides/custom-commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
+      "incorrect_args": "%1$sYanlış argümanlar. Bunun nasıl kullanılacağına ilişkin daha fazla yardım için `/help command:custom` veya https://www.mantaro.site/mantaro-wiki/guides/custom-commands kontrol edin. Wiki'yi okuduktan sonra başka sorunlarınız olursa <https://support.mantaro.site> adresine bakın",
       "error_running": "%1$sÖzel komut kullanırken hata... Lütfen cevapta bulunan içeriği ve uzunluğunu kontrol edin (2000'den uzun olamaz unutmayın).",
       "error_running_new": "%1$sÖzel komut kullanırken hata... Lütfen cevapta bulunan içeriği ve uzunluğunu kontrol edin.\n**Hata:**\n```%2$s```",
       "not_loaded": "Bot henüz tam olarak çalışmaya başlamamış, özel komutlar birazdan kullanıma açılır!",
@@ -397,10 +397,10 @@
       "new_error": "%1$sÖzel komut oluşturmaya çalışırken hata oluştu. (v3, içeriği kontrol et).\n**Hata:**\n```%2$s```",
       "ls": {
         "header": "Bu sunucu için komutlar.",
-        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands. The commands listed here use the bot prefix, not Slash Commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/guides/custom-commands)\n \n**List:**",
+        "description": "**Bu, bu sunucunun tüm özel (kullanıcı yapımı) komutlarını gösterir.** Buradaki her komut, herhangi bir şekil veya biçimde botun kendisiyle ilişkili değildir.\n\nÖzel komutlar, kullanıcılar (genellikle sunucu yöneticileri) tarafından oluşturulan ve eylem komutlarını taklit etmeye kadar uzanan bir dizi farklı durumu idare edebilen komutlardır. Burada listelenen komutlar, Slash Komutlarını değil, bot önekini kullanır.\nÖzel komutların nasıl oluşturulacağı hakkında daha fazla bilgi için [bu wiki sayfasına](https://www.mantaro.site/mantaro-wiki/guides/custom-commands) bakın.\n\n**Liste**",
         "footer": "Bu sunucudaki toplam özel komut sayısı: %1$s"
       },
-      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://www.mantaro.site/mantaro-wiki/guides/custom-commands>.",
+      "invalid": "%1$sGeçersiz komut seçimi. <https://www.mantaro.site/mantaro-wiki/guides/custom-commands> adresindeki wiki'ye bir göz atabilirsiniz.",
       "view": {
         "invalid": "%1$sKomutu ve cevap numarasını belirlemeniz gerekli!",
         "not_found": "%1$sO isimde bir özel komut burada yok.",
@@ -409,31 +409,31 @@
       },
       "raw": {
         "no_command": "%1$sBana hangi komuta bakmak istediğini belirtmelisin.",
-        "not_found": "%1$sI can't find that command.",
+        "not_found": "%1$s Bu emrini bulamadım.",
         "header": "Komut \"%1$s\":",
         "amount": "(%1$d kişisine %2$d cevapları gösteriliyor)",
-        "too_large_view": "Too large to view here, use `/custom view name:%1$s response:%2$s`",
+        "too_large_view": "Burada görüntülenemeyecek kadar büyük, `/custom view name:%1$s response:%2$s` kullanın",
         "description": "Bu, bu komutun tüm yanıtlarının ham halindeki (komuta ne girdiyseniz) bir listesidir."
       },
       "clear": {
-        "confirmation": "%1$sWould you like to clear ALL the custom commands from this server? Click yes to continue, no otherwise.",
-        "cancelled": "%1$sCancelled clear operation.",
-        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
+        "confirmation": "%1$sBu sunucudaki TÜM özel komutları silmek ister misiniz? Devam etmek için yes, aksi takdirde no tıklayın.",
+        "cancelled": "%1$sTemizleme işlemi iptal edildi.",
+        "success": "%1$s**%2$d Özel emirler silinmiştir.** \nKilitli/Sabitlenmiş emirler silinmemiştir, silmek istiyorsan sabitlemelerden kaldırmalısın."
       },
       "eval": {
         "not_specified": "Değerlendirmek için herhangi bir şey belirtmediniz.",
         "new_error": "%1$sÖzel komut değerlendirilirken hata oluştu.\n**Hata**:\n```%2$s```",
         "error": "%1$sÖzel komut değerlendirilirken hata oluştu!\n%2$s",
-        "slash_notice": "%1$sThis command does not work with slash, yet. You can use `~>custom eval` for now."
+        "slash_notice": "%1$sBu komut henüz eğik çizgi ile çalışmıyor. Şimdilik `~>custom eval` kullanabilirsiniz."
       },
       "remove": {
         "no_command": "%1$sHangi komutu kaldırmak istediğinden bahsetmelisin.",
-        "success": "%1$sRemoved Custom Command `%2$s`"
+        "success": "%1$s`%2$s` komutu kaldırıldı"
       },
       "edit": {
-        "header_slash": "Custom Command Edit",
-        "content_slash": "New content",
-        "content_slash_placeholder": "The new command content.",
+        "header_slash": "Özel Komut Düzenleme",
+        "content_slash": "Yeni içerik",
+        "content_slash_placeholder": "Yeni komut içeriği.",
         "no_command": "%1$sHangi komutu düzenlemek istediğini belirtmen gerekir.",
         "invalid_number": "%1$sDüzenlemek için doğru sayı belirtmen gerekli.",
         "no_index": "%1$sOlmayan bir dizini düzenleyemezsin.",
@@ -446,51 +446,51 @@
         "invalid_number": "%1$sDüzenlemek için doğru sayı belirtmen gerekli.",
         "no_index": "%1$sOlmayan bir dizini silemezsin.",
         "not_enough_args": "%1$sSilmek istediğin komutu ve dizini belirtmelisin.",
-        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
+        "no_responses_left": "%1$sHiçbir yanıt kalmadı, bu yüzden komutu kaldırdım.",
         "success": "%1$s`%3$s` komutundaki **#%2$d** yanıtı başarıyla silindi"
       },
       "rename": {
         "success": "%1$sKomut ismi değiştirildi `%2$s` => `%3$s`",
-        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
+        "not_enough_args": "%1$sYeniden adlandırmak istediğiniz komutu ve yeni adı belirtmeniz gerekir."
       },
       "add": {
-        "header_slash": "Custom Command Creation.",
-        "content_placeholder": "Content goes here.",
+        "header_slash": "Özel Komut Oluşturma.",
+        "content_placeholder": "İçerik buraya gelecek.",
         "name_slash": "İsim",
         "content_slash": "İçerik",
         "custom_name_placeholder": "İsim buraya gelecek.",
         "no_command": "%1$sNe komutu eklemek istediğini belirtmen gerekir.",
-        "time_out": "%1$sThe time for this custom command interaction has ran out (or you cancelled it, or started a new one).",
+        "time_out": "%1$sBu özel komut etkileşiminin süresi doldu (veya siz iptal ettiniz veya yeni bir tane başlattınız).",
         "not_enough_args": "%1$sEklemek istediğin komutun ismini ve yanıtını belirtmeniz gerekir.",
         "empty_content": "%1$sÖzel komutun içeriğini belirtmen gerekir",
-        "too_long": "%1$sThe content of this command is too long and the bot won't be able to display it. Make sure the command has less than %2$,d characters.",
-        "success": "%1$sSaved to command `%2$s`\nRemember: To access a custom command you create, you have to run it using Mantaro's prefix (for example `~>%2$s`), not Slash Commands.",
-        "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
+        "too_long": "%1$sBu komutun içeriği çok uzun ve bot bunu görüntüleyemeyecek. Komutun %2$,d karakterden az olduğundan emin olun.",
+        "success": "%1$s`%2$s` komutuna kaydedildi\nUnutmayın: Oluşturduğunuz özel bir komuta erişmek için, Slash Komutlarını değil, Mantaro'nun önekini (örneğin `~>%2$s`) kullanarak çalıştırmanız gerekir.",
+        "too_many_responses": "%1$sBu komutta çok fazla yanıt (%2$s) var. Premium sunucular için bu sınır iki katıdır (100'e kadar). (Bakınız <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sBu sunucuda çok fazla komut var, bu yüzden daha fazlasını ekleyemezsiniz (+100).  Bu kısıtlama premium sunucuları etkilemez.(<https://patreon.com/mantaro> adresini kontrol edin)."
       },
       "lockcommand": {
-        "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
-        "no_command": "%1$sYou need to specify the command you want to lock.",
-        "success": "%1$sSuccessfully locked the `%2$s` command. You'll need to unlock it for further edits."
+        "no_permission": "%1$sKomutları kilitlemek ve kilidini açmak için Sunucuyu Yönetme iznine ihtiyacınız var.",
+        "no_command": "%1$sNe komutu eklemek istediğini belirtmen gerekir.",
+        "success": "%1$s`%2$s` komutu başarıyla kilitlendi. Daha fazla düzenleme için kilidini açmanız gerekecek."
       },
       "unlockcommand": {
-        "no_command": "%1$sYou need to specify the command you want to unlock.",
-        "not_locked": "%1$sThis command isn't locked.",
-        "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+        "no_command": "%1$sNe komutu eklemek istediğini belirtmen gerekir.",
+        "not_locked": "%1$sBu komut kilitli değil.",
+        "success": "%1$s`%2$s` komutunun kilidi başarıyla açıldı. Daha fazla düzenlemeden kaçınmak istiyorsanız daha sonra kilitlemeniz gerekecek."
       },
       "info": {
-        "header": "Custom Command Information for %1$s",
-        "owner": "**Owner:**",
-        "owner_id": "**Owner ID:**",
+        "header": "%1$s için Özel Komut Bilgileri",
+        "owner": "**Yönetici:**",
+        "owner_id": "**Yönetici ID:**",
         "nsfw": "**NSFW:**",
-        "responses": "**Responses:**"
+        "responses": "**Yanıtlar:**"
       },
       "character_not_allowed": "%1$sÖzel komut oluştururken bu karakteri kullanamazsınız.",
       "already_exists": "%1$s`%2$s` zaten varsayılan bot komutu.",
       "name_too_long": "%1$sİsim çok uzun.",
       "no_cc": "%1$sBu sunucuda özel komut yok, sadece birazcık tozlu.",
-      "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
-      "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild.",
+      "admin_only": "Bu sunucu yanlızca yöneticilere; özel komut oluşturma, düzenleme, içe aktarma ve geliştirme izinlerini verir.\n**Şuan VARSAYILAN ayarında.**\n- Eğer herkesin bunu yapmasına izin vermek istiyorsanız ve yöneticiyseniz (Bot yetkilisi rolü veya Sunucuyu Yönet izni), `~>opts admincustom false` komutunu çalıştırın.",
+      "not_found": "%1$sBu sunucuda `%2$s` isimli özel komut bulunmuyor.",
       "invalid_image": "%1$sThis command contains an invalid image, please fix...",
       "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
       "invalid_json": "%1$sThe string `{%2$s}` isn't a valid JSON.",
@@ -622,46 +622,46 @@
       "id": "**ID:**",
       "stats": {
         "header": "Your waifu stats",
-        "header_other": "%1$s's waifu stats",
-        "format": "%1$s **Money weight value:** %2$,d\n%1$s **Badge weight value:** %3$,d\n%1$s **Experience weight value:** %4$,d\n%1$s **Claim weight value:** %5$,d\n%1$s **Reputation multiplier:** %6$.2fx",
-        "value": "Total waifu value",
-        "credits": "%1$,d credits",
+        "header_other": "%1$s kullanıcısının waifu istatistiği",
+        "format": "%1$s **Para değeri:** %2$,d\n%1$s **Rozet değeri:** %3$,d\n%1$s **Tecrübe değeri:** %4$,d\n%1$s **Sahiplenme değeri:** %5$,d\n%1$s **Şöhret çarpanı:** %6$.2fx",
+        "value": "Toplam waifu değeri",
+        "credits": "%1$,d kredi",
         "performance": "Waifu Performans Puanı"
       },
       "claim": {
-        "no_user": "%1$sYou didn't mention any user to claim.",
-        "locked": "%1$sYou're currently unable to perform this action.",
+        "no_user": "%1$sBir kullanıcıyı belirtmedin.",
+        "locked": "%1$sŞu anda bu işlemi yapamazsın.",
         "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `/profile claimlock remove:true` if they wish to do so.",
         "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s)**",
-        "not_enough_slots": "%1$sYou don't have enough slots available to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
-        "success": "%1$sSuccessfully claimed `%2$s` for %3$,d credits. Slots used: %4$s",
-        "yourself": "%1$sYou cannot claim yourself!",
-        "already_claimed": "%1$sYou already claimed this waifu.",
-        "not_found": "%1$sI can't find any user with this query. "
+        "not_enough_slots": "%1$sBu waifu'ya sahiplenmen için gerekli kadar yerin yoktur. (Toplam yer sayısı: %2$s, Kullandığın yer sayısı: %3$s)",
+        "success": "%1$s`%2$s` kullanıcısını %3$,d kredi ile başarıyla sahiplendin. Kullandığın yer sayısı: %4$s",
+        "yourself": "%1$sKendine sahiplenemezsin!",
+        "already_claimed": "%1$sBu waifu'ya zaten sahiplendin.",
+        "not_found": "%1$sBu sorgu ile kimseyi bulamadım. "
       },
       "unclaim": {
-        "no_user": "%1$sYou need to mention a waifu to un-claim.",
-        "not_claimed": "%1$sThis user isn't your waifu!",
+        "no_user": "%1$sWaifu çıkartmak için bir tanesini belirtmen gerekmektedir.",
+        "not_claimed": "%1$sBu kullanıcı senin Waifun değildir!",
         "confirmation": "%1$sAre you *sure* you want to un-claim %2$s? The cost to un-claim this waifu is **%3$s credits**. Click on *yes* to confirm or *no* to cancel\n%4$sThis times out in 1 minute.",
-        "not_enough_money": "%1$sYou don't have enough money to un-claim this waifu!",
-        "player_locked": "%1$sYou cannot do this at the moment.",
-        "scrapped": "%1$sCancelled waifu un-claiming.",
-        "success": "%1$sSuccessfully unclaimed `%2$s` with a cost of **%3$s credits**.",
+        "not_enough_money": "%1$sBu waifu'yu listenden çıkartmak için yeteri kadar paran yok!",
+        "player_locked": "%1$sBunu şu anda kullanamazsınız.",
+        "scrapped": "%1$sWaifu çıkartılmasını iptal ettin.",
+        "success": "%1$s**%3$s** miktarı ile `%2$s` kullanıcısını başarıyla listenden çıkarttın.",
         "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID (`/waifu list id:true`)."
       },
       "buyslot": {
-        "locked": "%1$sYou're currently unable to perform this action.",
+        "locked": "%1$sŞu anda bunu yapamazsın.",
         "not_enough_money": "%1$sYou don't have enough money to buy more slots! You need %2$d credits.",
-        "success": "%1$sSuccessfully bought this slot for %2$s credits, you currently have %3$s total slots and %4$s available slots.",
-        "too_many": "%1$sYou already have too many slots! The maximum is 30 slots."
+        "success": "%1$sBaşarıyla bu ek yerini %2$s kredi ile satın aldın, şu an toplam %3$s yerin var, %4$s tanesi kullanılabilecek durumda.",
+        "too_many": "%1$sZaten çok fazla yeriniz var! Maksimum 30 yeriniz olabilir."
       },
       "optout": {
-        "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
+        "notice": "%1$sWaifu sistemini kullanmayı reddettiğini için bunu kullanamazsın.",
         "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `/profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nClick on `yes` to opt-out PERMANENTLY or `no` to cancel this and go back to safety.",
-        "success": "%1$sYou successfully opted out of the waifu system.",
-        "cancelled": "%1$sCancelled opt-out operation.",
-        "claim_notice": "%1$sThe user you're trying to claim opted out.",
-        "lookup_notice": "%1$sThe user you're trying to lookup opted out.",
+        "success": "%1$sBaşarıyla Waifu sisteminden çıktın.",
+        "cancelled": "%1$sProsedür iptal edilmiştir.",
+        "claim_notice": "%1$sSahiplenmeye çalıştığın kullanıcı Waifu sistemini kullanmayı reddetmiştir.",
+        "lookup_notice": "%1$sAramaya çalıştığınız kullanıcı devre dışı bırakıldı.",
         "yes_button": "Evet, çıkmak istiyorum.",
         "no_button": "Hayır, beni geri al."
       },
@@ -676,8 +676,8 @@
       "not_claimed": "%1$sBu Waifuya sahiplenmedin."
     },
     "ratewaifu": {
-      "nothing_specified": "%1$sGive me a waifu to rate!",
-      "success": "%1$sI rate your waifu with a **%2$,d/100**"
+      "nothing_specified": "%1$sBana değerlendirebileceğim bir Waifu ver!",
+      "success": "%1$sWaifu'nuzu **%2$,d/100** ile derecelendiriyorum"
     },
     "roll": {
       "success": "%1$sYou got **%2$s**%3$s",
@@ -688,7 +688,7 @@
       "incorrect_format": "You need to specify the amount in d20 format. For example, to roll 2 dies of 16 sides, you can do 2d16."
     },
     "coinflip": {
-      "over_limit": "%1$sHold in there! The limit is 1,000 coin flips",
+      "over_limit": "%1$sDikkat! Yazı tura limiti 1,000.",
       "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions (For example, `/roll times:100`)",
       "success": "%1$s Your result from **%2$d** time(s) yielded **%3$d** heads and **%4$d** tails"
     },
@@ -696,18 +696,18 @@
       "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `/dump`",
       "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `/inventory show`. Enjoy your day!*",
       "calculate": "%1$s%2$s will get **%3$d credits** if all of the items are sold.",
-      "header": "%1$s's Inventory",
-      "format": "%1$sPrice:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
-      "empty": "%1$sThis inventory is empty! :(",
+      "header": "%1$s'nin envanteri",
+      "format": "%1$sFiyat:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
+      "empty": "%1$sBu envanter boş! :(",
       "brief_notice": "You can use `/inventory brief` to get a mobile friendly version.",
       "sorted_by": " *(Tarafından sıralandı: %1$s)",
       "new_brief_notice": "Please use `/inventory brief` instead.",
       "new_calc_notice": "Please use `/inventory calculate` instead.",
       "sort": {
-        "amount": "Amount",
-        "value": "Value",
-        "type": "Type",
-        "total": "Total Value",
+        "amount": "Miktar",
+        "value": "Değer",
+        "type": "Tür",
+        "total": "Toplam Değer",
         "random": "Rastgele"
       }
     },
@@ -715,32 +715,32 @@
       "no_item_specified": "%1$sYou didn't specify any items. For a list, check `/cast list`",
       "no_item_found": "%1$sI didn't find any item matching that. Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `/cast star pick`",
       "item_not_cast": "%1$sYou cannot cast this item. You can check `/cast list` for a list of castable items. Try using the full name if you think you have the correct item.",
-      "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
-      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast. You need %3$,d of them.",
-      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed the cast of a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
-      "success": "%1$sYou successfully casted %2$,dx %3$s **%4$s** for %5$,d credits. *Cast used: %6$s*",
-      "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
+      "not_enough_money": "%1$sBunu tasarlamak için yeteri kadar bakiyen yoktur. **(Ücreti: %2$s)**",
+      "no_item": "%1$sBu döküme devam etmek için gereken *%2$s* eşyasına sahip değilsiniz. %3$,d tanesine ihtiyacınız var.",
+      "not_enough_items": "%1$sBir **%3$s** için döküm işlemine devam etmek için yeterli *%2$s* öğeniz yok. **(Gerekli: %4$s, Mevcut: %5$s)**",
+      "success": "%1$sBaşarıyla %5$,d kredi için %2$,dx %3$s **%4$s** elde ettiniz. *İşlem ücreti: %6$s*",
+      "no_tool": "%1$sBu işleme devam etmek için %2$s sahip olmanız gerekiyor!",
       "not_equipped": "%1$sYou don't have any equipped wrench. Use `/equip item:<wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `/buy item:wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `/cast item item:star pick amount:5`",
-      "too_many": "%1$sYou'd have more than 5,000 of this item if you proceed. Try casting less of this object?",
-      "low_tier": "%1$sYou need at least a Tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a Tier %2$s wrench equipped.",
-      "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe equip a more powerful one? (*Wrench level: %2$s, Required level: %3$s*)",
-      "too_many_amount": "%1$sYou can't cast that many of this item at once! Limit: %2$s, Attempt: %3$s. A sparkle wrench makes the limit double! Unless you're already using one.",
+      "too_many": "%1$sDevam edersen bu eşyadan 5000 adetten fazla olacaktır. Daha az yapmaya çalışsan?",
+      "low_tier": "%1$sİşlem başına daha fazla öge dökmek için en az bir tane 2. Kademe İngiliz anahtarına (en az bir Comet İngiliz Anahtarı) ihtiyacınız var. Şu anda donanımlı bir %2$s Kademe anahtarınız var.",
+      "not_enough_wrench_level": "%1$sİngiliz anahtarınız bu ögeyi dökecek kadar güçlü değil. Belki daha güçlü bir tane donatmak istersiniz? (*İngiliz Anahtarı seviyesi: %2$s, Gerekli seviye: %3$s*)",
+      "too_many_amount": "%1$sO kadar ögeyi aynı anda dökemezsin! Sınır: %2$s, Denediğin: %3$s. Bir parıldayan ingiliz anahtarı, sınırı ikiye katlar! Zaten bir tane kullanmıyorsanız.",
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your wrench slot."
+        "success": "%1$sİngiliz Anahtarı yuvanıza otomatik olarak bir **%2$s** taktınız."
       },
       "ls": {
-        "header": "Castable Item List",
-        "cost": "Cast Cost: ",
+        "header": "Dökülebilir Öge Listesi",
+        "cost": "Döküm Maliyeti: ",
         "desc": "This is a list of the items you can cast using `/cast list`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       },
       "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `/use item item:mop`?",
-      "wrench_multiple_use": "Tip: *You can't use the wrench you are trying to cast with as ingredient!*"
+      "wrench_multiple_use": "İpucu: *Kullanmaya çalıştığınız ingiliz anahtarını malzeme olarak kullanamazsınız!*"
     },
     "market": {
       "dump": {
         "replacement": "You can use `/dump` now. For example, instead of `~>market dump floppy` you can do `/dump item:floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
-        "no_item": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to dump.",
-        "invalid": "%1$sNot a valid number of items to dump.",
+        "no_item": "%1$sO öğenin miktarını (yalnızca bir taneyse, miktarı belirtmeniz gerekmez) ve atmak istediğiniz öğeyi belirtmeniz gerekir.",
+        "invalid": "%1$sAtmak istediğin eşya miktarı geçerli değildir.",
         "non_existent": "%1$sCannot dump a non-existent item! If you're lost, you can try typing the short name or wrapping the name in quotes.",
         "player_no_item": "%1$sCannot dump an item you don't have!",
         "more_items_than_player": "%1$sYou cannot dump more items than what you have.",
@@ -843,7 +843,7 @@
       "invalid_args": "%1$sInvalid option or arguments."
     },
     "8ball": {
-      "no_args": "%1$sYou need to specify what you want the 8ball to answer.",
+      "no_args": "%1$s8ball un neye cevap vermesini istediğinizi belirtmeniz gerekir.",
       "error": "%1$sI ran into an error while fetching the 8ball results."
     },
     "iam": {
