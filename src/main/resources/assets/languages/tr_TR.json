@@ -491,32 +491,32 @@
       "no_cc": "%1$sBu sunucuda özel komut yok, sadece birazcık tozlu.",
       "admin_only": "Bu sunucu yanlızca yöneticilere; özel komut oluşturma, düzenleme, içe aktarma ve geliştirme izinlerini verir.\n**Şuan VARSAYILAN ayarında.**\n- Eğer herkesin bunu yapmasına izin vermek istiyorsanız ve yöneticiyseniz (Bot yetkilisi rolü veya Sunucuyu Yönet izni), `~>opts admincustom false` komutunu çalıştırın.",
       "not_found": "%1$sBu sunucuda `%2$s` isimli özel komut bulunmuyor.",
-      "invalid_image": "%1$sThis command contains an invalid image, please fix...",
-      "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
-      "invalid_json": "%1$sThe string `{%2$s}` isn't a valid JSON.",
-      "invalid_link": "%1$sThe string `%2$s` isn't a valid link.",
-      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `/custom unlockcommand name:<command name>` to unlock it."
+      "invalid_image": "%1$sBu komut geçersiz resim içeriyor, lütfen düzelt...",
+      "invalid_string": "%1$s`{%2$s}` metni geçerli değil veya çıktısı 2000 karakterden uzun.",
+      "invalid_json": "%1$s`{%2$s}` metni geçerli bir JSON değil.",
+      "invalid_link": "%1$s`%2$s` metni geçerli bir bağlantı değil.",
+      "locked_command": "%1$sBu komutu kilitliyken düzenleyemez veya kaldıramazsınız, lütfen kilidini açmak için `/custom unlockcommand name:<command name>` komutunu çalıştırın."
     },
     "mute": {
-      "no_permissions": "%1$sYou need to have permission to Moderate Members in order to time out a user.",
-      "no_users": "%1$sYou need to give me a user to time out.",
-      "no_moderate_members": "%1$sI don't have permissions to administrate timeouts on this server.",
-      "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
-      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute user:<user> time:20m reason:reason goes here`, for example.",
-      "default_time_too_long": "%1$sThe default time out timeout length is too long (Maximum: 10 days)...",
-      "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
-      "time_too_long": "%1$sThe specified timeout length is too long (Maximum: 10 days)...",
-      "already_muted": "%1$sThis user is already timed out. Please do `/unmute` to un-mute them.",
-      "self_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
-      "user_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
-      "success": "%1$sSuccessfully timed out **%2$s** for %3$s",
-      "success_reason": "%1$sSuccessfully timed out **%2$s** for %3$s because of the following reason: %4$s"
+      "no_permissions": "%1$sBir kullanıcıyı zaman aşımına uğratmak için Üyeleri Denetleme iznine sahip olmanız gerekir.",
+      "no_users": "%1$sZaman aşımı için bir üye belirtmelisiniz.",
+      "no_moderate_members": "%1$sBu sunucuda zaman aşımlarını yönetme iznim yok.",
+      "time_not_specified": "%1$sGeçerli bir zaman belirtilmedi.",
+      "time_not_specified_generic": "%1$sHerhangi bir zaman belirtmediniz. Örneğin, 20 dakikalığına susturmak istiyorsanız, `/mute user:<user> time:20m Reason:sebep` yapmalısınız.",
+      "default_time_too_long": "%1$sVarsayılan zaman aşımı süresi çok uzun (Maksimum: 10 gün)...",
+      "time_too_little": "%1$sBelirtilen sessize alma zaman aşımı uzunluğu 10 saniyeden az.\nDoğru formatı kullandığınızdan emin misiniz? Örneğin 20 dakika için 20m, 1 saat için 1h veya her ikisinin (1h45m) ​​herhangi bir kombinasyonunu kullanın.",
+      "time_too_long": "%1$sBelirtilen zaman aşımı süresi çok uzun (Maksimum: 10 gün)...",
+      "already_muted": "%1$sBu kullanıcı zaten zaman aşımına uğradı. Susturmalarını açmak için lütfen `/unmute` yapın.",
+      "self_hierarchy_error": "%1$sBenden daha yüksek bir pozisyonda oldukları veya rol daha yüksek bir pozisyonda olduğu için bu kullanıcıyı zaman aşımına uğratamıyorum!",
+      "user_hierarchy_error": "%1$sBenden daha yüksek bir pozisyonda oldukları veya rol sizden daha yüksek bir pozisyonda olduğu için bu kullanıcıyı zaman aşımına uğratamıyorum!",
+      "success": "%1$s%3$s için **%2$s** başarıyla zaman aşımına uğradı",
+      "success_reason": "%1$s**%2$s** kullanıcısına zaman aşımı %3$s süreliğine şu sebepten dolayı verilmiştir: %4$s"
     },
     "unmute": {
-      "no_permissions": "%1$sYou need to have permission to Moderate Members to remove a time out!",
-      "no_mentions": "%1$sYou need to tell me who to remove the time out from.",
-      "success": "%1$sSuccessfully removed time out from **%2$s**",
-      "not_muted": "%1$sThis user doesn't seem to be timed out."
+      "no_permissions": "%1$sBir zaman aşımını kaldırmak için Üyeleri Denetleme iznine sahip olmanız gerekir!",
+      "no_mentions": "%1$sZaman aşımını kimden kaldıracağımı söylemelisin.",
+      "success": "%1$s**%2$s**'in zaman aşımı başarıyla kaldırıldı",
+      "not_muted": "%1$sBu kullanıcı zaman aşımına uğramış gibi görünmüyor."
     },
     "ping": {
       "display": [
@@ -557,11 +557,11 @@
         "empty": "%1$sAşk mektubunu boş bırakamazsın.",
         "no_marriage": "%1$sEvli değilsiniz, kendinize aşk mektubu yazamazsınız...",
         "not_proposing_player": "%1$sBu evlilik teklifini yapan siz değilsiniz!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `/marry status`",
+        "already_done": "%1$sBu evliliğe zaten atanmış bir aşk mektubu var. `/marry status` kullanarak kontrol edin",
         "too_long": "%1$sAşk mektubunuz çok uzun (maximum 500 harf)",
         "cannot_see": "%1$sEvli olduğunuz kullanıcıyı bulamadım... Büyük ihtimal benimle aynı sunucu da değiller.",
-        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s. Click yes to accept, no to scrap.",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `/marry status`",
+        "confirmation": "%1$sBu mektubu **%2$s#%3$s** ile yazmak istediğinize emin misiniz? Bu evliliğiniz boyunca kalıcı olacak. *Mektup içeriği:* %4$s. Kabul etmek için yes, çöpe atmak için no ya tıklayın.",
+        "confirmed": "%1$sAşık olduğunuz kişiye aşk mektubunuz gönderildi! `/marry status` ile kontrol edebilirsiniz",
         "scrapped": "%1$sAcele gerek yok, hala yazmak için zamanınız var!"
       },
       "status": {
@@ -580,48 +580,48 @@
         "not_married": "%1$sEvli değilsin."
       },
       "buyhouse": {
-        "not_married": "%1$sYou can only buy a house while you're married. This might change in the future.",
-        "no_house": "%1$sYou need a house item in your inventory. Use `/buy item:house` to get one.",
-        "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d credits)",
-        "no_name": "%1$sYou need to give your house a name! For example, `/marry house name:cozy house`",
+        "not_married": "%1$sSadece evliyken bir ev satın alabilirsin. Bu, gelecek güncellemelerde değişebilir.",
+        "no_house": "%1$sEnvanterinde bir ev bulunması gerekir. `/buy item:house` ile satın alabilirsin.",
+        "not_enough_money": "%1$sEv almak için yeteri kadar paran yoktur. (Güncel ev fiyatı: %2$d kredi.)",
+        "no_name": "%1$sEvinize bir isim vermeniz gerekiyor! Örneğin, `/marry house name:rahat ev`",
         "confirm": "%1$sBu evi almak istediğinden emin misin? Bakiyenden alınan fiyat %2$d ve eve verdiğiniz isim %3$s. Onaylamak için `yes` ve iptal etmek için `no` tıklayın.",
-        "success": "%1$sYou successfully bought a house for %2$d credits. The name of your new cozy house is %3$s, enjoy!",
-        "cancel_success": "%1$sCancelled operation."
+        "success": "%1$s%2$d krediyle başarıyla bir ev satın aldınız. Yeni şirin evinin adı %3$s, Tadını çıkar!",
+        "cancel_success": "%1$sİşlem iptal edilmiştir."
       },
       "buycar": {
         "no_car": "%1$sÖnce bir araba satın almalısın! Bir tane almak için `/buy item:car` seçeneğini kullanın.",
-        "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d credits)",
+        "not_enough_money": "%1$sAraba almak için yeteri kadar paran yoktur. (Güncel araç fiyatı: %2$d kredi.)",
         "no_name": "%1$sArabanıza bir isim vermeniz gerekiyor! Örneğin, `/marry car name:vroom`",
         "confirm": "%1$sBu aracı almak istediğinden emin misin? Bakiyenden alınacak miktar %2$d ve aracına koymuş olduğun isim %3$s. Onaylamak için `yes`, reddetmek için `no` ya tıkla.",
-        "success": "%1$sYou successfully bought a car for %2$d credits. The name of your new fast car is %3$s, enjoy!",
-        "cancel_success": "%1$sCancelled operation."
+        "success": "%1$sBaşarıyla %2$d kredi ile bir araba almış bulunmaktasın. Hızlı yeni arabanın adı %3$s. Tadını çıkar!",
+        "cancel_success": "%1$sİşlem iptal edilmiştir."
       },
-      "no_mention": "%1$sMention the user you want to marry.",
-      "marry_yourself_notice": "%1$sYou cannot marry yourself, as much as you may want to.",
-      "marry_bot_notice": "%1$sYou cannot marry a bot. I don't think this is Futurama... yet. Wait, could bots and humans marry there?",
-      "already_married_receipt": "%1$sYou're married with them already, aww.",
-      "already_married": "%1$sYou're married already.",
-      "receipt_married": "%1$sThat user is married already.",
+      "no_mention": "%1$sEvlenmek istediğin kullanıcıyı belirtmelisin.",
+      "marry_yourself_notice": "%1$sKendinle evlenemezsin, ne kadar istiyor olsan da.",
+      "marry_bot_notice": "%1$sBot ile evlenemezsin. Bu futuruma değildir... henüz. Dur, bot ve insanlar orda evlenebiliyor mu?",
+      "already_married_receipt": "%1$sBu kullanıcı ile zaten evlisin, aww.",
+      "already_married": "%1$sZaten evlisin.",
+      "receipt_married": "%1$sBu kullanıcı zaten evli.",
       "no_ring": "%1$sİki evlilik yüzüğü olmadan evlenme teklif edemezsiniz! Onları `/buy amount:2 item:ring` yazarak satın alabilir ve ardından tekrar teklif vermeyi deneyebilirsiniz <3",
       "confirmation": "%1$s%2$s, %3$s'den gelen evlilik teklifini **evet** tıklayarak onaylayabilir, **hayır** yazan düğmeye tıklayarak reddedebilirsin\n%4$sBu işlem 120 saniye sonra iptal edilecektir.",
-      "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory :(",
-      "accepted": "%1$s**%2$s#%3$s** accepted the proposal of **%4$s#%5$s**!",
-      "denied": "%1$sDenied proposal from **%2$s**",
-      "ratelimit_message": "Why would you want to marry this much?"
+      "ring_check_fail": "%1$sEnvanterinde iki adet yüzük bulundurmadığın sürece evlenme teklifinde bulunamazsın :(",
+      "accepted": "%1$s**%2$s#%3$s**, **%4$s#%5$s** kullanıcısının evlenme teklifini kabul etmiştir!",
+      "denied": "%1$s**%2$s** kullanıcısının evlenme teklifi reddedilmiştir",
+      "ratelimit_message": "Neden bu kadar çok evlenmek istiyorsun?"
     },
     "divorce": {
       "confirm": "%1$sBu evliliği bitirmek istediğinden emin misin? Evcil hayvanlara, evlere ve arabalara harcanan para ikiye bölünecek. Devam etmek için `yes` veya iptal etmek için `no` ya tıklayın. **Evliliğe bağlı olduğu için evcil hayvanınız kaybolacak**",
-      "cancelled": "%1$sCancelled divorce.",
+      "cancelled": "%1$sBoşanma iptal edilmiştir.",
       "not_married": "%1$sKimseyle evli değilsin, neden özel birini bulmuyorsun?\nWaifu talebini geri almak ister misin? Bunun yerine `/waifu unclaim` kullanın.",
-      "success": "%1$sNow you're single. That's nice I guess.\n%2$s",
-      "split": "The money left was split between the two parties by selling their assets (pet, house, car). Each one got **%1$d** credits on their wallet."
+      "success": "%1$sArtık bekarsın. Bu iyi bir şey, sanırım. %2$s",
+      "split": "Evcil hayvanın, evin ve aracın satılması ile elde edilen para ikiye bölünmüş, ve eşit biçimde aranızda dağıtılmıştır.\nİkinize ayrı verilen miktar sayısı **%1$d** kredi."
     },
     "waifu": {
-      "bot": "%1$sA bot can't be a waifu, even if you want to...",
-      "notice": "This feature isn't meant to have any kind of relationship, either implicit or explicit, with real life events.",
+      "bot": "%1$sBot bir Waifu olamaz, her ne kadar istiyor olsan da...",
+      "notice": "Bu sistem gerçek hayatınızın ilişkileri ile her hangi şekilde alakadar olmamalıdır.",
       "id": "**ID:**",
       "stats": {
-        "header": "Your waifu stats",
+        "header": "Waifu İstatistiğin",
         "header_other": "%1$s kullanıcısının waifu istatistiği",
         "format": "%1$s **Para değeri:** %2$,d\n%1$s **Rozet değeri:** %3$,d\n%1$s **Tecrübe değeri:** %4$,d\n%1$s **Sahiplenme değeri:** %5$,d\n%1$s **Şöhret çarpanı:** %6$.2fx",
         "value": "Toplam waifu değeri",
@@ -657,7 +657,7 @@
       },
       "optout": {
         "notice": "%1$sWaifu sistemini kullanmayı reddettiğini için bunu kullanamazsın.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `/profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nClick on `yes` to opt-out PERMANENTLY or `no` to cancel this and go back to safety.",
+        "warning": "%1$sWaifu sisteminden çıkmak istiyor musunuz? BU KALICIDIR VE GERİ DÖNÜLMEZ. Gerçekten.\nYalnızca yeni taleplerin kapsamı dışında kalmak ve waifu sistemini her zamanki gibi kullanmak istiyorsanız, lütfen bunun yerine `/profile claimlock` kullanın.\nSahiplendirme isteği almayacak veya sahiplenme isteği gönderemeyeceksiniz ve üzerinizdeki tüm sahiplendirmeler kaldırılacak.\nKALICI olarak devre dışı bırakmak için `yes` veya bunu iptal etmek ve güvenliğe geri dönmek için `no` ya tıklayın.",
         "success": "%1$sBaşarıyla Waifu sisteminden çıktın.",
         "cancelled": "%1$sProsedür iptal edilmiştir.",
         "claim_notice": "%1$sSahiplenmeye çalıştığın kullanıcı Waifu sistemini kullanmayı reddetmiştir.",
@@ -666,8 +666,8 @@
         "no_button": "Hayır, beni geri al."
       },
       "header": "Waifu Listesi",
-      "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$,d waifus as of now.*\n\nIf you wish to check your waifu stats, use `/waifu stats`\n\n",
-      "no_waifu": "No waifus to see here, just dust :(\nYou can get waifus by claiming someone! Use `/waifu claim` to get started.",
+      "description_header": "İşte tüm sevdiğiniz waifus'ların eklenme tarihine göre sıralanmış bir listesi.\n*Şimdilik maksimum %1$,d waifus'a sahip olabilirsiniz.*\n\nWaifu istatistiklerinizi kontrol etmek isterseniz, `/waifu stats` kullanın\n\n",
+      "no_waifu": "Burada görecek bir Waifu yok, sadece toz var :(\nBirisini sahiplenerek Waifu edinebilirsin! `/waifu claim` ile başlayabilirsin.",
       "footer": "Total waifus: %1$d - available slots: %2$s",
       "value_format": "**- Value:**",
       "value_b_format": "**- Bought for:**",
@@ -680,29 +680,29 @@
       "success": "%1$sWaifu'nuzu **%2$,d/100** ile derecelendiriyorum"
     },
     "roll": {
-      "success": "%1$sYou got **%2$s**%3$s",
+      "success": "%1$s**%2$s**%3$s aldınız",
       "amount": "Doing **%1$d** rolls.",
-      "more_than_10": "... and %1$s more rolls",
+      "more_than_10": "... ve %1$s daha fazla zar",
       "total": "(Toplam: %1$,d)",
-      "size": "\nDoing **%1$,d rolls** with a die of **%2$,d sides**.",
-      "incorrect_format": "You need to specify the amount in d20 format. For example, to roll 2 dies of 16 sides, you can do 2d16."
+      "size": "\n**%1$,d zar** ile **%2$,d kenarlar** yapılıyor.",
+      "incorrect_format": "Miktarı d20 biçiminde belirtmeniz gerekir. Örneğin, 16 kenarlı 2 zar atmak için 2d16 yapabilirsiniz."
     },
     "coinflip": {
       "over_limit": "%1$sDikkat! Yazı tura limiti 1,000.",
-      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions (For example, `/roll times:100`)",
+      "no_repetitions": "%1$sTekrar sayısı için bir Tamsayı belirtmeniz gerekir (Örneğin, `/roll times:100`)",
       "success": "%1$s Your result from **%2$d** time(s) yielded **%3$d** heads and **%4$d** tails"
     },
     "inventory": {
-      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `/dump`",
-      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `/inventory show`. Enjoy your day!*",
+      "bot_notice": "%1$sBurada, botların envanteri yoktur. Bazen keşke olsa diyor olabilirsin, ama o zaman sadece bir `/dump` olurdu",
+      "brief": "**%1$s kullanıcısının eşya koleksiyonu** %2$s\n\n*Daha detaylı bir versiyon için, `/inventory`. İyi günler!*",
       "calculate": "%1$s%2$s will get **%3$d credits** if all of the items are sold.",
       "header": "%1$s'nin envanteri",
       "format": "%1$sFiyat:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sBu envanter boş! :(",
-      "brief_notice": "You can use `/inventory brief` to get a mobile friendly version.",
+      "brief_notice": "Mobil uyumlu bir sürüm elde etmek için `/inventory brief` kullanabilirsiniz.",
       "sorted_by": " *(Tarafından sıralandı: %1$s)",
-      "new_brief_notice": "Please use `/inventory brief` instead.",
-      "new_calc_notice": "Please use `/inventory calculate` instead.",
+      "new_brief_notice": "Lütfen bunun yerine `/inventory brief` kullanın.",
+      "new_calc_notice": "Lütfen bunun yerine `/inventory calculate` kullanın.",
       "sort": {
         "amount": "Miktar",
         "value": "Değer",
@@ -712,15 +712,15 @@
       }
     },
     "cast": {
-      "no_item_specified": "%1$sYou didn't specify any items. For a list, check `/cast list`",
-      "no_item_found": "%1$sI didn't find any item matching that. Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `/cast star pick`",
-      "item_not_cast": "%1$sYou cannot cast this item. You can check `/cast list` for a list of castable items. Try using the full name if you think you have the correct item.",
+      "no_item_specified": "%1$sHerhangi bir öğe belirtmediniz. Liste için `/cast list` e göz atın",
+      "no_item_found": "%1$sBuna uyan herhangi bir öge bulamadım. Uyuşmazlıkları önlemek için tam öge adını yazdığınızdan emin olun veya mümkünse emojiyi kullanın.\nÖrneğin: `/cast star pick`",
+      "item_not_cast": "%1$sBu ögeyi dökemezsiniz. Dökülebilir ögelerin bir listesi için `/cast list` komudunu kullanın. Doğru ögeye sahip olduğunuzu düşünüyorsanız, tam adını kullanmayı deneyin.",
       "not_enough_money": "%1$sBunu tasarlamak için yeteri kadar bakiyen yoktur. **(Ücreti: %2$s)**",
       "no_item": "%1$sBu döküme devam etmek için gereken *%2$s* eşyasına sahip değilsiniz. %3$,d tanesine ihtiyacınız var.",
       "not_enough_items": "%1$sBir **%3$s** için döküm işlemine devam etmek için yeterli *%2$s* öğeniz yok. **(Gerekli: %4$s, Mevcut: %5$s)**",
       "success": "%1$sBaşarıyla %5$,d kredi için %2$,dx %3$s **%4$s** elde ettiniz. *İşlem ücreti: %6$s*",
       "no_tool": "%1$sBu işleme devam etmek için %2$s sahip olmanız gerekiyor!",
-      "not_equipped": "%1$sYou don't have any equipped wrench. Use `/equip item:<wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `/buy item:wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `/cast item item:star pick amount:5`",
+      "not_equipped": "%1$sİngiliz anahtarınız yok. Bir İngiliz anahtarı donatmak ve maceranıza başlamak için `/equip item:<wrench name>` kullanın! Eğer hiç yoksa, önce `/buy item:wrench` komutunu çalıştırın.\nArtık bu komutta kullanılan ingiliz anahtarını belirtmeniz gerekmez. Birden fazla öge dökmek için sayıyı öge adının önüne koyun, örneğin: `/cast item item:star pick amount:5`",
       "too_many": "%1$sDevam edersen bu eşyadan 5000 adetten fazla olacaktır. Daha az yapmaya çalışsan?",
       "low_tier": "%1$sİşlem başına daha fazla öge dökmek için en az bir tane 2. Kademe İngiliz anahtarına (en az bir Comet İngiliz Anahtarı) ihtiyacınız var. Şu anda donanımlı bir %2$s Kademe anahtarınız var.",
       "not_enough_wrench_level": "%1$sİngiliz anahtarınız bu ögeyi dökecek kadar güçlü değil. Belki daha güçlü bir tane donatmak istersiniz? (*İngiliz Anahtarı seviyesi: %2$s, Gerekli seviye: %3$s*)",
@@ -731,192 +731,192 @@
       "ls": {
         "header": "Dökülebilir Öge Listesi",
         "cost": "Döküm Maliyeti: ",
-        "desc": "This is a list of the items you can cast using `/cast list`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "desc": "Bu, `/cast list` kullanarak yayınlayabileceğiniz ögelerin bir listesidir.\nTam adı veya kısa adı veya emojiyi kullanabilirsiniz.\n**Döküm, aşağıda gösterilen ürünün fiyatının yarısı kadar minimum maliyete sahiptir.**.\nKademe 2 İngiliz Anahtarı Kuyruklu Yıldız, Kademe 3 İngiliz Anahtarı Parıldayandır."
       },
-      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `/use item item:mop`?",
+      "dust": "%1$sBöyle tozlu bir envanterle dökme işlemi yapamazsınız! *(Toz seviyesi: %2$s%%)*. Neden `/useitem item:mop` kullanarak temizlemiyorsunuz?",
       "wrench_multiple_use": "İpucu: *Kullanmaya çalıştığınız ingiliz anahtarını malzeme olarak kullanamazsınız!*"
     },
     "market": {
       "dump": {
-        "replacement": "You can use `/dump` now. For example, instead of `~>market dump floppy` you can do `/dump item:floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
+        "replacement": "Şimdi `/dump` kullanabilirsiniz. Örneğin, `~>market dump floppy` yerine `/dump item:floppy` yapabilirsiniz. Lütfen bunun yerine yeni komutu kullanın... Hepinizin attığı tüm disketlere ne olduğunu merak ediyorum?",
         "no_item": "%1$sO öğenin miktarını (yalnızca bir taneyse, miktarı belirtmeniz gerekmez) ve atmak istediğiniz öğeyi belirtmeniz gerekir.",
         "invalid": "%1$sAtmak istediğin eşya miktarı geçerli değildir.",
-        "non_existent": "%1$sCannot dump a non-existent item! If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "player_no_item": "%1$sCannot dump an item you don't have!",
-        "more_items_than_player": "%1$sYou cannot dump more items than what you have.",
+        "non_existent": "%1$sVar olmayan bir eşyayı atamazsın! Ne yapacağını bilmiyorsan, kısa adını kullanmayı ya da tırnak işaretleri ile yazmayı deneyebilirsin.",
+        "player_no_item": "%1$sSahip olmadığın bir eşyayı atamazsın!",
+        "more_items_than_player": "%1$sSahip olduğunuzdan daha fazla öğeyi çöpe atamazsınız.",
         "success": "%1$sSent %2$dx **%3$s %4$s** to the trash."
       },
       "price": {
-        "no_item": "%1$sYou need to specify the item you want to check the price of.",
-        "non_existent": "%1$sCannot check the price of a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_price": "%1$sThis item is not available neither for sell or buy (could be an exclusive collectible)",
+        "no_item": "%1$sFiyatını kontrol etmek istediğiniz ürünü belirtmeniz gerekmektedir.",
+        "non_existent": "%1$sVar olmayan bir eşyanın fiyatına bakamazsın. Ne yapacağını bilmiyorsan, kısa adını kullanmayı ya da tırnak işaretleri ile yazmayı deneyebilirsin.",
+        "no_price": "%1$sBu eşya ne alışa, ne de satışa uygundur. (özel bir koleksiyon olabilir)",
         "collectible": "%1$sThis is a collectible item. (Sell value: %2$d credits)",
-        "success": "%1$sThe market value of %2$s**%3$s** is %4$s credits to buy it and you can get %5$s credits if you sell it."
+        "success": "%1$s%2$s**%3$s** piyasa değeri onu satın almak için %4$s kredidir ve satarsanız %5$s kredi alabilirsiniz."
       },
       "sell": {
-        "replacement": "You can use `/sell` now. For example, instead of `~>market sell pick` you can do `/sell item:pick`. Please use the new command instead.",
-        "no_item": "%1$sYou need to specify the item to sell.",
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
-        "invalid": "%1$sNot a valid number of items to sell.",
+        "replacement": "Şimdi `/sell` kullanabilirsiniz. Örneğin, `~>market sell pick` yerine `/sell item:pick` yapabilirsiniz. Lütfen bunun yerine yeni komutu kullanın.",
+        "no_item": "%1$sSatacağınız ürünü belirtmeniz gerekiyor.",
+        "no_item_amount": "%1$sO eşyanın miktarını (bir adet ise miktar belirtmenize gerek yok) ve satmak istediğiniz eşyanın miktarını belirtmeniz gerekiyor.",
+        "invalid": "%1$sSatmak istediğin eşya miktarı geçerli değildir.",
         "all": {
-          "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? This will clear your *whole* inventory. If you wanna sell individual items please use the amount. Click on *yes* to confirm and *no* to cancel",
-          "success": "%1$sYou sold all your inventory items and gained %2$,d credits!",
-          "cancelled": "%1$sCancelled successfully."
+          "confirmation": "%1$s**Tüm** eşyalarını satmak istediğinden **emin misin**? Bu işlem **bütün** sahip olduğun envanteri silecek. Eşyalarını teker teker satmak istiyorsan, miktarını belirtmelisin. Tüm eşyalarını satmayı onaylıyorsan *yes*, reddediyorsan *no* ya tıkla",
+          "success": "%1$sEnvanterin tamamını satmış bulunmaktasın ve karşılığında %2$,d kredi aldın!",
+          "cancelled": "%1$sBaşarıyla iptal edilmiştir."
         },
-        "non_existent": "%1$sYou cannot sell a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `/dump` it)",
-        "no_item_player": "%1$sYou cannot sell an item you don't have.",
-        "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
-        "success": "%1$sYou sold %2$,d **%3$s** and gained %4$,d credits!"
+        "non_existent": "%1$sVar olmayan bir eşyayı satamazsın! Ne yapacağını bilmiyorsan, kısa adını kullanmayı ya da tırnak işaretleri ile yazmayı deneyebilirsin.",
+        "no_sell_price": "%1$sSatılamayan bir ürünü satamazsınız. (Ama onu `/dump` ile atabilirsin)",
+        "no_item_player": "%1$sSahip olmadığın bir eşyayı satamazsın.",
+        "more_items_than_player": "%1$sSahip olduğun sayıdan çok eşya satamazsın.",
+        "success": "%1$s%2$,d **%3$s sattın ve %4$,d kredi aldın!"
       },
       "buy": {
-        "replacement": "You can use `/buy` now. For example, instead of `~>market buy pick` you can do `/buy item:pick`. Please use the new command instead.",
-        "no_item": "%1$sYou need to specify the item to buy.",
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
-        "invalid": "%1$sNot a valid number of items to buy.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `/buy amount:15 item:energy`",
-        "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
-        "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
-        "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `/equip item:<item name>`",
-        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `/use item item:<item name>`",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits.",
-        "success_breakable_upgrade": "You can check <https://www.mantaro.site/mantaro-wiki/currency/103> for more information on how to upgrade your tools!"
+        "replacement": "Şimdi `/buy` kullanabilirsiniz. Örneğin, `~>market buy pick` yerine `/buy item:pick` yapabilirsiniz. Lütfen bunun yerine yeni komutu kullanın.",
+        "no_item": "%1$sAlacağınız ürünü belirtmeniz gerekiyor.",
+        "no_item_amount": "%1$sO eşyanın miktarını (bir adet ise miktar belirtmenize gerek yok) ve almak istediğiniz eşyayı belirtmeniz gerekiyor.",
+        "invalid": "%1$sAlmak istediğin eşya miktarı geçerli değildir.",
+        "non_existent": "%1$sVar olmayan bir eşyayı satın alamazsın. Ne yapacağını bilmiyorsan, kisa adını kullanmayı ya da tırnak işaretler ile yazmayı deneyebilirsin. Ayrıca, eşya miktarı, eşya adının önüne yazılır. Örneğin: `/buy amount:15 item:energy`",
+        "no_buy_price": "%1$sSatın alınamayan bir eşyayı alamazsın.",
+        "item_limit_reached": "%1$sO nesneden daha fazla satın alamazsınız. Herhangi bir öğeden en fazla 5000 adet alabilirsiniz.",
+        "success": "%1$s%2$,d %3$s, %4$,d kredi ile başarıyla satın aldın. Kalan bakiyen: %5,d kredi.",
+        "success_breakable": "%1$sBaşarıyla %4$,d kredi karşılığında %2$,d %3$s satın aldı. Artık %5$,d krediniz var. Bunu `/equip item:<item name>` kullanarak donatabilirsiniz",
+        "success_potion": "%1$sBaşarıyla %4$,d kredi karşılığında %2$,d %3$s satın alındı. Artık %5$,d krediniz var. Bu iksiri veya güçlendirmeyi `/use item item:<item name>` yazarak kullanabilirsiniz",
+        "not_enough_money": "%1$sBu ürünü satın almak için yeterli paranız yok. Mevcut: %2$,d kredi, Gerekli: %3$,d kredi.",
+        "success_breakable_upgrade": "Araçlarınızı nasıl yükselteceğiniz hakkında daha fazla bilgi için <https://www.mantaro.site/mantaro-wiki/currency/103> linke göz atabilirsiniz!"
       },
-      "header": "Mantaro's Market",
-      "reference": "\nYou can buy and sell items using `/buy item:<item>` and `/sell item:<item>` respectively. Check `/help market` for more info.",
-      "sell_price": "- **Sell Price:**",
-      "buy_price": "- **Buy Price:**"
+      "header": "Mantaro'nun Marketi",
+      "reference": "\nSırasıyla `/buy item:<item>` ve `/sell item:<item>` kullanarak ürün alıp satabilirsiniz. Daha fazla bilgi için `/help market` i kontrol edin.",
+      "sell_price": "-**Satış Fiyatı:**",
+      "buy_price": "-**Alış Fiyatı:**"
     },
     "itemtransfer": {
-      "transfer_yourself_note": "%1$sYou cannot transfer items to yourself.",
-      "bot_notice": "%1$sYou cannot transfer items to a bot.",
-      "locked_notice": "%1$sYou cannot transfer items now. (Player is locked)",
-      "locked_notice_other": "%1$sYou cannot transfer items to this user for now. (Player is locked)",
-      "hidden_item": "%1$sYou cannot transfer this item!",
-      "overflow": "%1$sThis player has the maximum amount (5000) of this item.",
-      "overflow_after": "%1$sAfter transferring the item, the player would have more than the maximum amount (5000) of this item.",
-      "success": "%1$s%2$s gave **%3$s** **%4$s** to %5$s",
-      "multiple_items_error": "%1$sYou don't have any of these items in your inventory",
-      "error": "%1$sYou don't have enough of this item in your inventory to do this!",
-      "no_item_mention": "%1$sYou need to specify the person to transfer the item to and the item to transfer."
+      "transfer_yourself_note": "%1$sKendine eşya transfer edemezsin.",
+      "bot_notice": "%1$sBir bot'a eşya transfer edemezsin.",
+      "locked_notice": "%1$sŞu an eşya transfer edemezsin. (Kullanıcı kilitli)",
+      "locked_notice_other": "%1$sÖgeleri şimdilik bu kullanıcıya aktaramazsınız. (Kullanıcı kilitli)",
+      "hidden_item": "%1$sBu eşyayı transfer edemezsin!",
+      "overflow": "%1$sBu oyuncu, bu ögenin maksimum miktarına (5000) sahiptir.",
+      "overflow_after": "%1$sÖgeyi transfer ettikten sonra, oyuncu bu ögenin maksimum miktarından (5000) fazlasına sahip olacaktır.",
+      "success": "%1$s%2$s, %5$s kullanıcısına **%3$s** **%4$s** vermiştir",
+      "multiple_items_error": "%1$sBu eşyaya sahip değilsin",
+      "error": "%1$sBu işlem için envanterinde yeteri miktarda eşya bulunmamakta!",
+      "no_item_mention": "%1$sÖgenin aktarılacağı kişiyi ve aktarılacak ögeyi belirtmeniz gerekir."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
-      "transfer_yourself_note": "%1$sYou cannot transfer money to yourself.",
-      "bot_notice": "%1$sYou cannot transfer money to a bot.",
-      "no_amount": "%1$sYou need to specify the amount. Use the `/transferitems` command instead if you meant to transfer an item.",
-      "no_money_specified_notice": "%1$sYou cannot transfer no money :P",
+      "new_account_notice_yourself": "%1$sPara transferi için hesabınızın en az 14 günlük olması gerekir.",
+      "new_account_notice_other": "%1$sAktardığınız hesap en az 14 günlük olmalıdır.",
+      "transfer_yourself_note": "%1$sKendine para transfer edemezsin.",
+      "bot_notice": "%1$sBir bot'a para transfer edemezsin.",
+      "no_amount": "%1$sMiktarını belirlemen lazım. Eğer bir eşyayı transfer etmeye çalıştıysan, `/transferitems` emrini kullan.",
+      "no_money_specified_notice": "%1$sParan yoksa para transferi yapamazsınız :P",
       "over_transfer_limit": "%1$sYou cannot transfer this much money. (Limit: %2$d credits)",
-      "own_locked_notice": "%1$sYou cannot transfer money now.",
-      "receipt_overflow_notice": "Cannot send money to this player.",
-      "no_money_notice": "%1$sYou cannot transfer money you don't have.",
-      "too_little": "%1$sMinimum transfer amount is 100 credits.",
-      "receipt_locked_notice": "%1$sThat user cannot receive money now.",
-      "receipt_over_limit": "%1$sThis user already has too much money...",
+      "own_locked_notice": "%1$sŞu an para transfer edemezsin.",
+      "receipt_overflow_notice": "Bu kullanıcıya para transfer edemezsin.",
+      "no_money_notice": "%1$sSahip olmadığın parayı transfer edemezsin.",
+      "too_little": "%1$sMinimum transfer tutarı 100 kredidir.",
+      "receipt_locked_notice": "%1$sO kullanıcı şu anda para alamıyor.",
+      "receipt_over_limit": "%1$sBu kullanıcının fazla parası var...",
       "success": "%1$sTransferred **%2$d** *(%3$d after 8%% tax)* to **%4$s** successfully.",
-      "item_transfer": "%1$sYou cannot transfer items using transfer, use the `/transferitems` command instead.",
-      "party": "You can only transfer to the same person (%1$s) once every 10 minutes.",
-      "blacklisted_transfer": "%1$sYou can't transfer to blacklisted users."
+      "item_transfer": "%1$sTransfer ile eşya transfer edemezsin, yerine `/transferitems` emrini kullanmalısın.",
+      "party": "Aynı kullanıcıya (%1$s) 10 dakikada bir transferde bulunabilirsin.",
+      "blacklisted_transfer": "%1$sKara listedeki kullanıcılara aktarım yapamazsınız."
     },
     "useitem": {
       "ls": {
-        "header": "Interactive Items List",
-        "desc": "This is a list of all interactive items in Mantaro. For more info about interactive items check the wiki!"
+        "header": "Etkileşimli Eşya Listesi",
+        "desc": "Bu Mantaro'nun etkileşimli eşya listesidir. Etkileşimli eşya hakkında daha fazla bilgiye ulaşmak için wiki'ye uğra!"
       },
-      "use_command": "%1$sFor this item you need to use the command that's linked to the item! (mine for pick, fish for the fishing rod)",
-      "no_items_specified": "%1$sYou need to specify what item to use.",
-      "not_interactive": "%1$sYou cannot interact with this item.",
-      "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set. This item might use its own command? For example, picks use `/mine`",
-      "no_item": "%1$sYou don't have this item in your inventory.",
-      "not_enough_items": "%1$sYou don't have enough of this item.",
-      "too_little": "%1$sYou can't use less than 1 item.",
-      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `15`!"
+      "use_command": "%1$sBu öge için, ögeye bağlı olan komutu kullanmanız gerekir! (Kazı yapmak için kazma, balık için olta)",
+      "no_items_specified": "%1$sHangi eşyayı kullanacağını belirlemen gerekmekte.",
+      "not_interactive": "%1$sBu eşya ile etkileşimde bulunamazsın.",
+      "interactive_no_action": "%1$sBu eşya etkileşimli eşya olarak sınıflandırıldı, ama aksiyon belirlenmemiştir. Belki kendine özgü bir emri kullaniyor olabilir? Örneğin, kazmalar `/mine` kullanmakta",
+      "no_item": "%1$sEnvanterinde bu eşya bulunmamakta.",
+      "not_enough_items": "%1$sBu eşyanın miktarı yeterli değildir.",
+      "too_little": "%1$s1'den az kullanamazsın.",
+      "invalid_amount": "%1$sMiktar `1` ve `15` arası geçerli bir sayı olmalıdır!"
     },
     "opts": {
-      "note": "%1$sHey, if you're lost or want help on using opts, check <https://www.mantaro.site/mantaro-wiki/basics/server-configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!",
+      "note": "%1$sHey, eğer kaybolduysan veya tercihleri ​​kullanma konusunda yardım istiyorsan, tercihlerin nasıl kullanılacağına dair bir rehber için <https://www.mantaro.site/mantaro-wiki/basics/server-configuration> adresine bak.\nNot: Bu komutu yalnızca yöneticiler, Sunucuyu Yönet veya Bot Komutanı rolüne sahip kişiler kullanabilir!",
       "list": {
-        "header": "**Mantaro's Options List**\n%1$s*All options must be prefixed with `~>opts` when running them*\n%2$s"
+        "header": "**Mantaro'nun Seçenekler Listesi**\n%1$s*Çalıştırırken tüm seçeneklerin önüne `~>opts' eklenmelidir*\n%2$s"
       },
-      "option_not_found": "%1$sInvalid option help name.",
-      "invalid_args": "%1$sInvalid option or arguments."
+      "option_not_found": "%1$sGeçersiz seçenek adı.",
+      "invalid_args": "%1$sGeçersiz seçenek veya argümanlar."
     },
     "8ball": {
       "no_args": "%1$s8ball un neye cevap vermesini istediğinizi belirtmeniz gerekir.",
-      "error": "%1$sI ran into an error while fetching the 8ball results."
+      "error": "%1$s8ball sonuçlarını getirirken bir hatayla karşılaştım."
     },
     "iam": {
       "list": {
         "name": "\nAutorole name: ",
         "role": " | Gives role **",
-        "category": "Category: ",
+        "category": "Kategori: ",
         "header": "Autoroles list",
-        "role_give": "Gives role:",
-        "no_autoroles": "There aren't any autoroles setup in this server.",
-        "description": "This are the current user-assignable auto roles on this server. You can use these by doing `/iam add name:<name of the role>`"
+        "role_give": "Rol Ver:",
+        "no_autoroles": "Bu sunucuda herhangi bir otomatik rol kurulumu yok.",
+        "description": "Bunlar, bu sunucudaki mevcut kullanıcı tarafından atanabilen otomatik rollerdir. Bunları `/iam add name:<name of the role>` yaparak kullanabilirsiniz"
       },
-      "deleted_role": "%1$sThe role that this autorole corresponded to has been deleted",
-      "already_assigned": "%1$sYou already have this role, silly!",
-      "success": "%1$s%2$s, you've been given the **%3$s** role",
-      "error": "%1$sI couldn't take **%2$s** from you. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the specified name.",
-      "privileged_role": "%1$sThis role has administrative permissions that prevent me from giving it.",
-      "no_iam": "%1$sYou need to specify which auto-assignable role you want to assign yourself!"
+      "deleted_role": "%1$sBu otomatik rolün karşılık geldiği rol silindi",
+      "already_assigned": "%1$sZaten bu rolün var, şapşal!",
+      "success": "%1$s%2$s, size **%3$s** rolünü verdi",
+      "error": "%1$s**%2$s**'yi senden alamam. Rol ekleme (Rolleri Yönetme) iznim olduğundan ve rolümün **%2$s** üzerinde olduğundan emin olun",
+      "no_role": "%1$sBelirtilen isme sahip bir otomatik rol yok.",
+      "privileged_role": "%1$sBu rol, onu vermemi engelleyen yönetici izinlerine sahip.",
+      "no_iam": "%1$sKendinize hangi otomatik atanabilir rolü atamak istediğinizi belirtmeniz gerekir!"
     },
     "iamnot": {
-      "no_args": "%1$sYou have to specify what role you want me to remove from you, silly.",
-      "not_assigned": "%1$sYou don't have this role, silly!",
-      "success": "%1$s%2$s, the role **%3$s** has been taken from you."
+      "no_args": "%1$sSenden hangi rolü kaldırmamı istediğini belirtmelisin, şapşal.",
+      "not_assigned": "%1$sBu role sahip değilsin, aptal!",
+      "success": "%1$s%2$s, **%3$s** rolü sizden alındı."
     },
     "poll": {
-      "missing": "%1$sYou didn't include either the %2$s argument or it was empty!\n%3$s",
-      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 2d and a minimum of 2m.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `/help poll`",
-      "other_poll_running": "%1$sThere seems to be another poll running here...",
-      "no_reaction_perms": "%1$sSeems like I cannot add reactions here...",
-      "too_long": "%1$sThis was too long to show. Try with less options?",
-      "header": "Poll created by %1$s",
-      "success": "**Poll started. React to the number to vote.**\n*%1$s*",
-      "time": "You have %1$s to vote.",
-      "name_too_long": "%1$sThe name can only be up to 500 characters long.",
-      "too_many": "%1$sYou can only run up to 5 polls at once.",
+      "missing": "%1$s%2$s bağımsız değişkenini eklemediniz veya boştu!\n%3$s",
+      "invalid": "%1$sBu anket oluşturulamıyor. **Seçeneklerin maksimum 9 ve minimum 2 olması gerektiğini ve zaman aşımının maksimum 2d ve minimum 2m olması gerektiğini unutmayın.**\nSeçenekler virgülle ayrılır, örneğin `1,2,3` (aralarında boşluk yok!). Boşluklu şeyler için cümlenin başında ve sonunda tırnak işaretlerini kullanın. Gerçekten kaybolduysanız, `/help poll` üzerinde bir örnek var",
+      "other_poll_running": "%1$sBurada devam eden başka bir anket var gibi görünüyor...",
+      "no_reaction_perms": "%1$sGörünüşe göre buraya tepki ekleyemiyorum...",
+      "too_long": "%1$sBunu göstermek çok uzun sürdü. Daha az seçenekle denensin mi?",
+      "header": "Anket %1$s tarafından oluşturuldu",
+      "success": "**Anket başladı. Oy vermek için numaraya tepki verin.**\n*%1$s*",
+      "time": "Oy vermek için %1$s hakkınız var.",
+      "name_too_long": "%1$sİsim en fazla 500 karakter uzunluğunda olabilir.",
+      "too_many": "%1$sAynı anda en fazla 5 anket çalıştırabilirsiniz.",
       "error": "%1$sAn unknown error has occurred while setting up a poll. Maybe try again? (içsel bir hata)",
-      "result_header": "Poll results",
-      "result_screen": "**Showing results for the poll started by %1$s** with name: *%2$s*",
-      "vote_results": "+Registered %1$d votes for option %2$s",
-      "thank_note": "Thanks for your vote",
+      "result_header": "Anket Sonuçları",
+      "result_screen": "**%1$s** tarafından başlatılan anketin sonuçları gösteriliyor: *%2$s*",
+      "vote_results": "+%2$s seçeneği için kayıtlı %1$d oy",
+      "thank_note": "Oy verdiğin için teşekkürler",
       "results": "Sonuçlar",
-      "due_at": "due:",
-      "cancelled": "%1$sCancelled poll.",
-      "completed": "%1$sThis poll has ended. Results: %2$s",
-      "too_little_time": "%1$sThe poll should be at least 2 minutes long.",
+      "due_at": "bitiş:",
+      "cancelled": "%1$sAnket iptal edildi.",
+      "completed": "%1$sBu anket sona erdi. Sonuçlar: %2$s",
+      "too_little_time": "%1$sAnket en az 2 dakika uzunluğunda olmalıdır.",
       "too_much_time": "%1$sThe poll should be at most 2 days long.",
-      "too_few_options": "%1$sPolls should at least have 2 options.",
-      "too_many_options": "%1$sPolls cannot have more than 9 options.",
-      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds), for example: 2m25s.",
-      "invalid_channel": "%1$sI can't find the channel you tried to start this poll on.",
-      "no_permissions": "%1$sYou need to have the Manage Server permission or the Bot Commander role to administrate polls.",
+      "too_few_options": "%1$sAnketlerde en az 2 seçenek olmalıdır.",
+      "too_many_options": "%1$sAnketlerde 9'dan fazla seçenek olamaz.",
+      "incorrect_time_format": "%1$sYanlış saat formatı. Unutmayın, uygun zaman biçimi, ardından `h, m veya s` (saat, dakika veya saniye) gelen bir sayıdır, örneğin: 2m25s.",
+      "invalid_channel": "%1$sBu anketi başlatmaya çalıştığınız kanalı bulamıyorum.",
+      "no_permissions": "%1$sAnketleri yönetmek için Sunucuyu Yönet iznine veya Bot Komutanı rolüne sahip olmanız gerekir.",
       "cancel": {
-        "no_polls": "%1$sThere's no running polls here.",
-        "success": "%1$sCancelled this poll.",
-        "select": "Select the poll you want to cancel."
+        "no_polls": "%1$sBurada çalışan anket yok.",
+        "success": "%1$sBu anketi iptal etti.",
+        "select": "İptal etmek istediğiniz anketi seçin."
       },
       "list": {
-        "header": "Running polls in %s.",
-        "description": "**This is a list of the running polls in this server**. You can cancel a poll by using `/poll cancel`.",
-        "footer": "Thanks for using Mantaro <3 (Total Polls: %s)",
-        "format_header": "Poll #%d",
-        "format": "**Name:** %s, **due** <t:%s:R>, **[link](%s)**",
-        "empty": "%1$sThere are no running polls here."
+        "header": "%s içinde anketler yapılıyor.",
+        "description": "**Bu, bu sunucuda yürütülen anketlerin bir listesidir**. `/poll cancel` kullanarak bir anketi iptal edebilirsiniz.",
+        "footer": "Mantaro'yu kullandığınız için teşekkürler <3 (Toplam Anket: %s)",
+        "format_header": "Anket #%d",
+        "format": "**Ad:** %s, **gereken** <t:%s:R>, **[link](%s)**",
+        "empty": "%1$sBurada devam eden anket yok."
       }
     },
     "profile": {
       "timezone": {
-        "not_specified": "%1$sYou need to specify the timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId).",
+        "not_specified": "%1$sGeçerli bir saat dilimi belirtmeniz gerekir. örneğin `GMT-3` veya `America/Chicago` (ZoneId).",
         "reset": "%1$sZaman dilimini yenile.",
         "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking up \"what timezone am I in\"",
         "success": "%1$sZaman dilimi kaydedildi, profilinin zaman dilimi: **%2$s**",
-        "reset_success": "%1$sSuccessfully reset your timezone."
+        "reset_success": "%1$sSaat diliminizi başarıyla sıfırladınız."
       },
       "description": {
         "header": "Profil Açıklaması.",
@@ -963,16 +963,16 @@
         "buff_type": "Buff Tipi",
         "experience": "Deneyim (Eski)",
         "mine_xp": "Madencilik Deneyimi",
-        "fish_xp": "Fishing Experience",
-        "chop_xp": "Chopping Experience",
-        "activity_xp": "Activity Experience",
-        "sharks_caught": "Sharks Caught",
-        "crates_open": "Crates Opened",
-        "times_mop": "Times Mopped",
+        "fish_xp": "Balıkçılık Deneyimi",
+        "chop_xp": "Doğrama Deneyimi",
+        "activity_xp": "Aktivite Deneyimi",
+        "sharks_caught": "Yakalanan Köpekbalıkları",
+        "crates_open": "Açılan Kasalar",
+        "times_mop": "Paspas Yapılan Süre",
         "daily": "Günlük Üst üste",
         "daily_at": "Son günlük",
         "waifu_claimed": "Kaç Kez Waifu Çektin",
-        "waifu_locked": "Waifu Lock",
+        "waifu_locked": "Waifu Kilidi",
         "dust": "Toz Seviyesi",
         "lang": "Gösterilen Dil",
         "reminders": "Kaç Kez Hatırlat Kullandın",
@@ -980,11 +980,11 @@
         "days": "gün",
         "times_used": "Kullanılan Zaman",
         "equipment": "Ekipman",
-        "autoequip": "Auto Equip",
-        "never": "Never"
+        "autoequip": "Otomatik Donanım",
+        "never": "Asla"
       },
       "hide_tag": {
-        "success": "%1$sTag hidden status is now: `%2$s`"
+        "success": "%1$sEtiket gizli durumu artık: `%2$s`"
       },
       "equip": {
         "no_content": "%1$sHangi eşyayı giymek istediğini belirtmelisin!",
@@ -992,7 +992,7 @@
         "not_owned": "%1$sBöyle bir eşyan yok!",
         "success": "%1$sBaşarılı bir şekilde %2$s *%3$s* giydin, bu bir dahaki komut kullanışında hatırlanacak.",
         "not_suitable": "%1$sBunu giyemezsin.",
-        "not_equipped": "%1$sYou don't have this equipped.",
+        "not_equipped": "%1$sBu donanıma sahip değilsin.",
         "already_equipped": "%1$sYou already have an item of this type equipped! Try `/unequip item:<type>` (Type can be rod, axe, pick or wrench) if you wanna unequip it."
       },
       "unequip": {
@@ -1004,7 +1004,7 @@
         "equipment_recover": "\nSince you never used your equipment, you got your %1$s back!",
         "broken_equipment_recover": "\nYour equipment was used, but you got a %1$s back, you can repair it if you need it later!",
         "broken_equipment_recover_none": "\nThis equipment type had no broken type to recover from, and was used, so it vanished into the void, but you got %1$s credits back.",
-        "cancelled": "%1$sCancelled operation."
+        "cancelled": "%1$sIşlem iptal edilmiştir."
       },
       "display": {
         "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://www.mantaro.site/mantaro-wiki/basics/premium-perks>",
@@ -1021,24 +1021,24 @@
         "already_locked": "%1$sYou're already claim locked. Use `/waifu claimlock remove:true` to remove it."
       },
       "autoequip": {
-        "disable": "%1$sSuccessfully disabled auto-equip.",
-        "success": "%1$sEnabled auto-equip."
+        "disable": "%1$sOtomatik donatma başarıyla devre dışı bırakıldı.",
+        "success": "%1$sOtomatik donatma etkinleştirildi."
       },
-      "badge_header": "%1$s Display Badge",
+      "badge_header": "%1$s Gösterilen Rozet",
       "bot_notice": "%1$sBotların profili olmaz.",
       "header": "%1$s's Profili",
       "no_desc": "No description set. You can set one with `/profile description`",
       "credits": "Para",
-      "old_credits": "Legacy Credits",
+      "old_credits": "Eski Krediler",
       "level": "Seviye",
       "activity_xp": "Etkinlik XP'si",
-      "xp": "XP",
+      "xp": "Deneyim",
       "rep": "İtibar",
       "birthday": "Doğumgünü",
       "married": "Eşi",
       "nobody": "Kimse",
-      "inventory": "Item Collection (Top 10)",
-      "badges": "Badge Collection (Top 5)",
+      "inventory": "Ürün Koleksiyonu (İlk 10)",
+      "badges": "Rozet Koleksiyonu (İlk 5)",
       "no_badges": "Rozeti yok (şimdilik!)",
       "no_timezone": "Ayarlanmamış",
       "timezone_user": "Kullanıcının zamandilimi: %1$s",
@@ -1046,21 +1046,21 @@
       "potion": "Aktif İksir",
       "no_potion": "İksiri yok.",
       "hidelegacy": "%1$sLegacy credits hide status is now: `%2$s`",
-      "tools_show": "%1$sShow tools",
-      "level_show": "%1$sShow level",
-      "back": "%1$sGo back"
+      "tools_show": "%1$sAraçları göster",
+      "level_show": "%1$sSeviyeyi göster",
+      "back": "%1$sGeri dön"
     },
     "badges": {
       "info": {
-        "not_specified": "%1$sYou need to specify a badge to see the info of. For example, `/badge info badge:claimer`",
+        "not_specified": "%1$sBilgilerini görmek için bir rozet belirtmen gerekir. Örneğin, `/badge info badge:claimer`",
         "not_found": "%1$sBöyle bir rozet yok...",
         "header": "Rozet bilgisi %1$s",
         "achieved": "Başarıldı"
       },
       "ls": {
-        "header": "Obtainable Badges List",
+        "header": "Elde Edilebilir Rozetler Listesi",
         "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `/profile show` and then run `/badges show` again.\nGood luck, badge hunters!",
-        "obtained": "**Obtained:** %s"
+        "obtained": "**Elde edilen:** %s"
       },
       "brief_success": "**%1$s adlı kişinin rozetleri:**\n%2$s",
       "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `/profile show` and then run this command again.\n",
@@ -1136,41 +1136,41 @@
       "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)\nIf you're pledging in Patreon, this key is linked to your pledge.",
       "user_already_premium": "%1$sYou're already premium :heart:",
       "user_successful": "%1$sYou're now **Premium** :heart:\nIf you're pledging in Patreon, this key is linked to your pledge.",
-      "mp": "Mantaro Patreon uses no keys, instead, it's a given that it's premium by the fact that the bot itself works."
+      "mp": "Mantaro Patreon anahtar kullanmaz, botun bağımsız çalıştığı gerçeğiyle birinci sınıf olduğu göz önüne alındığında premium olarak verilir."
     },
     "vipstatus": {
       "user": {
-        "header": "Your Premium Status",
-        "header_other": "%1$s's Premium Status",
-        "not_premium": "%1$s%2$s is not premium :c",
-        "premium": "**Premium user! <3**",
-        "old_system": "**Premium user under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
+        "header": "Premium Durumunuz",
+        "header_other": "%1$s's Premium Durumu",
+        "not_premium": "%1$s%2$s premium değil :c",
+        "premium": "**Premium kullanıcı! <3**",
+        "old_system": "**Eski sisteli premium kullanıcı! Endişelenme, sen premiumsun ve avantajların düzgün çalışacak!**"
       },
       "guild": {
-        "header": "%1$s's Premium Status",
-        "not_premium": "%1$sThis guild isn't premium :c",
-        "premium": "**Premium guild! <3**",
-        "old_system": "**Premium guild under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
+        "header": "%1$s's Premium Durumu",
+        "not_premium": "%1$sBu lonca premium değil :c",
+        "premium": "**Premium lonca! <3**",
+        "old_system": "**Eski sistemli premium lonca! Endişelenme, sen premiumsun ve avantajların düzgün çalışacak!**"
       },
       "description": "Keys are valid for as long as your pledge is active, unless stated otherwise. Thanks for donating or pledging <3",
-      "valid_for_old": "Valid for",
+      "valid_for_old": "İçin geçerli",
       "old_days_more": "%1$d days more",
-      "thank_note": "Thanks you for your support <3",
-      "expire": "Expires in",
-      "key_duration": "Key total duration",
-      "key_owner": "Key owner",
-      "wrong_args": "%1$sWrong arguments...",
-      "patreon": "Pledge",
-      "linked": "Linked",
-      "linked_to": "Linked to",
+      "thank_note": "Desteğiniz için teşekkür ederiz <3",
+      "expire": "İçinde sona eriyor",
+      "key_duration": "Anahtar toplam süre",
+      "key_owner": "Anahtar yönetici",
+      "wrong_args": "%1$sYanlış argümanlar...",
+      "patreon": "Taahhüt",
+      "linked": "Bağlantılı",
+      "linked_to": "İle bağlantılı",
       "keys_claimed": "Keys Claimed",
-      "premium_bot": "%1$sMantaro Patreon uses no keys. The server/user is premium if they can use the bot. Thanks you <3"
+      "premium_bot": "%1$sMantaro Patreon anahtar kullanmaz. Botu kullanabiliyorlarsa sunucu/kullanıcı premiumdur. Teşekkürler <3"
     },
     "support": {
       "info": "%1$sIf you need support, head to the support server over to <https://support.mantaro.site> and ask your question in the #support channel!"
     },
     "action": {
-      "no_mention": "%1$sYou need to mention a user.",
+      "no_mention": "%1$sBir kullanıcıdan bahsetmeniz gerekiyor.",
       "no_mention_disabled": "%1$sAfter filtering members that have actions disabled, there were no users left to run this action on :(",
       "actions_disabled": "%1$sThis user has disabled actions for themselves.",
       "filtered": "%1$sSome users were filtered as they disabled actions being done on them.",
@@ -1178,44 +1178,44 @@
       "no_type": "%1$sThis action command has no type. (internal error)",
       "permission_or_unexpected_error": "%1$sS-Sorry! I dropped the image. (Probably I don't have permissions to send it)",
       "lonely": {
-        "pat": "Aww, I see you are lonely, take a pat <3",
-        "hug": "Aww, I see you are lonely, take a hug <3",
-        "kiss": "Aww, I see you are lonely, *kisses*",
-        "poke": "Aww, I see you are lonely, *pokes you*",
-        "slap": "Hmm, why do you want this? Uh, I guess... *slaps you*",
-        "bite": "*bites you*",
-        "lick": "*licks you*",
-        "tickle": "*tickles you*",
-        "highfive": "*highfives*",
-        "pout": "*pouts, hmph*",
-        "teehee": "*teases you*",
-        "smile": "*smiles at you*",
-        "stare": "*stares at you*",
-        "holdhands": "*holds your hand*",
-        "cuddle": "*cuddles you*",
-        "nuzzle": "*nuzzles you*",
-        "blush": "*blushes at you*",
-        "bloodsuck": "J-Just how am I meant to? Oh well.. *sucks your blood*"
+        "pat": "Aww, yalnız olduğunu görüyorum, hafifçe vur <3",
+        "hug": "Aww, yalnız olduğunu görüyorum, hadi sarıl <3",
+        "kiss": "Aww, görüyorum ki yalnızsın, *öpücükler*",
+        "poke": "Aww, yalnız olduğunu görüyorum, *seni dürtüyor*",
+        "slap": "Hmm, bunu neden istiyorsun? Ah, sanırım... *sana tokat atar*",
+        "bite": "*seni ısırır*",
+        "lick": "*seni yalar*",
+        "tickle": "*seni gıdıklar*",
+        "highfive": "*çak bir beşlik*",
+        "pout": "*somurtur, hmph*",
+        "teehee": "*seninle dalga geçer*",
+        "smile": "*sana gülümser*",
+        "stare": "*sana bakıyor*",
+        "holdhands": "*elini tut*",
+        "cuddle": "*sana sarılır*",
+        "nuzzle": "*sana burnunu sokar*",
+        "blush": "*sana kızar*",
+        "bloodsuck": "N-Nasıl yani? Oh pekala.. *kanını emer*"
       },
       "self": {
-        "pat": "*is patted*",
-        "hug": "*blushes* o-oh... thanks you",
-        "kiss": "*blushes*... I- uh... don't think you should be kissing a bot but...",
-        "poke": "O-Oh! What do you need?",
+        "pat": "*okşadı*",
+        "hug": "*kızarır* o-oh... teşekkürler",
+        "kiss": "kızarır*... Ben- uh... bir botu öpmen gerektiğini düşünmüyorum ama...",
+        "poke": "Ah! Neye ihtiyacın var?",
         "slap": ":(",
-        "bite": "T-That hurts!",
-        "lick": "How does metal taste? I don't believe it's too great...",
-        "tickle": "hahahaha... oh god stop >u<",
-        "highfive": "*highfives*",
-        "pout": "Are you mad at me? :(",
+        "bite": "B-Bu acıyor!",
+        "lick": "Metalin tadı nasıldır? çok iyi olduğuna inanmıyorum...",
+        "tickle": "hahahaha... aman tanrım dur >u<",
+        "highfive": "*çak bir beşlik*",
+        "pout": "Bana kızgın mısın? :(",
         "teehee": ":eyes:",
         "smile": "Aww.",
         "stare": ":eyes:",
         "holdhands": "o-oh... ;//;",
-        "cuddle": "That's cute!",
-        "nuzzle": "Awwiee, cute!",
+        "cuddle": "Bu çok tatlı!",
+        "nuzzle": "Awwiee, şirin!",
         "blush": ";////;",
-        "bloodsuck": "Are you a vampire now?, oh!"
+        "bloodsuck": "Sen bir vampir misin?, oh!"
       },
       "pat": "%1$s you have been patted by %2$s",
       "hug": "%1$s you have been hugged by %2$s",
@@ -1235,10 +1235,10 @@
       "nuzzle": "%1$s is nuzzling %2$s",
       "bloodsuck": "%1$s is sucking the blood of %2$s!",
       "blush": "%1$s is blushing at %2$s",
-      "nom": "Yummy.",
-      "facedesk": "*facedesks*",
-      "lewd": "Y-You lewdie!",
-      "meow": "Meow."
+      "nom": "Nefis.",
+      "facedesk": "*mahcup*",
+      "lewd": "A-Ahlaksız!",
+      "meow": "Miyav."
     },
     "game": {
       "won_games": "%1$s%2$s has won **%3$s games**",
@@ -1246,23 +1246,23 @@
       "trivia": {
         "wrong_diff": "%1$sWrong difficulty specified! (Supported: easy, medium and hard)",
         "fetch_error": "%1$sError while starting trivia. Seemingly Open Trivia DB is having trouble.",
-        "possibilities": "Possibilities",
-        "difficulty": "Difficulty",
-        "category": "Category",
+        "possibilities": "Olasılıklar",
+        "difficulty": "Zorluk",
+        "category": "Kategori",
         "all_attempts_used": "%1$sAlready used all attempts, ending game. Question: %2$s, Answer: %3$s",
         "footer": "You have %1$s attempt and 1 minute (Click end to end the game)."
       },
       "number": {
         "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
-        "nan": "%1$sThat's not a number...",
+        "nan": "%1$sBu bir sayı değil...",
         "ended_game": "%1$sEnded game. The number was: %2$d",
         "all_attempts_used": "%1$sAlready used all attempts, ending game. The number was: %2$d",
         "hint": "Hint: The number is %1$s than your input number.",
-        "higher": "higher",
-        "lower": "lower"
+        "higher": "yüksek",
+        "lower": "düşük"
       },
       "pokemon": {
-        "header": "Who's that pokemon?",
+        "header": "Kim o pokemon?",
         "footer": "You have %1$d attempts and 1 minute. (Type end to end the game)"
       },
       "lobby": {
@@ -1291,7 +1291,7 @@
     },
     "dailycrate": {
       "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
-      "not_premium": "%1$sYou're not premium!\nPlease check out more at <https://patreon.com/mantaro>\n\nAs a premium user, you can obtain a premium crate every day using this command, which has a higher chance of containing high-tier tools and items for the different currency commands (4 stars and above!)\nThanks for your consideration, as we need help to keep Mantaro alive. Thanks for using Mantaro <3",
+      "not_premium": "%1$sPremium değilsin!\nLütfen <https://patreon.com/mantaro> adresinden daha fazlasını kontrol edin.\n\nPremium bir kullanıcı olarak, farklı ekonomi komutları için üst düzey araçlar ve ögeler içerme şansı daha yüksek olan bu komutu kullanarak her gün premium sandık elde edebilirsiniz (4 yıldız ve üzeri!)\nMantaro'yu hayatta tutmak için yardıma ihtiyacımız olduğundan, düşünceniz için teşekkür ederiz. Mantaro'yu kullandığınız için teşekkürler <3",
       "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `/opencrate crate:<crate name>`. You need to buy a crate key using `/buy item:key` to open it."
     },
     "prune": {
@@ -1311,7 +1311,7 @@
     },
     "imageboard": {
       "catgirl": {
-        "error": "Error retrieving cute catgirl images :("
+        "error": "Sevimli kedi kız resimleri alınırken hata oluştu :("
       },
       "cat": {
         "error": "%1$sError retrieving cute cat images :("
@@ -1333,20 +1333,20 @@
       "non_nsfw_channel": "%1$sNot on an NSFW channel. Cannot send lewd images.\n**Reminder:** You can set this channel as NSFW by going to the channel settings and checking `Set this Channel as NSFW`",
       "loli_content_disallow": "%1$sSadly I cannot display images that allegedly contain `loli` or `shota` lewd/NSFW content because discord prohibits it. (Filter ran: Image contains a loli or shota tag and it's NSFW)",
       "null_list_notice": "%1$sOops... something went wrong when searching... (If you used a tag, the tag might not exist)",
-      "found_image": "Image Found",
+      "found_image": "Resim Bulundu",
       "description_image": "Rating: **%1$s**, Imageboard: **%2$s**",
-      "width": "Width",
-      "height": "Height",
-      "tags": "Tags",
-      "source": "Imageboard",
-      "rating": "Rating",
-      "load_notice": "If the image doesn't load, click the title.",
+      "width": "Genişlik",
+      "height": "Yükseklik",
+      "tags": "Etiketler",
+      "source": "Görüntü Tablosu",
+      "rating": "Puanlama",
+      "load_notice": "Resim yüklenmezse, başlığa tıklayın.",
       "rule34_notice": "If you don't like the content on this command, you can use `/yandere`. If animated gifs/webm content doesn't play, click the link in the embed title.",
       "yandere_nsfw_notice": "%1$sThe Yande.re and Gelbooru commands can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side. Use this command in a NSFW channel instead.",
       "konachan_nsfw_notice": "%1$sKonachan, danbooru and safebooru can only be used in NSFW channels only due to inconsistent rating on their side. Use this command in a NSFW channel instead (you can mark a channel as one in the channel settings).",
       "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels.",
       "e926_nsfw_notice": "%1$sThe e926 command can only be used on NSFW channels. The images should be mostly safe, but the rating is inconsistent.",
-      "open_in_browser_link": "Open image in your browser",
+      "open_in_browser_link": "Resmi tarayıcınızda açın",
       "disabled_explicit": "%1$sThis server has disabled explicit/questionable imageboard searches regardless of the channel being marked as NSFW."
     },
     "pet": {
@@ -1356,24 +1356,24 @@
       "status": {
         "no_pet": "%1$sYou don't have any pets to check the status of. Check `/pet explanation` for an explanation. (Choice: %2$s)%3$s",
         "pet_in_other_category": "\n%1$sYou have a pet on the %2$s choice (%3$s). You can switch to it with `/pet choice type:%2$s`",
-        "header": "Status for %1$s",
+        "header": "%1$s için durum",
         "description": "Remember to take care and love your pet :heart:\nSee `/pet explanation` and `/help command:pet` for an explanation.",
-        "cost": "Price",
-        "type": "Type",
-        "abilities": "Abilities",
-        "level": "Level",
-        "health": "Health",
-        "thirst": "Thirst",
-        "hunger": "Hunger",
-        "stamina": "Stamina",
-        "dust": "Dust (%)",
-        "pet": "Pats",
-        "choice": "Choice",
-        "buildup": "Credit / Item Buildup",
-        "buildup_coin": "Credit Buildup",
-        "buildup_stats": "%1$,d credits / %2$,d items",
-        "buildup_stats_credits": "%1$,d credits",
-        "footer": "Thanks you for using Mantaro! <3"
+        "cost": "Fiyat",
+        "type": "Tür",
+        "abilities": "Yetenekler",
+        "level": "Seviye",
+        "health": "Sağlık",
+        "thirst": "Susuzluk",
+        "hunger": "Açlık",
+        "stamina": "Dayanıklılık",
+        "dust": "Toz (%)",
+        "pet": "Pat",
+        "choice": "Seçenek",
+        "buildup": "Kredi / Öge Oluşturma",
+        "buildup_coin": "Kredi Biriktirme",
+        "buildup_stats": "%1$,d kredi / %2$,d öge",
+        "buildup_stats_credits": "%1$,d kredi",
+        "footer": "Mantaro'yu kullandığınız için teşekkürler! <3"
       },
       "check": {
         "success": "**Pet status for %1$s:**\n\n%2$s Thirst: **%3$s / 100** | %4$s Hunger: **%5$s / 100** | %6$s Dust: **%7$s%%** | Choice: **%8$s**"
@@ -1468,7 +1468,7 @@
       },
       "remove": {
         "no_pet": "%1$sYou don't have a pet to remove. (Choice: %2$s)%3$s",
-        "no_pet_confirm": "%1$sI don't see any pet here...",
+        "no_pet_confirm": "%1$sBurada evcil hayvan göremiyorum...",
         "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$,d credits, and you will receive %2$,d credits aswell.\nClick on `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
         "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$,d credits.\nClick on `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
         "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund.",
@@ -1476,22 +1476,22 @@
       },
       "info": {
         "not_found": "%1$sI can't find the pet type you're looking for. Use `/pet list` for a list of pet types.",
-        "author": "Pet information for type %1$s%2$s",
-        "name": "Pet Name",
-        "cost": "Pet Cost",
-        "abilities": "Abilities",
-        "food": "Edibles",
-        "coin_buildup": "Credit Buildup (Lvl. 1 / 100)",
-        "item_buildup": "Item Buildup (Lvl. 1 / 100)"
+        "author": "%1$s%2$s türü için evcil hayvan bilgileri",
+        "name": "Evcil Hayvan Adı",
+        "cost": "Evcil Hayvan Fiyatı",
+        "abilities": "Yetenekler",
+        "food": "Yenilebilir",
+        "coin_buildup": "Kredi Biriktirme (Lvl. 1 / 100)",
+        "item_buildup": "Öge Biriktirme (Lvl. 1 / 100)"
       },
       "locked_notice": "%1$sYou can't buy/sell a pet when the transaction is locked. If this is an error, try again in a few minutes."
     },
     "invite": {
-      "url": "Invite URL",
-      "server": "Support Server",
-      "patreon": "Patreon URL",
+      "url": "Davet Linki",
+      "server": "Destek Sunucusu",
+      "patreon": "Patreon Linki",
       "description": {
-        "1": "Here are some useful links!",
+        "1": "İşte kullanışlı bazı bağlantılar!",
         "2": "**If you have any questions about the bot, feel free to join the support guild and ask**!.",
         "3": "We provided a patreon link in case you would like to help Mantaro keep running by donating [and getting perks by doing so!].",
         "4": "Thanks you for using the bot! **<3 from the developers and the Mantaro team**"
@@ -1513,87 +1513,87 @@
       "no_returnables": "%1$sThis item has no returnable salvage elements.",
       "success": "%1$sSuccessfully salvaged %2$s %3$s and got %4$s %5$s in return. The cost was %6$s credits.",
       "ls": {
-        "header": "Salvageable Item List",
-        "cost": "Salvage Cost: ",
-        "return": "Could Return: ",
+        "header": "Kurtarılabilir Öge Listesi",
+        "cost": "Kurtarma Maliyeti: ",
+        "return": "Geri Dönebilir: ",
         "desc": "This is a list of the items you can salvage using `/salvage`.\nYou can use full name, short name or the emoji\nSalvaging has a cost of 1/3rd the price of the item, which is shown below.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       }
     },
     "stats": {
-      "header": "Mantaro Statistics",
-      "description": "Well... I did my math!",
+      "header": "Mantaro İstatistikleri",
+      "description": "Pekala... Matematiğimi yaptım!",
       "usage": {
-        "header": "Mantaro's usage information",
-        "description": "Hardware and usage information.",
-        "threads": "Threads",
-        "memory_usage": "Memory Usage",
-        "cores": "CPU Cores",
-        "cpu_usage": "CPU Usage",
-        "assigned_mem": "Assigned Memory",
-        "assigned_remaining": "Remaining from assigned"
+        "header": "Mantaro'nun kullanım bilgileri",
+        "description": "Donanım ve kullanım bilgileri.",
+        "threads": "Konular",
+        "memory_usage": "Bellek Kullanımı",
+        "cores": "CPU Çekirdekleri",
+        "cpu_usage": "İşlemci Kullanımı",
+        "assigned_mem": "Atanan Bellek",
+        "assigned_remaining": "Atanan kalan"
       },
       "server": {
-        "header": "Mantaro's server usage information",
-        "cpu_usage": "CPU Usage",
-        "rem": "RAM (TOTAL/FREE/USED)"
+        "header": "Mantaro'nun sunucu kullanım bilgileri",
+        "cpu_usage": "İşlemci Kullanımı",
+        "rem": "RAM (TOPLAM/BOŞ/KULLANILMIŞ)"
       }
     },
     "social": {
-      "header": "%1$sO-Oh, I see you're interested on seeing my social networks!\n\n",
+      "header": "%1$sO-Oh, sosyal ağlarımı görmekle ilgilendiğini görüyorum!\n\n",
       "description": {
-        "1": "W-Well, here we go!",
+        "1": "P-Pekala, başlıyoruz!",
         "2": "**- Website:** <%1$s>"
       },
       "note": "**If you like Mantaro, please up-vote on** <https://discordbots.org/bot/mantaro> **and/or consider donating on Patreon or Paypal! Thanks you~**"
     },
     "avatar": {
-      "result": "Avatar for %1$s",
-      "footer": "Hopefully a very pretty one."
+      "result": "%1$s için avatar",
+      "footer": "Umarım çok güzel bir tanedir."
     },
     "serverinfo": {
-      "header": "Server Information",
-      "description": "Server information for %1$s",
-      "users": "Users",
-      "created": "Creation Date",
-      "channels": "Voice/Text Channels",
-      "owner": "Owner",
-      "region": "Region",
+      "header": "Sunucu Bilgisi",
+      "description": "%1$s için sunucu bilgileri",
+      "users": "Kullanıcılar",
+      "created": "Oluşturma Tarihi",
+      "channels": "Ses/Metin Kanalları",
+      "owner": "Sahip",
+      "region": "Bölge",
       "roles": "Roles (%1$d)",
-      "id_show": "Server ID: %1$s"
+      "id_show": "Sunucu ID: %1$s"
     },
     "userinfo": {
-      "header": "User info for %1$s#%2$s",
+      "header": "%1$s#%2$s için kullanıcı bilgisi",
       "roles": "Roles: [%1$d]",
-      "id": "User ID",
-      "join_date": "Join Date",
-      "created": "Account Created",
-      "account_age": "Account Age",
-      "mutual_guilds": "Mutual Guilds",
-      "vc": "Voice Channel",
-      "color": "Color",
-      "status": "Status",
-      "nothing": "Nothing",
-      "default": "Default"
+      "id": "Kullanıcı ID",
+      "join_date": "Katılım Tarihi",
+      "created": "Hesap Oluşturuldu",
+      "account_age": "Hesap Yaşı",
+      "mutual_guilds": "Karşılıklı Loncalar",
+      "vc": "Ses Kanalı",
+      "color": "Renk",
+      "status": "Durum",
+      "nothing": "Hiçbir şey",
+      "default": "Varsayılan"
     },
     "roleinfo": {
-      "header": "Role info for %1$s",
-      "id": "Role ID",
-      "created": "Role Created",
-      "age": "Role Age",
-      "color": "Color",
-      "members": "Members",
-      "position": "Position",
-      "hoisted": "Hoisted",
-      "managed": "Managed",
+      "header": "%1$s için rol bilgisi",
+      "id": "Rol ID",
+      "created": "Rol Oluşturuldu",
+      "age": "Rol Yaşı",
+      "color": "Renk",
+      "members": "Üyeler",
+      "position": "Görevi",
+      "hoisted": "Ayrı Gösterme",
+      "managed": "Yönetilen",
       "permissions": "Permissions: [%1$d]",
-      "no_content": "%1$sYou need to specify the name of the role to look for."
+      "no_content": "%1$sAranacak rolün adını belirtmeniz gerekir."
     },
     "donate": {
       "beg": "%1$sOh hi! If you are interested in donating, please check the links below. Running Mantaro takes time and money, and every dollar is highly appreciated!\n\n%2$s",
       "methods": "**Donation Methods**\n**- Patreon:** <%1$s>\n**- Paypal:** <%2$s>"
     },
     "help": {
-      "title": "Mantaro Help",
+      "title": "Mantaro Yardım",
       "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://www.mantaro.site/mantaro-wiki). [Currency Guide](https://www.mantaro.site/mantaro-wiki/currency/101)\n",
       "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://www.mantaro.site/mantaro-wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
       "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://www.mantaro.site/mantaro-wiki).\nRemember you can get more information on a command using `/help command:<name of command>`\n",
@@ -1602,17 +1602,17 @@
       "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
       "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
       "footer": "Thanks for using Mantaro %1$s (Total Commands: %2$s)",
-      "commands": "Commands",
+      "commands": "Komutlar",
       "extended": {
         "no_help": "%1$sThere's no extended help set for this command.",
         "not_found": "%1$sA command with this name doesn't exist"
       },
       "too_long": "Error displaying sub-command help. Check the [wiki](https://www.mantaro.site/mantaro-wiki) for more information on this specific command.",
       "include_warning": "**Don't include <> or [] on the command itself.**",
-      "help_header": "Command help for %s",
-      "options": "Options",
-      "usage": "Usage",
-      "optional": "(This is optional)",
+      "help_header": "%s için komut yardımı",
+      "options": "Şeçenekler",
+      "usage": "Kullanım",
+      "optional": "(Bu isteğe bağlıdır)",
       "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help command:cast item`.\nThis goes for all subcommands, as long as they have some sort of help."
     },
     "repair": {
@@ -1629,43 +1629,43 @@
       "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair on a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
       "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
       "ls": {
-        "header": "Repair-able Items List",
-        "cost": "Repair Cost: ",
+        "header": "Onarılabilir Ögeler Listesi",
+        "cost": "Onarma Maliyeti: ",
         "desc": "This is a list of the items you can repair using `/repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost, which is shown below alongside the needed materials. You need at least a Comet Wrench to repair something."
       }
     },
     "anime": {
       "no_args": "%1$sYou need to tell me what anime to look for.",
       "selection_start": "Select the number of the anime you want to select.",
-      "information_footer": "Information provided by Kitsu.io.",
-      "no_results": "%1$sNo results found...",
+      "information_footer": "Kitsu.io tarafından sağlanan bilgiler.",
+      "no_results": "%1$sSonuç bulunamadı...",
       "malformed_result": "%1$sI got a wrong API result for this specific search. Maybe try with another search term?",
       "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a `%2$s` while trying to process the command. (internal error)",
       "timeout": "%1$sWe tried to look for this anime, but the request timed out on Kitsu's end. Try again later?",
-      "information_header": "Anime information for %1$s",
+      "information_header": "%1$s için anime bilgileri",
       "information_notice": "Information provided by AniList. Click the title to go to AniList's page about this anime.",
-      "airing": "Airing",
-      "release_date": "Release Date",
-      "favorite_count": "Favorite Count",
-      "end_date": "End Date",
-      "average_score": "Average Score",
-      "type": "Type",
-      "episodes": "Episodes",
-      "episode_duration": "Duration",
-      "genres": "Genres",
-      "minutes": "minutes",
-      "description": "Description",
-      "external_link_text": "Check it out!"
+      "airing": "Yayında",
+      "release_date": "Yayın tarihi",
+      "favorite_count": "Favori Sayısı",
+      "end_date": "Bitiş Tarihi",
+      "average_score": "Ortalama Skor",
+      "type": "Tür",
+      "episodes": "Bölümler",
+      "episode_duration": "Süre",
+      "genres": "Türler",
+      "minutes": "dakika",
+      "description": "Açıklama",
+      "external_link_text": "Bir göz at!"
     },
     "character": {
       "no_args": "%1$sYou need to tell me what character you want to look for.",
       "selection_start": "Select the number of the character you want to select.",
-      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got `%2$s` while trying to process this command. (internal error)",
+      "error": "%1$s**Yemin ederim waifu'nu ben düşürmedim, lütfen beni affet!**\nBu komutu işlemeye çalışırken `%2$s` aldım. (içsel bir hata)",
       "information_header": "Character information for %1$s",
-      "information": "Information",
-      "no_aliases": "No aliases",
-      "alias_start": "Also known as:",
-      "no_info": "No info."
+      "information": "Bilgilendirme",
+      "no_aliases": "Takma ad yok",
+      "alias_start": "Ayrıca şöyle bilinir:",
+      "no_info": "Bilgi yok."
     },
     "balance": {
       "bot_notice": "%1$sBots cannot have money.",
@@ -1675,7 +1675,7 @@
     },
     "daily": {
       "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",
-      "about_now": "about now",
+      "about_now": "şimdi hakkında",
       "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `/daily check:true`. Enjoy!",
       "errors": {
         "bot": "%1$sYou cannot transfer your daily to a bot.",
@@ -1716,8 +1716,8 @@
       "win": "%1$sCongrats, you won %2$d credits and got to keep what you had.",
       "win_overflow": "%1$sCongrats, you won %2$d credits. But you already had too many credits. Your bag overflowed.",
       "lose": "%1$sSadly, you lost %2$s credits. %3$s",
-      "lose_all": "all of your",
-      "credits": "credits",
+      "lose_all": "hepsi senin",
+      "credits": "kredi",
       "too_much": "%1$sYou can only gamble up so much at once. You don't want to go full broke do you? *(Gamble single limit: %2$,d credits)*",
       "too_little": "%1$sYou cannot gamble so little money (Minimum: 100 credits)"
     },
@@ -1750,8 +1750,8 @@
         "success_extra": "Hurray! You got extra lucky and found *%1$s* and *%2$s* while mining, check your inventory."
       },
       "sparkle": {
-        "overflow": "You found a sparkling gem, but it seems like you had too much of it already, so we sold it for you.",
-        "success": "Hurray! You found one %1$s sparkling gem. Make sure to keep it around, check your inventory."
+        "overflow": "Parıldayan bir mücevher buldunuz, ancak görünüşe göre zaten çok fazla almışsınız, bu yüzden onu sizin için sattık.",
+        "success": "Yaşasın! Bir tane %1$s parıldayan mücevher buldunuz. Etrafta bulundurduğunuzdan emin olun, envanterinizi kontrol edin."
       },
       "crate": {
         "overflow": "You found a **%1$s** while mining, but you had too many and left it behind...",
@@ -1762,7 +1762,7 @@
       },
       "item_broke": "%1$sYour %2$s broke while using it :( %3$s",
       "item_broke_autoequip": "*Hint: You can use `/profile autoequip` and it'll automatically equip the item for you when it breaks, assuming you have one in your inventory.*",
-      "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!",
+      "waifu_help": "Waifu'nuz geldi ve madencilik maceranıza katıldı ve ikiniz de artık daha büyük bir yük elde edeceksiniz!",
       "missing_equipped": "%1$sYou had an equipped %2$s pick, but you no longer have any of its kind on your inventory! Equipped pick has been reset.",
       "broken_drop": "%1$sYour pick broke, but you can repair it. Got broken item: %2$s *%3$s*",
       "broken_drop_miss": "%1$sYour tool broke and you didn't quite manage to get it back."
@@ -1798,12 +1798,12 @@
       "roll": "%1$s**You used %2$s and rolled the slot machine**\n",
       "win": "And you won **%1$d** credits and got to keep what you bet (%2$d credits)! Lucky!",
       "lose": "And you lost %1$s\nI hope you do better next time!",
-      "tickets": "slots ticket(s)",
-      "credits": "credits"
+      "tickets": "slot bilet(ler) i",
+      "credits": "krediler"
     },
     "leaderboard": {
       "main_page_redirect": "You can see `/help command:leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `/leaderboard money`",
-      "header": "Mantaro's Leaderboard",
+      "header": "Mantaro'nun Liderlik Sıralaması",
       "money": "Bakiye Liderlik Sıralaması",
       "reputation": "İtibar Liderlik Sıralaması",
       "gamble": "Kumar Kazanan Liderler",
@@ -1811,8 +1811,8 @@
       "daily": "Günlük Seri Liderleri",
       "level": "Seviye Liderlik Sıralaması",
       "game": "Oyun Kazanan Liderler",
-      "waifu": "Waifu Value leaderboard",
-      "claim": "Waifu Claim leaderboard",
+      "waifu": "Waifu Değeri Lider Tablosu",
+      "claim": "Waifu Sahiplendirme Lider Tablosu",
       "inner": {
         "experience": "Deneyim",
         "game": "%1sThis page shows the top 10 people who have won the most games.\n\nCheck out `/help command:game` or `/help command:trivia` for details on how games work!",
@@ -1831,45 +1831,45 @@
       "no_content": "%1$sYou didn't specify any item to look for! You can search it with emoji or the name.",
       "no_item": "%1$sThere's no item matching your search query.",
       "embed": {
-        "header": "Item Information for %1$s",
-        "type": "Type",
-        "usefulness": "Usefulness",
-        "attributes": "Attributes",
-        "tier": "Tier",
-        "durability": "Durability",
-        "desc": "Description",
-        "upgrade": "Looking to upgrade?",
+        "header": "%1$s için Öge Bilgileri",
+        "type": "Tür",
+        "usefulness": "Kullanışlılık",
+        "attributes": "Öznitellikler",
+        "tier": "Kademe",
+        "durability": "Dayanıklılık",
+        "desc": "Açıklama",
+        "upgrade": "Yükseltmek mi istiyorsunuz?",
         "upgrade_content": "Click [here](https://www.mantaro.site/mantaro-wiki/currency/103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
       },
       "attribute": {
-        "tier": "Wrench Tier (to craft):",
-        "tier_raw": "Wrench Tier:",
-        "increase": "Money Increase:",
-        "diamond_drop": "Diamond Drop Range:",
-        "gem_luck": "Sparkle / Gem Luck",
-        "buff": "Item Buff:",
-        "reduction": "Multiplier reduction:",
-        "multiple_cast": "Can cast multiple:"
+        "tier": "İngiliz Anahtarı Seviyesi (üretim için):",
+        "tier_raw": "İngiliz Anahtarı Seviyesi:",
+        "increase": "Para Artışı:",
+        "diamond_drop": "Elmas Düşürme Aralığı:",
+        "gem_luck": "Işıltı / Mücevher Şansı",
+        "buff": "Eşya Takviyesi:",
+        "reduction": "Çarpan azaltma:",
+        "multiple_cast": "Birden fazla döküm yapabilir:"
       },
       "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s\n%1$s**Buy Price:** %8$s %9$s\n%1$s**Sell Price:** %10$s %11$s",
       "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Buy Price:** %7$s %8$s\n%1$s**Sell Price:** %9$s %10$s"
     },
     "level": {
-      "bot_notice": "%1$sBots don't have level.",
+      "bot_notice": "%1$sBotların seviyesi yoktur.",
       "own_success": "%1$sYour level is %2$s. (Experience: %3$s/%4$s)",
       "success_other": "%1$s%2$s's is level %3$s. (Experience: %4$s/%5$s)"
     }
   },
   "options": {
-    "options": "Mantaro Options",
+    "options": "Mantaro Ayarları",
     "error_general": "%1$sIncorrect usage or missing arguments. Make sure the first argument doesn't start with a new line!\nIf you're lost or want help on using opts, check <https://www.mantaro.site/mantaro-wiki/basics/server-configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sCannot retrieve values. Weird thing...",
-      "header": "Options set for server **%1$s**.",
+      "header": "Sunucu **%1$s** için ayarlanan seçenekler.",
       "terminology": "\n\n**Useful terminology:** [] = empty list, null = not set, {} = empty object. If you see numbers=[...] it means that for that id, it applies what's inside the brackets. Objects are usually comma-separated",
       "footer": "This is a debug command, therefore it's not 100% user-friendly",
-      "null_set": "is not set to anything.",
-      "set_to": "is set to:"
+      "null_set": "hiçbir şeye ayarlı değil.",
+      "set_to": "ayarlandı:"
     },
     "reset_all": {
       "success": "%1$sCorrectly reset your options!"
@@ -1902,230 +1902,230 @@
     "category_disable": {
       "no_category": "%1$sYou need to specify a category to disable.",
       "already_disabled": "%1$sThis category is already disabled.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it would disable the opts command.",
-      "success": "%1$sDisabled category `%2$s`"
+      "moderation_notice": "%1$sopts komutunu devre dışı bırakacağından, denetlemeyi devre dışı bırakamazsınız.",
+      "success": "%1$sDevre dışı bırakılan kategori `%2$s`"
     },
     "category_enable": {
-      "no_category": "%1$sYou need to specify a category to enable.",
-      "success": "%1$sEnabled category `%2$s`"
+      "no_category": "%1$sEtkinleştirmek için bir kategori belirtmeniz gerekir.",
+      "success": "%1$s`%2$s` kategorisi etkinleştirildi"
     },
     "category_specific_disable": {
-      "invalid": "%1$sYou need to specify a category to disable and the channel where.",
-      "already_disabled": "%1$sThis category is already disabled.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it would disable the opts command.",
-      "success": "%1$sDisabled category `%2$s` on channel %3$s"
+      "invalid": "%1$sDevre dışı bırakılacak bir kategori ve kanalın nerede olduğunu belirtmeniz gerekir.",
+      "already_disabled": "%1$sBu kategori zaten devre dışı.",
+      "moderation_notice": "%1$sopts komutunu devre dışı bırakacağından, denetlemeyi devre dışı bırakamazsınız.",
+      "success": "%1$s%3$s kanalında `%2$s` kategorisi devre dışı bırakıldı"
     },
     "category_specific_enable": {
-      "invalid": "%1$sYou need to specify a category to enable and the channel where.",
-      "invalid_channel": "%1$sThat's not a valid channel!",
-      "not_disabled": "%1$sThis category isn't disabled.",
-      "success": "%1$sEnabled category `%2$s` on channel %3$s"
+      "invalid": "%1$sEtkinleştirilecek bir kategori ve kanalını belirtmelisiniz.",
+      "invalid_channel": "%1$sBu geçerli bir kanal değil!",
+      "not_disabled": "%1$sBu kategori devre dışı bırakılmamış.",
+      "success": "%1$s%3$s kanalında `%2$s` kategorisi etkinleştirildi"
     },
     "server_role_specific_disallow": {
-      "invalid": "%1$sYou need the role and the command to disallow!",
-      "already_disabled": "%1$sThis command was already disabled for the specified role.",
-      "success": "%1$sSuccessfully restricted command `%2$s` for role `%3$s`"
+      "invalid": "%1$sİzin vermemek için role ve komuta ihtiyacınız var!",
+      "already_disabled": "%1$sBu komut, belirtilen rol için zaten devre dışı bırakıldı.",
+      "success": "%1$s`%3$s` rolü için `%2$s` komutu başarıyla kısıtlandı"
     },
     "server_role_specific_allow": {
-      "invalid": "%1$sYou need the role and the command to allow!",
-      "not_disabled": "%1$sThis command wasn't disabled for this role.",
-      "success": "%1$sSuccessfully un-restricted command `%2$s` for role `%3$s`"
+      "invalid": "%1$sİzin vermek için role ve komuta ihtiyacınız var!",
+      "not_disabled": "%1$sBu komut, bu rol için devre dışı bırakılmadı.",
+      "success": "%1$s`%3$s` rolü için `%2$s` komutunun kısıtlaması başarıyla kaldırıldı"
     },
     "category_role_specific_disable": {
-      "invalid": "%1$sYou need to specify a category to disable and the role to.",
-      "already_disabled": "%1$sThis category is already disabled.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it contains this command.",
-      "success": "%1$sDisabled category `%2$s` for role %3$s"
+      "invalid": "%1$sDevre dışı bırakılacak bir kategori ve rol belirlemeniz gerekir.",
+      "already_disabled": "%1$sBu kategori zaten devre dışı.",
+      "moderation_notice": "%1$sBu komutu içerdiği için denetlemeyi devre dışı bırakamazsınız.",
+      "success": "%1$s%3$s rolü için `%2$s` kategorisi devre dışı bırakıldı"
     },
     "category_role_specific_enable": {
-      "invalid": "%1$sYou need to specify a role to enable and the channel where.",
-      "not_disabled": "%1$sThis category isn't disabled.",
-      "success": "%1$sEnabled category `%2$s` for role %3$s"
+      "invalid": "%1$sEtkinleştirilecek rol ve kanalı belirtmeniz gerekir.",
+      "not_disabled": "%1$sBu kategori devre dışı değil.",
+      "success": "%1$s%3$s rolü için `%2$s` kategorisi etkinleştirildi"
     },
     "fairqueue_max": {
-      "invalid": "%1$sYou need to specify a positive integer.",
-      "success": "%1$sSet max fair queue (max duplicated songs) size to %2$d"
+      "invalid": "%1$sPozitif bir tam sayı belirtmeniz gerekir.",
+      "success": "%1$sMaksimum adil sıra (maksimum yinelenen şarkı) boyutunu %2$d olarak ayarla"
     },
     "musicannounce_toggle": {
-      "success": "%1$sSet music announce to **%2$s**"
+      "success": "%1$sMüzik duyurusunu **%2$s** olarak ayarlayın"
     },
     "music_channel": {
-      "no_channel": "%1$sYou need to specify what voice channel you want to bind the music player to.",
-      "success": "%1$sMusic Channel set to: %2$s"
+      "no_channel": "%1$sMüzik çaları hangi ses kanalına bağlamak istediğinizi belirtmeniz gerekir.",
+      "success": "%1$sMüzik Kanalı şuna ayarlandı: %2$s"
     },
     "music_queuelimit": {
-      "no_args": "%1$sYou need to specify what's the queue limit you want to use. *(Default: 350)*",
-      "success": "%1$sThe queue limit on this server is now **%2$d** songs.",
-      "invalid": "%1$sYou're trying to set too high of a number (which won't be applied anyway), silly"
+      "no_args": "%1$sKullanmak istediğiniz sıra limitinin ne olduğunu belirtmeniz gerekir. *(Varsayılan: 350)*",
+      "success": "%1$sBu sunucudaki sıra limiyi artık **%2$d** şarkıdır.",
+      "invalid": "%1$sÇok yüksek bir sayı belirlemeye çalışıyorsun (ki zaten uygulanmayacak), aptal"
     },
     "music_clearchannel": {
-      "success": "%1$sI can play music on all channels now."
+      "success": "%1$sArtık tüm kanallarda müzik çalabiliyorum."
     },
     "music_vote_toggle": {
-      "success": "%1$sVoting (to stop/skip) is now set to %2$s"
+      "success": "%1$sOylama (durdurmak/atlamak için) artık %2$s olarak ayarlandı"
     },
     "localblacklist_add": {
-      "invalid": "%1$s**You need to specify the users to locally blacklist.**",
-      "yourself_notice": "%1$sWhy are you trying to blacklist yourself?...",
-      "admin_notice": "%1$sOne (or more) of the users you're trying to blacklist are admins or Bot Commanders!",
-      "bot_notice": "%1$sYou can't blacklist a bot. The bot will never reply to any bots.",
-      "success": "%1$sLocally blacklisted users: **%2$s**"
+      "invalid": "%1$s**Yerel olarak kara listeye alınacak kullanıcıları belirtmeniz gerekir.**",
+      "yourself_notice": "%1$sNeden kendini kara listeye almaya çalışıyorsun?...",
+      "admin_notice": "%1$sKara listeye almaya çalıştığınız kullanıcılardan biri (veya daha fazlası) yönetici veya Bot!",
+      "bot_notice": "%1$sBir botu kara listeye alamazsınız. Bot asla herhangi bir bota cevap vermeyecektir.",
+      "success": "%1$sYerel olarak kara listeye alınan kullanıcılar: **%2$s**"
     },
     "localblacklist_remove": {
-      "invalid": "%1$s**You need to specify the users to locally un-blacklist.**",
-      "success": "%1$sLocally un-blacklisted users: **%2$s**"
+      "invalid": "%1$s**Kara listeden yerel olarak çıkarılacak kullanıcıları belirtmeniz gerekir.**",
+      "success": "%1$sYerel olarak kara listeye alınmamış kullanıcılar: **%2$s**"
     },
     "logs_enable": {
-      "no_channel": "%1$sYou need to specify which channel to use as the log channel.",
-      "success": "%1$sMessage logging has been enabled with parameters -> `Channel #%2$s (%3$s)`"
+      "no_channel": "%1$sGünlük kanalı olarak hangi kanalı kullanacağınızı belirlemeniz gerekir.",
+      "success": "%1$sİleti kaydı, parametrelerle etkinleştirildi -> `Kanal #%2$s (%3$s)`"
     },
     "logs_disable": {
-      "success": "%1$sMessage logging has been disabled."
+      "success": "%1$sMesaj günlüğü devre dışı bırakıldı."
     },
     "logs_exclude": {
-      "no_args": "%1$sYou need to specify which channel to exclude, or `clearchannels` to clear all exceptions, or `remove` to remove a single channel from the exception list.",
+      "no_args": "%1$sHangi kanalın hariç tutulacağını veya tüm istisnaları temizlemek için `clearchannels` yi veya istisna listesinden tek bir kanalı kaldırmak için `remove` ı belirtmeniz gerekir.",
       "clearchannels": {
-        "success": "%1$sCleared log exceptions!"
+        "success": "%1$sGünlük istisnaları temizlendi!"
       },
       "remove": {
-        "success": "%1$sRemoved logs exception on channel: %2$s"
+        "success": "%1$sKanaldaki günlük istisnası kaldırıldı: %2$s"
       },
-      "success": "%1$sAdded logs exception on channel: %2$s",
-      "invalid": "%1$sIncorrect argument length."
+      "success": "%1$sKanala günlük istisnası eklendi: %2$s",
+      "invalid": "%1$sYanlış argüman uzunluğu."
     },
     "logs_timezone": {
-      "not_specified": "%1$sYou need to specify a timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
-      "invalid": "%1$sNot a valid timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
-      "success": "%1$sSet logs timezone to `%2$s`. This timezone will be used to display the time on moderation logs."
+      "not_specified": "%1$sBir saat dilimi belirtmeniz gerekir. Geçerli bir saat dilimi, örneğin America/Chicago veya GMT-4 olabilir. <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> adresinden bir liste bulunabilir (TZ veritabanı adını kullanın)",
+      "invalid": "%1$sGeçerli bir saat dilimi değil. Geçerli bir saat dilimi, örneğin America/Chicago veya GMT-4 olabilir. <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> adresinden bir liste bulunabilir (TZ veritabanı adını kullanın)",
+      "success": "%1$sMesaj günlüklerinin saat dilimini `%2$s` olarak ayarlayın. Bu saat dilimi, denetleme günlüklerinde saati görüntülemek için kullanılacaktır."
     },
     "logs_timezonereset": {
       "success": "%1$sSuccessfully reset log timezone."
     },
     "lobby_reset": {
-      "success": "%1$sReset the lobby correctly."
+      "success": "%1$sLobiyi doğru şekilde sıfırladın."
     },
     "modlog_blacklist": {
-      "no_mentions": "%1$s**You need to specify the users to locally blacklist from mod logs.**",
-      "success": "%1$sLocally blacklisted users from mod-log: **%2$s**"
+      "no_mentions": "%1$s**Mod günlüklerinden yerel olarak kara listeye alınacak kullanıcıları belirtmeniz gerekir.**",
+      "success": "%1$sMod günlüğünden yerel olarak kara listeye alınan kullanıcılar: **%2$s**"
     },
     "modlog_whitelist": {
-      "no_mentions": "%1$s**You need to specify the users to locally whitelist from mod logs.**",
-      "success": "%1$sLocally un-blacklisted users from mod-log: **%2$s**"
+      "no_mentions": "%1$s**Mod günlüklerinden yerel olarak beyaz listeye alınacak kullanıcıları belirtmeniz gerekir.**",
+      "success": "%1$sMod günlüğünden yerel olarak beyaz listeye alınan kullanıcılar: **%2$s**"
     },
     "imageboard_tags_blacklist_add": {
-      "no_tag": "%1$sYou need to specify at least a tag to blacklist!",
-      "success": "%1$sSuccessfully blacklisted %2$s from image search."
+      "no_tag": "%1$sKara listeye alınacak en az bir etiket belirtmeniz gerekiyor!",
+      "success": "%1$s%2$s görsel aramadan başarıyla kara listeye alındı."
     },
     "imageboard_tags_blacklist_remove": {
-      "no_tag": "%1$sYou need to specify at least a tag to un-blacklist!",
-      "success": "%1$sSuccessfully un-blacklisted %2$s from image search."
+      "no_tag": "%1$sKara listeden çıkarmak için en az bir etiket belirtmeniz gerekiyor!",
+      "success": "%1$s%2$s, görsel aramadan başarıyla kara listeden çıkarıldı."
     },
     "birthday_enable": {
-      "no_args": "%1$sYou need to specify the channel name and the role name.",
+      "no_args": "%1$sKanal adını ve rol adını belirtmeniz gerekir.",
       "administrative_role": "%1$sThis role contains administrative permissions and therefore cannot be set as a Birthday role.",
-      "public_role": "%1$sYou cannot set the everyone role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
-      "autorole": "%1$sYou cannot set the autorole role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
-      "warning": "%1$sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
-      "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and un-assigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
+      "public_role": "%1$severyone rolünü doğum günü rolü olarak ayarlayamazsınız! Doğum günü rolünün, doğum günü geldiğinde kişiye atanan ve gün geçtiğinde kaldırılan bir rol olduğunu unutmayın.",
+      "autorole": "%1$sOtorol rolünü doğum günü rolü olarak ayarlayamazsınız! Doğum günü rolünün, doğum günü geldiğinde kişiye atanan ve gün geçtiğinde kaldırılan bir rol olduğunu unutmayın.",
+      "warning": "%1$sDoğum günü rolünün, doğum günü geldiğinde kişiye atanan ve gün geçtiğinde kaldırılan bir rol olduğunu unutmayın.Nasıl yapılandırılacağı konusunda herhangi bir şüpheniz varsa, her zaman destek sunucumuza katılıp sorabilirsiniz. Ayrıca bir örnek için `~>opts help birthday enable` seçeneğini de kontrol edebilirsiniz.",
+      "warning_1": "Bunun nedeni, doğum günü atayıcısının nasıl çalıştığıdır: Doğum günü olan kişiye geçici bir rol atar ve doğum günü geçtiğinde atamasını kaldırır.**Bu, doğum günü rolüne sahip herkesin doğum günü geçtiği gün rolü kaldıracağı anlamına gelir**. Lütfen hangi rolü kullanacağınızı seçerken dikkatli olun, çünkü yanlış bir yapılandırma kötü şeylerin olmasına neden olabilir (gerçekten)!",
       "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://www.mantaro.site/mantaro-wiki/guides/birthday-announcer> for more info.",
-      "warning_3": "Additionally the birthday cache (what is used to store them) is only updated every 23 hours. Meaning if you set your birthday today to tomorrow to test this announcer it will **not** work.",
-      "warning_4": "Type **yes** if you agree to set the role %2$s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
-      "success": "%1$sBirthday logging enabled on this server with parameters -> Channel: `%2$s (%3$s)` and role: `%4$s (%5$s)`",
-      "error_channel_1": "%1$sI didn't find a channel or role!",
-      "error_channel_2": "*Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".* If the role contains spaces \"wrap it in quotes like this\""
+      "warning_3": "Ek olarak, doğum günü önbelleği (bunları depolamak için kullanılan) yalnızca 23 saatte bir güncellenir. Yani bu duyuruyu test etmek için doğum gününüzü bugünden yarına ayarlarsanız **çalışmayacaktır**.",
+      "warning_4": "%2$s rolünü doğum günü rolü olarak ayarlamayı kabul ediyorsanız **yes**, iptal etmek için **no** yazın. Bu 45 saniye içinde zaman aşımına uğrar.",
+      "success": "%1$sBu sunucuda parametrelerle doğum günü kaydı etkinleştirildi -> `%2$s (%3$s)` ve rol: `%4$s (%5$s)`",
+      "error_channel_1": "%1$sBir kanal veya rol bulamadım!",
+      "error_channel_2": "*Unutmayın, ne rolden ne de kanaldan bahsetmek zorunda değilsiniz, bunun yerine adını yazın, <channel> <role> şeklinde, başında \"<>\" olmadan.* Rol boşluk içeriyorsa \"böyle tırnak içine alın\""
     },
     "birthday_disable": {
-      "success": "%1$sBirthday logging has been disabled on this server"
+      "success": "%1$sBu sunucuda doğum günü kaydı devre dışı bırakıldı"
     },
     "prefix_set": {
-      "no_prefix": "%1$sYou need to tell me what prefix you want to use.",
-      "too_long": "%1$sDon't you think that's a bit too long?",
-      "empty_prefix": "%1$sCannot set the guild prefix to nothing...",
-      "success": "%1$sYour server's custom prefix has been set to %2$s"
+      "no_prefix": "%1$sHangi öneki kullanmak istediğinizi bana söylemeniz gerekiyor.",
+      "too_long": "%1$sSizce de biraz uzun değil mi?",
+      "empty_prefix": "%1$sSunucu öneki hiçbir şeye ayarlanamıyor...",
+      "success": "%1$sSunucunuzun özel öneki %2$s olarak ayarlandı"
     },
     "prefix_clear": {
-      "success": "%1$sYour server's custom prefix has been disabled"
+      "success": "%1$sSunucunuzun özel öneki devre dışı bırakıldı"
     },
     "autorole_set": {
-      "no_role": "%1$sYou didn't tell me what role to look for!",
-      "no_role_found": "%1$sI couldn't find a role with that name. If the role has spaces, try wrapping it in quotes.",
-      "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as autorole!",
-      "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as autorole!",
+      "no_role": "%1$sBana hangi rolü aramam gerektiğini söylemedin!",
+      "no_role_found": "%1$sBu isimde bir rol bulamadım. Rolde boşluk varsa, onu tırnak içine almayı deneyin.",
+      "hierarchy_conflict": "%1$sBu rol, en yüksek rolünüzden daha yükseğe yerleştirilmiştir, bu nedenle onu otorol olarak koyamazsınız!",
+      "self_hierarchy_conflict": "%1$sBu rol benim en yüksek rolümden daha yüksekte yer alıyor, bu yüzden onu otorol olarak koyamazsınız!",
       "permissions_conflict": "%1$sYou cannot set an autorole with administrative permissions, even if you have them.",
-      "success": "%1$sThe server autorole is now set to: **%2$s** (Position: %3$d)"
+      "success": "%1$sSunucu otomatik rolü artık şu şekilde ayarlanmıştır: **%2$s** (Konum: %3$d)"
     },
     "autorole_unbind": {
-      "success": "%1$sThe autorole for this server has been removed."
+      "success": "%1$sBu sunucunun otomatik rolü kaldırıldı."
     },
     "usermessage_resetchannel": {
-      "success": "%1$sSuccessfully reset the join/leave channel."
+      "success": "%1$sKatılma/ayrılma kanalını başarıyla sıfırladın."
     },
     "usermessage_resetdata": {
-      "success": "%1$sSuccessfully reset the join/leave data."
+      "success": "%1$sKatılma/ayrılma verilerini başarıyla sıfırladın."
     },
     "usermessage_join_channel": {
-      "no_channel": "%1$sYou need to specify what channel you want me to send the join message.",
-      "success": "%1$sThe user join log channel is now set to: %2$s"
+      "no_channel": "%1$sKatılma mesajlarını hangi kanala göndermemi istediğinizi belirtmeniz gerekiyor.",
+      "success": "%1$sKullanıcı katılım günlüğü kanalı artık şuna ayarlandı: %2$s"
     },
     "usermessage_join_resetchannel": {
-      "success": "%1$sSuccessfully reset log join channel!"
+      "success": "%1$sKatılma mesajlarını gösteren kanalı başarıyla sıfırladın!"
     },
     "usermessage_leave_channel": {
-      "no_channel": "%1$sYou need to specify what channel you want me to send the leave message.",
-      "success": "%1$sThe user leave log channel is now set to: %2$s"
+      "no_channel": "%1$sAyrılma mesajlarını hangi kanaldan göndermemi istediğinizi belirtmeniz gerekiyor.",
+      "success": "%1$sKullanıcı ayrılma günlüğü kanalı artık şuna ayarlandı: %2$s"
     },
     "usermessage_leave_resetchannel": {
-      "success": "%1$sSuccessfully reset log leave channel!"
+      "success": "%1$sAyrılma mesajlarını gösteren kanalı başarıyla sıfırladın!"
     },
     "usermessage_channel": {
-      "no_channel": "%1$sYou need to specify what channel you want me to send the join and leave messages.",
-      "success": "%1$sThe logging Join/Leave channel is set to: %2$s"
+      "no_channel": "%1$sKatılma ve ayrılma mesajlarını hangi kanala göndermemi istediğinizi belirtmeniz gerekiyor.",
+      "success": "%1$sKatılma/Ayrılma kanalı artık şuna ayarlandı: %2$s"
     },
     "usermessage_joinmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone joins!",
-      "success": "%1$sServer join message set to: `%2$s`"
+      "no_message": "%1$sBirisi katıldığında söylememi istediğiniz mesajı belirtmeniz gerekiyor!",
+      "success": "%1$sSunucu katılma mesajı şuna ayarlandı: `%2$s`"
     },
     "usermessage_leavemessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone leaves!",
-      "success": "%1$sServer leave message set to: `%2$s`"
+      "no_message": "%1$sBiri ayrıldığında söylememi istediğiniz mesajı belirtmeniz gerekiyor!",
+      "success": "%1$sSunucudan ayrılma mesajı şuna ayarlandı: `%2$s`"
     },
     "usermessage_joinmessage_reset": {
-      "success": "%1$sReset server join message."
+      "success": "%1$sSunucuya katılma mesajları sıfırlandı."
     },
     "usermessage_leavemessage_reset": {
-      "success": "%1$sReset server leave message."
+      "success": "%1$sSunucudan ayrılma mesajını sıfırlandı."
     },
     "usermessage_joinmessage_test": {
-      "success": "%1$sSent test join message.",
-      "error_missing_mention": "%1$sYou need to mention a member to test this with.",
-      "error_text_missing": "%1$sYou haven't set a join message.",
-      "error_channel_perms": "%1$sI can't send messages on your join channel.",
-      "error_no_channel": "%1$sYou have no join channel set.",
-      "error_channel_missing": "%1$sThe join channel you set is not existent on this server. Please set another channel."
+      "success": "%1$sKatılma test mesajı gönderildi.",
+      "error_missing_mention": "%1$sBunu test etmek için bir üyeden bahsetmeniz gerekiyor.",
+      "error_text_missing": "%1$sBir katılma mesajı ayarlamadınız.",
+      "error_channel_perms": "%1$sKatılma kanalınıza mesaj gönderemiyorum.",
+      "error_no_channel": "%1$sSunucuya katılma mesajı için bir kanalınız yok.",
+      "error_channel_missing": "%1$sAyarladığınız katılım kanalı bu sunucuda mevcut değil. Lütfen başka bir kanal ayarlayın."
     },
     "usermessage_leavemessage_test": {
-      "success": "%1$sSent test leave message.",
-      "error_missing_mention": "%1$sYou need to mention a member to test this with.",
-      "error_text_missing": "%1$sYou haven't set a leave message.",
-      "error_channel_perms": "%1$sI can't send messages on your leave channel.",
-      "error_no_channel": "%1$sYou have no leave channel set.",
-      "error_channel_missing": "%1$sThe leave channel you set is not existent on this server. Please set another channel."
+      "success": "%1$sAyrılma test mesajı gönderildi.",
+      "error_missing_mention": "%1$sBunu test etmek için bir üyeden bahsetmeniz gerekiyor.",
+      "error_text_missing": "%1$sBir ayrılma mesajı ayarlamadınız.",
+      "error_channel_perms": "%1$sAyarladığınız ayrılma mesajı kanalınıza mesaj gönderemiyorum.",
+      "error_no_channel": "%1$sSunucudan ayrılma mesajı için bir kanalınız yok.",
+      "error_channel_missing": "%1$sAyarladığınız sunucudan ayrılma mesaj kanalı bu sunucuda mevcut değil. Lütfen başka bir kanal ayarlayın."
     },
     "autoroles_add": {
-      "too_long": "%1$sThe autorole name needs to be at most 40 characters long.",
-      "no_args": "%1$sYou need to specify the name of the iam and the name of the role.",
-      "no_role_found": "%1$sI didn't find a role with that name!\nIf the role name has spaces wrap it in quotes like this: \"Role Name\"",
-      "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as an auto-assignable role!",
-      "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as an auto-assignable role!",
+      "too_long": "%1$sOtorol adının en fazla 40 karakter uzunluğunda olması gerekir.",
+      "no_args": "%1$sİam'ın adını ve rolün adını belirtmeniz gerekir.",
+      "no_role_found": "%1$sBu isimde bir rol bulamadım!\nRol isminde boşluk varsa, şunun gibi tırnak işaretleri içine alın: \"Rol Adı\"",
+      "hierarchy_conflict": "%1$sBu rol, en yüksek rolünüzden daha yükseğe yerleştirilmiştir, bu nedenle onu otomatik olarak atanabilir bir rol olarak koyamazsınız!",
+      "self_hierarchy_conflict": "%1$sBu rol benim en yüksek rolümden daha yükseğe yerleştirildi, bu nedenle onu otomatik atanabilir bir rol olarak koyamazsınız!",
       "permissions_conflict": "%1$sYou cannot add iam roles with administrative permissions, even if you have them.",
-      "success": "%1$sAdded auto-assignable role **%2$s**, which gives the role **%3$s**"
+      "success": "%1$s**%3$s** rolünü veren otomatik atanabilir rol **%2$s** eklendi"
     },
     "autoroles_category_add": {
-      "no_args": "%1$sYou need to specify the name of the category (and the name of the iam role if you want to add one to an existing category).",
-      "success_new": "%1$sAdded auto-assignable list category **%2$s**",
-      "success": "%1$sAdded auto-assignable role **%2$s** to list category **%3$s**",
-      "already_exists": "%1$sThis category already exists and you didn't specify a role to add to it.",
-      "no_role": "%1$sThere's no autorole **%2$s**, so I can't add it."
+      "no_args": "%1$sKategorinin adını (ve mevcut bir kategoriye bir tane eklemek istiyorsanız iam rolünün adını) belirtmeniz gerekir.",
+      "success_new": "%1$sOtomatik atanabilir liste kategorisi eklendi **%2$s**",
+      "success": "%1$s**%3$s** kategorisine otomatik atanabilir rol **%2$s** eklendi",
+      "already_exists": "%1$sBu kategori zaten var ve buna eklenecek bir rol belirtmediniz.",
+      "no_role": "%1$sOtorol yok **%2$s**, bu yüzden ekleyemiyorum."
     },
     "autoroles_category_remove": {
       "no_args": "%1$sKategorinin adını (ve mevcut bir kategoriden birini kaldırmak istiyorsanız iam rolünün adını) belirtmeniz gerekir.",
@@ -2537,10 +2537,10 @@
       "rose": "Aşkınızın vücut bulmuş hali. Ayrıca güzel bir dekorasyon.",
       "chocolate": "Nefis.",
       "cookie": "Lezzetli.",
-      "die_2": "Even more loaded. `Leftover from Currency version 1. No longer obtainable.`",
-      "booster": "Used to give you some kind of boost, now it's broken. `Leftover from Currency version 1. No longer obtainable.`",
+      "die_2": "Daha da yüklendi. `Currency version 1'den kalanlar. Artık elde edilemez.`",
+      "booster": "Eskiden sana bir tür destek veriyordu, şimdi bozuldu. `Currency version 1'den kalanlar. Artık elde edilemez.`",
       "berserk": "Currency Berserker? Anyone? `Leftover from Currency version 1. No longer obtainable.`",
-      "companion": "Aw, such a cute dog. `Leftover from Currency version 1. No longer obtainable.`",
+      "companion": "Ah, çok tatlı bir köpek. `Currency version 1'den kalanlar. Artık elde edilemez.`",
       "special_ring": "O kadar özel ki, yüzük bile değil. `Currency version 1'den kalanlar. Artık elde edilemez.`",
       "enchancer": "Bozulmuş bir büyü, acaba düzeltilebilir mi? `Currency version 1'den kalanlar. Artık elde edilemez.`",
       "prize": "Oldukça fazla, ha? `Currency version 1'den kalanlar. Artık elde edilemez.`",
@@ -2645,7 +2645,7 @@
     "accept": "Kabul Et",
     "deny": "Reddet",
     "cancel": "İptal",
-    "end": "End"
+    "end": "Bitiş"
   },
   "time": {
     "day": "gün",
