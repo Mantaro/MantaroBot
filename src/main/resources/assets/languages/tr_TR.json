@@ -584,15 +584,15 @@
         "no_house": "%1$sYou need a house item in your inventory. Use `/buy item:house` to get one.",
         "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d credits)",
         "no_name": "%1$sYou need to give your house a name! For example, `/marry house name:cozy house`",
-        "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Click on `yes` to confirm and `no` to cancel.",
+        "confirm": "%1$sBu evi almak istediğinden emin misin? Bakiyenden alınan fiyat %2$d ve eve verdiğiniz isim %3$s. Onaylamak için `yes` ve iptal etmek için `no` tıklayın.",
         "success": "%1$sYou successfully bought a house for %2$d credits. The name of your new cozy house is %3$s, enjoy!",
         "cancel_success": "%1$sCancelled operation."
       },
       "buycar": {
-        "no_car": "%1$sYou need to buy a car first! Use `/buy item:car` to get one.",
+        "no_car": "%1$sÖnce bir araba satın almalısın! Bir tane almak için `/buy item:car` seçeneğini kullanın.",
         "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d credits)",
-        "no_name": "%1$sYou need to give your car a name! For example, `/marry car name:vroom`",
-        "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Click on `yes` to confirm and `no` to cancel.",
+        "no_name": "%1$sArabanıza bir isim vermeniz gerekiyor! Örneğin, `/marry car name:vroom`",
+        "confirm": "%1$sBu aracı almak istediğinden emin misin? Bakiyenden alınacak miktar %2$d ve aracına koymuş olduğun isim %3$s. Onaylamak için `yes`, reddetmek için `no` ya tıkla.",
         "success": "%1$sYou successfully bought a car for %2$d credits. The name of your new fast car is %3$s, enjoy!",
         "cancel_success": "%1$sCancelled operation."
       },
@@ -602,17 +602,17 @@
       "already_married_receipt": "%1$sYou're married with them already, aww.",
       "already_married": "%1$sYou're married already.",
       "receipt_married": "%1$sThat user is married already.",
-      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `/buy amount:2 item:ring` and then try proposing again <3",
-      "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
+      "no_ring": "%1$sİki evlilik yüzüğü olmadan evlenme teklif edemezsiniz! Onları `/buy amount:2 item:ring` yazarak satın alabilir ve ardından tekrar teklif vermeyi deneyebilirsiniz <3",
+      "confirmation": "%1$s%2$s, %3$s'den gelen evlilik teklifini **evet** tıklayarak onaylayabilir, **hayır** yazan düğmeye tıklayarak reddedebilirsin\n%4$sBu işlem 120 saniye sonra iptal edilecektir.",
       "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory :(",
       "accepted": "%1$s**%2$s#%3$s** accepted the proposal of **%4$s#%5$s**!",
       "denied": "%1$sDenied proposal from **%2$s**",
       "ratelimit_message": "Why would you want to marry this much?"
     },
     "divorce": {
-      "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Click on `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
+      "confirm": "%1$sBu evliliği bitirmek istediğinden emin misin? Evcil hayvanlara, evlere ve arabalara harcanan para ikiye bölünecek. Devam etmek için `yes` veya iptal etmek için `no` ya tıklayın. **Evliliğe bağlı olduğu için evcil hayvanınız kaybolacak**",
       "cancelled": "%1$sCancelled divorce.",
-      "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?\nWanna unclaim a Waifu? Use `/waifu unclaim` instead.",
+      "not_married": "%1$sKimseyle evli değilsin, neden özel birini bulmuyorsun?\nWaifu talebini geri almak ister misin? Bunun yerine `/waifu unclaim` kullanın.",
       "success": "%1$sNow you're single. That's nice I guess.\n%2$s",
       "split": "The money left was split between the two parties by selling their assets (pet, house, car). Each one got **%1$d** credits on their wallet."
     },
@@ -631,7 +631,7 @@
       "claim": {
         "no_user": "%1$sBir kullanıcıyı belirtmedin.",
         "locked": "%1$sŞu anda bu işlemi yapamazsın.",
-        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `/profile claimlock remove:true` if they wish to do so.",
+        "key_locked": "%1$sSahiplendirmeye çalıştığınız kullanıcı kilitli ve sahiplendirilemez. İsterlerse bunu `/profile claimlock remove:true` kullanarak kaldırabilirler.",
         "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s)**",
         "not_enough_slots": "%1$sBu waifu'ya sahiplenmen için gerekli kadar yerin yoktur. (Toplam yer sayısı: %2$s, Kullandığın yer sayısı: %3$s)",
         "success": "%1$s`%2$s` kullanıcısını %3$,d kredi ile başarıyla sahiplendin. Kullandığın yer sayısı: %4$s",
@@ -642,12 +642,12 @@
       "unclaim": {
         "no_user": "%1$sWaifu çıkartmak için bir tanesini belirtmen gerekmektedir.",
         "not_claimed": "%1$sBu kullanıcı senin Waifun değildir!",
-        "confirmation": "%1$sAre you *sure* you want to un-claim %2$s? The cost to un-claim this waifu is **%3$s credits**. Click on *yes* to confirm or *no* to cancel\n%4$sThis times out in 1 minute.",
+        "confirmation": "%1$s%2$s kullanıcısını çıkartmak istediğinden *emin misin*? Bu Waifu'yu listenden çıkartmak için **%3$s miktarını** ödemen gerekmekte. Onaylamak için *Yes*, reddetmek için *No* ya tıklayın.\n%4$s1 dakika süren var.",
         "not_enough_money": "%1$sBu waifu'yu listenden çıkartmak için yeteri kadar paran yok!",
         "player_locked": "%1$sBunu şu anda kullanamazsınız.",
         "scrapped": "%1$sWaifu çıkartılmasını iptal ettin.",
         "success": "%1$s**%3$s** miktarı ile `%2$s` kullanıcısını başarıyla listenden çıkarttın.",
-        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID (`/waifu list id:true`)."
+        "not_found": "%1$sBu sorgu ile herhangi bir kullanıcı bulamıyorum. Bilinmeyen bir kullanıcının sahiplenmesinden vazgeçmeniz gerekiyorsa, kimliğini kullanın (`/waifu list id:true`)."
       },
       "buyslot": {
         "locked": "%1$sŞu anda bunu yapamazsın.",
