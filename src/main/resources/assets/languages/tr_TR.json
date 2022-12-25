@@ -930,24 +930,24 @@
       "displaybadge": {
         "not_specified": "%1$sAna rozetinizi belirtmeniz gerekiyor! Örneğin, `/badges display badge:claimer`",
         "reset_success": "%1$sArtık profilinizin üst kısmında hiçbir rozet görünmeyecek!",
-        "important_success": "%1$sYour display badge is now the most important one.",
-        "no_such_badge": "%1$sThere's no such badge...\nYour available badges: %2$s",
-        "player_missing_badge": "%1$sYou don't have that badge.\nYour available badges: %2$s",
-        "success": "%1$sYour display badge is now: **%2$s**"
+        "important_success": "%1$sBu ekran rozetiniz artık en başta gösterilecek.",
+        "no_such_badge": "%1$sYok öyle bir rozet...\nMevcut rozetleriniz: %2$s",
+        "player_missing_badge": "%1$sSende o rozet yok.\nMevcut rozetleriniz: %2$s",
+        "success": "%1$sEkran rozetiniz artık: **%2$s**"
       },
       "lang": {
-        "nothing_specified": "%1$sYou have to specify a language to use or `reset` to reset your language settings.",
-        "reset_success": "%1$sSuccessfully reset your personal language settings.",
-        "success": "%1$sMantaro will now talk to you in `%2$s`",
-        "invalid": "%1$sThat language doesn't exist! You can use `reset` to reset your language settings."
+        "nothing_specified": "%1$sKullanılacak dili belirtmeniz veya dil ayarlarınızı sıfırlamak için `reset` kullanmanız gerekir.",
+        "reset_success": "%1$sKişisel dil ayarlarınızı başarıyla sıfırladınız.",
+        "success": "%1$sMantaro artık sizinle `%2$s` üzerinden konuşacak",
+        "invalid": "%1$sO dil yok! Dil ayarlarınızı sıfırlamak için `reset` i kullanabilirsiniz."
       },
       "inventorysort": {
-        "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
-        "success": "%1$sSuccessfully changed your inventory sort type, now it is: **%2$s**"
+        "not_valid": "%1$sBu sıralama türü geçerli değil. Mevcut türler: `%2$s`",
+        "success": "%1$sEnvanter sıralama türünüz başarıyla değiştirildi, şimdi: **%2$s**"
       },
       "toggleaction": {
-        "enabled": "%1$sEnabled actions to be done to you.",
-        "disabled": "%1$sDisabled actions from being done to you."
+        "enabled": "%1$sSize yapılacak işlemler etkinleştirildi.",
+        "disabled": "%1$sİşlemlerin size yapılması devre dışı bırakıldı."
       },
       "pet": {
         "header": "Aktif Evcil Hayvan",
@@ -993,32 +993,32 @@
         "success": "%1$sBaşarılı bir şekilde %2$s *%3$s* giydin, bu bir dahaki komut kullanışında hatırlanacak.",
         "not_suitable": "%1$sBunu giyemezsin.",
         "not_equipped": "%1$sBu donanıma sahip değilsin.",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `/unequip item:<type>` (Type can be rod, axe, pick or wrench) if you wanna unequip it."
+        "already_equipped": "%1$sZaten bu türden bir öğeniz var! Ekipmanınızı çıkarmak istiyorsanız `/unequip item:<type>` (Tür: çubuk, balta, kazma veya İngiliz anahtarı olabilir) deneyin."
       },
       "unequip": {
-        "not_equipped": "%1$sYou don't have anything equipped on this slot.",
-        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod, wrench`",
-        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod, wrench`",
-        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Click on `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool, which means your currently equipped tool will break, unless unused.",
-        "success": "%1$sSuccessfully unequipped your %2$s slot.",
-        "equipment_recover": "\nSince you never used your equipment, you got your %1$s back!",
-        "broken_equipment_recover": "\nYour equipment was used, but you got a %1$s back, you can repair it if you need it later!",
-        "broken_equipment_recover_none": "\nThis equipment type had no broken type to recover from, and was used, so it vanished into the void, but you got %1$s credits back.",
+        "not_equipped": "%1$sBu yuvada donanımlı hiçbir şeye sahip değilsin.",
+        "no_content": "%1$sDonatmak için bir araç türü belirtmeniz gerekir; `kazma, balta, olta, İngiliz anahtarı` olabilir",
+        "invalid_type": "%1$sGeçersiz tür. Geçerli türler `kazma, balta, çubuk, anahtar`",
+        "confirm": "%1$s%2$s %3$s **geri almak** istediğinizden emin misiniz? Onaylamak için `yes`, iptal etmek için `no` a tıklayın. Bu size şu anda donanımlı aletinizin bozuk bir sürümünü verecektir, bu da şu anda donanımlı aletinizin kullanılmadığı sürece bozulacağı anlamına gelir.",
+        "success": "%1$s%2$s yuvanızın donanımı başarıyla kaldırıldı.",
+        "equipment_recover": "\nEkipmanınızı hiç kullanmadığınız için %1$s'nizi geri aldınız!",
+        "broken_equipment_recover": "\nEkipmanınız kullanıldı, ancak %1$s geri aldınız, daha sonra ihtiyacınız olursa tamir edebilirsiniz!",
+        "broken_equipment_recover_none": "\nBu eşya türü zarar görmemiş ve kullanılmış, yani boşlukta kaybolmuş, ancak %1$s kredinizi geri aldınız.\n",
         "cancelled": "%1$sIşlem iptal edilmiştir."
       },
       "display": {
-        "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://www.mantaro.site/mantaro-wiki/basics/premium-perks>",
-        "not_enough": "%1$sNot enough valid widgets to put on your profile (minimum: 3). If you're lost, check `/profile widgets`",
+        "not_premium": "%1$sProfil widget kişiselleştirmesi yalnızca premium kullanıcılar tarafından kullanılabilir. Daha fazla avantaj için <https://www.mantaro.site/mantaro-wiki/basics/premium-perks> adresine göz atabilirsiniz",
+        "not_enough": "%1$sProfiline koymak için yeterli widget'ın yok (minimum: 3). Sorun varsa, kontrol etmek için `/profile widgets`",
         "success": "%1$sYeni profil şemanı değiştirdin, şu anki şema: `%2$s`",
-        "ls": "%1$sList of profile components:\n%2$s **Widgets in Default Order:** `%3$s`\n%2$s **Your widgets:** `%4$s`\nYou can use `/profile widgets order:reset` to reset your profile display references",
+        "ls": "%1$sProfil bileşenlerinin listesi:\n%2$s **Widget'lar Varsayılan Sırada:** `%3$s`\n%2$s **Widget'larınız:** `%4$s`\nProfil görüntüleme referanslarınızı sıfırlamak için `/profile widgets order:reset` komutunu kullanabilirsiniz",
         "reset": "%1$sBaşarıyla eski haline döndürdün.",
-        "example": "\nExample: `/profile widgets order:header, credits, reputation, birthday, marriage, badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
+        "example": "\nÖrnek: `/profile widgets order:header, credits, reputation, birthday, marriage, badges`\n*Herhangi bir sıralama işe yarar, buradaki sıralama, profilinizde görünmesini sağlayacak sıralamadır*"
       },
       "claimlock": {
-        "removed": "%1$sSuccessfully reset your claim lock status.",
-        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `/waifu claimlock remove:true` to remove it later.",
-        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `/buy item:claim key`",
-        "already_locked": "%1$sYou're already claim locked. Use `/waifu claimlock remove:true` to remove it."
+        "removed": "%1$sTalep kilidi durumunuzu başarıyla sıfırladınız.",
+        "success": "%1$sArtık sahiplendirilmede bulunulamaz. Bir talep anahtarı kullanıldı. Daha sonra kaldırmak için `/waifu claimlock remove:true` kullanın.",
+        "no_key": "%1$sBunu yapmak için bir talep anahtarınız yok. `/buy item:claim key` kullanarak marketten bir tane satın alabilirsiniz",
+        "already_locked": "%1$sZaten hak talebinde bulundun. Kaldırmak için `/waifu claimlock remove:true` kullanın."
       },
       "autoequip": {
         "disable": "%1$sOtomatik donatma başarıyla devre dışı bırakıldı.",
@@ -1027,7 +1027,7 @@
       "badge_header": "%1$s Gösterilen Rozet",
       "bot_notice": "%1$sBotların profili olmaz.",
       "header": "%1$s's Profili",
-      "no_desc": "No description set. You can set one with `/profile description`",
+      "no_desc": "Açıklama ayarlanmadı. `/profile description` ile bir tane ayarlayabilirsiniz",
       "credits": "Para",
       "old_credits": "Eski Krediler",
       "level": "Seviye",
@@ -1045,7 +1045,7 @@
       "not_specified": "Belirlenmemiş.",
       "potion": "Aktif İksir",
       "no_potion": "İksiri yok.",
-      "hidelegacy": "%1$sLegacy credits hide status is now: `%2$s`",
+      "hidelegacy": "%1$sEski kredi gizleme durumu artık: `%2$s`",
       "tools_show": "%1$sAraçları göster",
       "level_show": "%1$sSeviyeyi göster",
       "back": "%1$sGeri dön"
@@ -1059,12 +1059,12 @@
       },
       "ls": {
         "header": "Elde Edilebilir Rozetler Listesi",
-        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `/profile show` and then run `/badges show` again.\nGood luck, badge hunters!",
+        "desc": "Bu, Mantaro'da mevcut olan tüm rozetlerin bir listesidir. Bu liste, rozeti elde etmek için neye ihtiyacınız olduğuna dair genel bir fikir vermesi gereken rozetin adını ve açıklamasını içerir.\nBir rozetiniz olduğunu düşünüyorsanız ve rozeti kişisel rozet listenizde görmüyorsanız, `/profile show` u kullanın ve ardından `/badges show` komudunu tekrar çalıştırın.\nİyi şanslar, rozet avcıları!",
         "obtained": "**Elde edilen:** %s"
       },
       "brief_success": "**%1$s adlı kişinin rozetleri:**\n%2$s",
-      "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `/profile show` and then run this command again.\n",
-      "info_notice": "Use `/badges info badge:<badge name>` to get more information about a badge. [You can also check the wiki](https://www.mantaro.site/mantaro-wiki/currency/badges)\n",
+      "profile_notice": "Yeni bir rozet aldığınızı düşünüyorsanız ve rozet burada görünmüyorsa, lütfen `/profile show` komutunu kullanın ve ardından bu komutu tekrar çalıştırın.\n",
+      "info_notice": "Rozet hakkında daha fazla bilgi almak için `/badges info badge:<badge name>` ifadesini kullanın. [Wiki'ye de bakabilirsiniz](https://www.mantaro.site/mantaro-wiki/currency/badges)\n",
       "donate_notice": "**Bir rozet kazanabilirsin [Mantaronun gelişimini destekleyerek!](https://patreon.com/mantaro)!** (İşlenmesi biraz sürebilir.)\n\n",
       "no_badges": "Gösterilecek bir rozet yok",
       "header": "Kazanılmış rozetler %1$s",
@@ -1072,29 +1072,29 @@
       "footer": "Rozetler aynı başarımlar gibidir, botu kullandıkça veya oyunlara katıldıkça tek tek kazanılır."
     },
     "rep": {
-      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
+      "new_account_notice": "%1$sTemsilci vermek veya almak için hesap yaşı (Discord hesabının oluşturulmasından bu yana geçen süre) 30 günden eski olmalıdır. Daha sonra tekrar deneyin.",
       "no_mentions": "%1$sBir kişinin adını gir veya bahset.\n%2$s",
       "more_than_one": "%1$sSadece bir kişiye itibar puanı atabilirsin.",
       "rep_bot": "%1$sBotlara rep verilmez.\n%2$s",
       "rep_yourself": "%1$sKendine rep veremezsin.\n%2$s",
-      "blacklisted_rep": "%1$sYou cannot rep a blacklisted account.",
+      "blacklisted_rep": "%1$sKara listeye alınmış bir hesabı temsil edemezsiniz.",
       "cooldown": {
         "waiting": "**%1$s sonra bu komutu tekrar kullanabileceksin.**",
         "pass": "Şu anda birine puan verebilirsin.",
-        "explanation": "You can give reputation to one person every 12 hours. Please wait the time above before you can give reputation to someone else."
+        "explanation": "Her 12 saatte bir kişiye itibar verebilirsiniz. Başka birine itibar vermeden önce lütfen yukarıdaki süreyi bekleyin."
       },
       "success": "%1$s**%2$s** adlı kişiye itibar puanı verdin!"
     },
     "birthday": {
       "reset": "%1$sDoğum tarihini yeniledin!",
-      "no_guild_birthdays": "%1$sThings seems a bit empty here.\nRemember that cache refreshes every 23h and that now people have to run `/birthday allowserver` to allow this server to announce their birthdays.",
-      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `/birthday allowserver` to allow this server to announce their birthdays.",
+      "no_guild_birthdays": "%1$sBurada işler biraz boş görünüyor.\nÖnbelleğin her 23 saatte bir yenilendiğini ve artık insanların bu sunucunun doğum günlerini duyurmasına izin vermek için `/birthday allowserver` çalıştırması gerektiğini unutmayın.",
+      "no_guild_month_birthdays": "%1$sBurada bu ay (%2$s) için doğum günü yok :(\n%3$sDoğum günü duyurusunu yeni kurduysanız, lütfen bunu tekrar çalıştırana kadar biraz bekleyin. (Önbellek her 23 saatte bir yenilenir)\nArtık insanların bu sunucunun doğum günlerini duyurmasına izin vermek için `/birthday allowserver` çalıştırması gerektiğini unutmayın.",
       "cache_not_running": "%1$sDoğum günü cacheleri çalışmıyor. (içsel bir hata) :(",
       "error": "%1$sDoğum günlerini alırken bir hata oldu. (içsel bir hata) :(",
-      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out. Showing up to 100 results.\n",
-      "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `/birthday allowserver`. Showing up to 100 results.",
-      "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `/birthday 16-11` for the 16th of November).\nIf the month or day has only one digit you need to append a 0 to it. For example, 14/7 would become 14/07 and 7/12 would become 07/12.",
-      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `/birthday allowserver`%3$s",
+      "header": "**%1$s'nin %2$s için Doğum Günleri**\nDoğum günü önbelleği her 23 saatte bir güncellenir, bu nedenle doğum gününüz burada görünmüyorsa paniğe kapılmayın ve bekleyin. 100'e kadar sonuç gösteriliyor.\n",
+      "full_header": "**%1$s'nin Doğum Günleri**\n%2$s\nDoğum günü önbelleği her 23 saatte bir güncellenir, bu nedenle doğum gününüz burada görünmüyorsa paniğe kapılmayın ve bekleyin. 100'e kadar sonuç gösteriliyor.",
+      "error_date": "%1$sGirdiğiniz tarih ya geçerli bir tarih değil ya da doğru şekilde ayrıştıramıyorum. Lütfen doğru biçimlendirmeyi deneyin.\nTarih biçiminin `gün/ay` olduğunu unutmayın (Örneğin, 16 Kasım için `/birthday 16-11` kullanın).\nAy veya gün yalnızca bir basamaktan oluşuyorsa, ona 0 eklemeniz gerekir. Örneğin, 14/7, 14/07 olur ve 7/12, 07/12 olur.",
+      "added_birthdate": "%1$sDoğum tarihi başarıyla eklendi. Yeni doğum günü tarihi: %2$s *(Biçim: gün-AY)* [day-month]. Bu sunucunun doğum gününüzü duyurması için şimdi `/birthday allowserver`%3$s komutunu çalıştırmanız gerekiyor",
       "invalid_month": "%1$sGeçerli bir ay değil! (Geçerli aylar 1 ve 12 arasındadır.)",
       "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `/birthday allowserver`",
       "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part.",
@@ -1245,68 +1245,68 @@
       "nothing_specified": "%1$sYou didn't specify anything to play...",
       "trivia": {
         "wrong_diff": "%1$sWrong difficulty specified! (Supported: easy, medium and hard)",
-        "fetch_error": "%1$sError while starting trivia. Seemingly Open Trivia DB is having trouble.",
+        "fetch_error": "%1$sTrivia başlatılırken hata oluştu. Görünüşe göre Open Trivia DB sorun yaşıyor.",
         "possibilities": "Olasılıklar",
         "difficulty": "Zorluk",
         "category": "Kategori",
-        "all_attempts_used": "%1$sAlready used all attempts, ending game. Question: %2$s, Answer: %3$s",
-        "footer": "You have %1$s attempt and 1 minute (Click end to end the game)."
+        "all_attempts_used": "%1$sZaten tüm hakları kullandı, oyunu bitirdi. Soru: %2$s, Yanıt: %3$s",
+        "footer": "%1$s deneme hakkınız ve 1 dakikanız var (Oyunu bitirmek için bitir'i tıklayın)."
       },
       "number": {
-        "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
+        "start": "%1$sSayıyı tahmin et! **5 deneme hakkınız ve 1 dakikanız var. Sayı 0 ile 150 arasındadır**",
         "nan": "%1$sBu bir sayı değil...",
-        "ended_game": "%1$sEnded game. The number was: %2$d",
-        "all_attempts_used": "%1$sAlready used all attempts, ending game. The number was: %2$d",
-        "hint": "Hint: The number is %1$s than your input number.",
+        "ended_game": "%1$sOyun bitti. Sayı şuydu: %2$d",
+        "all_attempts_used": "%1$sZaten tüm haklarını kullandı, oyunu bitirdi. Sayı şuydu: %2$d",
+        "hint": "İpucu: Sayı, girdiğiniz sayıdan %1$s daha fazladır.",
         "higher": "yüksek",
         "lower": "düşük"
       },
       "pokemon": {
         "header": "Kim o pokemon?",
-        "footer": "You have %1$d attempts and 1 minute. (Type end to end the game)"
+        "footer": "%1$d deneme hakkınız ve 1 dakikanız var. (Oyunu bitirmek için end yazın)"
       },
       "lobby": {
-        "ended_game": "%1$sEnded game. Possible answers were: %2$s",
-        "ended_lobby": "%1$sEnded lobby correctly! Thanks for playing.",
-        "all_attempts_used": "%1$sAlready used all attempts, ending game. Answer: %2$s",
-        "incorrect_answer": "%1$sThat's not it, you have %2$d attempts remaining.",
+        "ended_game": "%1$sOyun bitti. Olası cevaplar şunlardı: %2$s",
+        "ended_lobby": "%1$sLobi doğru bir şekilde sonlandırıldı! Oynadığınız için teşekkürler.",
+        "all_attempts_used": "%1$sZaten tüm hakları kullandı, oyunu bitirdi. Cevap: %2$s",
+        "incorrect_answer": "%1$sHepsi bu kadar değil, %2$d deneme hakkınız kaldı.",
         "won_game": "%1$s**%2$s** just won $%3$d credits by answering correctly!"
       },
       "character": {
-        "start": "Guess the Anime Character",
-        "load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
-        "footer": "You have %1$d attempts and 1 minute (Type end to end the game)."
+        "start": "Anime Karakterini Tahmin Et",
+        "load_error": "%1$sÖnceden kaydedilmiş karakter için oyun kurulamadı: %2$s. Bu tüm karakterler için olursa, geçici bir hata olabilir.",
+        "footer": "%1$d deneme hakkınız ve 1 dakikanız var (Oyunu bitirmek için end yazın)."
       },
-      "game_timeout_drop": "%1$sSeems like I dropped a game here, but forgot to pick it up... I'll start your new game right up!",
-      "other_lobby_running": "%1$sCannot start a new game lobby when there is a game currently running. (If this is an error, tell an admin to run `~>opts lobby reset`)",
-      "lobby_timed_out": "%1$sThe time ran out! The correct answer is: %2$s",
-      "error": "%1$sI found an error while setting up the game (internal error).",
-      "error_missing_permissions": "%1$sI can't attach files. Please check permissions.",
-      "too_many_games": "%1$sYou can start a maximum of %2$,d games at the same time with game lobby. (With Premium: %3$,d)"
+      "game_timeout_drop": "%1$sGörünüşe göre buraya bir oyun düşürdüm ama almayı unuttum... Yeni oyununuza hemen başlayacağım!",
+      "other_lobby_running": "%1$sHalihazırda çalışan bir oyun varken yeni bir oyun lobisi başlatılamaz. (Bu bir hataysa, bir yöneticiye `~>opts lobby reset` komutunu çalıştırmasını söyleyin)",
+      "lobby_timed_out": "%1$sSüre doldu! Doğru cevap: %2$s",
+      "error": "%1$sOyunu kurarken bir hata buldum (dahili hata).",
+      "error_missing_permissions": "%1$sDosya ekleyemiyorum Lütfen izinleri kontrol edin.",
+      "too_many_games": "%1$sOyun lobisi ile aynı anda en fazla %2$,d oyun başlatabilirsiniz. (Premium ile: %3$,d)"
     },
     "opencrate": {
-      "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command).",
-      "not_crate": "%1$sThat is not a valid loot crate.",
-      "nothing_found": "%1$sI didn't find any crate matching your query. Make sure you used the correct name."
+      "no_crate": "%1$sBu türde (%2$s) açılacak herhangi bir ganimet sandığınız yok. (Varsayılan tür dışında bir kasa açmaya çalışıyorsanız, komuttan sonra kasanın adını kullanın).",
+      "not_crate": "%1$sBu geçerli bir ganimet sandığı değil.",
+      "nothing_found": "%1$sSorgunuzla eşleşen bir sandık bulamadım. Doğru adı kullandığınızdan emin olun."
     },
     "dailycrate": {
-      "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
+      "check": "%1$sGünlük sandığınızı **%2$s** içinde toplayabilirsiniz",
       "not_premium": "%1$sPremium değilsin!\nLütfen <https://patreon.com/mantaro> adresinden daha fazlasını kontrol edin.\n\nPremium bir kullanıcı olarak, farklı ekonomi komutları için üst düzey araçlar ve ögeler içerme şansı daha yüksek olan bu komutu kullanarak her gün premium sandık elde edebilirsiniz (4 yıldız ve üzeri!)\nMantaro'yu hayatta tutmak için yardıma ihtiyacımız olduğundan, düşünceniz için teşekkür ederiz. Mantaro'yu kullandığınız için teşekkürler <3",
-      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `/opencrate crate:<crate name>`. You need to buy a crate key using `/buy item:key` to open it."
+      "success": "%1$sAz önce bir **%2$s** aldınız! Başka bir tane almak için 24 saat içinde geri gelin! Bunu `/opencrate crate:<crate name>` kullanarak açabilirsiniz. Açmak için `/buy item:key` kullanarak bir kasa anahtarı satın almanız gerekir."
     },
     "prune": {
-      "no_messages_specified": "%1$sYou specified no messages to prune.",
-      "no_permissions": "%1$sI cannot prune on this server since I don't have the Manage Messages permission.",
-      "no_permissions_user": "%1$sI cannot prune on this server since you don't have the Manage Messages permission.",
-      "no_messages": "%1$sI can't find any messages with the criteria you specified...",
-      "too_few_messages": "%1$sToo few messages to prune. The minimum is 5. This is computed after the message list has been filtered, so if you used a filter (say, mentioned someone), make sure you fetch 100 messages (or don't specify the amount).",
-      "error_retrieving": "%1$sI found an unknown error while retrieving the history to prune the messages (Internal: %2$s %3$s)",
-      "invalid_number": "%1$sPlease specify a valid number.",
-      "not_valid": "%1$sThat's not a valid number of messages to delete.",
-      "less_than_five": "%1$sYou need to provide at least 5 messages. For example, use `/prune amount:20` to delete 20 messages.",
-      "messages_too_old": "%1$sThere are no messages newer than 2 weeks old, discord won't let me delete them.",
-      "success": "%1$sSuccessfully pruned %2$s messages from this channel.",
-      "lack_perms": "%1$sLack of permission while pruning messages (No permission provided: %2$s)",
+      "no_messages_specified": "%1$sSilinecek mesaj belirtmediniz.",
+      "no_permissions": "%1$sMesajları Yönetme iznim olmadığı için bu sunucuda silme işlemi yapamıyorum.",
+      "no_permissions_user": "%1$sMesajları Yönetme izniniz olmadığı için bu sunucuda silme işlemi yapamıyorum.",
+      "no_messages": "%1$sBelirttiğiniz kriterlere sahip herhangi bir mesaj bulamıyorum...",
+      "too_few_messages": "%1$sSilmek için çok az mesaj var. Minimum 5 olmalı. Bu, mesaj listesi filtrelendikten sonra hesaplanır, bu nedenle bir filtre kullandıysanız (örneğin, birinden bahsettiyseniz), 100 mesaj getirdiğinizden emin olun (veya miktarı belirtmeyin).",
+      "error_retrieving": "%1$sMesajları ayıklamak için geçmişi alırken bilinmeyen bir hata buldum (Dahili: %2$s %3$s)",
+      "invalid_number": "%1$sLütfen geçerli bir sayı belirtin.",
+      "not_valid": "%1$sBu, silinecek geçerli bir mesaj sayısı değil.",
+      "less_than_five": "%1$sEn az 5 mesaj sağlamanız gerekir. Örneğin, 20 mesajı silmek için `/prune amount:20` kullanın.",
+      "messages_too_old": "%1$s2 haftadan eski mesaj yok, discord silmeme izin vermiyor.",
+      "success": "%1$sBu kanaldan %2$s mesaj başarıyla silindi.",
+      "lack_perms": "%1$sMesajlar ayıklanırken izin eksikliği (İzin verilmedi: %2$s)",
       "error_deleting": "%1$sUnknown error while pruning messages (Internal: %2$s %3$s)"
     },
     "imageboard": {
@@ -1314,7 +1314,7 @@
         "error": "Sevimli kedi kız resimleri alınırken hata oluştu :("
       },
       "cat": {
-        "error": "%1$sError retrieving cute cat images :("
+        "error": "%1$sSevimli kedi resimleri alınırken hata oluştu :("
       },
       "dog": {
         "error": "%1$sError retrieving cute dog images :("
