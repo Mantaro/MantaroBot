@@ -914,22 +914,22 @@
       "timezone": {
         "not_specified": "%1$sGeçerli bir saat dilimi belirtmeniz gerekir. örneğin `GMT-3` veya `America/Chicago` (ZoneId).",
         "reset": "%1$sZaman dilimini yenile.",
-        "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking up \"what timezone am I in\"",
+        "invalid": "%1$sGeçersiz saat dilimi. Geçerli bir saat dilimi örneğin `GMT-3` veya `America/Chicago` (ZoneId) olacaktır. Genellikle `hangi saat dilimindeyim` sorusuna bakarak saat diliminizi öğrenebilirsiniz",
         "success": "%1$sZaman dilimi kaydedildi, profilinin zaman dilimi: **%2$s**",
         "reset_success": "%1$sSaat diliminizi başarıyla sıfırladınız."
       },
       "description": {
         "header": "Profil Açıklaması.",
         "content_placeholder": "Açıklama buraya gelecek.",
-        "no_content": "%1$sYou didn't specify what you want on your description.",
-        "too_long": "%1$sThe description is too long! (Limit of 300 characters for everyone and 500 for premium users)",
-        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `/profile show`",
+        "no_content": "%1$sAçıklamanızda ne istediğinizi belirtmemişsiniz.",
+        "too_long": "%1$sAçıklama çok uzun! (Herkes için 300 karakter ve premium kullanıcılar için 500 karakter sınırı)",
+        "success": "%1$sProfil açıklamanızı başarıyla ayarladım. `/profile show` ile parlak yeni profilinizi kontrol edin",
         "clear_success": "%1$sAçıklamayı sildim.",
-        "time_out": "%1$sThe time to set your profile description has ran out (or you cancelled it, or started a new one)."
+        "time_out": "%1$sProfil açıklamanızı belirleme süresi doldu (veya siz onu iptal ettiniz veya yeni bir tane başlattınız)."
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge! For example, `/badges display badge:claimer`",
-        "reset_success": "%1$sNo badge will show on the top of your profile now!",
+        "not_specified": "%1$sAna rozetinizi belirtmeniz gerekiyor! Örneğin, `/badges display badge:claimer`",
+        "reset_success": "%1$sArtık profilinizin üst kısmında hiçbir rozet görünmeyecek!",
         "important_success": "%1$sYour display badge is now the most important one.",
         "no_such_badge": "%1$sThere's no such badge...\nYour available badges: %2$s",
         "player_missing_badge": "%1$sYou don't have that badge.\nYour available badges: %2$s",
