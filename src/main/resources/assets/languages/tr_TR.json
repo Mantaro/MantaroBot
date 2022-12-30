@@ -1096,13 +1096,13 @@
       "error_date": "%1$sGirdiğiniz tarih ya geçerli bir tarih değil ya da doğru şekilde ayrıştıramıyorum. Lütfen doğru biçimlendirmeyi deneyin.\nTarih biçiminin `gün/ay` olduğunu unutmayın (Örneğin, 16 Kasım için `/birthday 16-11` kullanın).\nAy veya gün yalnızca bir basamaktan oluşuyorsa, ona 0 eklemeniz gerekir. Örneğin, 14/7, 14/07 olur ve 7/12, 07/12 olur.",
       "added_birthdate": "%1$sDoğum tarihi başarıyla eklendi. Yeni doğum günü tarihi: %2$s *(Biçim: gün-AY)* [day-month]. Bu sunucunun doğum gününüzü duyurması için şimdi `/birthday allowserver`%3$s komutunu çalıştırmanız gerekiyor",
       "invalid_month": "%1$sGeçerli bir ay değil! (Geçerli aylar 1 ve 12 arasındadır.)",
-      "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `/birthday allowserver`",
-      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part.",
-      "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `/birthday denyserver` on this server.",
-      "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `/birthday allowserver` on this server.",
-      "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `/birthday allowserver` instead. This is the default.",
-      "leap": "Your birthday is on the 29th of February, which means it'll get announced on the 29th on leap years, and on the 28th of February on non-leap years.",
-      "already_allowed": "%1$sYou already allowed this server to show your birthday."
+      "no_content": "%1$sDoğum gününüzü belirtmeniz, doğum gününüzü sıfırlamak için `remove` veya doğum günü ay listesini kontrol etmek için bir Ay belirtmeniz gerekir. Ardından, bu sunucunun doğum gününüzü duyurması için artık `/birthday allowserver` komutunu çalıştırmanız gerekir",
+      "new_format": "%1$sYeni tarih biçimi yalnızca `dd-mm` şeklindedir (gün-ay, örneğin 20 Ekim için 20-10). Yılınızı şimdi girmenize gerek yok, bu yüzden o kısmı atlayabilirsiniz.",
+      "allowed_server": "%1$sGeçerli sunucunun doğum gününüzü duyurmasına izin verildi. Gelecekte reddetmek için, bu sunucuda `/birthday denyserver` komudunu çalıştırmanız yeterlidir.",
+      "denied": "%1$sGeçerli sunucunun doğum gününüzü duyurması engellendi. Gelecekte buna izin vermek için bu sunucuda `/birthday allowserver` komutunu çalıştırın.",
+      "already_denied": "%1$sBu sunucu zaten doğum gününüzü duyuramıyor. İzin vermek istiyorsanız, bunun yerine `/birthday allowserver` komutunu çalıştırın. Bu varsayılandır.",
+      "leap": "Doğum gününüz 29 Şubat'ta, yani artık yıllarda 29'da ve artık olmayan yıllarda 28 Şubat'ta duyurulacak.",
+      "already_allowed": "%1$sBu sunucunun doğum gününüzü göstermesine zaten izin verdiniz."
     },
     "remindme": {
       "nothing_specified": "%1$sBana ne hatırlatacağımı söylemeden sana ne hatırlatabilirim ki? Oh! Dur sana bunun ayarlarını hatırlatayım!",
@@ -1111,11 +1111,11 @@
         "success": "%1$sHatırlatıcıyı iptal ettim.",
         "select": "Hangi hatırlatıcıyı iptal edeyim?"
       },
-      "no_time": "%1$sYou didn't specify the time or the time format is wrong. The format is a number followed by either d (days), h (hours), m (minutes) or s (seconds). For example, 1m45s is 1 minute, 45 seconds.",
-      "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `/remindme add time:1m reminder:do the dishes`)",
-      "too_long": "That's too much time... (Maximum: 180 days)",
-      "success": "%1$sI'll remind you (%2$s) of `%3$s` in %4$s",
-      "too_many_reminders": "%1$sYou have too many reminders! Try cancelling some?",
+      "no_time": "%1$sSaati belirtmediniz veya saat biçimi yanlış. Biçim, d (gün), h (saat), m (dakika) veya s (saniye) tarafından takip edilen bir sayıdır. Örneğin 1m45s 1 dakika 45 saniyedir.",
+      "too_little_time": "%1$sBu çok az bir süre (Minimum: 1 dakika, Örnek: `/remindme add time:1m reminder:bulaşıkları yıka`)",
+      "too_long": "Çok uzun bir süreden bahsediyorsunuz... (Maximum: 180 gün)",
+      "success": "%1$sSize (%2$s) %4$s'deki `%3$s`yi hatırlatacağım",
+      "too_many_reminders": "%1$sÇok fazla hatırlatıcınız var! Bazılarını iptal etmeyi dener misin?",
       "content": "İçerik",
       "due_at": "Sebebiyle"
     },
@@ -1123,16 +1123,16 @@
       "invalid_timezone": "%1$sGeçerli bir zamandilimi değil.",
       "success": "%1$s%3$s zaman diliminde saat %2$s.",
       "error": "%1$sZaman dilimini araştırırken bir hatayla karşılaştım... ya da sadece geçersiz bir zaman dilimi.",
-      "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
+      "user_no_timezone": "%1$sBahsettiğiniz kullanıcının profilinde ayarlanmış bir saat dilimi yok."
     },
     "activatekey": {
       "check": {
-        "key_valid_for": "%1$sYour key is valid for %2$s more days :heart:",
-        "no_key_found": "%1$sYou don't have a key enabled... If you're a premium from the old system you should still have your rewards, though!"
+        "key_valid_for": "%1$sAnahtarınız %2$s gün daha geçerli :heart:",
+        "no_key_found": "%1$sEtkinleştirilmiş bir anahtarınız yok... Yine de, eski sistemden bir premium iseniz, ödüllerinizi almanız gerekir!"
       },
-      "no_key_provided": "%1$sI cannot enable a premium key if you don't give me one",
-      "invalid_key": "%1$sYou provided an invalid or already enabled key",
-      "guild_already_premium": "%1$sThis server already has a premium subscription",
+      "no_key_provided": "%1$sBana bir tane premium anahtarı vermezsen etkinleştiremem",
+      "invalid_key": "%1$sGeçersiz veya zaten etkinleştirilmiş bir anahtar sağladınız",
+      "guild_already_premium": "%1$sBu sunucunun zaten bir premium aboneliği var",
       "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)\nIf you're pledging in Patreon, this key is linked to your pledge.",
       "user_already_premium": "%1$sYou're already premium :heart:",
       "user_successful": "%1$sYou're now **Premium** :heart:\nIf you're pledging in Patreon, this key is linked to your pledge.",
