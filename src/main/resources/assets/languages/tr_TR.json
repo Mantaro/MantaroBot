@@ -1133,9 +1133,9 @@
       "no_key_provided": "%1$sBana bir tane premium anahtarı vermezsen etkinleştiremem",
       "invalid_key": "%1$sGeçersiz veya zaten etkinleştirilmiş bir anahtar sağladınız",
       "guild_already_premium": "%1$sBu sunucunun zaten bir premium aboneliği var",
-      "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)\nIf you're pledging in Patreon, this key is linked to your pledge.",
-      "user_already_premium": "%1$sYou're already premium :heart:",
-      "user_successful": "%1$sYou're now **Premium** :heart:\nIf you're pledging in Patreon, this key is linked to your pledge.",
+      "guild_successful": "%1$sBu sunucu artık **Premium** :heart: (%2$d gündür)\nEğer Patreon'da bir bağış yapıyorsanız, bu bağış anahtarınıza bağlıdır.",
+      "user_already_premium": "%1$sZaten premiumsun :heart:",
+      "user_successful": "%1$sArtık **Premium**'sunuz :heart:\nEğer Patreon'da bir bağış yapıyorsanız, bu bağış anahtarınıza bağlıdır.",
       "mp": "Mantaro Patreon anahtar kullanmaz, botun bağımsız çalıştığı gerçeğiyle birinci sınıf olduğu göz önüne alındığında premium olarak verilir."
     },
     "vipstatus": {
@@ -1152,7 +1152,7 @@
         "premium": "**Premium lonca! <3**",
         "old_system": "**Eski sistemli premium lonca! Endişelenme, sen premiumsun ve avantajların düzgün çalışacak!**"
       },
-      "description": "Keys are valid for as long as your pledge is active, unless stated otherwise. Thanks for donating or pledging <3",
+      "description": "Anahtarlar, bağışınız aktif olduğu sürece geçerlidir, aksi belirtilmediği sürece. Bağış yapıp destek verdiğiniz için teşekkür ederiz <3",
       "valid_for_old": "İçin geçerli",
       "old_days_more": "%1$d days more",
       "thank_note": "Desteğiniz için teşekkür ederiz <3",
@@ -1167,14 +1167,14 @@
       "premium_bot": "%1$sMantaro Patreon anahtar kullanmaz. Botu kullanabiliyorlarsa sunucu/kullanıcı premiumdur. Teşekkürler <3"
     },
     "support": {
-      "info": "%1$sIf you need support, head to the support server over to <https://support.mantaro.site> and ask your question in the #support channel!"
+      "info": "%1$sDesteğe ihtiyacınız varsa <https://support.mantaro.site> adresindeki destek sunucusuna gidin ve #support kanalında sorunuzu sorun!"
     },
     "action": {
       "no_mention": "%1$sBir kullanıcıdan bahsetmeniz gerekiyor.",
-      "no_mention_disabled": "%1$sAfter filtering members that have actions disabled, there were no users left to run this action on :(",
-      "actions_disabled": "%1$sThis user has disabled actions for themselves.",
-      "filtered": "%1$sSome users were filtered as they disabled actions being done on them.",
-      "error_retrieving": "%1$sI found an error while retrieving the next gif for this action... (external error, maybe WeebAPI is down?)",
+      "no_mention_disabled": "%1$sİşlemleri devre dışı bırakılmış üyeler filtrelendikten sonra, bu işlemi gerçekleştirecek kullanıcı kalmadı :(",
+      "actions_disabled": "%1$sBu kullanıcı kendisi için eylemleri devre dışı bıraktı.",
+      "filtered": "%1$sBazı kullanıcılar, üzerlerinde yapılan işlemleri devre dışı bıraktıklarından filtrelendi.",
+      "error_retrieving": "%1$sBu eylem için bir sonraki gif'i alırken bir hata buldum... (dış hata, WeebAPI çalışmıyor olabilir mi?)",
       "no_type": "%1$sThis action command has no type. (internal error)",
       "permission_or_unexpected_error": "%1$sS-Sorry! I dropped the image. (Probably I don't have permissions to send it)",
       "lonely": {
