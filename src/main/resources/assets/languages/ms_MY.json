@@ -39,6 +39,7 @@
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
     "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
+    "and": "and",
     "item_lookup": {
       "no_item_emoji": "Tiada item yang berkaitan dengan emoji ini.",
       "no_item_name": "Tiada item yang berkaitan dengan nama ini.",
@@ -415,6 +416,8 @@
         "description": "Berikut adalah senarai respons bagi arahan ini dalam format asal (apa yang anda masukkan ke dalam arahan)."
       },
       "clear": {
+        "confirmation": "%1$sWould you like to clear ALL the custom commands from this server? Click yes to continue, no otherwise.",
+        "cancelled": "%1$sCancelled clear operation.",
         "success": "%1$s**%2$d Arahan Kustom Telah Dipadamkan**. Arahan yang disematkan/dikunci tidak dipadamkan, anda boleh membukanya jika hendak."
       },
       "eval": {
@@ -474,6 +477,13 @@
         "no_command": "%1$sAnda harus menyatakan arahan yang ingin anda membuka.",
         "not_locked": "%1$sArahan ini tidak dikunci.",
         "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
+      "info": {
+        "header": "Custom Command Information for %1$s",
+        "owner": "**Owner:**",
+        "owner_id": "**Owner ID:**",
+        "nsfw": "**NSFW:**",
+        "responses": "**Responses:**"
       },
       "character_not_allowed": "%1$sAksara ini tidak dibenarkan dalam nama arahan kustom.",
       "already_exists": "%1$sArahan `%2$s` sudah wujud, ia merupakan arahan bot secara default.",
@@ -1233,23 +1243,18 @@
     "game": {
       "won_games": "%1$s%2$s telah memenangi **%3$s permainan**",
       "nothing_specified": "%1$sAnda tidak menyatakan apa-apa untuk dimainkan...",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example: `~>game lobby pokemon, trivia`",
-      "invalid_selection": "%1$sAnda perlu menyatakan sekurang-kurangnya dua permainan. (Permainan sah: character, pokemon, number, trivia)",
-      "multiple": {
-        "invalid": "%1$sAnda perlu menyatakan permainan dan bilangan kali untuk menjalankannya.",
-        "invalid_times": "%1$sBilangan kali tidak sah. Ingat bahawa ia mestilah nombor bulat.",
-        "no_character": "%1$sAnda tidak boleh menggunakan permainan watak dalam permainan berkali-kali atau lobi disebabkan had AniList API."
-      },
       "trivia": {
         "wrong_diff": "%1$sKesukaran yang dinyatakan salah! (Disokong: easy, medium dan hard)",
         "fetch_error": "%1$sRalat semasa memulakan trivia. Nampaknya Open Trivia DB tergendala.",
         "possibilities": "Kemungkinan",
         "difficulty": "Kesukaran",
-        "category": "Kategori"
+        "category": "Kategori",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Question: %2$s, Answer: %3$s",
+        "footer": "You have %1$s attempt and 1 minute (Click end to end the game)."
       },
       "number": {
         "start": "%1$sTeka nombor tersebut! **Anda diberi 5 cubaan dan 1 minit. Nombor tersebut di antara 0 dan 150**",
-        "nan": "%1$sItu bukan nombor pun...",
+        "nan": "%1$sThat's not a number...",
         "ended_game": "%1$sPermainan ditamatkan. Nombor tersebut ialah: %2$d",
         "all_attempts_used": "%1$sSemua cubaan telah digunakan, permainan sedang ditamatkan. Nombor tersebut ialah: %2$d",
         "hint": "Hint: Nombor tersebut %1$s daripada nombor input anda.",
@@ -1258,30 +1263,26 @@
       },
       "pokemon": {
         "header": "Siapakah pokemon itu?",
-        "footer": "Anda diberi 5 cubaan dan 75 saat. (Taip end untuk menamatkan permainan ini)"
+        "footer": "You have %1$d attempts and 1 minute. (Type end to end the game)"
       },
-      "started_mp_role": "%1$sMemulakan lobi berbilang pemain dengan semua pengguna yang mempunyai peranan yang dinyatakan: **%2$s**",
-      "started_mp_user": "%1$sMemulakan lobi berbilang pemain dengan pengguna-pengguna: **%2$s**",
-      "lobby_started": "%1$sLobi yang baru telah bermula! **Permainan: %2$s**\nAnda boleh menaip `endlobby` untuk menamatkan semua permainan dan mematikan lobi ini.",
-      "game_timeout_drop": "%1$sNampaknya saya terlupa sesuatu permainan di sini... Saya akan memulakan permainan anda yang baru sekarang!",
-      "other_lobby_running": "%1$sTidak dapat memulakan lobi permainan yang baru jika terdapat permainan yang sedang dijalankan. (Sekiranya ini merupakan ralat, sila meminta admin menjalankan `~>opts lobby reset`)",
       "lobby": {
         "ended_game": "%1$sPermainan ditamatkan. Jawapan diterima ialah: %2$s",
         "ended_lobby": "%1$sLobi berjaya ditamatkan! Terima kasih kerana bermain.",
-        "all_attempts_used": "%1$sSemua cubaan telah digunakan, permainan sedang ditamatkan. Jawapan diterima ialah: %2$s",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Answer: %2$s",
         "incorrect_answer": "%1$sTidak tepat, anda mempunyai %2$d cubaan lagi.",
         "won_game": "%1$s**%2$s** telah memenangi $%3$,d kredit kerana jawapannya tepat!"
       },
-      "lobby_time_out": "%1$sMasa telah tamat! Jawapan yang betul ialah: %2$s",
-      "end_footer": "Anda diberi 5 cubaan dan 60 saat. (Taip end untuk menamatkan permainan ini)",
-      "trivia_end_footer": "Anda diberi %1$s cubaan dan 60 saat. (Taip end untuk menamatkan permainan ini)",
-      "error": "%1$sSaya terjumpa ralat semasa menyediakan permainan (ralat dalaman)",
+      "character": {
+        "start": "Guess the Anime Character",
+        "load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
+        "footer": "You have %1$d attempts and 1 minute (Type end to end the game)."
+      },
+      "game_timeout_drop": "%1$sNampaknya saya terlupa sesuatu permainan di sini... Saya akan memulakan permainan anda yang baru sekarang!",
+      "other_lobby_running": "%1$sTidak dapat memulakan lobi permainan yang baru jika terdapat permainan yang sedang dijalankan. (Sekiranya ini merupakan ralat, sila meminta admin menjalankan `~>opts lobby reset`)",
+      "lobby_timed_out": "%1$sThe time ran out! The correct answer is: %2$s",
+      "error": "%1$sI found an error while setting up the game (internal error).",
       "error_missing_permissions": "%1$sSaya tidak dapat menyertakan fail. Sila memeriksa kebenaran.",
-      "character_load_error": "%1$sGagal menyediakan permainan untuk watak pra-simpanan: %2$s. Sekiranya ini berlaku untuk semua watak, ia mungkin ralat sementara.",
-      "character_request_error": "%1$sRalat semasa memohon watak ini dari API Kitsu.",
-      "character_start": "Teka watak tersebut",
-      "too_many_games": "%1$sAnda boleh memulakan maksimum %2$,d permainan pada masa yang sama dengan lobi permainan. (Dengan Premium: %3$,d)",
-      "disabled_multiple": "%1$sPelayan ini telah mematikan permainan berkali-kali/lobi."
+      "too_many_games": "%1$sAnda boleh memulakan maksimum %2$,d permainan pada masa yang sama dengan lobi permainan. (Dengan Premium: %3$,d)"
     },
     "opencrate": {
       "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command).",
@@ -1510,7 +1511,7 @@
       "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk selamatkan item ini. *(Dompet: %2$,d, Diperlukan: %3$,d)*",
       "dust": "%1$sInventori anda terlalu berhabuk untuk menyelamatkan sesuatu item, cuba membersihkannya dengan menggunakan mop.",
       "no_returnables": "%1$sItem ini tiada elemen penyelamatan yang dapat dipulangkan.",
-      "success": "%1$sBerjaya selamatkan %2$s dan mendapat %3$s. Kosnya ialah %4$s kredit.",
+      "success": "%1$sSuccessfully salvaged %2$s %3$s and got %4$s %5$s in return. The cost was %6$s credits.",
       "ls": {
         "header": "Senarai Penyelamatan Item",
         "cost": "Kos Penyelamatan: ",
@@ -2643,7 +2644,8 @@
     "no": "No",
     "accept": "Accept",
     "deny": "Deny",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "end": "End"
   },
   "time": {
     "day": "day",

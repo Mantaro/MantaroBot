@@ -39,6 +39,7 @@
     "birthday": "**New birthdays for today, wish them Happy Birthday!**",
     "member_lookup_failure": "%1$sCannot find any member with that name :(",
     "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
+    "and": "and",
     "item_lookup": {
       "no_item_emoji": "لا يوجد عنصر مرتبط بهذا الرمز.",
       "no_item_name": "لا يوجد عنصر مرتبط بهذا الاسم.",
@@ -415,6 +416,8 @@
         "description": "هذه قائمة بجميع ردود هذا الأمر على شكل خام (ما تدخله في الأمر)."
       },
       "clear": {
+        "confirmation": "%1$sWould you like to clear ALL the custom commands from this server? Click yes to continue, no otherwise.",
+        "cancelled": "%1$sCancelled clear operation.",
         "success": "%1$s**تم مسح %2$d أمر مُخصص **. الأوامر المقفلة/المثبتة لم تُحذف, قم بفك القفل عنهم اذا اردت حذفهم."
       },
       "eval": {
@@ -474,6 +477,13 @@
         "no_command": "%1$sيجب ان تحدد الأمر المُراد فك القفل عنه.",
         "not_locked": "%1$s هذا الأمر غير مُقفل.",
         "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
+      "info": {
+        "header": "Custom Command Information for %1$s",
+        "owner": "**Owner:**",
+        "owner_id": "**Owner ID:**",
+        "nsfw": "**NSFW:**",
+        "responses": "**Responses:**"
       },
       "character_not_allowed": "%1$sلايسمح بإستخدام هذا الحرف في أوامر الأسماء المخصصه. ",
       "already_exists": "%1$sهذا الأمر `%2$s` موجود بالفعل وانه أمر البوت الإفتراضي. ",
@@ -1233,23 +1243,18 @@
     "game": {
       "won_games": "%1$s%2$s فاز **%3$s لعبة**",
       "nothing_specified": "%1$sلم تحدد أي شيء لتلعبه.",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example: `~>game lobby pokemon, trivia`",
-      "invalid_selection": "%1$sYou need to specify two games at least. (Valid games: character, pokemon, number, trivia)",
-      "multiple": {
-        "invalid": "%1$sتحتاج إلى تحديد اللعبة وعدد المرات المُراد لعبها.",
-        "invalid_times": "%1$sعدد مرات لعب غير صحيحة. تذكر أنه يجب أن يكون عدد صحيح.",
-        "no_character": "%1$sلا يمكنك استخدام لعبة الأحرف في لعبة متعددة أو اللوبي بسبب قيود API AniList."
-      },
       "trivia": {
         "wrong_diff": "%1$sاختيار خاطئ! (المُتاح: easy, medium and hard)",
         "fetch_error": "%1$sخطأ أثناء تشغيل تريڤيا. على ما يبدو هنالك مشكلة اثناء فتح قاعدة بيانات تريڤيا.",
         "possibilities": "الإحتمالات",
         "difficulty": "الصعوبة",
-        "category": "الفئة"
+        "category": "الفئة",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Question: %2$s, Answer: %3$s",
+        "footer": "You have %1$s attempt and 1 minute (Click end to end the game)."
       },
       "number": {
         "start": "%1$sخمن الرقم! **لديك خمس محاولات ودقيقة واحدة. الرقم يجب ان يكون بين 0 و 150**",
-        "nan": "%1$sهذا ليس رقم...",
+        "nan": "%1$sThat's not a number...",
         "ended_game": "%1$sنهاية اللعبة. الرقم الصحيح هو: %2$d",
         "all_attempts_used": "%1$sتم إستخدام جميع المحاولات، نهاية اللعبة. الرقم الصحيح هو: %2$d",
         "hint": "ملحوظة: الرقم هو %1$s من رقم الإدخال الخاص بك.",
@@ -1258,30 +1263,26 @@
       },
       "pokemon": {
         "header": "من هذا البوكيمون؟",
-        "footer": "لديك 5 محاولات و 75 ثانية. (قم بكتابة end لإنهاء اللعبة)"
+        "footer": "You have %1$d attempts and 1 minute. (Type end to end the game)"
       },
-      "started_mp_role": "%1$sبدأ لوبي متعدد اللاعبين مع جميع المستخدمين مع الرتبة المحددة: **%2$s**",
-      "started_mp_user": "%1$sبدأ لوبي متعدد اللاعبين مع الأعضاء: **%2$s**",
-      "lobby_started": "%1$sبدأ لوبي جديد! **الألعاب: %2$s** \nيمكنك كتابة `endlobby` لإنهاء جميع الألعاب وإغلاق اللوبي.",
-      "game_timeout_drop": "%1$sيبدو أنني أسقطت لعبة هنا، ولكنني نسيت أن التقطها... سأبدأ لعبتك الجديدة الآن!",
-      "other_lobby_running": "%1$sلا يمكن بدء لوبي لعبة جديدة عندما يكون هناك لعبة قيد التشغيل حاليا. (إذا كان هذا خطأ، أخبر المسؤول أن يستخدم الأمر: `~>opts lobby reset`)",
       "lobby": {
         "ended_game": "%1$sأنهى اللعبة. الإجابات المحتملة كانت: %2$s",
         "ended_lobby": "%1$sتم إغلاق اللوبي! شكراً للعبك. ",
-        "all_attempts_used": "%1$sتم إستخدام جميع المحاولات بالفعل، جاري إنهاء اللعبة. الإجابات المحتملة هي: %2$s",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Answer: %2$s",
         "incorrect_answer": "%1$sهذا ليس هو! لديك %2$d محاولات متبقية. ",
         "won_game": "%1$s**%2$s** قام بالفوز بـ $%3$,d من المال من خلال الإجابة بشكل صحيح!"
       },
-      "lobby_time_out": "%1$sانتهى الوقت! الإجابة الصحيحة هي %2$s",
-      "end_footer": "لديك 5 محاولات و 60 ثانية. (قم بكتابة end لإنهاء اللعبة)",
-      "trivia_end_footer": "لديك %1$s محاولة متبقية و 60 ثانية. ( إكتب end لإنهاء اللعبة )",
-      "error": "%1$sوجدت خطأ أثناء تشغيل اللعبة... (خطأ داخلي)",
+      "character": {
+        "start": "Guess the Anime Character",
+        "load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
+        "footer": "You have %1$d attempts and 1 minute (Type end to end the game)."
+      },
+      "game_timeout_drop": "%1$sيبدو أنني أسقطت لعبة هنا، ولكنني نسيت أن التقطها... سأبدأ لعبتك الجديدة الآن!",
+      "other_lobby_running": "%1$sلا يمكن بدء لوبي لعبة جديدة عندما يكون هناك لعبة قيد التشغيل حاليا. (إذا كان هذا خطأ، أخبر المسؤول أن يستخدم الأمر: `~>opts lobby reset`)",
+      "lobby_timed_out": "%1$sThe time ran out! The correct answer is: %2$s",
+      "error": "%1$sI found an error while setting up the game (internal error).",
       "error_missing_permissions": "%1$sI can't attach files. Please check permissions.",
-      "character_load_error": "%1$s حدث خطأ أثناء إعداد اللعبة لشخصية محفوظة مسبقاً: %2$s. إذا حدث هذا لكل الشخصيات, قد يكون خطأ مؤقت.",
-      "character_request_error": "%1$s حدث خطأ اثناء طلب الشخصية من Kitsu's API.",
-      "character_start": "خمن الشخصية",
-      "too_many_games": "%1$sYou can start a maximum of %2$,d games at the same time with game lobby. (With Premium: %3$,d)",
-      "disabled_multiple": "%1$s هذا السيرفر قام بتعطيل اللعبة المتعددة/اللوبيات."
+      "too_many_games": "%1$sYou can start a maximum of %2$,d games at the same time with game lobby. (With Premium: %3$,d)"
     },
     "opencrate": {
       "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command).",
@@ -1510,7 +1511,7 @@
       "not_enough_money": "%1$sYou don't have enough money to salvage this item. *(Wallet: %2$,d, Needed: %3$,d)*",
       "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
       "no_returnables": "%1$sThis item has no returnable salvage elements.",
-      "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.",
+      "success": "%1$sSuccessfully salvaged %2$s %3$s and got %4$s %5$s in return. The cost was %6$s credits.",
       "ls": {
         "header": "قائمة الأغراض القابلة للصناعة",
         "cost": "تكلفة الإصلاح: ",
@@ -2643,7 +2644,8 @@
     "no": "No",
     "accept": "Accept",
     "deny": "Deny",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "end": "End"
   },
   "time": {
     "day": "day",

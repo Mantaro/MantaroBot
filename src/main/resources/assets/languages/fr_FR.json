@@ -39,6 +39,7 @@
     "birthday": "**Nouveaux anniversaires pour aujourd'hui, souhaitez leur un Joyeux Anniversaire !**",
     "member_lookup_failure": "%1$sJe n'ai trouvé aucun membre portant ce nom :(",
     "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
+    "and": "and",
     "item_lookup": {
       "no_item_emoji": "Il n'y a pas d'objet associé à cet emoji.",
       "no_item_name": "Il n'y a pas d'objet associé à ce nom.",
@@ -415,6 +416,8 @@
         "description": "Ceci est une liste de toutes les réponses de cette commande au format brut (ce que vous entrez dans la commande)."
       },
       "clear": {
+        "confirmation": "%1$sWould you like to clear ALL the custom commands from this server? Click yes to continue, no otherwise.",
+        "cancelled": "%1$sCancelled clear operation.",
         "success": "%1$s**%2$d commandes personnalisées ont été effacées**. Exception faite des commandes verrouillées/épinglées, débloque-les d'abord si tu souhaites les supprimer."
       },
       "eval": {
@@ -474,6 +477,13 @@
         "no_command": "%1$sTu dois spécifier la commande que tu veux déverrouiller.",
         "not_locked": "%1$sCette commande n'est pas verrouillée.",
         "success": "%1$sTu as déverrouillé la commande `%2$s` avec succès. Tu devras la verrouiller à nouveau si tu veux éviter de futures éditions."
+      },
+      "info": {
+        "header": "Custom Command Information for %1$s",
+        "owner": "**Owner:**",
+        "owner_id": "**Owner ID:**",
+        "nsfw": "**NSFW:**",
+        "responses": "**Responses:**"
       },
       "character_not_allowed": "%1$sCe caractère n'est pas autorisé pour les noms de commandes personnalisées.",
       "already_exists": "%1$sLa commande `%2$s` existe déjà.",
@@ -1233,23 +1243,18 @@
     "game": {
       "won_games": "%1$s%2$s a gagné **%3$s parties**",
       "nothing_specified": "%1$sTu n'as pas spécifié le jeu à lancer..",
-      "not_enough_games": "%1$sTu dois spécifier au moins deux jeux. Par exemple: `~>game lobby pokemon, trivia`",
-      "invalid_selection": "%1$sTu dois spécifier au moins deux jeux. (Jeux valides : character, pokemon, number, trivia)",
-      "multiple": {
-        "invalid": "%1$sTu dois spécifier le jeu et le nombre de fois auquel tu veux y jouer",
-        "invalid_times": "%1$sNombre de parties à jouer invalide.",
-        "no_character": "%1$sTu ne peux pas jouer à character en multijoueur ou en lobby à cause de la limitation de l'API."
-      },
       "trivia": {
         "wrong_diff": "%1$sDifficulté incorrecte! (Supporté : easy, medium et hard)",
         "fetch_error": "%1$sErreur rencontrée en commençant le trivia.",
         "possibilities": "Possibilités",
         "difficulty": "Difficulté",
-        "category": "Catégorie"
+        "category": "Catégorie",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Question: %2$s, Answer: %3$s",
+        "footer": "You have %1$s attempt and 1 minute (Click end to end the game)."
       },
       "number": {
         "start": "%1$sDevine le nombre! **Tu as 5 chances et 1 minute pour trouver ce nombre entre 0 et 150.**",
-        "nan": "%1$sCe n'est même pas un nombre...",
+        "nan": "%1$sThat's not a number...",
         "ended_game": "%1$sPartie terminée, le nombre était: %2$d",
         "all_attempts_used": "%1$sTu n'as plus d'essais. Le nombre était : %2$d",
         "hint": "Indice: Le nombre est %1$s que ce que tu viens d'écrire.",
@@ -1258,30 +1263,26 @@
       },
       "pokemon": {
         "header": "Qui est ce Pokémon?",
-        "footer": "Tu as 5 essais et 75 secondes. (Écris end pour arrêter la partie)"
+        "footer": "You have %1$d attempts and 1 minute. (Type end to end the game)"
       },
-      "started_mp_role": "%1$sLobby multi-joueur démarré avec tous les membres ayant le rôle: **%2$s**",
-      "started_mp_user": "%1$sLobby multi-joueur démarré avec les membres: **%2$s**",
-      "lobby_started": "%1$sNouveau lobby démarré! **Jeux : %2$s**\nTu peux envoyer `endlobby` pour arrêter tous les jeux et sortir du lobby.",
-      "game_timeout_drop": "%1$sOups... Il semble que j'aie laissé un jeu ici et que j'ai oublié de venir le chercher... J'en démarre un nouveau sans tarder !",
-      "other_lobby_running": "%1$sJe ne peux pas démarrer un nouveau lobby tant qu'un jeu est en cours. (Si c'est une erreur, dis à un admin de faire la commande `~>opts lobby reset`)",
       "lobby": {
         "ended_game": "%1$sJeu terminé. Les réponses possibles étaient : %2$s",
         "ended_lobby": "%1$sLobby arrêté! Merci d'avoir joué.",
-        "all_attempts_used": "%1$sLe jeu se termine ici, tu as déjà utilisé tous tes essais. Les réponses possibles étaient : %2$s",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Answer: %2$s",
         "incorrect_answer": "%1$sCe n'est pas ça, tu as encore %2$d essais.",
         "won_game": "%1$s**%2$s** vient de gagner $%3$,d crédits en répondant correctement!"
       },
-      "lobby_time_out": "%1$sLe temps est écoulé, la réponse correcte était: %2$s",
-      "end_footer": "Tu as 5 essais et 60 secondes. (Envoie end pour arrêter la partie)",
-      "trivia_end_footer": "Tu as %1$s essais et 60 secondes. (Envoie end pour arrêter la partie)",
-      "error": "%1$sJ'ai rencontré une erreur en préparant le jeu... (erreur interne)",
+      "character": {
+        "start": "Guess the Anime Character",
+        "load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
+        "footer": "You have %1$d attempts and 1 minute (Type end to end the game)."
+      },
+      "game_timeout_drop": "%1$sOups... Il semble que j'aie laissé un jeu ici et que j'ai oublié de venir le chercher... J'en démarre un nouveau sans tarder !",
+      "other_lobby_running": "%1$sJe ne peux pas démarrer un nouveau lobby tant qu'un jeu est en cours. (Si c'est une erreur, dis à un admin de faire la commande `~>opts lobby reset`)",
+      "lobby_timed_out": "%1$sThe time ran out! The correct answer is: %2$s",
+      "error": "%1$sI found an error while setting up the game (internal error).",
       "error_missing_permissions": "%1$sJe ne peux pas ajouter de fichier. Vérifie mes permissions s'il te plait.",
-      "character_load_error": "%1$sRapporte ça sur le serveur officiel s'il te plait. Échec de mise en place du jeu pour le personnage pré-sauvegardé : %2$s",
-      "character_request_error": "%1$sErreur en requérant ce personnage à l'API AniList.",
-      "character_start": "Devine le personnage",
-      "too_many_games": "%1$sTu peux démarrer au maximum %2$,d jeux en même temps dans un lobby. (%3$,d en étant Premium)",
-      "disabled_multiple": "%1$sCe serveur a désactivé les commandes game multiple/lobby."
+      "too_many_games": "%1$sTu peux démarrer au maximum %2$,d jeux en même temps dans un lobby. (%3$,d en étant Premium)"
     },
     "opencrate": {
       "no_crate": "%1$sTu n'as pas de coffre au trésor de ce type (%2$s) à ouvrir :( (Si tu essaies d'ouvrir un coffre autre que celui par défaut, tu dois le nommer après la commande).",
@@ -1510,7 +1511,7 @@
       "not_enough_money": "%1$sTu n'as pas assez d'argent pour sauver cet objet. *(Portefeuille; %2$,d crédits , Nécessaire: %3$,d crédits)*",
       "dust": "%1$sTon inventaire à trop de poussière pour essayer de sauver cet objet, essaye de le nettoyer avec un balai.",
       "no_returnables": "%1$sCet objet n'a pas rendu d'éléments ayant servi à le sauver.",
-      "success": "%1$s %2$s réparée avec succès et tu as obtenu %3$s en retour. Ça t'a couté %4$s crédits.",
+      "success": "%1$sSuccessfully salvaged %2$s %3$s and got %4$s %5$s in return. The cost was %6$s credits.",
       "ls": {
         "header": "Liste des objets qui peuvent être réparés",
         "cost": "Cout de la réparation: ",
@@ -2643,7 +2644,8 @@
     "no": "Non",
     "accept": "Accepter",
     "deny": "Refuser",
-    "cancel": "Annuler"
+    "cancel": "Annuler",
+    "end": "End"
   },
   "time": {
     "day": "jour",
