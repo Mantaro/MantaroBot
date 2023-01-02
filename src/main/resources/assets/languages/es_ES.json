@@ -39,6 +39,7 @@
     "birthday": "**¡Nuevos cumpleaños de hoy, deséenles Feliz Cumpleaños!**",
     "member_lookup_failure": "%1$sNo puedo encontrar ningún miembro con ese nombre :(",
     "slash_member_lookup_failure": "%1$sEl usuario que me diste pareciera no estar en este servidor.",
+    "and": "and",
     "item_lookup": {
       "no_item_emoji": "No hay ningún objeto asociado con este emoji.",
       "no_item_name": "No hay ningún objeto asociado con este emoji.",
@@ -415,6 +416,8 @@
         "description": "Este es un listado de todas las respuesta de este comando en un formato sin procesar (lo que ingresas en el comando)."
       },
       "clear": {
+        "confirmation": "%1$sWould you like to clear ALL the custom commands from this server? Click yes to continue, no otherwise.",
+        "cancelled": "%1$sCancelled clear operation.",
         "success": "%1$s**He limpiado %2$d Comandos Personalizados**. Comandos bloqueados/fijados no fueron eliminados, desbloquéalos antes si quieres borrarlos."
       },
       "eval": {
@@ -474,6 +477,13 @@
         "no_command": "%1$sDebes especificar el comando que deseas desbloquear.",
         "not_locked": "%1$sEste comando no está bloqueado.",
         "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
+      "info": {
+        "header": "Custom Command Information for %1$s",
+        "owner": "**Owner:**",
+        "owner_id": "**Owner ID:**",
+        "nsfw": "**NSFW:**",
+        "responses": "**Responses:**"
       },
       "character_not_allowed": "%1$sEste carácter no está habilitado para ser usado en los nombres de comandos personalizados.",
       "already_exists": "%1$sEl comando `%2$s` ya existe y es un comando predeterminado del bot.",
@@ -1233,23 +1243,18 @@
     "game": {
       "won_games": "%1$s%2$s ha ganado **%3$s juegos**!",
       "nothing_specified": "%1$sNo especificaste nada que jugar.",
-      "not_enough_games": "%1$sNecestias especificar al menos dos juegos. Por ejemplo: `~>game lobby pokemon, trivia`",
-      "invalid_selection": "%1$sNecesitas especificar al menos dos juegos. (Juegos válidos: character, pokemon, number, trivia)",
-      "multiple": {
-        "invalid": "%1$sNecesitas especificar el juego y cuantas veces deseas jugarlo.",
-        "invalid_times": "%1$sNúmero inválido de repeticiones.",
-        "no_character": "%1$sNo puedes usar game character en game multiple o lobby debido a limitaciones de la API de AniList."
-      },
       "trivia": {
         "wrong_diff": "%1$s¡Dificultad incorrecta! (Dificultades válidas: easy, medium y hard)",
         "fetch_error": "%1$sError iniciando el juego de trivia. Puede que Open Trivia DB esté teniendo dificultades.",
         "possibilities": "Posibilidades",
         "difficulty": "Dificultad",
-        "category": "Categoría"
+        "category": "Categoría",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Question: %2$s, Answer: %3$s",
+        "footer": "You have %1$s attempt and 1 minute (Click end to end the game)."
       },
       "number": {
         "start": "%1$s¡Adivina el número! **Tienes 5 intentos y 1 minuto. El número es entre 0 y 150**",
-        "nan": "%1$sEso no es un número...",
+        "nan": "%1$sThat's not a number...",
         "ended_game": "%1$sJuego terminado, el número era: %2$d",
         "all_attempts_used": "%1$sUsaste todos los intentos, terminando el juego. El número era: %2$d",
         "hint": "Tip: El número es %1$s que el numero que pusiste.",
@@ -1258,30 +1263,26 @@
       },
       "pokemon": {
         "header": "¿Cuál es ese pokémon?",
-        "footer": "Tienes 5 intentos y 75 segundos. (Escribe end para terminar el juego)"
+        "footer": "You have %1$d attempts and 1 minute. (Type end to end the game)"
       },
-      "started_mp_role": "%1$sIniciada una partida multijugador con los roles: %2$s",
-      "started_mp_user": "%1$sIniciada una partida multijugador con los usuarios: %2$s",
-      "lobby_started": "%1$s¡Nueva partida iniciada! **Juegos: %2$s**\nPuedes escribir `endlobby` para terminar todos los juegos.",
-      "game_timeout_drop": "%1$sParece que dejé un juego por aquí, pero me olvidé de recogerlo... ¡Empezaré tu nuevo juego ahora mismo!",
-      "other_lobby_running": "%1$sNo puedo iniciar una nueva partida si ya hay una partida en curso. (Si crees que esto es un error, dile a un administrador que ejecute `~>opts lobby reset`)",
       "lobby": {
         "ended_game": "%1$sJuego terminado. Las respuestas posibles eran: %2$s",
         "ended_lobby": "%1$s¡Partida terminada! Gracias por jugar.",
-        "all_attempts_used": "%1$sUsaste todos los intentos, terminando el juego. Las respuestas posibles eran: %2$s",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Answer: %2$s",
         "incorrect_answer": "%1$sEsa no es la respuesta, tienes %2$d intentos más.",
         "won_game": "%1$s¡**%2$s** ha ganado $%3$d créditos por responder correctamente!"
       },
-      "lobby_time_out": "%1$s¡Se acabó el tiempo! La respuesta correcta era: %2$s",
-      "end_footer": "Tienes 5 intentos y 60 segundos. (Escribe end para terminar el juego)",
-      "trivia_end_footer": "Tienes %1$s intentos y 60 segundos. (Escribe end para terminar el juego)",
-      "error": "%1$sEncontré un error mientras iniciaba el juego... (error interno)",
+      "character": {
+        "start": "Guess the Anime Character",
+        "load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
+        "footer": "You have %1$d attempts and 1 minute (Type end to end the game)."
+      },
+      "game_timeout_drop": "%1$sParece que dejé un juego por aquí, pero me olvidé de recogerlo... ¡Empezaré tu nuevo juego ahora mismo!",
+      "other_lobby_running": "%1$sNo puedo iniciar una nueva partida si ya hay una partida en curso. (Si crees que esto es un error, dile a un administrador que ejecute `~>opts lobby reset`)",
+      "lobby_timed_out": "%1$sThe time ran out! The correct answer is: %2$s",
+      "error": "%1$sI found an error while setting up the game (internal error).",
       "error_missing_permissions": "%1$sNo puedo enviar archivos. Por favor revisar los permisos.",
-      "character_load_error": "%1$sFavor reportar esto en el servidor de soporte. Fallo al iniciar juego para personaje pre-definido: %2$s",
-      "character_request_error": "%1$sError al obtener este personaje desde la API de Kitsu.",
-      "character_start": "¡Adivina el personaje!",
-      "too_many_games": "%1$sPuedes iniciar un máximo de %2$,d juegos al mismo tiempo con game lobby (Con Premium: %3$,d)",
-      "disabled_multiple": "%1$sEste servidor tiene game multiple/lobby deshabilitado."
+      "too_many_games": "%1$sPuedes iniciar un máximo de %2$,d juegos al mismo tiempo con game lobby (Con Premium: %3$,d)"
     },
     "opencrate": {
       "no_crate": "%1$sNo tienes ninguna caja de loot de este tipo (%2$s) para abrir. (Si estás intentando abrir una cajita de otro tipo que el por defecto, usa el nombre en el comando).",
@@ -1510,7 +1511,7 @@
       "not_enough_money": "%1$sNo tienes suficiente dinero para rescatar este ítem. *(Billetera: %2$,d, Necesitas: %3$,d)*",
       "dust": "%1$sTu inventario tiene mucho polvo para hacer esto, intenta limpiarlo con una mopa.",
       "no_returnables": "%1$sEste ítem no tiene ningún retorno al salvarlo.",
-      "success": "%1$sHas rescatado %2$s y recibiste %3$s en retorno. El costo fue de %4$s créditos.",
+      "success": "%1$sSuccessfully salvaged %2$s %3$s and got %4$s %5$s in return. The cost was %6$s credits.",
       "ls": {
         "header": "Lista de Ítems Salvables",
         "cost": "Costo de Salvamiento: ",
@@ -2643,7 +2644,8 @@
     "no": "No",
     "accept": "Aceptar",
     "deny": "Rechazar",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "end": "End"
   },
   "time": {
     "day": "día",

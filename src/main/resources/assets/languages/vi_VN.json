@@ -36,9 +36,10 @@
     "query_too_small": "%1$sCâu tìm kiếm của bạn quá ngắn. Hãy đảm bảo rằng bạn đang tìm kiếm ít nhất 4 ký tự. Nếu tên người dùng quá ngắn, tốt nhất bạn nên ghi rõ `tên người dùng#số hiệu` hoặc id của người dùng.",
     "dust": "Ở đây chỉ có mỗi bụi.",
     "invalid_syntax": "Cú pháp không hợp lệ.",
-    "birthday": "**New birthdays for today, wish them Happy Birthday!**",
-    "member_lookup_failure": "%1$sCannot find any member with that name :(",
-    "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
+    "birthday": "**Ngày mới thêm tuổi mới, hãy Chúc mừng sinh nhật cho họ nào!**",
+    "member_lookup_failure": "%1$sKhông thể tìm thấy bất kì thành viên nào với tên đó :(",
+    "slash_member_lookup_failure": "%1$sNgười dùng bạn tìm kiếm dường như không ở trong máy chủ này.",
+    "and": "và",
     "item_lookup": {
       "no_item_emoji": "Không có vật phẩm nào phù hợp với biểu tượng này.",
       "no_item_name": "Không có vật phẩm nào phù hợp với tên này.",
@@ -50,7 +51,7 @@
       "mop_not_enough": "%1$sMức độ bám bụi của bạn ít hơn 5%%, vì vậy lau dọn sẽ không quá hữu ích.",
       "milk": "%1$sĐã xóa bỏ hết tất cả các hiệu ứng của thuốc.",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `/buy item:key`",
+        "no_key": "%1$sBạn cần có một cái chìa khóa để mở hòm. Nó đã bị khóa! Hãy mua chìa khoá ngay bằng lệnh `/buy item:key`",
         "no_crate": "%1$sBạn cần phải có hòm để mở! Bạn sẽ thường nhận được hòm từ các lệnh tiền tệ.",
         "success": "%1$sBạn đã mở hòm và nhận được: %2$s%3$s. Chúc mừng!",
         "success_high": "%1$sChúc mừng bạn đã thu được vật phẩm với độ hiếm trên 3 sao này: %2$s. Số lượng vật phẩm thu được đã được thể hiện qua dòng tin nhắn trên",
@@ -58,7 +59,7 @@
       },
       "potion_active": "%1$sBạn đã có sẵn hiệu ứng **%2$s** đang hoạt động và có số lượng tối đa có thể của nó!",
       "potion_not_found": "%1$sTôi không tìm thấy thuốc hay loại trang bị đó!",
-      "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s* (%4$dx). Check your shiny new effect on `/profile stats`",
+      "potion_applied": "%1$sÁp dụng thành công hiệu ứng **%2$s** thuộc loại *%3$s* (%4$dx). Xem hiệu ứng mới của bạn tại `/profile stats`",
       "potion_applied_multiple": "%1$sÁp dụng thành công **%2$s** của loại *%3$s*.\nBạn đã sử dụng hiệu ứng này, vì vậy chúng tôi sẽ xếp chồng nó lên. Kích thước xếp chồng hiện tại: %4$s",
       "max_stack_size": "%1$sBạn đã xếp chồng đầy tối đa %2$s mà bạn có thể. (Giới hạn tối đa: 15, Sau khi xếp chồng: %3$s)",
       "max_stack_size_2": "%1$sBạn không thể xếp chồng quá nhiều %2$s. (Giới hạn tối đa: 15, Số lượng vừa được xếp chồng: %3$s)",
@@ -67,7 +68,7 @@
     "campaigns": {
       "premium": {
         "generic_sellout": "Chúng tôi cần sự giúp đỡ của bạn để giữ cho Mantaro hoạt động và để phát triển máy chủ của Mantaro! Bạn có thể có được những đặc quyền tuyệt vời và **có thể lên đến gấp đôi số đồng mà bạn có thể thu được với Mantaro Premium**! Mọi hội viên sẽ bắt đầu chỉ với $2 mỗi tháng, rất chi là rẻ! Xem thông tin chi tiết tại <https://patreon.com/mantaro>. Cũng như việc lan truyền lời gọi của chúng tôi :heart:",
-        "daily_sellout": "We need your help to keep Mantaro alive!\nYou can get amazing perks and **double the daily credits** and access to `/dailycrate`! Memberships start at only $2 per month, check out more at <https://patreon.com/mantaro>.",
+        "daily_sellout": "Chúng tôi cần sự giúp đỡ của bạn để giữ cho Mantaro hoạt động!\nBạn có thể có được những đặc quyền tuyệt vời, **gấp đôi phần thưởng hằng ngày** và quyền sử dụng `/dailycrate`! Hội viên bắt đầu với $2 mỗi tháng, xem thông tin chi tiết tại <https://patreon.com/mantaro>.",
         "thanks_message": "Chúng tôi rất trân trọng sự giúp đỡ của bạn. Nếu không có sự giúp đỡ của mọi người, chúng tôi khó mà giữ cho Mantaro tiếp tục hoạt động được :heart:",
         "thanks_message_daily": "Chúng tôi rất trân trọng sự giúp đỡ của bạn. Nếu không có sự giúp đỡ của mọi người, chúng tôi khó mà giữ cho Mantaro hoạt động được :heart:\nBạn cũng nhận được gấp đôi số đồng như là một món quà nhỏ!"
       },
@@ -84,7 +85,7 @@
     "sellout": "Nếu bạn thích tui thì hãy cân nhắc việc ủng hộ trên [Patreon](https://www.patreon.com/mantaro). Ngay cả một khoản ủng hộ nhỏ cũng sẽ giúp tui tiếp tục hoạt động đó!",
     "deprecated": "Không còn được sử dụng",
     "space_notice": "Nếu tên của vật phẩm có bao gồm khoảng trống, hãy thử \"đặt nó trong ngoặc kép\". Có lẽ sử dụng câu lệnh trợ giúp có thể sẽ hỗ trợ nhiều hơn cho bạn.",
-    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://www.mantaro.site/mantaro-wiki> for more information about the bot.",
+    "missing_embed_permissions": "Tui không có quyền Đính Kèm Liên Kết để thực hiện câu lệnh này. Làm ơn hãy cho tui những quyền hạn cần thiết đó (Hãy chắn chắc rằng bạn sẽ kiểm tra thiết lập quyền hạn của các kênh và các danh mục). Nếu bạn cần hỗ trợ thì hãy đến <https://support.mantaro.site>. Ngoài ra bạn có thể xem wiki tại <https://www.mantaro.site/mantaro-wiki> để biết thêm về tui.",
     "ratelimit": {
       "header": "%1$s%2$s (lệnh có thời gian chờ)\n **Bạn có thể sử dụng lệnh này sau %3$s.**",
       "spam_1": "Nghỉ ngơi đi, nó sẽ tốt cho sức khỏe của bạn. *Hãy nhớ rằng thời gian chờ sẽ tăng nếu bạn cứ cố thử lại trước khi nó được đặt lại!*",
@@ -97,7 +98,7 @@
       "next": "Kế tiếp",
       "close": "Đóng"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `/mantaro shard`) when reporting!",
+    "generic_error": "Nếu bạn muốn, hãy tham gia **máy chủ hỗ trợ** (`https://support.mantaro.site`), hoặc xem qua trang GitHub của chúng tôi (`https://github.com/Kodehawa/MantaroBot`). Làm ơn hãy nói với họ để tránh việc tôi bị nổ và làm ơn đừng quên những ID lỗi, câu lệnh mà bạn đã sử dụng và số điểm phân phối (node) (xem trong `/mantaro shard) khi bạn báo cáo!",
     "boom_quotes": [
       "Dường như Megumin đã làm nổ lâu đài của chúng ta...",
       "Ớ ớ, hình như chủ nhân của tôi đã để quên vài số 0 và số 1 trên sàn nhà rồi :<",
@@ -141,19 +142,19 @@
     "info": "Thông tin",
     "currency": "Tiền tệ",
     "pet": "Thú cưng",
-    "hidden": "Hidden"
+    "hidden": "Ẩn"
   },
   "commands": {
     "slash": {
-      "title": "Slash commands transition",
-      "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
-      "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site.\nFor more help, use the new wiki at https://www.mantaro.site/mantaro-wiki/",
-      "description_2": "To run a slash command, try using the command with the `/` prefix instead of the one you've been using. For example, `~>ping` becomes `/ping` (and press tab)\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site\nFor more help, use the new wiki at https://www.mantaro.site/mantaro-wiki/"
+      "title": "Chuyển đổi lệnh dấu gạch chéo",
+      "description_alias": "%1$s**Câu lệnh mà bạn đang cố gắng chạy đã bị chuyển thành Lệnh gạch chéo.** Hãy thử chạy lại bằng / như là prefix. **Đây là câu lệnh phụ.** Hãy thử chạy bằng câu lệnh gốc (`/%2$s`).\n\nSlash Command là cách mới để sử dụng các lệnh theo hướng dẫn của Discord. **Các lệnh vẫn hoạt động với tiền tố (prefix) cuối cùng sẽ trở thành chỉ có dấu gạch chéo.**\nNhững câu lệnh phụ đã bị xóa đối với Lệnh gạch chéo vì không có đủ chỗ để chúng tôi thêm chúng (Discord chỉ cho phép chúng tôi thêm 100 lệnh).",
+      "description": "%1$s**Câu lệnh mà bạn đang cố gắng chạy đã bị chuyển thành Lệnh gạch chéo.** Hãy thử chạy lại bằng / như là tiền tố (prefix) (`/%2$s`).\n\nSlash Command là cách mới để sử dụng các lệnh theo hướng dẫn của Discord. **Các lệnh vẫn hoạt động với tiền tố (prefix) cuối cùng sẽ trở thành chỉ có dấu gạch chéo.**\nNhững câu lệnh phụ đã bị xóa đối với Lệnh gạch chéo vì không có đủ chỗ để chúng tôi thêm chúng (Discord chỉ cho phép chúng tôi thêm 100 lệnh).",
+      "description_image": "Để chạy lệnh gạch chéo cho một số lệnh hình ảnh, hãy thử sử dụng lệnh có tiền tố `/image` thay vì tiền tố bạn đang sử dụng. Ví dụ: `~>catgirl` trở thành `/image catgirl`. Các lệnh của bảng hình ảnh không tuân theo điều này.\n\nNếu bạn không thấy các lệnh gạch chéo, bạn có thể mời lại bot vào bằng liên kết https://add.mantaro.site.\nĐể có thêm trợ giúp, hãy sử dụng wiki mới tại https://www.mantaro.site/mantaro-wiki/",
+      "description_2": "Để chạy lệnh gạch chéo, hãy thử sử dụng lệnh có tiền tố `/` thay vì tiền tố bạn đang sử dụng. Ví dụ: `~>ping` trở thành `/ping` (và nhấn tab)\n\nNếu bạn không thấy các lệnh gạch chéo, bạn có thể mời lại bot vào bằng liên kết https://add.mantaro.site.\nĐể có thêm trợ giúp, hãy sử dụng wiki mới tại https://www.mantaro.site/mantaro-wiki/"
     },
     "fish": {
       "dust": "%1$sMột ngày đã trôi qua, và xô cá của bạn chỉ lấy được chút bụi. (Bụi cấp %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `/equip item:<rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `/buy item:rod`",
+      "no_rod": "%1$sBạn không trang bị bất kì cần câu nào. Sử dụng lệnh `/equip item:<tên cần câu>` để trang bị một cây cần câu và bắt đầu cuộc hành trình câu cá của bạn! Nếu bạn không có cây cần câu nào, đầu tiên hãy xài `/buy item:rod`",
       "trash": {
         "overflow": "%1$sBạn nhặt được một vài mẩu rác trong lúc câu, nhưng do túi đồ của bạn đã đầy, nên chúng tôi đành phải vứt nó đi...",
         "success": "%1$sTrong lúc ngồi điềm tĩnh câu, bạn nhặt được một %2$s trôi trên mặt nước nhưng có vẻ nó chỉ là rác :("
@@ -163,7 +164,7 @@
       },
       "crate": {
         "overflow": "Bạn tìm thấy **%1$s** trong lúc câu, nhưng vì bạn đã có quá nhiều, nên chúng tôi đã vứt nó lại xuống dưới đáy đại dương...",
-        "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `/opencrate crate:<crate name>`. You need a crate key!"
+        "success": "Bạn tìm thấy %1$s **%2$s** trong lúc câu và đã nhặt nó lên. Hãy thử mở nó bằng lệnh `/opencrate crate:<tên hòm>`. Bạn sẽ cần đến một chiếc chìa khoá để mở!"
       },
       "autoequip": {
         "success": "%1$sĐã tự động trang bị **%2$s** từ bộ cần câu của bạn."
@@ -180,27 +181,27 @@
       "bait": "Bọn cá đã ăn mất con mồi của bạn trong quá trình câu!",
       "missing_equipped": "%1$sBạn đã trang bị %2$s, nhưng không còn cái nào loại này trong tủ đồ của bạn! Cần câu được trang bị đã được đặt lại.",
       "broken_drop": "%1$sCần câu của bạn đã gãy mất rồi, nhưng bạn có thể sửa nó. Bạn nhận lại đồ hỏng: %2$s*%3$s*",
-      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `/equip item:<rod name>` to start your adventure!"
+      "no_rod_equipped": "%1$sBạn chưa trang bị cần câu. Để trang bị, bạn cần gõ lệnh `/equip item:<tên cần câu>` để bắt đầu cuộc hành trình!"
     },
     "music_usage": {
       "1": "*Làm thế nào để sử dụng chức năng âm nhạc trong Mantaro?*",
-      "2": "- To **queue songs from youtube or soundcloud** use `/play` For example: `/play song:https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
-      "3": "- To **search for a song on youtube** use `/play song:<search term>` (without the leading < and >) For example: `/play song:see you again` (You need to select the number, just *select the number* after the selection box pops up!)",
-      "4": "- To **search for a song on soundcloud** use `/play song:<search term> soundcloud:true` For example `/play song:hot milk soundcloud:true`",
-      "5": "- To **check the queue** you just type `/queue show`",
-      "6": "- To **remove a track from the queue** you just need to use `/removetrack` It takes as an argument the position the song is queued at (you can check in on queue)",
-      "7": "- To **pause or unpause** just use `/pause`",
-      "8": "- To **stop the music and unbind the player** use `/stop`",
-      "9": "- To **shuffle the queue** just use `/shuffle`",
-      "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue running `/repeat queue:True`.\n",
-      "11": "For more info please use `/help command:<command name>` (without the <> and replace command name with the name of the command you want)",
+      "2": "- Để **nghe những bài hát từ youtube hay soundcloud** dùng lệnh `/play`. Ví dụ: `/play song:https://www.youtube.com/watch?v=aAolFWjGfMs` *Mantaro sẽ tự động kết nối với kênh thoại mà bạn đang tham gia*",
+      "3": "- Để **tìm một bài hát trên youtube** sử dụng `/play song:<tên bài hát>` (nhớ bỏ hai dấu < và >). Ví dụ: `/play song:see you again` (Bạn cần phải chọn số, chỉ cần *gõ số bạn muốn* sau khi trang lựa chọn nhảy ra!)",
+      "4": "- Để **tìm kiếm một bài nhạc trên soundcloud** sử dụng `/play song:<tên bài hát> soundcloud:true` Ví dụ: `/play song:hot milk soundcloud:true`",
+      "5": "- Để **xem danh sách phát** bạn chỉ cần gõ `/queue show`",
+      "6": "- Để **xóa một bài khỏi danh sách phát** bạn chỉ cần dùng `/removetrack` Nó sẽ lấy số thứ tự trong hàng chờ để xoá bài hát đó (bạn có thể kiểm tra trong danh sách)",
+      "7": "- Để \"tạm dừng hoặc tiếp tục\" chỉ cần dùng `/pause`",
+      "8": "- Để **dừng nghe nhạc và tắt nhạc** dùng `/stop`",
+      "9": "- Để **xáo trộn bài hát trong danh sách** chỉ cần dùng `/shuffle`",
+      "10": "- Và cuối cùng, để **lặp lại một bài hát** sử dụng `/repeat`. Sử dụng `/repeat` thêm lần nữa để tắt. Bạn có thể nghe lặp lại một danh sách phát bằng cách chạy `/repeat queue:True`.\n",
+      "11": "Để biết thêm thông tin về lệnh, hãy sử dụng `/help command:<tên lệnh>` (nhớ bỏ <> và thay tên lệnh bằng tên của lệnh mà bạn cần)",
       "12": "Tận hưởng âm nhạc và cảm ơn vì đã sử dụng Mantaro!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile language lang:<language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
+      "info": "%1$sBạn có thể thay đổi ngôn ngữ của máy chủ (nếu có) bằng lệnh `~>opts language set <mã ngôn ngữ>`. Tùy chọn ngôn ngữ cá nhân của bạn có thể thay đổi bằng cách sử dụng `/profile language lang:<mã ngôn ngữ>`\n**Những ngôn ngữ hiện đang có sẵn:** `%2$s`\nNếu ngôn ngữ của bạn không có ở đây và bạn muốn giúp đỡ, vui lòng tham gia vào máy chủ hỗ trợ và tham gia vào đội dịch thuật!"
     },
     "music_general": {
-      "play_deprecated": "%1$sDue to circumstances outside of our control, we're unable to provide music playback on Mantaro.",
+      "play_deprecated": "%1$sDo hoàn cảnh nằm ngoài tầm kiểm soát của chúng tôi, chúng tôi không thể cung cấp tính năng phát lại nhạc trên Mantaro.",
       "music_error": {
         "timeout": "%1$sKhông thể kết nối với %2$s: hết giờ kết nối. Hãy thử đổi vùng máy chủ và chạy lại lệnh một lần nữa.",
         "unknown": "%1$sKhông thể kết nối đến kênh %2$s: Lỗi không xác định."
@@ -215,25 +216,25 @@
       "track_error": "%1$sÚi, có vấn đề khi phát bài này rồi! Xin nhỗi nha. Tôi sẽ phát bài tiếp theo ngay đây nếu có.",
       "queue_finished": "%1$sĐã hoàn tất danh sách phát! Tôi mong là bạn đã thưởng thức nó :heart:",
       "soundcloud_no_args": "%1$sBạn cần phải cho tui cái tên bài hát chứ. Tui có phải ảo thuật gia đâu mà đoán được :(",
-      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `/play first:True song:<song>`, which will play the first result.",
+      "missing_embed_permissions": "%1$sBạn cần cho tôi quyền Đính Kèm Liên Kết hiển thị danh sách. Nếu bạn muốn bỏ qua danh sách thì dùng `/play first:True song:<song>`, nó sẽ phát kết quả thu được đầu tiên.",
       "no_vc_found": "%1$sTôi không được kết nối với bất kì kênh thoại nào mặc dù tôi cần phải làm như thế? Thử lại đii.",
       "queue": {
         "header_field": "Hướng dẫn",
         "header_noreact": "Sử dụng &p >>` và `&p <<` để di chuyển vòng quanh các trang.",
         "no_track_found_np": "Không có gì hoặc không thể tìm thấy tiêu đề/thời lượng",
         "header": "Danh sách phát cho máy chủ %1$s",
-        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?",
+        "nothing_playing": "Chả có gì ở đây hớt, toàn bụi. Sao bạn không thêm vào vài bài đi?",
         "nothing_playing_2": "**Nếu chỉ có duy nhất bài hát đang bật và bạn không thêm bài nữa thì thực sự sẽ chỉ còn cái dây thun ở đây thôi. Bạn có thể thêm nhiều bài hát hơn nếu bạn muốn!**",
         "np": "Đang phát",
         "dj_np": "**Được đặt hàng bởi:** ",
         "page_overflow": "Chả có gì ở đây hớt, toàn bụi. Sao bạn không quay lại mấy trang trước?",
-        "page_overflow_2": "If you think there are songs here but they don't appear, try using `/queue page:1`",
+        "page_overflow_2": "Nếu bạn nghĩ rằng có vài bài hát ở đây mà chúng không xuất hiện, hãy thử dùng lệnh `/queue page:1`",
         "total_queue_time": "Tổng thời gian của danh sách phát",
         "total_size": "Tổng số bài trong danh sách phát",
         "togglers": "Lặp lại / Tạm dừng",
         "playing_in": "Đang phát trong",
         "footer": "Tổng số trang: %1$d%2$s. Đang ở trang %3$d",
-        "multiple_pages": " -> Use /queue page:<page> to change pages",
+        "multiple_pages": " -> Dùng /queue page:<số trang> để chuyển trang",
         "page_react": " -> Bấm vào các nút để chuyển trang",
         "no_channel": "Không có kênh :(",
         "songs": "bài hát",
@@ -243,7 +244,7 @@
       },
       "connect": {
         "success": "%1$sKết nối thành công vào kênh **%2$s**!",
-        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
+        "success_stage": "%1$sĐã kết nối thành công với kênh sân khấu **%2$s**! Hãy đảm bảo rằng tui có Loa để nghe nhé.",
         "full_channel": "%1$sTôi không thể vào được kênh đó vì nó đã đầy người!",
         "non_existent_channel": "%1$sTôi nhận được phản hồi là kênh này không tồn tại. Nếu bạn tạo một kênh thoại và xóa nó đi thì điều này có thể là lý do.\n Chúng tôi đã cài đặt lại kênh nhạc cho bạn, hãy thử bật lại nhạc.",
         "user_no_vc": "%1$s**Hãy vào một kênh thoại**. Nếu bạn đang trong một kênh thoại mà tôi vừa đăng xuất ra thì hãy tham gia lại kênh thoại đó.",
@@ -252,30 +253,30 @@
         "channel_locked": "%1$sTôi chỉ có thể chơi nhạc tại kênh **%2$s**.",
         "already_connected": "%1$sTôi đang kết nối đến kênh **%2$s**! (Dùng lệnh `move` để chuyển tôi đến kênh khác)",
         "attempting_to_connect": "%1$sTôi đã cố gắng kết nối với kênh **%2$s**! (Dùng lệnh `move` để chuyển tôi đến kênh khác)",
-        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
-        "error": "%1$sThere was an unexpected error trying to connect to this channel."
+        "no_stage_here": "%1$sKhông có một phiên bản Sân khấu nào đang chạy ở đây. Hay là bắt đầu Sân khấu đi?",
+        "error": "%1$sĐã xảy ra lỗi không mong muốn khi cố gắng kết nối với kênh này."
       },
       "listener": {
         "paused": "%1$sTạm dừng chơi nhạc bởi vì tôi bị tắt tiếng :(",
         "resumed": "%1$sTiếp tục phát nhạc bởi vì có người tham gia!",
-        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `/pause` to manually resume playback.",
+        "not_resumed": "%1$sAi đó đã vào, nhưng tôi không tiếp tục bản phát lại vì tôi bị dừng thủ công! Sử dụng `/pause` để phát tiếp.",
         "left_alone": "%1$sTôi sẽ rời **%2$s** trong 2 phút vì tôi bị mọi người bỏ rơi :(",
         "leave": "%1$sTôi quyết định rời **%2$s** bởi vì mọi người bỏ tui một mình :("
       },
       "loader": {
         "over_limit": "%1$sDanh sách phát mà bạn thêm vào đã nhiều hơn %2$d bài hát, vì vậy chúng tôi sẽ thêm các bài hát cho đến giới hạn và bỏ những bài còn lại đi.",
         "loaded_playlist": "%1$sThêm **%2$d bài hát** để xếp hàng trong danh sách phát: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
+        "no_matches": "%1$sViệc tìm kiếm không mang lại kết quả. Nếu bạn đã sử dụng một liên kết, hãy thử tìm kiếm nó.",
         "error_loading": "%1$sLỗi xảy ra trong khi tìm kiếm nhạc: %2$s. Có lẽ bạn nên thử một lần nữa hoặc sử dụng một liên kết khác?",
         "unknown_error_loading": "%1$sLỗi không xác định xảy ra trong khi tìm kiếm nhạc. Có lẽ bạn thử lại một lần nữa hoặc sử dụng một liên kết khác?",
         "over_queue_limit": "%1$s**Không thể đặt bài hát chờ `%2$s`: Số bài hát trong danh sách phát đã vượt quá giới hạn (%3$s)**",
         "over_32_minutes": "%1$s**Không thể đặt bài hát chờ `%2$s`: Bản âm thanh dài hơn %3$s. **(Bản âm thanh đã bị báo cáo có độ dài %4$s).\nBạn có thể có được giới hạn phát lại các bản âm thanh, phát lại livestream dài hơn với Mantaro Premium! Xem thông tin chi tiết tại <https://patreon.com/mantaro>.",
         "fair_queue_limit_reached": "%1$s**Vượt quá mức xếp hàng chờ của %2$d (Quá nhiều bài hát giống hệt nhau)**",
         "loaded_song": "%1$sĐã thêm vào danh sách phát -> **%2$s** *(%3$s)*",
-        "selection_text": "Song selection. Select the song number to continue.",
-        "timeout_text": "This timeouts in 30 seconds."
+        "selection_text": "Lựa chọn bài hát. Nhập số của bài hát để tiếp tục.",
+        "timeout_text": "Sẽ hết thời gian trong %1$d giây nữa."
       },
-      "premium_beg": "%1$sConsider donating on <https://patreon.com/mantaro> if you like me, even a small donation will help towards keeping the bot alive (Check `/donate` for more info!)",
+      "premium_beg": "%1$sCân nhắc ủng hộ trên <https://patreon.com/mantaro>. Ngay cả một khoản ủng hộ nhỏ cũng sẽ giúp tui tiếp tục hoạt động đó (Gõ `/donate` để biết thêm thông tin chi tiết!)",
       "closed_connection": "%1$sĐóng kết nối âm thanh, tắt trình phát nhạc liên kết..."
     },
     "forceskip": {
@@ -290,9 +291,9 @@
       "unpaused": "Tiếp tục phát. *(Trình phát bị tạm dừng trước đó)*"
     },
     "rewind": {
-      "no_time": "%1$sYou need to tell me how much you want to rewind the song. *(Example: `/rewind time:1m45s` will rewind the song 1 minute and 45 seconds)*",
+      "no_time": "%1$sBạn cần phải nói cho tôi biết rằng bạn muốn tua lại bài hát đến chỗ nào. *(Ví dụ `/rewind time:1m45s` sẽ tua lại 1 phút 45 giây của bài hát)*",
       "negative": "%1$sChỉ dùng số nguyên dương",
-      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `/rewind time:1m45s` will rewind the song 1 minute and 45 seconds)*",
+      "too_little": "%1$sBạn cần sử dụng đúng định dạng lệnh. Hãy kiểm tra chỉ dẫn. *(Ví dụ `/rewind time:1m45s` sẽ tua lại 1 phút 45 giây của bài hát)*",
       "before_beginning": "%1$sBạn không thể bỏ qua một bài hát trước khi nó bắt đầu",
       "success": "%1$sĐã tua lại bài hát đến: %2$s."
     },
@@ -300,7 +301,7 @@
       "success": "%1$sBắt đầu lại bài hát đang phát."
     },
     "skipahead": {
-      "no_time": "%1$sYou need to tell me how much you want to skip ahead in the song. *(Example: `/forward time:1m45s` will skip 1 minutes and 45 seconds from where you are on the song)*",
+      "no_time": "%1$sBạn cần phải cho tôi biết bạn muốn bỏ qua bao nhiêu trong bài hát. *(Ví dụ: `/forward time:1m45s` sẽ bỏ qua 1 phút 45 giây từ chỗ bạn đang ở trong bài hát)*",
       "past_duration": "%1$sBạn không thể bỏ qua quá thời lượng của một bài hát",
       "success": "%1$sBỏ qua phía trước đến %2$s."
     },
@@ -340,12 +341,12 @@
       "dj_skip": "%1$sDJ quyết định bỏ qua bài hát này.",
       "vote": {
         "submit": "%1$s**Phiếu bầu của bạn đã được gửi đi** Bạn cần %2$d phiều bầu nữa để bỏ qua!",
-        "submit_force_allowed": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!\nYou're a DJ or queued this song. If you wanted to skip without requiring voting use `/skip force:True`",
+        "submit_force_allowed": "%1$s**Phiếu bầu của bạn đã được gửi đi** Bạn cần %2$d phiếu nữa để bỏ qua bài hát!\nBạn là DJ hay là người yêu cầu phát bài này. Nếu bạn muốn bỏ qua mà không yêu cầu bỏ phiếu, hãy sử dụng `/skip force:True`",
         "remove": "%1$s**Phiếu bầu của bạn đã bị xóa** Bạn cần %2$d phiều bầu nữa để bỏ qua!"
       },
       "success": "%1$sĐã đạt đủ số phiếu cần thiết, bỏ qua bài hát...",
       "no_track": "%1$sHình như ở đây không có bài hát nào để bỏ qua, vì vậy bạn không thể làm gì cả...",
-      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
+      "cannot_force": "%1$sBạn cần phải là DJ hoặc là người đã xếp bài hát này để cưỡng chế bỏ qua bài hát."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` không phải là một phạm vi hợp lệ.",
@@ -386,7 +387,7 @@
     "custom": {
       "custom_notice": "Đây là một câu lệnh tuỳ chỉnh.",
       "no_args": "%1$sBạn cần phải xác định bạn muốn làm gì với lệnh này. Kiểm tra lệnh trợ giúp để biết thêm thông tin!",
-      "incorrect_args": "%1$sIncorrect arguments. Check `/help command:custom` or https://www.mantaro.site/mantaro-wiki/guides/custom-commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
+      "incorrect_args": "%1$sĐối số không chính xác. Kiểm tra `/help command:custom` hoặc https://www.mantaro.site/mantaro-wiki/guides/custom-commands để được trợ giúp thêm về cách sử dụng. Nếu bạn muốn biết thêm thông tin nhiều hơn sau khi đọc wiki, bạn có thể tìm hiểu tại <https://support.mantaro.site>",
       "error_running": "%1$sLỗi trong khi chạy lệnh tùy chỉnh... vui lòng kiểm tra lại độ dài và nội dung phản hồi (không quá 2000 kí tự).",
       "error_running_new": "%1$sLỗi khi chạy lệnh tùy chỉnh. Kiểm tra phản hồi, nội dung và độ dài.\n **Lỗi**\n```%2$s```",
       "not_loaded": "Bot vẫn chưa được khởi động đầy đủ... các lệnh tùy chỉnh sẽ xuất hiện trong thời gian sớm nhất!",
@@ -396,10 +397,10 @@
       "new_error": "%1$sLệnh tùy chỉnh mà bạn đang cố tạo ra có lỗi (v3, kiểm tra nội dung).\n**Lỗi:**\n```%2$s```",
       "ls": {
         "header": "Các lệnh của máy chủ này.",
-        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands. The commands listed here use the bot prefix, not Slash Commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/guides/custom-commands)\n \n**List:**",
+        "description": "**Mục này cho thấy tất cả các lệnh tùy chỉnh (do người dùng tạo ra) của máy chủ này.** Tất cả các lệnh ở đây không có liên kết với bot chính dưới bất kì hình thức nào.\n\nLệnh tùy chỉnh là các lệnh được tạo bởi người dùng (thường là quản lý máy chủ) nó có thể xử lý các tình huống khác nhau như là mô phỏng lại các lệnh hành động. Các lệnh được liệt kê ở đây sử dụng tiền tố (prefix) bot, không phải Lệnh gạch chéo.\nĐể biết thêm thông tin chi tiết về cách tạo các lệnh tùy chỉnh, hãy tham khảo tại [trang wiki này.](https://www.mantaro.site/mantaro-wiki/guides/custom-commands)\n\n**Danh sách:**",
         "footer": "Tổng số lệnh tùy chỉnh trong máy chủ: %1$s"
       },
-      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://www.mantaro.site/mantaro-wiki/guides/custom-commands>.",
+      "invalid": "%1$sSự lựa chọn câu lệnh bất hợp lệ. Có lẽ bạn nên xem qua trang wiki tại <https://www.mantaro.site/mantaro-wiki/guides/custom-commands>.",
       "view": {
         "invalid": "%1$sBạn cần chỉ định lệnh và số phản hồi!",
         "not_found": "%1$sKhông có lệnh tùy chỉnh với tên đó ở đây.",
@@ -411,26 +412,28 @@
         "not_found": "%1$sTôi không thể tìm thấy lệnh này.",
         "header": "Lệnh tùy chỉnh gốc: %1$s",
         "amount": "(Hiển thị phản hồi %1$d của %2$d)",
-        "too_large_view": "Too large to view here, use `/custom view name:%1$s response:%2$s`",
+        "too_large_view": "Quá lớn để xem ở đây, hãy dùng `/custom view name:%1$s response:%2$s`",
         "description": "Đây là danh sách tất cả các phản hồi của lệnh này ở định dạng nguyên mẫu (những gì bạn đưa vào lệnh)."
       },
       "clear": {
+        "confirmation": "%1$sBạn có muốn xóa TẤT CẢ các lệnh tùy chỉnh khỏi máy chủ này không? Nhấp vào có để tiếp tục, và không để huỷ.",
+        "cancelled": "%1$sĐã huỷ câu lệnh.",
         "success": "%1$s**Đã dọn %2$d câu lệnh tuỳ chỉnh**. Không xoá các câu lệnh đã được khoá/ghim, hãy mở khoá chúng trước tiên nếu bạn muốn."
       },
       "eval": {
         "not_specified": "Bạn không chỉ định bất cứ thứ gì để đánh giá.",
         "new_error": "%1$sCó lỗi trong việc đánh giá lệnh tùy chỉnh này.\n**Lỗi**:\n```%2$s```",
         "error": "%1$sCó lỗi trong việc đánh giá lệnh tùy chỉnh này!\n%2$s",
-        "slash_notice": "%1$sThis command does not work with slash, yet. You can use `~>custom eval` for now."
+        "slash_notice": "%1$sLệnh này chưa hoạt động với dấu gạch chéo. Bạn có thể sử dụng `~>custom eval`."
       },
       "remove": {
         "no_command": "%1$sBạn cần phải cho tôi biết bạn muốn xóa lệnh nào.",
         "success": "%1$sĐã xóa bỏ lệnh tùy chỉnh `%2$s`"
       },
       "edit": {
-        "header_slash": "Custom Command Edit",
-        "content_slash": "New content",
-        "content_slash_placeholder": "The new command content.",
+        "header_slash": "Chỉnh sửa lệnh tùy chỉnh",
+        "content_slash": "Nội dung mới",
+        "content_slash_placeholder": "Nội dung lệnh mới.",
         "no_command": "%1$sBạn cần phải ghi rõ ra lệnh nào mà bạn muốn sửa.",
         "invalid_number": "%1$sBạn cần phải đưa ra một số chính xác để thay đổi.",
         "no_index": "%1$sBạn không thể sửa đổi một số không tồn tại.",
@@ -451,29 +454,36 @@
         "not_enough_args": "%1$sBạn cần phải ghi rõ câu lệnh bạn muốn sửa tên và cái tên mới của nó."
       },
       "add": {
-        "header_slash": "Custom Command Creation.",
-        "content_placeholder": "Content goes here.",
-        "name_slash": "Name",
-        "content_slash": "Content",
-        "custom_name_placeholder": "Name goes here.",
+        "header_slash": "Tạo lệnh tùy chỉnh.",
+        "content_placeholder": "Nội dung ở đây.",
+        "name_slash": "Tên",
+        "content_slash": "Nội dung",
+        "custom_name_placeholder": "Tên ở đây.",
         "no_command": "%1$sBạn cần phải chỉ ra lệnh mà bạn muốn thêm vào.",
-        "time_out": "%1$sThe time for this custom command interaction has ran out (or you cancelled it, or started a new one).",
+        "time_out": "%1$sĐã hết thời gian để tương tác câu lệnh tùy chỉnh này (hoặc bạn đã hủy hoặc bắt đầu một lệnh mới).",
         "not_enough_args": "%1$sBạn cần phải đưa ra tên lệnh và cách phản hồi của lệnh mà bạn muốn thêm vào.",
         "empty_content": "%1$sBạn cần phải đưa ra nội dung của lệnh tùy chỉnh này",
         "too_long": "%1$sNội dung của lệnh này quá dài nên tui không thể hiển thị nó. Hãy đảm bảo rằng lệnh có ít hơn %2$,d ký tự.",
-        "success": "%1$sSaved to command `%2$s`\nRemember: To access a custom command you create, you have to run it using Mantaro's prefix (for example `~>%2$s`), not Slash Commands.",
+        "success": "%1$sĐã lưu vào lệnh `%2$s`\nHãy nhớ: Để truy cập lệnh tùy chỉnh mà bạn tạo, bạn phải chạy lệnh đó bằng cách sử dụng tiền tố của Mantaro (ví dụ: `~>%2$s`), không phải Lệnh gạch chéo.",
         "too_many_responses": "%1$sCó quá nhiều phản hồi (%2$s) cho câu lệnh này. Giới hạn này được nhân đôi (lên đến 100) cho các máy chủ cao cấp (Xem qua <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sĐã có quá nhiều lệnh ở máy chủ này, nên bạn không thể tạo thêm được nữa (+100). Điều này có thể được bỏ qua với máy chủ cao cấp (Chi tiết tại <https://patreon.com/mantaro>)."
       },
       "lockcommand": {
         "no_permission": "%1$sBạn cần quyền quản lý máy chủ (Manage Server) để khoá và mở khoá câu lệnh trên.",
         "no_command": "%1$sBạn cần ghi rõ câu lệnh mà bạn muốn khoá.",
-        "success": "%1$sSuccessfully locked the `%2$s` command. You'll need to unlock it for further edits."
+        "success": "%1$sKhoá thành công câu lệnh `%2$s`. Bạn sẽ cần mở khoá nó trước khi thực hiện các thao tác khác."
       },
       "unlockcommand": {
         "no_command": "%1$sBạn cần phải ghi rõ ra câu lệnh mà bạn muốn mở khoá.",
         "not_locked": "%1$sCâu lệnh này không bị khoá.",
-        "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+        "success": "%1$sMở khoá thành công câu lệnh `%2$s`. Bạn sẽ cần khoá nó sau này nếu bạn muốn tránh thực hiện các thao tác khác."
+      },
+      "info": {
+        "header": "Thông tin lệnh tùy chỉnh cho %1$s",
+        "owner": "**Chủ sở hữu:**",
+        "owner_id": "**ID Chủ sở hữu:**",
+        "nsfw": "**NSFW:**",
+        "responses": "**Phản hồi:**"
       },
       "character_not_allowed": "%1$sKý tự này không được phép có ở tên của lệnh tùy chỉnh.",
       "already_exists": "%1$sLệnh `%2$s` đã tồn tại và nó là lệnh mặc định của bot.",
@@ -485,28 +495,28 @@
       "invalid_string": "%1$sChuỗi `{%2$s}` không hợp lệ hoặc đầu ra dài hơn 2000 ký tự.",
       "invalid_json": "%1$sChuỗi `{%2$s}` không phải là một JSON hợp lệ.",
       "invalid_link": "%1$sChuỗi `%2$s` không phải là một đường dẫn hợp lệ.",
-      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `/custom unlockcommand name:<command name>` to unlock it."
+      "locked_command": "%1$sBạn không thể thực hiện các thao tác chỉnh sửa hoặc xoá trong khi nó đang bị khoá, hãy dùng `/custom unlockcommand name:<tên câu lệnh>` để mở khoá nó."
     },
     "mute": {
-      "no_permissions": "%1$sYou need to have permission to Moderate Members in order to time out a user.",
-      "no_users": "%1$sYou need to give me a user to time out.",
-      "no_moderate_members": "%1$sI don't have permissions to administrate timeouts on this server.",
+      "no_permissions": "%1$sBạn cần có quyền Kiểm duyệt thành viên để câm lặng người dùng.",
+      "no_users": "%1$sBạn cần cho tôi một cái tên để câm lặng.",
+      "no_moderate_members": "%1$sTôi không có quyền quản lý câm lặng trên máy chủ này.",
       "time_not_specified": "%1$sBạn muốn có thời gian nhưng bạn lại không chỉ rõ thời gian bao lâu.",
-      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `/mute user:<user> time:20m reason:reason goes here`, for example.",
-      "default_time_too_long": "%1$sThe default time out timeout length is too long (Maximum: 10 days)...",
+      "time_not_specified_generic": "%1$sBạn đã không ghi rõ mốc thời gian. Ví dụ này, nếu bạn muốn câm lặng người khác trong 20 phút, bạn thực hiện `/mute user:<người dùng> time:20m reason:ghi lí do ở đây`.",
+      "default_time_too_long": "%1$sĐộ dài thời gian câm lặng mặc định quá dài (Tối đa: 10 ngày)...",
       "time_too_little": "%1$sKhoảng thời gian làm câm được chỉ định nhỏ hơn 10 giây.\nBạn có chắc là bạn sử đụng đúng định dạng không đấy? Cho 20 phút, ghi là 20m, cho 1 tiếng, ghi là 1h, hoặc là một dạng kết hợp cả hai như (1h45m) chẳng hạn.",
-      "time_too_long": "%1$sThe specified timeout length is too long (Maximum: 10 days)...",
-      "already_muted": "%1$sThis user is already timed out. Please do `/unmute` to un-mute them.",
-      "self_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
-      "user_hierarchy_error": "%1$sI cannot time out this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
-      "success": "%1$sSuccessfully timed out **%2$s** for %3$s",
-      "success_reason": "%1$sSuccessfully timed out **%2$s** for %3$s because of the following reason: %4$s"
+      "time_too_long": "%1$sKhoảng thời gian câm lặng bạn đặt ra quá dài (Tối đa: 10 ngày)...",
+      "already_muted": "%1$sNgười dùng này đang bị câm lặng. Vui lòng thực hiện `/unmute` để bỏ câm lặng họ.",
+      "self_hierarchy_error": "%1$sTôi không thể gán câm lặng cho người này vì họ có thứ bậc cao hơn tôi, hoặc vai trò người đó có cao hơn tôi!",
+      "user_hierarchy_error": "%1$sTôi không thể gán câm lặng cho người này vì họ có thứ bậc cao hơn tôi, hoặc vai trò người đó có cao hơn bạn!",
+      "success": "%1$sĐã gửi câm lặng đến **%2$s** trong vòng %3$s",
+      "success_reason": "%1$sĐã gửi câm lặng đến **%2$s** trong vòng %3$s vì lý do sau: %4$s"
     },
     "unmute": {
-      "no_permissions": "%1$sYou need to have permission to Moderate Members to remove a time out!",
-      "no_mentions": "%1$sYou need to tell me who to remove the time out from.",
-      "success": "%1$sSuccessfully removed time out from **%2$s**",
-      "not_muted": "%1$sThis user doesn't seem to be timed out."
+      "no_permissions": "%1$sBạn cần có quyền Kiểm duyệt thành viên để gỡ bỏ câm lặng người dùng!",
+      "no_mentions": "%1$sBạn cần phải nói cho tôi biết người dùng bạn muốn gỡ bỏ câm lặng.",
+      "success": "%1$sĐã gỡ câm lặng thành công cho người dùng **%2$s**",
+      "not_muted": "%1$sNgười dùng này dường như không bị câm lặng."
     },
     "ping": {
       "display": [
@@ -547,11 +557,11 @@
         "empty": "%1$sBạn không thể để trống bức thư tình.",
         "no_marriage": "%1$sBạn chưa cưới, bạn không thể viết thư tình cho bản thân được...",
         "not_proposing_player": "%1$sBạn không phải là người được cầu hôn ở đây!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `/marry status`",
+        "already_done": "%1$sCuộc hôn nhân này đã có một bức thư tình được gửi đi. Kiểm tra trong `/marry status`",
         "too_long": "%1$sBức thư này quá dài (tối đa 500 ký tự)",
         "cannot_see": "%1$sTôi không thể tìm thấy người mà bạn đã cưới... Có lẽ là do họ không cùng trong máy chủ nào với tôi.",
-        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s. Click yes to accept, no to scrap.",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `/marry status`",
+        "confirmation": "%1$sBạn có *chắc chắn* muốn gửi bức thư này để tỏ tình với **%2$s#%3$s**? Bức thư này sẽ được giữ MÃI MÃI trong hôn nhân. *Nội dung:*%4$s. Nhấn yes để chấp nhận, no để huỷ.",
+        "confirmed": "%1$sĐã gửi thành công bức thư tình đến người bạn yêu! Kiểm tra bằng `/marry status`",
         "scrapped": "%1$sBạn vẫn có thời gian để suy nghĩ và để viết, không cần phải vội!"
       },
       "status": {
@@ -571,18 +581,18 @@
       },
       "buyhouse": {
         "not_married": "%1$sBạn chỉ có thể mua nhà khi đã cưới. Việc này có thể thay đổi trong tương lai.",
-        "no_house": "%1$sYou need a house item in your inventory. Use `/buy item:house` to get one.",
+        "no_house": "%1$sĐầu tiên bạn cần có một căn nhà. Sử dụng `/buy item:house` để mua.",
         "not_enough_money": "%1$s Bạn không có đủ tiền để mua căn nhà. (Giá hiện tại của căn nhà: %2$d đồng)",
-        "no_name": "%1$sYou need to give your house a name! For example, `/marry house name:cozy house`",
-        "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Click on `yes` to confirm and `no` to cancel.",
+        "no_name": "%1$sBạn cần đặt một cái tên cho căn nhà này! Ví dụ: `/marry house name:túp lều lý tưởng`",
+        "confirm": "%1$sBạn có chắc là bạn muốn mua căn nhà này? Số tiền sẽ bị trừ đi trong ví bạn là %2$d và căn nhà được đặt tên là %3$s. Nhấn vào `yes` để xác nhận và `no` để huỷ.",
         "success": "%1$sBạn đã mua thành công căn nhà này với giá %2$d đồng. Tên của ngôi nhà mới đầy ấm cúng này là %3$s!",
         "cancel_success": "%1$sĐã huỷ câu lệnh."
       },
       "buycar": {
-        "no_car": "%1$sYou need to buy a car first! Use `/buy item:car` to get one.",
+        "no_car": "%1$sTrước tiên bạn cần có một chiếc xe. Hãy dùng lệnh `/buy item:car` để mua.",
         "not_enough_money": "%1$sBạn không có đủ tiền để mua xe. (Giá hiện tại của chiếc xe: %2$d đồng)",
-        "no_name": "%1$sYou need to give your car a name! For example, `/marry car name:vroom`",
-        "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Click on `yes` to confirm and `no` to cancel.",
+        "no_name": "%1$sBạn cần đặt một cái tên cho chiếc xe này! Ví dụ: `/marry car name:xe lăn`",
+        "confirm": "%1$sBạn có chắc bạn đang mua chiếc xe này? Số tiền sẽ bị trừ đi trong ví bạn là %2$d và chiếc xe được đặt tên là %3$s. Nhấn `yes` để xác nhận và `no` để huỷ.",
         "success": "%1$sBạn đã mua thành công chiếc xe này với giá %2$d đồng. Tên của chiếc xe mới nhanh nhẹn này là %3$s!",
         "cancel_success": "%1$sĐã huỷ câu lệnh."
       },
@@ -592,17 +602,17 @@
       "already_married_receipt": "%1$sBạn vốn đã kết hôn với họ, ỏoo.",
       "already_married": "%1$sBạn vốn đã kết hôn rồi.",
       "receipt_married": "%1$sNgười dùng đó đã kết hôn với người khác.",
-      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `/buy amount:2 item:ring` and then try proposing again <3",
-      "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
+      "no_ring": "%1$sBạn không thể cầu hôn mà không có hai chiếc nhẫn! Bạn có thể mua chúng bằng `/buy amount:2 item:ring` và sau đó hãy thử cầu hôn lại <3",
+      "confirmation": "%1$s%2$s, hãy nhấn **yes** (đồng ý) hoặc **no** (không đồng ý) cho lời cầu hôn của %3$s\n%4$sHết hiệu lực sau 120 giây.",
       "ring_check_fail": "%1$sBạn không thể cưới khi có ít hơn hai chiếc nhẫn trong túi đồ của bạn :(",
       "accepted": "%1$s**%2$s#%3$s** đã chấp nhận lời cầu hôn của **%4$s#%5$s**!",
       "denied": "%1$sĐã từ chối lời cầu hôn từ **%2$s**",
       "ratelimit_message": "Tại sao bạn lại muốn cưới đến mức này cơ chứ?"
     },
     "divorce": {
-      "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Click on `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
+      "confirm": "%1$sBạn có chắc bạn muốn kết thúc cuộc hôn nhân này không? Số tiền bỏ ra cho thú nuôi, nhà cửa và xe cộ sẽ được chia làm hai phần. Nhấn `yes` để xác nhận và `no` để huỷ. **Thú nuôi của bạn sẽ biến mất vì nó gắn với cuộc hôn nhân**",
       "cancelled": "%1$sHuỷ ly hôn.",
-      "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?\nWanna unclaim a Waifu? Use `/waifu unclaim` instead.",
+      "not_married": "%1$sBạn chưa cưới với ai cả, sao lại không tìm kiếm người đặc biệt đó? Hay bạn muốn huỷ công nhận một Waifu? Dùng `/waifu unclaim` để làm điều đó.",
       "success": "%1$sGiờ bạn đã là một người độc thân. Có lẽ đó là một điều tốt.\n%2$s",
       "split": "Số tiền còn lại được chia ra thành hai từ việc bán đi số tài sản hữu hình (thú nuôi, nhà cửa, xe cộ). Mỗi người nhận được **%1$d** đồng vào ví riêng."
     },
@@ -621,7 +631,7 @@
       "claim": {
         "no_user": "%1$sBạn chưa đề cập đến người dùng bạn muốn nhận.",
         "locked": "%1$sBạn không thể thực hiện hành động này.",
-        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `/profile claimlock remove:true` if they wish to do so.",
+        "key_locked": "%1$sNgười mà bạn muốn có được đã mã-khoá và không thể được nhận. Họ có thể bỏ nó đi bằng cách dùng `/profile claimlock remove:true` nếu họ muốn.",
         "not_enough_money": "%1$sBạn không có đủ tiền để thu thập waifu này **(Cần: %2$s đồng)**",
         "not_enough_slots": "%1$sBạn không còn đủ chỗ trống để thu thập waifu này. (Tổng số vị trí: %2$s, đã dùng: %3$s)",
         "success": "%1$sĐã nhận `%2$s` thành công với giá %3$,d đồng. Số chỗ đã sử dụng: %4$s",
@@ -632,12 +642,12 @@
       "unclaim": {
         "no_user": "%1$sBạn cần đề cập đến một waifu để bỏ.",
         "not_claimed": "%1$sNgười dùng này không phải waifu của bạn!",
-        "confirmation": "%1$sAre you *sure* you want to un-claim %2$s? The cost to un-claim this waifu is **%3$s credits**. Click on *yes* to confirm or *no* to cancel\n%4$sThis times out in 1 minute.",
+        "confirmation": "%1$sBạn có *chắc chắn* muốn bỏ %2$s không? Giá phải trả để bỏ waifu này là **%3$s đồng**. Nhấn *yes* để xác nhận hoặc *no* để huỷ\n%4$sHiệu lực trong vòng 1 phút.",
         "not_enough_money": "%1$sBạn không có đủ tiền để bỏ waifu này!",
         "player_locked": "%1$sBạn không thể làm điều đó vào lúc này.",
         "scrapped": "%1$sĐã huỷ ý định bỏ waifu.",
         "success": "%1$sĐã bỏ thành công `%2$s` với giá **%3$s đồng**.",
-        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID (`/waifu list id:true`)."
+        "not_found": "%1$sTôi không thể tìm thấy ai với điều kiện truy vấn này. Nếu bạn cần bỏ một người dùng mà bạn không biết, hãy sử dụng ID của họ (`/waifu list id:true`)."
       },
       "buyslot": {
         "locked": "%1$sBạn tạm thời không thể thực hiện hành động này.",
@@ -647,17 +657,17 @@
       },
       "optout": {
         "notice": "%1$sBạn không thể dùng nó vì bạn đã chọn bỏ toàn bộ hệ thống waifu.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `/profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nClick on `yes` to opt-out PERMANENTLY or `no` to cancel this and go back to safety.",
+        "warning": "%1$sBạn có muốn chặn hoàn toàn hệ thống waifu? QUÁ TRÌNH NÀY LÀ MÃI MÃI VÀ SẼ KHÔNG THỂ BỊ ĐẢO NGƯỢC. \nNếu bạn chỉ muốn chặn bị nhận làm waifu và dùng các lệnh khác của hệ thống này như thường lệ, hãy dùng `/profile claimlock`.\nBạn sẽ không thể nhận hoặc bị nhận làm waifu, và tất cả những người nhận bạn sẽ được gỡ bỏ.\nNhấn `yes` để chặn VĨNH VIỄN hoặc `no` để huỷ quá trình này.",
         "success": "%1$sBạn đã bỏ thành công toàn bộ hệ thống waifu.",
         "cancelled": "%1$sĐã huỷ lệnh bỏ hệ thống.",
         "claim_notice": "%1$sNgười dùng bạn đang cố nhận làm waifu đã bỏ hệ thống.",
         "lookup_notice": "%1$sNgười dùng bạn đang cố nhận làm waifu đã rời khỏi hệ thống này.",
-        "yes_button": "Yes, I want to opt-out.",
-        "no_button": "No, take me back."
+        "yes_button": "Có, tôi muốn đăng xuất.",
+        "no_button": "Không, hãy đưa tôi quay lại."
       },
       "header": "Danh sách Waifu",
-      "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$,d waifus as of now.*\n\nIf you wish to check your waifu stats, use `/waifu stats`\n\n",
-      "no_waifu": "No waifus to see here, just dust :(\nYou can get waifus by claiming someone! Use `/waifu claim` to get started.",
+      "description_header": "Đây là danh sách tất cả những waifu đáng yêu của bạn, được sắp xếp theo ngày bạn nhận.\n*Bạn có thể có nhiều nhất %1$,d waifu ở thời điểm hiện tại.*\n\nNếu bạn có mong muốn xem chỉ số waifu của bạn, hãy dùng `/waifu stats`\n\n",
+      "no_waifu": "Ở đây không có waifu, chỉ có mỗi bụi bẩn thôi :(\nBạn có thể có waifu bằng cách nhận ai đó! Dùng `/waifu claim` để bắt đầu.",
       "footer": "Tổng số waifu: %1$,d - còn trống: %2$s chỗ",
       "value_format": "**Giá trị:**",
       "value_b_format": "**Đã mua với giá:**",
@@ -670,47 +680,47 @@
       "success": "%1$sTôi đánh giá waifu của bạn **%2$,d/100**"
     },
     "roll": {
-      "success": "%1$sYou got **%2$s**%3$s",
-      "amount": "Sau **%1$,d** lần lắc.",
-      "more_than_10": "... and %1$s more rolls",
-      "total": "(Total: %1$,d)",
-      "size": "\nDoing **%1$,d rolls** with a die of **%2$,d sides**.",
-      "incorrect_format": "You need to specify the amount in d20 format. For example, to roll 2 dies of 16 sides, you can do 2d16."
+      "success": "%1$sBạn lắc được **%2$s**%3$s",
+      "amount": "Thực hiện **%1$,d** lần lắc.",
+      "more_than_10": "... và lắc thêm %1$s nữa",
+      "total": "(Tổng: %1$,d)",
+      "size": "\nThực hiện **%1$,d lượt lắc** với xúc xắc **%2$,d mặt**.",
+      "incorrect_format": "Bạn cần chỉ định số lượng ở định dạng d20. Ví dụ, để lắc 2 cục 16 mặt, bạn có thể thực hiện 2d16."
     },
     "coinflip": {
-      "over_limit": "%1$sDừng ở đó! Giới hạn là 1,000 lần tung",
-      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions (For example, `/roll times:100`)",
+      "over_limit": "%1$sDừng lại! Giới hạn là 1,000 lần tung",
+      "no_repetitions": "%1$sBạn cần một số nguyên dương cho số lượng lặp lại (Ví dụ nè, `/roll 100`)",
       "success": "%1$s Kết quả sau **%2$,d** lần tung gồm **%3$,d** mặt ngửa và **%4$,d** mặt sấp"
     },
     "inventory": {
-      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `/dump`",
-      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `/inventory show`. Enjoy your day!*",
+      "bot_notice": "%1$sĐây, có cái nịt nha bạn. Mình đoán là nhiều lúc bạn ước mình cũng có túi đồ nhưng thứ duy nhất mình có chỉ là `/dump`",
+      "brief": "**Túi đồ của %1$s** %2$s\n\n*Sử dụng phiên bản chi tiết bằng `/inventory show`. Chúc bạn có một ngày tốt lành!*",
       "calculate": "%1$s%2$s sẽ nhận được **%3$,d đồng** nếu bán tất cả mọi thứ trong túi đồ.",
       "header": "Túi đồ của %1$s",
       "format": "%1$sGiá cả:%2$s 📥 %3$,d %4$s 📤 %5$,d\n%6$s%7$s",
       "empty": "%1$sTúi đồ này chẳng có gì cả! :(",
-      "brief_notice": "You can use `/inventory brief` to get a mobile friendly version.",
+      "brief_notice": "Bạn có thể sử dụng `/inventory -brief` để xài phiên bản thân thiện với điện thoại.",
       "sorted_by": " *(được sắp xếp theo: %1$s)*",
-      "new_brief_notice": "Please use `/inventory brief` instead.",
-      "new_calc_notice": "Please use `/inventory calculate` instead.",
+      "new_brief_notice": "Làm ơn sử dụng `/inventory brief`.",
+      "new_calc_notice": "Làm ơn sử dụng `/inventory calculate`.",
       "sort": {
-        "amount": "Amount",
-        "value": "Value",
-        "type": "Type",
-        "total": "Total Value",
-        "random": "Random"
+        "amount": "Số lượng",
+        "value": "Giá trị",
+        "type": "Loại",
+        "total": "Tổng giá trị",
+        "random": "Ngẫu nhiên"
       }
     },
     "cast": {
-      "no_item_specified": "%1$sYou didn't specify any items. For a list, check `/cast list`",
-      "no_item_found": "%1$sI didn't find any item matching that. Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `/cast star pick`",
-      "item_not_cast": "%1$sYou cannot cast this item. You can check `/cast list` for a list of castable items. Try using the full name if you think you have the correct item.",
+      "no_item_specified": "%1$sBạn chưa ghi rõ bất kỳ vật phẩm nào. Để có một danh sách cụ thể, hãy dùng `/cast list`",
+      "no_item_found": "%1$sTôi không tìm thấy vật phẩm nào tương ứng cả. Hãy chắc chắn bạn sẽ ghi cả tên đầy đủ của vật phẩm để tránh nhầm lẫn, hoặc dùng biểu tượng nếu bạn muốn. Ví dụ: `/cast star pick`",
+      "item_not_cast": "%1$sBạn không thể chế tạo vật phẩm này. Có thể xem qua `/cast list` để có được danh sách những món đồ có thể chế tạo. Thử sử dụng tên đầy đủ của vật phẩm nếu bạn nghĩ là bạn có đúng vật phẩm.",
       "not_enough_money": "%1$sBạn không có đủ tiền để chế tạo món đồ này. **(Cần: %2$s)**",
       "no_item": "%1$sBạn không có *%2$s* để thực hiện quá trình chế tạo này. Bạn cần %3$,d vật phẩm tương tự.",
       "not_enough_items": "%1$sBạn không có đủ số lượng của *%2$s* để chế tạo **%3$s**.**(Cần: %4$s, Hiện có: %5$s)**",
       "success": "%1$sBạn đã chế tạo thành công %2$,dx %3$s**%4$s** và tiêu %5$,d đồng. *Quá trình chế tạo tốn %6$s*",
       "no_tool": "%1$sBạn cần %2$s để thực hiện quá trình chế tạo này!",
-      "not_equipped": "%1$sYou don't have any equipped wrench. Use `/equip item:<wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `/buy item:wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `/cast item item:star pick amount:5`",
+      "not_equipped": "%1$sBạn không trang bị chiếc cờ lê nào. Dùng `/equip item:<tên cờ lê>` để trang bị một chiếc và bắt đầu cuộc hành trình của bạn! Còn... Nếu bạn không có cái nào, hãy sử dụng `/buy item:wrench`.\nBạn không cần phải ghi rõ cây cờ lê nào được nhắc đến trong câu lệnh này. Để chế tạo nhiều vật phẩm cùng lúc, hãy thêm vào số lượng chế tạo trước tên vật phẩm, ví dụ là `/cast item item:star pick amount:5`",
       "too_many": "%1$sBạn sẽ có hơn 5000 vật phẩm này nếu bạn tiếp tục chế tạo. Hãy thử chế tạo in ít vật phẩm này thôi nhé?",
       "low_tier": "%1$sBạn cần ít nhất một chiếc cờ lê Bậc 2 (Comet Wrench) để có thể chế tạo nhiều vật phẩm cùng lúc. Bạn hiện tại đang trang bị một chiếc cờ lê Bậc %2$s.",
       "not_enough_wrench_level": "%1$sChiếc cờ lê của bạn không đủ độ bền để có thể chế tạo vật phẩm này. Có lẽ bạn nên trang bị một chiếc bền hơn chăng? (*Cờ lê cấp:* %2$s, Cấp độ cần thiết: %3$s)",
@@ -1233,23 +1243,18 @@
     "game": {
       "won_games": "%1$s%2$s đã thắng **%3$s trò chơi**",
       "nothing_specified": "%1$sBạn chưa ghi rõ bạn muốn chơi gì...",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example: `~>game lobby pokemon, trivia`",
-      "invalid_selection": "%1$sBạn cần phải chỉ ra ít nhất hai trò chơi. (Trò chơi hợp lệ: character, pokemon, number, trivia)",
-      "multiple": {
-        "invalid": "%1$sBạn cần ghi rõ tên trò chơi và số lần chạy trò chơi đó.",
-        "invalid_times": "%1$sSố lần không hợp lệ. Hãy nhớ rằng nó phải là một số nguyên.",
-        "no_character": "%1$sBạn không thể sử dụng trò chơi character trong nhiều trò chơi hoặc sảnh do các giới hạn của API AniList."
-      },
       "trivia": {
         "wrong_diff": "%1$sĐề cập sai độ khó! (Độ khó hiện có: easy (dễ), medium (bình thường) và hard (khó))",
         "fetch_error": "%1$sLỗi khi khởi động trivia. Có vẻ nguồn dữ liệu của Trivia đang có vấn đề.",
         "possibilities": "Phương án",
         "difficulty": "Độ khó",
-        "category": "Phân loại"
+        "category": "Phân loại",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Question: %2$s, Answer: %3$s",
+        "footer": "You have %1$s attempt and 1 minute (Click end to end the game)."
       },
       "number": {
         "start": "%1$sHãy đoán một số! **Bạn có 5 lượt đoán trong vòng 1 phút. Con số này nằm trong đoạn từ 0 đến 150**",
-        "nan": "%1$sĐó còn không phải là một con số...",
+        "nan": "%1$sThat's not a number...",
         "ended_game": "%1$sĐã kết thúc trò chơi. Con số đó là: %2$d",
         "all_attempts_used": "%1$sĐã dùng hết lượt chơi, trò chơi kết thúc. Con số đó là: %2$d",
         "hint": "Gợi ý: Số này %1$s số bạn nhập.",
@@ -1258,30 +1263,26 @@
       },
       "pokemon": {
         "header": "Đó là con pokemon nào?",
-        "footer": "Bạn có 5 lần đoán trong vòng 75 giây. (Gõ \"end\" để kết thúc trò chơi)"
+        "footer": "You have %1$d attempts and 1 minute. (Type end to end the game)"
       },
-      "started_mp_role": "%1$sĐã bắt đầu phòng chờ với tất cả các người chơi có role: **%2$s**",
-      "started_mp_user": "%1$sĐã bắt đầu chơi chung với: **%2$s**",
-      "lobby_started": "%1$sĐã bắt đầu phòng mới! **Trò chơi %2$s**\nBạn có thể nhấn `endlobby` để dừng tất cả các trò chơi và kết thúc phòng chờ.",
-      "game_timeout_drop": "%1$sCó vẻ như tôi đã làm rơi một trò chơi ở đây, nhưng quên nhặt lên... Tôi sẽ bắt đầu trò chơi mới cho bạn ngay lập tức!",
-      "other_lobby_running": "%1$sKhông thể tạo phòng chờ mới khi mà ở đây có một trò chơi đang được chạy (Nếu đây là lỗi, thì hãy nhờ người quản lý (admin) chạy `~>opts lobby reset`)",
       "lobby": {
         "ended_game": "%1$sĐã kết thúc trò chơi. Đáp án phù hợp là: %2$s",
         "ended_lobby": "%1$sĐã dừng phòng chờ! Cảm ơn vì đã chơi.",
-        "all_attempts_used": "%1$sĐã dùng hết lượt chơi, đang kết thúc. Câu trả lời phù hợp là: %2$s",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Answer: %2$s",
         "incorrect_answer": "%1$sĐó không phải đáp án, bạn còn %2$d lượt nữa.",
         "won_game": "%1$s**%2$s** đã trả lời đúng và nhận được $%3$,d đồng!"
       },
-      "lobby_time_out": "%1$sĐã hết giờ! Đáp án đúng là: %2$s",
-      "end_footer": "Bạn có 5 lần đoán với 60 giây. (Gõ \"end\" để kết thúc trò chơi)",
-      "trivia_end_footer": "Bạn có %1$s lần đoán với 60 giây. (Gõ \"end\" để kết thúc trò chơi)",
-      "error": "%1$sTôi đã tìm thấy lỗi trong lúc khởi động trò chơi... (lỗi phần mềm)",
+      "character": {
+        "start": "Guess the Anime Character",
+        "load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
+        "footer": "You have %1$d attempts and 1 minute (Type end to end the game)."
+      },
+      "game_timeout_drop": "%1$sCó vẻ như tôi đã làm rơi một trò chơi ở đây, nhưng quên nhặt lên... Tôi sẽ bắt đầu trò chơi mới cho bạn ngay lập tức!",
+      "other_lobby_running": "%1$sKhông thể tạo phòng chờ mới khi mà ở đây có một trò chơi đang được chạy (Nếu đây là lỗi, thì hãy nhờ người quản lý (admin) chạy `~>opts lobby reset`)",
+      "lobby_timed_out": "%1$sThe time ran out! The correct answer is: %2$s",
+      "error": "%1$sI found an error while setting up the game (internal error).",
       "error_missing_permissions": "%1$sTôi không thể đính kèm tệp. Vui lòng kiểm tra quyền.",
-      "character_load_error": "%1$sKhông thể thiết lập trò chơi cho nhân vật đã lưu trước đó: %2$s. Nếu điều này xảy ra với tất cả các nhân vật, thì đó có thể là một lỗi tạm thời.",
-      "character_request_error": "%1$sLỗi khi yêu cầu nhân vật này từ API của Kitsu.",
-      "character_start": "Đoán nhân vật",
-      "too_many_games": "%1$sBạn có thể bắt đầu tối đa %2$,d trò chơi cùng lúc trong phòng chờ. (Với Premium: %3$,d)",
-      "disabled_multiple": "%1$sMáy chủ này đã vô hiệu hóa nhiều trò chơi/sảnh."
+      "too_many_games": "%1$sBạn có thể bắt đầu tối đa %2$,d trò chơi cùng lúc trong phòng chờ. (Với Premium: %3$,d)"
     },
     "opencrate": {
       "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command).",
@@ -1510,7 +1511,7 @@
       "not_enough_money": "%1$sBạn không có đủ tiền để phân rã vật phẩm này. *(Ví của bạn có: %2$,d, Cần: %3$,d)*",
       "dust": "%1$sTúi đồ của bạn không sạch sẽ để phân rã vật phẩm này, hãy thử lau dọn bằng chổi.",
       "no_returnables": "%1$sVật phẩm này không có gì để có thể trả lại.",
-      "success": "%1$sĐã phân rã thành công %2$s và nhận lại %3$s. Chi phí là %4$s đồng.",
+      "success": "%1$sSuccessfully salvaged %2$s %3$s and got %4$s %5$s in return. The cost was %6$s credits.",
       "ls": {
         "header": "Danh sách các món đồ có thể phân rã",
         "cost": "Giá phân rã: ",
@@ -2643,7 +2644,8 @@
     "no": "No",
     "accept": "Accept",
     "deny": "Deny",
-    "cancel": "Hủy"
+    "cancel": "Hủy",
+    "end": "End"
   },
   "time": {
     "day": "ngày",

@@ -39,6 +39,7 @@
     "birthday": "**Novos aniversário pra hoje, deseje a eles um Feliz Aniversário!**",
     "member_lookup_failure": "%1$sNão foi encontrado um membro com esse nome :(",
     "slash_member_lookup_failure": "%1$sO usuário fornecido não parece estar nesse servidor.",
+    "and": "and",
     "item_lookup": {
       "no_item_emoji": "Não há um item associado a esse emoji.",
       "no_item_name": "Não há um item associado a este nome.",
@@ -265,7 +266,7 @@
       "loader": {
         "over_limit": "%1$sA fila que você adicionou tem mais de %2$d músicas, então adicionamos músicas até esse limite e ignoramos o resto.",
         "loaded_playlist": "%1$sAdicionado **%2$d músicas** na fila da playlist: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
+        "no_matches": "%1$sA busca não encontrou nenhum resultado. Se você usou um link, tente procurá-lo.",
         "error_loading": "%1$sErro ao buscar música: %2$s. Talvez tente novamente ou tente outro link?",
         "unknown_error_loading": "%1$sErro desconhecido ao buscar música. Talvez tente novamente ou tente com outro link?",
         "over_queue_limit": "%1$s**Não foi possível coloar na fila `%2$s`: Limite de músicas na fila ultrapassado (%3$s)**",
@@ -345,7 +346,7 @@
       },
       "success": "%1$sMeta de votos alcançada, pulando música...",
       "no_track": "%1$sNão tem música para pular, então eu não posso fazer nada...",
-      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
+      "cannot_force": "%1$sVocê precisa ser um DJ ou a pessoa que colocou a música pra pular essa faixa com força."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` não é uma variedade válida.",
@@ -386,7 +387,7 @@
     "custom": {
       "custom_notice": "Isso é um comando personalizado.",
       "no_args": "%1$sVocê precisa especificar o que você quer fazer com este comando. Cheque o comando de ajuda para mais informações!",
-      "incorrect_args": "%1$sIncorrect arguments. Check `/help command:custom` or https://www.mantaro.site/mantaro-wiki/guides/custom-commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
+      "incorrect_args": "%1$sArgumentos incorretos. Cheque `/help command:custom` ou https://www.mantaro.site/mantaro-wiki/guides/custom-commands para mais ajuda em como usar isso. Se você tiver outras questões após ler a wiki vá para <https://support.mantaro.site>",
       "error_running": "%1$sErro ao executar o comando personalizado... por favor, verifique o conteúdo da resposta e comprimento (não pode ter mais de 2000 caracteres).",
       "error_running_new": "%1$sErro ao executar o comando personalizado. Cheque a resposta, conteúdo e comprimento.\n**Erro:**\n```%2$s```",
       "not_loaded": "O bot ainda não foi totalmente inicializado... comandos personalizados estarão disponíveis em breve!",
@@ -396,10 +397,10 @@
       "new_error": "%1$sO comando personalizado que você está tentando criar tem um erro (v3, cheque o conteúdo).\n**Erro:**\n```%2$s```",
       "ls": {
         "header": "Comandos para este servidor",
-        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands. The commands listed here use the bot prefix, not Slash Commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://www.mantaro.site/mantaro-wiki/guides/custom-commands)\n \n**List:**",
+        "description": "**Isso mostra todos os comandos (feitos por usuários) personalizados neste servidor.** Todo comando aqui não está com o bot de qualquer forma.\n\nComandos personalizados são comandos criados pelos usuários (geralmente os administradores do server) que pode lidar com um monte de situações diferentes, até simular comandos de ações. Os comandos listados aqui usam o prefixo do bot, não os Comandos de Barra.\nPara mais informações em como criar um comando personalizaos vá para [essa página da wiki.]\n(https://www.mantaro.site/mantaro-wiki/guides/custom-commands)\n \n**Lista:**",
         "footer": "Total de comandos personalizados neste servidor: %1$s"
       },
-      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://www.mantaro.site/mantaro-wiki/guides/custom-commands>.",
+      "invalid": "%1$sSeleção de comando inválida. Talvez seja melhor dar uma olhada na wiki em <https://www.mantaro.site/mantaro-wiki/guides/custom-commands>.",
       "view": {
         "invalid": "%1$sVocê precisa especificar o comando e o número da resposta!",
         "not_found": "%1$sNão há um comando personalizado com esse nome aqui.",
@@ -411,10 +412,12 @@
         "not_found": "%1$sEu não consigo encontrar este comando.",
         "header": "Comando \"%1$s\":",
         "amount": "(Mostrando %1$d respostas de %2$d)",
-        "too_large_view": "Too large to view here, use `/custom view name:%1$s response:%2$s`",
+        "too_large_view": "Muito longo pra ver aqui, use `/custom view name:%1$s response:%2$s`",
         "description": "Essa é uma lista de todas as respostas deste comando em um formato raw (que você insere no comando)."
       },
       "clear": {
+        "confirmation": "%1$sWould you like to clear ALL the custom commands from this server? Click yes to continue, no otherwise.",
+        "cancelled": "%1$sCancelled clear operation.",
         "success": "%1$s**%2$d Comandos Personalizados Apagados**. Os comandos bloqueados/fixados não foram deletados, desbloqueie eles primeiro se quiser."
       },
       "eval": {
@@ -428,9 +431,9 @@
         "success": "%1$sComando Personalizado `%2$s` Removido"
       },
       "edit": {
-        "header_slash": "Custom Command Edit",
-        "content_slash": "New content",
-        "content_slash_placeholder": "The new command content.",
+        "header_slash": "Edição de Comandos Personalizados",
+        "content_slash": "Conteúdo novo",
+        "content_slash_placeholder": "O novo conteúdo do comando.",
         "no_command": "%1$sVocê precisa especificar que comando você quer editar.",
         "invalid_number": "%1$sVocê precisa especificar um número correto para alterar.",
         "no_index": "%1$sVocê não pode editar um índice inexistente.",
@@ -451,10 +454,10 @@
         "not_enough_args": "%1$sVocê precisa especificar o comando que você quer renomear e o novo nome."
       },
       "add": {
-        "header_slash": "Custom Command Creation.",
-        "content_placeholder": "Content goes here.",
-        "name_slash": "Name",
-        "content_slash": "Content",
+        "header_slash": "Criação de Comando Personalizado.",
+        "content_placeholder": "Conteúdo vai aqui.",
+        "name_slash": "Nome",
+        "content_slash": "Conteúdo",
         "custom_name_placeholder": "Name goes here.",
         "no_command": "%1$sVocê tem que especificar o comando que você quer adicionar.",
         "time_out": "%1$sThe time for this custom command interaction has ran out (or you cancelled it, or started a new one).",
@@ -474,6 +477,13 @@
         "no_command": "%1$sVocê tem que especificar o comando que você quer desbloquear.",
         "not_locked": "%1$sEste comando não está bloqueado.",
         "success": "%1$sSuccessfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
+      "info": {
+        "header": "Custom Command Information for %1$s",
+        "owner": "**Owner:**",
+        "owner_id": "**Owner ID:**",
+        "nsfw": "**NSFW:**",
+        "responses": "**Responses:**"
       },
       "character_not_allowed": "%1$sEste caractere não é permitido em nomes de comandos personalizados.",
       "already_exists": "%1$sO comando `%2$s` já existe e é um comando padrão do bot.",
@@ -1233,23 +1243,18 @@
     "game": {
       "won_games": "%1$s%2$s ganhou **%3$s jogos**",
       "nothing_specified": "%1$sVocê não especificou nada pra jogar...",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example: `~>game lobby pokemon, trivia`",
-      "invalid_selection": "%1$sVocê precisa especificar pelo menos dois jogos. (Jogos válidos: personagem, pokemon, número, trivia)",
-      "multiple": {
-        "invalid": "%1$sVocê precisa especificar o jogo e o número de vezes para executá-lo",
-        "invalid_times": "%1$sNúmero inválido de vezes. Lembre-se que tem que ser um inteiro.",
-        "no_character": "%1$sVocê não pode jogar o jogo de character múltiplas vezes devido a limitações do API do AniList."
-      },
       "trivia": {
         "wrong_diff": "%1$sDificuldade errada especificada! (Suportado: easy, medium e hard)",
         "fetch_error": "%1$sErro enquanto iniciava trivia. Aparentemente Open Trivia DB está tendo problemas.",
         "possibilities": "Possibilidades",
         "difficulty": "Dificuldade",
-        "category": "Categoria"
+        "category": "Categoria",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Question: %2$s, Answer: %3$s",
+        "footer": "You have %1$s attempt and 1 minute (Click end to end the game)."
       },
       "number": {
         "start": "%1$sAdivinhe o número! **Você tem 5 tentativas e 1 minutos. O número é entre 0 e 150**",
-        "nan": "%1$sIsso não é nem mesmo um número...",
+        "nan": "%1$sThat's not a number...",
         "ended_game": "%1$sFim de jogo. O número era: %2$d",
         "all_attempts_used": "%1$sAcabou as tentativas, terminando jogo. O número era: %2$d",
         "hint": "Dica: O número é %1$s do que o número que você escolheu.",
@@ -1258,30 +1263,26 @@
       },
       "pokemon": {
         "header": "Quem é esse pokémon?",
-        "footer": "Você tem 5 tentativas e 75 segundos. (Digite end para terminar o jogo)"
+        "footer": "You have %1$d attempts and 1 minute. (Type end to end the game)"
       },
-      "started_mp_role": "%1$sUm jogo multiplayer foi criado com todos os usuários com o cargo: **%2$s**",
-      "started_mp_user": "%1$sUm jogo multiplayer foi criado com os usuários: **%2$s**",
-      "lobby_started": "%1$sNovo jogo iniciado! **Jogos: %2$s**\nVocê pode digitar `endlobby` para terminar todos os jogos e encerrar o lobby.",
-      "game_timeout_drop": "%1$sParece que eu deixei um jogo cair aqui, mas eu esquecir de pegar... Eu irei iniciar um novo jogo agora!",
-      "other_lobby_running": "%1$sNão é possível iniciar um novo lobby quando tem um jogo em andamento. (Se isso for um erro, fale pra um admin usar o comando `~>opts lobby reset`)",
       "lobby": {
         "ended_game": "%1$sFim de jogo. Possível resposta era: %2$s",
         "ended_lobby": "%1$sLobby terminado corretamente! Obrigado por jogar.",
-        "all_attempts_used": "%1$sToda as tentativas foram usadas, terminando jogo. Possível resposta era: %2$s",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Answer: %2$s",
         "incorrect_answer": "%1$sNão é isso, você tem %2$d tentativas restantes.",
         "won_game": "%1$s**%2$s** ganhou $%3$,d créditos por ter respondido corretamente!"
       },
-      "lobby_time_out": "%1$sO tempo acabou! A resposta correta era: %2$s",
-      "end_footer": "Você tem 5 tentativas e 60 segundos. (Digite end para terminar o jogo)",
-      "trivia_end_footer": "Você tem %1$s tentativas e 60 segundos. (Digite end para terminar o jogo)",
-      "error": "%1$sI found an error while setting up the game... (erro interno)",
+      "character": {
+        "start": "Guess the Anime Character",
+        "load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
+        "footer": "You have %1$d attempts and 1 minute (Type end to end the game)."
+      },
+      "game_timeout_drop": "%1$sParece que eu deixei um jogo cair aqui, mas eu esquecir de pegar... Eu irei iniciar um novo jogo agora!",
+      "other_lobby_running": "%1$sNão é possível iniciar um novo lobby quando tem um jogo em andamento. (Se isso for um erro, fale pra um admin usar o comando `~>opts lobby reset`)",
+      "lobby_timed_out": "%1$sThe time ran out! The correct answer is: %2$s",
+      "error": "%1$sI found an error while setting up the game (internal error).",
       "error_missing_permissions": "%1$sEu não consigo anexar arquivos. Por favor verifique as permissões.",
-      "character_load_error": "%1$sRelate isso no servidor oficial por favor. Falha ao configurar o jogo para um personagem pré-gravado: %2$s",
-      "character_request_error": "%1$sErro ao solicitar esse personagem no API do AniList.",
-      "character_start": "Adivinhe o personagem",
-      "too_many_games": "%1$sVocê pode iniciar um máximo de %2$,d jogos ao mesmo tempo com o lobby de jogo. (Com Premium: %3$,d)",
-      "disabled_multiple": "%1$sEsse servidor tem múltiplos jogos/lobby desativado."
+      "too_many_games": "%1$sVocê pode iniciar um máximo de %2$,d jogos ao mesmo tempo com o lobby de jogo. (Com Premium: %3$,d)"
     },
     "opencrate": {
       "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command).",
@@ -1510,7 +1511,7 @@
       "not_enough_money": "%1$sVocê não tem dinheiro suficiente para salvar este item. *(Carteira: %2$,d, Necessário: %3$,d)*",
       "dust": "%1$sSeu inventário tá muito sujo pra tentar resgatar um item, tente limpar com um esfregão.",
       "no_returnables": "%1$sEste item não possui elementos resgate retornáveis.",
-      "success": "%1$sResgatado com sucesso %2$s e você ganhou %3$s de retorno. O custo foi %4$s créditos.",
+      "success": "%1$sSuccessfully salvaged %2$s %3$s and got %4$s %5$s in return. The cost was %6$s credits.",
       "ls": {
         "header": "Lista de Itens Resgatáveis",
         "cost": "Custo do Resgatamento: ",
@@ -2643,7 +2644,8 @@
     "no": "Não",
     "accept": "Aceitar",
     "deny": "Negar",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "end": "End"
   },
   "time": {
     "day": "dia",
