@@ -1113,7 +1113,7 @@
       },
       "no_time": "%1$sVocê não especificou o formato de tempo ou o formato de tempo está errado. O formato é um número seguido por entre d (dias), h (horas), m (mintuos) ou s (segundos). Por exemplo, 1m45s é 1 minuto, 45 segundos.",
       "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `/remindme add time:1m reminder:do the dishes`)",
-      "too_long": "Isso é muito tempo... (Máximo 180 dias)",
+      "too_long": "That's too much time... (Maximum: 1 year)",
       "success": "%1$sEu vou te lembrar (%2$s) de `%3$s` em %4$s",
       "too_many_reminders": "%1$sVocê tem muitos lembretes! Poderia cancelar alguns?",
       "content": "Conteúdo",
