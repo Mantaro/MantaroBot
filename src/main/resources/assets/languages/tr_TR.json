@@ -1379,25 +1379,25 @@
         "success": "**%1$s için evcil hayvan durumu:**\n\n%2$s Susuzluk: **%3$s / 100** | %4$s Açlık: **%5$s / 100** | %6$s Toz: **%7$s%%** | Seçim: **%8$s**"
       },
       "clean": {
-        "not_enough_money": "%1$sYou need at least %2$,d credits to clean **%3$s**.",
-        "not_dusty": "%1$s**%2$s** is not dusty. (Current dust level: %3$,d%%)",
-        "success": "%1$s**%2$s** is now sparkly clean! The cost to clean your pet was %3$,d credits."
+        "not_enough_money": "%1$s**%3$s** temizlemek için en az %2$,d krediye ihtiyacınız var.",
+        "not_dusty": "%1$s**%2$s** tozlu değil. (Mevcut toz seviyesi: %3$,d%%)",
+        "success": "%1$s**%2$s** şimdi pırıl pırıl tertemiz! Evcil hayvanınızı temizlemenin maliyeti %3$,d krediydi."
       },
       "choice": {
-        "no_choice": "%1$sYou need to specify a choice (Personal or Marriage).",
-        "invalid_choice": "%1$sThe choice was invalid. Please choose between Personal or Marriage. Personal is for yourself, Marriage is the pet shared with your partner",
-        "ratelimit_message": "You can change your choice 3 times. You'll have to wait the specified time for more changes to be possible. This is to avoid spam!",
-        "already_chosen": "%1$sThis is already your choice.",
-        "success": "%1$sSuccessfully set your choice to: %2$s %3$s"
+        "no_choice": "%1$sBir seçim belirtmeniz gerekir (Kişisel veya Evlilik).",
+        "invalid_choice": "%1$sSeçim geçersizdi. Lütfen Kişisel veya Evlilik arasında seçim yapın. Kişisel kendin içindir, Evlilik, partnerinle paylaştığın evcil hayvandır",
+        "ratelimit_message": "Seçiminizi 3 kez değiştirebilirsiniz. Daha fazla değişikliğin mümkün olması için belirtilen süreyi beklemeniz gerekecek. Bu, istenmeyen mesajları önlemek içindir!",
+        "already_chosen": "%1$sBu zaten senin seçimin.",
+        "success": "%1$sSeçiminizi başarıyla ayarladınız: %2$s %3$s"
       },
       "level": {
-        "no_pet": "%1$sYou don't have any pets to check the level of. Check `/pet explanation` for an explanation. (Choice: %2$s)%3$s",
-        "success": "%1$s**%2$s**'s level: **%3$,d** (%4$,d XP / %5$,d XP)"
+        "no_pet": "%1$sSeviyesini kontrol edecek evcil hayvanınız yok. Açıklama için `/pet explanation` komudunu kontrol edin. (Seçim: %2$s)%3$s",
+        "success": "%1$s**%2$s**'nin seviyesi: **%3$,d** (%4$,d XP / %5$,d XP)"
       },
       "list": {
-        "summary": "%1$s **Name:** %2$s, **Abilities:** `%3$s`, **Value:** %4$,d credits",
-        "abilities": "*Fish*: Useful for `/fish`\n*Catch*: Useful for `/mine`\n*Chop*: Useful for `/chop`\n*Cheer*: Gives you a nice morale boost.",
-        "header": "%1$s**Current available Pets**\n\n%2$s\n\n%3$s**Ability explanation:**\n%4$s"
+        "summary": "%1$s **İsim:** %2$s, **Yetenekler:** `%3$s`, **Değeri:** %4$,d kredi",
+        "abilities": "*Balık*: `/fish` için kullanışlıdır\n*Yakala*: `/mine` için kullanışlıdır\n*Doğramak*: `/chop` için kullanışlıdır\n*Tezahürat*: Güzel bir moral sağlar.",
+        "header": "%1$s**Mevcut Evcil Hayvanlar**\n\n%2$s\n\n%3$s**Yetenek açıklaması:**\n%4$s"
       },
       "pat": {
         "no_pet": "%1$sYou don't have any pets to pat. Check `/pet explanation` for an explanation. (Choice: %2$s)",
