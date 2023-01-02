@@ -1113,7 +1113,7 @@
       },
       "no_time": "%1$sSaati belirtmediniz veya saat biçimi yanlış. Biçim, d (gün), h (saat), m (dakika) veya s (saniye) tarafından takip edilen bir sayıdır. Örneğin 1m45s 1 dakika 45 saniyedir.",
       "too_little_time": "%1$sBu çok az bir süre (Minimum: 1 dakika, Örnek: `/remindme add time:1m reminder:bulaşıkları yıka`)",
-      "too_long": "Çok uzun bir süreden bahsediyorsunuz... (Maximum: 180 gün)",
+      "too_long": "Bu çok fazla bir süre... (Maksimum: 1 yıl)",
       "success": "%1$sSize (%2$s) %4$s'deki `%3$s`yi hatırlatacağım",
       "too_many_reminders": "%1$sÇok fazla hatırlatıcınız var! Bazılarını iptal etmeyi dener misin?",
       "content": "İçerik",
@@ -1400,82 +1400,82 @@
         "header": "%1$s**Mevcut Evcil Hayvanlar**\n\n%2$s\n\n%3$s**Yetenek açıklaması:**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sYou don't have any pets to pat. Check `/pet explanation` for an explanation. (Choice: %2$s)",
-        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `/pet explanation` for an explanation.",
-        "personal_pet_other": "%1$sYou can't pet other people's personal pets. For now.",
-        "ratelimit_message": "You can pat your pet up to 25 times. After this you'll have to wait the time above for 25 more pats.",
-        "too_many": "How did you even get this many pats?"
+        "no_pet": "%1$sOkşayacak bir evcil hayvanınız yok. Açıklama için `/pet explanation` komudunu kontrol edin. (Seçim: %2$s)",
+        "no_pet_other": "%1$s%2$s'nin okşayacak bir evcil hayvanı yok. Açıklama için `/pet explanation` komudunu kontrol edin.",
+        "personal_pet_other": "%1$sBaşkalarının kişisel evcil hayvanlarını sevemezsiniz. Şimdilik.",
+        "ratelimit_message": "Evcil hayvanınızı 25 defaya kadar okşayabilirsiniz. Bundan sonra 25 kere daha okşamak isterseniz yukarıdaki süreyi beklemeniz gerekecek.",
+        "too_many": "Nasıl bu kadar çok okşama aldın?"
       },
       "pet_reactions": {
-        "cute": "%1$s**%2$s** happily wags their tail as you caress their head.%3$s",
-        "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head.%3$s",
-        "nothing": "%1$s**%2$s** just sits there, doing nothing.%3$s",
-        "cheer": "%1$s**%2$s**'s reaction was so cute it managed to cheer you up.%3$s",
-        "scare": "%1$s**%2$s** got scared when you patted them. Maybe it was too sudden?.%3$s",
-        "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
+        "cute": "%1$s**%2$s**, siz onun kafasını okşarken mutlu bir şekilde kuyruğunu sallıyor.%3$s",
+        "cute_not_animal": "%1$s**%2$s**, siz onun kafasını okşarken mutlu bir şekilde gülümsüyor.%3$s",
+        "nothing": "%1$s**%2$s**, hiçbir şey yapmadan orada öylece oturuyor.%3$s",
+        "cheer": "%1$s**%2$s**'in tepkisi o kadar tatlıydı ki sizi neşelendirmeyi başardı.%3$s",
+        "scare": "%1$s**%2$s**, onu okşadığınızda korktu. Belki de çok ani oldu?.%3$s",
+        "counter_100": "%1$sBu kadar çok okşamayla kafaları parlayacak gibi görünüyor."
       },
       "buy": {
-        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `/pet buy name:hello type:dog`). If you want a personal pet, first run `/pet choice personal`.",
-        "no_requirements": "%1$sYou need both a car and a house to go buy a pet! House: %2$s, Car: %3$s\nTo buy a house and a car use `/marry house` and `/marry car` :heart:",
-        "no_house": "%1$sYou need to have a pet house in your inventory to do this. You can buy it on the market.",
-        "no_egg": "%1$sYou need to have a Incubator Egg on your inventory to do this. You can cast it, check `/cast list`",
-        "already_has_pet": "%1$sYou already have a pet. (Current choice: %2$s)",
-        "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
-        "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
-        "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Choice: %5$s. Click on `yes` to continue, `no` otherwise.",
-        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
-        "success_personal": "%1$sCongratulations! You're now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
-        "cancel_success": "%1$sCancelled operation.",
-        "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters.",
-        "no_marriage_marry": "%1$sI don't see any marriage here..."
+        "not_enough_arguments": "%1$sSatın almak istediğiniz evcil hayvanın adını ve türünü belirtmeniz gerekmektedir. (Örneğin, `/pet buy name:lusi type:dog`). Kişisel bir evcil hayvan istiyorsanız, önce `/pet choice personal` komutunu çalıştırın.",
+        "no_requirements": "%1$sEvcil hayvan almak için hem arabaya hem de eve ihtiyacınız var! Ev: %2$s, Araba: %3$s\nEv ve araba satın almak için `/marry house` ve `/marry car` komutlarını kullanın :heart:",
+        "no_house": "%1$sBunu yapmak için envanterinizde bir evcil hayvan evi olması gerekir. Marketten satın alabilirsiniz.",
+        "no_egg": "%1$sBunu yapmak için envanterinizde bir Kuluçka Yumurtası olması gerekir. Bunu dökümle yapabilirsiniz, `/cast list` komutunu kontrol edin",
+        "already_has_pet": "%1$sZaten bir evcil hayvanınız var. (Mevcut seçim: %2$s)",
+        "nothing_found": "%1$sBelirttiğiniz evcil hayvan türü bulunamadı. Şunu belirttiniz: `%2$s`, Geçerli türler: `%3$s`",
+        "not_enough_money": "%1$sBu evcil hayvanı satın almak için yeterli paranız yok. Değeri: %2$,d kredi, Cüzdan: %3$,d kredi",
+        "confirm": "%1$sBu evcil hayvanı satın almak istediğinizden emin misiniz? İsim: %2$s, Tür: %3$s, Maliyet: %4$,d kredi. Seçim: %5$s. Devam etmek için `yes`, aksi takdirde `no` ya tıklayın.",
+        "success": "%1$sTebrikler! Artık ikiniz de bir `%2$s%3$s`nin gururlu sahibisiniz ve adları `%4$s`. Bu evcil hayvanı satın almanın maliyeti %5$,d krediydi ve bu evcil hayvan seçimin şuydu: %6$s",
+        "success_personal": "%1$sTebrikler! Artık bir `%2$s%3$s`nin gururlu sahibisiniz ve adı `%4$s`. Bu evcil hayvanı satın almanın maliyeti %5$,d krediydi ve bu evcil hayvan seçimin şuydu: %6$s",
+        "cancel_success": "%1$sİşlem iptal edilmiştir.",
+        "too_long": "%1$sBu isim çok uzun. 150 karakterden kısa olması gerekiyor.",
+        "no_marriage_marry": "%1$sBen burada bir evlilik göremiyorum..."
       },
       "feed": {
-        "no_pet": "%1$sYou don't have any pets to feed. Check `/pet explanation` for an explanation. (Choice: %2$s)%3$s",
-        "no_content": "%1$sYou need to specify what you want to feed your pet with. For example, `/pet feed item:steak`",
-        "no_item": "%1$sI didn't find the item you specified.",
-        "not_food": "%1$sWoah there! This isn't food, nor is it emergency food!",
-        "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
-        "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
-        "not_applicable": "%1$sYou can't feed this food to your pet type.",
-        "success": "%1$sYay! Successfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now %5$s%% satisfied.",
-        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (The amount used would surpass 100%% hunger)"
+        "no_pet": "%1$sBesleyecek evcil hayvanınız yok. Açıklama için `/pet explanation` komutunu kontrol edin. (Seçim: %2$s)%3$s",
+        "no_content": "%1$sEvcil hayvanınızı ne ile beslemek istediğinizi belirtmeniz gerekir. Örneğin, `/pet feed item:steak`",
+        "no_item": "%1$sBelirttiğiniz ögeyi bulamadım.",
+        "not_food": "%1$sVay canına! Bu yemek değil, acil durum yemeği de değil!",
+        "no_need": "%1$sEvcil hayvanınız aç değil, bu yüzden şu anda yemek yemek istemiyor.",
+        "not_inventory": "%1$sEvcil hayvanınızı beslemek istediğiniz ögeye sahip değilsiniz. Envanterinizde olduğundan ve doğru miktarda (%2$s) olduğundan emin olun.",
+        "not_applicable": "%1$sBu mamayı evcil hayvanınızın türüne göre besleyemezsiniz.",
+        "success": "%1$sYaşasın! Evcil hayvanınızı `%2$s` x%3$s ile başarıyla beslendi ve %4$s%% açlığını giderdi. Açlıkları artık %5$s%% tatmin oldu.",
+        "too_much": "%1$sBelki biraz daha az yiyecek verebilirsin? Aksi takdirde yiyecek israf etmiş olursunuz! (Kullanılan miktar açlığın 100%%'ünü aşacaktır)"
       },
       "water": {
-        "no_pet": "%1$sYou don't have any pets to give water to. Check `/pet explanation` for an explanation. (Choice: %2$s)%3$s",
-        "no_need": "%1$sYour pet isn't thirsty, so they don't want to drink right now.",
-        "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
-        "not_enough_inventory": "%1$sYou don't have enough water bottles in your inventory! You need %2$s.",
-        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (The amount used would surpass 100%% thirst)",
-        "success": "%1$sYay! Successfully gave your pet %2$d water and it recovered %3$s%% of their thirst. Their thirst is now %4$s%% quenched."
+        "no_pet": "%1$sSu verecek evcil hayvanınız yok. Açıklama için `/pet explanation` komutunu kontrol edin. (Seçim: %2$s)%3$s",
+        "no_need": "%1$sEvcil hayvanınız susamış değil, bu yüzden şu anda su içmek istemiyor.",
+        "not_inventory": "%1$sSu Şişeniz yok. Envanterinizde olduğundan emin olun.",
+        "not_enough_inventory": "%1$sEnvanterinizde yeterli su şişesi yok! %2$s'ye ihtiyacınız var.",
+        "too_much": "%1$sBelki biraz daha az su verebilirsin? Aksi takdirde su israf etmiş olursunuz! (Kullanılan miktar 100%% susuzluğu aşacaktır)",
+        "success": "%1$sYaşasın! Evcil hayvanınıza %2$d su başarıyla verildi ve susuzluğunun %3$s%% kadarını geri aldı. Susuzlukları şimdi %4$s%% giderildi."
       },
       "activity": {
-        "low_stamina": "%1$s**%2$s** has a really low stamina. Give it food/water to replenish.",
-        "low_health": "%1$s**%2$s** has really low health. Give it food/water and let it rest for a while to replenish.",
-        "low_hunger": "%1$s**%2$s** is too hungry to do anything right now. *Fooood~*",
-        "low_thirst": "%1$s**%2$s** is too thirsty to do anything right now.",
-        "low_mood": "%1$s**%2$s** has too low of a mood. You might wanna play with them!",
-        "dusty": "%1$s**%2$s** is too dusty. Clean your pet to clear the dust.",
-        "success_fish": "%1$s**%2$s** successfully helped you catch fish! **You got an extra %3$,d credits and %4$,d items** thanks to the extra work your pet was able to do for you! *included on what you got*",
-        "success_chop": "%1$s**%2$s** successfully helped you chop a tree! **You got an extra %3$,d credits and %4$,d items** thanks to the extra work your pet was able to do for you! *included on what you got*",
-        "success_mine": "%1$s**%2$s** successfully helped you mine! **You got an extra %3$,d credits and more item drop chances** thanks to the extra work your pet was able to do for you! *included on what you got*"
+        "low_stamina": "%1$s**%2$s** gerçekten düşük bir dayanıklılığa sahip. Yenilemesi için ona yiyecek/su verin.",
+        "low_health": "%1$s**%2$s** gerçekten düşük bir sağlığa sahip. Ona yiyecek/su verin ve yenilenmesi için bir süre dinlendirin.",
+        "low_hunger": "%1$s**%2$s** şu anda bir şey yapmak için çok aç. *Yemeeeeeek~*",
+        "low_thirst": "%1$s**%2$s** şu anda herhangi bir şey yapmak için çok susamış.",
+        "low_mood": "%1$s**%2$s** çok karamsar. Onlarla oynamak isteyebilirsiniz!",
+        "dusty": "%1$s**%2$s** çok tozlu. Tozu temizlemek için evcil hayvanınızı temizleyin.",
+        "success_fish": "%1$s**%2$s** balık yakalamanıza başarıyla yardımcı oldu! **Evcil hayvanınızın sizin için yapabileceği ekstra iş sayesinde fazladan %3$,d kredi ve %4$,d öğe kazandınız**! *aldıklarınıza dahildir*",
+        "success_chop": "%1$s**%2$s** bir ağaç kesmenize başarıyla yardımcı oldu! **Evcil hayvanınızın sizin için yapabileceği ekstra iş sayesinde fazladan %3$,d kredi ve %4$,d öğe kazandınız**! *aldıklarınıza dahildir*",
+        "success_mine": "%1$s**%2$s** başarıyla madencilik yapmanıza yardımcı oldu! **Evcil hayvanınızın sizin için yapabileceği ekstra iş sayesinde, Ekstra %3$,d krediniz ve daha fazla eşya düşürme şansınız var** *aldıklarınıza dahildir*"
       },
       "rename": {
-        "no_pet": "%1$sYou don't have a pet to rename. (Choice: %2$s)%3$s",
-        "same_name": "%1$sThe name you gave me is the same as the current name of your pet.",
-        "no_content": "%1$sYou need to give me the new name of your pet.",
-        "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2$s, Current: %3$s.",
-        "success": "%1$sSuccessfully renamed your pet from `%2$s` to `%3$s`. %4$s has been deducted from your wallet. Enjoy!"
+        "no_pet": "%1$sAdını değiştirecek bir evcil hayvanınız yok. (Seçim: %2$s)%3$s",
+        "same_name": "%1$sBana verdiğin isim, evcil hayvanının şu anki ismiyle aynı.",
+        "no_content": "%1$sBana evcil hayvanının yeni adını vermelisin.",
+        "not_enough_money": "%1$sBunu yapmak için yeterli paranız yok. Maliyet: %2$s, Cüzdan: %3$s.",
+        "success": "%1$s`%2$s` olan evcil hayvanınızın adını `%3$s` olarak başarıyla yeniden adlandırdın. %4$s cüzdanınızdan düşüldü. İyi Eğlenceler!"
       },
       "remove": {
-        "no_pet": "%1$sYou don't have a pet to remove. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sÇıkarmanız gereken bir evcil hayvanınız yok. (Seçim: %2$s)%3$s",
         "no_pet_confirm": "%1$sBurada evcil hayvan göremiyorum...",
-        "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$,d credits, and you will receive %2$,d credits aswell.\nClick on `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
-        "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$,d credits.\nClick on `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
-        "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund.",
-        "success_personal": "%1$sSuccessfully removed pet. You received %2$s credits as a refund."
+        "confirm": "%1$sBu evcil hayvanı çıkarmak istediğinizden emin misiniz? Evli olduğunuz kişi %2$,d kredi alacak ve siz de %2$,d kredi alacaksınız.\nOnaylamak için `yes`, aksi takdirde `no` ya tıklayın. Geri ödemenizin seviyelere veya herhangi bir şeye göre ölçeklenmeyeceğini unutmayın, bu nedenle bunu yeni bir tamagotchi veya benzeri bir şey satın almak olarak kabul edin.",
+        "confirm_personal": "%1$sBu evcil hayvanı çıkarmak istediğinizden emin misiniz? %2$,d kredi alacaksınız.\nOnaylamak için `yes`, aksi takdirde `no` ya tıklayın. Geri ödemenizin seviyelere veya herhangi bir şeye göre ölçeklenmeyeceğini unutmayın, bu nedenle bunu yeni bir tamagotchi veya benzeri bir şey satın almak olarak kabul edin.",
+        "success": "%1$sEvcil hayvan başarıyla kaldırıldı. Bu evlilikteki her kişi geri ödeme olarak %2$s kredi aldı.",
+        "success_personal": "%1$sEvcil hayvan başarıyla kaldırıldı. Geri ödeme olarak %2$s kredi aldınız."
       },
       "info": {
-        "not_found": "%1$sI can't find the pet type you're looking for. Use `/pet list` for a list of pet types.",
+        "not_found": "%1$sAradığınız evcil hayvan türünü bulamıyorum. Evcil hayvan türlerinin listesi için `/pet list` kullanın.",
         "author": "%1$s%2$s türü için evcil hayvan bilgileri",
         "name": "Evcil Hayvan Adı",
         "cost": "Evcil Hayvan Fiyatı",
@@ -1484,7 +1484,7 @@
         "coin_buildup": "Kredi Biriktirme (Lvl. 1 / 100)",
         "item_buildup": "Öge Biriktirme (Lvl. 1 / 100)"
       },
-      "locked_notice": "%1$sYou can't buy/sell a pet when the transaction is locked. If this is an error, try again in a few minutes."
+      "locked_notice": "%1$sİşlem kilitliyken evcil hayvan alıp satamazsınız. Bu bir hataysa, birkaç dakika sonra tekrar deneyin."
     },
     "invite": {
       "url": "Davet Linki",
@@ -1492,15 +1492,15 @@
       "patreon": "Patreon Linki",
       "description": {
         "1": "İşte kullanışlı bazı bağlantılar!",
-        "2": "**If you have any questions about the bot, feel free to join the support guild and ask**!.",
-        "3": "We provided a patreon link in case you would like to help Mantaro keep running by donating [and getting perks by doing so!].",
-        "4": "Thanks you for using the bot! **<3 from the developers and the Mantaro team**"
+        "2": "**Bot hakkında herhangi bir sorunuz varsa, destek sunucusuna katılmaktan ve sormaktan çekinmeyin**!.",
+        "3": "Mantaro'ya bağışta bulunarak ayakta kalmaya devam etmesine yardımcı olmak [ve bunu yaparak ayrıcalıklar elde etmek] isteyebileceğiniz bir patreon bağlantısı sağladık.",
+        "4": "Botu kullandığınız için teşekkürler! **<3 geliştiricilerden ve Mantaro ekibinden**"
       },
-      "footer": "We hope you have fun with the bot."
+      "footer": "Umarız botla eğlenirsiniz."
     },
     "salvage": {
-      "not_broken": "%1$sYou can only salvage broken tools.",
-      "no_item": "%1$sYou need to specify the item you want to salvage.",
+      "not_broken": "%1$sYalnızca kırık aletleri kurtarabilirsiniz.",
+      "no_item": "%1$sKurtarmak istediğiniz ögeyi belirtmeniz gerekir.",
       "no_item_found": "%1$sI can't find the item you specified.",
       "cant_salvage": "%1$sYou can't salvage this item.",
       "not_wrench": "%1$sYou need a wrench to salvage an item. You might need to specify it manually after the item.",
@@ -1613,7 +1613,7 @@
       "options": "Şeçenekler",
       "usage": "Kullanım",
       "optional": "(Bu isteğe bağlıdır)",
-      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help command:cast item`.\nThis goes for all subcommands, as long as they have some sort of help."
+      "subcommand_help": "Not: Bir alt komut hakkında yardım almak için komut adının yanında alt komut adını kullanabilirsiniz, örneğin `/cast item` konusunda yardım almak için `/help command:cast item` kullanabilirsiniz.\nBu, bir tür yardımları olduğu sürece tüm alt komutlar için geçerlidir."
     },
     "repair": {
       "no_item": "%1$sYou didn't specify any item to repair. If you think you have the correct item, try using the full name.",
@@ -1739,7 +1739,7 @@
     "mine": {
       "not_equipped": "%1$sYou don't have any equipped pick. Use `/equip item:<pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `/buy item:pick`",
       "success": "%1$sYou mined minerals worth **$%2$s credits**, using a *%3$s*",
-      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `/cast list` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://www.mantaro.site/mantaro-wiki/currency/103>",
+      "reminder": "\n*Madencilik yaparken elde ettiğiniz mücevherleri kullanarak daha iyi kazmalar yapabilirsiniz. Dökümle yapabileceklerinizin bir listesi için `/cast list` komutunu kontrol edin*\nAletlerinizi nasıl yükselteceğinize dair bir kılavuz için şunu okuyun:<https://www.mantaro.site/mantaro-wiki/currency/103>",
       "diamond": {
         "overflow": "Huh, you found %1$,d diamond(s) while mining, but you already had too much, so I sold them for you.",
         "success": "Huh! You got lucky and found a diamond while mining, check your inventory!"
