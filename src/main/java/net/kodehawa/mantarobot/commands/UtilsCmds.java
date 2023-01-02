@@ -25,13 +25,7 @@ import net.dv8tion.jda.api.utils.SplitUtil;
 import net.kodehawa.mantarobot.commands.utils.reminders.Reminder;
 import net.kodehawa.mantarobot.commands.utils.reminders.ReminderObject;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.meta.Category;
-import net.kodehawa.mantarobot.core.command.meta.Defer;
-import net.kodehawa.mantarobot.core.command.meta.Description;
-import net.kodehawa.mantarobot.core.command.meta.Ephemeral;
-import net.kodehawa.mantarobot.core.command.meta.Help;
-import net.kodehawa.mantarobot.core.command.meta.Name;
-import net.kodehawa.mantarobot.core.command.meta.Options;
+import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -119,7 +113,7 @@ public class UtilsCmds {
                     return;
                 }
 
-                if (System.currentTimeMillis() + time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(180)) {
+                if (System.currentTimeMillis() + time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(365)) {
                     ctx.reply("commands.remindme.too_long", EmoteReference.ERROR);
                     return;
                 }
