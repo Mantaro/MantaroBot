@@ -1504,19 +1504,19 @@
       "no_item_found": "%1$sBelirttiğiniz ögeyi bulamıyorum.",
       "cant_salvage": "%1$sBu öğeyi kurtaramazsınız.",
       "not_wrench": "%1$sBir eşyayı kurtarmak için bir İngiliz anahtarına ihtiyacınız var. Öğeden sonra manuel olarak belirtmeniz gerekebilir.",
-      "not_enough_level": "%1$sYou need at least a level 2 wrench to salvage this item.",
-      "no_main_item": "%1$sYou don't appear to have the item you're trying to salvage.",
-      "no_tool": "%1$sYou don't have this wrench. Try specifying it, or specifying another wrench.",
-      "no_tool_default": "%1$sYou need at least a Comet Wrench in your inventory to do this, but you can also specify a higher one if you want to.",
-      "not_enough_money": "%1$sYou don't have enough money to salvage this item. *(Wallet: %2$,d, Needed: %3$,d)*",
-      "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
-      "no_returnables": "%1$sThis item has no returnable salvage elements.",
-      "success": "%1$sSuccessfully salvaged %2$s %3$s and got %4$s %5$s in return. The cost was %6$s credits.",
+      "not_enough_level": "%1$sBu öğeyi kurtarmak için en az 2. seviye bir ingiliz anahtarına ihtiyacınız var.",
+      "no_main_item": "%1$sKurtarmaya çalıştığınız öğeye sahip görünmüyorsunuz.",
+      "no_tool": "%1$sBu İngiliz anahtarı sende yok. Bunu belirtmeyi veya başka bir anahtar belirtmeyi deneyin.",
+      "no_tool_default": "%1$sBunu yapmak için envanterinizde en az bir Kuyruklu Yıldız İngiliz Anahtarına ihtiyacınız var, ancak isterseniz daha yüksek bir anahtar da belirtebilirsiniz.",
+      "not_enough_money": "%1$sBu öğeyi kurtarmak için yeterli paranız yok. *(Cüzdan: %2$,d, Gerekli: %3$,d)*",
+      "dust": "%1$sEnvanteriniz bir eşya kurtarmaya çalışmak için çok tozlu, bir paspasla temizlemeyi deneyin.",
+      "no_returnables": "%1$sBu öğenin iade edilebilir kurtarma öğesi yoktur.",
+      "success": "%1$s%2$s %3$s başarıyla kurtarıldı ve karşılığında %4$s %5$s alındı. Maliyet %6$s krediydi.",
       "ls": {
         "header": "Kurtarılabilir Öge Listesi",
         "cost": "Kurtarma Maliyeti: ",
         "return": "Geri Dönebilir: ",
-        "desc": "This is a list of the items you can salvage using `/salvage`.\nYou can use full name, short name or the emoji\nSalvaging has a cost of 1/3rd the price of the item, which is shown below.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "desc": "Bu, `/salvage` kullanarak kurtarabileceğiniz öğelerin bir listesidir.\nTam adı, kısa adı veya emojiyi kullanabilirsiniz.\nKurtarma, aşağıda gösterilen öğenin fiyatının 1 / 3'ü kadar bir maliyete sahiptir.\nBurada listelenenlerden rastgele seçilen yalnızca bir öğe alacaksınız.\nAnahtar kademesi 2 ve 3, sırasıyla kuyruklu yıldız ve parıldayandır."
       }
     },
     "stats": {
@@ -1544,7 +1544,7 @@
         "1": "P-Pekala, başlıyoruz!",
         "2": "**- Website:** <%1$s>"
       },
-      "note": "**If you like Mantaro, please up-vote on** <https://discordbots.org/bot/mantaro> **and/or consider donating on Patreon or Paypal! Thanks you~**"
+      "note": "**Mantaro'yu seviyorsanız, lütfen** <https://discordbots.org/bot/mantaro> adresinden oy verin **ve/veya Patreon veya Paypal'da bağış yapmayı düşünün! Teşekkürler~**"
     },
     "avatar": {
       "result": "%1$s için avatar",
@@ -1589,8 +1589,8 @@
       "no_content": "%1$sAranacak rolün adını belirtmeniz gerekir."
     },
     "donate": {
-      "beg": "%1$sOh hi! If you are interested in donating, please check the links below. Running Mantaro takes time and money, and every dollar is highly appreciated!\n\n%2$s",
-      "methods": "**Donation Methods**\n**- Patreon:** <%1$s>\n**- Paypal:** <%2$s>"
+      "beg": "%1$sAh merhaba! Bağış yapmakla ilgileniyorsanız, lütfen aşağıdaki bağlantıları kontrol edin. Mantaro'yu çalıştırmak zaman ve para gerektirir ve her dolar çok makbule geçer!\n\n%2$s",
+      "methods": "**Bağış Yöntemleri**\n**- Patreon:** <%1$s>\n**- Paypal:** <%2$s>"
     },
     "help": {
       "title": "Mantaro Yardım",
