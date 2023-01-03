@@ -1501,7 +1501,7 @@
     "salvage": {
       "not_broken": "%1$sYalnızca kırık aletleri kurtarabilirsiniz.",
       "no_item": "%1$sKurtarmak istediğiniz ögeyi belirtmeniz gerekir.",
-      "no_item_found": "%1$sI can't find the item you specified.",
+      "no_item_found": "%1$sBelirttiğiniz ögeyi bulamıyorum.",
       "cant_salvage": "%1$sYou can't salvage this item.",
       "not_wrench": "%1$sYou need a wrench to salvage an item. You might need to specify it manually after the item.",
       "not_enough_level": "%1$sYou need at least a level 2 wrench to salvage this item.",
