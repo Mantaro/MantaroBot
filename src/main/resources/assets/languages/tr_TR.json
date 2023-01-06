@@ -1594,7 +1594,7 @@
     },
     "help": {
       "title": "Mantaro Yardım",
-      "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://www.mantaro.site/mantaro-wiki). [Currency Guide](https://www.mantaro.site/mantaro-wiki/currency/101)\n",
+      "base_category": "%1$s kategorisi için komut listesi. Ayrıntılı bir kılavuz için lütfen [wiki] adresini kontrol edin\n(https://www.mantaro.site/mantaro-wiki). [Ekonomi Kılavuzu](https://www.mantaro.site/mantaro-wiki/currency/101)\n",
       "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://www.mantaro.site/mantaro-wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
       "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://www.mantaro.site/mantaro-wiki).\nRemember you can get more information on a command using `/help command:<name of command>`\n",
       "support": "If you're still lost you can join the [support server](https://support.mantaro.site). You can also follow me on [Twitter](https://twitter.com/mantarodiscord) for updates.\n",
