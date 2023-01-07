@@ -890,7 +890,7 @@
       "cancelled": "%1$sAnket iptal edildi.",
       "completed": "%1$sBu anket sona erdi. Sonuçlar: %2$s",
       "too_little_time": "%1$sAnket en az 2 dakika uzunluğunda olmalıdır.",
-      "too_much_time": "%1$sThe poll should be at most 2 days long.",
+      "too_much_time": "%1$sAnket en fazla 2 gün uzunluğunda olmalıdır.",
       "too_few_options": "%1$sAnketlerde en az 2 seçenek olmalıdır.",
       "too_many_options": "%1$sAnketlerde 9'dan fazla seçenek olamaz.",
       "incorrect_time_format": "%1$sYanlış saat formatı. Unutmayın, uygun zaman biçimi, ardından `h, m veya s` (saat, dakika veya saniye) gelen bir sayıdır, örneğin: 2m25s.",
@@ -1599,16 +1599,16 @@
       "base": "**Eğik çizgi için bütün komutların listeleri**. Ayrıntılı bir kılavuz için lütfen [wiki](https://www.mantaro.site/mantaro-wiki) sayfamızı kontrol edin.\n`/help command:<name of command>` kullanarak bir komut hakkında daha fazla bilgi edinebileceğinizi unutmayın\n",
       "support": "Hâlâ kayıpsanız [destek sunucusuna](https://support.mantaro.site) katılabilirsiniz. Güncellemeler için beni [Twitter](https://twitter.com/mantarodiscord) üzerinden de takip edebilirsiniz.\n",
       "patreon": "**[Mantaro'yu çevrimiçi tutmak için yardımınıza ihtiyacımız var! Daha fazla bilgi için buraya tıklayın.](https://www.patreon.com/mantaro)**",
-      "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
-      "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
-      "footer": "Thanks for using Mantaro %1$s (Total Commands: %2$s)",
+      "disabled_commands": "Yalnızca devre dışı bırakılmamış komutlar gösteriliyor. Toplam devre dışı bırakılan komutlar: %1$s",
+      "channel_specific_disabled_commands": "\nYalnızca devre dışı bırakılmamış komutlar gösteriliyor. Toplam kanala özgü devre dışı bırakılmış komutlar: %1$s",
+      "footer": "Mantaro'yu kullandığınız için teşekkürler %1$s (Toplam Komutlar: %2$s)",
       "commands": "Komutlar",
       "extended": {
-        "no_help": "%1$sThere's no extended help set for this command.",
-        "not_found": "%1$sA command with this name doesn't exist"
+        "no_help": "%1$sBu komut için genişletilmiş bir yardım seti yok.",
+        "not_found": "%1$sBu isme sahip bir komut mevcut değil"
       },
-      "too_long": "Error displaying sub-command help. Check the [wiki](https://www.mantaro.site/mantaro-wiki) for more information on this specific command.",
-      "include_warning": "**Don't include <> or [] on the command itself.**",
+      "too_long": "Alt komut yardımı görüntülenirken hata oluştu. Bu özel komut hakkında daha fazla bilgi için [wiki](https://www.mantaro.site/mantaro-wiki) adresine bakın.",
+      "include_warning": "**Komutun kendisine <> veya [] eklemeyin.**",
       "help_header": "%s için komut yardımı",
       "options": "Şeçenekler",
       "usage": "Kullanım",
@@ -1616,32 +1616,32 @@
       "subcommand_help": "Not: Bir alt komut hakkında yardım almak için komut adının yanında alt komut adını kullanabilirsiniz, örneğin `/cast item` konusunda yardım almak için `/help command:cast item` kullanabilirsiniz.\nBu, bir tür yardımları olduğu sürece tüm alt komutlar için geçerlidir."
     },
     "repair": {
-      "no_item": "%1$sYou didn't specify any item to repair. If you think you have the correct item, try using the full name.",
-      "no_item_found": "%1$sI can't find that item. If you think you have the correct item, try using the full name.",
-      "no_main_item": "%1$sYou don't have the item you're trying to repair (%2$s)",
-      "cant_repair": "%1$s**%2$s** it's not an item you can repair. You can only repair broken items.",
-      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can equip one if needed (`/equip item:Comet Wrench`, for example)",
-      "dust": "%1$sYour inventory it's too dusty to perform a repair. Dust level: %2$s",
-      "not_wrench": "%1$sYou can't use this as a wrench. Remember to use quotes if the name has spaces.",
-      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. You can equip one if needed (`/equip item:Comet Wrench`, for example)",
-      "not_enough_money": "%1$sYou don't have enough money to repair this item. *(Wallet: %2$,d, Needed: %3$,d)*",
-      "no_item_recipe": "%1$sYou don't have the necessary *%2$s* to perform this repair.",
-      "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair on a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
-      "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
+      "no_item": "%1$sOnarılacak herhangi bir öğe belirtmediniz. Doğru öğeye sahip olduğunuzu düşünüyorsanız, tam ismini kullanmayı deneyin.",
+      "no_item_found": "%1$sO öğeyi bulamıyorum. Doğru öğeye sahip olduğunuzu düşünüyorsanız, tam ismini kullanmayı deneyin.",
+      "no_main_item": "%1$sOnarmaya çalıştığınız öğe sizde yok (%2$s)",
+      "cant_repair": "%1$s**%2$s** onarabileceğiniz bir öğe değil. Yalnızca bozuk öğeleri onarabilirsiniz.",
+      "no_tool": "%1$sBu öğeyi onarmak için Kademe 2 (en azından Kuyruklu Yıldız Anahtarı) veya üzeri bir anahtara ihtiyacınız var. Gerekirse birini donatabilirsiniz (örneğin `/equip item:Comet Wrench`)",
+      "dust": "%1$sEnvanteriniz onarım yapmak için çok tozlu. Toz seviyesi: %2$s",
+      "not_wrench": "%1$sBunu İngiliz anahtarı olarak kullanamazsınız. İsimde boşluklar varsa tırnak işareti kullanmayı unutmayın.",
+      "not_enough_level": "%1$sBu onarımı gerçekleştirmek için daha yüksek kademeli bir anahtara ihtiyacınız var. Gerekirse birini donatabilirsiniz (örneğin `/equip item:Comet Wrench`)",
+      "not_enough_money": "%1$sBu öğeyi onarmak için yeterli paranız yok. *(Cüzdan: %2$,d, Gerekli: %3$,d)*",
+      "no_item_recipe": "%1$sBu onarımı gerçekleştirmek için gerekli şeye (*%2$s*) sahip değilsiniz.",
+      "not_enough_items": "%1$s**%3$s** üzerinde bu onarımı gerçekleştirmek için yeterli *%2$s*'niz yok. **(Gerekli: %4$s, Mevcut: %5$s)**",
+      "success": "%1$sOnarım başarılı! %2$s **%3$s** -> %4$s **%5$s** öğesi onarıldı. Onarım maliyeti *%6$s* krediydi ve onu onarmanın tarifi *%7$s* idi.",
       "ls": {
         "header": "Onarılabilir Ögeler Listesi",
         "cost": "Onarma Maliyeti: ",
-        "desc": "This is a list of the items you can repair using `/repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost, which is shown below alongside the needed materials. You need at least a Comet Wrench to repair something."
+        "desc": "Bu, `/repair` kullanarak onarabileceğiniz öğelerin bir listesidir.\nTam adı veya kısa adı veya emojiyi kullanabilirsiniz.\nTamir, gerekli malzemelerin yanında aşağıda gösterilen, ürün maliyetinin minimum 1/3'ü kadar bir maliyete sahiptir. Bir şeyi onarmak için en azından bir Kuyruklu Yıldız İngiliz Anahtarına ihtiyacınız var."
       }
     },
     "anime": {
-      "no_args": "%1$sYou need to tell me what anime to look for.",
-      "selection_start": "Select the number of the anime you want to select.",
+      "no_args": "%1$sBana hangi animeyi arayacağımı söylemelisin.",
+      "selection_start": "Seçmek istediğiniz animenin numarasını seçin.",
       "information_footer": "Kitsu.io tarafından sağlanan bilgiler.",
       "no_results": "%1$sSonuç bulunamadı...",
-      "malformed_result": "%1$sI got a wrong API result for this specific search. Maybe try with another search term?",
-      "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a `%2$s` while trying to process the command. (internal error)",
-      "timeout": "%1$sWe tried to look for this anime, but the request timed out on Kitsu's end. Try again later?",
+      "malformed_result": "%1$sBu belirli arama için yanlış bir API sonucu aldım. Belki başka bir arama terimiyle denemelisin?",
+      "error": "%1$s**Yemin ederim en sevdiğin animeyi bırakmadım!**\nKomutu işlemeye çalışırken bir `%2$s` aldım. (iç hata)",
+      "timeout": "%1$sBu animeyi aramaya çalıştık ama istek Kitsu tarafından zaman aşımına uğradı. Daha sonra tekrar deneyin?",
       "information_header": "%1$s için anime bilgileri",
       "information_notice": "Information provided by AniList. Click the title to go to AniList's page about this anime.",
       "airing": "Yayında",
@@ -1658,151 +1658,151 @@
       "external_link_text": "Bir göz at!"
     },
     "character": {
-      "no_args": "%1$sYou need to tell me what character you want to look for.",
-      "selection_start": "Select the number of the character you want to select.",
+      "no_args": "%1$sBana hangi karakteri aramak istediğini söylemelisin.",
+      "selection_start": "Seçmek istediğiniz karakterin numarasını seçin.",
       "error": "%1$s**Yemin ederim waifu'nu ben düşürmedim, lütfen beni affet!**\nBu komutu işlemeye çalışırken `%2$s` aldım. (içsel bir hata)",
-      "information_header": "Character information for %1$s",
+      "information_header": "%1$s için karakter bilgisi",
       "information": "Bilgilendirme",
       "no_aliases": "Takma ad yok",
       "alias_start": "Ayrıca şöyle bilinir:",
       "no_info": "Bilgi yok."
     },
     "balance": {
-      "bot_notice": "%1$sBots cannot have money.",
+      "bot_notice": "%1$sBotların parası olamaz.",
       "external_balance": "%1$s's balance is **$%2$d credits.**",
-      "own_balance": "Your balance is **$%1$,d credits.**%2$s",
-      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://www.mantaro.site/mantaro-wiki/currency/101>. This will only be shown once."
+      "own_balance": "Bakiyeniz **$%1$,d kredi.**%2$s",
+      "new_player": "\nMerhaba oradaki! Burada yeni olabileceğini görüyorum. Bu kılavuz size çok yardımcı olacaktır:\n<https://www.mantaro.site/mantaro-wiki/currency/101>. Bu sadece bir kez gösterilecek."
     },
     "daily": {
-      "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",
+      "check": "%1$s**%2$s.** tarihinde günlük haklarınızı talep edebileceksiniz",
       "about_now": "şimdi hakkında",
-      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `/daily check:true`. Enjoy!",
+      "ratelimit_message": "Her gün günde bir kez koşabilirsiniz. Kontrol etmeniz gerekiyorsa, `/daily check:true` komutunu da kullanabilirsiniz. İyi Eğlenceler!",
       "errors": {
-        "bot": "%1$sYou cannot transfer your daily to a bot.",
-        "receipt_locked": "That user cannot receive daily credits now.",
-        "own_locked": "You cannot receive your daily now.",
-        "same_user": "%1$sUse daily without mentioning yourself if you're gonna mention yourself :P"
+        "bot": "%1$sGünlüğünüzü bir bota aktaramazsınız.",
+        "receipt_locked": "O kullanıcı şu anda günlük kredisini alamıyor.",
+        "own_locked": "Günlüğünüzü şimdi alamazsınız.",
+        "same_user": "%1$sKendinizden bahsedecekseniz kendinizden bahsetmeden günlüğü kullanın :P"
       },
       "streak": {
         "up": "Streak up! Current streak: `%1$sx`",
-        "first_time": "First time claiming daily, have fun! (Come back for your streak tomorrow!)",
+        "first_time": "İlk kez günlük talepte bulundun, iyi eğlenceler! (Yarın seriniz için geri gelin!)",
         "lost_streak": {
-          "normal": "2+ days have passed since your last daily, so your streak of `%1$dx` got reset :(",
-          "watch": "Even your `Magical Watches` could not stop the flow for this long. Even after using all your owned magic watches your streak of `%1$dx` still ran out of time and got reset :("
+          "normal": "Son günlük gününüzden bu yana 2+ gün geçti, bu nedenle `%1$dx` serisi sıfırlandı :(",
+          "watch": "Sihirli Saatleriniz bile akışı bu kadar uzun süre durduramadı. Sahip olduğunuz tüm sihirli saatlerinizi kullandıktan sonra bile `%1$dx` serinizin süresi doldu ve sıfırlandı :("
         },
         "bonus": "\nYou won a bonus of $%1$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)",
         "given": {
           "up": "Streak up! Current streak: `%1$dx`.\n*The streak was applied to your profile!*",
           "bonus": "%1$s won a bonus of $%2$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)"
         },
-        "watch_used": "Your `Magical Watches` saved your streak! You used `%1$d` of them to extend your streaks survival time to %2$dx, you have `%3$d` of them remaining!"
+        "watch_used": "`Sihirli Saatleriniz` serinizi kurtardı! Serilerinizin hayatta kalma süresini %2$dx'e uzatmak için `%1$d` kullandınız, `%3$d` kaldı!"
       },
-      "given_credits": "%1$sI gave your **$%2$,d** daily credits to %3$s",
+      "given_credits": "%1$s%3$s adlı kişiye **$%2$,d** günlük kredinizi verdim",
       "credits": "%1$sYou got **$%2$s** daily credits.",
       "sellout": {
-        "get_premium": "We need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info. **You can get up to twice as many credits with Premium!** Memberships start at only $2/month, the price of cheap snack!",
-        "already_premium": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:"
+        "get_premium": "Mantaro'yu hayatta tutmak için yardımınıza ihtiyacımız var! Daha fazla bilgi için <https://patreon.com/mantaro> adresine bakın. **Premium ile iki kata kadar daha fazla kredi kazanabilirsiniz!** Üyelikler ayda sadece 2 dolardan başlıyor, ucuz atıştırmalık fiyatı!",
+        "already_premium": "Mantaro'yu desteklediğiniz için teşekkür ederiz. Sizin gibi insanların yardımı olmadan Mantaro'yu hayatta tutamazdık. :heart:"
       },
       "crate": "You won a loot crate because your daily streak it's a multiple of 20! Enjoy.",
-      "watch_get": "You won a `Magic Watch` because your daily streak is a multiple of 50! Enjoy."
+      "watch_get": "Günlük galibiyet seriniz 50'nin katı olduğu için bir `Sihirli Saat` kazandınız! İyi Eğlenceler."
     },
     "gamble": {
-      "no_credits": "%1$sYou're broke. Maybe search for some credits first.",
-      "too_much_money": "%1$sYou have too much money! Maybe transfer or buy items? Now you can also use `/slots` for all your gambling needs! Thanks for not breaking the local bank. *(Gamble absolute limit: %2$d credits)*",
-      "invalid_money_or_modifier": "%1$sPlease type a valid number less than or equal to your current balance or `all` to gamble all your credits.",
-      "not_enough_money": "%1$sPlease type a value within your balance.",
-      "invalid_percentage": "%1$sPlease type a valid percentage value.",
-      "cancelled_bet": "%1$sCancelled bet.",
+      "no_credits": "%1$sMeteliksizsin. Belki önce biraz kredi aramalısın.",
+      "too_much_money": "%1$sÇok fazla paran var! Belki öğeleri aktarmak veya satın almak istersin? Artık tüm kumar ihtiyaçlarınız için `/slots` kullanabilirsiniz! Yerel bankayı bozmadığınız için teşekkürler. *(Kumar mutlak limiti: %2$d kredi)*",
+      "invalid_money_or_modifier": "%1$sTüm kredilerinizi kumara yatırmak için lütfen mevcut bakiyenizden küçük veya ona eşit veya `hepsi` için geçerli bir sayı yazın.",
+      "not_enough_money": "%1$sLütfen bakiyenizden bir değer giriniz.",
+      "invalid_percentage": "%1$sLütfen geçerli bir yüzde değeri girin.",
+      "cancelled_bet": "%1$sBahis iptal edildi.",
       "win": "%1$sCongrats, you won %2$d credits and got to keep what you had.",
       "win_overflow": "%1$sCongrats, you won %2$d credits. But you already had too many credits. Your bag overflowed.",
-      "lose": "%1$sSadly, you lost %2$s credits. %3$s",
+      "lose": "%1$sMaalesef %2$s kredi kaybettiniz. %3$s",
       "lose_all": "hepsi senin",
       "credits": "kredi",
-      "too_much": "%1$sYou can only gamble up so much at once. You don't want to go full broke do you? *(Gamble single limit: %2$,d credits)*",
-      "too_little": "%1$sYou cannot gamble so little money (Minimum: 100 credits)"
+      "too_much": "%1$sAynı anda çok fazla kumar oynadınız. Beş parasız kalmak istemezsin, değil mi? *(Tek kişilik kumar limiti: %2$,d kredi)*",
+      "too_little": "%1$sBu kadar az parayla kumar oynayamazsınız (Minimum: 100 kredi)"
     },
     "loot": {
-      "player_locked": "%1$sYou cannot loot now.",
-      "item_overflow": "But you already had too many items, so you decided to throw away the excess.",
+      "player_locked": "%1$sŞimdi ganimeti toplayamazsın.",
+      "item_overflow": "Zaten elinde çok fazla eşya vardı, fazlalıktan kurtulmayı seçtin.",
       "with_item": {
         "found": "%1$sDigging through messages, you found %2$s, along with **$%3$d credits!** %4$s",
         "found_but_overflow": "%1$sDigging through messages, you found %2$s, along with **$%3$d credits.**%4$sBut you already had too many credits, so I donated the excess.",
-        "found_only_item_but_overflow": "%1$sDigging through messages, you found %2$s. %3$s"
+        "found_only_item_but_overflow": "%1$sİletileri karıştırırken %2$s dosyasını buldunuz. %3$s"
       },
       "without_item": {
-        "found": "%1$sDigging through messages, you found **$%2$s credits!**%3$s",
+        "found": "%1$sMesajları karıştırırken **$%2$s kredi buldunuz!**%3$s",
         "found_but_overflow_no_item": "%1$sDigging through messages, you found **$%2$d credits.** But you already had too many credits, so I donated the excess."
       },
-      "dust": "Digging through messages, you found nothing but dust (Dust level %1$s%%)",
-      "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"
+      "dust": "Mesajları karıştırırken tozdan başka bir şey bulamadınız (Toz seviyesi %1$s%%)",
+      "easter": "\nGörünüşe göre burada çok fazla toz var... Daha fazla dağılmadan önce bunu temizlemek isteyebilirsin!"
     },
     "mine": {
-      "not_equipped": "%1$sYou don't have any equipped pick. Use `/equip item:<pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `/buy item:pick`",
+      "not_equipped": "%1$sHerhangi bir donatılmış kazmanız yok. Bir kazmayı donatmak ve maceranıza başlamak için `/equip item:<pick name>` kullanın! Herhangi bir kazmanız yoksa, önce `/buy item:pick` komutunu çalıştırın",
       "success": "%1$sYou mined minerals worth **$%2$s credits**, using a *%3$s*",
       "reminder": "\n*Madencilik yaparken elde ettiğiniz mücevherleri kullanarak daha iyi kazmalar yapabilirsiniz. Dökümle yapabileceklerinizin bir listesi için `/cast list` komutunu kontrol edin*\nAletlerinizi nasıl yükselteceğinize dair bir kılavuz için şunu okuyun:<https://www.mantaro.site/mantaro-wiki/currency/103>",
       "diamond": {
-        "overflow": "Huh, you found %1$,d diamond(s) while mining, but you already had too much, so I sold them for you.",
+        "overflow": "Madencilik yaparken %1$,d elmas buldun, ama zaten çok fazla elmasın vardı, ben de onları senin için sattım.",
         "success": "Huh! You got lucky and found a diamond while mining, check your inventory!"
       },
       "gem": {
-        "overflow": "Huh, you found *%1$s* while mining, but you already had too much of that gem, so I sold it for you.",
-        "success": "Huh! You got lucky and found *%1$s* while mining, check your inventory.",
-        "success_extra": "Hurray! You got extra lucky and found *%1$s* and *%2$s* while mining, check your inventory."
+        "overflow": "Madencilik yaparken *%1$s* buldun, ama o cevherden zaten çok fazla vardı, ben de senin için sattım.",
+        "success": "Ha! Şanslısın ve madencilik yaparken *%1$s* buldun, envanterini kontrol et.",
+        "success_extra": "Yaşasın! Ekstra şanslısınız ve madencilik yaparken *%1$s* ve *%2$s* buldunuz, envanterinizi kontrol edin."
       },
       "sparkle": {
         "overflow": "Parıldayan bir mücevher buldunuz, ancak görünüşe göre zaten çok fazla almışsınız, bu yüzden onu sizin için sattık.",
         "success": "Yaşasın! Bir tane %1$s parıldayan mücevher buldunuz. Etrafta bulundurduğunuzdan emin olun, envanterinizi kontrol edin."
       },
       "crate": {
-        "overflow": "You found a **%1$s** while mining, but you had too many and left it behind...",
-        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `/opencrate crate:<crate name>`. You need a crate key, which you can buy using `/buy item:key`!"
+        "overflow": "Madencilik yaparken bir **%1$s** buldunuz, ancak çok fazla vardı ve onu geride bıraktınız...",
+        "success": "Madencilik yaparken bir %1$s **%2$s** buldunuz ve onu aldınız. Git ve `/opencrate crate:<crate name>` komutu ile onu aç. `/buy item:key` kullanarak satın alabileceğiniz bir kasa anahtarına ihtiyacınız var!"
       },
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your pick slot."
+        "success": "%1$sSeçim yuvanızda otomatik olarak bir **%2$s** donatıldı."
       },
-      "item_broke": "%1$sYour %2$s broke while using it :( %3$s",
-      "item_broke_autoequip": "*Hint: You can use `/profile autoequip` and it'll automatically equip the item for you when it breaks, assuming you have one in your inventory.*",
+      "item_broke": "%1$s%2$s onu kullanırken bozuldu :( %3$s",
+      "item_broke_autoequip": "*İpucu: `/profile autoequip` komutunu kullanabilirsiniz ve envanterinizde bir tane olduğu varsayılarak, kırıldığında eşyayı sizin için otomatik olarak donatacaktır.*",
       "waifu_help": "Waifu'nuz geldi ve madencilik maceranıza katıldı ve ikiniz de artık daha büyük bir yük elde edeceksiniz!",
-      "missing_equipped": "%1$sYou had an equipped %2$s pick, but you no longer have any of its kind on your inventory! Equipped pick has been reset.",
+      "missing_equipped": "%1$sDonanımlı bir %2$s kazmanız vardı, ancak artık envanterinizde bu türde bir kazmanız yok! Donanımlı kazma sıfırlandı.",
       "broken_drop": "%1$sYour pick broke, but you can repair it. Got broken item: %2$s *%3$s*",
-      "broken_drop_miss": "%1$sYour tool broke and you didn't quite manage to get it back."
+      "broken_drop_miss": "%1$sAletiniz kırıldı ve onu geri almayı tam olarak başaramadınız."
     },
     "chop": {
-      "not_equipped": "%1$sYou don't have any equipped axe. Use `/equip item:<axe name>` to equip a axe and start your adventure! If you don't have any, first run `/buy item:axe`",
-      "dust": "%1$sThe tree was too brittle and you only got sawdust out of it (Dust level: %2$d%%)",
+      "not_equipped": "%1$sDonanımlı bir baltanız yok. Bir balta kuşanmak ve maceranıza başlamak için `/equip item:<axe name>` kullanın! Hiç yoksa, önce `/buy item:axe` komutunu çalıştırın",
+      "dust": "%1$sAğaç çok kırılgandı ve ağaçtan sadece talaş çıktı (Toz seviyesi: %2$d%%)",
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
+        "success": "%1$sBalta yuvanıza otomatik olarak bir **%2$s** donatıldı."
       },
       "crate": {
-        "overflow": "You found a **%1$s** while chopping trees, but you had too many already, so we threw it back into the ocean...",
-        "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `/opencrate crate:<crate name>`. You need a crate key!"
+        "overflow": "Ağaçları keserken bir **%1$s** buldunuz ama zaten çok fazla vardı, biz de onu okyanusa geri fırlattık...",
+        "success": "Ağaçları keserken bir %1$s **%2$s** buldunuz ve onu almaya devam ettiniz. Git ve `/opencrate crate:<crate name>` komutu ile onu aç. Bir sandık anahtarına ihtiyacınız var!"
       },
-      "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
-      "success_only_item": "%1$sWhile chopping trees, you found %2$s using a *%3$s* and proceed to save them into your inventory.",
-      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$,d credits** using a *%4$s* and proceed to save them into your inventory.",
-      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$,d credits** using a *%3$s* and proceed to save them into your pocket."
+      "overflow": "%1$sDoğranmış bazı şeyler buldunuz, ancak bazı eşyaları daha fazla tutamadınız, bu yüzden bir kısmını bırakmak zorunda kaldık.",
+      "success_only_item": "%1$sAğaçları keserken *%3$s* kullanarak %2$s buldunuz ve onları envanterinize kaydetmeye devam ettiniz.",
+      "success": "%1$sAğaçları keserken *%4$s* kullanarak %2$s ve **$%3$,d kredi** buldunuz ve bunları envanterinize kaydetmeye devam ettiniz.",
+      "success_money_noitem": "%1$sAğaçları keserken *%3$s* kullanarak **$%2$,d kredi** buldunuz ve onları cebinize koymaya devam edin."
     },
     "slots": {
       "errors": {
-        "amount_not_ticket": "%1$sYou cannot specify how many tickets you're gonna use if you're not using tickets!",
-        "not_enough_tickets": "%1$sYou don't have enough slots tickets.",
-        "too_much_money": "%1$sThis machine cannot dispense that much money!",
-        "not_enough_money": "%1$sYou don't have enough money to play the slots machine!",
-        "below_minimum": "%1$sThe minimum amount is 25 credits",
-        "no_tickets": "%1$sYou wanted to use tickets but you don't have any :<",
-        "no_amount": "%1$sYou didn't specify the amount!",
-        "no_valid_amount": "%1$sThat's not a valid amount of money! (Example of valid amounts: 1000, 1k, 14000)",
-        "too_many_tickets": "%1$sYou're trying to use too many slot tickets. Maximum allowed is %2$d",
-        "tickets_and_credits": "%1$sYou can only use tickets or credits, not both."
+        "amount_not_ticket": "%1$sBilet kullanmıyorsanız, kaç bilet kullanacağınızı belirleyemezsiniz!",
+        "not_enough_tickets": "%1$sYeterli slot biletiniz yok.",
+        "too_much_money": "%1$sBu makine o kadar parayı veremez!",
+        "not_enough_money": "%1$sSlot makinesi oynamak için yeterli paranız yok!",
+        "below_minimum": "%1$sMinimum miktar 25 kredidir",
+        "no_tickets": "%1$sBilet kullanmak istedin ama biletin yok :<",
+        "no_amount": "%1$sMiktarı belirtmemişsiniz!",
+        "no_valid_amount": "%1$sBu geçerli bir para değil! (Geçerli miktarlara örnek: 1000, 1k, 14000)",
+        "too_many_tickets": "%1$sÇok fazla slot bileti kullanmaya çalışıyorsunuz. İzin verilen maksimum değer: %2$d",
+        "tickets_and_credits": "%1$sYalnızca biletleri veya kredileri kullanabilirsiniz, ikisini birden kullanamazsınız."
       },
-      "roll": "%1$s**You used %2$s and rolled the slot machine**\n",
+      "roll": "%1$s**%2$s kullandınız ve slot makinesinde oynadınız**\n",
       "win": "And you won **%1$d** credits and got to keep what you bet (%2$d credits)! Lucky!",
-      "lose": "And you lost %1$s\nI hope you do better next time!",
+      "lose": "Ve %1$s kaybettiniz\nUmarım bir dahaki sefere daha iyisini yaparsın!",
       "tickets": "slot bilet(ler) i",
       "credits": "krediler"
     },
     "leaderboard": {
-      "main_page_redirect": "You can see `/help command:leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `/leaderboard money`",
+      "main_page_redirect": "Kullanılabilir skor tablolarının bir listesi için `/help command:leaderboard` komutunu kullanabilirsiniz.\nPara skor tablosunu arıyorsanız, `/leaderboard money` komutunu çalıştırın",
       "header": "Mantaro'nun Liderlik Sıralaması",
       "money": "Bakiye Liderlik Sıralaması",
       "reputation": "İtibar Liderlik Sıralaması",
@@ -1815,21 +1815,21 @@
       "claim": "Waifu Sahiplendirme Lider Tablosu",
       "inner": {
         "experience": "Deneyim",
-        "game": "%1sThis page shows the top 10 people who have won the most games.\n\nCheck out `/help command:game` or `/help command:trivia` for details on how games work!",
-        "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `/help command:waifu` for details on the waifu system.",
-        "money_old": "%1$sThis page shows the top 10 richest people on Mantaro (before the reset).\n",
-        "money": "%1$sThis page shows the top 10 richest people on Mantaro. Grinding is hard!",
-        "rep": "%1sThis page shows the top 10 people with the most reputation.",
-        "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `/help command:daily` for more info",
-        "lvl": "%1sThis page shows the top 10 people with the most level.\n\nLevel is earning through talking. Command usage doesn't contribute to experience, and XP has a 30 seconds cooldown.",
-        "waifu": "%1sThis page shows the top 10 people with the most weighted waifu value.\n\nCheck out `/help command:waifu` for details on the waifu system.",
-        "gamble": "%1sThis page shows the top 10 people with the most gamble runs won.\n\nCheck out `/help command:gamble` for details on gamble.",
-        "slots": "%1sThis page shows the top 10 people with the most slots runs won.\n\nCheck out `/help command:slots` for details on slots."
+        "game": "%1sBu sayfa en çok oyun kazanan ilk 10 kişiyi gösterir.\n\nOyunların nasıl çalıştığıyla ilgili ayrıntılar için `/help command:game` veya `/help command:trivia` komutlarına göz atın!",
+        "claim": "%1sBu sayfa, en çok talep edilen waifu olan ilk 10 kişiyi gösterir.\n\nWaifu sistemiyle ilgili ayrıntılar için `/help command:waifu` komutuna bakın.",
+        "money_old": "%1$sBu sayfa Mantaro'daki en zengin 10 kişiyi gösterir (sıfırlamadan önce).\n",
+        "money": "%1$sBu sayfa Mantaro'daki en zengin 10 kişiyi gösterir. Bilemek zordur!",
+        "rep": "%1sBu sayfa en çok itibara sahip ilk 10 kişiyi gösterir.",
+        "streak": "%1sBu sayfa, en çok günlük galibiyet serisine sahip ilk 10 kişiyi gösterir.\n\nDaha fazla bilgi için `/help command:daily` komutuna bakın",
+        "lvl": "%1sBu sayfa en yüksek seviyeye sahip ilk 10 kişiyi gösterir.\n\n-Seviyeyi konuşarak kazanmaktasınız. Komut kullanımı deneyime katkıda bulunmaz ve XP'nin 30 saniyelik bir bekleme süresi vardır.",
+        "waifu": "%1sBu sayfa, en ağırlıklı waifu değerine sahip ilk 10 kişiyi gösterir.\n\nWaifu sistemiyle ilgili ayrıntılar için `/help command:waifu` komutuna bakın.",
+        "gamble": "%1sBu sayfa, en çok kumar kazanan ilk 10 kişiyi gösterir.\n\nKumarla ilgili ayrıntılar için `/help command:gamble` komutuna bakın.",
+        "slots": "%1sBu sayfa, en çok slot kazanan ilk 10 kişiyi gösterir.\n\nSlotlar ile ilgili ayrıntılar için `/help command:slots` komutuna bakın."
       }
     },
     "iteminfo": {
-      "no_content": "%1$sYou didn't specify any item to look for! You can search it with emoji or the name.",
-      "no_item": "%1$sThere's no item matching your search query.",
+      "no_content": "%1$sAranacak herhangi bir öğe belirtmediniz! Emoji veya isim ile arayabilirsiniz.",
+      "no_item": "%1$sArama sorgunuzla eşleşen bir öğe yok.",
       "embed": {
         "header": "%1$s için Öge Bilgileri",
         "type": "Tür",
@@ -1839,7 +1839,7 @@
         "durability": "Dayanıklılık",
         "desc": "Açıklama",
         "upgrade": "Yükseltmek mi istiyorsunuz?",
-        "upgrade_content": "Click [here](https://www.mantaro.site/mantaro-wiki/currency/103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
+        "upgrade_content": "Aletlerinizi nasıl yükselteceğiniz hakkında daha fazla bilgi için [here](https://www.mantaro.site/mantaro-wiki/currency/103#tools---getting-an-upgrade) tıklayın!"
       },
       "attribute": {
         "tier": "İngiliz Anahtarı Seviyesi (üretim için):",
@@ -1851,57 +1851,57 @@
         "reduction": "Çarpan azaltma:",
         "multiple_cast": "Birden fazla döküm yapabilir:"
       },
-      "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s\n%1$s**Buy Price:** %8$s %9$s\n%1$s**Sell Price:** %10$s %11$s",
-      "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Buy Price:** %7$s %8$s\n%1$s**Sell Price:** %9$s %10$s"
+      "success_tiered": "**Öğe Bilgileri** %2$s **%3$s** (%4$s)\n%1$s**Tür:** %5$s\n%1$s**Açıklama:** *%6$s*\n%1$s**Kademe:** %7$s\n%1$s**Alış Fiyatı:** %8$s %9$s\n%1$s**Satış Fiyatı:** %10$s %11$s",
+      "success": "**Öğe Bilgileri** %2$s **%3$s** (%4$s)\n%1$s**Tür:** %5$s\n%1$s**Açıklama:** *%6$s*\n%1$s**Alış Fiyatı:** %7$s %8$s\n%1$s**Satış Fiyatı:** %9$s %10$s"
     },
     "level": {
       "bot_notice": "%1$sBotların seviyesi yoktur.",
-      "own_success": "%1$sYour level is %2$s. (Experience: %3$s/%4$s)",
-      "success_other": "%1$s%2$s's is level %3$s. (Experience: %4$s/%5$s)"
+      "own_success": "%1$sSeviyeniz %2$s. (Deneyim: %3$s/%4$s)",
+      "success_other": "%1$s%2$s'in seviyesi %3$s. (Deneyim: %4$s/%5$s)"
     }
   },
   "options": {
     "options": "Mantaro Ayarları",
-    "error_general": "%1$sIncorrect usage or missing arguments. Make sure the first argument doesn't start with a new line!\nIf you're lost or want help on using opts, check <https://www.mantaro.site/mantaro-wiki/basics/server-configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
+    "error_general": "%1$sYanlış kullanım veya eksik bağımsız değişkenler. İlk bağımsız değişkenin yeni bir satırla başlamadığından emin olun!\nKaybolduysanız veya tercihleri ​​kullanmayla ilgili yardıma ihtiyacınız varsa, tercihlerin nasıl kullanılacağına dair bir kılavuz için <https://www.mantaro.site/mantaro-wiki/basics/server-configuration> adresine bakın. Wiki'yi okuduktan sonra herhangi bir sorunla karşılaşırsanız <https://support.mantaro.site> adresine gidin",
     "check_data": {
-      "retrieve_failure": "%1$sCannot retrieve values. Weird thing...",
+      "retrieve_failure": "%1$sDeğerler alınamıyor. Tuhaf şey...",
       "header": "Sunucu **%1$s** için ayarlanan seçenekler.",
-      "terminology": "\n\n**Useful terminology:** [] = empty list, null = not set, {} = empty object. If you see numbers=[...] it means that for that id, it applies what's inside the brackets. Objects are usually comma-separated",
-      "footer": "This is a debug command, therefore it's not 100% user-friendly",
+      "terminology": "\n\n**Faydalı terminoloji:** [] = boş liste, null = ayarlanmamış, {} = boş nesne. Numbers=[...] görürseniz, bu, o kimlik için parantez içindekileri uyguladığı anlamına gelir. Nesneler genellikle virgülle ayrılır",
+      "footer": "Bu bir hata ayıklama komutudur, bu nedenle %100 kullanıcı dostu değildir",
       "null_set": "hiçbir şeye ayarlı değil.",
       "set_to": "ayarlandı:"
     },
     "reset_all": {
-      "success": "%1$sCorrectly reset your options!"
+      "success": "%1$sSeçeneklerinizi doğru şekilde sıfırladınız!"
     },
     "server_command_disallow": {
-      "no_command": "%1$sYou need to specify the command you want to disable on this server.",
-      "success": "%1$sDisabled %2$s on this server."
+      "no_command": "%1$sBu sunucuda devre dışı bırakmak istediğiniz komutu belirtmeniz gerekir.",
+      "success": "%1$sBu sunucuda %2$s devre dışı bırakıldı."
     },
     "server_command_allow": {
-      "no_command": "%1$sYou need to specify the command you want to enable on this server.",
-      "success": "%1$sEnabled %2$s on this server."
+      "no_command": "%1$sBu sunucuda etkinleştirmek istediğiniz komutu belirtmeniz gerekir.",
+      "success": "%1$sBu sunucuda %2$s etkinleştirildi."
     },
     "server_command_specific_disallow": {
-      "invalid": "%1$sYou need to specify the channel name and the command to disallow.",
-      "success": "%1$sDisabled %2$s on channel #%3$s."
+      "invalid": "%1$sKanal adını ve izin verilmeyecek komutu belirtmeniz gerekir.",
+      "success": "%1$s#%3$s kanalında %2$s devre dışı bırakıldı."
     },
     "server_command_specific_allow": {
-      "invalid": "%1$sYou need to specify the channel name and the command to allow.",
-      "success": "%1$sEnabled %2$s on channel #%3$s."
+      "invalid": "%1$sİzin vermek için kanal adını ve komutu belirtmeniz gerekir.",
+      "success": "%1$s#%3$s kanalında %2$s etkinleştirildi."
     },
     "server_channel_disallow": {
-      "no_channel": "%1$sYou need to specify the channel where you want the bot not to listen to commands.",
-      "too_many": "%1$sYou cannot disable more channels since the bot wouldn't be able to talk otherwise :(",
-      "success": "%1$sChannel %2$s will no longer listen to commands."
+      "no_channel": "%1$sBotun komutları dinlememesini istediğiniz kanalı belirtmeniz gerekiyor.",
+      "too_many": "%1$sAksi takdirde bot konuşamayacağı için daha fazla kanalı devre dışı bırakamazsınız :(",
+      "success": "%1$s%2$s kanalı artık komutları dinlemeyecek."
     },
     "server_channel_allow": {
-      "no_channel": "%1$sYou need to specify the channel where you want the bot to listen to commands. (All channels by default)",
-      "success": "%1$sChannel %2$s will now listen to commands."
+      "no_channel": "%1$sBotun komutları dinlemesini istediğiniz kanalı belirtmeniz gerekiyor. (Varsayılan olarak tüm kanallar)",
+      "success": "%1$s%2$s kanalı şimdi komutları dinleyecek."
     },
     "category_disable": {
-      "no_category": "%1$sYou need to specify a category to disable.",
-      "already_disabled": "%1$sThis category is already disabled.",
+      "no_category": "%1$sDevre dışı bırakmak için bir kategori belirtmeniz gerekir.",
+      "already_disabled": "%1$sBu kategori zaten devre dışı.",
       "moderation_notice": "%1$sopts komutunu devre dışı bırakacağından, denetlemeyi devre dışı bırakamazsınız.",
       "success": "%1$sDevre dışı bırakılan kategori `%2$s`"
     },
@@ -1999,7 +1999,7 @@
       "success": "%1$sMesaj günlüklerinin saat dilimini `%2$s` olarak ayarlayın. Bu saat dilimi, denetleme günlüklerinde saati görüntülemek için kullanılacaktır."
     },
     "logs_timezonereset": {
-      "success": "%1$sSuccessfully reset log timezone."
+      "success": "%1$sGünlük saat dilimini başarıyla sıfırladın."
     },
     "lobby_reset": {
       "success": "%1$sLobiyi doğru şekilde sıfırladın."
@@ -2022,12 +2022,12 @@
     },
     "birthday_enable": {
       "no_args": "%1$sKanal adını ve rol adını belirtmeniz gerekir.",
-      "administrative_role": "%1$sThis role contains administrative permissions and therefore cannot be set as a Birthday role.",
+      "administrative_role": "%1$sBu rol, yönetici izinleri içerir ve bu nedenle Doğum Günü rolü olarak ayarlanamaz.",
       "public_role": "%1$severyone rolünü doğum günü rolü olarak ayarlayamazsınız! Doğum günü rolünün, doğum günü geldiğinde kişiye atanan ve gün geçtiğinde kaldırılan bir rol olduğunu unutmayın.",
       "autorole": "%1$sOtorol rolünü doğum günü rolü olarak ayarlayamazsınız! Doğum günü rolünün, doğum günü geldiğinde kişiye atanan ve gün geçtiğinde kaldırılan bir rol olduğunu unutmayın.",
       "warning": "%1$sDoğum günü rolünün, doğum günü geldiğinde kişiye atanan ve gün geçtiğinde kaldırılan bir rol olduğunu unutmayın.Nasıl yapılandırılacağı konusunda herhangi bir şüpheniz varsa, her zaman destek sunucumuza katılıp sorabilirsiniz. Ayrıca bir örnek için `~>opts help birthday enable` seçeneğini de kontrol edebilirsiniz.",
       "warning_1": "Bunun nedeni, doğum günü atayıcısının nasıl çalıştığıdır: Doğum günü olan kişiye geçici bir rol atar ve doğum günü geçtiğinde atamasını kaldırır.**Bu, doğum günü rolüne sahip herkesin doğum günü geçtiği gün rolü kaldıracağı anlamına gelir**. Lütfen hangi rolü kullanacağınızı seçerken dikkatli olun, çünkü yanlış bir yapılandırma kötü şeylerin olmasına neden olabilir (gerçekten)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://www.mantaro.site/mantaro-wiki/guides/birthday-announcer> for more info.",
+      "warning_2": "Rol *yeni oluşturulmuş bir rol veya başkası için kullanmadığınız bir rol olmalıdır*. Kullanıcılarınız üzerinde zaten sahip olduğunuz bir rol OLMAMALIDIR. Kullanıcıların `/birthday allowserver` kullanarak bu sunucunun doğum günlerini duyurmasına izin vermesi gerekecek, aksi takdirde doğum günleri görünmeyecek! Daha fazla bilgi için <https://www.mantaro.site/mantaro-wiki/guides/birthday-announcer> bölümünü okuyun.",
       "warning_3": "Ek olarak, doğum günü önbelleği (bunları depolamak için kullanılan) yalnızca 23 saatte bir güncellenir. Yani bu duyuruyu test etmek için doğum gününüzü bugünden yarına ayarlarsanız **çalışmayacaktır**.",
       "warning_4": "%2$s rolünü doğum günü rolü olarak ayarlamayı kabul ediyorsanız **yes**, iptal etmek için **no** yazın. Bu 45 saniye içinde zaman aşımına uğrar.",
       "success": "%1$sBu sunucuda parametrelerle doğum günü kaydı etkinleştirildi -> `%2$s (%3$s)` ve rol: `%4$s (%5$s)`",
@@ -2051,7 +2051,7 @@
       "no_role_found": "%1$sBu isimde bir rol bulamadım. Rolde boşluk varsa, onu tırnak içine almayı deneyin.",
       "hierarchy_conflict": "%1$sBu rol, en yüksek rolünüzden daha yükseğe yerleştirilmiştir, bu nedenle onu otorol olarak koyamazsınız!",
       "self_hierarchy_conflict": "%1$sBu rol benim en yüksek rolümden daha yüksekte yer alıyor, bu yüzden onu otorol olarak koyamazsınız!",
-      "permissions_conflict": "%1$sYou cannot set an autorole with administrative permissions, even if you have them.",
+      "permissions_conflict": "%1$sYönetici izinlerine sahip olsanız bile, otomatik rolleri ayarlayamazsınız.",
       "success": "%1$sSunucu otomatik rolü artık şu şekilde ayarlanmıştır: **%2$s** (Konum: %3$d)"
     },
     "autorole_unbind": {
@@ -2117,7 +2117,7 @@
       "no_role_found": "%1$sBu isimde bir rol bulamadım!\nRol isminde boşluk varsa, şunun gibi tırnak işaretleri içine alın: \"Rol Adı\"",
       "hierarchy_conflict": "%1$sBu rol, en yüksek rolünüzden daha yükseğe yerleştirilmiştir, bu nedenle onu otomatik olarak atanabilir bir rol olarak koyamazsınız!",
       "self_hierarchy_conflict": "%1$sBu rol benim en yüksek rolümden daha yükseğe yerleştirildi, bu nedenle onu otomatik atanabilir bir rol olarak koyamazsınız!",
-      "permissions_conflict": "%1$sYou cannot add iam roles with administrative permissions, even if you have them.",
+      "permissions_conflict": "%1$sYönetici izinlerine sahip olsanız bile iam rollerini ekleyemezsiniz.",
       "success": "%1$s**%3$s** rolünü veren otomatik atanabilir rol **%2$s** eklendi"
     },
     "autoroles_category_add": {
@@ -2195,7 +2195,7 @@
       "success": "%1$sSeçeneklerinizi doğru şekilde sıfırlayın!"
     },
     "birthday_test": {
-      "no_user": "%1$sYou need to specify a user to test the assigner with. Just mention them.",
+      "no_user": "%1$sAtanan kişiyi test etmek için bir kullanıcı belirtmeniz gerekir. Sadece onlardan bahsedin.",
       "no_bd_channel": "%1$sHerhangi bir doğum günü kanalınız yok!",
       "no_bd_role": "%1$sDoğum günü belirleyicisi için belirlenmiş bir rolünüz yok! Bunun için yeni bir rol oluşturduğunuzdan emin olun.",
       "no_talk_permission": "%1$sBot doğum günü kanalında konuşamaz. Kanal izinlerini kontrol edin.",
@@ -2206,11 +2206,11 @@
     },
     "usermessage_joinmessage_add": {
       "no_message": "%1$sBirisi katıldığında söylememi istediğiniz ekstra mesajı belirtmeniz gerekiyor!",
-      "success": "%1$sAdded %2$s to the extra join messages successfully."
+      "success": "%1$sFazladan katılma mesajlarına başarıyla %2$s eklendi."
     },
     "usermessage_joinmessage_remove": {
       "no_message": "%1$sKaldırmak istediğiniz mesajın dizinini belirtmeniz gerekiyor!",
-      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra join messages successfully.",
+      "success": "%1$s%2$s `(index %3$d)` fazladan katılma mesajlarından başarıyla kaldırıldı.",
       "wrong_index": "%1$sO dizin yok! Kullanılabilir tüm dizinleri görmek için `~>opts usermessage joinmessage list` kullanın"
     },
     "usermessage_joinmessage_clear": {
@@ -2222,11 +2222,11 @@
     },
     "usermessage_leavemessage_add": {
       "no_message": "%1$sBiri ayrıldığında söylememi istediğiniz ekstra mesajı belirtmeniz gerekiyor!",
-      "success": "%1$sAdded %2$s to the extra leave messages successfully."
+      "success": "%1$sEkstra ayrılma mesajlarına başarıyla %2$s eklendi."
     },
     "usermessage_leavemessage_remove": {
       "no_message": "%1$sKaldırmak istediğiniz mesajın dizinini belirtmeniz gerekiyor!",
-      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra leave messages successfully.",
+      "success": "%1$s%2$s `(index %3$d)` fazladan ayrılma mesajlarından başarıyla kaldırıldı.",
       "wrong_index": "%1$sO dizin yok! Kullanılabilir tüm dizinleri görmek için `~>opts usermessage joinmessage list` kullanın"
     },
     "usermessage_leavemessage_clear": {
