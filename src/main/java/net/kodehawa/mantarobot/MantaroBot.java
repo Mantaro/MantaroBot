@@ -173,10 +173,6 @@ public class MantaroBot {
         ImageBoard.setUserAgent(MantaroInfo.USER_AGENT);
         this.startExecutors();
 
-        // This is basically done because Andesite doesn't destroy players on shutdown when using LL compat.
-        // This causes players to not work on next startup.
-        // Work around it by just killing/destroying all players before shutdown ends.
-        // Only use this if music is enabled.
         if (config.musicEnable()) {
             var thread = new ThreadFactoryBuilder().setNameFormat("Mantaro Shutdown Hook").build();
             Runtime.getRuntime().addShutdownHook(thread.newThread(() -> {
