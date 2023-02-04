@@ -731,14 +731,14 @@
       "ls": {
         "header": "Danh sách các món đồ có thể chế tạo",
         "cost": "Giá chế tạo: ",
-        "desc": "This is a list of the items you can cast using `/cast list`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "desc": "Đây là danh sách các vật phẩm bạn có thể chế tạo bằng `/cast list`\nBạn có thể dùng tên đầy đủ hoặc tên viết tắt của chúng, hay đơn giản là xài emoji.\n**Chế tạo có chi phí tối thiểu bằng một nửa giá của vật phẩm, được hiển thị bên dưới.**.\nCờ lê bậc 2 và bậc 3 lần lượt là sao chổi và lấp lánh."
       },
-      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `/use item item:mop`?",
+      "dust": "%1$sBạn không thể chế tạo đồ với một tủ đồ bụi bặm như vậy! *(Bụi cấp: %2$s%%)*. Sao bạn không thử dọn sạch nó bằng `/use item item:mop`?",
       "wrench_multiple_use": "Lời khuyên: *Bạn không thể sử dụng chiếc cờ lê bạn đang cố dùng để chế tạo như một nguyên liệu được!*"
     },
     "market": {
       "dump": {
-        "replacement": "You can use `/dump` now. For example, instead of `~>market dump floppy` you can do `/dump item:floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
+        "replacement": "Bạn có thể sử dụng lệnh `/dump`. Ví dụ này, thay vì xài `~>market dump floppy`, bạn có thể xài `/dump item:floppy`. Vui lòng hãy sử dụng câu lệnh mới... Và tôi tự hỏi rằng chuyện gì đã xảy ra với những chiếc đĩa mềm mà bạn vứt trước đó?",
         "no_item": "%1$sBạn cần ghi rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải ghi ra) và tên của đồ vật bạn muốn vứt.",
         "invalid": "%1$sSố lượng bạn nhập không hợp lệ để vứt.",
         "non_existent": "%1$sKhông thể vứt đồ không tồn tại! Nếu bạn đang lúng túng, bạn có thể thử dùng tên viết tắt hoặc cho tên vào trong ngoặc kép.",
@@ -754,18 +754,18 @@
         "success": "%1$sGiá mua cho %2$s**%3$s** là %4$s đồng và giá bán là %5$s đồng."
       },
       "sell": {
-        "replacement": "You can use `/sell` now. For example, instead of `~>market sell pick` you can do `/sell item:pick`. Please use the new command instead.",
+        "replacement": "Bây giờ bạn có thể xài `/sell`. Ví dụ, thay vì xài `~>market sell pick` thì bây giờ bạn chỉ việc `/sell item:pick`. Làm ơn hãy sử dụng lệnh mới nhé.",
         "no_item": "%1$sBạn cần ghi rõ vật phẩm mà bạn muốn bán.",
         "no_item_amount": "%1$sBạn cần ghi rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải ghi ra) và tên của đồ vật bạn muốn bán.",
         "invalid": "%1$sSố không hợp lệ để có thể bán.",
         "all": {
-          "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? This will clear your *whole* inventory. If you wanna sell individual items please use the amount. Click on *yes* to confirm and *no* to cancel",
+          "confirmation": "%1$sBạn có chắc chắn muốn bán **tất cả** vật phẩm của bạn? Điều này sẽ làm *mọi đồ vật* trong túi đồ của bạn biến mất. Nếu bạn muốn bán một món đồ đơn lẻ, hãy gõ số lượng. Nhấn *yes* để đồng ý và *no* để huỷ",
           "success": "%1$sBạn đã bán hết đồ trong túi đồ của bạn và nhận được %2$,d đồng!",
           "cancelled": "%1$sĐã huỷ thành công."
         },
         "non_existent": "%1$sBạn không thể bán đồ không tồn tại. Nếu bạn đang lúng túng, bạn có thể thử tên viết tắt hoặc cho tên vào trong dấu ngoặc kép.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `/dump` it)",
-        "no_item_player": "%1$sBạn không thể bán đồ bạn không có.",
+        "no_sell_price": "%1$sBạn không thể bán vật phẩm không bán được. (Nhưng bạn có thể `/dump` để vứt nó đi)",
+        "no_item_player": "%1$sYou cannot sell an item you don't have.",
         "more_items_than_player": "%1$sBạn không thể bán nhiều hơn số lượng bạn đang có.",
         "success": "%1$sBạn đã bán %2$,d **%3$s** và nhận được %4$,d đồng!"
       },
