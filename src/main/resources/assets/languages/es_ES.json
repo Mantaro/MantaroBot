@@ -1511,7 +1511,7 @@
       "not_enough_money": "%1$sNo tienes suficiente dinero para rescatar este ítem. *(Billetera: %2$,d, Necesitas: %3$,d)*",
       "dust": "%1$sTu inventario tiene mucho polvo para hacer esto, intenta limpiarlo con una mopa.",
       "no_returnables": "%1$sEste ítem no tiene ningún retorno al salvarlo.",
-      "success": "%1$sSuccessfully salvaged %2$s %3$s and got %4$s %5$s in return. The cost was %6$s credits.",
+      "success": "%1$sSuccessfully salvaged %2$s%3$s and got %4$s%5$s in return. The cost was %6$s credits.",
       "ls": {
         "header": "Lista de Ítems Salvables",
         "cost": "Costo de Salvamiento: ",
