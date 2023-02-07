@@ -121,7 +121,7 @@ public class MantaroListener implements EventListener {
         }
 
         if (event instanceof GuildMemberRoleAddEvent evt) {
-            //handleNewPatron(evt);
+            handleNewPatron(evt);
             return;
         }
         // !! Member events end
