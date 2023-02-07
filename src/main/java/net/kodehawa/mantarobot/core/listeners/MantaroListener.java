@@ -68,7 +68,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.Color;
+import java.awt.*;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -121,7 +121,7 @@ public class MantaroListener implements EventListener {
         }
 
         if (event instanceof GuildMemberRoleAddEvent evt) {
-            handleNewPatron(evt);
+            //handleNewPatron(evt);
             return;
         }
         // !! Member events end
