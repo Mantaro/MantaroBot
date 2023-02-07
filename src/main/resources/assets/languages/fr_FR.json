@@ -1511,7 +1511,7 @@
       "not_enough_money": "%1$sTu n'as pas assez d'argent pour sauver cet objet. *(Portefeuille; %2$,d crédits , Nécessaire: %3$,d crédits)*",
       "dust": "%1$sTon inventaire à trop de poussière pour essayer de sauver cet objet, essaye de le nettoyer avec un balai.",
       "no_returnables": "%1$sCet objet n'a pas rendu d'éléments ayant servi à le sauver.",
-      "success": "%1$sSuccessfully salvaged %2$s %3$s and got %4$s %5$s in return. The cost was %6$s credits.",
+      "success": "%1$sSuccessfully salvaged %2$s%3$s and got %4$s%5$s in return. The cost was %6$s credits.",
       "ls": {
         "header": "Liste des objets qui peuvent être réparés",
         "cost": "Cout de la réparation: ",
