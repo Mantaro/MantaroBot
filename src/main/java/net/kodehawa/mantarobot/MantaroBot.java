@@ -332,7 +332,7 @@ public class MantaroBot {
         }
 
         // Start the birthday cacher.
-        executorService.scheduleAtFixedRate(birthdayCacher::cache, 22, 23, TimeUnit.HOURS);
+        executorService.scheduleAtFixedRate(birthdayCacher::cache, TimeUnit.MILLISECONDS.toHours(millisecondsUntilTomorrow) -1, 23, TimeUnit.HOURS);
     }
 
     private void postStats(ShardManager manager) {
