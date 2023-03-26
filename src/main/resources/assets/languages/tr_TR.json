@@ -1511,7 +1511,7 @@
       "not_enough_money": "%1$sBu öğeyi kurtarmak için yeterli paranız yok. *(Cüzdan: %2$,d, Gerekli: %3$,d)*",
       "dust": "%1$sEnvanteriniz bir eşya kurtarmaya çalışmak için çok tozlu, bir paspasla temizlemeyi deneyin.",
       "no_returnables": "%1$sBu öğenin iade edilebilir kurtarma öğesi yoktur.",
-      "success": "%1$s%2$s %3$s başarıyla kurtarıldı ve karşılığında %4$s %5$s alındı. Maliyet %6$s krediydi.",
+      "success": "%1$s%2$s%3$s başarıyla kurtarıldı ve karşılığında %4$s%5$s alındı. Maliyet %6$s krediydi.",
       "ls": {
         "header": "Kurtarılabilir Öge Listesi",
         "cost": "Kurtarma Maliyeti: ",
