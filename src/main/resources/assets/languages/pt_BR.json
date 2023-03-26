@@ -1177,6 +1177,7 @@
       "error_retrieving": "%1$sEu achei um erro enquanto buscava o próximo gif para essa ação... (erro externo, talvez o WeebAPI caiu?)",
       "no_type": "%1$sEsse comando de ação não tem tipo. (erro interno)",
       "permission_or_unexpected_error": "%1$sD-Desculpa! Eu deixei cair a imagem. (Provavelmente eu não tenho permissão para mandar isso)",
+      "extra": "(with an extra message)",
       "lonely": {
         "pat": "Aww, Eu vejo que você está sozinho, tome um carinho <3",
         "hug": "Aww, Eu vejo que você está sozinho, tome um abraço <3",
