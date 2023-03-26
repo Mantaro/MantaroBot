@@ -100,7 +100,7 @@ public class ItemReference {
                     100, true
             ),
 
-            BROM_PICKAXE = new Pickaxe(ItemType.MINE_PICK, "\u26cf",
+            BROM_PICKAXE = new Pickaxe(ItemType.MINE_PICK, "\u26CF\uFE0F",
                     "Brom's Pickaxe", "items.pick", "items.description.pick",
                     100, true, 40, 0, 1, "items.explanation.pick"
             ),
@@ -292,7 +292,7 @@ public class ItemReference {
                     15, false
             ),
 
-            COMET_GEM = new CastedGem("\u2604", "Comet Gem",
+            COMET_GEM = new CastedGem("\u2604\uFE0F", "Comet Gem",
                     "items.comet_gem", "items.description.comet_gem",
                     60, 3,
                     true, false,
