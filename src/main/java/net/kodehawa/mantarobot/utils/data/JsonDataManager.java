@@ -51,7 +51,7 @@ public class JsonDataManager<T> implements DataManager<T> {
             try {
                 if (configPath.toFile().createNewFile()) {
                     log.info("Generated new config file at " + configPath.toFile().getAbsolutePath() + ".");
-                    FileIOUtils.write(configPath, mapper.writeValueAsString(constructor.get()));
+                    FileIOUtils.write(configPath, mapper.writerWithDefaultPrettyPrinter().writeValueAsString(constructor.get()));
                     log.info("Please, fill the file with valid properties.");
                 } else {
                     log.warn("Could not create config file at " + file);

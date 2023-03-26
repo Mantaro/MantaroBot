@@ -224,6 +224,10 @@ public class ImageActionSlash extends SlashCommand {
                     .build()
             );
 
+            if (ctx.getOption("extra") != null) {
+                toSend.addContent(" ").addContent(languageContext.get("commands.action.extra"));
+            }
+
             ctx.getEvent().getHook().sendMessage(toSend.build()).queue();
         } catch (Exception e) {
             e.printStackTrace();
