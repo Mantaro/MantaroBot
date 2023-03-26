@@ -1177,6 +1177,7 @@
       "error_retrieving": "%1$sBeim Abrufen des Gifs für diese Aktion ist ein Fehler aufgetreten... (external error, vielleicht funktioniert WeebAPI nicht?)",
       "no_type": "%1$sDieser Aktionsbefehl hat keinen Typ. (internal error)",
       "permission_or_unexpected_error": "%1$sT-Tut mir leid, aber ich habe das Bild fallen gelassen. (Wahrscheinlich habe ich keine Berechtigung, es zu senden.)",
+      "extra": "(with an extra message)",
       "lonely": {
         "pat": "Aww, Ich sehe, du bist einsam. *streichelt deinen Kopf* <3",
         "hug": "Aww, Ich sehe, du bist einsam, nimm eine Umarmung. <3",
