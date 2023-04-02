@@ -1177,7 +1177,7 @@
       "error_retrieving": "%1$sBu eylem için bir sonraki gif'i alırken bir hata buldum... (dış hata, WeebAPI çalışmıyor olabilir mi?)",
       "no_type": "%1$sBu eylem komutunun türü yok. (iç hata)",
       "permission_or_unexpected_error": "%1$sÜ-Üzgünüm! görseli attım. (Muhtemelen gönderme iznim yok)",
-      "extra": "(with an extra message)",
+      "extra": "(fazladan bir mesajla birlikte)",
       "lonely": {
         "pat": "Aww, yalnız olduğunu görüyorum, hafifçe vur <3",
         "hug": "Aww, yalnız olduğunu görüyorum, hadi sarıl <3",
