@@ -17,8 +17,12 @@
 
 package net.kodehawa.mantarobot.db.entities.helpers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
+import net.kodehawa.mantarobot.utils.Utils;
+
+import java.util.Map;
 
 public class MarriageData {
     private long marriageCreationMillis;
@@ -32,8 +36,31 @@ public class MarriageData {
     private HousePet pet;
     private String timezone;
     private long lockedUntil;
+    // The vows of each.
+    public Map<Long, String> vows;
 
     public MarriageData() { }
+
+    @JsonIgnore
+    public VowStatus addVow(long userId, String text, boolean modify) {
+        if (vows.containsKey(userId) && !modify) {
+            return VowStatus.ALREADY_DONE;
+        }
+
+        if (text.length() > 1500) {
+            return VowStatus.TOO_LONG;
+        }
+
+        text = Utils.DISCORD_INVITE.matcher(text).replaceAll("-discord invite link-");
+        text = Utils.DISCORD_INVITE_2.matcher(text).replaceAll("-discord invite link-");
+        vows.put(userId, text);
+
+        return VowStatus.SUCCESS;
+    }
+
+    public Map<Long, String> getVows() {
+        return vows;
+    }
 
     public long getMarriageCreationMillis() {
         return this.marriageCreationMillis;

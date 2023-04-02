@@ -46,7 +46,7 @@ public class ItemReference {
             CHICKEN, MILK_2, DOG_FOOD, CAT_FOOD, HAMSTER_FOOD, WOOD, AXE, COMET_AXE, STAR_AXE, SPARKLE_AXE, HELLFIRE_AXE, MOON_AXE,
             MOON_PICK, MOON_ROD, HELLFIRE_PICK, HELLFIRE_ROD, PET_HOUSE, LEAVES, APPLE, PEAR, CHERRY_BLOSSOM, ROCK, BROKEN_MOON_PICK,
             BROKEN_MOON_ROD, BROKEN_COMET_AXE, BROKEN_STAR_AXE, BROKEN_SPARKLE_AXE, BROKEN_MOON_AXE, BROKEN_HELLFIRE_PICK,
-            BROKEN_HELLFIRE_AXE, BROKEN_HELLFIRE_ROD, CHOP_CRATE, CHOP_PREMIUM_CRATE;
+            BROKEN_HELLFIRE_AXE, BROKEN_HELLFIRE_ROD, CHOP_CRATE, CHOP_PREMIUM_CRATE, TREE_SAP, DIAMOND_APPLE;
 
     public static final Item[] ALL = {
             HEADPHONES = new Item(ItemType.COLLECTABLE, "\uD83C\uDFA7",
@@ -761,6 +761,17 @@ public class ItemReference {
                     0, false, false, true,
                     (ctx, season) ->
                             ItemHelper.openLootCrate(ctx, ItemType.LootboxType.CHOP_PREMIUM, 127, EmoteReference.PREMIUM_CHOP_CRATE, 5)
-            )
+            ),
+
+            TREE_SAP = new Item(ItemType.CHOP_DROP_RARE, "\uD83D\uDCA7",
+                    "Tree Sap", "items.tree_sap", "items.description.tree_sap",
+                    15, false
+            ),
+
+            // TODO: add emoji
+            DIAMOND_APPLE = new Item(ItemType.CHOP_DROP_RARE, "\uD83D\uDCA7",
+                    "Diamond Apple", "items.diamond_apple", "items.description.diamond_apple",
+                    30, false
+            ),
     };
 }

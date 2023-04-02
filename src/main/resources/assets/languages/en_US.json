@@ -2345,6 +2345,7 @@
       "mine_rare": "Mined Item (Rare)",
       "crate": "Loot Crate",
       "chop_drop": "Chopped Item",
+      "chop_drop_rare": "Chopped Item (Rare)",
       "potion": "Potion",
       "buff": "Buff",
       "wrench": "Wrench",
@@ -2488,6 +2489,8 @@
     "broken_hellfire_pick": "Broken Hellfire Pickaxe",
     "broken_hellfire_axe": "Broken Hellfire Axe",
     "broken_hellfire_rod": "Broken Hellfire Rod",
+    "tree_sap": "Tree Sap",
+    "Diamond Apple": "Diamond Apple",
     "explanation": {
       "pick": "A normal pickaxe you bought on the local market. Seems sturdy enough to mine some stuff.",
       "diamond_pick": "A diamond pick is definitely stronger than the market-bought iron picks I could get on the market, that's for sure!",
@@ -2638,7 +2641,9 @@
       "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
       "broken_hellfire_rod": "A hellfire rod that extinguished while fishing. Still salvageable.",
       "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `/opencrate crate:chop crate`",
-      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `/opencrate crate:chop premium crate`"
+      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `/opencrate crate:chop premium crate`",
+      "tree_sap": "The sap coming from a tree that was particularly cold.",
+      "diamond_apple": "A very sturdy apple, or so it seems."
     }
   },
   "buttons": {

@@ -813,6 +813,8 @@ public class CurrencyActionCmds {
                 }
             }
 
+            // Handle rarer items
+
             // Reduce item stacks (aka join them) and process it.
             var reduced = ItemStack.reduce(ita);
             var itemDisplay = ItemStack.toString(reduced);
@@ -909,8 +911,9 @@ public class CurrencyActionCmds {
     }
 
     private static List<Item> handleChopDrop() {
-        var all = Arrays.stream(ItemReference.ALL)
-                .filter(i -> i.getItemType() == ItemType.CHOP_DROP).toList();
+        List<Item> all = Arrays.stream(ItemReference.ALL)
+                .filter(i -> i.getItemType() == ItemType.CHOP_DROP)
+                .toList();
 
         return all.stream()
                 .sorted(Comparator.comparingLong(Item::getValue))

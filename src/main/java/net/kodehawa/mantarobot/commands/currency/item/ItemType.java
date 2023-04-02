@@ -40,6 +40,7 @@ public enum ItemType {
 
     CRATE(false, "items.categories.crate"),
     CHOP_DROP(false, "items.categories.chop_drop"),
+    CHOP_DROP_RARE(false, "items.categories.chop_drop_rare"),
 
     // Buffs
     POTION(false, "items.categories.potion"),
