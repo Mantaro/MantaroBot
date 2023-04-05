@@ -41,23 +41,6 @@ public class MarriageData {
 
     public MarriageData() { }
 
-    @JsonIgnore
-    public VowStatus addVow(long userId, String text, boolean modify) {
-        if (vows.containsKey(userId) && !modify) {
-            return VowStatus.ALREADY_DONE;
-        }
-
-        if (text.length() > 1500) {
-            return VowStatus.TOO_LONG;
-        }
-
-        text = Utils.DISCORD_INVITE.matcher(text).replaceAll("-discord invite link-");
-        text = Utils.DISCORD_INVITE_2.matcher(text).replaceAll("-discord invite link-");
-        vows.put(userId, text);
-
-        return VowStatus.SUCCESS;
-    }
-
     public Map<Long, String> getVows() {
         return vows;
     }
@@ -132,5 +115,22 @@ public class MarriageData {
 
     public void setLockedUntil(long lockedUntil) {
         this.lockedUntil = lockedUntil;
+    }
+
+    @JsonIgnore
+    public VowStatus addVow(long userId, String text, boolean modify) {
+        if (vows.containsKey(userId) && !modify) {
+            return VowStatus.ALREADY_DONE;
+        }
+
+        if (text.length() > 1500) {
+            return VowStatus.TOO_LONG;
+        }
+
+        text = Utils.DISCORD_INVITE.matcher(text).replaceAll("-discord invite link-");
+        text = Utils.DISCORD_INVITE_2.matcher(text).replaceAll("-discord invite link-");
+        vows.put(userId, text);
+
+        return VowStatus.SUCCESS;
     }
 }

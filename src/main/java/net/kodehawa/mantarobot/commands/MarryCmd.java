@@ -21,6 +21,7 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -60,6 +61,14 @@ public class MarryCmd {
             .randomIncrement(false)
             .pool(MantaroData.getDefaultJedisPool())
             .prefix("marry")
+            .build();
+
+    private static final IncreasingRateLimiter vowRatelimiter = new IncreasingRateLimiter.Builder()
+            .limit(1)
+            .cooldown(15, TimeUnit.MINUTES)
+            .randomIncrement(false)
+            .pool(MantaroData.getDefaultJedisPool())
+            .prefix("vow")
             .build();
 
     @Subscribe
@@ -354,6 +363,97 @@ public class MarryCmd {
                 }
 
                 ctx.reply(embedBuilder.build());
+            }
+        }
+
+        @Description("Creates a marriage vow.")
+        public static class CreateVow extends SlashCommand {
+            private static final long VOW_COST = 5000L;
+            // TODO: Change item!
+            private static final Item VOW_ITEM = ItemReference.LOVE_LETTER;
+            // Vows should be taken to activate marriage buffs.
+            // A vow costs 2k to make, per person. A vow is considered "activated" once both persons have made a vow.
+            // To make a vow, you need a special necklace made from "rare" materials, which will be decided down the road.
+            @Override
+            protected void process(SlashContext ctx) {
+                final var dbUser = ctx.getDBUser();
+                final var currentMarriage = dbUser.getData().getMarriage();
+                if (currentMarriage == null) {
+                    ctx.reply("commands.marry.create_vow.no_marriage", EmoteReference.SAD);
+                    return;
+                }
+
+                final var author = ctx.getAuthor();
+                final var player = ctx.getPlayer();
+                final var playerInventory = player.getInventory();
+
+                if (!playerInventory.containsItem(VOW_ITEM)) {
+                    ctx.reply("commands.marry.create_vow.no_vow_item", EmoteReference.SAD, VOW_ITEM.getEmojiDisplay(), VOW_ITEM.getName());
+                    return;
+                }
+
+                if (player.getCurrentMoney() < VOW_COST) {
+                    ctx.reply("commands.marry.create_vow.not_enough_money", EmoteReference.SAD, VOW_COST, player.getCurrentMoney());
+                    return;
+                }
+
+                // Can we find the user this is married to
+                // This should work even cross-node, as we do a REST request for it.
+                final var marriedTo = ctx.retrieveUserById(currentMarriage.getOtherPlayer(author.getId()));
+                if (marriedTo == null) {
+                    ctx.reply("commands.marry.create_vow.cannot_see_married", EmoteReference.ERROR);
+                    return;
+                }
+
+
+                // Open modal for content...
+
+            }
+        }
+
+        @Description("Modifies a marriage vow.")
+        public static class ModifyVow extends SlashCommand {
+            // Modification should cost about 2k. It just alters the text, also should need an item, with a 24h cooldown.
+            private static final long MODIFICATION_COST = 2000L;
+            // TODO: Change item!
+            private static final Item MODIFICATION_ITEM = ItemReference.LOVE_LETTER;
+
+            @Override
+            protected void process(SlashContext ctx) {
+                final var dbUser = ctx.getDBUser();
+                final var currentMarriage = dbUser.getData().getMarriage();
+                if (currentMarriage == null) {
+                    ctx.reply("commands.marry.modify_vow.no_marriage", EmoteReference.SAD);
+                    return;
+                }
+
+                final var author = ctx.getAuthor();
+                final var player = ctx.getPlayer();
+                final var playerInventory = player.getInventory();
+
+                if (!playerInventory.containsItem(MODIFICATION_ITEM)) {
+                    ctx.reply("commands.marry.modify_vow.no_vow_item", EmoteReference.SAD, MODIFICATION_ITEM.getEmojiDisplay(), MODIFICATION_ITEM.getName());
+                    return;
+                }
+
+                if (player.getCurrentMoney() < MODIFICATION_COST) {
+                    ctx.reply("commands.marry.modify_vow.not_enough_money", EmoteReference.SAD, MODIFICATION_COST, player.getCurrentMoney());
+                    return;
+                }
+
+                // Check for ratelimit
+                var languageContext = ctx.getLanguageContext();
+                if (!RatelimitUtils.ratelimit(vowRatelimiter, ctx, languageContext.get("commands.modify_vow.ratelimit_message"), false)) {
+                    return;
+                }
+            }
+        }
+
+        @Description("Views a marriage vow.")
+        public static class ViewVow extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                // Should show something on marry status too? Maybe a summary the user can input?
             }
         }
 
