@@ -123,10 +123,6 @@ public class MarriageData {
             return VowStatus.ALREADY_DONE;
         }
 
-        if (text.length() > 1500) {
-            return VowStatus.TOO_LONG;
-        }
-
         text = Utils.DISCORD_INVITE.matcher(text).replaceAll("-discord invite link-");
         text = Utils.DISCORD_INVITE_2.matcher(text).replaceAll("-discord invite link-");
         vows.put(userId, text);
