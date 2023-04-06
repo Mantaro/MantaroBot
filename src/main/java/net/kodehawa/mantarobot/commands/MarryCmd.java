@@ -20,23 +20,21 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.dv8tion.jda.api.interactions.components.text.TextInput;
+import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
+import net.dv8tion.jda.api.interactions.modals.Modal;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.meta.Category;
-import net.kodehawa.mantarobot.core.command.meta.Defer;
-import net.kodehawa.mantarobot.core.command.meta.Description;
-import net.kodehawa.mantarobot.core.command.meta.Help;
-import net.kodehawa.mantarobot.core.command.meta.Name;
-import net.kodehawa.mantarobot.core.command.meta.Options;
+import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ModalOperations;
-import net.kodehawa.mantarobot.core.listeners.operations.core.ModalOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
@@ -409,8 +407,23 @@ public class MarryCmd {
                     return;
                 }
 
-                // Open modal for content...
+                var summary = TextInput.create("content", languageContext.get("commands.marry.create_vow.summary"), TextInputStyle.PARAGRAPH)
+                        .setPlaceholder(languageContext.get("commands.marry.create_vow.vow_summary_placeholder"))
+                        .setRequiredRange(5, 300)
+                        .build();
+
+                var subject = TextInput.create("content", languageContext.get("commands.marry.create_vow.content"), TextInputStyle.PARAGRAPH)
+                        .setPlaceholder(languageContext.get("commands.marry.create_vow.content_placeholder"))
+                        .setRequiredRange(5, 1500)
+                        .build();
+
                 final var modalId = author.getId() + ":" + currentMarriage.getId() + "-modalcreate";
+                var modal = Modal.create(modalId, languageContext.get("commands.marry.create_vow.header_add"))
+                        .addComponents(ActionRow.of(summary), ActionRow.of(subject))
+                        .build();
+
+                ctx.replyModal(modal);
+                // Open modal for content...
                 ModalOperations.create(modalId, 240, (event) -> {
                     // This might not be possible here, as we send only events based on the id.
                     if (!event.getModalId().equalsIgnoreCase(modalId)) {
@@ -440,15 +453,15 @@ public class MarryCmd {
                     // Check again...
                     final var dbUserFinal = ctx.getDBUser();
                     final var currentMarriageFinal = dbUserFinal.getData().getMarriage();
+                    final var playerFinal = ctx.getPlayer();
+                    final var playerFinalInventory = playerFinal.getInventory();
+
                     if (currentMarriageFinal == null) {
                         event.reply(languageContext.get("commands.marry.create_vow.no_marriage").formatted(EmoteReference.SAD))
                                 .setEphemeral(true)
                                 .queue();
                         return Operation.COMPLETED;
                     }
-
-                    final var playerFinal = ctx.getPlayer();
-                    final var playerFinalInventory = playerFinal.getInventory();
 
                     if (!playerFinalInventory.containsItem(VOW_ITEM)) {
                         event.reply(languageContext.get("commands.marry.create_vow.no_vow_item")
@@ -475,7 +488,6 @@ public class MarryCmd {
                                 .queue();
                         return Operation.COMPLETED;
                     }
-
 
                     var status = currentMarriageFinal.getData().addVow(author.getIdLong(), contentRaw.getAsString(), false);
                     if (status == VowStatus.ALREADY_DONE) {
@@ -537,6 +549,21 @@ public class MarryCmd {
                 }
 
                 final var modalId = author.getId() + ":" + currentMarriage.getId() + "-modaledit";
+                var summary = TextInput.create("content", lang.get("commands.marry.modify_vow.summary"), TextInputStyle.PARAGRAPH)
+                        .setPlaceholder(lang.get("commands.marry.modify_vow.vow_summary_placeholder"))
+                        .setRequiredRange(5, 300)
+                        .build();
+
+                var subject = TextInput.create("content", lang.get("commands.marry.modify_vow.content"), TextInputStyle.PARAGRAPH)
+                        .setPlaceholder(lang.get("commands.marry.modify_vow.content_placeholder"))
+                        .setRequiredRange(5, 1500)
+                        .build();
+
+                var modal = Modal.create(modalId, lang.get("commands.marry.modify_vow.header_add"))
+                        .addComponents(ActionRow.of(summary), ActionRow.of(subject))
+                        .build();
+
+                ctx.replyModal(modal);
                 // We'll need a modal too.
                 ModalOperations.create(modalId, 280, (event) -> {
                     // This might not be possible here, as we send only events based on the id.
@@ -564,6 +591,9 @@ public class MarryCmd {
                     // Run basic checks again.
                     final var dbUserFinal = ctx.getDBUser();
                     final var currentMarriageFinal = dbUserFinal.getData().getMarriage();
+                    final var playerFinal = ctx.getPlayer();
+                    final var playerInventoryFinal = playerFinal.getInventory();
+
                     if (currentMarriageFinal == null) {
                         event.reply(lang.get("commands.marry.modify_vow.no_marriage").formatted(EmoteReference.ERROR))
                                 .setEphemeral(true)
@@ -577,9 +607,6 @@ public class MarryCmd {
                                 .queue();
                         return Operation.COMPLETED;
                     }
-
-                    final var playerFinal = ctx.getPlayer();
-                    final var playerInventoryFinal = playerFinal.getInventory();
 
                     if (!playerInventoryFinal.containsItem(MODIFICATION_ITEM)) {
                         event.reply(lang.get("commands.marry.modify_vow.no_vow_item").
