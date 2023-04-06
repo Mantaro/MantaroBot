@@ -407,7 +407,7 @@ public class MarryCmd {
                     return;
                 }
 
-                var summary = TextInput.create("summary", lang.get("commands.marry.create_vow.summary"), TextInputStyle.PARAGRAPH)
+                var subjectSummary = TextInput.create("summary", lang.get("commands.marry.create_vow.summary"), TextInputStyle.PARAGRAPH)
                         .setPlaceholder(lang.get("commands.marry.create_vow.vow_summary_placeholder"))
                         .setRequiredRange(5, 300)
                         .build();
@@ -419,7 +419,7 @@ public class MarryCmd {
 
                 final var modalId = author.getId() + ":" + currentMarriage.getId() + "-modalcreate";
                 var modal = Modal.create(modalId, lang.get("commands.marry.create_vow.header_add"))
-                        .addComponents(ActionRow.of(summary), ActionRow.of(subject))
+                        .addComponents(ActionRow.of(subjectSummary), ActionRow.of(subject))
                         .build();
 
                 ctx.replyModal(modal);
@@ -435,6 +435,7 @@ public class MarryCmd {
                     }
 
                     var contentRaw = event.getValue("content");
+                    var summaryRaw = event.getValue("summary");
                     if (contentRaw == null) {
                         event.reply(lang.get("commands.marry.create_vow.empty_content").formatted(EmoteReference.ERROR))
                                 .setEphemeral(true)
@@ -442,9 +443,24 @@ public class MarryCmd {
                         return Operation.COMPLETED;
                     }
 
+                    if (summaryRaw == null) {
+                        event.reply(lang.get("commands.marry.create_vow.empty_summary").formatted(EmoteReference.ERROR))
+                                .setEphemeral(true)
+                                .queue();
+                        return Operation.COMPLETED;
+                    }
+
                     final var content = contentRaw.getAsString();
+                    final var summary = summaryRaw.getAsString();
                     if (content.length() > 1500) {
                         event.reply(lang.get("commands.marry.create_vow.too_long").formatted(EmoteReference.ERROR))
+                                .setEphemeral(true)
+                                .queue();
+                        return Operation.COMPLETED;
+                    }
+
+                    if (summary.length() > 300) {
+                        event.reply(lang.get("commands.marry.create_vow.summary_too_long").formatted(EmoteReference.ERROR))
                                 .setEphemeral(true)
                                 .queue();
                         return Operation.COMPLETED;
@@ -549,7 +565,7 @@ public class MarryCmd {
                 }
 
                 final var modalId = author.getId() + ":" + currentMarriage.getId() + "-modaledit";
-                var summary = TextInput.create("summary", lang.get("commands.marry.modify_vow.summary"), TextInputStyle.PARAGRAPH)
+                var subjectSummary = TextInput.create("summary", lang.get("commands.marry.modify_vow.summary"), TextInputStyle.PARAGRAPH)
                         .setPlaceholder(lang.get("commands.marry.modify_vow.vow_summary_placeholder"))
                         .setRequiredRange(5, 300)
                         .build();
@@ -560,7 +576,7 @@ public class MarryCmd {
                         .build();
 
                 var modal = Modal.create(modalId, lang.get("commands.marry.modify_vow.header_add"))
-                        .addComponents(ActionRow.of(summary), ActionRow.of(subject))
+                        .addComponents(ActionRow.of(subjectSummary), ActionRow.of(subject))
                         .build();
 
                 ctx.replyModal(modal);
@@ -576,6 +592,7 @@ public class MarryCmd {
                     }
 
                     var contentRaw = event.getValue("content");
+                    var summaryRaw = event.getValue("summary");
                     if (contentRaw == null) {
                         event.reply(lang.get("commands.marry.modify_vow.empty_content").formatted(EmoteReference.ERROR))
                                 .setEphemeral(true)
@@ -583,9 +600,24 @@ public class MarryCmd {
                         return Operation.COMPLETED;
                     }
 
+                    if (summaryRaw == null) {
+                        event.reply(lang.get("commands.marry.modify_vow.empty_summary").formatted(EmoteReference.ERROR))
+                                .setEphemeral(true)
+                                .queue();
+                        return Operation.COMPLETED;
+                    }
+
                     final var content = contentRaw.getAsString();
+                    final var summary = summaryRaw.getAsString();
                     if (content.length() > 1500) {
                         event.reply(lang.get("commands.marry.modify_vow.too_long").formatted(EmoteReference.ERROR))
+                                .setEphemeral(true)
+                                .queue();
+                        return Operation.COMPLETED;
+                    }
+
+                    if (summary.length() > 300) {
+                        event.reply(lang.get("commands.marry.modify_vow.summary_too_long").formatted(EmoteReference.ERROR))
                                 .setEphemeral(true)
                                 .queue();
                         return Operation.COMPLETED;
