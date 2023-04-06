@@ -112,7 +112,6 @@ public class MantaroBot {
         }
 
         instance = this;
-
         if (config.needApi) {
             try {
                 Request request = new Request.Builder()

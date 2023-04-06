@@ -410,7 +410,7 @@ public class MarryCmd {
                 }
 
                 // Open modal for content...
-                final var modalId = author.getId() + ":" + currentMarriage.getId();
+                final var modalId = author.getId() + ":" + currentMarriage.getId() + "-modalcreate";
                 ModalOperations.create(modalId, 240, (event) -> {
                     // This might not be possible here, as we send only events based on the id.
                     if (!event.getModalId().equalsIgnoreCase(modalId)) {
@@ -431,6 +431,9 @@ public class MarryCmd {
 
                     final var content = contentRaw.getAsString();
                     if (content.length() > 1500) {
+                        event.reply(languageContext.get("commands.marry.create_vow.too_long").formatted(EmoteReference.ERROR))
+                                .setEphemeral(true)
+                                .queue();
                         return Operation.COMPLETED;
                     }
 
@@ -438,45 +441,60 @@ public class MarryCmd {
                     final var dbUserFinal = ctx.getDBUser();
                     final var currentMarriageFinal = dbUserFinal.getData().getMarriage();
                     if (currentMarriageFinal == null) {
-                        ctx.reply("commands.marry.create_vow.no_marriage", EmoteReference.SAD);
+                        event.reply(languageContext.get("commands.marry.create_vow.no_marriage").formatted(EmoteReference.SAD))
+                                .setEphemeral(true)
+                                .queue();
                         return Operation.COMPLETED;
                     }
 
-                    final var authorFinal = ctx.getAuthor();
                     final var playerFinal = ctx.getPlayer();
                     final var playerFinalInventory = playerFinal.getInventory();
 
                     if (!playerFinalInventory.containsItem(VOW_ITEM)) {
-                        ctx.reply("commands.marry.create_vow.no_vow_item", EmoteReference.SAD, VOW_ITEM.getEmojiDisplay(), VOW_ITEM.getName());
+                        event.reply(languageContext.get("commands.marry.create_vow.no_vow_item")
+                                        .formatted(EmoteReference.SAD, VOW_ITEM.getEmojiDisplay(), VOW_ITEM.getName()))
+                                .setEphemeral(true)
+                                .queue();
                         return Operation.COMPLETED;
                     }
 
                     if (playerFinal.getCurrentMoney() < VOW_COST) {
-                        ctx.reply("commands.marry.create_vow.not_enough_money", EmoteReference.SAD, VOW_COST, playerFinal.getCurrentMoney());
+                        event.reply(languageContext.get("commands.marry.create_vow.not_enough_money")
+                                        .formatted(EmoteReference.SAD, VOW_COST, playerFinal.getCurrentMoney()))
+                                .setEphemeral(true)
+                                .queue();
                         return Operation.COMPLETED;
                     }
 
                     // Can we find the user this is married to
                     // This should work even cross-node, as we do a REST request for it.
-                    final var marriedToFinal = ctx.retrieveUserById(currentMarriageFinal.getOtherPlayer(authorFinal.getId()));
+                    final var marriedToFinal = ctx.retrieveUserById(currentMarriageFinal.getOtherPlayer(author.getId()));
                     if (marriedToFinal == null) {
-                        ctx.reply("commands.marry.create_vow.cannot_see_married", EmoteReference.ERROR);
+                        event.reply(languageContext.get("commands.marry.create_vow.cannot_see_married").formatted(EmoteReference.ERROR))
+                                .setEphemeral(true)
+                                .queue();
                         return Operation.COMPLETED;
                     }
 
 
-                    var status = currentMarriageFinal.getData().addVow(authorFinal.getIdLong(), contentRaw.getAsString(), false);
+                    var status = currentMarriageFinal.getData().addVow(author.getIdLong(), contentRaw.getAsString(), false);
                     if (status == VowStatus.ALREADY_DONE) {
-                        // Prompt to edit
-                        ctx.reply("commands.marry.create_vow.already_done", EmoteReference.ERROR);
+                        // Prompt to edit}
+                        event.reply(languageContext.get("commands.marry.create_vow.already_done").formatted(EmoteReference.ERROR))
+                                .setEphemeral(true)
+                                .queue();
                         return Operation.COMPLETED;
                     }
 
                     playerFinalInventory.process(new ItemStack(VOW_ITEM, -1));
                     playerFinal.removeMoney(VOW_COST);
                     playerFinal.save();
+                    currentMarriageFinal.save();
 
-                    ctx.reply("commands.marry.create_vow.success", EmoteReference.CORRECT, VOW_COST, VOW_ITEM.getEmojiDisplay(), VOW_ITEM.getName());
+                    event.reply(languageContext.get("commands.marry.create_vow.success")
+                                    .formatted(EmoteReference.CORRECT, VOW_COST, VOW_ITEM.getEmojiDisplay(), VOW_ITEM.getName()))
+                            .setEphemeral(true)
+                            .queue();
                     return Operation.COMPLETED;
                 });
             }
@@ -513,12 +531,87 @@ public class MarryCmd {
                 }
 
                 // Check for ratelimit
-                var languageContext = ctx.getLanguageContext();
-                if (!RatelimitUtils.ratelimit(vowRatelimiter, ctx, languageContext.get("commands.modify_vow.ratelimit_message"), false)) {
+                var lang = ctx.getLanguageContext();
+                if (!RatelimitUtils.ratelimit(vowRatelimiter, ctx, lang.get("commands.modify_vow.ratelimit_message"), false)) {
                     return;
                 }
 
+                final var modalId = author.getId() + ":" + currentMarriage.getId() + "-modaledit";
                 // We'll need a modal too.
+                ModalOperations.create(modalId, 280, (event) -> {
+                    // This might not be possible here, as we send only events based on the id.
+                    if (!event.getModalId().equalsIgnoreCase(modalId)) {
+                        return Operation.IGNORED;
+                    }
+
+                    if (event.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
+                        return Operation.IGNORED;
+                    }
+
+                    var contentRaw = event.getValue("content");
+                    if (contentRaw == null) {
+                        event.reply(lang.get("commands.marry.modify_vow.empty_content").formatted(EmoteReference.ERROR))
+                                .setEphemeral(true)
+                                .queue();
+                        return Operation.COMPLETED;
+                    }
+
+                    final var content = contentRaw.getAsString();
+                    if (content.length() > 1500) {
+                        return Operation.COMPLETED;
+                    }
+
+                    // Run basic checks again.
+                    final var dbUserFinal = ctx.getDBUser();
+                    final var currentMarriageFinal = dbUserFinal.getData().getMarriage();
+                    if (currentMarriageFinal == null) {
+                        event.reply(lang.get("commands.marry.modify_vow.no_marriage").formatted(EmoteReference.ERROR))
+                                .setEphemeral(true)
+                                .queue();
+                        return Operation.COMPLETED;
+                    }
+
+                    if (currentMarriageFinal.getData().getVows().get(author.getIdLong()) == null) {
+                        event.reply(lang.get("commands.marry.modify_vow.no_current_vow").formatted(EmoteReference.ERROR))
+                                .setEphemeral(true)
+                                .queue();
+                        return Operation.COMPLETED;
+                    }
+
+                    final var playerFinal = ctx.getPlayer();
+                    final var playerInventoryFinal = playerFinal.getInventory();
+
+                    if (!playerInventoryFinal.containsItem(MODIFICATION_ITEM)) {
+                        event.reply(lang.get("commands.marry.modify_vow.no_vow_item").
+                                        formatted(EmoteReference.SAD, MODIFICATION_ITEM.getEmojiDisplay(), MODIFICATION_ITEM.getName()))
+                                .setEphemeral(true)
+                                .queue();
+
+                        return Operation.COMPLETED;
+                    }
+
+                    if (playerFinal.getCurrentMoney() < MODIFICATION_COST) {
+                        event.reply(lang.get("commands.marry.modify_vow.not_enough_money").
+                                        formatted(EmoteReference.SAD, MODIFICATION_COST, playerFinal.getCurrentMoney()))
+                                .setEphemeral(true)
+                                .queue();
+
+                        return Operation.COMPLETED;
+                    }
+
+                    currentMarriageFinal.getData().addVow(author.getIdLong(), contentRaw.getAsString(), true);
+                    player.removeMoney(MODIFICATION_COST);
+                    playerInventoryFinal.process(new ItemStack(MODIFICATION_ITEM, -1));
+
+                    playerFinal.save();
+                    currentMarriageFinal.save();
+                    event.reply(lang.get("commands.marry.modify_vow.success").
+                                    formatted(EmoteReference.CORRECT, MODIFICATION_COST, MODIFICATION_ITEM.getEmojiDisplay(), MODIFICATION_ITEM.getName()))
+                            .setEphemeral(true)
+                            .queue();
+
+                    return Operation.COMPLETED;
+                });
             }
         }
 
