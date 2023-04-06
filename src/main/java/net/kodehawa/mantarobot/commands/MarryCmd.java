@@ -387,7 +387,7 @@ public class MarryCmd {
                 final var author = ctx.getAuthor();
                 final var player = ctx.getPlayer();
                 final var playerInventory = player.getInventory();
-                final var languageContext = ctx.getLanguageContext();
+                final var lang = ctx.getLanguageContext();
 
                 if (!playerInventory.containsItem(VOW_ITEM)) {
                     ctx.reply("commands.marry.create_vow.no_vow_item", EmoteReference.SAD, VOW_ITEM.getEmojiDisplay(), VOW_ITEM.getName());
@@ -407,18 +407,18 @@ public class MarryCmd {
                     return;
                 }
 
-                var summary = TextInput.create("content", languageContext.get("commands.marry.create_vow.summary"), TextInputStyle.PARAGRAPH)
-                        .setPlaceholder(languageContext.get("commands.marry.create_vow.vow_summary_placeholder"))
+                var summary = TextInput.create("summary", lang.get("commands.marry.create_vow.summary"), TextInputStyle.PARAGRAPH)
+                        .setPlaceholder(lang.get("commands.marry.create_vow.vow_summary_placeholder"))
                         .setRequiredRange(5, 300)
                         .build();
 
-                var subject = TextInput.create("content", languageContext.get("commands.marry.create_vow.content"), TextInputStyle.PARAGRAPH)
-                        .setPlaceholder(languageContext.get("commands.marry.create_vow.content_placeholder"))
+                var subject = TextInput.create("content", lang.get("commands.marry.create_vow.content"), TextInputStyle.PARAGRAPH)
+                        .setPlaceholder(lang.get("commands.marry.create_vow.content_placeholder"))
                         .setRequiredRange(5, 1500)
                         .build();
 
                 final var modalId = author.getId() + ":" + currentMarriage.getId() + "-modalcreate";
-                var modal = Modal.create(modalId, languageContext.get("commands.marry.create_vow.header_add"))
+                var modal = Modal.create(modalId, lang.get("commands.marry.create_vow.header_add"))
                         .addComponents(ActionRow.of(summary), ActionRow.of(subject))
                         .build();
 
@@ -436,7 +436,7 @@ public class MarryCmd {
 
                     var contentRaw = event.getValue("content");
                     if (contentRaw == null) {
-                        event.reply(languageContext.get("commands.marry.create_vow.empty_content").formatted(EmoteReference.ERROR))
+                        event.reply(lang.get("commands.marry.create_vow.empty_content").formatted(EmoteReference.ERROR))
                                 .setEphemeral(true)
                                 .queue();
                         return Operation.COMPLETED;
@@ -444,7 +444,7 @@ public class MarryCmd {
 
                     final var content = contentRaw.getAsString();
                     if (content.length() > 1500) {
-                        event.reply(languageContext.get("commands.marry.create_vow.too_long").formatted(EmoteReference.ERROR))
+                        event.reply(lang.get("commands.marry.create_vow.too_long").formatted(EmoteReference.ERROR))
                                 .setEphemeral(true)
                                 .queue();
                         return Operation.COMPLETED;
@@ -457,14 +457,14 @@ public class MarryCmd {
                     final var playerFinalInventory = playerFinal.getInventory();
 
                     if (currentMarriageFinal == null) {
-                        event.reply(languageContext.get("commands.marry.create_vow.no_marriage").formatted(EmoteReference.SAD))
+                        event.reply(lang.get("commands.marry.create_vow.no_marriage").formatted(EmoteReference.SAD))
                                 .setEphemeral(true)
                                 .queue();
                         return Operation.COMPLETED;
                     }
 
                     if (!playerFinalInventory.containsItem(VOW_ITEM)) {
-                        event.reply(languageContext.get("commands.marry.create_vow.no_vow_item")
+                        event.reply(lang.get("commands.marry.create_vow.no_vow_item")
                                         .formatted(EmoteReference.SAD, VOW_ITEM.getEmojiDisplay(), VOW_ITEM.getName()))
                                 .setEphemeral(true)
                                 .queue();
@@ -472,7 +472,7 @@ public class MarryCmd {
                     }
 
                     if (playerFinal.getCurrentMoney() < VOW_COST) {
-                        event.reply(languageContext.get("commands.marry.create_vow.not_enough_money")
+                        event.reply(lang.get("commands.marry.create_vow.not_enough_money")
                                         .formatted(EmoteReference.SAD, VOW_COST, playerFinal.getCurrentMoney()))
                                 .setEphemeral(true)
                                 .queue();
@@ -483,7 +483,7 @@ public class MarryCmd {
                     // This should work even cross-node, as we do a REST request for it.
                     final var marriedToFinal = ctx.retrieveUserById(currentMarriageFinal.getOtherPlayer(author.getId()));
                     if (marriedToFinal == null) {
-                        event.reply(languageContext.get("commands.marry.create_vow.cannot_see_married").formatted(EmoteReference.ERROR))
+                        event.reply(lang.get("commands.marry.create_vow.cannot_see_married").formatted(EmoteReference.ERROR))
                                 .setEphemeral(true)
                                 .queue();
                         return Operation.COMPLETED;
@@ -492,7 +492,7 @@ public class MarryCmd {
                     var status = currentMarriageFinal.getData().addVow(author.getIdLong(), contentRaw.getAsString(), false);
                     if (status == VowStatus.ALREADY_DONE) {
                         // Prompt to edit}
-                        event.reply(languageContext.get("commands.marry.create_vow.already_done").formatted(EmoteReference.ERROR))
+                        event.reply(lang.get("commands.marry.create_vow.already_done").formatted(EmoteReference.ERROR))
                                 .setEphemeral(true)
                                 .queue();
                         return Operation.COMPLETED;
@@ -503,7 +503,7 @@ public class MarryCmd {
                     playerFinal.save();
                     currentMarriageFinal.save();
 
-                    event.reply(languageContext.get("commands.marry.create_vow.success")
+                    event.reply(lang.get("commands.marry.create_vow.success")
                                     .formatted(EmoteReference.CORRECT, VOW_COST, VOW_ITEM.getEmojiDisplay(), VOW_ITEM.getName()))
                             .setEphemeral(true)
                             .queue();
@@ -549,7 +549,7 @@ public class MarryCmd {
                 }
 
                 final var modalId = author.getId() + ":" + currentMarriage.getId() + "-modaledit";
-                var summary = TextInput.create("content", lang.get("commands.marry.modify_vow.summary"), TextInputStyle.PARAGRAPH)
+                var summary = TextInput.create("summary", lang.get("commands.marry.modify_vow.summary"), TextInputStyle.PARAGRAPH)
                         .setPlaceholder(lang.get("commands.marry.modify_vow.vow_summary_placeholder"))
                         .setRequiredRange(5, 300)
                         .build();
@@ -585,6 +585,9 @@ public class MarryCmd {
 
                     final var content = contentRaw.getAsString();
                     if (content.length() > 1500) {
+                        event.reply(lang.get("commands.marry.modify_vow.too_long").formatted(EmoteReference.ERROR))
+                                .setEphemeral(true)
+                                .queue();
                         return Operation.COMPLETED;
                     }
 
