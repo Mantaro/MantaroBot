@@ -412,7 +412,7 @@ public class GambleCmds {
             player.addMoney(gains);
             player.save();
         } else {
-            stats.getData().incrementSlotsLose();
+            stats.incrementSlotsLose();
             message.append(toSend).append("\n\n").append(
                     languageContext.withRoot("commands", "slots.lose").formatted(EmoteReference.SAD)
             );
@@ -424,8 +424,6 @@ public class GambleCmds {
             // We need to save anyway.
             player.save();
         }
-
-        stats.saveUpdating();
 
         message.append("\n");
         ctx.send(message.toString());
@@ -544,7 +542,7 @@ public class GambleCmds {
             var oldMoney = player.getCurrentMoney();
             player.setCurrentMoney(Math.max(0, player.getCurrentMoney() - i));
 
-            stats.getData().incrementGambleLose();
+            stats.incrementGambleLose();
             ctx.sendLocalized("commands.gamble.lose", EmoteReference.DICE,
                     (player.getCurrentMoney() == 0 ? ctx.getLanguageContext().get("commands.gamble.lose_all") + " " + oldMoney : i),
                     EmoteReference.SAD
@@ -553,6 +551,5 @@ public class GambleCmds {
 
         player.setLocked(false);
         player.saveUpdating();
-        stats.saveUpdating();
     }
 }

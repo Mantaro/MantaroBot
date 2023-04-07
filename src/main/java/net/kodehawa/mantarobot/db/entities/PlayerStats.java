@@ -17,22 +17,25 @@
 
 package net.kodehawa.mantarobot.db.entities;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
-import net.kodehawa.mantarobot.db.ManagedObject;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedMongoObject;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerStatsData;
+import org.bson.codecs.pojo.annotations.BsonCreator;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import javax.annotation.Nonnull;
-import java.beans.ConstructorProperties;
 
-public class PlayerStats implements ManagedObject {
+public class PlayerStats implements ManagedMongoObject {
+    @BsonIgnore
     public static final String DB_TABLE = "playerstats";
 
-    private final String id;
-    private final PlayerStatsData data;
+    @BsonId
+    private String id;
     private long gambleWins;
     private long slotsWins;
     private long gambleWinAmount;
@@ -41,16 +44,17 @@ public class PlayerStats implements ManagedObject {
     private long repairedItems;
     private long salvagedItems;
     private long toolsBroken;
+    private long looted;
+    private long mined;
+    private long gambleLose;
+    private long slotsLose;
 
-    @JsonCreator
-    @ConstructorProperties({"id", "gambleWins", "slotsWins", "gambleWinAmount", "slotsWinAmount", "data"})
-    public PlayerStats(@JsonProperty("id") String id, @JsonProperty("gambleWins") long gambleWins, @JsonProperty("slotsWins") long slotsWins, @JsonProperty("gambleWinAmount") long gambleWinAmount, @JsonProperty("slotsWinAmount") long slotsWinAmount, @JsonProperty("data") PlayerStatsData data) {
+    private PlayerStats(String id, long gambleWins, long slotsWins, long gambleWinAmount, long slotsWinAmount) {
         this.id = id;
         this.gambleWins = gambleWins;
         this.slotsWins = slotsWins;
         this.gambleWinAmount = gambleWinAmount;
         this.slotsWinAmount = slotsWinAmount;
-        this.data = data;
     }
 
     public static PlayerStats of(User user) {
@@ -62,25 +66,15 @@ public class PlayerStats implements ManagedObject {
     }
 
     public static PlayerStats of(String userId) {
-        return new PlayerStats(userId, 0L, 0L, 0L, 0L, new PlayerStatsData());
+        return new PlayerStats(userId, 0L, 0L, 0L, 0L);
     }
 
-    @JsonIgnore
-    public void incrementGambleWins() {
-        this.gambleWins += 1;
-    }
-
-    @JsonIgnore
-    public void incrementSlotsWins() {
-        this.slotsWins += 1;
-    }
-
-    @JsonIgnore
+    @BsonIgnore
     public void addGambleWin(long amount) {
         this.gambleWinAmount += amount;
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public void addSlotsWin(long amount) {
         this.slotsWinAmount += amount;
     }
@@ -92,11 +86,12 @@ public class PlayerStats implements ManagedObject {
 
     @Nonnull
     @Override
+    @BsonIgnore
     public String getTableName() {
         return DB_TABLE;
     }
 
-    @JsonIgnore
+    @BsonIgnore
     @Nonnull
     @Override
     public String getDatabaseId() {
@@ -119,64 +114,145 @@ public class PlayerStats implements ManagedObject {
         return this.slotsWinAmount;
     }
 
-    public PlayerStatsData getData() {
-        return this.data;
-    }
-
     public long getCraftedItems() {
         return craftedItems;
-    }
-
-    public void setCraftedItems(long craftedItems) {
-        this.craftedItems = craftedItems;
     }
 
     public long getRepairedItems() {
         return repairedItems;
     }
 
-    public void setRepairedItems(long repairedItems) {
-        this.repairedItems = repairedItems;
+    public long getSalvagedItems() {
+        return salvagedItems;
     }
 
     public long getToolsBroken() {
         return toolsBroken;
     }
 
-    public void setToolsBroken(long toolsBroken) {
-        this.toolsBroken = toolsBroken;
+    public long getLooted() {
+        return this.looted;
     }
 
-    public long getSalvagedItems() {
-        return salvagedItems;
+    public long getMined() {
+        return this.mined;
+    }
+
+    public long getGambleLose() {
+        return this.gambleLose;
+    }
+
+    public void setGambleLose(long gambleLose) {
+        this.gambleLose = gambleLose;
+    }
+
+    public long getSlotsLose() {
+        return this.slotsLose;
+    }
+
+    public void setSlotsLose(long slotsLose) {
+        this.slotsLose = slotsLose;
+    }
+
+    public void setLooted(long looted) {
+        this.looted = looted;
+    }
+
+    public void setMined(long mined) {
+        this.mined = mined;
+    }
+
+    public void setCraftedItems(long craftedItems) {
+        this.craftedItems = craftedItems;
+    }
+
+    public void setRepairedItems(long repairedItems) {
+        this.repairedItems = repairedItems;
+    }
+
+
+    public void setToolsBroken(long toolsBroken) {
+        this.toolsBroken = toolsBroken;
     }
 
     public void setSalvagedItems(long salvagedItems) {
         this.salvagedItems = salvagedItems;
     }
 
-    @JsonIgnore
+    @BsonIgnore
+    public void incrementMined() {
+        this.mined += 1;
+        updateField("mined", this.mined);
+    }
+
+
+    @BsonIgnore
+    public void incrementLooted() {
+        this.looted += 1;
+        updateField("looted", this.looted);
+    }
+
+    @BsonIgnore
+    public void incrementGambleWins() {
+        this.gambleWins += 1;
+        updateField("gambleWins", this.slotsWins);
+    }
+
+    @BsonIgnore
+    public void incrementSlotsWins() {
+        this.slotsWins += 1;
+        updateField("slotsWins", this.slotsWins);
+    }
+
+    @BsonIgnore
+    public void incrementGambleLose() {
+        gambleLose += 1;
+        updateField("gambleLose", this.gambleLose);
+    }
+
+    @BsonIgnore
+    public void incrementSlotsLose() {
+        slotsLose += 1;
+        updateField("slotsLose", this.slotsLose);
+    }
+
+    @BsonIgnore
     public void incrementToolsBroken() {
         this.toolsBroken++;
+        updateField("toolsBroken", this.toolsBroken);
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public void incrementCraftedItems() {
         this.craftedItems++;
+        updateField("craftedItems", this.craftedItems);
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public void incrementCraftedItems(int amount) {
         this.craftedItems += amount;
+        updateField("craftedItems", this.craftedItems);
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public void incrementRepairedItems() {
         this.repairedItems++;
+        updateField("repairedItems", this.craftedItems);
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public void incrementSalvagedItems() {
         this.salvagedItems++;
+        updateField("salvagedItems", this.craftedItems);
+    }
+
+    @Override
+    public void save() {
+        MantaroData.db().saveMongo(this, PlayerStats.class);
+    }
+
+    @Override
+    public void delete() {
+        MantaroData.db().deleteMongo(this, PlayerStats.class);
     }
 }
