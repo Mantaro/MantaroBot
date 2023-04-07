@@ -30,16 +30,8 @@ import net.kodehawa.mantarobot.commands.currency.profile.inventory.InventorySort
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Marriage;
-import net.kodehawa.mantarobot.db.entities.helpers.quests.Quest;
-import net.kodehawa.mantarobot.db.entities.helpers.quests.QuestTracker;
 
-import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -78,8 +70,6 @@ public class PlayerData {
     private boolean waifuout;
     private int lastCrateGiven = 69;
     private long lastSeenCampaign;
-    private QuestTracker quests = new QuestTracker();
-    private int questQuota = 3;
     private boolean resetWarning = false;
     private InventorySortType inventorySortType = InventorySortType.AMOUNT;
     private boolean hiddenLegacy = false;
@@ -356,22 +346,6 @@ public class PlayerData {
         this.chopExperience = chopExperience;
     }
 
-    public QuestTracker getQuests() {
-        return quests;
-    }
-
-    public void setQuests(QuestTracker quests) {
-        this.quests = quests;
-    }
-
-    public int getQuestQuota() {
-        return questQuota;
-    }
-
-    public void setQuestQuota(int questQuota) {
-        this.questQuota = questQuota;
-    }
-
     @JsonIgnore
     public void incrementMiningExperience(Random random) {
         this.miningExperience = miningExperience + (random.nextInt(5) + 1);
@@ -475,14 +449,5 @@ public class PlayerData {
     @JsonIgnore
     public void markCampaignAsSeen() {
         this.lastSeenCampaign = System.currentTimeMillis();
-    }
-
-    @JsonIgnore
-    public Quest startQuest(SecureRandom random) {
-        if (quests.getCurrentActiveQuests().size() > getQuestQuota()) {
-            return null;
-        }
-
-        return quests.startRandomQuest(random);
     }
 }
