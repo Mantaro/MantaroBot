@@ -142,7 +142,8 @@ public class ManagedDatabase {
 
     public GuildDatabase getGuildDatabase(@Nonnull String guildId) {
         MongoCollection<GuildDatabase> collection = dbMantaro().getCollection(GuildDatabase.DB_TABLE, GuildDatabase.class);
-        return collection.find().projection(new Document("_id", guildId)).first();
+        GuildDatabase guild = collection.find().projection(new Document("_id", guildId)).first();
+        return guild == null ? GuildDatabase.of(guildId) : guild;
     }
 
     @Nonnull
