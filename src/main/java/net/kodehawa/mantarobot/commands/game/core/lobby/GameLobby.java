@@ -72,9 +72,9 @@ public class GameLobby extends Lobby {
         if (gamesToPlay.getFirst().onStart(this)) {
             LOBBYS.put(context.getChannel().getIdLong(), this);
 
-            var dbGuild = MantaroData.db().getGuild(guild);
-            dbGuild.getData().setGameTimeoutExpectedAt(String.valueOf(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(70)));
-            dbGuild.saveUpdating();
+            var dbGuild = MantaroData.db().getGuildDatabase(guild);
+            dbGuild.setGameTimeoutExpectedAt(String.valueOf(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(70)));
+            dbGuild.save();
 
             gamesToPlay.getFirst().call(this, players);
         } else {

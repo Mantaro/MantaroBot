@@ -103,7 +103,7 @@ public class CustomCmds {
     //Just so this is in english.
     private static final I18nContext i18nTemp = new I18nContext();
     private static final Predicate<IContext> adminPredicate = (ctx) -> {
-        if (db().getGuild(ctx.getGuild()).getData().isCustomAdminLockNew() && !CommandPermission.ADMIN.test(ctx.getMember())) {
+        if (db().getGuildDatabase(ctx.getGuild()).isCustomAdminLockNew() && !CommandPermission.ADMIN.test(ctx.getMember())) {
             ctx.getChannel().sendMessage(i18nTemp.get("commands.custom.admin_only")).queue();
             return false;
         }

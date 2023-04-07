@@ -36,6 +36,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.GuildDatabase;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
@@ -68,7 +69,7 @@ public class AudioLoader implements AudioLoadResultHandler {
 
     @Override
     public void trackLoaded(AudioTrack track) {
-        loadSingle(track, false, db.getGuild(ctx.getGuild()), db.getUser(ctx.getMember()));
+        loadSingle(track, false, db.getGuildDatabase(ctx.getGuild()), db.getUser(ctx.getMember()));
     }
 
     @Override
@@ -78,9 +79,7 @@ public class AudioLoader implements AudioLoadResultHandler {
             if (!skipSelection) {
                 onSearch(playlist);
             } else {
-                loadSingle(playlist.getTracks().get(0), false,
-                        db.getGuild(ctx.getGuild()), db.getUser(member)
-                );
+                loadSingle(playlist.getTracks().get(0), false, db.getGuildDatabase(ctx.getGuild()), db.getUser(member));
             }
 
             return;
@@ -88,17 +87,16 @@ public class AudioLoader implements AudioLoadResultHandler {
 
         try {
             var count = 0;
-            var dbGuild = db.getGuild(ctx.getGuild());
+            var dbGuild = db.getGuildDatabase(ctx.getGuild());
             var user = db.getUser(member);
-            var guildData = dbGuild.getData();
             var i18nContext = new I18nContext(language);
 
             for (var track : playlist.getTracks()) {
-                if (guildData.getMusicQueueSizeLimit() != null) {
-                    if (count <= guildData.getMusicQueueSizeLimit()) {
+                if (dbGuild.getMusicQueueSizeLimit() != null) {
+                    if (count <= dbGuild.getMusicQueueSizeLimit()) {
                         loadSingle(track, true, dbGuild, user);
                     } else {
-                        ctx.edit("commands.music_general.loader.over_limit", EmoteReference.WARNING, guildData.getMusicQueueSizeLimit());
+                        ctx.edit("commands.music_general.loader.over_limit", EmoteReference.WARNING, dbGuild.getMusicQueueSizeLimit());
                         break;
                     }
                 } else {
@@ -148,10 +146,9 @@ public class AudioLoader implements AudioLoadResultHandler {
         failureCount++;
     }
 
-    private void loadSingle(AudioTrack audioTrack, boolean silent, DBGuild dbGuild, DBUser dbUser) {
+    private void loadSingle(AudioTrack audioTrack, boolean silent, GuildDatabase dbGuild, DBUser dbUser) {
         final var trackInfo = audioTrack.getInfo();
         final var trackScheduler = musicManager.getTrackScheduler();
-        final var guildData = dbGuild.getData();
         var i18nContext = new I18nContext(language);
 
         audioTrack.setUserData(ctx.getAuthor().getId());
@@ -160,11 +157,11 @@ public class AudioLoader implements AudioLoadResultHandler {
         final var length = trackInfo.length;
 
         long queueLimit = MAX_QUEUE_LENGTH;
-        if (guildData.getMusicQueueSizeLimit() != null && guildData.getMusicQueueSizeLimit() > 1) {
-            queueLimit = guildData.getMusicQueueSizeLimit();
+        if (dbGuild.getMusicQueueSizeLimit() != null && dbGuild.getMusicQueueSizeLimit() > 1) {
+            queueLimit = dbGuild.getMusicQueueSizeLimit();
         }
 
-        var fqSize = guildData.getMaxFairQueue();
+        var fqSize = dbGuild.getMaxFairQueue();
         ConcurrentLinkedDeque<AudioTrack> queue = trackScheduler.getQueue();
 
         if (queue.size() > queueLimit && !dbUser.isPremium() && !dbGuild.isPremium()) {

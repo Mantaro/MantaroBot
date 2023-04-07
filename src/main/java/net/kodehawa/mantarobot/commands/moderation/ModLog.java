@@ -31,7 +31,7 @@ public class ModLog {
 
     public static void log(Member author, User target, String reason,
                            String channel, ModAction action, long caseNumber, int messagesDeleted) {
-        var guildDB = db.getGuild(author.getGuild());
+        var guildDB = db.getGuildDatabase(author.getGuild());
         var player = db.getPlayer(author);
         var playerData = player.getData();
         var embedBuilder = new EmbedBuilder();
@@ -60,10 +60,10 @@ public class ModLog {
             player.saveUpdating();
         }
 
-        if (guildDB.getData().getGuildLogChannel() != null) {
+        if (guildDB.getGuildLogChannel() != null) {
             var logChannel = MantaroBot.getInstance()
                     .getShardManager()
-                    .getTextChannelById(guildDB.getData().getGuildLogChannel());
+                    .getTextChannelById(guildDB.getGuildLogChannel());
 
             if (logChannel != null) {
                 logChannel.sendMessageEmbeds(embedBuilder.build()).queue();

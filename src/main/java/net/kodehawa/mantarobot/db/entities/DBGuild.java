@@ -73,17 +73,17 @@ public class DBGuild implements ManagedObject {
         return jda.getGuildById(getId());
     }
 
-    @JsonIgnore
-    public long getPremiumLeft() {
-        return isPremium() ? this.premiumUntil - currentTimeMillis() : 0;
-    }
-
     public void incrementPremium(long milliseconds) {
         if (isPremium()) {
             this.premiumUntil += milliseconds;
         } else {
             this.premiumUntil = currentTimeMillis() + milliseconds;
         }
+    }
+
+    @JsonIgnore
+    public long getPremiumLeft() {
+        return isPremium() ? this.premiumUntil - currentTimeMillis() : 0;
     }
 
     @JsonIgnore

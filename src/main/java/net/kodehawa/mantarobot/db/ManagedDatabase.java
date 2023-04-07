@@ -148,6 +148,18 @@ public class ManagedDatabase {
 
     @Nonnull
     @CheckReturnValue
+    public GuildDatabase getGuildDatabase(@Nonnull Guild guild) {
+        return getGuildDatabase(guild.getId());
+    }
+
+    @Nonnull
+    @CheckReturnValue
+    public GuildDatabase getGuildDatabase(@Nonnull Member member) {
+        return getGuildDatabase(member.getGuild());
+    }
+
+    @Nonnull
+    @CheckReturnValue
     public DBGuild getGuild(@Nonnull Guild guild) {
         return getGuild(guild.getId());
     }
