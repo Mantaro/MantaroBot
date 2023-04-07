@@ -134,7 +134,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
 
         final var dbGuild = MantaroData.db().getGuild(guildId);
 
-        if (dbGuild.getData().isMusicAnnounce() && requestedChannel != 0 && getRequestedTextChannel() != null) {
+        if (dbGuild.isMusicAnnounce() && requestedChannel != 0 && getRequestedTextChannel() != null) {
             var voiceState = getRequestedTextChannel().getGuild().getSelfMember().getVoiceState();
 
             //What kind of massive meme is this? part 2

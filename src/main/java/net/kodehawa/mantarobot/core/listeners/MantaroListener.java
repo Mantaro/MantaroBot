@@ -263,11 +263,10 @@ public class MantaroListener implements EventListener {
     private void logDelete(MessageDeleteEvent event) {
         try {
             final var dbGuild = MantaroData.db().getGuild(event.getGuild());
-            final var data = dbGuild.getData();
-            final var logChannel = data.getGuildLogChannel();
+            final var logChannel = dbGuild.getGuildLogChannel();
 
             if (logChannel != null) {
-                final var hour = Utils.formatHours(OffsetDateTime.now(), data.getLogTimezone(), data.getLang());
+                final var hour = Utils.formatHours(OffsetDateTime.now(), dbGuild.getLogTimezone(), dbGuild.getLang());
                 final var tc = event.getGuild().getTextChannelById(logChannel);
                 if (tc == null) {
                     return;
@@ -287,24 +286,24 @@ public class MantaroListener implements EventListener {
                     return;
                 }
 
-                if (data.getModlogBlacklistedPeople().contains(authorId)) {
+                if (dbGuild.getModlogBlacklistedPeople().contains(authorId)) {
                     return;
                 }
 
-                if (data.getLogExcludedChannels().contains(textChannel.getId())) {
+                if (dbGuild.getLogExcludedChannels().contains(textChannel.getId())) {
                     return;
                 }
 
-                if (!data.getModLogBlacklistWords().isEmpty()) {
+                if (!dbGuild.getModLogBlacklistWords().isEmpty()) {
                     // This is not efficient at all I'm pretty sure, is there a better way?
                     List<String> splitMessage = Arrays.asList(content.split("\\s+"));
-                    if (data.getModLogBlacklistWords().stream().anyMatch(splitMessage::contains)) {
+                    if (dbGuild.getModLogBlacklistWords().stream().anyMatch(splitMessage::contains)) {
                         return;
                     }
                 }
 
                 String message;
-                if (data.getDeleteMessageLog() != null) {
+                if (dbGuild.getDeleteMessageLog() != null) {
                     message = new DynamicModifiers()
                             .set("hour", hour)
                             .set("content", content.replace("```", ""))
@@ -312,7 +311,7 @@ public class MantaroListener implements EventListener {
                             .mapChannel("event.channel", textChannel)
                             .mapUser("event.user", author)
                             .set("event.message.id", event.getMessageId())
-                            .resolve(data.getDeleteMessageLog());
+                            .resolve(dbGuild.getDeleteMessageLog());
                 } else {
                     message = String.format(EmoteReference.WARNING +
                                     "`[%s]` Message (ID: %s) created by **%s#%s** (ID: %s) in channel **%s** was deleted.\n" +
@@ -334,7 +333,7 @@ public class MantaroListener implements EventListener {
 
     private void logEdit(MessageUpdateEvent event) {
         try {
-            final var guildData = MantaroData.db().getGuild(event.getGuild()).getData();
+            final var guildData = MantaroData.db().getGuild(event.getGuild());
             final var logChannel = guildData.getGuildLogChannel();
 
             if (logChannel != null) {
@@ -490,7 +489,6 @@ public class MantaroListener implements EventListener {
                         ).setFooter("We hope you enjoy using Mantaro! For any questions, go to our support server.");
 
                 final var dbGuild = DATABASE.getGuild(guild);
-                final var guildData = dbGuild.getData();
                 final var guildChannels = guild.getChannels();
 
                 // Find a suitable channel to greeet send the message to.
@@ -499,9 +497,9 @@ public class MantaroListener implements EventListener {
                         CHANNEL_NAMES.contains(channel.getName())
                 ).findFirst().ifPresentOrElse(ch -> {
                     var channel = (TextChannel) ch;
-                    if (channel.canTalk() && !guildData.hasReceivedGreet()) {
+                    if (channel.canTalk() && !dbGuild.hasReceivedGreet()) {
                         channel.sendMessageEmbeds(embedBuilder.build()).queue();
-                        guildData.setHasReceivedGreet(true);
+                        dbGuild.setHasReceivedGreet(true);
                         dbGuild.save();
                     }
                 }, () -> {
@@ -512,9 +510,9 @@ public class MantaroListener implements EventListener {
                             .orElse(null);
 
                     // Basically same code as above, but w/e.
-                    if (channel != null && !guildData.hasReceivedGreet()) {
+                    if (channel != null && !dbGuild.hasReceivedGreet()) {
                         channel.sendMessageEmbeds(embedBuilder.build()).queue();
-                        guildData.setHasReceivedGreet(true);
+                        dbGuild.setHasReceivedGreet(true);
                         dbGuild.save();
                     }
                 });
@@ -556,9 +554,8 @@ public class MantaroListener implements EventListener {
 
     private void onUserJoin(Guild guild, Member member, User user) {
         final var dbGuild = MantaroData.db().getGuild(guild);
-        final var guildData = dbGuild.getData();
-        final var role = guildData.getGuildAutoRole();
-        final var hour = Utils.formatHours(OffsetDateTime.now(), guildData.getLogTimezone(), guildData.getLang());
+        final var role = dbGuild.getGuildAutoRole();
+        final var hour = Utils.formatHours(OffsetDateTime.now(), dbGuild.getLogTimezone(), dbGuild.getLang());
         final var selfMember = guild.getSelfMember();
 
         if (member.isPending()) {
@@ -566,7 +563,7 @@ public class MantaroListener implements EventListener {
         }
 
         try {
-            if (role != null &&  !(user.isBot() && guildData.isIgnoreBotsAutoRole())) {
+            if (role != null &&  !(user.isBot() && dbGuild.isIgnoreBotsAutoRole())) {
                 var toAssign = guild.getRoleById(role);
                 if (toAssign != null && selfMember.canInteract(toAssign) && selfMember.hasPermission(Permission.MANAGE_ROLES)) {
                     guild.addRoleToMember(member, toAssign).reason("Autorole assigner").queue();
@@ -575,7 +572,7 @@ public class MantaroListener implements EventListener {
             }
         } catch (Exception ignored) { }
 
-        final var logChannel = guildData.getGuildLogChannel();
+        final var logChannel = dbGuild.getGuildLogChannel();
         if (logChannel != null) {
             try {
                 var tc = guild.getTextChannelById(logChannel);
@@ -587,22 +584,22 @@ public class MantaroListener implements EventListener {
             } catch (Exception ignored) { }
         }
 
-        if (user.isBot() && guildData.isIgnoreBotsWelcomeMessage()) {
+        if (user.isBot() && dbGuild.isIgnoreBotsWelcomeMessage()) {
             return;
         }
 
         try {
-            var joinChannel = guildData.getLogJoinChannel();
+            var joinChannel = dbGuild.getLogJoinChannel();
             if (joinChannel == null || guild.getTextChannelById(joinChannel) == null) {
-                joinChannel = guildData.getLogJoinLeaveChannel();
+                joinChannel = dbGuild.getLogJoinLeaveChannel();
             }
 
             if (joinChannel == null) {
                 return;
             }
 
-            final var joinMessage = guildData.getJoinMessage();
-            WelcomeUtils.sendJoinLeaveMessage(user, guild, guild.getTextChannelById(joinChannel), guildData.getExtraJoinMessages(), joinMessage);
+            final var joinMessage = dbGuild.getJoinMessage();
+            WelcomeUtils.sendJoinLeaveMessage(user, guild, guild.getTextChannelById(joinChannel), dbGuild.getExtraJoinMessages(), joinMessage);
             Metrics.ACTIONS.labels("join_messages").inc();
         } catch (Exception e) {
             LOG.error("Failed to send join message!", e);
@@ -613,15 +610,14 @@ public class MantaroListener implements EventListener {
         final var guild = event.getGuild();
         final var user = event.getUser();
         final var dbGuild = MantaroData.db().getGuild(guild);
-        final var guildData = dbGuild.getData();
 
         try {
-            final var hour = Utils.formatHours(OffsetDateTime.now(), guildData.getLogTimezone(), guildData.getLang());
-            if (user.isBot() && guildData.isIgnoreBotsWelcomeMessage()) {
+            final var hour = Utils.formatHours(OffsetDateTime.now(), dbGuild.getLogTimezone(), dbGuild.getLang());
+            if (user.isBot() && dbGuild.isIgnoreBotsWelcomeMessage()) {
                 return;
             }
 
-            var logChannel = guildData.getGuildLogChannel();
+            var logChannel = dbGuild.getGuildLogChannel();
             if (logChannel != null) {
                 final var tc = guild.getTextChannelById(logChannel);
                 if (tc != null && tc.canTalk()) {
@@ -637,30 +633,30 @@ public class MantaroListener implements EventListener {
         }
 
         try {
-            if (user.isBot() && guildData.isIgnoreBotsWelcomeMessage()) {
+            if (user.isBot() && dbGuild.isIgnoreBotsWelcomeMessage()) {
                 return;
             }
 
-            var leaveChannel = guildData.getLogLeaveChannel();
+            var leaveChannel = dbGuild.getLogLeaveChannel();
             if (leaveChannel == null || guild.getTextChannelById(leaveChannel) == null) {
-                leaveChannel = guildData.getLogJoinLeaveChannel();
+                leaveChannel = dbGuild.getLogJoinLeaveChannel();
             }
 
             if (leaveChannel == null) {
                 return;
             }
 
-            final var leaveMessage = guildData.getLeaveMessage();
-            WelcomeUtils.sendJoinLeaveMessage(user, guild, guild.getTextChannelById(leaveChannel), guildData.getExtraLeaveMessages(), leaveMessage);
+            final var leaveMessage = dbGuild.getLeaveMessage();
+            WelcomeUtils.sendJoinLeaveMessage(user, guild, guild.getTextChannelById(leaveChannel), dbGuild.getExtraLeaveMessages(), leaveMessage);
             Metrics.ACTIONS.labels("leave_messages").inc();
         } catch (Exception e) {
             LOG.error("Failed to send leave message!", e);
         }
 
-        var allowedBirthdays = guildData.getAllowedBirthdays();
+        var allowedBirthdays = dbGuild.getAllowedBirthdays();
         if (allowedBirthdays.contains(user.getId())) {
             allowedBirthdays.remove(user.getId());
-            dbGuild.saveAsync();
+            dbGuild.save();
 
             var bdCacheMap = BirthdayCmd.getGuildBirthdayCache().getIfPresent(guild.getIdLong());
             if (bdCacheMap != null) {

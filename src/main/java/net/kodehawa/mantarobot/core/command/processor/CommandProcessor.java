@@ -74,7 +74,7 @@ public class CommandProcessor {
         String[] prefix = config.prefix;
         // Guild-specific prefix.
         final var dbGuild = MantaroData.db().getGuild(event.getGuild());
-        var customPrefix = dbGuild.getData().getGuildCustomPrefix();
+        var customPrefix = dbGuild.getGuildCustomPrefix();
         // Possible mentions
         boolean isMention = false;
         String[] mentionPrefixes = {

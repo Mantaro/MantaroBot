@@ -58,16 +58,14 @@ public class GeneralOptions extends OptionHandler {
                 return;
             }
 
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-
+            var dbGuild = ctx.getDBGuild();
             List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).toList();
             String blacklisted = mentioned.stream()
                     .map(Member::getUser)
                     .map(User::getAsTag)
                     .collect(Collectors.joining(","));
 
-            guildData.getModlogBlacklistedPeople().addAll(toBlackList);
+            dbGuild.getModlogBlacklistedPeople().addAll(toBlackList);
             dbGuild.save();
 
             ctx.sendLocalized("options.modlog_blacklist.success", EmoteReference.CORRECT, blacklisted);
@@ -83,16 +81,14 @@ public class GeneralOptions extends OptionHandler {
                 return;
             }
 
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-
+            var dbGuild = ctx.getDBGuild();
             List<String> toUnBlacklist = mentioned.stream().map(ISnowflake::getId).toList();
             String unBlacklisted = mentioned.stream()
                     .map(Member::getUser)
                     .map(User::getAsTag)
                     .collect(Collectors.joining(","));
 
-            toUnBlacklist.forEach(guildData.getModlogBlacklistedPeople()::remove);
+            toUnBlacklist.forEach(dbGuild.getModlogBlacklistedPeople()::remove);
             dbGuild.save();
 
             ctx.sendLocalized("options.modlog_whitelist.success", EmoteReference.CORRECT, unBlacklisted);
@@ -107,16 +103,14 @@ public class GeneralOptions extends OptionHandler {
                 return;
             }
 
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-
-            if (guildData.getModLogBlacklistWords().size() > 20) {
+            var dbGuild = ctx.getDBGuild();
+            if (dbGuild.getModLogBlacklistWords().size() > 20) {
                 ctx.sendLocalized("options.modlog_blacklistwords_add.too_many", EmoteReference.ERROR);
                 return;
             }
 
             String word = ctx.getCustomContent();
-            guildData.getModLogBlacklistWords().add(word);
+            dbGuild.getModLogBlacklistWords().add(word);
             dbGuild.save();
             ctx.sendLocalized("options.modlog_blacklistwords_add.success", EmoteReference.CORRECT, word);
         });
@@ -130,17 +124,15 @@ public class GeneralOptions extends OptionHandler {
                 return;
             }
 
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-
+            var dbGuild = ctx.getDBGuild();
             String word = ctx.getCustomContent();
 
-            if (!guildData.getModLogBlacklistWords().contains(word)) {
+            if (!dbGuild.getModLogBlacklistWords().contains(word)) {
                 ctx.sendLocalized("options.modlog_blacklistwords_remove.not_in", EmoteReference.ERROR, word);
                 return;
             }
 
-            guildData.getModLogBlacklistWords().remove(word);
+            dbGuild.getModLogBlacklistWords().remove(word);
             dbGuild.save();
             ctx.sendLocalized("options.modlog_blacklistwords_remove.success", EmoteReference.CORRECT, word);
         });
@@ -153,14 +145,12 @@ public class GeneralOptions extends OptionHandler {
                 return;
             }
 
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-
+            var dbGuild = ctx.getDBGuild();
             for (String tag : args) {
-                guildData.getBlackListedImageTags().add(tag.toLowerCase());
+                dbGuild.getBlackListedImageTags().add(tag.toLowerCase());
             }
 
-            dbGuild.saveUpdating();
+            dbGuild.save();
             ctx.sendLocalized("options.imageboard_tags_blacklist_add.success",
                     EmoteReference.CORRECT, String.join(" ,", args)
             );
@@ -174,14 +164,12 @@ public class GeneralOptions extends OptionHandler {
                 return;
             }
 
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-
+            var dbGuild = ctx.getDBGuild();
             for (String tag : args) {
-                guildData.getBlackListedImageTags().remove(tag.toLowerCase());
+                dbGuild.getBlackListedImageTags().remove(tag.toLowerCase());
             }
 
-            dbGuild.saveAsync();
+            dbGuild.save();
             ctx.sendLocalized("options.imageboard_tags_blacklist_remove.success", EmoteReference.CORRECT, String.join(" ,", args));
         });
     }

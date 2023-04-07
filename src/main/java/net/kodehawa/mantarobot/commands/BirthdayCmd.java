@@ -150,14 +150,13 @@ public class BirthdayCmd {
             @Override
             protected void process(SlashContext ctx) {
                 var dbGuild = ctx.getDBGuild();
-                var guildData = dbGuild.getData();
                 var author = ctx.getAuthor();
-                if (guildData.getAllowedBirthdays().contains(author.getId())) {
+                if (dbGuild.getAllowedBirthdays().contains(author.getId())) {
                     ctx.replyEphemeral("commands.birthday.already_allowed", EmoteReference.ERROR);
                     return;
                 }
 
-                guildData.getAllowedBirthdays().add(author.getId());
+                dbGuild.getAllowedBirthdays().add(author.getId());
                 dbGuild.save();
 
                 var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getIdLong());
@@ -177,14 +176,13 @@ public class BirthdayCmd {
             @Override
             protected void process(SlashContext ctx) {
                 var dbGuild = ctx.getDBGuild();
-                var guildData = dbGuild.getData();
                 var author = ctx.getAuthor();
-                if (!guildData.getAllowedBirthdays().contains(author.getId())) {
+                if (!dbGuild.getAllowedBirthdays().contains(author.getId())) {
                     ctx.replyEphemeral("commands.birthday.already_denied", EmoteReference.CORRECT);
                     return;
                 }
 
-                guildData.getAllowedBirthdays().remove(author.getId());
+                dbGuild.getAllowedBirthdays().remove(author.getId());
                 dbGuild.save();
 
                 var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getIdLong());
@@ -227,7 +225,7 @@ public class BirthdayCmd {
                         }
 
                         var guild = ctx.getGuild();
-                        var data = ctx.getDBGuild().getData();
+                        var data = ctx.getDBGuild();
                         var ids = data.getAllowedBirthdays().stream().map(Long::parseUnsignedLong).collect(Collectors.toList());
 
                         if (ids.isEmpty()) {
@@ -289,7 +287,7 @@ public class BirthdayCmd {
                             return;
                         }
 
-                        var data = ctx.getDBGuild().getData();
+                        var data = ctx.getDBGuild();
                         var ids = data.getAllowedBirthdays().stream().map(Long::parseUnsignedLong).collect(Collectors.toList());
                         var guildCurrentBirthdays = getBirthdayMap(ctx.getGuild().getIdLong(), ids);
 

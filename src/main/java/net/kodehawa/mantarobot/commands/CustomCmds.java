@@ -57,6 +57,7 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.CustomCommand;
+import net.kodehawa.mantarobot.db.entities.GuildDatabase;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -103,7 +104,7 @@ public class CustomCmds {
     //Just so this is in english.
     private static final I18nContext i18nTemp = new I18nContext();
     private static final Predicate<IContext> adminPredicate = (ctx) -> {
-        if (db().getGuildDatabase(ctx.getGuild()).isCustomAdminLockNew() && !CommandPermission.ADMIN.test(ctx.getMember())) {
+        if (db().getGuild(ctx.getGuild()).isCustomAdminLockNew() && !CommandPermission.ADMIN.test(ctx.getMember())) {
             ctx.getChannel().sendMessage(i18nTemp.get("commands.custom.admin_only")).queue();
             return false;
         }
@@ -111,7 +112,7 @@ public class CustomCmds {
         return true;
     };
 
-    public static void handle(String prefix, String cmdName, Context ctx, GuildData guildData, String args) {
+    public static void handle(String prefix, String cmdName, Context ctx, GuildDatabase guildData, String args) {
         CustomCommand customCommand = getCustomCommand(ctx.getGuild().getId(), cmdName);
         if (customCommand == null) {
             return;

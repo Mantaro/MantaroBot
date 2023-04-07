@@ -40,6 +40,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.GuildDatabase;
 import net.kodehawa.mantarobot.db.entities.Player;
 
 import javax.annotation.CheckReturnValue;
@@ -352,7 +353,7 @@ public class NewContext {
         return getBot().getShardManager();
     }
 
-    public DBGuild getDBGuild() {
+    public GuildDatabase getDBGuild() {
         return managedDatabase.getGuild(getGuild());
     }
 

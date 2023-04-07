@@ -163,12 +163,11 @@ public class OptsCmd {
                             "If you wanna send this to the support server, use -print at the end.", OptionType.GENERAL
                 ).setAction((ctx, args) -> {
                     var dbGuild = ctx.getDBGuild();
-                    var guildData = dbGuild.getData();
                     var lang = ctx.getLanguageContext();
 
                     // Map as follows: name, value
                     // This filters out unused configs.
-                    var fieldMap = mapConfigObjects(guildData);
+                    var fieldMap = mapConfigObjects(dbGuild);
                     if (fieldMap == null) {
                         ctx.sendLocalized("options.check_data.retrieve_failure", EmoteReference.ERROR);
                         return;
@@ -211,14 +210,13 @@ public class OptsCmd {
                     //Temporary stuff.
                     var dbGuild = ctx.getDBGuild();
                     // New object?
-                    var temp = ctx.getDBGuild().getData();
+                    var temp = ctx.getDBGuild();
 
                     //The persistent data we wish to maintain.
                     var premiumKey = temp.getPremiumKey();
-                    var quoteLastId = temp.getQuoteLastId();
-                    var ranPolls = temp.getQuoteLastId();
                     var gameTimeoutExpectedAt = temp.getGameTimeoutExpectedAt();
                     var cases = temp.getCases();
+                    var ranPolls = temp.getRanPolls();
                     var allowedBirthdays = temp.getAllowedBirthdays();
                     var notified = temp.isNotifiedFromBirthdayChange();
                     var greetReceived = temp.hasReceivedGreet();
@@ -231,7 +229,6 @@ public class OptsCmd {
                     newTmp.setRanPolls(ranPolls);
                     newTmp.setCases(cases);
                     newTmp.setPremiumKey(premiumKey);
-                    newTmp.setQuoteLastId(quoteLastId);
                     newTmp.setAllowedBirthdays(allowedBirthdays);
                     newTmp.setNotifiedFromBirthdayChange(notified);
                     newTmp.setHasReceivedGreet(greetReceived);

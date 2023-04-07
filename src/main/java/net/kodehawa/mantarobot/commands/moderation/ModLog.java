@@ -31,7 +31,7 @@ public class ModLog {
 
     public static void log(Member author, User target, String reason,
                            String channel, ModAction action, long caseNumber, int messagesDeleted) {
-        var guildDB = db.getGuildDatabase(author.getGuild());
+        var guildDB = db.getGuild(author.getGuild());
         var player = db.getPlayer(author);
         var playerData = player.getData();
         var embedBuilder = new EmbedBuilder();

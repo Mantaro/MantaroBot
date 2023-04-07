@@ -69,7 +69,6 @@ public class MuteCmds {
         @Override
         protected void process(SlashContext ctx) {
             var dbGuild = ctx.getDBGuild();
-            var guildData = dbGuild.getData();
             var reason = ctx.getOptionAsString("reason", "");
             var placeholderReason = "Not specified.";
             var user = ctx.getOptionAsUser("user");
@@ -78,7 +77,7 @@ public class MuteCmds {
                 return;
             }
 
-            var time = guildData.getSetModTimeout() > 0 ? guildData.getSetModTimeout() : 0L;
+            var time = dbGuild.getSetModTimeout() > 0 ? dbGuild.getSetModTimeout() : 0L;
 
             var maybeTime = ctx.getOptionAsString("time");
             if (maybeTime != null) {
@@ -151,10 +150,10 @@ public class MuteCmds {
                 );
             }
 
-            dbGuild.getData().setCases(dbGuild.getData().getCases() + 1);
-            dbGuild.saveUpdating();
+            dbGuild.setCases(dbGuild.getCases() + 1);
+            dbGuild.save();
             ModLog.log(
-                    ctx.getMember(), user, logReason, ctx.getChannel().getName(), ModLog.ModAction.MUTE, dbGuild.getData().getCases()
+                    ctx.getMember(), user, logReason, ctx.getChannel().getName(), ModLog.ModAction.MUTE, dbGuild.getCases()
             );
         }
     }
@@ -217,9 +216,9 @@ public class MuteCmds {
 
                 ctx.reply("commands.unmute.success", EmoteReference.CORRECT, user.getName());
 
-                ModLog.log(ctx.getMember(), user, logReason, "none", ModLog.ModAction.UNMUTE, dbGuild.getData().getCases());
-                dbGuild.getData().setCases(dbGuild.getData().getCases() + 1);
-                dbGuild.saveAsync();
+                ModLog.log(ctx.getMember(), user, logReason, "none", ModLog.ModAction.UNMUTE, dbGuild.getCases());
+                dbGuild.setCases(dbGuild.getCases() + 1);
+                dbGuild.save();
             } else {
                 ctx.reply("commands.unmute.not_muted", EmoteReference.ERROR);
             }

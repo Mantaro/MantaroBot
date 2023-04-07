@@ -161,15 +161,15 @@ public class MessageCmds {
                     ctx.reply("commands.prune.success", EmoteReference.PENCIL, size);
 
                     var db = ctx.getDBGuild();
-                    db.getData().setCases(db.getData().getCases() + 1);
-                    db.saveAsync();
+                    db.setCases(db.getCases() + 1);
+                    db.save();
                     var reason = "Pruned Messages";
                     var specifiedReason = ctx.getOptionAsString("reason");
                     if (specifiedReason != null) {
                         reason = specifiedReason;
                     }
                     ModLog.log(ctx.getMember(), null, reason,
-                            ctx.getChannel().getName(), ModLog.ModAction.PRUNE, db.getData().getCases(), size
+                            ctx.getChannel().getName(), ModLog.ModAction.PRUNE, db.getCases(), size
                     );
                 },
                 error -> {

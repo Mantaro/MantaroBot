@@ -159,7 +159,7 @@ public class MusicCmds {
                 }
 
                 var author = ctx.getAuthor();
-                var guildData = ctx.getDBGuild().getData();
+                var guildData = ctx.getDBGuild();
 
                 if (!guildData.isMusicVote()) { // force option in this case is pretty much useless, so checking for it doesn't do much.
                     ctx.reply("commands.skip.success", EmoteReference.CORRECT);
@@ -367,7 +367,7 @@ public class MusicCmds {
                     return;
                 }
 
-                var guildData = ctx.getDBGuild().getData();
+                var guildData = ctx.getDBGuild();
                 var author = ctx.getAuthor();
 
                 if (!guildData.isMusicVote()) {
@@ -472,7 +472,7 @@ public class MusicCmds {
 
     public static boolean isDJ(SlashContext ctx, Member member) {
         var djRole = member.getGuild().getRolesByName("DJ", true).stream().findFirst().orElse(null);
-        var guildData = ctx.getDBGuild().getData();
+        var guildData = ctx.getDBGuild();
         Role customDjRole = null;
 
         if (guildData.getDjRoleId() != null) {

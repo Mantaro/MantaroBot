@@ -132,15 +132,11 @@ public class ManagedDatabase {
         return c.toList();
     }
 
+
     @Nonnull
     @CheckReturnValue
-    public DBGuild getGuild(@Nonnull String guildId) {
-        log("Requesting guild {} from rethink", guildId);
-        DBGuild guild = r.table(DBGuild.DB_TABLE).get(guildId).runAtom(conn, DBGuild.class);
-        return guild == null ? DBGuild.of(guildId) : guild;
-    }
-
-    public GuildDatabase getGuildDatabase(@Nonnull String guildId) {
+    public GuildDatabase getGuild(@Nonnull String guildId) {
+        log("Requesting guild {} from MongoDB", guildId);
         MongoCollection<GuildDatabase> collection = dbMantaro().getCollection(GuildDatabase.DB_TABLE, GuildDatabase.class);
         GuildDatabase guild = collection.find().filter(new Document("_id", guildId)).first();
         return guild == null ? GuildDatabase.of(guildId) : guild;
@@ -148,31 +144,19 @@ public class ManagedDatabase {
 
     @Nonnull
     @CheckReturnValue
-    public GuildDatabase getGuildDatabase(@Nonnull Guild guild) {
-        return getGuildDatabase(guild.getId());
-    }
-
-    @Nonnull
-    @CheckReturnValue
-    public GuildDatabase getGuildDatabase(@Nonnull Member member) {
-        return getGuildDatabase(member.getGuild());
-    }
-
-    @Nonnull
-    @CheckReturnValue
-    public DBGuild getGuild(@Nonnull Guild guild) {
+    public GuildDatabase getGuild(@Nonnull Guild guild) {
         return getGuild(guild.getId());
     }
 
     @Nonnull
     @CheckReturnValue
-    public DBGuild getGuild(@Nonnull Member member) {
+    public GuildDatabase getGuild(@Nonnull Member member) {
         return getGuild(member.getGuild());
     }
 
     @Nonnull
     @CheckReturnValue
-    public DBGuild getGuild(@Nonnull MessageReceivedEvent event) {
+    public GuildDatabase getGuild(@Nonnull MessageReceivedEvent event) {
         return getGuild(event.getGuild());
     }
 

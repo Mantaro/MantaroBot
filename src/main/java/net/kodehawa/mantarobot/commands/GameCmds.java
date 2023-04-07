@@ -171,7 +171,7 @@ public class GameCmds {
 
     private static boolean checkRunning(SlashContext ctx) {
         if (GameLobby.LOBBYS.containsKey(ctx.getChannel().getIdLong())) {
-            var dbGuild = MantaroData.db().getGuildDatabase(ctx.getGuild());
+            var dbGuild = MantaroData.db().getGuild(ctx.getGuild());
             if (dbGuild.getGameTimeoutExpectedAt() != null &&
                     (Long.parseLong(dbGuild.getGameTimeoutExpectedAt()) < System.currentTimeMillis())) {
                 GameLobby.LOBBYS.remove(ctx.getChannel().getIdLong()); // remove old lobby if dropped

@@ -98,7 +98,7 @@ public class PremiumCmds {
                 var author = ctx.getAuthor();
                 if (scopeParsed.equals(PremiumKey.Type.GUILD)) {
                     var guild = ctx.getDBGuild();
-                    var currentKey = db.getPremiumKey(guild.getData().getPremiumKey());
+                    var currentKey = db.getPremiumKey(guild.getPremiumKey());
                     if (currentKey != null && currentKey.isEnabled() && currentTimeMillis() < currentKey.getExpiration()) { //Should always be enabled...
                         ctx.reply("commands.activatekey.guild_already_premium", EmoteReference.POPPER);
                         return;
@@ -112,8 +112,8 @@ public class PremiumCmds {
                     }
 
                     key.activate(180);
-                    guild.getData().setPremiumKey(key.getId());
-                    guild.saveAsync();
+                    guild.setPremiumKey(key.getId());
+                    guild.save();
 
                     ctx.reply("commands.activatekey.guild_successful", EmoteReference.POPPER, key.getDurationDays());
                     return;
@@ -287,7 +287,7 @@ public class PremiumCmds {
                         .setAuthor(String.format(lang.get("commands.vipstatus.guild.header"), ctx.getGuild().getName()),
                                 null, ctx.getAuthor().getEffectiveAvatarUrl());
 
-                var currentKey = ctx.db().getPremiumKey(dbGuild.getData().getPremiumKey());
+                var currentKey = ctx.db().getPremiumKey(dbGuild.getPremiumKey());
                 if (currentKey == null || currentKey.validFor() < 1) {
                     ctx.reply("commands.vipstatus.guild.not_premium", EmoteReference.ERROR);
                     return;

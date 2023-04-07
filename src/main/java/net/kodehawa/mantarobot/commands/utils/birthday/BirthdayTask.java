@@ -127,20 +127,19 @@ public class BirthdayTask {
             for (final var guild : guilds) {
                 // This is quite a db spam, lol
                 final var dbGuild = MantaroData.db().getGuild(guild);
-                final var guildData = dbGuild.getData();
-                final var guildLanguageContext = new I18nContext(guildData, null);
+                final var guildLanguageContext = new I18nContext(dbGuild, null);
 
                 // If we have a birthday guild and channel here, continue
-                if (guildData.getBirthdayChannel() != null && guildData.getBirthdayRole() != null) {
-                    final var birthdayRole = guild.getRoleById(guildData.getBirthdayRole());
-                    final var channel = guild.getChannelById(StandardGuildMessageChannel.class, guildData.getBirthdayChannel());
+                if (dbGuild.getBirthdayChannel() != null && dbGuild.getBirthdayRole() != null) {
+                    final var birthdayRole = guild.getRoleById(dbGuild.getBirthdayRole());
+                    final var channel = guild.getChannelById(StandardGuildMessageChannel.class, dbGuild.getBirthdayChannel());
 
                     if (channel != null && birthdayRole != null) {
                         if (!guild.getSelfMember().canInteract(birthdayRole))
                             continue; //Go to next guild...
                         if (!channel.canTalk())
                             continue; //cannot talk here...
-                        if (guildData.getGuildAutoRole() != null && birthdayRole.getId().equals(guildData.getGuildAutoRole()))
+                        if (dbGuild.getGuildAutoRole() != null && birthdayRole.getId().equals(dbGuild.getGuildAutoRole()))
                             continue; //Birthday role is autorole role
                         if (birthdayRole.isPublicRole())
                             continue; //Birthday role is public role
@@ -152,7 +151,7 @@ public class BirthdayTask {
                         // @formatter:off
                         Map<Long, BirthdayCacher.BirthdayData> guildMap = cached.entrySet()
                                 .stream()
-                                .filter(map -> guildData.getAllowedBirthdays().contains(String.valueOf(map.getKey())))
+                                .filter(map -> dbGuild.getAllowedBirthdays().contains(String.valueOf(map.getKey())))
                                 .filter(map ->
                                         // Only check for current month or last month!
                                         map.getValue().birthday().substring(3, 5).equals(month) ||
@@ -169,7 +168,7 @@ public class BirthdayTask {
 
                         for (var data : guildMap.entrySet()) {
                             var birthday = data.getValue().birthday();
-                            if (guildData.getBirthdayBlockedIds().contains(String.valueOf(data.getKey()))) {
+                            if (dbGuild.getBirthdayBlockedIds().contains(String.valueOf(data.getKey()))) {
                                 continue;
                             }
 
@@ -202,8 +201,8 @@ public class BirthdayTask {
                                         String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:",
                                                 member.getEffectiveName());
 
-                                if (guildData.getBirthdayMessage() != null) {
-                                    tempBirthdayMessage = guildData.getBirthdayMessage()
+                                if (dbGuild.getBirthdayMessage() != null) {
+                                    tempBirthdayMessage = dbGuild.getBirthdayMessage()
                                             .replace("$(user)", member.getEffectiveName())
                                             .replace("$(usermention)", member.getAsMention())
                                             .replace("$(tag)", member.getUser().getAsTag());
@@ -302,7 +301,7 @@ public class BirthdayTask {
 
                         // If any of the member lookups to discord returned null, remove them.
                         if (!nullMembers.isEmpty()) {
-                            guildData.getAllowedBirthdays().removeAll(nullMembers.stream().map(String::valueOf).toList());
+                            dbGuild.getAllowedBirthdays().removeAll(nullMembers.stream().map(String::valueOf).toList());
                             dbGuild.save();
                         }
                     }

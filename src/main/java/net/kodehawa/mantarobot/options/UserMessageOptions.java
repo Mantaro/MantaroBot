@@ -46,11 +46,9 @@ public class UserMessageOptions extends OptionHandler {
                 **Example:** `~>opts usermessage resetchannel`
                 """, "Clears the join/leave message channel.", (ctx, args) -> {
             var dbGuild = ctx.getDBGuild();
-            var guildData = dbGuild.getData();
-
-            guildData.setLogJoinLeaveChannel(null);
-            guildData.setLogLeaveChannel(null);
-            guildData.setLogJoinChannel(null);
+            dbGuild.setLogJoinLeaveChannel(null);
+            dbGuild.setLogLeaveChannel(null);
+            dbGuild.setLogJoinChannel(null);
             dbGuild.save();
             ctx.sendLocalized("options.usermessage_resetchannel.success", EmoteReference.CORRECT);
         });
@@ -59,11 +57,9 @@ public class UserMessageOptions extends OptionHandler {
                 Example:** `~>opts usermessage resetdata`
                 """, "Resets the join/leave message data.", (ctx, args) -> {
             var dbGuild = ctx.getDBGuild();
-            var guildData = dbGuild.getData();
-
-            guildData.setLeaveMessage(null);
-            guildData.setJoinMessage(null);
-            guildData.setLogJoinLeaveChannel(null);
+            dbGuild.setLeaveMessage(null);
+            dbGuild.setJoinMessage(null);
+            dbGuild.setLogJoinLeaveChannel(null);
 
             dbGuild.save();
             ctx.sendLocalized("options.usermessage_resetdata.success", EmoteReference.CORRECT);
@@ -80,12 +76,11 @@ public class UserMessageOptions extends OptionHandler {
             }
 
             var dbGuild = ctx.getDBGuild();
-            var guildData = dbGuild.getData();
             var channelName = args[0];
 
             Consumer<StandardGuildMessageChannel> consumer = tc -> {
-                guildData.setLogJoinChannel(tc.getId());
-                dbGuild.saveAsync();
+                dbGuild.setLogJoinChannel(tc.getId());
+                dbGuild.save();
                 ctx.sendLocalized("options.usermessage_join_channel.success", EmoteReference.OK, tc.getAsMention());
             };
 
@@ -104,11 +99,10 @@ public class UserMessageOptions extends OptionHandler {
 
             var user = ctx.getMentionedUsers().get(0);
             var dbGuild = ctx.getDBGuild();
-            var guildData = dbGuild.getData();
-            var joinChannel = guildData.getLogJoinChannel();
-            var joinLeaveChannel = guildData.getLogJoinLeaveChannel();
-            var message = guildData.getJoinMessage();
-            var extra = guildData.getExtraJoinMessages();
+            var joinChannel = dbGuild.getLogJoinChannel();
+            var joinLeaveChannel = dbGuild.getLogJoinLeaveChannel();
+            var message = dbGuild.getJoinMessage();
+            var extra = dbGuild.getExtraJoinMessages();
             if (joinChannel == null) {
                 joinChannel = joinLeaveChannel;
             }
@@ -140,10 +134,8 @@ public class UserMessageOptions extends OptionHandler {
 
         registerOption("usermessage:join:resetchannel", "Resets the join message channel", "Resets the join message channel", (ctx) -> {
             var dbGuild = ctx.getDBGuild();
-            var guildData = dbGuild.getData();
-
-            guildData.setLogJoinChannel(null);
-            dbGuild.saveAsync();
+            dbGuild.setLogJoinChannel(null);
+            dbGuild.save();
             ctx.sendLocalized("options.usermessage_join_resetchannel.success", EmoteReference.CORRECT);
         });
         addOptionAlias("usermessage:join:resetchannel", "resetjoinchannel");
@@ -159,12 +151,10 @@ public class UserMessageOptions extends OptionHandler {
             }
 
             var dbGuild = ctx.getDBGuild();
-            var guildData = dbGuild.getData();
             var channelName = args[0];
-
             Consumer<StandardGuildMessageChannel> consumer = tc -> {
-                guildData.setLogLeaveChannel(tc.getId());
-                dbGuild.saveAsync();
+                dbGuild.setLogLeaveChannel(tc.getId());
+                dbGuild.save();
                 ctx.sendLocalized("options.usermessage_leave_channel.success", EmoteReference.CORRECT, tc.getAsMention());
             };
 
@@ -183,11 +173,10 @@ public class UserMessageOptions extends OptionHandler {
 
             var user = ctx.getMentionedUsers().get(0);
             var dbGuild = ctx.getDBGuild();
-            var guildData = dbGuild.getData();
-            var leaveChannel = guildData.getLogLeaveChannel();
-            var joinLeaveChannel = guildData.getLogJoinLeaveChannel();
-            var message = guildData.getLeaveMessage();
-            var extra = guildData.getExtraLeaveMessages();
+            var leaveChannel = dbGuild.getLogLeaveChannel();
+            var joinLeaveChannel = dbGuild.getLogJoinLeaveChannel();
+            var message = dbGuild.getLeaveMessage();
+            var extra = dbGuild.getExtraLeaveMessages();
             if (leaveChannel == null) {
                 leaveChannel = joinLeaveChannel;
             }
@@ -219,10 +208,8 @@ public class UserMessageOptions extends OptionHandler {
 
         registerOption("usermessage:leave:resetchannel", "Resets the leave message channel", "Resets the leave message channel", (ctx) -> {
             var dbGuild = ctx.getDBGuild();
-            var guildData = dbGuild.getData();
-
-            guildData.setLogLeaveChannel(null);
-            dbGuild.saveAsync();
+            dbGuild.setLogLeaveChannel(null);
+            dbGuild.save();
             ctx.sendLocalized("options.usermessage_leave_resetchannel.success", EmoteReference.CORRECT);
         });
         addOptionAlias("usermessage:leave:resetchannel", "resetleavechannel");
@@ -238,11 +225,10 @@ public class UserMessageOptions extends OptionHandler {
             }
 
             var dbGuild = ctx.getDBGuild();
-            var guildData = dbGuild.getData();
             var channelName = args[0];
 
             Consumer<StandardGuildMessageChannel> consumer = textChannel -> {
-                guildData.setLogJoinLeaveChannel(textChannel.getId());
+                dbGuild.setLogJoinLeaveChannel(textChannel.getId());
                 dbGuild.save();
                 ctx.sendLocalized("options.usermessage_channel.success", EmoteReference.OK, textChannel.getAsMention());
             };
@@ -263,10 +249,9 @@ public class UserMessageOptions extends OptionHandler {
             }
 
             var dbGuild = ctx.getDBGuild();
-            var guildData = dbGuild.getData();
             var joinMessage = ctx.getCustomContent();
 
-            guildData.setJoinMessage(joinMessage);
+            dbGuild.setJoinMessage(joinMessage);
             dbGuild.save();
             ctx.sendLocalized("options.usermessage_joinmessage.success", EmoteReference.CORRECT, joinMessage);
         });
@@ -275,9 +260,7 @@ public class UserMessageOptions extends OptionHandler {
         registerOption("usermessage:resetjoinmessage", "Reset join message",
                 "Resets the join message", "Resets the join message.", (ctx, args) -> {
             var dbGuild = ctx.getDBGuild();
-            var guildData = dbGuild.getData();
-
-            guildData.setJoinMessage(null);
+            dbGuild.setJoinMessage(null);
             dbGuild.save();
             ctx.sendLocalized("options.usermessage_joinmessage_reset.success", EmoteReference.CORRECT);
         });
@@ -293,10 +276,9 @@ public class UserMessageOptions extends OptionHandler {
             }
 
             var dbGuild = ctx.getDBGuild();
-            var guildData = dbGuild.getData();
             var leaveMessage = ctx.getCustomContent();
 
-            guildData.setLeaveMessage(leaveMessage);
+            dbGuild.setLeaveMessage(leaveMessage);
             dbGuild.save();
             ctx.sendLocalized("options.usermessage_leavemessage.success", EmoteReference.CORRECT, leaveMessage);
         });
@@ -305,9 +287,7 @@ public class UserMessageOptions extends OptionHandler {
         registerOption("usermessage:resetleavemessage", "Reset leave message",
                 "Resets the leave message","Resets the leave message.", (ctx, args) -> {
             var dbGuild = ctx.getDBGuild();
-            var guildData = dbGuild.getData();
-
-            guildData.setLeaveMessage(null);
+            dbGuild.setLeaveMessage(null);
             dbGuild.save();
             ctx.sendLocalized("options.usermessage_leavemessage_reset.success", EmoteReference.CORRECT);
         });
@@ -323,10 +303,8 @@ public class UserMessageOptions extends OptionHandler {
             }
 
             var dbGuild = ctx.getDBGuild();
-            var guildData = dbGuild.getData();
             var message = ctx.getCustomContent();
-
-            guildData.getExtraJoinMessages().add(message);
+            dbGuild.getExtraJoinMessages().add(message);
             dbGuild.save();
 
             ctx.sendLocalized("options.usermessage_joinmessage_add.success", EmoteReference.CORRECT, message);
@@ -344,7 +322,6 @@ public class UserMessageOptions extends OptionHandler {
 
             try {
                 var dbGuild = ctx.getDBGuild();
-                var guildData = dbGuild.getData();
                 int index;
                 try {
                     index = Integer.parseInt(args[0]);
@@ -353,8 +330,8 @@ public class UserMessageOptions extends OptionHandler {
                     return;
                 }
 
-                var old = guildData.getExtraJoinMessages().get(index);
-                guildData.getExtraJoinMessages().remove(index);
+                var old = dbGuild.getExtraJoinMessages().get(index);
+                dbGuild.getExtraJoinMessages().remove(index);
                 dbGuild.save();
 
                 ctx.sendLocalized("options.usermessage_joinmessage_remove.success", EmoteReference.CORRECT, old, index);
@@ -369,7 +346,7 @@ public class UserMessageOptions extends OptionHandler {
                 **Example**: `~>opts usermessage joinmessages clear`"
                 """, "Clears all extra join messages", ((ctx, args) -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.getData().getExtraJoinMessages().clear();
+            dbGuild.getExtraJoinMessages().clear();
             dbGuild.save();
 
             ctx.sendLocalized("options.usermessage_joinmessage_clear.success", EmoteReference.CORRECT);
@@ -382,19 +359,18 @@ public class UserMessageOptions extends OptionHandler {
                 """, "Lists all extra join messages", ((ctx, args) -> {
             var builder = new StringBuilder();
             var dbGuild = ctx.getDBGuild();
-            var data = dbGuild.getData();
 
-            if (data.getExtraJoinMessages().isEmpty() && data.getJoinMessage() != null) {
+            if (dbGuild.getExtraJoinMessages().isEmpty() && dbGuild.getJoinMessage() != null) {
                 ctx.sendLocalized("options.usermessage_joinmessage_list.no_extras", EmoteReference.ERROR);
                 return;
             }
 
-            if (data.getJoinMessage() != null) {
-                builder.append("M: ").append(data.getJoinMessage()).append("\n\n");
+            if (dbGuild.getJoinMessage() != null) {
+                builder.append("M: ").append(dbGuild.getJoinMessage()).append("\n\n");
             }
 
             var index = new AtomicInteger();
-            for (String s : data.getExtraJoinMessages()) {
+            for (String s : dbGuild.getExtraJoinMessages()) {
                 builder.append(index.getAndIncrement()).append(".- ").append(s).append("\n");
             }
 
@@ -418,10 +394,9 @@ public class UserMessageOptions extends OptionHandler {
             }
 
             var dbGuild = ctx.getDBGuild();
-            var guildData = dbGuild.getData();
             var message = ctx.getCustomContent();
 
-            guildData.getExtraLeaveMessages().add(message);
+            dbGuild.getExtraLeaveMessages().add(message);
             dbGuild.save();
             ctx.sendLocalized("options.usermessage_leavemessage_add.success", EmoteReference.CORRECT, message);
         }));
@@ -437,7 +412,6 @@ public class UserMessageOptions extends OptionHandler {
 
             try {
                 var dbGuild = ctx.getDBGuild();
-                var guildData = dbGuild.getData();
                 int index;
                 try {
                     index = Integer.parseInt(args[0]);
@@ -446,8 +420,8 @@ public class UserMessageOptions extends OptionHandler {
                     return;
                 }
 
-                var old = guildData.getExtraLeaveMessages().get(index);
-                guildData.getExtraLeaveMessages().remove(index);
+                var old = dbGuild.getExtraLeaveMessages().get(index);
+                dbGuild.getExtraLeaveMessages().remove(index);
                 dbGuild.save();
 
                 ctx.sendLocalized("options.usermessage_leavemessage_remove.success", EmoteReference.CORRECT, old, index);
@@ -461,7 +435,7 @@ public class UserMessageOptions extends OptionHandler {
                 **Example**: `~>opts usermessage leavemessages clear`
                 """, "Clears all extra leave messages", ((ctx, args) -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.getData().getExtraLeaveMessages().clear();
+            dbGuild.getExtraLeaveMessages().clear();
             dbGuild.save();
 
             ctx.sendLocalized("options.usermessage_leavemessage_clear.success", EmoteReference.CORRECT);
@@ -473,19 +447,18 @@ public class UserMessageOptions extends OptionHandler {
                 """, "Lists all extra leave messages", ((ctx, args) -> {
             var builder = new StringBuilder();
             var dbGuild = ctx.getDBGuild();
-            var data = dbGuild.getData();
 
-            if (data.getExtraLeaveMessages().isEmpty()) {
+            if (dbGuild.getExtraLeaveMessages().isEmpty()) {
                 ctx.sendLocalized("options.usermessage_leavemessage_list.no_extras", EmoteReference.ERROR);
                 return;
             }
 
-            if (data.getLeaveMessage() != null) {
-                builder.append("M: ").append(data.getLeaveMessage()).append("\n\n");
+            if (dbGuild.getLeaveMessage() != null) {
+                builder.append("M: ").append(dbGuild.getLeaveMessage()).append("\n\n");
             }
 
             var index = new AtomicInteger();
-            for (String s : data.getExtraLeaveMessages()) {
+            for (String s : dbGuild.getExtraLeaveMessages()) {
                 builder.append(index.getAndIncrement()).append(".- ").append(s).append("\n");
             }
 

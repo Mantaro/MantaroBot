@@ -310,7 +310,7 @@ public class ProfileCmd {
                 if (I18n.isValidLanguage(content)) {
                     dbUser.getData().setLang(content);
                     //Create new I18n context based on the new language choice.
-                    var newContext = new I18nContext(ctx.getDBGuild().getData(), dbUser.getData());
+                    var newContext = new I18nContext(ctx.getDBGuild(), dbUser.getData());
 
                     dbUser.saveUpdating();
                     ctx.replyEphemeralRaw(newContext.get("commands.profile.lang.success"), EmoteReference.CORRECT, content);

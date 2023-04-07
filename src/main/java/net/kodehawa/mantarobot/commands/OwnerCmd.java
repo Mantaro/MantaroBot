@@ -352,7 +352,7 @@ public class OwnerCmd {
 
             var dbGuild = MantaroData.db().getGuild(guild);
             dbGuild.incrementPremium(TimeUnit.DAYS.toMillis(days));
-            dbGuild.saveAsync();
+            dbGuild.save();
 
             ctx.send("%sThe premium feature for guild %s (%s) was extended for %s days".formatted(
                     EmoteReference.CORRECT, guild, guildObject.getName(), days
@@ -601,7 +601,7 @@ import net.dv8tion.jda.api.entities.channel.concrete.*;
                 var optionalArguments = ctx.getOptionalArguments();
 
                 if (optionalArguments.containsKey("u")) {
-                    dbGuild.getData().setMpLinkedTo(null);
+                    dbGuild.setMpLinkedTo(null);
                     dbGuild.save();
 
                     ctx.sendFormat("Un-linked MP for guild %s (%s).", guild.getName(), guild.getId());
@@ -617,7 +617,7 @@ import net.dv8tion.jda.api.entities.channel.concrete.*;
                 }
 
                 //Guild assignment.
-                dbGuild.getData().setMpLinkedTo(userString); //Patreon check will run from this user.
+                dbGuild.setMpLinkedTo(userString); //Patreon check will run from this user.
                 dbGuild.save();
 
                 ctx.sendFormat("Linked MP for guild %s (%s) to user %s (%s). Including this guild in pledge check (id -> user -> pledge). User tier: %s",

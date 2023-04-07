@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import net.kodehawa.mantarobot.commands.utils.polls.Poll;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -142,6 +143,15 @@ public class GuildDatabase implements ManagedMongoObject {
         save();
     }
 
+    @BsonIgnore
+    public void incrementPremium(long milliseconds) {
+        if (isPremium()) {
+            this.premiumUntil += milliseconds;
+        } else {
+            this.premiumUntil = currentTimeMillis() + milliseconds;
+        }
+    }
+
     // ------------------------- DATA CLASS START ------------------------- //
 
     @HiddenConfig
@@ -158,7 +168,6 @@ public class GuildDatabase implements ManagedMongoObject {
     private HashMap<String, List<CommandCategory>> channelSpecificDisabledCategories = new HashMap<>();
     @ConfigName("Commands disabled in channels")
     private HashMap<String, List<String>> channelSpecificDisabledCommands = new HashMap<>();
-
     @ConfigName("Disabled Categories")
     private Set<CommandCategory> disabledCategories = new HashSet<>();
     @ConfigName("Disabled Channels")
@@ -175,45 +184,36 @@ public class GuildDatabase implements ManagedMongoObject {
     private String guildCustomPrefix = null;
     @ConfigName("Server modlog channel")
     private String guildLogChannel = null;
-
     @ConfigName("Server join message")
     private String joinMessage = null;
     @ConfigName("Server leave message")
     private String leaveMessage = null;
-
     @ConfigName("Channels (ids): don't log changes for modlog")
     private Set<String> logExcludedChannels = new HashSet<>();
     @ConfigName("Channel (id): log joins")
     private String logJoinLeaveChannel = null;
     @ConfigName("Fair Queue Limit")
     private int maxFairQueue = 4;
-
     @ConfigName("Modlog: Ignored people")
     private Set<String> modlogBlacklistedPeople = new HashSet<>();
     @ConfigName("Music Announce")
     private boolean musicAnnounce = true;
     @ConfigName("Channel (id): lock to specific music channel")
     private String musicChannel = null;
-
     @ConfigName("Role for the mute command")
     private String mutedRole = null;
     @ConfigName("Action commands ping (for giver)")
     private boolean noMentionsAction = false;
     @HiddenConfig // We do not need to show this
     private String premiumKey;
-
     @ConfigName("Amount of polls ran")
     private long ranPolls = 0L;
-
     @ConfigName("Roles that can't use commands")
     private ArrayList<String> rolesBlockedFromCommands = new ArrayList<>();
-
     @ConfigName("Mute default timeout")
     private long setModTimeout = 0L;
-
     @ConfigName("How will Mantaro display time")
     private int timeDisplay = 0; //0 = 24h, 1 = 12h
-
     @HiddenConfig // we do not need to show this to the user
     private String gameTimeoutExpectedAt;
     @ConfigName("Ignore bots: welcome message")
@@ -232,7 +232,6 @@ public class GuildDatabase implements ManagedMongoObject {
     private String logJoinChannel = null;
     @ConfigName("Channel (id): Leave message channel")
     private String logLeaveChannel = null;
-
     @ConfigName("Link Protection ignore (users)")
     private Set<String> linkProtectionAllowedUsers = new HashSet<>();
     @ConfigName("Disabled Categories for Role (id)")
@@ -247,7 +246,6 @@ public class GuildDatabase implements ManagedMongoObject {
     private List<String> extraJoinMessages = new ArrayList<>();
     @ConfigName("Extra leave messages")
     private List<String> extraLeaveMessages = new ArrayList<>();
-
     @ConfigName("Birthday message")
     private String birthdayMessage = null;
     @ConfigName("CCS lock: can it be used by only admins?")
@@ -258,8 +256,6 @@ public class GuildDatabase implements ManagedMongoObject {
     private List<String> modLogBlacklistWords = new ArrayList<>();
     @ConfigName("Autoroles categories")
     private Map<String, List<String>> autoroleCategories = new HashMap<>();
-
-    //mod logs customization
     @ConfigName("Edit message on mod logs")
     private String editMessageLog;
     @ConfigName("Delete message on mod logs")
@@ -270,38 +266,31 @@ public class GuildDatabase implements ManagedMongoObject {
     private String unbannedMemberLog;
     @ConfigName("Kick message on mod logs")
     private String kickedMemberLog;
-
     @ConfigName("Disabled command warning display")
     private boolean commandWarningDisplay = false;
-
     @ConfigName("Has received greet message")
     @JsonProperty("hasReceivedGreet")
     private boolean hasReceivedGreet = false;
-
     @ConfigName("People blocked from the birthday logging on this server.")
     private List<String> birthdayBlockedIds = new ArrayList<>();
-
     @ConfigName("Disabled game lobby/multiple")
     @JsonProperty("gameMultipleDisabled")
     private boolean gameMultipleDisabled = false;
-
     @ConfigName("Timezone of logs")
     private String logTimezone;
     @SuppressWarnings("CanBeFinal")
     @HiddenConfig // It's not unused, but this hides it from opts check data
     private List<String> allowedBirthdays = new ArrayList<>();
-
     @HiddenConfig // It's not unused, but this hides it from opts check data
     private boolean notifiedFromBirthdayChange = false;
-
     @ConfigName("Disable questionable/explicit imageboard search")
     private boolean disableExplicit = false;
-
     @ConfigName("Custom DJ role.")
     private String djRoleId;
-
     @ConfigName("Custom music queue size limit.")
     private Long musicQueueSizeLimit = null;
+    @HiddenConfig // its a list of polls
+    private Map<String, Poll.PollDatabaseObject> runningPolls = new HashMap<>();
 
     public void setId(String id) {
         this.id = id;
@@ -833,5 +822,13 @@ public class GuildDatabase implements ManagedMongoObject {
 
     public void setMusicQueueSizeLimit(Long musicQueueSizeLimit) {
         this.musicQueueSizeLimit = musicQueueSizeLimit;
+    }
+
+    public Map<String, Poll.PollDatabaseObject> getRunningPolls() {
+        return runningPolls;
+    }
+
+    public boolean hasReceivedGreet() {
+        return hasReceivedGreet;
     }
 }
