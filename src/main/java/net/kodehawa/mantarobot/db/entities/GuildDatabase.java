@@ -8,7 +8,6 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.annotations.ConfigName;
 import net.kodehawa.mantarobot.data.annotations.HiddenConfig;
 import net.kodehawa.mantarobot.db.ManagedMongoObject;
-import net.kodehawa.mantarobot.db.entities.helpers.PremiumKeyData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Pair;
@@ -93,13 +92,13 @@ public class GuildDatabase implements ManagedMongoObject {
             //Sadly gotta skip of holder isn't patron here bc there are some bought keys (paypal) which I can't convert without invalidating
             Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(key.getOwner());
             if (pledgeInfo != null && pledgeInfo.left()) {
-                key.getData().setLinkedTo(key.getOwner());
+                key.setLinkedTo(key.getOwner());
                 key.save(); //doesn't matter if it doesn't save immediately, will do later anyway (key is usually immutable in db)
             }
 
             //If the receipt is not the owner, account them to the keys the owner has claimed.
             //This has usage later when seeing how many keys can they take. The second/third check is kind of redundant, but necessary anyway to see if it works.
-            String keyLinkedTo = key.getData().getLinkedTo();
+            String keyLinkedTo = key.getLinkedTo();
             if (keyLinkedTo != null) {
                 DBUser owner = MantaroData.db().getUser(keyLinkedTo);
                 UserData ownerData = owner.getData();
@@ -128,9 +127,9 @@ public class GuildDatabase implements ManagedMongoObject {
     public PremiumKey generateAndApplyPremiumKey(int days) {
         String premiumId = UUID.randomUUID().toString();
         PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days),
-                currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.GUILD, true, id, new PremiumKeyData());
+                currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.GUILD, true, id, null);
         setPremiumKey(premiumId);
-        newKey.saveAsync();
+        newKey.save();
         save();
         return newKey;
     }

@@ -17,96 +17,89 @@
 
 package net.kodehawa.mantarobot.db.entities;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import net.kodehawa.mantarobot.db.ManagedObject;
-import net.kodehawa.mantarobot.db.entities.helpers.PremiumKeyData;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedMongoObject;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Pair;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
 
 import javax.annotation.Nonnull;
-import java.beans.ConstructorProperties;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.currentTimeMillis;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PremiumKey implements ManagedObject {
+public class PremiumKey implements ManagedMongoObject {
+    @BsonIgnore
     public static final String DB_TABLE = "keys";
+
+    @BsonId
+    private String id;
     private long duration;
     private boolean enabled;
     private long expiration;
-    private String id;
     private String owner;
     private int type;
-    //Setting a default to avoid backwards compat issues.
-    private PremiumKeyData data = new PremiumKeyData();
+    private String linkedTo;
 
-    @JsonCreator
-    @ConstructorProperties({"id", "duration", "expiration", "type", "enabled", "owner"})
-    public PremiumKey(@JsonProperty("id") String id, @JsonProperty("duration") long duration,
-                      @JsonProperty("expiration") long expiration, @JsonProperty("type") Type type,
-                      @JsonProperty("enabled") boolean enabled, @JsonProperty("owner") String owner, @JsonProperty("data") PremiumKeyData data) {
+    public PremiumKey() {}
+
+    public PremiumKey(String id, long duration, long expiration, Type type, boolean enabled, String owner, String linkedTo) {
         this.id = id;
         this.duration = duration;
         this.expiration = expiration;
         this.type = type.ordinal();
         this.enabled = enabled;
         this.owner = owner;
-        if (data != null)
-            this.data = data;
+        this.linkedTo = linkedTo;
     }
 
-    @JsonIgnore
-    public PremiumKey() {
-    }
-
-    @JsonIgnore
+    @BsonIgnore
     public static PremiumKey generatePremiumKey(String owner, Type type, boolean linked) {
         String premiumId = UUID.randomUUID().toString();
-        PremiumKey newKey = new PremiumKey(premiumId, -1, -1, type, false, owner, new PremiumKeyData());
+        PremiumKey newKey = new PremiumKey(premiumId, -1, -1, type, false, owner, null);
         if (linked)
-            newKey.data.setLinkedTo(owner); //used for patreon checks in newly-activated keys (if applicable)
+            newKey.setLinkedTo(owner); //used for patreon checks in newly-activated keys (if applicable)
 
         newKey.save();
         return newKey;
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public static PremiumKey generatePremiumKeyTimed(String owner, Type type, int days, boolean linked) {
         String premiumId = UUID.randomUUID().toString();
-        PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days), currentTimeMillis() + TimeUnit.DAYS.toMillis(days), type, false, owner, new PremiumKeyData());
+        PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days), currentTimeMillis() + TimeUnit.DAYS.toMillis(days), type, false, owner, null);
         if (linked)
-            newKey.data.setLinkedTo(owner); //used for patreon checks in newly-activated keys (if applicable)
+            newKey.setLinkedTo(owner); //used for patreon checks in newly-activated keys (if applicable)
 
         newKey.save();
         return newKey;
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public Type getParsedType() {
         return Type.values()[type];
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public long getDurationDays() {
         return TimeUnit.MILLISECONDS.toDays(duration);
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public long validFor() {
         return TimeUnit.MILLISECONDS.toDays(getExpiration() - currentTimeMillis());
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public long validForMs() {
         return getExpiration() - currentTimeMillis();
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public void activate(int days) {
         this.enabled = true;
         this.duration = TimeUnit.DAYS.toMillis(days);
@@ -114,10 +107,10 @@ public class PremiumKey implements ManagedObject {
         save();
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public boolean renew() {
-        if (data.getLinkedTo() != null && !data.getLinkedTo().isEmpty()) {
-            Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(data.getLinkedTo());
+        if (getLinkedTo() != null && !getLinkedTo().isEmpty()) {
+            Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(getLinkedTo());
             if (pledgeInfo != null && pledgeInfo.left()) {
                 switch (type) {
                     //user
@@ -132,6 +125,14 @@ public class PremiumKey implements ManagedObject {
         }
 
         return false;
+    }
+
+    public String getLinkedTo() {
+        return this.linkedTo;
+    }
+
+    public void setLinkedTo(String linkedTo) {
+        this.linkedTo = linkedTo;
     }
 
     public long getDuration() {
@@ -151,7 +152,7 @@ public class PremiumKey implements ManagedObject {
         return this.id;
     }
 
-    @JsonIgnore
+    @BsonIgnore
     @Override
     @Nonnull
     public String getTableName() {
@@ -166,11 +167,17 @@ public class PremiumKey implements ManagedObject {
         return this.type;
     }
 
-    public PremiumKeyData getData() {
-        return this.data;
-    }
-
     public enum Type {
         MASTER, USER, GUILD
+    }
+
+    @Override
+    public void save() {
+        MantaroData.db().saveMongo(this, PremiumKey.class);
+    }
+
+    @Override
+    public void delete() {
+        MantaroData.db().deleteMongo(this, PremiumKey.class);
     }
 }

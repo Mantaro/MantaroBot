@@ -26,7 +26,6 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
-import net.kodehawa.mantarobot.db.entities.helpers.PremiumKeyData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Pair;
@@ -140,13 +139,13 @@ public class DBUser implements ManagedObject {
             //Sadly gotta skip of holder isnt patron here bc there are some bought keys (paypal) which I can't convert without invalidating
             Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(key.getOwner());
             if (pledgeInfo != null && pledgeInfo.left()) {
-                key.getData().setLinkedTo(key.getOwner());
+                key.setLinkedTo(key.getOwner());
                 key.save(); //doesn't matter if it doesnt save immediately, will do later anyway (key is usually immutable in db)
             }
 
             //If the receipt is not the owner, account them to the keys the owner has claimed.
             //This has usage later when seeing how many keys can they take. The second/third check is kind of redundant, but necessary anyway to see if it works.
-            String keyLinkedTo = key.getData().getLinkedTo();
+            String keyLinkedTo = key.getLinkedTo();
             if (!getId().equals(key.getOwner()) && keyLinkedTo != null && keyLinkedTo.equals(key.getOwner())) {
                 DBUser owner = MantaroData.db().getUser(key.getOwner());
                 UserData ownerData = owner.getData();
@@ -156,7 +155,7 @@ public class DBUser implements ManagedObject {
                 }
             }
 
-            isActive = key.getData().getLinkedTo() == null || (pledgeInfo != null ? pledgeInfo.left() : true); //default to true if no link
+            isActive = key.getLinkedTo() == null || (pledgeInfo != null ? pledgeInfo.left() : true); //default to true if no link
         }
 
         if (!isActive && key != null && LocalDate.now(ZoneId.of("America/Chicago")).getDayOfMonth() > 5) {
@@ -171,9 +170,9 @@ public class DBUser implements ManagedObject {
     @JsonIgnore
     public PremiumKey generateAndApplyPremiumKey(int days, String owner) {
         String premiumId = UUID.randomUUID().toString();
-        PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days), currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.USER, true, owner, new PremiumKeyData());
+        PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days), currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.USER, true, owner, null);
         data.setPremiumKey(premiumId);
-        newKey.saveAsync();
+        newKey.save();
         save();
         return newKey;
     }

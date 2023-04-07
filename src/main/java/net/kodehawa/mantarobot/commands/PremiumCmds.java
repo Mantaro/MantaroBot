@@ -206,7 +206,7 @@ public class PremiumCmds {
                 }
 
                 var patreonInformation = APIUtils.getPledgeInformation(owner.getId());
-                var linkedTo = currentKey.getData().getLinkedTo();
+                var linkedTo = currentKey.getLinkedTo();
                 var amountClaimed = data.getKeysClaimed().size();
 
                 embedBuilder.setColor(Color.CYAN)
@@ -298,7 +298,7 @@ public class PremiumCmds {
                     owner = Objects.requireNonNull(ctx.getGuild().getOwner()).getUser();
 
                 var patreonInformation = APIUtils.getPledgeInformation(owner.getId());
-                var linkedTo = currentKey.getData().getLinkedTo();
+                var linkedTo = currentKey.getLinkedTo();
                 embedBuilder.setColor(Color.CYAN)
                         .setThumbnail(ctx.getGuild().getIconUrl())
                         .setDescription(lang.get("commands.vipstatus.guild.premium")  + "\n" + lang.get("commands.vipstatus.description"))

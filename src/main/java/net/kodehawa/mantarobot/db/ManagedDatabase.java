@@ -21,6 +21,7 @@ import com.google.common.collect.Lists;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
 import com.mongodb.client.model.ReturnDocument;
 import com.rethinkdb.net.Connection;
@@ -75,7 +76,7 @@ public class ManagedDatabase {
         log("Requesting custom command {} from MongoDB", id);
 
         MongoCollection<CustomCommand> collection = dbMantaro().getCollection(CustomCommand.DB_TABLE, CustomCommand.class);
-        return collection.find().filter(new Document("_id", id)).first();
+        return collection.find().filter(Filters.eq(id)).first();
     }
 
     @Nullable
@@ -109,7 +110,7 @@ public class ManagedDatabase {
         // TODO: Use an index!
         log("Requesting all custom commands from MongoDB on guild {}", guildId);
         var collection = dbMantaro().getCollection(CustomCommand.DB_TABLE, CustomCommand.class);
-        return Lists.newArrayList(collection.find(new Document("guildId", guildId)));
+        return Lists.newArrayList(collection.find(Filters.eq("guildId", guildId)));
     }
 
     @Nonnull
@@ -139,7 +140,7 @@ public class ManagedDatabase {
     public GuildDatabase getGuild(@Nonnull String guildId) {
         log("Requesting guild {} from MongoDB", guildId);
         MongoCollection<GuildDatabase> collection = dbMantaro().getCollection(GuildDatabase.DB_TABLE, GuildDatabase.class);
-        GuildDatabase guild = collection.find().filter(new Document("_id", guildId)).first();
+        GuildDatabase guild = collection.find().filter(Filters.eq(guildId)).first();
         return guild == null ? GuildDatabase.of(guildId) : guild;
     }
 
@@ -239,24 +240,26 @@ public class ManagedDatabase {
     @Nonnull
     @CheckReturnValue
     public List<PremiumKey> getPremiumKeys() {
-        log("Requesting all premium keys from RethinkDB");
-        Result<PremiumKey> c = r.table(PremiumKey.DB_TABLE).run(conn, PremiumKey.class);
-        return c.toList();
+        log("Requesting all premium keys from MongoDB");
+        var collection = dbMantaro().getCollection(PremiumKey.DB_TABLE, PremiumKey.class);
+        return Lists.newArrayList(collection.find());
     }
 
     //Also tests if the key is valid or not!
     @Nullable
     @CheckReturnValue
     public PremiumKey getPremiumKey(@Nullable String id) {
-        log("Requesting premium key {} from RethinkDB", id);
+        log("Requesting premium key {} from MongoDB", id);
         if (id == null) return null;
-        return r.table(PremiumKey.DB_TABLE).get(id).runAtom(conn, PremiumKey.class);
+
+        var collection = dbMantaro().getCollection(PremiumKey.DB_TABLE, PremiumKey.class);
+        return collection.find().filter(Filters.eq(id)).first();
     }
 
     @Nonnull
     @CheckReturnValue
     public DBUser getUser(@Nonnull String userId) {
-        log("Requesting user {} from rethink", userId);
+        log("Requesting user {} from MongoDB", userId);
         DBUser user = r.table(DBUser.DB_TABLE).get(userId).runAtom(conn, DBUser.class);
         return user == null ? DBUser.of(userId) : user;
     }
