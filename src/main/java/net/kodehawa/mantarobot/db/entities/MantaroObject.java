@@ -42,14 +42,14 @@ public class MantaroObject implements ManagedMongoObject {
     public List<String> blackListedGuilds;
     public List<String> blackListedUsers;
     public List<String> patreonUsers;
-    private Map<Long, Pair<String, Long>> mutes;
+    private Map<String, Pair<String, Long>> mutes;
     private Map<String, Long> tempBans;
 
     @BsonCreator
     public MantaroObject(@BsonProperty("blackListedGuilds") List<String> blackListedGuilds,
                          @BsonProperty("blackListedUsers") List<String> blackListedUsers,
                          @BsonProperty("patreonUsers") List<String> patreonUsers,
-                         @BsonProperty("mutes") Map<Long, Pair<String, Long>> mutes) {
+                         @BsonProperty("mutes") Map<String, Pair<String, Long>> mutes) {
         this.blackListedGuilds = blackListedGuilds;
         this.blackListedUsers = blackListedUsers;
         this.patreonUsers = patreonUsers;
@@ -110,11 +110,11 @@ public class MantaroObject implements ManagedMongoObject {
         this.patreonUsers = patreonUsers;
     }
 
-    public Map<Long, Pair<String, Long>> getMutes() {
+    public Map<String, Pair<String, Long>> getMutes() {
         return this.mutes;
     }
 
-    public void setMutes(Map<Long, Pair<String, Long>> mutes) {
+    public void setMutes(Map<String, Pair<String, Long>> mutes) {
         this.mutes = mutes;
     }
 

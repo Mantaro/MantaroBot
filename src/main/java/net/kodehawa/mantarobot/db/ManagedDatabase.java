@@ -165,10 +165,15 @@ public class ManagedDatabase {
     @Nonnull
     @CheckReturnValue
     public MantaroObject getMantaroData() {
-        log("Requesting MantaroObj from MongoDB");
+        log("Requesting MantaroObject from MongoDB");
         var collection = dbMantaro().getCollection(MantaroObject.DB_TABLE, MantaroObject.class);
         var obj = collection.find(Filters.eq("mantaro")).first();
-        return obj == null ? MantaroObject.create() : obj;
+        if (obj == null) {
+            obj = MantaroObject.create();
+            obj.save();
+        }
+
+        return obj;
     }
 
     @Nonnull
