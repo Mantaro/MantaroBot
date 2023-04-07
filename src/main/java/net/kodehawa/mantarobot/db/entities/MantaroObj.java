@@ -25,6 +25,7 @@ import net.kodehawa.mantarobot.utils.Pair;
 import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -46,10 +47,10 @@ public class MantaroObj implements ManagedMongoObject {
     private Map<String, Long> tempBans;
 
     @BsonCreator
-    public MantaroObj(@JsonProperty("blackListedGuilds") List<String> blackListedGuilds,
-                      @JsonProperty("blackListedUsers") List<String> blackListedUsers,
-                      @JsonProperty("patreonUsers") List<String> patreonUsers,
-                      @JsonProperty("mutes") Map<Long, Pair<String, Long>> mutes) {
+    public MantaroObj(@BsonProperty("blackListedGuilds") List<String> blackListedGuilds,
+                      @BsonProperty("blackListedUsers") List<String> blackListedUsers,
+                      @BsonProperty("patreonUsers") List<String> patreonUsers,
+                      @BsonProperty("mutes") Map<Long, Pair<String, Long>> mutes) {
         this.blackListedGuilds = blackListedGuilds;
         this.blackListedUsers = blackListedUsers;
         this.patreonUsers = patreonUsers;
