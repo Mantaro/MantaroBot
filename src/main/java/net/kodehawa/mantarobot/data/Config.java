@@ -31,6 +31,7 @@ public class Config {
     public String dbDb = "mantaro";
     public String dbHost = "localhost";
     public String dbPassword;
+    public String mongoUri;
     public int dbPort = 28015;
     public String dbUser;
     public String dbotsorgToken;
@@ -249,5 +250,13 @@ public class Config {
     @JsonIgnore
     public boolean musicEnable() {
         return isPremiumBot() || isSelfHost() || isTesting();
+    }
+
+    public String getMongoUri() {
+        return mongoUri;
+    }
+
+    public void setMongoUri(String mongoUri) {
+        this.mongoUri = mongoUri;
     }
 }

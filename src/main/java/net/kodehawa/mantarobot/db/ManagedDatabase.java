@@ -17,6 +17,11 @@
 
 package net.kodehawa.mantarobot.db;
 
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.FindOneAndReplaceOptions;
+import com.mongodb.client.model.ReturnDocument;
 import com.rethinkdb.net.Connection;
 import com.rethinkdb.net.Result;
 import net.dv8tion.jda.api.entities.Guild;
@@ -24,14 +29,8 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
-import net.kodehawa.mantarobot.db.entities.CustomCommand;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.MantaroObj;
-import net.kodehawa.mantarobot.db.entities.Marriage;
-import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.PlayerStats;
-import net.kodehawa.mantarobot.db.entities.PremiumKey;
+import net.kodehawa.mantarobot.db.entities.*;
+import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,9 +44,11 @@ import static com.rethinkdb.RethinkDB.r;
 public class ManagedDatabase {
     private static final Logger log = LoggerFactory.getLogger(ManagedDatabase.class);
     private final Connection conn;
+    private final MongoClient mongoClient;
 
-    public ManagedDatabase(@Nonnull Connection conn) {
+    public ManagedDatabase(@Nonnull Connection conn, @Nonnull MongoClient mongoClient) {
         this.conn = conn;
+        this.mongoClient = mongoClient;
     }
 
     private static void log(String message, Object... fmtArgs) {
@@ -60,6 +61,10 @@ public class ManagedDatabase {
         if (ExtraRuntimeOptions.LOG_DB_ACCESS) {
             log.info(message);
         }
+    }
+
+    public MongoDatabase dbMantaro() {
+        return mongoClient.getDatabase("mantaro");
     }
 
     @Nullable
@@ -133,6 +138,11 @@ public class ManagedDatabase {
         log("Requesting guild {} from rethink", guildId);
         DBGuild guild = r.table(DBGuild.DB_TABLE).get(guildId).runAtom(conn, DBGuild.class);
         return guild == null ? DBGuild.of(guildId) : guild;
+    }
+
+    public GuildDatabase getGuildDatabase(@Nonnull String guildId) {
+        MongoCollection<GuildDatabase> collection = dbMantaro().getCollection(GuildDatabase.DB_TABLE, GuildDatabase.class);
+        return collection.find().projection(new Document("_id", guildId)).first();
     }
 
     @Nonnull
@@ -263,6 +273,15 @@ public class ManagedDatabase {
     @CheckReturnValue
     public DBUser getUser(@Nonnull Member member) {
         return getUser(member.getUser());
+    }
+
+    public <T extends ManagedObject> void saveMongo(@Nonnull T object, Class<T> clazz) {
+        log("Saving {} {}:{} to MongoDB (replacing)", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
+
+        Document filter = new Document("_id", object.getId());
+        FindOneAndReplaceOptions returnDocAfterReplace = new FindOneAndReplaceOptions().returnDocument(ReturnDocument.AFTER);
+        MongoCollection<T> collection = dbMantaro().getCollection(object.getTableName(), clazz);
+        collection.findOneAndReplace(filter, object, returnDocAfterReplace);
     }
 
     public void save(@Nonnull ManagedObject object) {

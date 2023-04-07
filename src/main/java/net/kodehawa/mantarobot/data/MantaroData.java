@@ -18,10 +18,18 @@
 package net.kodehawa.mantarobot.data;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.connection.ConnectionPoolSettings;
 import com.rethinkdb.net.Connection;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
+import org.bson.codecs.configuration.CodecProvider;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisPool;
@@ -29,8 +37,13 @@ import redis.clients.jedis.JedisPool;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
+import static com.mongodb.MongoClientSettings.builder;
+import static com.mongodb.MongoClientSettings.getDefaultCodecRegistry;
 import static com.rethinkdb.RethinkDB.r;
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 public class MantaroData {
     private static final Logger log = LoggerFactory.getLogger(MantaroData.class);
@@ -41,7 +54,9 @@ public class MantaroData {
     private static JsonDataManager<Config> config;
     private static Connection connection;
     private static ManagedDatabase db;
-
+    private static MongoClient mongoClient;
+    private static final CodecProvider pojoCodecProvider = PojoCodecProvider.builder().automatic(true).build();
+    private static final CodecRegistry pojoCodecRegistry = fromRegistries(getDefaultCodecRegistry(), fromProviders(pojoCodecProvider));
     private static final JedisPool defaultJedisPool = new JedisPool(config().get().jedisPoolAddress, config().get().jedisPoolPort);
 
     static {
@@ -54,6 +69,33 @@ public class MantaroData {
         }
 
         return config;
+    }
+
+    public static MongoClient mongoConnection() {
+        var config = config().get();
+        if (mongoClient == null) {
+            ConnectionString connectionString = new ConnectionString(config.getMongoUri());
+            ConnectionPoolSettings connectionPoolSettings = ConnectionPoolSettings.builder()
+                    .minSize(2)
+                    .maxSize(30)
+                    .maxConnectionIdleTime(45, TimeUnit.SECONDS)
+                    .maxConnectionLifeTime(120, TimeUnit.SECONDS)
+                    .build();
+
+            MongoClientSettings clientSettings = MongoClientSettings.builder()
+                    .applyConnectionString(connectionString)
+                    .applyToConnectionPoolSettings(builder -> builder.applySettings(connectionPoolSettings))
+                    .codecRegistry(pojoCodecRegistry)
+                    .build();
+
+            try (MongoClient client = MongoClients.create(clientSettings)) {
+                mongoClient = client;
+            }
+
+            log.info("Established first MongoDB connection.");
+        }
+
+        return mongoClient;
     }
 
     public static Connection conn() {
@@ -82,7 +124,7 @@ public class MantaroData {
 
     public static ManagedDatabase db() {
         if (db == null) {
-            db = new ManagedDatabase(conn());
+            db = new ManagedDatabase(conn(), mongoConnection());
         }
 
         return db;
