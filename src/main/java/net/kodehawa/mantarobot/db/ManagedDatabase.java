@@ -142,7 +142,7 @@ public class ManagedDatabase {
 
     public GuildDatabase getGuildDatabase(@Nonnull String guildId) {
         MongoCollection<GuildDatabase> collection = dbMantaro().getCollection(GuildDatabase.DB_TABLE, GuildDatabase.class);
-        GuildDatabase guild = collection.find().projection(new Document("_id", guildId)).first();
+        GuildDatabase guild = collection.find().filter(new Document("_id", guildId)).first();
         return guild == null ? GuildDatabase.of(guildId) : guild;
     }
 
@@ -276,13 +276,16 @@ public class ManagedDatabase {
         return getUser(member.getUser());
     }
 
-    public <T extends ManagedObject> void saveMongo(@Nonnull T object, Class<T> clazz) {
+    public <T extends ManagedMongoObject> void saveMongo(@Nonnull T object, Class<T> clazz) {
         log("Saving {} {}:{} to MongoDB (replacing)", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
 
         Document filter = new Document("_id", object.getId());
         FindOneAndReplaceOptions returnDocAfterReplace = new FindOneAndReplaceOptions().returnDocument(ReturnDocument.AFTER);
         MongoCollection<T> collection = dbMantaro().getCollection(object.getTableName(), clazz);
-        collection.findOneAndReplace(filter, object, returnDocAfterReplace);
+        var found = collection.findOneAndReplace(filter, object, returnDocAfterReplace);
+        if (found == null) { // New document?
+            collection.insertOne(object);
+        }
     }
 
     public void save(@Nonnull ManagedObject object) {

@@ -49,6 +49,7 @@ public interface ManagedObject {
         MantaroData.db().save(this);
     }
 
+
     /**
      * Saves an object to the database.
      * This will save the object by updating it.

@@ -33,7 +33,6 @@ import org.bson.codecs.pojo.PojoCodecProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisPool;
-
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -74,25 +73,24 @@ public class MantaroData {
     public static MongoClient mongoConnection() {
         var config = config().get();
         if (mongoClient == null) {
-            ConnectionString connectionString = new ConnectionString(config.getMongoUri());
-            ConnectionPoolSettings connectionPoolSettings = ConnectionPoolSettings.builder()
-                    .minSize(2)
-                    .maxSize(30)
-                    .maxConnectionIdleTime(45, TimeUnit.SECONDS)
-                    .maxConnectionLifeTime(120, TimeUnit.SECONDS)
-                    .build();
+            synchronized (MantaroData.class) {
+                ConnectionString connectionString = new ConnectionString(config.getMongoUri());
+                ConnectionPoolSettings connectionPoolSettings = ConnectionPoolSettings.builder()
+                        .minSize(2)
+                        .maxSize(30)
+                        .maxConnectionIdleTime(0, TimeUnit.MILLISECONDS)
+                        .maxConnectionLifeTime(120, TimeUnit.SECONDS)
+                        .build();
 
-            MongoClientSettings clientSettings = MongoClientSettings.builder()
-                    .applyConnectionString(connectionString)
-                    .applyToConnectionPoolSettings(builder -> builder.applySettings(connectionPoolSettings))
-                    .codecRegistry(pojoCodecRegistry)
-                    .build();
+                MongoClientSettings clientSettings = MongoClientSettings.builder()
+                        .applyConnectionString(connectionString)
+                        .applyToConnectionPoolSettings(builder -> builder.applySettings(connectionPoolSettings))
+                        .codecRegistry(pojoCodecRegistry)
+                        .build();
 
-            try (MongoClient client = MongoClients.create(clientSettings)) {
-                mongoClient = client;
+                mongoClient = MongoClients.create(clientSettings);
+                log.info("Established first MongoDB connection.");
             }
-
-            log.info("Established first MongoDB connection.");
         }
 
         return mongoClient;
@@ -113,7 +111,7 @@ public class MantaroData {
                         .user(config.getDbUser(), config.getDbPassword())
                         .connect();
 
-                log.info("Established first database connection to {}:{} ({})",
+                log.info("Established first RethinkDB connection to {}:{} ({})",
                         config.getDbHost(), config.getDbPort(), config.getDbUser()
                 );
             }
