@@ -43,7 +43,7 @@ public class CustomCommand implements ManagedMongoObject {
     public Document extra;
 
     @BsonCreator
-    public CustomCommand(@BsonProperty("_id") String id, @BsonProperty("guildId") String guildId, @BsonProperty("values") List<String> values,
+    public CustomCommand(@BsonId String id, @BsonProperty("guildId") String guildId, @BsonProperty("values") List<String> values,
                          @BsonProperty("owner") String owner, @BsonProperty("nsfw") boolean nsfw, @BsonProperty("locked") boolean locked) {
         this.id = id;
         this.guildId = guildId;
@@ -70,7 +70,9 @@ public class CustomCommand implements ManagedMongoObject {
         return getId().split(":", 2)[1];
     }
 
-    public @NotNull String getId() {
+    @NotNull
+    @Override
+    public String getId() {
         return id;
     }
 
@@ -107,8 +109,8 @@ public class CustomCommand implements ManagedMongoObject {
     }
 
     @BsonIgnore
-    @Override
     @Nonnull
+    @Override
     public String getTableName() {
         return DB_TABLE;
     }
