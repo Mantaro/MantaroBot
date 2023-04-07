@@ -379,7 +379,7 @@ public class InteractionContext<T> implements IContext {
         return managedDatabase.getPlayer(user);
     }
 
-    public MantaroObj getMantaroData() {
+    public MantaroObject getMantaroData() {
         return managedDatabase.getMantaroData();
     }
 

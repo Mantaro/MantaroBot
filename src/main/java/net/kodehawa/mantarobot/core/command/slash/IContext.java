@@ -63,7 +63,7 @@ public interface IContext {
     Player getPlayer(User user);
     DBUser getDBUser(User user);
     ShardManager getShardManager();
-    MantaroObj getMantaroData();
+    MantaroObject getMantaroData();
     Config getConfig();
 
     default EmbedBuilder baseEmbed(IContext ctx, String name, String image) {

@@ -128,7 +128,7 @@ public class ManagedDatabase {
     @Nonnull
     @CheckReturnValue
     public List<CustomCommand> getCustomCommandsByName(@Nonnull String name) {
-        log("Requesting all custom commands named {} from rethink", name);
+        log("Requesting all custom commands named {} from RethinkDB", name);
         String pattern = ':' + name + '$';
         Result<CustomCommand> c = r.table(CustomCommand.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, CustomCommand.class);
         return c.toList();
@@ -164,17 +164,17 @@ public class ManagedDatabase {
 
     @Nonnull
     @CheckReturnValue
-    public MantaroObj getMantaroData() {
+    public MantaroObject getMantaroData() {
         log("Requesting MantaroObj from MongoDB");
-        var collection = dbMantaro().getCollection(MantaroObj.DB_TABLE, MantaroObj.class);
+        var collection = dbMantaro().getCollection(MantaroObject.DB_TABLE, MantaroObject.class);
         var obj = collection.find(Filters.eq("mantaro")).first();
-        return obj == null ? MantaroObj.create() : obj;
+        return obj == null ? MantaroObject.create() : obj;
     }
 
     @Nonnull
     @CheckReturnValue
     public Player getPlayer(@Nonnull String userId) {
-        log("Requesting player {} from rethink", userId);
+        log("Requesting player {} from RethinkDB", userId);
         Player player = r.table(Player.DB_TABLE).get(userId + ":g").runAtom(conn, Player.class);
         return player == null ? Player.of(userId) : player;
     }
@@ -194,7 +194,7 @@ public class ManagedDatabase {
     @Nonnull
     @CheckReturnValue
     public PlayerStats getPlayerStats(@Nonnull String userId) {
-        log("Requesting player STATS {} from rethink", userId);
+        log("Requesting player STATS {} from RethinkDB", userId);
         PlayerStats playerStats = r.table(PlayerStats.DB_TABLE).get(userId).runAtom(conn, PlayerStats.class);
         return playerStats == null ? PlayerStats.of(userId) : playerStats;
     }
@@ -214,7 +214,7 @@ public class ManagedDatabase {
     @Nonnull
     @CheckReturnValue
     public List<Player> getPlayers() {
-        log("Requesting all players from rethink");
+        log("Requesting all players from RethinkDB");
         String pattern = ":g$";
         Result<Player> c = r.table(Player.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Player.class);
         return c.toList();
@@ -260,7 +260,7 @@ public class ManagedDatabase {
     @Nonnull
     @CheckReturnValue
     public DBUser getUser(@Nonnull String userId) {
-        log("Requesting user {} from MongoDB", userId);
+        log("Requesting user {} from RethinkDB", userId);
         DBUser user = r.table(DBUser.DB_TABLE).get(userId).runAtom(conn, DBUser.class);
         return user == null ? DBUser.of(userId) : user;
     }

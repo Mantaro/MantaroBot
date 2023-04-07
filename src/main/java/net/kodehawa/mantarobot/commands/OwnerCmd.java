@@ -41,7 +41,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.MantaroObj;
+import net.kodehawa.mantarobot.db.entities.MantaroObject;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.utils.APIUtils;
@@ -379,11 +379,11 @@ public class OwnerCmd {
         
         private abstract static class BlacklistCommand<T> extends NewCommand {
             private final String type;
-            private final Function<MantaroObj, List<String>> dbGetter;
+            private final Function<MantaroObject, List<String>> dbGetter;
             private final BiFunction<ShardManager, String, T> entityGetter;
             private final Function<T, String> formatter;
     
-            private BlacklistCommand(String type, Function<MantaroObj, List<String>> dbGetter,
+            private BlacklistCommand(String type, Function<MantaroObject, List<String>> dbGetter,
                                      BiFunction<ShardManager, String, T> entityGetter, Function<T, String> formatter) {
                 this.type = type;
                 this.dbGetter = dbGetter;
@@ -436,7 +436,7 @@ public class OwnerCmd {
         public static class Guild extends BlacklistCommand<net.dv8tion.jda.api.entities.Guild> {
             public Guild() {
                 super("Guild",
-                        MantaroObj::getBlackListedGuilds,
+                        MantaroObject::getBlackListedGuilds,
                         ShardManager::getGuildById,
                         Objects::toString
                 );
@@ -446,7 +446,7 @@ public class OwnerCmd {
         public static class User extends BlacklistCommand<net.dv8tion.jda.api.entities.User> {
             public User() {
                 super("User",
-                        MantaroObj::getBlackListedUsers,
+                        MantaroObject::getBlackListedUsers,
                         (manager, str) -> manager.retrieveUserById(str).complete(),
                         user -> user.getAsTag() + " - " + user.getIdLong()
                 );

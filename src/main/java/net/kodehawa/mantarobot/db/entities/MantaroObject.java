@@ -18,7 +18,6 @@
 package net.kodehawa.mantarobot.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedMongoObject;
 import net.kodehawa.mantarobot.utils.Pair;
@@ -34,7 +33,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MantaroObj implements ManagedMongoObject {
+public class MantaroObject implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "mantaro";
     @BsonId
@@ -47,20 +46,20 @@ public class MantaroObj implements ManagedMongoObject {
     private Map<String, Long> tempBans;
 
     @BsonCreator
-    public MantaroObj(@BsonProperty("blackListedGuilds") List<String> blackListedGuilds,
-                      @BsonProperty("blackListedUsers") List<String> blackListedUsers,
-                      @BsonProperty("patreonUsers") List<String> patreonUsers,
-                      @BsonProperty("mutes") Map<Long, Pair<String, Long>> mutes) {
+    public MantaroObject(@BsonProperty("blackListedGuilds") List<String> blackListedGuilds,
+                         @BsonProperty("blackListedUsers") List<String> blackListedUsers,
+                         @BsonProperty("patreonUsers") List<String> patreonUsers,
+                         @BsonProperty("mutes") Map<Long, Pair<String, Long>> mutes) {
         this.blackListedGuilds = blackListedGuilds;
         this.blackListedUsers = blackListedUsers;
         this.patreonUsers = patreonUsers;
         this.mutes = mutes;
     }
 
-    public MantaroObj() { }
+    public MantaroObject() { }
 
-    public static MantaroObj create() {
-        return new MantaroObj(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ConcurrentHashMap<>());
+    public static MantaroObject create() {
+        return new MantaroObject(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ConcurrentHashMap<>());
     }
 
     @Nonnull
@@ -78,13 +77,13 @@ public class MantaroObj implements ManagedMongoObject {
     @Override
     @BsonIgnore
     public void save() {
-        MantaroData.db().saveMongo(this, MantaroObj.class);
+        MantaroData.db().saveMongo(this, MantaroObject.class);
     }
 
     @Override
     @BsonIgnore
     public void delete() {
-        MantaroData.db().deleteMongo(this, MantaroObj.class);
+        MantaroData.db().deleteMongo(this, MantaroObject.class);
     }
 
     public List<String> getBlackListedGuilds() {

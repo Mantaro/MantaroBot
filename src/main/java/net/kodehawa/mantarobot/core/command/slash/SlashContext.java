@@ -525,7 +525,7 @@ public class SlashContext implements IContext {
         return managedDatabase.getPlayerStats(member);
     }
 
-    public MantaroObj getMantaroData() {
+    public MantaroObject getMantaroData() {
         return managedDatabase.getMantaroData();
     }
 
