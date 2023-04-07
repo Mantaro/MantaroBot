@@ -827,6 +827,10 @@ public class GuildDatabase implements ManagedMongoObject {
         this.musicQueueSizeLimit = musicQueueSizeLimit;
     }
 
+    public void setRunningPolls(Map<String, Poll.PollDatabaseObject> polls) {
+        this.runningPolls = polls;
+    }
+
     public Map<String, Poll.PollDatabaseObject> getRunningPolls() {
         return runningPolls;
     }
