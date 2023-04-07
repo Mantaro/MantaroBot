@@ -31,6 +31,7 @@ public class GuildDatabase implements ManagedMongoObject {
     public static final String DB_TABLE = "guilds";
     @BsonIgnore
     private final Config config = MantaroData.config().get();
+
     @BsonId
     private String id;
     @BsonIgnore

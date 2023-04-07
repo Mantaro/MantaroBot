@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.db;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
 
 import javax.annotation.Nonnull;
 
@@ -8,17 +8,19 @@ public interface ManagedMongoObject {
     @Nonnull
     String getId();
 
-    @JsonIgnore
+    @BsonIgnore
     @Nonnull
     String getTableName();
 
-    @JsonIgnore
+    @BsonIgnore
     @Nonnull
     default String getDatabaseId() {
         return getId();
     }
 
     // Need to implement class-by-class...
+    @BsonIgnore
     void save();
+    @BsonIgnore
     void delete();
 }
