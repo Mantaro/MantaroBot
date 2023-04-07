@@ -165,8 +165,9 @@ public class ManagedDatabase {
     @Nonnull
     @CheckReturnValue
     public MantaroObj getMantaroData() {
-        log("Requesting MantaroObj from rethink");
-        MantaroObj obj = r.table(MantaroObj.DB_TABLE).get("mantaro").runAtom(conn, MantaroObj.class);
+        log("Requesting MantaroObj from MongoDB");
+        var collection = dbMantaro().getCollection(MantaroObj.DB_TABLE, MantaroObj.class);
+        var obj = collection.find(Filters.eq("mantaro")).first();
         return obj == null ? MantaroObj.create() : obj;
     }
 

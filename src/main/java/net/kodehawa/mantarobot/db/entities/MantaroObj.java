@@ -17,32 +17,35 @@
 
 package net.kodehawa.mantarobot.db.entities;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import net.kodehawa.mantarobot.db.ManagedObject;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedMongoObject;
 import net.kodehawa.mantarobot.utils.Pair;
+import org.bson.codecs.pojo.annotations.BsonCreator;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
 
 import javax.annotation.Nonnull;
-import java.beans.ConstructorProperties;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MantaroObj implements ManagedObject {
+public class MantaroObj implements ManagedMongoObject {
+    @BsonIgnore
     public static final String DB_TABLE = "mantaro";
+    @BsonId
     public static final String id = "mantaro";
+
     public List<String> blackListedGuilds;
     public List<String> blackListedUsers;
     public List<String> patreonUsers;
     private Map<Long, Pair<String, Long>> mutes;
     private Map<String, Long> tempBans;
 
-    @ConstructorProperties({"blackListedGuilds", "blackListedUsers", "patreonUsers", "mutes"})
-    @JsonCreator
+    @BsonCreator
     public MantaroObj(@JsonProperty("blackListedGuilds") List<String> blackListedGuilds,
                       @JsonProperty("blackListedUsers") List<String> blackListedUsers,
                       @JsonProperty("patreonUsers") List<String> patreonUsers,
@@ -64,11 +67,23 @@ public class MantaroObj implements ManagedObject {
         return id;
     }
 
-    @JsonIgnore
+    @BsonIgnore
     @Override
     @Nonnull
     public String getTableName() {
         return DB_TABLE;
+    }
+
+    @Override
+    @BsonIgnore
+    public void save() {
+        MantaroData.db().saveMongo(this, MantaroObj.class);
+    }
+
+    @Override
+    @BsonIgnore
+    public void delete() {
+        MantaroData.db().deleteMongo(this, MantaroObj.class);
     }
 
     public List<String> getBlackListedGuilds() {
