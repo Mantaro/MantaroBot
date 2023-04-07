@@ -17,60 +17,67 @@
 
 package net.kodehawa.mantarobot.db.entities;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import net.kodehawa.mantarobot.db.ManagedObject;
-import net.kodehawa.mantarobot.db.entities.helpers.CustomCommandData;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedMongoObject;
 import net.kodehawa.mantarobot.utils.Utils;
+import org.bson.codecs.pojo.annotations.BsonCreator;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class CustomCommand implements ManagedObject {
+public class CustomCommand implements ManagedMongoObject {
     public static final String DB_TABLE = "commands";
     private final String id;
+    private final String guildId;
     private final List<String> values;
-    //Setting a default to avoid backwards compat issues.
-    private CustomCommandData data = new CustomCommandData();
+    private String owner = "";
+    private boolean nsfw = false;
+    private boolean locked = false;
 
-    @ConstructorProperties({"id", "values"})
-    @JsonCreator
-    public CustomCommand(@JsonProperty("id") String id, @JsonProperty("values") List<String> values, @JsonProperty("data") CustomCommandData data) {
+    @ConstructorProperties({"id", "values", "owner", "nsfw", "locked"})
+    @BsonCreator
+    public CustomCommand(@BsonProperty("id") String id, @BsonProperty("guildId") String guildId, @BsonProperty("values") List<String> values,
+                         @BsonProperty("owner") String owner, @BsonProperty("nsfw") boolean nsfw, @BsonProperty("locked") boolean locked) {
         this.id = id;
+        this.guildId = guildId;
         this.values = values.stream().map(Utils::decodeURL).collect(Collectors.toList());
-        if (data != null)
-            this.data = data;
+        this.owner = owner;
+        this.nsfw = nsfw;
+        this.locked = locked;
     }
 
+    @BsonIgnore
     public static CustomCommand of(String guildId, String cmdName, List<String> responses) {
-        return new CustomCommand(guildId + ":" + cmdName, responses.stream().map(Utils::encodeURL).collect(Collectors.toList()), new CustomCommandData());
+        return new CustomCommand(guildId + ":" + cmdName, guildId, responses.stream().map(Utils::encodeURL).collect(Collectors.toList()),
+                "", false, false);
     }
 
+    @BsonIgnore
     public static CustomCommand transfer(String guildId, CustomCommand command) {
-        return new CustomCommand(guildId + ":" + command.getName(), command.getValues(), command.getData());
+        return new CustomCommand(guildId + ":" + command.getName(), guildId, command.getValues(),
+                command.getOwner(), command.isNsfw(), command.isLocked());
     }
 
-    @JsonProperty("values")
+    @BsonProperty("values")
     public List<String> encodedValues() {
         return values.stream().map(Utils::encodeURL).collect(Collectors.toList());
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public String getGuildId() {
         return getId().split(":", 2)[0];
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public String getName() {
         return getId().split(":", 2)[1];
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public List<String> getValues() {
         return values;
     }
@@ -80,15 +87,44 @@ public class CustomCommand implements ManagedObject {
         return this.id;
     }
 
-    @JsonIgnore
+    public String getOwner() {
+        return this.owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public boolean isNsfw() {
+        return this.nsfw;
+    }
+
+    public void setNsfw(boolean nsfw) {
+        this.nsfw = nsfw;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    @BsonIgnore
     @Override
     @Nonnull
     public String getTableName() {
         return DB_TABLE;
     }
 
-    @Nonnull
-    public CustomCommandData getData() {
-        return this.data;
+    @Override
+    public void save() {
+        MantaroData.db().saveMongo(this, CustomCommand.class);
+    }
+
+    @Override
+    public void delete() {
+        MantaroData.db().deleteMongo(this, CustomCommand.class);
     }
 }

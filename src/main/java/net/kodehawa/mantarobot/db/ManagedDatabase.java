@@ -17,6 +17,7 @@
 
 package net.kodehawa.mantarobot.db;
 
+import com.google.common.collect.Lists;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -70,8 +71,11 @@ public class ManagedDatabase {
     @Nullable
     @CheckReturnValue
     public CustomCommand getCustomCommand(@Nonnull String guildId, @Nonnull String name) {
-        log("Requesting custom command {}:{} from rethink", guildId, name);
-        return r.table(CustomCommand.DB_TABLE).get(guildId + ":" + name).runAtom(conn, CustomCommand.class);
+        var id = guildId + ":" + name;
+        log("Requesting custom command {} from MongoDB", id);
+
+        MongoCollection<CustomCommand> collection = dbMantaro().getCollection(CustomCommand.DB_TABLE, CustomCommand.class);
+        return collection.find().filter(new Document("_id", id)).first();
     }
 
     @Nullable
@@ -95,20 +99,17 @@ public class ManagedDatabase {
     @Nonnull
     @CheckReturnValue
     public List<CustomCommand> getCustomCommands() {
-        log("Requesting all custom commands from rethink");
-        Result<CustomCommand> c = r.table(CustomCommand.DB_TABLE).run(conn, CustomCommand.class);
-        return c.toList();
+        log("Requesting all custom commands from MongoDB");
+        return Lists.newArrayList(dbMantaro().getCollection(CustomCommand.DB_TABLE, CustomCommand.class).find());
     }
 
     @Nonnull
     @CheckReturnValue
     public List<CustomCommand> getCustomCommands(@Nonnull String guildId) {
-        log("Requesting all custom commands from guild {} from rethink", guildId);
-        Result<CustomCommand> c = r.table(CustomCommand.DB_TABLE)
-                .getAll(guildId)
-                .optArg("index", "guild")
-                .run(conn, CustomCommand.class);
-        return c.toList();
+        // TODO: Use an index!
+        log("Requesting all custom commands from MongoDB on guild {}", guildId);
+        var collection = dbMantaro().getCollection(CustomCommand.DB_TABLE, CustomCommand.class);
+        return Lists.newArrayList(collection.find(new Document("guildId", guildId)));
     }
 
     @Nonnull
@@ -223,14 +224,14 @@ public class ManagedDatabase {
             return null;
         }
 
-        log("Requesting marriage {} from rethink", marriageId);
+        log("Requesting marriage {} from RethinkDB", marriageId);
         return r.table(Marriage.DB_TABLE).get(marriageId).runAtom(conn, Marriage.class);
     }
 
     @Nonnull
     @CheckReturnValue
     public List<Marriage> getMarriages() {
-        log("Requesting all marriages from rethink");
+        log("Requesting all marriages from RethinkDB");
         Result<Marriage> c = r.table(Marriage.DB_TABLE).run(conn, Marriage.class);
         return c.toList();
     }
@@ -238,7 +239,7 @@ public class ManagedDatabase {
     @Nonnull
     @CheckReturnValue
     public List<PremiumKey> getPremiumKeys() {
-        log("Requesting all premium keys from rethink");
+        log("Requesting all premium keys from RethinkDB");
         Result<PremiumKey> c = r.table(PremiumKey.DB_TABLE).run(conn, PremiumKey.class);
         return c.toList();
     }
@@ -247,7 +248,7 @@ public class ManagedDatabase {
     @Nullable
     @CheckReturnValue
     public PremiumKey getPremiumKey(@Nullable String id) {
-        log("Requesting premium key {} from rethink", id);
+        log("Requesting premium key {} from RethinkDB", id);
         if (id == null) return null;
         return r.table(PremiumKey.DB_TABLE).get(id).runAtom(conn, PremiumKey.class);
     }
@@ -275,17 +276,17 @@ public class ManagedDatabase {
     public <T extends ManagedMongoObject> void saveMongo(@Nonnull T object, Class<T> clazz) {
         log("Saving {} {}:{} to MongoDB (replacing)", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
 
-        Document filter = new Document("_id", object.getId());
-        FindOneAndReplaceOptions returnDocAfterReplace = new FindOneAndReplaceOptions().returnDocument(ReturnDocument.AFTER);
         MongoCollection<T> collection = dbMantaro().getCollection(object.getTableName(), clazz);
-        var found = collection.findOneAndReplace(filter, object, returnDocAfterReplace);
+        var returnDoc = new FindOneAndReplaceOptions().returnDocument(ReturnDocument.AFTER);
+        var found = collection.findOneAndReplace(new Document("_id", object.getId()), object, returnDoc);
+
         if (found == null) { // New document?
             collection.insertOne(object);
         }
     }
 
     public void save(@Nonnull ManagedObject object) {
-        log("Saving {} {}:{} to rethink (replacing)", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
+        log("Saving {} {}:{} to RethinkDB (replacing)", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
 
         r.table(object.getTableName())
                 .insert(object)
@@ -294,7 +295,7 @@ public class ManagedDatabase {
     }
 
     public void saveUpdating(@Nonnull ManagedObject object) {
-        log("Saving {} {}:{} to rethink (updating)", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
+        log("Saving {} {}:{} to RethinkDB (updating)", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
 
         r.table(object.getTableName())
                 .insert(object)
@@ -303,11 +304,18 @@ public class ManagedDatabase {
     }
 
     public void delete(@Nonnull ManagedObject object) {
-        log("Deleting {} {}:{} from rethink", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
+        log("Deleting {} {}:{} from RethinkDB", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
 
         r.table(object.getTableName())
                 .get(object.getId())
                 .delete()
                 .runNoReply(conn);
+    }
+
+    public <T extends ManagedMongoObject> void deleteMongo(@Nonnull T object, Class<T> clazz) {
+        log("Deleting {} {}:{} from MongoDB", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
+
+        MongoCollection<T> collection = dbMantaro().getCollection(object.getTableName(), clazz);
+        collection.deleteOne(new Document("_id", object.getId()));
     }
 }

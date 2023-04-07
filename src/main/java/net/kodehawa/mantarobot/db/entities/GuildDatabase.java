@@ -62,7 +62,9 @@ public class GuildDatabase implements ManagedMongoObject {
 
     @Override
     @BsonIgnore
-    public void delete() { }
+    public void delete() {
+        MantaroData.db().deleteMongo(this, GuildDatabase.class);
+    }
 
     @BsonIgnore
     public long getPremiumLeft() {
