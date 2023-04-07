@@ -17,6 +17,7 @@
 
 package net.kodehawa.mantarobot.db.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedMongoObject;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -28,6 +29,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CustomCommand implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "commands";
