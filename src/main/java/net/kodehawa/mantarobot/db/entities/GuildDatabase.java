@@ -1,32 +1,151 @@
 package net.kodehawa.mantarobot.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import net.kodehawa.mantarobot.commands.moderation.WarnAction;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.annotations.ConfigName;
 import net.kodehawa.mantarobot.data.annotations.HiddenConfig;
-import net.kodehawa.mantarobot.db.ManagedObject;
+import net.kodehawa.mantarobot.db.ManagedMongoObject;
+import net.kodehawa.mantarobot.db.entities.helpers.PremiumKeyData;
+import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.utils.APIUtils;
+import net.kodehawa.mantarobot.utils.Pair;
+import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.patreon.PatreonPledge;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
-public class GuildDatabase implements ManagedObject {
+import static java.lang.System.currentTimeMillis;
+
+@SuppressWarnings("unused")
+public class GuildDatabase implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "guilds";
+    @BsonIgnore
+    private final Config config = MantaroData.config().get();
     @BsonId
     private String id;
+    @BsonIgnore
+    public static GuildDatabase of(String guildId) {
+        return new GuildDatabase(guildId);
+    }
 
+    // Constructors needed for the Mongo Codec to deserialize/serialize this.
     public GuildDatabase() {}
-
     public GuildDatabase(String id) {
         this.id = id;
     }
 
+    public @NotNull String getId() {
+        return id;
+    }
+
+    @BsonIgnore
+    @Override
+    public @NotNull String getTableName() {
+        return DB_TABLE;
+    }
+
+    @Override
+    @BsonIgnore
+    public void save() {
+        MantaroData.db().saveMongo(this, GuildDatabase.class);
+    }
+
+    @Override
+    @BsonIgnore
+    public void delete() { }
+
+    @BsonIgnore
+    public long getPremiumLeft() {
+        return isPremium() ? this.premiumUntil - currentTimeMillis() : 0;
+    }
+
+    @BsonIgnore
+    public boolean isPremium() {
+        PremiumKey key = MantaroData.db().getPremiumKey(getPremiumKey());
+        //Key validation check (is it still active? delete otherwise)
+        if (key != null) {
+            boolean isKeyActive = currentTimeMillis() < key.getExpiration();
+            if (!isKeyActive && LocalDate.now(ZoneId.of("America/Chicago")).getDayOfMonth() > 5) {
+                DBUser owner = MantaroData.db().getUser(key.getOwner());
+                UserData ownerData = owner.getData();
+                ownerData.getKeysClaimed().remove(getId());
+                owner.save();
+
+                removePremiumKey(key.getOwner(), key.getId());
+                key.delete();
+                return false;
+            }
+
+            //Link key to owner if key == owner and key holder is on patreon.
+            //Sadly gotta skip of holder isn't patron here bc there are some bought keys (paypal) which I can't convert without invalidating
+            Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(key.getOwner());
+            if (pledgeInfo != null && pledgeInfo.left()) {
+                key.getData().setLinkedTo(key.getOwner());
+                key.save(); //doesn't matter if it doesn't save immediately, will do later anyway (key is usually immutable in db)
+            }
+
+            //If the receipt is not the owner, account them to the keys the owner has claimed.
+            //This has usage later when seeing how many keys can they take. The second/third check is kind of redundant, but necessary anyway to see if it works.
+            String keyLinkedTo = key.getData().getLinkedTo();
+            if (keyLinkedTo != null) {
+                DBUser owner = MantaroData.db().getUser(keyLinkedTo);
+                UserData ownerData = owner.getData();
+                if (!ownerData.getKeysClaimed().containsKey(getId())) {
+                    ownerData.getKeysClaimed().put(getId(), key.getId());
+                    owner.save();
+                }
+            }
+        }
+
+        //Patreon bot link check.
+        String linkedTo = getMpLinkedTo();
+        if (config.isPremiumBot() && linkedTo != null && key == null) { //Key should always be null in MP anyway.
+            PatreonPledge pledgeInfo = APIUtils.getFullPledgeInformation(linkedTo);
+            if (pledgeInfo != null && pledgeInfo.getReward().getKeyAmount() >= 3) {
+                // Subscribed to MP properly.
+                return true;
+            }
+        }
+
+        //MP uses the old premium system for some guilds: keep it here.
+        return currentTimeMillis() < premiumUntil || (key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.GUILD));
+    }
+
+    @BsonIgnore
+    public PremiumKey generateAndApplyPremiumKey(int days) {
+        String premiumId = UUID.randomUUID().toString();
+        PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days),
+                currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.GUILD, true, id, new PremiumKeyData());
+        setPremiumKey(premiumId);
+        newKey.saveAsync();
+        save();
+        return newKey;
+    }
+
+    @BsonIgnore
+    public void removePremiumKey(String keyOwner, String originalKey) {
+        setPremiumKey(null);
+
+        DBUser dbUser = MantaroData.db().getUser(keyOwner);
+        dbUser.getData().getKeysClaimed().remove(Utils.getKeyByValue(dbUser.getData().getKeysClaimed(), originalKey));
+        dbUser.save();
+
+        save();
+    }
+
+    // ------------------------- DATA CLASS START ------------------------- //
+
     @HiddenConfig
-    private long premiumUntil;
+    private long premiumUntil = 0L;
     @ConfigName("Autoroles")
     private HashMap<String, String> autoroles = new HashMap<>();
     @ConfigName("Birthday Announcer Channel")
@@ -78,8 +197,6 @@ public class GuildDatabase implements ManagedObject {
 
     @ConfigName("Role for the mute command")
     private String mutedRole = null;
-    @ConfigName("Users awaiting for a mute expire")
-    private ConcurrentHashMap<Long, Long> mutedTimelyUsers = new ConcurrentHashMap<>();
     @ConfigName("Action commands ping (for giver)")
     private boolean noMentionsAction = false;
     @HiddenConfig // We do not need to show this
@@ -96,11 +213,6 @@ public class GuildDatabase implements ManagedObject {
 
     @ConfigName("How will Mantaro display time")
     private int timeDisplay = 0; //0 = 24h, 1 = 12h
-
-    @HiddenConfig
-    private Map<Long, WarnAction> warnActions = new HashMap<>();
-    @HiddenConfig // not implemented, see above
-    private Map<String, Long> warnCount = new HashMap<>();
 
     @HiddenConfig // we do not need to show this to the user
     private String gameTimeoutExpectedAt;
@@ -185,19 +297,11 @@ public class GuildDatabase implements ManagedObject {
     @ConfigName("Disable questionable/explicit imageboard search")
     private boolean disableExplicit = false;
 
-    @ConfigName("The custom DJ role.")
+    @ConfigName("Custom DJ role.")
     private String djRoleId;
 
-    public String getId() {
-        return id;
-    }
-
-    @NotNull
-    @BsonIgnore
-    @Override
-    public String getTableName() {
-        return DB_TABLE;
-    }
+    @ConfigName("Custom music queue size limit.")
+    private Long musicQueueSizeLimit = null;
 
     public void setId(String id) {
         this.id = id;
@@ -395,14 +499,6 @@ public class GuildDatabase implements ManagedObject {
         this.mutedRole = mutedRole;
     }
 
-    public ConcurrentHashMap<Long, Long> getMutedTimelyUsers() {
-        return mutedTimelyUsers;
-    }
-
-    public void setMutedTimelyUsers(ConcurrentHashMap<Long, Long> mutedTimelyUsers) {
-        this.mutedTimelyUsers = mutedTimelyUsers;
-    }
-
     public boolean isNoMentionsAction() {
         return noMentionsAction;
     }
@@ -449,22 +545,6 @@ public class GuildDatabase implements ManagedObject {
 
     public void setTimeDisplay(int timeDisplay) {
         this.timeDisplay = timeDisplay;
-    }
-
-    public Map<Long, WarnAction> getWarnActions() {
-        return warnActions;
-    }
-
-    public void setWarnActions(Map<Long, WarnAction> warnActions) {
-        this.warnActions = warnActions;
-    }
-
-    public Map<String, Long> getWarnCount() {
-        return warnCount;
-    }
-
-    public void setWarnCount(Map<String, Long> warnCount) {
-        this.warnCount = warnCount;
     }
 
     public String getGameTimeoutExpectedAt() {
@@ -745,5 +825,13 @@ public class GuildDatabase implements ManagedObject {
 
     public void setDisableExplicit(boolean disableExplicit) {
         this.disableExplicit = disableExplicit;
+    }
+
+    public Long getMusicQueueSizeLimit() {
+        return musicQueueSizeLimit;
+    }
+
+    public void setMusicQueueSizeLimit(Long musicQueueSizeLimit) {
+        this.musicQueueSizeLimit = musicQueueSizeLimit;
     }
 }
