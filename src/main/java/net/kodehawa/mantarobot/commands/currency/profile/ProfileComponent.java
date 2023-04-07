@@ -164,29 +164,6 @@ public enum ProfileComponent {
                         i18nContext.get("commands.profile.level"), pet.getLevel(), pet.getExperience()
                 );
     }, true, false),
-    QUESTS(EmoteReference.PENCIL, i18nContext -> i18nContext.get("commands.profile.quests.header"), (holder, i18nContext) -> {
-        var tracker = holder.getPlayer().getData().getQuests();
-        var quests = tracker.getCurrentActiveQuests();
-
-        var builder = new StringBuilder();
-
-        // Create a string for all active quests.
-        for(var quest : quests) {
-            if (quest.isActive()) {
-                builder.append(String.format(i18nContext.get(quest.getType().getI18n()), quest.getProgress()))
-                        .append("\n");
-            } else {
-                // This should get saved? Else we can just remove it when checking status.
-                tracker.removeQuest(quest);
-            }
-        }
-
-        if (builder.length() == 0) {
-            builder.append(i18nContext.get("commands.profile.quests.no_quests"));
-        }
-
-        return builder.toString();
-    }),
     FOOTER(null, null, (holder, i18nContext) -> {
         var userData = holder.getDbUser().getData();
         String timezone;
