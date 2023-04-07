@@ -222,7 +222,7 @@ public class MarryCmd {
 
                         // Make and save the new marriage object.
                         var actualMarriage = Marriage.of(marriageId, proposingUser, proposedToUser);
-                        actualMarriage.getData().setMarriageCreationMillis(marriageCreationMillis);
+                        actualMarriage.setMarriageCreationMillis(marriageCreationMillis);
                         actualMarriage.save();
 
                         // Assign the marriage ID to the respective users and save it.
@@ -288,8 +288,6 @@ public class MarryCmd {
                     return;
                 }
 
-                final var data = currentMarriage.getData();
-
                 //Can we find the user this is married to?
                 final var marriedTo = ctx.retrieveUserById(currentMarriage.getOtherPlayer(author.getId()));
                 if (marriedTo == null) {
@@ -298,17 +296,17 @@ public class MarryCmd {
                 }
 
                 //Get the current love letter.
-                var loveLetter = data.getLoveLetter();
+                var loveLetter = currentMarriage.getLoveLetter();
                 if (loveLetter == null || loveLetter.isEmpty()) {
                     loveLetter = languageContext.get("general.none");
                 }
 
                 final var marriedDBUser = ctx.getDBUser(marriedTo);
-                final var dateFormat = Utils.formatDate(data.getMarriageCreationMillis(), dbUserData.getLang());
+                final var dateFormat = Utils.formatDate(currentMarriage.getMarriageCreationMillis(), dbUserData.getLang());
                 final var eitherHasWaifus = !(dbUserData.getWaifus().isEmpty() && marriedDBUser.getData().getWaifus().isEmpty());
                 final var marriedToName = dbUserData.isPrivateTag() ? marriedTo.getName() : marriedTo.getAsTag();
                 final var authorName = dbUserData.isPrivateTag() ? author.getName() : author.getAsTag();
-                final var daysMarried = TimeUnit.of(ChronoUnit.MILLIS).toDays(System.currentTimeMillis() - data.getMarriageCreationMillis());
+                final var daysMarried = TimeUnit.of(ChronoUnit.MILLIS).toDays(System.currentTimeMillis() - currentMarriage.getMarriageCreationMillis());
 
                 var embedBuilder = new EmbedBuilder()
                         .setThumbnail(author.getEffectiveAvatarUrl())
@@ -330,23 +328,23 @@ public class MarryCmd {
                         )
                         .setFooter("Marriage ID: " + currentMarriage.getId(), author.getEffectiveAvatarUrl());
 
-                if (data.hasHouse()) {
-                    var houseName = data.getHouseName().replace("\n", "").trim();
+                if (currentMarriage.hasHouse()) {
+                    var houseName = currentMarriage.getHouseName().replace("\n", "").trim();
                     embedBuilder.addField(EmoteReference.HOUSE.toHeaderString() + languageContext.get("commands.marry.status.house"),
                             houseName, true
                     );
                 }
 
-                if (data.hasCar()) {
-                    var carName = data.getCarName().replace("\n", "").trim();
+                if (currentMarriage.hasCar()) {
+                    var carName = currentMarriage.getCarName().replace("\n", "").trim();
                     embedBuilder.addField(EmoteReference.CAR.toHeaderString() + languageContext.get("commands.marry.status.car"),
                             carName, true
                     );
                 }
 
-                if (data.getPet() != null) {
-                    var pet = data.getPet();
-                    var petType = data.getPet().getType();
+                if (currentMarriage.getPet() != null) {
+                    var pet = currentMarriage.getPet();
+                    var petType = currentMarriage.getPet().getType();
 
                     embedBuilder.addField(EmoteReference.PET_HOUSE.toHeaderString() + languageContext.get("commands.marry.status.pet"),
                             pet.getName() + " (" + petType.getName() + ")", false
@@ -392,7 +390,7 @@ public class MarryCmd {
                     return;
                 }
 
-                if (currentMarriage.getData().getLoveLetter() != null) {
+                if (currentMarriage.getLoveLetter() != null) {
                     ctx.reply("commands.marry.loveletter.already_done", EmoteReference.ERROR);
                     return;
                 }
@@ -458,9 +456,7 @@ public class MarryCmd {
                         playerFinal.save();
 
                         //Save the love letter.
-                        currentMarriageFinal.getData().setLoveLetter(content);
-                        currentMarriageFinal.save();
-
+                        currentMarriageFinal.setLoveLetter(content);
                         hook.editOriginal(languageContext.get("commands.marry.loveletter.confirmed")
                                 .formatted(EmoteReference.CORRECT))
                                 .setComponents().queue();
@@ -552,10 +548,8 @@ public class MarryCmd {
 
                         playerConfirmed.save();
 
-                        marriageConfirmed.getData().setHasHouse(true);
-                        marriageConfirmed.getData().setHouseName(finalContent);
-                        marriageConfirmed.save();
-
+                        marriageConfirmed.setHasHouse(true);
+                        marriageConfirmed.setHouseName(finalContent);
                         hook.editOriginal(languageContext.get("commands.marry.buyhouse.success").formatted(EmoteReference.POPPER, housePrice, finalContent))
                                 .setComponents().queue();
                         return Operation.COMPLETED;
@@ -648,10 +642,8 @@ public class MarryCmd {
                         playerConfirmed.removeMoney(carPrice);
                         playerConfirmed.save();
 
-                        marriageConfirmed.getData().setHasCar(true);
-                        marriageConfirmed.getData().setCarName(finalContent);
-                        marriageConfirmed.save();
-
+                        marriageConfirmed.setHasCar(true);
+                        marriageConfirmed.setCarName(finalContent);
                         hook.editOriginal(languageContext.get("commands.marry.buycar.success").formatted(EmoteReference.POPPER, carPrice, finalContent))
                                 .setComponents().queue();
                         return Operation.COMPLETED;
@@ -702,8 +694,6 @@ public class MarryCmd {
                         return Operation.COMPLETED;
                     }
 
-                    final var marriageData = marriage.getData();
-
                     // We do have a marriage, get rid of it.
                     final var marriedWithDBUser = ctx.getDBUser(marriage.getOtherPlayer(ctx.getAuthor().getId()));
                     final var marriedWithPlayer = ctx.getPlayer(marriedWithDBUser.getId());
@@ -725,16 +715,16 @@ public class MarryCmd {
 
                     var moneySplit = 0L;
 
-                    if (marriageData.hasHouse()) {
+                    if (marriage.hasHouse()) {
                         moneySplit += housePrice;
                     }
 
-                    if (marriageData.hasCar()) {
+                    if (marriage.hasCar()) {
                         moneySplit += carPrice;
                     }
 
-                    if (marriageData.getPet() != null) {
-                        moneySplit += marriageData.getPet().getType().getCost() * 0.9;
+                    if (marriage.getPet() != null) {
+                        moneySplit += marriage.getPet().getType().getCost() * 0.9;
                     }
 
                     // Scrape this marriage.

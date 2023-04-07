@@ -428,7 +428,7 @@ public class PlayerData {
     @JsonIgnore
     public PetChoice getActiveChoice(Marriage marriage) {
         if (getPetChoice() == null) {
-            if (marriage == null || marriage.getData().getPet() == null) {
+            if (marriage == null || marriage.getPet() == null) {
                 return PetChoice.PERSONAL;
             } else {
                 return PetChoice.MARRIAGE;

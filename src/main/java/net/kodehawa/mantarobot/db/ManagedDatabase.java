@@ -24,6 +24,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
 import com.mongodb.client.model.ReturnDocument;
+import com.mongodb.client.model.Updates;
 import com.rethinkdb.net.Connection;
 import com.rethinkdb.net.Result;
 import net.dv8tion.jda.api.entities.Guild;
@@ -139,8 +140,8 @@ public class ManagedDatabase {
     @CheckReturnValue
     public GuildDatabase getGuild(@Nonnull String guildId) {
         log("Requesting guild {} from MongoDB", guildId);
-        MongoCollection<GuildDatabase> collection = dbMantaro().getCollection(GuildDatabase.DB_TABLE, GuildDatabase.class);
-        GuildDatabase guild = collection.find().filter(Filters.eq(guildId)).first();
+        var collection = dbMantaro().getCollection(GuildDatabase.DB_TABLE, GuildDatabase.class);
+        var guild = collection.find().filter(Filters.eq(guildId)).first();
         return guild == null ? GuildDatabase.of(guildId) : guild;
     }
 
@@ -231,16 +232,15 @@ public class ManagedDatabase {
             return null;
         }
 
-        log("Requesting marriage {} from RethinkDB", marriageId);
-        return r.table(Marriage.DB_TABLE).get(marriageId).runAtom(conn, Marriage.class);
+        log("Requesting marriage {} from MongoDB", marriageId);
+        return dbMantaro().getCollection(Marriage.DB_TABLE, Marriage.class).find(Filters.eq(marriageId)).first();
     }
 
     @Nonnull
     @CheckReturnValue
     public List<Marriage> getMarriages() {
-        log("Requesting all marriages from RethinkDB");
-        Result<Marriage> c = r.table(Marriage.DB_TABLE).run(conn, Marriage.class);
-        return c.toList();
+        log("Requesting all marriages from MongoDB");
+        return Lists.newArrayList(dbMantaro().getCollection(Marriage.DB_TABLE, Marriage.class).find());
     }
 
     @Nonnull
@@ -282,18 +282,6 @@ public class ManagedDatabase {
         return getUser(member.getUser());
     }
 
-    public <T extends ManagedMongoObject> void saveMongo(@Nonnull T object, Class<T> clazz) {
-        log("Saving {} {}:{} to MongoDB (replacing)", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
-
-        MongoCollection<T> collection = dbMantaro().getCollection(object.getTableName(), clazz);
-        var returnDoc = new FindOneAndReplaceOptions().returnDocument(ReturnDocument.AFTER);
-        var found = collection.findOneAndReplace(new Document("_id", object.getId()), object, returnDoc);
-
-        if (found == null) { // New document?
-            collection.insertOne(object);
-        }
-    }
-
     public void save(@Nonnull ManagedObject object) {
         log("Saving {} {}:{} to RethinkDB (replacing)", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
 
@@ -321,10 +309,29 @@ public class ManagedDatabase {
                 .runNoReply(conn);
     }
 
+    public <T extends ManagedMongoObject> void saveMongo(@Nonnull T object, Class<T> clazz) {
+        log("Saving {} {}:{} to MongoDB (replacing whole)", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
+
+        var collection = dbMantaro().getCollection(object.getTableName(), clazz);
+        var returnDoc = new FindOneAndReplaceOptions().returnDocument(ReturnDocument.AFTER);
+        var found = collection.findOneAndReplace(Filters.eq(object.getId()), object, returnDoc);
+
+        if (found == null) { // New document?
+            collection.insertOne(object);
+        }
+    }
+
     public <T extends ManagedMongoObject> void deleteMongo(@Nonnull T object, Class<T> clazz) {
-        log("Deleting {} {}:{} from MongoDB", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
+        log("Deleting {} {}:{} from MongoDB (whole)", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
 
         MongoCollection<T> collection = dbMantaro().getCollection(object.getTableName(), clazz);
         collection.deleteOne(new Document("_id", object.getId()));
+    }
+
+    public <T extends ManagedMongoObject> void updateFieldValue(T object, String key, Object value) {
+        log("Updating id {} key {} (from db {}) to {} (single value)", object.getId(), key, object.getTableName(), value);
+
+        var collection = dbMantaro().getCollection(object.getTableName());
+        collection.updateOne(Filters.eq(object.getId()), Updates.set(key, value));
     }
 }

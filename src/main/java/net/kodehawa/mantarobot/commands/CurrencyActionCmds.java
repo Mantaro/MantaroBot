@@ -293,8 +293,8 @@ public class CurrencyActionCmds {
 
         HousePet pet = null;
         if (playerData.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
-            if (marriage != null && marriage.getData().getPet() != null) {
-                pet = marriage.getData().getPet();
+            if (marriage != null && marriage.getPet() != null) {
+                pet = marriage.getPet();
             }
         } else {
             pet = playerData.getPet();
@@ -467,7 +467,7 @@ public class CurrencyActionCmds {
         player.saveUpdating();
 
         if (marriage != null) {
-            marriage.saveUpdating();
+            marriage.save();
         }
 
         ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.mine.autoequip.success");
@@ -553,8 +553,8 @@ public class CurrencyActionCmds {
             fish.forEach((i1) -> fishItems.add(3, i1));
             HousePet pet = null;
             if (playerData.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
-                if (marriage != null && marriage.getData().getPet() != null) {
-                    pet = marriage.getData().getPet();
+                if (marriage != null && marriage.getPet() != null) {
+                    pet = marriage.getPet();
                 }
             } else {
                 pet = playerData.getPet();
@@ -703,7 +703,7 @@ public class CurrencyActionCmds {
 
         // Save pet stats.
         if (marriage != null) {
-            marriage.saveUpdating();
+            marriage.save();
         }
 
         ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.fish.autoequip.success");
@@ -753,8 +753,8 @@ public class CurrencyActionCmds {
 
             HousePet pet = null;
             if (playerData.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
-                if (marriage != null && marriage.getData().getPet() != null) {
-                    pet = marriage.getData().getPet();
+                if (marriage != null && marriage.getPet() != null) {
+                    pet = marriage.getPet();
                 }
             } else {
                 pet = playerData.getPet();

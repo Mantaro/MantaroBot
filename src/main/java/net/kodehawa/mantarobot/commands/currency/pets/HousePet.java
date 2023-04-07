@@ -20,12 +20,15 @@ package net.kodehawa.mantarobot.commands.currency.pets;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import org.bson.codecs.pojo.annotations.BsonCreator;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import java.beans.ConstructorProperties;
 import java.security.SecureRandom;
 
 public class HousePet {
-    @JsonIgnore
+    @BsonIgnore
     private static final SecureRandom random = new SecureRandom();
 
     private String name;
@@ -40,9 +43,8 @@ public class HousePet {
     private long experience;
     private long level = 1;
 
-    @JsonCreator
-    @ConstructorProperties({"name", "type"})
-    public HousePet(String name, HousePetType type) {
+    @BsonCreator
+    public HousePet(@BsonProperty("name") String name, @BsonProperty("type") HousePetType type) {
         this.name = name;
         this.type = type;
     }
@@ -264,7 +266,7 @@ public class HousePet {
             level += 1;
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public ActivityResult handleAbility(HousePetType.HousePetAbility neededAbility) {
         if (!type.getAbilities().contains(neededAbility))
             return ActivityResult.NO_ABILITY;
@@ -296,12 +298,12 @@ public class HousePet {
         return neededAbility.getPassActivity();
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public String buildMessage(ActivityResult result, I18nContext language, int money, int items) {
         return String.format(language.get(result.getLanguageString()), getType().getEmoji(), getName(), money, items);
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public HousePetType.PatReaction handlePat() {
         if (getType() == HousePetType.CAT) {
             return random.nextBoolean() ? HousePetType.PatReaction.CUTE : HousePetType.PatReaction.SCARE;

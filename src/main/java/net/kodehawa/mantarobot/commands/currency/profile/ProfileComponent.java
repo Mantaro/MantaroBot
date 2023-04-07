@@ -147,7 +147,7 @@ public enum ProfileComponent {
         final var petType = playerData.getActiveChoice(holder.getMarriage());
         HousePet pet = null;
         if (petType == PetChoice.MARRIAGE && holder.getMarriage() != null) {
-            pet = holder.getMarriage().getData().getPet();
+            pet = holder.getMarriage().getPet();
         }
 
         if (petType == PetChoice.PERSONAL) {
