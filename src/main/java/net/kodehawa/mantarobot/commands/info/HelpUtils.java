@@ -21,7 +21,6 @@ import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.db.entities.GuildDatabase;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 
 import java.util.ArrayList;
 import java.util.List;

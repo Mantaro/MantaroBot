@@ -88,7 +88,7 @@ public class ManagedDatabase {
 
     @Nullable
     @CheckReturnValue
-    public CustomCommand getCustomCommand(@Nonnull DBGuild guild, @Nonnull String name) {
+    public CustomCommand getCustomCommand(@Nonnull GuildDatabase guild, @Nonnull String name) {
         return getCustomCommand(guild.getId(), name);
     }
 
@@ -122,7 +122,7 @@ public class ManagedDatabase {
 
     @Nonnull
     @CheckReturnValue
-    public List<CustomCommand> getCustomCommands(@Nonnull DBGuild guild) {
+    public List<CustomCommand> getCustomCommands(@Nonnull GuildDatabase guild) {
         return getCustomCommands(guild.getId());
     }
 

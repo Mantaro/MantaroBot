@@ -23,8 +23,6 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.game.core.lobby.GameLobby;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;

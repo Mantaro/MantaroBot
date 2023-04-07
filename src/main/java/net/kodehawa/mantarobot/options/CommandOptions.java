@@ -23,7 +23,6 @@ import net.dv8tion.jda.api.entities.channel.middleman.StandardGuildMessageChanne
 import net.kodehawa.mantarobot.commands.CustomCmds;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.core.OptionType;

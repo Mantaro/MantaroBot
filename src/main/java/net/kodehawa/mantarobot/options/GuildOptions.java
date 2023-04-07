@@ -21,8 +21,6 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Role;
 import net.kodehawa.mantarobot.data.I18n;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.core.OptionType;

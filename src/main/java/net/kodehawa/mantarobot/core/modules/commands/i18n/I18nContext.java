@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.core.modules.commands.i18n;
 
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.db.entities.GuildDatabase;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 
 public class I18nContext {

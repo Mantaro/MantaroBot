@@ -29,7 +29,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.GuildDatabase;
 import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.utils.StringUtils;
@@ -222,18 +222,17 @@ public class OptsCmd {
                     var greetReceived = temp.hasReceivedGreet();
 
                     //Assign everything all over again
-                    var newDbGuild = DBGuild.of(dbGuild.getId(), dbGuild.getPremiumUntil());
-                    var newTmp = newDbGuild.getData();
+                    var newDbGuild = GuildDatabase.of(dbGuild.getId());
+                    newDbGuild.setPremiumUntil(dbGuild.getPremiumUntil());
+                    newDbGuild.setGameTimeoutExpectedAt(gameTimeoutExpectedAt);
+                    newDbGuild.setRanPolls(ranPolls);
+                    newDbGuild.setCases(cases);
+                    newDbGuild.setPremiumKey(premiumKey);
+                    newDbGuild.setAllowedBirthdays(allowedBirthdays);
+                    newDbGuild.setNotifiedFromBirthdayChange(notified);
+                    newDbGuild.setHasReceivedGreet(greetReceived);
 
-                    newTmp.setGameTimeoutExpectedAt(gameTimeoutExpectedAt);
-                    newTmp.setRanPolls(ranPolls);
-                    newTmp.setCases(cases);
-                    newTmp.setPremiumKey(premiumKey);
-                    newTmp.setAllowedBirthdays(allowedBirthdays);
-                    newTmp.setNotifiedFromBirthdayChange(notified);
-                    newTmp.setHasReceivedGreet(greetReceived);
-
-                    newDbGuild.saveAsync();
+                    newDbGuild.save();
 
                     ctx.sendLocalized("options.reset_all.success", EmoteReference.CORRECT);
                 })
