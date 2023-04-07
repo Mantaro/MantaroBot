@@ -17,16 +17,12 @@
 
 package net.kodehawa.mantarobot.db.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedMongoObject;
-import net.kodehawa.mantarobot.db.entities.helpers.PlayerStatsData;
-import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
-import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import javax.annotation.Nonnull;
 
@@ -170,7 +166,6 @@ public class PlayerStats implements ManagedMongoObject {
         this.repairedItems = repairedItems;
     }
 
-
     public void setToolsBroken(long toolsBroken) {
         this.toolsBroken = toolsBroken;
     }
@@ -184,7 +179,6 @@ public class PlayerStats implements ManagedMongoObject {
         this.mined += 1;
         updateField("mined", this.mined);
     }
-
 
     @BsonIgnore
     public void incrementLooted() {

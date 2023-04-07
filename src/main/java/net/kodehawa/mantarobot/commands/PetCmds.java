@@ -467,9 +467,8 @@ public class PetCmds {
                                 return Operation.COMPLETED;
                             }
 
-                            marriageConfirmed.setPet(null);
+                            marriageConfirmed.pet(null);
                             marriageConfirmed.setLocked(false);
-                            marriageConfirmed.save();
 
                             marriedWithPlayer.addMoney(toRefundFinal);
                             playerFinal.addMoney(toRefundFinal);
@@ -670,8 +669,7 @@ public class PetCmds {
                             }
 
                             marriageConfirmed.setLocked(false);
-                            marriageConfirmed.setPet(new HousePet(finalName, toBuy));
-                            marriageConfirmed.save();
+                            marriageConfirmed.pet(new HousePet(finalName, toBuy));
                         }
 
                         playerConfirmed.removeMoney(toBuy.getCost());

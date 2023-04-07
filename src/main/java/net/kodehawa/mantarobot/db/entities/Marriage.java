@@ -144,47 +144,92 @@ public class Marriage implements ManagedMongoObject {
         return lockedUntil;
     }
 
-    public void setHouseName(String houseName) {
+    protected void setHouseName(String houseName) {
         this.houseName = houseName;
-        updateField("houseName", houseName);
     }
 
-    public void setHasHouse(boolean hasHouse) {
+    protected void setHasHouse(boolean hasHouse) {
         this.hasHouse = hasHouse;
-        updateField("hasHouse", hasHouse);
     }
 
-    public void setHasCar(boolean hasCar) {
+    protected void setHasCar(boolean hasCar) {
         this.hasCar = hasCar;
-        updateField("hasCar", hasCar);
     }
 
-    public void setCarName(String carName) {
+    protected void setCarName(String carName) {
         this.carName = carName;
-        updateField("carName", carName);
     }
 
-    public void setPet(HousePet pet) {
+    protected void setPet(HousePet pet) {
         this.pet = pet;
-        updateField("pet", pet);
     }
 
-    public void setTimezone(String timezone) {
+    protected void setTimezone(String timezone) {
         this.timezone = timezone;
-        updateField("timezone", timezone);
     }
 
-    public void setLockedUntil(long lockedUntil) {
+    protected void setLockedUntil(long lockedUntil) {
+        this.lockedUntil = lockedUntil;
+    }
+
+    protected void setMarriageCreationMillis(long marriageCreationMillis) {
+        this.marriageCreationMillis = marriageCreationMillis;
+    }
+
+    protected void setLoveLetter(String loveLetter) {
+        this.loveLetter = loveLetter;
+    }
+
+    @BsonIgnore
+    public void lockedUntil(long lockedUntil) {
         this.lockedUntil = lockedUntil;
         updateField("lockedUntil", lockedUntil);
     }
 
-    public void setMarriageCreationMillis(long marriageCreationMillis) {
+    @BsonIgnore
+    public void timezone(String timezone) {
+        this.timezone = timezone;
+        updateField("timezone", timezone);
+    }
+
+    @BsonIgnore
+    public void houseName(String houseName) {
+        this.houseName = houseName;
+        updateField("houseName", houseName);
+    }
+
+    @BsonIgnore
+    public void carName(String carName) {
+        this.carName = carName;
+        updateField("carName", carName);
+    }
+
+    @BsonIgnore
+    public void pet(HousePet pet) {
+        this.pet = pet;
+        updateField("pet", pet);
+    }
+
+    @BsonIgnore
+    public void setCar(boolean car) {
+        this.hasCar = car;
+        updateField("hasCar", car);
+    }
+
+    @BsonIgnore
+    public void setHouse(boolean house) {
+        this.hasCar = house;
+        updateField("hasHouse", hasHouse);
+    }
+
+    @BsonIgnore
+    public void marriageCreationMillis(long marriageCreationMillis) {
         this.marriageCreationMillis = marriageCreationMillis;
         updateField("marriageCreationMillis", lockedUntil);
     }
 
-    public void setLoveLetter(String loveLetter) {
+    @BsonIgnore
+    public void loveLetter(String loveLetter) {
         this.loveLetter = loveLetter;
         updateField("loveLetter", lockedUntil);
     }
@@ -197,7 +242,7 @@ public class Marriage implements ManagedMongoObject {
 
     @BsonIgnore
     public void setLocked(boolean locked) {
-        setLockedUntil(locked ? System.currentTimeMillis() + 35000 : 0);
+        lockedUntil(locked ? System.currentTimeMillis() + 35000 : 0);
     }
 
     @Nonnull

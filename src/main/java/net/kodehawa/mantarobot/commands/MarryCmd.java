@@ -222,8 +222,8 @@ public class MarryCmd {
 
                         // Make and save the new marriage object.
                         var actualMarriage = Marriage.of(marriageId, proposingUser, proposedToUser);
-                        actualMarriage.setMarriageCreationMillis(marriageCreationMillis);
                         actualMarriage.save();
+                        actualMarriage.marriageCreationMillis(marriageCreationMillis);
 
                         // Assign the marriage ID to the respective users and save it.
                         proposingUserDB.getData().setMarriageId(marriageId);
@@ -456,7 +456,7 @@ public class MarryCmd {
                         playerFinal.save();
 
                         //Save the love letter.
-                        currentMarriageFinal.setLoveLetter(content);
+                        currentMarriageFinal.loveLetter(content);
                         hook.editOriginal(languageContext.get("commands.marry.loveletter.confirmed")
                                 .formatted(EmoteReference.CORRECT))
                                 .setComponents().queue();
@@ -548,8 +548,8 @@ public class MarryCmd {
 
                         playerConfirmed.save();
 
-                        marriageConfirmed.setHasHouse(true);
-                        marriageConfirmed.setHouseName(finalContent);
+                        marriageConfirmed.setHouse(true);
+                        marriageConfirmed.houseName(finalContent);
                         hook.editOriginal(languageContext.get("commands.marry.buyhouse.success").formatted(EmoteReference.POPPER, housePrice, finalContent))
                                 .setComponents().queue();
                         return Operation.COMPLETED;
@@ -642,8 +642,8 @@ public class MarryCmd {
                         playerConfirmed.removeMoney(carPrice);
                         playerConfirmed.save();
 
-                        marriageConfirmed.setHasCar(true);
-                        marriageConfirmed.setCarName(finalContent);
+                        marriageConfirmed.setCar(true);
+                        marriageConfirmed.carName(finalContent);
                         hook.editOriginal(languageContext.get("commands.marry.buycar.success").formatted(EmoteReference.POPPER, carPrice, finalContent))
                                 .setComponents().queue();
                         return Operation.COMPLETED;
