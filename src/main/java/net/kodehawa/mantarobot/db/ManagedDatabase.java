@@ -168,7 +168,7 @@ public class ManagedDatabase {
     public MantaroObject getMantaroData() {
         log("Requesting MantaroObject from MongoDB");
         var collection = dbMantaro().getCollection(MantaroObject.DB_TABLE, MantaroObject.class);
-        var obj = collection.find(Filters.eq("mantaro")).first();
+        var obj = collection.find().first();
         if (obj == null) {
             obj = MantaroObject.create();
             obj.save();
