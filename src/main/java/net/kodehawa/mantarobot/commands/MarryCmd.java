@@ -745,7 +745,6 @@ public class MarryCmd {
                         extra = languageContext.get("commands.divorce.split").formatted(portion);
                     }
 
-                    marriage.delete();
                     hook.editOriginal(languageContext.get("commands.divorce.success").formatted(EmoteReference.CORRECT, extra)).setComponents().queue();
                     return Operation.COMPLETED;
                 } else if (buttonId.equals("no")) {
