@@ -28,10 +28,14 @@ import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Marriage implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "marriages";
+    @BsonIgnore
+    public Map<String, Object> fieldTracker = new HashMap<>();
 
     @BsonId
     private String id;
@@ -183,55 +187,61 @@ public class Marriage implements ManagedMongoObject {
     @BsonIgnore
     public void lockedUntil(long lockedUntil) {
         this.lockedUntil = lockedUntil;
-        updateField("lockedUntil", lockedUntil);
+        fieldTracker.put("lockedUntil", lockedUntil);
     }
 
     @BsonIgnore
     public void timezone(String timezone) {
         this.timezone = timezone;
-        updateField("timezone", timezone);
+        fieldTracker.put("timezone", timezone);
     }
 
     @BsonIgnore
     public void houseName(String houseName) {
         this.houseName = houseName;
-        updateField("houseName", houseName);
+        fieldTracker.put("houseName", houseName);
     }
 
     @BsonIgnore
     public void carName(String carName) {
         this.carName = carName;
-        updateField("carName", carName);
+        fieldTracker.put("carName", carName);
     }
 
     @BsonIgnore
     public void pet(HousePet pet) {
         this.pet = pet;
-        updateField("pet", pet);
+        fieldTracker.put("pet", pet);
     }
 
     @BsonIgnore
     public void setCar(boolean car) {
         this.hasCar = car;
-        updateField("hasCar", car);
+        fieldTracker.put("hasCar", car);
     }
 
     @BsonIgnore
     public void setHouse(boolean house) {
         this.hasCar = house;
-        updateField("hasHouse", hasHouse);
+        fieldTracker.put("hasHouse", hasHouse);
     }
 
     @BsonIgnore
     public void marriageCreationMillis(long marriageCreationMillis) {
         this.marriageCreationMillis = marriageCreationMillis;
-        updateField("marriageCreationMillis", lockedUntil);
+        fieldTracker.put("marriageCreationMillis", lockedUntil);
     }
 
     @BsonIgnore
     public void loveLetter(String loveLetter) {
         this.loveLetter = loveLetter;
-        updateField("loveLetter", lockedUntil);
+        fieldTracker.put("loveLetter", lockedUntil);
+    }
+
+    @BsonIgnore
+    @Override
+    public void updateAllChanged() {
+        MantaroData.db().updateFieldValues(this, fieldTracker);
     }
 
     //it's 3am and i cba to replace usages of this so whatever

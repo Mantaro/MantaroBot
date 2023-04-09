@@ -425,7 +425,7 @@ public class PetCmds {
 
                     message = ctx.sendResult(lang.get("commands.pet.remove.confirm").formatted(EmoteReference.WARNING, toRefund));
                     marriage.setLocked(true);
-                    marriage.save();
+                    marriage.updateAllChanged();
                 } else {
                     message = ctx.sendResult(lang.get("commands.pet.remove.confirm_personal").formatted(EmoteReference.WARNING, toRefundPersonal));
                 }
@@ -469,6 +469,7 @@ public class PetCmds {
 
                             marriageConfirmed.pet(null);
                             marriageConfirmed.setLocked(false);
+                            marriageConfirmed.updateAllChanged();
 
                             marriedWithPlayer.addMoney(toRefundFinal);
                             playerFinal.addMoney(toRefundFinal);
@@ -502,7 +503,7 @@ public class PetCmds {
 
                         if (player.getData().getActiveChoice(marriage) == PetChoice.MARRIAGE && marriageConfirmed != null) {
                             marriageConfirmed.setLocked(false);
-                            marriageConfirmed.save();
+                            marriageConfirmed.updateAllChanged();
                         }
 
                         // This is reusing the string, nothing wrong here.
@@ -595,7 +596,7 @@ public class PetCmds {
 
                 if (petChoice == PetChoice.MARRIAGE) {
                     marriage.setLocked(true);
-                    marriage.save();
+                    marriage.updateAllChanged();
                 }
 
                 name = Utils.HTTP_URL.matcher(name).replaceAll("-url-");
@@ -641,6 +642,7 @@ public class PetCmds {
                             playerConfirmed.saveUpdating();
 
                             marriageConfirmed.setLocked(false);
+                            marriageConfirmed.updateAllChanged();
                             hook.editOriginal(lang.get("commands.pet.buy.no_house").formatted(EmoteReference.ERROR)).setComponents().queue();
                             return Operation.COMPLETED;
                         }
@@ -650,6 +652,7 @@ public class PetCmds {
                             playerConfirmed.saveUpdating();
 
                             marriageConfirmed.setLocked(false);
+                            marriageConfirmed.updateAllChanged();
                             hook.editOriginal(lang.get("commands.pet.buy.not_enough_money").formatted(EmoteReference.ERROR, toBuy.getCost())).setComponents().queue();
                             return Operation.COMPLETED;
                         }
@@ -670,6 +673,7 @@ public class PetCmds {
 
                             marriageConfirmed.setLocked(false);
                             marriageConfirmed.pet(new HousePet(finalName, toBuy));
+                            marriageConfirmed.updateAllChanged();
                         }
 
                         playerConfirmed.removeMoney(toBuy.getCost());
@@ -710,6 +714,7 @@ public class PetCmds {
                         // Original player is fine, we checked it originally with this.
                         if (player.getData().getActiveChoice(marriage) == PetChoice.MARRIAGE && marriageConfirmed != null) {
                             marriageConfirmed.setLocked(false);
+                            marriageConfirmed.updateAllChanged();
                         }
 
                         playerConfirmed.setLocked(false);

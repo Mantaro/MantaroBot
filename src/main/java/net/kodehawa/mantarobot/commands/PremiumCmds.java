@@ -121,14 +121,13 @@ public class PremiumCmds {
 
                 if (scopeParsed.equals(PremiumKey.Type.USER)) {
                     var dbUser = ctx.getDBUser();
-                    var player = ctx.getPlayer();
-
                     if (dbUser.isPremium()) {
                         ctx.reply("commands.activatekey.user_already_premium", EmoteReference.POPPER);
                         return;
                     }
 
                     if (author.getId().equals(key.getOwner())) {
+                        var player = ctx.getPlayer();
                         if (player.getData().addBadgeIfAbsent(Badge.DONATOR_2)) {
                             player.saveUpdating();
                         }

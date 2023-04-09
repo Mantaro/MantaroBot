@@ -222,8 +222,8 @@ public class MarryCmd {
 
                         // Make and save the new marriage object.
                         var actualMarriage = Marriage.of(marriageId, proposingUser, proposedToUser);
+                        actualMarriage.marriageCreationMillis(marriageCreationMillis); // No need to update, saving whole object
                         actualMarriage.save();
-                        actualMarriage.marriageCreationMillis(marriageCreationMillis);
 
                         // Assign the marriage ID to the respective users and save it.
                         proposingUserDB.setMarriageId(marriageId);
@@ -456,6 +456,7 @@ public class MarryCmd {
 
                         //Save the love letter.
                         currentMarriageFinal.loveLetter(content);
+                        currentMarriageFinal.updateAllChanged();
                         hook.editOriginal(languageContext.get("commands.marry.loveletter.confirmed")
                                 .formatted(EmoteReference.CORRECT))
                                 .setComponents().queue();
@@ -549,6 +550,7 @@ public class MarryCmd {
 
                         marriageConfirmed.setHouse(true);
                         marriageConfirmed.houseName(finalContent);
+                        marriageConfirmed.updateAllChanged();
                         hook.editOriginal(languageContext.get("commands.marry.buyhouse.success").formatted(EmoteReference.POPPER, housePrice, finalContent))
                                 .setComponents().queue();
                         return Operation.COMPLETED;
@@ -643,6 +645,7 @@ public class MarryCmd {
 
                         marriageConfirmed.setCar(true);
                         marriageConfirmed.carName(finalContent);
+                        marriageConfirmed.updateAllChanged();
                         hook.editOriginal(languageContext.get("commands.marry.buycar.success").formatted(EmoteReference.POPPER, carPrice, finalContent))
                                 .setComponents().queue();
                         return Operation.COMPLETED;
@@ -742,6 +745,7 @@ public class MarryCmd {
                         extra = languageContext.get("commands.divorce.split").formatted(portion);
                     }
 
+                    marriage.delete();
                     hook.editOriginal(languageContext.get("commands.divorce.success").formatted(EmoteReference.CORRECT, extra)).setComponents().queue();
                     return Operation.COMPLETED;
                 } else if (buttonId.equals("no")) {

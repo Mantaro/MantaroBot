@@ -34,13 +34,17 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.db.entities.*;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.rethinkdb.RethinkDB.r;
 
@@ -317,7 +321,6 @@ public class ManagedDatabase {
         var collection = dbMantaro().getCollection(object.getTableName(), clazz);
         var returnDoc = new FindOneAndReplaceOptions().returnDocument(ReturnDocument.AFTER);
         var found = collection.findOneAndReplace(Filters.eq(object.getId()), object, returnDoc);
-
         if (found == null) { // New document?
             collection.insertOne(object);
         }
@@ -327,13 +330,24 @@ public class ManagedDatabase {
         log("Deleting {} {}:{} from MongoDB (whole)", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
 
         MongoCollection<T> collection = dbMantaro().getCollection(object.getTableName(), clazz);
-        collection.deleteOne(new Document("_id", object.getId()));
+        collection.deleteOne(Filters.eq(object.getId()));
     }
 
-    public <T extends ManagedMongoObject> void updateFieldValue(T object, String key, Object value) {
+    public void updateFieldValue(ManagedMongoObject object, String key, Object value) {
         log("Updating id {} key {} (from db {}) to {} (single value)", object.getId(), key, object.getTableName(), value);
 
         var collection = dbMantaro().getCollection(object.getTableName());
         collection.updateOne(Filters.eq(object.getId()), Updates.set(key, value));
+    }
+
+    public void updateFieldValues(ManagedMongoObject object, Map<String, Object> map) {
+        log("Updating tracked set of size {} (from db {}) (batch values)", object.getId(), map.size(), object.getTableName());
+
+        var collection = dbMantaro().getCollection(object.getTableName());
+        List<Bson> updateCollection = new ArrayList<>(
+                map.entrySet().stream().map((entry) -> Updates.set(entry.getKey(), entry.getValue())).toList()
+        );
+
+        collection.updateOne(Filters.eq(object.getId()), updateCollection);
     }
 }

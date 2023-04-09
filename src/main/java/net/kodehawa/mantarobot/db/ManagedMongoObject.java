@@ -24,6 +24,11 @@ public interface ManagedMongoObject {
         MantaroData.db().updateFieldValue(this, key, value);
     }
 
+    @BsonIgnore
+    default void updateAllChanged() {
+        throw new UnsupportedOperationException();
+    }
+
     // Need to implement class-by-class...
     @BsonIgnore
     void save();
