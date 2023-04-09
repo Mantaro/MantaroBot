@@ -450,10 +450,6 @@ public class CommandRegistry {
     }
 
     public void renewPremiumKey(ManagedDatabase managedDatabase, User author, UserDatabase dbUser, GuildDatabase guildData) {
-        if (dbUser.getPremiumKey() == null && guildData.getPremiumKey() == null) { // Nothing to renew
-            return;
-        }
-
         if (dbUser.getPremiumKey() != null) {
             final var currentKey = managedDatabase.getPremiumKey(dbUser.getPremiumKey());
             if (currentKey != null) {
