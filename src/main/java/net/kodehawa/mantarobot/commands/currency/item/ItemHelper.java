@@ -542,6 +542,7 @@ public class ItemHelper {
 
             var stats = ctx.db().getPlayerStats(ctx.getAuthor());
             stats.incrementToolsBroken();
+            stats.updateAllChanged();
 
             //is broken
             return Pair.of(true, Pair.of(player, user));

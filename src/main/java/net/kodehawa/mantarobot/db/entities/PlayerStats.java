@@ -25,10 +25,14 @@ import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
 
 import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PlayerStats implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "playerstats";
+    @BsonIgnore
+    public Map<String, Object> fieldTracker = new HashMap<>();
 
     @BsonId
     private String id;
@@ -63,16 +67,6 @@ public class PlayerStats implements ManagedMongoObject {
 
     public static PlayerStats of(String userId) {
         return new PlayerStats(userId, 0L, 0L, 0L, 0L);
-    }
-
-    @BsonIgnore
-    public void addGambleWin(long amount) {
-        this.gambleWinAmount += amount;
-    }
-
-    @BsonIgnore
-    public void addSlotsWin(long amount) {
-        this.slotsWinAmount += amount;
     }
 
     @Nonnull
@@ -175,69 +169,87 @@ public class PlayerStats implements ManagedMongoObject {
     }
 
     @BsonIgnore
+    public void addGambleWin(long amount) {
+        this.gambleWinAmount += amount;
+        fieldTracker.put("gambleWinAmount", this.gambleWinAmount);
+    }
+
+    @BsonIgnore
+    public void addSlotsWin(long amount) {
+        this.slotsWinAmount += amount;
+        fieldTracker.put("slotsWinAmount", this.slotsWinAmount);
+    }
+
+    @BsonIgnore
     public void incrementMined() {
         this.mined += 1;
-        updateField("mined", this.mined);
+        fieldTracker.put("mined", this.mined);
     }
 
     @BsonIgnore
     public void incrementLooted() {
         this.looted += 1;
-        updateField("looted", this.looted);
+        fieldTracker.put("looted", this.looted);
     }
 
     @BsonIgnore
     public void incrementGambleWins() {
         this.gambleWins += 1;
-        updateField("gambleWins", this.slotsWins);
+        fieldTracker.put("gambleWins", this.slotsWins);
     }
 
     @BsonIgnore
     public void incrementSlotsWins() {
         this.slotsWins += 1;
-        updateField("slotsWins", this.slotsWins);
+        fieldTracker.put("slotsWins", this.slotsWins);
     }
 
     @BsonIgnore
     public void incrementGambleLose() {
         gambleLose += 1;
-        updateField("gambleLose", this.gambleLose);
+        fieldTracker.put("gambleLose", this.gambleLose);
     }
 
     @BsonIgnore
     public void incrementSlotsLose() {
         slotsLose += 1;
-        updateField("slotsLose", this.slotsLose);
+        fieldTracker.put("slotsLose", this.slotsLose);
     }
 
     @BsonIgnore
     public void incrementToolsBroken() {
         this.toolsBroken++;
-        updateField("toolsBroken", this.toolsBroken);
+        fieldTracker.put("toolsBroken", this.toolsBroken);
     }
 
     @BsonIgnore
     public void incrementCraftedItems() {
         this.craftedItems++;
-        updateField("craftedItems", this.craftedItems);
+        fieldTracker.put("craftedItems", this.craftedItems);
     }
 
     @BsonIgnore
     public void incrementCraftedItems(int amount) {
         this.craftedItems += amount;
-        updateField("craftedItems", this.craftedItems);
+        fieldTracker.put("craftedItems", this.craftedItems);
     }
 
     @BsonIgnore
     public void incrementRepairedItems() {
         this.repairedItems++;
-        updateField("repairedItems", this.craftedItems);
+        fieldTracker.put("repairedItems", this.craftedItems);
     }
 
     @BsonIgnore
     public void incrementSalvagedItems() {
         this.salvagedItems++;
-        updateField("salvagedItems", this.craftedItems);
+        fieldTracker.put("salvagedItems", this.craftedItems);
+    }
+
+    @BsonIgnore
+    @Override
+    public void updateAllChanged() {
+        MantaroData.db().updateFieldValues(this, fieldTracker);
     }
 
     @Override

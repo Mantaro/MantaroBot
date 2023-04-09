@@ -280,6 +280,7 @@ public class ItemCmds {
 
                 PlayerStats stats = ctx.getPlayerStats();
                 stats.incrementCraftedItems(amountSpecified);
+                stats.updateAllChanged();
 
                 ItemHelper.handleItemDurability(wrenchItem, ctx, player, user, "commands.cast.autoequip.success");
                 ctx.replyRaw(ctx.getLanguageContext().get("commands.cast.success") + "\n" + message,
@@ -479,6 +480,7 @@ public class ItemCmds {
 
                 var stats = ctx.getPlayerStats();
                 stats.incrementRepairedItems();
+                stats.updateAllChanged();
 
                 ItemHelper.handleItemDurability(wrenchItem, ctx, player, user, "commands.cast.autoequip.success");
                 ctx.replyRaw(ctx.getLanguageContext().get("commands.repair.success"),
@@ -633,6 +635,7 @@ public class ItemCmds {
 
                 var stats = ctx.getPlayerStats();
                 stats.incrementSalvagedItems();
+                stats.updateAllChanged();
 
                 ItemHelper.handleItemDurability(wrenchItem, ctx, player, user, "commands.cast.autoequip.success");
                 ctx.reply("commands.salvage.success", wrenchItem.getEmojiDisplay(), item.getEmojiDisplay(), item.getName(), toReturn.getEmojiDisplay(), toReturn.getName(), salvageCost);

@@ -400,6 +400,7 @@ public class GambleCmds {
 
             stats.incrementSlotsWins();
             stats.addSlotsWin(gains);
+            stats.updateAllChanged();
 
             if ((gains + money) > SLOTS_MAX_MONEY) {
                 player.getData().addBadgeIfAbsent(Badge.LUCKY_SEVEN);
@@ -413,6 +414,7 @@ public class GambleCmds {
             player.save();
         } else {
             stats.incrementSlotsLose();
+            stats.updateAllChanged();
             message.append(toSend).append("\n\n").append(
                     languageContext.withRoot("commands", "slots.lose").formatted(EmoteReference.SAD)
             );
@@ -529,6 +531,7 @@ public class GambleCmds {
 
                 stats.incrementGambleWins();
                 stats.addGambleWin(gains);
+                stats.updateAllChanged();
 
                 ctx.sendLocalized("commands.gamble.win", EmoteReference.DICE, gains);
             } else {
@@ -543,6 +546,7 @@ public class GambleCmds {
             player.setCurrentMoney(Math.max(0, player.getCurrentMoney() - i));
 
             stats.incrementGambleLose();
+            stats.updateAllChanged();
             ctx.sendLocalized("commands.gamble.lose", EmoteReference.DICE,
                     (player.getCurrentMoney() == 0 ? ctx.getLanguageContext().get("commands.gamble.lose_all") + " " + oldMoney : i),
                     EmoteReference.SAD
