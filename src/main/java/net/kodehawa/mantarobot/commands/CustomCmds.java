@@ -371,7 +371,7 @@ public class CustomCmds {
 
                 var nsfw = ctx.getOptionAsBoolean("nsfw");
                 var id = "%s/%s".formatted(ctx.getAuthor().getId(), ctx.getChannel().getId());
-                var modal = Modal.create(id, lang.get("commands.custom.add.header_slash")).addActionRows(ActionRow.of(nameInput), ActionRow.of(subject)).build();
+                var modal = Modal.create(id, lang.get("commands.custom.add.header_slash")).addComponents(ActionRow.of(nameInput), ActionRow.of(subject)).build();
                 ctx.replyModal(modal);
 
                 ModalOperations.create(id, 300, new ModalOperation() {
@@ -577,7 +577,7 @@ public class CustomCmds {
                 }
 
                 var modal = Modal.create(id, lang.get("commands.custom.edit.header_slash"))
-                        .addActionRows(ActionRow.of(subject.build()))
+                        .addComponents(ActionRow.of(subject.build()))
                         .build();
 
                 ctx.replyModal(modal);
