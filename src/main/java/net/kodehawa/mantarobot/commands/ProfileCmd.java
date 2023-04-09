@@ -166,14 +166,13 @@ public class ProfileCmd {
             @Override
             protected void process(SlashContext ctx) {
                 final var dbUser = ctx.getDBUser();
-                final var userData = dbUser.getData();
-                final var isDisabled = userData.isActionsDisabled();
+                final var isDisabled = dbUser.isActionsDisabled();
 
                 if (isDisabled) {
-                    userData.setActionsDisabled(false);
+                    dbUser.setActionsDisabled(false);
                     ctx.replyEphemeral("commands.profile.toggleaction.enabled", EmoteReference.CORRECT);
                 } else {
-                    userData.setActionsDisabled(true);
+                    dbUser.setActionsDisabled(true);
                     ctx.replyEphemeral("commands.profile.toggleaction.disabled", EmoteReference.CORRECT);
                 }
 
@@ -190,7 +189,7 @@ public class ProfileCmd {
                 var toSet = !data.isHiddenLegacy();
                 data.setHiddenLegacy(toSet);
 
-                player.saveUpdating();
+                player.save();
                 ctx.replyEphemeral("commands.profile.hidelegacy", EmoteReference.CORRECT, data.isHiddenLegacy());
             }
         }
@@ -206,18 +205,17 @@ public class ProfileCmd {
             @Override
             protected void process(SlashContext ctx) {
                 var user = ctx.getDBUser();
-                var data = user.getData();
 
                 if (ctx.getOptionAsBoolean("disable")) {
-                    data.setAutoEquip(false);
-                    user.saveUpdating();
+                    user.setAutoEquip(false);
+                    user.save();
 
                     ctx.replyEphemeral("commands.profile.autoequip.disable", EmoteReference.CORRECT);
                     return;
                 }
 
-                data.setAutoEquip(true);
-                user.saveUpdating();
+                user.setAutoEquip(true);
+                user.save();
 
                 ctx.replyEphemeral("commands.profile.autoequip.success", EmoteReference.CORRECT);
             }
@@ -228,12 +226,11 @@ public class ProfileCmd {
             @Override
             protected void process(SlashContext ctx) {
                 var user = ctx.getDBUser();
-                var data = user.getData();
 
-                data.setPrivateTag(!data.isPrivateTag());
-                user.saveUpdating();
+                user.setPrivateTag(!user.isPrivateTag());
+                user.save();
 
-                ctx.replyEphemeral("commands.profile.hide_tag.success", EmoteReference.POPPER, data.isPrivateTag());
+                ctx.replyEphemeral("commands.profile.hide_tag.success", EmoteReference.POPPER, user.isPrivateTag());
             }
         }
 
@@ -259,8 +256,8 @@ public class ProfileCmd {
                 }
 
                 if (timezone.equalsIgnoreCase("reset")) {
-                    dbUser.getData().setTimezone(null);
-                    dbUser.saveAsync();
+                    dbUser.setTimezone(null);
+                    dbUser.save();
                     ctx.replyEphemeral("commands.profile.timezone.reset_success", EmoteReference.CORRECT);
                     return;
                 }
@@ -271,7 +268,7 @@ public class ProfileCmd {
                 }
 
                 try {
-                    Utils.formatDate(LocalDateTime.now(Utils.timezoneToZoneID(timezone)), dbUser.getData().getLang());
+                    Utils.formatDate(LocalDateTime.now(Utils.timezoneToZoneID(timezone)), dbUser.getLang());
                 } catch (DateTimeException e) {
                     ctx.replyEphemeral("commands.profile.timezone.invalid", EmoteReference.ERROR);
                     return;
@@ -279,11 +276,11 @@ public class ProfileCmd {
 
                 var player = ctx.getPlayer();
                 if (player.getData().addBadgeIfAbsent(Badge.CALENDAR)) {
-                    player.saveUpdating();
+                    player.save();
                 }
 
-                dbUser.getData().setTimezone(timezone);
-                dbUser.saveUpdating();
+                dbUser.setTimezone(timezone);
+                dbUser.save();
                 ctx.replyEphemeral("commands.profile.timezone.success", EmoteReference.CORRECT, timezone);
             }
         }
@@ -301,18 +298,18 @@ public class ProfileCmd {
                 var dbUser = ctx.getDBUser();
                 var content = ctx.getOptionAsString("lang");
                 if (content.equalsIgnoreCase("reset")) {
-                    dbUser.getData().setLang(null);
-                    dbUser.saveUpdating();
+                    dbUser.setLang(null);
+                    dbUser.save();
                     ctx.replyEphemeral("commands.profile.lang.reset_success", EmoteReference.CORRECT);
                     return;
                 }
 
                 if (I18n.isValidLanguage(content)) {
-                    dbUser.getData().setLang(content);
+                    dbUser.setLang(content);
                     //Create new I18n context based on the new language choice.
-                    var newContext = new I18nContext(ctx.getDBGuild(), dbUser.getData());
+                    var newContext = new I18nContext(ctx.getDBGuild(), dbUser);
 
-                    dbUser.saveUpdating();
+                    dbUser.save();
                     ctx.replyEphemeralRaw(newContext.get("commands.profile.lang.success"), EmoteReference.CORRECT, content);
                 } else {
                     ctx.replyEphemeral("commands.profile.lang.invalid", EmoteReference.ERROR);
@@ -339,7 +336,7 @@ public class ProfileCmd {
                 if (ctx.getOptionAsBoolean("clear")) {
                     var player = ctx.getPlayer();
                     player.getData().setDescription(null);
-                    player.saveUpdating();
+                    player.save();
 
                     ctx.reply("commands.profile.description.clear_success", EmoteReference.CORRECT);
                     return;
@@ -415,7 +412,7 @@ public class ProfileCmd {
                                 .queue();
 
                         player.getData().addBadgeIfAbsent(Badge.WRITER);
-                        player.saveUpdating();
+                        player.save();
                         return Operation.COMPLETED;
                     }
 
@@ -569,7 +566,6 @@ public class ProfileCmd {
         final var player = ctx.getPlayer(userLooked);
         final var dbUser = ctx.getDBUser(userLooked);
         final var playerData = player.getData();
-        final var userData = dbUser.getData();
         final var inv = player.getInventory();
         final var config = MantaroData.config().get();
 
@@ -623,7 +619,7 @@ public class ProfileCmd {
         final var badges = playerData.getBadges();
         Collections.sort(badges);
 
-        final var marriage = MantaroData.db().getMarriage(userData.getMarriageId());
+        final var marriage = MantaroData.db().getMarriage(dbUser.getMarriageId());
         final var ringHolder = player.getInventory().containsItem(ItemReference.RING) && marriage != null;
         final var holder = new ProfileComponent.Holder(userLooked, player, dbUser, marriage, badges);
         final var profileBuilder = new EmbedBuilder();
@@ -658,7 +654,7 @@ public class ProfileCmd {
 
         // We don't need to update stats if someone else views your profile
         if (player.getUserId().equals(ctx.getAuthor().getId())) {
-            player.saveUpdating();
+            player.save();
         }
 
         return profileBuilder.build();

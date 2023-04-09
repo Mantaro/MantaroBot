@@ -358,11 +358,11 @@ public class InteractionContext<T> implements IContext {
         return managedDatabase.getGuild(getGuild());
     }
 
-    public DBUser getDBUser() {
+    public UserDatabase getDBUser() {
         return managedDatabase.getUser(getAuthor());
     }
 
-    public DBUser getDBUser(User user) {
+    public UserDatabase getDBUser(User user) {
         return managedDatabase.getUser(user);
     }
 

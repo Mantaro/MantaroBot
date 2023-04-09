@@ -58,10 +58,10 @@ public interface IContext {
     void sendFormat(String message, Collection<ActionRow> actionRow, Object... format);
     ManagedDatabase db();
     Player getPlayer();
-    DBUser getDBUser();
+    UserDatabase getDBUser();
     GuildDatabase getDBGuild();
     Player getPlayer(User user);
-    DBUser getDBUser(User user);
+    UserDatabase getDBUser(User user);
     ShardManager getShardManager();
     MantaroObject getMantaroData();
     Config getConfig();

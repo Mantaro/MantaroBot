@@ -22,7 +22,7 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
-import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PlayerStats;
 import net.kodehawa.mantarobot.utils.TriPredicate;
@@ -148,7 +148,7 @@ public enum Badge {
 
     DEPTHS_OF_HELL("Depths of Hell", "\uD83D\uDE08", "Have all 3 Hellfire tools equipped",
             91, 92, (player, stats, dbUser) -> {
-            var equipment = dbUser.getData().getEquippedItems().getEquipment();
+            var equipment = dbUser.getEquippedItems().getEquipment();
             if (equipment.containsKey(PlayerEquipment.EquipmentType.PICK) &&
                     equipment.containsKey(PlayerEquipment.EquipmentType.ROD) && equipment.containsKey(PlayerEquipment.EquipmentType.AXE)) {
                 boolean hellfirePick = equipment.get(PlayerEquipment.EquipmentType.PICK) == ItemHelper.idOf(ItemReference.HELLFIRE_PICK);
@@ -186,7 +186,7 @@ public enum Badge {
     BEST_WAIFU("Best Waifu", "\uD83D\uDC9B",
             "Get waifu claimed 1,000 times (how?).",
             91, 92,
-            (player, stats, dbUser) -> dbUser.getData().getTimesClaimed() >= 1000, false
+            (player, stats, dbUser) -> dbUser.getTimesClaimed() >= 1000, false
     ),
 
     BI_YEARLY_CLAIMER("Bi-Yearly Claimer", "\uD83D\uDD65",
@@ -403,13 +403,13 @@ public enum Badge {
     KNOWN_WAIFU("Known Waifu", "\uD83D\uDC9A",
             "Get waifu claimed 100 times.",
             91, 92,
-            (player, stats, dbUser) -> dbUser.getData().getTimesClaimed() >= 100, false
+            (player, stats, dbUser) -> dbUser.getTimesClaimed() >= 100, false
     ),
 
     POPULAR_WAIFU("Popular Waifu", "\uD83D\uDC99",
             "Get waifu claimed 10 times.",
             91, 92,
-            (player, stats, dbUser) -> dbUser.getData().getTimesClaimed() >= 10, false
+            (player, stats, dbUser) -> dbUser.getTimesClaimed() >= 10, false
     ),
 
     MUTUAL("Mutual", "\uD83C\uDF8E",
@@ -421,13 +421,13 @@ public enum Badge {
     WAIFU("Waifu", "\uD83D\uDC96",
             "Get waifu claimed once.",
             91, 92,
-            (player, stats, dbUser) -> dbUser.getData().getTimesClaimed() >= 1, false
+            (player, stats, dbUser) -> dbUser.getTimesClaimed() >= 1, false
     ),
 
     GOLDFISH_BRAIN("Goldfish Brain", "\uD83D\uDDD3",
             "Get reminded way too many times.",
             91, 92,
-            (player, stats, dbUser) -> dbUser.getData().getRemindedTimes() > 100, false
+            (player, stats, dbUser) -> dbUser.getRemindedTimes() > 100, false
     ),
 
     GEM_FINDER("Gem Finder", "\uD83D\uDC8E",
@@ -531,7 +531,7 @@ public enum Badge {
 
     DUSTY("Dusty", "\uD83D\uDCA8", "Get to 100% dust level",
             91, 92,
-            (player, stats, dbUser) -> dbUser.getData().getDustLevel() == 100, false
+            (player, stats, dbUser) -> dbUser.getDustLevel() == 100, false
     ),
 
     FIRE("Fire", "\uD83D\uDD25",
@@ -773,7 +773,7 @@ public enum Badge {
     private final int iconStartX;
     //Where does the icon go in the Y axis relative to the circle placement on the avatar replacement.
     private final int iconStartY;
-    private final TriPredicate<Player, PlayerStats, DBUser> badgePredicate;
+    private final TriPredicate<Player, PlayerStats, UserDatabase> badgePredicate;
     private final boolean obtainable;
 
     /**
@@ -787,7 +787,7 @@ public enum Badge {
      * @param description What did you do to win this
      * @param placeholder Whether to expect a placeholder image instead of an actual badge image (this being false will trigger a warning everytime the badge is loaded without a proper image)
      */
-    Badge(String display, String unicode, String description, int iconStartX, int iconStartY, TriPredicate<Player, PlayerStats, DBUser> badgePredicate, boolean placeholder, boolean obtainable) {
+    Badge(String display, String unicode, String description, int iconStartX, int iconStartY, TriPredicate<Player, PlayerStats, UserDatabase> badgePredicate, boolean placeholder, boolean obtainable) {
         this.display = display;
         this.unicode = unicode;
         this.description = description;
@@ -825,7 +825,7 @@ public enum Badge {
 
     }
 
-    Badge(String display, String unicode, String description, int iconStartX, int iconStartY, TriPredicate<Player, PlayerStats, DBUser> badgePredicate, boolean placeholder) {
+    Badge(String display, String unicode, String description, int iconStartX, int iconStartY, TriPredicate<Player, PlayerStats, UserDatabase> badgePredicate, boolean placeholder) {
         this(display, unicode, description, iconStartX, iconStartY, badgePredicate, placeholder, true);
     }
 
@@ -850,7 +850,7 @@ public enum Badge {
         return null;
     }
 
-    public static void assignBadges(Player player, PlayerStats stats, DBUser user) {
+    public static void assignBadges(Player player, PlayerStats stats, UserDatabase user) {
         for (Badge b : Badge.values()) {
             if (b.badgePredicate.test(player, stats, user)) {
                 player.getData().addBadgeIfAbsent(b);
@@ -906,7 +906,7 @@ public enum Badge {
         return this.unicode;
     }
 
-    public TriPredicate<Player, PlayerStats, DBUser> getBadgePredicate() {
+    public TriPredicate<Player, PlayerStats, UserDatabase> getBadgePredicate() {
         return this.badgePredicate;
     }
 

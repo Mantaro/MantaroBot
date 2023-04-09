@@ -217,10 +217,10 @@ public class MantaroListener implements EventListener {
                 // We don't need to fetch anything unless the user got a Patron role.
                 var user = event.getUser();
                 var dbUser = DATABASE.getUser(user);
-                var currentKey = DATABASE.getPremiumKey(dbUser.getData().getPremiumKey());
+                var currentKey = DATABASE.getPremiumKey(dbUser.getPremiumKey());
 
                 // Already received key.
-                if (dbUser.getData().hasReceivedFirstKey()) {
+                if (dbUser.hasReceivedFirstKey()) {
                     return;
                 }
 
@@ -247,8 +247,8 @@ public class MantaroListener implements EventListener {
                                     EmoteReference.POPPER, PremiumKey.generatePremiumKey(user.getId(), PremiumKey.Type.USER, false).getId()
                             )
                     ).queue(sent -> {
-                                dbUser.getData().setHasReceivedFirstKey(true);
-                                dbUser.saveUpdating();
+                                dbUser.setReceivedFirstKey(true);
+                                dbUser.save();
                             }
                     );
 

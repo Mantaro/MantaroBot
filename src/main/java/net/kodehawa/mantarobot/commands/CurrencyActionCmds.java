@@ -50,7 +50,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.commands.RandomCollection;
@@ -125,7 +125,7 @@ public class CurrencyActionCmds {
         protected void process(SlashContext ctx) {
             final var player = ctx.getPlayer();
             final var dbUser = ctx.getDBUser();
-            final var marriage = ctx.getMarriage(dbUser.getData());
+            final var marriage = ctx.getMarriage(dbUser);
 
             mine(ctx, player, dbUser, marriage);
         }
@@ -144,7 +144,7 @@ public class CurrencyActionCmds {
         protected void process(SlashContext ctx) {
             final var player = ctx.getPlayer();
             final var dbUser = ctx.getDBUser();
-            final var marriage = ctx.getMarriage(dbUser.getData());
+            final var marriage = ctx.getMarriage(dbUser);
 
             fish(ctx, player, dbUser, marriage);
         }
@@ -163,7 +163,7 @@ public class CurrencyActionCmds {
         protected void process(SlashContext ctx) {
             final var player = ctx.getPlayer();
             final var dbUser = ctx.getDBUser();
-            final var marriage = ctx.getMarriage(dbUser.getData());
+            final var marriage = ctx.getMarriage(dbUser);
 
             chop(ctx, player, dbUser, marriage);
         }
@@ -176,7 +176,7 @@ public class CurrencyActionCmds {
             protected void call(Context ctx, String content, String[] args) {
                 final var player = ctx.getPlayer();
                 final var dbUser = ctx.getDBUser();
-                final var marriage = ctx.getMarriage(dbUser.getData());
+                final var marriage = ctx.getMarriage(dbUser);
 
                 mine(ctx, player, dbUser, marriage);
             }
@@ -202,7 +202,7 @@ public class CurrencyActionCmds {
             protected void call(Context ctx, String content, String[] args) {
                 final var player = ctx.getPlayer();
                 final var dbUser = ctx.getDBUser();
-                final var marriage = ctx.getMarriage(dbUser.getData());
+                final var marriage = ctx.getMarriage(dbUser);
 
                 fish(ctx, player, dbUser, marriage);
             }
@@ -229,7 +229,7 @@ public class CurrencyActionCmds {
             protected void call(Context ctx, String content, String[] args) {
                 final var player = ctx.getPlayer();
                 final var dbUser = ctx.getDBUser();
-                final var marriage = ctx.getMarriage(dbUser.getData());
+                final var marriage = ctx.getMarriage(dbUser);
 
                 chop(ctx, player, dbUser, marriage);
             }
@@ -249,10 +249,10 @@ public class CurrencyActionCmds {
         });
     }
 
-    private static void mine(IContext ctx, Player player, DBUser dbUser, Marriage marriage) {
+    private static void mine(IContext ctx, Player player, UserDatabase dbUser, Marriage marriage) {
         final var languageContext = ctx.getLanguageContext();
         final var playerData = player.getData();
-        final var userData = dbUser.getData();
+        final var userData = dbUser;
 
         final var inventory = player.getInventory();
         final var equipped = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.PICK);
@@ -475,13 +475,12 @@ public class CurrencyActionCmds {
         ctx.sendStripped(message);
     }
 
-    private static void fish(IContext ctx, Player player, DBUser dbUser, Marriage marriage) {
+    private static void fish(IContext ctx, Player player, UserDatabase dbUser, Marriage marriage) {
         final var languageContext = ctx.getLanguageContext();
         final var playerData = player.getData();
-        final var userData = dbUser.getData();
         final var playerInventory = player.getInventory();
         FishRod item;
-        var equipped = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.ROD);
+        var equipped = dbUser.getEquippedItems().of(PlayerEquipment.EquipmentType.ROD);
 
         if (equipped == 0) {
             ctx.sendLocalized("commands.fish.no_rod_equipped", EmoteReference.ERROR);
@@ -501,7 +500,7 @@ public class CurrencyActionCmds {
         var chance = random.nextInt(100);
         var buff = ItemHelper.handleEffect(
                 PlayerEquipment.EquipmentType.BUFF,
-                userData.getEquippedItems(),
+                dbUser.getEquippedItems(),
                 ItemReference.FISHING_BAIT, dbUser
         );
 
@@ -511,8 +510,8 @@ public class CurrencyActionCmds {
 
         if (chance < 10) {
             //Here your fish rod got dusty. Yes, on the sea.
-            var level = userData.increaseDustLevel(random.nextInt(4));
-            dbUser.saveUpdating();
+            var level = dbUser.increaseDustLevel(random.nextInt(4));
+            dbUser.save();
 
             ctx.sendLocalized("commands.fish.dust", EmoteReference.TALKING, level);
             ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.fish.autoequip.success");
@@ -580,8 +579,8 @@ public class CurrencyActionCmds {
 
             // START OF WAIFU HELP IMPLEMENTATION
             boolean waifuHelp = false;
-            if (ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
-                if (userData.getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 20_000L)) {
+            if (ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, dbUser.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
+                if (dbUser.getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 20_000L)) {
                     money += Math.max(10, random.nextInt(150));
                     waifuHelp = true;
                 }
@@ -677,9 +676,9 @@ public class CurrencyActionCmds {
             //START OF REPLY HANDLING
             //Didn't find a thingy thing.
             if (money == 0 && !foundFish) {
-                int level = userData.increaseDustLevel(random.nextInt(4));
+                int level = dbUser.increaseDustLevel(random.nextInt(4));
                 ctx.sendLocalized("commands.fish.dust", EmoteReference.TALKING, level);
-                dbUser.saveUpdating();
+                dbUser.save();
 
                 ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.fish.autoequip.success");
                 return;
@@ -709,14 +708,13 @@ public class CurrencyActionCmds {
         ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.fish.autoequip.success");
     }
 
-    private static void chop(IContext ctx, Player player, DBUser dbUser, Marriage marriage) {
+    private static void chop(IContext ctx, Player player, UserDatabase dbUser, Marriage marriage) {
         final var languageContext = ctx.getLanguageContext();
         final var playerData = player.getData();
-        final var userData = dbUser.getData();
         final var playerInventory = player.getInventory();
 
         var extraMessage = "\n";
-        var equipped = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.AXE);
+        var equipped = dbUser.getEquippedItems().of(PlayerEquipment.EquipmentType.AXE);
 
         if (equipped == 0) {
             ctx.sendLocalized("commands.chop.not_equipped", EmoteReference.ERROR);
@@ -730,7 +728,7 @@ public class CurrencyActionCmds {
 
         var chance = random.nextInt(100);
         var hasPotion = ItemHelper.handleEffect(
-                PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.POTION_HASTE, dbUser
+                PlayerEquipment.EquipmentType.POTION, dbUser.getEquippedItems(), ItemReference.POTION_HASTE, dbUser
         );
 
         if (hasPotion) {
@@ -739,7 +737,7 @@ public class CurrencyActionCmds {
 
         if (chance < 10) {
             // Found nothing.
-            int level = userData.increaseDustLevel(random.nextInt(5));
+            int level = dbUser.increaseDustLevel(random.nextInt(5));
             dbUser.save();
             // Process axe durability.
             ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.chop.autoequip.success");
@@ -861,7 +859,7 @@ public class CurrencyActionCmds {
                 ctx.sendFormatStripped(extraMessage + "\n\n" + languageContext.get("commands.chop.success_only_item"), item.getEmojiDisplay(), itemDisplay, item.getName());
             } else if (!found && money == 0) {
                 // This doesn't actually increase the dust level, though.
-                var level = userData.getDustLevel();
+                var level = dbUser.getDustLevel();
                 ctx.sendLocalized("commands.chop.dust", EmoteReference.SAD, level);
             } else {
                 ctx.sendFormatStripped(extraMessage + "\n\n" + languageContext.get("commands.chop.success"), item.getEmojiDisplay(), itemDisplay, money, item.getName());

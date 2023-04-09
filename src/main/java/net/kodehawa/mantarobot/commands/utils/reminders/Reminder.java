@@ -60,11 +60,9 @@ public class Reminder {
         }
 
         var user = db.getUser(userId);
-        var data = user.getData();
-        data.getReminders().remove(fullId);
-
+        user.getReminders().remove(fullId);
         if (reason == CancelReason.REMINDED) {
-            data.incrementReminders();
+            user.incrementReminders();
         }
 
         user.save();
@@ -86,9 +84,7 @@ public class Reminder {
         }
 
         var user = db.getUser(userId);
-        var data = user.getData();
-
-        data.getReminders().add(id + ":" + userId);
+        user.getReminders().add(id + ":" + userId);
         user.save();
     }
 

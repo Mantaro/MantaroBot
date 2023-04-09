@@ -96,8 +96,8 @@ public class MarryCmd {
                 }
 
                 // This is just for checking purposes, so we don't need the DBUser itself.
-                var proposingUserData = ctx.getDBUser(proposingUser).getData();
-                var proposedToUserData = ctx.getDBUser(proposedToUser).getData();
+                var proposingUserData = ctx.getDBUser(proposingUser);
+                var proposedToUserData = ctx.getDBUser(proposedToUser);
 
                 // Again just for checking, and no need to change.
                 final var proposingPlayerInventory = ctx.getPlayer(proposingUser).getInventory();
@@ -182,8 +182,8 @@ public class MarryCmd {
                         var proposingUserDB = ctx.getDBUser(proposingUser);
                         var proposedToUserDB = ctx.getDBUser(proposedToUser);
 
-                        final var proposingMarriageFinal = proposingUserDB.getData().getMarriage();
-                        final var proposedToMarriageFinal = proposedToUserDB.getData().getMarriage();
+                        final var proposingMarriageFinal = proposingUserDB.getMarriage();
+                        final var proposedToMarriageFinal = proposedToUserDB.getMarriage();
 
                         if (proposingMarriageFinal != null) {
                             hook.editOriginal(languageContext.get("commands.marry.already_married").formatted(EmoteReference.ERROR))
@@ -226,8 +226,8 @@ public class MarryCmd {
                         actualMarriage.marriageCreationMillis(marriageCreationMillis);
 
                         // Assign the marriage ID to the respective users and save it.
-                        proposingUserDB.getData().setMarriageId(marriageId);
-                        proposedToUserDB.getData().setMarriageId(marriageId);
+                        proposingUserDB.setMarriageId(marriageId);
+                        proposedToUserDB.setMarriageId(marriageId);
                         proposingUserDB.save();
                         proposedToUserDB.save();
 
@@ -279,8 +279,7 @@ public class MarryCmd {
             protected void process(SlashContext ctx) {
                 final var author = ctx.getAuthor();
                 final var dbUser = ctx.getDBUser();
-                final var dbUserData = dbUser.getData();
-                final var currentMarriage = dbUserData.getMarriage();
+                final var currentMarriage = dbUser.getMarriage();
                 final var languageContext = ctx.getLanguageContext();
                 //What status would we have without marriage? Well, we can be unmarried omegalul.
                 if (currentMarriage == null) {
@@ -302,10 +301,10 @@ public class MarryCmd {
                 }
 
                 final var marriedDBUser = ctx.getDBUser(marriedTo);
-                final var dateFormat = Utils.formatDate(currentMarriage.getMarriageCreationMillis(), dbUserData.getLang());
-                final var eitherHasWaifus = !(dbUserData.getWaifus().isEmpty() && marriedDBUser.getData().getWaifus().isEmpty());
-                final var marriedToName = dbUserData.isPrivateTag() ? marriedTo.getName() : marriedTo.getAsTag();
-                final var authorName = dbUserData.isPrivateTag() ? author.getName() : author.getAsTag();
+                final var dateFormat = Utils.formatDate(currentMarriage.getMarriageCreationMillis(), dbUser.getLang());
+                final var eitherHasWaifus = !(dbUser.getWaifus().isEmpty() && marriedDBUser.getWaifus().isEmpty());
+                final var marriedToName = dbUser.isPrivateTag() ? marriedTo.getName() : marriedTo.getAsTag();
+                final var authorName = dbUser.isPrivateTag() ? author.getName() : author.getAsTag();
                 final var daysMarried = TimeUnit.of(ChronoUnit.MILLIS).toDays(System.currentTimeMillis() - currentMarriage.getMarriageCreationMillis());
 
                 var embedBuilder = new EmbedBuilder()
@@ -380,7 +379,7 @@ public class MarryCmd {
                     ctx.reply("commands.marry.loveletter.no_letter", EmoteReference.SAD);
                     return;
                 }
-                final var currentMarriage = dbUser.getData().getMarriage();
+                final var currentMarriage = dbUser.getMarriage();
 
                 // Check if the user is married,
                 // is the proposed player, there's no love letter and
@@ -436,7 +435,7 @@ public class MarryCmd {
                     if (button.equals("yes")) {
                         final var playerFinal = ctx.getPlayer();
                         final var inventoryFinal = playerFinal.getInventory();
-                        final var currentMarriageFinal = dbUser.getData().getMarriage();
+                        final var currentMarriageFinal = dbUser.getMarriage();
 
                         //We need to do most of the checks all over again just to make sure nothing important slipped through.
                         if (currentMarriageFinal == null) {
@@ -489,7 +488,7 @@ public class MarryCmd {
                 var player = ctx.getPlayer();
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var name = ctx.getOptionAsString("name");
                 var languageContext = ctx.getLanguageContext();
 
@@ -530,7 +529,7 @@ public class MarryCmd {
                         var playerConfirmed = ctx.getPlayer();
                         var playerInventoryConfirmed = playerConfirmed.getInventory();
                         var dbUserConfirmed = ctx.getDBUser();
-                        var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
+                        var marriageConfirmed = dbUserConfirmed.getMarriage();
 
                         // People like to mess around lol.
                         if (!playerInventoryConfirmed.containsItem(ItemReference.HOUSE)) {
@@ -582,7 +581,7 @@ public class MarryCmd {
                 var player = ctx.getPlayer();
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var name = ctx.getOptionAsString("name");
                 var languageContext = ctx.getLanguageContext();
 
@@ -623,7 +622,7 @@ public class MarryCmd {
                         var playerConfirmed = ctx.getPlayer();
                         var playerInventoryConfirmed = playerConfirmed.getInventory();
                         var dbUserConfirmed = ctx.getDBUser();
-                        var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
+                        var marriageConfirmed = dbUserConfirmed.getMarriage();
 
                         // People like to mess around lol.
                         if (!playerInventoryConfirmed.containsItem(ItemReference.CAR)) {
@@ -668,7 +667,7 @@ public class MarryCmd {
         @Override
         protected void process(SlashContext ctx) {
             //We, indeed, have no marriage here.
-            if (ctx.getDBUser().getData().getMarriage() == null) {
+            if (ctx.getDBUser().getMarriage() == null) {
                 ctx.reply("commands.divorce.not_married", EmoteReference.ERROR);
                 return;
             }
@@ -688,7 +687,7 @@ public class MarryCmd {
                 var hook = e.getHook();
                 if (buttonId.equals("yes")) {
                     final var divorceeDBUser = ctx.getDBUser();
-                    final var marriage = divorceeDBUser.getData().getMarriage();
+                    final var marriage = divorceeDBUser.getMarriage();
                     if (marriage == null) {
                         hook.editOriginal(languageContext.get("commands.divorce.not_married").formatted(EmoteReference.ERROR)).setComponents().queue();
                         return Operation.COMPLETED;
@@ -700,11 +699,11 @@ public class MarryCmd {
                     final var divorceePlayer = ctx.getPlayer();
 
                     // Save the user of the person they were married with.
-                    marriedWithDBUser.getData().setMarriageId(null);
+                    marriedWithDBUser.setMarriageId(null);
                     marriedWithDBUser.save();
 
                     // Save the user of themselves.
-                    divorceeDBUser.getData().setMarriageId(null);
+                    divorceeDBUser.setMarriageId(null);
                     divorceeDBUser.save();
 
                     // Add the heart broken badge to the user who divorced.

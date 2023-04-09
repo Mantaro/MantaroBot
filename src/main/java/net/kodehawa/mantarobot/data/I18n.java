@@ -87,7 +87,7 @@ public class I18n {
     }
 
     public static I18n ofUser(String userId) {
-        var lang = MantaroData.db().getUser(userId).getData().getLang();
+        var lang = MantaroData.db().getUser(userId).getLang();
         return getForLanguage(lang);
     }
 

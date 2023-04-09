@@ -256,7 +256,6 @@ public class MoneyCmds {
         var authorPlayer = ctx.getPlayer();
         var authorPlayerData = authorPlayer.getData();
         final var authorDBUser = ctx.getDBUser();
-        final var authorUserData = authorDBUser.getData();
 
         if (authorPlayer.isLocked()) {
             ctx.sendLocalized("commands.daily.errors.own_locked");
@@ -295,17 +294,15 @@ public class MoneyCmds {
             dailyMoney += random.nextInt(120);
 
             var mentionedDBUser = ctx.getDBUser(otherUser);
-            var mentionedUserData = mentionedDBUser.getData();
-
             // Marriage bonus
-            var marriage = authorUserData.getMarriage();
+            var marriage = authorDBUser.getMarriage();
             if (marriage != null && otherUser.getId().equals(marriage.getOtherPlayer(ctx.getAuthor().getId())) &&
                     playerOtherUser.getInventory().containsItem(ItemReference.RING)) {
                 dailyMoney += Math.max(10, random.nextInt(200));
             }
 
             // Mutual waifu status.
-            if (authorUserData.getWaifus().containsKey(otherUser.getId()) && mentionedUserData.getWaifus().containsKey(author.getId())) {
+            if (authorDBUser.getWaifus().containsKey(otherUser.getId()) && mentionedDBUser.getWaifus().containsKey(author.getId())) {
                 dailyMoney +=Math.max(5, random.nextInt(200));
             }
 
@@ -540,11 +537,10 @@ public class MoneyCmds {
                     ctx.sendLocalized("commands.loot.without_item.found_but_overflow", EmoteReference.POPPER, moneyFound);
                 }
             } else {
-                var dust = dbUser.getData().increaseDustLevel(random.nextInt(2));
+                var dust = dbUser.increaseDustLevel(random.nextInt(2));
                 var msg = languageContext.withRoot("commands", "loot.dust").formatted(dust);
 
                 dbUser.save();
-
                 if (random.nextInt(100) > 93) {
                     msg += languageContext.withRoot("commands", "loot.easter");
                 }

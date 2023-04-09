@@ -264,21 +264,23 @@ public class ManagedDatabase {
 
     @Nonnull
     @CheckReturnValue
-    public DBUser getUser(@Nonnull String userId) {
-        log("Requesting user {} from RethinkDB", userId);
-        DBUser user = r.table(DBUser.DB_TABLE).get(userId).runAtom(conn, DBUser.class);
-        return user == null ? DBUser.of(userId) : user;
+    public UserDatabase getUser(@Nonnull String userId) {
+        log("Requesting user {} from MongoDB", userId);
+        var collection = dbMantaro().getCollection(UserDatabase.DB_TABLE, UserDatabase.class);
+        var user = collection.find().filter(Filters.eq(userId)).first();
+
+        return user == null ? UserDatabase.of(userId) : user;
     }
 
     @Nonnull
     @CheckReturnValue
-    public DBUser getUser(@Nonnull User user) {
+    public UserDatabase getUser(@Nonnull User user) {
         return getUser(user.getId());
     }
 
     @Nonnull
     @CheckReturnValue
-    public DBUser getUser(@Nonnull Member member) {
+    public UserDatabase getUser(@Nonnull Member member) {
         return getUser(member.getUser());
     }
 

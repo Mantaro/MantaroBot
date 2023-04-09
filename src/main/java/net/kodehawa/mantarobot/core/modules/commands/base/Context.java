@@ -40,7 +40,6 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.*;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
@@ -179,19 +178,19 @@ public class Context implements IContext {
         return managedDatabase.getGuild(getGuild());
     }
 
-    public DBUser getDBUser() {
+    public UserDatabase getDBUser() {
         return managedDatabase.getUser(getUser());
     }
 
-    public DBUser getDBUser(User user) {
+    public UserDatabase getDBUser(User user) {
         return managedDatabase.getUser(user);
     }
 
-    public DBUser getDBUser(Member member) {
+    public UserDatabase getDBUser(Member member) {
         return managedDatabase.getUser(member);
     }
 
-    public DBUser getDBUser(String id) {
+    public UserDatabase getDBUser(String id) {
         return managedDatabase.getUser(id);
     }
 
@@ -253,7 +252,7 @@ public class Context implements IContext {
         return StringUtils.parseArguments(getArguments());
     }
 
-    public Marriage getMarriage(UserData userData) {
+    public Marriage getMarriage(UserDatabase userData) {
         return MantaroData.db().getMarriage(userData.getMarriageId());
     }
 

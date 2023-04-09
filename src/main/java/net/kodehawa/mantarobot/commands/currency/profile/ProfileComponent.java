@@ -24,7 +24,7 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
 import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
@@ -75,7 +75,7 @@ public enum ProfileComponent {
         return "**Mine:** %s XP | **Fish:** %s XP | **Chop:** %s XP".formatted(mine, fish, chop);
     }, true, false),
     BIRTHDAY(EmoteReference.POPPER, i18nContext -> i18nContext.get("commands.profile.birthday"), (holder, i18nContext) -> {
-        var data = holder.getDbUser().getData();
+        var data = holder.getDbUser();
 
         try {
             if (data.getBirthday() == null)
@@ -93,7 +93,7 @@ public enum ProfileComponent {
         }
     }),
     MARRIAGE(EmoteReference.HEART, i18nContext -> i18nContext.get("commands.profile.married"), (holder, i18nContext) -> {
-        var userData = holder.getDbUser().getData();
+        var userData = holder.getDbUser();
         var currentMarriage = holder.getMarriage();
         User marriedTo = null;
 
@@ -165,7 +165,7 @@ public enum ProfileComponent {
                 );
     }, true, false),
     FOOTER(null, null, (holder, i18nContext) -> {
-        var userData = holder.getDbUser().getData();
+        var userData = holder.getDbUser();
         String timezone;
 
         if (userData.getTimezone() == null) {
@@ -246,11 +246,11 @@ public enum ProfileComponent {
     public static class Holder {
         private User user;
         private Player player;
-        private DBUser dbUser;
+        private UserDatabase dbUser;
         private List<Badge> badges;
         private Marriage marriage;
 
-        public Holder(User user, Player player, DBUser dbUser, Marriage marriage, List<Badge> badges) {
+        public Holder(User user, Player player, UserDatabase dbUser, Marriage marriage, List<Badge> badges) {
             this.user = user;
             this.player = player;
             this.dbUser = dbUser;
@@ -275,11 +275,11 @@ public enum ProfileComponent {
             this.player = player;
         }
 
-        public DBUser getDbUser() {
+        public UserDatabase getDbUser() {
             return this.dbUser;
         }
 
-        public void setDbUser(DBUser dbUser) {
+        public void setDbUser(UserDatabase dbUser) {
             this.dbUser = dbUser;
         }
 

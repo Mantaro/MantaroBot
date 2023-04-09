@@ -147,8 +147,7 @@ public class ItemCmds {
                 var player = ctx.getPlayer();
                 var playerData = player.getData();
                 var user = ctx.getDBUser();
-                var userData = user.getData();
-                var wrench = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
+                var wrench = user.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
                 if (wrench == 0) {
                     ctx.reply("commands.cast.not_equipped", EmoteReference.ERROR);
                     return;
@@ -215,7 +214,7 @@ public class ItemCmds {
                 }
 
                 var playerInventory = player.getInventory();
-                var dust = userData.getDustLevel();
+                var dust = user.getDustLevel();
                 if (dust > 95) {
                     ctx.reply("commands.cast.dust", EmoteReference.ERROR, dust);
                     return;
@@ -273,7 +272,7 @@ public class ItemCmds {
                     playerData.markCampaignAsSeen();
                 }
 
-                userData.increaseDustLevel(3);
+                user.increaseDustLevel(3);
                 user.save();
 
                 player.removeMoney(castCost);
@@ -386,11 +385,10 @@ public class ItemCmds {
                 //Get the necessary entities.
                 var player = ctx.getPlayer();
                 var user = ctx.getDBUser();
-                var userData = user.getData();
 
                 var item = ItemHelper.fromAnyNoId(itemName, ctx.getLanguageContext()).orElse(null);
                 var playerInventory = player.getInventory();
-                var wrench = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
+                var wrench = user.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
                 if (wrench == 0) {
                     ctx.reply("commands.cast.not_equipped", EmoteReference.ERROR);
                     return;
@@ -417,7 +415,7 @@ public class ItemCmds {
                     return;
                 }
 
-                var dust = user.getData().getDustLevel();
+                var dust = user.getDustLevel();
                 if (dust > 95) {
                     ctx.reply("commands.repair.dust", EmoteReference.ERROR, dust);
                     return;
@@ -473,7 +471,7 @@ public class ItemCmds {
                 playerInventory.process(new ItemStack(brokenItem, -1));
                 playerInventory.process(new ItemStack(repairedItem, 1));
 
-                user.getData().increaseDustLevel(4);
+                user.increaseDustLevel(4);
                 user.save();
 
                 player.removeMoney(repairCost);
@@ -571,10 +569,9 @@ public class ItemCmds {
                 //Get the necessary entities.
                 final var player = ctx.getPlayer();
                 final var user = ctx.getDBUser();
-                final var userData = user.getData();
                 final var playerInventory = player.getInventory();
                 final var item = ItemHelper.fromAnyNoId(itemName, ctx.getLanguageContext()).orElse(null);
-                final var wrench = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
+                final var wrench = user.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
                 if (wrench == 0) {
                     ctx.reply("commands.cast.not_equipped", EmoteReference.ERROR);
                     return;
@@ -602,7 +599,7 @@ public class ItemCmds {
                     return;
                 }
 
-                int dust = user.getData().getDustLevel();
+                int dust = user.getDustLevel();
                 if (dust > 95) {
                     ctx.reply("commands.salvage.dust", EmoteReference.ERROR, dust);
                     return;
@@ -628,7 +625,7 @@ public class ItemCmds {
                 playerInventory.process(new ItemStack(toReturn, 1));
                 playerInventory.process(new ItemStack(broken, -1));
 
-                user.getData().increaseDustLevel(3);
+                user.increaseDustLevel(3);
                 user.save();
 
                 player.removeMoney(salvageCost);

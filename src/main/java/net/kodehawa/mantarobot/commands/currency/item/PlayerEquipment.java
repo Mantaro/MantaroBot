@@ -17,16 +17,16 @@
 
 package net.kodehawa.mantarobot.commands.currency.item;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Axe;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Wrench;
+import org.bson.codecs.pojo.annotations.BsonCreator;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 
-import java.beans.ConstructorProperties;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -38,15 +38,14 @@ public class PlayerEquipment {
     private final Map<EquipmentType, PotionEffect> effects;
     private final Map<EquipmentType, Integer> durability;
 
-    @JsonCreator
-    @ConstructorProperties({"equipment, effects"})
-    public PlayerEquipment(@JsonProperty("equipment") Map<EquipmentType, Integer> equipment, @JsonProperty("effects") Map<EquipmentType, PotionEffect> effects, @JsonProperty("durability") Map<EquipmentType, Integer> durability) {
+    @BsonCreator
+    public PlayerEquipment(@BsonProperty("equipment") Map<EquipmentType, Integer> equipment, @BsonProperty("effects") Map<EquipmentType, PotionEffect> effects, @BsonProperty("durability") Map<EquipmentType, Integer> durability) {
         this.equipment = equipment;
         this.effects = effects;
         this.durability = durability == null ? new HashMap<>() : durability; // Workaround because some people will not have this property.
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public boolean equipItem(Item item) {
         EquipmentType type = getTypeFor(item);
         if (type == null || type.getType() != 0) {
@@ -61,7 +60,7 @@ public class PlayerEquipment {
         return true;
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public void applyEffect(PotionEffect effect) {
         EquipmentType type = getTypeFor(ItemHelper.fromId(effect.getPotion()));
         if (type == null || type.getType() != 1) {
@@ -72,18 +71,18 @@ public class PlayerEquipment {
     }
 
     //Convenience methods start here.
-    @JsonIgnore
+    @BsonIgnore
     public void resetOfType(EquipmentType type) {
         equipment.remove(type);
         durability.remove(type);
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public void resetEffect(EquipmentType type) {
         effects.remove(type);
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public void incrementEffectUses(EquipmentType type) {
         effects.computeIfPresent(type, (i, effect) -> {
             effect.setTimesUsed(effect.getTimesUsed() + 1);
@@ -92,7 +91,7 @@ public class PlayerEquipment {
         });
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public boolean isEffectActive(EquipmentType type, int maxUses) {
         PotionEffect effect = effects.get(type);
         if (effect == null) {
@@ -102,24 +101,24 @@ public class PlayerEquipment {
         return effect.getTimesUsed() < maxUses;
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public PotionEffect getCurrentEffect(EquipmentType type) {
         return effects.get(type);
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public Item getEffectItem(EquipmentType type) {
         PotionEffect effect = effects.get(type);
         return effect == null ? null : ItemHelper.fromId(effect.getPotion());
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public Integer of(EquipmentType type) {
         Integer id = equipment.get(type);
         return id == null ? 0 : id;
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public EquipmentType getTypeFor(Item item) {
         for (EquipmentType type : EquipmentType.values()) {
             if (type.getPredicate().test(item)) {
@@ -130,12 +129,12 @@ public class PlayerEquipment {
         return null;
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public void resetDurabilityTo(EquipmentType type, int amount) {
         durability.put(type, amount);
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public int reduceDurability(EquipmentType type, int amount) {
         return durability.computeIfPresent(type, (t, a) -> a - amount);
     }

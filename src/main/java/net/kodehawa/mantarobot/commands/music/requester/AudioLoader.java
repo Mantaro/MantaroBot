@@ -34,7 +34,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.db.entities.GuildDatabase;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -145,7 +145,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         failureCount++;
     }
 
-    private void loadSingle(AudioTrack audioTrack, boolean silent, GuildDatabase dbGuild, DBUser dbUser) {
+    private void loadSingle(AudioTrack audioTrack, boolean silent, GuildDatabase dbGuild, UserDatabase dbUser) {
         final var trackInfo = audioTrack.getInfo();
         final var trackScheduler = musicManager.getTrackScheduler();
         var i18nContext = new I18nContext(language);
@@ -208,7 +208,7 @@ public class AudioLoader implements AudioLoadResultHandler {
     }
 
     // Yes, this is repeated twice. I need the hook for the search stuff.
-    private void loadSingle(InteractionHook hook, AudioTrack audioTrack, boolean silent, GuildDatabase dbGuild, DBUser dbUser) {
+    private void loadSingle(InteractionHook hook, AudioTrack audioTrack, boolean silent, GuildDatabase dbGuild, UserDatabase dbUser) {
         final var trackInfo = audioTrack.getInfo();
         final var trackScheduler = musicManager.getTrackScheduler();
         var i18nContext = new I18nContext(language);

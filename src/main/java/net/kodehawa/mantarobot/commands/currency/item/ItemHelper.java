@@ -28,7 +28,7 @@ import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
@@ -71,23 +71,22 @@ public class ItemHelper {
         ItemReference.MOP.setAction(((ctx, season) -> {
             Player player = ctx.getPlayer();
             PlayerData playerData = player.getData();
-            DBUser dbUser = ctx.getDBUser();
-            UserData userData = dbUser.getData();
+            UserDatabase dbUser = ctx.getDBUser();
             Inventory playerInventory = player.getInventory();
 
             if (!playerInventory.containsItem(ItemReference.MOP))
                 return false;
 
-            if (userData.getDustLevel() >= 5) {
+            if (dbUser.getDustLevel() >= 5) {
                 playerData.setTimesMopped(playerData.getTimesMopped() + 1);
                 ctx.sendLocalized("general.misc_item_usage.mop", EmoteReference.DUST);
 
-                if (userData.getDustLevel() == 100) {
+                if (dbUser.getDustLevel() == 100) {
                     playerData.addBadgeIfAbsent(Badge.DUSTY);
                 }
 
                 playerInventory.process(new ItemStack(ItemReference.MOP, -1));
-                userData.setDustLevel(0);
+                dbUser.setDustLevel(0);
 
                 player.save();
                 dbUser.save();
@@ -101,11 +100,10 @@ public class ItemHelper {
 
         ItemReference.POTION_CLEAN.setAction((ctx, season) -> {
             Player player = ctx.getPlayer();
-            DBUser dbUser = ctx.getDBUser();
-            UserData userData = dbUser.getData();
+            UserDatabase dbUser = ctx.getDBUser();
             Inventory playerInventory = player.getInventory();
 
-            userData.getEquippedItems().resetEffect(PlayerEquipment.EquipmentType.POTION);
+            dbUser.getEquippedItems().resetEffect(PlayerEquipment.EquipmentType.POTION);
             playerInventory.process(new ItemStack(ItemReference.POTION_CLEAN, -1));
 
             player.save();
@@ -431,7 +429,7 @@ public class ItemHelper {
                 .collect(Collectors.toList());
     }
 
-    public static boolean handleEffect(PlayerEquipment.EquipmentType type, PlayerEquipment equipment, Item item, DBUser user) {
+    public static boolean handleEffect(PlayerEquipment.EquipmentType type, PlayerEquipment equipment, Item item, UserDatabase user) {
         boolean isEffectPresent = equipment.getCurrentEffect(type) != null;
 
         if (isEffectPresent) {
@@ -452,7 +450,7 @@ public class ItemHelper {
 
                     return false;
                 } else {
-                    user.saveUpdating();
+                    user.save();
                     return true;
                 }
             } else {
@@ -467,7 +465,7 @@ public class ItemHelper {
                     equipment.getCurrentEffect(type).use();
                 }
 
-                user.saveUpdating();
+                user.save();
 
                 return true;
             }
@@ -487,10 +485,9 @@ public class ItemHelper {
         return null;
     }
 
-    public static Pair<Boolean, Pair<Player, DBUser>> handleDurability(IContext ctx, Item item, Player player, DBUser user) {
+    public static Pair<Boolean, Pair<Player, UserDatabase>> handleDurability(IContext ctx, Item item, Player player, UserDatabase user) {
         var playerInventory = player.getInventory();
-        var userData = user.getData();
-        var equippedItems = userData.getEquippedItems();
+        var equippedItems = user.getEquippedItems();
         var subtractFrom = 0;
 
         if (handleEffect(PlayerEquipment.EquipmentType.POTION, equippedItems, ItemReference.POTION_STAMINA, user)) {
@@ -531,7 +528,7 @@ public class ItemHelper {
             }
 
             var toReplace = languageContext.get("commands.mine.item_broke");
-            if (!userData.isAutoEquip()) {
+            if (!user.isAutoEquip()) {
                 toReplace += "\n" + languageContext.get("commands.mine.item_broke_autoequip");
             }
 
@@ -557,14 +554,14 @@ public class ItemHelper {
                 player.getData().addBadgeIfAbsent(Badge.HOT_CHOPPER);
 
             player.saveUpdating();
-            user.saveUpdating();
+            user.save();
 
             //is not broken
             return Pair.of(false, Pair.of(player, user));
         }
     }
 
-    public static void handleItemDurability(Item item, IContext ctx, Player player, DBUser dbUser, String i18n) {
+    public static void handleItemDurability(Item item, IContext ctx, Player player, UserDatabase dbUser, String i18n) {
         var breakage = handleDurability(ctx, item, player, dbUser);
         if (!breakage.getKey()) {
             return;
@@ -574,10 +571,9 @@ public class ItemHelper {
         var finalPlayer = breakage.getValue().getKey();
         var finalUser = breakage.getValue().getValue();
         var inventory = finalPlayer.getInventory();
-        var userData = finalUser.getData();
 
-        if (userData.isAutoEquip() && inventory.containsItem(item)) {
-            userData.getEquippedItems().equipItem(item);
+        if (finalUser.isAutoEquip() && inventory.containsItem(item)) {
+            finalUser.getEquippedItems().equipItem(item);
             inventory.process(new ItemStack(item, -1));
 
             finalPlayer.save();

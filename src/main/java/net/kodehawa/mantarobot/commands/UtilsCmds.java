@@ -106,7 +106,7 @@ public class UtilsCmds {
                 var toRemind = ctx.getOptionAsString("reminder");
                 var user = ctx.getAuthor();
                 var dbUser = ctx.getDBUser();
-                var rems = getReminders(dbUser.getData().getReminders());
+                var rems = getReminders(dbUser.getReminders());
 
                 if (rems.size() > 25) {
                     //Max amount of reminders reached
@@ -154,7 +154,7 @@ public class UtilsCmds {
             @Override
             protected void process(SlashContext ctx) {
                 try {
-                    var reminders = ctx.getDBUser().getData().getReminders();
+                    var reminders = ctx.getDBUser().getReminders();
                     if (reminders.isEmpty()) {
                         ctx.replyEphemeral("commands.remindme.no_reminders", EmoteReference.ERROR);
                         return;
@@ -190,7 +190,7 @@ public class UtilsCmds {
         public static class ListReminders extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                var reminders = ctx.getDBUser().getData().getReminders();
+                var reminders = ctx.getDBUser().getReminders();
                 var rms = getReminders(reminders).stream()
                         .sorted(Comparator.comparingLong(ReminderObject::getScheduledAtMillis)).toList();
 
@@ -243,15 +243,13 @@ public class UtilsCmds {
             }
 
             var dbUser = user == null ? ctx.getDBUser() : ctx.getDBUser(user.getId());
-            var userData = dbUser.getData();
-
-            if (user != null && userData.getTimezone() == null) {
+            if (user != null && dbUser.getTimezone() == null) {
                 ctx.reply("commands.time.user_no_timezone", EmoteReference.ERROR);
                 return;
             }
 
-            if (userData.getTimezone() != null && (timezone.isEmpty() || user != null)) {
-                timezone = userData.getTimezone();
+            if (dbUser.getTimezone() != null && (timezone.isEmpty() || user != null)) {
+                timezone = dbUser.getTimezone();
             }
 
             if (!Utils.isValidTimeZone(timezone)) {
@@ -261,7 +259,7 @@ public class UtilsCmds {
 
             var dateFormat = "";
             try {
-                dateFormat = Utils.formatDate(LocalDateTime.now(Utils.timezoneToZoneID(timezone)), userData.getLang());
+                dateFormat = Utils.formatDate(LocalDateTime.now(Utils.timezoneToZoneID(timezone)), dbUser.getLang());
             } catch (DateTimeException e) {
                 ctx.reply("commands.time.invalid_timezone", EmoteReference.ERROR);
                 return;

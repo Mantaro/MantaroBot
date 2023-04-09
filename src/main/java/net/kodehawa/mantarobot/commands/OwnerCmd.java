@@ -652,7 +652,7 @@ import net.dv8tion.jda.api.entities.channel.concrete.*;
                 }
 
                 var dbUser = MantaroData.db().getUser(key.getOwner());
-                var keysClaimed = dbUser.getData().getKeysClaimed();
+                var keysClaimed = dbUser.getKeysClaimed();
 
                 keysClaimed.remove(Utils.getKeyByValue(keysClaimed, key.getId()));
                 dbUser.save();

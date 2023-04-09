@@ -126,7 +126,7 @@ public class CustomCmds {
 
         // Create a new language context only if the command goes through.
         // This avoids getting a user everytime a command is ran, even if the command is not valid.
-        ctx.setLanguageContext(new I18nContext(guildData, db().getUser(ctx.getAuthor()).getData()));
+        ctx.setLanguageContext(new I18nContext(guildData, db().getUser(ctx.getAuthor())));
 
         // Run the actual custom command.
         List<String> values = customCommand.getValues();

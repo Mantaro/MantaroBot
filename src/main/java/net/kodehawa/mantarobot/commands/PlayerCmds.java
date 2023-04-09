@@ -46,7 +46,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -195,7 +195,6 @@ public class PlayerCmds {
 
             var player = ctx.getPlayer();
             var dbUser = ctx.getDBUser();
-            var userData = dbUser.getData();
             var playerInventory = player.getInventory();
 
             if (item == null) {
@@ -209,7 +208,7 @@ public class PlayerCmds {
                 return;
             }
 
-            var equipment = userData.getEquippedItems();
+            var equipment = dbUser.getEquippedItems();
 
             var proposedType = equipment.getTypeFor(item);
             if (equipment.getEquipment().containsKey(proposedType)) {
@@ -228,7 +227,7 @@ public class PlayerCmds {
                 playerInventory.process(new ItemStack(item, -1));
                 player.save();
 
-                dbUser.saveUpdating();
+                dbUser.save();
                 ctx.reply("commands.profile.equip.success", EmoteReference.CORRECT, item.getEmoji(), item.getName());
             } else {
                 ctx.reply("commands.profile.equip.not_suitable", EmoteReference.ERROR);
@@ -265,7 +264,7 @@ public class PlayerCmds {
         protected void process(SlashContext ctx) {
             var content = ctx.getOptionAsString("item");
             var dbUser = ctx.getDBUser();
-            var equipment = dbUser.getData().getEquippedItems();
+            var equipment = dbUser.getEquippedItems();
             var type = PlayerEquipment.EquipmentType.fromString(content);
             if (type == null) {
                 ctx.sendLocalized("commands.profile.unequip.invalid_type", EmoteReference.ERROR);
@@ -297,8 +296,7 @@ public class PlayerCmds {
                 if (button.getId().equalsIgnoreCase("yes")) {
                     var dbUserFinal = ctx.getDBUser(author);
                     var playerFinal = ctx.getPlayer(author);
-                    var dbUserData = dbUserFinal.getData();
-                    var equipmentFinal = dbUserData.getEquippedItems();
+                    var equipmentFinal = dbUserFinal.getEquippedItems();
                     var equippedFinal = equipmentFinal.getEquipment().get(type);
                     if (equippedFinal == null) {
                         hook.editOriginal(lang.get("commands.profile.unequip.not_equipped").formatted(EmoteReference.ERROR))
@@ -381,7 +379,7 @@ public class PlayerCmds {
                 var member = ctx.getGuild().getMember(toLookup);
                 Player player = ctx.getPlayer(toLookup);
                 PlayerData playerData = player.getData();
-                DBUser dbUser = ctx.getDBUser();
+                UserDatabase dbUser = ctx.getDBUser();
 
                 if (ctx.getOptionAsBoolean("brief")) {
                     ctx.sendLocalized("commands.badges.brief_success", member.getEffectiveName(),

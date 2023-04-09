@@ -78,9 +78,8 @@ public class GuildDatabase implements ManagedMongoObject {
         if (key != null) {
             boolean isKeyActive = currentTimeMillis() < key.getExpiration();
             if (!isKeyActive && LocalDate.now(ZoneId.of("America/Chicago")).getDayOfMonth() > 5) {
-                DBUser owner = MantaroData.db().getUser(key.getOwner());
-                UserData ownerData = owner.getData();
-                ownerData.getKeysClaimed().remove(getId());
+                UserDatabase owner = MantaroData.db().getUser(key.getOwner());
+                owner.getKeysClaimed().remove(getId());
                 owner.save();
 
                 removePremiumKey(key.getOwner(), key.getId());
@@ -100,10 +99,9 @@ public class GuildDatabase implements ManagedMongoObject {
             //This has usage later when seeing how many keys can they take. The second/third check is kind of redundant, but necessary anyway to see if it works.
             String keyLinkedTo = key.getLinkedTo();
             if (keyLinkedTo != null) {
-                DBUser owner = MantaroData.db().getUser(keyLinkedTo);
-                UserData ownerData = owner.getData();
-                if (!ownerData.getKeysClaimed().containsKey(getId())) {
-                    ownerData.getKeysClaimed().put(getId(), key.getId());
+                UserDatabase owner = MantaroData.db().getUser(keyLinkedTo);
+                if (!owner.getKeysClaimed().containsKey(getId())) {
+                    owner.getKeysClaimed().put(getId(), key.getId());
                     owner.save();
                 }
             }
@@ -138,8 +136,8 @@ public class GuildDatabase implements ManagedMongoObject {
     public void removePremiumKey(String keyOwner, String originalKey) {
         setPremiumKey(null);
 
-        DBUser dbUser = MantaroData.db().getUser(keyOwner);
-        dbUser.getData().getKeysClaimed().remove(Utils.getKeyByValue(dbUser.getData().getKeysClaimed(), originalKey));
+        UserDatabase dbUser = MantaroData.db().getUser(keyOwner);
+        dbUser.getKeysClaimed().remove(Utils.getKeyByValue(dbUser.getKeysClaimed(), originalKey));
         dbUser.save();
 
         save();

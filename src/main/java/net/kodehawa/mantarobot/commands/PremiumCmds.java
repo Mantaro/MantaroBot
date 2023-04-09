@@ -107,8 +107,8 @@ public class PremiumCmds {
                     // Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
                     if (!author.getId().equals(key.getOwner())) {
                         var ownerUser = db.getUser(key.getOwner());
-                        ownerUser.getData().getKeysClaimed().put(author.getId(), key.getId());
-                        ownerUser.saveAsync();
+                        ownerUser.getKeysClaimed().put(author.getId(), key.getId());
+                        ownerUser.save();
                     }
 
                     key.activate(180);
@@ -137,13 +137,13 @@ public class PremiumCmds {
                     // Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
                     if (!author.getId().equals(key.getOwner())) {
                         var ownerUser = db.getUser(key.getOwner());
-                        ownerUser.getData().getKeysClaimed().put(author.getId(), key.getId());
-                        ownerUser.saveAsync();
+                        ownerUser.getKeysClaimed().put(author.getId(), key.getId());
+                        ownerUser.save();
                     }
 
                     key.activate(author.getId().equals(key.getOwner()) ? 365 : 180);
-                    dbUser.getData().setPremiumKey(key.getId());
-                    dbUser.saveAsync();
+                    dbUser.setPremiumKey(key.getId());
+                    dbUser.save();
 
                     ctx.reply("commands.activatekey.user_successful", EmoteReference.POPPER);
                 }
@@ -167,7 +167,6 @@ public class PremiumCmds {
             protected void process(SlashContext ctx) {
                 var toCheck = ctx.getOptionAsUser("user", ctx.getAuthor());
                 var dbUser = ctx.db().getUser(toCheck);
-                var data = dbUser.getData();
                 var isLookup = toCheck.getIdLong() != ctx.getAuthor().getIdLong();
 
                 if (ctx.getConfig().isPremiumBot()) {
@@ -185,7 +184,7 @@ public class PremiumCmds {
                         .setAuthor(isLookup ? String.format(lang.get("commands.vipstatus.user.header_other"), toCheck.getName())
                                 : lang.get("commands.vipstatus.user.header"), null, toCheck.getEffectiveAvatarUrl()
                         );
-                var currentKey = ctx.db().getPremiumKey(data.getPremiumKey());
+                var currentKey = ctx.db().getPremiumKey(dbUser.getPremiumKey());
                 if (currentKey == null || currentKey.validFor() < 1) {
                     ctx.reply("commands.vipstatus.user.not_premium", toCheck.getAsTag(), EmoteReference.ERROR);
                     return;
@@ -207,7 +206,7 @@ public class PremiumCmds {
 
                 var patreonInformation = APIUtils.getPledgeInformation(owner.getId());
                 var linkedTo = currentKey.getLinkedTo();
-                var amountClaimed = data.getKeysClaimed().size();
+                var amountClaimed = dbUser.getKeysClaimed().size();
 
                 embedBuilder.setColor(Color.CYAN)
                         .setThumbnail(toCheck.getEffectiveAvatarUrl())
@@ -225,7 +224,7 @@ public class PremiumCmds {
                         var patreonAmount = Double.parseDouble(patreonInformation.right());
                         if ((patreonAmount / 2) - amountClaimed < 0) {
                             var amount = amountClaimed - (patreonAmount / 2);
-                            var keys = data.getKeysClaimed()
+                            var keys = dbUser.getKeysClaimed()
                                     .values()
                                     .stream()
                                     .limit((long) amount)

@@ -195,7 +195,7 @@ public class PetCmds {
             @Override
             protected void process(SlashContext ctx) {
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var pet = getCurrentPet(ctx, ctx.getPlayer(), marriage, "commands.pet.level.no_pet");
                 if (pet == null) {
                     return;
@@ -213,7 +213,7 @@ public class PetCmds {
             protected void process(SlashContext ctx) {
                 var language = ctx.getLanguageContext();
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var player = ctx.getPlayer();
                 var pet = getCurrentPet(ctx, player, marriage, "commands.pet.status.no_pet");
                 if (pet == null) {
@@ -298,7 +298,7 @@ public class PetCmds {
             @Override
             protected void process(SlashContext ctx) {
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var player = ctx.getPlayer();
                 var pet = getCurrentPet(ctx, player, marriage, "commands.pet.status.no_pet");
                 if (pet == null) {
@@ -321,7 +321,7 @@ public class PetCmds {
                 var dbUser = ctx.getDBUser();
                 var player = ctx.getPlayer();
                 var playerData = player.getData();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var pet = playerData.getPet();
                 var choice = playerData.getActiveChoice(marriage);
 
@@ -358,7 +358,7 @@ public class PetCmds {
             protected void process(SlashContext ctx) {
                 var player = ctx.getPlayer();
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var price = basePrice;
 
                 var pet = getCurrentPet(ctx, player, marriage, "commands.pet.status.no_pet");
@@ -397,7 +397,7 @@ public class PetCmds {
             @Override
             protected void process(SlashContext ctx) {
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var player = ctx.getPlayer();
                 var pet = getCurrentPet(ctx, player, marriage, "commands.pet.remove.no_pet");
                 if (pet == null) {
@@ -446,7 +446,7 @@ public class PetCmds {
                     var hook = event.getHook();
                     if (button.getId().equals("yes-button")) {
                         final var playerFinal = ctx.getPlayer();
-                        final var marriageConfirmed = ctx.getDBUser().getData().getMarriage();
+                        final var marriageConfirmed = ctx.getDBUser().getMarriage();
                         var petFinal = getCurrentPet(ctx, playerFinal, marriageConfirmed, "commands.pet.remove.no_pet");
                         if (petFinal == null) {
                             return Operation.COMPLETED;
@@ -495,7 +495,7 @@ public class PetCmds {
                     }
 
                     if (button.getId().equals("no-button")) {
-                        var marriageConfirmed = ctx.getDBUser().getData().getMarriage();
+                        var marriageConfirmed = ctx.getDBUser().getMarriage();
                         var playerFinal = ctx.getPlayer();
                         playerFinal.setLocked(false);
                         playerFinal.save();
@@ -530,7 +530,7 @@ public class PetCmds {
                 var playerData = player.getData();
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var name = ctx.getOptionAsString("name").replace("\n", "").trim();
                 var type = ctx.getOptionAsString("type");
 
@@ -624,7 +624,7 @@ public class PetCmds {
                         var playerInventoryConfirmed = playerConfirmed.getInventory();
                         var playerDataConfirmed = playerConfirmed.getData();
                         var dbUserConfirmed = ctx.getDBUser();
-                        var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
+                        var marriageConfirmed = dbUserConfirmed.getMarriage();
                         var petChoiceConfirmed = playerDataConfirmed.getActiveChoice(marriageConfirmed);
 
                         if (petChoiceConfirmed == PetChoice.PERSONAL && !playerInventoryConfirmed.containsItem(ItemReference.INCUBATOR_EGG)) {
@@ -706,7 +706,7 @@ public class PetCmds {
 
                     if (button.getId().equals("no-button")) {
                         var playerConfirmed = ctx.getPlayer();
-                        var marriageConfirmed = ctx.getDBUser().getData().getMarriage();
+                        var marriageConfirmed = ctx.getDBUser().getMarriage();
                         // Original player is fine, we checked it originally with this.
                         if (player.getData().getActiveChoice(marriage) == PetChoice.MARRIAGE && marriageConfirmed != null) {
                             marriageConfirmed.setLocked(false);
@@ -732,7 +732,7 @@ public class PetCmds {
             protected void process(SlashContext ctx) {
                 var player = ctx.getPlayer();
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var cost = 3000;
 
                 var pet = getCurrentPet(ctx, player, marriage, "commands.pet.rename.no_pet");
@@ -793,7 +793,7 @@ public class PetCmds {
                 var dbUser = ctx.getDBUser();
                 var food = ctx.getOptionAsString("item");
                 var amount = ctx.getOptionAsInteger("amount", 1);
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
 
                 var isFull = ctx.getOptionAsBoolean("full");
                 var pet = getCurrentPet(ctx, player, marriage, "commands.pet.feed.no_pet");
@@ -878,7 +878,7 @@ public class PetCmds {
                 var player = ctx.getPlayer();
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var amount = ctx.getOptionAsInteger("amount", 1);
                 var baseline = 15;
 
@@ -998,7 +998,7 @@ public class PetCmds {
 
     private static HousePet getCurrentPet(SlashContext ctx) {
         final var playerData = ctx.getPlayer().getData();
-        final var marriage = ctx.getMarriage(ctx.getDBUser().getData());
+        final var marriage = ctx.getMarriage(ctx.getDBUser());
 
         if (playerData.getActiveChoice(marriage) == PetChoice.PERSONAL) {
             return playerData.getPet();

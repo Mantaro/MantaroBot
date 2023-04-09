@@ -25,6 +25,8 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.connection.ConnectionPoolSettings;
 import com.rethinkdb.net.Connection;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
+import net.kodehawa.mantarobot.db.codecs.MapCodec;
+import net.kodehawa.mantarobot.db.codecs.MapCodecProvider;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import org.bson.codecs.configuration.CodecProvider;
@@ -59,9 +61,12 @@ public class MantaroData {
     private static Connection connection;
     private static ManagedDatabase db;
     private static MongoClient mongoClient;
-    private static final CodecProvider pojoCodecProvider = PojoCodecProvider.builder().automatic(true)
+    private static final CodecProvider pojoCodecProvider = PojoCodecProvider.builder()
+            .automatic(true)
+            .register(new MapCodecProvider())
             .conventions(Arrays.asList(Conventions.CLASS_AND_PROPERTY_CONVENTION, Conventions.ANNOTATION_CONVENTION, Conventions.OBJECT_ID_GENERATORS, Conventions.SET_PRIVATE_FIELDS_CONVENTION))
             .build();
+
     private static final CodecRegistry pojoCodecRegistry = fromRegistries(getDefaultCodecRegistry(), fromProviders(pojoCodecProvider));
     private static final JedisPool defaultJedisPool = new JedisPool(config().get().jedisPoolAddress, config().get().jedisPoolPort);
 

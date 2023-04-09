@@ -42,7 +42,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.db.entities.GuildDatabase;
 import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -212,7 +212,6 @@ public class CommandRegistry {
         // !! Permission check end
 
         final var dbUser = managedDatabase.getUser(author);
-        final var userData = dbUser.getData();
         renewPremiumKey(managedDatabase, author, dbUser, dbGuild);
 
         // Used a command on the new system?
@@ -220,7 +219,7 @@ public class CommandRegistry {
         boolean executedNew;
         try {
             executedNew = newCommands.execute(new NewContext(event.getMessage(),
-                    new I18nContext(dbGuild, userData),
+                    new I18nContext(dbGuild, dbUser),
                     event.getMessage().getContentRaw().substring(prefix.length()))
             );
         } catch (ArgumentParseError e) {
@@ -237,7 +236,7 @@ public class CommandRegistry {
         }
 
         if (!executedNew) {
-            cmd.run(new Context(event, new I18nContext(dbGuild, userData), cmdName, content, isMention), cmdName, content);
+            cmd.run(new Context(event, new I18nContext(dbGuild, dbUser), cmdName, content, isMention), cmdName, content);
         }
 
         commandLog.debug("Command: {}, User: {} ({}), Guild: {}, Channel: {}, Message: {}" ,
@@ -300,9 +299,7 @@ public class CommandRegistry {
         }
 
         final var dbUser = managedDatabase.getUser(author);
-        final var userData = dbUser.getData();
-
-        cmd.execute(new InteractionContext<>(event, new I18nContext(dbGuild, userData)));
+        cmd.execute(new InteractionContext<>(event, new I18nContext(dbGuild, dbUser)));
         commandLog.debug("Context (user) command: {}, User: {} ({}), Guild: {}" ,
                 cmd.getName(), author.getAsTag(), author.getId(), guild.getId()
         );
@@ -437,10 +434,9 @@ public class CommandRegistry {
         // !! Permission check end
 
         final var dbUser = managedDatabase.getUser(author);
-        final var userData = dbUser.getData();
         renewPremiumKey(managedDatabase, author, dbUser, dbGuild);
 
-        cmd.execute(new SlashContext(event, new I18nContext(dbGuild, userData)));
+        cmd.execute(new SlashContext(event, new I18nContext(dbGuild, dbUser)));
         commandLog.debug("Slash command: {}, User: {} ({}), Guild: {}, Channel: {}, Options: {}" ,
                 cmd.getName(), author.getAsTag(), author.getId(), guild.getId(), channel.getId(), event.getOptions()
         );
@@ -453,15 +449,14 @@ public class CommandRegistry {
         Metrics.COMMAND_LATENCY.observe(end - start);
     }
 
-    public void renewPremiumKey(ManagedDatabase managedDatabase, User author, DBUser dbUser, GuildDatabase guildData) {
-        final var userData = dbUser.getData();
-        final var currentKey = managedDatabase.getPremiumKey(userData.getPremiumKey());
+    public void renewPremiumKey(ManagedDatabase managedDatabase, User author, UserDatabase dbUser, GuildDatabase guildData) {
+        final var currentKey = managedDatabase.getPremiumKey(dbUser.getPremiumKey());
         final var guildKey = managedDatabase.getPremiumKey(guildData.getPremiumKey());
         if (currentKey != null) {
             // 10 days before expiration or best fit.
             if (currentKey.validFor() <= 10 && currentKey.validFor() > 1) {
                 // Handling is done inside the PremiumKey#renew method. This only gets fired if the key has less than 10 days left.
-                if (!currentKey.renew() && !userData.hasReceivedExpirationWarning()) {
+                if (!currentKey.renew() && !dbUser.hasReceivedExpirationWarning()) {
                     author.openPrivateChannel().queue(privateChannel ->
                             privateChannel.sendMessage(
                                     """
@@ -479,8 +474,8 @@ public class CommandRegistry {
                     );
                 }
 
-                userData.setReceivedExpirationWarning(true);
-                dbUser.saveUpdating();
+                dbUser.setReceivedExpirationWarning(true);
+                dbUser.save();
             }
         }
 

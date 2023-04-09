@@ -35,7 +35,7 @@ import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
@@ -135,9 +135,9 @@ public class BirthdayCmd {
                 final var birthdayFormat = parseFormat.format(parseFormat.parse(date));
 
                 //Actually save it to the user's profile.
-                DBUser dbUser = ctx.getDBUser();
-                dbUser.getData().setBirthday(birthdayFormat);
-                dbUser.saveUpdating();
+                UserDatabase dbUser = ctx.getDBUser();
+                dbUser.setBirthday(birthdayFormat);
+                dbUser.save();
 
                 ctx.replyEphemeral("commands.birthday.added_birthdate", EmoteReference.CORRECT, display, extra);
             }
@@ -201,7 +201,7 @@ public class BirthdayCmd {
             @Override
             protected void process(SlashContext ctx) {
                 var user = ctx.getDBUser();
-                user.getData().setBirthday(null);
+                user.setBirthday(null);
                 user.save();
 
                 ctx.replyEphemeral("commands.birthday.reset", EmoteReference.CORRECT);
