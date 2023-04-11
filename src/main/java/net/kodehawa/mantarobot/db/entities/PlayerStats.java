@@ -49,6 +49,9 @@ public class PlayerStats implements ManagedMongoObject {
     private long gambleLose;
     private long slotsLose;
 
+    // Needed for serialization
+    public PlayerStats() { }
+
     private PlayerStats(String id, long gambleWins, long slotsWins, long gambleWinAmount, long slotsWinAmount) {
         this.id = id;
         this.gambleWins = gambleWins;
