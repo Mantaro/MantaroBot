@@ -273,7 +273,7 @@ public class ItemCmds {
                 }
 
                 user.increaseDustLevel(3);
-                user.save();
+                user.updateAllChanged();
 
                 player.removeMoney(castCost);
                 player.save();
@@ -473,7 +473,7 @@ public class ItemCmds {
                 playerInventory.process(new ItemStack(repairedItem, 1));
 
                 user.increaseDustLevel(4);
-                user.save();
+                user.updateAllChanged();
 
                 player.removeMoney(repairCost);
                 player.save();
@@ -628,7 +628,7 @@ public class ItemCmds {
                 playerInventory.process(new ItemStack(broken, -1));
 
                 user.increaseDustLevel(3);
-                user.save();
+                user.updateAllChanged();
 
                 player.removeMoney(salvageCost);
                 player.save();

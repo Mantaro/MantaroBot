@@ -814,7 +814,7 @@ public class CurrencyCmds {
 
                 // Currently has a potion equipped, and is of the same type.
                 if (attempted < 16) {
-                    currentPotion.equip(activePotion ? amount : Math.max(1, amount - 1));
+                    equippedItems.equipEffect(type, activePotion ? amount : Math.max(1, amount - 1));
                     var equipped = currentPotion.getAmountEquipped();
 
                     ctx.sendLocalized("general.misc_item_usage.potion_applied_multiple",
@@ -837,7 +837,7 @@ public class CurrencyCmds {
                 }
 
                 if (amount > 1) {
-                    effect.equip(amount - 1); // Amount - 1 because we're technically using one.
+                    equippedItems.equipEffect(type, amount - 1); // Amount - 1 because we're technically using one.
                 }
 
                 // Apply the effect.
@@ -855,7 +855,7 @@ public class CurrencyCmds {
             // Default: 1
             player.getInventory().process(new ItemStack(item, -amount));
             player.save();
-            dbUser.save();
+            equippedItems.updateAllChanged(dbUser);
 
             return;
         }

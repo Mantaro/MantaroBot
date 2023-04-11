@@ -227,7 +227,7 @@ public class PlayerCmds {
                 playerInventory.process(new ItemStack(item, -1));
                 player.save();
 
-                dbUser.save();
+                equipment.updateAllChanged(dbUser);
                 ctx.reply("commands.profile.equip.success", EmoteReference.CORRECT, item.getEmoji(), item.getName());
             } else {
                 ctx.reply("commands.profile.equip.not_suitable", EmoteReference.ERROR);
@@ -334,7 +334,7 @@ public class PlayerCmds {
                     }
 
                     equipmentFinal.resetOfType(type);
-                    dbUserFinal.save();
+                    equipmentFinal.updateAllChanged(dbUserFinal);
                     playerFinal.save();
 
                     hook.editOriginal(lang.get("commands.profile.unequip.success").formatted(EmoteReference.CORRECT, type.name().toLowerCase()) + part)

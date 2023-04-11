@@ -19,6 +19,9 @@ package net.kodehawa.mantarobot.commands.currency.item;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.bson.codecs.pojo.annotations.BsonCreator;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import java.beans.ConstructorProperties;
 import java.util.UUID;
@@ -31,16 +34,15 @@ public class PotionEffect {
     private long timesUsed;
     private long amountEquipped = 1;
 
-    @JsonCreator
-    @ConstructorProperties({"potionId", "until", "type"})
-    public PotionEffect(int potionId, long until, ItemType.PotionType type) {
+    @BsonCreator
+    public PotionEffect(@BsonProperty("potionId") int potionId, @BsonProperty("until") long until, @BsonProperty("type") ItemType.PotionType type) {
         uuid = UUID.randomUUID().toString();
         this.potion = potionId;
         this.until = until;
         this.type = type;
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public boolean use() {
         long newAmount = amountEquipped - 1;
         if (newAmount < 1) {
@@ -52,7 +54,7 @@ public class PotionEffect {
         }
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public void equip(int amount) {
         long newAmount = amountEquipped + amount;
         if (newAmount > 15) {
@@ -62,7 +64,7 @@ public class PotionEffect {
         }
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public void equip() {
         equip(1);
     }

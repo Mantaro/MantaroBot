@@ -17,12 +17,13 @@
 
 package net.kodehawa.mantarobot.commands.currency.item;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Axe;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Wrench;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bson.codecs.pojo.annotations.BsonProperty;
@@ -31,12 +32,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-@SuppressWarnings("ClassCanBeRecord")
 public class PlayerEquipment {
     //int = itemId
     private final Map<EquipmentType, Integer> equipment;
     private final Map<EquipmentType, PotionEffect> effects;
     private final Map<EquipmentType, Integer> durability;
+    @BsonIgnore
+    public Map<String, Object> fieldTracker = new HashMap<>();
 
     @BsonCreator
     public PlayerEquipment(@BsonProperty("equipment") Map<EquipmentType, Integer> equipment, @BsonProperty("effects") Map<EquipmentType, PotionEffect> effects, @BsonProperty("durability") Map<EquipmentType, Integer> durability) {
@@ -57,6 +59,7 @@ public class PlayerEquipment {
             durability.put(type, ((Breakable) item).getMaxDurability());
         }
 
+        fieldTracker.put("equippedItems.equipment", equipment);
         return true;
     }
 
@@ -68,6 +71,7 @@ public class PlayerEquipment {
         }
 
         effects.put(type, effect);
+        fieldTracker.put("equippedItems.effects", effects);
     }
 
     //Convenience methods start here.
@@ -75,6 +79,8 @@ public class PlayerEquipment {
     public void resetOfType(EquipmentType type) {
         equipment.remove(type);
         durability.remove(type);
+        fieldTracker.put("equippedItems.durability", durability);
+        fieldTracker.put("equippedItems.equipment", equipment);
     }
 
     @BsonIgnore
@@ -89,6 +95,22 @@ public class PlayerEquipment {
 
             return effect;
         });
+
+        fieldTracker.put("equippedItems.effects", effects);
+
+    }
+
+    @BsonIgnore
+    public boolean useEffect(EquipmentType type) {
+        var use = getCurrentEffect(type).use();
+        fieldTracker.put("equippedItems.effects", effects);
+        return use;
+    }
+
+    @BsonIgnore
+    public void equipEffect(EquipmentType type, int amount) {
+        getCurrentEffect(type).equip(amount);
+        fieldTracker.put("equippedItems.effects", effects);
     }
 
     @BsonIgnore
@@ -132,11 +154,20 @@ public class PlayerEquipment {
     @BsonIgnore
     public void resetDurabilityTo(EquipmentType type, int amount) {
         durability.put(type, amount);
+        fieldTracker.put("equippedItems.durability", durability);
     }
 
     @BsonIgnore
     public int reduceDurability(EquipmentType type, int amount) {
-        return durability.computeIfPresent(type, (t, a) -> a - amount);
+        var dura = durability.computeIfPresent(type, (t, a) -> a - amount);
+        fieldTracker.put("equippedItems.durability", dura);
+
+        return dura;
+    }
+
+    @BsonIgnore
+    public void updateAllChanged(UserDatabase database) {
+        MantaroData.db().updateFieldValues(database, fieldTracker);
     }
 
     public Map<EquipmentType, Integer> getEquipment() {

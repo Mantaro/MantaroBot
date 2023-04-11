@@ -103,11 +103,12 @@ public class ItemHelper {
             UserDatabase dbUser = ctx.getDBUser();
             Inventory playerInventory = player.getInventory();
 
-            dbUser.getEquippedItems().resetEffect(PlayerEquipment.EquipmentType.POTION);
+            var equipped = dbUser.getEquippedItems();
+            equipped.resetEffect(PlayerEquipment.EquipmentType.POTION);
             playerInventory.process(new ItemStack(ItemReference.POTION_CLEAN, -1));
 
             player.save();
-            dbUser.save();
+            equipped.updateAllChanged(dbUser);
 
             ctx.sendLocalized("general.misc_item_usage.milk", EmoteReference.CORRECT);
             return true;
@@ -441,16 +442,14 @@ public class ItemHelper {
             // Effect is active when it's been used less than the max amount
             if (!equipment.isEffectActive(type, ((Potion) item).getMaxUses())) {
                 // Reset effect if the current amount equipped is 0. Else, subtract one from the current amount equipped.
-                if (!equipment.getCurrentEffect(type).use()) { //This call subtracts one from the current amount equipped.
+                if (!equipment.useEffect(type)) { //This call subtracts one from the current amount equipped.
                     equipment.resetEffect(type);
                     // This has to go twice, because I have to return on the next statement.
-                    // We remove something from a HashMap here, and somehow
-                    // removing it from a HashMap will need a full replace (why?)
-                    user.save();
+                    equipment.updateAllChanged(user);
 
                     return false;
                 } else {
-                    user.save();
+                    equipment.updateAllChanged(user);
                     return true;
                 }
             } else {
@@ -462,10 +461,10 @@ public class ItemHelper {
                     // but we check if the effect is not active, therefore it will only go through and delete
                     // the element from the stack only when there's no more uses remaining on that part of the stack :)
                     // This bug took me two god damn years to fix.
-                    equipment.getCurrentEffect(type).use();
+                    equipment.useEffect(type);
                 }
 
-                user.save();
+                equipment.updateAllChanged(user);
 
                 return true;
             }
@@ -536,9 +535,8 @@ public class ItemHelper {
 
             player.getData().addBadgeIfAbsent(Badge.ITEM_BREAKER);
             player.saveUpdating();
-            // We remove something from a HashMap here, and somehow
-            // removing it from a HashMap will need a full replace (why?)
-            user.save();
+
+            equippedItems.updateAllChanged(user);
 
             var stats = ctx.db().getPlayerStats(ctx.getAuthor());
             stats.incrementToolsBroken();
@@ -555,7 +553,7 @@ public class ItemHelper {
                 player.getData().addBadgeIfAbsent(Badge.HOT_CHOPPER);
 
             player.saveUpdating();
-            user.save();
+            equippedItems.updateAllChanged(user);
 
             //is not broken
             return Pair.of(false, Pair.of(player, user));
@@ -574,11 +572,12 @@ public class ItemHelper {
         var inventory = finalPlayer.getInventory();
 
         if (finalUser.isAutoEquip() && inventory.containsItem(item)) {
-            finalUser.getEquippedItems().equipItem(item);
+            var equipped = finalUser.getEquippedItems();
+            equipped.equipItem(item);
             inventory.process(new ItemStack(item, -1));
 
             finalPlayer.save();
-            finalUser.save();
+            equipped.updateAllChanged(dbUser);
 
             ctx.sendLocalized(i18n, EmoteReference.CORRECT, item.getName());
         }
