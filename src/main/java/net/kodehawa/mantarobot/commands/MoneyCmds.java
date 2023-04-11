@@ -302,7 +302,7 @@ public class MoneyCmds {
             }
 
             // Mutual waifu status.
-            if (authorDBUser.getWaifus().containsKey(otherUser.getId()) && mentionedDBUser.getWaifus().containsKey(author.getId())) {
+            if (authorDBUser.containsWaifu(otherUser.getId()) && mentionedDBUser.containsWaifu(author.getId())) {
                 dailyMoney +=Math.max(5, random.nextInt(200));
             }
 
@@ -540,7 +540,7 @@ public class MoneyCmds {
                 var dust = dbUser.increaseDustLevel(random.nextInt(2));
                 var msg = languageContext.withRoot("commands", "loot.dust").formatted(dust);
 
-                dbUser.save();
+                dbUser.updateAllChanged();
                 if (random.nextInt(100) > 93) {
                     msg += languageContext.withRoot("commands", "loot.easter");
                 }

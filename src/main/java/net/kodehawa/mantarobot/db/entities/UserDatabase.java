@@ -38,11 +38,14 @@ import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.currentTimeMillis;
 
+// Reminder: all setters MUST be protected!
 public class UserDatabase implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "users";
     @BsonIgnore
     private final Config config = MantaroData.config().get();
+    @BsonIgnore
+    public Map<String, Object> fieldTracker = new HashMap<>();
 
     @BsonId
     private String id;
@@ -54,31 +57,29 @@ public class UserDatabase implements ManagedMongoObject {
     private String timezone;
     private String lang;
     private int dustLevel; //percentage
-    private int equippedPick; //item id, 0 = nothing (even tho in theory 0 its headphones...)
-    private int equippedRod; //item id, 0 = nothing
     private PlayerEquipment equippedItems = new PlayerEquipment(new HashMap<>(), new HashMap<>(), new HashMap<>()); //hashmap is type -> itemId
     private boolean receivedExpirationWarning = false; //premium key about to expire!
     private Map<String, String> keysClaimed = new HashMap<>(); //Map of user -> key. Will be used to account for keys the user can create themselves.
 
-    //NEW MARRIAGE SYSTEM
+    // NEW MARRIAGE SYSTEM
     private String marriageId;
 
-    //user id, value bought for.
+    // user id, value bought for.
     private Map<String, Long> waifus = new HashMap<>();
     private int waifuSlots = 3;
     private int timesClaimed;
 
-    //Persistent reminders. UUID is saved here.
+    // Persistent reminders. UUID is saved here.
     private List<String> reminders = new ArrayList<>();
 
-    //Hide tag (and ID on waifu) on marriage/waifu list
+    // Hide tag (and ID on waifu) on marriage/waifu list
     private boolean privateTag = false; //just explicitly setting it to false to make sure people know it's the default.
     private boolean autoEquip = false;
     private boolean actionsDisabled = false;
 
     // Mongo serialization
     public UserDatabase() { }
-    
+
     protected UserDatabase(String id, long premiumUntil) {
         this.id = id;
         this.premiumUntil = premiumUntil;
@@ -88,6 +89,244 @@ public class UserDatabase implements ManagedMongoObject {
         return new UserDatabase(id, 0);
     }
 
+    // --- Getters
+    public String getBirthday() {
+        return this.birthday;
+    }
+
+    public String getPremiumKey() {
+        return this.premiumKey;
+    }
+
+    public int getRemindedTimes() {
+        return this.remindedTimes;
+    }
+
+    public String getTimezone() {
+        return this.timezone;
+    }
+
+    public String getLang() {
+        return this.lang;
+    }
+
+    public int getDustLevel() {
+        return this.dustLevel;
+    }
+
+    // TODO: Need to track changes for this object?...
+    public PlayerEquipment getEquippedItems() {
+        return this.equippedItems;
+    }
+
+    public String getMarriageId() {
+        return this.marriageId;
+    }
+
+    public int getWaifuSlots() {
+        return this.waifuSlots;
+    }
+
+    public int getTimesClaimed() {
+        return this.timesClaimed;
+    }
+
+    public boolean isPrivateTag() {
+        return this.privateTag;
+    }
+
+    public boolean isAutoEquip() {
+        return autoEquip;
+    }
+
+    public boolean isActionsDisabled() {
+        return actionsDisabled;
+    }
+
+    public boolean getReceivedFirstKey() {
+        return this.receivedFirstKey;
+    }
+
+    public boolean getReceivedExpirationWarning() {
+        return this.receivedExpirationWarning;
+    }
+
+    // Protected: DO NOT INTERACT DIRECTLY WITH, CHANGES TO THE MAP FROM THIS METHOD WILL NOT BE UPDATED
+    protected Map<String, Long> getWaifus() {
+        return this.waifus;
+    }
+
+    // DO NOT INTERACT DIRECTLY WITH, CHANGES TO THE MAP FROM THIS METHOD WILL NOT BE UPDATED
+    // Needed to be public: need to access for non-modifying iterations, making another method would be superfluous.
+    public Map<String, String> getKeysClaimed() {
+        return this.keysClaimed;
+    }
+
+    // DO NOT INTERACT DIRECTLY WITH, CHANGES TO THE LIST FROM THIS METHOD WILL NOT BE UPDATED
+    // Needed to be public: need to access for non-modifying iterations, making another method would be superfluous.
+    public List<String> getReminders() {
+        return this.reminders;
+    }
+
+    @BsonIgnore
+    public boolean hasReceivedFirstKey() {
+        return this.receivedFirstKey;
+    }
+
+    @BsonIgnore
+    public boolean hasReceivedExpirationWarning() {
+        return this.receivedExpirationWarning;
+    }
+
+    // --- Setters needed for serialization (unless I want to make the structure more rigid and use a constructor)
+    protected void setLang(String lang) {
+        this.lang = lang;
+    }
+
+    protected void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    protected void setPremiumKey(String premiumKey) {
+        this.premiumKey = premiumKey;
+    }
+
+    protected void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+
+    protected void setDustLevel(int dustLevel) {
+        this.dustLevel = dustLevel;
+    }
+
+    protected void setMarriageId(String marriageId) {
+        this.marriageId = marriageId;
+    }
+
+    protected void setWaifuSlots(int waifuSlots) {
+        this.waifuSlots = waifuSlots;
+    }
+
+    protected void setTimesClaimed(int timesClaimed) {
+        this.timesClaimed = timesClaimed;
+    }
+
+    protected void setPrivateTag(boolean privateTag) {
+        this.privateTag = privateTag;
+    }
+
+    protected void setAutoEquip(boolean autoEquip) {
+        this.autoEquip = autoEquip;
+    }
+
+    protected void setActionsDisabled(boolean actionsDisabled) {
+        this.actionsDisabled = actionsDisabled;
+    }
+
+    protected void setReceivedFirstKey(boolean hasReceivedFirstKey) {
+        this.receivedFirstKey = hasReceivedFirstKey;
+    }
+
+    protected void setReceivedExpirationWarning(boolean receivedExpirationWarning) {
+        this.receivedExpirationWarning = receivedExpirationWarning;
+    }
+
+    // --- Unused (?) setters, also definitely needed for serialization.
+    protected void setWaifus(Map<String, Long> waifus) {
+        this.waifus = waifus;
+    }
+
+    protected void setReminders(List<String> reminders) {
+        this.reminders = reminders;
+    }
+
+    protected void setRemindedTimes(int remindedTimes) {
+        this.remindedTimes = remindedTimes;
+    }
+
+    protected void setEquippedItems(PlayerEquipment equippedItems) {
+        this.equippedItems = equippedItems;
+    }
+
+    protected void setKeysClaimed(Map<String, String> keysClaimed) {
+        this.keysClaimed = keysClaimed;
+    }
+
+    // --- Track changes to use update
+    @BsonIgnore
+    public void actionsDisabled(boolean actionsDisabled) {
+        this.actionsDisabled = actionsDisabled;
+        fieldTracker.put("actionsDisabled", actionsDisabled);
+    }
+
+    @BsonIgnore
+    public void receivedFirstKey(boolean hasReceivedFirstKey) {
+        this.receivedFirstKey = hasReceivedFirstKey;
+        fieldTracker.put("receivedFirstKey", receivedFirstKey);
+    }
+
+    @BsonIgnore
+    public void receivedExpirationWarning(boolean receivedExpirationWarning) {
+        this.receivedExpirationWarning = receivedExpirationWarning;
+        fieldTracker.put("receivedExpirationWarning", receivedExpirationWarning);
+    }
+
+    @BsonIgnore
+    public void autoEquip(boolean autoEquip) {
+        this.autoEquip = autoEquip;
+        fieldTracker.put("autoEquip", autoEquip);
+    }
+
+    @BsonIgnore
+    public void privateTag(boolean privateTag) {
+        this.privateTag = privateTag;
+        fieldTracker.put("privateTag", waifuSlots);
+    }
+
+    @BsonIgnore
+    public void waifuSlots(int waifuSlots) {
+        this.waifuSlots = waifuSlots;
+        fieldTracker.put("waifuSlots", waifuSlots);
+    }
+
+    @BsonIgnore
+    public void marriageId(String marriageId) {
+        this.marriageId = marriageId;
+        fieldTracker.put("marriageId", marriageId);
+    }
+
+    @BsonIgnore
+    public void dustLevel(int dustLevel) {
+        this.dustLevel = dustLevel;
+        fieldTracker.put("dustLevel", dustLevel);
+    }
+
+    @BsonIgnore
+    public void timezone(String timezone) {
+        this.timezone = timezone;
+        fieldTracker.put("timezone", timezone);
+    }
+
+    @BsonIgnore
+    public void language(String lang) {
+        this.lang = lang;
+        fieldTracker.put("lang", lang);
+    }
+
+    @BsonIgnore
+    public void birthday(String birthday) {
+        this.birthday = birthday;
+        fieldTracker.put("birthday", birthday);
+    }
+
+    @BsonIgnore
+    public void premiumKey(String premiumKey) {
+        this.premiumKey = premiumKey;
+        fieldTracker.put("premiumKey", premiumKey);
+    }
+
+    // --- Helpers
+    @BsonIgnore
     public UserDatabase incrementPremium(long milliseconds) {
         if (isPremium()) {
             this.premiumUntil += milliseconds;
@@ -97,164 +336,54 @@ public class UserDatabase implements ManagedMongoObject {
         return this;
     }
 
-    public String getBirthday() {
-        return this.birthday;
+    // Waifu helpers: needed to not interact with the Map directly.
+    @BsonIgnore
+    public void addWaifu(String id, long value) {
+        waifus.put(id, value);
+        fieldTracker.put("waifus", waifus);
     }
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
+    @BsonIgnore
+    public void removeWaifu(String id) {
+        waifus.remove(id);
+        fieldTracker.put("waifus", waifus);
     }
 
-    public String getPremiumKey() {
-        return this.premiumKey;
+    @BsonIgnore
+    public boolean containsWaifu(String id) {
+        return waifus.containsKey(id);
     }
 
-    public void setPremiumKey(String premiumKey) {
-        this.premiumKey = premiumKey;
+    @BsonIgnore
+    public long waifuAmount() {
+        return waifus.size();
     }
 
-    public int getRemindedTimes() {
-        return this.remindedTimes;
+    @BsonIgnore
+    public Long getWaifu(String id) {
+        return waifus.get(id);
     }
 
-    public void setRemindedTimes(int remindedTimes) {
-        this.remindedTimes = remindedTimes;
+    @BsonIgnore
+    public Set<String> waifuKeys() {
+        return waifus.keySet();
     }
 
-    public String getTimezone() {
-        return this.timezone;
+    @BsonIgnore
+    public Set<Map.Entry<String, Long>> waifuEntrySet() {
+        return waifus.entrySet();
     }
 
-    public void setTimezone(String timezone) {
-        this.timezone = timezone;
+    @BsonIgnore
+    public void addReminder(String reminder) {
+        reminders.add(reminder);
+        fieldTracker.put("reminders", reminders);
     }
 
-    public String getLang() {
-        return this.lang;
-    }
-
-    public void setLang(String lang) {
-        this.lang = lang;
-    }
-
-    public int getDustLevel() {
-        return this.dustLevel;
-    }
-
-    public void setDustLevel(int dustLevel) {
-        this.dustLevel = dustLevel;
-    }
-
-    public int getEquippedPick() {
-        return this.equippedPick;
-    }
-
-    public void setEquippedPick(int equippedPick) {
-        this.equippedPick = equippedPick;
-    }
-
-    public int getEquippedRod() {
-        return this.equippedRod;
-    }
-
-    public void setEquippedRod(int equippedRod) {
-        this.equippedRod = equippedRod;
-    }
-
-    public PlayerEquipment getEquippedItems() {
-        return this.equippedItems;
-    }
-
-    public void setEquippedItems(PlayerEquipment equippedItems) {
-        this.equippedItems = equippedItems;
-    }
-
-    public Map<String, String> getKeysClaimed() {
-        return this.keysClaimed;
-    }
-
-    public void setKeysClaimed(Map<String, String> keysClaimed) {
-        this.keysClaimed = keysClaimed;
-    }
-
-    public String getMarriageId() {
-        return this.marriageId;
-    }
-
-    public void setMarriageId(String marriageId) {
-        this.marriageId = marriageId;
-    }
-
-    public Map<String, Long> getWaifus() {
-        return this.waifus;
-    }
-
-    public void setWaifus(Map<String, Long> waifus) {
-        this.waifus = waifus;
-    }
-
-    public int getWaifuSlots() {
-        return this.waifuSlots;
-    }
-
-    public void setWaifuSlots(int waifuSlots) {
-        this.waifuSlots = waifuSlots;
-    }
-
-    public int getTimesClaimed() {
-        return this.timesClaimed;
-    }
-
-    public void setTimesClaimed(int timesClaimed) {
-        this.timesClaimed = timesClaimed;
-    }
-
-    public List<String> getReminders() {
-        return this.reminders;
-    }
-
-    public void setReminders(List<String> reminders) {
-        this.reminders = reminders;
-    }
-
-    public boolean isPrivateTag() {
-        return this.privateTag;
-    }
-
-    public void setPrivateTag(boolean privateTag) {
-        this.privateTag = privateTag;
-    }
-
-    public boolean isAutoEquip() {
-        return autoEquip;
-    }
-
-    public void setAutoEquip(boolean autoEquip) {
-        this.autoEquip = autoEquip;
-    }
-
-    public boolean isActionsDisabled() {
-        return actionsDisabled;
-    }
-
-    public void setActionsDisabled(boolean actionsDisabled) {
-        this.actionsDisabled = actionsDisabled;
-    }
-
-    public void setReceivedFirstKey(boolean hasReceivedFirstKey) {
-        this.receivedFirstKey = hasReceivedFirstKey;
-    }
-
-    public void setReceivedExpirationWarning(boolean receivedExpirationWarning) {
-        this.receivedExpirationWarning = receivedExpirationWarning;
-    }
-
-    public boolean getReceivedFirstKey() {
-        return this.receivedFirstKey;
-    }
-
-    public boolean getReceivedExpirationWarning() {
-        return this.receivedExpirationWarning;
+    @BsonIgnore
+    public void removeReminder(String reminder) {
+        reminders.remove(reminder);
+        fieldTracker.put("reminders", reminders);
     }
 
     @BsonIgnore
@@ -287,22 +416,37 @@ public class UserDatabase implements ManagedMongoObject {
         }
 
         this.setDustLevel(increased);
+        fieldTracker.put("dustLevel", dustLevel);
         return this.dustLevel;
-    }
-
-    @BsonIgnore
-    public boolean hasReceivedFirstKey() {
-        return this.receivedFirstKey;
     }
 
     @BsonIgnore
     public void incrementReminders() {
         remindedTimes += 1;
+        fieldTracker.put("remindedTimes", remindedTimes);
     }
 
     @BsonIgnore
-    public boolean hasReceivedExpirationWarning() {
-        return this.receivedExpirationWarning;
+    public void incrementTimesClaimed() {
+        timesClaimed += 1;
+        fieldTracker.put("timesClaimed", timesClaimed);
+    }
+
+    @BsonIgnore
+    public void addKeyClaimed(String userId, String keyId) {
+        keysClaimed.put(userId, keyId);
+        fieldTracker.put("keysClaimed", keysClaimed);
+    }
+
+    @BsonIgnore
+    public void removeKeyClaimed(String userId) {
+        keysClaimed.remove(userId);
+        fieldTracker.put("keysClaimed", keysClaimed);
+    }
+
+    @BsonIgnore
+    public String getUserIdFromKeyId(String keyId) {
+        return Utils.getKeyByValue(keysClaimed, keyId);
     }
 
     @BsonIgnore
@@ -322,8 +466,8 @@ public class UserDatabase implements ManagedMongoObject {
                 UserDatabase owner = MantaroData.db().getUser(key.getOwner());
                 //Remove from owner's key ownership storage if key owner != key holder.
                 if (!key.getOwner().equals(getId())) {
-                    owner.getKeysClaimed().remove(getId());
-                    owner.save();
+                    owner.removeKeyClaimed(getId());
+                    owner.updateAllChanged();
                 }
 
                 //Handle this so we don't go over this check again. Remove premium key from user object.
@@ -367,8 +511,8 @@ public class UserDatabase implements ManagedMongoObject {
             if (!getId().equals(key.getOwner()) && keyLinkedTo != null && keyLinkedTo.equals(key.getOwner())) {
                 UserDatabase owner = MantaroData.db().getUser(key.getOwner());
                 if (!owner.getKeysClaimed().containsKey(getId())) {
-                    owner.getKeysClaimed().put(getId(), key.getId());
-                    owner.save();
+                    owner.addKeyClaimed(getId(), key.getId());
+                    owner.updateAllChanged();
                 }
             }
 
@@ -388,18 +532,20 @@ public class UserDatabase implements ManagedMongoObject {
     public PremiumKey generateAndApplyPremiumKey(int days, String owner) {
         String premiumId = UUID.randomUUID().toString();
         PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days), currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.USER, true, owner, null);
-        setPremiumKey(premiumId);
         newKey.save();
-        save();
+
+        premiumKey(premiumId);
+        updateAllChanged();
         return newKey;
     }
 
     @BsonIgnore
     public void removePremiumKey(String originalKey) {
-        setPremiumKey(null);
-        getKeysClaimed().remove(Utils.getKeyByValue(getKeysClaimed(), originalKey));
-        setReceivedFirstKey(false);
-        save();
+        premiumKey(null);
+        receivedFirstKey(false);
+        removeKeyClaimed(getUserIdFromKeyId(originalKey));
+
+        updateAllChanged();
     }
 
     @Nonnull
@@ -412,6 +558,12 @@ public class UserDatabase implements ManagedMongoObject {
     @Nonnull
     public String getTableName() {
         return DB_TABLE;
+    }
+
+    @BsonIgnore
+    @Override
+    public void updateAllChanged() {
+        MantaroData.db().updateFieldValues(this, fieldTracker);
     }
 
     @Override

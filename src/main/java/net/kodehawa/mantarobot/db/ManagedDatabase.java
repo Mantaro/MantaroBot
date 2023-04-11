@@ -341,7 +341,12 @@ public class ManagedDatabase {
     }
 
     public void updateFieldValues(ManagedMongoObject object, Map<String, Object> map) {
-        log("Updating tracked set of size {} (from db {}) (batch values)", object.getId(), map.size(), object.getTableName());
+        log("Updating tracked set for id {} (db: {}, set size: {}) (batch values)", object.getId(), object.getTableName(), map.size(), object.getTableName());
+
+        if (map.isEmpty()) {
+            log("Empty tracked set when requesting update!");
+            return;
+        }
 
         var collection = dbMantaro().getCollection(object.getTableName());
         List<Bson> updateCollection = new ArrayList<>(

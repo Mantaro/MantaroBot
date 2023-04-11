@@ -136,8 +136,8 @@ public class BirthdayCmd {
 
                 //Actually save it to the user's profile.
                 UserDatabase dbUser = ctx.getDBUser();
-                dbUser.setBirthday(birthdayFormat);
-                dbUser.save();
+                dbUser.birthday(birthdayFormat);
+                dbUser.updateAllChanged();
 
                 ctx.replyEphemeral("commands.birthday.added_birthdate", EmoteReference.CORRECT, display, extra);
             }
@@ -201,8 +201,8 @@ public class BirthdayCmd {
             @Override
             protected void process(SlashContext ctx) {
                 var user = ctx.getDBUser();
-                user.setBirthday(null);
-                user.save();
+                user.birthday(null);
+                user.updateAllChanged();
 
                 ctx.replyEphemeral("commands.birthday.reset", EmoteReference.CORRECT);
             }

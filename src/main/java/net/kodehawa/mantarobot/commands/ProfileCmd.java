@@ -169,14 +169,14 @@ public class ProfileCmd {
                 final var isDisabled = dbUser.isActionsDisabled();
 
                 if (isDisabled) {
-                    dbUser.setActionsDisabled(false);
+                    dbUser.actionsDisabled(false);
                     ctx.replyEphemeral("commands.profile.toggleaction.enabled", EmoteReference.CORRECT);
                 } else {
-                    dbUser.setActionsDisabled(true);
+                    dbUser.actionsDisabled(true);
                     ctx.replyEphemeral("commands.profile.toggleaction.disabled", EmoteReference.CORRECT);
                 }
 
-                dbUser.save();
+                dbUser.updateAllChanged();
             }
         }
 
@@ -207,15 +207,15 @@ public class ProfileCmd {
                 var user = ctx.getDBUser();
 
                 if (ctx.getOptionAsBoolean("disable")) {
-                    user.setAutoEquip(false);
-                    user.save();
+                    user.autoEquip(false);
+                    user.updateAllChanged();
 
                     ctx.replyEphemeral("commands.profile.autoequip.disable", EmoteReference.CORRECT);
                     return;
                 }
 
-                user.setAutoEquip(true);
-                user.save();
+                user.autoEquip(true);
+                user.updateAllChanged();
 
                 ctx.replyEphemeral("commands.profile.autoequip.success", EmoteReference.CORRECT);
             }
@@ -227,8 +227,8 @@ public class ProfileCmd {
             protected void process(SlashContext ctx) {
                 var user = ctx.getDBUser();
 
-                user.setPrivateTag(!user.isPrivateTag());
-                user.save();
+                user.privateTag(!user.isPrivateTag());
+                user.updateAllChanged();
 
                 ctx.replyEphemeral("commands.profile.hide_tag.success", EmoteReference.POPPER, user.isPrivateTag());
             }
@@ -256,8 +256,8 @@ public class ProfileCmd {
                 }
 
                 if (timezone.equalsIgnoreCase("reset")) {
-                    dbUser.setTimezone(null);
-                    dbUser.save();
+                    dbUser.timezone(null);
+                    dbUser.updateAllChanged();
                     ctx.replyEphemeral("commands.profile.timezone.reset_success", EmoteReference.CORRECT);
                     return;
                 }
@@ -279,8 +279,8 @@ public class ProfileCmd {
                     player.save();
                 }
 
-                dbUser.setTimezone(timezone);
-                dbUser.save();
+                dbUser.timezone(timezone);
+                dbUser.updateAllChanged();
                 ctx.replyEphemeral("commands.profile.timezone.success", EmoteReference.CORRECT, timezone);
             }
         }
@@ -298,18 +298,18 @@ public class ProfileCmd {
                 var dbUser = ctx.getDBUser();
                 var content = ctx.getOptionAsString("lang");
                 if (content.equalsIgnoreCase("reset")) {
-                    dbUser.setLang(null);
-                    dbUser.save();
+                    dbUser.language(null);
+                    dbUser.updateAllChanged();
                     ctx.replyEphemeral("commands.profile.lang.reset_success", EmoteReference.CORRECT);
                     return;
                 }
 
                 if (I18n.isValidLanguage(content)) {
-                    dbUser.setLang(content);
+                    dbUser.language(content);
                     //Create new I18n context based on the new language choice.
                     var newContext = new I18nContext(ctx.getDBGuild(), dbUser);
 
-                    dbUser.save();
+                    dbUser.updateAllChanged();
                     ctx.replyEphemeralRaw(newContext.get("commands.profile.lang.success"), EmoteReference.CORRECT, content);
                 } else {
                     ctx.replyEphemeral("commands.profile.lang.invalid", EmoteReference.ERROR);

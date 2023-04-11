@@ -8,10 +8,8 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.annotations.ConfigName;
 import net.kodehawa.mantarobot.data.annotations.HiddenConfig;
 import net.kodehawa.mantarobot.db.ManagedMongoObject;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Pair;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.patreon.PatreonPledge;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
@@ -79,8 +77,8 @@ public class GuildDatabase implements ManagedMongoObject {
             boolean isKeyActive = currentTimeMillis() < key.getExpiration();
             if (!isKeyActive && LocalDate.now(ZoneId.of("America/Chicago")).getDayOfMonth() > 5) {
                 UserDatabase owner = MantaroData.db().getUser(key.getOwner());
-                owner.getKeysClaimed().remove(getId());
-                owner.save();
+                owner.removeKeyClaimed(getId());
+                owner.updateAllChanged();
 
                 removePremiumKey(key.getOwner(), key.getId());
                 key.delete();
@@ -101,8 +99,8 @@ public class GuildDatabase implements ManagedMongoObject {
             if (keyLinkedTo != null) {
                 UserDatabase owner = MantaroData.db().getUser(keyLinkedTo);
                 if (!owner.getKeysClaimed().containsKey(getId())) {
-                    owner.getKeysClaimed().put(getId(), key.getId());
-                    owner.save();
+                    owner.addKeyClaimed(getId(), key.getId());
+                    owner.updateAllChanged();
                 }
             }
         }
@@ -128,6 +126,7 @@ public class GuildDatabase implements ManagedMongoObject {
                 currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.GUILD, true, id, null);
         setPremiumKey(premiumId);
         newKey.save();
+
         save();
         return newKey;
     }
@@ -137,8 +136,8 @@ public class GuildDatabase implements ManagedMongoObject {
         setPremiumKey(null);
 
         UserDatabase dbUser = MantaroData.db().getUser(keyOwner);
-        dbUser.getKeysClaimed().remove(Utils.getKeyByValue(dbUser.getKeysClaimed(), originalKey));
-        dbUser.save();
+        dbUser.removePremiumKey(dbUser.getUserIdFromKeyId(originalKey));
+        dbUser.updateAllChanged();
 
         save();
     }

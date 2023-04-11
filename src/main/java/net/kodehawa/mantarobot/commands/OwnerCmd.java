@@ -45,7 +45,6 @@ import net.kodehawa.mantarobot.db.entities.MantaroObject;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.utils.APIUtils;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.eval.JavaEvaluator;
@@ -652,10 +651,8 @@ import net.dv8tion.jda.api.entities.channel.concrete.*;
                 }
 
                 var dbUser = MantaroData.db().getUser(key.getOwner());
-                var keysClaimed = dbUser.getKeysClaimed();
-
-                keysClaimed.remove(Utils.getKeyByValue(keysClaimed, key.getId()));
-                dbUser.save();
+                dbUser.removeKeyClaimed(dbUser.getUserIdFromKeyId(key.getId()));
+                dbUser.updateAllChanged();
                 key.delete();
 
                 ctx.send("Invalidated key " + args[0]);

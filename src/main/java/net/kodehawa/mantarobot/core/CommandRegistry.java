@@ -474,8 +474,8 @@ public class CommandRegistry {
                         );
                     }
 
-                    dbUser.setReceivedExpirationWarning(true);
-                    dbUser.save();
+                    dbUser.receivedExpirationWarning(true);
+                    dbUser.updateAllChanged();
                 }
             }
         }

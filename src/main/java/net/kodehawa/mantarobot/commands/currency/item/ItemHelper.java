@@ -86,10 +86,10 @@ public class ItemHelper {
                 }
 
                 playerInventory.process(new ItemStack(ItemReference.MOP, -1));
-                dbUser.setDustLevel(0);
+                dbUser.dustLevel(0);
 
                 player.save();
-                dbUser.save();
+                dbUser.updateAllChanged();
             } else {
                 ctx.sendLocalized("general.misc_item_usage.mop_not_enough", EmoteReference.DUST);
                 return false;

@@ -276,7 +276,7 @@ public class CurrencyActionCmds {
         money += Math.max(moneyIncrease / 2, random.nextInt(moneyIncrease));
 
         if (ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
-            final var waifus = userData.getWaifus().entrySet();
+            final var waifus = userData.waifuEntrySet();
             if (waifus.stream().anyMatch((w) -> w.getValue() > 20_000L)) {
                 money += Math.max(20, random.nextInt(100));
                 waifuHelp = true;
@@ -511,7 +511,7 @@ public class CurrencyActionCmds {
         if (chance < 10) {
             //Here your fish rod got dusty. Yes, on the sea.
             var level = dbUser.increaseDustLevel(random.nextInt(4));
-            dbUser.save();
+            dbUser.updateAllChanged();
 
             ctx.sendLocalized("commands.fish.dust", EmoteReference.TALKING, level);
             ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.fish.autoequip.success");
@@ -580,7 +580,7 @@ public class CurrencyActionCmds {
             // START OF WAIFU HELP IMPLEMENTATION
             boolean waifuHelp = false;
             if (ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, dbUser.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
-                if (dbUser.getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 20_000L)) {
+                if (dbUser.waifuEntrySet().stream().anyMatch((w) -> w.getValue() > 20_000L)) {
                     money += Math.max(10, random.nextInt(150));
                     waifuHelp = true;
                 }
@@ -678,7 +678,7 @@ public class CurrencyActionCmds {
             if (money == 0 && !foundFish) {
                 int level = dbUser.increaseDustLevel(random.nextInt(4));
                 ctx.sendLocalized("commands.fish.dust", EmoteReference.TALKING, level);
-                dbUser.save();
+                dbUser.updateAllChanged();
 
                 ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.fish.autoequip.success");
                 return;
@@ -738,7 +738,7 @@ public class CurrencyActionCmds {
         if (chance < 10) {
             // Found nothing.
             int level = dbUser.increaseDustLevel(random.nextInt(5));
-            dbUser.save();
+            dbUser.updateAllChanged();
             // Process axe durability.
             ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.chop.autoequip.success");
 

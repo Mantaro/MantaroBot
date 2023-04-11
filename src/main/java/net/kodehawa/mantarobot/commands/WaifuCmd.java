@@ -135,7 +135,7 @@ public class WaifuCmd {
                     return;
                 }
 
-                final var description = dbUser.getWaifus().isEmpty() ?
+                final var description = dbUser.waifuAmount() == 0 ?
                         lang.get("commands.waifu.waifu_header") + "\n" + lang.get("commands.waifu.no_waifu") :
                         lang.get("commands.waifu.waifu_header");
 
@@ -145,12 +145,11 @@ public class WaifuCmd {
                         .setThumbnail("https://i.imgur.com/2JlMtCe.png")
                         .setColor(Color.CYAN)
                         .setFooter(lang.get("commands.waifu.footer").formatted(
-                                        dbUser.getWaifus().size(),
-                                        dbUser.getWaifuSlots() - dbUser.getWaifus().size()),
+                                        dbUser.waifuAmount(), dbUser.getWaifuSlots() - dbUser.waifuAmount()),
                                 null
                         );
 
-                if (dbUser.getWaifus().isEmpty()) {
+                if (dbUser.waifuAmount() == 0) {
                     waifusEmbed.setDescription(description);
                     ctx.send(waifusEmbed.build());
                     return;
@@ -160,14 +159,14 @@ public class WaifuCmd {
                 List<String> toRemove = new ArrayList<>();
                 List<MessageEmbed.Field> fields = new LinkedList<>();
 
-                for (String waifu : dbUser.getWaifus().keySet()) {
+                for (String waifu : dbUser.waifuKeys()) {
                     //This fixes the issue of cross-node waifus not appearing.
                     User user = ctx.retrieveUserById(waifu);
                     if (user == null) {
                         fields.add(new MessageEmbed.Field(
                                 "%sUnknown User (ID: %s)".formatted(EmoteReference.BLUE_SMALL_MARKER, waifu),
                                 lang.get("commands.waifu.value_format") + " unknown\n" +
-                                        lang.get("commands.waifu.value_b_format") + " " + dbUser.getWaifus().get(waifu) +
+                                        lang.get("commands.waifu.value_b_format") + " " + dbUser.getWaifu(waifu) +
                                         lang.get("commands.waifu.credits_format"), false)
                         );
                     } else {
@@ -184,7 +183,7 @@ public class WaifuCmd {
                                         lang.get("commands.waifu.value_format") + " " +
                                         waifuClaimed.getData().getWaifuCachedValue() + " " +
                                         lang.get("commands.waifu.credits_format") + "\n" +
-                                        lang.get("commands.waifu.value_b_format") + " " + dbUser.getWaifus().get(waifu) +
+                                        lang.get("commands.waifu.value_b_format") + " " + dbUser.getWaifu(waifu) +
                                         lang.get("commands.waifu.credits_format"), false)
                         );
                     }
@@ -195,9 +194,10 @@ public class WaifuCmd {
 
                 if (!toRemove.isEmpty()) {
                     for(String remove : toRemove) {
-                        dbUser.getWaifus().remove(remove);
+                        dbUser.removeWaifu(remove);
                     }
 
+                    dbUser.updateAllChanged();
                     player.save();
                 }
             }
@@ -333,7 +333,7 @@ public class WaifuCmd {
                     return;
                 }
 
-                if (claimerUser.getWaifus().entrySet().stream().anyMatch((w) -> w.getKey().equals(toLookup.getId()))) {
+                if (claimerUser.waifuEntrySet().stream().anyMatch((w) -> w.getKey().equals(toLookup.getId()))) {
                     ctx.reply("commands.waifu.claim.already_claimed", EmoteReference.ERROR);
                     return;
                 }
@@ -355,9 +355,9 @@ public class WaifuCmd {
                     return;
                 }
 
-                if (claimerUser.getWaifus().size() >= claimerUser.getWaifuSlots()) {
+                if (claimerUser.waifuAmount() >= claimerUser.getWaifuSlots()) {
                     ctx.reply("commands.waifu.claim.not_enough_slots",
-                            EmoteReference.ERROR, claimerUser.getWaifuSlots(), claimerUser.getWaifus().size()
+                            EmoteReference.ERROR, claimerUser.getWaifuSlots(), claimerUser.waifuAmount()
                     );
 
                     return;
@@ -368,12 +368,12 @@ public class WaifuCmd {
                 }
 
                 //Add waifu to claimer list.
-                claimerUser.getWaifus().put(toLookup.getId(), waifuFinalValue);
-                claimedUser.setTimesClaimed(claimedUser.getTimesClaimed() + 1);
+                claimerUser.addWaifu(toLookup.getId(), waifuFinalValue);
+                claimedUser.incrementTimesClaimed();
 
                 boolean badgesAdded = false;
                 //Add badges
-                if (claimedUser.getWaifus().containsKey(ctx.getAuthor().getId()) && claimerUser.getWaifus().containsKey(toLookup.getId())) {
+                if (claimedUser.containsWaifu(ctx.getAuthor().getId()) && claimerUser.containsWaifu(toLookup.getId())) {
                     claimerPlayerData.addBadgeIfAbsent(Badge.MUTUAL);
                     badgesAdded = claimedPlayerData.addBadgeIfAbsent(Badge.MUTUAL);
                 }
@@ -385,12 +385,12 @@ public class WaifuCmd {
 
                 //Massive saving operation owo.
                 claimerPlayer.save();
-                claimedUser.save();
-                claimerUser.save();
+                claimedUser.updateAllChanged();
+                claimerUser.updateAllChanged();
 
                 //Send confirmation message
                 ctx.reply("commands.waifu.claim.success",
-                        EmoteReference.CORRECT, toLookup.getName(), waifuFinalValue, claimerUser.getWaifus().size()
+                        EmoteReference.CORRECT, toLookup.getName(), waifuFinalValue, claimerUser.waifuAmount()
                 );
             }
         }
@@ -426,7 +426,7 @@ public class WaifuCmd {
                 final var userId = user.getId();
                 final var name = user.getName();
                 final var claimerUser = ctx.getDBUser();
-                final var value = claimerUser.getWaifus().get(userId);
+                final var value = claimerUser.getWaifu(userId);
                 if (value == null) {
                     ctx.reply("commands.waifu.not_claimed", EmoteReference.ERROR);
                     return;
@@ -461,8 +461,8 @@ public class WaifuCmd {
                         }
 
                         p.removeMoney(valuePayment);
-                        dbUser.getWaifus().remove(userId);
-                        dbUser.save();
+                        dbUser.removeWaifu(userId);
+                        dbUser.updateAllChanged();
                         p.save();
 
                         ctx.edit("commands.waifu.unclaim.success", EmoteReference.CORRECT, name, valuePayment);
@@ -509,12 +509,12 @@ public class WaifuCmd {
                 }
 
                 player.removeMoney(finalValue);
-                user.setWaifuSlots(currentSlots + 1);
-                user.save();
+                user.waifuSlots(currentSlots + 1);
+                user.updateAllChanged();
                 player.save();
 
                 ctx.reply("commands.waifu.buyslot.success",
-                        EmoteReference.CORRECT, finalValue, user.getWaifuSlots(), (user.getWaifuSlots() - user.getWaifus().size())
+                        EmoteReference.CORRECT, finalValue, user.getWaifuSlots(), (user.getWaifuSlots() - user.waifuAmount())
                 );
             }
         }

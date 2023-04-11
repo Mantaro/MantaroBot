@@ -226,10 +226,10 @@ public class MarryCmd {
                         actualMarriage.save();
 
                         // Assign the marriage ID to the respective users and save it.
-                        proposingUserDB.setMarriageId(marriageId);
-                        proposedToUserDB.setMarriageId(marriageId);
-                        proposingUserDB.save();
-                        proposedToUserDB.save();
+                        proposingUserDB.marriageId(marriageId);
+                        proposedToUserDB.marriageId(marriageId);
+                        proposingUserDB.updateAllChanged();
+                        proposedToUserDB.updateAllChanged();
 
                         // Send marriage confirmation message.
                         hook.editOriginal(languageContext.get("commands.marry.accepted").formatted(
@@ -302,7 +302,7 @@ public class MarryCmd {
 
                 final var marriedDBUser = ctx.getDBUser(marriedTo);
                 final var dateFormat = Utils.formatDate(currentMarriage.getMarriageCreationMillis(), dbUser.getLang());
-                final var eitherHasWaifus = !(dbUser.getWaifus().isEmpty() && marriedDBUser.getWaifus().isEmpty());
+                final var eitherHasWaifus = !(dbUser.waifuAmount() == 0 && marriedDBUser.waifuAmount() == 0);
                 final var marriedToName = dbUser.isPrivateTag() ? marriedTo.getName() : marriedTo.getAsTag();
                 final var authorName = dbUser.isPrivateTag() ? author.getName() : author.getAsTag();
                 final var daysMarried = TimeUnit.of(ChronoUnit.MILLIS).toDays(System.currentTimeMillis() - currentMarriage.getMarriageCreationMillis());
@@ -702,12 +702,12 @@ public class MarryCmd {
                     final var divorceePlayer = ctx.getPlayer();
 
                     // Save the user of the person they were married with.
-                    marriedWithDBUser.setMarriageId(null);
-                    marriedWithDBUser.save();
+                    marriedWithDBUser.marriageId(null);
+                    marriedWithDBUser.updateAllChanged();
 
                     // Save the user of themselves.
-                    divorceeDBUser.setMarriageId(null);
-                    divorceeDBUser.save();
+                    divorceeDBUser.marriageId(null);
+                    divorceeDBUser.updateAllChanged();
 
                     // Add the heart broken badge to the user who divorced.
                     divorceePlayer.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);

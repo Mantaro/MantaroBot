@@ -107,8 +107,8 @@ public class PremiumCmds {
                     // Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
                     if (!author.getId().equals(key.getOwner())) {
                         var ownerUser = db.getUser(key.getOwner());
-                        ownerUser.getKeysClaimed().put(author.getId(), key.getId());
-                        ownerUser.save();
+                        ownerUser.addKeyClaimed(author.getId(), key.getId());
+                        ownerUser.updateAllChanged();
                     }
 
                     key.activate(180);
@@ -136,13 +136,13 @@ public class PremiumCmds {
                     // Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
                     if (!author.getId().equals(key.getOwner())) {
                         var ownerUser = db.getUser(key.getOwner());
-                        ownerUser.getKeysClaimed().put(author.getId(), key.getId());
-                        ownerUser.save();
+                        ownerUser.addKeyClaimed(author.getId(), key.getId());
+                        ownerUser.updateAllChanged();
                     }
 
                     key.activate(author.getId().equals(key.getOwner()) ? 365 : 180);
-                    dbUser.setPremiumKey(key.getId());
-                    dbUser.save();
+                    dbUser.premiumKey(key.getId());
+                    dbUser.updateAllChanged();
 
                     ctx.reply("commands.activatekey.user_successful", EmoteReference.POPPER);
                 }

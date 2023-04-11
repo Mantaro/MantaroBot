@@ -247,8 +247,8 @@ public class MantaroListener implements EventListener {
                                     EmoteReference.POPPER, PremiumKey.generatePremiumKey(user.getId(), PremiumKey.Type.USER, false).getId()
                             )
                     ).queue(sent -> {
-                                dbUser.setReceivedFirstKey(true);
-                                dbUser.save();
+                                dbUser.receivedFirstKey(true);
+                                dbUser.updateAllChanged();
                             }
                     );
 
