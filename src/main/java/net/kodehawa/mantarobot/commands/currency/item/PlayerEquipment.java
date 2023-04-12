@@ -41,7 +41,7 @@ public class PlayerEquipment {
     public Map<String, Object> fieldTracker = new HashMap<>();
 
     @BsonCreator
-    public PlayerEquipment(@BsonProperty("equipment") HashMap<EquipmentType, Integer> equipment, @BsonProperty("effects") HashMap<EquipmentType, PotionEffect> effects, @BsonProperty("durability") HashMap<EquipmentType, Integer> durability) {
+    public PlayerEquipment(@BsonProperty("equipment") Map<EquipmentType, Integer> equipment, @BsonProperty("effects") Map<EquipmentType, PotionEffect> effects, @BsonProperty("durability") Map<EquipmentType, Integer> durability) {
         this.equipment = equipment == null ? new HashMap<>() : equipment;
         this.effects = effects == null ? new HashMap<>() : effects;
         this.durability = durability == null ? new HashMap<>() : durability;
@@ -213,6 +213,10 @@ public class PlayerEquipment {
 
         public int getType() {
             return this.type;
+        }
+
+        public String toString() {
+            return this.name();
         }
     }
 }
