@@ -218,8 +218,8 @@ public class AnimeCmds {
 
             final var player = MantaroData.db().getPlayer(ctx.getAuthor());
             final var badge = APIUtils.getHushBadge(title, Utils.HushType.ANIME);
-            if (badge != null && player.getData().addBadgeIfAbsent(badge)) {
-                player.saveUpdating();
+            if (badge != null && player.addBadgeIfAbsent(badge)) {
+                player.save();
             }
 
             //Start building the embedded message.
@@ -274,8 +274,8 @@ public class AnimeCmds {
         var player = MantaroData.db().getPlayer(ctx.getAuthor());
         var badge = APIUtils.getHushBadge(charName.replace(japName, "").trim(), Utils.HushType.CHARACTER);
 
-        if (badge != null && player.getData().addBadgeIfAbsent(badge)) {
-            player.saveUpdating();
+        if (badge != null && player.addBadgeIfAbsent(badge)) {
+            player.save();
         }
 
         var embed = new EmbedBuilder();

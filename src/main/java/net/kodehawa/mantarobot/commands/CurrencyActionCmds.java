@@ -251,11 +251,8 @@ public class CurrencyActionCmds {
 
     private static void mine(IContext ctx, Player player, UserDatabase dbUser, Marriage marriage) {
         final var languageContext = ctx.getLanguageContext();
-        final var playerData = player.getData();
-        final var userData = dbUser;
-
-        final var inventory = player.getInventory();
-        final var equipped = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.PICK);
+        final var inventory = player.inventory();
+        final var equipped = dbUser.getEquippedItems().of(PlayerEquipment.EquipmentType.PICK);
 
         if (equipped == 0) {
             ctx.sendLocalized("commands.mine.not_equipped", EmoteReference.ERROR);
@@ -275,8 +272,8 @@ public class CurrencyActionCmds {
         var moneyIncrease = item.getMoneyIncrease() <= 0 ? 1 : item.getMoneyIncrease();
         money += Math.max(moneyIncrease / 2, random.nextInt(moneyIncrease));
 
-        if (ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
-            final var waifus = userData.waifuEntrySet();
+        if (ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, dbUser.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
+            final var waifus = dbUser.waifuEntrySet();
             if (waifus.stream().anyMatch((w) -> w.getValue() > 20_000L)) {
                 money += Math.max(20, random.nextInt(100));
                 waifuHelp = true;
@@ -287,17 +284,17 @@ public class CurrencyActionCmds {
                 languageContext.get("commands.mine.reminder") : "";
 
         var hasPotion = ItemHelper.handleEffect(
-                PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(),
+                PlayerEquipment.EquipmentType.POTION, dbUser.getEquippedItems(),
                 ItemReference.POTION_HASTE, dbUser
         );
 
         HousePet pet = null;
-        if (playerData.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+        if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
             if (marriage != null && marriage.getPet() != null) {
                 pet = marriage.getPet();
             }
         } else {
-            pet = playerData.getPet();
+            pet = player.getPet();
         }
 
         if (pet != null) {
@@ -330,7 +327,7 @@ public class CurrencyActionCmds {
                 message += "\n" + EmoteReference.DIAMOND + languageContext.get("commands.mine.diamond.success").formatted(amount);
             }
 
-            playerData.addBadgeIfAbsent(Badge.MINER);
+            player.addBadgeIfAbsent(Badge.MINER);
         }
 
         // Gem find
@@ -414,7 +411,7 @@ public class CurrencyActionCmds {
                 message += "\n" + languageContext.get("commands.mine.waifu_help");
             }
 
-            playerData.addBadgeIfAbsent(Badge.GEM_FINDER);
+            player.addBadgeIfAbsent(Badge.GEM_FINDER);
         }
 
         var bonus = money;
@@ -440,7 +437,7 @@ public class CurrencyActionCmds {
                         languageContext.get("commands.mine.sparkle.success").formatted(gem.getEmojiDisplay());
             }
 
-            playerData.addBadgeIfAbsent(Badge.GEM_FINDER);
+            player.addBadgeIfAbsent(Badge.GEM_FINDER);
         }
 
         if (random.nextInt(400) >= 392) {
@@ -455,16 +452,16 @@ public class CurrencyActionCmds {
             }
         }
 
-        if (playerData.shouldSeeCampaign()) {
+        if (player.shouldSeeCampaign()) {
             message += Campaign.PREMIUM.getStringFromCampaign(languageContext, dbUser.isPremium());
-            playerData.markCampaignAsSeen();
+            player.markCampaignAsSeen();
         }
 
-        playerData.incrementMiningExperience(random);
+        player.incrementMiningExperience(random);
         player.addMoney(money);
 
         handlePetBadges(player, marriage, pet);
-        player.saveUpdating();
+        player.save();
 
         if (marriage != null) {
             marriage.save();
@@ -477,8 +474,7 @@ public class CurrencyActionCmds {
 
     private static void fish(IContext ctx, Player player, UserDatabase dbUser, Marriage marriage) {
         final var languageContext = ctx.getLanguageContext();
-        final var playerData = player.getData();
-        final var playerInventory = player.getInventory();
+        final var playerInventory = player.inventory();
         FishRod item;
         var equipped = dbUser.getEquippedItems().of(PlayerEquipment.EquipmentType.ROD);
 
@@ -551,12 +547,12 @@ public class CurrencyActionCmds {
 
             fish.forEach((i1) -> fishItems.add(3, i1));
             HousePet pet = null;
-            if (playerData.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+            if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
                 if (marriage != null && marriage.getPet() != null) {
                     pet = marriage.getPet();
                 }
             } else {
-                pet = playerData.getPet();
+                pet = player.getPet();
             }
 
             if (pet != null) {
@@ -612,7 +608,7 @@ public class CurrencyActionCmds {
                 extraMessage += "\n" + EmoteReference.MEGA +
                         languageContext.get("commands.fish.shark_success").formatted(ItemReference.SHARK.getEmojiDisplay());
 
-                player.getData().setSharksCaught(player.getData().getSharksCaught() + 1);
+                player.setSharksCaught(player.getSharksCaught() + 1);
             }
 
             List<ItemStack> list = new ArrayList<>(amount);
@@ -645,7 +641,7 @@ public class CurrencyActionCmds {
 
             //Add fisher badge if the player found fish successfully.
             if (foundFish) {
-                player.getData().addBadgeIfAbsent(Badge.FISHER);
+                player.addBadgeIfAbsent(Badge.FISHER);
             }
 
             handlePetBadges(player, marriage, pet);
@@ -665,13 +661,13 @@ public class CurrencyActionCmds {
                 money += random.nextInt(bonus);
             }
 
-            if (playerData.shouldSeeCampaign()) {
+            if (player.shouldSeeCampaign()) {
                 extraMessage += Campaign.PREMIUM.getStringFromCampaign(languageContext, dbUser.isPremium());
-                playerData.markCampaignAsSeen();
+                player.markCampaignAsSeen();
             }
 
             player.addMoney(money);
-            player.getData().incrementFishingExperience(random);
+            player.incrementFishingExperience(random);
 
             //START OF REPLY HANDLING
             //Didn't find a thingy thing.
@@ -698,7 +694,7 @@ public class CurrencyActionCmds {
         }
 
         //Save all changes to the player object.
-        player.saveUpdating();
+        player.save();
 
         // Save pet stats.
         if (marriage != null) {
@@ -710,8 +706,7 @@ public class CurrencyActionCmds {
 
     private static void chop(IContext ctx, Player player, UserDatabase dbUser, Marriage marriage) {
         final var languageContext = ctx.getLanguageContext();
-        final var playerData = player.getData();
-        final var playerInventory = player.getInventory();
+        final var playerInventory = player.inventory();
 
         var extraMessage = "\n";
         var equipped = dbUser.getEquippedItems().of(PlayerEquipment.EquipmentType.AXE);
@@ -750,12 +745,12 @@ public class CurrencyActionCmds {
             money += Math.max(moneyIncrease / 4, random.nextInt(moneyIncrease));
 
             HousePet pet = null;
-            if (playerData.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+            if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
                 if (marriage != null && marriage.getPet() != null) {
                     pet = marriage.getPet();
                 }
             } else {
-                pet = playerData.getPet();
+                pet = player.getPet();
             }
 
             if (pet != null) {
@@ -827,7 +822,7 @@ public class CurrencyActionCmds {
             }
 
             if (found) {
-                playerData.addBadgeIfAbsent(Badge.CHOPPER);
+                player.addBadgeIfAbsent(Badge.CHOPPER);
             }
 
             if (random.nextInt(400) > 380) {
@@ -843,13 +838,13 @@ public class CurrencyActionCmds {
 
             // Add money
             player.addMoney(money);
-            player.getData().incrementChopExperience(random);
+            player.incrementChopExperience(random);
 
             handlePetBadges(player, marriage, pet);
 
-            if (playerData.shouldSeeCampaign()) {
+            if (player.shouldSeeCampaign()) {
                 extraMessage += Campaign.PREMIUM.getStringFromCampaign(languageContext, dbUser.isPremium());
-                playerData.markCampaignAsSeen();
+                player.markCampaignAsSeen();
             }
 
             // Show a message depending on the outcome.
@@ -916,31 +911,30 @@ public class CurrencyActionCmds {
     }
 
     private static void handlePetBadges(Player player, Marriage marriage, HousePet pet) {
-        var playerData = player.getData();
         if (pet == null) {
             return;
         }
 
         if (pet.getType() == HousePetType.KODE) {
-            playerData.addBadgeIfAbsent(Badge.THE_BEST_FRIEND);
+            player.addBadgeIfAbsent(Badge.THE_BEST_FRIEND);
         }
 
-        if (playerData.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
-            playerData.addBadgeIfAbsent(Badge.BEST_FRIEND_MARRY);
+        if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+            player.addBadgeIfAbsent(Badge.BEST_FRIEND_MARRY);
         } else {
-            playerData.addBadgeIfAbsent(Badge.BEST_FRIEND);
+            player.addBadgeIfAbsent(Badge.BEST_FRIEND);
         }
 
         if (pet.getLevel() >= 50) {
-            playerData.addBadgeIfAbsent(Badge.EXPERIENCED_PET_OWNER);
+            player.addBadgeIfAbsent(Badge.EXPERIENCED_PET_OWNER);
         }
 
         if (pet.getLevel() >= 100) {
-            playerData.addBadgeIfAbsent(Badge.EXPERT_PET_OWNER);
+            player.addBadgeIfAbsent(Badge.EXPERT_PET_OWNER);
         }
 
         if (pet.getLevel() >= 300) {
-            playerData.addBadgeIfAbsent(Badge.LEGENDARY_PET_OWNER);
+            player.addBadgeIfAbsent(Badge.LEGENDARY_PET_OWNER);
         }
     }
 

@@ -130,7 +130,7 @@ public class WaifuCmd {
                 final var player = ctx.getPlayer();
                 final var lang = ctx.getLanguageContext();
 
-                if (player.getData().isWaifuout()) {
+                if (player.isWaifuout()) {
                     ctx.reply("commands.waifu.optout.notice", EmoteReference.ERROR);
                     return;
                 }
@@ -171,7 +171,7 @@ public class WaifuCmd {
                         );
                     } else {
                         Player waifuClaimed = ctx.getPlayer(user);
-                        if (waifuClaimed.getData().isWaifuout()) {
+                        if (waifuClaimed.isWaifuout()) {
                             toRemove.add(waifu);
                             continue;
                         }
@@ -181,7 +181,7 @@ public class WaifuCmd {
                                         (!dbUser.isPrivateTag() ? "#" + user.getDiscriminator() : ""),
                                 (id ? lang.get("commands.waifu.id") + " " + user.getId() + "\n" : "") +
                                         lang.get("commands.waifu.value_format") + " " +
-                                        waifuClaimed.getData().getWaifuCachedValue() + " " +
+                                        waifuClaimed.getWaifuCachedValue() + " " +
                                         lang.get("commands.waifu.credits_format") + "\n" +
                                         lang.get("commands.waifu.value_b_format") + " " + dbUser.getWaifu(waifu) +
                                         lang.get("commands.waifu.credits_format"), false)
@@ -209,22 +209,20 @@ public class WaifuCmd {
             @Override
             protected void process(SlashContext ctx) {
                 final var player = ctx.getPlayer();
-                final var playerData = player.getData();
-
                 if (ctx.getOptionAsBoolean("remove")) {
-                    playerData.setClaimLocked(false);
-                    player.saveUpdating();
+                    player.setClaimLocked(false);
+                    player.save();
 
                     ctx.replyEphemeral("commands.profile.claimlock.removed", EmoteReference.CORRECT);
                     return;
                 }
 
-                if (playerData.isClaimLocked()) {
+                if (player.isClaimLocked()) {
                     ctx.replyEphemeral("commands.profile.claimlock.already_locked", EmoteReference.CORRECT);
                     return;
                 }
 
-                var inventory = player.getInventory();
+                var inventory = player.inventory();
                 if (!inventory.containsItem(ItemReference.CLAIM_KEY)) {
                     ctx.replyEphemeral("commands.profile.claimlock.no_key", EmoteReference.ERROR);
                     return;
@@ -234,7 +232,7 @@ public class WaifuCmd {
                     return;
                 }
 
-                playerData.setClaimLocked(true);
+                player.setClaimLocked(true);
                 inventory.process(new ItemStack(ItemReference.CLAIM_KEY, -1));
                 player.save();
 
@@ -248,7 +246,7 @@ public class WaifuCmd {
             @Override
             protected void process(SlashContext ctx) {
                 final var player = ctx.getPlayer();
-                if (player.getData().isWaifuout()) {
+                if (player.isWaifuout()) {
                     ctx.reply("commands.waifu.optout.notice", EmoteReference.ERROR);
                     return;
                 }
@@ -266,8 +264,8 @@ public class WaifuCmd {
 
                     if (button.equals("yes")) {
                         final var playerFinal = ctx.getPlayer();
-                        playerFinal.getData().setWaifuout(true);
-                        playerFinal.saveUpdating();
+                        playerFinal.setWaifuout(true);
+                        playerFinal.save();
                         ctx.edit("commands.waifu.optout.success", EmoteReference.CORRECT);
                         return Operation.COMPLETED;
                     } else if (button.equals("no")) {
@@ -294,7 +292,7 @@ public class WaifuCmd {
             @Override
             protected void process(SlashContext ctx) {
                 final var player = ctx.getPlayer();
-                if (player.getData().isWaifuout()) {
+                if (player.isWaifuout()) {
                     ctx.reply("commands.waifu.optout.notice", EmoteReference.ERROR);
                     return;
                 }
@@ -311,14 +309,12 @@ public class WaifuCmd {
                 }
 
                 final var claimerPlayer = ctx.getPlayer();
-                final var claimerPlayerData = claimerPlayer.getData();
                 final var claimerUser = ctx.getDBUser();
 
                 final var claimedPlayer = ctx.getPlayer(toLookup);
-                final var claimedPlayerData = claimedPlayer.getData();
                 final var claimedUser = ctx.getDBUser(toLookup);
 
-                if (claimedPlayerData.isWaifuout()) {
+                if (claimedPlayer.isWaifuout()) {
                     ctx.reply("commands.waifu.optout.claim_notice", EmoteReference.ERROR);
                     return;
                 }
@@ -339,7 +335,7 @@ public class WaifuCmd {
                 }
 
                 //If the to-be claimed has the claim key in their inventory, it cannot be claimed.
-                if (claimedPlayerData.isClaimLocked()) {
+                if (claimedPlayer.isClaimLocked()) {
                     ctx.reply("commands.waifu.claim.key_locked", EmoteReference.ERROR);
                     return;
                 }
@@ -364,7 +360,7 @@ public class WaifuCmd {
                 }
 
                 if (waifuFinalValue > 100_000) {
-                    claimerPlayerData.addBadgeIfAbsent(Badge.GOLD_VALUE);
+                    claimerPlayer.addBadgeIfAbsent(Badge.GOLD_VALUE);
                 }
 
                 //Add waifu to claimer list.
@@ -374,13 +370,13 @@ public class WaifuCmd {
                 boolean badgesAdded = false;
                 //Add badges
                 if (claimedUser.containsWaifu(ctx.getAuthor().getId()) && claimerUser.containsWaifu(toLookup.getId())) {
-                    claimerPlayerData.addBadgeIfAbsent(Badge.MUTUAL);
-                    badgesAdded = claimedPlayerData.addBadgeIfAbsent(Badge.MUTUAL);
+                    claimerPlayer.addBadgeIfAbsent(Badge.MUTUAL);
+                    badgesAdded = claimedPlayer.addBadgeIfAbsent(Badge.MUTUAL);
                 }
 
-                claimerPlayerData.addBadgeIfAbsent(Badge.WAIFU_CLAIMER);
-                if (badgesAdded || claimedPlayerData.addBadgeIfAbsent(Badge.CLAIMED)) {
-                    claimedPlayer.saveAsync();
+                claimerPlayer.addBadgeIfAbsent(Badge.WAIFU_CLAIMER);
+                if (badgesAdded || claimedPlayer.addBadgeIfAbsent(Badge.CLAIMED)) {
+                    claimedPlayer.save();
                 }
 
                 //Massive saving operation owo.
@@ -407,7 +403,7 @@ public class WaifuCmd {
             @Override
             protected void process(SlashContext ctx) {
                 final var player = ctx.getPlayer();
-                if (player.getData().isWaifuout()) {
+                if (player.isWaifuout()) {
                     ctx.reply("commands.waifu.optout.notice", EmoteReference.ERROR);
                     return;
                 }
@@ -485,7 +481,7 @@ public class WaifuCmd {
                 final var baseValue = 3000;
                 final var user = ctx.getDBUser();
                 final var player = ctx.getPlayer();
-                if (player.getData().isWaifuout()) {
+                if (player.isWaifuout()) {
                     ctx.reply("commands.waifu.optout.notice", EmoteReference.ERROR);
                     return;
                 }
@@ -530,10 +526,9 @@ public class WaifuCmd {
             @Override
             protected void process(SlashContext ctx) {
                 final var player = ctx.getPlayer();
-                final var playerData = player.getData();
                 final var lang = ctx.getLanguageContext();
 
-                if (playerData.isWaifuout()) {
+                if (player.isWaifuout()) {
                     ctx.reply("commands.waifu.optout.notice", EmoteReference.ERROR);
                     return;
                 }
@@ -545,7 +540,7 @@ public class WaifuCmd {
                 }
 
                 final var waifuClaimed = ctx.getPlayer(toLookup);
-                if (waifuClaimed.getData().isWaifuout()) {
+                if (waifuClaimed.isWaifuout()) {
                     ctx.reply("commands.waifu.optout.lookup_notice", EmoteReference.ERROR);
                     return;
                 }
@@ -581,7 +576,6 @@ public class WaifuCmd {
 
     static Waifu calculateWaifuValue(final Player player, final User user) {
         final var db = MantaroData.db();
-        final var waifuPlayerData = player.getData();
         final var waifuUserData = db.getUser(user);
 
         var waifuValue = WAIFU_BASE_VALUE;
@@ -597,9 +591,9 @@ public class WaifuCmd {
         //Money calculation.
         long moneyValue = Math.round(Math.max(1, (int) (player.getCurrentMoney() / 135000)) * calculatePercentage(6));
         //Badge calculation.
-        long badgeValue = Math.round(Math.max(1, (waifuPlayerData.getBadges().size() / 3)) * calculatePercentage(17));
+        long badgeValue = Math.round(Math.max(1, (player.getBadges().size() / 3)) * calculatePercentage(17));
         //Experience calculator.
-        long experienceValue = Math.round(Math.max(1, (int) (player.getData().getExperience() / 2780)) * calculatePercentage(18));
+        long experienceValue = Math.round(Math.max(1, (int) (player.getExperience() / 2780)) * calculatePercentage(18));
         //Claim calculator.
         long claimValue = Math.round(Math.max(1, (waifuUserData.getTimesClaimed() / 3)) * calculatePercentage(5));
 

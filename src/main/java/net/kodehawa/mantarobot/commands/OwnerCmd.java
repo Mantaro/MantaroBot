@@ -94,10 +94,8 @@ public class OwnerCmd {
             }
 
             var p = MantaroData.db().getPlayer(id);
-            var pd = p.getData();
-
-            pd.setLastDailyAt(System.currentTimeMillis());
-            pd.setDailyStreak(amount);
+            p.setLastDailyAt(System.currentTimeMillis());
+            p.setDailyStreak(amount);
 
             p.save();
 
@@ -160,14 +158,14 @@ public class OwnerCmd {
 
             var player = ctx.getPlayer();
 
-            if (player.getInventory().getAmount(item) + amount < 5000) {
-                player.getInventory().process(new ItemStack(item, amount));
+            if (player.inventory().getAmount(item) + amount < 5000) {
+                player.inventory().process(new ItemStack(item, amount));
             } else {
                 ctx.send(EmoteReference.ERROR + "Too many of this item already.");
                 return;
             }
 
-            player.saveAsync();
+            player.save();
             ctx.send("Gave you %s (x%,d)".formatted(item, amount));
         }
     }
@@ -202,26 +200,23 @@ public class OwnerCmd {
                     transferToPlayer.setCurrentMoney(transferredPlayer.getCurrentMoney());
                     transferToPlayer.setLevel(transferredPlayer.getLevel());
                     transferToPlayer.setReputation(transferredPlayer.getReputation());
-                    transferToPlayer.getInventory().merge(transferredPlayer.getInventory().asList());
+                    transferToPlayer.inventory().merge(transferredPlayer.inventory().asList());
 
-                    var transferredData = transferredPlayer.getData();
-                    var transferToData = transferToPlayer.getData();
-
-                    transferToData.setExperience(transferredData.getExperience());
-                    transferToData.setBadges(transferredData.getBadges());
-                    transferToData.setShowBadge(transferredData.isShowBadge());
-                    transferToData.setMarketUsed(transferredData.getMarketUsed());
-                    transferToData.setMainBadge(transferredData.getMainBadge());
-                    transferToData.setGamesWon(transferredData.getGamesWon());
-                    transferToData.setMiningExperience(transferredData.getMiningExperience());
-                    transferToData.setSharksCaught(transferredData.getSharksCaught());
-                    transferToData.setFishingExperience(transferredData.getFishingExperience());
-                    transferToData.setCratesOpened(transferredData.getCratesOpened());
-                    transferToData.setTimesMopped(transferredData.getTimesMopped());
-                    transferToData.setDailyStreak(transferredData.getDailyStreak());
-                    transferToData.setLastDailyAt(transferredData.getLastDailyAt());
-                    transferToData.setPet(transferredData.getPet());
-                    transferToData.setPetChoice(transferredData.getPetChoice());
+                    transferToPlayer.setExperience(transferredPlayer.getExperience());
+                    transferToPlayer.setBadges(transferredPlayer.getBadges());
+                    transferToPlayer.setShowBadge(transferredPlayer.isShowBadge());
+                    transferToPlayer.setMarketUsed(transferredPlayer.getMarketUsed());
+                    transferToPlayer.setMainBadge(transferredPlayer.getMainBadge());
+                    transferToPlayer.setGamesWon(transferredPlayer.getGamesWon());
+                    transferToPlayer.setMiningExperience(transferredPlayer.getMiningExperience());
+                    transferToPlayer.setSharksCaught(transferredPlayer.getSharksCaught());
+                    transferToPlayer.setFishingExperience(transferredPlayer.getFishingExperience());
+                    transferToPlayer.setCratesOpened(transferredPlayer.getCratesOpened());
+                    transferToPlayer.setTimesMopped(transferredPlayer.getTimesMopped());
+                    transferToPlayer.setDailyStreak(transferredPlayer.getDailyStreak());
+                    transferToPlayer.setLastDailyAt(transferredPlayer.getLastDailyAt());
+                    transferToPlayer.setPet(transferredPlayer.getPet());
+                    transferToPlayer.setPetChoice(transferredPlayer.getPetChoice());
 
                     transferToPlayer.save();
 
@@ -268,8 +263,8 @@ public class OwnerCmd {
             }
 
             var player = ctx.getPlayer(user);
-            player.getData().addBadgeIfAbsent(badge);
-            player.saveAsync();
+            player.addBadgeIfAbsent(badge);
+            player.save();
 
             ctx.send("%sAdded badge %s %s to %s (ID: %s)".formatted(
                     EmoteReference.CORRECT.getUnicode(), badge.icon, badge.display,
@@ -302,12 +297,12 @@ public class OwnerCmd {
             }
 
             Player player = MantaroData.db().getPlayer(user);
-            if (player.getData().removeBadge(badge)) {
+            if (player.removeBadge(badge)) {
                 ctx.send("%sRemoved badge %s from %s (%s)".formatted(
                         EmoteReference.CORRECT, badge,
                         user.getAsTag(), user.getId())
                 );
-                player.saveAsync();
+                player.save();
             } else {
                 ctx.send("Player didn't have badge?");
             }

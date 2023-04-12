@@ -31,8 +31,6 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
-import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.commands.RandomCollection;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
@@ -70,19 +68,18 @@ public class ItemHelper {
 
         ItemReference.MOP.setAction(((ctx, season) -> {
             Player player = ctx.getPlayer();
-            PlayerData playerData = player.getData();
             UserDatabase dbUser = ctx.getDBUser();
-            Inventory playerInventory = player.getInventory();
+            Inventory playerInventory = player.inventory();
 
             if (!playerInventory.containsItem(ItemReference.MOP))
                 return false;
 
             if (dbUser.getDustLevel() >= 5) {
-                playerData.setTimesMopped(playerData.getTimesMopped() + 1);
+                player.setTimesMopped(player.getTimesMopped() + 1);
                 ctx.sendLocalized("general.misc_item_usage.mop", EmoteReference.DUST);
 
                 if (dbUser.getDustLevel() == 100) {
-                    playerData.addBadgeIfAbsent(Badge.DUSTY);
+                    player.addBadgeIfAbsent(Badge.DUSTY);
                 }
 
                 playerInventory.process(new ItemStack(ItemReference.MOP, -1));
@@ -101,7 +98,7 @@ public class ItemHelper {
         ItemReference.POTION_CLEAN.setAction((ctx, season) -> {
             Player player = ctx.getPlayer();
             UserDatabase dbUser = ctx.getDBUser();
-            Inventory playerInventory = player.getInventory();
+            Inventory playerInventory = player.inventory();
 
             var equipped = dbUser.getEquippedItems();
             equipped.resetEffect(PlayerEquipment.EquipmentType.POTION);
@@ -236,7 +233,7 @@ public class ItemHelper {
 
     static boolean openLootCrate(IContext ctx, ItemType.LootboxType type, int item, EmoteReference typeEmote, int bound) {
         Player player = ctx.getPlayer();
-        Inventory inventory = player.getInventory();
+        Inventory inventory = player.inventory();
 
         Item crate = fromId(item);
 
@@ -246,7 +243,7 @@ public class ItemHelper {
                     return false;
 
                 if (crate == ItemReference.LOOT_CRATE) {
-                    player.getData().addBadgeIfAbsent(Badge.THE_SECRET);
+                    player.addBadgeIfAbsent(Badge.THE_SECRET);
                 }
 
                 //It saves the changes here.
@@ -269,13 +266,12 @@ public class ItemHelper {
         ArrayList<ItemStack> ita = new ArrayList<>();
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
 
-        PlayerData data = player.getData();
         if ((type == ItemType.LootboxType.MINE || type == ItemType.LootboxType.MINE_PREMIUM) && toAdd.contains(ItemReference.SPARKLE_PICKAXE)) {
-            data.addBadgeIfAbsent(Badge.DESTINY_REACHES);
+            player.addBadgeIfAbsent(Badge.DESTINY_REACHES);
         }
 
         if ((type == ItemType.LootboxType.FISH || type == ItemType.LootboxType.FISH_PREMIUM) && toAdd.contains(ItemReference.SHARK)) {
-            data.addBadgeIfAbsent(Badge.TOO_BIG);
+            player.addBadgeIfAbsent(Badge.TOO_BIG);
         }
 
         var toShow = ItemStack.reduce(ita);
@@ -289,11 +285,11 @@ public class ItemHelper {
             return stack;
         }).collect(Collectors.toList());
 
-        boolean overflow = player.getInventory().merge(toShow);
+        boolean overflow = player.inventory().merge(toShow);
 
-        player.getInventory().process(new ItemStack(ItemReference.LOOT_CRATE_KEY, -1));
-        player.getInventory().process(new ItemStack(crate, -1));
-        data.setCratesOpened(data.getCratesOpened() + 1);
+        player.inventory().process(new ItemStack(ItemReference.LOOT_CRATE_KEY, -1));
+        player.inventory().process(new ItemStack(crate, -1));
+        player.setCratesOpened(player.getCratesOpened() + 1);
         player.save();
 
         I18nContext lang = ctx.getLanguageContext();
@@ -485,7 +481,7 @@ public class ItemHelper {
     }
 
     public static Pair<Boolean, Pair<Player, UserDatabase>> handleDurability(IContext ctx, Item item, Player player, UserDatabase user) {
-        var playerInventory = player.getInventory();
+        var playerInventory = player.inventory();
         var equippedItems = user.getEquippedItems();
         var subtractFrom = 0;
 
@@ -533,8 +529,8 @@ public class ItemHelper {
 
             ctx.sendFormat(toReplace, EmoteReference.SAD, item.getName(), broken);
 
-            player.getData().addBadgeIfAbsent(Badge.ITEM_BREAKER);
-            player.saveUpdating();
+            player.addBadgeIfAbsent(Badge.ITEM_BREAKER);
+            player.save();
 
             equippedItems.updateAllChanged(user);
 
@@ -546,13 +542,13 @@ public class ItemHelper {
             return Pair.of(true, Pair.of(player, user));
         } else {
             if (item == ItemReference.HELLFIRE_PICK)
-                player.getData().addBadgeIfAbsent(Badge.HOT_MINER);
+                player.addBadgeIfAbsent(Badge.HOT_MINER);
             if (item == ItemReference.HELLFIRE_ROD)
-                player.getData().addBadgeIfAbsent(Badge.HOT_FISHER);
+                player.addBadgeIfAbsent(Badge.HOT_FISHER);
             if (item == ItemReference.HELLFIRE_AXE)
-                player.getData().addBadgeIfAbsent(Badge.HOT_CHOPPER);
+                player.addBadgeIfAbsent(Badge.HOT_CHOPPER);
 
-            player.saveUpdating();
+            player.save();
             equippedItems.updateAllChanged(user);
 
             //is not broken
@@ -569,7 +565,7 @@ public class ItemHelper {
         //We need to get this again since reusing the old ones will cause :fire:
         var finalPlayer = breakage.getValue().getKey();
         var finalUser = breakage.getValue().getValue();
-        var inventory = finalPlayer.getInventory();
+        var inventory = finalPlayer.inventory();
 
         if (finalUser.isAutoEquip() && inventory.containsItem(item)) {
             var equipped = finalUser.getEquippedItems();

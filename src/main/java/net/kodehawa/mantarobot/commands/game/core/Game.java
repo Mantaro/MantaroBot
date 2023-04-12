@@ -74,20 +74,18 @@ public abstract class Game<T> {
 
         if (button.getId().equals(expectedAnswer)) {
             var player = managedDatabase.getPlayer(event.getUser());
-            var data = player.getData();
-
             var gains = 70 + extra;
             player.addMoney(gains);
-            if (data.getGamesWon() == 100) {
-                data.addBadgeIfAbsent(Badge.GAMER);
+            if (player.getGamesWon() == 100) {
+                player.addBadgeIfAbsent(Badge.GAMER);
             }
 
-            if (data.getGamesWon() == 1000) {
-                data.addBadgeIfAbsent(Badge.ADDICTED_GAMER);
+            if (player.getGamesWon() == 1000) {
+                player.addBadgeIfAbsent(Badge.ADDICTED_GAMER);
             }
 
-            data.setGamesWon(data.getGamesWon() + 1);
-            player.saveUpdating();
+            player.setGamesWon(player.getGamesWon() + 1);
+            player.save();
 
             TextChannelGround.of(event.getChannel()).dropItemWithChance(ItemReference.FLOPPY_DISK, 3);
             // Remove components from original message.
@@ -169,21 +167,19 @@ public abstract class Game<T> {
 
             if (expectedAnswer.stream().map(String::valueOf).anyMatch(contentRaw::equalsIgnoreCase)) {
                 var player = managedDatabase.getPlayer(e.getAuthor());
-                var data = player.getData();
-
                 var gains = 70 + extra;
                 player.addMoney(gains);
 
-                if (data.getGamesWon() == 100) {
-                    data.addBadgeIfAbsent(Badge.GAMER);
+                if (player.getGamesWon() == 100) {
+                    player.addBadgeIfAbsent(Badge.GAMER);
                 }
 
-                if (data.getGamesWon() == 1000) {
-                    data.addBadgeIfAbsent(Badge.ADDICTED_GAMER);
+                if (player.getGamesWon() == 1000) {
+                    player.addBadgeIfAbsent(Badge.ADDICTED_GAMER);
                 }
 
-                data.setGamesWon(data.getGamesWon() + 1);
-                player.saveUpdating();
+                player.setGamesWon(player.getGamesWon() + 1);
+                player.save();
 
                 TextChannelGround.of(e.getChannel()).dropItemWithChance(ItemReference.FLOPPY_DISK, 3);
                 ctx.reply("commands.game.lobby.won_game", EmoteReference.MEGA, e.getMember().getEffectiveName(), gains);

@@ -182,8 +182,8 @@ public class FunCmds {
             var sum = result.stream().mapToInt(Integer::intValue).sum();
             if (size == 6 && sum == 6) {
                 var player = MantaroData.db().getPlayer(ctx.getAuthor());
-                if (player.getData().addBadgeIfAbsent(Badge.LUCK_BEHIND)) {
-                    player.saveUpdating();
+                if (player.addBadgeIfAbsent(Badge.LUCK_BEHIND)) {
+                    player.save();
                 }
             }
 

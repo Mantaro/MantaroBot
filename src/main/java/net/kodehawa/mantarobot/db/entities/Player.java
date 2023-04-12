@@ -17,54 +17,87 @@
 
 package net.kodehawa.mantarobot.db.entities;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
+import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
+import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
+import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
+import net.kodehawa.mantarobot.commands.currency.profile.inventory.InventorySortType;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.ManagedObject;
+import net.kodehawa.mantarobot.db.ManagedMongoObject;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
-import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import javax.annotation.Nonnull;
-import java.beans.ConstructorProperties;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
-import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.serialize;
-import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
+import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.serialize;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Player implements ManagedObject {
+public class Player implements ManagedMongoObject {
+    @BsonIgnore
     private static final Config config = MantaroData.config().get();
+    @BsonIgnore
     public static final String DB_TABLE = "players";
-    @JsonProperty("data")
-    private final PlayerData data;
-    @JsonProperty("id")
-    private final String id;
+    @BsonIgnore
+    private final transient Inventory inventoryObject = new Inventory(new HashMap<>());
 
-    @JsonIgnore
-    private final transient Inventory inventory = new Inventory();
+    @BsonId
+    private String id;
+    private long level;
+    private long oldMoney;
+    private long reputation;
+    private long experience = 0;
+    private long newMoney = 0L;
+    private long dailyStreak;
+    private String description = null;
+    private long gamesWon = 0;
+    private long lastDailyAt;
+    private long lockedUntil = 0;
+    private Long marriedSince = null;
+    private String marriedWith = null;
+    private long moneyOnBank = 0;
+    //null = most important badge shows.
+    private Badge mainBadge = null;
+    private long marketUsed;
+    private boolean showBadge = true;
+    private PotionEffect activePotion;
+    private PotionEffect activeBuff;
+    private long waifuCachedValue;
+    private boolean isClaimLocked = false;
+    private long miningExperience;
+    private long fishingExperience;
+    private long chopExperience;
+    private long timesMopped;
+    private long cratesOpened;
+    private long sharksCaught;
+    private boolean waifuout;
+    private int lastCrateGiven = 69;
+    private long lastSeenCampaign;
+    private boolean resetWarning = false;
+    private InventorySortType inventorySortType = InventorySortType.AMOUNT;
+    private boolean hiddenLegacy = false;
+    private boolean newPlayerNotice = false;
+    private long petSlots = 4;
+    private PetChoice petChoice = null;
+    private HousePet pet;
+    private List<Badge> badges = new ArrayList<>();
+    private List<ProfileComponent> profileComponents = new LinkedList<>();
+    private Map<Integer, Integer> inventory = new HashMap<>();
 
-    @JsonProperty("level")
-    private Long level;
-    @JsonProperty("money")
-    private Long oldMoney;
-    @JsonProperty("reputation")
-    private Long reputation;
+    public Player() {}
 
-    @JsonCreator
-    @ConstructorProperties({"id", "level", "money", "reputation", "inventory", "data"})
-    public Player(@JsonProperty("id") String id, @JsonProperty("level") Long level, @JsonProperty("money") Long oldMoney, @JsonProperty("reputation") Long reputation, @JsonProperty("inventory") Map<Integer, Integer> inventory, @JsonProperty("data") PlayerData data) {
+    private Player(String id, Long level, Long oldMoney, Long reputation, Map<Integer, Integer> inventory) {
         this.id = id;
         this.level = level == null ? 0 : level;
         this.oldMoney = oldMoney == null ? 0 : oldMoney;
         this.reputation = reputation == null ? 0 : reputation;
-        this.data = data;
-        this.inventory.replaceWith(unserialize(inventory));
+        this.inventoryObject.replaceWith(Inventory.unserialize(inventory));
     }
 
     /**
@@ -94,7 +127,390 @@ public class Player implements ManagedObject {
      * @return The new Player.
      */
     public static Player of(String userId) {
-        return new Player(userId + ":g", 0L, 0L, 0L, new HashMap<>(), new PlayerData());
+        return new Player(userId, 0L, 0L, 0L, new HashMap<>());
+    }
+
+    @BsonIgnore
+    public boolean hasBadge(Badge b) {
+        return badges.contains(b);
+    }
+
+    @BsonIgnore
+    public boolean addBadgeIfAbsent(Badge b) {
+        if (hasBadge(b)) {
+            return false;
+        }
+
+        badges.add(b);
+        return true;
+    }
+
+    @BsonIgnore
+    public boolean removeBadge(Badge b) {
+        if (!hasBadge(b)) {
+            return false;
+        }
+
+        badges.remove(b);
+        return true;
+    }
+
+    public boolean isClaimLocked() {
+        return isClaimLocked;
+    }
+
+    public void setClaimLocked(boolean claimLocked) {
+        isClaimLocked = claimLocked;
+    }
+
+    public long getExperience() {
+        return this.experience;
+    }
+
+    public void setExperience(long experience) {
+        this.experience = experience;
+    }
+
+    public List<Badge> getBadges() {
+        return this.badges;
+    }
+
+    public void setBadges(List<Badge> badges) {
+        this.badges = badges;
+    }
+
+    public long getDailyStreak() {
+        return this.dailyStreak;
+    }
+
+    public void setDailyStreak(long dailyStreak) {
+        this.dailyStreak = dailyStreak;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public long getGamesWon() {
+        return this.gamesWon;
+    }
+
+    public void setGamesWon(long gamesWon) {
+        this.gamesWon = gamesWon;
+    }
+
+    public long getLastDailyAt() {
+        return this.lastDailyAt;
+    }
+
+    public void setLastDailyAt(long lastDailyAt) {
+        this.lastDailyAt = lastDailyAt;
+    }
+
+    public long getLockedUntil() {
+        return this.lockedUntil;
+    }
+
+    public void setLockedUntil(long lockedUntil) {
+        this.lockedUntil = lockedUntil;
+    }
+
+    public Long getMarriedSince() {
+        return this.marriedSince;
+    }
+
+    public void setMarriedSince(Long marriedSince) {
+        this.marriedSince = marriedSince;
+    }
+
+    public String getMarriedWith() {
+        return this.marriedWith;
+    }
+
+    public void setMarriedWith(String marriedWith) {
+        this.marriedWith = marriedWith;
+    }
+
+    public long getMoneyOnBank() {
+        return this.moneyOnBank;
+    }
+
+    public void setMoneyOnBank(long moneyOnBank) {
+        this.moneyOnBank = moneyOnBank;
+    }
+
+    public Badge getMainBadge() {
+        return this.mainBadge;
+    }
+
+    public void setMainBadge(Badge mainBadge) {
+        this.mainBadge = mainBadge;
+    }
+
+    public long getMarketUsed() {
+        return this.marketUsed;
+    }
+
+    public void setMarketUsed(long marketUsed) {
+        this.marketUsed = marketUsed;
+    }
+
+    public boolean isShowBadge() {
+        return this.showBadge;
+    }
+
+    public void setShowBadge(boolean showBadge) {
+        this.showBadge = showBadge;
+    }
+
+    public PotionEffect getActivePotion() {
+        return this.activePotion;
+    }
+
+    public void setActivePotion(PotionEffect activePotion) {
+        this.activePotion = activePotion;
+    }
+
+    public PotionEffect getActiveBuff() {
+        return this.activeBuff;
+    }
+
+    public void setActiveBuff(PotionEffect activeBuff) {
+        this.activeBuff = activeBuff;
+    }
+
+    public long getWaifuCachedValue() {
+        return this.waifuCachedValue;
+    }
+
+    public void setWaifuCachedValue(long waifuCachedValue) {
+        this.waifuCachedValue = waifuCachedValue;
+    }
+
+    public List<ProfileComponent> getProfileComponents() {
+        return this.profileComponents;
+    }
+
+    public void setProfileComponents(List<ProfileComponent> profileComponents) {
+        this.profileComponents = profileComponents;
+    }
+
+    public long getPetSlots() {
+        return this.petSlots;
+    }
+
+    public void setPetSlots(long petSlots) {
+        this.petSlots = petSlots;
+    }
+
+    public long getMiningExperience() {
+        return miningExperience;
+    }
+
+    public void setMiningExperience(long miningExperience) {
+        this.miningExperience = miningExperience;
+    }
+
+    public long getFishingExperience() {
+        return fishingExperience;
+    }
+
+    public void setFishingExperience(long fishingExperience) {
+        this.fishingExperience = fishingExperience;
+    }
+
+    public long getTimesMopped() {
+        return timesMopped;
+    }
+
+    public void setTimesMopped(long timesMopped) {
+        this.timesMopped = timesMopped;
+    }
+
+    public long getCratesOpened() {
+        return cratesOpened;
+    }
+
+    public void setCratesOpened(long cratesOpened) {
+        this.cratesOpened = cratesOpened;
+    }
+
+    public long getSharksCaught() {
+        return sharksCaught;
+    }
+
+    public void setSharksCaught(long sharksCaught) {
+        this.sharksCaught = sharksCaught;
+    }
+
+    public boolean isWaifuout() {
+        return waifuout;
+    }
+
+    public void setWaifuout(boolean waifuout) {
+        this.waifuout = waifuout;
+    }
+
+    public int getLastCrateGiven() {
+        return lastCrateGiven;
+    }
+
+    public void setLastCrateGiven(int lastCrateGiven) {
+        this.lastCrateGiven = lastCrateGiven;
+    }
+
+    public long getChopExperience() {
+        return chopExperience;
+    }
+
+    public void setChopExperience(long chopExperience) {
+        this.chopExperience = chopExperience;
+    }
+
+    public void setInventory(Map<Integer, Integer> inventory) {
+        this.inventory = inventory;
+        this.inventoryObject.replaceWith(Inventory.unserialize(inventory));
+        System.out.println("called set");
+    }
+
+    public Map<Integer, Integer> getInventory() {
+        System.out.println("called get");
+        return serialize(inventoryObject.asList());
+    }
+
+    @BsonIgnore
+    public void incrementMiningExperience(Random random) {
+        this.miningExperience = miningExperience + (random.nextInt(5) + 1);
+    }
+
+    @BsonIgnore
+    public void incrementFishingExperience(Random random) {
+        this.fishingExperience = fishingExperience + (random.nextInt(5) + 1);
+    }
+
+    @BsonIgnore
+    public void incrementChopExperience(Random random) {
+        this.chopExperience = chopExperience + (random.nextInt(5) + 1);
+    }
+
+    @BsonProperty("inventory")
+    public Map<Integer, Integer> rawInventory() {
+        return serialize(inventoryObject.asList());
+    }
+
+    @BsonIgnore
+    public Inventory inventory() {
+        return inventoryObject;
+    }
+
+    public long getNewMoney() {
+        return newMoney;
+    }
+
+    public void setNewMoney(long newMoney) {
+        this.newMoney = newMoney;
+    }
+
+    public long getLastSeenCampaign() {
+        return lastSeenCampaign;
+    }
+
+    public void setLastSeenCampaign(long lastSeenCampaign) {
+        this.lastSeenCampaign = lastSeenCampaign;
+    }
+
+    public boolean isResetWarning() {
+        return resetWarning;
+    }
+
+    public void setResetWarning(boolean resetWarning) {
+        this.resetWarning = resetWarning;
+    }
+
+    public InventorySortType getInventorySortType() {
+        return inventorySortType;
+    }
+
+    public void setInventorySortType(InventorySortType inventorySortType) {
+        this.inventorySortType = inventorySortType;
+    }
+
+    public void setHiddenLegacy(boolean hiddenLegacy) {
+        this.hiddenLegacy = hiddenLegacy;
+    }
+
+    public boolean isHiddenLegacy() {
+        return hiddenLegacy;
+    }
+
+    public boolean isNewPlayerNotice() {
+        return newPlayerNotice;
+    }
+
+    public void setNewPlayerNotice(boolean newPlayerNotice) {
+        this.newPlayerNotice = newPlayerNotice;
+    }
+
+    public void setPet(HousePet pet) {
+        this.pet = pet;
+    }
+
+    public HousePet getPet() {
+        return pet;
+    }
+
+    public PetChoice getPetChoice() {
+        return petChoice;
+    }
+
+    public void setPetChoice(PetChoice petChoice) {
+        this.petChoice = petChoice;
+    }
+
+    public long getOldMoney() {
+        return oldMoney;
+    }
+
+    public void setOldMoney(long newAmount) {
+        this.oldMoney = newAmount;
+    }
+
+    public long getReputation() {
+        return this.reputation;
+    }
+
+    public void setReputation(Long reputation) {
+        this.reputation = reputation;
+    }
+
+    @BsonIgnore
+    public PetChoice getActiveChoice(Marriage marriage) {
+        if (getPetChoice() == null) {
+            if (marriage == null || marriage.getPet() == null) {
+                return PetChoice.PERSONAL;
+            } else {
+                return PetChoice.MARRIAGE;
+            }
+        } else {
+            return getPetChoice();
+        }
+    }
+
+    @BsonIgnore
+    public boolean shouldSeeCampaign() {
+        if (config.isPremiumBot())
+            return false;
+
+        return System.currentTimeMillis() > (getLastSeenCampaign() + TimeUnit.HOURS.toMillis(12));
+    }
+
+    @BsonIgnore
+    public void markCampaignAsSeen() {
+        this.lastSeenCampaign = System.currentTimeMillis();
     }
 
     /**
@@ -103,19 +519,19 @@ public class Player implements ManagedObject {
      * @param toAdd How much?
      * @return pls dont overflow.
      */
-    @JsonIgnore
+    @BsonIgnore
     public boolean addMoney(long toAdd) {
         boolean useOld = config.isPremiumBot() || config.isSelfHost();
-        long money = useOld ? this.oldMoney : data.newMoney;
+        long money = useOld ? this.oldMoney : newMoney;
         if (toAdd < 0)
             return false;
 
         money = Math.addExact(money, toAdd);
 
         if (useOld) {
-            this.setOldMoney(money);
+            setOldMoney(money);
         } else {
-            data.setNewMoney(money);
+            setNewMoney(money);
         }
 
         return true;
@@ -126,35 +542,10 @@ public class Player implements ManagedObject {
      *
      * @param rep how much?
      */
-    @JsonIgnore
+    @BsonIgnore
     public void addReputation(long rep) {
         this.reputation += rep;
         this.setReputation(reputation);
-    }
-
-    @JsonIgnore
-    public String getGuildId() {
-        return getId().split(":")[1];
-    }
-
-    @JsonIgnore
-    public Inventory getInventory() {
-        return inventory;
-    }
-
-    @JsonIgnore
-    public String getUserId() {
-        return getId().split(":")[0];
-    }
-
-    @JsonIgnore
-    public boolean isGlobal() {
-        return getGuildId().equals("g");
-    }
-
-    @JsonProperty("inventory")
-    public Map<Integer, Integer> rawInventory() {
-        return serialize(inventory.asList());
     }
 
     /**
@@ -164,7 +555,7 @@ public class Player implements ManagedObject {
      */
     public boolean removeMoney(long toRemove) {
         boolean useOld = config.isPremiumBot() || config.isSelfHost();
-        long money = useOld ? this.oldMoney : data.newMoney;
+        long money = useOld ? this.oldMoney : newMoney;
         if (money - toRemove < 0) {
             return false;
         }
@@ -172,27 +563,23 @@ public class Player implements ManagedObject {
         money -= toRemove;
 
         if (useOld) {
-            this.setOldMoney(money);
+            setOldMoney(money);
         } else {
-            data.setNewMoney(money);
+            setNewMoney(money);
         }
 
         return true;
     }
 
     //it's 3am and i cba to replace usages of this so whatever
-    @JsonIgnore
+    @BsonIgnore
     public boolean isLocked() {
-        return data.getLockedUntil() - System.currentTimeMillis() > 0;
+        return getLockedUntil() - System.currentTimeMillis() > 0;
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public void setLocked(boolean locked) {
-        data.setLockedUntil(locked ? System.currentTimeMillis() + 35000 : 0);
-    }
-
-    public PlayerData getData() {
-        return this.data;
+        setLockedUntil(locked ? System.currentTimeMillis() + 35000 : 0);
     }
 
     @Nonnull
@@ -200,18 +587,28 @@ public class Player implements ManagedObject {
         return this.id;
     }
 
-    @JsonIgnore
+    @BsonIgnore
     @Override
     @Nonnull
     public String getTableName() {
         return DB_TABLE;
     }
 
-    @JsonIgnore
+    @BsonIgnore
     @Nonnull
     @Override
     public String getDatabaseId() {
-        return getUserId();
+        return getId();
+    }
+
+    @Override
+    public void save() {
+        MantaroData.db().saveMongo(this, Player.class);
+    }
+
+    @Override
+    public void delete() {
+        MantaroData.db().deleteMongo(this, Player.class);
     }
 
     public Long getLevel() {
@@ -222,46 +619,28 @@ public class Player implements ManagedObject {
         this.level = level;
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public Long getCurrentMoney() {
         boolean useOld = config.isPremiumBot() || config.isSelfHost();
         if (useOld) {
-            return this.oldMoney;
+            return oldMoney;
         } else {
-            return data.newMoney;
+            return newMoney;
         }
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public void setCurrentMoney(long money) {
         boolean useOld = config.isPremiumBot() || config.isSelfHost();
         if (useOld) {
-            this.oldMoney = money < 0 ? 0 : money;
+            setOldMoney(money < 0 ? 0 : money);
         } else {
-            data.setNewMoney(money < 0 ? 0 : money);
+            setNewMoney(money < 0 ? 0 : money);
         }
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public PlayerStats getStats() {
-        return MantaroData.db().getPlayerStats(getUserId());
-    }
-
-    // So it doesn't fail to de-serialize it. Blame JacksonXML.
-    public long getOldMoney() {
-        return oldMoney;
-    }
-
-    // So it doesn't fail to de-serialize it. Blame JacksonXML.
-    public void setOldMoney(long newAmount) {
-        this.oldMoney = newAmount;
-    }
-
-    public Long getReputation() {
-        return this.reputation;
-    }
-
-    public void setReputation(Long reputation) {
-        this.reputation = reputation;
+        return MantaroData.db().getPlayerStats(getId());
     }
 }

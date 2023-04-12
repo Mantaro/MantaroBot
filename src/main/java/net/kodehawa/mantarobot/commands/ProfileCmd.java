@@ -185,12 +185,11 @@ public class ProfileCmd {
             @Override
             protected void process(SlashContext ctx) {
                 final var player = ctx.getPlayer();
-                final var data = player.getData();
-                var toSet = !data.isHiddenLegacy();
-                data.setHiddenLegacy(toSet);
+                var toSet = !player.isHiddenLegacy();
+                player.setHiddenLegacy(toSet);
 
                 player.save();
-                ctx.replyEphemeral("commands.profile.hidelegacy", EmoteReference.CORRECT, data.isHiddenLegacy());
+                ctx.replyEphemeral("commands.profile.hidelegacy", EmoteReference.CORRECT, player.isHiddenLegacy());
             }
         }
 
@@ -275,7 +274,7 @@ public class ProfileCmd {
                 }
 
                 var player = ctx.getPlayer();
-                if (player.getData().addBadgeIfAbsent(Badge.CALENDAR)) {
+                if (player.addBadgeIfAbsent(Badge.CALENDAR)) {
                     player.save();
                 }
 
@@ -335,7 +334,7 @@ public class ProfileCmd {
 
                 if (ctx.getOptionAsBoolean("clear")) {
                     var player = ctx.getPlayer();
-                    player.getData().setDescription(null);
+                    player.setDescription(null);
                     player.save();
 
                     ctx.reply("commands.profile.description.clear_success", EmoteReference.CORRECT);
@@ -349,7 +348,7 @@ public class ProfileCmd {
                 }
 
                 var lang = ctx.getLanguageContext();
-                var description = ctx.getPlayer().getData().getDescription();
+                var description = ctx.getPlayer().getDescription();
                 var subjectBuilder = TextInput.create("description", lang.get("commands.profile.description.header"), TextInputStyle.PARAGRAPH)
                         .setPlaceholder(lang.get("commands.profile.description.content_placeholder"))
                         .setRequiredRange(5, MAX_LENGTH);
@@ -406,12 +405,12 @@ public class ProfileCmd {
                         desc = Utils.DISCORD_INVITE_2.matcher(desc).replaceAll("-discord invite link-");
 
                         var player = ctx.getPlayer();
-                        player.getData().setDescription(desc);
+                        player.setDescription(desc);
                         event.reply(lang.get("commands.profile.description.success").formatted(EmoteReference.POPPER))
                                 .setEphemeral(true)
                                 .queue();
 
-                        player.getData().addBadgeIfAbsent(Badge.WRITER);
+                        player.addBadgeIfAbsent(Badge.WRITER);
                         player.save();
                         return Operation.COMPLETED;
                     }
@@ -488,9 +487,8 @@ public class ProfileCmd {
                 }
 
                 var player = ctx.getPlayer();
-                var playerData = player.getData();
                 if (ctx.getOptionAsBoolean("reset")) {
-                    playerData.getProfileComponents().clear();
+                    player.getProfileComponents().clear();
                     player.save();
 
                     ctx.replyEphemeral("commands.profile.display.reset", EmoteReference.CORRECT);
@@ -504,9 +502,9 @@ public class ProfileCmd {
                                     lang.get("commands.profile.display.example"),
                             EmoteReference.ZAP, EmoteReference.BLUE_SMALL_MARKER,
                             defaultOrder.stream().map(Enum::name).collect(Collectors.joining(", ")),
-                            playerData.getProfileComponents().size() == 0 ?
+                            player.getProfileComponents().size() == 0 ?
                                     "Not personalized" :
-                                    playerData.getProfileComponents().stream()
+                                    player.getProfileComponents().stream()
                                             .map(Enum::name)
                                             .collect(Collectors.joining(", "))
                     );
@@ -531,7 +529,7 @@ public class ProfileCmd {
                     return;
                 }
 
-                playerData.setProfileComponents(newComponents);
+                player.setProfileComponents(newComponents);
                 player.save();
 
                 ctx.replyEphemeral("commands.profile.display.success",
@@ -565,8 +563,8 @@ public class ProfileCmd {
         final var memberLooked = ctx.getGuild().getMember(userLooked);
         final var player = ctx.getPlayer(userLooked);
         final var dbUser = ctx.getDBUser(userLooked);
-        final var playerData = player.getData();
-        final var inv = player.getInventory();
+        final var playerData = player;
+        final var inv = player.inventory();
         final var config = MantaroData.config().get();
 
         // Cache waifu value.
@@ -620,13 +618,13 @@ public class ProfileCmd {
         Collections.sort(badges);
 
         final var marriage = MantaroData.db().getMarriage(dbUser.getMarriageId());
-        final var ringHolder = player.getInventory().containsItem(ItemReference.RING) && marriage != null;
+        final var ringHolder = player.inventory().containsItem(ItemReference.RING) && marriage != null;
         final var holder = new ProfileComponent.Holder(userLooked, player, dbUser, marriage, badges);
         final var profileBuilder = new EmbedBuilder();
         var description = lang.get("commands.profile.no_desc");
 
         if (playerData.getDescription() != null) {
-            description = player.getData().getDescription();
+            description = player.getDescription();
         }
 
         profileBuilder.setAuthor(
@@ -653,7 +651,7 @@ public class ProfileCmd {
         }
 
         // We don't need to update stats if someone else views your profile
-        if (player.getUserId().equals(ctx.getAuthor().getId())) {
+        if (player.getId().equals(ctx.getAuthor().getId())) {
             player.save();
         }
 

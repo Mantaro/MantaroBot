@@ -271,8 +271,8 @@ public class CommandListener implements EventListener {
                     event.getJDA().getShardInfo().getShardId(), context.get("general.generic_error")
             ).queue();
 
-            if (player.getData().addBadgeIfAbsent(Badge.FIRE)) {
-                player.saveUpdating();
+            if (player.addBadgeIfAbsent(Badge.FIRE)) {
+                player.save();
             }
 
             log.error("Error happened on command: {} (Error ID: {})", event.getMessage().getContentRaw(), id, e);

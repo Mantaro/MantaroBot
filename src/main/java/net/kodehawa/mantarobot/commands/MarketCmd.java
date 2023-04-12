@@ -597,7 +597,7 @@ public class MarketCmd {
         }
 
         var player = ctx.getPlayer();
-        var playerInventory = player.getInventory();
+        var playerInventory = player.inventory();
 
         if (!playerInventory.containsItem(item)) {
             ctx.sendLocalized("commands.market.dump.player_no_item", EmoteReference.ERROR);
@@ -615,7 +615,7 @@ public class MarketCmd {
 
         playerInventory.process(new ItemStack(item, -itemNumber));
         if (itemNumber > 4000) {
-            player.getData().addBadgeIfAbsent(Badge.WASTER);
+            player.addBadgeIfAbsent(Badge.WASTER);
         }
 
         player.save();
@@ -629,7 +629,7 @@ public class MarketCmd {
         }
 
         var player = ctx.getPlayer();
-        var playerInventory = player.getInventory();
+        var playerInventory = player.inventory();
         try {
             if (item.isEmpty()) {
                 ctx.sendLocalized("commands.market.sell.no_item",  EmoteReference.ERROR);
@@ -667,7 +667,7 @@ public class MarketCmd {
             playerInventory.process(new ItemStack(toSell, many));
 
             player.addMoney(money);
-            player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
+            player.setMarketUsed(player.getMarketUsed() + 1);
             player.save();
             ctx.sendLocalized("commands.market.sell.success", EmoteReference.CORRECT, Math.abs(many), toSell.getName(), money);
         } catch (Exception e) {
@@ -702,7 +702,7 @@ public class MarketCmd {
                 return;
             }
 
-            var playerInventory = player.getInventory();
+            var playerInventory = player.inventory();
             if (playerInventory.getAmount(itemToBuy) + itemNumber > 5000) {
                 ctx.sendLocalized("commands.market.buy.item_limit_reached", EmoteReference.ERROR);
                 return;
@@ -716,8 +716,8 @@ public class MarketCmd {
             var removedMoney = player.removeMoney(value);
             if (removedMoney) {
                 playerInventory.process(new ItemStack(itemToBuy, itemNumber));
-                player.getData().addBadgeIfAbsent(Badge.BUYER);
-                player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
+                player.addBadgeIfAbsent(Badge.BUYER);
+                player.setMarketUsed(player.getMarketUsed() + 1);
 
                 //Due to player data being updated here too.
                 player.save();

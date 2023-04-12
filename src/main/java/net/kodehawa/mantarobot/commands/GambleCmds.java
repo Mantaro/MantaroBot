@@ -230,7 +230,7 @@ public class GambleCmds {
                 var player = ctx.getPlayer();
                 var stats = ctx.getPlayerStats(ctx.getAuthor());
 
-                var playerInventory = player.getInventory();
+                var playerInventory = player.inventory();
                 if (opts.containsKey("useticket")) {
                     if (!playerInventory.containsItem(ItemReference.SLOT_COIN)) {
                         ctx.sendLocalized("commands.slots.errors.no_tickets", EmoteReference.SAD);
@@ -301,7 +301,7 @@ public class GambleCmds {
     }
 
     private static void slots(IContext ctx, Player player, PlayerStats stats, long money, long coinAmount, boolean ticket) {
-        var playerInventory = player.getInventory();
+        var playerInventory = player.inventory();
         var slotsChance = 25; // 25% raw chance of winning, completely random chance of winning on the other random iteration
         var isWin = false;
         var coinSelect = false;
@@ -403,11 +403,11 @@ public class GambleCmds {
             stats.updateAllChanged();
 
             if ((gains + money) > SLOTS_MAX_MONEY) {
-                player.getData().addBadgeIfAbsent(Badge.LUCKY_SEVEN);
+                player.addBadgeIfAbsent(Badge.LUCKY_SEVEN);
             }
 
             if (coinSelect && coinAmount > 45) {
-                player.getData().addBadgeIfAbsent(Badge.SENSELESS_HOARDING);
+                player.addBadgeIfAbsent(Badge.SENSELESS_HOARDING);
             }
 
             player.addMoney(gains);
@@ -518,14 +518,13 @@ public class GambleCmds {
 
     private static void proceedGamble(IContext ctx, Player player, int luck, long i, long gains, long bet) {
         var stats = MantaroData.db().getPlayerStats(ctx.getMember());
-        var data = player.getData();
         final SecureRandom random = new SecureRandom();
 
         if (luck > random.nextInt(140)) {
             if (player.addMoney(gains)) {
                 if (gains >= 4_950L) {
-                    if (!data.hasBadge(Badge.GAMBLER)) {
-                        data.addBadgeIfAbsent(Badge.GAMBLER);
+                    if (!player.hasBadge(Badge.GAMBLER)) {
+                        player.addBadgeIfAbsent(Badge.GAMBLER);
                     }
                 }
 
@@ -539,7 +538,7 @@ public class GambleCmds {
             }
         } else {
             if (bet == GAMBLE_MAX_MONEY) {
-                data.addBadgeIfAbsent(Badge.RISKY_ORDEAL);
+                player.addBadgeIfAbsent(Badge.RISKY_ORDEAL);
             }
 
             var oldMoney = player.getCurrentMoney();
@@ -554,6 +553,6 @@ public class GambleCmds {
         }
 
         player.setLocked(false);
-        player.saveUpdating();
+        player.save();
     }
 }

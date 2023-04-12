@@ -100,7 +100,7 @@ public class MarryCmd {
                 var proposedToUserData = ctx.getDBUser(proposedToUser);
 
                 // Again just for checking, and no need to change.
-                final var proposingPlayerInventory = ctx.getPlayer(proposingUser).getInventory();
+                final var proposingPlayerInventory = ctx.getPlayer(proposingUser).inventory();
 
                 // Why would you do this...
                 if (proposedToUser.getId().equals(ctx.getAuthor().getId())) {
@@ -198,8 +198,8 @@ public class MarryCmd {
                         }
 
                         // LAST inventory check and ring assignment is gonna happen using those.
-                        final var proposingPlayerFinalInventory = proposingPlayer.getInventory();
-                        final var proposedToPlayerInventory = proposedToPlayer.getInventory();
+                        final var proposingPlayerFinalInventory = proposingPlayer.inventory();
+                        final var proposedToPlayerInventory = proposedToPlayer.inventory();
 
                         if (proposingPlayerFinalInventory.getAmount(ItemReference.RING) < 2) {
                             hook.editOriginal(languageContext.get("commands.marry.ring_check_fail").formatted(EmoteReference.ERROR))
@@ -238,8 +238,8 @@ public class MarryCmd {
                         )).setComponents().queue();
 
                         // Add the badge to the married couple.
-                        proposingPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
-                        proposedToPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
+                        proposingPlayer.addBadgeIfAbsent(Badge.MARRIED);
+                        proposedToPlayer.addBadgeIfAbsent(Badge.MARRIED);
 
                         // Give a love letter both to the proposing player and the one who was proposed to.
                         if (proposingPlayerFinalInventory.getAmount(ItemReference.LOVE_LETTER) < 5000) {
@@ -262,8 +262,8 @@ public class MarryCmd {
 
                         // Well, we have a badge for this too. Consolation prize I guess.
                         final var proposingPlayer = ctx.getPlayer(proposingUser);
-                        if (proposingPlayer.getData().addBadgeIfAbsent(Badge.DENIED)) {
-                            proposingPlayer.saveUpdating();
+                        if (proposingPlayer.addBadgeIfAbsent(Badge.DENIED)) {
+                            proposingPlayer.save();
                         }
                         return Operation.COMPLETED;
                     }
@@ -369,7 +369,7 @@ public class MarryCmd {
             protected void process(SlashContext ctx) {
                 final var author = ctx.getAuthor();
                 final var player = ctx.getPlayer();
-                final var playerInventory = player.getInventory();
+                final var playerInventory = player.inventory();
                 final var dbUser = ctx.getDBUser();
                 final var content = ctx.getOptionAsString("content");
                 final var languageContext = ctx.getLanguageContext();
@@ -434,7 +434,7 @@ public class MarryCmd {
                     //Confirmed they want to save this as the permanent love letter.
                     if (button.equals("yes")) {
                         final var playerFinal = ctx.getPlayer();
-                        final var inventoryFinal = playerFinal.getInventory();
+                        final var inventoryFinal = playerFinal.inventory();
                         final var currentMarriageFinal = dbUser.getMarriage();
 
                         //We need to do most of the checks all over again just to make sure nothing important slipped through.
@@ -487,7 +487,7 @@ public class MarryCmd {
             @Override
             protected void process(SlashContext ctx) {
                 var player = ctx.getPlayer();
-                var playerInventory = player.getInventory();
+                var playerInventory = player.inventory();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getMarriage();
                 var name = ctx.getOptionAsString("name");
@@ -528,7 +528,7 @@ public class MarryCmd {
 
                     if (button.equals("yes")) {
                         var playerConfirmed = ctx.getPlayer();
-                        var playerInventoryConfirmed = playerConfirmed.getInventory();
+                        var playerInventoryConfirmed = playerConfirmed.inventory();
                         var dbUserConfirmed = ctx.getDBUser();
                         var marriageConfirmed = dbUserConfirmed.getMarriage();
 
@@ -581,7 +581,7 @@ public class MarryCmd {
             @Override
             protected void process(SlashContext ctx) {
                 var player = ctx.getPlayer();
-                var playerInventory = player.getInventory();
+                var playerInventory = player.inventory();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getMarriage();
                 var name = ctx.getOptionAsString("name");
@@ -622,7 +622,7 @@ public class MarryCmd {
 
                     if (button.equals("yes")) {
                         var playerConfirmed = ctx.getPlayer();
-                        var playerInventoryConfirmed = playerConfirmed.getInventory();
+                        var playerInventoryConfirmed = playerConfirmed.inventory();
                         var dbUserConfirmed = ctx.getDBUser();
                         var marriageConfirmed = dbUserConfirmed.getMarriage();
 
@@ -710,10 +710,10 @@ public class MarryCmd {
                     divorceeDBUser.updateAllChanged();
 
                     // Add the heart broken badge to the user who divorced.
-                    divorceePlayer.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
+                    divorceePlayer.addBadgeIfAbsent(Badge.HEART_BROKEN);
 
                     // Add the heart broken badge to the user got dumped.
-                    marriedWithPlayer.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
+                    marriedWithPlayer.addBadgeIfAbsent(Badge.HEART_BROKEN);
 
                     var moneySplit = 0L;
 

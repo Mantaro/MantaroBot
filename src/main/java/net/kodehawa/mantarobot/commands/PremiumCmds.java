@@ -128,8 +128,8 @@ public class PremiumCmds {
 
                     if (author.getId().equals(key.getOwner())) {
                         var player = ctx.getPlayer();
-                        if (player.getData().addBadgeIfAbsent(Badge.DONATOR_2)) {
-                            player.saveUpdating();
+                        if (player.addBadgeIfAbsent(Badge.DONATOR_2)) {
+                            player.save();
                         }
                     }
 
@@ -199,8 +199,8 @@ public class PremiumCmds {
                 // Give the badge to the key owner, I'd guess?
                 if (!marked && isLookup) {
                     Player player = ctx.db().getPlayer(owner);
-                    if (player.getData().addBadgeIfAbsent(Badge.DONATOR_2))
-                        player.saveUpdating();
+                    if (player.addBadgeIfAbsent(Badge.DONATOR_2))
+                        player.save();
                 }
 
                 var patreonInformation = APIUtils.getPledgeInformation(owner.getId());

@@ -145,7 +145,6 @@ public class ItemCmds {
 
                 // Get the necessary entities.
                 var player = ctx.getPlayer();
-                var playerData = player.getData();
                 var user = ctx.getDBUser();
                 var wrench = user.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
                 if (wrench == 0) {
@@ -213,7 +212,7 @@ public class ItemCmds {
                     return;
                 }
 
-                var playerInventory = player.getInventory();
+                var playerInventory = player.inventory();
                 var dust = user.getDustLevel();
                 if (dust > 95) {
                     ctx.reply("commands.cast.dust", EmoteReference.ERROR, dust);
@@ -260,16 +259,16 @@ public class ItemCmds {
                 playerInventory.process(new ItemStack(castItem, amountSpecified));
 
                 if (castItem == ItemReference.HELLFIRE_PICK)
-                    playerData.addBadgeIfAbsent(Badge.HOT_MINER);
+                    player.addBadgeIfAbsent(Badge.HOT_MINER);
                 if (castItem == ItemReference.HELLFIRE_ROD)
-                    playerData.addBadgeIfAbsent(Badge.HOT_FISHER);
+                    player.addBadgeIfAbsent(Badge.HOT_FISHER);
                 if (castItem == ItemReference.HELLFIRE_AXE)
-                    playerData.addBadgeIfAbsent(Badge.HOT_CHOPPER);
+                    player.addBadgeIfAbsent(Badge.HOT_CHOPPER);
 
                 var message = "";
-                if (playerData.shouldSeeCampaign()) {
+                if (player.shouldSeeCampaign()) {
                     message += Campaign.PREMIUM.getStringFromCampaign(ctx.getLanguageContext(), user.isPremium());
-                    playerData.markCampaignAsSeen();
+                    player.markCampaignAsSeen();
                 }
 
                 user.increaseDustLevel(3);
@@ -388,7 +387,7 @@ public class ItemCmds {
                 var user = ctx.getDBUser();
 
                 var item = ItemHelper.fromAnyNoId(itemName, ctx.getLanguageContext()).orElse(null);
-                var playerInventory = player.getInventory();
+                var playerInventory = player.inventory();
                 var wrench = user.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
                 if (wrench == 0) {
                     ctx.reply("commands.cast.not_equipped", EmoteReference.ERROR);
@@ -571,7 +570,7 @@ public class ItemCmds {
                 //Get the necessary entities.
                 final var player = ctx.getPlayer();
                 final var user = ctx.getDBUser();
-                final var playerInventory = player.getInventory();
+                final var playerInventory = player.inventory();
                 final var item = ItemHelper.fromAnyNoId(itemName, ctx.getLanguageContext()).orElse(null);
                 final var wrench = user.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
                 if (wrench == 0) {

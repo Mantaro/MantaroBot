@@ -322,8 +322,8 @@ public class LeaderboardCmd {
                                     //This is... an interesting place to do it lol
                                     if (lbMember.getId() == ctx.getAuthor().getIdLong()) {
                                         var player = MantaroData.db().getPlayer(ctx.getAuthor());
-                                        if (player.getData().addBadgeIfAbsent(Badge.CHAMPION))
-                                            player.saveUpdating();
+                                        if (player.addBadgeIfAbsent(Badge.CHAMPION))
+                                            player.save();
                                     }
 
                                     return format.formatted(

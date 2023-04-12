@@ -27,7 +27,6 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -42,7 +41,7 @@ import java.util.stream.Collectors;
 public enum ProfileComponent {
     HEADER(null,
             i18nContext -> String.format(i18nContext.get("commands.profile.badge_header"), EmoteReference.TROPHY), (holder, i18nContext) -> {
-        PlayerData playerData = holder.getPlayer().getData();
+        var playerData = holder.getPlayer();
         if (holder.getBadges().isEmpty() || !playerData.isShowBadge()) {
             return " \u2009\u2009None";
         }
@@ -64,10 +63,10 @@ public enum ProfileComponent {
     REPUTATION(EmoteReference.REP, i18nContext -> i18nContext.get("commands.profile.rep"), (holder, i18nContext) -> String.valueOf(holder.getPlayer().getReputation())),
     LEVEL(EmoteReference.ZAP, i18nContext -> i18nContext.get("commands.profile.level"), (holder, i18nContext) -> {
         var player = holder.getPlayer();
-        return String.format(Utils.getLocaleFromLanguage(i18nContext), "%d (%s: %,d)", player.getLevel(), i18nContext.get("commands.profile.xp"), player.getData().getExperience());
+        return String.format(Utils.getLocaleFromLanguage(i18nContext), "%d (%s: %,d)", player.getLevel(), i18nContext.get("commands.profile.xp"), player.getExperience());
     }, true, false),
     EXPERIENCE(EmoteReference.ZAP, i18nContext -> i18nContext.get("commands.profile.activity_xp"), (holder, i18nContext) -> {
-        var data = holder.getPlayer().getData();
+        var data = holder.getPlayer();
         var mine = Utils.roundPrefixNumber(data.getMiningExperience());
         var fish = Utils.roundPrefixNumber(data.getFishingExperience());
         var chop = Utils.roundPrefixNumber(data.getChopExperience());
@@ -118,7 +117,7 @@ public enum ProfileComponent {
         }
     }, true, false),
     INVENTORY(EmoteReference.POUCH, i18nContext -> i18nContext.get("commands.profile.inventory"), (holder, i18nContext) -> {
-        var inv = holder.getPlayer().getInventory();
+        var inv = holder.getPlayer().inventory();
         final var stackList = inv.asList();
         if (stackList.isEmpty()) {
             return i18nContext.get("general.dust");
@@ -143,7 +142,7 @@ public enum ProfileComponent {
                 .collect(Collectors.joining(" \u2009\u2009"));
     }, true, false),
     PET(EmoteReference.DOG, i18nContext -> i18nContext.get("commands.profile.pet.header"), (holder, i18nContext) -> {
-        final var playerData = holder.getPlayer().getData();
+        final var playerData = holder.getPlayer();
         final var petType = playerData.getActiveChoice(holder.getMarriage());
         HousePet pet = null;
         if (petType == PetChoice.MARRIAGE && holder.getMarriage() != null) {

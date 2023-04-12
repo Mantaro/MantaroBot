@@ -254,9 +254,7 @@ public class MoneyCmds {
 
         final var author = ctx.getAuthor();
         var authorPlayer = ctx.getPlayer();
-        var authorPlayerData = authorPlayer.getData();
         final var authorDBUser = ctx.getDBUser();
-
         if (authorPlayer.isLocked()) {
             ctx.sendLocalized("commands.daily.errors.own_locked");
             return;
@@ -297,7 +295,7 @@ public class MoneyCmds {
             // Marriage bonus
             var marriage = authorDBUser.getMarriage();
             if (marriage != null && otherUser.getId().equals(marriage.getOtherPlayer(ctx.getAuthor().getId())) &&
-                    playerOtherUser.getInventory().containsItem(ItemReference.RING)) {
+                    playerOtherUser.inventory().containsItem(ItemReference.RING)) {
                 dailyMoney += Math.max(10, random.nextInt(200));
             }
 
@@ -310,7 +308,6 @@ public class MoneyCmds {
         } else {
             // This is here so you don't overwrite yourself....
             authorPlayer = toAddMoneyTo;
-            authorPlayerData = authorPlayer.getData();
         }
 
         // Check for rate limit
@@ -319,13 +316,13 @@ public class MoneyCmds {
 
         List<String> returnMessage = new ArrayList<>();
         final long currentTime = System.currentTimeMillis();
-        final var inventory = authorPlayer.getInventory();
+        final var inventory = authorPlayer.inventory();
         final int amountStreakSavers = inventory.getAmount(ItemReference.MAGIC_WATCH);
 
         // >=0 -> Valid  <0 -> Invalid
-        final long currentDailyOffset = DAILY_VALID_PERIOD_MILLIS - (currentTime - authorPlayerData.getLastDailyAt()) ;
+        final long currentDailyOffset = DAILY_VALID_PERIOD_MILLIS - (currentTime - authorPlayer.getLastDailyAt()) ;
 
-        long streak = authorPlayerData.getDailyStreak();
+        long streak = authorPlayer.getDailyStreak();
         var removedWatch = false;
         // Not expired?
         if (currentDailyOffset + amountStreakSavers * DAILY_VALID_PERIOD_MILLIS >= 0) {
@@ -376,7 +373,7 @@ public class MoneyCmds {
             }
 
             if (streak > 10) {
-                authorPlayerData.addBadgeIfAbsent(Badge.CLAIMER);
+                authorPlayer.addBadgeIfAbsent(Badge.CLAIMER);
 
                 if (streak % 20 == 0 && inventory.getAmount(ItemReference.LOOT_CRATE) < 5000) {
                     inventory.process(new ItemStack(ItemReference.LOOT_CRATE, 1));
@@ -387,15 +384,15 @@ public class MoneyCmds {
                     bonus += Math.min(targetOther ? 2000 : 1000, Math.floor(200 * streak / (targetOther ? 10D : 15D)));
 
                     if (streak >= 180) {
-                        authorPlayerData.addBadgeIfAbsent(Badge.BIG_CLAIMER);
+                        authorPlayer.addBadgeIfAbsent(Badge.BIG_CLAIMER);
                     }
 
                     if (streak >= 365) {
-                        authorPlayerData.addBadgeIfAbsent(Badge.YEARLY_CLAIMER);
+                        authorPlayer.addBadgeIfAbsent(Badge.YEARLY_CLAIMER);
                     }
 
                     if (streak >= 730) {
-                        authorPlayerData.addBadgeIfAbsent(Badge.BI_YEARLY_CLAIMER);
+                        authorPlayer.addBadgeIfAbsent(Badge.BI_YEARLY_CLAIMER);
                     }
                 }
             }
@@ -423,8 +420,8 @@ public class MoneyCmds {
 
         // Careful not to overwrite yourself ;P
         // Save streak and items
-        authorPlayerData.setLastDailyAt(currentTime);
-        authorPlayerData.setDailyStreak(streak);
+        authorPlayer.setLastDailyAt(currentTime);
+        authorPlayer.setDailyStreak(streak);
 
         // Critical not to call if author != mentioned because in this case
         // toAdd is the unified player as referenced
@@ -439,7 +436,7 @@ public class MoneyCmds {
             // We can sort of avoid doing a full save here.
             // Since updating the fields is just fine unless we're removing something from a Map.
             // It's still annoying.
-            toAddMoneyTo.saveUpdating();
+            toAddMoneyTo.save();
         }
 
         // Build Message
@@ -462,7 +459,6 @@ public class MoneyCmds {
 
     private static void loot(IContext ctx) {
         var player = ctx.getPlayer();
-        var playerData = player.getData();
         var dbUser = ctx.getDBUser();
         var languageContext = ctx.getLanguageContext();
         if (player.isLocked()) {
@@ -486,8 +482,8 @@ public class MoneyCmds {
 
         if (random.nextInt(100) > 95) {
             ground.dropItem(ItemReference.LOOT_CRATE);
-            if (playerData.addBadgeIfAbsent(Badge.LUCKY)) {
-                player.saveUpdating();
+            if (player.addBadgeIfAbsent(Badge.LUCKY)) {
+                player.save();
             }
         }
 
@@ -507,16 +503,16 @@ public class MoneyCmds {
         var extraMessage = "";
 
         // Sellout
-        if (playerData.shouldSeeCampaign()){
+        if (player.shouldSeeCampaign()){
             extraMessage += Campaign.PREMIUM.getStringFromCampaign(languageContext, dbUser.isPremium());
-            playerData.markCampaignAsSeen();
+            player.markCampaignAsSeen();
         }
 
 
         if (!loot.isEmpty()) {
             var stack = ItemStack.toString(ItemStack.reduce(loot));
 
-            if (player.getInventory().merge(loot))
+            if (player.inventory().merge(loot))
                 extraMessage += languageContext.withRoot("commands", "loot.item_overflow");
 
             if (moneyFound != 0) {
@@ -549,7 +545,7 @@ public class MoneyCmds {
             }
         }
 
-        player.saveUpdating();
+        player.save();
     }
 
     private static void balance(IContext ctx, User toCheck) {
@@ -568,14 +564,13 @@ public class MoneyCmds {
         }
 
         var player = ctx.getPlayer(user);
-        var playerData = player.getData();
         var balance = player.getCurrentMoney();
         var extra = "";
 
-        if (balance < 300 && playerData.getExperience() < 3400 && !playerData.isNewPlayerNotice()) {
+        if (balance < 300 && player.getExperience() < 3400 && !player.isNewPlayerNotice()) {
             extra += languageContext.get("commands.balance.new_player");
-            playerData.setNewPlayerNotice(true);
-            player.saveUpdating();
+            player.setNewPlayerNotice(true);
+            player.save();
         }
 
         var message = String.format(

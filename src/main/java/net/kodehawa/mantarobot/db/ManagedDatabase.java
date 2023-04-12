@@ -105,7 +105,7 @@ public class ManagedDatabase {
     @Nonnull
     @CheckReturnValue
     public List<CustomCommand> getCustomCommands() {
-        log("Requesting all custom commands from MongoDB");
+        log("Requesting all Custom Commands from MongoDB");
         return Lists.newArrayList(dbMantaro().getCollection(CustomCommand.DB_TABLE, CustomCommand.class).find());
     }
 
@@ -113,7 +113,7 @@ public class ManagedDatabase {
     @CheckReturnValue
     public List<CustomCommand> getCustomCommands(@Nonnull String guildId) {
         // TODO: Use an index!
-        log("Requesting all custom commands from MongoDB on guild {}", guildId);
+        log("Requesting all Custom Commands from MongoDB on guild {}", guildId);
         var collection = dbMantaro().getCollection(CustomCommand.DB_TABLE, CustomCommand.class);
         return Lists.newArrayList(collection.find(Filters.eq("guildId", guildId)));
     }
@@ -143,7 +143,7 @@ public class ManagedDatabase {
     @Nonnull
     @CheckReturnValue
     public GuildDatabase getGuild(@Nonnull String guildId) {
-        log("Requesting guild {} from MongoDB", guildId);
+        log("Requesting Guild {} from MongoDB", guildId);
         var collection = dbMantaro().getCollection(GuildDatabase.DB_TABLE, GuildDatabase.class);
         var guild = collection.find().filter(Filters.eq(guildId)).first();
         return guild == null ? GuildDatabase.of(guildId) : guild;
@@ -184,8 +184,10 @@ public class ManagedDatabase {
     @Nonnull
     @CheckReturnValue
     public Player getPlayer(@Nonnull String userId) {
-        log("Requesting player {} from RethinkDB", userId);
-        Player player = r.table(Player.DB_TABLE).get(userId + ":g").runAtom(conn, Player.class);
+        log("Requesting Player {} from MongoDB", userId);
+        var collection = dbMantaro().getCollection(Player.DB_TABLE, Player.class);
+        var player = collection.find().filter(Filters.eq(userId)).first();
+
         return player == null ? Player.of(userId) : player;
     }
 
@@ -204,9 +206,11 @@ public class ManagedDatabase {
     @Nonnull
     @CheckReturnValue
     public PlayerStats getPlayerStats(@Nonnull String userId) {
-        log("Requesting player STATS {} from RethinkDB", userId);
-        PlayerStats playerStats = r.table(PlayerStats.DB_TABLE).get(userId).runAtom(conn, PlayerStats.class);
-        return playerStats == null ? PlayerStats.of(userId) : playerStats;
+        log("Requesting Player {} from MongoDB", userId);
+        var collection = dbMantaro().getCollection(PlayerStats.DB_TABLE, PlayerStats.class);
+        var stats = collection.find().filter(Filters.eq(userId)).first();
+
+        return stats == null ? PlayerStats.of(userId) : stats;
     }
 
     @Nonnull
@@ -219,15 +223,6 @@ public class ManagedDatabase {
     @CheckReturnValue
     public PlayerStats getPlayerStats(@Nonnull Member member) {
         return getPlayerStats(member.getUser());
-    }
-
-    @Nonnull
-    @CheckReturnValue
-    public List<Player> getPlayers() {
-        log("Requesting all players from RethinkDB");
-        String pattern = ":g$";
-        Result<Player> c = r.table(Player.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Player.class);
-        return c.toList();
     }
 
     //Can be null and it's perfectly valid.

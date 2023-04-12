@@ -185,10 +185,8 @@ public class CurrencyCmds {
                 }
 
                 final var player = ctx.getPlayer();
-                final var playerData = player.getData();
-
-                playerData.setInventorySortType(type);
-                player.saveUpdating();
+                player.setInventorySortType(type);
+                player.save();
 
                 ctx.replyEphemeral("commands.profile.inventorysort.success", EmoteReference.CORRECT, ctx.getLanguageContext().get(type.getTranslate()));
             }
@@ -264,7 +262,7 @@ public class CurrencyCmds {
             }
 
             final var player = ctx.getPlayer();
-            final var inventory = player.getInventory();
+            final var inventory = player.inventory();
             dailyCrate(ctx, player, inventory);
         }
     }
@@ -461,7 +459,7 @@ public class CurrencyCmds {
                 }
 
                 final var player = ctx.getPlayer();
-                final var inventory = player.getInventory();
+                final var inventory = player.inventory();
                 dailyCrate(ctx, player, inventory);
             }
 
@@ -614,7 +612,7 @@ public class CurrencyCmds {
             return;
         }
 
-        if (!player.getInventory().containsItem(item)) {
+        if (!player.inventory().containsItem(item)) {
             ctx.sendLocalized("commands.useitem.no_item", EmoteReference.SAD);
             return;
         }
@@ -635,10 +633,9 @@ public class CurrencyCmds {
         }
 
         var languageContext = ctx.getLanguageContext();
-        var playerData = player.getData();
         // Alternate between mine and fish crates instead of doing so at random, since at random
         // it might seem like it only gives one sort of crate.
-        var lastCrateGiven = playerData.getLastCrateGiven();
+        var lastCrateGiven = player.getLastCrateGiven();
         var crate = ItemReference.MINE_PREMIUM_CRATE;
         if (lastCrateGiven == ItemHelper.idOf(ItemReference.MINE_PREMIUM_CRATE)) {
             crate = ItemReference.FISH_PREMIUM_CRATE;
@@ -649,7 +646,7 @@ public class CurrencyCmds {
         }
 
         inv.process(new ItemStack(crate, 1));
-        playerData.setLastCrateGiven(ItemHelper.idOf(crate));
+        player.setLastCrateGiven(ItemHelper.idOf(crate));
         player.save();
 
         var successMessage = languageContext.get("commands.dailycrate.success")
@@ -680,7 +677,7 @@ public class CurrencyCmds {
             return;
         }
 
-        var containsItem = player.getInventory().containsItem(item);
+        var containsItem = player.inventory().containsItem(item);
         if (!containsItem) {
             ctx.sendLocalized("commands.opencrate.no_crate", EmoteReference.SAD, item.getName());
             return;
@@ -697,7 +694,7 @@ public class CurrencyCmds {
             return;
         }
 
-        var playerInventory = player.getInventory();
+        var playerInventory = player.inventory();
         long all = playerInventory.asList().stream()
                 .filter(item -> item.getItem().isSellable())
                 .mapToLong(value -> Math.round(value.getItem().getValue() * value.getAmount() * 0.9d))
@@ -712,10 +709,8 @@ public class CurrencyCmds {
             return;
         }
 
-        final var playerData = player.getData();
-        var playerInventory = player.getInventory();
+        var playerInventory = player.inventory();
         var lang = ctx.getLanguageContext();
-
         final var inventoryList = playerInventory.asList();
         if (inventoryList.isEmpty()) {
             ctx.sendLocalized("commands.inventory.empty", EmoteReference.WARNING);
@@ -723,10 +718,10 @@ public class CurrencyCmds {
         }
 
         if (brief) {
-            var inventory = lang.get("commands.inventory.sorted_by").formatted(lang.get(playerData.getInventorySortType().getTranslate()))
+            var inventory = lang.get("commands.inventory.sorted_by").formatted(lang.get(player.getInventorySortType().getTranslate()))
                     + "\n\n" +
                     inventoryList.stream()
-                            .sorted(playerData.getInventorySortType().getSort().comparator())
+                            .sorted(player.getInventorySortType().getSort().comparator())
                             .map(is -> is.getItem().getEmoji() + "\u2009 x" + is.getAmount() + " \u2009\u2009")
                             .collect(Collectors.joining(" "));
 
@@ -750,7 +745,7 @@ public class CurrencyCmds {
         else {
             playerInventory.asList()
                     .stream()
-                    .sorted(playerData.getInventorySortType().getSort().comparator())
+                    .sorted(player.getInventorySortType().getSort().comparator())
                     .forEach(stack -> {
                         long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
                         long sellValue = stack.getItem().isSellable() ? Math.round(stack.getItem().getValue() * 0.9) : 0;
@@ -784,7 +779,7 @@ public class CurrencyCmds {
                 return;
             }
 
-            if (player.getInventory().getAmount(item) < amount) {
+            if (player.inventory().getAmount(item) < amount) {
                 ctx.sendLocalized("commands.useitem.not_enough_items", EmoteReference.SAD);
                 return;
             }
@@ -849,11 +844,11 @@ public class CurrencyCmds {
 
 
             if (amount > 12) {
-                player.getData().addBadgeIfAbsent(Badge.MAD_SCIENTIST);
+                player.addBadgeIfAbsent(Badge.MAD_SCIENTIST);
             }
 
             // Default: 1
-            player.getInventory().process(new ItemStack(item, -amount));
+            player.inventory().process(new ItemStack(item, -amount));
             player.save();
             equippedItems.updateAllChanged(dbUser);
 

@@ -37,8 +37,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.serialize;
-import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
+import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.serialize;
+import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.unserialize;
 
 public class TextChannelGround {
     private static final SecureRandom random = new SecureRandom();
@@ -78,7 +78,7 @@ public class TextChannelGround {
 
     public static class Ground {
         @JsonProperty("groundItems")
-        final Inventory groundItems = new Inventory();
+        final Inventory groundItems = new Inventory(new HashMap<>());
         int money;
         String channel;
 

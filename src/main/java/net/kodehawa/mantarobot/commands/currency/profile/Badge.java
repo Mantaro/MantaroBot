@@ -219,37 +219,37 @@ public enum Badge {
 
     THE_BEST_FRIEND("The Best Friend", "\uD83D\uDCBB", "Get a Dev pet.",
             91, 92,
-            (player, stats, dbUser) -> player.getData().getPet() != null && player.getData().getPet().getType() == HousePetType.KODE, false
+            (player, stats, dbUser) -> player.getPet() != null && player.getPet().getType() == HousePetType.KODE, false
     ),
 
     EXPERT_GAMER("Expert Gamer", "\uD83C\uDFAE",
             "Win 5000 games.",
             91, 92,
-            (player, stats, dbUser) -> player.getData().getGamesWon() >= 5000, false
+            (player, stats, dbUser) -> player.getGamesWon() >= 5000, false
     ),
 
     EXPERIENCED_BADGE_HUNTER("Experienced Badge Hunter", "\uD83D\uDD2B",
             "Get more than 60 badges",
             91, 92,
-            (player, stats, dbUser) -> player.getData().getBadges().size() > 60, false
+            (player, stats, dbUser) -> player.getBadges().size() > 60, false
     ),
 
     EXPERT_MINER("Expert Miner", "<:sparkle_pick:492882143404359690>",
             "Get more than 100,000 mining experience.",
             91, 92,
-            ((player, stats, dbUser) -> player.getData().getMiningExperience() > 100000), false
+            ((player, stats, dbUser) -> player.getMiningExperience() > 100000), false
     ),
 
     EXPERT_FISHER("Expert Fisher", "<:sparkle_rod:492882143505154048>",
             "Get more than 100,000 fishing experience.",
             91, 92,
-            ((player, stats, dbUser) -> player.getData().getFishingExperience() > 100000), false
+            ((player, stats, dbUser) -> player.getFishingExperience() > 100000), false
     ),
 
     EXPERT_CHOPPER("Expert Chopper", "<:sparkle_axe:762027645155541002>",
             "Get more than 100,000 chopping experience.",
             91, 92,
-            ((player, stats, dbUser) -> player.getData().getChopExperience() > 100000), false
+            ((player, stats, dbUser) -> player.getChopExperience() > 100000), false
     ),
 
    LEGENDARY_PET_OWNER("Legendary Pet Owner", "\uD83C\uDFE2", "Get your pet to level 300",
@@ -272,7 +272,7 @@ public enum Badge {
     BADGE_HUNTER("Badge Hunter", "\uD83C\uDFF5",
             "Get more than 40 badges",
             91, 92,
-            (player, stats, dbUser) -> player.getData().getBadges().size() > 40, false
+            (player, stats, dbUser) -> player.getBadges().size() > 40, false
     ),
 
     EXPERT_PET_OWNER("Expert Pet Owner", "\uD83C\uDFD8\uFE0F", "Get your pet to level 100",
@@ -284,19 +284,19 @@ public enum Badge {
     ADDICTED_GAMER("Addicted Gamer", "\uD83C\uDFAE",
             "Win 1000 games.",
             91, 92,
-            (player, stats, dbUser) -> player.getData().getGamesWon() >= 1000, false
+            (player, stats, dbUser) -> player.getGamesWon() >= 1000, false
     ),
 
     CRATE_OPENER("Crate Opener", "\uD83D\uDD13",
             "Open 40 crates.",
             91, 92,
-            (player, stats, dbUser) -> player.getData().getCratesOpened() >= 40, false
+            (player, stats, dbUser) -> player.getCratesOpened() >= 40, false
     ),
 
     KING_OF_SEA("King of the Sea", "\uD83D\uDD31",
             "Catch 35 sharks.",
             91, 92,
-            (player, stats, dbUser) -> player.getData().getSharksCaught() >= 35, false
+            (player, stats, dbUser) -> player.getSharksCaught() >= 35, false
     ),
 
     MILLIONARE("Millionaire", "\uD83D\uDCB5", "Get your very own million credits.",
@@ -325,7 +325,7 @@ public enum Badge {
     SHOPPER("Shopper", "\uD83D\uDED2",
             "Have 5,000 items of any kind.",
             91, 92,
-            (player, stats, dbUser) -> player.getInventory().asList().stream()
+            (player, stats, dbUser) -> player.inventory().asList().stream()
                     .filter(itemStack -> itemStack.getItem() != ItemReference.CLAIM_KEY)
                     .anyMatch(stack -> stack.getAmount() == 5000), false
     ),
@@ -333,24 +333,24 @@ public enum Badge {
     EXPERIENCED_MINER("Experienced Miner", "<:star_pick:492882142993580038>",
             "Get more than 10,000 mining experience.",
             91, 92,
-            ((player, stats, dbUser) -> player.getData().getMiningExperience() > 10000), false
+            ((player, stats, dbUser) -> player.getMiningExperience() > 10000), false
     ),
 
     EXPERIENCED_FISHER("Experienced Fisher", "<:star_rod:492882143354028064>",
             "Get more than 10,000 fishing experience.",
             91, 92,
-            ((player, stats, dbUser) -> player.getData().getFishingExperience() > 10000), false
+            ((player, stats, dbUser) -> player.getFishingExperience() > 10000), false
     ),
 
     EXPERIENCED_CHOPPER("Experienced Chopper", "<:star_axe:762027644996157451>",
             "Get more than 10,000 chopping experience.",
             91, 92,
-            ((player, stats, dbUser) -> player.getData().getChopExperience() > 10000), false
+            ((player, stats, dbUser) -> player.getChopExperience() > 10000), false
     ),
 
     BEST_FRIEND("Best Friend", "\uD83D\uDC36", "Buy your very own pet",
             91, 92,
-            (player, stats, dbUser) -> player.getData().getPet() != null, false
+            (player, stats, dbUser) -> player.getPet() != null, false
     ),
 
     BEST_FRIEND_MARRY("Our Best Friend", "\uD83D\uDC31", "Get a marriage pet.",
@@ -391,7 +391,7 @@ public enum Badge {
     GAMER("Gamer", "\uD83D\uDD79",
             "Win 100 games.",
             91, 92,
-            (player, stats, dbUser) -> player.getData().getGamesWon() >= 100, false
+            (player, stats, dbUser) -> player.getGamesWon() >= 100, false
     ),
 
     GAMBLER("Gambler", "\uD83D\uDCB0",
@@ -439,7 +439,7 @@ public enum Badge {
     CLEANER("Cleaner", "\uD83E\uDDF9",
             "Clean your inventory more than 50 times.",
             91, 92,
-            (player, stats, dbUser) -> player.getData().getTimesMopped() > 50, false
+            (player, stats, dbUser) -> player.getTimesMopped() > 50, false
     ),
 
     RUNNER("Runner", "\uD83D\uDCCD",
@@ -466,19 +466,19 @@ public enum Badge {
     FIRST_MINER("First Time Miner", "<:comet_pick:492882142788059146>",
             "Get more than 1,000 mining experience.",
             91, 92,
-            ((player, stats, dbUser) -> player.getData().getMiningExperience() > 1000), false
+            ((player, stats, dbUser) -> player.getMiningExperience() > 1000), false
     ),
 
     FIRST_FISHER("First Time Fisher", "<:comet_rod:492882142779670528>",
             "Get more than 1,000 fishing experience.",
             91, 92,
-            ((player, stats, dbUser) -> player.getData().getFishingExperience() > 1000), false
+            ((player, stats, dbUser) -> player.getFishingExperience() > 1000), false
     ),
 
     FIRST_CHOPPER("First Time Chopper", "<:comet_axe:762027646439129169>",
             "Get more than 1,000 chopping experience.",
             91, 92,
-            ((player, stats, dbUser) -> player.getData().getChopExperience() > 1000), false
+            ((player, stats, dbUser) -> player.getChopExperience() > 1000), false
     ),
 
     WALKER("Walker", "\uD83C\uDFF7",
@@ -526,7 +526,7 @@ public enum Badge {
     COMPULSIVE_BUYER("Compulsive Buyer", "\uD83D\uDDDE",
             "Successfully use market buy or sell more than 1,000 times.",
             91, 92,
-            (player, stats, dbUser) -> player.getData().getMarketUsed() > 1000, false
+            (player, stats, dbUser) -> player.getMarketUsed() > 1000, false
     ),
 
     DUSTY("Dusty", "\uD83D\uDCA8", "Get to 100% dust level",
@@ -632,7 +632,7 @@ public enum Badge {
     HACKING_ADDICTION("Hacking Addiction", "\uD83D\uDD36",
             "Playing and slashing away your time, with a thousand addictions and thirty-something deeds, meeting together.",
             91, 92,
-            (player, stats, dbUser) -> player.getData().getGamesWon() >= 1337, true //lol
+            (player, stats, dbUser) -> player.getGamesWon() >= 1337, true //lol
     ),
 
     PATHWAY_SKY("Pathway to Sky", "\uD83D\uDD36",
@@ -853,7 +853,7 @@ public enum Badge {
     public static void assignBadges(Player player, PlayerStats stats, UserDatabase user) {
         for (Badge b : Badge.values()) {
             if (b.badgePredicate.test(player, stats, user)) {
-                player.getData().addBadgeIfAbsent(b);
+                player.addBadgeIfAbsent(b);
             }
         }
     }
