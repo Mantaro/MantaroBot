@@ -18,6 +18,7 @@
 package net.kodehawa.mantarobot.db;
 
 import com.google.common.collect.Lists;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -32,8 +33,12 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
+import net.kodehawa.mantarobot.db.codecs.MapCodec;
 import net.kodehawa.mantarobot.db.entities.*;
 import org.bson.Document;
+import org.bson.codecs.MapCodecProvider;
+import org.bson.codecs.configuration.CodecRegistries;
+import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.conversions.Bson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -345,7 +350,19 @@ public class ManagedDatabase {
 
         var collection = dbMantaro().getCollection(object.getTableName());
         List<Bson> updateCollection = new ArrayList<>(
-                map.entrySet().stream().map((entry) -> Updates.set(entry.getKey(), entry.getValue())).toList()
+                map.entrySet().stream().map((entry) -> {
+                    // This is MASSIVE jank. Why isn't it using the Codec it should use?
+                    if (entry.getValue() instanceof Map<?, ?> e) {
+                        if (e.keySet().iterator().next() instanceof Enum<?>) {
+                            return Updates.set(
+                                    entry.getKey(),
+                                    e.entrySet().stream().collect(Collectors.toMap(k -> k.getKey().toString(), Map.Entry::getValue))
+                            );
+                        }
+                    }
+
+                    return Updates.set(entry.getKey(), entry.getValue());
+                }).toList()
         );
 
         collection.updateOne(Filters.eq(object.getId()), updateCollection);

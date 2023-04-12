@@ -34,17 +34,17 @@ import java.util.function.Predicate;
 
 public class PlayerEquipment {
     //int = itemId
-    private final Map<EquipmentType, Integer> equipment;
-    private final Map<EquipmentType, PotionEffect> effects;
-    private final Map<EquipmentType, Integer> durability;
+    private Map<EquipmentType, Integer> equipment;
+    private Map<EquipmentType, PotionEffect> effects;
+    private Map<EquipmentType, Integer> durability;
     @BsonIgnore
     public Map<String, Object> fieldTracker = new HashMap<>();
 
     @BsonCreator
-    public PlayerEquipment(@BsonProperty("equipment") Map<EquipmentType, Integer> equipment, @BsonProperty("effects") Map<EquipmentType, PotionEffect> effects, @BsonProperty("durability") Map<EquipmentType, Integer> durability) {
-        this.equipment = equipment;
-        this.effects = effects;
-        this.durability = durability == null ? new HashMap<>() : durability; // Workaround because some people will not have this property.
+    public PlayerEquipment(@BsonProperty("equipment") HashMap<EquipmentType, Integer> equipment, @BsonProperty("effects") HashMap<EquipmentType, PotionEffect> effects, @BsonProperty("durability") HashMap<EquipmentType, Integer> durability) {
+        this.equipment = equipment == null ? new HashMap<>() : equipment;
+        this.effects = effects == null ? new HashMap<>() : effects;
+        this.durability = durability == null ? new HashMap<>() : durability;
     }
 
     public Map<EquipmentType, Integer> getEquipment() {
@@ -171,10 +171,10 @@ public class PlayerEquipment {
 
     @BsonIgnore
     public int reduceDurability(EquipmentType type, int amount) {
-        var dura = durability.computeIfPresent(type, (t, a) -> a - amount);
-        fieldTracker.put("equippedItems.durability", dura);
+        int dur = durability.computeIfPresent(type, (t, a) -> a - amount);
+        fieldTracker.put("equippedItems.durability", durability);
 
-        return dura;
+        return dur;
     }
 
     @BsonIgnore
@@ -213,10 +213,6 @@ public class PlayerEquipment {
 
         public int getType() {
             return this.type;
-        }
-
-        public String toString() {
-            return this.name();
         }
     }
 }
