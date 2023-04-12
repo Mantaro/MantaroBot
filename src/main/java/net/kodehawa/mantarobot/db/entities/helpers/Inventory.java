@@ -28,14 +28,9 @@ import java.util.stream.Collectors;
 
 public class Inventory {
     private static final Logger LOGGER = LoggerFactory.getLogger("Inventory");
-    private Map<Integer, Integer> stored;
+    private Map<String, Integer> stored = new HashMap<>();
 
-    public Inventory(Map<Integer, Integer> inventory) {
-        this.stored = inventory;
-        if (inventory == null) {
-            this.stored = new HashMap<>();
-        }
-    }
+    public Inventory() {}
 
     public List<ItemStack> asList() {
         return unserialize(stored);
@@ -71,10 +66,11 @@ public class Inventory {
     }
 
     public boolean merge(List<ItemStack> inv) {
-        Map<Integer, Integer> map = new HashMap<>(stored);
-        Map<Integer, Integer> toAdd = serialize(inv);
+        Map<String, Integer> map = new HashMap<>(stored);
+        Map<String, Integer> toAdd = serialize(inv);
         boolean[] hadOverflow = {false};
         toAdd.forEach((id, amount) -> {
+            System.out.println(id);
             int currentAmount = map.getOrDefault(id, 0);
             if (currentAmount + amount > 5000) {
                 currentAmount = 5000;
@@ -85,6 +81,8 @@ public class Inventory {
             map.put(id, currentAmount);
         });
         replaceWith(unserialize(map));
+
+        System.out.println(stored.size());
         return hadOverflow[0];
     }
 
@@ -102,13 +100,17 @@ public class Inventory {
         stored = serialize(inv);
     }
 
-    public static Map<Integer, Integer> serialize(List<ItemStack> list) {
-        Map<Integer, Integer> collect = list.stream().filter(stack -> stack.getAmount() != 0).collect(Collectors.toMap(stack -> ItemHelper.idOf(stack.getItem()), ItemStack::getAmount, Integer::sum));
+    public static Map<String, Integer> serialize(List<ItemStack> list) {
+        Map<String, Integer> collect = list.stream().filter(stack -> stack.getAmount() != 0)
+                .collect(Collectors.toMap(stack -> stack.getItem().getTranslatedName().split("\\.")[1], ItemStack::getAmount, Integer::sum));
         collect.values().remove(0);
         return collect;
     }
 
-    public static List<ItemStack> unserialize(Map<Integer, Integer> map) {
-        return map.entrySet().stream().filter(e -> e.getValue() != 0).map(entry -> new ItemStack(ItemHelper.fromId(entry.getKey()), Math.max(Math.min(entry.getValue(), 5000), 0))).collect(Collectors.toList());
+    public static List<ItemStack> unserialize(Map<String, Integer> map) {
+        return map.entrySet().stream().filter(e -> e.getValue() != 0)
+                .filter(e -> ItemHelper.fromTranslationSlice(e.getKey()).isPresent())
+                .map(entry -> new ItemStack(ItemHelper.fromTranslationSlice(entry.getKey()).get(), Math.max(Math.min(entry.getValue(), 5000), 0)))
+                .collect(Collectors.toList());
     }
 }

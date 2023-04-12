@@ -45,7 +45,7 @@ public class Player implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "players";
     @BsonIgnore
-    private final transient Inventory inventoryObject = new Inventory(new HashMap<>());
+    private final transient Inventory inventoryObject = new Inventory();
 
     @BsonId
     private String id;
@@ -88,11 +88,11 @@ public class Player implements ManagedMongoObject {
     private HousePet pet;
     private List<Badge> badges = new ArrayList<>();
     private List<ProfileComponent> profileComponents = new LinkedList<>();
-    private Map<Integer, Integer> inventory = new HashMap<>();
+    private Map<String, Integer> inventory = new HashMap<>();
 
     public Player() {}
 
-    private Player(String id, Long level, Long oldMoney, Long reputation, Map<Integer, Integer> inventory) {
+    private Player(String id, Long level, Long oldMoney, Long reputation, Map<String, Integer> inventory) {
         this.id = id;
         this.level = level == null ? 0 : level;
         this.oldMoney = oldMoney == null ? 0 : oldMoney;
@@ -371,13 +371,13 @@ public class Player implements ManagedMongoObject {
         this.chopExperience = chopExperience;
     }
 
-    public void setInventory(Map<Integer, Integer> inventory) {
+    public void setInventory(Map<String, Integer> inventory) {
         this.inventory = inventory;
         this.inventoryObject.replaceWith(Inventory.unserialize(inventory));
         System.out.println("called set");
     }
 
-    public Map<Integer, Integer> getInventory() {
+    public Map<String, Integer> getInventory() {
         System.out.println("called get");
         return serialize(inventoryObject.asList());
     }
@@ -398,7 +398,7 @@ public class Player implements ManagedMongoObject {
     }
 
     @BsonProperty("inventory")
-    public Map<Integer, Integer> rawInventory() {
+    public Map<String, Integer> rawInventory() {
         return serialize(inventoryObject.asList());
     }
 

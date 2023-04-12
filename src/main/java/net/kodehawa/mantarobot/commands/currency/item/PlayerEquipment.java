@@ -47,6 +47,18 @@ public class PlayerEquipment {
         this.durability = durability == null ? new HashMap<>() : durability; // Workaround because some people will not have this property.
     }
 
+    public Map<EquipmentType, Integer> getEquipment() {
+        return this.equipment;
+    }
+
+    public Map<EquipmentType, PotionEffect> getEffects() {
+        return this.effects;
+    }
+
+    public Map<EquipmentType, Integer> getDurability() {
+        return durability;
+    }
+
     @BsonIgnore
     public boolean equipItem(Item item) {
         EquipmentType type = getTypeFor(item);
@@ -170,18 +182,6 @@ public class PlayerEquipment {
         MantaroData.db().updateFieldValues(database, fieldTracker);
     }
 
-    public Map<EquipmentType, Integer> getEquipment() {
-        return this.equipment;
-    }
-
-    public Map<EquipmentType, PotionEffect> getEffects() {
-        return this.effects;
-    }
-
-    public Map<EquipmentType, Integer> getDurability() {
-        return durability;
-    }
-
     public enum EquipmentType {
         ROD(FishRod.class::isInstance, 0),
         PICK(Pickaxe.class::isInstance, 0),
@@ -213,6 +213,10 @@ public class PlayerEquipment {
 
         public int getType() {
             return this.type;
+        }
+
+        public String toString() {
+            return this.name();
         }
     }
 }

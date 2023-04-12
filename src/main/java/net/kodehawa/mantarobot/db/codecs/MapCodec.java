@@ -35,11 +35,22 @@ public class MapCodec<K, T> implements Codec<Map<K, T>> {
                 var dummyId = UUID.randomUUID().toString();
                 dummyWriter.writeName(dummyId);
                 keyCodec.encode(dummyWriter, entry.getKey(), encoderContext);
-                writer.writeName(dummyWriter.getDocument().asDocument().get(dummyId).asString().getValue());
+
+                var documentValue = dummyWriter.getDocument().asDocument().get(dummyId);
+                if (documentValue.isString()) {
+                    writer.writeName(documentValue.asString().getValue());
+                } else if (documentValue.isInt64() || documentValue.isInt32()) { // This is hilariously hacky.
+                    writer.writeName(String.valueOf(documentValue.asNumber().longValue()));
+                } else {
+                    throw new IllegalArgumentException("Invalid document type! Expected String or Number, got: " + documentValue);
+                }
+
                 valueCodec.encode(writer, entry.getValue(), encoderContext);
             }
+
             dummyWriter.writeEndDocument();
         }
+
         writer.writeEndDocument();
     }
 
@@ -51,14 +62,17 @@ public class MapCodec<K, T> implements Codec<Map<K, T>> {
             var nameReader = new JsonReader("{\"key:\":\"" + reader.readName() + "\"}");
             nameReader.readStartDocument();
             nameReader.readBsonType();
+
             if (reader.getCurrentBsonType() == BsonType.NULL) {
                 map.put(keyCodec.decode(nameReader, context), null);
                 reader.readNull();
             } else {
                 map.put(keyCodec.decode(nameReader, context), valueCodec.decode(reader, context));
             }
+
             nameReader.readEndDocument();
         }
+
         reader.readEndDocument();
         return map;
     }
@@ -72,6 +86,7 @@ public class MapCodec<K, T> implements Codec<Map<K, T>> {
         if (encoderClass.isInterface()) {
             return new HashMap<>();
         }
+
         try {
             return encoderClass.getDeclaredConstructor().newInstance();
         } catch (final Exception e) {

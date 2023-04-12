@@ -78,20 +78,20 @@ public class TextChannelGround {
 
     public static class Ground {
         @JsonProperty("groundItems")
-        final Inventory groundItems = new Inventory(new HashMap<>());
+        final Inventory groundItems = new Inventory();
         int money;
         String channel;
 
         @JsonCreator
         @ConstructorProperties({"groundItems", "money", "channel"})
-        public Ground(Map<Integer, Integer> inventory, int money, String channel) {
+        public Ground(Map<String, Integer> inventory, int money, String channel) {
             this.money = money;
             this.channel = channel;
             this.groundItems.replaceWith(unserialize(inventory));
         }
 
         @JsonProperty("groundItems")
-        public Map<Integer, Integer> rawGround() {
+        public Map<String, Integer> rawGround() {
             return serialize(groundItems.asList());
         }
 

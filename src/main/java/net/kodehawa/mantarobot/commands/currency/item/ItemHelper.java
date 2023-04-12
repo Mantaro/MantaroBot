@@ -187,6 +187,12 @@ public class ItemHelper {
                 .findFirst();
     }
 
+    public static Optional<Item> fromTranslationSlice(String slice) {
+        return Arrays.stream(ItemReference.ALL)
+                .filter(item -> item.getTranslatedName().equals("items." + slice))
+                .findFirst();
+    }
+
     public static Optional<Item> fromAlias(String name) {
         return Arrays.stream(ItemReference.ALL).filter(item -> {
             if (item.getAlias() == null) {
