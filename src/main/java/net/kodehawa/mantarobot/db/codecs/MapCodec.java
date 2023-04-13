@@ -37,13 +37,7 @@ public class MapCodec<K, T> implements Codec<Map<K, T>> {
                 keyCodec.encode(dummyWriter, entry.getKey(), encoderContext);
 
                 var documentValue = dummyWriter.getDocument().asDocument().get(dummyId);
-                if (documentValue.isString()) {
-                    writer.writeName(documentValue.asString().getValue());
-                } else if (documentValue.isInt64() || documentValue.isInt32()) { // This is hilariously hacky.
-                    writer.writeName(String.valueOf(documentValue.asNumber().longValue()));
-                } else {
-                    throw new IllegalArgumentException("Invalid document type! Expected String or Number, got: " + documentValue);
-                }
+                writer.writeName(documentValue.asString().getValue());
 
                 valueCodec.encode(writer, entry.getValue(), encoderContext);
             }

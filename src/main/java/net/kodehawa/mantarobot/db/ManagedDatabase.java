@@ -352,7 +352,8 @@ public class ManagedDatabase {
         List<Bson> updateCollection = map.entrySet().stream().map((entry) -> {
             // This is MASSIVE jank. Why isn't it using the Codec it should use?
             if (entry.getValue() instanceof Map<?, ?> e) {
-                if (e.keySet().iterator().next() instanceof Enum<?>) {
+                var keySet = e.keySet();
+                if (!keySet.isEmpty() && keySet.iterator().next() instanceof Enum<?>) {
                     return Updates.set(
                             entry.getKey(),
                             e.entrySet().stream().collect(Collectors.toMap(k -> k.getKey().toString(), Map.Entry::getValue))
