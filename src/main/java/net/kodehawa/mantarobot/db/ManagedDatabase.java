@@ -349,21 +349,19 @@ public class ManagedDatabase {
         }
 
         var collection = dbMantaro().getCollection(object.getTableName());
-        List<Bson> updateCollection = new ArrayList<>(
-                map.entrySet().stream().map((entry) -> {
-                    // This is MASSIVE jank. Why isn't it using the Codec it should use?
-                    if (entry.getValue() instanceof Map<?, ?> e) {
-                        if (e.keySet().iterator().next() instanceof Enum<?>) {
-                            return Updates.set(
-                                    entry.getKey(),
-                                    e.entrySet().stream().collect(Collectors.toMap(k -> k.getKey().toString(), Map.Entry::getValue))
-                            );
-                        }
-                    }
+        List<Bson> updateCollection = map.entrySet().stream().map((entry) -> {
+            // This is MASSIVE jank. Why isn't it using the Codec it should use?
+            if (entry.getValue() instanceof Map<?, ?> e) {
+                if (e.keySet().iterator().next() instanceof Enum<?>) {
+                    return Updates.set(
+                            entry.getKey(),
+                            e.entrySet().stream().collect(Collectors.toMap(k -> k.getKey().toString(), Map.Entry::getValue))
+                    );
+                }
+            }
 
-                    return Updates.set(entry.getKey(), entry.getValue());
-                }).toList()
-        );
+            return Updates.set(entry.getKey(), entry.getValue());
+        }).collect(Collectors.toList());
 
         collection.updateOne(Filters.eq(object.getId()), updateCollection);
     }
