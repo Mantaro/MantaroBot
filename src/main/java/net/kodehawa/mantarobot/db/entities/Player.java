@@ -374,11 +374,9 @@ public class Player implements ManagedMongoObject {
     public void setInventory(Map<String, Integer> inventory) {
         this.inventory = inventory;
         this.inventoryObject.replaceWith(Inventory.unserialize(inventory));
-        System.out.println("called set");
     }
 
     public Map<String, Integer> getInventory() {
-        System.out.println("called get");
         return serialize(inventoryObject.asList());
     }
 

@@ -70,7 +70,6 @@ public class Inventory {
         Map<String, Integer> toAdd = serialize(inv);
         boolean[] hadOverflow = {false};
         toAdd.forEach((id, amount) -> {
-            System.out.println(id);
             int currentAmount = map.getOrDefault(id, 0);
             if (currentAmount + amount > 5000) {
                 currentAmount = 5000;
@@ -81,8 +80,6 @@ public class Inventory {
             map.put(id, currentAmount);
         });
         replaceWith(unserialize(map));
-
-        System.out.println(stored.size());
         return hadOverflow[0];
     }
 
