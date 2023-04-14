@@ -46,6 +46,8 @@ public class Player implements ManagedMongoObject {
     public static final String DB_TABLE = "players";
     @BsonIgnore
     private final transient Inventory inventoryObject = new Inventory();
+    @BsonIgnore
+    public Map<String, Object> fieldTracker = new HashMap<>();
 
     @BsonId
     private String id;
@@ -135,128 +137,57 @@ public class Player implements ManagedMongoObject {
         return badges.contains(b);
     }
 
-    @BsonIgnore
-    public boolean addBadgeIfAbsent(Badge b) {
-        if (hasBadge(b)) {
-            return false;
-        }
-
-        badges.add(b);
-        return true;
-    }
-
-    @BsonIgnore
-    public boolean removeBadge(Badge b) {
-        if (!hasBadge(b)) {
-            return false;
-        }
-
-        badges.remove(b);
-        return true;
-    }
-
     public boolean isClaimLocked() {
         return isClaimLocked;
-    }
-
-    public void setClaimLocked(boolean claimLocked) {
-        isClaimLocked = claimLocked;
     }
 
     public long getExperience() {
         return this.experience;
     }
 
-    public void setExperience(long experience) {
-        this.experience = experience;
-    }
-
     public List<Badge> getBadges() {
         return this.badges;
-    }
-
-    public void setBadges(List<Badge> badges) {
-        this.badges = badges;
     }
 
     public long getDailyStreak() {
         return this.dailyStreak;
     }
 
-    public void setDailyStreak(long dailyStreak) {
-        this.dailyStreak = dailyStreak;
-    }
-
     public String getDescription() {
         return this.description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public long getGamesWon() {
         return this.gamesWon;
     }
 
-    public void setGamesWon(long gamesWon) {
-        this.gamesWon = gamesWon;
-    }
-
     public long getLastDailyAt() {
         return this.lastDailyAt;
-    }
-
-    public void setLastDailyAt(long lastDailyAt) {
-        this.lastDailyAt = lastDailyAt;
     }
 
     public long getLockedUntil() {
         return this.lockedUntil;
     }
 
-    public void setLockedUntil(long lockedUntil) {
-        this.lockedUntil = lockedUntil;
-    }
-
     public Long getMarriedSince() {
         return this.marriedSince;
-    }
-
-    public void setMarriedSince(Long marriedSince) {
-        this.marriedSince = marriedSince;
     }
 
     public String getMarriedWith() {
         return this.marriedWith;
     }
 
-    public void setMarriedWith(String marriedWith) {
-        this.marriedWith = marriedWith;
-    }
-
     public long getMoneyOnBank() {
         return this.moneyOnBank;
-    }
-
-    public void setMoneyOnBank(long moneyOnBank) {
-        this.moneyOnBank = moneyOnBank;
     }
 
     public Badge getMainBadge() {
         return this.mainBadge;
     }
 
-    public void setMainBadge(Badge mainBadge) {
-        this.mainBadge = mainBadge;
-    }
 
     public long getMarketUsed() {
         return this.marketUsed;
-    }
-
-    public void setMarketUsed(long marketUsed) {
-        this.marketUsed = marketUsed;
     }
 
     public boolean isShowBadge() {
@@ -271,100 +202,156 @@ public class Player implements ManagedMongoObject {
         return this.activePotion;
     }
 
-    public void setActivePotion(PotionEffect activePotion) {
-        this.activePotion = activePotion;
-    }
-
     public PotionEffect getActiveBuff() {
         return this.activeBuff;
-    }
-
-    public void setActiveBuff(PotionEffect activeBuff) {
-        this.activeBuff = activeBuff;
     }
 
     public long getWaifuCachedValue() {
         return this.waifuCachedValue;
     }
 
-    public void setWaifuCachedValue(long waifuCachedValue) {
-        this.waifuCachedValue = waifuCachedValue;
-    }
-
     public List<ProfileComponent> getProfileComponents() {
         return this.profileComponents;
-    }
-
-    public void setProfileComponents(List<ProfileComponent> profileComponents) {
-        this.profileComponents = profileComponents;
     }
 
     public long getPetSlots() {
         return this.petSlots;
     }
 
-    public void setPetSlots(long petSlots) {
-        this.petSlots = petSlots;
-    }
-
     public long getMiningExperience() {
         return miningExperience;
-    }
-
-    public void setMiningExperience(long miningExperience) {
-        this.miningExperience = miningExperience;
     }
 
     public long getFishingExperience() {
         return fishingExperience;
     }
 
-    public void setFishingExperience(long fishingExperience) {
-        this.fishingExperience = fishingExperience;
-    }
-
     public long getTimesMopped() {
         return timesMopped;
-    }
-
-    public void setTimesMopped(long timesMopped) {
-        this.timesMopped = timesMopped;
     }
 
     public long getCratesOpened() {
         return cratesOpened;
     }
 
-    public void setCratesOpened(long cratesOpened) {
-        this.cratesOpened = cratesOpened;
-    }
-
     public long getSharksCaught() {
         return sharksCaught;
-    }
-
-    public void setSharksCaught(long sharksCaught) {
-        this.sharksCaught = sharksCaught;
     }
 
     public boolean isWaifuout() {
         return waifuout;
     }
 
-    public void setWaifuout(boolean waifuout) {
-        this.waifuout = waifuout;
-    }
-
     public int getLastCrateGiven() {
         return lastCrateGiven;
     }
 
-    public void setLastCrateGiven(int lastCrateGiven) {
-        this.lastCrateGiven = lastCrateGiven;
-    }
-
     public long getChopExperience() {
         return chopExperience;
+    }
+
+    public Map<String, Integer> getInventory() {
+        return serialize(inventoryObject.asList());
+    }
+
+    public void setClaimLocked(boolean claimLocked) {
+        isClaimLocked = claimLocked;
+    }
+
+    public void setExperience(long experience) {
+        this.experience = experience;
+    }
+
+    public void setBadges(List<Badge> badges) {
+        this.badges = badges;
+    }
+
+    public void setDailyStreak(long dailyStreak) {
+        this.dailyStreak = dailyStreak;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setGamesWon(long gamesWon) {
+        this.gamesWon = gamesWon;
+    }
+
+    public void setLastDailyAt(long lastDailyAt) {
+        this.lastDailyAt = lastDailyAt;
+    }
+
+    public void setLockedUntil(long lockedUntil) {
+        this.lockedUntil = lockedUntil;
+    }
+
+    public void setMarriedSince(Long marriedSince) {
+        this.marriedSince = marriedSince;
+    }
+
+    public void setMarriedWith(String marriedWith) {
+        this.marriedWith = marriedWith;
+    }
+
+    public void setMoneyOnBank(long moneyOnBank) {
+        this.moneyOnBank = moneyOnBank;
+    }
+
+    public void setMainBadge(Badge mainBadge) {
+        this.mainBadge = mainBadge;
+    }
+
+    public void setMarketUsed(long marketUsed) {
+        this.marketUsed = marketUsed;
+    }
+
+    public void setActivePotion(PotionEffect activePotion) {
+        this.activePotion = activePotion;
+    }
+
+    public void setActiveBuff(PotionEffect activeBuff) {
+        this.activeBuff = activeBuff;
+    }
+
+    public void setWaifuCachedValue(long waifuCachedValue) {
+        this.waifuCachedValue = waifuCachedValue;
+    }
+
+    public void setProfileComponents(List<ProfileComponent> profileComponents) {
+        this.profileComponents = profileComponents;
+    }
+
+    public void setPetSlots(long petSlots) {
+        this.petSlots = petSlots;
+    }
+
+    public void setMiningExperience(long miningExperience) {
+        this.miningExperience = miningExperience;
+    }
+
+    public void setFishingExperience(long fishingExperience) {
+        this.fishingExperience = fishingExperience;
+    }
+
+    public void setTimesMopped(long timesMopped) {
+        this.timesMopped = timesMopped;
+    }
+
+    public void setCratesOpened(long cratesOpened) {
+        this.cratesOpened = cratesOpened;
+    }
+
+    public void setSharksCaught(long sharksCaught) {
+        this.sharksCaught = sharksCaught;
+    }
+
+    public void setWaifuout(boolean waifuout) {
+        this.waifuout = waifuout;
+    }
+
+    public void setLastCrateGiven(int lastCrateGiven) {
+        this.lastCrateGiven = lastCrateGiven;
     }
 
     public void setChopExperience(long chopExperience) {
@@ -374,10 +361,6 @@ public class Player implements ManagedMongoObject {
     public void setInventory(Map<String, Integer> inventory) {
         this.inventory = inventory;
         this.inventoryObject.replaceWith(Inventory.unserialize(inventory));
-    }
-
-    public Map<String, Integer> getInventory() {
-        return serialize(inventoryObject.asList());
     }
 
     @BsonIgnore
@@ -483,6 +466,28 @@ public class Player implements ManagedMongoObject {
 
     public void setReputation(Long reputation) {
         this.reputation = reputation;
+    }
+
+    @BsonIgnore
+    public boolean addBadgeIfAbsent(Badge b) {
+        if (hasBadge(b)) {
+            return false;
+        }
+
+        badges.add(b);
+        fieldTracker.put("badges", badges);
+        return true;
+    }
+
+    @BsonIgnore
+    public boolean removeBadge(Badge b) {
+        if (!hasBadge(b)) {
+            return false;
+        }
+
+        badges.remove(b);
+        fieldTracker.put("badges", badges);
+        return true;
     }
 
     @BsonIgnore
