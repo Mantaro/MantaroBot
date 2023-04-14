@@ -78,30 +78,6 @@ public class Config {
         return owners.contains(id);
     }
 
-    public String getDbDb() {
-        return this.dbDb;
-    }
-
-    public String getDbHost() {
-        return this.dbHost;
-    }
-
-    public String getDbPassword() {
-        return this.dbPassword;
-    }
-
-    public int getDbPort() {
-        return this.dbPort;
-    }
-
-    public String getDbUser() {
-        return this.dbUser;
-    }
-
-    public void setDbUser(String dbUser) {
-        this.dbUser = dbUser;
-    }
-
     public String getDbotsorgToken() {
         return this.dbotsorgToken;
     }
