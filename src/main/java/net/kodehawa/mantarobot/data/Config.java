@@ -28,12 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("CanBeFinal")
 public class Config {
-    public String dbDb = "mantaro";
-    public String dbHost = "localhost";
-    public String dbPassword;
     public String mongoUri;
-    public int dbPort = 28015;
-    public String dbUser;
     public String dbotsorgToken;
     public String botsOnDiscordToken;
     public String discordBoatsToken;
