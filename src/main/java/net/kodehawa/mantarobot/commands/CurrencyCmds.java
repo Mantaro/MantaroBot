@@ -832,6 +832,7 @@ public class CurrencyCmds {
                 }
 
                 if (amount > 1) {
+                    effect.equip(amount - 1);
                     equippedItems.equipEffect(type, amount - 1); // Amount - 1 because we're technically using one.
                 }
 

@@ -34,9 +34,9 @@ import java.util.function.Predicate;
 
 public class PlayerEquipment {
     //int = itemId
-    private Map<EquipmentType, Integer> equipment;
-    private Map<EquipmentType, PotionEffect> effects;
-    private Map<EquipmentType, Integer> durability;
+    private final Map<EquipmentType, Integer> equipment;
+    private final Map<EquipmentType, PotionEffect> effects;
+    private final Map<EquipmentType, Integer> durability;
     @BsonIgnore
     public Map<String, Object> fieldTracker = new HashMap<>();
 
