@@ -19,10 +19,9 @@ package net.kodehawa.mantarobot.commands;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.eventbus.Subscribe;
-import com.rethinkdb.gen.ast.ReqlFunction1;
-import com.rethinkdb.model.OptArgs;
-import com.rethinkdb.net.Connection;
-import com.rethinkdb.utils.Types;
+import com.mongodb.client.AggregateIterable;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Sorts;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
@@ -40,13 +39,16 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.PlayerStats;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.bson.conversions.Bson;
 import redis.clients.jedis.Jedis;
 
 import java.util.List;
@@ -56,13 +58,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import static com.rethinkdb.RethinkDB.r;
+import java.util.stream.StreamSupport;
 
 @Module
 public class LeaderboardCmd {
     private static final Config config = MantaroData.config().get();
-    private static final Connection leaderboardConnection = Utils.newDbConnection();
     private static final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
             .spamTolerance(3)
             .limit(1)
@@ -95,41 +95,27 @@ public class LeaderboardCmd {
             protected void process(SlashContext ctx) {
                 if (config.isPremiumBot) {
                     var tableName = "players";
-                    var moneyLeaderboard = getLeaderboard(tableName, "money",
-                            player -> player.g("id"),
-                            player -> player.pluck("id", "money"));
-
+                    var moneyLeaderboard = getLeaderboard(tableName, Player.class, Sorts.descending("money"));
                     send(ctx,
                             generateLeaderboardEmbed(ctx,
                                     ctx.getLanguageContext().get("commands.leaderboard.inner.money_old").formatted(EmoteReference.MONEY),
                                     "commands.leaderboard.money", moneyLeaderboard,
-                                    map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
-                                            map.get("money").toString()), "%s**%s#%s** - $%,d"
+                                    player -> Pair.of(getMember(ctx, player.getId()),
+                                            String.valueOf(player.getOldMoney())), "%s**%s#%s** - $%,d"
                             ).build()
                     );
                     return;
                 }
 
                 var tableName = "players";
-                var indexName = "newMoney";
-                var moneyLeaderboard = getLeaderboard(tableName, indexName,
-                        player -> player.g("id"),
-                        player -> player.pluck("id", "newMoney", r.hashMap("data", "newMoney"))
-                );
-
+                var moneyLeaderboard = getLeaderboard(tableName, Player.class, Sorts.descending("newMoney"));
                 send(ctx,
                         generateLeaderboardEmbed(
                                 ctx, ctx.getLanguageContext().get("commands.leaderboard.inner.money").formatted(EmoteReference.MONEY),
                                 "commands.leaderboard.money", moneyLeaderboard,
-                                map -> {
-                                    @SuppressWarnings("unchecked") // intended
-                                    Object money = ((Map<String, Object>) map.get("data")).get("newMoney");
-                                    return Pair.of(
-                                            getMember(
-                                                    ctx,
-                                                    map.get("id").toString().split(":")[0]
-                                            ), money.toString()
-                                    );
+                                player -> {
+                                    var money = player.getNewMoney();
+                                    return Pair.of(getMember(ctx, player.getId()), String.valueOf(money));
                                 }, "%s**%s#%s** - $%,d"
                         ).build()
                 );
@@ -141,15 +127,12 @@ public class LeaderboardCmd {
         public static class Gamble extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                var gambleLeaderboard = getLeaderboard("playerstats", "gambleWins",
-                        player -> player.pluck("id", "gambleWins"));
-
+                var gambleLeaderboard = getLeaderboard("playerstats", PlayerStats.class, Sorts.descending("gameWins"));
                 send(ctx,
                         generateLeaderboardEmbed(ctx,
                                 ctx.getLanguageContext().get("commands.leaderboard.inner.gamble").formatted(EmoteReference.MONEY),
                                 "commands.leaderboard.gamble", gambleLeaderboard,
-                                map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
-                                        map.get("gambleWins").toString()), "%s**%s#%s** - %,d"
+                                stats -> Pair.of(getMember(ctx, stats.getId()), String.valueOf(stats.getGambleWins())), "%s**%s#%s** - %,d"
                         ).build()
                 );
             }
@@ -160,15 +143,13 @@ public class LeaderboardCmd {
         public static class Slots extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                var slotsLeaderboard = getLeaderboard("playerstats", "slotsWins",
-                        player -> player.pluck("id", "slotsWins"));
-
+                var slotsLeaderboard = getLeaderboard("playerstats", PlayerStats.class, Sorts.descending("slotsWins"));
                 send(ctx,
                         generateLeaderboardEmbed(ctx,
                                 ctx.getLanguageContext().get("commands.leaderboard.inner.slots").formatted(EmoteReference.MONEY),
                                 "commands.leaderboard.slots", slotsLeaderboard,
-                                map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
-                                        map.get("slotsWins").toString()), "%s**%s#%s** - %,d"
+                                stats -> Pair.of(getMember(ctx, stats.getId()),
+                                        String.valueOf(stats.getSlotsWins())), "%s**%s#%s** - %,d"
                         ).build()
                 );
             }
@@ -180,20 +161,12 @@ public class LeaderboardCmd {
             @Override
             protected void process(SlashContext ctx) {
                 var tableName = "players";
-                var reputationLeaderboard = getLeaderboard(tableName, "reputation",
-                        player -> player.g("id"),
-                        player -> player.pluck("id", "reputation"));
-
+                var reputationLeaderboard = getLeaderboard(tableName, Player.class, Sorts.descending("reputation"));
                 send(ctx,
                         generateLeaderboardEmbed(ctx,
                                 ctx.getLanguageContext().get("commands.leaderboard.inner.rep").formatted(EmoteReference.REP),
                                 "commands.leaderboard.reputation", reputationLeaderboard,
-                                map -> Pair.of(
-                                        getMember(
-                                                ctx,
-                                                map.get("id").toString().split(":")[0]
-                                        ), map.get("reputation").toString()
-                                ), "%s**%s#%s** - %,d")
+                                player -> Pair.of(getMember(ctx, player.getId()), String.valueOf(player.getReputation())), "%s**%s#%s** - %,d")
                                 .build()
                 );
             }
@@ -204,21 +177,14 @@ public class LeaderboardCmd {
         public static class Daily extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                var dailyLeaderboard = getLeaderboard("players", "userDailyStreak",
-                        player -> player.g("id"),
-                        player -> player.pluck("id", r.hashMap("data", "dailyStrike")));
-
+                var dailyLeaderboard = getLeaderboard("players", Player.class, Sorts.descending("dailyStreak"));
                 send(ctx,
                         generateLeaderboardEmbed(ctx,
                                 ctx.getLanguageContext().get("commands.leaderboard.inner.streak")
                                         .formatted(EmoteReference.POPPER), "commands.leaderboard.daily", dailyLeaderboard,
-                                map -> {
-                                    @SuppressWarnings("unchecked")
-                                    var strike = ((Map<String, Object>) (map.get("data"))).get("dailyStrike").toString();
-                                    return Pair.of(
-                                            getMember(ctx, map.get("id").toString().split(":")[0]),
-                                            strike
-                                    );
+                                player -> {
+                                    var streak = player.getDailyStreak();
+                                    return Pair.of(getMember(ctx, player.getId()), String.valueOf(streak));
                                 }, "%s**%s#%s** - %sx")
                                 .build()
                 );
@@ -230,20 +196,14 @@ public class LeaderboardCmd {
         public static class Claim extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                List<Map<String, Object>> claimLeaderboard = getLeaderboard("users", "timesClaimed",
-                        player -> player.pluck("id", r.hashMap("data", "timesClaimed")));
-
+                var claimLeaderboard = getLeaderboard("users", UserDatabase.class, Sorts.descending("timesClaimed"));
                 send(ctx,
                         generateLeaderboardEmbed(ctx,
                                 ctx.getLanguageContext().get("commands.leaderboard.inner.claim").formatted(EmoteReference.HEART),
                                 "commands.leaderboard.claim", claimLeaderboard,
-                                map -> {
-                                    @SuppressWarnings("unchecked")
-                                    var timesClaimed = ((Map<String, Object>) (map.get("data"))).get("timesClaimed").toString();
-                                    return Pair.of(
-                                            getMember(ctx, map.get("id").toString().split(":")[0]),
-                                            timesClaimed
-                                    );
+                                user -> {
+                                    var timesClaimed = user.getTimesClaimed();
+                                    return Pair.of(getMember(ctx, user.getId()), String.valueOf(timesClaimed));
                                 }, "%s**%s#%s** - %,d")
                                 .build()
                 );
@@ -257,22 +217,14 @@ public class LeaderboardCmd {
             @Override
             protected void process(SlashContext ctx) {
                 var tableName = "players";
-                List<Map<String, Object>> gameLeaderboard = getLeaderboard(tableName, "gameWins",
-                        player -> player.g("id"),
-                        player -> player.pluck("id", r.hashMap("data", "gamesWon")));
-
+                var gameLeaderboard = getLeaderboard(tableName, Player.class, Sorts.descending("gamesWon"));
                 send(ctx,
                         generateLeaderboardEmbed(ctx,
                                 ctx.getLanguageContext().get("commands.leaderboard.inner.game").formatted(EmoteReference.ZAP),
                                 "commands.leaderboard.game", gameLeaderboard,
-                                map -> {
-                                    @SuppressWarnings("unchecked")
-                                    var gamesWon = ((Map<String, Object>) (map.get("data"))).get("gamesWon").toString();
-
-                                    return Pair.of(
-                                            getMember(ctx, map.get("id").toString().split(":")[0]),
-                                            gamesWon
-                                    );
+                                player -> {
+                                    var gamesWon = player.getGamesWon();
+                                    return Pair.of(getMember(ctx, player.getId()), String.valueOf(gamesWon));
                                 }, "%s**%s#%s** - %,d")
                                 .build()
                 );
@@ -280,31 +232,15 @@ public class LeaderboardCmd {
         }
     }
 
-    private static List<Map<String, Object>> getLeaderboard(String table, String index, ReqlFunction1 mapFunction) {
-        return getLeaderboard(table, index, m -> true, mapFunction);
+    private static <T> AggregateIterable<T> getLeaderboard(String table, Class<T> deserialize, Bson sortFunction) {
+        // Somehow using an index is automatic?
+        return MantaroData.db().dbMantaro().getCollection(table, deserialize)
+                .aggregate(List.of(Aggregates.sort(sortFunction)));
     }
 
-    private static List<Map<String, Object>> getLeaderboard(String table, String index, ReqlFunction1 filterFunction, ReqlFunction1 mapFunction) {
-        return r.table(table)
-                .orderBy()
-                .optArg("index", r.desc(index))
-                .filter(filterFunction)
-                .limit(10)
-                .map(mapFunction)
-                .run(leaderboardConnection,
-                        // This basically just means read from the available data
-                        // Instead of trying to get the latest data available.
-                        // For the purpose of leaderboards, this is actually pretty useful
-                        // and lead to quite a few improvements in query times.
-                        OptArgs.of("read_mode", "outdated"),
-                        Types.mapOf(String.class, Object.class)
-                )
-                .toList();
-    }
-
-    private static EmbedBuilder generateLeaderboardEmbed(IContext ctx, String description, String leaderboardKey,
-                                                         List<Map<String, Object>> lb,
-                                                         Function<Map<?, ?>, Pair<CachedLeaderboardMember, String>> mapFunction,
+    private static <T> EmbedBuilder generateLeaderboardEmbed(IContext ctx, String description, String leaderboardKey,
+                                                         AggregateIterable<T> lbObject,
+                                                         Function<T, Pair<CachedLeaderboardMember, String>> mapFunction,
                                                          String format) {
         var languageContext = ctx.getLanguageContext();
         return new EmbedBuilder()
@@ -314,7 +250,7 @@ public class LeaderboardCmd {
                 ).setDescription(description)
                 .addField(
                         languageContext.get(leaderboardKey),
-                        lb.stream()
+                        StreamSupport.stream(lbObject.spliterator(), false)
                                 .map(mapFunction)
                                 .filter(p -> Objects.nonNull(p.getKey()))
                                 .map(p -> {

@@ -23,9 +23,7 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.connection.ConnectionPoolSettings;
-import com.rethinkdb.net.Connection;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.codecs.MapCodec;
 import net.kodehawa.mantarobot.db.codecs.MapCodecProvider;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
@@ -38,16 +36,12 @@ import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisPool;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static com.mongodb.MongoClientSettings.builder;
 import static com.mongodb.MongoClientSettings.getDefaultCodecRegistry;
-import static com.rethinkdb.RethinkDB.r;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
@@ -58,7 +52,6 @@ public class MantaroData {
     );
 
     private static JsonDataManager<Config> config;
-    private static Connection connection;
     private static ManagedDatabase db;
     private static MongoClient mongoClient;
     private static final CodecProvider pojoCodecProvider = PojoCodecProvider.builder()
@@ -108,33 +101,9 @@ public class MantaroData {
         return mongoClient;
     }
 
-    public static Connection conn() {
-        var config = config().get();
-        if (connection == null) {
-            synchronized (MantaroData.class) {
-                if (connection != null) {
-                    return connection;
-                }
-
-                connection = r.connection()
-                        .hostname(config.getDbHost())
-                        .port(config.getDbPort())
-                        .db(config.getDbDb())
-                        .user(config.getDbUser(), config.getDbPassword())
-                        .connect();
-
-                log.info("Established first RethinkDB connection to {}:{} ({})",
-                        config.getDbHost(), config.getDbPort(), config.getDbUser()
-                );
-            }
-        }
-
-        return connection;
-    }
-
     public static ManagedDatabase db() {
         if (db == null) {
-            db = new ManagedDatabase(conn(), mongoConnection());
+            db = new ManagedDatabase(mongoConnection());
         }
 
         return db;

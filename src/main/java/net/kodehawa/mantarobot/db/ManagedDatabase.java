@@ -18,27 +18,16 @@
 package net.kodehawa.mantarobot.db;
 
 import com.google.common.collect.Lists;
-import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.FindOneAndReplaceOptions;
-import com.mongodb.client.model.ReturnDocument;
-import com.mongodb.client.model.Updates;
-import com.rethinkdb.net.Connection;
-import com.rethinkdb.net.Result;
+import com.mongodb.client.model.*;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
-import net.kodehawa.mantarobot.db.codecs.MapCodec;
 import net.kodehawa.mantarobot.db.entities.*;
-import org.bson.Document;
-import org.bson.codecs.MapCodecProvider;
-import org.bson.codecs.configuration.CodecRegistries;
-import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.conversions.Bson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,20 +35,15 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.rethinkdb.RethinkDB.r;
-
 public class ManagedDatabase {
     private static final Logger log = LoggerFactory.getLogger(ManagedDatabase.class);
-    private final Connection conn;
     private final MongoClient mongoClient;
 
-    public ManagedDatabase(@Nonnull Connection conn, @Nonnull MongoClient mongoClient) {
-        this.conn = conn;
+    public ManagedDatabase(@Nonnull MongoClient mongoClient) {
         this.mongoClient = mongoClient;
     }
 
@@ -83,7 +67,7 @@ public class ManagedDatabase {
     @CheckReturnValue
     public CustomCommand getCustomCommand(@Nonnull String guildId, @Nonnull String name) {
         var id = guildId + ":" + name;
-        log("Requesting custom command {} from MongoDB", id);
+        log("Requesting Custom Command {} from MongoDB", id);
 
         MongoCollection<CustomCommand> collection = dbMantaro().getCollection(CustomCommand.DB_TABLE, CustomCommand.class);
         return collection.find().filter(Filters.eq(id)).first();
@@ -117,7 +101,6 @@ public class ManagedDatabase {
     @Nonnull
     @CheckReturnValue
     public List<CustomCommand> getCustomCommands(@Nonnull String guildId) {
-        // TODO: Use an index!
         log("Requesting all Custom Commands from MongoDB on guild {}", guildId);
         var collection = dbMantaro().getCollection(CustomCommand.DB_TABLE, CustomCommand.class);
         return Lists.newArrayList(collection.find(Filters.eq("guildId", guildId)));
@@ -134,16 +117,6 @@ public class ManagedDatabase {
     public List<CustomCommand> getCustomCommands(@Nonnull GuildDatabase guild) {
         return getCustomCommands(guild.getId());
     }
-
-    @Nonnull
-    @CheckReturnValue
-    public List<CustomCommand> getCustomCommandsByName(@Nonnull String name) {
-        log("Requesting all custom commands named {} from RethinkDB", name);
-        String pattern = ':' + name + '$';
-        Result<CustomCommand> c = r.table(CustomCommand.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, CustomCommand.class);
-        return c.toList();
-    }
-
 
     @Nonnull
     @CheckReturnValue
@@ -259,7 +232,7 @@ public class ManagedDatabase {
     @Nullable
     @CheckReturnValue
     public PremiumKey getPremiumKey(@Nullable String id) {
-        log("Requesting premium key {} from MongoDB", id);
+        log("Requesting Premium Key {} from MongoDB", id);
         if (id == null) return null;
 
         var collection = dbMantaro().getCollection(PremiumKey.DB_TABLE, PremiumKey.class);
@@ -269,7 +242,7 @@ public class ManagedDatabase {
     @Nonnull
     @CheckReturnValue
     public UserDatabase getUser(@Nonnull String userId) {
-        log("Requesting user {} from MongoDB", userId);
+        log("Requesting User {} from MongoDB", userId);
         var collection = dbMantaro().getCollection(UserDatabase.DB_TABLE, UserDatabase.class);
         var user = collection.find().filter(Filters.eq(userId)).first();
 
@@ -286,33 +259,6 @@ public class ManagedDatabase {
     @CheckReturnValue
     public UserDatabase getUser(@Nonnull Member member) {
         return getUser(member.getUser());
-    }
-
-    public void save(@Nonnull ManagedObject object) {
-        log("Saving {} {}:{} to RethinkDB (replacing)", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
-
-        r.table(object.getTableName())
-                .insert(object)
-                .optArg("conflict", "replace")
-                .runNoReply(conn);
-    }
-
-    public void saveUpdating(@Nonnull ManagedObject object) {
-        log("Saving {} {}:{} to RethinkDB (updating)", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
-
-        r.table(object.getTableName())
-                .insert(object)
-                .optArg("conflict", "update")
-                .runNoReply(conn);
-    }
-
-    public void delete(@Nonnull ManagedObject object) {
-        log("Deleting {} {}:{} from RethinkDB", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
-
-        r.table(object.getTableName())
-                .get(object.getId())
-                .delete()
-                .runNoReply(conn);
     }
 
     public <T extends ManagedMongoObject> void saveMongo(@Nonnull T object, Class<T> clazz) {
@@ -337,7 +283,7 @@ public class ManagedDatabase {
         log("Updating id {} key {} (from db {}) to {} (single value)", object.getId(), key, object.getTableName(), value);
 
         var collection = dbMantaro().getCollection(object.getTableName());
-        collection.updateOne(Filters.eq(object.getId()), Updates.set(key, value));
+        collection.updateOne(Filters.eq(object.getId()), Updates.set(key, value), new UpdateOptions().upsert(true));
     }
 
     public void updateFieldValues(ManagedMongoObject object, Map<String, Object> map) {
@@ -364,6 +310,6 @@ public class ManagedDatabase {
             return Updates.set(entry.getKey(), entry.getValue());
         }).collect(Collectors.toList());
 
-        collection.updateOne(Filters.eq(object.getId()), updateCollection);
+        collection.updateOne(Filters.eq(object.getId()), updateCollection, new UpdateOptions().upsert(true));
     }
 }

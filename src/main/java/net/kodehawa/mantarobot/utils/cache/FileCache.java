@@ -38,7 +38,7 @@ public class FileCache {
                 .concurrencyLevel(concurrencyLevel)
                 .build(new CacheLoader<>() {
                     @Override
-                    public byte @NotNull [] load(@NotNull File key) throws Exception {
+                    public byte [] load(@NotNull File key) throws Exception {
                         if (!key.isFile()) throw new IllegalArgumentException(key + ": not a file");
                         var baos = new ByteArrayOutputStream();
                         try(var fis = new FileInputStream(key)) {

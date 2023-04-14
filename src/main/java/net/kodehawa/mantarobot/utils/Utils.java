@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.utils;
 
-import com.rethinkdb.net.Connection;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Role;
 import net.kodehawa.mantarobot.MantaroInfo;
@@ -43,30 +42,16 @@ import javax.annotation.Nonnull;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_MARKER;
 
 public class Utils {
@@ -355,15 +340,6 @@ public class Utils {
                 }
             }
         };
-    }
-
-    public static Connection newDbConnection() {
-        return r.connection()
-                .hostname(config.getDbHost())
-                .port(config.getDbPort())
-                .db(config.getDbDb())
-                .user(config.getDbUser(), config.getDbPassword())
-                .connect();
     }
 
     public static String replaceArguments(Map<String, ?> args, String content, String... toReplace) {

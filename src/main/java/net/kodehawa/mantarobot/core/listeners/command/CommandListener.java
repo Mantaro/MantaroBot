@@ -18,7 +18,6 @@
 package net.kodehawa.mantarobot.core.listeners.command;
 
 import com.google.common.cache.Cache;
-import com.rethinkdb.gen.exc.ReqlError;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
@@ -109,9 +108,6 @@ public class CommandListener implements EventListener {
 
                 commandTotal++;
             }
-        } catch (ReqlError e) {
-            // So much just went wrong...
-            e.printStackTrace();
         } catch (CompletionException e) {
             log.error("Missed interaction ack time?", e);
         } catch (LanguageKeyNotFoundException e) {
@@ -160,9 +156,6 @@ public class CommandListener implements EventListener {
 
                 commandTotal++;
             }
-        } catch (ReqlError e) {
-            // So much just went wrong...
-            e.printStackTrace();
         } catch (CompletionException e) {
             log.error("Missed interaction ack time?", e);
         } catch (LanguageKeyNotFoundException e) {
@@ -257,9 +250,6 @@ public class CommandListener implements EventListener {
             ).queue();
 
             log.warn("Exception caught and alternate message sent. We should look into this, anyway (ID: {})", id, e);
-        } catch (ReqlError e) {
-            // So much just went wrong...
-            e.printStackTrace();
         } catch (Exception e) {
             var context = I18n.of(event.getGuild());
             var id = Snow64.toSnow64(event.getMessage().getIdLong());
