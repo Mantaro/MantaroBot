@@ -35,7 +35,7 @@ public class PotionEffect {
     private long amountEquipped = 1;
 
     @BsonCreator
-    public PotionEffect(@BsonProperty("potionId") int potionId, @BsonProperty("until") long until, @BsonProperty("type") ItemType.PotionType type) {
+    public PotionEffect(@BsonProperty("potion") int potionId, @BsonProperty("until") long until, @BsonProperty("type") ItemType.PotionType type) {
         uuid = UUID.randomUUID().toString();
         this.potion = potionId;
         this.until = until;
