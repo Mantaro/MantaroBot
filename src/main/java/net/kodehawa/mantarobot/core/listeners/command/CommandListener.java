@@ -18,6 +18,7 @@
 package net.kodehawa.mantarobot.core.listeners.command;
 
 import com.google.common.cache.Cache;
+import com.mongodb.MongoException;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
@@ -108,6 +109,8 @@ public class CommandListener implements EventListener {
 
                 commandTotal++;
             }
+        } catch (MongoException e) {
+          log.error("Database on fire!", e);
         } catch (CompletionException e) {
             log.error("Missed interaction ack time?", e);
         } catch (LanguageKeyNotFoundException e) {
@@ -156,6 +159,8 @@ public class CommandListener implements EventListener {
 
                 commandTotal++;
             }
+        } catch (MongoException e) {
+            log.error("Database on fire!", e);
         } catch (CompletionException e) {
             log.error("Missed interaction ack time?", e);
         } catch (LanguageKeyNotFoundException e) {
@@ -202,6 +207,8 @@ public class CommandListener implements EventListener {
 
                 commandTotal++;
             }
+        } catch (MongoException e) {
+            log.error("Database on fire!", e);
         } catch (IllegalFormatException e) {
             var id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessageFormat(
