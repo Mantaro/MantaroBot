@@ -363,6 +363,42 @@ public class Player implements ManagedMongoObject {
         this.inventoryObject.replaceWith(Inventory.unserialize(inventory));
     }
 
+    public void setNewMoney(long newMoney) {
+        this.newMoney = newMoney;
+    }
+
+    public void setLastSeenCampaign(long lastSeenCampaign) {
+        this.lastSeenCampaign = lastSeenCampaign;
+    }
+
+    public void setInventorySortType(InventorySortType inventorySortType) {
+        this.inventorySortType = inventorySortType;
+    }
+
+    public void setHiddenLegacy(boolean hiddenLegacy) {
+        this.hiddenLegacy = hiddenLegacy;
+    }
+
+    public void setNewPlayerNotice(boolean newPlayerNotice) {
+        this.newPlayerNotice = newPlayerNotice;
+    }
+
+    public void setPetChoice(PetChoice petChoice) {
+        this.petChoice = petChoice;
+    }
+
+    public void setOldMoney(long newAmount) {
+        this.oldMoney = newAmount;
+    }
+
+    public void setReputation(Long reputation) {
+        this.reputation = reputation;
+    }
+
+    public void setLevel(long level) {
+        this.level = level;
+    }
+
     @BsonIgnore
     public void incrementMiningExperience(Random random) {
         this.miningExperience = miningExperience + (random.nextInt(5) + 1);
@@ -392,16 +428,8 @@ public class Player implements ManagedMongoObject {
         return newMoney;
     }
 
-    public void setNewMoney(long newMoney) {
-        this.newMoney = newMoney;
-    }
-
     public long getLastSeenCampaign() {
         return lastSeenCampaign;
-    }
-
-    public void setLastSeenCampaign(long lastSeenCampaign) {
-        this.lastSeenCampaign = lastSeenCampaign;
     }
 
     public boolean isResetWarning() {
@@ -416,24 +444,12 @@ public class Player implements ManagedMongoObject {
         return inventorySortType;
     }
 
-    public void setInventorySortType(InventorySortType inventorySortType) {
-        this.inventorySortType = inventorySortType;
-    }
-
-    public void setHiddenLegacy(boolean hiddenLegacy) {
-        this.hiddenLegacy = hiddenLegacy;
-    }
-
     public boolean isHiddenLegacy() {
         return hiddenLegacy;
     }
 
     public boolean isNewPlayerNotice() {
         return newPlayerNotice;
-    }
-
-    public void setNewPlayerNotice(boolean newPlayerNotice) {
-        this.newPlayerNotice = newPlayerNotice;
     }
 
     public void setPet(HousePet pet) {
@@ -448,24 +464,16 @@ public class Player implements ManagedMongoObject {
         return petChoice;
     }
 
-    public void setPetChoice(PetChoice petChoice) {
-        this.petChoice = petChoice;
-    }
-
     public long getOldMoney() {
         return oldMoney;
-    }
-
-    public void setOldMoney(long newAmount) {
-        this.oldMoney = newAmount;
     }
 
     public long getReputation() {
         return this.reputation;
     }
 
-    public void setReputation(Long reputation) {
-        this.reputation = reputation;
+    public Long getLevel() {
+        return this.level;
     }
 
     @BsonIgnore
@@ -533,8 +541,10 @@ public class Player implements ManagedMongoObject {
 
         if (useOld) {
             setOldMoney(money);
+            fieldTracker.put("oldMoney", money);
         } else {
             setNewMoney(money);
+            fieldTracker.put("newMoney", money);
         }
 
         return true;
@@ -549,6 +559,7 @@ public class Player implements ManagedMongoObject {
     public void addReputation(long rep) {
         this.reputation += rep;
         this.setReputation(reputation);
+        fieldTracker.put("reputation", reputation);
     }
 
     /**
@@ -567,8 +578,10 @@ public class Player implements ManagedMongoObject {
 
         if (useOld) {
             setOldMoney(money);
+            fieldTracker.put("oldMoney", money);
         } else {
             setNewMoney(money);
+            fieldTracker.put("newMoney", money);
         }
 
         return true;
@@ -583,6 +596,7 @@ public class Player implements ManagedMongoObject {
     @BsonIgnore
     public void setLocked(boolean locked) {
         setLockedUntil(locked ? System.currentTimeMillis() + 35000 : 0);
+        fieldTracker.put("lockedUntil", lockedUntil);
     }
 
     @Nonnull
@@ -604,24 +618,6 @@ public class Player implements ManagedMongoObject {
         return getId();
     }
 
-    @Override
-    public void save() {
-        MantaroData.db().saveMongo(this, Player.class);
-    }
-
-    @Override
-    public void delete() {
-        MantaroData.db().deleteMongo(this, Player.class);
-    }
-
-    public Long getLevel() {
-        return this.level;
-    }
-
-    public void setLevel(long level) {
-        this.level = level;
-    }
-
     @BsonIgnore
     public Long getCurrentMoney() {
         boolean useOld = config.isPremiumBot() || config.isSelfHost();
@@ -637,9 +633,27 @@ public class Player implements ManagedMongoObject {
         boolean useOld = config.isPremiumBot() || config.isSelfHost();
         if (useOld) {
             setOldMoney(money < 0 ? 0 : money);
+            fieldTracker.put("oldMoney", this.oldMoney);
         } else {
             setNewMoney(money < 0 ? 0 : money);
+            fieldTracker.put("newMoney", this.newMoney);
         }
+    }
+
+    @BsonIgnore
+    @Override
+    public void updateAllChanged() {
+        MantaroData.db().updateFieldValues(this, fieldTracker);
+    }
+
+    @Override
+    public void save() {
+        MantaroData.db().saveMongo(this, Player.class);
+    }
+
+    @Override
+    public void delete() {
+        MantaroData.db().deleteMongo(this, Player.class);
     }
 
     @BsonIgnore
