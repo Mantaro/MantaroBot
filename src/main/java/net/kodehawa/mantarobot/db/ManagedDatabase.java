@@ -308,6 +308,14 @@ public class ManagedDatabase {
                     );
                     return;
                 }
+
+                if (!keySet.isEmpty() && (keySet.iterator().next() instanceof Integer || keySet.iterator().next() instanceof Long)) {
+                    updates.add(Updates.set(
+                            key,
+                            new Document(e.entrySet().stream().collect(Collectors.toMap(k -> String.valueOf(k.getKey()), Map.Entry::getValue))))
+                    );
+                    return;
+                }
             }
 
             updates.add(Updates.set(key, value));
