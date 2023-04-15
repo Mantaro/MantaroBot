@@ -461,7 +461,7 @@ public class CurrencyActionCmds {
 
         handlePetBadges(player, marriage, pet);
         player.updateAllChanged();
-        if (pet != null) {
+        if (pet != null && player.getPetChoice() == PetChoice.PERSONAL) {
             pet.updateAllChanged(player);
         }
 
@@ -509,8 +509,8 @@ public class CurrencyActionCmds {
             //Here your fish rod got dusty. Yes, on the sea.
             var level = dbUser.increaseDustLevel(random.nextInt(4));
             dbUser.updateAllChanged();
-
             ctx.sendLocalized("commands.fish.dust", EmoteReference.TALKING, level);
+
             ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.fish.autoequip.success");
             return;
         } else if (chance < 20) {
@@ -527,6 +527,9 @@ public class CurrencyActionCmds {
 
             player.processItem(selected, 1);
             ctx.sendLocalized("commands.fish.trash.success", EmoteReference.EYES, selected.getEmojiDisplay());
+
+            ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.fish.autoequip.success");
+            return;
         } else {
             // Here you actually caught fish, congrats.
             List<Item> fish = Stream.of(ItemReference.ALL)
@@ -691,20 +694,20 @@ public class CurrencyActionCmds {
                         item.getEmojiDisplay(), itemDisplay, money, item.getName(), (waifuHelp ? "\n" + languageContext.get("commands.fish.waifu_help") : "")
                 );
             }
-            //END OF REPLY HANDLING
+
+            //Save all changes to the player object.
+            player.updateAllChanged();
+            if (pet != null && player.getPetChoice() == PetChoice.PERSONAL) {
+                pet.updateAllChanged(player);
+            }
+
+            // Save pet stats.
+            if (marriage != null && pet != null && player.getPetChoice() == PetChoice.MARRIAGE) {
+                pet.updateAllChanged(marriage);
+            }
+
+            ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.fish.autoequip.success");
         }
-
-        //Save all changes to the player object.
-        player.markPetChange();
-        player.updateAllChanged();
-
-        // Save pet stats.
-        if (marriage != null && player.getPetChoice() == PetChoice.MARRIAGE) {
-            marriage.markPetChange();
-            marriage.updateAllChanged();
-        }
-
-        ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.fish.autoequip.success");
     }
 
     private static void chop(IContext ctx, Player player, UserDatabase dbUser, Marriage marriage) {
@@ -861,8 +864,10 @@ public class CurrencyActionCmds {
                 ctx.sendFormatStripped(extraMessage + "\n\n" + languageContext.get("commands.chop.success"), item.getEmojiDisplay(), itemDisplay, money, item.getName());
             }
 
-            player.markPetChange();
             player.updateAllChanged();
+            if (pet != null && player.getPetChoice() == PetChoice.PERSONAL) {
+                pet.updateAllChanged(player);
+            }
 
             // Save pet stuff.
             if (marriage != null && pet != null &&player.getPetChoice() == PetChoice.MARRIAGE) {
