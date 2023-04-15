@@ -28,6 +28,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.db.entities.*;
+import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -295,21 +297,22 @@ public class ManagedDatabase {
         }
 
         var collection = dbMantaro().getCollection(object.getTableName());
-        List<Bson> updateCollection = map.entrySet().stream().map((entry) -> {
-            // This is MASSIVE jank. Why isn't it using the Codec it should use?
-            if (entry.getValue() instanceof Map<?, ?> e) {
+        List<Bson> updates = new ArrayList<>();
+        map.forEach((key, value) -> {
+            if (value instanceof Map<?, ?> e) {
                 var keySet = e.keySet();
                 if (!keySet.isEmpty() && keySet.iterator().next() instanceof Enum<?>) {
-                    return Updates.set(
-                            entry.getKey(),
-                            e.entrySet().stream().collect(Collectors.toMap(k -> k.getKey().toString(), Map.Entry::getValue))
+                    updates.add(Updates.set(
+                            key,
+                            new Document(e.entrySet().stream().collect(Collectors.toMap(k -> k.getKey().toString(), Map.Entry::getValue))))
                     );
+                    return;
                 }
             }
 
-            return Updates.set(entry.getKey(), entry.getValue());
-        }).collect(Collectors.toList());
+            updates.add(Updates.set(key, value));
+        });
 
-        collection.updateOne(Filters.eq(object.getId()), updateCollection, new UpdateOptions().upsert(true));
+        collection.updateOne(Filters.eq(object.getId()), Updates.combine(updates), new UpdateOptions().upsert(true));
     }
 }
