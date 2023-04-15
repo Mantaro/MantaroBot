@@ -185,9 +185,9 @@ public class TransferCmds {
             var amountTransfer = Math.round(toSend * 0.92);
             if (toTransfer.addMoney(amountTransfer)) {
                 transferPlayer.removeMoney(toSend);
-                transferPlayer.save();
+                transferPlayer.updateAllChanged();
 
-                toTransfer.save();
+                toTransfer.updateAllChanged();
                 transferRatelimiter.limit(toTransfer.getId());
                 ctx.reply("commands.transfer.success", EmoteReference.CORRECT, toSend, amountTransfer, giveTo.getAsMention());
             } else {

@@ -183,7 +183,7 @@ public class FunCmds {
             if (size == 6 && sum == 6) {
                 var player = MantaroData.db().getPlayer(ctx.getAuthor());
                 if (player.addBadgeIfAbsent(Badge.LUCK_BEHIND)) {
-                    player.save();
+                    player.updateAllChanged();
                 }
             }
 

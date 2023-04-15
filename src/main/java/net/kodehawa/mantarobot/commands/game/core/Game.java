@@ -84,8 +84,8 @@ public abstract class Game<T> {
                 player.addBadgeIfAbsent(Badge.ADDICTED_GAMER);
             }
 
-            player.setGamesWon(player.getGamesWon() + 1);
-            player.save();
+            player.gamesWon(player.getGamesWon() + 1);
+            player.updateAllChanged();
 
             TextChannelGround.of(event.getChannel()).dropItemWithChance(ItemReference.FLOPPY_DISK, 3);
             // Remove components from original message.
@@ -178,8 +178,8 @@ public abstract class Game<T> {
                     player.addBadgeIfAbsent(Badge.ADDICTED_GAMER);
                 }
 
-                player.setGamesWon(player.getGamesWon() + 1);
-                player.save();
+                player.gamesWon(player.getGamesWon() + 1);
+                player.updateAllChanged();
 
                 TextChannelGround.of(e.getChannel()).dropItemWithChance(ItemReference.FLOPPY_DISK, 3);
                 ctx.reply("commands.game.lobby.won_game", EmoteReference.MEGA, e.getMember().getEffectiveName(), gains);

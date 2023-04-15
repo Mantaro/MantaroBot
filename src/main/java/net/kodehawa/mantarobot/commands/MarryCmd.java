@@ -727,8 +727,8 @@ public class MarryCmd {
                     divorceePlayer.addMoney(portion);
                     marriedWithPlayer.addMoney(portion);
 
-                    divorceePlayer.save();
-                    marriedWithPlayer.save();
+                    divorceePlayer.updateAllChanged();
+                    marriedWithPlayer.updateAllChanged();
 
                     var extra = "";
                     if (portion > 1) {

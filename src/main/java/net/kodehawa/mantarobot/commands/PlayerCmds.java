@@ -159,7 +159,7 @@ public class PlayerCmds {
 
             var player = ctx.getPlayer(usr);
             player.addReputation(1L);
-            player.save();
+            player.updateAllChanged();
 
             ctx.reply("commands.rep.success", EmoteReference.CORRECT, usr.getAsMention());
         }
@@ -438,17 +438,17 @@ public class PlayerCmds {
                 }
 
                 if (badgeString.equalsIgnoreCase("none")) {
-                    player.setShowBadge(false);
-                    player.save();
+                    player.showBadge(false);
+                    player.updateAllChanged();
 
                     ctx.replyEphemeral("commands.profile.displaybadge.reset_success", EmoteReference.CORRECT);
                     return;
                 }
 
                 if (badgeString.equalsIgnoreCase("reset")) {
-                    player.setMainBadge(null);
-                    player.setShowBadge(true);
-                    player.save();
+                    player.mainBadge(null);
+                    player.showBadge(true);
+                    player.updateAllChanged();
 
                     ctx.replyEphemeral("commands.profile.displaybadge.important_success", EmoteReference.CORRECT);
                     return;
@@ -464,9 +464,9 @@ public class PlayerCmds {
                     return;
                 }
 
-                player.setShowBadge(true);
-                player.setMainBadge(badge);
-                player.save();
+                player.showBadge(true);
+                player.mainBadge(badge);
+                player.updateAllChanged();
                 ctx.replyEphemeral("commands.profile.displaybadge.success", EmoteReference.CORRECT, badge.display);
             }
         }

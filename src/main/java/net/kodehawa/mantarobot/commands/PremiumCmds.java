@@ -129,7 +129,7 @@ public class PremiumCmds {
                     if (author.getId().equals(key.getOwner())) {
                         var player = ctx.getPlayer();
                         if (player.addBadgeIfAbsent(Badge.DONATOR_2)) {
-                            player.save();
+                            player.updateAllChanged();
                         }
                     }
 
@@ -200,7 +200,7 @@ public class PremiumCmds {
                 if (!marked && isLookup) {
                     Player player = ctx.db().getPlayer(owner);
                     if (player.addBadgeIfAbsent(Badge.DONATOR_2))
-                        player.save();
+                        player.updateAllChanged();
                 }
 
                 var patreonInformation = APIUtils.getPledgeInformation(owner.getId());

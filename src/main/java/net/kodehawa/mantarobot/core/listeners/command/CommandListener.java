@@ -269,7 +269,7 @@ public class CommandListener implements EventListener {
             ).queue();
 
             if (player.addBadgeIfAbsent(Badge.FIRE)) {
-                player.save();
+                player.updateAllChanged();
             }
 
             log.error("Error happened on command: {} (Error ID: {})", event.getMessage().getContentRaw(), id, e);

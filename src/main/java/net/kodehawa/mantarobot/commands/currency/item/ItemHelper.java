@@ -73,7 +73,7 @@ public class ItemHelper {
                 return false;
 
             if (dbUser.getDustLevel() >= 5) {
-                player.setTimesMopped(player.getTimesMopped() + 1);
+                player.timesMopped(player.getTimesMopped() + 1);
                 ctx.sendLocalized("general.misc_item_usage.mop", EmoteReference.DUST);
 
                 if (dbUser.getDustLevel() == 100) {
@@ -83,7 +83,7 @@ public class ItemHelper {
                 player.processItem(ItemReference.MOP, -1);
                 dbUser.dustLevel(0);
 
-                player.save();
+                player.updateAllChanged();
                 dbUser.updateAllChanged();
             } else {
                 ctx.sendLocalized("general.misc_item_usage.mop_not_enough", EmoteReference.DUST);
@@ -289,7 +289,7 @@ public class ItemHelper {
 
         player.processItem(ItemReference.LOOT_CRATE_KEY, -1);
         player.processItem(crate, -1);
-        player.setCratesOpened(player.getCratesOpened() + 1);
+        player.cratesOpened(player.getCratesOpened() + 1);
         player.updateAllChanged();
 
         I18nContext lang = ctx.getLanguageContext();

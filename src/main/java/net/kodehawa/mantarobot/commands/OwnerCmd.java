@@ -165,7 +165,7 @@ public class OwnerCmd {
                 return;
             }
 
-            player.save();
+            player.updateAllChanged();
             ctx.send("Gave you %s (x%,d)".formatted(item, amount));
         }
     }
@@ -198,21 +198,21 @@ public class OwnerCmd {
 
                 if (e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
                     transferToPlayer.setCurrentMoney(transferredPlayer.getCurrentMoney());
-                    transferToPlayer.setLevel(transferredPlayer.getLevel());
-                    transferToPlayer.setReputation(transferredPlayer.getReputation());
+                    transferToPlayer.level(transferredPlayer.getLevel());
+                    transferToPlayer.reputation(transferredPlayer.getReputation());
                     transferToPlayer.mergeInventory(transferredPlayer.getInventoryList());
 
                     transferToPlayer.setExperience(transferredPlayer.getExperience());
                     transferToPlayer.setBadges(transferredPlayer.getBadges());
-                    transferToPlayer.setShowBadge(transferredPlayer.isShowBadge());
+                    transferToPlayer.showBadge(transferredPlayer.isShowBadge());
                     transferToPlayer.marketUsed(transferredPlayer.getMarketUsed());
-                    transferToPlayer.setMainBadge(transferredPlayer.getMainBadge());
-                    transferToPlayer.setGamesWon(transferredPlayer.getGamesWon());
+                    transferToPlayer.mainBadge(transferredPlayer.getMainBadge());
+                    transferToPlayer.gamesWon(transferredPlayer.getGamesWon());
                     transferToPlayer.setMiningExperience(transferredPlayer.getMiningExperience());
-                    transferToPlayer.setSharksCaught(transferredPlayer.getSharksCaught());
+                    transferToPlayer.sharksCaught(transferredPlayer.getSharksCaught());
                     transferToPlayer.setFishingExperience(transferredPlayer.getFishingExperience());
-                    transferToPlayer.setCratesOpened(transferredPlayer.getCratesOpened());
-                    transferToPlayer.setTimesMopped(transferredPlayer.getTimesMopped());
+                    transferToPlayer.cratesOpened(transferredPlayer.getCratesOpened());
+                    transferToPlayer.timesMopped(transferredPlayer.getTimesMopped());
                     transferToPlayer.dailyStreak(transferredPlayer.getDailyStreak());
                     transferToPlayer.lastDailyAt(transferredPlayer.getLastDailyAt());
                     transferToPlayer.setPet(transferredPlayer.getPet());
@@ -264,7 +264,7 @@ public class OwnerCmd {
 
             var player = ctx.getPlayer(user);
             player.addBadgeIfAbsent(badge);
-            player.save();
+            player.updateAllChanged();
 
             ctx.send("%sAdded badge %s %s to %s (ID: %s)".formatted(
                     EmoteReference.CORRECT.getUnicode(), badge.icon, badge.display,
@@ -302,7 +302,7 @@ public class OwnerCmd {
                         EmoteReference.CORRECT, badge,
                         user.getAsTag(), user.getId())
                 );
-                player.save();
+                player.updateAllChanged();
             } else {
                 ctx.send("Player didn't have badge?");
             }

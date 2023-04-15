@@ -432,7 +432,7 @@ public class PetCmds {
                 }
 
                 player.locked(true);
-                player.save();
+                player.updateAllChanged();
 
                 ButtonOperations.create(message, 60, event -> {
                     if (event.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
@@ -476,8 +476,11 @@ public class PetCmds {
                             playerFinal.addMoney(toRefundFinal);
                             playerFinal.locked(false);
 
-                            playerFinal.save();
-                            marriedWithPlayer.save();
+                            playerFinal.markPetChange();
+                            marriedWithPlayer.markPetChange();
+
+                            playerFinal.updateAllChanged();
+                            marriedWithPlayer.updateAllChanged();
                             hook.editOriginal(lang.get("commands.pet.remove.success").formatted(EmoteReference.CORRECT, toRefundFinal)).setComponents().queue();
                         } else {
                             if (playerFinal.getPet() == null) {
@@ -488,7 +491,9 @@ public class PetCmds {
                             playerFinal.setPet(null);
                             playerFinal.addMoney(toRefundPersonalFinal);
                             playerFinal.locked(false);
-                            playerFinal.save();
+                            playerFinal.markPetChange();
+
+                            playerFinal.updateAllChanged();
                             hook.editOriginal(lang.get("commands.pet.remove.success_personal").formatted(EmoteReference.CORRECT, toRefundPersonalFinal)).setComponents().queue();
                         }
 

@@ -195,10 +195,6 @@ public class Player implements ManagedMongoObject {
         return this.showBadge;
     }
 
-    public void setShowBadge(boolean showBadge) {
-        this.showBadge = showBadge;
-    }
-
     public PotionEffect getActivePotion() {
         return this.activePotion;
     }
@@ -270,6 +266,16 @@ public class Player implements ManagedMongoObject {
         this.badges = badges;
     }
 
+    // Unused, only used for migration
+    public void setMiningExperience(long miningExperience) {
+        this.miningExperience = miningExperience;
+    }
+
+    // Unused, only used for migration
+    public void setFishingExperience(long fishingExperience) {
+        this.fishingExperience = fishingExperience;
+    }
+
     protected void setDailyStreak(long dailyStreak) {
         this.dailyStreak = dailyStreak;
     }
@@ -278,7 +284,7 @@ public class Player implements ManagedMongoObject {
         this.description = description;
     }
 
-    public void setGamesWon(long gamesWon) {
+    protected void setGamesWon(long gamesWon) {
         this.gamesWon = gamesWon;
     }
 
@@ -286,80 +292,112 @@ public class Player implements ManagedMongoObject {
         this.lastDailyAt = lastDailyAt;
     }
 
-    public void setLockedUntil(long lockedUntil) {
+    protected void setLockedUntil(long lockedUntil) {
         this.lockedUntil = lockedUntil;
     }
 
-    public void setMarriedSince(Long marriedSince) {
+    protected void setMarriedSince(Long marriedSince) {
         this.marriedSince = marriedSince;
     }
 
-    public void setMarriedWith(String marriedWith) {
+    protected void setMarriedWith(String marriedWith) {
         this.marriedWith = marriedWith;
     }
 
-    public void setMoneyOnBank(long moneyOnBank) {
+    protected void setMoneyOnBank(long moneyOnBank) {
         this.moneyOnBank = moneyOnBank;
     }
 
-    public void setMainBadge(Badge mainBadge) {
+    protected void setMainBadge(Badge mainBadge) {
         this.mainBadge = mainBadge;
+    }
+
+    protected void setShowBadge(boolean showBadge) {
+        this.showBadge = showBadge;
     }
 
     protected void setMarketUsed(long marketUsed) {
         this.marketUsed = marketUsed;
     }
 
-    public void setActivePotion(PotionEffect activePotion) {
+    protected void setActivePotion(PotionEffect activePotion) {
         this.activePotion = activePotion;
     }
 
-    public void setActiveBuff(PotionEffect activeBuff) {
+    protected void setActiveBuff(PotionEffect activeBuff) {
         this.activeBuff = activeBuff;
     }
 
-    public void setWaifuCachedValue(long waifuCachedValue) {
+    protected void setWaifuCachedValue(long waifuCachedValue) {
         this.waifuCachedValue = waifuCachedValue;
     }
 
-    public void setProfileComponents(List<ProfileComponent> profileComponents) {
+    protected void setProfileComponents(List<ProfileComponent> profileComponents) {
         this.profileComponents = profileComponents;
     }
 
-    public void setPetSlots(long petSlots) {
+    protected void setPetSlots(long petSlots) {
         this.petSlots = petSlots;
     }
 
-    public void setMiningExperience(long miningExperience) {
-        this.miningExperience = miningExperience;
-    }
-
-    public void setFishingExperience(long fishingExperience) {
-        this.fishingExperience = fishingExperience;
-    }
-
-    public void setTimesMopped(long timesMopped) {
+    protected void setTimesMopped(long timesMopped) {
         this.timesMopped = timesMopped;
     }
 
-    public void setCratesOpened(long cratesOpened) {
+    protected void setCratesOpened(long cratesOpened) {
         this.cratesOpened = cratesOpened;
     }
 
-    public void setSharksCaught(long sharksCaught) {
+    protected void setSharksCaught(long sharksCaught) {
         this.sharksCaught = sharksCaught;
     }
 
-    public void setWaifuout(boolean waifuout) {
+    protected void setWaifuout(boolean waifuout) {
         this.waifuout = waifuout;
     }
 
-    public void setLastCrateGiven(int lastCrateGiven) {
+    protected void setLastCrateGiven(int lastCrateGiven) {
         this.lastCrateGiven = lastCrateGiven;
     }
 
-    public void setChopExperience(long chopExperience) {
+    protected void setNewMoney(long newMoney) {
+        this.newMoney = newMoney;
+    }
+
+    protected void setInventorySortType(InventorySortType inventorySortType) {
+        this.inventorySortType = inventorySortType;
+    }
+
+    protected void setHiddenLegacy(boolean hiddenLegacy) {
+        this.hiddenLegacy = hiddenLegacy;
+    }
+
+    protected void setNewPlayerNotice(boolean newPlayerNotice) {
+        this.newPlayerNotice = newPlayerNotice;
+    }
+
+    protected void setOldMoney(long newAmount) {
+        this.oldMoney = newAmount;
+    }
+
+    protected void setReputation(Long reputation) {
+        this.reputation = reputation;
+    }
+
+    protected void setLevel(long level) {
+        this.level = level;
+    }
+
+    protected void setChopExperience(long chopExperience) {
         this.chopExperience = chopExperience;
+    }
+
+    protected void setLastSeenCampaign(long lastSeenCampaign) {
+        this.lastSeenCampaign = lastSeenCampaign;
+    }
+
+    protected void setPetChoice(PetChoice petChoice) {
+        this.petChoice = petChoice;
     }
 
     public void setInventory(Map<String, Integer> inventory) {
@@ -367,43 +405,98 @@ public class Player implements ManagedMongoObject {
         this.inventoryObject.replaceWith(Inventory.unserialize(inventory));
     }
 
-    public void setNewMoney(long newMoney) {
-        this.newMoney = newMoney;
-    }
-
-    public void setLastSeenCampaign(long lastSeenCampaign) {
-        this.lastSeenCampaign = lastSeenCampaign;
-    }
-
-    public void setInventorySortType(InventorySortType inventorySortType) {
-        this.inventorySortType = inventorySortType;
-    }
-
-    public void setHiddenLegacy(boolean hiddenLegacy) {
-        this.hiddenLegacy = hiddenLegacy;
-    }
-
-    public void setNewPlayerNotice(boolean newPlayerNotice) {
-        this.newPlayerNotice = newPlayerNotice;
-    }
-
-    protected void setPetChoice(PetChoice petChoice) {
-        this.petChoice = petChoice;
-    }
-
-    public void setOldMoney(long newAmount) {
-        this.oldMoney = newAmount;
-    }
-
-    public void setReputation(Long reputation) {
-        this.reputation = reputation;
-    }
-
-    public void setLevel(long level) {
-        this.level = level;
-    }
-
     // -- Tracking setters (always public)
+    @BsonIgnore
+    public void timesMopped(long timesMopped) {
+        this.timesMopped = timesMopped;
+        fieldTracker.put("timesMopped", timesMopped);
+    }
+
+    @BsonIgnore
+    public void sharksCaught(long sharksCaught) {
+        this.sharksCaught = sharksCaught;
+        fieldTracker.put("sharksCaught", sharksCaught);
+    }
+
+    @BsonIgnore
+    public void waifuout(boolean waifuout) {
+        this.waifuout = waifuout;
+        fieldTracker.put("waifuout", waifuout);
+    }
+
+    @BsonIgnore
+    public void lastCrateGiven(int lastCrateGiven) {
+        this.lastCrateGiven = lastCrateGiven;
+        fieldTracker.put("lastCrateGiven", lastCrateGiven);
+    }
+
+    @BsonIgnore
+    public void inventorySortType(InventorySortType inventorySortType) {
+        this.inventorySortType = inventorySortType;
+        fieldTracker.put("inventorySortType", inventorySortType);
+    }
+
+    @BsonIgnore
+    public void hiddenLegacy(boolean hiddenLegacy) {
+        this.hiddenLegacy = hiddenLegacy;
+        fieldTracker.put("hiddenLegacy", hiddenLegacy);
+    }
+
+    @BsonIgnore
+    public void newPlayerNotice(boolean newPlayerNotice) {
+        this.newPlayerNotice = newPlayerNotice;
+        fieldTracker.put("newPlayerNotice", newPlayerNotice);
+    }
+
+    @BsonIgnore
+    public void reputation(Long reputation) {
+        this.reputation = reputation;
+        fieldTracker.put("reputation", reputation);
+    }
+
+    @BsonIgnore
+    public void level(long level) {
+        this.level = level;
+        fieldTracker.put("level", level);
+    }
+
+    @BsonIgnore
+    public void cratesOpened(long cratesOpened) {
+        this.cratesOpened = cratesOpened;
+        fieldTracker.put("cratesOpened", cratesOpened);
+    }
+
+    @BsonIgnore
+    public void waifuCachedValue(long waifuCachedValue) {
+        this.waifuCachedValue = waifuCachedValue;
+        fieldTracker.put("waifuCachedValue", waifuCachedValue);
+    }
+
+    @BsonIgnore
+    public void profileComponents(List<ProfileComponent> profileComponents) {
+        this.profileComponents = profileComponents;
+        fieldTracker.put("profileComponents", profileComponents);
+    }
+
+    @BsonIgnore
+    public void showBadge(boolean showBadge) {
+        this.showBadge = showBadge;
+        fieldTracker.put("showBadge", showBadge);
+    }
+
+    @BsonIgnore
+    public void mainBadge(Badge mainBadge) {
+        this.mainBadge = mainBadge;
+        fieldTracker.put("mainBadge", mainBadge);
+    }
+
+    @BsonIgnore
+    public void gamesWon(long gamesWon) {
+        this.gamesWon = gamesWon;
+        fieldTracker.put("gamesWon", gamesWon);
+    }
+
+    @BsonIgnore
     public void petChoice(PetChoice petChoice) {
         this.petChoice = petChoice;
         fieldTracker.put("petChoice", petChoice);
@@ -439,19 +532,29 @@ public class Player implements ManagedMongoObject {
         fieldTracker.put("claimLocked", claimLocked);
     }
 
+    // -- Helpers
+    @BsonIgnore
+    public void resetProfileComponents() {
+        profileComponents.clear();
+        fieldTracker.put("profileComponents", profileComponents);
+    }
+
     @BsonIgnore
     public void incrementMiningExperience(Random random) {
         this.miningExperience = miningExperience + (random.nextInt(5) + 1);
+        fieldTracker.put("miningExperience", miningExperience);
     }
 
     @BsonIgnore
     public void incrementFishingExperience(Random random) {
         this.fishingExperience = fishingExperience + (random.nextInt(5) + 1);
+        fieldTracker.put("fishingExperience", fishingExperience);
     }
 
     @BsonIgnore
     public void incrementChopExperience(Random random) {
         this.chopExperience = chopExperience + (random.nextInt(5) + 1);
+        fieldTracker.put("chopExperience", chopExperience);
     }
 
     @BsonProperty("inventory")

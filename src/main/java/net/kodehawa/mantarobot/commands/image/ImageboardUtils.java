@@ -194,7 +194,7 @@ public class ImageboardUtils {
         if (image.getRating().equals(Rating.EXPLICIT) && r.nextBoolean()) {
             var player = ctx.getPlayer();
             if (player.addBadgeIfAbsent(Badge.LEWDIE)) {
-                player.save();
+                player.updateAllChanged();
             }
 
             // Drop a lewd magazine.

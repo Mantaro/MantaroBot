@@ -607,7 +607,7 @@ public class CurrencyActionCmds {
                 extraMessage += "\n" + EmoteReference.MEGA +
                         languageContext.get("commands.fish.shark_success").formatted(ItemReference.SHARK.getEmojiDisplay());
 
-                player.setSharksCaught(player.getSharksCaught() + 1);
+                player.sharksCaught(player.getSharksCaught() + 1);
             }
 
             List<ItemStack> list = new ArrayList<>(amount);

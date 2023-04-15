@@ -198,7 +198,7 @@ public class WaifuCmd {
                     }
 
                     dbUser.updateAllChanged();
-                    player.save();
+                    player.updateAllChanged();
                 }
             }
         }
@@ -233,7 +233,7 @@ public class WaifuCmd {
 
                 player.claimLocked(true);
                 player.processItem(ItemReference.CLAIM_KEY, -1);
-                player.save(); // Still need to save because of Inventory, need to find a way around this?
+                player.updateAllChanged();
 
                 ctx.replyEphemeral("commands.profile.claimlock.success", EmoteReference.CORRECT);
             }
@@ -263,8 +263,8 @@ public class WaifuCmd {
 
                     if (button.equals("yes")) {
                         final var playerFinal = ctx.getPlayer();
-                        playerFinal.setWaifuout(true);
-                        playerFinal.save();
+                        playerFinal.waifuout(true);
+                        playerFinal.updateAllChanged();
                         ctx.edit("commands.waifu.optout.success", EmoteReference.CORRECT);
                         return Operation.COMPLETED;
                     } else if (button.equals("no")) {
@@ -375,11 +375,11 @@ public class WaifuCmd {
 
                 claimerPlayer.addBadgeIfAbsent(Badge.WAIFU_CLAIMER);
                 if (badgesAdded || claimedPlayer.addBadgeIfAbsent(Badge.CLAIMED)) {
-                    claimedPlayer.save();
+                    claimedPlayer.updateAllChanged();
                 }
 
                 //Massive saving operation owo.
-                claimerPlayer.save();
+                claimerPlayer.updateAllChanged();
                 claimedUser.updateAllChanged();
                 claimerUser.updateAllChanged();
 
@@ -506,7 +506,7 @@ public class WaifuCmd {
                 player.removeMoney(finalValue);
                 user.waifuSlots(currentSlots + 1);
                 user.updateAllChanged();
-                player.save();
+                player.updateAllChanged();
 
                 ctx.reply("commands.waifu.buyslot.success",
                         EmoteReference.CORRECT, finalValue, user.getWaifuSlots(), (user.getWaifuSlots() - user.waifuAmount())

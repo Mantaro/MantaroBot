@@ -186,9 +186,9 @@ public class ProfileCmd {
             protected void process(SlashContext ctx) {
                 final var player = ctx.getPlayer();
                 var toSet = !player.isHiddenLegacy();
-                player.setHiddenLegacy(toSet);
+                player.hiddenLegacy(toSet);
 
-                player.save();
+                player.updateAllChanged();
                 ctx.replyEphemeral("commands.profile.hidelegacy", EmoteReference.CORRECT, player.isHiddenLegacy());
             }
         }
@@ -275,7 +275,7 @@ public class ProfileCmd {
 
                 var player = ctx.getPlayer();
                 if (player.addBadgeIfAbsent(Badge.CALENDAR)) {
-                    player.save();
+                    player.updateAllChanged();
                 }
 
                 dbUser.timezone(timezone);
@@ -488,8 +488,8 @@ public class ProfileCmd {
 
                 var player = ctx.getPlayer();
                 if (ctx.getOptionAsBoolean("reset")) {
-                    player.getProfileComponents().clear();
-                    player.save();
+                    player.resetProfileComponents();
+                    player.updateAllChanged();
 
                     ctx.replyEphemeral("commands.profile.display.reset", EmoteReference.CORRECT);
                     return;
@@ -529,8 +529,8 @@ public class ProfileCmd {
                     return;
                 }
 
-                player.setProfileComponents(newComponents);
-                player.save();
+                player.profileComponents(newComponents);
+                player.updateAllChanged();
 
                 ctx.replyEphemeral("commands.profile.display.success",
                         EmoteReference.CORRECT, newComponents.stream().map(Enum::name).collect(Collectors.joining(", "))
@@ -567,7 +567,7 @@ public class ProfileCmd {
         final var config = MantaroData.config().get();
 
         // Cache waifu value.
-        playerData.setWaifuCachedValue(WaifuCmd.calculateWaifuValue(player, userLooked).getFinalValue());
+        playerData.waifuCachedValue(WaifuCmd.calculateWaifuValue(player, userLooked).getFinalValue());
 
         // start of badge assigning
         final var mh = MantaroBot.getInstance().getShardManager().getGuildById("213468583252983809");
@@ -647,7 +647,7 @@ public class ProfileCmd {
 
         // We don't need to update stats if someone else views your profile
         if (player.getId().equals(ctx.getAuthor().getId())) {
-            player.save();
+            player.updateAllChanged();
         }
 
         return profileBuilder.build();

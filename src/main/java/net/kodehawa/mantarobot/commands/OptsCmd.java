@@ -138,7 +138,7 @@ public class OptsCmd {
                             callable.accept(ctx, a);
                             var player = MantaroData.db().getPlayer(ctx.getAuthor());
                             if (player.addBadgeIfAbsent(Badge.DID_THIS_WORK)) {
-                                player.save();
+                                player.updateAllChanged();
                             }
                         } catch (IndexOutOfBoundsException ignored) { }
                         return;

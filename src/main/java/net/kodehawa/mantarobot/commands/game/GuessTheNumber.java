@@ -88,7 +88,7 @@ public class GuessTheNumber extends Game<Object> {
                         var gains = 140;
 
                         player.addMoney(gains);
-                        player.setGamesWon(player.getGamesWon() + 1);
+                        player.gamesWon(player.getGamesWon() + 1);
                         if (player.getGamesWon() == 100) {
                             player.addBadgeIfAbsent(Badge.GAMER);
                         }
@@ -101,7 +101,7 @@ public class GuessTheNumber extends Game<Object> {
                             player.addBadgeIfAbsent(Badge.APPROACHING_DESTINY);
                         }
 
-                        player.save();
+                        player.updateAllChanged();
                         TextChannelGround.of(e.getChannel()).dropItemWithChance(ItemReference.FLOPPY_DISK, 3);
 
                         ctx.reply("commands.game.lobby.won_game", EmoteReference.MEGA, e.getMember().getEffectiveName(), gains);

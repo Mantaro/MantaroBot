@@ -185,8 +185,8 @@ public class CurrencyCmds {
                 }
 
                 final var player = ctx.getPlayer();
-                player.setInventorySortType(type);
-                player.save();
+                player.inventorySortType(type);
+                player.updateAllChanged();
 
                 ctx.replyEphemeral("commands.profile.inventorysort.success", EmoteReference.CORRECT, ctx.getLanguageContext().get(type.getTranslate()));
             }
@@ -644,8 +644,8 @@ public class CurrencyCmds {
         }
 
         player.processItem(crate, 1);
-        player.setLastCrateGiven(ItemHelper.idOf(crate));
-        player.save();
+        player.lastCrateGiven(ItemHelper.idOf(crate));
+        player.updateAllChanged();
 
         var successMessage = languageContext.get("commands.dailycrate.success")
                 .formatted(

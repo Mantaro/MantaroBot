@@ -476,7 +476,7 @@ public class MoneyCmds {
         if (random.nextInt(100) > 95) {
             ground.dropItem(ItemReference.LOOT_CRATE);
             if (player.addBadgeIfAbsent(Badge.LUCKY)) {
-                player.save();
+                player.updateAllChanged();
             }
         }
 
@@ -563,8 +563,8 @@ public class MoneyCmds {
 
         if (balance < 300 && player.getExperience() < 3400 && !player.isNewPlayerNotice()) {
             extra += languageContext.get("commands.balance.new_player");
-            player.setNewPlayerNotice(true);
-            player.save();
+            player.newPlayerNotice(true);
+            player.updateAllChanged();
         }
 
         var message = String.format(

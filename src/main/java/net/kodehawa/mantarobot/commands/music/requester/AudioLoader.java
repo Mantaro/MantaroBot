@@ -192,7 +192,7 @@ public class AudioLoader implements AudioLoadResultHandler {
             var player = db.getPlayer(ctx.getAuthor());
             var badge = APIUtils.getHushBadge(audioTrack.getIdentifier(), Utils.HushType.MUSIC);
             if (badge != null && player.addBadgeIfAbsent(badge)) {
-                player.save();
+                player.updateAllChanged();
             }
 
             var duration = Utils.formatDuration(i18nContext, length);
@@ -261,7 +261,7 @@ public class AudioLoader implements AudioLoadResultHandler {
             var player = db.getPlayer(ctx.getAuthor());
             var badge = APIUtils.getHushBadge(audioTrack.getIdentifier(), Utils.HushType.MUSIC);
             if (badge != null && player.addBadgeIfAbsent(badge)) {
-                player.save();
+                player.updateAllChanged();
             }
 
             var duration = Utils.formatDuration(i18nContext, length);

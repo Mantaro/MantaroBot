@@ -421,7 +421,7 @@ public class GambleCmds {
             }
 
             // We need to save anyway.
-            player.save();
+            player.updateAllChanged();
         }
 
         message.append("\n");
