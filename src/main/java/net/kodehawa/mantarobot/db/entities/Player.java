@@ -666,7 +666,7 @@ public class Player implements ManagedMongoObject {
         }
 
         badges.add(b);
-        fieldTracker.put("badges", badges);
+        fieldTracker.put("badges", this.badges);
         return true;
     }
 
@@ -677,7 +677,7 @@ public class Player implements ManagedMongoObject {
         }
 
         badges.remove(b);
-        fieldTracker.put("badges", badges);
+        fieldTracker.put("badges", this.badges);
         return true;
     }
 
@@ -742,7 +742,7 @@ public class Player implements ManagedMongoObject {
     public void addReputation(long rep) {
         this.reputation += rep;
         this.setReputation(reputation);
-        fieldTracker.put("reputation", reputation);
+        fieldTracker.put("reputation", this.reputation);
     }
 
     /**

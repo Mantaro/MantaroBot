@@ -460,12 +460,13 @@ public class CurrencyActionCmds {
         player.addMoney(money);
 
         handlePetBadges(player, marriage, pet);
-        player.markPetChange();
         player.updateAllChanged();
+        if (pet != null) {
+            pet.updateAllChanged(player);
+        }
 
-        if (marriage != null && player.getPetChoice() == PetChoice.MARRIAGE) {
-            marriage.markPetChange();
-            marriage.updateAllChanged();
+        if (marriage != null && pet != null && player.getPetChoice() == PetChoice.MARRIAGE) {
+            pet.updateAllChanged(marriage);
         }
 
         ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.mine.autoequip.success");
@@ -864,9 +865,8 @@ public class CurrencyActionCmds {
             player.updateAllChanged();
 
             // Save pet stuff.
-            if (marriage != null && player.getPetChoice() == PetChoice.MARRIAGE) {
-                marriage.markPetChange();
-                marriage.updateAllChanged();
+            if (marriage != null && pet != null &&player.getPetChoice() == PetChoice.MARRIAGE) {
+                pet.updateAllChanged(marriage);
             }
 
             // Process axe durability.
