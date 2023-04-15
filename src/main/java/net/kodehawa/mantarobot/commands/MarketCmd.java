@@ -597,14 +597,12 @@ public class MarketCmd {
         }
 
         var player = ctx.getPlayer();
-        var playerInventory = player.inventory();
-
-        if (!playerInventory.containsItem(item)) {
+        if (!player.containsItem(item)) {
             ctx.sendLocalized("commands.market.dump.player_no_item", EmoteReference.ERROR);
             return;
         }
 
-        if (playerInventory.getAmount(item) < itemNumber) {
+        if (player.getItemAmount(item) < itemNumber) {
             ctx.sendLocalized("commands.market.dump.more_items_than_player", EmoteReference.ERROR);
             return;
         }
@@ -613,12 +611,12 @@ public class MarketCmd {
             return;
         }
 
-        playerInventory.process(new ItemStack(item, -itemNumber));
+        player.processItem(item, -itemNumber);
         if (itemNumber > 4000) {
             player.addBadgeIfAbsent(Badge.WASTER);
         }
 
-        player.save();
+        player.updateAllChanged();
         ctx.sendLocalized("commands.market.dump.success", EmoteReference.CORRECT, itemNumber, item.getEmoji(), item.getName());
     }
 
@@ -629,7 +627,6 @@ public class MarketCmd {
         }
 
         var player = ctx.getPlayer();
-        var playerInventory = player.inventory();
         try {
             if (item.isEmpty()) {
                 ctx.sendLocalized("commands.market.sell.no_item",  EmoteReference.ERROR);
@@ -648,12 +645,12 @@ public class MarketCmd {
                 return;
             }
 
-            if (playerInventory.getAmount(toSell) < 1) {
+            if (player.getItemAmount(toSell) < 1) {
                 ctx.sendLocalized("commands.market.sell.no_item_player", EmoteReference.STOP);
                 return;
             }
 
-            if (playerInventory.getAmount(toSell) < amount) {
+            if (player.getItemAmount(toSell) < amount) {
                 ctx.sendLocalized("commands.market.sell.more_items_than_player", EmoteReference.ERROR);
                 return;
             }
@@ -664,11 +661,11 @@ public class MarketCmd {
 
             var many = amount * -1;
             var money = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
-            playerInventory.process(new ItemStack(toSell, many));
+            player.processItem(toSell, many);
 
             player.addMoney(money);
-            player.setMarketUsed(player.getMarketUsed() + 1);
-            player.save();
+            player.marketUsed(player.getMarketUsed() + 1);
+            player.updateAllChanged();
             ctx.sendLocalized("commands.market.sell.success", EmoteReference.CORRECT, Math.abs(many), toSell.getName(), money);
         } catch (Exception e) {
             ctx.send(EmoteReference.ERROR + ctx.getLanguageContext().get("general.invalid_syntax"));
@@ -702,8 +699,7 @@ public class MarketCmd {
                 return;
             }
 
-            var playerInventory = player.inventory();
-            if (playerInventory.getAmount(itemToBuy) + itemNumber > 5000) {
+            if (player.getItemAmount(itemToBuy) + itemNumber > 5000) {
                 ctx.sendLocalized("commands.market.buy.item_limit_reached", EmoteReference.ERROR);
                 return;
             }
@@ -715,12 +711,10 @@ public class MarketCmd {
             var value = itemToBuy.getValue() * itemNumber;
             var removedMoney = player.removeMoney(value);
             if (removedMoney) {
-                playerInventory.process(new ItemStack(itemToBuy, itemNumber));
+                player.processItem(itemToBuy, itemNumber);
                 player.addBadgeIfAbsent(Badge.BUYER);
-                player.setMarketUsed(player.getMarketUsed() + 1);
-
-                //Due to player data being updated here too.
-                player.save();
+                player.marketUsed(player.getMarketUsed() + 1);
+                player.updateAllChanged();
 
                 var playerMoney = player.getCurrentMoney();
                 var message = "commands.market.buy.success";

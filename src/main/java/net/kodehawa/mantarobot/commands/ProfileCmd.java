@@ -334,8 +334,8 @@ public class ProfileCmd {
 
                 if (ctx.getOptionAsBoolean("clear")) {
                     var player = ctx.getPlayer();
-                    player.setDescription(null);
-                    player.save();
+                    player.description(null);
+                    player.updateAllChanged();
 
                     ctx.reply("commands.profile.description.clear_success", EmoteReference.CORRECT);
                     return;
@@ -405,13 +405,13 @@ public class ProfileCmd {
                         desc = Utils.DISCORD_INVITE_2.matcher(desc).replaceAll("-discord invite link-");
 
                         var player = ctx.getPlayer();
-                        player.setDescription(desc);
+                        player.description(desc);
                         event.reply(lang.get("commands.profile.description.success").formatted(EmoteReference.POPPER))
                                 .setEphemeral(true)
                                 .queue();
 
                         player.addBadgeIfAbsent(Badge.WRITER);
-                        player.save();
+                        player.updateAllChanged();
                         return Operation.COMPLETED;
                     }
 
@@ -564,7 +564,6 @@ public class ProfileCmd {
         final var player = ctx.getPlayer(userLooked);
         final var dbUser = ctx.getDBUser(userLooked);
         final var playerData = player;
-        final var inv = player.inventory();
         final var config = MantaroData.config().get();
 
         // Cache waifu value.
@@ -580,11 +579,7 @@ public class ProfileCmd {
         }
 
         Badge.assignBadges(player, player.getStats(), dbUser);
-        var christmasBadgeAssign = inv.asList()
-                .stream()
-                .map(ItemStack::getItem)
-                .anyMatch(it -> it.equals(ItemReference.CHRISTMAS_TREE_SPECIAL) || it.equals(ItemReference.BELL_SPECIAL));
-
+        var christmasBadgeAssign = player.containsItem(ItemReference.CHRISTMAS_TREE_SPECIAL) || player.containsItem(ItemReference.BELL_SPECIAL);
         // Manual badges
         if (config.isOwner(userLooked)) {
             playerData.addBadgeIfAbsent(Badge.DEVELOPER);
@@ -618,7 +613,7 @@ public class ProfileCmd {
         Collections.sort(badges);
 
         final var marriage = MantaroData.db().getMarriage(dbUser.getMarriageId());
-        final var ringHolder = player.inventory().containsItem(ItemReference.RING) && marriage != null;
+        final var ringHolder = player.containsItem(ItemReference.RING) && marriage != null;
         final var holder = new ProfileComponent.Holder(userLooked, player, dbUser, marriage, badges);
         final var profileBuilder = new EmbedBuilder();
         var description = lang.get("commands.profile.no_desc");

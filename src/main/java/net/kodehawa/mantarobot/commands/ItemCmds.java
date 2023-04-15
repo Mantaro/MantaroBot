@@ -212,7 +212,6 @@ public class ItemCmds {
                     return;
                 }
 
-                var playerInventory = player.inventory();
                 var dust = user.getDustLevel();
                 if (dust > 95) {
                     ctx.reply("commands.cast.dust", EmoteReference.ERROR, dust);
@@ -226,12 +225,12 @@ public class ItemCmds {
                     var item = ItemHelper.fromId(i);
                     var amount = Integer.parseInt(splitRecipe[increment]) * amountSpecified;
 
-                    if (!playerInventory.containsItem(item)) {
+                    if (!player.containsItem(item)) {
                         ctx.reply("commands.cast.no_item", EmoteReference.ERROR, item.getName(), amount);
                         return;
                     }
 
-                    int inventoryAmount = playerInventory.getAmount(item);
+                    int inventoryAmount = player.getItemAmount(item);
                     if (inventoryAmount < amount) {
                         ctx.reply("commands.cast.not_enough_items",
                                 EmoteReference.ERROR, item.getName(), castItem.getName(), amount, inventoryAmount
@@ -244,7 +243,7 @@ public class ItemCmds {
                     increment++;
                 }
 
-                if (playerInventory.getAmount(castItem) + amountSpecified > 5000) {
+                if (player.getItemAmount(castItem) + amountSpecified > 5000) {
                     ctx.reply("commands.cast.too_many", EmoteReference.ERROR);
                     return;
                 }
@@ -252,11 +251,11 @@ public class ItemCmds {
                 for (var entry : castMap.entrySet()) {
                     var i = entry.getKey();
                     var amount = entry.getValue();
-                    playerInventory.process(new ItemStack(i, -amount));
+                    player.processItem(i, -amount);
                 }
                 // end of recipe build
 
-                playerInventory.process(new ItemStack(castItem, amountSpecified));
+                player.processItem(castItem, amountSpecified);
 
                 if (castItem == ItemReference.HELLFIRE_PICK)
                     player.addBadgeIfAbsent(Badge.HOT_MINER);
@@ -275,7 +274,7 @@ public class ItemCmds {
                 user.updateAllChanged();
 
                 player.removeMoney(castCost);
-                player.save();
+                player.updateAllChanged();
 
                 PlayerStats stats = ctx.getPlayerStats();
                 stats.incrementCraftedItems(amountSpecified);
@@ -387,7 +386,6 @@ public class ItemCmds {
                 var user = ctx.getDBUser();
 
                 var item = ItemHelper.fromAnyNoId(itemName, ctx.getLanguageContext()).orElse(null);
-                var playerInventory = player.inventory();
                 var wrench = user.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
                 if (wrench == 0) {
                     ctx.reply("commands.cast.not_equipped", EmoteReference.ERROR);
@@ -405,7 +403,7 @@ public class ItemCmds {
                     return;
                 }
 
-                if (!playerInventory.containsItem(item)) {
+                if (!player.containsItem(item)) {
                     ctx.reply("commands.repair.no_main_item", EmoteReference.ERROR, item.getName());
                     return;
                 }
@@ -444,12 +442,12 @@ public class ItemCmds {
                     var amount = Integer.parseInt(split[0]);
                     var needed = ItemHelper.fromId(Integer.parseInt(split[1]));
 
-                    if (!playerInventory.containsItem(needed)) {
+                    if (!player.containsItem(needed)) {
                         ctx.reply("commands.repair.no_item_recipe", EmoteReference.ERROR, needed.getName());
                         return;
                     }
 
-                    var inventoryAmount = playerInventory.getAmount(needed);
+                    var inventoryAmount = player.getItemAmount(needed);
                     if (inventoryAmount < amount) {
                         ctx.reply("commands.repair.not_enough_items",
                                 EmoteReference.ERROR, needed.getName(), brokenItem.getName(), amount, inventoryAmount
@@ -464,18 +462,18 @@ public class ItemCmds {
                 for (var entry : recipeMap.entrySet()) {
                     var i = entry.getKey();
                     var amount = entry.getValue();
-                    playerInventory.process(new ItemStack(i, -amount));
+                    player.processItem(i, -amount);
                 }
                 // end of recipe build
 
-                playerInventory.process(new ItemStack(brokenItem, -1));
-                playerInventory.process(new ItemStack(repairedItem, 1));
+                player.processItem(brokenItem, -1);
+                player.processItem(repairedItem, 1);
 
                 user.increaseDustLevel(4);
                 user.updateAllChanged();
 
                 player.removeMoney(repairCost);
-                player.save();
+                player.updateAllChanged();
 
                 var stats = ctx.getPlayerStats();
                 stats.incrementRepairedItems();
@@ -570,7 +568,6 @@ public class ItemCmds {
                 //Get the necessary entities.
                 final var player = ctx.getPlayer();
                 final var user = ctx.getDBUser();
-                final var playerInventory = player.inventory();
                 final var item = ItemHelper.fromAnyNoId(itemName, ctx.getLanguageContext()).orElse(null);
                 final var wrench = user.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
                 if (wrench == 0) {
@@ -595,7 +592,7 @@ public class ItemCmds {
                     return;
                 }
 
-                if (!playerInventory.containsItem(item)) {
+                if (!player.containsItem(item)) {
                     ctx.reply("commands.salvage.no_main_item", EmoteReference.ERROR);
                     return;
                 }
@@ -623,14 +620,14 @@ public class ItemCmds {
                 }
 
                 var toReturn = returns.get(random.nextInt(returns.size()));
-                playerInventory.process(new ItemStack(toReturn, 1));
-                playerInventory.process(new ItemStack(broken, -1));
+                player.processItem(toReturn, 1);
+                player.processItem(broken, -1);
 
                 user.increaseDustLevel(3);
                 user.updateAllChanged();
 
                 player.removeMoney(salvageCost);
-                player.save();
+                player.updateAllChanged();
 
                 var stats = ctx.getPlayerStats();
                 stats.incrementSalvagedItems();

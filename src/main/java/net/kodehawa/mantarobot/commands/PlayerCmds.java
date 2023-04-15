@@ -187,14 +187,12 @@ public class PlayerCmds {
 
             var player = ctx.getPlayer();
             var dbUser = ctx.getDBUser();
-            var playerInventory = player.inventory();
-
             if (item == null) {
                 ctx.reply("commands.profile.equip.no_item", EmoteReference.ERROR);
                 return;
             }
 
-            var containsItem = playerInventory.containsItem(item);
+            var containsItem = player.containsItem(item);
             if (!containsItem) {
                 ctx.reply("commands.profile.equip.not_owned", EmoteReference.ERROR);
                 return;
@@ -216,8 +214,8 @@ public class PlayerCmds {
                 if (item == ItemReference.HELLFIRE_AXE)
                     player.addBadgeIfAbsent(Badge.HOT_CHOPPER);
 
-                playerInventory.process(new ItemStack(item, -1));
-                player.save();
+                player.processItem(item, -1);
+                player.updateAllChanged();
 
                 equipment.updateAllChanged(dbUser);
                 ctx.reply("commands.profile.equip.success", EmoteReference.CORRECT, item.getEmoji(), item.getName());
@@ -304,14 +302,14 @@ public class PlayerCmds {
 
                         var percentage = ((float) equipmentFinal.getDurability().get(type) / (float) item.getMaxDurability()) * 100.0f;
                         if (percentage == 100) { //Basically never used
-                            playerFinal.inventory().process(new ItemStack(equippedItemFinal, 1));
+                            playerFinal.processItem(equippedItemFinal, 1);
                             part += String.format(
                                     lang.get("commands.profile.unequip.equipment_recover"), equippedItemFinal.getName()
                             );
                         } else {
                             var brokenItem = ItemHelper.getBrokenItemFrom(equippedItemFinal);
                             if (brokenItem != null) {
-                                playerFinal.inventory().process(new ItemStack(brokenItem, 1));
+                                playerFinal.processItem(brokenItem, 1);
                                 part += String.format(
                                         lang.get("commands.profile.unequip.broken_equipment_recover"), brokenItem.getName()
                                 );
@@ -327,7 +325,7 @@ public class PlayerCmds {
 
                     equipmentFinal.resetOfType(type);
                     equipmentFinal.updateAllChanged(dbUserFinal);
-                    playerFinal.save();
+                    playerFinal.updateAllChanged();
 
                     hook.editOriginal(lang.get("commands.profile.unequip.success").formatted(EmoteReference.CORRECT, type.name().toLowerCase()) + part)
                             .setComponents()

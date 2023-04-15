@@ -277,7 +277,7 @@ public class TransferCmds {
 
             var amount = ctx.getOptionAsInteger("amount", 1);
             if (amount == 1) {
-                if (!player.inventory().containsItem(item)) {
+                if (!player.containsItem(item)) {
                     ctx.reply("commands.itemtransfer.multiple_items_error", EmoteReference.ERROR);
                     return;
                 }
@@ -287,16 +287,16 @@ public class TransferCmds {
                     return;
                 }
 
-                if (giveToPlayer.inventory().getAmount(item) >= 5000) {
+                if (giveToPlayer.getItemAmount(item) >= 5000) {
                     ctx.reply("commands.itemtransfer.overflow", EmoteReference.ERROR);
                     return;
                 }
 
-                player.inventory().process(new ItemStack(item, -1));
-                giveToPlayer.inventory().process(new ItemStack(item, 1));
+                player.processItem(item, -1);
+                giveToPlayer.processItem(item, 1);
 
-                player.save();
-                giveToPlayer.save();
+                player.updateAllChanged();
+                giveToPlayer.updateAllChanged();
                 ctx.reply("commands.itemtransfer.success",
                         EmoteReference.OK, ctx.getMember().getEffectiveName(), 1,
                         item.getName(), giveTo.getAsMention()
@@ -305,22 +305,22 @@ public class TransferCmds {
                 return;
             }
 
-            if (player.inventory().containsItem(item) && player.inventory().getAmount(item) >= amount) {
+            if (player.containsItem(item) && player.getItemAmount(item) >= amount) {
                 if (item.isHidden()) {
                     ctx.reply("commands.itemtransfer.hidden_item", EmoteReference.ERROR);
                     return;
                 }
 
-                if (giveToPlayer.inventory().getAmount(item) + amount > 5000) {
+                if (giveToPlayer.getItemAmount(item) + amount > 5000) {
                     ctx.reply("commands.itemtransfer.overflow_after", EmoteReference.ERROR);
                     return;
                 }
 
-                player.inventory().process(new ItemStack(item, amount * -1));
-                giveToPlayer.inventory().process(new ItemStack(item, amount));
+                player.processItem(item, amount * -1);
+                giveToPlayer.processItem(item, amount);
 
-                player.save();
-                giveToPlayer.save();
+                player.updateAllChanged();
+                giveToPlayer.updateAllChanged();
                 ctx.reply("commands.itemtransfer.success", EmoteReference.OK,
                         ctx.getMember().getEffectiveName(), amount, item.getName(), giveTo.getAsMention()
                 );

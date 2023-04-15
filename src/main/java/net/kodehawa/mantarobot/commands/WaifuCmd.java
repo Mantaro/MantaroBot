@@ -210,8 +210,8 @@ public class WaifuCmd {
             protected void process(SlashContext ctx) {
                 final var player = ctx.getPlayer();
                 if (ctx.getOptionAsBoolean("remove")) {
-                    player.setClaimLocked(false);
-                    player.save();
+                    player.claimLocked(false);
+                    player.updateAllChanged();
 
                     ctx.replyEphemeral("commands.profile.claimlock.removed", EmoteReference.CORRECT);
                     return;
@@ -222,8 +222,7 @@ public class WaifuCmd {
                     return;
                 }
 
-                var inventory = player.inventory();
-                if (!inventory.containsItem(ItemReference.CLAIM_KEY)) {
+                if (!player.containsItem(ItemReference.CLAIM_KEY)) {
                     ctx.replyEphemeral("commands.profile.claimlock.no_key", EmoteReference.ERROR);
                     return;
                 }
@@ -232,9 +231,9 @@ public class WaifuCmd {
                     return;
                 }
 
-                player.setClaimLocked(true);
-                inventory.process(new ItemStack(ItemReference.CLAIM_KEY, -1));
-                player.save();
+                player.claimLocked(true);
+                player.processItem(ItemReference.CLAIM_KEY, -1);
+                player.save(); // Still need to save because of Inventory, need to find a way around this?
 
                 ctx.replyEphemeral("commands.profile.claimlock.success", EmoteReference.CORRECT);
             }

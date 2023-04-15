@@ -69,9 +69,7 @@ public class ItemHelper {
         ItemReference.MOP.setAction(((ctx, season) -> {
             Player player = ctx.getPlayer();
             UserDatabase dbUser = ctx.getDBUser();
-            Inventory playerInventory = player.inventory();
-
-            if (!playerInventory.containsItem(ItemReference.MOP))
+            if (!player.containsItem(ItemReference.MOP))
                 return false;
 
             if (dbUser.getDustLevel() >= 5) {
@@ -82,7 +80,7 @@ public class ItemHelper {
                     player.addBadgeIfAbsent(Badge.DUSTY);
                 }
 
-                playerInventory.process(new ItemStack(ItemReference.MOP, -1));
+                player.processItem(ItemReference.MOP, -1);
                 dbUser.dustLevel(0);
 
                 player.save();
@@ -98,13 +96,11 @@ public class ItemHelper {
         ItemReference.POTION_CLEAN.setAction((ctx, season) -> {
             Player player = ctx.getPlayer();
             UserDatabase dbUser = ctx.getDBUser();
-            Inventory playerInventory = player.inventory();
-
             var equipped = dbUser.getEquippedItems();
             equipped.resetEffect(PlayerEquipment.EquipmentType.POTION);
-            playerInventory.process(new ItemStack(ItemReference.POTION_CLEAN, -1));
+            player.processItem(ItemReference.POTION_CLEAN, -1);
 
-            player.save();
+            player.updateAllChanged();
             equipped.updateAllChanged(dbUser);
 
             ctx.sendLocalized("general.misc_item_usage.milk", EmoteReference.CORRECT);
@@ -239,12 +235,10 @@ public class ItemHelper {
 
     static boolean openLootCrate(IContext ctx, ItemType.LootboxType type, int item, EmoteReference typeEmote, int bound) {
         Player player = ctx.getPlayer();
-        Inventory inventory = player.inventory();
-
         Item crate = fromId(item);
 
-        if (inventory.containsItem(crate)) {
-            if (inventory.containsItem(ItemReference.LOOT_CRATE_KEY)) {
+        if (player.containsItem(crate)) {
+            if (player.containsItem(ItemReference.LOOT_CRATE_KEY)) {
                 if (!RatelimitUtils.ratelimit(lootCrateRatelimiter, ctx, false))
                     return false;
 
@@ -291,12 +285,12 @@ public class ItemHelper {
             return stack;
         }).collect(Collectors.toList());
 
-        boolean overflow = player.inventory().merge(toShow);
+        boolean overflow = player.mergeInventory(toShow);
 
-        player.inventory().process(new ItemStack(ItemReference.LOOT_CRATE_KEY, -1));
-        player.inventory().process(new ItemStack(crate, -1));
+        player.processItem(ItemReference.LOOT_CRATE_KEY, -1);
+        player.processItem(crate, -1);
         player.setCratesOpened(player.getCratesOpened() + 1);
-        player.save();
+        player.updateAllChanged();
 
         I18nContext lang = ctx.getLanguageContext();
         var show = toShow.stream()
@@ -487,7 +481,6 @@ public class ItemHelper {
     }
 
     public static Pair<Boolean, Pair<Player, UserDatabase>> handleDurability(IContext ctx, Item item, Player player, UserDatabase user) {
-        var playerInventory = player.inventory();
         var equippedItems = user.getEquippedItems();
         var subtractFrom = 0;
 
@@ -520,7 +513,7 @@ public class ItemHelper {
                         EmoteReference.HEART, brokenItem.getEmoji(), brokenItem.getName()
                 );
 
-                playerInventory.process(new ItemStack(brokenItem, 1));
+                player.processItem(brokenItem, 1);
                 successBroken = true;
             }
 
@@ -536,7 +529,7 @@ public class ItemHelper {
             ctx.sendFormat(toReplace, EmoteReference.SAD, item.getName(), broken);
 
             player.addBadgeIfAbsent(Badge.ITEM_BREAKER);
-            player.save();
+            player.updateAllChanged();
 
             equippedItems.updateAllChanged(user);
 
@@ -554,7 +547,7 @@ public class ItemHelper {
             if (item == ItemReference.HELLFIRE_AXE)
                 player.addBadgeIfAbsent(Badge.HOT_CHOPPER);
 
-            player.save();
+            player.updateAllChanged();
             equippedItems.updateAllChanged(user);
 
             //is not broken
@@ -571,14 +564,12 @@ public class ItemHelper {
         //We need to get this again since reusing the old ones will cause :fire:
         var finalPlayer = breakage.getValue().getKey();
         var finalUser = breakage.getValue().getValue();
-        var inventory = finalPlayer.inventory();
-
-        if (finalUser.isAutoEquip() && inventory.containsItem(item)) {
+        if (finalUser.isAutoEquip() && finalPlayer.containsItem(item)) {
             var equipped = finalUser.getEquippedItems();
             equipped.equipItem(item);
-            inventory.process(new ItemStack(item, -1));
+            finalPlayer.processItem(item, -1);
 
-            finalPlayer.save();
+            finalPlayer.updateAllChanged();
             equipped.updateAllChanged(dbUser);
 
             ctx.sendLocalized(i18n, EmoteReference.CORRECT, item.getName());

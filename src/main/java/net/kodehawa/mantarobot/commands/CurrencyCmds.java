@@ -262,8 +262,7 @@ public class CurrencyCmds {
             }
 
             final var player = ctx.getPlayer();
-            final var inventory = player.inventory();
-            dailyCrate(ctx, player, inventory);
+            dailyCrate(ctx, player);
         }
     }
 
@@ -459,8 +458,7 @@ public class CurrencyCmds {
                 }
 
                 final var player = ctx.getPlayer();
-                final var inventory = player.inventory();
-                dailyCrate(ctx, player, inventory);
+                dailyCrate(ctx, player);
             }
 
             @Override
@@ -612,7 +610,7 @@ public class CurrencyCmds {
             return;
         }
 
-        if (!player.inventory().containsItem(item)) {
+        if (!player.containsItem(item)) {
             ctx.sendLocalized("commands.useitem.no_item", EmoteReference.SAD);
             return;
         }
@@ -627,7 +625,7 @@ public class CurrencyCmds {
         ctx.send(equipment);
     }
 
-    private static void dailyCrate(IContext ctx, Player player, Inventory inv) {
+    private static void dailyCrate(IContext ctx, Player player) {
         if (!ratelimit(dailyCrateRatelimiter, ctx, false)) {
             return;
         }
@@ -645,7 +643,7 @@ public class CurrencyCmds {
             crate = ItemReference.CHOP_PREMIUM_CRATE;
         }
 
-        inv.process(new ItemStack(crate, 1));
+        player.processItem(crate, 1);
         player.setLastCrateGiven(ItemHelper.idOf(crate));
         player.save();
 
@@ -677,7 +675,7 @@ public class CurrencyCmds {
             return;
         }
 
-        var containsItem = player.inventory().containsItem(item);
+        var containsItem = player.containsItem(item);
         if (!containsItem) {
             ctx.sendLocalized("commands.opencrate.no_crate", EmoteReference.SAD, item.getName());
             return;
@@ -694,8 +692,7 @@ public class CurrencyCmds {
             return;
         }
 
-        var playerInventory = player.inventory();
-        long all = playerInventory.asList().stream()
+        long all = player.getInventoryList().stream()
                 .filter(item -> item.getItem().isSellable())
                 .mapToLong(value -> Math.round(value.getItem().getValue() * value.getAmount() * 0.9d))
                 .sum();
@@ -709,9 +706,8 @@ public class CurrencyCmds {
             return;
         }
 
-        var playerInventory = player.inventory();
         var lang = ctx.getLanguageContext();
-        final var inventoryList = playerInventory.asList();
+        final var inventoryList = player.getInventoryList();
         if (inventoryList.isEmpty()) {
             ctx.sendLocalized("commands.inventory.empty", EmoteReference.WARNING);
             return;
@@ -743,8 +739,7 @@ public class CurrencyCmds {
         if (inventoryList.isEmpty())
             builder.setDescription(lang.get("general.dust"));
         else {
-            playerInventory.asList()
-                    .stream()
+            inventoryList.stream()
                     .sorted(player.getInventorySortType().getSort().comparator())
                     .forEach(stack -> {
                         long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
@@ -779,7 +774,7 @@ public class CurrencyCmds {
                 return;
             }
 
-            if (player.inventory().getAmount(item) < amount) {
+            if (player.getItemAmount(item) < amount) {
                 ctx.sendLocalized("commands.useitem.not_enough_items", EmoteReference.SAD);
                 return;
             }
@@ -848,8 +843,8 @@ public class CurrencyCmds {
             }
 
             // Default: 1
-            player.inventory().process(new ItemStack(item, -amount));
-            player.save();
+            player.processItem(item, -amount);
+            player.updateAllChanged();
             equippedItems.updateAllChanged(dbUser);
 
             return;

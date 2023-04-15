@@ -251,7 +251,7 @@ public class Marriage implements ManagedMongoObject {
     }
 
     @BsonIgnore
-    public void setLocked(boolean locked) {
+    public void locked(boolean locked) {
         lockedUntil(locked ? System.currentTimeMillis() + 35000 : 0);
     }
 

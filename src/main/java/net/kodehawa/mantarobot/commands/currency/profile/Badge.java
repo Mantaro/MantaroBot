@@ -325,7 +325,7 @@ public enum Badge {
     SHOPPER("Shopper", "\uD83D\uDED2",
             "Have 5,000 items of any kind.",
             91, 92,
-            (player, stats, dbUser) -> player.inventory().asList().stream()
+            (player, stats, dbUser) -> player.getInventoryList().stream()
                     .filter(itemStack -> itemStack.getItem() != ItemReference.CLAIM_KEY)
                     .anyMatch(stack -> stack.getAmount() == 5000), false
     ),

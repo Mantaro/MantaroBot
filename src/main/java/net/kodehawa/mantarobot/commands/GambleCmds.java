@@ -20,7 +20,6 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -230,9 +229,8 @@ public class GambleCmds {
                 var player = ctx.getPlayer();
                 var stats = ctx.getPlayerStats(ctx.getAuthor());
 
-                var playerInventory = player.inventory();
                 if (opts.containsKey("useticket")) {
-                    if (!playerInventory.containsItem(ItemReference.SLOT_COIN)) {
+                    if (!player.containsItem(ItemReference.SLOT_COIN)) {
                         ctx.sendLocalized("commands.slots.errors.no_tickets", EmoteReference.SAD);
                         return;
                     }
@@ -301,7 +299,6 @@ public class GambleCmds {
     }
 
     private static void slots(IContext ctx, Player player, PlayerStats stats, long money, long coinAmount, boolean ticket) {
-        var playerInventory = player.inventory();
         var slotsChance = 25; // 25% raw chance of winning, completely random chance of winning on the other random iteration
         var isWin = false;
         var coinSelect = false;
@@ -312,12 +309,12 @@ public class GambleCmds {
                 return;
             }
 
-            if (!playerInventory.containsItem(ItemReference.SLOT_COIN)) {
+            if (!player.containsItem(ItemReference.SLOT_COIN)) {
                 ctx.sendLocalized("commands.slots.errors.no_tickets", EmoteReference.SAD);
                 return;
             }
 
-            if (playerInventory.getAmount(ItemReference.SLOT_COIN) < coinAmount) {
+            if (player.getItemAmount(ItemReference.SLOT_COIN) < coinAmount) {
                 ctx.sendLocalized("commands.slots.errors.not_enough_tickets", EmoteReference.ERROR);
                 return;
             }
@@ -352,7 +349,7 @@ public class GambleCmds {
 
         if (coinSelect) {
             // Substract slot tickets.
-            playerInventory.process(new ItemStack(ItemReference.SLOT_COIN, (int) -coinAmount));
+            player.processItem(ItemReference.SLOT_COIN, (int) -coinAmount);
             slotsChance = slotsChance + Math.max(6, secureRandom.nextInt(12) + 1);
             money = 70L * coinAmount;
         }
@@ -411,7 +408,7 @@ public class GambleCmds {
             }
 
             player.addMoney(gains);
-            player.save();
+            player.updateAllChanged();
         } else {
             stats.incrementSlotsLose();
             stats.updateAllChanged();
@@ -552,7 +549,7 @@ public class GambleCmds {
             );
         }
 
-        player.setLocked(false);
-        player.save();
+        player.locked(false);
+        player.updateAllChanged();
     }
 }

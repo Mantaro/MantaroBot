@@ -251,7 +251,6 @@ public class CurrencyActionCmds {
 
     private static void mine(IContext ctx, Player player, UserDatabase dbUser, Marriage marriage) {
         final var languageContext = ctx.getLanguageContext();
-        final var inventory = player.inventory();
         final var equipped = dbUser.getEquippedItems().of(PlayerEquipment.EquipmentType.PICK);
 
         if (equipped == 0) {
@@ -319,11 +318,11 @@ public class CurrencyActionCmds {
 
         if (random.nextInt(400) >= chance) {
             var amount = 1 + random.nextInt(item.getDiamondIncrease());
-            if (inventory.getAmount(ItemReference.DIAMOND) + amount > 5000) {
+            if (player.getItemAmount(ItemReference.DIAMOND) + amount > 5000) {
                 message += "\n" + languageContext.get("commands.mine.diamond.overflow").formatted(amount);
                 money += Math.round((ItemReference.DIAMOND.getValue() * 0.9) * amount);
             } else {
-                inventory.process(new ItemStack(ItemReference.DIAMOND, amount));
+                player.processItem(ItemReference.DIAMOND, amount);
                 message += "\n" + EmoteReference.DIAMOND + languageContext.get("commands.mine.diamond.success").formatted(amount);
             }
 
@@ -383,19 +382,19 @@ public class CurrencyActionCmds {
                 );
             }
 
-            if (extraGem != null && (inventory.getAmount(extraItem) + extraGem.getAmount() >= 5000)) {
+            if (extraGem != null && (player.getItemAmount(extraItem) + extraGem.getAmount() >= 5000)) {
                 extraGem = null;
             }
 
-            if (inventory.getAmount(itemGem) + selectedGem.getAmount() >= 5000) {
+            if (player.getItemAmount(itemGem) + selectedGem.getAmount() >= 5000) {
                 message += "\n" + languageContext.get("commands.mine.gem.overflow")
                         .formatted(itemGem.getEmojiDisplay() + " x" + selectedGem.getAmount());
                 money += Math.round((itemGem.getValue() * 0.9) * selectedGem.getAmount());
             } else {
-                inventory.process(selectedGem);
+                player.processItem(selectedGem);
 
                 if (extraGem != null) {
-                    inventory.process(extraGem);
+                    player.processItem(extraGem);
                     message += "\n" + EmoteReference.MEGA + languageContext.get("commands.mine.gem.success_extra")
                             .formatted(
                                     itemGem.getEmoji() + " x" + selectedGem.getAmount(),
@@ -428,11 +427,11 @@ public class CurrencyActionCmds {
         if (random.nextInt(400) >= sparkleChance) {
             var gem = ItemReference.SPARKLE_FRAGMENT;
 
-            if (inventory.getAmount(gem) + 1 >= 5000) {
+            if (player.getItemAmount(gem) + 1 >= 5000) {
                 message += "\n" + languageContext.get("commands.mine.sparkle.overflow");
                 money += Math.round(gem.getValue() * 0.9);
             } else {
-                inventory.process(new ItemStack(gem, 1));
+                player.processItem(gem, 1);
                 message += "\n" + EmoteReference.MEGA +
                         languageContext.get("commands.mine.sparkle.success").formatted(gem.getEmojiDisplay());
             }
@@ -443,10 +442,10 @@ public class CurrencyActionCmds {
         if (random.nextInt(400) >= 392) {
             var crate = dbUser.isPremium() ? ItemReference.MINE_PREMIUM_CRATE : ItemReference.MINE_CRATE;
 
-            if (inventory.getAmount(crate) + 1 > 5000) {
+            if (player.getItemAmount(crate) + 1 > 5000) {
                 message += "\n" + languageContext.get("commands.mine.crate.overflow");
             } else {
-                inventory.process(new ItemStack(crate, 1));
+                player.processItem(crate, 1);
                 message += "\n" + EmoteReference.MEGA + languageContext.get("commands.mine.crate.success")
                         .formatted(crate.getEmojiDisplay(), crate.getName());
             }
@@ -461,9 +460,10 @@ public class CurrencyActionCmds {
         player.addMoney(money);
 
         handlePetBadges(player, marriage, pet);
-        player.save();
+        player.markPetChange();
+        player.updateAllChanged();
 
-        if (marriage != null) {
+        if (marriage != null && player.getPetChoice() == PetChoice.MARRIAGE) {
             marriage.save();
         }
 
@@ -474,7 +474,6 @@ public class CurrencyActionCmds {
 
     private static void fish(IContext ctx, Player player, UserDatabase dbUser, Marriage marriage) {
         final var languageContext = ctx.getLanguageContext();
-        final var playerInventory = player.inventory();
         FishRod item;
         var equipped = dbUser.getEquippedItems().of(PlayerEquipment.EquipmentType.ROD);
 
@@ -518,13 +517,13 @@ public class CurrencyActionCmds {
                     .filter(i -> i.getItemType() == ItemType.COMMON && !i.isHidden() && i.isSellable() && i.getValue() < 45).toList();
 
             var selected = common.get(random.nextInt(common.size()));
-            if (playerInventory.getAmount(selected) >= 5000) {
+            if (player.getItemAmount(selected) >= 5000) {
                 ctx.sendLocalized("commands.fish.trash.overflow", EmoteReference.SAD);
                 ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.fish.autoequip.success");
                 return;
             }
 
-            playerInventory.process(new ItemStack(selected, 1));
+            player.processItem(selected, 1);
             ctx.sendLocalized("commands.fish.trash.success", EmoteReference.EYES, selected.getEmojiDisplay());
         } else {
             // Here you actually caught fish, congrats.
@@ -587,10 +586,10 @@ public class CurrencyActionCmds {
             if (random.nextInt(400) > 380) {
                 var crate = dbUser.isPremium() ? ItemReference.FISH_PREMIUM_CRATE : ItemReference.FISH_CRATE;
 
-                if (playerInventory.getAmount(crate) >= 5000) {
+                if (player.getItemAmount(crate) >= 5000) {
                     extraMessage += "\n" + languageContext.get("commands.fish.crate.overflow");
                 } else {
-                    playerInventory.process(new ItemStack(crate, 1));
+                    player.processItem(crate, 1);
                     extraMessage += "\n" + EmoteReference.MEGA +
                             languageContext.get("commands.fish.crate.success").formatted(crate.getEmojiDisplay(), crate.getName());
                 }
@@ -604,7 +603,7 @@ public class CurrencyActionCmds {
                     );
                 }
 
-                playerInventory.process(new ItemStack(ItemReference.SHARK, 1));
+                player.processItem(ItemReference.SHARK, 1);
                 extraMessage += "\n" + EmoteReference.MEGA +
                         languageContext.get("commands.fish.shark_success").formatted(ItemReference.SHARK.getEmojiDisplay());
 
@@ -621,7 +620,7 @@ public class CurrencyActionCmds {
             ArrayList<ItemStack> ita = new ArrayList<>();
             var stack = ItemStack.reduce(list);
             stack.forEach(it -> {
-                if (playerInventory.getAmount(it.getItem()) + it.getAmount() <= 5000) {
+                if (player.getItemAmount(it.getItem()) + it.getAmount() <= 5000) {
                     ita.add(it);
                 } else {
                     overflow.set(true);
@@ -635,7 +634,7 @@ public class CurrencyActionCmds {
             }
 
             var reduced = ItemStack.reduce(ita);
-            playerInventory.process(reduced);
+            player.processItems(reduced);
             var itemDisplay = ItemStack.toString(reduced);
             var foundFish = !reduced.isEmpty();
 
@@ -647,7 +646,7 @@ public class CurrencyActionCmds {
             handlePetBadges(player, marriage, pet);
 
             if (nominalLevel >= 3 && random.nextInt(110) > 90) {
-                playerInventory.process(new ItemStack(ItemReference.SHELL, 1));
+                player.processItem(ItemReference.SHELL, 1);
                 extraMessage += "\n" + EmoteReference.MEGA +
                         languageContext.get("commands.fish.fossil_success").formatted(ItemReference.SHELL.getEmojiDisplay());
             }
@@ -694,10 +693,11 @@ public class CurrencyActionCmds {
         }
 
         //Save all changes to the player object.
-        player.save();
+        player.markPetChange();
+        player.updateAllChanged();
 
         // Save pet stats.
-        if (marriage != null) {
+        if (marriage != null && player.getPetChoice() == PetChoice.MARRIAGE) {
             marriage.save();
         }
 
@@ -706,8 +706,6 @@ public class CurrencyActionCmds {
 
     private static void chop(IContext ctx, Player player, UserDatabase dbUser, Marriage marriage) {
         final var languageContext = ctx.getLanguageContext();
-        final var playerInventory = player.inventory();
-
         var extraMessage = "\n";
         var equipped = dbUser.getEquippedItems().of(PlayerEquipment.EquipmentType.AXE);
 
@@ -779,7 +777,7 @@ public class CurrencyActionCmds {
             ArrayList<ItemStack> ita = new ArrayList<>();
             var stack = ItemStack.reduce(list);
             stack.forEach(it -> {
-                if (playerInventory.getAmount(it.getItem()) + it.getAmount() <= 5000) {
+                if (player.getItemAmount(it.getItem()) + it.getAmount() <= 5000) {
                     ita.add(it);
                 } else {
                     overflow.set(true);
@@ -796,12 +794,12 @@ public class CurrencyActionCmds {
                 // There should only be one, as we merged it beforehand.
                 var wood = ita.stream().filter(is -> is.getItem() == ItemReference.WOOD).toList();
                 int am = Math.max(1, random.nextInt(7));
-                if (playerInventory.getAmount(ItemReference.WOOD) + am + wood.get(0).getAmount() <= 5000) {
+                if (player.getItemAmount(ItemReference.WOOD) + am + wood.get(0).getAmount() <= 5000) {
                     ita.add(new ItemStack(ItemReference.WOOD, am));
                 }
             } else if (found) {
                 // Guarantee at least one wood.
-                if (playerInventory.getAmount(ItemReference.WOOD) + 1 <= 5000) {
+                if (player.getItemAmount(ItemReference.WOOD) + 1 <= 5000) {
                     ita.add(new ItemStack(ItemReference.WOOD, 1));
                 }
             }
@@ -809,7 +807,7 @@ public class CurrencyActionCmds {
             // Reduce item stacks (aka join them) and process it.
             var reduced = ItemStack.reduce(ita);
             var itemDisplay = ItemStack.toString(reduced);
-            playerInventory.process(reduced);
+            player.processItems(reduced);
 
             // Ah yes, sellout
             var bonus = money;
@@ -827,10 +825,10 @@ public class CurrencyActionCmds {
 
             if (random.nextInt(400) > 380) {
                 var crate = dbUser.isPremium() ? ItemReference.CHOP_PREMIUM_CRATE : ItemReference.CHOP_CRATE;
-                if (playerInventory.getAmount(crate) >= 5000) {
+                if (player.getItemAmount(crate) >= 5000) {
                     extraMessage += "\n" + languageContext.get("commands.chop.crate.overflow");
                 } else {
-                    playerInventory.process(new ItemStack(crate, 1));
+                    player.processItem(crate, 1);
                     extraMessage += "\n" + EmoteReference.MEGA + languageContext.get("commands.chop.crate.success")
                             .formatted(crate.getEmojiDisplay(), crate.getName());
                 }
@@ -860,10 +858,11 @@ public class CurrencyActionCmds {
                 ctx.sendFormatStripped(extraMessage + "\n\n" + languageContext.get("commands.chop.success"), item.getEmojiDisplay(), itemDisplay, money, item.getName());
             }
 
-            player.save();
+            player.markPetChange();
+            player.updateAllChanged();
 
             // Save pet stuff.
-            if (marriage != null) {
+            if (marriage != null && player.getPetChoice() == PetChoice.MARRIAGE) {
                 marriage.save();
             }
 

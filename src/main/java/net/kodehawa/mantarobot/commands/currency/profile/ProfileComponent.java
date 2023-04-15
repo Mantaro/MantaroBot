@@ -117,8 +117,7 @@ public enum ProfileComponent {
         }
     }, true, false),
     INVENTORY(EmoteReference.POUCH, i18nContext -> i18nContext.get("commands.profile.inventory"), (holder, i18nContext) -> {
-        var inv = holder.getPlayer().inventory();
-        final var stackList = inv.asList();
+        final var stackList = holder.getPlayer().getInventoryList();
         if (stackList.isEmpty()) {
             return i18nContext.get("general.dust");
         }

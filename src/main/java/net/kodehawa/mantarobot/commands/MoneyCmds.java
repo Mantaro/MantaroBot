@@ -295,7 +295,7 @@ public class MoneyCmds {
             // Marriage bonus
             var marriage = authorDBUser.getMarriage();
             if (marriage != null && otherUser.getId().equals(marriage.getOtherPlayer(ctx.getAuthor().getId())) &&
-                    playerOtherUser.inventory().containsItem(ItemReference.RING)) {
+                    playerOtherUser.containsItem(ItemReference.RING)) {
                 dailyMoney += Math.max(10, random.nextInt(200));
             }
 
@@ -316,8 +316,7 @@ public class MoneyCmds {
 
         List<String> returnMessage = new ArrayList<>();
         final long currentTime = System.currentTimeMillis();
-        final var inventory = authorPlayer.inventory();
-        final int amountStreakSavers = inventory.getAmount(ItemReference.MAGIC_WATCH);
+        final int amountStreakSavers = authorPlayer.getItemAmount(ItemReference.MAGIC_WATCH);
 
         // >=0 -> Valid  <0 -> Invalid
         final long currentDailyOffset = DAILY_VALID_PERIOD_MILLIS - (currentTime - authorPlayer.getLastDailyAt()) ;
@@ -333,7 +332,7 @@ public class MoneyCmds {
                 returnMessage.add(languageContext.get("commands.daily.streak.up").formatted(streak));
             if (currentDailyOffset < 0){
                 int streakSaversUsed = -1 * (int) Math.floor((double) currentDailyOffset / (double) DAILY_VALID_PERIOD_MILLIS);
-                inventory.process(new ItemStack(ItemReference.MAGIC_WATCH, streakSaversUsed * -1));
+                authorPlayer.processItem(ItemReference.MAGIC_WATCH, streakSaversUsed * -1);
                 returnMessage.add(languageContext.get("commands.daily.streak.watch_used").formatted(
                         streakSaversUsed, streakSaversUsed + 1,
                         amountStreakSavers - streakSaversUsed)
@@ -350,10 +349,7 @@ public class MoneyCmds {
                             languageContext.get("commands.daily.streak.lost_streak.watch").formatted(streak)
                     );
 
-                    inventory.process(
-                            new ItemStack(ItemReference.MAGIC_WATCH, inventory.getAmount(ItemReference.MAGIC_WATCH) * -1)
-                    );
-
+                    authorPlayer.processItem(ItemReference.MAGIC_WATCH, authorPlayer.getItemAmount(ItemReference.MAGIC_WATCH) * -1);
                     removedWatch = true;
 
                 } else {
@@ -368,15 +364,15 @@ public class MoneyCmds {
             int bonus = 250;
 
             if (streak % 50 == 0){
-                inventory.process(new ItemStack(ItemReference.MAGIC_WATCH,1));
+                authorPlayer.processItem(ItemReference.MAGIC_WATCH,1);
                 returnMessage.add(languageContext.get("commands.daily.watch_get"));
             }
 
             if (streak > 10) {
                 authorPlayer.addBadgeIfAbsent(Badge.CLAIMER);
 
-                if (streak % 20 == 0 && inventory.getAmount(ItemReference.LOOT_CRATE) < 5000) {
-                    inventory.process(new ItemStack(ItemReference.LOOT_CRATE, 1));
+                if (streak % 20 == 0 && authorPlayer.getItemAmount(ItemReference.LOOT_CRATE) < 5000) {
+                    authorPlayer.processItem(ItemReference.LOOT_CRATE, 1);
                     returnMessage.add(languageContext.get("commands.daily.crate"));
                 }
 
@@ -420,23 +416,20 @@ public class MoneyCmds {
 
         // Careful not to overwrite yourself ;P
         // Save streak and items
-        authorPlayer.setLastDailyAt(currentTime);
-        authorPlayer.setDailyStreak(streak);
+        authorPlayer.lastDailyAt(currentTime);
+        authorPlayer.dailyStreak(streak);
 
         // Critical not to call if author != mentioned because in this case
         // toAdd is the unified player as referenced
         if (targetOther) {
-            authorPlayer.save();
+            authorPlayer.updateAllChanged();
         }
 
         toAddMoneyTo.addMoney(dailyMoney);
         if (removedWatch) {
-            toAddMoneyTo.save();
+            toAddMoneyTo.updateAllChanged();
         } else {
-            // We can sort of avoid doing a full save here.
-            // Since updating the fields is just fine unless we're removing something from a Map.
-            // It's still annoying.
-            toAddMoneyTo.save();
+            toAddMoneyTo.updateAllChanged();
         }
 
         // Build Message
@@ -512,9 +505,10 @@ public class MoneyCmds {
         if (!loot.isEmpty()) {
             var stack = ItemStack.toString(ItemStack.reduce(loot));
 
-            if (player.inventory().merge(loot))
+            if (player.mergeInventory(loot)) {
                 extraMessage += languageContext.withRoot("commands", "loot.item_overflow");
-
+            }
+            
             if (moneyFound != 0) {
                 if (player.addMoney(moneyFound)) {
                     ctx.sendLocalized("commands.loot.with_item.found", EmoteReference.POPPER, stack, moneyFound, extraMessage);
@@ -545,7 +539,7 @@ public class MoneyCmds {
             }
         }
 
-        player.save();
+        player.updateAllChanged();
     }
 
     private static void balance(IContext ctx, User toCheck) {

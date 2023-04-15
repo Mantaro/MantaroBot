@@ -94,10 +94,10 @@ public class OwnerCmd {
             }
 
             var p = MantaroData.db().getPlayer(id);
-            p.setLastDailyAt(System.currentTimeMillis());
-            p.setDailyStreak(amount);
+            p.lastDailyAt(System.currentTimeMillis());
+            p.dailyStreak(amount);
 
-            p.save();
+            p.updateAllChanged();
 
             ctx.send("Done, new streak is " + amount);
         }
@@ -158,8 +158,8 @@ public class OwnerCmd {
 
             var player = ctx.getPlayer();
 
-            if (player.inventory().getAmount(item) + amount < 5000) {
-                player.inventory().process(new ItemStack(item, amount));
+            if (player.getItemAmount(item) + amount < 5000) {
+                player.processItem(item, amount);
             } else {
                 ctx.send(EmoteReference.ERROR + "Too many of this item already.");
                 return;
@@ -200,12 +200,12 @@ public class OwnerCmd {
                     transferToPlayer.setCurrentMoney(transferredPlayer.getCurrentMoney());
                     transferToPlayer.setLevel(transferredPlayer.getLevel());
                     transferToPlayer.setReputation(transferredPlayer.getReputation());
-                    transferToPlayer.inventory().merge(transferredPlayer.inventory().asList());
+                    transferToPlayer.mergeInventory(transferredPlayer.getInventoryList());
 
                     transferToPlayer.setExperience(transferredPlayer.getExperience());
                     transferToPlayer.setBadges(transferredPlayer.getBadges());
                     transferToPlayer.setShowBadge(transferredPlayer.isShowBadge());
-                    transferToPlayer.setMarketUsed(transferredPlayer.getMarketUsed());
+                    transferToPlayer.marketUsed(transferredPlayer.getMarketUsed());
                     transferToPlayer.setMainBadge(transferredPlayer.getMainBadge());
                     transferToPlayer.setGamesWon(transferredPlayer.getGamesWon());
                     transferToPlayer.setMiningExperience(transferredPlayer.getMiningExperience());
@@ -213,10 +213,10 @@ public class OwnerCmd {
                     transferToPlayer.setFishingExperience(transferredPlayer.getFishingExperience());
                     transferToPlayer.setCratesOpened(transferredPlayer.getCratesOpened());
                     transferToPlayer.setTimesMopped(transferredPlayer.getTimesMopped());
-                    transferToPlayer.setDailyStreak(transferredPlayer.getDailyStreak());
-                    transferToPlayer.setLastDailyAt(transferredPlayer.getLastDailyAt());
+                    transferToPlayer.dailyStreak(transferredPlayer.getDailyStreak());
+                    transferToPlayer.lastDailyAt(transferredPlayer.getLastDailyAt());
                     transferToPlayer.setPet(transferredPlayer.getPet());
-                    transferToPlayer.setPetChoice(transferredPlayer.getPetChoice());
+                    transferToPlayer.petChoice(transferredPlayer.getPetChoice());
 
                     transferToPlayer.save();
 

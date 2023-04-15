@@ -19,6 +19,8 @@ package net.kodehawa.mantarobot.db.entities;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
+import net.kodehawa.mantarobot.commands.currency.item.Item;
+import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
 import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
@@ -71,7 +73,7 @@ public class Player implements ManagedMongoObject {
     private PotionEffect activePotion;
     private PotionEffect activeBuff;
     private long waifuCachedValue;
-    private boolean isClaimLocked = false;
+    private boolean claimLocked = false;
     private long miningExperience;
     private long fishingExperience;
     private long chopExperience;
@@ -138,7 +140,7 @@ public class Player implements ManagedMongoObject {
     }
 
     public boolean isClaimLocked() {
-        return isClaimLocked;
+        return claimLocked;
     }
 
     public long getExperience() {
@@ -184,7 +186,6 @@ public class Player implements ManagedMongoObject {
     public Badge getMainBadge() {
         return this.mainBadge;
     }
-
 
     public long getMarketUsed() {
         return this.marketUsed;
@@ -254,23 +255,26 @@ public class Player implements ManagedMongoObject {
         return serialize(inventoryObject.asList());
     }
 
-    public void setClaimLocked(boolean claimLocked) {
-        isClaimLocked = claimLocked;
+    // -- Setters (protected if possible)
+    protected void setClaimLocked(boolean claimLocked) {
+        this.claimLocked = claimLocked;
     }
 
+    // Unused, only used for migration
     public void setExperience(long experience) {
         this.experience = experience;
     }
 
+    // Unused, only used for migration
     public void setBadges(List<Badge> badges) {
         this.badges = badges;
     }
 
-    public void setDailyStreak(long dailyStreak) {
+    protected void setDailyStreak(long dailyStreak) {
         this.dailyStreak = dailyStreak;
     }
 
-    public void setDescription(String description) {
+    protected void setDescription(String description) {
         this.description = description;
     }
 
@@ -278,7 +282,7 @@ public class Player implements ManagedMongoObject {
         this.gamesWon = gamesWon;
     }
 
-    public void setLastDailyAt(long lastDailyAt) {
+    protected void setLastDailyAt(long lastDailyAt) {
         this.lastDailyAt = lastDailyAt;
     }
 
@@ -302,7 +306,7 @@ public class Player implements ManagedMongoObject {
         this.mainBadge = mainBadge;
     }
 
-    public void setMarketUsed(long marketUsed) {
+    protected void setMarketUsed(long marketUsed) {
         this.marketUsed = marketUsed;
     }
 
@@ -383,7 +387,7 @@ public class Player implements ManagedMongoObject {
         this.newPlayerNotice = newPlayerNotice;
     }
 
-    public void setPetChoice(PetChoice petChoice) {
+    protected void setPetChoice(PetChoice petChoice) {
         this.petChoice = petChoice;
     }
 
@@ -397,6 +401,42 @@ public class Player implements ManagedMongoObject {
 
     public void setLevel(long level) {
         this.level = level;
+    }
+
+    // -- Tracking setters (always public)
+    public void petChoice(PetChoice petChoice) {
+        this.petChoice = petChoice;
+        fieldTracker.put("petChoice", petChoice);
+    }
+
+    @BsonIgnore
+    public void lastDailyAt(long lastDailyAt) {
+        this.lastDailyAt = lastDailyAt;
+        fieldTracker.put("lastDailyAt", lastDailyAt);
+    }
+
+    @BsonIgnore
+    public void marketUsed(long marketUsed) {
+        this.marketUsed = marketUsed;
+        fieldTracker.put("marketUsed", marketUsed);
+    }
+
+    @BsonIgnore
+    public void description(String description) {
+        this.description = description;
+        fieldTracker.put("description", description);
+    }
+
+    @BsonIgnore
+    public void dailyStreak(long dailyStreak) {
+        this.dailyStreak = dailyStreak;
+        fieldTracker.put("dailyStreak", dailyStreak);
+    }
+
+    @BsonIgnore
+    public void claimLocked(boolean claimLocked) {
+        this.claimLocked = claimLocked;
+        fieldTracker.put("claimLocked", claimLocked);
     }
 
     @BsonIgnore
@@ -417,11 +457,6 @@ public class Player implements ManagedMongoObject {
     @BsonProperty("inventory")
     public Map<String, Integer> rawInventory() {
         return serialize(inventoryObject.asList());
-    }
-
-    @BsonIgnore
-    public Inventory inventory() {
-        return inventoryObject;
     }
 
     public long getNewMoney() {
@@ -474,6 +509,51 @@ public class Player implements ManagedMongoObject {
 
     public Long getLevel() {
         return this.level;
+    }
+
+    @BsonIgnore
+    public int getItemAmount(Item item) {
+        return inventoryObject.getAmount(item);
+    }
+
+    @BsonIgnore
+    public void processItem(Item item, int amount) {
+        inventoryObject.process(new ItemStack(item, amount));
+        fieldTracker.put("inventory", getInventory());
+    }
+
+    @BsonIgnore
+    public void processItem(ItemStack stack) {
+        inventoryObject.process(stack);
+        fieldTracker.put("inventory", getInventory());
+    }
+
+    @BsonIgnore
+    public void processItems(List<ItemStack> stack) {
+        inventoryObject.process(stack);
+        fieldTracker.put("inventory", getInventory());
+    }
+
+    @BsonIgnore
+    public boolean mergeInventory(List<ItemStack> stack) {
+        var merge = inventoryObject.merge(stack);
+        fieldTracker.put("inventory", getInventory());
+        return merge;
+    }
+
+    @BsonIgnore
+    public boolean containsItem(Item item) {
+        return inventoryObject.containsItem(item);
+    }
+
+    @BsonIgnore
+    public List<ItemStack> getInventoryList() {
+        return inventoryObject.asList();
+    }
+
+    @BsonIgnore
+    public void markPetChange() {
+        fieldTracker.put("pet", pet);
     }
 
     @BsonIgnore
@@ -594,7 +674,7 @@ public class Player implements ManagedMongoObject {
     }
 
     @BsonIgnore
-    public void setLocked(boolean locked) {
+    public void locked(boolean locked) {
         setLockedUntil(locked ? System.currentTimeMillis() + 35000 : 0);
         fieldTracker.put("lockedUntil", lockedUntil);
     }
