@@ -291,6 +291,7 @@ public class ManagedDatabase {
     public void updateFieldValues(ManagedMongoObject object, Map<String, Object> map) {
         log("Updating tracked set for id {} (db: {}, set size: {}) (batch values)", object.getId(), object.getTableName(), map.size(), object.getTableName());
 
+        // No need to try and save an empty set, just bail out.
         if (map.isEmpty()) {
             log("Empty tracked set when requesting update!");
             return;
@@ -301,26 +302,36 @@ public class ManagedDatabase {
         map.forEach((key, value) -> {
             if (value instanceof Map<?, ?> e) {
                 var keySet = e.keySet();
+                // If key is of type Enum<T> or int/long, we need to convert them to String.
+                // Thankfully both have rather easy methods to do so: Enum returns the equivalent of name() on its default implementation,
+                // and String.valueOf works if you pass an object, which in the case of int/long, will give a String representation of the numerical value.
                 if (!keySet.isEmpty() && keySet.iterator().next() instanceof Enum<?>) {
                     updates.add(Updates.set(
                             key,
+                            // Yes, seemingly this is needed.
                             new Document(e.entrySet().stream().collect(Collectors.toMap(k -> k.getKey().toString(), Map.Entry::getValue))))
                     );
-                    return;
+
+                    return; // This acts like continue; in a forEach loop
                 }
 
                 if (!keySet.isEmpty() && (keySet.iterator().next() instanceof Integer || keySet.iterator().next() instanceof Long)) {
                     updates.add(Updates.set(
                             key,
+                            // Yes, seemingly this is needed.
                             new Document(e.entrySet().stream().collect(Collectors.toMap(k -> String.valueOf(k.getKey()), Map.Entry::getValue))))
                     );
-                    return;
+
+                    return; // This acts like continue; in a forEach loop
                 }
             }
 
             updates.add(Updates.set(key, value));
         });
 
+        System.out.println(updates);
+        // Reminder: you NEED to use Updates.combine, else somehow Map objects will act really strangely (ex. will not remove deleted items, but will add new ones)
+        // Upsert means it's adding the document/embedded document if it does not exist on the current collection/document.
         collection.updateOne(Filters.eq(object.getId()), Updates.combine(updates), new UpdateOptions().upsert(true));
     }
 }

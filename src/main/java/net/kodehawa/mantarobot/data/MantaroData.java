@@ -25,6 +25,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.connection.ConnectionPoolSettings;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.codecs.MapCodecProvider;
+import net.kodehawa.mantarobot.utils.ShutdownCodes;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import org.bson.codecs.configuration.CodecProvider;
@@ -79,22 +80,27 @@ public class MantaroData {
         var config = config().get();
         if (mongoClient == null) {
             synchronized (MantaroData.class) {
-                ConnectionString connectionString = new ConnectionString(config.getMongoUri());
-                ConnectionPoolSettings connectionPoolSettings = ConnectionPoolSettings.builder()
-                        .minSize(2)
-                        .maxSize(30)
-                        .maxConnectionIdleTime(0, TimeUnit.MILLISECONDS)
-                        .maxConnectionLifeTime(120, TimeUnit.SECONDS)
-                        .build();
+                try {
+                    ConnectionString connectionString = new ConnectionString(config.getMongoUri());
+                    ConnectionPoolSettings connectionPoolSettings = ConnectionPoolSettings.builder()
+                            .minSize(2)
+                            .maxSize(30)
+                            .maxConnectionIdleTime(0, TimeUnit.MILLISECONDS)
+                            .maxConnectionLifeTime(120, TimeUnit.SECONDS)
+                            .build();
 
-                MongoClientSettings clientSettings = MongoClientSettings.builder()
-                        .applyConnectionString(connectionString)
-                        .applyToConnectionPoolSettings(builder -> builder.applySettings(connectionPoolSettings))
-                        .codecRegistry(pojoCodecRegistry)
-                        .build();
+                    MongoClientSettings clientSettings = MongoClientSettings.builder()
+                            .applyConnectionString(connectionString)
+                            .applyToConnectionPoolSettings(builder -> builder.applySettings(connectionPoolSettings))
+                            .codecRegistry(pojoCodecRegistry)
+                            .build();
 
-                mongoClient = MongoClients.create(clientSettings);
-                log.info("Established first MongoDB connection.");
+                    mongoClient = MongoClients.create(clientSettings);
+                    log.info("Established first MongoDB connection.");
+                } catch (Exception e) {
+                    log.error("Cannot connect to database! Bailing out", e);
+                    System.exit(ShutdownCodes.FATAL_FAILURE);
+                }
             }
         }
 

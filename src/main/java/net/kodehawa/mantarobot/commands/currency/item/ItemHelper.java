@@ -528,8 +528,9 @@ public class ItemHelper {
 
             ctx.sendFormat(toReplace, EmoteReference.SAD, item.getName(), broken);
 
-            player.addBadgeIfAbsent(Badge.ITEM_BREAKER);
-            player.updateAllChanged();
+            if (player.addBadgeIfAbsent(Badge.ITEM_BREAKER) || successBroken) {
+                player.updateAllChanged();
+            }
 
             equippedItems.updateAllChanged(user);
 
@@ -540,14 +541,25 @@ public class ItemHelper {
             //is broken
             return Pair.of(true, Pair.of(player, user));
         } else {
-            if (item == ItemReference.HELLFIRE_PICK)
+            var addedBadge = false;
+            if (item == ItemReference.HELLFIRE_PICK) {
                 player.addBadgeIfAbsent(Badge.HOT_MINER);
-            if (item == ItemReference.HELLFIRE_ROD)
+                addedBadge = true;
+            }
+            if (item == ItemReference.HELLFIRE_ROD) {
                 player.addBadgeIfAbsent(Badge.HOT_FISHER);
-            if (item == ItemReference.HELLFIRE_AXE)
-                player.addBadgeIfAbsent(Badge.HOT_CHOPPER);
+                addedBadge = true;
+            }
 
-            player.updateAllChanged();
+            if (item == ItemReference.HELLFIRE_AXE) {
+                player.addBadgeIfAbsent(Badge.HOT_CHOPPER);
+                addedBadge = true;
+            }
+
+            if (addedBadge) {
+                player.updateAllChanged();
+            }
+
             equippedItems.updateAllChanged(user);
 
             //is not broken
