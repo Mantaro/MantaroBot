@@ -187,55 +187,60 @@ public class Marriage implements ManagedMongoObject {
     @BsonIgnore
     public void lockedUntil(long lockedUntil) {
         this.lockedUntil = lockedUntil;
-        fieldTracker.put("lockedUntil", lockedUntil);
+        fieldTracker.put("lockedUntil", this.lockedUntil);
     }
 
     @BsonIgnore
     public void timezone(String timezone) {
         this.timezone = timezone;
-        fieldTracker.put("timezone", timezone);
+        fieldTracker.put("timezone", this.timezone);
     }
 
     @BsonIgnore
     public void houseName(String houseName) {
         this.houseName = houseName;
-        fieldTracker.put("houseName", houseName);
+        fieldTracker.put("houseName", this.houseName);
     }
 
     @BsonIgnore
     public void carName(String carName) {
         this.carName = carName;
-        fieldTracker.put("carName", carName);
+        fieldTracker.put("carName", this.carName);
     }
 
     @BsonIgnore
     public void pet(HousePet pet) {
         this.pet = pet;
-        fieldTracker.put("pet", pet);
+        fieldTracker.put("pet", this.pet);
     }
 
     @BsonIgnore
     public void setCar(boolean car) {
         this.hasCar = car;
-        fieldTracker.put("hasCar", car);
+        fieldTracker.put("hasCar", this.hasCar);
     }
 
     @BsonIgnore
     public void setHouse(boolean house) {
         this.hasCar = house;
-        fieldTracker.put("hasHouse", hasHouse);
+        fieldTracker.put("hasHouse", this.hasHouse);
     }
 
     @BsonIgnore
     public void marriageCreationMillis(long marriageCreationMillis) {
         this.marriageCreationMillis = marriageCreationMillis;
-        fieldTracker.put("marriageCreationMillis", lockedUntil);
+        fieldTracker.put("marriageCreationMillis", this.marriageCreationMillis);
     }
 
     @BsonIgnore
     public void loveLetter(String loveLetter) {
         this.loveLetter = loveLetter;
-        fieldTracker.put("loveLetter", lockedUntil);
+        fieldTracker.put("loveLetter", this.loveLetter);
+    }
+
+    @BsonIgnore
+    public void markPetChange() {
+        fieldTracker.put("pet", this.pet);
     }
 
     @BsonIgnore

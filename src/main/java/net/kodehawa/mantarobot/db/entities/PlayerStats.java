@@ -198,7 +198,7 @@ public class PlayerStats implements ManagedMongoObject {
     @BsonIgnore
     public void incrementGambleWins() {
         this.gambleWins += 1;
-        fieldTracker.put("gambleWins", this.slotsWins);
+        fieldTracker.put("gambleWins", this.gambleWins);
     }
 
     @BsonIgnore
@@ -240,13 +240,13 @@ public class PlayerStats implements ManagedMongoObject {
     @BsonIgnore
     public void incrementRepairedItems() {
         this.repairedItems++;
-        fieldTracker.put("repairedItems", this.craftedItems);
+        fieldTracker.put("repairedItems", this.repairedItems);
     }
 
     @BsonIgnore
     public void incrementSalvagedItems() {
         this.salvagedItems++;
-        fieldTracker.put("salvagedItems", this.craftedItems);
+        fieldTracker.put("salvagedItems", this.salvagedItems);
     }
 
     @BsonIgnore

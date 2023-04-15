@@ -256,73 +256,73 @@ public class UserDatabase implements ManagedMongoObject {
     @BsonIgnore
     public void actionsDisabled(boolean actionsDisabled) {
         this.actionsDisabled = actionsDisabled;
-        fieldTracker.put("actionsDisabled", actionsDisabled);
+        fieldTracker.put("actionsDisabled", this.actionsDisabled);
     }
 
     @BsonIgnore
     public void receivedFirstKey(boolean hasReceivedFirstKey) {
         this.receivedFirstKey = hasReceivedFirstKey;
-        fieldTracker.put("receivedFirstKey", receivedFirstKey);
+        fieldTracker.put("receivedFirstKey", this.hasReceivedFirstKey());
     }
 
     @BsonIgnore
     public void receivedExpirationWarning(boolean receivedExpirationWarning) {
         this.receivedExpirationWarning = receivedExpirationWarning;
-        fieldTracker.put("receivedExpirationWarning", receivedExpirationWarning);
+        fieldTracker.put("receivedExpirationWarning", this.receivedExpirationWarning);
     }
 
     @BsonIgnore
     public void autoEquip(boolean autoEquip) {
         this.autoEquip = autoEquip;
-        fieldTracker.put("autoEquip", autoEquip);
+        fieldTracker.put("autoEquip", this.autoEquip);
     }
 
     @BsonIgnore
     public void privateTag(boolean privateTag) {
         this.privateTag = privateTag;
-        fieldTracker.put("privateTag", waifuSlots);
+        fieldTracker.put("privateTag", this.privateTag);
     }
 
     @BsonIgnore
     public void waifuSlots(int waifuSlots) {
         this.waifuSlots = waifuSlots;
-        fieldTracker.put("waifuSlots", waifuSlots);
+        fieldTracker.put("waifuSlots", this.waifuSlots);
     }
 
     @BsonIgnore
     public void marriageId(String marriageId) {
         this.marriageId = marriageId;
-        fieldTracker.put("marriageId", marriageId);
+        fieldTracker.put("marriageId", this.marriageId);
     }
 
     @BsonIgnore
     public void dustLevel(int dustLevel) {
         this.dustLevel = dustLevel;
-        fieldTracker.put("dustLevel", dustLevel);
+        fieldTracker.put("dustLevel", this.dustLevel);
     }
 
     @BsonIgnore
     public void timezone(String timezone) {
         this.timezone = timezone;
-        fieldTracker.put("timezone", timezone);
+        fieldTracker.put("timezone", this.timezone);
     }
 
     @BsonIgnore
     public void language(String lang) {
         this.lang = lang;
-        fieldTracker.put("lang", lang);
+        fieldTracker.put("lang", this.lang);
     }
 
     @BsonIgnore
     public void birthday(String birthday) {
         this.birthday = birthday;
-        fieldTracker.put("birthday", birthday);
+        fieldTracker.put("birthday", this.birthday);
     }
 
     @BsonIgnore
     public void premiumKey(String premiumKey) {
         this.premiumKey = premiumKey;
-        fieldTracker.put("premiumKey", premiumKey);
+        fieldTracker.put("premiumKey", this.premiumKey);
     }
 
     // --- Helpers
@@ -333,6 +333,8 @@ public class UserDatabase implements ManagedMongoObject {
         } else {
             this.premiumUntil = currentTimeMillis() + milliseconds;
         }
+
+        fieldTracker.put("premiumUntil", this.premiumUntil);
         return this;
     }
 
@@ -340,13 +342,13 @@ public class UserDatabase implements ManagedMongoObject {
     @BsonIgnore
     public void addWaifu(String id, long value) {
         waifus.put(id, value);
-        fieldTracker.put("waifus", waifus);
+        fieldTracker.put("waifus", this.waifus);
     }
 
     @BsonIgnore
     public void removeWaifu(String id) {
         waifus.remove(id);
-        fieldTracker.put("waifus", waifus);
+        fieldTracker.put("waifus", this.waifus);
     }
 
     @BsonIgnore
@@ -377,13 +379,13 @@ public class UserDatabase implements ManagedMongoObject {
     @BsonIgnore
     public void addReminder(String reminder) {
         reminders.add(reminder);
-        fieldTracker.put("reminders", reminders);
+        fieldTracker.put("reminders", this.reminders);
     }
 
     @BsonIgnore
     public void removeReminder(String reminder) {
         reminders.remove(reminder);
-        fieldTracker.put("reminders", reminders);
+        fieldTracker.put("reminders", this.reminders);
     }
 
     @BsonIgnore
@@ -416,32 +418,32 @@ public class UserDatabase implements ManagedMongoObject {
         }
 
         this.setDustLevel(increased);
-        fieldTracker.put("dustLevel", dustLevel);
+        fieldTracker.put("dustLevel", this.dustLevel);
         return this.dustLevel;
     }
 
     @BsonIgnore
     public void incrementReminders() {
         remindedTimes += 1;
-        fieldTracker.put("remindedTimes", remindedTimes);
+        fieldTracker.put("remindedTimes", this.remindedTimes);
     }
 
     @BsonIgnore
     public void incrementTimesClaimed() {
         timesClaimed += 1;
-        fieldTracker.put("timesClaimed", timesClaimed);
+        fieldTracker.put("timesClaimed", this.timesClaimed);
     }
 
     @BsonIgnore
     public void addKeyClaimed(String userId, String keyId) {
         keysClaimed.put(userId, keyId);
-        fieldTracker.put("keysClaimed", keysClaimed);
+        fieldTracker.put("keysClaimed", this.keysClaimed);
     }
 
     @BsonIgnore
     public void removeKeyClaimed(String userId) {
         keysClaimed.remove(userId);
-        fieldTracker.put("keysClaimed", keysClaimed);
+        fieldTracker.put("keysClaimed",this. keysClaimed);
     }
 
     @BsonIgnore

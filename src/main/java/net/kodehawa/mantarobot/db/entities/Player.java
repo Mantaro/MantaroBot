@@ -409,127 +409,127 @@ public class Player implements ManagedMongoObject {
     @BsonIgnore
     public void timesMopped(long timesMopped) {
         this.timesMopped = timesMopped;
-        fieldTracker.put("timesMopped", timesMopped);
+        fieldTracker.put("timesMopped", this.timesMopped);
     }
 
     @BsonIgnore
     public void sharksCaught(long sharksCaught) {
         this.sharksCaught = sharksCaught;
-        fieldTracker.put("sharksCaught", sharksCaught);
+        fieldTracker.put("sharksCaught", this.sharksCaught);
     }
 
     @BsonIgnore
     public void waifuout(boolean waifuout) {
         this.waifuout = waifuout;
-        fieldTracker.put("waifuout", waifuout);
+        fieldTracker.put("waifuout", this.waifuout);
     }
 
     @BsonIgnore
     public void lastCrateGiven(int lastCrateGiven) {
         this.lastCrateGiven = lastCrateGiven;
-        fieldTracker.put("lastCrateGiven", lastCrateGiven);
+        fieldTracker.put("lastCrateGiven", this.lastCrateGiven);
     }
 
     @BsonIgnore
     public void inventorySortType(InventorySortType inventorySortType) {
         this.inventorySortType = inventorySortType;
-        fieldTracker.put("inventorySortType", inventorySortType);
+        fieldTracker.put("inventorySortType", this.inventorySortType);
     }
 
     @BsonIgnore
     public void hiddenLegacy(boolean hiddenLegacy) {
         this.hiddenLegacy = hiddenLegacy;
-        fieldTracker.put("hiddenLegacy", hiddenLegacy);
+        fieldTracker.put("hiddenLegacy", this.hiddenLegacy);
     }
 
     @BsonIgnore
     public void newPlayerNotice(boolean newPlayerNotice) {
         this.newPlayerNotice = newPlayerNotice;
-        fieldTracker.put("newPlayerNotice", newPlayerNotice);
+        fieldTracker.put("newPlayerNotice", this.newPlayerNotice);
     }
 
     @BsonIgnore
     public void reputation(Long reputation) {
         this.reputation = reputation;
-        fieldTracker.put("reputation", reputation);
+        fieldTracker.put("reputation", this.reputation);
     }
 
     @BsonIgnore
     public void level(long level) {
         this.level = level;
-        fieldTracker.put("level", level);
+        fieldTracker.put("level", this.level);
     }
 
     @BsonIgnore
     public void cratesOpened(long cratesOpened) {
         this.cratesOpened = cratesOpened;
-        fieldTracker.put("cratesOpened", cratesOpened);
+        fieldTracker.put("cratesOpened", this.cratesOpened);
     }
 
     @BsonIgnore
     public void waifuCachedValue(long waifuCachedValue) {
         this.waifuCachedValue = waifuCachedValue;
-        fieldTracker.put("waifuCachedValue", waifuCachedValue);
+        fieldTracker.put("waifuCachedValue", this.waifuCachedValue);
     }
 
     @BsonIgnore
     public void profileComponents(List<ProfileComponent> profileComponents) {
         this.profileComponents = profileComponents;
-        fieldTracker.put("profileComponents", profileComponents);
+        fieldTracker.put("profileComponents", this.profileComponents);
     }
 
     @BsonIgnore
     public void showBadge(boolean showBadge) {
         this.showBadge = showBadge;
-        fieldTracker.put("showBadge", showBadge);
+        fieldTracker.put("showBadge", this.showBadge);
     }
 
     @BsonIgnore
     public void mainBadge(Badge mainBadge) {
         this.mainBadge = mainBadge;
-        fieldTracker.put("mainBadge", mainBadge);
+        fieldTracker.put("mainBadge", this.mainBadge);
     }
 
     @BsonIgnore
     public void gamesWon(long gamesWon) {
         this.gamesWon = gamesWon;
-        fieldTracker.put("gamesWon", gamesWon);
+        fieldTracker.put("gamesWon", this.gamesWon);
     }
 
     @BsonIgnore
     public void petChoice(PetChoice petChoice) {
         this.petChoice = petChoice;
-        fieldTracker.put("petChoice", petChoice);
+        fieldTracker.put("petChoice", this.petChoice);
     }
 
     @BsonIgnore
     public void lastDailyAt(long lastDailyAt) {
         this.lastDailyAt = lastDailyAt;
-        fieldTracker.put("lastDailyAt", lastDailyAt);
+        fieldTracker.put("lastDailyAt", this.lastDailyAt);
     }
 
     @BsonIgnore
     public void marketUsed(long marketUsed) {
         this.marketUsed = marketUsed;
-        fieldTracker.put("marketUsed", marketUsed);
+        fieldTracker.put("marketUsed", this.marketUsed);
     }
 
     @BsonIgnore
     public void description(String description) {
         this.description = description;
-        fieldTracker.put("description", description);
+        fieldTracker.put("description", this.description);
     }
 
     @BsonIgnore
     public void dailyStreak(long dailyStreak) {
         this.dailyStreak = dailyStreak;
-        fieldTracker.put("dailyStreak", dailyStreak);
+        fieldTracker.put("dailyStreak", this.dailyStreak);
     }
 
     @BsonIgnore
     public void claimLocked(boolean claimLocked) {
         this.claimLocked = claimLocked;
-        fieldTracker.put("claimLocked", claimLocked);
+        fieldTracker.put("claimLocked", this.claimLocked);
     }
 
     // -- Helpers
@@ -656,7 +656,7 @@ public class Player implements ManagedMongoObject {
 
     @BsonIgnore
     public void markPetChange() {
-        fieldTracker.put("pet", pet);
+        fieldTracker.put("pet", this.pet);
     }
 
     @BsonIgnore

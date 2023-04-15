@@ -385,7 +385,8 @@ public class PetCmds {
                 player.updateAllChanged();
 
                 if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
-                    marriage.save();
+                    marriage.markPetChange();
+                    marriage.updateAllChanged();
                 }
 
                 ctx.replyStripped("commands.pet.clean.success", EmoteReference.CORRECT, pet.getName(), price);
@@ -777,7 +778,8 @@ public class PetCmds {
                 player.removeMoney(cost);
 
                 if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
-                    marriage.save();
+                    marriage.markPetChange();
+                    marriage.updateAllChanged();
                 } else {
                     player.markPetChange();
                     player.updateAllChanged();
@@ -867,8 +869,10 @@ public class PetCmds {
                 player.processItem(itemObject, -amount);
                 player.markPetChange();
                 player.updateAllChanged();
+
                 if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
-                    marriage.save();
+                    marriage.markPetChange();
+                    marriage.updateAllChanged();
                 }
 
                 ctx.reply("commands.pet.feed.success", EmoteReference.POPPER, foodItem.getName(), amount, increase, pet.getHunger());
@@ -934,8 +938,10 @@ public class PetCmds {
 
                 player.markPetChange();
                 player.updateAllChanged();
+
                 if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
-                    marriage.save();
+                    marriage.markPetChange();
+                    marriage.updateAllChanged();
                 }
 
                 ctx.reply("commands.pet.water.success", EmoteReference.POPPER, amount, increase, pet.getThirst());
