@@ -1177,6 +1177,7 @@
       "error_retrieving": "%1$sTôi đã tìm thấy lỗi khi truy xuất gif cho hành động này... (lỗi bên ngoài, có lẽ là do WeebAPI đang bảo trì chăng?)",
       "no_type": "%1$sLệnh hành động này không có kiểu. (lỗi bên trong)",
       "permission_or_unexpected_error": "%1$sX-Xin lỗi! Tôi làm rơi hình ảnh mất rồi. (Có lẽ tôi không có quyền gửi hình ảnh)",
+      "extra": "(with an extra message)",
       "lonely": {
         "pat": "Ỏoo, tôi thấy bạn có vẻ đang cô đơn, nhận một cái xoa đầu nè <3",
         "hug": "Ỏoo, tôi thấy bạn có vẻ đang cô đơn, nhận một cái ôm nè <3",

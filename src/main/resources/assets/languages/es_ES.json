@@ -1177,6 +1177,7 @@
       "error_retrieving": "%1$sEncontré un error mientras buscaba una imagen para usar en este acción... (error externo, probablemente se cayó la API de imágenes)",
       "no_type": "%1$sEste comando no tiene tipo. (error interno)",
       "permission_or_unexpected_error": "%1$s¡L-Lo siento! boté la imagen... (Probablemente me faltan permisos para enviarla)",
+      "extra": "(with an extra message)",
       "lonely": {
         "pat": "Aww, veo que estás solito/a, toma un pat <3",
         "hug": "Aww, veo que estás solito/a, toma un abrazo <3",

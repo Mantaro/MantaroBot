@@ -1177,6 +1177,7 @@
       "error_retrieving": "%1$sSaya menjumpai ralat semasa mendapatkan gif seterusnya bagi tindakan ini... (ralat luaran, mungkin WeebAPI tergendala?)",
       "no_type": "%1$sArahan ini tiada jenis. (ralat dalaman)",
       "permission_or_unexpected_error": "%1$sM-maaf! Saya tidak sengaja menjatuhkan gambar itu. (Mungkin saya tidak mempunyai kebenaran untuk menghantarnya)",
+      "extra": "(with an extra message)",
       "lonely": {
         "pat": "Aww, nampaknya awak berasa sunyi, terimalah belaian ini <3",
         "hug": "Aww, nampaknya awak berasa sunyi, terimalah pelukan ini <3",
