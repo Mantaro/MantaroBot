@@ -23,8 +23,6 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.middleman.StandardGuildMessageChannel;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.core.OptionType;
@@ -77,8 +75,7 @@ public class ModerationOptions extends OptionHandler {
                 return;
             }
 
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
+            var dbGuild = ctx.getDBGuild();
             List<String> toBlacklist = mentioned.stream().map(ISnowflake::getId).toList();
 
             String blacklisted = mentioned.stream()
@@ -86,7 +83,7 @@ public class ModerationOptions extends OptionHandler {
                     .map(User::getAsTag)
                     .collect(Collectors.joining(","));
 
-            guildData.getDisabledUsers().addAll(toBlacklist);
+            dbGuild.getDisabledUsers().addAll(toBlacklist);
             dbGuild.save();
 
             ctx.sendLocalized("options.localblacklist_add.success", EmoteReference.CORRECT, blacklisted);
@@ -104,9 +101,7 @@ public class ModerationOptions extends OptionHandler {
                 return;
             }
 
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-
+            var dbGuild = ctx.getDBGuild();
             List<String> toUnBlacklist = mentioned.stream().map(ISnowflake::getId).toList();
             String unBlacklisted = mentioned.stream()
                     .map(Member::getUser)
@@ -114,7 +109,7 @@ public class ModerationOptions extends OptionHandler {
                     .collect(Collectors.joining(",")
             );
 
-            guildData.getDisabledUsers().removeAll(toUnBlacklist);
+            dbGuild.getDisabledUsers().removeAll(toUnBlacklist);
             dbGuild.save();
 
             ctx.sendLocalized("options.localblacklist_remove.success", EmoteReference.CORRECT, unBlacklisted);
@@ -130,12 +125,10 @@ public class ModerationOptions extends OptionHandler {
             }
 
             String logChannel = args[0];
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-
             Consumer<StandardGuildMessageChannel> consumer = textChannel -> {
-                guildData.setGuildLogChannel(textChannel.getId());
-                dbGuild.saveAsync();
+                var dbGuild = ctx.getDBGuild();
+                dbGuild.setGuildLogChannel(textChannel.getId());
+                dbGuild.save();
                 ctx.sendLocalized("options.logs_enable.success", EmoteReference.MEGA, textChannel.getName(), textChannel.getId());
             };
 
@@ -156,12 +149,10 @@ public class ModerationOptions extends OptionHandler {
                 return;
             }
 
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-
+            var dbGuild = ctx.getDBGuild();
             if (args[0].equals("clearchannels")) {
-                guildData.getLogExcludedChannels().clear();
-                dbGuild.saveAsync();
+                dbGuild.getLogExcludedChannels().clear();
+                dbGuild.save();
                 ctx.sendLocalized("options.logs_exclude.clearchannels.success", EmoteReference.OK);
                 return;
             }
@@ -174,8 +165,9 @@ public class ModerationOptions extends OptionHandler {
                 String channel = args[1];
 
                 Consumer<StandardGuildMessageChannel> consumer = textChannel -> {
-                    guildData.getLogExcludedChannels().remove(textChannel.getId());
-                    dbGuild.saveAsync();
+                    var dbGuildFinal = ctx.getDBGuild();
+                    dbGuildFinal.getLogExcludedChannels().remove(textChannel.getId());
+                    dbGuildFinal.save();
                     ctx.sendLocalized("options.logs_exclude.remove.success", EmoteReference.OK, textChannel.getAsMention());
                 };
 
@@ -189,8 +181,9 @@ public class ModerationOptions extends OptionHandler {
 
             String channel = args[0];
             Consumer<StandardGuildMessageChannel> consumer = textChannel -> {
-                guildData.getLogExcludedChannels().add(textChannel.getId());
-                dbGuild.saveAsync();
+                var dbGuildFinal = ctx.getDBGuild();
+                dbGuildFinal.getLogExcludedChannels().add(textChannel.getId());
+                dbGuildFinal.save();
                 ctx.sendLocalized("options.logs_exclude.success", EmoteReference.OK, textChannel.getAsMention());
             };
 
@@ -221,26 +214,25 @@ public class ModerationOptions extends OptionHandler {
             }
 
             var dbGuild = ctx.getDBGuild();
-            dbGuild.getData().setLogTimezone(timezone);
-            dbGuild.saveUpdating();
+            dbGuild.setLogTimezone(timezone);
+            dbGuild.save();
 
             ctx.sendLocalized("options.logs_timezone.success", EmoteReference.CORRECT, timezone);
         });
 
         registerOption("logs:timezonereset", "Resets the log timezone", "Resets the log timezone", (ctx) -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.getData().setLogTimezone(null);
-            dbGuild.saveUpdating();
+            dbGuild.setLogTimezone(null);
+            dbGuild.save();
 
             ctx.sendLocalized("options.logs_timezonereset.success", EmoteReference.CORRECT);
         });
 
         registerOption("logs:disable", "Disable logs",
                 "Disables logs.\n**Example:** `~>opts logs disable`", "Disables logs.", (ctx) -> {
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-            guildData.setGuildLogChannel(null);
-            dbGuild.saveAsync();
+            var dbGuild = ctx.getDBGuild();
+            dbGuild.setGuildLogChannel(null);
+            dbGuild.save();
             ctx.sendLocalized("options.logs_disable.success", EmoteReference.MEGA);
         });
 
@@ -277,9 +269,7 @@ public class ModerationOptions extends OptionHandler {
             }
 
             var dbGuild = ctx.getDBGuild();
-            var guildData = dbGuild.getData();
-
-            guildData.setSetModTimeout(timeoutToSet);
+            dbGuild.setSetModTimeout(timeoutToSet);
             dbGuild.save();
 
             ctx.sendLocalized("options.defaultmutetimeout_set.success", EmoteReference.CORRECT, args[0], timeoutToSet);
@@ -288,9 +278,7 @@ public class ModerationOptions extends OptionHandler {
         registerOption("defaultmutetimeout:reset", "Default mute timeout reset",
             "Resets the default mute timeout which was set previously with `defaultmusictimeout set`", "Resets the default mute timeout.", ctx -> {
                 var dbGuild = ctx.getDBGuild();
-                var guildData = dbGuild.getData();
-
-                guildData.setSetModTimeout(0L);
+                dbGuild.setSetModTimeout(0L);
                 dbGuild.save();
 
                 ctx.sendLocalized("options.defaultmutetimeout_reset.success", EmoteReference.CORRECT);

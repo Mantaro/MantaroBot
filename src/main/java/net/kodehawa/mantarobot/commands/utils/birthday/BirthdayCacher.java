@@ -18,21 +18,17 @@
 package net.kodehawa.mantarobot.commands.utils.birthday;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.rethinkdb.model.OptArgs;
-import com.rethinkdb.utils.Types;
 import net.kodehawa.mantarobot.commands.BirthdayCmd;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import static com.rethinkdb.RethinkDB.r;
 
 /**
  * Caches the birthday date of all users seen on bot startup and adds them to a local ConcurrentHashMap.
@@ -54,21 +50,17 @@ public class BirthdayCacher {
     public void cache() {
         executorService.submit(() -> {
             try {
-                List<Map<Object, Object>> m = r.table("users")
-                        .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"), Types.mapOf(Object.class, Object.class))
-                        .toList();
+                var users = MantaroData.db().dbMantaro().getCollection("users", UserDatabase.class).find();
                 cachedBirthdays.clear();
 
-                for (Map<Object, Object> r : m) {
+                for (var r : users) {
                     try {
-                        var id = Long.parseUnsignedLong(String.valueOf(r.get("id")));
+                        var id = Long.parseUnsignedLong(r.getId());
                         // Why?
                         if (cachedBirthdays.containsKey(id))
                             continue;
 
-                        //Blame rethinkdb for the casting hell thx
-                        @SuppressWarnings("unchecked")
-                        var birthday = ((Map<String, String>) r.get("data")).get("birthday");
+                        var birthday = r.getBirthday();
                         if (birthday != null && !birthday.isEmpty()) {
                             log.debug("-> PROCESS: {}", r);
                             var bd = birthday.split("-");

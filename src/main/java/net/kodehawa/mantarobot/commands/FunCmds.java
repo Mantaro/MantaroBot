@@ -182,8 +182,8 @@ public class FunCmds {
             var sum = result.stream().mapToInt(Integer::intValue).sum();
             if (size == 6 && sum == 6) {
                 var player = MantaroData.db().getPlayer(ctx.getAuthor());
-                if (player.getData().addBadgeIfAbsent(Badge.LUCK_BEHIND)) {
-                    player.saveUpdating();
+                if (player.addBadgeIfAbsent(Badge.LUCK_BEHIND)) {
+                    player.updateAllChanged();
                 }
             }
 
@@ -241,7 +241,7 @@ public class FunCmds {
             var percentage = (ids[0] == ids[1] ? 101 : r.nextInt(101)); // last value is exclusive, so 101.
             var languageContext = ctx.getLanguageContext();
 
-            final var marriage = ctx.getMarriage(ctx.getDBUser().getData());
+            final var marriage = ctx.getMarriage(ctx.getDBUser());
             if (marriage != null) {
                 final var other = marriage.getOtherPlayer(ctx.getAuthor().getId());
                 if (other.equals(user.getId())) {

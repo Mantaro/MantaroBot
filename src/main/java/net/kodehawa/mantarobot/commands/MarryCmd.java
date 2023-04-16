@@ -22,7 +22,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.Category;
@@ -96,11 +95,11 @@ public class MarryCmd {
                 }
 
                 // This is just for checking purposes, so we don't need the DBUser itself.
-                var proposingUserData = ctx.getDBUser(proposingUser).getData();
-                var proposedToUserData = ctx.getDBUser(proposedToUser).getData();
+                var proposingUserData = ctx.getDBUser(proposingUser);
+                var proposedToUserData = ctx.getDBUser(proposedToUser);
 
                 // Again just for checking, and no need to change.
-                final var proposingPlayerInventory = ctx.getPlayer(proposingUser).getInventory();
+                final var proposingPlayer = ctx.getPlayer(proposingUser);
 
                 // Why would you do this...
                 if (proposedToUser.getId().equals(ctx.getAuthor().getId())) {
@@ -143,7 +142,7 @@ public class MarryCmd {
                 }
 
                 // Not enough rings to continue. Buy more rings w.
-                if (!proposingPlayerInventory.containsItem(ItemReference.RING) || proposingPlayerInventory.getAmount(ItemReference.RING) < 2) {
+                if (!proposingPlayer.containsItem(ItemReference.RING) || proposingPlayer.getItemAmount(ItemReference.RING) < 2) {
                     ctx.reply("commands.marry.no_ring", EmoteReference.ERROR);
                     return;
                 }
@@ -177,13 +176,13 @@ public class MarryCmd {
                         // to avoid race conditions or changes on those that might have happened on the 120 seconds that this lasted for.
                         // We need to check if the marriage is empty once again before continuing, also if we have enough rings!
                         // Else we end up with really annoying to debug bugs, lol.
-                        var proposingPlayer = ctx.getPlayer(proposingUser);
+                        var proposingPlayerFinal = ctx.getPlayer(proposingUser);
                         var proposedToPlayer = ctx.getPlayer(proposedToUser);
                         var proposingUserDB = ctx.getDBUser(proposingUser);
                         var proposedToUserDB = ctx.getDBUser(proposedToUser);
 
-                        final var proposingMarriageFinal = proposingUserDB.getData().getMarriage();
-                        final var proposedToMarriageFinal = proposedToUserDB.getData().getMarriage();
+                        final var proposingMarriageFinal = proposingUserDB.getMarriage();
+                        final var proposedToMarriageFinal = proposedToUserDB.getMarriage();
 
                         if (proposingMarriageFinal != null) {
                             hook.editOriginal(languageContext.get("commands.marry.already_married").formatted(EmoteReference.ERROR))
@@ -197,22 +196,18 @@ public class MarryCmd {
                             return Operation.COMPLETED;
                         }
 
-                        // LAST inventory check and ring assignment is gonna happen using those.
-                        final var proposingPlayerFinalInventory = proposingPlayer.getInventory();
-                        final var proposedToPlayerInventory = proposedToPlayer.getInventory();
-
-                        if (proposingPlayerFinalInventory.getAmount(ItemReference.RING) < 2) {
+                        if (proposingPlayerFinal.getItemAmount(ItemReference.RING) < 2) {
                             hook.editOriginal(languageContext.get("commands.marry.ring_check_fail").formatted(EmoteReference.ERROR))
                                     .setComponents().queue();
                             return Operation.COMPLETED;
                         }
 
                         // Remove the ring from the proposing player inventory.
-                        proposingPlayerFinalInventory.process(new ItemStack(ItemReference.RING, -1));
+                        proposingPlayerFinal.processItem(ItemReference.RING, -1);
 
                         // Silently scrape the ring if the receipt has more than 5000 rings.
-                        if (proposedToPlayerInventory.getAmount(ItemReference.RING) < 5000) {
-                            proposedToPlayerInventory.process(new ItemStack(ItemReference.RING, 1));
+                        if (proposedToPlayer.getItemAmount(ItemReference.RING) < 5000) {
+                            proposedToPlayer.processItem(ItemReference.RING, 1);
                         }
 
                         final long marriageCreationMillis = Instant.now().toEpochMilli();
@@ -222,14 +217,14 @@ public class MarryCmd {
 
                         // Make and save the new marriage object.
                         var actualMarriage = Marriage.of(marriageId, proposingUser, proposedToUser);
-                        actualMarriage.getData().setMarriageCreationMillis(marriageCreationMillis);
+                        actualMarriage.marriageCreationMillis(marriageCreationMillis); // No need to update, saving whole object
                         actualMarriage.save();
 
                         // Assign the marriage ID to the respective users and save it.
-                        proposingUserDB.getData().setMarriageId(marriageId);
-                        proposedToUserDB.getData().setMarriageId(marriageId);
-                        proposingUserDB.save();
-                        proposedToUserDB.save();
+                        proposingUserDB.marriageId(marriageId);
+                        proposedToUserDB.marriageId(marriageId);
+                        proposingUserDB.updateAllChanged();
+                        proposedToUserDB.updateAllChanged();
 
                         // Send marriage confirmation message.
                         hook.editOriginal(languageContext.get("commands.marry.accepted").formatted(
@@ -238,21 +233,21 @@ public class MarryCmd {
                         )).setComponents().queue();
 
                         // Add the badge to the married couple.
-                        proposingPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
-                        proposedToPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
+                        proposingPlayerFinal.addBadgeIfAbsent(Badge.MARRIED);
+                        proposedToPlayer.addBadgeIfAbsent(Badge.MARRIED);
 
                         // Give a love letter both to the proposing player and the one who was proposed to.
-                        if (proposingPlayerFinalInventory.getAmount(ItemReference.LOVE_LETTER) < 5000) {
-                            proposingPlayerFinalInventory.process(new ItemStack(ItemReference.LOVE_LETTER, 1));
+                        if (proposingPlayerFinal.getItemAmount(ItemReference.LOVE_LETTER) < 5000) {
+                            proposingPlayerFinal.processItem(ItemReference.LOVE_LETTER, 1);
                         }
 
-                        if (proposedToPlayerInventory.getAmount(ItemReference.LOVE_LETTER) < 5000) {
-                            proposedToPlayerInventory.process(new ItemStack(ItemReference.LOVE_LETTER, 1));
+                        if (proposedToPlayer.getItemAmount(ItemReference.LOVE_LETTER) < 5000) {
+                            proposedToPlayer.processItem(ItemReference.LOVE_LETTER, 1);
                         }
 
                         // Badge assignment saving.
-                        proposingPlayer.save();
-                        proposedToPlayer.save();
+                        proposingPlayerFinal.updateAllChanged();
+                        proposedToPlayer.updateAllChanged();
                         return Operation.COMPLETED;
                     }
 
@@ -261,9 +256,9 @@ public class MarryCmd {
                                 .setComponents().queue();
 
                         // Well, we have a badge for this too. Consolation prize I guess.
-                        final var proposingPlayer = ctx.getPlayer(proposingUser);
-                        if (proposingPlayer.getData().addBadgeIfAbsent(Badge.DENIED)) {
-                            proposingPlayer.saveUpdating();
+                        final var proposingPlayerFinal = ctx.getPlayer(proposingUser);
+                        if (proposingPlayerFinal.addBadgeIfAbsent(Badge.DENIED)) {
+                            proposingPlayerFinal.updateAllChanged();
                         }
                         return Operation.COMPLETED;
                     }
@@ -279,16 +274,13 @@ public class MarryCmd {
             protected void process(SlashContext ctx) {
                 final var author = ctx.getAuthor();
                 final var dbUser = ctx.getDBUser();
-                final var dbUserData = dbUser.getData();
-                final var currentMarriage = dbUserData.getMarriage();
+                final var currentMarriage = dbUser.getMarriage();
                 final var languageContext = ctx.getLanguageContext();
                 //What status would we have without marriage? Well, we can be unmarried omegalul.
                 if (currentMarriage == null) {
                     ctx.reply("commands.marry.status.no_marriage", EmoteReference.SAD);
                     return;
                 }
-
-                final var data = currentMarriage.getData();
 
                 //Can we find the user this is married to?
                 final var marriedTo = ctx.retrieveUserById(currentMarriage.getOtherPlayer(author.getId()));
@@ -298,17 +290,17 @@ public class MarryCmd {
                 }
 
                 //Get the current love letter.
-                var loveLetter = data.getLoveLetter();
+                var loveLetter = currentMarriage.getLoveLetter();
                 if (loveLetter == null || loveLetter.isEmpty()) {
                     loveLetter = languageContext.get("general.none");
                 }
 
                 final var marriedDBUser = ctx.getDBUser(marriedTo);
-                final var dateFormat = Utils.formatDate(data.getMarriageCreationMillis(), dbUserData.getLang());
-                final var eitherHasWaifus = !(dbUserData.getWaifus().isEmpty() && marriedDBUser.getData().getWaifus().isEmpty());
-                final var marriedToName = dbUserData.isPrivateTag() ? marriedTo.getName() : marriedTo.getAsTag();
-                final var authorName = dbUserData.isPrivateTag() ? author.getName() : author.getAsTag();
-                final var daysMarried = TimeUnit.of(ChronoUnit.MILLIS).toDays(System.currentTimeMillis() - data.getMarriageCreationMillis());
+                final var dateFormat = Utils.formatDate(currentMarriage.getMarriageCreationMillis(), dbUser.getLang());
+                final var eitherHasWaifus = !(dbUser.waifuAmount() == 0 && marriedDBUser.waifuAmount() == 0);
+                final var marriedToName = dbUser.isPrivateTag() ? marriedTo.getName() : marriedTo.getAsTag();
+                final var authorName = dbUser.isPrivateTag() ? author.getName() : author.getAsTag();
+                final var daysMarried = TimeUnit.of(ChronoUnit.MILLIS).toDays(System.currentTimeMillis() - currentMarriage.getMarriageCreationMillis());
 
                 var embedBuilder = new EmbedBuilder()
                         .setThumbnail(author.getEffectiveAvatarUrl())
@@ -330,23 +322,23 @@ public class MarryCmd {
                         )
                         .setFooter("Marriage ID: " + currentMarriage.getId(), author.getEffectiveAvatarUrl());
 
-                if (data.hasHouse()) {
-                    var houseName = data.getHouseName().replace("\n", "").trim();
+                if (currentMarriage.hasHouse()) {
+                    var houseName = currentMarriage.getHouseName().replace("\n", "").trim();
                     embedBuilder.addField(EmoteReference.HOUSE.toHeaderString() + languageContext.get("commands.marry.status.house"),
                             houseName, true
                     );
                 }
 
-                if (data.hasCar()) {
-                    var carName = data.getCarName().replace("\n", "").trim();
+                if (currentMarriage.hasCar()) {
+                    var carName = currentMarriage.getCarName().replace("\n", "").trim();
                     embedBuilder.addField(EmoteReference.CAR.toHeaderString() + languageContext.get("commands.marry.status.car"),
                             carName, true
                     );
                 }
 
-                if (data.getPet() != null) {
-                    var pet = data.getPet();
-                    var petType = data.getPet().getType();
+                if (currentMarriage.getPet() != null) {
+                    var pet = currentMarriage.getPet();
+                    var petType = currentMarriage.getPet().getType();
 
                     embedBuilder.addField(EmoteReference.PET_HOUSE.toHeaderString() + languageContext.get("commands.marry.status.pet"),
                             pet.getName() + " (" + petType.getName() + ")", false
@@ -372,17 +364,16 @@ public class MarryCmd {
             protected void process(SlashContext ctx) {
                 final var author = ctx.getAuthor();
                 final var player = ctx.getPlayer();
-                final var playerInventory = player.getInventory();
                 final var dbUser = ctx.getDBUser();
                 final var content = ctx.getOptionAsString("content");
                 final var languageContext = ctx.getLanguageContext();
 
                 //Without one love letter we cannot do much, ya know.
-                if (!playerInventory.containsItem(ItemReference.LOVE_LETTER)) {
+                if (!player.containsItem(ItemReference.LOVE_LETTER)) {
                     ctx.reply("commands.marry.loveletter.no_letter", EmoteReference.SAD);
                     return;
                 }
-                final var currentMarriage = dbUser.getData().getMarriage();
+                final var currentMarriage = dbUser.getMarriage();
 
                 // Check if the user is married,
                 // is the proposed player, there's no love letter and
@@ -392,7 +383,7 @@ public class MarryCmd {
                     return;
                 }
 
-                if (currentMarriage.getData().getLoveLetter() != null) {
+                if (currentMarriage.getLoveLetter() != null) {
                     ctx.reply("commands.marry.loveletter.already_done", EmoteReference.ERROR);
                     return;
                 }
@@ -437,8 +428,7 @@ public class MarryCmd {
                     //Confirmed they want to save this as the permanent love letter.
                     if (button.equals("yes")) {
                         final var playerFinal = ctx.getPlayer();
-                        final var inventoryFinal = playerFinal.getInventory();
-                        final var currentMarriageFinal = dbUser.getData().getMarriage();
+                        final var currentMarriageFinal = dbUser.getMarriage();
 
                         //We need to do most of the checks all over again just to make sure nothing important slipped through.
                         if (currentMarriageFinal == null) {
@@ -447,20 +437,19 @@ public class MarryCmd {
                             return Operation.COMPLETED;
                         }
 
-                        if (!inventoryFinal.containsItem(ItemReference.LOVE_LETTER)) {
+                        if (!playerFinal.containsItem(ItemReference.LOVE_LETTER)) {
                             hook.editOriginal(languageContext.get("commands.marry.loveletter.no_letter")
                                     .formatted(EmoteReference.SAD)).setComponents().queue();
                             return Operation.COMPLETED;
                         }
 
                         //Remove the love letter from the inventory.
-                        inventoryFinal.process(new ItemStack(ItemReference.LOVE_LETTER, -1));
-                        playerFinal.save();
+                        playerFinal.processItem(ItemReference.LOVE_LETTER, -1);
+                        playerFinal.updateAllChanged();
 
                         //Save the love letter.
-                        currentMarriageFinal.getData().setLoveLetter(content);
-                        currentMarriageFinal.save();
-
+                        currentMarriageFinal.loveLetter(content);
+                        currentMarriageFinal.updateAllChanged();
                         hook.editOriginal(languageContext.get("commands.marry.loveletter.confirmed")
                                 .formatted(EmoteReference.CORRECT))
                                 .setComponents().queue();
@@ -491,9 +480,8 @@ public class MarryCmd {
             @Override
             protected void process(SlashContext ctx) {
                 var player = ctx.getPlayer();
-                var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var name = ctx.getOptionAsString("name");
                 var languageContext = ctx.getLanguageContext();
 
@@ -502,7 +490,7 @@ public class MarryCmd {
                     return;
                 }
 
-                if (!playerInventory.containsItem(ItemReference.HOUSE)) {
+                if (!player.containsItem(ItemReference.HOUSE)) {
                     ctx.reply("commands.marry.buyhouse.no_house", EmoteReference.ERROR);
                     return;
                 }
@@ -532,12 +520,11 @@ public class MarryCmd {
 
                     if (button.equals("yes")) {
                         var playerConfirmed = ctx.getPlayer();
-                        var playerInventoryConfirmed = playerConfirmed.getInventory();
                         var dbUserConfirmed = ctx.getDBUser();
-                        var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
+                        var marriageConfirmed = dbUserConfirmed.getMarriage();
 
                         // People like to mess around lol.
-                        if (!playerInventoryConfirmed.containsItem(ItemReference.HOUSE)) {
+                        if (!playerConfirmed.containsItem(ItemReference.HOUSE)) {
                             hook.editOriginal(languageContext.get("commands.marry.buyhouse.no_house")).setComponents().queue();
                             return Operation.COMPLETED;
                         }
@@ -547,15 +534,14 @@ public class MarryCmd {
                             return Operation.COMPLETED;
                         }
 
-                        playerInventoryConfirmed.process(new ItemStack(ItemReference.HOUSE, -1));
+                        playerConfirmed.processItem(ItemReference.HOUSE, -1);
                         playerConfirmed.removeMoney(housePrice);
 
-                        playerConfirmed.save();
+                        playerConfirmed.updateAllChanged();
 
-                        marriageConfirmed.getData().setHasHouse(true);
-                        marriageConfirmed.getData().setHouseName(finalContent);
-                        marriageConfirmed.save();
-
+                        marriageConfirmed.setHouse(true);
+                        marriageConfirmed.houseName(finalContent);
+                        marriageConfirmed.updateAllChanged();
                         hook.editOriginal(languageContext.get("commands.marry.buyhouse.success").formatted(EmoteReference.POPPER, housePrice, finalContent))
                                 .setComponents().queue();
                         return Operation.COMPLETED;
@@ -586,9 +572,8 @@ public class MarryCmd {
             @Override
             protected void process(SlashContext ctx) {
                 var player = ctx.getPlayer();
-                var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var name = ctx.getOptionAsString("name");
                 var languageContext = ctx.getLanguageContext();
 
@@ -597,7 +582,7 @@ public class MarryCmd {
                     return;
                 }
 
-                if (!playerInventory.containsItem(ItemReference.CAR)) {
+                if (!player.containsItem(ItemReference.CAR)) {
                     ctx.reply("commands.marry.buycar.no_car", EmoteReference.ERROR);
                     return;
                 }
@@ -627,12 +612,11 @@ public class MarryCmd {
 
                     if (button.equals("yes")) {
                         var playerConfirmed = ctx.getPlayer();
-                        var playerInventoryConfirmed = playerConfirmed.getInventory();
                         var dbUserConfirmed = ctx.getDBUser();
-                        var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
+                        var marriageConfirmed = dbUserConfirmed.getMarriage();
 
                         // People like to mess around lol.
-                        if (!playerInventoryConfirmed.containsItem(ItemReference.CAR)) {
+                        if (!playerConfirmed.containsItem(ItemReference.CAR)) {
                             hook.editOriginal(languageContext.get("commands.marry.buycar.no_car"))
                                     .setComponents().queue();
                             return Operation.COMPLETED;
@@ -644,14 +628,13 @@ public class MarryCmd {
                             return Operation.COMPLETED;
                         }
 
-                        playerInventoryConfirmed.process(new ItemStack(ItemReference.CAR, -1));
+                        playerConfirmed.processItem(ItemReference.CAR, -1);
                         playerConfirmed.removeMoney(carPrice);
-                        playerConfirmed.save();
+                        playerConfirmed.updateAllChanged();
 
-                        marriageConfirmed.getData().setHasCar(true);
-                        marriageConfirmed.getData().setCarName(finalContent);
-                        marriageConfirmed.save();
-
+                        marriageConfirmed.setCar(true);
+                        marriageConfirmed.carName(finalContent);
+                        marriageConfirmed.updateAllChanged();
                         hook.editOriginal(languageContext.get("commands.marry.buycar.success").formatted(EmoteReference.POPPER, carPrice, finalContent))
                                 .setComponents().queue();
                         return Operation.COMPLETED;
@@ -676,7 +659,7 @@ public class MarryCmd {
         @Override
         protected void process(SlashContext ctx) {
             //We, indeed, have no marriage here.
-            if (ctx.getDBUser().getData().getMarriage() == null) {
+            if (ctx.getDBUser().getMarriage() == null) {
                 ctx.reply("commands.divorce.not_married", EmoteReference.ERROR);
                 return;
             }
@@ -696,13 +679,11 @@ public class MarryCmd {
                 var hook = e.getHook();
                 if (buttonId.equals("yes")) {
                     final var divorceeDBUser = ctx.getDBUser();
-                    final var marriage = divorceeDBUser.getData().getMarriage();
+                    final var marriage = divorceeDBUser.getMarriage();
                     if (marriage == null) {
                         hook.editOriginal(languageContext.get("commands.divorce.not_married").formatted(EmoteReference.ERROR)).setComponents().queue();
                         return Operation.COMPLETED;
                     }
-
-                    final var marriageData = marriage.getData();
 
                     // We do have a marriage, get rid of it.
                     final var marriedWithDBUser = ctx.getDBUser(marriage.getOtherPlayer(ctx.getAuthor().getId()));
@@ -710,31 +691,31 @@ public class MarryCmd {
                     final var divorceePlayer = ctx.getPlayer();
 
                     // Save the user of the person they were married with.
-                    marriedWithDBUser.getData().setMarriageId(null);
-                    marriedWithDBUser.save();
+                    marriedWithDBUser.marriageId(null);
+                    marriedWithDBUser.updateAllChanged();
 
                     // Save the user of themselves.
-                    divorceeDBUser.getData().setMarriageId(null);
-                    divorceeDBUser.save();
+                    divorceeDBUser.marriageId(null);
+                    divorceeDBUser.updateAllChanged();
 
                     // Add the heart broken badge to the user who divorced.
-                    divorceePlayer.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
+                    divorceePlayer.addBadgeIfAbsent(Badge.HEART_BROKEN);
 
                     // Add the heart broken badge to the user got dumped.
-                    marriedWithPlayer.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
+                    marriedWithPlayer.addBadgeIfAbsent(Badge.HEART_BROKEN);
 
                     var moneySplit = 0L;
 
-                    if (marriageData.hasHouse()) {
+                    if (marriage.hasHouse()) {
                         moneySplit += housePrice;
                     }
 
-                    if (marriageData.hasCar()) {
+                    if (marriage.hasCar()) {
                         moneySplit += carPrice;
                     }
 
-                    if (marriageData.getPet() != null) {
-                        moneySplit += marriageData.getPet().getType().getCost() * 0.9;
+                    if (marriage.getPet() != null) {
+                        moneySplit += marriage.getPet().getType().getCost() * 0.9;
                     }
 
                     // Scrape this marriage.
@@ -745,8 +726,8 @@ public class MarryCmd {
                     divorceePlayer.addMoney(portion);
                     marriedWithPlayer.addMoney(portion);
 
-                    divorceePlayer.save();
-                    marriedWithPlayer.save();
+                    divorceePlayer.updateAllChanged();
+                    marriedWithPlayer.updateAllChanged();
 
                     var extra = "";
                     if (portion > 1) {

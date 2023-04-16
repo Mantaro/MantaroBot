@@ -17,127 +17,34 @@
 
 package net.kodehawa.mantarobot.commands.currency.item;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Axe;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Wrench;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
+import org.bson.codecs.pojo.annotations.BsonCreator;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 
-import java.beans.ConstructorProperties;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-@SuppressWarnings("ClassCanBeRecord")
 public class PlayerEquipment {
     //int = itemId
     private final Map<EquipmentType, Integer> equipment;
     private final Map<EquipmentType, PotionEffect> effects;
     private final Map<EquipmentType, Integer> durability;
+    @BsonIgnore
+    public Map<String, Object> fieldTracker = new HashMap<>();
 
-    @JsonCreator
-    @ConstructorProperties({"equipment, effects"})
-    public PlayerEquipment(@JsonProperty("equipment") Map<EquipmentType, Integer> equipment, @JsonProperty("effects") Map<EquipmentType, PotionEffect> effects, @JsonProperty("durability") Map<EquipmentType, Integer> durability) {
-        this.equipment = equipment;
-        this.effects = effects;
-        this.durability = durability == null ? new HashMap<>() : durability; // Workaround because some people will not have this property.
-    }
-
-    @JsonIgnore
-    public boolean equipItem(Item item) {
-        EquipmentType type = getTypeFor(item);
-        if (type == null || type.getType() != 0) {
-            return false;
-        }
-
-        equipment.put(type, ItemHelper.idOf(item));
-        if (item instanceof Breakable) {
-            durability.put(type, ((Breakable) item).getMaxDurability());
-        }
-
-        return true;
-    }
-
-    @JsonIgnore
-    public void applyEffect(PotionEffect effect) {
-        EquipmentType type = getTypeFor(ItemHelper.fromId(effect.getPotion()));
-        if (type == null || type.getType() != 1) {
-            return;
-        }
-
-        effects.put(type, effect);
-    }
-
-    //Convenience methods start here.
-    @JsonIgnore
-    public void resetOfType(EquipmentType type) {
-        equipment.remove(type);
-        durability.remove(type);
-    }
-
-    @JsonIgnore
-    public void resetEffect(EquipmentType type) {
-        effects.remove(type);
-    }
-
-    @JsonIgnore
-    public void incrementEffectUses(EquipmentType type) {
-        effects.computeIfPresent(type, (i, effect) -> {
-            effect.setTimesUsed(effect.getTimesUsed() + 1);
-
-            return effect;
-        });
-    }
-
-    @JsonIgnore
-    public boolean isEffectActive(EquipmentType type, int maxUses) {
-        PotionEffect effect = effects.get(type);
-        if (effect == null) {
-            return false;
-        }
-
-        return effect.getTimesUsed() < maxUses;
-    }
-
-    @JsonIgnore
-    public PotionEffect getCurrentEffect(EquipmentType type) {
-        return effects.get(type);
-    }
-
-    @JsonIgnore
-    public Item getEffectItem(EquipmentType type) {
-        PotionEffect effect = effects.get(type);
-        return effect == null ? null : ItemHelper.fromId(effect.getPotion());
-    }
-
-    @JsonIgnore
-    public Integer of(EquipmentType type) {
-        Integer id = equipment.get(type);
-        return id == null ? 0 : id;
-    }
-
-    @JsonIgnore
-    public EquipmentType getTypeFor(Item item) {
-        for (EquipmentType type : EquipmentType.values()) {
-            if (type.getPredicate().test(item)) {
-                return type;
-            }
-        }
-
-        return null;
-    }
-
-    @JsonIgnore
-    public void resetDurabilityTo(EquipmentType type, int amount) {
-        durability.put(type, amount);
-    }
-
-    @JsonIgnore
-    public int reduceDurability(EquipmentType type, int amount) {
-        return durability.computeIfPresent(type, (t, a) -> a - amount);
+    @BsonCreator
+    public PlayerEquipment(@BsonProperty("equipment") Map<EquipmentType, Integer> equipment, @BsonProperty("effects") Map<EquipmentType, PotionEffect> effects, @BsonProperty("durability") Map<EquipmentType, Integer> durability) {
+        this.equipment = equipment == null ? new HashMap<>() : equipment;
+        this.effects = effects == null ? new HashMap<>() : effects;
+        this.durability = durability == null ? new HashMap<>() : durability;
     }
 
     public Map<EquipmentType, Integer> getEquipment() {
@@ -150,6 +57,129 @@ public class PlayerEquipment {
 
     public Map<EquipmentType, Integer> getDurability() {
         return durability;
+    }
+
+    @BsonIgnore
+    public boolean equipItem(Item item) {
+        EquipmentType type = getTypeFor(item);
+        if (type == null || type.getType() != 0) {
+            return false;
+        }
+
+        equipment.put(type, ItemHelper.idOf(item));
+        if (item instanceof Breakable) {
+            durability.put(type, ((Breakable) item).getMaxDurability());
+        }
+
+        fieldTracker.put("equippedItems.equipment", equipment);
+        return true;
+    }
+
+    @BsonIgnore
+    public void applyEffect(PotionEffect effect) {
+        EquipmentType type = getTypeFor(ItemHelper.fromId(effect.getPotion()));
+        if (type == null || type.getType() != 1) {
+            return;
+        }
+
+        effects.put(type, effect);
+        fieldTracker.put("equippedItems.effects", effects);
+    }
+
+    //Convenience methods start here.
+    @BsonIgnore
+    public void resetOfType(EquipmentType type) {
+        equipment.remove(type);
+        durability.remove(type);
+        fieldTracker.put("equippedItems.durability", durability);
+        fieldTracker.put("equippedItems.equipment", equipment);
+    }
+
+    @BsonIgnore
+    public void resetEffect(EquipmentType type) {
+        effects.remove(type);
+    }
+
+    @BsonIgnore
+    public void incrementEffectUses(EquipmentType type) {
+        effects.computeIfPresent(type, (i, effect) -> {
+            effect.setTimesUsed(effect.getTimesUsed() + 1);
+
+            return effect;
+        });
+
+        fieldTracker.put("equippedItems.effects", effects);
+
+    }
+
+    @BsonIgnore
+    public boolean useEffect(EquipmentType type) {
+        var use = getCurrentEffect(type).use();
+        fieldTracker.put("equippedItems.effects", effects);
+        return use;
+    }
+
+    @BsonIgnore
+    public void equipEffect(EquipmentType type, int amount) {
+        getCurrentEffect(type).equip(amount);
+        fieldTracker.put("equippedItems.effects", effects);
+    }
+
+    @BsonIgnore
+    public boolean isEffectActive(EquipmentType type, int maxUses) {
+        PotionEffect effect = effects.get(type);
+        if (effect == null) {
+            return false;
+        }
+
+        return effect.getTimesUsed() < maxUses;
+    }
+
+    @BsonIgnore
+    public PotionEffect getCurrentEffect(EquipmentType type) {
+        return effects.get(type);
+    }
+
+    @BsonIgnore
+    public Item getEffectItem(EquipmentType type) {
+        PotionEffect effect = effects.get(type);
+        return effect == null ? null : ItemHelper.fromId(effect.getPotion());
+    }
+
+    @BsonIgnore
+    public Integer of(EquipmentType type) {
+        Integer id = equipment.get(type);
+        return id == null ? 0 : id;
+    }
+
+    @BsonIgnore
+    public EquipmentType getTypeFor(Item item) {
+        for (EquipmentType type : EquipmentType.values()) {
+            if (type.getPredicate().test(item)) {
+                return type;
+            }
+        }
+
+        return null;
+    }
+
+    @BsonIgnore
+    public void resetDurabilityTo(EquipmentType type, int amount) {
+        durability.put(type, amount);
+        fieldTracker.put("equippedItems.durability", durability);
+    }
+
+    @BsonIgnore
+    public int reduceDurability(EquipmentType type, int amount) {
+        int dur = durability.computeIfPresent(type, (t, a) -> a - amount);
+        fieldTracker.put("equippedItems.durability", durability);
+
+        return dur;
+    }
+
+    @BsonIgnore
+    public void updateAllChanged(UserDatabase database) {
+        MantaroData.db().updateFieldValues(database, fieldTracker);
     }
 
     public enum EquipmentType {
@@ -183,6 +213,10 @@ public class PlayerEquipment {
 
         public int getType() {
             return this.type;
+        }
+
+        public String toString() {
+            return this.name();
         }
     }
 }

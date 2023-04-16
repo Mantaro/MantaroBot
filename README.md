@@ -23,7 +23,7 @@ The reason for this is not only that the builds in here are highly unstable and 
 ### Prerequisite:
 
 You will need the following to utilize all of Mantaro's features when building your own instance (items marked with a star are optional):
-* RethinkDB, at least version 2.4
+* MongoDB, at least version 6
 * Java Development Kit, version 16 (not lower!)
 * Redis, at least version 6
 * Wolke's Weeb API (For most of the action commands)*
@@ -44,10 +44,9 @@ Make sure you pay close attention to the [license](https://github.com/Mantaro/Ma
 3.  Open a terminal (cmd.exe or any linux/macOS terminal) in the folder where you cloned this on.
 4.  Run `gradlew shadowJar`
 5.  Grab the jar from `build/libs`
-6.  Install `rethinkdb` and `redis`
-7.  On rethinkdb, create the `mantaro` database with the following tables: `mantaro, players, marriages, playerstats, users, guilds, keys, commands`
-8.  Run it, wait a little for the bot to generate a file called `config.json`
-9.  Prepare yourself to start filling in some config values. You don't need to fill all values, though. The token and the user id are necessary to start up, you wanna set the owner IDs aswell to be able to use owner commands. Values you *need* to fill: `token clientId`, values you *need* to change: `"bucketFactor" : 1 "isSelfHost" : true`.
+6.  Install `mongodb` and `redis`
+7.  Run it, wait a little for the bot to generate a file called `config.json`
+8.  Prepare yourself to start filling in some config values. You don't need to fill all values, though. The token and the user id are necessary to start up, you wanna set the owner IDs aswell to be able to use owner commands. Values you *need* to fill: `token clientId`, values you *need* to change: `"bucketFactor" : 1 "isSelfHost" : true`.
 9.  In config.json, you might want set the value needApi to false, or clone and run [the API](https://github.com/Kodehawa/mantaro-api))
 
 ### Extra runtime options:
@@ -72,7 +71,7 @@ The above options can also be used as environment variables by removing `-D`, an
 *   [JDA by DV8FromTheWorld and MinnDevelopment](https://github.com/DV8FromTheWorld/JDA)
 *   [Lavaplayer by sedmelluq](https://github.com/sedmelluq/lavaplayer)
 *   [Lavalink by Frederikam](https://github.com/Frederikam/Lavalink)
-*   [RethinkDB by the RethinkDB team](http://rethinkdb.com)
+*   [MongoDB by MongoDB Inc.](http://mongodb.com)
 *   [Redis by the redis team](https://redis.io)
 *   [imageboard-api by Kodehawa](https://github.com/Kodehawa/imageboard-api)
 *   [Crowdin](https://translate.mantaro.site/) 

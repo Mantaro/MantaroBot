@@ -28,11 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("CanBeFinal")
 public class Config {
-    public String dbDb = "mantaro";
-    public String dbHost = "localhost";
-    public String dbPassword;
-    public int dbPort = 28015;
-    public String dbUser;
+    public String mongoUri;
     public String dbotsorgToken;
     public String botsOnDiscordToken;
     public String discordBoatsToken;
@@ -80,30 +76,6 @@ public class Config {
 
     public boolean isOwner(String id) {
         return owners.contains(id);
-    }
-
-    public String getDbDb() {
-        return this.dbDb;
-    }
-
-    public String getDbHost() {
-        return this.dbHost;
-    }
-
-    public String getDbPassword() {
-        return this.dbPassword;
-    }
-
-    public int getDbPort() {
-        return this.dbPort;
-    }
-
-    public String getDbUser() {
-        return this.dbUser;
-    }
-
-    public void setDbUser(String dbUser) {
-        this.dbUser = dbUser;
     }
 
     public String getDbotsorgToken() {
@@ -249,5 +221,13 @@ public class Config {
     @JsonIgnore
     public boolean musicEnable() {
         return isPremiumBot() || isSelfHost() || isTesting();
+    }
+
+    public String getMongoUri() {
+        return mongoUri;
+    }
+
+    public void setMongoUri(String mongoUri) {
+        this.mongoUri = mongoUri;
     }
 }

@@ -29,7 +29,7 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.GuildDatabase;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -79,8 +79,7 @@ public class ImageboardUtils {
         }
 
         final var dbGuild = ctx.getDBGuild();
-        final var data = dbGuild.getData();
-        if ((ratingEnum == Rating.EXPLICIT || ratingEnum == Rating.QUESTIONABLE || nsfwOnly) && data.isDisableExplicit()) {
+        if ((ratingEnum == Rating.EXPLICIT || ratingEnum == Rating.QUESTIONABLE || nsfwOnly) && dbGuild.isDisableExplicit()) {
             ctx.reply("commands.imageboard.disabled_explicit", EmoteReference.ERROR);
             return;
         }
@@ -101,7 +100,7 @@ public class ImageboardUtils {
             return;
         }
 
-        final var blackListedImageTags = data.getBlackListedImageTags();
+        final var blackListedImageTags = dbGuild.getBlackListedImageTags();
         if (list.stream().anyMatch(blackListedImageTags::contains)) {
             ctx.reply("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
             return;
@@ -169,9 +168,9 @@ public class ImageboardUtils {
         return filter;
     }
 
-    private static void sendImage(SlashContext ctx, String imageboard, BoardImage image, DBGuild dbGuild) {
+    private static void sendImage(SlashContext ctx, String imageboard, BoardImage image, GuildDatabase dbGuild) {
         final var tags = image.getTags();
-        final var blackListedImageTags = dbGuild.getData().getBlackListedImageTags();
+        final var blackListedImageTags = dbGuild.getBlackListedImageTags();
 
         // This is the last line of defense. It should filter *all* minor tags from all sort of images on
         // the method that calls this.
@@ -194,8 +193,8 @@ public class ImageboardUtils {
 
         if (image.getRating().equals(Rating.EXPLICIT) && r.nextBoolean()) {
             var player = ctx.getPlayer();
-            if (player.getData().addBadgeIfAbsent(Badge.LEWDIE)) {
-                player.saveUpdating();
+            if (player.addBadgeIfAbsent(Badge.LEWDIE)) {
+                player.updateAllChanged();
             }
 
             // Drop a lewd magazine.

@@ -35,7 +35,7 @@ import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
@@ -135,9 +135,9 @@ public class BirthdayCmd {
                 final var birthdayFormat = parseFormat.format(parseFormat.parse(date));
 
                 //Actually save it to the user's profile.
-                DBUser dbUser = ctx.getDBUser();
-                dbUser.getData().setBirthday(birthdayFormat);
-                dbUser.saveUpdating();
+                UserDatabase dbUser = ctx.getDBUser();
+                dbUser.birthday(birthdayFormat);
+                dbUser.updateAllChanged();
 
                 ctx.replyEphemeral("commands.birthday.added_birthdate", EmoteReference.CORRECT, display, extra);
             }
@@ -150,14 +150,13 @@ public class BirthdayCmd {
             @Override
             protected void process(SlashContext ctx) {
                 var dbGuild = ctx.getDBGuild();
-                var guildData = dbGuild.getData();
                 var author = ctx.getAuthor();
-                if (guildData.getAllowedBirthdays().contains(author.getId())) {
+                if (dbGuild.getAllowedBirthdays().contains(author.getId())) {
                     ctx.replyEphemeral("commands.birthday.already_allowed", EmoteReference.ERROR);
                     return;
                 }
 
-                guildData.getAllowedBirthdays().add(author.getId());
+                dbGuild.getAllowedBirthdays().add(author.getId());
                 dbGuild.save();
 
                 var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getIdLong());
@@ -177,14 +176,13 @@ public class BirthdayCmd {
             @Override
             protected void process(SlashContext ctx) {
                 var dbGuild = ctx.getDBGuild();
-                var guildData = dbGuild.getData();
                 var author = ctx.getAuthor();
-                if (!guildData.getAllowedBirthdays().contains(author.getId())) {
+                if (!dbGuild.getAllowedBirthdays().contains(author.getId())) {
                     ctx.replyEphemeral("commands.birthday.already_denied", EmoteReference.CORRECT);
                     return;
                 }
 
-                guildData.getAllowedBirthdays().remove(author.getId());
+                dbGuild.getAllowedBirthdays().remove(author.getId());
                 dbGuild.save();
 
                 var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getIdLong());
@@ -203,8 +201,8 @@ public class BirthdayCmd {
             @Override
             protected void process(SlashContext ctx) {
                 var user = ctx.getDBUser();
-                user.getData().setBirthday(null);
-                user.save();
+                user.birthday(null);
+                user.updateAllChanged();
 
                 ctx.replyEphemeral("commands.birthday.reset", EmoteReference.CORRECT);
             }
@@ -227,7 +225,7 @@ public class BirthdayCmd {
                         }
 
                         var guild = ctx.getGuild();
-                        var data = ctx.getDBGuild().getData();
+                        var data = ctx.getDBGuild();
                         var ids = data.getAllowedBirthdays().stream().map(Long::parseUnsignedLong).collect(Collectors.toList());
 
                         if (ids.isEmpty()) {
@@ -289,7 +287,7 @@ public class BirthdayCmd {
                             return;
                         }
 
-                        var data = ctx.getDBGuild().getData();
+                        var data = ctx.getDBGuild();
                         var ids = data.getAllowedBirthdays().stream().map(Long::parseUnsignedLong).collect(Collectors.toList());
                         var guildCurrentBirthdays = getBirthdayMap(ctx.getGuild().getIdLong(), ids);
 

@@ -113,10 +113,9 @@ public class MiscCmds {
             protected void process(SlashContext ctx) {
                 List<MessageEmbed.Field> fields = new LinkedList<>();
                 var dbGuild = ctx.getDBGuild();
-                var guildData = dbGuild.getData();
                 var languageContext = ctx.getLanguageContext();
-                var autoroles = guildData.getAutoroles();
-                var autorolesCategories = guildData.getAutoroleCategories();
+                var autoroles = dbGuild.getAutoroles();
+                var autorolesCategories = dbGuild.getAutoroleCategories();
 
                 var embed = new EmbedBuilder()
                         .setAuthor(languageContext.get("commands.iam.list.header"), null, ctx.getMember().getEffectiveAvatarUrl())
@@ -307,7 +306,7 @@ public class MiscCmds {
                     return;
                 }
 
-                var guildData = ctx.getDBGuild().getData();
+                var guildData = ctx.getDBGuild();
                 if (guildData.getRunningPolls().size() >= 5) {
                     ctx.replyEphemeral("commands.poll.too_many", EmoteReference.ERROR);
                     return;
@@ -350,7 +349,7 @@ public class MiscCmds {
         public static class ListCommand extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                var guildData = ctx.getDBGuild().getData();
+                var guildData = ctx.getDBGuild();
                 var polls = guildData.getRunningPolls();
                 if (polls.isEmpty()) {
                     ctx.replyEphemeral("commands.poll.list.empty", EmoteReference.ERROR);
@@ -390,9 +389,8 @@ public class MiscCmds {
             @Override
             protected void process(SlashContext ctx) {
                 var dbGuild = ctx.getDBGuild();
-                var guildData = dbGuild.getData();
                 try {
-                    var polls = guildData.getRunningPolls();
+                    var polls = dbGuild.getRunningPolls();
                     if (polls.isEmpty()) {
                         ctx.replyEphemeral("commands.poll.cancel.no_polls", EmoteReference.ERROR);
                         return;
@@ -429,7 +427,7 @@ public class MiscCmds {
 
     public static void iamFunction(String autoroleName, IContext ctx, String message) {
         var dbGuild = ctx.db().getGuild(ctx.getGuild());
-        var autoroles = dbGuild.getData().getAutoroles();
+        var autoroles = dbGuild.getAutoroles();
 
         if (autoroles.containsKey(autoroleName)) {
             var role = ctx.getGuild().getRoleById(autoroles.get(autoroleName));
@@ -437,8 +435,8 @@ public class MiscCmds {
                 ctx.sendLocalized("commands.iam.deleted_role", EmoteReference.ERROR);
 
                 // delete the non-existent autorole.
-                dbGuild.getData().getAutoroles().remove(autoroleName);
-                dbGuild.saveAsync();
+                dbGuild.getAutoroles().remove(autoroleName);
+                dbGuild.save();
             } else {
                 if (ctx.getMember().getRoles().stream().anyMatch(r1 -> r1.getId().equals(role.getId()))) {
                     ctx.sendLocalized("commands.iam.already_assigned", EmoteReference.ERROR);
@@ -471,14 +469,14 @@ public class MiscCmds {
 
     public static void iamnotFunction(String autoroleName, IContext ctx, String message) {
         var dbGuild = ctx.db().getGuild(ctx.getGuild());
-        var autoroles = dbGuild.getData().getAutoroles();
+        var autoroles = dbGuild.getAutoroles();
 
         if (autoroles.containsKey(autoroleName)) {
             Role role = ctx.getGuild().getRoleById(autoroles.get(autoroleName));
             if (role == null) {
                 ctx.sendLocalized("commands.iam.deleted_role", EmoteReference.ERROR);
-                dbGuild.getData().getAutoroles().remove(autoroleName);
-                dbGuild.saveAsync();
+                dbGuild.getAutoroles().remove(autoroleName);
+                dbGuild.save();
             } else {
                 if (ctx.getMember().getRoles().stream().noneMatch(r1 -> r1.getId().equals(role.getId()))) {
                     ctx.sendLocalized("commands.iamnot.not_assigned", EmoteReference.ERROR);

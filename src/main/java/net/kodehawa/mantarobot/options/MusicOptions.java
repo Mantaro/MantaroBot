@@ -21,8 +21,6 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.core.OptionType;
@@ -48,9 +46,7 @@ public class MusicOptions extends OptionHandler {
         registerOption("fairqueue:max", "Fair queue maximum",
                 "Sets the maximum fairqueue value (max amount of the same song any user can add).\n" + "Example: `~>opts fairqueue max 5`",
                 "Sets the maximum fairqueue value.", (ctx, args) -> {
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-
+            var dbGuild = ctx.getDBGuild();
             if (args.length == 0) {
                 ctx.sendLocalized("options.fairqueue_max.invalid", EmoteReference.ERROR);
                 return;
@@ -65,18 +61,17 @@ public class MusicOptions extends OptionHandler {
                 return;
             }
 
-            guildData.setMaxFairQueue(fq);
+            dbGuild.setMaxFairQueue(fq);
             dbGuild.save();
             ctx.sendLocalized("options.fairqueue_max.success", EmoteReference.CORRECT, fq);
         });
 
         registerOption("musicannounce:toggle", "Music announce toggle",
                 "Toggles whether the bot will announce the new song playing or no.", (ctx) -> {
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-            boolean t1 = guildData.isMusicAnnounce();
+            var dbGuild = ctx.getDBGuild();
+            boolean t1 = dbGuild.isMusicAnnounce();
 
-            guildData.setMusicAnnounce(!t1);
+            dbGuild.setMusicAnnounce(!t1);
             ctx.sendLocalized("options.musicannounce_toggle.success", EmoteReference.CORRECT, !t1);
             dbGuild.save();
         });
@@ -92,10 +87,9 @@ public class MusicOptions extends OptionHandler {
 
             String channelName = ctx.getCustomContent();
 
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
+            var dbGuild = ctx.getDBGuild();
             Consumer<VoiceChannel> consumer = voiceChannel -> {
-                guildData.setMusicChannel(voiceChannel.getId());
+                dbGuild.setMusicChannel(voiceChannel.getId());
                 dbGuild.save();
                 ctx.sendLocalized("options.music_channel.success", EmoteReference.OK, voiceChannel.getName());
             };
@@ -121,12 +115,11 @@ public class MusicOptions extends OptionHandler {
                 return;
             }
 
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
+            var dbGuild = ctx.getDBGuild();
             try {
                 int finalSize = Integer.parseInt(args[0]);
                 int applySize = Math.min(finalSize, 300);
-                guildData.setMusicQueueSizeLimit((long) applySize);
+                dbGuild.setMusicQueueSizeLimit((long) applySize);
                 dbGuild.save();
                 ctx.sendLocalized("options.music_queuelimit.success", EmoteReference.MEGA, applySize);
             } catch (NumberFormatException ex) {
@@ -135,19 +128,17 @@ public class MusicOptions extends OptionHandler {
         });
 
         registerOption("music:clearchannel", "Music channel clear", "Clears the specific music channel.", (ctx) -> {
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-            guildData.setMusicChannel(null);
+            var dbGuild = ctx.getDBGuild();
+            dbGuild.setMusicChannel(null);
             dbGuild.save();
             ctx.sendLocalized("options.music_clearchannel.success", EmoteReference.CORRECT);
         });
 
         registerOption("music:vote:toggle", "Vote toggle", "Toggles voting.", (ctx) -> {
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-            guildData.setMusicVote(!guildData.isMusicVote());
+            var dbGuild = ctx.getDBGuild();
+            dbGuild.setMusicVote(!dbGuild.isMusicVote());
             dbGuild.save();
-            ctx.sendLocalized("options.music_vote_toggle.success", EmoteReference.CORRECT, guildData.isMusicVote());
+            ctx.sendLocalized("options.music_vote_toggle.success", EmoteReference.CORRECT, dbGuild.isMusicVote());
         });
     }
 

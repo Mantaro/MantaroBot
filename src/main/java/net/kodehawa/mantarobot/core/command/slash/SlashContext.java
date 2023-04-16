@@ -18,12 +18,7 @@
 package net.kodehawa.mantarobot.core.command.slash;
 
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.attribute.IAgeRestrictedChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -39,19 +34,13 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.MantaroObj;
-import net.kodehawa.mantarobot.db.entities.Marriage;
-import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.PlayerStats;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.db.entities.*;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.UtilsContext;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimitContext;
 import redis.clients.jedis.JedisPool;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -444,7 +433,7 @@ public class SlashContext implements IContext {
     }
 
     public I18nContext getGuildLanguageContext() {
-        return new I18nContext(getDBGuild().getData(), null);
+        return new I18nContext(getDBGuild(), null);
     }
 
     public ManagedDatabase db() {
@@ -483,23 +472,23 @@ public class SlashContext implements IContext {
         return getBot().getShardManager();
     }
 
-    public DBGuild getDBGuild() {
+    public GuildDatabase getDBGuild() {
         return managedDatabase.getGuild(getGuild());
     }
 
-    public DBUser getDBUser() {
+    public UserDatabase getDBUser() {
         return managedDatabase.getUser(getAuthor());
     }
 
-    public DBUser getDBUser(User user) {
+    public UserDatabase getDBUser(User user) {
         return managedDatabase.getUser(user);
     }
 
-    public DBUser getDBUser(Member member) {
+    public UserDatabase getDBUser(Member member) {
         return managedDatabase.getUser(member);
     }
 
-    public DBUser getDBUser(String id) {
+    public UserDatabase getDBUser(String id) {
         return managedDatabase.getUser(id);
     }
 
@@ -535,11 +524,11 @@ public class SlashContext implements IContext {
         return managedDatabase.getPlayerStats(member);
     }
 
-    public MantaroObj getMantaroData() {
+    public MantaroObject getMantaroData() {
         return managedDatabase.getMantaroData();
     }
 
-    public Marriage getMarriage(UserData userData) {
+    public Marriage getMarriage(UserDatabase userData) {
         return MantaroData.db().getMarriage(userData.getMarriageId());
     }
 

@@ -39,13 +39,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.MantaroObj;
-import net.kodehawa.mantarobot.db.entities.Marriage;
-import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.PlayerStats;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.db.entities.*;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
@@ -113,7 +107,7 @@ public class Context implements IContext {
     }
 
     public I18nContext getGuildLanguageContext() {
-        return new I18nContext(getDBGuild().getData(), null);
+        return new I18nContext(getDBGuild(), null);
     }
 
     public List<User> getMentionedUsers() {
@@ -180,23 +174,23 @@ public class Context implements IContext {
         return getBot().getShardManager();
     }
 
-    public DBGuild getDBGuild() {
+    public GuildDatabase getDBGuild() {
         return managedDatabase.getGuild(getGuild());
     }
 
-    public DBUser getDBUser() {
+    public UserDatabase getDBUser() {
         return managedDatabase.getUser(getUser());
     }
 
-    public DBUser getDBUser(User user) {
+    public UserDatabase getDBUser(User user) {
         return managedDatabase.getUser(user);
     }
 
-    public DBUser getDBUser(Member member) {
+    public UserDatabase getDBUser(Member member) {
         return managedDatabase.getUser(member);
     }
 
-    public DBUser getDBUser(String id) {
+    public UserDatabase getDBUser(String id) {
         return managedDatabase.getUser(id);
     }
 
@@ -236,7 +230,7 @@ public class Context implements IContext {
         return managedDatabase.getPlayerStats(member);
     }
 
-    public MantaroObj getMantaroData() {
+    public MantaroObject getMantaroData() {
         return managedDatabase.getMantaroData();
     }
 
@@ -258,7 +252,7 @@ public class Context implements IContext {
         return StringUtils.parseArguments(getArguments());
     }
 
-    public Marriage getMarriage(UserData userData) {
+    public Marriage getMarriage(UserDatabase userData) {
         return MantaroData.db().getMarriage(userData.getMarriageId());
     }
 

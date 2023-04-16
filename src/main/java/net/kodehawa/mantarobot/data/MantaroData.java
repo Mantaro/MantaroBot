@@ -18,19 +18,33 @@
 package net.kodehawa.mantarobot.data;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.rethinkdb.net.Connection;
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.connection.ConnectionPoolSettings;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
+import net.kodehawa.mantarobot.db.codecs.MapCodecProvider;
+import net.kodehawa.mantarobot.utils.ShutdownCodes;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
+import org.bson.codecs.configuration.CodecProvider;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.Conventions;
+import org.bson.codecs.pojo.PojoCodecProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisPool;
 
+import java.util.Arrays;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-import static com.rethinkdb.RethinkDB.r;
+import static com.mongodb.MongoClientSettings.getDefaultCodecRegistry;
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 public class MantaroData {
     private static final Logger log = LoggerFactory.getLogger(MantaroData.class);
@@ -39,9 +53,15 @@ public class MantaroData {
     );
 
     private static JsonDataManager<Config> config;
-    private static Connection connection;
     private static ManagedDatabase db;
+    private static MongoClient mongoClient;
+    private static final CodecProvider pojoCodecProvider = PojoCodecProvider.builder()
+            .automatic(true)
+            .register(new MapCodecProvider())
+            .conventions(Arrays.asList(Conventions.CLASS_AND_PROPERTY_CONVENTION, Conventions.ANNOTATION_CONVENTION, Conventions.OBJECT_ID_GENERATORS, Conventions.SET_PRIVATE_FIELDS_CONVENTION))
+            .build();
 
+    private static final CodecRegistry pojoCodecRegistry = fromRegistries(getDefaultCodecRegistry(), fromProviders(pojoCodecProvider));
     private static final JedisPool defaultJedisPool = new JedisPool(config().get().jedisPoolAddress, config().get().jedisPoolPort);
 
     static {
@@ -56,33 +76,40 @@ public class MantaroData {
         return config;
     }
 
-    public static Connection conn() {
+    public static MongoClient mongoConnection() {
         var config = config().get();
-        if (connection == null) {
+        if (mongoClient == null) {
             synchronized (MantaroData.class) {
-                if (connection != null) {
-                    return connection;
+                try {
+                    ConnectionString connectionString = new ConnectionString(config.getMongoUri());
+                    ConnectionPoolSettings connectionPoolSettings = ConnectionPoolSettings.builder()
+                            .minSize(2)
+                            .maxSize(30)
+                            .maxConnectionIdleTime(0, TimeUnit.MILLISECONDS)
+                            .maxConnectionLifeTime(120, TimeUnit.SECONDS)
+                            .build();
+
+                    MongoClientSettings clientSettings = MongoClientSettings.builder()
+                            .applyConnectionString(connectionString)
+                            .applyToConnectionPoolSettings(builder -> builder.applySettings(connectionPoolSettings))
+                            .codecRegistry(pojoCodecRegistry)
+                            .build();
+
+                    mongoClient = MongoClients.create(clientSettings);
+                    log.info("Established first MongoDB connection.");
+                } catch (Exception e) {
+                    log.error("Cannot connect to database! Bailing out", e);
+                    System.exit(ShutdownCodes.FATAL_FAILURE);
                 }
-
-                connection = r.connection()
-                        .hostname(config.getDbHost())
-                        .port(config.getDbPort())
-                        .db(config.getDbDb())
-                        .user(config.getDbUser(), config.getDbPassword())
-                        .connect();
-
-                log.info("Established first database connection to {}:{} ({})",
-                        config.getDbHost(), config.getDbPort(), config.getDbUser()
-                );
             }
         }
 
-        return connection;
+        return mongoClient;
     }
 
     public static ManagedDatabase db() {
         if (db == null) {
-            db = new ManagedDatabase(conn());
+            db = new ManagedDatabase(mongoConnection());
         }
 
         return db;

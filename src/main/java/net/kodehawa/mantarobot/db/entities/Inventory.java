@@ -15,7 +15,7 @@
  *
  */
 
-package net.kodehawa.mantarobot.db.entities.helpers;
+package net.kodehawa.mantarobot.db.entities;
 
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
@@ -23,22 +23,17 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
-
-import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.serialize;
-import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
 
 public class Inventory {
     private static final Logger LOGGER = LoggerFactory.getLogger("Inventory");
-    private Map<Integer, Integer> inventory = new HashMap<>();
+    private Map<String, Integer> stored = new HashMap<>();
+
+    public Inventory() {}
 
     public List<ItemStack> asList() {
-        return unserialize(inventory);
+        return unserialize(stored);
     }
 
     public Map<Item, ItemStack> asMap() {
@@ -71,8 +66,8 @@ public class Inventory {
     }
 
     public boolean merge(List<ItemStack> inv) {
-        Map<Integer, Integer> map = new HashMap<>(inventory);
-        Map<Integer, Integer> toAdd = serialize(inv);
+        Map<String, Integer> map = new HashMap<>(stored);
+        Map<String, Integer> toAdd = serialize(inv);
         boolean[] hadOverflow = {false};
         toAdd.forEach((id, amount) -> {
             int currentAmount = map.getOrDefault(id, 0);
@@ -99,19 +94,20 @@ public class Inventory {
     }
 
     public void replaceWith(List<ItemStack> inv) {
-        inventory = serialize(inv);
+        stored = serialize(inv);
     }
 
+    public static Map<String, Integer> serialize(List<ItemStack> list) {
+        Map<String, Integer> collect = list.stream().filter(stack -> stack.getAmount() != 0)
+                .collect(Collectors.toMap(stack -> stack.getItem().getTranslatedName().split("\\.")[1], ItemStack::getAmount, Integer::sum));
+        collect.values().remove(0);
+        return collect;
+    }
 
-    public static class Resolver {
-        public static Map<Integer, Integer> serialize(List<ItemStack> list) {
-            Map<Integer, Integer> collect = list.stream().filter(stack -> stack.getAmount() != 0).collect(Collectors.toMap(stack -> ItemHelper.idOf(stack.getItem()), ItemStack::getAmount, Integer::sum));
-            collect.values().remove(0);
-            return collect;
-        }
-
-        public static List<ItemStack> unserialize(Map<Integer, Integer> map) {
-            return map.entrySet().stream().filter(e -> e.getValue() != 0).map(entry -> new ItemStack(ItemHelper.fromId(entry.getKey()), Math.max(Math.min(entry.getValue(), 5000), 0))).collect(Collectors.toList());
-        }
+    public static List<ItemStack> unserialize(Map<String, Integer> map) {
+        return map.entrySet().stream().filter(e -> e.getValue() != 0)
+                .filter(e -> ItemHelper.fromTranslationSlice(e.getKey()).isPresent())
+                .map(entry -> new ItemStack(ItemHelper.fromTranslationSlice(entry.getKey()).get(), Math.max(Math.min(entry.getValue(), 5000), 0)))
+                .collect(Collectors.toList());
     }
 }

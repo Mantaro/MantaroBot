@@ -29,7 +29,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.GuildDatabase;
 import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.utils.StringUtils;
@@ -137,8 +137,8 @@ public class OptsCmd {
                             ctx.setCustomContent(content.substring(name.length()).trim());
                             callable.accept(ctx, a);
                             var player = MantaroData.db().getPlayer(ctx.getAuthor());
-                            if (player.getData().addBadgeIfAbsent(Badge.DID_THIS_WORK)) {
-                                player.saveUpdating();
+                            if (player.addBadgeIfAbsent(Badge.DID_THIS_WORK)) {
+                                player.updateAllChanged();
                             }
                         } catch (IndexOutOfBoundsException ignored) { }
                         return;
@@ -163,12 +163,11 @@ public class OptsCmd {
                             "If you wanna send this to the support server, use -print at the end.", OptionType.GENERAL
                 ).setAction((ctx, args) -> {
                     var dbGuild = ctx.getDBGuild();
-                    var guildData = dbGuild.getData();
                     var lang = ctx.getLanguageContext();
 
                     // Map as follows: name, value
                     // This filters out unused configs.
-                    var fieldMap = mapConfigObjects(guildData);
+                    var fieldMap = mapConfigObjects(dbGuild);
                     if (fieldMap == null) {
                         ctx.sendLocalized("options.check_data.retrieve_failure", EmoteReference.ERROR);
                         return;
@@ -211,32 +210,29 @@ public class OptsCmd {
                     //Temporary stuff.
                     var dbGuild = ctx.getDBGuild();
                     // New object?
-                    var temp = ctx.getDBGuild().getData();
+                    var temp = ctx.getDBGuild();
 
                     //The persistent data we wish to maintain.
                     var premiumKey = temp.getPremiumKey();
-                    var quoteLastId = temp.getQuoteLastId();
-                    var ranPolls = temp.getQuoteLastId();
                     var gameTimeoutExpectedAt = temp.getGameTimeoutExpectedAt();
                     var cases = temp.getCases();
+                    var ranPolls = temp.getRanPolls();
                     var allowedBirthdays = temp.getAllowedBirthdays();
                     var notified = temp.isNotifiedFromBirthdayChange();
                     var greetReceived = temp.hasReceivedGreet();
 
                     //Assign everything all over again
-                    var newDbGuild = DBGuild.of(dbGuild.getId(), dbGuild.getPremiumUntil());
-                    var newTmp = newDbGuild.getData();
+                    var newDbGuild = GuildDatabase.of(dbGuild.getId());
+                    newDbGuild.setPremiumUntil(dbGuild.getPremiumUntil());
+                    newDbGuild.setGameTimeoutExpectedAt(gameTimeoutExpectedAt);
+                    newDbGuild.setRanPolls(ranPolls);
+                    newDbGuild.setCases(cases);
+                    newDbGuild.setPremiumKey(premiumKey);
+                    newDbGuild.setAllowedBirthdays(allowedBirthdays);
+                    newDbGuild.setNotifiedFromBirthdayChange(notified);
+                    newDbGuild.setHasReceivedGreet(greetReceived);
 
-                    newTmp.setGameTimeoutExpectedAt(gameTimeoutExpectedAt);
-                    newTmp.setRanPolls(ranPolls);
-                    newTmp.setCases(cases);
-                    newTmp.setPremiumKey(premiumKey);
-                    newTmp.setQuoteLastId(quoteLastId);
-                    newTmp.setAllowedBirthdays(allowedBirthdays);
-                    newTmp.setNotifiedFromBirthdayChange(notified);
-                    newTmp.setHasReceivedGreet(greetReceived);
-
-                    newDbGuild.saveAsync();
+                    newDbGuild.save();
 
                     ctx.sendLocalized("options.reset_all.success", EmoteReference.CORRECT);
                 })

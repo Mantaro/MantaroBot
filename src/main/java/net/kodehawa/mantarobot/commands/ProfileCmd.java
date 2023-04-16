@@ -33,7 +33,6 @@ import net.dv8tion.jda.api.interactions.modals.Modal;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -166,18 +165,17 @@ public class ProfileCmd {
             @Override
             protected void process(SlashContext ctx) {
                 final var dbUser = ctx.getDBUser();
-                final var userData = dbUser.getData();
-                final var isDisabled = userData.isActionsDisabled();
+                final var isDisabled = dbUser.isActionsDisabled();
 
                 if (isDisabled) {
-                    userData.setActionsDisabled(false);
+                    dbUser.actionsDisabled(false);
                     ctx.replyEphemeral("commands.profile.toggleaction.enabled", EmoteReference.CORRECT);
                 } else {
-                    userData.setActionsDisabled(true);
+                    dbUser.actionsDisabled(true);
                     ctx.replyEphemeral("commands.profile.toggleaction.disabled", EmoteReference.CORRECT);
                 }
 
-                dbUser.save();
+                dbUser.updateAllChanged();
             }
         }
 
@@ -186,12 +184,11 @@ public class ProfileCmd {
             @Override
             protected void process(SlashContext ctx) {
                 final var player = ctx.getPlayer();
-                final var data = player.getData();
-                var toSet = !data.isHiddenLegacy();
-                data.setHiddenLegacy(toSet);
+                var toSet = !player.isHiddenLegacy();
+                player.hiddenLegacy(toSet);
 
-                player.saveUpdating();
-                ctx.replyEphemeral("commands.profile.hidelegacy", EmoteReference.CORRECT, data.isHiddenLegacy());
+                player.updateAllChanged();
+                ctx.replyEphemeral("commands.profile.hidelegacy", EmoteReference.CORRECT, player.isHiddenLegacy());
             }
         }
 
@@ -206,18 +203,17 @@ public class ProfileCmd {
             @Override
             protected void process(SlashContext ctx) {
                 var user = ctx.getDBUser();
-                var data = user.getData();
 
                 if (ctx.getOptionAsBoolean("disable")) {
-                    data.setAutoEquip(false);
-                    user.saveUpdating();
+                    user.autoEquip(false);
+                    user.updateAllChanged();
 
                     ctx.replyEphemeral("commands.profile.autoequip.disable", EmoteReference.CORRECT);
                     return;
                 }
 
-                data.setAutoEquip(true);
-                user.saveUpdating();
+                user.autoEquip(true);
+                user.updateAllChanged();
 
                 ctx.replyEphemeral("commands.profile.autoequip.success", EmoteReference.CORRECT);
             }
@@ -228,12 +224,11 @@ public class ProfileCmd {
             @Override
             protected void process(SlashContext ctx) {
                 var user = ctx.getDBUser();
-                var data = user.getData();
 
-                data.setPrivateTag(!data.isPrivateTag());
-                user.saveUpdating();
+                user.privateTag(!user.isPrivateTag());
+                user.updateAllChanged();
 
-                ctx.replyEphemeral("commands.profile.hide_tag.success", EmoteReference.POPPER, data.isPrivateTag());
+                ctx.replyEphemeral("commands.profile.hide_tag.success", EmoteReference.POPPER, user.isPrivateTag());
             }
         }
 
@@ -259,8 +254,8 @@ public class ProfileCmd {
                 }
 
                 if (timezone.equalsIgnoreCase("reset")) {
-                    dbUser.getData().setTimezone(null);
-                    dbUser.saveAsync();
+                    dbUser.timezone(null);
+                    dbUser.updateAllChanged();
                     ctx.replyEphemeral("commands.profile.timezone.reset_success", EmoteReference.CORRECT);
                     return;
                 }
@@ -271,19 +266,19 @@ public class ProfileCmd {
                 }
 
                 try {
-                    Utils.formatDate(LocalDateTime.now(Utils.timezoneToZoneID(timezone)), dbUser.getData().getLang());
+                    Utils.formatDate(LocalDateTime.now(Utils.timezoneToZoneID(timezone)), dbUser.getLang());
                 } catch (DateTimeException e) {
                     ctx.replyEphemeral("commands.profile.timezone.invalid", EmoteReference.ERROR);
                     return;
                 }
 
                 var player = ctx.getPlayer();
-                if (player.getData().addBadgeIfAbsent(Badge.CALENDAR)) {
-                    player.saveUpdating();
+                if (player.addBadgeIfAbsent(Badge.CALENDAR)) {
+                    player.updateAllChanged();
                 }
 
-                dbUser.getData().setTimezone(timezone);
-                dbUser.saveUpdating();
+                dbUser.timezone(timezone);
+                dbUser.updateAllChanged();
                 ctx.replyEphemeral("commands.profile.timezone.success", EmoteReference.CORRECT, timezone);
             }
         }
@@ -301,18 +296,18 @@ public class ProfileCmd {
                 var dbUser = ctx.getDBUser();
                 var content = ctx.getOptionAsString("lang");
                 if (content.equalsIgnoreCase("reset")) {
-                    dbUser.getData().setLang(null);
-                    dbUser.saveUpdating();
+                    dbUser.language(null);
+                    dbUser.updateAllChanged();
                     ctx.replyEphemeral("commands.profile.lang.reset_success", EmoteReference.CORRECT);
                     return;
                 }
 
                 if (I18n.isValidLanguage(content)) {
-                    dbUser.getData().setLang(content);
+                    dbUser.language(content);
                     //Create new I18n context based on the new language choice.
-                    var newContext = new I18nContext(ctx.getDBGuild().getData(), dbUser.getData());
+                    var newContext = new I18nContext(ctx.getDBGuild(), dbUser);
 
-                    dbUser.saveUpdating();
+                    dbUser.updateAllChanged();
                     ctx.replyEphemeralRaw(newContext.get("commands.profile.lang.success"), EmoteReference.CORRECT, content);
                 } else {
                     ctx.replyEphemeral("commands.profile.lang.invalid", EmoteReference.ERROR);
@@ -338,8 +333,8 @@ public class ProfileCmd {
 
                 if (ctx.getOptionAsBoolean("clear")) {
                     var player = ctx.getPlayer();
-                    player.getData().setDescription(null);
-                    player.saveUpdating();
+                    player.description(null);
+                    player.updateAllChanged();
 
                     ctx.reply("commands.profile.description.clear_success", EmoteReference.CORRECT);
                     return;
@@ -352,7 +347,7 @@ public class ProfileCmd {
                 }
 
                 var lang = ctx.getLanguageContext();
-                var description = ctx.getPlayer().getData().getDescription();
+                var description = ctx.getPlayer().getDescription();
                 var subjectBuilder = TextInput.create("description", lang.get("commands.profile.description.header"), TextInputStyle.PARAGRAPH)
                         .setPlaceholder(lang.get("commands.profile.description.content_placeholder"))
                         .setRequiredRange(5, MAX_LENGTH);
@@ -364,7 +359,7 @@ public class ProfileCmd {
                 var subject = subjectBuilder.build();
                 var id = "%s/%s".formatted(ctx.getAuthor().getId(), ctx.getChannel().getId());
                 var modal = Modal.create(id, lang.get("commands.profile.description.header"))
-                        .addActionRows(ActionRow.of(subject))
+                        .addComponents(ActionRow.of(subject))
                         .build();
                 ctx.replyModal(modal);
 
@@ -409,13 +404,13 @@ public class ProfileCmd {
                         desc = Utils.DISCORD_INVITE_2.matcher(desc).replaceAll("-discord invite link-");
 
                         var player = ctx.getPlayer();
-                        player.getData().setDescription(desc);
+                        player.description(desc);
                         event.reply(lang.get("commands.profile.description.success").formatted(EmoteReference.POPPER))
                                 .setEphemeral(true)
                                 .queue();
 
-                        player.getData().addBadgeIfAbsent(Badge.WRITER);
-                        player.saveUpdating();
+                        player.addBadgeIfAbsent(Badge.WRITER);
+                        player.updateAllChanged();
                         return Operation.COMPLETED;
                     }
 
@@ -491,10 +486,9 @@ public class ProfileCmd {
                 }
 
                 var player = ctx.getPlayer();
-                var playerData = player.getData();
                 if (ctx.getOptionAsBoolean("reset")) {
-                    playerData.getProfileComponents().clear();
-                    player.save();
+                    player.resetProfileComponents();
+                    player.updateAllChanged();
 
                     ctx.replyEphemeral("commands.profile.display.reset", EmoteReference.CORRECT);
                     return;
@@ -507,9 +501,9 @@ public class ProfileCmd {
                                     lang.get("commands.profile.display.example"),
                             EmoteReference.ZAP, EmoteReference.BLUE_SMALL_MARKER,
                             defaultOrder.stream().map(Enum::name).collect(Collectors.joining(", ")),
-                            playerData.getProfileComponents().size() == 0 ?
+                            player.getProfileComponents().size() == 0 ?
                                     "Not personalized" :
-                                    playerData.getProfileComponents().stream()
+                                    player.getProfileComponents().stream()
                                             .map(Enum::name)
                                             .collect(Collectors.joining(", "))
                     );
@@ -534,8 +528,8 @@ public class ProfileCmd {
                     return;
                 }
 
-                playerData.setProfileComponents(newComponents);
-                player.save();
+                player.profileComponents(newComponents);
+                player.updateAllChanged();
 
                 ctx.replyEphemeral("commands.profile.display.success",
                         EmoteReference.CORRECT, newComponents.stream().map(Enum::name).collect(Collectors.joining(", "))
@@ -568,13 +562,11 @@ public class ProfileCmd {
         final var memberLooked = ctx.getGuild().getMember(userLooked);
         final var player = ctx.getPlayer(userLooked);
         final var dbUser = ctx.getDBUser(userLooked);
-        final var playerData = player.getData();
-        final var userData = dbUser.getData();
-        final var inv = player.getInventory();
+        final var playerData = player;
         final var config = MantaroData.config().get();
 
         // Cache waifu value.
-        playerData.setWaifuCachedValue(WaifuCmd.calculateWaifuValue(player, userLooked).getFinalValue());
+        playerData.waifuCachedValue(WaifuCmd.calculateWaifuValue(player, userLooked).getFinalValue());
 
         // start of badge assigning
         final var mh = MantaroBot.getInstance().getShardManager().getGuildById("213468583252983809");
@@ -586,11 +578,7 @@ public class ProfileCmd {
         }
 
         Badge.assignBadges(player, player.getStats(), dbUser);
-        var christmasBadgeAssign = inv.asList()
-                .stream()
-                .map(ItemStack::getItem)
-                .anyMatch(it -> it.equals(ItemReference.CHRISTMAS_TREE_SPECIAL) || it.equals(ItemReference.BELL_SPECIAL));
-
+        var christmasBadgeAssign = player.containsItem(ItemReference.CHRISTMAS_TREE_SPECIAL) || player.containsItem(ItemReference.BELL_SPECIAL);
         // Manual badges
         if (config.isOwner(userLooked)) {
             playerData.addBadgeIfAbsent(Badge.DEVELOPER);
@@ -623,14 +611,14 @@ public class ProfileCmd {
         final var badges = playerData.getBadges();
         Collections.sort(badges);
 
-        final var marriage = MantaroData.db().getMarriage(userData.getMarriageId());
-        final var ringHolder = player.getInventory().containsItem(ItemReference.RING) && marriage != null;
+        final var marriage = MantaroData.db().getMarriage(dbUser.getMarriageId());
+        final var ringHolder = player.containsItem(ItemReference.RING) && marriage != null;
         final var holder = new ProfileComponent.Holder(userLooked, player, dbUser, marriage, badges);
         final var profileBuilder = new EmbedBuilder();
         var description = lang.get("commands.profile.no_desc");
 
         if (playerData.getDescription() != null) {
-            description = player.getData().getDescription();
+            description = player.getDescription();
         }
 
         profileBuilder.setAuthor(
@@ -657,8 +645,8 @@ public class ProfileCmd {
         }
 
         // We don't need to update stats if someone else views your profile
-        if (player.getUserId().equals(ctx.getAuthor().getId())) {
-            player.saveUpdating();
+        if (player.getId().equals(ctx.getAuthor().getId())) {
+            player.updateAllChanged();
         }
 
         return profileBuilder.build();

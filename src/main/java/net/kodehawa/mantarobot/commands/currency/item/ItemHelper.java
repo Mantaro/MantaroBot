@@ -28,11 +28,8 @@ import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
-import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.commands.RandomCollection;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
@@ -70,27 +67,23 @@ public class ItemHelper {
 
         ItemReference.MOP.setAction(((ctx, season) -> {
             Player player = ctx.getPlayer();
-            PlayerData playerData = player.getData();
-            DBUser dbUser = ctx.getDBUser();
-            UserData userData = dbUser.getData();
-            Inventory playerInventory = player.getInventory();
-
-            if (!playerInventory.containsItem(ItemReference.MOP))
+            UserDatabase dbUser = ctx.getDBUser();
+            if (!player.containsItem(ItemReference.MOP))
                 return false;
 
-            if (userData.getDustLevel() >= 5) {
-                playerData.setTimesMopped(playerData.getTimesMopped() + 1);
+            if (dbUser.getDustLevel() >= 5) {
+                player.timesMopped(player.getTimesMopped() + 1);
                 ctx.sendLocalized("general.misc_item_usage.mop", EmoteReference.DUST);
 
-                if (userData.getDustLevel() == 100) {
-                    playerData.addBadgeIfAbsent(Badge.DUSTY);
+                if (dbUser.getDustLevel() == 100) {
+                    player.addBadgeIfAbsent(Badge.DUSTY);
                 }
 
-                playerInventory.process(new ItemStack(ItemReference.MOP, -1));
-                userData.setDustLevel(0);
+                player.processItem(ItemReference.MOP, -1);
+                dbUser.dustLevel(0);
 
-                player.save();
-                dbUser.save();
+                player.updateAllChanged();
+                dbUser.updateAllChanged();
             } else {
                 ctx.sendLocalized("general.misc_item_usage.mop_not_enough", EmoteReference.DUST);
                 return false;
@@ -101,15 +94,13 @@ public class ItemHelper {
 
         ItemReference.POTION_CLEAN.setAction((ctx, season) -> {
             Player player = ctx.getPlayer();
-            DBUser dbUser = ctx.getDBUser();
-            UserData userData = dbUser.getData();
-            Inventory playerInventory = player.getInventory();
+            UserDatabase dbUser = ctx.getDBUser();
+            var equipped = dbUser.getEquippedItems();
+            equipped.resetEffect(PlayerEquipment.EquipmentType.POTION);
+            player.processItem(ItemReference.POTION_CLEAN, -1);
 
-            userData.getEquippedItems().resetEffect(PlayerEquipment.EquipmentType.POTION);
-            playerInventory.process(new ItemStack(ItemReference.POTION_CLEAN, -1));
-
-            player.save();
-            dbUser.save();
+            player.updateAllChanged();
+            equipped.updateAllChanged(dbUser);
 
             ctx.sendLocalized("general.misc_item_usage.milk", EmoteReference.CORRECT);
             return true;
@@ -191,6 +182,12 @@ public class ItemHelper {
                 .findFirst();
     }
 
+    public static Optional<Item> fromTranslationSlice(String slice) {
+        return Arrays.stream(ItemReference.ALL)
+                .filter(item -> item.getTranslatedName().equals("items." + slice))
+                .findFirst();
+    }
+
     public static Optional<Item> fromAlias(String name) {
         return Arrays.stream(ItemReference.ALL).filter(item -> {
             if (item.getAlias() == null) {
@@ -237,17 +234,15 @@ public class ItemHelper {
 
     static boolean openLootCrate(IContext ctx, ItemType.LootboxType type, int item, EmoteReference typeEmote, int bound) {
         Player player = ctx.getPlayer();
-        Inventory inventory = player.getInventory();
-
         Item crate = fromId(item);
 
-        if (inventory.containsItem(crate)) {
-            if (inventory.containsItem(ItemReference.LOOT_CRATE_KEY)) {
+        if (player.containsItem(crate)) {
+            if (player.containsItem(ItemReference.LOOT_CRATE_KEY)) {
                 if (!RatelimitUtils.ratelimit(lootCrateRatelimiter, ctx, false))
                     return false;
 
                 if (crate == ItemReference.LOOT_CRATE) {
-                    player.getData().addBadgeIfAbsent(Badge.THE_SECRET);
+                    player.addBadgeIfAbsent(Badge.THE_SECRET);
                 }
 
                 //It saves the changes here.
@@ -270,13 +265,12 @@ public class ItemHelper {
         ArrayList<ItemStack> ita = new ArrayList<>();
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
 
-        PlayerData data = player.getData();
         if ((type == ItemType.LootboxType.MINE || type == ItemType.LootboxType.MINE_PREMIUM) && toAdd.contains(ItemReference.SPARKLE_PICKAXE)) {
-            data.addBadgeIfAbsent(Badge.DESTINY_REACHES);
+            player.addBadgeIfAbsent(Badge.DESTINY_REACHES);
         }
 
         if ((type == ItemType.LootboxType.FISH || type == ItemType.LootboxType.FISH_PREMIUM) && toAdd.contains(ItemReference.SHARK)) {
-            data.addBadgeIfAbsent(Badge.TOO_BIG);
+            player.addBadgeIfAbsent(Badge.TOO_BIG);
         }
 
         var toShow = ItemStack.reduce(ita);
@@ -290,12 +284,12 @@ public class ItemHelper {
             return stack;
         }).collect(Collectors.toList());
 
-        boolean overflow = player.getInventory().merge(toShow);
+        boolean overflow = player.mergeInventory(toShow);
 
-        player.getInventory().process(new ItemStack(ItemReference.LOOT_CRATE_KEY, -1));
-        player.getInventory().process(new ItemStack(crate, -1));
-        data.setCratesOpened(data.getCratesOpened() + 1);
-        player.save();
+        player.processItem(ItemReference.LOOT_CRATE_KEY, -1);
+        player.processItem(crate, -1);
+        player.cratesOpened(player.getCratesOpened() + 1);
+        player.updateAllChanged();
 
         I18nContext lang = ctx.getLanguageContext();
         var show = toShow.stream()
@@ -431,7 +425,7 @@ public class ItemHelper {
                 .collect(Collectors.toList());
     }
 
-    public static boolean handleEffect(PlayerEquipment.EquipmentType type, PlayerEquipment equipment, Item item, DBUser user) {
+    public static boolean handleEffect(PlayerEquipment.EquipmentType type, PlayerEquipment equipment, Item item, UserDatabase user) {
         boolean isEffectPresent = equipment.getCurrentEffect(type) != null;
 
         if (isEffectPresent) {
@@ -443,16 +437,14 @@ public class ItemHelper {
             // Effect is active when it's been used less than the max amount
             if (!equipment.isEffectActive(type, ((Potion) item).getMaxUses())) {
                 // Reset effect if the current amount equipped is 0. Else, subtract one from the current amount equipped.
-                if (!equipment.getCurrentEffect(type).use()) { //This call subtracts one from the current amount equipped.
+                if (!equipment.useEffect(type)) { //This call subtracts one from the current amount equipped.
                     equipment.resetEffect(type);
                     // This has to go twice, because I have to return on the next statement.
-                    // We remove something from a HashMap here, and somehow
-                    // removing it from a HashMap will need a full replace (why?)
-                    user.save();
+                    equipment.updateAllChanged(user);
 
                     return false;
                 } else {
-                    user.saveUpdating();
+                    equipment.updateAllChanged(user);
                     return true;
                 }
             } else {
@@ -464,10 +456,10 @@ public class ItemHelper {
                     // but we check if the effect is not active, therefore it will only go through and delete
                     // the element from the stack only when there's no more uses remaining on that part of the stack :)
                     // This bug took me two god damn years to fix.
-                    equipment.getCurrentEffect(type).use();
+                    equipment.useEffect(type);
                 }
 
-                user.saveUpdating();
+                equipment.updateAllChanged(user);
 
                 return true;
             }
@@ -487,10 +479,8 @@ public class ItemHelper {
         return null;
     }
 
-    public static Pair<Boolean, Pair<Player, DBUser>> handleDurability(IContext ctx, Item item, Player player, DBUser user) {
-        var playerInventory = player.getInventory();
-        var userData = user.getData();
-        var equippedItems = userData.getEquippedItems();
+    public static Pair<Boolean, Pair<Player, UserDatabase>> handleDurability(IContext ctx, Item item, Player player, UserDatabase user) {
+        var equippedItems = user.getEquippedItems();
         var subtractFrom = 0;
 
         if (handleEffect(PlayerEquipment.EquipmentType.POTION, equippedItems, ItemReference.POTION_STAMINA, user)) {
@@ -522,7 +512,7 @@ public class ItemHelper {
                         EmoteReference.HEART, brokenItem.getEmoji(), brokenItem.getName()
                 );
 
-                playerInventory.process(new ItemStack(brokenItem, 1));
+                player.processItem(brokenItem, 1);
                 successBroken = true;
             }
 
@@ -531,41 +521,52 @@ public class ItemHelper {
             }
 
             var toReplace = languageContext.get("commands.mine.item_broke");
-            if (!userData.isAutoEquip()) {
+            if (!user.isAutoEquip()) {
                 toReplace += "\n" + languageContext.get("commands.mine.item_broke_autoequip");
             }
 
             ctx.sendFormat(toReplace, EmoteReference.SAD, item.getName(), broken);
 
-            player.getData().addBadgeIfAbsent(Badge.ITEM_BREAKER);
-            player.saveUpdating();
-            // We remove something from a HashMap here, and somehow
-            // removing it from a HashMap will need a full replace (why?)
-            user.save();
+            if (player.addBadgeIfAbsent(Badge.ITEM_BREAKER) || successBroken) {
+                player.updateAllChanged();
+            }
+
+            equippedItems.updateAllChanged(user);
 
             var stats = ctx.db().getPlayerStats(ctx.getAuthor());
             stats.incrementToolsBroken();
-            stats.saveUpdating();
+            stats.updateAllChanged();
 
             //is broken
             return Pair.of(true, Pair.of(player, user));
         } else {
-            if (item == ItemReference.HELLFIRE_PICK)
-                player.getData().addBadgeIfAbsent(Badge.HOT_MINER);
-            if (item == ItemReference.HELLFIRE_ROD)
-                player.getData().addBadgeIfAbsent(Badge.HOT_FISHER);
-            if (item == ItemReference.HELLFIRE_AXE)
-                player.getData().addBadgeIfAbsent(Badge.HOT_CHOPPER);
+            var addedBadge = false;
+            if (item == ItemReference.HELLFIRE_PICK) {
+                player.addBadgeIfAbsent(Badge.HOT_MINER);
+                addedBadge = true;
+            }
+            if (item == ItemReference.HELLFIRE_ROD) {
+                player.addBadgeIfAbsent(Badge.HOT_FISHER);
+                addedBadge = true;
+            }
 
-            player.saveUpdating();
-            user.saveUpdating();
+            if (item == ItemReference.HELLFIRE_AXE) {
+                player.addBadgeIfAbsent(Badge.HOT_CHOPPER);
+                addedBadge = true;
+            }
+
+            if (addedBadge) {
+                player.updateAllChanged();
+            }
+
+            equippedItems.updateAllChanged(user);
 
             //is not broken
             return Pair.of(false, Pair.of(player, user));
         }
     }
 
-    public static void handleItemDurability(Item item, IContext ctx, Player player, DBUser dbUser, String i18n) {
+    public static void handleItemDurability(Item item, IContext ctx, Player player, UserDatabase dbUser, String i18n) {
         var breakage = handleDurability(ctx, item, player, dbUser);
         if (!breakage.getKey()) {
             return;
@@ -574,15 +575,13 @@ public class ItemHelper {
         //We need to get this again since reusing the old ones will cause :fire:
         var finalPlayer = breakage.getValue().getKey();
         var finalUser = breakage.getValue().getValue();
-        var inventory = finalPlayer.getInventory();
-        var userData = finalUser.getData();
+        if (finalUser.isAutoEquip() && finalPlayer.containsItem(item)) {
+            var equipped = finalUser.getEquippedItems();
+            equipped.equipItem(item);
+            finalPlayer.processItem(item, -1);
 
-        if (userData.isAutoEquip() && inventory.containsItem(item)) {
-            userData.getEquippedItems().equipItem(item);
-            inventory.process(new ItemStack(item, -1));
-
-            finalPlayer.save();
-            finalUser.save();
+            finalPlayer.updateAllChanged();
+            equipped.updateAllChanged(dbUser);
 
             ctx.sendLocalized(i18n, EmoteReference.CORRECT, item.getName());
         }

@@ -24,7 +24,6 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
@@ -145,10 +144,8 @@ public class ItemCmds {
 
                 // Get the necessary entities.
                 var player = ctx.getPlayer();
-                var playerData = player.getData();
                 var user = ctx.getDBUser();
-                var userData = user.getData();
-                var wrench = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
+                var wrench = user.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
                 if (wrench == 0) {
                     ctx.reply("commands.cast.not_equipped", EmoteReference.ERROR);
                     return;
@@ -214,8 +211,7 @@ public class ItemCmds {
                     return;
                 }
 
-                var playerInventory = player.getInventory();
-                var dust = userData.getDustLevel();
+                var dust = user.getDustLevel();
                 if (dust > 95) {
                     ctx.reply("commands.cast.dust", EmoteReference.ERROR, dust);
                     return;
@@ -228,12 +224,12 @@ public class ItemCmds {
                     var item = ItemHelper.fromId(i);
                     var amount = Integer.parseInt(splitRecipe[increment]) * amountSpecified;
 
-                    if (!playerInventory.containsItem(item)) {
+                    if (!player.containsItem(item)) {
                         ctx.reply("commands.cast.no_item", EmoteReference.ERROR, item.getName(), amount);
                         return;
                     }
 
-                    int inventoryAmount = playerInventory.getAmount(item);
+                    int inventoryAmount = player.getItemAmount(item);
                     if (inventoryAmount < amount) {
                         ctx.reply("commands.cast.not_enough_items",
                                 EmoteReference.ERROR, item.getName(), castItem.getName(), amount, inventoryAmount
@@ -246,7 +242,7 @@ public class ItemCmds {
                     increment++;
                 }
 
-                if (playerInventory.getAmount(castItem) + amountSpecified > 5000) {
+                if (player.getItemAmount(castItem) + amountSpecified > 5000) {
                     ctx.reply("commands.cast.too_many", EmoteReference.ERROR);
                     return;
                 }
@@ -254,34 +250,34 @@ public class ItemCmds {
                 for (var entry : castMap.entrySet()) {
                     var i = entry.getKey();
                     var amount = entry.getValue();
-                    playerInventory.process(new ItemStack(i, -amount));
+                    player.processItem(i, -amount);
                 }
                 // end of recipe build
 
-                playerInventory.process(new ItemStack(castItem, amountSpecified));
+                player.processItem(castItem, amountSpecified);
 
                 if (castItem == ItemReference.HELLFIRE_PICK)
-                    playerData.addBadgeIfAbsent(Badge.HOT_MINER);
+                    player.addBadgeIfAbsent(Badge.HOT_MINER);
                 if (castItem == ItemReference.HELLFIRE_ROD)
-                    playerData.addBadgeIfAbsent(Badge.HOT_FISHER);
+                    player.addBadgeIfAbsent(Badge.HOT_FISHER);
                 if (castItem == ItemReference.HELLFIRE_AXE)
-                    playerData.addBadgeIfAbsent(Badge.HOT_CHOPPER);
+                    player.addBadgeIfAbsent(Badge.HOT_CHOPPER);
 
                 var message = "";
-                if (playerData.shouldSeeCampaign()) {
+                if (player.shouldSeeCampaign()) {
                     message += Campaign.PREMIUM.getStringFromCampaign(ctx.getLanguageContext(), user.isPremium());
-                    playerData.markCampaignAsSeen();
+                    player.markCampaignAsSeen();
                 }
 
-                userData.increaseDustLevel(3);
-                user.save();
+                user.increaseDustLevel(3);
+                user.updateAllChanged();
 
                 player.removeMoney(castCost);
-                player.save();
+                player.updateAllChanged();
 
                 PlayerStats stats = ctx.getPlayerStats();
                 stats.incrementCraftedItems(amountSpecified);
-                stats.saveUpdating();
+                stats.updateAllChanged();
 
                 ItemHelper.handleItemDurability(wrenchItem, ctx, player, user, "commands.cast.autoequip.success");
                 ctx.replyRaw(ctx.getLanguageContext().get("commands.cast.success") + "\n" + message,
@@ -387,11 +383,9 @@ public class ItemCmds {
                 //Get the necessary entities.
                 var player = ctx.getPlayer();
                 var user = ctx.getDBUser();
-                var userData = user.getData();
 
                 var item = ItemHelper.fromAnyNoId(itemName, ctx.getLanguageContext()).orElse(null);
-                var playerInventory = player.getInventory();
-                var wrench = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
+                var wrench = user.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
                 if (wrench == 0) {
                     ctx.reply("commands.cast.not_equipped", EmoteReference.ERROR);
                     return;
@@ -408,7 +402,7 @@ public class ItemCmds {
                     return;
                 }
 
-                if (!playerInventory.containsItem(item)) {
+                if (!player.containsItem(item)) {
                     ctx.reply("commands.repair.no_main_item", EmoteReference.ERROR, item.getName());
                     return;
                 }
@@ -418,7 +412,7 @@ public class ItemCmds {
                     return;
                 }
 
-                var dust = user.getData().getDustLevel();
+                var dust = user.getDustLevel();
                 if (dust > 95) {
                     ctx.reply("commands.repair.dust", EmoteReference.ERROR, dust);
                     return;
@@ -447,12 +441,12 @@ public class ItemCmds {
                     var amount = Integer.parseInt(split[0]);
                     var needed = ItemHelper.fromId(Integer.parseInt(split[1]));
 
-                    if (!playerInventory.containsItem(needed)) {
+                    if (!player.containsItem(needed)) {
                         ctx.reply("commands.repair.no_item_recipe", EmoteReference.ERROR, needed.getName());
                         return;
                     }
 
-                    var inventoryAmount = playerInventory.getAmount(needed);
+                    var inventoryAmount = player.getItemAmount(needed);
                     if (inventoryAmount < amount) {
                         ctx.reply("commands.repair.not_enough_items",
                                 EmoteReference.ERROR, needed.getName(), brokenItem.getName(), amount, inventoryAmount
@@ -467,22 +461,22 @@ public class ItemCmds {
                 for (var entry : recipeMap.entrySet()) {
                     var i = entry.getKey();
                     var amount = entry.getValue();
-                    playerInventory.process(new ItemStack(i, -amount));
+                    player.processItem(i, -amount);
                 }
                 // end of recipe build
 
-                playerInventory.process(new ItemStack(brokenItem, -1));
-                playerInventory.process(new ItemStack(repairedItem, 1));
+                player.processItem(brokenItem, -1);
+                player.processItem(repairedItem, 1);
 
-                user.getData().increaseDustLevel(4);
-                user.save();
+                user.increaseDustLevel(4);
+                user.updateAllChanged();
 
                 player.removeMoney(repairCost);
-                player.save();
+                player.updateAllChanged();
 
                 var stats = ctx.getPlayerStats();
                 stats.incrementRepairedItems();
-                stats.saveUpdating();
+                stats.updateAllChanged();
 
                 ItemHelper.handleItemDurability(wrenchItem, ctx, player, user, "commands.cast.autoequip.success");
                 ctx.replyRaw(ctx.getLanguageContext().get("commands.repair.success"),
@@ -573,10 +567,8 @@ public class ItemCmds {
                 //Get the necessary entities.
                 final var player = ctx.getPlayer();
                 final var user = ctx.getDBUser();
-                final var userData = user.getData();
-                final var playerInventory = player.getInventory();
                 final var item = ItemHelper.fromAnyNoId(itemName, ctx.getLanguageContext()).orElse(null);
-                final var wrench = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
+                final var wrench = user.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
                 if (wrench == 0) {
                     ctx.reply("commands.cast.not_equipped", EmoteReference.ERROR);
                     return;
@@ -599,12 +591,12 @@ public class ItemCmds {
                     return;
                 }
 
-                if (!playerInventory.containsItem(item)) {
+                if (!player.containsItem(item)) {
                     ctx.reply("commands.salvage.no_main_item", EmoteReference.ERROR);
                     return;
                 }
 
-                int dust = user.getData().getDustLevel();
+                int dust = user.getDustLevel();
                 if (dust > 95) {
                     ctx.reply("commands.salvage.dust", EmoteReference.ERROR, dust);
                     return;
@@ -627,18 +619,18 @@ public class ItemCmds {
                 }
 
                 var toReturn = returns.get(random.nextInt(returns.size()));
-                playerInventory.process(new ItemStack(toReturn, 1));
-                playerInventory.process(new ItemStack(broken, -1));
+                player.processItem(toReturn, 1);
+                player.processItem(broken, -1);
 
-                user.getData().increaseDustLevel(3);
-                user.save();
+                user.increaseDustLevel(3);
+                user.updateAllChanged();
 
                 player.removeMoney(salvageCost);
-                player.save();
+                player.updateAllChanged();
 
                 var stats = ctx.getPlayerStats();
                 stats.incrementSalvagedItems();
-                stats.saveUpdating();
+                stats.updateAllChanged();
 
                 ItemHelper.handleItemDurability(wrenchItem, ctx, player, user, "commands.cast.autoequip.success");
                 ctx.reply("commands.salvage.success", wrenchItem.getEmojiDisplay(), item.getEmojiDisplay(), item.getName(), toReturn.getEmojiDisplay(), toReturn.getName(), salvageCost);

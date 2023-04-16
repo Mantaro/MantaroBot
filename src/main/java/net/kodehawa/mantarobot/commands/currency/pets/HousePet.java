@@ -17,15 +17,17 @@
 
 package net.kodehawa.mantarobot.commands.currency.pets;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedMongoObject;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
 
-import java.beans.ConstructorProperties;
 import java.security.SecureRandom;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HousePet {
-    @JsonIgnore
+    @BsonIgnore
     private static final SecureRandom random = new SecureRandom();
 
     private String name;
@@ -34,14 +36,16 @@ public class HousePet {
     private int health = 100;
     private int hunger = 100;
     private int thirst = 100;
-    private int mood = 100;
     private int dust = 0;
     private int patCounter;
     private long experience;
     private long level = 1;
+    @BsonIgnore
+    public Map<String, Object> fieldTracker = new HashMap<>();
 
-    @JsonCreator
-    @ConstructorProperties({"name", "type"})
+    // Serialization constructor
+    public HousePet() { }
+    
     public HousePet(String name, HousePetType type) {
         this.name = name;
         this.type = type;
@@ -86,6 +90,7 @@ public class HousePet {
         }
 
         this.health = Math.max(1, health - defaultDecrease);
+        fieldTracker.put("pet.health", this.health);
     }
 
     public void decreaseStamina() {
@@ -95,6 +100,7 @@ public class HousePet {
         }
 
         this.stamina = Math.max(1, stamina - defaultDecrease);
+        fieldTracker.put("pet.stamina", this.stamina);
     }
 
     public void decreaseHunger() {
@@ -104,6 +110,7 @@ public class HousePet {
         }
 
         this.hunger = Math.max(1, hunger - defaultDecrease);
+        fieldTracker.put("pet.hunger", this.hunger);
     }
 
     public void decreaseThirst() {
@@ -113,6 +120,7 @@ public class HousePet {
         }
 
         this.thirst = Math.max(1, thirst - defaultDecrease);
+        fieldTracker.put("pet.thirst", this.thirst);
     }
 
     public void increaseHealth() {
@@ -123,6 +131,7 @@ public class HousePet {
 
         var defaultIncrease = 10;
         this.health = Math.min(100, health + defaultIncrease);
+        fieldTracker.put("pet.health", this.health);
     }
 
     public void increaseStamina() {
@@ -133,6 +142,7 @@ public class HousePet {
 
         var defaultIncrease = 30;
         this.stamina = Math.min(100, stamina + defaultIncrease);
+        fieldTracker.put("pet.stamina", this.stamina);
     }
 
     public void increaseHunger(int by) {
@@ -142,6 +152,7 @@ public class HousePet {
         }
 
         this.hunger = Math.min(100, hunger + by);
+        fieldTracker.put("pet.hunger", this.hunger);
     }
 
     public void increaseThirst(int by) {
@@ -151,6 +162,7 @@ public class HousePet {
         }
 
         this.thirst = Math.min(100, thirst + by);
+        fieldTracker.put("pet.thirst", this.thirst);
     }
 
     public void increaseDust() {
@@ -161,6 +173,7 @@ public class HousePet {
         }
 
         this.dust = Math.min(100, dust + defaultIncrease);
+        fieldTracker.put("pet.dust", this.dust);
     }
 
     public void decreaseDust(int by) {
@@ -169,26 +182,14 @@ public class HousePet {
         }
 
         this.dust = Math.max(1, dust - by);
+        fieldTracker.put("pet.dust", this.dust);
     }
 
-    public void increaseMood(int by) {
-        if (mood >= 100) {
-            this.mood = 100;
-            return;
-        }
-
-        this.mood = Math.min(100, mood + by);
+    public void increasePats() {
+        this.patCounter += 1;
+        fieldTracker.put("pet.patCounter", this.patCounter);
     }
-
-    public void decreaseMood() {
-        var defaultDecrease = 2;
-        if (mood < 1) {
-            return;
-        }
-
-        this.mood = Math.max(1, mood - defaultDecrease);
-    }
-
+    
     public int getHunger() {
         return hunger;
     }
@@ -209,10 +210,6 @@ public class HousePet {
         return patCounter;
     }
 
-    public void increasePats() {
-        this.patCounter += 1;
-    }
-
     public long getExperience() {
         return experience;
     }
@@ -228,15 +225,7 @@ public class HousePet {
     public void setLevel(long level) {
         this.level = level;
     }
-
-    public int getMood() {
-        return mood;
-    }
-
-    public void setMood(int mood) {
-        this.mood = mood;
-    }
-
+    
     public int getDust() {
         return dust;
     }
@@ -245,7 +234,7 @@ public class HousePet {
         this.dust = dust;
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public long experienceToNextLevel() {
         var level = getLevel();
         var toNext = (long) ((level * Math.log10(level) * 1000) + (50 * level / 2D));
@@ -256,15 +245,18 @@ public class HousePet {
         return toNext;
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public void increaseExperience() {
         this.experience += Math.max(10, random.nextInt(40));
         var toNextLevel = experienceToNextLevel();
         if (experience > toNextLevel)
             level += 1;
+
+        fieldTracker.put("pet.experience", this.experience);
+        fieldTracker.put("pet.level", this.level);
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public ActivityResult handleAbility(HousePetType.HousePetAbility neededAbility) {
         if (!type.getAbilities().contains(neededAbility))
             return ActivityResult.NO_ABILITY;
@@ -289,19 +281,23 @@ public class HousePet {
         decreaseHealth();
         decreaseHunger();
         decreaseThirst();
-        //decreaseMood();
         increaseDust();
         increaseExperience();
 
         return neededAbility.getPassActivity();
     }
 
-    @JsonIgnore
+    @BsonIgnore
+    public void updateAllChanged(ManagedMongoObject database) {
+        MantaroData.db().updateFieldValues(database, fieldTracker);
+    }
+
+    @BsonIgnore
     public String buildMessage(ActivityResult result, I18nContext language, int money, int items) {
         return String.format(language.get(result.getLanguageString()), getType().getEmoji(), getName(), money, items);
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public HousePetType.PatReaction handlePat() {
         if (getType() == HousePetType.CAT) {
             return random.nextBoolean() ? HousePetType.PatReaction.CUTE : HousePetType.PatReaction.SCARE;

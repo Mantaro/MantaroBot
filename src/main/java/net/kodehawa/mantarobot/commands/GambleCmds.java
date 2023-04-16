@@ -20,7 +20,6 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -230,9 +229,8 @@ public class GambleCmds {
                 var player = ctx.getPlayer();
                 var stats = ctx.getPlayerStats(ctx.getAuthor());
 
-                var playerInventory = player.getInventory();
                 if (opts.containsKey("useticket")) {
-                    if (!playerInventory.containsItem(ItemReference.SLOT_COIN)) {
+                    if (!player.containsItem(ItemReference.SLOT_COIN)) {
                         ctx.sendLocalized("commands.slots.errors.no_tickets", EmoteReference.SAD);
                         return;
                     }
@@ -301,7 +299,6 @@ public class GambleCmds {
     }
 
     private static void slots(IContext ctx, Player player, PlayerStats stats, long money, long coinAmount, boolean ticket) {
-        var playerInventory = player.getInventory();
         var slotsChance = 25; // 25% raw chance of winning, completely random chance of winning on the other random iteration
         var isWin = false;
         var coinSelect = false;
@@ -312,12 +309,12 @@ public class GambleCmds {
                 return;
             }
 
-            if (!playerInventory.containsItem(ItemReference.SLOT_COIN)) {
+            if (!player.containsItem(ItemReference.SLOT_COIN)) {
                 ctx.sendLocalized("commands.slots.errors.no_tickets", EmoteReference.SAD);
                 return;
             }
 
-            if (playerInventory.getAmount(ItemReference.SLOT_COIN) < coinAmount) {
+            if (player.getItemAmount(ItemReference.SLOT_COIN) < coinAmount) {
                 ctx.sendLocalized("commands.slots.errors.not_enough_tickets", EmoteReference.ERROR);
                 return;
             }
@@ -352,7 +349,7 @@ public class GambleCmds {
 
         if (coinSelect) {
             // Substract slot tickets.
-            playerInventory.process(new ItemStack(ItemReference.SLOT_COIN, (int) -coinAmount));
+            player.processItem(ItemReference.SLOT_COIN, (int) -coinAmount);
             slotsChance = slotsChance + Math.max(6, secureRandom.nextInt(12) + 1);
             money = 70L * coinAmount;
         }
@@ -400,19 +397,21 @@ public class GambleCmds {
 
             stats.incrementSlotsWins();
             stats.addSlotsWin(gains);
+            stats.updateAllChanged();
 
             if ((gains + money) > SLOTS_MAX_MONEY) {
-                player.getData().addBadgeIfAbsent(Badge.LUCKY_SEVEN);
+                player.addBadgeIfAbsent(Badge.LUCKY_SEVEN);
             }
 
             if (coinSelect && coinAmount > 45) {
-                player.getData().addBadgeIfAbsent(Badge.SENSELESS_HOARDING);
+                player.addBadgeIfAbsent(Badge.SENSELESS_HOARDING);
             }
 
             player.addMoney(gains);
-            player.save();
+            player.updateAllChanged();
         } else {
-            stats.getData().incrementSlotsLose();
+            stats.incrementSlotsLose();
+            stats.updateAllChanged();
             message.append(toSend).append("\n\n").append(
                     languageContext.withRoot("commands", "slots.lose").formatted(EmoteReference.SAD)
             );
@@ -422,10 +421,8 @@ public class GambleCmds {
             }
 
             // We need to save anyway.
-            player.save();
+            player.updateAllChanged();
         }
-
-        stats.saveUpdating();
 
         message.append("\n");
         ctx.send(message.toString());
@@ -518,19 +515,19 @@ public class GambleCmds {
 
     private static void proceedGamble(IContext ctx, Player player, int luck, long i, long gains, long bet) {
         var stats = MantaroData.db().getPlayerStats(ctx.getMember());
-        var data = player.getData();
         final SecureRandom random = new SecureRandom();
 
         if (luck > random.nextInt(140)) {
             if (player.addMoney(gains)) {
                 if (gains >= 4_950L) {
-                    if (!data.hasBadge(Badge.GAMBLER)) {
-                        data.addBadgeIfAbsent(Badge.GAMBLER);
+                    if (!player.hasBadge(Badge.GAMBLER)) {
+                        player.addBadgeIfAbsent(Badge.GAMBLER);
                     }
                 }
 
                 stats.incrementGambleWins();
                 stats.addGambleWin(gains);
+                stats.updateAllChanged();
 
                 ctx.sendLocalized("commands.gamble.win", EmoteReference.DICE, gains);
             } else {
@@ -538,21 +535,21 @@ public class GambleCmds {
             }
         } else {
             if (bet == GAMBLE_MAX_MONEY) {
-                data.addBadgeIfAbsent(Badge.RISKY_ORDEAL);
+                player.addBadgeIfAbsent(Badge.RISKY_ORDEAL);
             }
 
             var oldMoney = player.getCurrentMoney();
             player.setCurrentMoney(Math.max(0, player.getCurrentMoney() - i));
 
-            stats.getData().incrementGambleLose();
+            stats.incrementGambleLose();
+            stats.updateAllChanged();
             ctx.sendLocalized("commands.gamble.lose", EmoteReference.DICE,
                     (player.getCurrentMoney() == 0 ? ctx.getLanguageContext().get("commands.gamble.lose_all") + " " + oldMoney : i),
                     EmoteReference.SAD
             );
         }
 
-        player.setLocked(false);
-        player.saveUpdating();
-        stats.saveUpdating();
+        player.locked(false);
+        player.updateAllChanged();
     }
 }

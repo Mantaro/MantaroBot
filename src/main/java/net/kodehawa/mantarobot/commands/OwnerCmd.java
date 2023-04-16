@@ -22,7 +22,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.NewCommand;
@@ -41,17 +40,16 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.MantaroObj;
+import net.kodehawa.mantarobot.db.entities.MantaroObject;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.utils.APIUtils;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.eval.JavaEvaluator;
 import net.kodehawa.mantarobot.utils.eval.MavenDependencies;
 
-import java.awt.*;
+import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -95,12 +93,10 @@ public class OwnerCmd {
             }
 
             var p = MantaroData.db().getPlayer(id);
-            var pd = p.getData();
+            p.lastDailyAt(System.currentTimeMillis());
+            p.dailyStreak(amount);
 
-            pd.setLastDailyAt(System.currentTimeMillis());
-            pd.setDailyStreak(amount);
-
-            p.save();
+            p.updateAllChanged();
 
             ctx.send("Done, new streak is " + amount);
         }
@@ -161,14 +157,14 @@ public class OwnerCmd {
 
             var player = ctx.getPlayer();
 
-            if (player.getInventory().getAmount(item) + amount < 5000) {
-                player.getInventory().process(new ItemStack(item, amount));
+            if (player.getItemAmount(item) + amount < 5000) {
+                player.processItem(item, amount);
             } else {
                 ctx.send(EmoteReference.ERROR + "Too many of this item already.");
                 return;
             }
 
-            player.saveAsync();
+            player.updateAllChanged();
             ctx.send("Gave you %s (x%,d)".formatted(item, amount));
         }
     }
@@ -201,28 +197,25 @@ public class OwnerCmd {
 
                 if (e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
                     transferToPlayer.setCurrentMoney(transferredPlayer.getCurrentMoney());
-                    transferToPlayer.setLevel(transferredPlayer.getLevel());
-                    transferToPlayer.setReputation(transferredPlayer.getReputation());
-                    transferToPlayer.getInventory().merge(transferredPlayer.getInventory().asList());
+                    transferToPlayer.level(transferredPlayer.getLevel());
+                    transferToPlayer.reputation(transferredPlayer.getReputation());
+                    transferToPlayer.mergeInventory(transferredPlayer.getInventoryList());
 
-                    var transferredData = transferredPlayer.getData();
-                    var transferToData = transferToPlayer.getData();
-
-                    transferToData.setExperience(transferredData.getExperience());
-                    transferToData.setBadges(transferredData.getBadges());
-                    transferToData.setShowBadge(transferredData.isShowBadge());
-                    transferToData.setMarketUsed(transferredData.getMarketUsed());
-                    transferToData.setMainBadge(transferredData.getMainBadge());
-                    transferToData.setGamesWon(transferredData.getGamesWon());
-                    transferToData.setMiningExperience(transferredData.getMiningExperience());
-                    transferToData.setSharksCaught(transferredData.getSharksCaught());
-                    transferToData.setFishingExperience(transferredData.getFishingExperience());
-                    transferToData.setCratesOpened(transferredData.getCratesOpened());
-                    transferToData.setTimesMopped(transferredData.getTimesMopped());
-                    transferToData.setDailyStreak(transferredData.getDailyStreak());
-                    transferToData.setLastDailyAt(transferredData.getLastDailyAt());
-                    transferToData.setPet(transferredData.getPet());
-                    transferToData.setPetChoice(transferredData.getPetChoice());
+                    transferToPlayer.setExperience(transferredPlayer.getExperience());
+                    transferToPlayer.setBadges(transferredPlayer.getBadges());
+                    transferToPlayer.showBadge(transferredPlayer.isShowBadge());
+                    transferToPlayer.marketUsed(transferredPlayer.getMarketUsed());
+                    transferToPlayer.mainBadge(transferredPlayer.getMainBadge());
+                    transferToPlayer.gamesWon(transferredPlayer.getGamesWon());
+                    transferToPlayer.setMiningExperience(transferredPlayer.getMiningExperience());
+                    transferToPlayer.sharksCaught(transferredPlayer.getSharksCaught());
+                    transferToPlayer.setFishingExperience(transferredPlayer.getFishingExperience());
+                    transferToPlayer.cratesOpened(transferredPlayer.getCratesOpened());
+                    transferToPlayer.timesMopped(transferredPlayer.getTimesMopped());
+                    transferToPlayer.dailyStreak(transferredPlayer.getDailyStreak());
+                    transferToPlayer.lastDailyAt(transferredPlayer.getLastDailyAt());
+                    transferToPlayer.setPet(transferredPlayer.getPet());
+                    transferToPlayer.petChoice(transferredPlayer.getPetChoice());
 
                     transferToPlayer.save();
 
@@ -269,8 +262,8 @@ public class OwnerCmd {
             }
 
             var player = ctx.getPlayer(user);
-            player.getData().addBadgeIfAbsent(badge);
-            player.saveAsync();
+            player.addBadgeIfAbsent(badge);
+            player.updateAllChanged();
 
             ctx.send("%sAdded badge %s %s to %s (ID: %s)".formatted(
                     EmoteReference.CORRECT.getUnicode(), badge.icon, badge.display,
@@ -303,12 +296,12 @@ public class OwnerCmd {
             }
 
             Player player = MantaroData.db().getPlayer(user);
-            if (player.getData().removeBadge(badge)) {
+            if (player.removeBadge(badge)) {
                 ctx.send("%sRemoved badge %s from %s (%s)".formatted(
                         EmoteReference.CORRECT, badge,
                         user.getAsTag(), user.getId())
                 );
-                player.saveAsync();
+                player.updateAllChanged();
             } else {
                 ctx.send("Player didn't have badge?");
             }
@@ -352,7 +345,7 @@ public class OwnerCmd {
 
             var dbGuild = MantaroData.db().getGuild(guild);
             dbGuild.incrementPremium(TimeUnit.DAYS.toMillis(days));
-            dbGuild.saveAsync();
+            dbGuild.save();
 
             ctx.send("%sThe premium feature for guild %s (%s) was extended for %s days".formatted(
                     EmoteReference.CORRECT, guild, guildObject.getName(), days
@@ -379,11 +372,11 @@ public class OwnerCmd {
         
         private abstract static class BlacklistCommand<T> extends NewCommand {
             private final String type;
-            private final Function<MantaroObj, List<String>> dbGetter;
+            private final Function<MantaroObject, List<String>> dbGetter;
             private final BiFunction<ShardManager, String, T> entityGetter;
             private final Function<T, String> formatter;
     
-            private BlacklistCommand(String type, Function<MantaroObj, List<String>> dbGetter,
+            private BlacklistCommand(String type, Function<MantaroObject, List<String>> dbGetter,
                                      BiFunction<ShardManager, String, T> entityGetter, Function<T, String> formatter) {
                 this.type = type;
                 this.dbGetter = dbGetter;
@@ -436,7 +429,7 @@ public class OwnerCmd {
         public static class Guild extends BlacklistCommand<net.dv8tion.jda.api.entities.Guild> {
             public Guild() {
                 super("Guild",
-                        MantaroObj::getBlackListedGuilds,
+                        MantaroObject::getBlackListedGuilds,
                         ShardManager::getGuildById,
                         Objects::toString
                 );
@@ -446,7 +439,7 @@ public class OwnerCmd {
         public static class User extends BlacklistCommand<net.dv8tion.jda.api.entities.User> {
             public User() {
                 super("User",
-                        MantaroObj::getBlackListedUsers,
+                        MantaroObject::getBlackListedUsers,
                         (manager, str) -> manager.retrieveUserById(str).complete(),
                         user -> user.getAsTag() + " - " + user.getIdLong()
                 );
@@ -601,7 +594,7 @@ import net.dv8tion.jda.api.entities.channel.concrete.*;
                 var optionalArguments = ctx.getOptionalArguments();
 
                 if (optionalArguments.containsKey("u")) {
-                    dbGuild.getData().setMpLinkedTo(null);
+                    dbGuild.setMpLinkedTo(null);
                     dbGuild.save();
 
                     ctx.sendFormat("Un-linked MP for guild %s (%s).", guild.getName(), guild.getId());
@@ -617,7 +610,7 @@ import net.dv8tion.jda.api.entities.channel.concrete.*;
                 }
 
                 //Guild assignment.
-                dbGuild.getData().setMpLinkedTo(userString); //Patreon check will run from this user.
+                dbGuild.setMpLinkedTo(userString); //Patreon check will run from this user.
                 dbGuild.save();
 
                 ctx.sendFormat("Linked MP for guild %s (%s) to user %s (%s). Including this guild in pledge check (id -> user -> pledge). User tier: %s",
@@ -652,10 +645,8 @@ import net.dv8tion.jda.api.entities.channel.concrete.*;
                 }
 
                 var dbUser = MantaroData.db().getUser(key.getOwner());
-                var keysClaimed = dbUser.getData().getKeysClaimed();
-
-                keysClaimed.remove(Utils.getKeyByValue(keysClaimed, key.getId()));
-                dbUser.save();
+                dbUser.removeKeyClaimed(dbUser.getUserIdFromKeyId(key.getId()));
+                dbUser.updateAllChanged();
                 key.delete();
 
                 ctx.send("Invalidated key " + args[0]);

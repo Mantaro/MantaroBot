@@ -18,7 +18,7 @@
 package net.kodehawa.mantarobot.core.listeners.command;
 
 import com.google.common.cache.Cache;
-import com.rethinkdb.gen.exc.ReqlError;
+import com.mongodb.MongoException;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
@@ -109,9 +109,8 @@ public class CommandListener implements EventListener {
 
                 commandTotal++;
             }
-        } catch (ReqlError e) {
-            // So much just went wrong...
-            e.printStackTrace();
+        } catch (MongoException e) {
+          log.error("Database on fire!", e);
         } catch (CompletionException e) {
             log.error("Missed interaction ack time?", e);
         } catch (LanguageKeyNotFoundException e) {
@@ -160,9 +159,8 @@ public class CommandListener implements EventListener {
 
                 commandTotal++;
             }
-        } catch (ReqlError e) {
-            // So much just went wrong...
-            e.printStackTrace();
+        } catch (MongoException e) {
+            log.error("Database on fire!", e);
         } catch (CompletionException e) {
             log.error("Missed interaction ack time?", e);
         } catch (LanguageKeyNotFoundException e) {
@@ -209,6 +207,8 @@ public class CommandListener implements EventListener {
 
                 commandTotal++;
             }
+        } catch (MongoException e) {
+            log.error("Database on fire!", e);
         } catch (IllegalFormatException e) {
             var id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessageFormat(
@@ -257,9 +257,6 @@ public class CommandListener implements EventListener {
             ).queue();
 
             log.warn("Exception caught and alternate message sent. We should look into this, anyway (ID: {})", id, e);
-        } catch (ReqlError e) {
-            // So much just went wrong...
-            e.printStackTrace();
         } catch (Exception e) {
             var context = I18n.of(event.getGuild());
             var id = Snow64.toSnow64(event.getMessage().getIdLong());
@@ -271,8 +268,8 @@ public class CommandListener implements EventListener {
                     event.getJDA().getShardInfo().getShardId(), context.get("general.generic_error")
             ).queue();
 
-            if (player.getData().addBadgeIfAbsent(Badge.FIRE)) {
-                player.saveUpdating();
+            if (player.addBadgeIfAbsent(Badge.FIRE)) {
+                player.updateAllChanged();
             }
 
             log.error("Error happened on command: {} (Error ID: {})", event.getMessage().getContentRaw(), id, e);

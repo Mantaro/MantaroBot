@@ -158,7 +158,7 @@ public class ImageActionSlash extends SlashCommand {
 
             var member = ctx.getGuild().getMember(user);
             final var dbUser = ctx.getDBUser(user.getId());
-            if (dbUser.getData().isActionsDisabled()) {
+            if (dbUser.isActionsDisabled()) {
                 ctx.reply("commands.action.actions_disabled", EmoteReference.ERROR);
                 return;
             }
@@ -168,7 +168,7 @@ public class ImageActionSlash extends SlashCommand {
             if (!mentions.isEmpty()) {
                 var filter = mentions.stream()
                         .limit(10)
-                        .filter(m -> ctx.getDBUser(m).getData().isActionsDisabled()).toList();
+                        .filter(m -> ctx.getDBUser(m).isActionsDisabled()).toList();
 
                 // Need it to be mutable.
                 mentions = new ArrayList<>(mentions);

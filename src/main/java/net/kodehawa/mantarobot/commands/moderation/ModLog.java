@@ -33,7 +33,6 @@ public class ModLog {
                            String channel, ModAction action, long caseNumber, int messagesDeleted) {
         var guildDB = db.getGuild(author.getGuild());
         var player = db.getPlayer(author);
-        var playerData = player.getData();
         var embedBuilder = new EmbedBuilder();
 
         embedBuilder.addField("Responsible Moderator", author.getEffectiveName(), true);
@@ -55,15 +54,15 @@ public class ModLog {
         embedBuilder.setAuthor(String.format("%s | Case #%s", Utils.capitalize(action.name()), caseNumber),
                 null, author.getUser().getEffectiveAvatarUrl());
 
-        if (!playerData.hasBadge(Badge.POWER_USER)) {
-            playerData.addBadgeIfAbsent(Badge.POWER_USER);
-            player.saveUpdating();
+        if (!player.hasBadge(Badge.POWER_USER)) {
+            player.addBadgeIfAbsent(Badge.POWER_USER);
+            player.updateAllChanged();
         }
 
-        if (guildDB.getData().getGuildLogChannel() != null) {
+        if (guildDB.getGuildLogChannel() != null) {
             var logChannel = MantaroBot.getInstance()
                     .getShardManager()
-                    .getTextChannelById(guildDB.getData().getGuildLogChannel());
+                    .getTextChannelById(guildDB.getGuildLogChannel());
 
             if (logChannel != null) {
                 logChannel.sendMessageEmbeds(embedBuilder.build()).queue();

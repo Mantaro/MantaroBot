@@ -30,7 +30,7 @@ import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.GuildDatabase;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONObject;
@@ -196,7 +196,7 @@ public class Poll {
         }
 
         getChannel().retrieveMessageById(messageId).queue(message -> {
-            var languageContext = new I18nContext(db.getGuild(getGuild()).getData(), null);
+            var languageContext = new I18nContext(db.getGuild(getGuild()), null);
             var user = message.getAuthor();
             var embedBuilder = new EmbedBuilder()
                     .setTitle(languageContext.get("commands.poll.result_header"))
@@ -229,7 +229,7 @@ public class Poll {
     }
 
     // Cancel from outside.
-    public static void cancel(String id, DBGuild dbGuild) {
+    public static void cancel(String id, GuildDatabase dbGuild) {
         try (var redis = pool.getResource()) {
             var data = redis.hget(table, id);
 
@@ -237,8 +237,7 @@ public class Poll {
             redis.hdel(table, id);
         }
 
-        var data = dbGuild.getData();
-        data.getRunningPolls().remove(id);
+        dbGuild.getRunningPolls().remove(id);
         dbGuild.save();
     }
 
@@ -251,8 +250,7 @@ public class Poll {
         }
 
         var dbGuild = db.getGuild(getGuild());
-        var data = dbGuild.getData();
-        data.getRunningPolls().put(id(), new PollDatabaseObject(messageId, channelId, name, time));
+        dbGuild.getRunningPolls().put(id(), new PollDatabaseObject(messageId, channelId, name, time));
         dbGuild.save();
     }
 

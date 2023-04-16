@@ -23,7 +23,7 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.function.Consumer;
 
 public abstract class ImageGame extends Game<String> {

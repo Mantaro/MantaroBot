@@ -25,7 +25,6 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.special.Food;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
@@ -53,7 +52,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.concurrent.TimeUnit;
@@ -175,7 +174,7 @@ public class PetCmds {
                 }
 
                 var player = ctx.getPlayer();
-                if (choice == player.getData().getPetChoice()) {
+                if (choice == player.getPetChoice()) {
                     ctx.reply("commands.pet.choice.already_chosen", EmoteReference.ERROR);
                     return;
                 }
@@ -183,8 +182,8 @@ public class PetCmds {
                 if (!RatelimitUtils.ratelimit(petChoiceRatelimiter, ctx, ctx.getLanguageContext().get("commands.pet.choice.ratelimit_message"), false))
                     return;
 
-                player.getData().setPetChoice(choice);
-                player.saveUpdating();
+                player.petChoice(choice);
+                player.updateAllChanged();
 
                 ctx.reply("commands.pet.choice.success", EmoteReference.CORRECT, Utils.capitalize(choice.toString()), EmoteReference.POPPER);
             }
@@ -195,7 +194,7 @@ public class PetCmds {
             @Override
             protected void process(SlashContext ctx) {
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var pet = getCurrentPet(ctx, ctx.getPlayer(), marriage, "commands.pet.level.no_pet");
                 if (pet == null) {
                     return;
@@ -213,7 +212,7 @@ public class PetCmds {
             protected void process(SlashContext ctx) {
                 var language = ctx.getLanguageContext();
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var player = ctx.getPlayer();
                 var pet = getCurrentPet(ctx, player, marriage, "commands.pet.status.no_pet");
                 if (pet == null) {
@@ -231,7 +230,7 @@ public class PetCmds {
                         .setDescription(language.get("commands.pet.status.description"))
                         .addField(
                                 EmoteReference.ZAP.toHeaderString() + language.get("commands.pet.status.choice"),
-                                "%s".formatted(player.getData().getActiveChoice(marriage).getReadableName()), true
+                                "%s".formatted(player.getActiveChoice(marriage).getReadableName()), true
                         )
                         .addField(
                                 EmoteReference.MONEY.toHeaderString() + language.get("commands.pet.status.cost"),
@@ -298,7 +297,7 @@ public class PetCmds {
             @Override
             protected void process(SlashContext ctx) {
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var player = ctx.getPlayer();
                 var pet = getCurrentPet(ctx, player, marriage, "commands.pet.status.no_pet");
                 if (pet == null) {
@@ -307,7 +306,7 @@ public class PetCmds {
 
                 ctx.replyStripped("commands.pet.check.success",
                         pet.getName(), EmoteReference.DROPLET, pet.getThirst(),
-                        EmoteReference.FORK, pet.getHunger(), EmoteReference.DUST, pet.getDust(), player.getData().getActiveChoice(marriage)
+                        EmoteReference.FORK, pet.getHunger(), EmoteReference.DUST, pet.getDust(), player.getActiveChoice(marriage)
                 );
             }
         }
@@ -320,10 +319,9 @@ public class PetCmds {
             protected void process(SlashContext ctx) {
                 var dbUser = ctx.getDBUser();
                 var player = ctx.getPlayer();
-                var playerData = player.getData();
-                var marriage = dbUser.getData().getMarriage();
-                var pet = playerData.getPet();
-                var choice = playerData.getActiveChoice(marriage);
+                var marriage = dbUser.getMarriage();
+                var pet = player.getPet();
+                var choice = player.getActiveChoice(marriage);
 
                 if (choice == PetChoice.MARRIAGE) {
                     if (marriage == null) {
@@ -331,7 +329,7 @@ public class PetCmds {
                         return;
                     }
 
-                    pet = marriage.getData().getPet();
+                    pet = marriage.getPet();
                 }
 
                 if (pet == null) {
@@ -358,7 +356,7 @@ public class PetCmds {
             protected void process(SlashContext ctx) {
                 var player = ctx.getPlayer();
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var price = basePrice;
 
                 var pet = getCurrentPet(ctx, player, marriage, "commands.pet.status.no_pet");
@@ -382,9 +380,12 @@ public class PetCmds {
 
                 pet.setDust(0);
                 player.removeMoney(price);
-                player.saveUpdating();
-                if (player.getData().getActiveChoice(marriage) == PetChoice.MARRIAGE) {
-                    marriage.saveUpdating();
+                player.markPetChange();
+                player.updateAllChanged();
+
+                if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+                    marriage.markPetChange();
+                    marriage.updateAllChanged();
                 }
 
                 ctx.replyStripped("commands.pet.clean.success", EmoteReference.CORRECT, pet.getName(), price);
@@ -397,7 +398,7 @@ public class PetCmds {
             @Override
             protected void process(SlashContext ctx) {
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var player = ctx.getPlayer();
                 var pet = getCurrentPet(ctx, player, marriage, "commands.pet.remove.no_pet");
                 if (pet == null) {
@@ -417,21 +418,21 @@ public class PetCmds {
 
                 Message message;
                 var lang = ctx.getLanguageContext();
-                if (player.getData().getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+                if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
                     if (marriage.isLocked()) {
                         ctx.reply("commands.pet.locked_notice", EmoteReference.ERROR);
                         return;
                     }
 
                     message = ctx.sendResult(lang.get("commands.pet.remove.confirm").formatted(EmoteReference.WARNING, toRefund));
-                    marriage.setLocked(true);
-                    marriage.save();
+                    marriage.locked(true);
+                    marriage.updateAllChanged();
                 } else {
                     message = ctx.sendResult(lang.get("commands.pet.remove.confirm_personal").formatted(EmoteReference.WARNING, toRefundPersonal));
                 }
 
-                player.setLocked(true);
-                player.save();
+                player.locked(true);
+                player.updateAllChanged();
 
                 ButtonOperations.create(message, 60, event -> {
                     if (event.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
@@ -446,7 +447,7 @@ public class PetCmds {
                     var hook = event.getHook();
                     if (button.getId().equals("yes-button")) {
                         final var playerFinal = ctx.getPlayer();
-                        final var marriageConfirmed = ctx.getDBUser().getData().getMarriage();
+                        final var marriageConfirmed = ctx.getDBUser().getMarriage();
                         var petFinal = getCurrentPet(ctx, playerFinal, marriageConfirmed, "commands.pet.remove.no_pet");
                         if (petFinal == null) {
                             return Operation.COMPLETED;
@@ -455,40 +456,44 @@ public class PetCmds {
                         var toRefundFinal = (long) ((petFinal.getType().getCost() / 2) * 0.9);
                         var toRefundPersonalFinal = (long) (petFinal.getType().getCost() * 0.9);
 
-                        if (playerFinal.getData().getActiveChoice(marriageConfirmed) == PetChoice.MARRIAGE) {
+                        if (playerFinal.getActiveChoice(marriageConfirmed) == PetChoice.MARRIAGE) {
                             if (marriageConfirmed == null) {
                                 hook.editOriginal(lang.get("commands.pet.buy.no_marriage_marry").formatted(EmoteReference.ERROR)).setComponents().queue();
                                 return Operation.COMPLETED;
                             }
 
                             final var marriedWithPlayer = ctx.getPlayer(marriageConfirmed.getOtherPlayer(ctx.getAuthor().getId()));
-                            if (marriageConfirmed.getData().getPet() == null) {
+                            if (marriageConfirmed.getPet() == null) {
                                 hook.editOriginal(lang.get("commands.pet.remove.no_pet_confirm").formatted(EmoteReference.ERROR)).setComponents().queue();
                                 return Operation.COMPLETED;
                             }
 
-                            marriageConfirmed.getData().setPet(null);
-                            marriageConfirmed.setLocked(false);
-                            marriageConfirmed.save();
+                            marriageConfirmed.pet(null);
+                            marriageConfirmed.locked(false);
+                            marriageConfirmed.updateAllChanged();
 
                             marriedWithPlayer.addMoney(toRefundFinal);
                             playerFinal.addMoney(toRefundFinal);
-                            playerFinal.setLocked(false);
+                            playerFinal.locked(false);
 
-                            playerFinal.save();
-                            marriedWithPlayer.save();
+                            playerFinal.markPetChange();
+                            marriedWithPlayer.markPetChange();
+
+                            playerFinal.updateAllChanged();
+                            marriedWithPlayer.updateAllChanged();
                             hook.editOriginal(lang.get("commands.pet.remove.success").formatted(EmoteReference.CORRECT, toRefundFinal)).setComponents().queue();
                         } else {
-                            var playerData = playerFinal.getData();
-                            if (playerData.getPet() == null) {
+                            if (playerFinal.getPet() == null) {
                                 hook.editOriginal(lang.get("commands.pet.remove.no_pet_confirm").formatted(EmoteReference.ERROR)).setComponents().queue();
                                 return Operation.COMPLETED;
                             }
 
-                            playerData.setPet(null);
+                            playerFinal.setPet(null);
                             playerFinal.addMoney(toRefundPersonalFinal);
-                            playerFinal.setLocked(false);
-                            playerFinal.save();
+                            playerFinal.locked(false);
+                            playerFinal.markPetChange();
+
+                            playerFinal.updateAllChanged();
                             hook.editOriginal(lang.get("commands.pet.remove.success_personal").formatted(EmoteReference.CORRECT, toRefundPersonalFinal)).setComponents().queue();
                         }
 
@@ -496,14 +501,15 @@ public class PetCmds {
                     }
 
                     if (button.getId().equals("no-button")) {
-                        var marriageConfirmed = ctx.getDBUser().getData().getMarriage();
+                        var marriageConfirmed = ctx.getDBUser().getMarriage();
                         var playerFinal = ctx.getPlayer();
-                        playerFinal.setLocked(false);
-                        playerFinal.save();
+                        playerFinal.locked(false);
+                        playerFinal.markPetChange();
+                        playerFinal.updateAllChanged();
 
-                        if (player.getData().getActiveChoice(marriage) == PetChoice.MARRIAGE && marriageConfirmed != null) {
-                            marriageConfirmed.setLocked(false);
-                            marriageConfirmed.save();
+                        if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE && marriageConfirmed != null) {
+                            marriageConfirmed.locked(false);
+                            marriageConfirmed.updateAllChanged();
                         }
 
                         // This is reusing the string, nothing wrong here.
@@ -528,23 +534,20 @@ public class PetCmds {
             @Override
             protected void process(SlashContext ctx) {
                 var player = ctx.getPlayer();
-                var playerData = player.getData();
-                var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var name = ctx.getOptionAsString("name").replace("\n", "").trim();
                 var type = ctx.getOptionAsString("type");
 
-                final var petChoice = playerData.getActiveChoice(marriage);
+                final var petChoice = player.getActiveChoice(marriage);
                 if (petChoice == PetChoice.MARRIAGE) {
                     if (marriage == null) {
                         ctx.reply("commands.pet.no_marriage", EmoteReference.ERROR);
                         return;
                     }
 
-                    var marriageData = marriage.getData();
-                    if (!marriageData.hasCar() || !marriageData.hasHouse()) {
-                        ctx.reply("commands.pet.buy.no_requirements", EmoteReference.ERROR, marriageData.hasHouse(), marriageData.hasCar());
+                    if (!marriage.hasCar() || !marriage.hasHouse()) {
+                        ctx.reply("commands.pet.buy.no_requirements", EmoteReference.ERROR, marriage.hasHouse(), marriage.hasCar());
                         return;
                     }
 
@@ -554,12 +557,12 @@ public class PetCmds {
                     }
                 }
 
-                if (petChoice == PetChoice.PERSONAL && !playerInventory.containsItem(ItemReference.INCUBATOR_EGG)) {
+                if (petChoice == PetChoice.PERSONAL && !player.containsItem(ItemReference.INCUBATOR_EGG)) {
                     ctx.reply("commands.pet.buy.no_egg", EmoteReference.ERROR);
                     return;
                 }
 
-                if (!playerInventory.containsItem(ItemReference.PET_HOUSE)) {
+                if (!player.containsItem(ItemReference.PET_HOUSE)) {
                     ctx.reply("commands.pet.buy.no_house", EmoteReference.ERROR);
                     return;
                 }
@@ -596,14 +599,14 @@ public class PetCmds {
                 }
 
                 if (petChoice == PetChoice.MARRIAGE) {
-                    marriage.setLocked(true);
-                    marriage.save();
+                    marriage.locked(true);
+                    marriage.updateAllChanged();
                 }
 
                 name = Utils.HTTP_URL.matcher(name).replaceAll("-url-");
 
-                player.setLocked(true);
-                player.saveUpdating();
+                player.locked(true);
+                player.updateAllChanged();
 
                 var finalName = name;
                 var message = ctx.sendResult(
@@ -623,39 +626,35 @@ public class PetCmds {
                     var hook = event.getHook();
                     if (button.getId().equals("yes-button")) {
                         var playerConfirmed = ctx.getPlayer();
-                        var playerInventoryConfirmed = playerConfirmed.getInventory();
-                        var playerDataConfirmed = playerConfirmed.getData();
                         var dbUserConfirmed = ctx.getDBUser();
-                        var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
-                        var petChoiceConfirmed = playerDataConfirmed.getActiveChoice(marriageConfirmed);
+                        var marriageConfirmed = dbUserConfirmed.getMarriage();
+                        var petChoiceConfirmed = playerConfirmed.getActiveChoice(marriageConfirmed);
 
-                        if (petChoiceConfirmed == PetChoice.PERSONAL && !playerInventoryConfirmed.containsItem(ItemReference.INCUBATOR_EGG)) {
-                            playerConfirmed.setLocked(false);
-                            playerConfirmed.saveUpdating();
+                        if (petChoiceConfirmed == PetChoice.PERSONAL && !playerConfirmed.containsItem(ItemReference.INCUBATOR_EGG)) {
+                            playerConfirmed.locked(false);
+                            playerConfirmed.updateAllChanged();
 
                             hook.editOriginal(lang.get("commands.pet.buy.no_egg").formatted(EmoteReference.ERROR)).setComponents().queue();
                             return Operation.COMPLETED;
                         }
 
                         // People like to mess around lol.
-                        if (!playerInventoryConfirmed.containsItem(ItemReference.PET_HOUSE)) {
-                            playerConfirmed.setLocked(false);
-                            playerConfirmed.saveUpdating();
+                        if (!playerConfirmed.containsItem(ItemReference.PET_HOUSE)) {
+                            playerConfirmed.locked(false);
+                            playerConfirmed.updateAllChanged();
 
-                            marriageConfirmed.setLocked(false);
-                            marriageConfirmed.saveUpdating();
-
+                            marriageConfirmed.locked(false);
+                            marriageConfirmed.updateAllChanged();
                             hook.editOriginal(lang.get("commands.pet.buy.no_house").formatted(EmoteReference.ERROR)).setComponents().queue();
                             return Operation.COMPLETED;
                         }
 
                         if (playerConfirmed.getCurrentMoney() < toBuy.getCost()) {
-                            playerConfirmed.setLocked(false);
-                            playerConfirmed.saveUpdating();
+                            playerConfirmed.locked(false);
+                            playerConfirmed.updateAllChanged();
 
-                            marriageConfirmed.setLocked(false);
-                            marriageConfirmed.saveUpdating();
-
+                            marriageConfirmed.locked(false);
+                            marriageConfirmed.updateAllChanged();
                             hook.editOriginal(lang.get("commands.pet.buy.not_enough_money").formatted(EmoteReference.ERROR, toBuy.getCost())).setComponents().queue();
                             return Operation.COMPLETED;
                         }
@@ -665,38 +664,37 @@ public class PetCmds {
                                 hook.editOriginal(lang.get("commands.pet.buy.no_marriage_marry").formatted(EmoteReference.ERROR)).setComponents().queue();
                                 return Operation.COMPLETED;
                             }
-                            var marriageDataConfirmed = marriageConfirmed.getData();
-                            if (!marriageDataConfirmed.hasCar() || !marriageDataConfirmed.hasHouse()) {
-                                playerConfirmed.setLocked(false);
-                                playerConfirmed.saveUpdating();
+                            if (!marriageConfirmed.hasCar() || !marriageConfirmed.hasHouse()) {
+                                playerConfirmed.locked(false);
 
                                 hook.editOriginal(lang.get("commands.pet.buy.no_requirements").formatted(
-                                        EmoteReference.ERROR, marriageDataConfirmed.hasHouse(), marriageDataConfirmed.hasCar()
+                                        EmoteReference.ERROR, marriageConfirmed.hasHouse(), marriageConfirmed.hasCar()
                                 )).setComponents().queue();
                                 return Operation.COMPLETED;
                             }
 
-                            marriageConfirmed.setLocked(false);
-                            marriageDataConfirmed.setPet(new HousePet(finalName, toBuy));
-                            marriageConfirmed.save();
+                            marriageConfirmed.locked(false);
+                            marriageConfirmed.pet(new HousePet(finalName, toBuy));
+                            marriageConfirmed.updateAllChanged();
                         }
 
                         playerConfirmed.removeMoney(toBuy.getCost());
-                        playerInventoryConfirmed.process(new ItemStack(ItemReference.PET_HOUSE, -1));
+                        playerConfirmed.processItem(ItemReference.PET_HOUSE, -1);
 
                         if (petChoiceConfirmed == PetChoice.PERSONAL) {
-                            playerInventoryConfirmed.process(new ItemStack(ItemReference.INCUBATOR_EGG, -1));
-                            playerDataConfirmed.setPet(new HousePet(finalName, toBuy));
+                            playerConfirmed.processItem(ItemReference.INCUBATOR_EGG, -1);
+                            playerConfirmed.setPet(new HousePet(finalName, toBuy));
                         }
 
                         if (petChoiceConfirmed == PetChoice.MARRIAGE) {
-                            playerDataConfirmed.addBadgeIfAbsent(Badge.BEST_FRIEND_MARRY);
+                            playerConfirmed.addBadgeIfAbsent(Badge.BEST_FRIEND_MARRY);
                         } else {
-                            playerDataConfirmed.addBadgeIfAbsent(Badge.BEST_FRIEND);
+                            playerConfirmed.addBadgeIfAbsent(Badge.BEST_FRIEND);
                         }
 
-                        playerConfirmed.setLocked(false);
-                        playerConfirmed.save();
+                        playerConfirmed.locked(false);
+                        playerConfirmed.markPetChange();
+                        playerConfirmed.updateAllChanged();
 
                         if (petChoiceConfirmed == PetChoice.MARRIAGE) {
                             hook.editOriginal(lang.get("commands.pet.buy.success").formatted(
@@ -715,16 +713,14 @@ public class PetCmds {
 
                     if (button.getId().equals("no-button")) {
                         var playerConfirmed = ctx.getPlayer();
-                        var marriageConfirmed = ctx.getDBUser().getData().getMarriage();
+                        var marriageConfirmed = ctx.getDBUser().getMarriage();
                         // Original player is fine, we checked it originally with this.
-                        if (player.getData().getActiveChoice(marriage) == PetChoice.MARRIAGE && marriageConfirmed != null) {
-                            marriageConfirmed.setLocked(false);
-                            marriageConfirmed.save();
+                        if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE && marriageConfirmed != null) {
+                            marriageConfirmed.locked(false);
+                            marriageConfirmed.updateAllChanged();
                         }
 
-                        playerConfirmed.setLocked(false);
-                        playerConfirmed.save();
-
+                        playerConfirmed.locked(false);
                         hook.editOriginal(lang.get("commands.pet.buy.cancel_success").formatted(EmoteReference.CORRECT)).setComponents().queue();
                         return Operation.COMPLETED;
                     }
@@ -744,7 +740,7 @@ public class PetCmds {
             protected void process(SlashContext ctx) {
                 var player = ctx.getPlayer();
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var cost = 3000;
 
                 var pet = getCurrentPet(ctx, player, marriage, "commands.pet.rename.no_pet");
@@ -780,10 +776,12 @@ public class PetCmds {
                 pet.setName(newName);
                 player.removeMoney(cost);
 
-                if (player.getData().getActiveChoice(marriage) == PetChoice.MARRIAGE) {
-                    marriage.saveUpdating();
+                if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+                    marriage.markPetChange();
+                    marriage.updateAllChanged();
                 } else {
-                    player.saveUpdating();
+                    player.markPetChange();
+                    player.updateAllChanged();
                 }
 
                 ctx.replyStripped("commands.pet.rename.success", EmoteReference.POPPER, oldName, newName, cost);
@@ -801,11 +799,10 @@ public class PetCmds {
             @Override
             protected void process(SlashContext ctx) {
                 var player = ctx.getPlayer();
-                var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
                 var food = ctx.getOptionAsString("item");
                 var amount = ctx.getOptionAsInteger("amount", 1);
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
 
                 var isFull = ctx.getOptionAsBoolean("full");
                 var pet = getCurrentPet(ctx, player, marriage, "commands.pet.feed.no_pet");
@@ -847,7 +844,7 @@ public class PetCmds {
                     increase = baseline * amount;
                 }
 
-                if (amount > playerInventory.getAmount(itemObject)) {
+                if (amount > player.getItemAmount(itemObject)) {
                     ctx.reply("commands.pet.feed.not_inventory", EmoteReference.ERROR, amount);
                     return;
                 }
@@ -868,10 +865,13 @@ public class PetCmds {
                 pet.increaseHealth();
                 pet.increaseStamina();
 
-                playerInventory.process(new ItemStack(itemObject, -amount));
-                player.save();
-                if (player.getData().getActiveChoice(marriage) == PetChoice.MARRIAGE) {
-                    marriage.saveUpdating();
+                player.processItem(itemObject, -amount);
+                player.markPetChange();
+                player.updateAllChanged();
+
+                if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+                    marriage.markPetChange();
+                    marriage.updateAllChanged();
                 }
 
                 ctx.reply("commands.pet.feed.success", EmoteReference.POPPER, foodItem.getName(), amount, increase, pet.getHunger());
@@ -888,9 +888,8 @@ public class PetCmds {
             @Override
             protected void process(SlashContext ctx) {
                 var player = ctx.getPlayer();
-                var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                var marriage = dbUser.getMarriage();
                 var amount = ctx.getOptionAsInteger("amount", 1);
                 var baseline = 15;
 
@@ -915,12 +914,12 @@ public class PetCmds {
                 }
 
                 var increase = baseline * amount;
-                if (!playerInventory.containsItem(item)) {
+                if (!player.containsItem(item)) {
                     ctx.reply("commands.pet.water.not_inventory", EmoteReference.ERROR);
                     return;
                 }
 
-                if (playerInventory.getAmount(item) < amount) {
+                if (player.getItemAmount(item) < amount) {
                     ctx.reply("commands.pet.water.not_enough_inventory", EmoteReference.ERROR, amount);
                     return;
                 }
@@ -934,11 +933,14 @@ public class PetCmds {
                 pet.increaseHealth();
                 pet.increaseStamina();
 
-                playerInventory.process(new ItemStack(item, -amount));
+                player.processItem(item, -amount);
 
-                player.save();
-                if (player.getData().getActiveChoice(marriage) == PetChoice.MARRIAGE) {
-                    marriage.saveUpdating();
+                player.markPetChange();
+                player.updateAllChanged();
+
+                if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+                    marriage.markPetChange();
+                    marriage.updateAllChanged();
                 }
 
                 ctx.reply("commands.pet.water.success", EmoteReference.POPPER, amount, increase, pet.getThirst());
@@ -1009,8 +1011,8 @@ public class PetCmds {
     }
 
     private static HousePet getCurrentPet(SlashContext ctx) {
-        final var playerData = ctx.getPlayer().getData();
-        final var marriage = ctx.getMarriage(ctx.getDBUser().getData());
+        final var playerData = ctx.getPlayer();
+        final var marriage = ctx.getMarriage(ctx.getDBUser());
 
         if (playerData.getActiveChoice(marriage) == PetChoice.PERSONAL) {
             return playerData.getPet();
@@ -1019,12 +1021,12 @@ public class PetCmds {
                 return null;
             }
 
-            return marriage.getData().getPet();
+            return marriage.getPet();
         }
     }
 
     private static Pair<PetChoice, HousePet> getPetOpposite(Player player, Marriage marriage) {
-        final var playerData = player.getData();
+        final var playerData = player;
         final var petChoice = playerData.getActiveChoice(marriage);
         if (petChoice == PetChoice.PERSONAL) {
             if (marriage == null) {
@@ -1032,20 +1034,18 @@ public class PetCmds {
                 return Pair.of(PetChoice.MARRIAGE, null);
             }
 
-            final var marriageData = marriage.getData();
-            return Pair.of(PetChoice.MARRIAGE, marriageData.getPet());
+            return Pair.of(PetChoice.MARRIAGE, marriage.getPet());
         } else {
             return Pair.of(PetChoice.PERSONAL, playerData.getPet());
         }
     }
 
     private static HousePet getCurrentPet(SlashContext ctx, Player player, Marriage marriage, String missing) {
-        final var playerData = player.getData();
-        final var petChoice = playerData.getActiveChoice(marriage);
+        final var petChoice = player.getActiveChoice(marriage);
         final var languageContext = ctx.getLanguageContext();
 
         if (petChoice == PetChoice.PERSONAL) {
-            final var personalPet = playerData.getPet();
+            final var personalPet = player.getPet();
             if (personalPet == null) {
                 var opposite = getPetOpposite(player, marriage);
                 var oppositePet = opposite.right();
@@ -1064,8 +1064,7 @@ public class PetCmds {
                 return null;
             }
 
-            final var marriageData = marriage.getData();
-            final var marriagePet = marriageData.getPet();
+            final var marriagePet = marriage.getPet();
             if (marriagePet == null) {
                 var opposite = getPetOpposite(player, marriage);
                 var oppositePet = opposite.right();

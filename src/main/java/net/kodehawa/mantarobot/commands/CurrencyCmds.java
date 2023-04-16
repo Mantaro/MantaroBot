@@ -27,7 +27,6 @@ import net.dv8tion.jda.api.utils.SplitUtil;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
@@ -53,9 +52,8 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
@@ -63,7 +61,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
-import java.awt.*;
+import java.awt.Color;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -185,10 +183,8 @@ public class CurrencyCmds {
                 }
 
                 final var player = ctx.getPlayer();
-                final var playerData = player.getData();
-
-                playerData.setInventorySortType(type);
-                player.saveUpdating();
+                player.inventorySortType(type);
+                player.updateAllChanged();
 
                 ctx.replyEphemeral("commands.profile.inventorysort.success", EmoteReference.CORRECT, ctx.getLanguageContext().get(type.getTranslate()));
             }
@@ -264,8 +260,7 @@ public class CurrencyCmds {
             }
 
             final var player = ctx.getPlayer();
-            final var inventory = player.getInventory();
-            dailyCrate(ctx, player, inventory);
+            dailyCrate(ctx, player);
         }
     }
 
@@ -461,8 +456,7 @@ public class CurrencyCmds {
                 }
 
                 final var player = ctx.getPlayer();
-                final var inventory = player.getInventory();
-                dailyCrate(ctx, player, inventory);
+                dailyCrate(ctx, player);
             }
 
             @Override
@@ -595,7 +589,7 @@ public class CurrencyCmds {
         );
     }
 
-    private static void useItem(IContext ctx, DBUser dbUser, Player player, String itemString, int amount) {
+    private static void useItem(IContext ctx, UserDatabase dbUser, Player player, String itemString, int amount) {
         var item = ItemHelper.fromAnyNoId(itemString, ctx.getLanguageContext()).orElse(null);
         //Well, shit.
         if (item == null) {
@@ -614,7 +608,7 @@ public class CurrencyCmds {
             return;
         }
 
-        if (!player.getInventory().containsItem(item)) {
+        if (!player.containsItem(item)) {
             ctx.sendLocalized("commands.useitem.no_item", EmoteReference.SAD);
             return;
         }
@@ -622,23 +616,22 @@ public class CurrencyCmds {
         applyPotionEffect(ctx, dbUser, item, player, amount);
     }
 
-    private static void tools(IContext ctx, DBUser dbUser) {
-        var equippedItems = dbUser.getData().getEquippedItems();
+    private static void tools(IContext ctx, UserDatabase dbUser) {
+        var equippedItems = dbUser.getEquippedItems();
         var equipment = ProfileCmd.parsePlayerEquipment(equippedItems, ctx.getLanguageContext());
 
         ctx.send(equipment);
     }
 
-    private static void dailyCrate(IContext ctx, Player player, Inventory inv) {
+    private static void dailyCrate(IContext ctx, Player player) {
         if (!ratelimit(dailyCrateRatelimiter, ctx, false)) {
             return;
         }
 
         var languageContext = ctx.getLanguageContext();
-        var playerData = player.getData();
         // Alternate between mine and fish crates instead of doing so at random, since at random
         // it might seem like it only gives one sort of crate.
-        var lastCrateGiven = playerData.getLastCrateGiven();
+        var lastCrateGiven = player.getLastCrateGiven();
         var crate = ItemReference.MINE_PREMIUM_CRATE;
         if (lastCrateGiven == ItemHelper.idOf(ItemReference.MINE_PREMIUM_CRATE)) {
             crate = ItemReference.FISH_PREMIUM_CRATE;
@@ -648,9 +641,9 @@ public class CurrencyCmds {
             crate = ItemReference.CHOP_PREMIUM_CRATE;
         }
 
-        inv.process(new ItemStack(crate, 1));
-        playerData.setLastCrateGiven(ItemHelper.idOf(crate));
-        player.save();
+        player.processItem(crate, 1);
+        player.lastCrateGiven(ItemHelper.idOf(crate));
+        player.updateAllChanged();
 
         var successMessage = languageContext.get("commands.dailycrate.success")
                 .formatted(
@@ -680,7 +673,7 @@ public class CurrencyCmds {
             return;
         }
 
-        var containsItem = player.getInventory().containsItem(item);
+        var containsItem = player.containsItem(item);
         if (!containsItem) {
             ctx.sendLocalized("commands.opencrate.no_crate", EmoteReference.SAD, item.getName());
             return;
@@ -697,8 +690,7 @@ public class CurrencyCmds {
             return;
         }
 
-        var playerInventory = player.getInventory();
-        long all = playerInventory.asList().stream()
+        long all = player.getInventoryList().stream()
                 .filter(item -> item.getItem().isSellable())
                 .mapToLong(value -> Math.round(value.getItem().getValue() * value.getAmount() * 0.9d))
                 .sum();
@@ -706,27 +698,24 @@ public class CurrencyCmds {
         ctx.sendLocalized("commands.inventory.calculate", EmoteReference.DIAMOND, member.getEffectiveName(), all);
     }
 
-    private static void showInventory(IContext ctx, User user, Player player, DBUser dbUser, boolean brief) {
+    private static void showInventory(IContext ctx, User user, Player player, UserDatabase dbUser, boolean brief) {
         if (user.isBot()) {
             ctx.sendLocalized("commands.inventory.bot_notice", EmoteReference.ERROR);
             return;
         }
 
-        final var playerData = player.getData();
-        var playerInventory = player.getInventory();
         var lang = ctx.getLanguageContext();
-
-        final var inventoryList = playerInventory.asList();
+        final var inventoryList = player.getInventoryList();
         if (inventoryList.isEmpty()) {
             ctx.sendLocalized("commands.inventory.empty", EmoteReference.WARNING);
             return;
         }
 
         if (brief) {
-            var inventory = lang.get("commands.inventory.sorted_by").formatted(lang.get(playerData.getInventorySortType().getTranslate()))
+            var inventory = lang.get("commands.inventory.sorted_by").formatted(lang.get(player.getInventorySortType().getTranslate()))
                     + "\n\n" +
                     inventoryList.stream()
-                            .sorted(playerData.getInventorySortType().getSort().comparator())
+                            .sorted(player.getInventorySortType().getSort().comparator())
                             .map(is -> is.getItem().getEmoji() + "\u2009 x" + is.getAmount() + " \u2009\u2009")
                             .collect(Collectors.joining(" "));
 
@@ -748,9 +737,8 @@ public class CurrencyCmds {
         if (inventoryList.isEmpty())
             builder.setDescription(lang.get("general.dust"));
         else {
-            playerInventory.asList()
-                    .stream()
-                    .sorted(playerData.getInventorySortType().getSort().comparator())
+            inventoryList.stream()
+                    .sorted(player.getInventorySortType().getSort().comparator())
                     .forEach(stack -> {
                         long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
                         long sellValue = stack.getItem().isSellable() ? Math.round(stack.getItem().getValue() * 0.9) : 0;
@@ -774,10 +762,9 @@ public class CurrencyCmds {
         DiscordUtils.sendPaginatedEmbed(ctx.getUtilsContext(), builder, DiscordUtils.divideFields(7, fields), toShow);
     }
 
-    public static void applyPotionEffect(IContext ctx, DBUser dbUser, Item item, Player player, int amount) {
+    public static void applyPotionEffect(IContext ctx, UserDatabase dbUser, Item item, Player player, int amount) {
         if ((item.getItemType() == ItemType.POTION || item.getItemType() == ItemType.BUFF) && item instanceof Potion) {
-            var userData = dbUser.getData();
-            final var equippedItems = userData.getEquippedItems();
+            final var equippedItems = dbUser.getEquippedItems();
             var type = equippedItems.getTypeFor(item);
 
             if (amount < 1) {
@@ -785,7 +772,7 @@ public class CurrencyCmds {
                 return;
             }
 
-            if (player.getInventory().getAmount(item) < amount) {
+            if (player.getItemAmount(item) < amount) {
                 ctx.sendLocalized("commands.useitem.not_enough_items", EmoteReference.SAD);
                 return;
             }
@@ -815,7 +802,7 @@ public class CurrencyCmds {
 
                 // Currently has a potion equipped, and is of the same type.
                 if (attempted < 16) {
-                    currentPotion.equip(activePotion ? amount : Math.max(1, amount - 1));
+                    equippedItems.equipEffect(type, activePotion ? amount : Math.max(1, amount - 1));
                     var equipped = currentPotion.getAmountEquipped();
 
                     ctx.sendLocalized("general.misc_item_usage.potion_applied_multiple",
@@ -850,13 +837,13 @@ public class CurrencyCmds {
 
 
             if (amount > 12) {
-                player.getData().addBadgeIfAbsent(Badge.MAD_SCIENTIST);
+                player.addBadgeIfAbsent(Badge.MAD_SCIENTIST);
             }
 
             // Default: 1
-            player.getInventory().process(new ItemStack(item, -amount));
-            player.save();
-            dbUser.save();
+            player.processItem(item, -amount);
+            player.updateAllChanged();
+            equippedItems.updateAllChanged(dbUser);
 
             return;
         }

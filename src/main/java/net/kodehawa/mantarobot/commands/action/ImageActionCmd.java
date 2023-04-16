@@ -143,14 +143,14 @@ public class ImageActionCmd extends NoArgsCommand {
             boolean filtered = false;
             if (mentionedMembers.size() == 1) {
                 final var dbUser = ctx.getDBUser(mentionedMembers.get(0).getId());
-                if (dbUser.getData().isActionsDisabled()) {
+                if (dbUser.isActionsDisabled()) {
                     ctx.sendLocalized("commands.action.actions_disabled", EmoteReference.ERROR);
                     return;
                 }
             } else {
                 var filter = mentionedMembers.stream()
                         .limit(10)
-                        .filter(member -> ctx.getDBUser(member).getData().isActionsDisabled()).toList();
+                        .filter(member -> ctx.getDBUser(member).isActionsDisabled()).toList();
 
                 // Needs to be mutable.
                 mentionedMembers = new ArrayList<>(mentionedMembers);

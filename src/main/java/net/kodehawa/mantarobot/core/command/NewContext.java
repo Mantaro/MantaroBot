@@ -38,8 +38,8 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
+import net.kodehawa.mantarobot.db.entities.GuildDatabase;
 import net.kodehawa.mantarobot.db.entities.Player;
 
 import javax.annotation.CheckReturnValue;
@@ -352,23 +352,23 @@ public class NewContext {
         return getBot().getShardManager();
     }
 
-    public DBGuild getDBGuild() {
+    public GuildDatabase getDBGuild() {
         return managedDatabase.getGuild(getGuild());
     }
 
-    public DBUser getDBUser() {
+    public UserDatabase getDBUser() {
         return managedDatabase.getUser(getUser());
     }
 
-    public DBUser getDBUser(User user) {
+    public UserDatabase getDBUser(User user) {
         return managedDatabase.getUser(user);
     }
 
-    public DBUser getDBUser(Member member) {
+    public UserDatabase getDBUser(Member member) {
         return managedDatabase.getUser(member);
     }
 
-    public DBUser getDBUser(String id) {
+    public UserDatabase getDBUser(String id) {
         return managedDatabase.getUser(id);
     }
 

@@ -26,7 +26,7 @@ import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.db.entities.Inventory;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 
 import java.beans.ConstructorProperties;
@@ -37,8 +37,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.serialize;
-import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
+import static net.kodehawa.mantarobot.db.entities.Inventory.serialize;
+import static net.kodehawa.mantarobot.db.entities.Inventory.unserialize;
 
 public class TextChannelGround {
     private static final SecureRandom random = new SecureRandom();
@@ -84,14 +84,14 @@ public class TextChannelGround {
 
         @JsonCreator
         @ConstructorProperties({"groundItems", "money", "channel"})
-        public Ground(Map<Integer, Integer> inventory, int money, String channel) {
+        public Ground(Map<String, Integer> inventory, int money, String channel) {
             this.money = money;
             this.channel = channel;
             this.groundItems.replaceWith(unserialize(inventory));
         }
 
         @JsonProperty("groundItems")
-        public Map<Integer, Integer> rawGround() {
+        public Map<String, Integer> rawGround() {
             return serialize(groundItems.asList());
         }
 

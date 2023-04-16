@@ -17,37 +17,36 @@
 
 package net.kodehawa.mantarobot.db;
 
-import com.rethinkdb.net.Connection;
-import com.rethinkdb.net.Result;
+import com.google.common.collect.Lists;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.*;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
-import net.kodehawa.mantarobot.db.entities.CustomCommand;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.MantaroObj;
-import net.kodehawa.mantarobot.db.entities.Marriage;
-import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.PlayerStats;
-import net.kodehawa.mantarobot.db.entities.PremiumKey;
+import net.kodehawa.mantarobot.db.entities.*;
+import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
-
-import static com.rethinkdb.RethinkDB.r;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ManagedDatabase {
     private static final Logger log = LoggerFactory.getLogger(ManagedDatabase.class);
-    private final Connection conn;
+    private final MongoClient mongoClient;
 
-    public ManagedDatabase(@Nonnull Connection conn) {
-        this.conn = conn;
+    public ManagedDatabase(@Nonnull MongoClient mongoClient) {
+        this.mongoClient = mongoClient;
     }
 
     private static void log(String message, Object... fmtArgs) {
@@ -62,11 +61,18 @@ public class ManagedDatabase {
         }
     }
 
+    public MongoDatabase dbMantaro() {
+        return mongoClient.getDatabase("mantaro");
+    }
+
     @Nullable
     @CheckReturnValue
     public CustomCommand getCustomCommand(@Nonnull String guildId, @Nonnull String name) {
-        log("Requesting custom command {}:{} from rethink", guildId, name);
-        return r.table(CustomCommand.DB_TABLE).get(guildId + ":" + name).runAtom(conn, CustomCommand.class);
+        var id = guildId + ":" + name;
+        log("Requesting Custom Command {} from MongoDB", id);
+
+        MongoCollection<CustomCommand> collection = dbMantaro().getCollection(CustomCommand.DB_TABLE, CustomCommand.class);
+        return collection.find().filter(Filters.eq(id)).first();
     }
 
     @Nullable
@@ -77,7 +83,7 @@ public class ManagedDatabase {
 
     @Nullable
     @CheckReturnValue
-    public CustomCommand getCustomCommand(@Nonnull DBGuild guild, @Nonnull String name) {
+    public CustomCommand getCustomCommand(@Nonnull GuildDatabase guild, @Nonnull String name) {
         return getCustomCommand(guild.getId(), name);
     }
 
@@ -90,20 +96,16 @@ public class ManagedDatabase {
     @Nonnull
     @CheckReturnValue
     public List<CustomCommand> getCustomCommands() {
-        log("Requesting all custom commands from rethink");
-        Result<CustomCommand> c = r.table(CustomCommand.DB_TABLE).run(conn, CustomCommand.class);
-        return c.toList();
+        log("Requesting all Custom Commands from MongoDB");
+        return Lists.newArrayList(dbMantaro().getCollection(CustomCommand.DB_TABLE, CustomCommand.class).find());
     }
 
     @Nonnull
     @CheckReturnValue
     public List<CustomCommand> getCustomCommands(@Nonnull String guildId) {
-        log("Requesting all custom commands from guild {} from rethink", guildId);
-        Result<CustomCommand> c = r.table(CustomCommand.DB_TABLE)
-                .getAll(guildId)
-                .optArg("index", "guild")
-                .run(conn, CustomCommand.class);
-        return c.toList();
+        log("Requesting all Custom Commands from MongoDB on guild {}", guildId);
+        var collection = dbMantaro().getCollection(CustomCommand.DB_TABLE, CustomCommand.class);
+        return Lists.newArrayList(collection.find(Filters.eq("guildId", guildId)));
     }
 
     @Nonnull
@@ -114,58 +116,58 @@ public class ManagedDatabase {
 
     @Nonnull
     @CheckReturnValue
-    public List<CustomCommand> getCustomCommands(@Nonnull DBGuild guild) {
+    public List<CustomCommand> getCustomCommands(@Nonnull GuildDatabase guild) {
         return getCustomCommands(guild.getId());
     }
 
     @Nonnull
     @CheckReturnValue
-    public List<CustomCommand> getCustomCommandsByName(@Nonnull String name) {
-        log("Requesting all custom commands named {} from rethink", name);
-        String pattern = ':' + name + '$';
-        Result<CustomCommand> c = r.table(CustomCommand.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, CustomCommand.class);
-        return c.toList();
+    public GuildDatabase getGuild(@Nonnull String guildId) {
+        log("Requesting Guild {} from MongoDB", guildId);
+        var collection = dbMantaro().getCollection(GuildDatabase.DB_TABLE, GuildDatabase.class);
+        var guild = collection.find().filter(Filters.eq(guildId)).first();
+        return guild == null ? GuildDatabase.of(guildId) : guild;
     }
 
     @Nonnull
     @CheckReturnValue
-    public DBGuild getGuild(@Nonnull String guildId) {
-        log("Requesting guild {} from rethink", guildId);
-        DBGuild guild = r.table(DBGuild.DB_TABLE).get(guildId).runAtom(conn, DBGuild.class);
-        return guild == null ? DBGuild.of(guildId) : guild;
-    }
-
-    @Nonnull
-    @CheckReturnValue
-    public DBGuild getGuild(@Nonnull Guild guild) {
+    public GuildDatabase getGuild(@Nonnull Guild guild) {
         return getGuild(guild.getId());
     }
 
     @Nonnull
     @CheckReturnValue
-    public DBGuild getGuild(@Nonnull Member member) {
+    public GuildDatabase getGuild(@Nonnull Member member) {
         return getGuild(member.getGuild());
     }
 
     @Nonnull
     @CheckReturnValue
-    public DBGuild getGuild(@Nonnull MessageReceivedEvent event) {
+    public GuildDatabase getGuild(@Nonnull MessageReceivedEvent event) {
         return getGuild(event.getGuild());
     }
 
     @Nonnull
     @CheckReturnValue
-    public MantaroObj getMantaroData() {
-        log("Requesting MantaroObj from rethink");
-        MantaroObj obj = r.table(MantaroObj.DB_TABLE).get("mantaro").runAtom(conn, MantaroObj.class);
-        return obj == null ? MantaroObj.create() : obj;
+    public MantaroObject getMantaroData() {
+        log("Requesting MantaroObject from MongoDB");
+        var collection = dbMantaro().getCollection(MantaroObject.DB_TABLE, MantaroObject.class);
+        var obj = collection.find().first();
+        if (obj == null) {
+            obj = MantaroObject.create();
+            obj.save();
+        }
+
+        return obj;
     }
 
     @Nonnull
     @CheckReturnValue
     public Player getPlayer(@Nonnull String userId) {
-        log("Requesting player {} from rethink", userId);
-        Player player = r.table(Player.DB_TABLE).get(userId + ":g").runAtom(conn, Player.class);
+        log("Requesting Player {} from MongoDB", userId);
+        var collection = dbMantaro().getCollection(Player.DB_TABLE, Player.class);
+        var player = collection.find().filter(Filters.eq(userId)).first();
+
         return player == null ? Player.of(userId) : player;
     }
 
@@ -184,9 +186,11 @@ public class ManagedDatabase {
     @Nonnull
     @CheckReturnValue
     public PlayerStats getPlayerStats(@Nonnull String userId) {
-        log("Requesting player STATS {} from rethink", userId);
-        PlayerStats playerStats = r.table(PlayerStats.DB_TABLE).get(userId).runAtom(conn, PlayerStats.class);
-        return playerStats == null ? PlayerStats.of(userId) : playerStats;
+        log("Requesting Player {} from MongoDB", userId);
+        var collection = dbMantaro().getCollection(PlayerStats.DB_TABLE, PlayerStats.class);
+        var stats = collection.find().filter(Filters.eq(userId)).first();
+
+        return stats == null ? PlayerStats.of(userId) : stats;
     }
 
     @Nonnull
@@ -201,94 +205,133 @@ public class ManagedDatabase {
         return getPlayerStats(member.getUser());
     }
 
-    @Nonnull
-    @CheckReturnValue
-    public List<Player> getPlayers() {
-        log("Requesting all players from rethink");
-        String pattern = ":g$";
-        Result<Player> c = r.table(Player.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Player.class);
-        return c.toList();
-    }
-
     //Can be null and it's perfectly valid.
     public Marriage getMarriage(String marriageId) {
         if (marriageId == null) {
             return null;
         }
 
-        log("Requesting marriage {} from rethink", marriageId);
-        return r.table(Marriage.DB_TABLE).get(marriageId).runAtom(conn, Marriage.class);
+        log("Requesting marriage {} from MongoDB", marriageId);
+        return dbMantaro().getCollection(Marriage.DB_TABLE, Marriage.class).find(Filters.eq(marriageId)).first();
     }
 
     @Nonnull
     @CheckReturnValue
     public List<Marriage> getMarriages() {
-        log("Requesting all marriages from rethink");
-        Result<Marriage> c = r.table(Marriage.DB_TABLE).run(conn, Marriage.class);
-        return c.toList();
+        log("Requesting all marriages from MongoDB");
+        return Lists.newArrayList(dbMantaro().getCollection(Marriage.DB_TABLE, Marriage.class).find());
     }
 
     @Nonnull
     @CheckReturnValue
     public List<PremiumKey> getPremiumKeys() {
-        log("Requesting all premium keys from rethink");
-        Result<PremiumKey> c = r.table(PremiumKey.DB_TABLE).run(conn, PremiumKey.class);
-        return c.toList();
+        log("Requesting all premium keys from MongoDB");
+        var collection = dbMantaro().getCollection(PremiumKey.DB_TABLE, PremiumKey.class);
+        return Lists.newArrayList(collection.find());
     }
 
     //Also tests if the key is valid or not!
     @Nullable
     @CheckReturnValue
     public PremiumKey getPremiumKey(@Nullable String id) {
-        log("Requesting premium key {} from rethink", id);
+        log("Requesting Premium Key {} from MongoDB", id);
         if (id == null) return null;
-        return r.table(PremiumKey.DB_TABLE).get(id).runAtom(conn, PremiumKey.class);
+
+        var collection = dbMantaro().getCollection(PremiumKey.DB_TABLE, PremiumKey.class);
+        return collection.find().filter(Filters.eq(id)).first();
     }
 
     @Nonnull
     @CheckReturnValue
-    public DBUser getUser(@Nonnull String userId) {
-        log("Requesting user {} from rethink", userId);
-        DBUser user = r.table(DBUser.DB_TABLE).get(userId).runAtom(conn, DBUser.class);
-        return user == null ? DBUser.of(userId) : user;
+    public UserDatabase getUser(@Nonnull String userId) {
+        log("Requesting User {} from MongoDB", userId);
+        var collection = dbMantaro().getCollection(UserDatabase.DB_TABLE, UserDatabase.class);
+        var user = collection.find().filter(Filters.eq(userId)).first();
+
+        return user == null ? UserDatabase.of(userId) : user;
     }
 
     @Nonnull
     @CheckReturnValue
-    public DBUser getUser(@Nonnull User user) {
+    public UserDatabase getUser(@Nonnull User user) {
         return getUser(user.getId());
     }
 
     @Nonnull
     @CheckReturnValue
-    public DBUser getUser(@Nonnull Member member) {
+    public UserDatabase getUser(@Nonnull Member member) {
         return getUser(member.getUser());
     }
 
-    public void save(@Nonnull ManagedObject object) {
-        log("Saving {} {}:{} to rethink (replacing)", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
+    public <T extends ManagedMongoObject> void saveMongo(@Nonnull T object, Class<T> clazz) {
+        log("Saving {} {}:{} to MongoDB (replacing whole)", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
 
-        r.table(object.getTableName())
-                .insert(object)
-                .optArg("conflict", "replace")
-                .runNoReply(conn);
+        var collection = dbMantaro().getCollection(object.getTableName(), clazz);
+        var returnDoc = new FindOneAndReplaceOptions().returnDocument(ReturnDocument.AFTER);
+        var found = collection.findOneAndReplace(Filters.eq(object.getId()), object, returnDoc);
+        if (found == null) { // New document?
+            collection.insertOne(object);
+        }
     }
 
-    public void saveUpdating(@Nonnull ManagedObject object) {
-        log("Saving {} {}:{} to rethink (updating)", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
+    public <T extends ManagedMongoObject> void deleteMongo(@Nonnull T object, Class<T> clazz) {
+        log("Deleting {} {}:{} from MongoDB (whole)", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
 
-        r.table(object.getTableName())
-                .insert(object)
-                .optArg("conflict", "update")
-                .runNoReply(conn);
+        MongoCollection<T> collection = dbMantaro().getCollection(object.getTableName(), clazz);
+        collection.deleteOne(Filters.eq(object.getId()));
     }
 
-    public void delete(@Nonnull ManagedObject object) {
-        log("Deleting {} {}:{} from rethink", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
+    public void updateFieldValue(ManagedMongoObject object, String key, Object value) {
+        log("Updating id {} key {} (from db {}) to {} (single value)", object.getId(), key, object.getTableName(), value);
 
-        r.table(object.getTableName())
-                .get(object.getId())
-                .delete()
-                .runNoReply(conn);
+        var collection = dbMantaro().getCollection(object.getTableName());
+        collection.updateOne(Filters.eq(object.getId()), Updates.set(key, value), new UpdateOptions().upsert(true));
+    }
+
+    public void updateFieldValues(ManagedMongoObject object, Map<String, Object> map) {
+        log("Updating tracked set for id {} (db: {}, set size: {}) (batch values)", object.getId(), object.getTableName(), map.size(), object.getTableName());
+
+        // No need to try and save an empty set, just bail out.
+        if (map.isEmpty()) {
+            log("Empty tracked set when requesting update!");
+            return;
+        }
+
+        var collection = dbMantaro().getCollection(object.getTableName());
+        List<Bson> updates = new ArrayList<>();
+        map.forEach((key, value) -> {
+            if (value instanceof Map<?, ?> e) {
+                var keySet = e.keySet();
+                // If key is of type Enum<T> or int/long, we need to convert them to String.
+                // Thankfully both have rather easy methods to do so: Enum returns the equivalent of name() on its default implementation,
+                // and String.valueOf works if you pass an object, which in the case of int/long, will give a String representation of the numerical value.
+                if (!keySet.isEmpty() && keySet.iterator().next() instanceof Enum<?>) {
+                    updates.add(Updates.set(
+                            key,
+                            // Yes, seemingly this is needed.
+                            new Document(e.entrySet().stream().collect(Collectors.toMap(k -> k.getKey().toString(), Map.Entry::getValue))))
+                    );
+
+                    return; // This acts like continue; in a forEach loop
+                }
+
+                if (!keySet.isEmpty() && (keySet.iterator().next() instanceof Integer || keySet.iterator().next() instanceof Long)) {
+                    updates.add(Updates.set(
+                            key,
+                            // Yes, seemingly this is needed.
+                            new Document(e.entrySet().stream().collect(Collectors.toMap(k -> String.valueOf(k.getKey()), Map.Entry::getValue))))
+                    );
+
+                    return; // This acts like continue; in a forEach loop
+                }
+            }
+
+            updates.add(Updates.set(key, value));
+        });
+
+        System.out.println(updates);
+        // Reminder: you NEED to use Updates.combine, else somehow Map objects will act really strangely (ex. will not remove deleted items, but will add new ones)
+        // Upsert means it's adding the document/embedded document if it does not exist on the current collection/document.
+        collection.updateOne(Filters.eq(object.getId()), Updates.combine(updates), new UpdateOptions().upsert(true));
     }
 }

@@ -88,20 +88,20 @@ public class GuessTheNumber extends Game<Object> {
                         var gains = 140;
 
                         player.addMoney(gains);
-                        player.getData().setGamesWon(player.getData().getGamesWon() + 1);
-                        if (player.getData().getGamesWon() == 100) {
-                            player.getData().addBadgeIfAbsent(Badge.GAMER);
+                        player.gamesWon(player.getGamesWon() + 1);
+                        if (player.getGamesWon() == 100) {
+                            player.addBadgeIfAbsent(Badge.GAMER);
                         }
 
-                        if (player.getData().getGamesWon() == 1000) {
-                            player.getData().addBadgeIfAbsent(Badge.ADDICTED_GAMER);
+                        if (player.getGamesWon() == 1000) {
+                            player.addBadgeIfAbsent(Badge.ADDICTED_GAMER);
                         }
 
                         if (number > 90) {
-                            player.getData().addBadgeIfAbsent(Badge.APPROACHING_DESTINY);
+                            player.addBadgeIfAbsent(Badge.APPROACHING_DESTINY);
                         }
 
-                        player.saveUpdating();
+                        player.updateAllChanged();
                         TextChannelGround.of(e.getChannel()).dropItemWithChance(ItemReference.FLOPPY_DISK, 3);
 
                         ctx.reply("commands.game.lobby.won_game", EmoteReference.MEGA, e.getMember().getEffectiveName(), gains);

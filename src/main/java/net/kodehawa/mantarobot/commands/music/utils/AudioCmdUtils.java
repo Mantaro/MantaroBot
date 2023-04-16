@@ -206,10 +206,9 @@ public class AudioCmdUtils {
 
             //Reset custom channel.
             var dbGuild = MantaroData.db().getGuild(ctx.getGuild());
-            var data = dbGuild.getData();
-            if (data.getMusicChannel() != null) {
-                data.setMusicChannel(null);
-                dbGuild.saveAsync();
+            if (dbGuild.getMusicChannel() != null) {
+                dbGuild.setMusicChannel(null);
+                dbGuild.save();
             }
 
             // Return as false, returning exceptionally here could fail in the handling we have done
@@ -227,7 +226,7 @@ public class AudioCmdUtils {
         final var voiceChannel = ctx.getMember().getVoiceState().getChannel();
         final var guild = ctx.getGuild();
         final var selfMember = guild.getSelfMember();
-        final var guildData = MantaroData.db().getGuild(guild).getData();
+        final var guildData = MantaroData.db().getGuild(guild);
 
         // I can't see you in any VC here?
         if (voiceChannel == null) {

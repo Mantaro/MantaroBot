@@ -82,12 +82,12 @@ public class I18n {
     }
 
     public static I18n of(String guildId) {
-        var lang = MantaroData.db().getGuild(guildId).getData().getLang();
+        var lang = MantaroData.db().getGuild(guildId).getLang();
         return getForLanguage(lang);
     }
 
     public static I18n ofUser(String userId) {
-        var lang = MantaroData.db().getUser(userId).getData().getLang();
+        var lang = MantaroData.db().getUser(userId).getLang();
         return getForLanguage(lang);
     }
 

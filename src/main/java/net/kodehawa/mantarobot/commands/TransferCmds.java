@@ -22,7 +22,6 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Description;
@@ -185,10 +184,10 @@ public class TransferCmds {
             var amountTransfer = Math.round(toSend * 0.92);
             if (toTransfer.addMoney(amountTransfer)) {
                 transferPlayer.removeMoney(toSend);
-                transferPlayer.saveUpdating();
+                transferPlayer.updateAllChanged();
 
-                toTransfer.saveUpdating();
-                transferRatelimiter.limit(toTransfer.getUserId());
+                toTransfer.updateAllChanged();
+                transferRatelimiter.limit(toTransfer.getId());
                 ctx.reply("commands.transfer.success", EmoteReference.CORRECT, toSend, amountTransfer, giveTo.getAsMention());
             } else {
                 ctx.reply("commands.transfer.receipt_overflow_notice", EmoteReference.ERROR);
@@ -277,7 +276,7 @@ public class TransferCmds {
 
             var amount = ctx.getOptionAsInteger("amount", 1);
             if (amount == 1) {
-                if (!player.getInventory().containsItem(item)) {
+                if (!player.containsItem(item)) {
                     ctx.reply("commands.itemtransfer.multiple_items_error", EmoteReference.ERROR);
                     return;
                 }
@@ -287,16 +286,16 @@ public class TransferCmds {
                     return;
                 }
 
-                if (giveToPlayer.getInventory().getAmount(item) >= 5000) {
+                if (giveToPlayer.getItemAmount(item) >= 5000) {
                     ctx.reply("commands.itemtransfer.overflow", EmoteReference.ERROR);
                     return;
                 }
 
-                player.getInventory().process(new ItemStack(item, -1));
-                giveToPlayer.getInventory().process(new ItemStack(item, 1));
+                player.processItem(item, -1);
+                giveToPlayer.processItem(item, 1);
 
-                player.save();
-                giveToPlayer.save();
+                player.updateAllChanged();
+                giveToPlayer.updateAllChanged();
                 ctx.reply("commands.itemtransfer.success",
                         EmoteReference.OK, ctx.getMember().getEffectiveName(), 1,
                         item.getName(), giveTo.getAsMention()
@@ -305,22 +304,22 @@ public class TransferCmds {
                 return;
             }
 
-            if (player.getInventory().containsItem(item) && player.getInventory().getAmount(item) >= amount) {
+            if (player.containsItem(item) && player.getItemAmount(item) >= amount) {
                 if (item.isHidden()) {
                     ctx.reply("commands.itemtransfer.hidden_item", EmoteReference.ERROR);
                     return;
                 }
 
-                if (giveToPlayer.getInventory().getAmount(item) + amount > 5000) {
+                if (giveToPlayer.getItemAmount(item) + amount > 5000) {
                     ctx.reply("commands.itemtransfer.overflow_after", EmoteReference.ERROR);
                     return;
                 }
 
-                player.getInventory().process(new ItemStack(item, amount * -1));
-                giveToPlayer.getInventory().process(new ItemStack(item, amount));
+                player.processItem(item, amount * -1);
+                giveToPlayer.processItem(item, amount);
 
-                player.save();
-                giveToPlayer.save();
+                player.updateAllChanged();
+                giveToPlayer.updateAllChanged();
                 ctx.reply("commands.itemtransfer.success", EmoteReference.OK,
                         ctx.getMember().getEffectiveName(), amount, item.getName(), giveTo.getAsMention()
                 );

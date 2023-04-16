@@ -34,10 +34,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.MantaroObj;
-import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.*;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.UtilsContext;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimitContext;
@@ -357,15 +354,15 @@ public class InteractionContext<T> implements IContext {
         return getI18nContext();
     }
 
-    public DBGuild getDBGuild() {
+    public GuildDatabase getDBGuild() {
         return managedDatabase.getGuild(getGuild());
     }
 
-    public DBUser getDBUser() {
+    public UserDatabase getDBUser() {
         return managedDatabase.getUser(getAuthor());
     }
 
-    public DBUser getDBUser(User user) {
+    public UserDatabase getDBUser(User user) {
         return managedDatabase.getUser(user);
     }
 
@@ -382,7 +379,7 @@ public class InteractionContext<T> implements IContext {
         return managedDatabase.getPlayer(user);
     }
 
-    public MantaroObj getMantaroData() {
+    public MantaroObject getMantaroData() {
         return managedDatabase.getMantaroData();
     }
 

@@ -42,9 +42,8 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
+import net.kodehawa.mantarobot.db.entities.GuildDatabase;
 import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -95,7 +94,7 @@ public class CommandRegistry {
 
     // Process non-slash commands.
     // We filter non-guild events early on.
-    public void process(MessageReceivedEvent event, DBGuild dbGuild, String cmdName, String content, String prefix, boolean isMention) {
+    public void process(MessageReceivedEvent event, GuildDatabase dbGuild, String cmdName, String content, String prefix, boolean isMention) {
         if (cmdName.length() >= 50) {
             return;
         }
@@ -103,11 +102,10 @@ public class CommandRegistry {
         final var managedDatabase = MantaroData.db();
         final var start = System.currentTimeMillis();
         var command = commands.get(cmdName.toLowerCase());
-        var guildData = dbGuild.getData();
 
         if (command == null) {
             // We will create a proper I18nContext once the custom command goes through, if it does. We don't need it otherwise.
-            CustomCmds.handle(prefix, cmdName, new Context(event, new I18nContext(), content, isMention), guildData, content);
+            CustomCmds.handle(prefix, cmdName, new Context(event, new I18nContext(), content, isMention), dbGuild, content);
             return;
         }
 
@@ -124,8 +122,8 @@ public class CommandRegistry {
         }
 
         // !! Permission check start
-        if (guildData.getDisabledCommands().contains(name(cmd, cmdName))) {
-            sendDisabledNotice(event, guildData, CommandDisableLevel.COMMAND);
+        if (dbGuild.getDisabledCommands().contains(name(cmd, cmdName))) {
+            sendDisabledNotice(event, dbGuild, CommandDisableLevel.COMMAND);
             return;
         }
 
@@ -135,59 +133,51 @@ public class CommandRegistry {
         }
 
         final var roles = member.getRoles();
-        final var channelDisabledCommands = guildData.getChannelSpecificDisabledCommands().get(channel.getId());
+        final var channelDisabledCommands = dbGuild.getChannelSpecificDisabledCommands().get(channel.getId());
         if (channelDisabledCommands != null && channelDisabledCommands.contains(name(cmd, cmdName))) {
-            sendDisabledNotice(event, guildData, CommandDisableLevel.COMMAND_SPECIFIC);
+            sendDisabledNotice(event, dbGuild, CommandDisableLevel.COMMAND_SPECIFIC);
             return;
         }
 
-        if (guildData.getDisabledUsers().contains(author.getId()) && isNotAdmin(member)) {
-            sendDisabledNotice(event, guildData, CommandDisableLevel.USER);
+        if (dbGuild.getDisabledUsers().contains(author.getId()) && isNotAdmin(member)) {
+            sendDisabledNotice(event, dbGuild, CommandDisableLevel.USER);
             return;
         }
 
         var isOptions = cmdName.equalsIgnoreCase("opts");
-        if (guildData.getDisabledChannels().contains(channel.getId()) && !isOptions) {
-            sendDisabledNotice(event, guildData, CommandDisableLevel.CHANNEL);
+        if (dbGuild.getDisabledChannels().contains(channel.getId()) && !isOptions) {
+            sendDisabledNotice(event, dbGuild, CommandDisableLevel.CHANNEL);
             return;
         }
 
-        if (guildData.getDisabledCategories().contains(root(cmd).category()) && !isOptions) {
-            sendDisabledNotice(event, guildData, CommandDisableLevel.CATEGORY);
+        if (dbGuild.getDisabledCategories().contains(root(cmd).category()) && !isOptions) {
+            sendDisabledNotice(event, dbGuild, CommandDisableLevel.CATEGORY);
             return;
         }
 
-        if (guildData.getChannelSpecificDisabledCategories().computeIfAbsent(
+        if (dbGuild.getChannelSpecificDisabledCategories().computeIfAbsent(
                 channel.getId(), c -> new ArrayList<>()).contains(root(cmd).category()) && !isOptions) {
-            sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_CATEGORY);
+            sendDisabledNotice(event, dbGuild, CommandDisableLevel.SPECIFIC_CATEGORY);
             return;
         }
 
-        if (guildData.getWhitelistedRole() != null && isNotAdmin(member)) {
-            var whitelistedRole = guild.getRoleById(guildData.getWhitelistedRole());
-            if (whitelistedRole != null && roles.stream().noneMatch(r -> whitelistedRole.getId().equals(r.getId()))) {
-                return;
-            }
-            // else continue.
-        }
-
-        if (!guildData.getDisabledRoles().isEmpty() && roles.stream().anyMatch(
-                r -> guildData.getDisabledRoles().contains(r.getId())) && isNotAdmin(member)) {
-            sendDisabledNotice(event, guildData, CommandDisableLevel.ROLE);
+        if (!dbGuild.getDisabledRoles().isEmpty() && roles.stream().anyMatch(
+                r -> dbGuild.getDisabledRoles().contains(r.getId())) && isNotAdmin(member)) {
+            sendDisabledNotice(event, dbGuild, CommandDisableLevel.ROLE);
             return;
         }
 
-        final var roleSpecificDisabledCommands = guildData.getRoleSpecificDisabledCommands();
+        final var roleSpecificDisabledCommands = dbGuild.getRoleSpecificDisabledCommands();
         if (roles.stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(
                 r.getId(), s -> new ArrayList<>()).contains(name(cmd, cmdName))) && isNotAdmin(member)) {
-            sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_ROLE);
+            sendDisabledNotice(event, dbGuild, CommandDisableLevel.SPECIFIC_ROLE);
             return;
         }
 
-        final var roleSpecificDisabledCategories = guildData.getRoleSpecificDisabledCategories();
+        final var roleSpecificDisabledCategories = dbGuild.getRoleSpecificDisabledCategories();
         if (roles.stream().anyMatch(r -> roleSpecificDisabledCategories.computeIfAbsent(
                 r.getId(), s -> new ArrayList<>()).contains(root(cmd).category())) && isNotAdmin(member)) {
-            sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_ROLE_CATEGORY);
+            sendDisabledNotice(event, dbGuild, CommandDisableLevel.SPECIFIC_ROLE_CATEGORY);
             return;
         }
 
@@ -222,15 +212,14 @@ public class CommandRegistry {
         // !! Permission check end
 
         final var dbUser = managedDatabase.getUser(author);
-        final var userData = dbUser.getData();
-        renewPremiumKey(managedDatabase, author, dbUser, guildData);
+        renewPremiumKey(managedDatabase, author, dbUser, dbGuild);
 
         // Used a command on the new system?
         // sort-of-fix: remove if statement when we port all commands
         boolean executedNew;
         try {
             executedNew = newCommands.execute(new NewContext(event.getMessage(),
-                    new I18nContext(guildData, userData),
+                    new I18nContext(dbGuild, dbUser),
                     event.getMessage().getContentRaw().substring(prefix.length()))
             );
         } catch (ArgumentParseError e) {
@@ -247,7 +236,7 @@ public class CommandRegistry {
         }
 
         if (!executedNew) {
-            cmd.run(new Context(event, new I18nContext(guildData, userData), cmdName, content, isMention), cmdName, content);
+            cmd.run(new Context(event, new I18nContext(dbGuild, dbUser), cmdName, content, isMention), cmdName, content);
         }
 
         commandLog.debug("Command: {}, User: {} ({}), Guild: {}, Channel: {}, Message: {}" ,
@@ -309,11 +298,8 @@ public class CommandRegistry {
             return;
         }
 
-        final var guildData = dbGuild.getData();
         final var dbUser = managedDatabase.getUser(author);
-        final var userData = dbUser.getData();
-
-        cmd.execute(new InteractionContext<>(event, new I18nContext(guildData, userData)));
+        cmd.execute(new InteractionContext<>(event, new I18nContext(dbGuild, dbUser)));
         commandLog.debug("Context (user) command: {}, User: {} ({}), Guild: {}" ,
                 cmd.getName(), author.getAsTag(), author.getId(), guild.getId()
         );
@@ -358,10 +344,9 @@ public class CommandRegistry {
         final var cmd = command;
         final var name = cmd.getName();
         final var dbGuild = managedDatabase.getGuild(event.getGuild());
-        final var guildData = dbGuild.getData();
 
         // !! Permission check start
-        if (guildData.getDisabledCommands().contains(name)) {
+        if (dbGuild.getDisabledCommands().contains(name)) {
             sendDisabledNotice(event, CommandDisableLevel.COMMAND);
             return;
         }
@@ -372,54 +357,46 @@ public class CommandRegistry {
         }
 
         final var roles = member.getRoles();
-        final var channelDisabledCommands = guildData.getChannelSpecificDisabledCommands().get(channel.getId());
+        final var channelDisabledCommands = dbGuild.getChannelSpecificDisabledCommands().get(channel.getId());
         if (channelDisabledCommands != null && channelDisabledCommands.contains(name)) {
             sendDisabledNotice(event, CommandDisableLevel.COMMAND_SPECIFIC);
             return;
         }
 
-        if (guildData.getDisabledUsers().contains(author.getId()) && isNotAdmin(member)) {
+        if (dbGuild.getDisabledUsers().contains(author.getId()) && isNotAdmin(member)) {
             sendDisabledNotice(event, CommandDisableLevel.USER);
             return;
         }
-        if (guildData.getDisabledChannels().contains(channel.getId())) {
+        if (dbGuild.getDisabledChannels().contains(channel.getId())) {
             sendDisabledNotice(event, CommandDisableLevel.CHANNEL);
             return;
         }
 
-        if (guildData.getDisabledCategories().contains(cmd.getCategory())) {
+        if (dbGuild.getDisabledCategories().contains(cmd.getCategory())) {
             sendDisabledNotice(event, CommandDisableLevel.CATEGORY);
             return;
         }
 
-        if (guildData.getChannelSpecificDisabledCategories().computeIfAbsent(
+        if (dbGuild.getChannelSpecificDisabledCategories().computeIfAbsent(
                 channel.getId(), c -> new ArrayList<>()).contains(cmd.getCategory())) {
             sendDisabledNotice(event, CommandDisableLevel.SPECIFIC_CATEGORY);
             return;
         }
 
-        if (guildData.getWhitelistedRole() != null && isNotAdmin(member)) {
-            var whitelistedRole = guild.getRoleById(guildData.getWhitelistedRole());
-            if (whitelistedRole != null && roles.stream().noneMatch(r -> whitelistedRole.getId().equals(r.getId()))) {
-                return;
-            }
-            // else continue.
-        }
-
-        if (!guildData.getDisabledRoles().isEmpty() && roles.stream().anyMatch(
-                r -> guildData.getDisabledRoles().contains(r.getId())) && isNotAdmin(member)) {
+        if (!dbGuild.getDisabledRoles().isEmpty() && roles.stream().anyMatch(
+                r -> dbGuild.getDisabledRoles().contains(r.getId())) && isNotAdmin(member)) {
             sendDisabledNotice(event, CommandDisableLevel.ROLE);
             return;
         }
 
-        final var roleSpecificDisabledCommands = guildData.getRoleSpecificDisabledCommands();
+        final var roleSpecificDisabledCommands = dbGuild.getRoleSpecificDisabledCommands();
         if (roles.stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(
                 r.getId(), s -> new ArrayList<>()).contains(name)) && isNotAdmin(member)) {
             sendDisabledNotice(event, CommandDisableLevel.SPECIFIC_ROLE);
             return;
         }
 
-        final var roleSpecificDisabledCategories = guildData.getRoleSpecificDisabledCategories();
+        final var roleSpecificDisabledCategories = dbGuild.getRoleSpecificDisabledCategories();
         if (roles.stream().anyMatch(r -> roleSpecificDisabledCategories.computeIfAbsent(
                 r.getId(), s -> new ArrayList<>()).contains(cmd.getCategory())) && isNotAdmin(member)) {
             sendDisabledNotice(event, CommandDisableLevel.SPECIFIC_ROLE_CATEGORY);
@@ -457,10 +434,9 @@ public class CommandRegistry {
         // !! Permission check end
 
         final var dbUser = managedDatabase.getUser(author);
-        final var userData = dbUser.getData();
-        renewPremiumKey(managedDatabase, author, dbUser, guildData);
+        renewPremiumKey(managedDatabase, author, dbUser, dbGuild);
 
-        cmd.execute(new SlashContext(event, new I18nContext(guildData, userData)));
+        cmd.execute(new SlashContext(event, new I18nContext(dbGuild, dbUser)));
         commandLog.debug("Slash command: {}, User: {} ({}), Guild: {}, Channel: {}, Options: {}" ,
                 cmd.getName(), author.getAsTag(), author.getId(), guild.getId(), channel.getId(), event.getOptions()
         );
@@ -473,40 +449,43 @@ public class CommandRegistry {
         Metrics.COMMAND_LATENCY.observe(end - start);
     }
 
-    public void renewPremiumKey(ManagedDatabase managedDatabase, User author, DBUser dbUser, GuildData guildData) {
-        final var userData = dbUser.getData();
-        final var currentKey = managedDatabase.getPremiumKey(userData.getPremiumKey());
-        final var guildKey = managedDatabase.getPremiumKey(guildData.getPremiumKey());
-        if (currentKey != null) {
-            // 10 days before expiration or best fit.
-            if (currentKey.validFor() <= 10 && currentKey.validFor() > 1) {
-                // Handling is done inside the PremiumKey#renew method. This only gets fired if the key has less than 10 days left.
-                if (!currentKey.renew() && !userData.hasReceivedExpirationWarning()) {
-                    author.openPrivateChannel().queue(privateChannel ->
-                            privateChannel.sendMessage(
-                                    """
-                                    %1$sYour premium key is about to expire in **%2$,d** days**!
-                                    :heart: *If you're still pledging to Mantaro* you can ask Kodehawa#3457 for a key renewal in the #donators channel.*
-                                    In the case that you're not longer a patron, you cannot renew, but I sincerely hope you had a good time with the bot and its features!
-                                    **If you ever want to pledge again you can check the patreon link at <https://patreon.com/mantaro>**
-                                    
-                                    Thanks you so much for your support to keep Mantaro alive! It wouldn't be possible without the help of all of you.
-                                    With love, Kodehawa and the Mantaro team :heart:
-                                    
-                                    This will only be sent once (hopefully). Thanks again!
-                                    """.formatted(EmoteReference.WARNING, Math.max(1, currentKey.validFor()))
-                            ).queue()
-                    );
-                }
+    public void renewPremiumKey(ManagedDatabase managedDatabase, User author, UserDatabase dbUser, GuildDatabase guildData) {
+        if (dbUser.getPremiumKey() != null) {
+            final var currentKey = managedDatabase.getPremiumKey(dbUser.getPremiumKey());
+            if (currentKey != null) {
+                // 10 days before expiration or best fit.
+                if (currentKey.validFor() <= 10 && currentKey.validFor() > 1) {
+                    // Handling is done inside the PremiumKey#renew method. This only gets fired if the key has less than 10 days left.
+                    if (!currentKey.renew() && !dbUser.hasReceivedExpirationWarning()) {
+                        author.openPrivateChannel().queue(privateChannel ->
+                                privateChannel.sendMessage(
+                                        """
+                                        %1$sYour premium key is about to expire in **%2$,d** days**!
+                                        :heart: *If you're still pledging to Mantaro* you can ask Kodehawa#3457 for a key renewal in the #donators channel.*
+                                        In the case that you're not longer a patron, you cannot renew, but I sincerely hope you had a good time with the bot and its features!
+                                        **If you ever want to pledge again you can check the patreon link at <https://patreon.com/mantaro>**
+                                        
+                                        Thanks you so much for your support to keep Mantaro alive! It wouldn't be possible without the help of all of you.
+                                        With love, Kodehawa and the Mantaro team :heart:
+                                        
+                                        This will only be sent once (hopefully). Thanks again!
+                                        """.formatted(EmoteReference.WARNING, Math.max(1, currentKey.validFor()))
+                                ).queue()
+                        );
+                    }
 
-                userData.setReceivedExpirationWarning(true);
-                dbUser.saveUpdating();
+                    dbUser.receivedExpirationWarning(true);
+                    dbUser.updateAllChanged();
+                }
             }
         }
 
-        // Handling is done inside the PremiumKey#renew method. This only gets fired if the key has less than 10 days left.
-        if (guildKey != null && guildKey.validFor() <= 10 && guildKey.validFor() > 1) {
-            guildKey.renew();
+        if (guildData.getPremiumKey() != null) {
+            final var guildKey = managedDatabase.getPremiumKey(guildData.getPremiumKey());
+            // Handling is done inside the PremiumKey#renew method. This only gets fired if the key has less than 10 days left.
+            if (guildKey != null && guildKey.validFor() <= 10 && guildKey.validFor() > 1) {
+                guildKey.renew();
+            }
         }
     }
 
@@ -570,7 +549,7 @@ public class CommandRegistry {
     }
 
 
-    public void sendDisabledNotice(MessageReceivedEvent event, GuildData data, CommandDisableLevel level) {
+    public void sendDisabledNotice(MessageReceivedEvent event, GuildDatabase data, CommandDisableLevel level) {
         if (data.isCommandWarningDisplay() && level != CommandDisableLevel.NONE) {
             event.getChannel().sendMessageFormat("%sThis command is disabled on this server. Reason: %s",
                     EmoteReference.ERROR, Utils.capitalize(level.getName())

@@ -57,7 +57,7 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.CustomCommand;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.db.entities.GuildDatabase;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
@@ -103,7 +103,7 @@ public class CustomCmds {
     //Just so this is in english.
     private static final I18nContext i18nTemp = new I18nContext();
     private static final Predicate<IContext> adminPredicate = (ctx) -> {
-        if (db().getGuild(ctx.getGuild()).getData().isCustomAdminLockNew() && !CommandPermission.ADMIN.test(ctx.getMember())) {
+        if (db().getGuild(ctx.getGuild()).isCustomAdminLockNew() && !CommandPermission.ADMIN.test(ctx.getMember())) {
             ctx.getChannel().sendMessage(i18nTemp.get("commands.custom.admin_only")).queue();
             return false;
         }
@@ -111,7 +111,7 @@ public class CustomCmds {
         return true;
     };
 
-    public static void handle(String prefix, String cmdName, Context ctx, GuildData guildData, String args) {
+    public static void handle(String prefix, String cmdName, Context ctx, GuildDatabase guildData, String args) {
         CustomCommand customCommand = getCustomCommand(ctx.getGuild().getId(), cmdName);
         if (customCommand == null) {
             return;
@@ -135,7 +135,7 @@ public class CustomCmds {
 
         // Create a new language context only if the command goes through.
         // This avoids getting a user everytime a command is ran, even if the command is not valid.
-        ctx.setLanguageContext(new I18nContext(guildData, db().getUser(ctx.getAuthor()).getData()));
+        ctx.setLanguageContext(new I18nContext(guildData, db().getUser(ctx.getAuthor())));
 
         // Run the actual custom command.
         List<String> values = customCommand.getValues();
@@ -145,7 +145,7 @@ public class CustomCmds {
             return;
         }
 
-        if (customCommand.getData().isNsfw() && !ctx.isChannelNSFW()) {
+        if (customCommand.isNsfw() && !ctx.isChannelNSFW()) {
             ctx.sendLocalized("commands.custom.nsfw_not_nsfw", EmoteReference.ERROR);
             return;
         }
@@ -380,7 +380,7 @@ public class CustomCmds {
 
                 var nsfw = ctx.getOptionAsBoolean("nsfw");
                 var id = "%s/%s".formatted(ctx.getAuthor().getId(), ctx.getChannel().getId());
-                var modal = Modal.create(id, lang.get("commands.custom.add.header_slash")).addActionRows(ActionRow.of(nameInput), ActionRow.of(subject)).build();
+                var modal = Modal.create(id, lang.get("commands.custom.add.header_slash")).addComponents(ActionRow.of(nameInput), ActionRow.of(subject)).build();
                 ctx.replyModal(modal);
 
                 ModalOperations.create(id, 300, new ModalOperation() {
@@ -470,7 +470,7 @@ public class CustomCmds {
                         var custom = CustomCommand.of(ctx.getGuild().getId(), name, Collections.singletonList(content));
                         var c = ctx.db().getCustomCommand(ctx.getGuild(), name);
                         if (c != null) {
-                            if (custom.getData().isLocked()) {
+                            if (custom.isLocked()) {
                                 event.reply(lang.get("commands.custom.locked_command").formatted(EmoteReference.ERROR2))
                                         .setEphemeral(true)
                                         .queue();
@@ -501,9 +501,9 @@ public class CustomCmds {
                             }
                         }
 
-                        custom.getData().setOwner(ctx.getAuthor().getId());
+                        custom.setOwner(ctx.getAuthor().getId());
                         if (nsfw) {
-                            custom.getData().setNsfw(true);
+                            custom.setNsfw(true);
                         }
 
                         // save at DB
@@ -563,7 +563,7 @@ public class CustomCmds {
                     return;
                 }
 
-                if (cc.getData().isLocked()) {
+                if (cc.isLocked()) {
                     ctx.replyEphemeral("commands.custom.locked_command", EmoteReference.ERROR);
                     return;
                 }
@@ -586,7 +586,7 @@ public class CustomCmds {
                 }
 
                 var modal = Modal.create(id, lang.get("commands.custom.edit.header_slash"))
-                        .addActionRows(ActionRow.of(subject.build()))
+                        .addComponents(ActionRow.of(subject.build()))
                         .build();
 
                 ctx.replyModal(modal);
@@ -628,7 +628,7 @@ public class CustomCmds {
                             return Operation.COMPLETED;
                         }
 
-                        if (custom.getData().isLocked()) {
+                        if (custom.isLocked()) {
                             event.reply(lang.get("commands.custom.locked_command").formatted(EmoteReference.ERROR))
                                     .setEphemeral(true)
                                     .queue();
@@ -658,11 +658,11 @@ public class CustomCmds {
                         }
 
                         if (nsfw) {
-                            custom.getData().setNsfw(true);
+                            custom.setNsfw(true);
                         }
 
                         custom.getValues().set(where - 1, commandContent);
-                        custom.saveAsync();
+                        custom.save();
                         customCommands.put(custom.getId(), custom);
                         event.reply(lang.get("commands.custom.edit.success").formatted(EmoteReference.CORRECT, where, custom.getName())).queue();
                         return Operation.COMPLETED;
@@ -1094,7 +1094,7 @@ public class CustomCmds {
         }
 
         var lang = ctx.getLanguageContext();
-        var owner = command.getData().getOwner();
+        var owner = command.getOwner();
         var member = owner.isEmpty() ? null : ctx.getGuild().retrieveMemberById(owner).useCache(true).complete();
         ctx.send(new EmbedBuilder()
                 .setAuthor(lang.get("commands.custom.info.header").formatted(command.getName()), null, ctx.getAuthor().getEffectiveAvatarUrl())
@@ -1104,7 +1104,7 @@ public class CustomCmds {
                                 EmoteReference.BLUE_SMALL_MARKER +
                                 lang.get("commands.custom.info.owner_id") + " " + (member == null ? lang.get("general.none") : member.getId()) + "\n" +
                                 EmoteReference.BLUE_SMALL_MARKER +
-                                lang.get("commands.custom.info.nsfw") + " " + command.getData().isNsfw() + "\n" +
+                                lang.get("commands.custom.info.nsfw") + " " + command.isNsfw() + "\n" +
                                 EmoteReference.BLUE_SMALL_MARKER +
                                 lang.get("commands.custom.info.responses") + " " + command.getValues().size() + "\n"
                 )
@@ -1144,7 +1144,7 @@ public class CustomCmds {
                 var customCommands = ctx.db().getCustomCommands(ctx.getGuild());
                 int size = customCommands.size();
 
-                customCommands.stream().filter(cmd -> !cmd.getData().isLocked()).forEach(CustomCommand::deleteAsync);
+                customCommands.stream().filter(cmd -> !cmd.isLocked()).forEach(CustomCommand::delete);
                 customCommands.forEach(c -> CustomCmds.customCommands.remove(c.getId()));
 
                 message.editMessageFormat(languageContext.get("commands.custom.clear.success"), EmoteReference.PENCIL, size)
@@ -1187,13 +1187,12 @@ public class CustomCmds {
         }
 
         final var newCustom = CustomCommand.of(ctx.getGuild().getId(), value, oldCustom.getValues());
-        final var oldCustomData = oldCustom.getData();
-        newCustom.getData().setNsfw(oldCustomData.isNsfw());
-        newCustom.getData().setOwner(oldCustomData.getOwner());
+        newCustom.setNsfw(oldCustom.isNsfw());
+        newCustom.setOwner(oldCustom.getOwner());
 
         //change at DB
-        oldCustom.deleteAsync();
-        newCustom.saveAsync();
+        oldCustom.delete();
+        newCustom.save();
 
         //reflect at local
         customCommands.remove(oldCustom.getId());
@@ -1230,8 +1229,8 @@ public class CustomCmds {
             return;
         }
 
-        cmd.getData().setLocked(true);
-        cmd.saveUpdating();
+        cmd.setLocked(true);
+        cmd.save();
 
         ctx.sendLocalized("commands.custom.lockcommand.success", EmoteReference.CORRECT, name);
     }
@@ -1257,14 +1256,14 @@ public class CustomCmds {
             return;
         }
 
-        var data = cmd.getData();
+        var data = cmd;
         if (!data.isLocked()) {
             ctx.sendLocalized("commands.custom.unlockcommand.not_locked", EmoteReference.ERROR, name);
             return;
         }
 
         data.setLocked(false);
-        cmd.saveUpdating();
+        cmd.save();
 
         ctx.sendLocalized("commands.custom.unlockcommand.success", EmoteReference.CORRECT, name);
     }
@@ -1280,7 +1279,7 @@ public class CustomCmds {
             return;
         }
 
-        if (custom.getData().isLocked()) {
+        if (custom.isLocked()) {
             ctx.sendLocalized("commands.custom.locked_command", EmoteReference.ERROR2);
             return;
         }
@@ -1299,7 +1298,7 @@ public class CustomCmds {
             return;
         }
 
-        custom.saveAsync();
+        custom.save();
         customCommands.put(custom.getId(), custom);
         ctx.sendLocalized("commands.custom.deleteresponse.success", EmoteReference.CORRECT, where, custom.getName());
     }
@@ -1326,13 +1325,13 @@ public class CustomCmds {
             return;
         }
 
-        if (custom.getData().isLocked()) {
+        if (custom.isLocked()) {
             ctx.sendLocalized("commands.custom.locked_command", EmoteReference.ERROR2);
             return;
         }
 
         //delete at DB
-        custom.deleteAsync();
+        custom.delete();
 
         //reflect at local
         customCommands.remove(custom.getId());
@@ -1383,7 +1382,7 @@ public class CustomCmds {
         var custom = CustomCommand.of(ctx.getGuild().getId(), name, Collections.singletonList(content));
         var c = ctx.db().getCustomCommand(ctx.getGuild(), name);
         if (c != null) {
-            if (custom.getData().isLocked()) {
+            if (custom.isLocked()) {
                 ctx.sendLocalized("commands.custom.locked_command", EmoteReference.ERROR2);
                 return;
             }
@@ -1409,9 +1408,9 @@ public class CustomCmds {
         }
 
 
-        custom.getData().setOwner(ctx.getAuthor().getId());
+        custom.setOwner(ctx.getAuthor().getId());
         if (nsfw) {
-            custom.getData().setNsfw(true);
+            custom.setNsfw(true);
         }
 
         //save at DB
@@ -1435,7 +1434,7 @@ public class CustomCmds {
             return;
         }
 
-        if (custom.getData().isLocked()) {
+        if (custom.isLocked()) {
             ctx.sendLocalized("commands.custom.locked_command", EmoteReference.ERROR2);
             return;
         }
@@ -1457,11 +1456,11 @@ public class CustomCmds {
         }
 
         if (nsfw) {
-            custom.getData().setNsfw(true);
+            custom.setNsfw(true);
         }
 
         custom.getValues().set(where - 1, commandContent);
-        custom.saveAsync();
+        custom.save();
         customCommands.put(custom.getId(), custom);
         ctx.sendLocalized("commands.custom.edit.success", EmoteReference.CORRECT, where, custom.getName());
     }

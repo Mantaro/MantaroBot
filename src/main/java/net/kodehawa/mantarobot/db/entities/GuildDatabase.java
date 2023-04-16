@@ -1,43 +1,166 @@
-/*
- * Copyright (C) 2016 Kodehawa
- *
- * Mantaro is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * Mantaro is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Mantaro. If not, see http://www.gnu.org/licenses/
- *
- */
-
-package net.kodehawa.mantarobot.db.entities.helpers;
+package net.kodehawa.mantarobot.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import net.kodehawa.mantarobot.commands.moderation.WarnAction;
 import net.kodehawa.mantarobot.commands.utils.polls.Poll;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.annotations.ConfigName;
 import net.kodehawa.mantarobot.data.annotations.HiddenConfig;
+import net.kodehawa.mantarobot.db.ManagedMongoObject;
+import net.kodehawa.mantarobot.utils.APIUtils;
+import net.kodehawa.mantarobot.utils.Pair;
+import net.kodehawa.mantarobot.utils.patreon.PatreonPledge;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
+import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
-// The HiddenConfig annotation is used to not interfere with serialization of old configs: backwards compatibility.
-// It just hides the config value from opts check data.
-public class GuildData {
-    @HiddenConfig //nobody used it, ended up getting removed in early 4.x
-    private boolean antiSpam = false;
+import static java.lang.System.currentTimeMillis;
 
+@SuppressWarnings("unused")
+public class GuildDatabase implements ManagedMongoObject {
+    @BsonIgnore
+    public static final String DB_TABLE = "guilds";
+    @BsonIgnore
+    private final Config config = MantaroData.config().get();
+
+    @BsonId
+    private String id;
+    @BsonIgnore
+    public static GuildDatabase of(String guildId) {
+        return new GuildDatabase(guildId);
+    }
+
+    // Constructors needed for the Mongo Codec to deserialize/serialize this.
+    public GuildDatabase() {}
+    public GuildDatabase(String id) {
+        this.id = id;
+    }
+
+    public @NotNull String getId() {
+        return id;
+    }
+
+    @BsonIgnore
+    @Override
+    public @NotNull String getTableName() {
+        return DB_TABLE;
+    }
+
+    @Override
+    @BsonIgnore
+    public void save() {
+        MantaroData.db().saveMongo(this, GuildDatabase.class);
+    }
+
+    @Override
+    @BsonIgnore
+    public void delete() {
+        MantaroData.db().deleteMongo(this, GuildDatabase.class);
+    }
+
+    @BsonIgnore
+    public long getPremiumLeft() {
+        return isPremium() ? this.premiumUntil - currentTimeMillis() : 0;
+    }
+
+    @BsonIgnore
+    public boolean isPremium() {
+        PremiumKey key = MantaroData.db().getPremiumKey(getPremiumKey());
+        //Key validation check (is it still active? delete otherwise)
+        if (key != null) {
+            boolean isKeyActive = currentTimeMillis() < key.getExpiration();
+            if (!isKeyActive && LocalDate.now(ZoneId.of("America/Chicago")).getDayOfMonth() > 5) {
+                UserDatabase owner = MantaroData.db().getUser(key.getOwner());
+                owner.removeKeyClaimed(getId());
+                owner.updateAllChanged();
+
+                removePremiumKey(key.getOwner(), key.getId());
+                key.delete();
+                return false;
+            }
+
+            //Link key to owner if key == owner and key holder is on patreon.
+            //Sadly gotta skip of holder isn't patron here bc there are some bought keys (paypal) which I can't convert without invalidating
+            Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(key.getOwner());
+            if (pledgeInfo != null && pledgeInfo.left()) {
+                key.setLinkedTo(key.getOwner());
+                key.save(); //doesn't matter if it doesn't save immediately, will do later anyway (key is usually immutable in db)
+            }
+
+            //If the receipt is not the owner, account them to the keys the owner has claimed.
+            //This has usage later when seeing how many keys can they take. The second/third check is kind of redundant, but necessary anyway to see if it works.
+            String keyLinkedTo = key.getLinkedTo();
+            if (keyLinkedTo != null) {
+                UserDatabase owner = MantaroData.db().getUser(keyLinkedTo);
+                if (!owner.getKeysClaimed().containsKey(getId())) {
+                    owner.addKeyClaimed(getId(), key.getId());
+                    owner.updateAllChanged();
+                }
+            }
+        }
+
+        //Patreon bot link check.
+        String linkedTo = getMpLinkedTo();
+        if (config.isPremiumBot() && linkedTo != null && key == null) { //Key should always be null in MP anyway.
+            PatreonPledge pledgeInfo = APIUtils.getFullPledgeInformation(linkedTo);
+            if (pledgeInfo != null && pledgeInfo.getReward().getKeyAmount() >= 3) {
+                // Subscribed to MP properly.
+                return true;
+            }
+        }
+
+        //MP uses the old premium system for some guilds: keep it here.
+        return currentTimeMillis() < premiumUntil || (key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.GUILD));
+    }
+
+    @BsonIgnore
+    public PremiumKey generateAndApplyPremiumKey(int days) {
+        String premiumId = UUID.randomUUID().toString();
+        PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days),
+                currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.GUILD, true, id, null);
+        setPremiumKey(premiumId);
+        newKey.save();
+
+        save();
+        return newKey;
+    }
+
+    @BsonIgnore
+    public void removePremiumKey(String keyOwner, String originalKey) {
+        setPremiumKey(null);
+
+        UserDatabase dbUser = MantaroData.db().getUser(keyOwner);
+        dbUser.removePremiumKey(dbUser.getUserIdFromKeyId(originalKey));
+        dbUser.updateAllChanged();
+
+        save();
+    }
+
+    @BsonIgnore
+    public void incrementPremium(long milliseconds) {
+        if (isPremium()) {
+            this.premiumUntil += milliseconds;
+        } else {
+            this.premiumUntil = currentTimeMillis() + milliseconds;
+        }
+    }
+
+    // ------------------------- DATA CLASS START ------------------------- //
+
+    @HiddenConfig
+    private long premiumUntil = 0L;
     @ConfigName("Autoroles")
     private HashMap<String, String> autoroles = new HashMap<>();
     @ConfigName("Birthday Announcer Channel")
@@ -50,10 +173,6 @@ public class GuildData {
     private HashMap<String, List<CommandCategory>> channelSpecificDisabledCategories = new HashMap<>();
     @ConfigName("Commands disabled in channels")
     private HashMap<String, List<String>> channelSpecificDisabledCommands = new HashMap<>();
-
-    @HiddenConfig // new lock = CCS are locked by default since 5.0
-    private boolean customAdminLock = false;
-
     @ConfigName("Disabled Categories")
     private Set<CommandCategory> disabledCategories = new HashSet<>();
     @ConfigName("Disabled Channels")
@@ -70,86 +189,36 @@ public class GuildData {
     private String guildCustomPrefix = null;
     @ConfigName("Server modlog channel")
     private String guildLogChannel = null;
-
-    @HiddenConfig // see: discord added nsfw channels
-    private Set<String> guildUnsafeChannels = new HashSet<>();
-
     @ConfigName("Server join message")
     private String joinMessage = null;
     @ConfigName("Server leave message")
     private String leaveMessage = null;
-
-    @HiddenConfig //removed in 6.0
-    private boolean linkProtection = false;
-    @HiddenConfig //removed in 6.0
-    private Set<String> linkProtectionAllowedChannels = new HashSet<>();
-
     @ConfigName("Channels (ids): don't log changes for modlog")
     private Set<String> logExcludedChannels = new HashSet<>();
     @ConfigName("Channel (id): log joins")
     private String logJoinLeaveChannel = null;
     @ConfigName("Fair Queue Limit")
     private int maxFairQueue = 4;
-
-    @HiddenConfig // not implemented
-    private int maxResultsSearch = 5;
-
     @ConfigName("Modlog: Ignored people")
     private Set<String> modlogBlacklistedPeople = new HashSet<>();
     @ConfigName("Music Announce")
     private boolean musicAnnounce = true;
     @ConfigName("Channel (id): lock to specific music channel")
     private String musicChannel = null;
-
-    @HiddenConfig //I don't think we handle this anymore.
-    private Long musicQueueSizeLimit = null;
-    @HiddenConfig //I don't think we handle this anymore.
-    private Long musicSongDurationLimit = null;
-
     @ConfigName("Role for the mute command")
     private String mutedRole = null;
-    @ConfigName("Users awaiting for a mute expire")
-    private ConcurrentHashMap<Long, Long> mutedTimelyUsers = new ConcurrentHashMap<>();
     @ConfigName("Action commands ping (for giver)")
     private boolean noMentionsAction = false;
     @HiddenConfig // We do not need to show this
     private String premiumKey;
-
-    @HiddenConfig //quotes got removed in early 4.x
-    private long quoteLastId = 0L;
-
     @ConfigName("Amount of polls ran")
     private long ranPolls = 0L;
-
-    @HiddenConfig // I don't think we handle this anymore.
-    private boolean reactionMenus = true;
-
     @ConfigName("Roles that can't use commands")
     private ArrayList<String> rolesBlockedFromCommands = new ArrayList<>();
-
-    @HiddenConfig //removed on first version of 3.x
-    private boolean rpgDevaluation = true;
-    @HiddenConfig //removed on first version of 3.x
-    private boolean rpgLocalMode = false;
-
     @ConfigName("Mute default timeout")
     private long setModTimeout = 0L;
-
-    @HiddenConfig //nobody used it, ended up getting removed in early 4.x
-    private boolean slowMode = false;
-    @HiddenConfig //nobody used it, ended up getting removed in early 4.x
-    private Set<String> slowModeChannels = new HashSet<>();
-    @HiddenConfig //nobody used it, ended up getting removed in early 4.x
-    private Set<String> spamModeChannels = new HashSet<>();
-
     @ConfigName("How will Mantaro display time")
     private int timeDisplay = 0; //0 = 24h, 1 = 12h
-
-    @HiddenConfig
-    private Map<Long, WarnAction> warnActions = new HashMap<>();
-    @HiddenConfig // not implemented, see above
-    private Map<String, Long> warnCount = new HashMap<>();
-
     @HiddenConfig // we do not need to show this to the user
     private String gameTimeoutExpectedAt;
     @ConfigName("Ignore bots: welcome message")
@@ -168,10 +237,6 @@ public class GuildData {
     private String logJoinChannel = null;
     @ConfigName("Channel (id): Leave message channel")
     private String logLeaveChannel = null;
-
-    @HiddenConfig //experiment, didn't work
-    private List<LocalExperienceData> localPlayerExperience = new ArrayList<>();
-
     @ConfigName("Link Protection ignore (users)")
     private Set<String> linkProtectionAllowedUsers = new HashSet<>();
     @ConfigName("Disabled Categories for Role (id)")
@@ -186,10 +251,6 @@ public class GuildData {
     private List<String> extraJoinMessages = new ArrayList<>();
     @ConfigName("Extra leave messages")
     private List<String> extraLeaveMessages = new ArrayList<>();
-
-    @HiddenConfig //we don't set this anywhere?
-    private String whitelistedRole = null;
-
     @ConfigName("Birthday message")
     private String birthdayMessage = null;
     @ConfigName("CCS lock: can it be used by only admins?")
@@ -200,8 +261,6 @@ public class GuildData {
     private List<String> modLogBlacklistWords = new ArrayList<>();
     @ConfigName("Autoroles categories")
     private Map<String, List<String>> autoroleCategories = new HashMap<>();
-
-    //mod logs customization
     @ConfigName("Edit message on mod logs")
     private String editMessageLog;
     @ConfigName("Delete message on mod logs")
@@ -212,55 +271,46 @@ public class GuildData {
     private String unbannedMemberLog;
     @ConfigName("Kick message on mod logs")
     private String kickedMemberLog;
-
     @ConfigName("Disabled command warning display")
     private boolean commandWarningDisplay = false;
-
     @ConfigName("Has received greet message")
     @JsonProperty("hasReceivedGreet")
     private boolean hasReceivedGreet = false;
-
     @ConfigName("People blocked from the birthday logging on this server.")
     private List<String> birthdayBlockedIds = new ArrayList<>();
-
     @ConfigName("Disabled game lobby/multiple")
     @JsonProperty("gameMultipleDisabled")
     private boolean gameMultipleDisabled = false;
-
     @ConfigName("Timezone of logs")
     private String logTimezone;
     @SuppressWarnings("CanBeFinal")
     @HiddenConfig // It's not unused, but this hides it from opts check data
     private List<String> allowedBirthdays = new ArrayList<>();
-
     @HiddenConfig // It's not unused, but this hides it from opts check data
     private boolean notifiedFromBirthdayChange = false;
-
-    @ConfigName("The custom DJ role.")
-    private String djRoleId;
-
     @ConfigName("Disable questionable/explicit imageboard search")
     private boolean disableExplicit = false;
-
+    @ConfigName("Custom DJ role.")
+    private String djRoleId;
+    @ConfigName("Custom music queue size limit.")
+    private Long musicQueueSizeLimit = null;
     @HiddenConfig // its a list of polls
     private Map<String, Poll.PollDatabaseObject> runningPolls = new HashMap<>();
 
-    public GuildData() { }
-
-    public boolean isHasReceivedGreet() {
-        return hasReceivedGreet;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public boolean isAntiSpam() {
-        return this.antiSpam;
+    public long getPremiumUntil() {
+        return premiumUntil;
     }
 
-    public void setAntiSpam(boolean antiSpam) {
-        this.antiSpam = antiSpam;
+    public void setPremiumUntil(long premiumUntil) {
+        this.premiumUntil = premiumUntil;
     }
 
     public HashMap<String, String> getAutoroles() {
-        return this.autoroles;
+        return autoroles;
     }
 
     public void setAutoroles(HashMap<String, String> autoroles) {
@@ -268,7 +318,7 @@ public class GuildData {
     }
 
     public String getBirthdayChannel() {
-        return this.birthdayChannel;
+        return birthdayChannel;
     }
 
     public void setBirthdayChannel(String birthdayChannel) {
@@ -276,7 +326,7 @@ public class GuildData {
     }
 
     public String getBirthdayRole() {
-        return this.birthdayRole;
+        return birthdayRole;
     }
 
     public void setBirthdayRole(String birthdayRole) {
@@ -284,23 +334,15 @@ public class GuildData {
     }
 
     public long getCases() {
-        return this.cases;
+        return cases;
     }
 
     public void setCases(long cases) {
         this.cases = cases;
     }
 
-    public boolean hasReceivedGreet() {
-        return hasReceivedGreet;
-    }
-
-    public void setHasReceivedGreet(boolean hasReceivedGreet) {
-        this.hasReceivedGreet = hasReceivedGreet;
-    }
-
     public HashMap<String, List<CommandCategory>> getChannelSpecificDisabledCategories() {
-        return this.channelSpecificDisabledCategories;
+        return channelSpecificDisabledCategories;
     }
 
     public void setChannelSpecificDisabledCategories(HashMap<String, List<CommandCategory>> channelSpecificDisabledCategories) {
@@ -308,23 +350,15 @@ public class GuildData {
     }
 
     public HashMap<String, List<String>> getChannelSpecificDisabledCommands() {
-        return this.channelSpecificDisabledCommands;
+        return channelSpecificDisabledCommands;
     }
 
     public void setChannelSpecificDisabledCommands(HashMap<String, List<String>> channelSpecificDisabledCommands) {
         this.channelSpecificDisabledCommands = channelSpecificDisabledCommands;
     }
 
-    public boolean isCustomAdminLock() {
-        return this.customAdminLock;
-    }
-
-    public void setCustomAdminLock(boolean customAdminLock) {
-        this.customAdminLock = customAdminLock;
-    }
-
     public Set<CommandCategory> getDisabledCategories() {
-        return this.disabledCategories;
+        return disabledCategories;
     }
 
     public void setDisabledCategories(Set<CommandCategory> disabledCategories) {
@@ -332,7 +366,7 @@ public class GuildData {
     }
 
     public Set<String> getDisabledChannels() {
-        return this.disabledChannels;
+        return disabledChannels;
     }
 
     public void setDisabledChannels(Set<String> disabledChannels) {
@@ -340,7 +374,7 @@ public class GuildData {
     }
 
     public Set<String> getDisabledCommands() {
-        return this.disabledCommands;
+        return disabledCommands;
     }
 
     public void setDisabledCommands(Set<String> disabledCommands) {
@@ -348,7 +382,7 @@ public class GuildData {
     }
 
     public Set<String> getDisabledRoles() {
-        return this.disabledRoles;
+        return disabledRoles;
     }
 
     public void setDisabledRoles(Set<String> disabledRoles) {
@@ -356,7 +390,7 @@ public class GuildData {
     }
 
     public List<String> getDisabledUsers() {
-        return this.disabledUsers;
+        return disabledUsers;
     }
 
     public void setDisabledUsers(List<String> disabledUsers) {
@@ -364,7 +398,7 @@ public class GuildData {
     }
 
     public String getGuildAutoRole() {
-        return this.guildAutoRole;
+        return guildAutoRole;
     }
 
     public void setGuildAutoRole(String guildAutoRole) {
@@ -372,7 +406,7 @@ public class GuildData {
     }
 
     public String getGuildCustomPrefix() {
-        return this.guildCustomPrefix;
+        return guildCustomPrefix;
     }
 
     public void setGuildCustomPrefix(String guildCustomPrefix) {
@@ -380,23 +414,15 @@ public class GuildData {
     }
 
     public String getGuildLogChannel() {
-        return this.guildLogChannel;
+        return guildLogChannel;
     }
 
     public void setGuildLogChannel(String guildLogChannel) {
         this.guildLogChannel = guildLogChannel;
     }
 
-    public Set<String> getGuildUnsafeChannels() {
-        return this.guildUnsafeChannels;
-    }
-
-    public void setGuildUnsafeChannels(Set<String> guildUnsafeChannels) {
-        this.guildUnsafeChannels = guildUnsafeChannels;
-    }
-
     public String getJoinMessage() {
-        return this.joinMessage;
+        return joinMessage;
     }
 
     public void setJoinMessage(String joinMessage) {
@@ -404,31 +430,15 @@ public class GuildData {
     }
 
     public String getLeaveMessage() {
-        return this.leaveMessage;
+        return leaveMessage;
     }
 
     public void setLeaveMessage(String leaveMessage) {
         this.leaveMessage = leaveMessage;
     }
 
-    public boolean isLinkProtection() {
-        return this.linkProtection;
-    }
-
-    public void setLinkProtection(boolean linkProtection) {
-        this.linkProtection = linkProtection;
-    }
-
-    public Set<String> getLinkProtectionAllowedChannels() {
-        return this.linkProtectionAllowedChannels;
-    }
-
-    public void setLinkProtectionAllowedChannels(Set<String> linkProtectionAllowedChannels) {
-        this.linkProtectionAllowedChannels = linkProtectionAllowedChannels;
-    }
-
     public Set<String> getLogExcludedChannels() {
-        return this.logExcludedChannels;
+        return logExcludedChannels;
     }
 
     public void setLogExcludedChannels(Set<String> logExcludedChannels) {
@@ -436,7 +446,7 @@ public class GuildData {
     }
 
     public String getLogJoinLeaveChannel() {
-        return this.logJoinLeaveChannel;
+        return logJoinLeaveChannel;
     }
 
     public void setLogJoinLeaveChannel(String logJoinLeaveChannel) {
@@ -444,23 +454,15 @@ public class GuildData {
     }
 
     public int getMaxFairQueue() {
-        return this.maxFairQueue;
+        return maxFairQueue;
     }
 
     public void setMaxFairQueue(int maxFairQueue) {
         this.maxFairQueue = maxFairQueue;
     }
 
-    public int getMaxResultsSearch() {
-        return this.maxResultsSearch;
-    }
-
-    public void setMaxResultsSearch(int maxResultsSearch) {
-        this.maxResultsSearch = maxResultsSearch;
-    }
-
     public Set<String> getModlogBlacklistedPeople() {
-        return this.modlogBlacklistedPeople;
+        return modlogBlacklistedPeople;
     }
 
     public void setModlogBlacklistedPeople(Set<String> modlogBlacklistedPeople) {
@@ -468,7 +470,7 @@ public class GuildData {
     }
 
     public boolean isMusicAnnounce() {
-        return this.musicAnnounce;
+        return musicAnnounce;
     }
 
     public void setMusicAnnounce(boolean musicAnnounce) {
@@ -476,43 +478,23 @@ public class GuildData {
     }
 
     public String getMusicChannel() {
-        return this.musicChannel;
+        return musicChannel;
     }
 
     public void setMusicChannel(String musicChannel) {
         this.musicChannel = musicChannel;
     }
 
-    public Long getMusicQueueSizeLimit() {
-        return this.musicQueueSizeLimit;
-    }
-
-    public void setMusicQueueSizeLimit(Long musicQueueSizeLimit) {
-        this.musicQueueSizeLimit = musicQueueSizeLimit;
-    }
-
-    public Long getMusicSongDurationLimit() {
-        return this.musicSongDurationLimit;
-    }
-
-    public void setMusicSongDurationLimit(Long musicSongDurationLimit) {
-        this.musicSongDurationLimit = musicSongDurationLimit;
-    }
-
     public String getMutedRole() {
-        return this.mutedRole;
+        return mutedRole;
     }
 
-    public ConcurrentHashMap<Long, Long> getMutedTimelyUsers() {
-        return this.mutedTimelyUsers;
-    }
-
-    public void setMutedTimelyUsers(ConcurrentHashMap<Long, Long> mutedTimelyUsers) {
-        this.mutedTimelyUsers = mutedTimelyUsers;
+    public void setMutedRole(String mutedRole) {
+        this.mutedRole = mutedRole;
     }
 
     public boolean isNoMentionsAction() {
-        return this.noMentionsAction;
+        return noMentionsAction;
     }
 
     public void setNoMentionsAction(boolean noMentionsAction) {
@@ -520,119 +502,47 @@ public class GuildData {
     }
 
     public String getPremiumKey() {
-        return this.premiumKey;
+        return premiumKey;
     }
 
     public void setPremiumKey(String premiumKey) {
         this.premiumKey = premiumKey;
     }
 
-    public long getQuoteLastId() {
-        return this.quoteLastId;
-    }
-
-    public void setQuoteLastId(long quoteLastId) {
-        this.quoteLastId = quoteLastId;
-    }
-
     public long getRanPolls() {
-        return this.ranPolls;
+        return ranPolls;
     }
 
     public void setRanPolls(long ranPolls) {
         this.ranPolls = ranPolls;
     }
 
-    public boolean isReactionMenus() {
-        return this.reactionMenus;
-    }
-
-    public void setReactionMenus(boolean reactionMenus) {
-        this.reactionMenus = reactionMenus;
-    }
-
     public ArrayList<String> getRolesBlockedFromCommands() {
-        return this.rolesBlockedFromCommands;
+        return rolesBlockedFromCommands;
     }
 
     public void setRolesBlockedFromCommands(ArrayList<String> rolesBlockedFromCommands) {
         this.rolesBlockedFromCommands = rolesBlockedFromCommands;
     }
 
-    public boolean isRpgDevaluation() {
-        return this.rpgDevaluation;
-    }
-
-    public void setRpgDevaluation(boolean rpgDevaluation) {
-        this.rpgDevaluation = rpgDevaluation;
-    }
-
-    public boolean isRpgLocalMode() {
-        return this.rpgLocalMode;
-    }
-
-    public void setRpgLocalMode(boolean rpgLocalMode) {
-        this.rpgLocalMode = rpgLocalMode;
-    }
-
     public long getSetModTimeout() {
-        return this.setModTimeout;
+        return setModTimeout;
     }
 
     public void setSetModTimeout(long setModTimeout) {
         this.setModTimeout = setModTimeout;
     }
 
-    public boolean isSlowMode() {
-        return this.slowMode;
-    }
-
-    public void setSlowMode(boolean slowMode) {
-        this.slowMode = slowMode;
-    }
-
-    public Set<String> getSlowModeChannels() {
-        return this.slowModeChannels;
-    }
-
-    public void setSlowModeChannels(Set<String> slowModeChannels) {
-        this.slowModeChannels = slowModeChannels;
-    }
-
-    public Set<String> getSpamModeChannels() {
-        return this.spamModeChannels;
-    }
-
-    public void setSpamModeChannels(Set<String> spamModeChannels) {
-        this.spamModeChannels = spamModeChannels;
-    }
-
     public int getTimeDisplay() {
-        return this.timeDisplay;
+        return timeDisplay;
     }
 
     public void setTimeDisplay(int timeDisplay) {
         this.timeDisplay = timeDisplay;
     }
 
-    public Map<Long, WarnAction> getWarnActions() {
-        return this.warnActions;
-    }
-
-    public void setWarnActions(Map<Long, WarnAction> warnActions) {
-        this.warnActions = warnActions;
-    }
-
-    public Map<String, Long> getWarnCount() {
-        return this.warnCount;
-    }
-
-    public void setWarnCount(Map<String, Long> warnCount) {
-        this.warnCount = warnCount;
-    }
-
     public String getGameTimeoutExpectedAt() {
-        return this.gameTimeoutExpectedAt;
+        return gameTimeoutExpectedAt;
     }
 
     public void setGameTimeoutExpectedAt(String gameTimeoutExpectedAt) {
@@ -640,7 +550,7 @@ public class GuildData {
     }
 
     public boolean isIgnoreBotsWelcomeMessage() {
-        return this.ignoreBotsWelcomeMessage;
+        return ignoreBotsWelcomeMessage;
     }
 
     public void setIgnoreBotsWelcomeMessage(boolean ignoreBotsWelcomeMessage) {
@@ -648,7 +558,7 @@ public class GuildData {
     }
 
     public boolean isIgnoreBotsAutoRole() {
-        return this.ignoreBotsAutoRole;
+        return ignoreBotsAutoRole;
     }
 
     public void setIgnoreBotsAutoRole(boolean ignoreBotsAutoRole) {
@@ -656,7 +566,7 @@ public class GuildData {
     }
 
     public boolean isEnabledLevelUpMessages() {
-        return this.enabledLevelUpMessages;
+        return enabledLevelUpMessages;
     }
 
     public void setEnabledLevelUpMessages(boolean enabledLevelUpMessages) {
@@ -664,7 +574,7 @@ public class GuildData {
     }
 
     public String getLevelUpChannel() {
-        return this.levelUpChannel;
+        return levelUpChannel;
     }
 
     public void setLevelUpChannel(String levelUpChannel) {
@@ -672,7 +582,7 @@ public class GuildData {
     }
 
     public String getLevelUpMessage() {
-        return this.levelUpMessage;
+        return levelUpMessage;
     }
 
     public void setLevelUpMessage(String levelUpMessage) {
@@ -680,7 +590,7 @@ public class GuildData {
     }
 
     public Set<String> getBlackListedImageTags() {
-        return this.blackListedImageTags;
+        return blackListedImageTags;
     }
 
     public void setBlackListedImageTags(Set<String> blackListedImageTags) {
@@ -688,7 +598,7 @@ public class GuildData {
     }
 
     public String getLogJoinChannel() {
-        return this.logJoinChannel;
+        return logJoinChannel;
     }
 
     public void setLogJoinChannel(String logJoinChannel) {
@@ -696,23 +606,15 @@ public class GuildData {
     }
 
     public String getLogLeaveChannel() {
-        return this.logLeaveChannel;
+        return logLeaveChannel;
     }
 
     public void setLogLeaveChannel(String logLeaveChannel) {
         this.logLeaveChannel = logLeaveChannel;
     }
 
-    public List<LocalExperienceData> getLocalPlayerExperience() {
-        return this.localPlayerExperience;
-    }
-
-    public void setLocalPlayerExperience(List<LocalExperienceData> localPlayerExperience) {
-        this.localPlayerExperience = localPlayerExperience;
-    }
-
     public Set<String> getLinkProtectionAllowedUsers() {
-        return this.linkProtectionAllowedUsers;
+        return linkProtectionAllowedUsers;
     }
 
     public void setLinkProtectionAllowedUsers(Set<String> linkProtectionAllowedUsers) {
@@ -720,7 +622,7 @@ public class GuildData {
     }
 
     public HashMap<String, List<CommandCategory>> getRoleSpecificDisabledCategories() {
-        return this.roleSpecificDisabledCategories;
+        return roleSpecificDisabledCategories;
     }
 
     public void setRoleSpecificDisabledCategories(HashMap<String, List<CommandCategory>> roleSpecificDisabledCategories) {
@@ -728,7 +630,7 @@ public class GuildData {
     }
 
     public HashMap<String, List<String>> getRoleSpecificDisabledCommands() {
-        return this.roleSpecificDisabledCommands;
+        return roleSpecificDisabledCommands;
     }
 
     public void setRoleSpecificDisabledCommands(HashMap<String, List<String>> roleSpecificDisabledCommands) {
@@ -736,7 +638,7 @@ public class GuildData {
     }
 
     public String getLang() {
-        return this.lang;
+        return lang;
     }
 
     public void setLang(String lang) {
@@ -744,7 +646,7 @@ public class GuildData {
     }
 
     public boolean isMusicVote() {
-        return this.musicVote;
+        return musicVote;
     }
 
     public void setMusicVote(boolean musicVote) {
@@ -752,7 +654,7 @@ public class GuildData {
     }
 
     public List<String> getExtraJoinMessages() {
-        return this.extraJoinMessages;
+        return extraJoinMessages;
     }
 
     public void setExtraJoinMessages(List<String> extraJoinMessages) {
@@ -760,23 +662,15 @@ public class GuildData {
     }
 
     public List<String> getExtraLeaveMessages() {
-        return this.extraLeaveMessages;
+        return extraLeaveMessages;
     }
 
     public void setExtraLeaveMessages(List<String> extraLeaveMessages) {
         this.extraLeaveMessages = extraLeaveMessages;
     }
 
-    public String getWhitelistedRole() {
-        return this.whitelistedRole;
-    }
-
-    public void setWhitelistedRole(String whitelistedRole) {
-        this.whitelistedRole = whitelistedRole;
-    }
-
     public String getBirthdayMessage() {
-        return this.birthdayMessage;
+        return birthdayMessage;
     }
 
     public void setBirthdayMessage(String birthdayMessage) {
@@ -784,7 +678,7 @@ public class GuildData {
     }
 
     public boolean isCustomAdminLockNew() {
-        return this.customAdminLockNew;
+        return customAdminLockNew;
     }
 
     public void setCustomAdminLockNew(boolean customAdminLockNew) {
@@ -792,7 +686,7 @@ public class GuildData {
     }
 
     public String getMpLinkedTo() {
-        return this.mpLinkedTo;
+        return mpLinkedTo;
     }
 
     public void setMpLinkedTo(String mpLinkedTo) {
@@ -800,7 +694,7 @@ public class GuildData {
     }
 
     public List<String> getModLogBlacklistWords() {
-        return this.modLogBlacklistWords;
+        return modLogBlacklistWords;
     }
 
     public void setModLogBlacklistWords(List<String> modLogBlacklistWords) {
@@ -808,7 +702,7 @@ public class GuildData {
     }
 
     public Map<String, List<String>> getAutoroleCategories() {
-        return this.autoroleCategories;
+        return autoroleCategories;
     }
 
     public void setAutoroleCategories(Map<String, List<String>> autoroleCategories) {
@@ -816,7 +710,7 @@ public class GuildData {
     }
 
     public String getEditMessageLog() {
-        return this.editMessageLog;
+        return editMessageLog;
     }
 
     public void setEditMessageLog(String editMessageLog) {
@@ -824,7 +718,7 @@ public class GuildData {
     }
 
     public String getDeleteMessageLog() {
-        return this.deleteMessageLog;
+        return deleteMessageLog;
     }
 
     public void setDeleteMessageLog(String deleteMessageLog) {
@@ -832,7 +726,7 @@ public class GuildData {
     }
 
     public String getBannedMemberLog() {
-        return this.bannedMemberLog;
+        return bannedMemberLog;
     }
 
     public void setBannedMemberLog(String bannedMemberLog) {
@@ -840,7 +734,7 @@ public class GuildData {
     }
 
     public String getUnbannedMemberLog() {
-        return this.unbannedMemberLog;
+        return unbannedMemberLog;
     }
 
     public void setUnbannedMemberLog(String unbannedMemberLog) {
@@ -848,7 +742,7 @@ public class GuildData {
     }
 
     public String getKickedMemberLog() {
-        return this.kickedMemberLog;
+        return kickedMemberLog;
     }
 
     public void setKickedMemberLog(String kickedMemberLog) {
@@ -856,11 +750,19 @@ public class GuildData {
     }
 
     public boolean isCommandWarningDisplay() {
-        return this.commandWarningDisplay;
+        return commandWarningDisplay;
     }
 
     public void setCommandWarningDisplay(boolean commandWarningDisplay) {
         this.commandWarningDisplay = commandWarningDisplay;
+    }
+
+    public boolean isHasReceivedGreet() {
+        return hasReceivedGreet;
+    }
+
+    public void setHasReceivedGreet(boolean hasReceivedGreet) {
+        this.hasReceivedGreet = hasReceivedGreet;
     }
 
     public List<String> getBirthdayBlockedIds() {
@@ -879,20 +781,28 @@ public class GuildData {
         this.gameMultipleDisabled = gameMultipleDisabled;
     }
 
-    public boolean isNotifiedFromBirthdayChange() {
-        return notifiedFromBirthdayChange;
+    public String getLogTimezone() {
+        return logTimezone;
     }
 
-    public void setNotifiedFromBirthdayChange(boolean notifiedFromBirthdayChange) {
-        this.notifiedFromBirthdayChange = notifiedFromBirthdayChange;
+    public void setLogTimezone(String logTimezone) {
+        this.logTimezone = logTimezone;
+    }
+
+    public List<String> getAllowedBirthdays() {
+        return allowedBirthdays;
     }
 
     public void setAllowedBirthdays(List<String> allowedBirthdays) {
         this.allowedBirthdays = allowedBirthdays;
     }
 
-    public List<String> getAllowedBirthdays() {
-        return allowedBirthdays;
+    public boolean isNotifiedFromBirthdayChange() {
+        return notifiedFromBirthdayChange;
+    }
+
+    public void setNotifiedFromBirthdayChange(boolean notifiedFromBirthdayChange) {
+        this.notifiedFromBirthdayChange = notifiedFromBirthdayChange;
     }
 
     public String getDjRoleId() {
@@ -903,14 +813,6 @@ public class GuildData {
         this.djRoleId = djRoleId;
     }
 
-    public String getLogTimezone() {
-        return logTimezone;
-    }
-
-    public void setLogTimezone(String logTimezone) {
-        this.logTimezone = logTimezone;
-    }
-
     public boolean isDisableExplicit() {
         return disableExplicit;
     }
@@ -919,7 +821,23 @@ public class GuildData {
         this.disableExplicit = disableExplicit;
     }
 
+    public Long getMusicQueueSizeLimit() {
+        return musicQueueSizeLimit;
+    }
+
+    public void setMusicQueueSizeLimit(Long musicQueueSizeLimit) {
+        this.musicQueueSizeLimit = musicQueueSizeLimit;
+    }
+
+    public void setRunningPolls(Map<String, Poll.PollDatabaseObject> polls) {
+        this.runningPolls = polls;
+    }
+
     public Map<String, Poll.PollDatabaseObject> getRunningPolls() {
         return runningPolls;
+    }
+
+    public boolean hasReceivedGreet() {
+        return hasReceivedGreet;
     }
 }

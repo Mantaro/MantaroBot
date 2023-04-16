@@ -30,10 +30,7 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.MantaroObj;
-import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.*;
 import net.kodehawa.mantarobot.utils.commands.UtilsContext;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimitContext;
 
@@ -61,12 +58,12 @@ public interface IContext {
     void sendFormat(String message, Collection<ActionRow> actionRow, Object... format);
     ManagedDatabase db();
     Player getPlayer();
-    DBUser getDBUser();
-    DBGuild getDBGuild();
+    UserDatabase getDBUser();
+    GuildDatabase getDBGuild();
     Player getPlayer(User user);
-    DBUser getDBUser(User user);
+    UserDatabase getDBUser(User user);
     ShardManager getShardManager();
-    MantaroObj getMantaroData();
+    MantaroObject getMantaroData();
     Config getConfig();
 
     default EmbedBuilder baseEmbed(IContext ctx, String name, String image) {

@@ -19,8 +19,6 @@ package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.entities.Role;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.core.OptionType;
@@ -53,10 +51,8 @@ public class AutoRoleOptions extends OptionHandler {
                 return;
             }
 
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-
             Consumer<Role> consumer = (role) -> {
+                var dbGuild = ctx.getDBGuild();
                 if (!ctx.getMember().canInteract(role)) {
                     ctx.sendLocalized("options.autorole_set.hierarchy_conflict", EmoteReference.ERROR);
                     return;
@@ -72,8 +68,8 @@ public class AutoRoleOptions extends OptionHandler {
                     return;
                 }
 
-                guildData.setGuildAutoRole(role.getId());
-                dbGuild.saveAsync();
+                dbGuild.setGuildAutoRole(role.getId());
+                dbGuild.save();
                 ctx.sendLocalized("options.autorole_set.success", EmoteReference.CORRECT, role.getName(), role.getPosition());
             };
 
@@ -88,10 +84,9 @@ public class AutoRoleOptions extends OptionHandler {
                 Clear the server autorole.
                 **Example:** `~>opts autorole unbind`
                 """, "Resets the servers autorole.", (ctx, args) -> {
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-            guildData.setGuildAutoRole(null);
-            dbGuild.saveAsync();
+            var dbGuild = ctx.getDBGuild();
+            dbGuild.setGuildAutoRole(null);
+            dbGuild.save();
             ctx.sendLocalized("options.autorole_unbind.success", EmoteReference.OK);
         });
 
@@ -107,15 +102,13 @@ public class AutoRoleOptions extends OptionHandler {
 
             String roleName = args[1];
             final var iamName = args[0];
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-
             if (iamName.length() > 40) {
                 ctx.sendLocalized("options.autoroles_add.too_long", EmoteReference.ERROR);
                 return;
             }
 
             Consumer<Role> roleConsumer = role -> {
+                var dbGuild = ctx.getDBGuild();
                 if (!ctx.getMember().canInteract(role)) {
                     ctx.sendLocalized("options.autoroles_add.hierarchy_conflict", EmoteReference.ERROR);
                     return;
@@ -126,13 +119,13 @@ public class AutoRoleOptions extends OptionHandler {
                     return;
                 }
 
-                if(Utils.isRoleAdministrative(role)) {
+                if (Utils.isRoleAdministrative(role)) {
                     ctx.sendLocalized("options.autoroles_add.permissions_conflict", EmoteReference.ERROR);
                     return;
                 }
 
-                guildData.getAutoroles().put(iamName, role.getId());
-                dbGuild.saveAsync();
+                dbGuild.getAutoroles().put(iamName, role.getId());
+                dbGuild.save();
                 ctx.sendLocalized("options.autoroles_add.success", EmoteReference.OK, iamName, role.getName());
             };
 
@@ -151,12 +144,11 @@ public class AutoRoleOptions extends OptionHandler {
                 return;
             }
 
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-            HashMap<String, String> autoroles = guildData.getAutoroles();
+            var dbGuild = ctx.getDBGuild();
+            HashMap<String, String> autoroles = dbGuild.getAutoroles();
             if (autoroles.containsKey(args[0])) {
                 autoroles.remove(args[0]);
-                dbGuild.saveAsync();
+                dbGuild.save();
                 ctx.sendLocalized("options.autoroles_remove.success", EmoteReference.OK, args[0]);
             } else {
                 ctx.sendLocalized("options.autoroles_remove.not_found", EmoteReference.ERROR);
@@ -166,9 +158,9 @@ public class AutoRoleOptions extends OptionHandler {
         registerOption("autoroles:clear", "Autoroles clear",
                 "Removes all autoroles.",
         "Removes all autoroles.", (ctx, args) -> {
-            DBGuild dbGuild = ctx.getDBGuild();
-            dbGuild.getData().getAutoroles().clear();
-            dbGuild.saveAsync();
+            var dbGuild = ctx.getDBGuild();
+            dbGuild.getAutoroles().clear();
+            dbGuild.save();
             ctx.sendLocalized("options.autoroles_clear.success", EmoteReference.CORRECT);
         });
 
@@ -186,9 +178,8 @@ public class AutoRoleOptions extends OptionHandler {
                 autorole = args[1];
             }
 
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-            Map<String, List<String>> categories = guildData.getAutoroleCategories();
+            var dbGuild = ctx.getDBGuild();
+            Map<String, List<String>> categories = dbGuild.getAutoroleCategories();
             if (categories.containsKey(category) && autorole == null) {
                 ctx.sendLocalized("options.autoroles_category_add.already_exists", EmoteReference.ERROR);
                 return;
@@ -197,7 +188,7 @@ public class AutoRoleOptions extends OptionHandler {
             categories.computeIfAbsent(category, (a) -> new ArrayList<>());
 
             if (autorole != null) {
-                if (guildData.getAutoroles().containsKey(autorole)) {
+                if (dbGuild.getAutoroles().containsKey(autorole)) {
                     categories.get(category).add(autorole);
                     dbGuild.save();
                     ctx.sendLocalized("options.autoroles_category_add.success", EmoteReference.CORRECT, autorole, category);
@@ -225,9 +216,8 @@ public class AutoRoleOptions extends OptionHandler {
                 autorole = args[1];
             }
 
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-            Map<String, List<String>> categories = guildData.getAutoroleCategories();
+            var dbGuild = ctx.getDBGuild();
+            Map<String, List<String>> categories = dbGuild.getAutoroleCategories();
             if (!categories.containsKey(category)) {
                 ctx.sendLocalized("options.autoroles_category_add.no_category", EmoteReference.ERROR, category);
                 return;
@@ -247,13 +237,12 @@ public class AutoRoleOptions extends OptionHandler {
 
         registerOption("server:ignorebots:autoroles:toggle",
                 "Bot autorole ignore", "Toggles between ignoring bots on autorole assign and not.", (ctx) -> {
-            DBGuild dbGuild = ctx.getDBGuild();
-            GuildData guildData = dbGuild.getData();
-            boolean ignore = guildData.isIgnoreBotsAutoRole();
-            guildData.setIgnoreBotsAutoRole(!ignore);
-            dbGuild.saveAsync();
+            var dbGuild = ctx.getDBGuild();
+            boolean ignore = dbGuild.isIgnoreBotsAutoRole();
+            dbGuild.setIgnoreBotsAutoRole(!ignore);
+            dbGuild.save();
 
-            ctx.sendLocalized("options.server_ignorebots_autoroles_toggle.success", EmoteReference.CORRECT, guildData.isIgnoreBotsAutoRole());
+            ctx.sendLocalized("options.server_ignorebots_autoroles_toggle.success", EmoteReference.CORRECT, dbGuild.isIgnoreBotsAutoRole());
         });
     }
 

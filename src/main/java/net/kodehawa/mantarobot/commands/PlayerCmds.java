@@ -27,7 +27,6 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.FileUpload;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -46,16 +45,13 @@ import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
-import java.awt.*;
+import java.awt.Color;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
@@ -167,7 +163,7 @@ public class PlayerCmds {
 
             var player = ctx.getPlayer(usr);
             player.addReputation(1L);
-            player.saveUpdating();
+            player.updateAllChanged();
 
             ctx.reply("commands.rep.success", EmoteReference.CORRECT, usr.getAsMention());
         }
@@ -195,21 +191,18 @@ public class PlayerCmds {
 
             var player = ctx.getPlayer();
             var dbUser = ctx.getDBUser();
-            var userData = dbUser.getData();
-            var playerInventory = player.getInventory();
-
             if (item == null) {
                 ctx.reply("commands.profile.equip.no_item", EmoteReference.ERROR);
                 return;
             }
 
-            var containsItem = playerInventory.containsItem(item);
+            var containsItem = player.containsItem(item);
             if (!containsItem) {
                 ctx.reply("commands.profile.equip.not_owned", EmoteReference.ERROR);
                 return;
             }
 
-            var equipment = userData.getEquippedItems();
+            var equipment = dbUser.getEquippedItems();
 
             var proposedType = equipment.getTypeFor(item);
             if (equipment.getEquipment().containsKey(proposedType)) {
@@ -219,16 +212,16 @@ public class PlayerCmds {
 
             if (equipment.equipItem(item)) {
                 if (item == ItemReference.HELLFIRE_PICK)
-                    player.getData().addBadgeIfAbsent(Badge.HOT_MINER);
+                    player.addBadgeIfAbsent(Badge.HOT_MINER);
                 if (item == ItemReference.HELLFIRE_ROD)
-                    player.getData().addBadgeIfAbsent(Badge.HOT_FISHER);
+                    player.addBadgeIfAbsent(Badge.HOT_FISHER);
                 if (item == ItemReference.HELLFIRE_AXE)
-                    player.getData().addBadgeIfAbsent(Badge.HOT_CHOPPER);
+                    player.addBadgeIfAbsent(Badge.HOT_CHOPPER);
 
-                playerInventory.process(new ItemStack(item, -1));
-                player.save();
+                player.processItem(item, -1);
+                player.updateAllChanged();
 
-                dbUser.saveUpdating();
+                equipment.updateAllChanged(dbUser);
                 ctx.reply("commands.profile.equip.success", EmoteReference.CORRECT, item.getEmoji(), item.getName());
             } else {
                 ctx.reply("commands.profile.equip.not_suitable", EmoteReference.ERROR);
@@ -265,7 +258,7 @@ public class PlayerCmds {
         protected void process(SlashContext ctx) {
             var content = ctx.getOptionAsString("item");
             var dbUser = ctx.getDBUser();
-            var equipment = dbUser.getData().getEquippedItems();
+            var equipment = dbUser.getEquippedItems();
             var type = PlayerEquipment.EquipmentType.fromString(content);
             if (type == null) {
                 ctx.sendLocalized("commands.profile.unequip.invalid_type", EmoteReference.ERROR);
@@ -297,8 +290,7 @@ public class PlayerCmds {
                 if (button.getId().equalsIgnoreCase("yes")) {
                     var dbUserFinal = ctx.getDBUser(author);
                     var playerFinal = ctx.getPlayer(author);
-                    var dbUserData = dbUserFinal.getData();
-                    var equipmentFinal = dbUserData.getEquippedItems();
+                    var equipmentFinal = dbUserFinal.getEquippedItems();
                     var equippedFinal = equipmentFinal.getEquipment().get(type);
                     if (equippedFinal == null) {
                         hook.editOriginal(lang.get("commands.profile.unequip.not_equipped").formatted(EmoteReference.ERROR))
@@ -314,14 +306,14 @@ public class PlayerCmds {
 
                         var percentage = ((float) equipmentFinal.getDurability().get(type) / (float) item.getMaxDurability()) * 100.0f;
                         if (percentage == 100) { //Basically never used
-                            playerFinal.getInventory().process(new ItemStack(equippedItemFinal, 1));
+                            playerFinal.processItem(equippedItemFinal, 1);
                             part += String.format(
                                     lang.get("commands.profile.unequip.equipment_recover"), equippedItemFinal.getName()
                             );
                         } else {
                             var brokenItem = ItemHelper.getBrokenItemFrom(equippedItemFinal);
                             if (brokenItem != null) {
-                                playerFinal.getInventory().process(new ItemStack(brokenItem, 1));
+                                playerFinal.processItem(brokenItem, 1);
                                 part += String.format(
                                         lang.get("commands.profile.unequip.broken_equipment_recover"), brokenItem.getName()
                                 );
@@ -336,8 +328,8 @@ public class PlayerCmds {
                     }
 
                     equipmentFinal.resetOfType(type);
-                    dbUserFinal.save();
-                    playerFinal.save();
+                    equipmentFinal.updateAllChanged(dbUserFinal);
+                    playerFinal.updateAllChanged();
 
                     hook.editOriginal(lang.get("commands.profile.unequip.success").formatted(EmoteReference.CORRECT, type.name().toLowerCase()) + part)
                             .setComponents()
@@ -379,13 +371,12 @@ public class PlayerCmds {
             protected void process(SlashContext ctx) {
                 var toLookup = ctx.getOptionAsUser("user", ctx.getAuthor());
                 var member = ctx.getGuild().getMember(toLookup);
-                Player player = ctx.getPlayer(toLookup);
-                PlayerData playerData = player.getData();
-                DBUser dbUser = ctx.getDBUser();
+                var player = ctx.getPlayer(toLookup);
+                var dbUser = ctx.getDBUser();
 
                 if (ctx.getOptionAsBoolean("brief")) {
                     ctx.sendLocalized("commands.badges.brief_success", member.getEffectiveName(),
-                            playerData.getBadges().stream()
+                            player.getBadges().stream()
                                     .sorted()
                                     .map(Badge::getDisplay)
                                     .collect(Collectors.joining(", "))
@@ -394,7 +385,7 @@ public class PlayerCmds {
                     return;
                 }
 
-                var badges = playerData.getBadges();
+                var badges = player.getBadges();
                 Collections.sort(badges);
 
                 var lang = ctx.getLanguageContext();
@@ -438,12 +429,11 @@ public class PlayerCmds {
             @Override
             protected void process(SlashContext ctx) {
                 var player = ctx.getPlayer();
-                var data = player.getData();
                 var badgeString = ctx.getOptionAsString("badge", "");
                 var badge = Badge.lookupFromString(badgeString);
                 if (badge == null) {
                     ctx.replyEphemeral("commands.profile.displaybadge.no_such_badge", EmoteReference.ERROR,
-                            player.getData().getBadges().stream()
+                            player.getBadges().stream()
                                     .map(Badge::getDisplay)
                                     .collect(Collectors.joining(", "))
                     );
@@ -452,25 +442,25 @@ public class PlayerCmds {
                 }
 
                 if (badgeString.equalsIgnoreCase("none")) {
-                    data.setShowBadge(false);
-                    player.saveUpdating();
+                    player.showBadge(false);
+                    player.updateAllChanged();
 
                     ctx.replyEphemeral("commands.profile.displaybadge.reset_success", EmoteReference.CORRECT);
                     return;
                 }
 
                 if (badgeString.equalsIgnoreCase("reset")) {
-                    data.setMainBadge(null);
-                    data.setShowBadge(true);
-                    player.saveUpdating();
+                    player.mainBadge(null);
+                    player.showBadge(true);
+                    player.updateAllChanged();
 
                     ctx.replyEphemeral("commands.profile.displaybadge.important_success", EmoteReference.CORRECT);
                     return;
                 }
 
-                if (!data.getBadges().contains(badge)) {
+                if (!player.getBadges().contains(badge)) {
                     ctx.replyEphemeral("commands.profile.displaybadge.player_missing_badge", EmoteReference.ERROR,
-                            player.getData().getBadges().stream()
+                            player.getBadges().stream()
                                     .map(Badge::getDisplay)
                                     .collect(Collectors.joining(", "))
                     );
@@ -478,9 +468,9 @@ public class PlayerCmds {
                     return;
                 }
 
-                data.setShowBadge(true);
-                data.setMainBadge(badge);
-                player.saveUpdating();
+                player.showBadge(true);
+                player.mainBadge(badge);
+                player.updateAllChanged();
                 ctx.replyEphemeral("commands.profile.displaybadge.success", EmoteReference.CORRECT, badge.display);
             }
         }
@@ -509,7 +499,7 @@ public class PlayerCmds {
 
                     fields.add(new MessageEmbed.Field("%s\u2009\u2009\u2009%s".formatted(badge.unicode, badge.display),
                             badge.getDescription() + "\n" +
-                                    String.format(lang.get("commands.badges.ls.obtained"), player.getData().hasBadge(badge)),
+                                    String.format(lang.get("commands.badges.ls.obtained"), player.hasBadge(badge)),
                             false)
                     );
                 }
@@ -542,7 +532,7 @@ public class PlayerCmds {
                                         EmoteReference.BLUE_SMALL_MARKER + "**" + lang.get("general.description") + ":** " + badge.description,
                                         EmoteReference.BLUE_SMALL_MARKER + "**" +
                                                 lang.get("commands.badges.info.achieved") + ":** " +
-                                                player.getData().getBadges().stream().anyMatch(b -> b == badge)
+                                                player.getBadges().stream().anyMatch(b -> b == badge)
                                 )
                         )
                         .setThumbnail("attachment://icon.png")
