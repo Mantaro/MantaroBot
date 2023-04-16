@@ -46,7 +46,7 @@ import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.text.StringEscapeUtils;
 
-import java.awt.*;
+import java.awt.Color;
 import java.net.SocketTimeoutException;
 import java.util.function.Function;
 import java.util.stream.Collectors;

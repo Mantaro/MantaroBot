@@ -49,7 +49,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONObject;
 import redis.clients.jedis.Jedis;
 
-import java.awt.*;
+import java.awt.Color;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

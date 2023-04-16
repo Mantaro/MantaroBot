@@ -26,7 +26,7 @@ import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.db.entities.Inventory;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 
 import java.beans.ConstructorProperties;
@@ -37,8 +37,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.serialize;
-import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.unserialize;
+import static net.kodehawa.mantarobot.db.entities.Inventory.serialize;
+import static net.kodehawa.mantarobot.db.entities.Inventory.unserialize;
 
 public class TextChannelGround {
     private static final SecureRandom random = new SecureRandom();

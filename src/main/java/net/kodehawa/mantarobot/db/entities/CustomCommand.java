@@ -22,7 +22,11 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedMongoObject;
 import net.kodehawa.mantarobot.utils.Utils;
 import org.bson.Document;
-import org.bson.codecs.pojo.annotations.*;
+import org.bson.codecs.pojo.annotations.BsonCreator;
+import org.bson.codecs.pojo.annotations.BsonExtraElements;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;

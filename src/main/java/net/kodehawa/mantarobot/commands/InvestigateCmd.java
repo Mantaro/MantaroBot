@@ -39,7 +39,7 @@ import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.awt.*;
+import java.awt.Color;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 import java.util.LinkedList;
