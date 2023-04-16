@@ -26,11 +26,13 @@ import java.util.List;
 public interface Node {
     static Node fromJSON(JSONObject serialized) {
         switch (serialized.getString("type")) {
-            case "literal":
+            case "literal" -> {
                 return new LiteralNode(serialized.getString("value"));
-            case "variable":
+            }
+            case "variable" -> {
                 return new VariableNode(fromJSON(serialized.getJSONObject("name")));
-            case "op": {
+            }
+            case "op" -> {
                 List<Node> args = new ArrayList<>();
                 JSONArray raw = serialized.getJSONArray("args");
                 for (int i = 0; i < raw.length(); i++) {
@@ -38,7 +40,7 @@ public interface Node {
                 }
                 return new OperationNode(fromJSON(serialized.getJSONObject("name")), args);
             }
-            case "multi": {
+            case "multi" -> {
                 List<Node> nodes = new ArrayList<>();
                 JSONArray raw = serialized.getJSONArray("children");
                 for (int i = 0; i < raw.length(); i++) {
@@ -46,9 +48,7 @@ public interface Node {
                 }
                 return new MultiNode(nodes);
             }
-            default: {
-                throw new IllegalArgumentException("Unknown node name " + serialized.getString("name"));
-            }
+            default -> throw new IllegalArgumentException("Unknown node name " + serialized.getString("name"));
         }
     }
 

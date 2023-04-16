@@ -191,7 +191,7 @@ public class Poll {
             return;
 
         if (messageId() == null || messageId.isEmpty()) {
-            log.error("Null messageId on poll? This shouldn't happen, dump: {}", asJson().toString());
+            log.error("Null messageId on poll? This shouldn't happen, dump: {}", asJson());
             return;
         }
 
@@ -215,11 +215,11 @@ public class Poll {
                     .collect(Collectors.joining("\n"));
 
             embedBuilder.addField(languageContext.get("commands.poll.results"), "```diff\n" + votes + "```", false);
-            getChannel().sendMessageEmbeds(embedBuilder.build()).queue(msg -> {
+            getChannel().sendMessageEmbeds(embedBuilder.build()).queue(msg ->
                 message.editMessage(languageContext.get("commands.poll.completed").formatted(EmoteReference.CORRECT, msg.getJumpUrl()))
                         .setEmbeds()
-                        .queue();
-            });
+                        .queue()
+            );
         });
     }
 

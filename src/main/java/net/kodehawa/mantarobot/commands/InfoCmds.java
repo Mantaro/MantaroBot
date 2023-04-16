@@ -224,7 +224,7 @@ public class InfoCmds {
                 List<String> messages = new LinkedList<>();
 
                 for (String shard : m) {
-                    messages.add("%s\n\n```prolog\n%s```"
+                    messages.add("%s%n%n```prolog%n%s```"
                             .formatted("**Mantaro's Shard Information**", shard)
                     );
                 }
@@ -396,7 +396,7 @@ public class InfoCmds {
                         )
                         .setDescription(str)
                         .addField(lang.get("commands.roleinfo.permissions").formatted(role.getPermissions().size()),
-                                role.getPermissions().size() == 0 ? lang.get("general.none") :
+                                role.getPermissions().isEmpty() ? lang.get("general.none") :
                                         role.getPermissions()
                                                 .stream()
                                                 .map(Permission::getName)

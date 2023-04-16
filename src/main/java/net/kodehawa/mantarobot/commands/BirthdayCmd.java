@@ -352,11 +352,11 @@ public class BirthdayCmd {
                         languageContext.get("commands.birthday.header").formatted(
                                 ctx.getGuild().getName(),
                                 Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH))
-                        ) + "```diff\n%s```".formatted(part)
+                        ) + "```diff%n%s```".formatted(part)
                 );
             } else {
                 messages.add(languageContext.get("commands.birthday.full_header")
-                        .formatted(guild.getName(), (parts.size() > 1 ? help : "") + "```diff\n%s```".formatted(part))
+                        .formatted(guild.getName(), (parts.size() > 1 ? help : "") + "```diff%n%s```".formatted(part))
                 );
             }
         }

@@ -135,8 +135,6 @@ public abstract class Game<T> {
         if (players.contains(e.getAuthor().getId())) {
             var message = e.getMessage();
             var contentRaw = message.getContentRaw();
-            var languageContext = lobby.getLanguageContext();
-
             for (var s : MantaroData.config().get().getPrefix()) {
                 if (contentRaw.startsWith(s)) {
                     return Operation.IGNORED;

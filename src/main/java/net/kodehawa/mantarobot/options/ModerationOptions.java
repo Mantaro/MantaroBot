@@ -220,7 +220,7 @@ public class ModerationOptions extends OptionHandler {
             ctx.sendLocalized("options.logs_timezone.success", EmoteReference.CORRECT, timezone);
         });
 
-        registerOption("logs:timezonereset", "Resets the log timezone", "Resets the log timezone", (ctx) -> {
+        registerOption("logs:timezonereset", "Resets the log timezone", "Resets the log timezone", ctx -> {
             var dbGuild = ctx.getDBGuild();
             dbGuild.setLogTimezone(null);
             dbGuild.save();
@@ -229,7 +229,7 @@ public class ModerationOptions extends OptionHandler {
         });
 
         registerOption("logs:disable", "Disable logs",
-                "Disables logs.\n**Example:** `~>opts logs disable`", "Disables logs.", (ctx) -> {
+                "Disables logs.\n**Example:** `~>opts logs disable`", "Disables logs.", ctx -> {
             var dbGuild = ctx.getDBGuild();
             dbGuild.setGuildLogChannel(null);
             dbGuild.save();

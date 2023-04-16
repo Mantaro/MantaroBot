@@ -231,11 +231,11 @@ public class FunCmds {
                 var otherUser = ctx.getOptionAsUser("otheruser");
                 ids[0] = otherUser.getIdLong();
                 ids[1] = user.getIdLong();
-                toDisplay = ("\uD83D\uDC97  %s\n\uD83D\uDC97  %s".formatted(user.getAsTag(), otherUser.getAsTag()));
+                toDisplay = ("\uD83D\uDC97  %s%n\uD83D\uDC97  %s".formatted(user.getAsTag(), otherUser.getAsTag()));
             } else {
                 ids[0] = ctx.getAuthor().getIdLong();
                 ids[1] = user.getIdLong();
-                toDisplay = ("\uD83D\uDC97  %s\n\uD83D\uDC97  %s".formatted(user.getAsTag(), ctx.getAuthor().getAsTag()));
+                toDisplay = ("\uD83D\uDC97  %s%n\uD83D\uDC97  %s".formatted(user.getAsTag(), ctx.getAuthor().getAsTag()));
             }
 
             var percentage = (ids[0] == ids[1] ? 101 : r.nextInt(101)); // last value is exclusive, so 101.

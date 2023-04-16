@@ -157,7 +157,7 @@ public class MarryCmd {
                         .formatted(EmoteReference.MEGA, proposedToUser.getName(), ctx.getAuthor().getName(), EmoteReference.STOPWATCH)
                 );
 
-                ButtonOperations.create(message, 120, (e) -> {
+                ButtonOperations.create(message, 120, e -> {
                     // Ignore all messages from anyone that isn't the user we already proposed to. Waiting for confirmation...
                     if (!e.getUser().getId().equals(proposedToUser.getId())) {
                         return Operation.IGNORED;
@@ -507,7 +507,7 @@ public class MarryCmd {
 
                 var finalContent = Utils.HTTP_URL.matcher(name).replaceAll("-url-");
                 var message = ctx.sendResult(String.format(languageContext.get("commands.marry.buyhouse.confirm"), EmoteReference.WARNING, housePrice, finalContent));
-                ButtonOperations.create(message, 30, (e) -> {
+                ButtonOperations.create(message, 30, e -> {
                     if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                         return Operation.IGNORED;
                     }
@@ -599,7 +599,7 @@ public class MarryCmd {
 
                 var finalContent = Utils.HTTP_URL.matcher(name).replaceAll("-url-");
                 var message = ctx.sendResult(String.format(languageContext.get("commands.marry.buycar.confirm"), EmoteReference.WARNING, carPrice, finalContent));
-                ButtonOperations.create(message, 30, (e) -> {
+                ButtonOperations.create(message, 30, e -> {
                     if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                         return Operation.IGNORED;
                     }

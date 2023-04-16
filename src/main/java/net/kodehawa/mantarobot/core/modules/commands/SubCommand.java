@@ -67,6 +67,7 @@ public abstract class SubCommand implements InnerCommand, AssistedCommand {
         call(ctx, ctx.getLanguageContext(), content);
     }
 
+    @Override
     public boolean isChild() {
         return this.child;
     }

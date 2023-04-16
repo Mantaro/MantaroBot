@@ -80,7 +80,7 @@ public class ReminderTask {
                                                         Asked at: <t:%s>%s""",
                                                 EmoteReference.POPPER,
                                                 reminder.trim().isEmpty() ? "something" : reminder, scheduledTime.toEpochSecond(),
-                                                (guild != null ? "\nAsked on: %s".formatted(guild.getName()) : "")
+                                                (guild != null ? "%nAsked on: %s".formatted(guild.getName()) : "")
                                         )
                                 ).queue(success -> {
                                             log.debug("Reminded {}. Removing from remind database", fullId);

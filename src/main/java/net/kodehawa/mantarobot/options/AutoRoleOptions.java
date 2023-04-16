@@ -28,7 +28,6 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.FinderUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -145,7 +144,7 @@ public class AutoRoleOptions extends OptionHandler {
             }
 
             var dbGuild = ctx.getDBGuild();
-            HashMap<String, String> autoroles = dbGuild.getAutoroles();
+            Map<String, String> autoroles = dbGuild.getAutoroles();
             if (autoroles.containsKey(args[0])) {
                 autoroles.remove(args[0]);
                 dbGuild.save();

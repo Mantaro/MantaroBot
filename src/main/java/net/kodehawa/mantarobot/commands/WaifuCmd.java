@@ -327,7 +327,7 @@ public class WaifuCmd {
                     return;
                 }
 
-                if (claimerUser.waifuEntrySet().stream().anyMatch((w) -> w.getKey().equals(toLookup.getId()))) {
+                if (claimerUser.waifuEntrySet().stream().anyMatch(w -> w.getKey().equals(toLookup.getId()))) {
                     ctx.reply("commands.waifu.claim.already_claimed", EmoteReference.ERROR);
                     return;
                 }
@@ -431,7 +431,7 @@ public class WaifuCmd {
                 final var valuePayment = (long) (currentValue * 0.15);
                 //Send confirmation message.
                 var message = ctx.sendResult(ctx.getLanguageContext().get("commands.waifu.unclaim.confirmation").formatted(EmoteReference.MEGA, name, valuePayment, EmoteReference.STOPWATCH));
-                ButtonOperations.create(message, 60, (ie) -> {
+                ButtonOperations.create(message, 60, ie -> {
                     if (ie.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                         return Operation.IGNORED;
                     }

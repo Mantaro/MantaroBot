@@ -53,10 +53,12 @@ public class IntegerTypeParser<T> implements Parser<T> {
             if (builder.length() == 0) return Optional.empty();
             int multiplier;
             if (offset < s.length()) {
-                switch(s.substring(offset).toLowerCase()) {
-                    case "k": multiplier = 1000; break;
-                    case "kk": case "m": multiplier = 1000000; break;
-                    default: return Optional.empty();
+                switch (s.substring(offset).toLowerCase()) {
+                    case "k" -> multiplier = 1000;
+                    case "kk", "m" -> multiplier = 1000000;
+                    default -> {
+                        return Optional.empty();
+                    }
                 }
             } else {
                 multiplier = 1;

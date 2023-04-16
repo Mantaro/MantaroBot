@@ -51,7 +51,7 @@ public class Player implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "players";
     @BsonIgnore
-    private final transient Inventory inventoryObject = new Inventory();
+    private final Inventory inventoryObject = new Inventory();
     @BsonIgnore
     public Map<String, Object> fieldTracker = new HashMap<>();
 

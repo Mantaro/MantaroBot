@@ -317,7 +317,9 @@ public class MusicUtilCmds {
                 }
 
                 try {
-                    int iStart = Integer.parseInt(range[0]) - 1, iEnd = Integer.parseInt(range[1]) - 1;
+                    int iStart = Integer.parseInt(range[0]) - 1;
+                    int iEnd = Integer.parseInt(range[1]) - 1;
+
                     if (iStart < 0 || iStart >= queue.size()) {
                         ctx.reply("commands.removetrack.no_track", EmoteReference.ERROR, iStart);
                         return;
@@ -363,7 +365,6 @@ public class MusicUtilCmds {
                     break;
                 }
 
-                AudioTrack element = it.next();
                 if (selected.contains(itv)) {
                     it.remove();
                     selected.remove(itv);

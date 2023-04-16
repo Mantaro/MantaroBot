@@ -20,7 +20,7 @@ public interface ManagedMongoObject {
     }
 
     @BsonIgnore
-    default <T extends ManagedMongoObject> void updateField(String key, Object value) {
+    default void updateField(String key, Object value) {
         MantaroData.db().updateFieldValue(this, key, value);
     }
 

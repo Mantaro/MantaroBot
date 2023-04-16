@@ -97,7 +97,7 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
                 .set(prefix, "nickname", member.getEffectiveName());
     }
 
-    public DynamicModifiers mapEvent(String botPrefix, String prefix, Context ctx) {
+    public DynamicModifiers mapEvent(String prefix, Context ctx) {
         return this.mapEvent(prefix, ctx.getEvent())
                 .set(prefix, ctx.getMember().getAsMention() + "@" + ctx.getChannel().getAsMention())
                 .mapMember(k(prefix, "author"), ctx.getMember())

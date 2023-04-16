@@ -20,7 +20,6 @@ package net.kodehawa.mantarobot.data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
-import net.kodehawa.mantarobot.commands.currency.seasons.Season;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +46,6 @@ public class Config {
     public String prometheusHost = "127.0.0.1";
     public int prometheusPort = 9091;
     public String apiAuthKey;
-    public Season currentSeason = Season.FIRST;
     public String clientId; //why not ig.
     public String jedisPoolAddress = "127.0.0.1";
     public int jedisPoolPort = 6379;
@@ -152,10 +150,6 @@ public class Config {
 
     public String getApiAuthKey() {
         return this.apiAuthKey;
-    }
-
-    public Season getCurrentSeason() {
-        return this.currentSeason;
     }
 
     public String getClientId() {

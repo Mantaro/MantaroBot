@@ -27,7 +27,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class Option {
-
     private static final Map<String, Option> optionMap = new HashMap<>();
     //Display names + desc in the avaliable options list.
     private static final List<String> avaliableOptions = new ArrayList<>();

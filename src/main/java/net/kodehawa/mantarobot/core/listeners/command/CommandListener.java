@@ -90,12 +90,12 @@ public class CommandListener implements EventListener {
             threadPool.execute(() -> onCommand(msg));
         }
 
-        if (event instanceof SlashCommandInteractionEvent) {
-            threadPool.execute(() -> onSlash(((SlashCommandInteractionEvent) event)));
+        if (event instanceof SlashCommandInteractionEvent slashInteraction) {
+            threadPool.execute(() -> onSlash(slashInteraction));
         }
 
-        if (event instanceof UserContextInteractionEvent) {
-            threadPool.execute(() -> onUserContext(((UserContextInteractionEvent) event)));
+        if (event instanceof UserContextInteractionEvent userInteraction) {
+            threadPool.execute(() -> onUserContext(userInteraction));
         }
     }
 

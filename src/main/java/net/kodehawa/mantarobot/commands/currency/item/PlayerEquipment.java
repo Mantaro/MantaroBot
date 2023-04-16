@@ -67,8 +67,8 @@ public class PlayerEquipment {
         }
 
         equipment.put(type, ItemHelper.idOf(item));
-        if (item instanceof Breakable) {
-            durability.put(type, ((Breakable) item).getMaxDurability());
+        if (item instanceof Breakable it) {
+            durability.put(type, it.getMaxDurability());
         }
 
         fieldTracker.put("equippedItems.equipment", equipment);
@@ -215,6 +215,7 @@ public class PlayerEquipment {
             return this.type;
         }
 
+        @Override
         public String toString() {
             return this.name();
         }

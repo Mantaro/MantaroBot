@@ -114,7 +114,8 @@ public class CommandProcessor {
 
         // The command arguments to parse.
         String[] parts = splitArgs(rawCmd, 2);
-        String cmdName = parts[0], content = parts[1];
+        String cmdName = parts[0];
+        String content = parts[1];
 
         // Run the actual command here.
         REGISTRY.process(event, dbGuild, cmdName, content, usedPrefix, isMention);

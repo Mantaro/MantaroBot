@@ -53,7 +53,8 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
     private Link audioPlayer;
     private long lastMessageSentAt;
     private long lastErrorSentAt;
-    private AudioTrack previousTrack, currentTrack;
+    private AudioTrack previousTrack;
+    private AudioTrack currentTrack;
     private Repeat repeatMode;
     private long requestedChannel;
     private long errorCount = 0;
@@ -158,7 +159,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                 var trackLength = information.length;
 
                 Member user = null;
-                if (getCurrentTrack().getUserData() != null && guild != null) {
+                if (getCurrentTrack().getUserData() != null) {
                     // Retrieve member instead of user, so it gets cached.
                     try {
                         user = guild.retrieveMemberById(String.valueOf(getCurrentTrack().getUserData())).useCache(true).complete();

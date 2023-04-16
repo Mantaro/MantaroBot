@@ -24,9 +24,9 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
 import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -47,9 +47,9 @@ public enum ProfileComponent {
         }
 
         if (playerData.getMainBadge() != null) {
-            return String.format(" \u2009**%s**\n", playerData.getMainBadge());
+            return String.format(" \u2009**%s**%n", playerData.getMainBadge());
         } else {
-            return String.format(" \u2009**%s**\n", holder.getBadges().get(0));
+            return String.format(" \u2009**%s**%n", holder.getBadges().get(0));
         }
     }, true, false),
     CREDITS(EmoteReference.MONEY, i18nContext -> i18nContext.get("commands.profile.credits"),

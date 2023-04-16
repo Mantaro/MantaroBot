@@ -39,10 +39,10 @@ public class SimpleFileDataManager implements DataManager<List<String>> {
         this.path = Paths.get(file);
 
         if (!this.path.toFile().exists()) {
-            log.info("Could not find config file at " + this.path.toFile().getAbsolutePath() + ", creating a new one...");
+            log.info("Could not find config file at {}, creating a new one...", this.path.toFile().getAbsolutePath());
             try {
                 if (this.path.toFile().createNewFile()) {
-                    log.info("Generated new config file at " + this.path.toFile().getAbsolutePath() + ".");
+                    log.info("Generated new config file at {}", this.path.toFile().getAbsolutePath() + ".");
                     FileIOUtils.write(this.path, "");
                     log.info("Please, fill the file with valid properties.");
                 } else {

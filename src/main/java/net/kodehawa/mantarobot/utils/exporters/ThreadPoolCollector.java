@@ -45,8 +45,8 @@ public class ThreadPoolCollector extends Collector {
 
     public boolean add(String name, Executor executor) {
         Objects.requireNonNull(executor, "Executor may not be null");
-        if (executor instanceof ThreadPoolExecutor) {
-            return add(name, (ThreadPoolExecutor) executor);
+        if (executor instanceof ThreadPoolExecutor threadPoolExecutor) {
+            return add(name, threadPoolExecutor);
         }
 
         throw new IllegalArgumentException("Provided executor is not a ThreadPoolExecutor");

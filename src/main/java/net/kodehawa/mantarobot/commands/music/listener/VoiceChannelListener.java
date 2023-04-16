@@ -35,10 +35,10 @@ public class VoiceChannelListener implements EventListener {
 
     @Override
     public void onEvent(@NotNull GenericEvent event) {
-        if (event instanceof GuildVoiceUpdateEvent) {
-            onGuildVoiceUpdate((GuildVoiceUpdateEvent) event);
-        } else if (event instanceof GuildVoiceMuteEvent) {
-            onGuildVoiceMute((GuildVoiceMuteEvent) event);
+        if (event instanceof GuildVoiceUpdateEvent voiceUpdateEvent) {
+            onGuildVoiceUpdate(voiceUpdateEvent);
+        } else if (event instanceof GuildVoiceMuteEvent voiceMuteEvent) {
+            onGuildVoiceMute(voiceMuteEvent);
         }
     }
 

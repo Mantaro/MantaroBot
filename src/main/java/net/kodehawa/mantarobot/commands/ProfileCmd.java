@@ -501,7 +501,7 @@ public class ProfileCmd {
                                     lang.get("commands.profile.display.example"),
                             EmoteReference.ZAP, EmoteReference.BLUE_SMALL_MARKER,
                             defaultOrder.stream().map(Enum::name).collect(Collectors.joining(", ")),
-                            player.getProfileComponents().size() == 0 ?
+                            player.getProfileComponents().isEmpty() ?
                                     "Not personalized" :
                                     player.getProfileComponents().stream()
                                             .map(Enum::name)
@@ -562,11 +562,10 @@ public class ProfileCmd {
         final var memberLooked = ctx.getGuild().getMember(userLooked);
         final var player = ctx.getPlayer(userLooked);
         final var dbUser = ctx.getDBUser(userLooked);
-        final var playerData = player;
         final var config = MantaroData.config().get();
 
         // Cache waifu value.
-        playerData.waifuCachedValue(WaifuCmd.calculateWaifuValue(player, userLooked).getFinalValue());
+        player.waifuCachedValue(WaifuCmd.calculateWaifuValue(player, userLooked).getFinalValue());
 
         // start of badge assigning
         final var mh = MantaroBot.getInstance().getShardManager().getGuildById("213468583252983809");
@@ -581,34 +580,34 @@ public class ProfileCmd {
         var christmasBadgeAssign = player.containsItem(ItemReference.CHRISTMAS_TREE_SPECIAL) || player.containsItem(ItemReference.BELL_SPECIAL);
         // Manual badges
         if (config.isOwner(userLooked)) {
-            playerData.addBadgeIfAbsent(Badge.DEVELOPER);
+            player.addBadgeIfAbsent(Badge.DEVELOPER);
         }
 
         if (christmasBadgeAssign) {
-            playerData.addBadgeIfAbsent(Badge.CHRISTMAS);
+            player.addBadgeIfAbsent(Badge.CHRISTMAS);
         }
 
         // Requires a valid Member in Mantaro Hub.
         if (mhMember != null) {
             // Admin
             if (containsRole(mhMember, 315910951994130432L)) {
-                playerData.addBadgeIfAbsent(Badge.COMMUNITY_ADMIN);
+                player.addBadgeIfAbsent(Badge.COMMUNITY_ADMIN);
             }
 
             // Patron - Donator
             if (containsRole(mhMember, 290902183300431872L, 290257037072531466L)) {
-                playerData.addBadgeIfAbsent(Badge.DONATOR_2);
+                player.addBadgeIfAbsent(Badge.DONATOR_2);
             }
 
             // Translator
             if (containsRole(mhMember, 407156441812828162L)) {
-                playerData.addBadgeIfAbsent(Badge.TRANSLATOR);
+                player.addBadgeIfAbsent(Badge.TRANSLATOR);
             }
         }
         // end of badge assigning
 
         final var lang = ctx.getLanguageContext();
-        final var badges = playerData.getBadges();
+        final var badges = player.getBadges();
         Collections.sort(badges);
 
         final var marriage = MantaroData.db().getMarriage(dbUser.getMarriageId());
@@ -617,7 +616,7 @@ public class ProfileCmd {
         final var profileBuilder = new EmbedBuilder();
         var description = lang.get("commands.profile.no_desc");
 
-        if (playerData.getDescription() != null) {
+        if (player.getDescription() != null) {
             description = player.getDescription();
         }
 
@@ -631,10 +630,10 @@ public class ProfileCmd {
                         ctx.getAuthor().getEffectiveAvatarUrl()
                 );
 
-        var hasCustomOrder = dbUser.isPremium() && !playerData.getProfileComponents().isEmpty();
-        var usedOrder = hasCustomOrder ? playerData.getProfileComponents() : defaultOrder;
+        var hasCustomOrder = dbUser.isPremium() && !player.getProfileComponents().isEmpty();
+        var usedOrder = hasCustomOrder ? player.getProfileComponents() : defaultOrder;
         if ((!config.isPremiumBot() && player.getOldMoney() < 5000 && !hasCustomOrder) ||
-                (playerData.isHiddenLegacy() && !hasCustomOrder)) {
+                (player.isHiddenLegacy() && !hasCustomOrder)) {
             usedOrder = noOldOrder;
         }
 
@@ -660,7 +659,7 @@ public class ProfileCmd {
             return separator + languageContext.get("general.none");
         }
 
-        return toolsEquipment.entrySet().stream().map((entry) -> {
+        return toolsEquipment.entrySet().stream().map(entry -> {
             var item = ItemHelper.fromId(entry.getValue());
 
             return Utils.capitalize(entry.getKey().toString()) + ": " + SEPARATOR_ONE +

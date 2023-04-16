@@ -22,9 +22,9 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
-import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PlayerStats;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.utils.TriPredicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -812,7 +812,6 @@ public enum Badge {
                         this.icon = emptyIcon;
                     } else {
                         //apply placeholder image
-                        //noinspection ConstantConditions
                         this.icon = IOUtil.readFully(getClass().getClassLoader().getResourceAsStream("badges/missing_image.png"));
                     }
                 } else {

@@ -54,6 +54,7 @@ public class Broken extends Item {
         return ItemHelper.fromId(mainItem);
     }
 
+    @Override
     public String getRecipe() {
         return this.recipe;
     }

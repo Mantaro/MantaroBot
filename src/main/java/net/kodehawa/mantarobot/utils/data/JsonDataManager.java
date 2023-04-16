@@ -47,14 +47,14 @@ public class JsonDataManager<T> implements DataManager<T> {
         this.configPath = Paths.get(file);
 
         if (!configPath.toFile().exists()) {
-            log.info("Could not find config file at " + configPath.toFile().getAbsolutePath() + ", creating a new one...");
+            log.info("Could not find config file at {}", configPath.toFile().getAbsolutePath() + ", creating a new one...");
             try {
                 if (configPath.toFile().createNewFile()) {
-                    log.info("Generated new config file at " + configPath.toFile().getAbsolutePath() + ".");
+                    log.info("Generated new config file at {}", configPath.toFile().getAbsolutePath() + ".");
                     FileIOUtils.write(configPath, mapper.writerWithDefaultPrettyPrinter().writeValueAsString(constructor.get()));
                     log.info("Please, fill the file with valid properties.");
                 } else {
-                    log.warn("Could not create config file at " + file);
+                    log.warn("Could not create config file at {}", file);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

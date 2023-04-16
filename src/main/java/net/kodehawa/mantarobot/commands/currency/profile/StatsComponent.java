@@ -51,7 +51,7 @@ public enum StatsComponent {
         if (noPotion) {
             return "None";
         } else {
-            return "%s (%dx)\n%s: %,d %s".formatted(potion.getName(), potionEquipped, holder.getI18nContext().get("commands.profile.stats.times_used"),
+            return "%s (%dx)%n%s: %,d %s".formatted(potion.getName(), potionEquipped, holder.getI18nContext().get("commands.profile.stats.times_used"),
                     potionEffect.getTimesUsed(), holder.getI18nContext().get("commands.profile.stats.times")
             );
         }
@@ -75,7 +75,7 @@ public enum StatsComponent {
         if (noBuff) {
             return "None";
         } else {
-            return "%s (%dx)\n%s: %,d %s".formatted(buff.getName(), buffEquipped, holder.getI18nContext().get("commands.profile.stats.times_used"),
+            return "%s (%dx)%n%s: %,d %s".formatted(buff.getName(), buffEquipped, holder.getI18nContext().get("commands.profile.stats.times_used"),
                     buffEffect.getTimesUsed(), holder.getI18nContext().get("commands.profile.stats.times")
             );
         }

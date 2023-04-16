@@ -20,9 +20,9 @@ import net.kodehawa.mantarobot.utils.LanguageKeyNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class I18nTest {
+class I18nTest {
     @Test
-    public void testI18n() throws LanguageKeyNotFoundException {
+    void testI18n() throws LanguageKeyNotFoundException {
         //Should default to en_US
         I18nContext context = new I18nContext(new GuildDatabase(), null);
         Assertions.assertEquals("en_US", context.getContextLanguage());

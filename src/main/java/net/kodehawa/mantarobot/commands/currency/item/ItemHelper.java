@@ -28,10 +28,10 @@ import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.utils.commands.RandomCollection;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.RandomCollection;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -402,19 +402,19 @@ public class ItemHelper {
                     // Keep in mind the chances here aren't absolute for any means,
                     // and it depends on the RandomCollection created on selectItems
                     if (normal) {
-                        if ((item instanceof Tiered && ((Tiered) item).getTier() >= 5)) {
+                        if ((item instanceof Tiered tiered && tiered.getTier() >= 5)) {
                             return random.nextFloat() <= 0.02f; // 2% for 5* +
                         }
 
-                        if ((item instanceof Tiered && ((Tiered) item).getTier() >= 3) || item.getValue() >= 100) {
+                        if ((item instanceof Tiered tiered && tiered.getTier() >= 3) || item.getValue() >= 100) {
                             return random.nextFloat() <= 0.05f;  // 5% for 3 and 4*
                         }
                     } else {
-                        if ((item instanceof Tiered && ((Tiered) item).getTier() >= 5)) {
+                        if ((item instanceof Tiered tiered && tiered.getTier() >= 5)) {
                             return random.nextFloat() <= 0.10f; // 10% for 5* +
                         }
 
-                        if ((item instanceof Tiered && ((Tiered) item).getTier() >= 3) || item.getValue() >= 300) {
+                        if ((item instanceof Tiered tiered && tiered.getTier() >= 3) || item.getValue() >= 300) {
                             return random.nextFloat() <= 0.40f; // 40% for 3* +
                         }
                     }

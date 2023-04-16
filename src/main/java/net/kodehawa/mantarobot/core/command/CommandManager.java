@@ -38,9 +38,9 @@ public class CommandManager {
     private final Map<String, SlashCommand> slashCommands = new HashMap<>();
     private final Map<String, ContextCommand<User>> contextUserCommand = new HashMap<>();
     private final Map<String, ContextCommand<Message>> contextMessageCommand = new HashMap<>();
-    private final static List<CommandData> slashCommandsList = new ArrayList<>();
-    private final static List<CommandData> contextUserCommandList = new ArrayList<>();
-    private final static List<CommandData> contextMessageCommandList = new ArrayList<>();
+    private static final List<CommandData> slashCommandsList = new ArrayList<>();
+    private static final List<CommandData> contextUserCommandList = new ArrayList<>();
+    private static final List<CommandData> contextMessageCommandList = new ArrayList<>();
     private final Map<String, String> aliases = new HashMap<>();
 
     public Map<String, NewCommand> commands() {
