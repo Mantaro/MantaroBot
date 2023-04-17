@@ -70,7 +70,6 @@ import org.slf4j.LoggerFactory;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -84,8 +83,8 @@ import static net.kodehawa.mantarobot.data.MantaroData.db;
 
 @Module
 public class CustomCmds {
-    public final static Pattern NAME_PATTERN = Pattern.compile("[a-zA-Z0-9_]+");
-    public final static Pattern INVALID_CHARACTERS_PATTERN = Pattern.compile("[^a-zA-Z0-9_]");
+    public static final Pattern NAME_PATTERN = Pattern.compile("[a-zA-Z0-9_]+");
+    public static final Pattern INVALID_CHARACTERS_PATTERN = Pattern.compile("[^a-zA-Z0-9_]");
 
     private static final Map<String, CustomCommand> customCommands = new ConcurrentHashMap<>();
     private static final Logger log = LoggerFactory.getLogger(CustomCmds.class);
@@ -127,7 +126,7 @@ public class CustomCmds {
             return;
         }
 
-        HashMap<String, List<String>> roleSpecificDisabledCommands = guildData.getRoleSpecificDisabledCommands();
+        Map<String, List<String>> roleSpecificDisabledCommands = guildData.getRoleSpecificDisabledCommands();
         if (ctx.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(), s -> new ArrayList<>()).contains(cmdName)) && !CommandPermission.ADMIN.test(ctx.getMember())) {
             return;
         }
@@ -1256,13 +1255,12 @@ public class CustomCmds {
             return;
         }
 
-        var data = cmd;
-        if (!data.isLocked()) {
+        if (!cmd.isLocked()) {
             ctx.sendLocalized("commands.custom.unlockcommand.not_locked", EmoteReference.ERROR, name);
             return;
         }
 
-        data.setLocked(false);
+        cmd.setLocked(false);
         cmd.save();
 
         ctx.sendLocalized("commands.custom.unlockcommand.success", EmoteReference.CORRECT, name);

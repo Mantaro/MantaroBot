@@ -39,7 +39,7 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class I18n {
-    private static final Logger log = LoggerFactory.getLogger(MantaroListener.class);
+    private static final Logger log = LoggerFactory.getLogger(I18n.class);
     public static final List<String> LANGUAGES = new ArrayList<>();
     private static final ThreadLocal<String> ROOT = new ThreadLocal<>();
     private static final Map<String, I18n> LANGUAGE_MAP;

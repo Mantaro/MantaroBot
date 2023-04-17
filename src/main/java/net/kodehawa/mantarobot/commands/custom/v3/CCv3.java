@@ -87,7 +87,7 @@ public class CCv3 {
         comparators.put("ignorecase-ends-with", (s1, s2) -> s1.toLowerCase().endsWith(s2.toLowerCase()));
 
         DEFAULT_OPERATIONS.put("if", (__, args) -> {
-            if (args.size() < 1) {
+            if (args.isEmpty()) {
                 return "{If: missing required parameter <lhs>}";
             }
             if (args.size() < 2) {
@@ -127,7 +127,7 @@ public class CCv3 {
         });
 
         DEFAULT_OPERATIONS.put("compare", (__, args) -> {
-            if (args.size() < 1) {
+            if (args.isEmpty()) {
                 return "{Compare: missing required parameter <lhs>}";
             }
             if (args.size() < 2) {
@@ -147,7 +147,7 @@ public class CCv3 {
         });
 
         DEFAULT_OPERATIONS.put("test", (__, args) -> {
-            if (args.size() < 1) {
+            if (args.isEmpty()) {
                 return "{Test: missing required parameter <predicate>}";
             }
             if (args.size() < 2) {
@@ -193,7 +193,7 @@ public class CCv3 {
         });
 
         DEFAULT_OPERATIONS.put("not", (__, args) -> {
-            if (args.size() < 1) {
+            if (args.isEmpty()) {
                 return "{Not: missing required parameter <value>}";
             }
             String s = args.get(0).evaluate();
@@ -242,7 +242,7 @@ public class CCv3 {
         });
 
         DEFAULT_OPERATIONS.put("set", (context, args) -> {
-            if (args.size() < 1) {
+            if (args.isEmpty()) {
                 return "{Set: missing required parameter <name>}";
             }
 
@@ -258,7 +258,7 @@ public class CCv3 {
         });
 
         DEFAULT_OPERATIONS.put("iam", (context, args) -> {
-            if (args.size() < 1) {
+            if (args.isEmpty()) {
                 return "{Iam: missing required argument <role>}";
             }
 
@@ -274,7 +274,7 @@ public class CCv3 {
         });
 
         DEFAULT_OPERATIONS.put("iamnot", (context, args) -> {
-            if (args.size() < 1) {
+            if (args.isEmpty()) {
                 return "{Iamnot: missing required argument <role>}";
             }
             String iam = args.get(0).evaluate();
@@ -291,7 +291,7 @@ public class CCv3 {
         DEFAULT_OPERATIONS.put("timestamp", (context, args) -> {
             DateTimeFormatter formatter = DEFAULT_TIMESTAMP_FORMATTER;
             ZoneId zone = ZoneId.of("UTC");
-            if (args.size() > 0) {
+            if (args.isEmpty()) {
                 String pattern = args.get(0).evaluate();
                 try {
                     formatter = DateTimeFormatter.ofPattern(pattern);
@@ -321,7 +321,7 @@ public class CCv3 {
                 .collect(Collectors.joining(";")));
 
         DEFAULT_OPERATIONS.put("replace", (__, args) -> {
-            if (args.size() < 1) {
+            if (args.isEmpty()) {
                 return "{Replace: missing required parameter <search>}";
             }
 
@@ -343,7 +343,7 @@ public class CCv3 {
 
     public static void process(String prefix, Context ctx, Node ast, boolean preview) {
         InterpreterContext context = new InterpreterContext(new DynamicModifiers()
-                .mapEvent(prefix, "event", ctx), DEFAULT_OPERATIONS, ctx);
+                .mapEvent("event", ctx), DEFAULT_OPERATIONS, ctx);
 
         String result = ast.accept(new InterpreterVisitor(), context);
         EmbedJSON embed = context.get("embed");

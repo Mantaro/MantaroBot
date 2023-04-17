@@ -128,7 +128,7 @@ public class TextChannelGround {
         }
 
         @JsonIgnore
-        public ArrayList<ItemStack> collectItems() {
+        public List<ItemStack> collectItems() {
             ArrayList<ItemStack> finalStacks = new ArrayList<>();
             for (var stack : groundItems.asList()) {
                 finalStacks.add(new ItemStack(stack.getItem(), Math.min(stack.getAmount(), 25)));

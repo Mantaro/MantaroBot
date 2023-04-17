@@ -125,7 +125,7 @@ public class OwnerCmd {
                 var jsonPlayer = JsonDataManager.toJson(player);
                 var jsonUser = JsonDataManager.toJson(dbUser);
 
-                var total = "Player:\n%s\n ---- \nUser:\n%s\n".formatted(jsonPlayer, jsonUser);
+                var total = "Player:%n%s%n ---- %nUser:%n%s%n".formatted(jsonPlayer, jsonUser);
                 byte[] bytes = total.getBytes(StandardCharsets.UTF_8);
 
                 if (bytes.length > 7_800_000) {

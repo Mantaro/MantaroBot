@@ -314,7 +314,7 @@ public class HelpCmd {
                         builder.addField(EmoteReference.PENCIL.toHeaderString() + "Usage", help.usage(), false);
                     }
 
-                    if (help.parameters().size() > 0) {
+                    if (!help.parameters().isEmpty()) {
                         builder.addField(EmoteReference.SLIDER.toHeaderString() + "Parameters", help.parameters().stream()
                                         .map(entry -> "`%s` - *%s*".formatted(entry.name(), entry.description()))
                                         .collect(Collectors.joining("\n")), false
@@ -323,13 +323,13 @@ public class HelpCmd {
 
                     // Ensure sub-commands show in help.
                     // Only god shall help me now with all of this casting lol.
-                    if (command instanceof AliasCommand) {
-                        command = ((AliasCommand) command).getCommand();
+                    if (command instanceof AliasCommand aliasCommand) {
+                        command = aliasCommand.getCommand();
                     }
 
-                    if (command instanceof ITreeCommand) {
+                    if (command instanceof ITreeCommand treeCommand) {
                         var subCommands =
-                                ((ITreeCommand) command).getSubCommands()
+                                treeCommand.getSubCommands()
                                         .entrySet()
                                         .stream()
                                         .sorted(Comparator.comparingInt(a ->

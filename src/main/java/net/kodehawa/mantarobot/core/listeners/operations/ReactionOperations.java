@@ -165,7 +165,6 @@ public final class ReactionOperations {
     public static class ReactionListener implements EventListener {
         @Override
         public void onEvent(@Nonnull GenericEvent e) {
-
             if (e instanceof MessageReactionAddEvent event) {
                 if (event.getReaction().isSelf())
                     return;
@@ -234,7 +233,7 @@ public final class ReactionOperations {
     private static void addReactions(Future<Void> future, Message message, String... defaultReactions) {
         AtomicInteger index = new AtomicInteger();
         AtomicReference<Consumer<Void>> c = new AtomicReference<>();
-        Consumer<Throwable> ignore = (t) -> { };
+        Consumer<Throwable> ignore = t -> { };
 
         c.set(ignored -> {
             //Ignore this if we already cancelled this operation.

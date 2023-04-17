@@ -21,13 +21,24 @@ import com.google.common.collect.Lists;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.*;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.FindOneAndReplaceOptions;
+import com.mongodb.client.model.ReturnDocument;
+import com.mongodb.client.model.UpdateOptions;
+import com.mongodb.client.model.Updates;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
-import net.kodehawa.mantarobot.db.entities.*;
+import net.kodehawa.mantarobot.db.entities.CustomCommand;
+import net.kodehawa.mantarobot.db.entities.GuildDatabase;
+import net.kodehawa.mantarobot.db.entities.MantaroObject;
+import net.kodehawa.mantarobot.db.entities.Marriage;
+import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.PlayerStats;
+import net.kodehawa.mantarobot.db.entities.PremiumKey;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.slf4j.Logger;
@@ -329,7 +340,7 @@ public class ManagedDatabase {
             updates.add(Updates.set(key, value));
         });
 
-        System.out.println(updates);
+        log("Database Update with content: {}", updates.toString());
         // Reminder: you NEED to use Updates.combine, else somehow Map objects will act really strangely (ex. will not remove deleted items, but will add new ones)
         // Upsert means it's adding the document/embedded document if it does not exist on the current collection/document.
         collection.updateOne(Filters.eq(object.getId()), Updates.combine(updates), new UpdateOptions().upsert(true));

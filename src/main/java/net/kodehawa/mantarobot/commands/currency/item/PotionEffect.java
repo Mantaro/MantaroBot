@@ -17,13 +17,10 @@
 
 package net.kodehawa.mantarobot.commands.currency.item;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
-import java.beans.ConstructorProperties;
 import java.util.UUID;
 
 public class PotionEffect {

@@ -36,9 +36,9 @@ import java.util.stream.Collectors;
 import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
 
 public class FinderUtils {
-    public final static Pattern DISCORD_ID = Pattern.compile("\\d{17,21}");
-    public final static Pattern CHANNEL_MENTION = Pattern.compile("<#(\\d{17,21})>");
-    public final static Pattern ROLE_MENTION = Pattern.compile("<@&(\\d{17,21})>"); // $1 -> ID
+    public static final Pattern DISCORD_ID = Pattern.compile("\\d{17,21}");
+    public static final Pattern CHANNEL_MENTION = Pattern.compile("<#(\\d{17,21})>");
+    public static final Pattern ROLE_MENTION = Pattern.compile("<@&(\\d{17,21})>"); // $1 -> ID
 
     private static List<Role> findRole0(IContext ctx, String content) {
         List<Role> found = findRole0(content, ctx.getGuild());
@@ -250,7 +250,7 @@ public class FinderUtils {
         ArrayList<Role> contains = new ArrayList<>();
         String lowerQuery = query.toLowerCase();
 
-        guild.getRoleCache().forEach((role) -> {
+        guild.getRoleCache().forEach(role -> {
             String name = role.getName();
             if (name.equals(query)) {
                 exact.add(role);
@@ -284,7 +284,7 @@ public class FinderUtils {
         ArrayList<StandardGuildMessageChannel> contains = new ArrayList<>();
         String lowerQuery = query.toLowerCase();
 
-        cache.forEach((channel) -> {
+        cache.forEach(channel -> {
             String name = channel.getName();
             if (name.equals(query)) {
                 exact.add(channel);
@@ -320,7 +320,7 @@ public class FinderUtils {
         ArrayList<VoiceChannel> contains = new ArrayList<>();
         String lowerQuery = query.toLowerCase();
 
-        cache.forEach((vc) -> {
+        cache.forEach(vc -> {
             String name = vc.getName();
             if (name.equals(query)) {
                 exact.add(vc);

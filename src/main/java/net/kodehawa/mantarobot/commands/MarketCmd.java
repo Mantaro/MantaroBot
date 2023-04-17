@@ -71,7 +71,7 @@ import java.util.stream.Stream;
 
 @Module
 public class MarketCmd {
-    private final static Random random = new Random();
+    private static final Random random = new Random();
     private static final IncreasingRateLimiter buyRatelimiter = new IncreasingRateLimiter.Builder()
             .limit(1)
             .spamTolerance(4)
@@ -135,7 +135,7 @@ public class MarketCmd {
         public static class Show extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                showMarket(ctx, (item) -> true);
+                showMarket(ctx, item -> true);
             }
         }
 
@@ -146,7 +146,7 @@ public class MarketCmd {
         public static class Pet extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                showMarket(ctx, (item) -> item.getItemType() == ItemType.PET || item.getItemType() == ItemType.PET_FOOD);
+                showMarket(ctx, item -> item.getItemType() == ItemType.PET || item.getItemType() == ItemType.PET_FOOD);
             }
         }
 
@@ -157,7 +157,7 @@ public class MarketCmd {
         public static class Common extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                showMarket(ctx, (item) -> item.getItemType() == ItemType.COMMON || item.getItemType() == ItemType.COLLECTABLE);
+                showMarket(ctx, item -> item.getItemType() == ItemType.COMMON || item.getItemType() == ItemType.COLLECTABLE);
             }
         }
 
@@ -168,7 +168,7 @@ public class MarketCmd {
         public static class Tool extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                showMarket(ctx, (item) -> item instanceof FishRod || item instanceof Pickaxe || item instanceof Axe || item instanceof Broken);
+                showMarket(ctx, item -> item instanceof FishRod || item instanceof Pickaxe || item instanceof Axe || item instanceof Broken);
             }
         }
 
@@ -308,7 +308,7 @@ public class MarketCmd {
                 return new SubCommand() {
                     @Override
                     protected void call(Context ctx, I18nContext languageContext, String content) {
-                        showMarket(ctx, (item) -> true);
+                        showMarket(ctx, item -> true);
                     }
                 };
             }
@@ -336,7 +336,7 @@ public class MarketCmd {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
-                showMarket(ctx, (item) -> item.getItemType() == ItemType.PET || item.getItemType() == ItemType.PET_FOOD);
+                showMarket(ctx, item -> item.getItemType() == ItemType.PET || item.getItemType() == ItemType.PET_FOOD);
             }
         });
 
@@ -348,7 +348,7 @@ public class MarketCmd {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
-                showMarket(ctx, (item) -> item.getItemType() == ItemType.COMMON || item.getItemType() == ItemType.COLLECTABLE);
+                showMarket(ctx, item -> item.getItemType() == ItemType.COMMON || item.getItemType() == ItemType.COLLECTABLE);
             }
         });
 
@@ -360,7 +360,7 @@ public class MarketCmd {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
-                showMarket(ctx, (item) -> item instanceof FishRod || item instanceof Pickaxe || item instanceof Axe || item instanceof Broken);
+                showMarket(ctx, item -> item instanceof FishRod || item instanceof Pickaxe || item instanceof Axe || item instanceof Broken);
             }
         });
 
@@ -727,8 +727,8 @@ public class MarketCmd {
                 }
 
                 var warn = "";
-                if (itemToBuy instanceof Attribute && !(itemToBuy instanceof Wrench) &&
-                        ((Attribute) itemToBuy).getTier() == 1 && random.nextFloat() <= 0.20 && player.getLevel() <= 5) {
+                if (itemToBuy instanceof Attribute attribute && !(itemToBuy instanceof Wrench) &&
+                        attribute.getTier() == 1 && random.nextFloat() <= 0.20 && player.getLevel() <= 5) {
                     warn += "\n" + EmoteReference.WRENCH.toHeaderString() + languageContext.get("commands.market.buy.success_breakable_upgrade") + "\n";
                 }
 

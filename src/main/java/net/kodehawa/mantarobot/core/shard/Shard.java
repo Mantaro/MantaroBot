@@ -25,8 +25,6 @@ import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
@@ -36,7 +34,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class Shard {
-    private static final Logger log = LoggerFactory.getLogger(Shard.class);
     private final Cache<Long, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(5).maximumSize(2500).build();
     private final MantaroEventManager manager = new MantaroEventManager();
     private final int id;

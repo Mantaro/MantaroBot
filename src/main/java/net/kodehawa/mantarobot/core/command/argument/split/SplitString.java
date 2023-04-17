@@ -74,7 +74,7 @@ public final class SplitString {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof SplitString && ((SplitString) obj).value.equals(value);
+        return obj instanceof SplitString splitString && splitString.value.equals(value);
     }
 
     @Override

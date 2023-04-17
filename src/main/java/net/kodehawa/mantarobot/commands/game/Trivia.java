@@ -146,9 +146,7 @@ public class Trivia extends Game<String> {
                             lobby.getContext().getAuthor().getAvatarUrl()
                     );
 
-            buttonIds.forEach((value, hash) -> {
-                buttons.add(Button.primary(hash, value));
-            });
+            buttonIds.forEach((value, hash) -> buttons.add(Button.primary(hash, value)));
 
             Collections.shuffle(buttons);
             buttons.add(Button.danger("end-game", languageContext.get("buttons.end")));

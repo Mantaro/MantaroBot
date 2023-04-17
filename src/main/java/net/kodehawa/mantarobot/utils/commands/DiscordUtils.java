@@ -30,8 +30,6 @@ import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ButtonOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
-import net.kodehawa.mantarobot.data.Config;
-import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.IntIntObjectFunction;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -46,8 +44,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class DiscordUtils {
-    private static final Config config = MantaroData.config().get();
-
     private static final Button[] DEFAULT_COMPONENTS_FIRST = {
             Button.primary("button_first", Emoji.fromUnicode("⏪")).asDisabled(),
             Button.primary("button_right", Emoji.fromUnicode("◀️")).asDisabled(),
@@ -151,13 +147,13 @@ public class DiscordUtils {
     public static <T> void selectListButton(IContext ctx, List<T> list,
                                             Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
                                             Consumer<T> valueConsumer) {
-        selectListButton(ctx, list, toString, toEmbed, (t, v) -> valueConsumer.accept(t), (o) -> {});
+        selectListButton(ctx, list, toString, toEmbed, (t, v) -> valueConsumer.accept(t), o -> {});
     }
 
     public static <T> void selectListButtonSlash(SlashContext ctx, List<T> list,
                                                  Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
                                                  BiConsumer<T, InteractionHook> valueConsumer) {
-        selectListButtonSlash(ctx, list, toString, toEmbed, valueConsumer, (o) -> {});
+        selectListButtonSlash(ctx, list, toString, toEmbed, valueConsumer, o -> {});
     }
 
     public static <T> void selectListButtonSlash(SlashContext ctx, List<T> list,
@@ -279,7 +275,7 @@ public class DiscordUtils {
             return;
         }
 
-        if (parts.size() == 0) {
+        if (parts.isEmpty()) {
             return;
         }
 
@@ -304,12 +300,12 @@ public class DiscordUtils {
                 switch (button.getId()) {
                     case "button_first" -> {
                         index.set(0);
-                        hook.editOriginal(String.format("%s\n**Page: %d**", parts.get(index.get()), 1)).queue();
+                        hook.editOriginal(String.format("%s%n**Page: %d**", parts.get(index.get()), 1)).queue();
                         hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_FIRST)).queue();
                     }
                     case "button_last" -> {
                         index.set(parts.size() - 1);
-                        hook.editOriginal(String.format("%s\n**Page: %d**", parts.get(parts.size() - 1), parts.size())).queue();
+                        hook.editOriginal(String.format("%s%n**Page: %d**", parts.get(parts.size() - 1), parts.size())).queue();
                         hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_LAST)).queue();
                     }
                     case "button_right" -> {
@@ -323,7 +319,7 @@ public class DiscordUtils {
                             hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_ALL)).queue();
                         }
 
-                        hook.editOriginal(String.format("%s\n**Page: %d**", parts.get(index.decrementAndGet()), index.get() + 1)).queue();
+                        hook.editOriginal(String.format("%s%n**Page: %d**", parts.get(index.decrementAndGet()), index.get() + 1)).queue();
                     }
 
                     case "button_left" -> {
@@ -337,7 +333,7 @@ public class DiscordUtils {
                             hook.editOriginalComponents(ActionRow.of(DEFAULT_COMPONENTS_ALL)).queue();
                         }
 
-                        hook.editOriginal(String.format("%s\n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();
+                        hook.editOriginal(String.format("%s%n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();
                     }
 
                     default -> {
@@ -370,7 +366,7 @@ public class DiscordUtils {
     }
 
     public static void listButtons(UtilsContext ctx, int timeoutSeconds, EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
-        if (parts.size() == 0) {
+        if (parts.isEmpty()) {
             return;
         }
 
@@ -617,7 +613,7 @@ public class DiscordUtils {
         List<MessageEmbed.Field> temp = new LinkedList<>();
         List<List<MessageEmbed.Field>> m = new LinkedList<>();
 
-        while (fields.size() > 0) {
+        while (!fields.isEmpty()) {
             if (temp.size() < max) {
                 temp.add(fields.get(0));
                 fields.remove(0);
@@ -627,7 +623,7 @@ public class DiscordUtils {
             }
         }
 
-        if (temp.size() != 0) {
+        if (!temp.isEmpty()) {
             m.add(temp);
         }
 

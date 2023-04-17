@@ -72,7 +72,7 @@ public class OptsCmd {
                     var dividedMessages = DiscordUtils.divideString(builder);
                     List<String> messages = new LinkedList<>();
                     for (var msgs : dividedMessages) {
-                        messages.add(String.format(languageContext.get("commands.opts.list.header"), languageContext.get("general.button_react"), String.format("```prolog\n%s```", msgs))
+                        messages.add(String.format(languageContext.get("commands.opts.list.header"), languageContext.get("general.button_react"), String.format("```prolog%n%s```", msgs))
                         );
                     }
 
@@ -196,7 +196,7 @@ public class OptsCmd {
 
                     List<MessageEmbed.Field> fields = new LinkedList<>();
                     for (var e : fieldMap.entrySet()) {
-                        fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + e.getKey() + ":\n" + e.getValue().left() + "",
+                        fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + e.getKey() + ":\n" + e.getValue().left(),
                                 e.getValue().right() == null ? lang.get("options.check_data.null_set") : String.valueOf(e.getValue().right()),
                                 false)
                         );

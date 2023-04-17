@@ -350,7 +350,7 @@ public class PetCmds {
         @Defer
         @Description("Cleans your pet when it's too dusty. Costs 600 credits.")
         public static class Clean extends SlashCommand {
-            final int basePrice = 600;
+            static final int basePrice = 600;
 
             @Override
             protected void process(SlashContext ctx) {
@@ -1026,8 +1026,7 @@ public class PetCmds {
     }
 
     private static Pair<PetChoice, HousePet> getPetOpposite(Player player, Marriage marriage) {
-        final var playerData = player;
-        final var petChoice = playerData.getActiveChoice(marriage);
+        final var petChoice = player.getActiveChoice(marriage);
         if (petChoice == PetChoice.PERSONAL) {
             if (marriage == null) {
                 // Technically the opposite...
@@ -1036,7 +1035,7 @@ public class PetCmds {
 
             return Pair.of(PetChoice.MARRIAGE, marriage.getPet());
         } else {
-            return Pair.of(PetChoice.PERSONAL, playerData.getPet());
+            return Pair.of(PetChoice.PERSONAL, player.getPet());
         }
     }
 

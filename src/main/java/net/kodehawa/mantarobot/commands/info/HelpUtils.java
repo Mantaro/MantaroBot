@@ -55,7 +55,7 @@ public class HelpUtils {
     }
 
     public static String forType(List<String> values) {
-        if (values.size() == 0) {
+        if (values.isEmpty()) {
             return "`Disabled`";
         }
 

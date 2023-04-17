@@ -36,10 +36,10 @@ import java.util.stream.Collectors;
 public class GeneralOptions extends OptionHandler {
     @Subscribe
     public void onRegistry(OptionRegistryEvent e) {
-        registerOption("lobby:reset", "Lobby reset", "Fixes stuck game/operations session.", (ctx) -> {
+        registerOption("lobby:reset", "Lobby reset", "Fixes stuck game/operations session.", ctx -> {
             GameLobby.LOBBYS.remove(ctx.getChannel().getIdLong());
             List<Future<Void>> stuck = InteractiveOperations.get(ctx.getChannel());
-            if (stuck.size() > 0) {
+            if (!stuck.isEmpty()) {
                 stuck.forEach(f -> f.cancel(true));
             }
 
@@ -49,7 +49,7 @@ public class GeneralOptions extends OptionHandler {
         registerOption("modlog:blacklist", "Prevents a user from appearing in modlogs", """
                 Prevents a user from appearing in modlogs.
                 You need the user mention.
-                Example: ~>opts modlog blacklist @user""", (ctx) -> {
+                Example: ~>opts modlog blacklist @user""", ctx -> {
             List<Member> mentioned = ctx.getMentionedMembers();
             if (mentioned.isEmpty()) {
                 ctx.sendLocalized("options.modlog_blacklist.no_mentions", EmoteReference.ERROR);
@@ -72,7 +72,7 @@ public class GeneralOptions extends OptionHandler {
         registerOption("modlog:whitelist", "Allows a user from appearing in modlogs (everyone by default)", """
                 Allows a user from appearing in modlogs.
                 You need the user mention.
-                Example: ~>opts modlog whitelist @user""", (ctx) -> {
+                Example: ~>opts modlog whitelist @user""", ctx -> {
             List<Member> mentioned = ctx.getMentionedMembers();
             if (mentioned.isEmpty()) {
                 ctx.sendLocalized("options.modlog_whitelist.no_mentions", EmoteReference.ERROR);

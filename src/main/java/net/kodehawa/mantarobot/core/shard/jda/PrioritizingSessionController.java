@@ -72,14 +72,4 @@ public class PrioritizingSessionController extends SessionControllerAdapter
     public ShardedGateway getShardedGateway(@Nonnull JDA api) {
         throw new UnsupportedOperationException();
     }
-
-    @Override
-    public long getGlobalRatelimit() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setGlobalRatelimit(long ratelimit) {
-        throw new UnsupportedOperationException();
-    }
 }

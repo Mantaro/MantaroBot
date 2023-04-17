@@ -42,10 +42,23 @@ import javax.annotation.Nonnull;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.*;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -62,8 +75,8 @@ public class Utils {
     public static final OkHttpClient httpClient = new OkHttpClient();
     public static final Pattern mentionPattern = Pattern.compile("<(#|@|@&)?.[0-9]{17,21}>");
 
-    private final static String BLOCK_INACTIVE = "\u25AC";
-    private final static String BLOCK_ACTIVE = "\uD83D\uDD18";
+    private static final String BLOCK_INACTIVE = "\u25AC";
+    private static final String BLOCK_ACTIVE = "\uD83D\uDD18";
     private static final int TOTAL_BLOCKS = 10;
 
     // The regex to filter discord invites.
@@ -78,7 +91,6 @@ public class Utils {
     private static final char LEFT_TO_RIGHT_ISOLATE = '\u2066';
     private static final char POP_DIRECTIONAL_ISOLATE = '\u2069';
     private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
-    private static final Config config = MantaroData.config().get();
 
     private static final EnumSet<Permission> ADMINISTRATIVE_DISCORD_PERMISSIONS = EnumSet.of(
             Permission.ADMINISTRATOR,
@@ -240,7 +252,6 @@ public class Utils {
 
         try {
             try (var r = httpClient.newCall(toPost).execute()) {
-                var body = r.body();
                 if (r.body() == null) {
                     throw new IllegalArgumentException();
                 }
@@ -457,7 +468,7 @@ public class Utils {
     }
 
     public static String bar(long percent, long total) {
-        var activeBlocks = (int) ((float) percent / 100f * total);
+        var activeBlocks = (int) (percent / 100f * total);
         var builder = new StringBuilder().append('`').append(EMPTY_BLOCK);
 
         for (long i = 0; i < total; i++) {
@@ -521,16 +532,14 @@ public class Utils {
         for (int i = 0, n = string.length(); i < n; ++i) {
             var d = Character.getDirectionality(string.charAt(i));
             switch (d) {
-                case Character.DIRECTIONALITY_RIGHT_TO_LEFT:
-                case Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC:
-                case Character.DIRECTIONALITY_RIGHT_TO_LEFT_EMBEDDING:
-                case Character.DIRECTIONALITY_RIGHT_TO_LEFT_OVERRIDE:
+                case Character.DIRECTIONALITY_RIGHT_TO_LEFT, Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC,
+                        Character.DIRECTIONALITY_RIGHT_TO_LEFT_EMBEDDING, Character.DIRECTIONALITY_RIGHT_TO_LEFT_OVERRIDE -> {
                     return true;
-
-                case Character.DIRECTIONALITY_LEFT_TO_RIGHT:
-                case Character.DIRECTIONALITY_LEFT_TO_RIGHT_EMBEDDING:
-                case Character.DIRECTIONALITY_LEFT_TO_RIGHT_OVERRIDE:
+                }
+                case Character.DIRECTIONALITY_LEFT_TO_RIGHT, Character.DIRECTIONALITY_LEFT_TO_RIGHT_EMBEDDING,
+                        Character.DIRECTIONALITY_LEFT_TO_RIGHT_OVERRIDE -> {
                     return false;
+                }
             }
         }
 
@@ -556,7 +565,7 @@ public class Utils {
      * @author Narendra
      * @since Aug 27, 2011 5:27:19 AM
      */
-    public static HashMap<String, Pair<String, Object>> mapConfigObjects(Object valueObj) {
+    public static Map<String, Pair<String, Object>> mapConfigObjects(Object valueObj) {
         try {
             var clazz = valueObj.getClass();
             var valueObjFields = clazz.getDeclaredFields();

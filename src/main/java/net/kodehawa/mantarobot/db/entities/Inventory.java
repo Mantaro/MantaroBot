@@ -23,7 +23,11 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Inventory {
@@ -85,7 +89,7 @@ public class Inventory {
 
     public void process(List<ItemStack> is) {
         if (merge(is)) {
-            LOGGER.error("Unhandled 'overflow' at " + Thread.currentThread().getStackTrace()[2]);
+            LOGGER.error("Unhandled 'overflow' at {}", Thread.currentThread().getStackTrace()[2]);
         }
     }
 

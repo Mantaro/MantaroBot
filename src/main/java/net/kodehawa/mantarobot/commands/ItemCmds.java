@@ -313,7 +313,7 @@ public class ItemCmds {
                     var recipeAmount = item.getRecipe().split(";");
                     var ai = new AtomicInteger();
 
-                    var recipe = Arrays.stream(item.getRecipeTypes()).mapToObj((i) -> {
+                    var recipe = Arrays.stream(item.getRecipeTypes()).mapToObj(i -> {
                         var recipeItem = ItemHelper.fromId(i);
                         return "%sx \u2009%s\u2009 *%s*".formatted(
                                 recipeAmount[ai.getAndIncrement()],
@@ -323,8 +323,8 @@ public class ItemCmds {
                     }).collect(Collectors.joining(",\u2009 "));
                     // End of build recipe explanation
 
-                    var castLevel = (item instanceof Castable) ? ((Castable) item).getCastLevelRequired() : 1;
-                    String fieldDescription = "%s\n**%s** %s %s\n**Recipe: ** %s\n**Wrench Tier: ** %s".formatted(
+                    var castLevel = (item instanceof Castable castable) ? castable.getCastLevelRequired() : 1;
+                    String fieldDescription = "%s%n**%s** %s %s%n**Recipe: ** %s%n**Wrench Tier: ** %s".formatted(
                             lang.get(item.getDesc()),
                             lang.get("commands.cast.ls.cost"),
                             item.getValue() / 2,
@@ -332,16 +332,16 @@ public class ItemCmds {
                             recipe, castLevel
                     );
 
-                    // Cursed, but Attribute implements Tiered so ;;
+                    // Cursed, but Attribute implements Tiered so... >_<
                     // But some stuff only implements Tiered.
-                    if (item instanceof Tiered && !(item instanceof Attribute)) {
-                        fieldDescription += "\n**Quality: ** %s".formatted(((Tiered) item).getTierStars());
+                    if (item instanceof Tiered tiered && !(item instanceof Attribute)) {
+                        fieldDescription += "%n**Quality: ** %s".formatted(tiered.getTierStars());
                     }
 
-                    if (item instanceof Attribute) {
-                        fieldDescription += "\n**Durability: ** %,d\n**Quality: ** %s".formatted(
-                                ((Attribute) item).getMaxDurability(),
-                                ((Attribute) item).getTierStars()
+                    if (item instanceof Attribute attribute) {
+                        fieldDescription += "%n**Durability: ** %,d%n**Quality: ** %s".formatted(
+                                attribute.getMaxDurability(),
+                                attribute.getTierStars()
                         );
                     }
 
@@ -528,7 +528,7 @@ public class ItemCmds {
                     var repairCost = mainItem.getValue() / 3;
 
                     fields.add(new MessageEmbed.Field("%s\u2009\u2009\u2009%s".formatted(item.getEmoji(), item.getName()),
-                            "%s\n**%s** %s %s\n**Recipe: **%s\n**Item: ** %s %s".formatted(
+                            "%s%n**%s** %s %s%n**Recipe: **%s%n**Item: ** %s %s".formatted(
                                     lang.get(item.getDesc()),
                                     lang.get("commands.repair.ls.cost"),
                                     repairCost, lang.get("commands.gamble.credits"),
@@ -757,9 +757,9 @@ public class ItemCmds {
                 var credits = ctx.getLanguageContext().get("commands.slots.credits");
                 var none = ctx.getLanguageContext().get("general.none");
 
-                if (item instanceof Tiered) {
+                if (item instanceof Tiered tiered) {
                     ctx.reply("commands.iteminfo.success_tiered", EmoteReference.BLUE_SMALL_MARKER,
-                            item.getEmoji(), item.getName(), translatedName, type, description, ((Tiered) item).getTierStars(),
+                            item.getEmoji(), item.getName(), translatedName, type, description, tiered.getTierStars(),
                             // This is pain
                             buyable ? item.getValue() : none, buyable ? credits : "",
                             sellable ? Math.round(item.getValue() * 0.9) : none, sellable ? credits : ""

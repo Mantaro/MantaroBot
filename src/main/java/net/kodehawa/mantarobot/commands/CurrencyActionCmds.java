@@ -369,8 +369,8 @@ public class CurrencyActionCmds {
                 List<Item> extra = Stream.of(ItemReference.ALL)
                         .filter(g -> g instanceof Gem || g instanceof CastedGem)
                         .filter(i -> {
-                            if (i instanceof Gem) {
-                                return ((Gem) i).getType() == GemType.GEM;
+                            if (i instanceof Gem g) {
+                                return g.getType() == GemType.GEM;
                             } else {
                                 return true;
                             }
@@ -512,7 +512,6 @@ public class CurrencyActionCmds {
             ctx.sendLocalized("commands.fish.dust", EmoteReference.TALKING, level);
 
             ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.fish.autoequip.success");
-            return;
         } else if (chance < 20) {
             //Here you found trash.
             List<Item> common = Stream.of(ItemReference.ALL)
@@ -529,7 +528,6 @@ public class CurrencyActionCmds {
             ctx.sendLocalized("commands.fish.trash.success", EmoteReference.EYES, selected.getEmojiDisplay());
 
             ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.fish.autoequip.success");
-            return;
         } else {
             // Here you actually caught fish, congrats.
             List<Item> fish = Stream.of(ItemReference.ALL)
@@ -803,11 +801,9 @@ public class CurrencyActionCmds {
                 if (player.getItemAmount(ItemReference.WOOD) + am + wood.get(0).getAmount() <= 5000) {
                     ita.add(new ItemStack(ItemReference.WOOD, am));
                 }
-            } else if (found) {
-                // Guarantee at least one wood.
-                if (player.getItemAmount(ItemReference.WOOD) + 1 <= 5000) {
+            } else if (found && (player.getItemAmount(ItemReference.WOOD) + 1 <= 5000)) {
                     ita.add(new ItemStack(ItemReference.WOOD, 1));
-                }
+
             }
 
             // Reduce item stacks (aka join them) and process it.

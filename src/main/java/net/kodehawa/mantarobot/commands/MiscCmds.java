@@ -58,7 +58,7 @@ import java.util.regex.Pattern;
 
 @Module
 public class MiscCmds {
-    private final static Pattern pollOptionSeparator = Pattern.compile(",\\s*");
+    private static final Pattern pollOptionSeparator = Pattern.compile(",\\s*");
 
     @Subscribe
     public void register(CommandRegistry cr) {
@@ -120,7 +120,7 @@ public class MiscCmds {
                 var embed = new EmbedBuilder()
                         .setAuthor(languageContext.get("commands.iam.list.header"), null, ctx.getMember().getEffectiveAvatarUrl())
                         .setColor(ctx.getMemberColor())
-                        .setDescription(languageContext.get("commands.iam.list.description") + "")
+                        .setDescription(languageContext.get("commands.iam.list.description"))
                         .setThumbnail(ctx.getGuild().getIconUrl());
 
                 var emptyEmbed = new EmbedBuilder()

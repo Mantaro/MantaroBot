@@ -32,11 +32,11 @@ public record InventorySort<T extends ItemStack>(Comparator<T> comparator) {
     // Using Comparator.comparingLong here fails horribly and makes a InventorySort<Item>, while I need a InventorySort<ItemStack> :)
     // Why can't I use Comparator#reverse here? It makes it Comparator<Object>... oh well, reverse manually.
     public static final InventorySort<ItemStack> SORT_VALUE =
-            new InventorySort<>(Comparator.comparing((t) -> t.getItem().getValue(), (o1, o2) -> (int) (o2 - o1)));
+            new InventorySort<>(Comparator.comparing(t -> t.getItem().getValue(), (o1, o2) -> (int) (o2 - o1)));
     public static final InventorySort<ItemStack> SORT_VALUE_SUM =
-            new InventorySort<>(Comparator.comparing((t) -> t.getItem().getValue() * t.getAmount(), (o1, o2) -> (int) (o2 - o1)));
+            new InventorySort<>(Comparator.comparing(t -> t.getItem().getValue() * t.getAmount(), (o1, o2) -> (int) (o2 - o1)));
     public static final InventorySort<ItemStack> SORT_TYPE =
-            new InventorySort<>(Comparator.comparing((t) -> t.getItem().getItemType(), Comparator.comparingInt(Enum::ordinal)));
+            new InventorySort<>(Comparator.comparing(t -> t.getItem().getItemType(), Comparator.comparingInt(Enum::ordinal)));
 
     // This is midly cursed code for a joke :)
     public static <T> Comparator<T> shuffle() {

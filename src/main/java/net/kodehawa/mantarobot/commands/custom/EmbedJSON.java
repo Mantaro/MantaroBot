@@ -21,7 +21,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +33,8 @@ public class EmbedJSON {
     public String footer, footerImg;
     public String image;
     public String thumbnail;
-    public String title, titleUrl;
+    public String title;
+    public String titleUrl;
 
     public MessageEmbed gen(Member member) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
@@ -77,6 +78,7 @@ public class EmbedJSON {
 
     public static class EmbedField {
         public boolean inline;
-        public String name, value;
+        public String name;
+        public String value;
     }
 }

@@ -102,7 +102,7 @@ public class ButtonOperations {
             return null;
         }
 
-        if (defaultButtons.size() > 0) {
+        if (!defaultButtons.isEmpty()) {
             message.editMessageComponents(ActionRow.of(defaultButtons)).queue();
         }
 
@@ -124,7 +124,7 @@ public class ButtonOperations {
             return null;
         }
 
-        if (defaultButtons.size() > 0) {
+        if (!defaultButtons.isEmpty()) {
             message.editMessageComponents(defaultButtons).queue();
         }
 

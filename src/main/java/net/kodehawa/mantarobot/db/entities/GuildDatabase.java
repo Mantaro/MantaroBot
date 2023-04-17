@@ -162,7 +162,7 @@ public class GuildDatabase implements ManagedMongoObject {
     @HiddenConfig
     private long premiumUntil = 0L;
     @ConfigName("Autoroles")
-    private HashMap<String, String> autoroles = new HashMap<>();
+    private Map<String, String> autoroles = new HashMap<>();
     @ConfigName("Birthday Announcer Channel")
     private String birthdayChannel = null;
     @ConfigName("Birthday Announcer Role")
@@ -170,9 +170,9 @@ public class GuildDatabase implements ManagedMongoObject {
     @ConfigName("Mod action counter")
     private long cases = 0L;
     @ConfigName("Categories disabled in channels")
-    private HashMap<String, List<CommandCategory>> channelSpecificDisabledCategories = new HashMap<>();
+    private Map<String, List<CommandCategory>> channelSpecificDisabledCategories = new HashMap<>();
     @ConfigName("Commands disabled in channels")
-    private HashMap<String, List<String>> channelSpecificDisabledCommands = new HashMap<>();
+    private Map<String, List<String>> channelSpecificDisabledCommands = new HashMap<>();
     @ConfigName("Disabled Categories")
     private Set<CommandCategory> disabledCategories = new HashSet<>();
     @ConfigName("Disabled Channels")
@@ -214,7 +214,7 @@ public class GuildDatabase implements ManagedMongoObject {
     @ConfigName("Amount of polls ran")
     private long ranPolls = 0L;
     @ConfigName("Roles that can't use commands")
-    private ArrayList<String> rolesBlockedFromCommands = new ArrayList<>();
+    private List<String> rolesBlockedFromCommands = new ArrayList<>();
     @ConfigName("Mute default timeout")
     private long setModTimeout = 0L;
     @ConfigName("How will Mantaro display time")
@@ -240,9 +240,9 @@ public class GuildDatabase implements ManagedMongoObject {
     @ConfigName("Link Protection ignore (users)")
     private Set<String> linkProtectionAllowedUsers = new HashSet<>();
     @ConfigName("Disabled Categories for Role (id)")
-    private HashMap<String, List<CommandCategory>> roleSpecificDisabledCategories = new HashMap<>();
+    private Map<String, List<CommandCategory>> roleSpecificDisabledCategories = new HashMap<>();
     @ConfigName("Disabled Commands for Role (id)")
-    private HashMap<String, List<String>> roleSpecificDisabledCommands = new HashMap<>();
+    private Map<String, List<String>> roleSpecificDisabledCommands = new HashMap<>();
     @ConfigName("Server language")
     private String lang = "en_US";
     @ConfigName("Music vote toggle")
@@ -309,11 +309,11 @@ public class GuildDatabase implements ManagedMongoObject {
         this.premiumUntil = premiumUntil;
     }
 
-    public HashMap<String, String> getAutoroles() {
+    public Map<String, String> getAutoroles() {
         return autoroles;
     }
 
-    public void setAutoroles(HashMap<String, String> autoroles) {
+    public void setAutoroles(Map<String, String> autoroles) {
         this.autoroles = autoroles;
     }
 
@@ -341,19 +341,19 @@ public class GuildDatabase implements ManagedMongoObject {
         this.cases = cases;
     }
 
-    public HashMap<String, List<CommandCategory>> getChannelSpecificDisabledCategories() {
+    public Map<String, List<CommandCategory>> getChannelSpecificDisabledCategories() {
         return channelSpecificDisabledCategories;
     }
 
-    public void setChannelSpecificDisabledCategories(HashMap<String, List<CommandCategory>> channelSpecificDisabledCategories) {
+    public void setChannelSpecificDisabledCategories(Map<String, List<CommandCategory>> channelSpecificDisabledCategories) {
         this.channelSpecificDisabledCategories = channelSpecificDisabledCategories;
     }
 
-    public HashMap<String, List<String>> getChannelSpecificDisabledCommands() {
+    public Map<String, List<String>> getChannelSpecificDisabledCommands() {
         return channelSpecificDisabledCommands;
     }
 
-    public void setChannelSpecificDisabledCommands(HashMap<String, List<String>> channelSpecificDisabledCommands) {
+    public void setChannelSpecificDisabledCommands(Map<String, List<String>> channelSpecificDisabledCommands) {
         this.channelSpecificDisabledCommands = channelSpecificDisabledCommands;
     }
 
@@ -517,11 +517,11 @@ public class GuildDatabase implements ManagedMongoObject {
         this.ranPolls = ranPolls;
     }
 
-    public ArrayList<String> getRolesBlockedFromCommands() {
+    public List<String> getRolesBlockedFromCommands() {
         return rolesBlockedFromCommands;
     }
 
-    public void setRolesBlockedFromCommands(ArrayList<String> rolesBlockedFromCommands) {
+    public void setRolesBlockedFromCommands(List<String> rolesBlockedFromCommands) {
         this.rolesBlockedFromCommands = rolesBlockedFromCommands;
     }
 
@@ -621,19 +621,19 @@ public class GuildDatabase implements ManagedMongoObject {
         this.linkProtectionAllowedUsers = linkProtectionAllowedUsers;
     }
 
-    public HashMap<String, List<CommandCategory>> getRoleSpecificDisabledCategories() {
+    public Map<String, List<CommandCategory>> getRoleSpecificDisabledCategories() {
         return roleSpecificDisabledCategories;
     }
 
-    public void setRoleSpecificDisabledCategories(HashMap<String, List<CommandCategory>> roleSpecificDisabledCategories) {
+    public void setRoleSpecificDisabledCategories(Map<String, List<CommandCategory>> roleSpecificDisabledCategories) {
         this.roleSpecificDisabledCategories = roleSpecificDisabledCategories;
     }
 
-    public HashMap<String, List<String>> getRoleSpecificDisabledCommands() {
+    public Map<String, List<String>> getRoleSpecificDisabledCommands() {
         return roleSpecificDisabledCommands;
     }
 
-    public void setRoleSpecificDisabledCommands(HashMap<String, List<String>> roleSpecificDisabledCommands) {
+    public void setRoleSpecificDisabledCommands(Map<String, List<String>> roleSpecificDisabledCommands) {
         this.roleSpecificDisabledCommands = roleSpecificDisabledCommands;
     }
 

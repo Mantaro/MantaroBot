@@ -617,7 +617,7 @@ public class CommandOptions extends OptionHandler {
                     }
 
                     String roleName = String.join(" ", args);
-                    Consumer<Role> consumer = (role) -> {
+                    Consumer<Role> consumer = role -> {
                         var dbGuild = ctx.getDBGuild();
                         dbGuild.getDisabledRoles().add(role.getId());
                         dbGuild.save();
@@ -647,7 +647,7 @@ public class CommandOptions extends OptionHandler {
             }
 
             String roleName = ctx.getCustomContent();
-            Consumer<Role> consumer = (role) -> {
+            Consumer<Role> consumer = role -> {
                 var dbGuild = ctx.getDBGuild();
                 if (!dbGuild.getDisabledRoles().contains(role.getId())) {
                     ctx.sendLocalized("options.server_role_allow.not_disabled", EmoteReference.ERROR);

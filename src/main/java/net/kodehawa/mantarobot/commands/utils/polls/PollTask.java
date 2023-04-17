@@ -33,7 +33,6 @@ public class PollTask {
         try {
             try (Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
                 List<String> polls = j.zrange("zpoll", 0, 14);
-                var bot = MantaroBot.getInstance();
                 log.debug("Poll check - remainder is: {}", polls.size());
 
                 for (var poll : polls) {

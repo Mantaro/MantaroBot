@@ -41,9 +41,9 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
+import java.awt.Color;
+import java.util.Deque;
 import java.util.concurrent.CompletionStage;
-import java.util.concurrent.ConcurrentLinkedDeque;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -56,7 +56,6 @@ public class AudioCmdUtils {
     public static void embedForQueue(SlashContext ctx, GuildMusicManager musicManager, I18nContext lang) {
         final var guild = ctx.getGuild();
         final var selfMember = ctx.getSelfMember();
-        final var channel = ctx.getChannel();
         final var trackScheduler = musicManager.getTrackScheduler();
         final var toSend = getQueueList(trackScheduler.getQueue());
         final var musicPlayer = trackScheduler.getMusicPlayer();
@@ -73,7 +72,7 @@ public class AudioCmdUtils {
                 } catch (Exception ignored) { }
             }
 
-            nowPlaying = String.format("**[%s](%s)** (%s)\n%s",
+            nowPlaying = String.format("**[%s](%s)** (%s)%n%s",
                     MarkdownSanitizer.sanitize(playingTrack.getInfo().title),
                     playingTrack.getInfo().uri,
                     getDurationMinutes(playingTrack.getInfo().length),
@@ -159,7 +158,6 @@ public class AudioCmdUtils {
 
     public static CompletionStage<Boolean> openAudioConnection(SlashContext ctx, JdaLink link,
                                                             AudioChannel userChannel, I18nContext lang) {
-        final var textChannel = ctx.getChannel();
         final var userChannelMembers = userChannel.getMembers();
         Member selfMember = ctx.getGuild().getSelfMember();
 
@@ -332,7 +330,7 @@ public class AudioCmdUtils {
         );
     }
 
-    public static String getQueueList(ConcurrentLinkedDeque<AudioTrack> queue) {
+    public static String getQueueList(Deque<AudioTrack> queue) {
         var sb = new StringBuilder();
         var num = 1;
 

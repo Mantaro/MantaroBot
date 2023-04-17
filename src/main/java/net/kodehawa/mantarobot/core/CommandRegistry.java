@@ -42,8 +42,8 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.db.entities.GuildDatabase;
+import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -497,22 +497,22 @@ public class CommandRegistry {
     }
 
     public void registerSlash(Class<? extends SlashCommand> clazz) {
-        var cmd = newCommands.registerSlash(clazz);
+        newCommands.registerSlash(clazz);
     }
 
     public void registerContextUser(Class<? extends ContextCommand<User>> clazz) {
-        var cmd = newCommands.registerContextUser(clazz);
+        newCommands.registerContextUser(clazz);
     }
 
     public <T extends Command> T register(String name, T command) {
         commands.putIfAbsent(name, command);
-        log.debug("Registered command " + name);
+        log.debug("Registered command {}", name);
         return command;
     }
 
     public void registerAlias(String command, String alias) {
         if (!commands.containsKey(command)) {
-            log.error(command + " isn't in the command map...");
+            log.error("{} isn't in the command map...", command);
         }
 
         Command parent = commands.get(command);
@@ -526,7 +526,7 @@ public class CommandRegistry {
 
     public void registerAlias(String command, String... alias) {
         if (!commands.containsKey(command)) {
-            log.error(command + " isn't in the command map...");
+            log.error("{} isn't in the command map...", command);
         }
 
         Command parent = commands.get(command);
@@ -564,27 +564,27 @@ public class CommandRegistry {
     }
 
     private static String name(Command c, String userInput) {
-        if (c instanceof AliasCommand) {
+        if (c instanceof AliasCommand alias) {
             // Return the original command name here for all intents and purposes.
             // This is because in the check for command disable (which is what this is used for), the
             // command disabled will be the original command, and the check expects that.
-            return ((AliasCommand) c).getOriginalName();
+            return alias.getOriginalName();
         }
 
-        if (c instanceof ProxyCommand) {
-            return ((ProxyCommand) c).c.name();
+        if (c instanceof ProxyCommand proxyCommand) {
+            return proxyCommand.c.name();
         }
 
         return userInput.toLowerCase();
     }
 
     private Command root(Command c) {
-        if (c instanceof AliasCommand) {
-            return commands.get(((AliasCommand) c).parentName());
+        if (c instanceof AliasCommand aliasCommand) {
+            return commands.get(aliasCommand.parentName());
         }
 
-        if (c instanceof AliasProxyCommand) {
-            return ((AliasProxyCommand) c).p;
+        if (c instanceof AliasProxyCommand aliasProxyCommand) {
+            return aliasProxyCommand.p;
         }
         return c;
     }

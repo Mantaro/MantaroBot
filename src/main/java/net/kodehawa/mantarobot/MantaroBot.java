@@ -159,7 +159,7 @@ public class MantaroBot {
         ItemHelper.setItemActions();
 
         LogUtils.log("Startup",
-                "Starting up Mantaro %s (Git: %s) in Node %s\nHold your seatbelts! <3"
+                "Starting up Mantaro %s (Git: %s) in Node %s%nHold your seatbelts! <3"
                         .formatted(MantaroInfo.VERSION, MantaroInfo.GIT_REVISION, getNodeNumber())
         );
 

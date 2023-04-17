@@ -39,9 +39,9 @@ import java.util.stream.Collectors;
 
 public class CustomFinderUtil {
 
-    private final static Pattern DISCORD_ID = Pattern.compile("\\d{17,20}"); // ID
-    private final static Pattern FULL_USER_REF = Pattern.compile("(.{2,32})\\s*#(\\d{4})"); // $1 -> username, $2 -> discriminator
-    private final static Pattern USER_MENTION = Pattern.compile("<@!?(\\d{17,20})>"); // $1 -> ID
+    private static final Pattern DISCORD_ID = Pattern.compile("\\d{17,20}"); // ID
+    private static final Pattern FULL_USER_REF = Pattern.compile("(.{2,32})\\s*#(\\d{4})"); // $1 -> username, $2 -> discriminator
+    private static final Pattern USER_MENTION = Pattern.compile("<@!?(\\d{17,20})>"); // $1 -> ID
 
     // Prevent instantiation
     private CustomFinderUtil() {}
@@ -66,7 +66,7 @@ public class CustomFinderUtil {
         // On mention, due to the handler implementation we're only gonna get ONE result, as the handler makes sure we do get it properly.
         // If there's no result, well, heck.
         Matcher userMention = USER_MENTION.matcher(query);
-        if (userMention.matches() && ctx.getMentionedMembers().size() > 0) {
+        if (userMention.matches() && !ctx.getMentionedMembers().isEmpty()) {
             return result.get(0);
         }
 
@@ -181,7 +181,7 @@ public class CustomFinderUtil {
         }
 
         // Handle user mentions.
-        if (USER_MENTION.matcher(query).matches() && context.getMentionedMembers().size() > 0) {
+        if (USER_MENTION.matcher(query).matches() && !context.getMentionedMembers().isEmpty()) {
             if (context.getMentionedMembers().size() > 1) {
                 context.sendLocalized("general.too_many_mentions", EmoteReference.ERROR);
                 return emptyMemberTask();

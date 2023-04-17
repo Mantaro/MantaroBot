@@ -124,6 +124,7 @@ public class GameLobby extends Lobby {
         return this.gamesToPlay;
     }
 
+    @Override
     public Guild getGuild() {
         return this.guild;
     }

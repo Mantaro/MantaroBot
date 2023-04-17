@@ -91,7 +91,7 @@ public class UserMessageOptions extends OptionHandler {
         });
         addOptionAlias("usermessage:join:channel", "joinchannel");
 
-        registerOption("usermessage:join:test", "Tests the join message", "Tests the join message", (ctx) -> {
+        registerOption("usermessage:join:test", "Tests the join message", "Tests the join message", ctx -> {
             if (ctx.getMentionedUsers().isEmpty()) {
                 ctx.sendLocalized("options.usermessage_joinmessage_test.error_missing_mention", EmoteReference.ERROR);
                 return;
@@ -132,7 +132,7 @@ public class UserMessageOptions extends OptionHandler {
             ctx.sendLocalized("options.usermessage_joinmessage_test.success", EmoteReference.CORRECT);
         });
 
-        registerOption("usermessage:join:resetchannel", "Resets the join message channel", "Resets the join message channel", (ctx) -> {
+        registerOption("usermessage:join:resetchannel", "Resets the join message channel", "Resets the join message channel", ctx -> {
             var dbGuild = ctx.getDBGuild();
             dbGuild.setLogJoinChannel(null);
             dbGuild.save();
@@ -165,7 +165,7 @@ public class UserMessageOptions extends OptionHandler {
         });
         addOptionAlias("usermessage:leave:channel", "leavechannel");
 
-        registerOption("usermessage:leave:test", "Tests the leave message", "Tests the leave message", (ctx) -> {
+        registerOption("usermessage:leave:test", "Tests the leave message", "Tests the leave message", ctx -> {
             if (ctx.getMentionedUsers().isEmpty()) {
                 ctx.sendLocalized("options.usermessage_leavemessage_test.error_missing_mention", EmoteReference.ERROR);
                 return;
@@ -206,7 +206,7 @@ public class UserMessageOptions extends OptionHandler {
             ctx.sendLocalized("options.usermessage_leavemessage_test.success", EmoteReference.CORRECT);
         });
 
-        registerOption("usermessage:leave:resetchannel", "Resets the leave message channel", "Resets the leave message channel", (ctx) -> {
+        registerOption("usermessage:leave:resetchannel", "Resets the leave message channel", "Resets the leave message channel", ctx -> {
             var dbGuild = ctx.getDBGuild();
             dbGuild.setLogLeaveChannel(null);
             dbGuild.save();
@@ -378,7 +378,7 @@ public class UserMessageOptions extends OptionHandler {
             List<String> messages = new LinkedList<>();
             var lang = ctx.getLanguageContext();
             for (String s1 : m) {
-                messages.add(String.format(lang.get("options.usermessage_joinmessage_list.header"), lang.get("general.button_react"), String.format("```prolog\n%s```", s1)));
+                messages.add(String.format(lang.get("options.usermessage_joinmessage_list.header"), lang.get("general.button_react"), String.format("```prolog%n%s```", s1)));
             }
 
             DiscordUtils.listButtons(ctx.getUtilsContext(), 45, messages);
@@ -468,7 +468,7 @@ public class UserMessageOptions extends OptionHandler {
 
             for (String s1 : m) {
                 messages.add(String.format(lang.get("options.usermessage_leavemessage_list.header"),
-                        lang.get("general.button_react"), String.format("```prolog\n%s```", s1)));
+                        lang.get("general.button_react"), String.format("```prolog%n%s```", s1)));
             }
             
             DiscordUtils.listButtons(ctx.getUtilsContext(), 45, messages);
