@@ -109,7 +109,7 @@ public class AnimeCmds {
                         s -> baseEmbed(ctx, languageContext.get("commands.anime.selection_start"))
                                 .setDescription(s)
                                 .setColor(Color.PINK)
-                                .setThumbnail("https://i.imgur.com/VwlGqdk.png")
+                                .setThumbnail("https://apiv2.mantaro.site/image/common/kitsu-logo.png")
                                 .setFooter(languageContext.get("commands.anime.information_footer"), ctx.getAuthor().getAvatarUrl())
                                 .build(),
                         (anime, hook) -> animeData(ctx, languageContext, anime));
@@ -177,7 +177,7 @@ public class AnimeCmds {
                         s -> baseEmbed(ctx, languageContext.get("commands.anime.information_footer"))
                                 .setDescription(s)
                                 .setColor(Color.PINK)
-                                .setThumbnail("https://i.imgur.com/VwlGqdk.png")
+                                .setThumbnail("https://apiv2.mantaro.site/image/common/kitsu-logo.png")
                                 .setFooter(languageContext.get("commands.anime.information_footer"), ctx.getAuthor().getAvatarUrl())
                                 .build(),
                         (character, hook)  -> characterData(ctx, languageContext, character));

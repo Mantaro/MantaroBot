@@ -768,7 +768,7 @@ public class MarketCmd {
         var languageContext = ctx.getLanguageContext();
         var embed = new EmbedBuilder()
                 .setDescription(languageContext.get("commands.market.header"))
-                .setThumbnail("https://i.imgur.com/GIHXZAH.png");
+                .setThumbnail("https://apiv2.mantaro.site/image/common/cart.png");
 
         List<MessageEmbed.Field> fields = new LinkedList<>();
         Stream.of(ItemReference.ALL)

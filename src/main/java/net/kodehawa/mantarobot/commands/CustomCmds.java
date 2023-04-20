@@ -1031,7 +1031,7 @@ public class CustomCmds {
         var builder = new EmbedBuilder()
                 .setAuthor(ctx.getLanguageContext().get("commands.custom.ls.header"), null, ctx.getGuild().getIconUrl())
                 .setColor(ctx.getMember().getColor())
-                .setThumbnail("https://i.imgur.com/glP3VKI.png")
+                .setThumbnail("https://apiv2.mantaro.site/image/common/tool-emoji.png")
                 .setFooter(ctx.getLanguageContext().get("commands.custom.ls.footer").formatted(commands.size()),
                         ctx.getAuthor().getEffectiveAvatarUrl()
                 );
@@ -1108,7 +1108,7 @@ public class CustomCmds {
                                 EmoteReference.BLUE_SMALL_MARKER +
                                 lang.get("commands.custom.info.responses") + " " + command.getValues().size() + "\n"
                 )
-                .setThumbnail("https://i.imgur.com/jPL5Lof.png")
+                .setThumbnail("https://apiv2.mantaro.site/image/common/information.png")
                 .build()
         );
     }

@@ -144,7 +144,7 @@ public class Poll {
         var languageContext = ctx.getLanguageContext();
         var builder = new EmbedBuilder().setAuthor(String.format(languageContext.get("commands.poll.header"), user.getName()), null, user.getAvatarUrl())
                 .setColor(Color.CYAN)
-                .setThumbnail("https://i.imgur.com/7TITtHb.png")
+                .setThumbnail("https://apiv2.mantaro.site/image/common/help-icon.png")
                 .setFooter(String.format(languageContext.get("commands.poll.time"),
                         Utils.formatDuration(languageContext, time() - System.currentTimeMillis())), user.getAvatarUrl()
                 );

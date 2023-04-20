@@ -77,7 +77,7 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
                 .set(prefix, "name", guild.getName())
                 .mapMember(k(prefix, "owner"), guild.retrieveOwner().useCache(true).complete())
                 .set(prefix, "totalusers", String.valueOf(guild.getMemberCount()))
-                .set(prefix, "icon", guild.getIconUrl() == null ? "https://i.imgur.com/k0V7Vnu.png" : guild.getIconUrl());
+                .set(prefix, "icon", guild.getIconUrl() == null ? "https://apiv2.mantaro.site/image/common/help-icon.png" : guild.getIconUrl());
     }
 
     public DynamicModifiers mapUser(String prefix, User member) {

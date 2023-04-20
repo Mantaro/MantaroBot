@@ -102,7 +102,7 @@ public class OptsCmd {
                                 var builder = new EmbedBuilder()
                                         .setAuthor(option.getOptionName(), null, ctx.getAuthor().getEffectiveAvatarUrl())
                                         .setDescription(option.getDescription())
-                                        .setThumbnail("https://i.imgur.com/lFTJSE4.png")
+                                        .setThumbnail("https://apiv2.mantaro.site/image/common/help-icon.png")
                                         .addField(EmoteReference.PENCIL.toHeaderString() + "Type", option.getType().toString(), false);
 
                                 ctx.send(builder.build());

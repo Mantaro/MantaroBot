@@ -129,7 +129,7 @@ public class Trivia extends Game<String> {
             }
 
             eb.setAuthor("Trivia Game", null, lobby.getContext().getAuthor().getAvatarUrl())
-                    .setThumbnail("https://i.imgur.com/7TITtHb.png")
+                    .setThumbnail("https://apiv2.mantaro.site/image/common/help-icon.png")
                     .setDescription("**" + q + "**")
                     .setColor(Color.PINK)
                     .addField(EmoteReference.PENCIL.toHeaderString() + languageContext.get("commands.game.trivia.possibilities"),
