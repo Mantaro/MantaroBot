@@ -227,7 +227,7 @@ public class MusicCmds {
             final var trackInfo = playingTrack.getInfo();
 
             npEmbed.setAuthor(languageContext.get("commands.np.header"), null, ctx.getGuild().getIconUrl())
-                    .setThumbnail("https://i.imgur.com/FWKIR7N.png")
+                    .setThumbnail("https://apiv2.mantaro.site/image/common/musical-note.png")
                     .setDescription("""
                                     \u23ef %s
                                     

@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 public class LogUtils {
     private static final Logger log = LoggerFactory.getLogger(LogUtils.class);
 
-    private final static String ICON_URL = "https://i.imgur.com/h5FQyuf.png";
+    private final static String ICON_URL = "https://apiv2.mantaro.site/image/common/mantaro-logo.png";
     private static final String WEBHOOK_START = "https://discord.com/api/webhooks/";
     private static WebhookClient LOGBACK_WEBHOOK;
     private static WebhookClient SHARD_WEBHOOK;

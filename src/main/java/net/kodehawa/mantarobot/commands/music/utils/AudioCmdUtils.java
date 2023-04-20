@@ -51,7 +51,7 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 
 public class AudioCmdUtils {
     private static final Logger log = LoggerFactory.getLogger(AudioCmdUtils.class);
-    private static final String icon = "https://i.imgur.com/FWKIR7N.png";
+    private static final String icon = "https://apiv2.mantaro.site/image/common/musical-note.png";
 
     public static void embedForQueue(SlashContext ctx, GuildMusicManager musicManager, I18nContext lang) {
         final var guild = ctx.getGuild();

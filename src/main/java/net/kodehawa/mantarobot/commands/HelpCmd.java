@@ -591,7 +591,7 @@ public class HelpCmd {
                                 i18nContext.get("commands.slash.description_2")
                         )
                         .setColor(Color.PINK)
-                        .setImage("https://i.imgur.com/LTbSRSV.png")
+                        .setImage("https://apiv2.mantaro.site/image/common/slash-example.png")
                         .setFooter(i18nContext.get("commands.pet.status.footer"), ctx.getMember().getEffectiveAvatarUrl());
 
                 ctx.send(builder.build());
@@ -658,7 +658,7 @@ public class HelpCmd {
                                 i18nContext.get("commands.slash.description_2")
                         )
                         .setColor(Color.PINK)
-                        .setImage("https://i.imgur.com/LTbSRSV.png")
+                        .setImage("https://apiv2.mantaro.site/image/common/slash-example.png")
                         .setFooter(i18nContext.get("commands.pet.status.footer"), ctx.getMember().getEffectiveAvatarUrl());
 
                 ctx.send(builder.build());

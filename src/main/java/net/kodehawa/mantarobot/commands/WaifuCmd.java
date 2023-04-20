@@ -141,7 +141,7 @@ public class WaifuCmd {
 
                 final var waifusEmbed = new EmbedBuilder()
                         .setAuthor(lang.get("commands.waifu.header"), null, ctx.getAuthor().getEffectiveAvatarUrl())
-                        .setThumbnail("https://i.imgur.com/2JlMtCe.png")
+                        .setThumbnail("https://apiv2.mantaro.site/image/common/throbbing-heart.png")
                         .setColor(Color.CYAN)
                         .setFooter(lang.get("commands.waifu.footer").formatted(
                                         dbUser.waifuAmount(), dbUser.getWaifuSlots() - dbUser.waifuAmount()),

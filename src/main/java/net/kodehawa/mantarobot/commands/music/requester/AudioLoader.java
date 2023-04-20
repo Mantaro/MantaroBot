@@ -311,10 +311,10 @@ public class AudioLoader implements AudioLoadResultHandler {
                 ), s -> new EmbedBuilder()
                         .setColor(Color.CYAN)
                         .setAuthor(language.get("commands.music_general.loader.selection_text"),
-                                "https://i.imgur.com/sFDpUZy.png",
+                                null,
                                 ctx.getAuthor().getEffectiveAvatarUrl()
                         )
-                        .setThumbnail("https://i.imgur.com/FWKIR7N.png")
+                        .setThumbnail("https://apiv2.mantaro.site/image/common/musical-note.png")
                         .setDescription(s)
                         .setFooter(language.get("commands.music_general.loader.timeout_text"),
                                 ctx.getAuthor().getEffectiveAvatarUrl()
