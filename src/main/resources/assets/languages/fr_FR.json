@@ -346,7 +346,7 @@
       },
       "success": "%1$sNombre de votes requis atteint, je passe la chanson...",
       "no_track": "%1$sAucune piste à passer, donc je ne peux rien faire...",
-      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
+      "cannot_force": "%1$sTu dois être DJ ou une personne ayant mis ce son dans la liste de lecture pour forcer le passage au morceau suivant."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` n'est pas une plage valide.",
@@ -416,7 +416,7 @@
         "description": "Ceci est une liste de toutes les réponses de cette commande au format brut (ce que vous entrez dans la commande)."
       },
       "clear": {
-        "confirmation": "%1$sWould you like to clear ALL the custom commands from this server? Click yes to continue, no otherwise.",
+        "confirmation": "%1$sDésires-tu supprimer TOUTES les commandes personnalisées de ce serveur? Clique sur yes pour continuer, no sinon.",
         "cancelled": "%1$sOpération annulée.",
         "success": "%1$s**%2$d commandes personnalisées ont été effacées**. Exception faite des commandes verrouillées/épinglées, débloque-les d'abord si tu souhaites les supprimer."
       },
@@ -433,7 +433,7 @@
       "edit": {
         "header_slash": "Édition des commandes personnalisées",
         "content_slash": "Nouveau contenu",
-        "content_slash_placeholder": "The new command content.",
+        "content_slash_placeholder": "Nouveau contenu de la commande.",
         "no_command": "%1$sTu dois spécifier la commande à éditer.",
         "invalid_number": "%1$sTu dois spécifier un nombre correct pour faire la modification.",
         "no_index": "%1$sTu ne peux pas éditer un index inexistant.",
@@ -460,7 +460,7 @@
         "content_slash": "Contenu",
         "custom_name_placeholder": "Le nom va ici.",
         "no_command": "$1$sTu dois spécifier la commande à ajouter.",
-        "time_out": "%1$sThe time for this custom command interaction has ran out (or you cancelled it, or started a new one).",
+        "time_out": "%1$sLa durée définie pour cette commande personnalisée est arrivée à son terme (ou tu l'as supprimée ou tu en as démarré une nouvelle).",
         "not_enough_args": "%1$sTu dois spécifier le nom et la réponse de la commande à ajouter.",
         "empty_content": "%1$sTu dois spécifier le contenu de cette commande personnalisée.",
         "too_long": "%1$sLe contenu de cette commande est trop long et le bot ne sera pas capable de l'afficher. Assure-toi qu'elle fasse moins de %2$,d caractères.",
@@ -479,7 +479,7 @@
         "success": "%1$sTu as déverrouillé la commande `%2$s` avec succès. Tu devras la verrouiller à nouveau si tu veux éviter de futures éditions."
       },
       "info": {
-        "header": "Custom Command Information for %1$s",
+        "header": "Information de commande personnalisée pour %1$s",
         "owner": "**Propriétaire :**",
         "owner_id": "**ID du ou de la propriétaire :**",
         "nsfw": "**NSFW:**",
@@ -498,7 +498,7 @@
       "locked_command": "%1$sTu ne peux pas éditer ou supprimer cette commande tant qu'elle est verrouillée, utilise `/custom unlockcommand name:<nom de la commande>` pour la déverrouiller s'il te plait."
     },
     "mute": {
-      "no_permissions": "%1$sYou need to have permission to Moderate Members in order to time out a user.",
+      "no_permissions": "%1$sTu dois avoir la permission de Gérer les Membres pour rendre un utilisateur muet.",
       "no_users": "%1$sTu dois me donner un utilisateur à mettre à l'écart.",
       "no_moderate_members": "%1$sJe n'ai pas la permission de gérer les mises à l'écart sur ce serveur.",
       "time_not_specified": "%1$sTu voulais ajouter une durée mais tu n'as pas précisé pendant combien de temps tu souhaites que le mute soit effectif.",
@@ -509,14 +509,14 @@
       "already_muted": "%1$sCet utilisateur.trice est déjà mis.e à l'écart. Écris `/unmute` pour l'annuler.",
       "self_hierarchy_error": "%1$sJe ne peux pas mettre cette personneà l'écart, car elle appartient à une hiérarchie supérieure à la mienne ou elle a un rôle supérieur au mien !",
       "user_hierarchy_error": "%1$sJe ne peux pas mettre cette personneà l'écart, car elle appartient à une hiérarchie supérieure à la mienne ou elle a un rôle supérieur au tien!",
-      "success": "%1$sSuccessfully timed out **%2$s** for %3$s",
+      "success": "%1$sTu as rendu **%2$s** muet pendant %3$s avec succès",
       "success_reason": "%1$sAjout du rôle de mise à l'écart à **%2$s** pour %3$s pour la raison suivante: %4$s"
     },
     "unmute": {
-      "no_permissions": "%1$sYou need to have permission to Moderate Members to remove a time out!",
-      "no_mentions": "%1$sYou need to tell me who to remove the time out from.",
-      "success": "%1$sSuccessfully removed time out from **%2$s**",
-      "not_muted": "%1$sThis user doesn't seem to be timed out."
+      "no_permissions": "%1$sTu dois avoir la permission de Gérer les Membres pour rendre la parole à un utilisateur !",
+      "no_mentions": "%1$sTu dois me dire à qui tu veux rendre la parole.",
+      "success": "%1$sLa parole est revenue à **%2$s** avec succès",
+      "not_muted": "%1$sCet utilisateur ne semble pas muet."
     },
     "ping": {
       "display": [
@@ -861,7 +861,7 @@
       "success": "%1$s%2$s, tu viens de recevoir le rôle **%3$s**",
       "error": "%1$sJe ne peux pas t'enlever **%2$s**. Assure toi que j'ai la permission d'ajouter les rôles (Gérer les rôles) et que mon rôle est au-dessus de **%2$s**",
       "no_role": "%1$sIl n'y a pas d'autorôle avec le nom que tu m'as donné.",
-      "privileged_role": "%1$sThis role has administrative permissions that prevent me from giving it.",
+      "privileged_role": "%1$sCe rôle a des permissions d'administration m'empêchant de l'attribuer.",
       "no_iam": "%1$sTu dois spécifier quel rôle auto-assignable tu veux t'assigner!"
     },
     "iamnot": {
@@ -879,7 +879,7 @@
       "success": "**Poll started. React to the number to vote.**\n*%1$s*",
       "time": "Tu as %1$s pour voter.",
       "name_too_long": "%1$sLe nom peut contenir jusqu'à 500 caractères.",
-      "too_many": "%1$sYou can only run up to 5 polls at once.",
+      "too_many": "%1$sTu ne peux lancer que 5 sondages à la fois.",
       "error": "%1$sUne erreur inconnue est survenue durant la mise en place du sondage. Réessaie peut-être ? (Erreur interne)",
       "result_header": "Résultats du sondage",
       "result_screen": "**Voici les résultats du sondage créé par %1$s** du nom de: *%2$s*",
@@ -888,11 +888,11 @@
       "results": "Résultats",
       "due_at": "Date limite :",
       "cancelled": "%1$sSondage supprimé.",
-      "completed": "%1$sThis poll has ended. Results: %2$s",
-      "too_little_time": "%1$sThe poll should be at least 2 minutes long.",
-      "too_much_time": "%1$sThe poll should be at most 2 days long.",
-      "too_few_options": "%1$sPolls should at least have 2 options.",
-      "too_many_options": "%1$sPolls cannot have more than 9 options.",
+      "completed": "%1$sCe sondage est terminé. Résultats : %2$s",
+      "too_little_time": "%1$sCe sondage doit durer au moins 2 minutes.",
+      "too_much_time": "%1$sCe sondage doit durer au maximum 2 jours.",
+      "too_few_options": "%1$sUn sondage doit comporter au moins 2 options.",
+      "too_many_options": "%1$sLes sondages ne peuvent pas contenir plus de 9 options.",
       "incorrect_time_format": "%1$sFormat de durée incorrect. Souviens-toi, le format adéquat utilise les nombres suivis de `h, m ou s` (heures, minutes ou secondes), exemple : 2m25s.",
       "invalid_channel": "%1$sI can't find the channel you tried to start this poll on.",
       "no_permissions": "%1$sYou need to have the Manage Server permission or the Bot Commander role to administrate polls.",
@@ -902,7 +902,7 @@
         "select": "Sélectionne le sondage que tu souhaites annuler."
       },
       "list": {
-        "header": "Running polls in %s.",
+        "header": "Sondage mis en route dans %s.",
         "description": "**This is a list of the running polls in this server**. You can cancel a poll by using `/poll cancel`.",
         "footer": "Thanks for using Mantaro <3 (Total Polls: %s)",
         "format_header": "Sondage №%d",
