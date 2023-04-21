@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.db.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import net.kodehawa.mantarobot.commands.utils.polls.Poll;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.data.Config;
@@ -225,12 +224,6 @@ public class GuildDatabase implements ManagedMongoObject {
     private boolean ignoreBotsWelcomeMessage = false;
     @ConfigName("Ignore bots: autorole")
     private boolean ignoreBotsAutoRole = false;
-    @HiddenConfig //removed in 6.0.10
-    private boolean enabledLevelUpMessages = false;
-    @HiddenConfig //removed in 6.0.10
-    private String levelUpChannel = null;
-    @HiddenConfig //removed in 6.0.10
-    private String levelUpMessage = null;
     @ConfigName("Blacklisted image tags")
     private Set<String> blackListedImageTags = new HashSet<>();
     @ConfigName("Channel (id): Join message channel")
@@ -274,12 +267,10 @@ public class GuildDatabase implements ManagedMongoObject {
     @ConfigName("Disabled command warning display")
     private boolean commandWarningDisplay = false;
     @ConfigName("Has received greet message")
-    @JsonProperty("hasReceivedGreet")
     private boolean hasReceivedGreet = false;
     @ConfigName("People blocked from the birthday logging on this server.")
     private List<String> birthdayBlockedIds = new ArrayList<>();
     @ConfigName("Disabled game lobby/multiple")
-    @JsonProperty("gameMultipleDisabled")
     private boolean gameMultipleDisabled = false;
     @ConfigName("Timezone of logs")
     private String logTimezone;
@@ -563,30 +554,6 @@ public class GuildDatabase implements ManagedMongoObject {
 
     public void setIgnoreBotsAutoRole(boolean ignoreBotsAutoRole) {
         this.ignoreBotsAutoRole = ignoreBotsAutoRole;
-    }
-
-    public boolean isEnabledLevelUpMessages() {
-        return enabledLevelUpMessages;
-    }
-
-    public void setEnabledLevelUpMessages(boolean enabledLevelUpMessages) {
-        this.enabledLevelUpMessages = enabledLevelUpMessages;
-    }
-
-    public String getLevelUpChannel() {
-        return levelUpChannel;
-    }
-
-    public void setLevelUpChannel(String levelUpChannel) {
-        this.levelUpChannel = levelUpChannel;
-    }
-
-    public String getLevelUpMessage() {
-        return levelUpMessage;
-    }
-
-    public void setLevelUpMessage(String levelUpMessage) {
-        this.levelUpMessage = levelUpMessage;
     }
 
     public Set<String> getBlackListedImageTags() {
