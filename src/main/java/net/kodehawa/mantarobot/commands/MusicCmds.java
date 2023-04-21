@@ -69,8 +69,6 @@ public class MusicCmds {
             cr.registerSlash(Shuffle.class);
             cr.registerSlash(Stop.class);
             cr.registerSlash(Volume.class);
-        } else {
-            cr.registerSlash(PlayPlaceholder.class);
         }
     }
 
