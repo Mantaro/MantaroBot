@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.data;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
@@ -27,7 +26,6 @@ import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.codecs.MapCodecProvider;
 import net.kodehawa.mantarobot.utils.ShutdownCodes;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
-import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.Conventions;
@@ -37,9 +35,6 @@ import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisPool;
 
 import java.util.Arrays;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static com.mongodb.MongoClientSettings.getDefaultCodecRegistry;
@@ -48,10 +43,6 @@ import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 public class MantaroData {
     private static final Logger log = LoggerFactory.getLogger(MantaroData.class);
-    private static final ScheduledExecutorService exec = Executors.newScheduledThreadPool(
-            1, new ThreadFactoryBuilder().setNameFormat("MantaroData-Executor Thread-%d").build()
-    );
-
     private static JsonDataManager<Config> config;
     private static ManagedDatabase db;
     private static MongoClient mongoClient;
@@ -63,10 +54,6 @@ public class MantaroData {
 
     private static final CodecRegistry pojoCodecRegistry = fromRegistries(getDefaultCodecRegistry(), fromProviders(pojoCodecProvider));
     private static final JedisPool defaultJedisPool = new JedisPool(config().get().jedisPoolAddress, config().get().jedisPoolPort);
-
-    static {
-        Metrics.THREAD_POOL_COLLECTOR.add("mantaro-data", exec);
-    }
 
     public static JsonDataManager<Config> config() {
         if (config == null) {
@@ -113,18 +100,6 @@ public class MantaroData {
         }
 
         return db;
-    }
-
-    public static ScheduledExecutorService getExecutor() {
-        return exec;
-    }
-
-    public static void queue(Callable<?> action) {
-        getExecutor().submit(action);
-    }
-
-    public static void queue(Runnable runnable) {
-        getExecutor().submit(runnable);
     }
 
     public static JedisPool getDefaultJedisPool() {
