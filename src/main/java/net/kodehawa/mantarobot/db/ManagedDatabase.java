@@ -222,21 +222,21 @@ public class ManagedDatabase {
             return null;
         }
 
-        log("Requesting marriage {} from MongoDB", marriageId);
+        log("Requesting Marriage {} from MongoDB", marriageId);
         return dbMantaro().getCollection(Marriage.DB_TABLE, Marriage.class).find(Filters.eq(marriageId)).first();
     }
 
     @Nonnull
     @CheckReturnValue
     public List<Marriage> getMarriages() {
-        log("Requesting all marriages from MongoDB");
+        log("Requesting all Marriages from MongoDB");
         return Lists.newArrayList(dbMantaro().getCollection(Marriage.DB_TABLE, Marriage.class).find());
     }
 
     @Nonnull
     @CheckReturnValue
     public List<PremiumKey> getPremiumKeys() {
-        log("Requesting all premium keys from MongoDB");
+        log("Requesting all Premium Keys from MongoDB");
         var collection = dbMantaro().getCollection(PremiumKey.DB_TABLE, PremiumKey.class);
         return Lists.newArrayList(collection.find());
     }

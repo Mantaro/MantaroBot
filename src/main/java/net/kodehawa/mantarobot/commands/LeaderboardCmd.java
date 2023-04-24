@@ -92,7 +92,7 @@ public class LeaderboardCmd {
         public static class Money extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                if (config.isPremiumBot) {
+                if (config.premiumBot) {
                     var tableName = "players";
                     var moneyLeaderboard = getLeaderboard(tableName, Player.class, Sorts.descending("money"));
                     send(ctx,

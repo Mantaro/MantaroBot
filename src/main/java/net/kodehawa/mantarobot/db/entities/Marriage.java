@@ -44,7 +44,7 @@ public class Marriage implements ManagedMongoObject {
     // Serialization constructor
     public Marriage() { }
 
-    public Marriage(String id, String player1, String player2) {
+    protected Marriage(String id, String player1, String player2) {
         this.id = id;
         this.player1 = player1;
         this.player2 = player2;

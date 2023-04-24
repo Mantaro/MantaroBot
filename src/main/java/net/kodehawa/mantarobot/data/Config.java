@@ -32,7 +32,7 @@ public class Config {
     public String botsOnDiscordToken;
     public String discordBoatsToken;
     public String dblToken;
-    public boolean isPremiumBot = false;
+    public boolean premiumBot;
     public List<String> owners = new ArrayList<>();
     public String[] prefix = {"~>", "->"};
     public String shardWebhookUrl;
@@ -93,7 +93,7 @@ public class Config {
     }
 
     public boolean isPremiumBot() {
-        return this.isPremiumBot;
+        return this.premiumBot;
     }
 
     public List<String> getOwners() {
