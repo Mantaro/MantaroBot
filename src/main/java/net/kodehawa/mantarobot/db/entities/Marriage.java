@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.db.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
@@ -78,7 +77,7 @@ public class Marriage implements ManagedMongoObject {
         return new Marriage(marriageId, userId1, userId2);
     }
 
-    @JsonIgnore
+    @BsonIgnore
     public String getOtherPlayer(String id) {
         if (player1.equals(id)) {
             return player2;
@@ -215,13 +214,13 @@ public class Marriage implements ManagedMongoObject {
     }
 
     @BsonIgnore
-    public void setCar(boolean car) {
+    public void car(boolean car) {
         this.hasCar = car;
         fieldTracker.put("hasCar", this.hasCar);
     }
 
     @BsonIgnore
-    public void setHouse(boolean house) {
+    public void house(boolean house) {
         this.hasCar = house;
         fieldTracker.put("hasHouse", this.hasHouse);
     }

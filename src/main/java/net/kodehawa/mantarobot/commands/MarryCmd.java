@@ -539,7 +539,7 @@ public class MarryCmd {
 
                         playerConfirmed.updateAllChanged();
 
-                        marriageConfirmed.setHouse(true);
+                        marriageConfirmed.house(true);
                         marriageConfirmed.houseName(finalContent);
                         marriageConfirmed.updateAllChanged();
                         hook.editOriginal(languageContext.get("commands.marry.buyhouse.success").formatted(EmoteReference.POPPER, housePrice, finalContent))
@@ -632,7 +632,7 @@ public class MarryCmd {
                         playerConfirmed.removeMoney(carPrice);
                         playerConfirmed.updateAllChanged();
 
-                        marriageConfirmed.setCar(true);
+                        marriageConfirmed.car(true);
                         marriageConfirmed.carName(finalContent);
                         marriageConfirmed.updateAllChanged();
                         hook.editOriginal(languageContext.get("commands.marry.buycar.success").formatted(EmoteReference.POPPER, carPrice, finalContent))
