@@ -65,6 +65,9 @@ This are java arguments that Mantaro parses outside of config.json at startup an
 
 The above options can also be used as environment variables by removing `-D`, and replacing `.` with `_`, for example, `-Dmantaro.node-number=x` becomes environment variable `MANTARO_NODE_NUMBER=x`
 
+## Migrating data from RethinkDB to MongoDB
+If you have a self-hosted Mantaro instance and want to use the `master` branch, run [this](https://github.com/Mantaro/MantaroDatabaseMigrator) program with both MongoDB and RethinkDB on, make sure to set the MIGRATOR_MONGO_URI, MIGRATOR_RETHINK_HOST and MIGRATOR_RETHINK_USER and MIGRATOR_RETHINK_PW environment variables. It should do the job by itself, assuming you set the database hosts/uri correctly.
+
 # Tools and Contributors
 
 ## Tools Mantaro uses
