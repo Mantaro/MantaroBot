@@ -288,7 +288,7 @@ public class CurrencyActionCmds {
         );
 
         HousePet pet = null;
-        if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+        if (player.getActivePetChoice(marriage) == PetChoice.MARRIAGE) {
             if (marriage != null && marriage.getPet() != null) {
                 pet = marriage.getPet();
             }
@@ -461,11 +461,11 @@ public class CurrencyActionCmds {
 
         handlePetBadges(player, marriage, pet);
         player.updateAllChanged();
-        if (pet != null && player.getActiveChoice(marriage) == PetChoice.PERSONAL) {
+        if (pet != null && player.getActivePetChoice(marriage) == PetChoice.PERSONAL) {
             pet.updateAllChanged(player);
         }
 
-        if (marriage != null && pet != null && player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+        if (marriage != null && pet != null && player.getActivePetChoice(marriage) == PetChoice.MARRIAGE) {
             pet.updateAllChanged(marriage);
         }
 
@@ -549,7 +549,7 @@ public class CurrencyActionCmds {
 
             fish.forEach((i1) -> fishItems.add(3, i1));
             HousePet pet = null;
-            if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+            if (player.getActivePetChoice(marriage) == PetChoice.MARRIAGE) {
                 if (marriage != null && marriage.getPet() != null) {
                     pet = marriage.getPet();
                 }
@@ -695,12 +695,12 @@ public class CurrencyActionCmds {
 
             //Save all changes to the player object.
             player.updateAllChanged();
-            if (pet != null && player.getActiveChoice(marriage) == PetChoice.PERSONAL) {
+            if (pet != null && player.getActivePetChoice(marriage) == PetChoice.PERSONAL) {
                 pet.updateAllChanged(player);
             }
 
             // Save pet stats.
-            if (marriage != null && pet != null && player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+            if (marriage != null && pet != null && player.getActivePetChoice(marriage) == PetChoice.MARRIAGE) {
                 pet.updateAllChanged(marriage);
             }
 
@@ -747,7 +747,7 @@ public class CurrencyActionCmds {
             money += Math.max(moneyIncrease / 4, random.nextInt(moneyIncrease));
 
             HousePet pet = null;
-            if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+            if (player.getActivePetChoice(marriage) == PetChoice.MARRIAGE) {
                 if (marriage != null && marriage.getPet() != null) {
                     pet = marriage.getPet();
                 }
@@ -861,12 +861,12 @@ public class CurrencyActionCmds {
             }
 
             player.updateAllChanged();
-            if (pet != null && player.getActiveChoice(marriage) == PetChoice.PERSONAL) {
+            if (pet != null && player.getActivePetChoice(marriage) == PetChoice.PERSONAL) {
                 pet.updateAllChanged(player);
             }
 
             // Save pet stuff.
-            if (marriage != null && pet != null && player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+            if (marriage != null && pet != null && player.getActivePetChoice(marriage) == PetChoice.MARRIAGE) {
                 pet.updateAllChanged(marriage);
             }
 
@@ -922,7 +922,7 @@ public class CurrencyActionCmds {
             player.addBadgeIfAbsent(Badge.THE_BEST_FRIEND);
         }
 
-        if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+        if (player.getActivePetChoice(marriage) == PetChoice.MARRIAGE) {
             player.addBadgeIfAbsent(Badge.BEST_FRIEND_MARRY);
         } else {
             player.addBadgeIfAbsent(Badge.BEST_FRIEND);

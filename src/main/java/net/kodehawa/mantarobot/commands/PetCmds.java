@@ -230,7 +230,7 @@ public class PetCmds {
                         .setDescription(language.get("commands.pet.status.description"))
                         .addField(
                                 EmoteReference.ZAP.toHeaderString() + language.get("commands.pet.status.choice"),
-                                "%s".formatted(player.getActiveChoice(marriage).getReadableName()), true
+                                "%s".formatted(player.getActivePetChoice(marriage).getReadableName()), true
                         )
                         .addField(
                                 EmoteReference.MONEY.toHeaderString() + language.get("commands.pet.status.cost"),
@@ -306,7 +306,7 @@ public class PetCmds {
 
                 ctx.replyStripped("commands.pet.check.success",
                         pet.getName(), EmoteReference.DROPLET, pet.getThirst(),
-                        EmoteReference.FORK, pet.getHunger(), EmoteReference.DUST, pet.getDust(), player.getActiveChoice(marriage)
+                        EmoteReference.FORK, pet.getHunger(), EmoteReference.DUST, pet.getDust(), player.getActivePetChoice(marriage)
                 );
             }
         }
@@ -321,7 +321,7 @@ public class PetCmds {
                 var player = ctx.getPlayer();
                 var marriage = dbUser.getMarriage();
                 var pet = player.getPet();
-                var choice = player.getActiveChoice(marriage);
+                var choice = player.getActivePetChoice(marriage);
 
                 if (choice == PetChoice.MARRIAGE) {
                     if (marriage == null) {
@@ -383,7 +383,7 @@ public class PetCmds {
                 player.markPetChange();
                 player.updateAllChanged();
 
-                if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+                if (player.getActivePetChoice(marriage) == PetChoice.MARRIAGE) {
                     marriage.markPetChange();
                     marriage.updateAllChanged();
                 }
@@ -418,7 +418,7 @@ public class PetCmds {
 
                 Message message;
                 var lang = ctx.getLanguageContext();
-                if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+                if (player.getActivePetChoice(marriage) == PetChoice.MARRIAGE) {
                     if (marriage.isLocked()) {
                         ctx.reply("commands.pet.locked_notice", EmoteReference.ERROR);
                         return;
@@ -456,7 +456,7 @@ public class PetCmds {
                         var toRefundFinal = (long) ((petFinal.getType().getCost() / 2) * 0.9);
                         var toRefundPersonalFinal = (long) (petFinal.getType().getCost() * 0.9);
 
-                        if (playerFinal.getActiveChoice(marriageConfirmed) == PetChoice.MARRIAGE) {
+                        if (playerFinal.getActivePetChoice(marriageConfirmed) == PetChoice.MARRIAGE) {
                             if (marriageConfirmed == null) {
                                 hook.editOriginal(lang.get("commands.pet.buy.no_marriage_marry").formatted(EmoteReference.ERROR)).setComponents().queue();
                                 return Operation.COMPLETED;
@@ -507,7 +507,7 @@ public class PetCmds {
                         playerFinal.markPetChange();
                         playerFinal.updateAllChanged();
 
-                        if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE && marriageConfirmed != null) {
+                        if (player.getActivePetChoice(marriage) == PetChoice.MARRIAGE && marriageConfirmed != null) {
                             marriageConfirmed.locked(false);
                             marriageConfirmed.updateAllChanged();
                         }
@@ -539,7 +539,7 @@ public class PetCmds {
                 var name = ctx.getOptionAsString("name").replace("\n", "").trim();
                 var type = ctx.getOptionAsString("type");
 
-                final var petChoice = player.getActiveChoice(marriage);
+                final var petChoice = player.getActivePetChoice(marriage);
                 if (petChoice == PetChoice.MARRIAGE) {
                     if (marriage == null) {
                         ctx.reply("commands.pet.no_marriage", EmoteReference.ERROR);
@@ -628,7 +628,7 @@ public class PetCmds {
                         var playerConfirmed = ctx.getPlayer();
                         var dbUserConfirmed = ctx.getDBUser();
                         var marriageConfirmed = dbUserConfirmed.getMarriage();
-                        var petChoiceConfirmed = playerConfirmed.getActiveChoice(marriageConfirmed);
+                        var petChoiceConfirmed = playerConfirmed.getActivePetChoice(marriageConfirmed);
 
                         if (petChoiceConfirmed == PetChoice.PERSONAL && !playerConfirmed.containsItem(ItemReference.INCUBATOR_EGG)) {
                             playerConfirmed.locked(false);
@@ -715,7 +715,7 @@ public class PetCmds {
                         var playerConfirmed = ctx.getPlayer();
                         var marriageConfirmed = ctx.getDBUser().getMarriage();
                         // Original player is fine, we checked it originally with this.
-                        if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE && marriageConfirmed != null) {
+                        if (player.getActivePetChoice(marriage) == PetChoice.MARRIAGE && marriageConfirmed != null) {
                             marriageConfirmed.locked(false);
                             marriageConfirmed.updateAllChanged();
                         }
@@ -776,7 +776,7 @@ public class PetCmds {
                 pet.setName(newName);
                 player.removeMoney(cost);
 
-                if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+                if (player.getActivePetChoice(marriage) == PetChoice.MARRIAGE) {
                     marriage.markPetChange();
                     marriage.updateAllChanged();
                 } else {
@@ -869,7 +869,7 @@ public class PetCmds {
                 player.markPetChange();
                 player.updateAllChanged();
 
-                if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+                if (player.getActivePetChoice(marriage) == PetChoice.MARRIAGE) {
                     marriage.markPetChange();
                     marriage.updateAllChanged();
                 }
@@ -938,7 +938,7 @@ public class PetCmds {
                 player.markPetChange();
                 player.updateAllChanged();
 
-                if (player.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+                if (player.getActivePetChoice(marriage) == PetChoice.MARRIAGE) {
                     marriage.markPetChange();
                     marriage.updateAllChanged();
                 }
@@ -1014,7 +1014,7 @@ public class PetCmds {
         final var playerData = ctx.getPlayer();
         final var marriage = ctx.getMarriage(ctx.getDBUser());
 
-        if (playerData.getActiveChoice(marriage) == PetChoice.PERSONAL) {
+        if (playerData.getActivePetChoice(marriage) == PetChoice.PERSONAL) {
             return playerData.getPet();
         } else {
             if (marriage == null) {
@@ -1026,7 +1026,7 @@ public class PetCmds {
     }
 
     private static Pair<PetChoice, HousePet> getPetOpposite(Player player, Marriage marriage) {
-        final var petChoice = player.getActiveChoice(marriage);
+        final var petChoice = player.getActivePetChoice(marriage);
         if (petChoice == PetChoice.PERSONAL) {
             if (marriage == null) {
                 // Technically the opposite...
@@ -1040,7 +1040,7 @@ public class PetCmds {
     }
 
     private static HousePet getCurrentPet(SlashContext ctx, Player player, Marriage marriage, String missing) {
-        final var petChoice = player.getActiveChoice(marriage);
+        final var petChoice = player.getActivePetChoice(marriage);
         final var languageContext = ctx.getLanguageContext();
 
         if (petChoice == PetChoice.PERSONAL) {

@@ -686,7 +686,7 @@ public class Player implements ManagedMongoObject {
     }
 
     @BsonIgnore
-    public PetChoice getActiveChoice(Marriage marriage) {
+    public PetChoice getActivePetChoice(Marriage marriage) {
         if (getPetChoice() == null) {
             if (marriage == null || marriage.getPet() == null) {
                 return PetChoice.PERSONAL;

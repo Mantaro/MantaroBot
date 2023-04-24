@@ -142,7 +142,7 @@ public enum ProfileComponent {
     }, true, false),
     PET(EmoteReference.DOG, i18nContext -> i18nContext.get("commands.profile.pet.header"), (holder, i18nContext) -> {
         final var playerData = holder.getPlayer();
-        final var petType = playerData.getActiveChoice(holder.getMarriage());
+        final var petType = playerData.getActivePetChoice(holder.getMarriage());
         HousePet pet = null;
         if (petType == PetChoice.MARRIAGE && holder.getMarriage() != null) {
             pet = holder.getMarriage().getPet();
