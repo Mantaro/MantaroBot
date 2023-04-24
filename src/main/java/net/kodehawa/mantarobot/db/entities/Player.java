@@ -67,9 +67,6 @@ public class Player implements ManagedMongoObject {
     private long gamesWon = 0;
     private long lastDailyAt;
     private long lockedUntil = 0;
-    private Long marriedSince = null;
-    private String marriedWith = null;
-    private long moneyOnBank = 0;
     //null = most important badge shows.
     private Badge mainBadge = null;
     private long marketUsed;
@@ -173,18 +170,6 @@ public class Player implements ManagedMongoObject {
 
     public long getLockedUntil() {
         return this.lockedUntil;
-    }
-
-    public Long getMarriedSince() {
-        return this.marriedSince;
-    }
-
-    public String getMarriedWith() {
-        return this.marriedWith;
-    }
-
-    public long getMoneyOnBank() {
-        return this.moneyOnBank;
     }
 
     public Badge getMainBadge() {
@@ -298,18 +283,6 @@ public class Player implements ManagedMongoObject {
 
     protected void setLockedUntil(long lockedUntil) {
         this.lockedUntil = lockedUntil;
-    }
-
-    protected void setMarriedSince(Long marriedSince) {
-        this.marriedSince = marriedSince;
-    }
-
-    protected void setMarriedWith(String marriedWith) {
-        this.marriedWith = marriedWith;
-    }
-
-    protected void setMoneyOnBank(long moneyOnBank) {
-        this.moneyOnBank = moneyOnBank;
     }
 
     protected void setMainBadge(Badge mainBadge) {
