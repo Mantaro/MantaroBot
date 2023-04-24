@@ -157,6 +157,10 @@ public class UserDatabase implements ManagedMongoObject {
         return this.receivedExpirationWarning;
     }
 
+    public long getPremiumUntil() {
+        return this.premiumUntil;
+    }
+
     // Protected: DO NOT INTERACT DIRECTLY WITH, CHANGES TO THE MAP FROM THIS METHOD WILL NOT BE UPDATED
     protected Map<String, Long> getWaifus() {
         return this.waifus;
@@ -582,10 +586,6 @@ public class UserDatabase implements ManagedMongoObject {
     @Override
     public void delete() {
         MantaroData.db().deleteMongo(this, UserDatabase.class);
-    }
-
-    public long getPremiumUntil() {
-        return this.premiumUntil;
     }
 
     public Config getConfig() {
