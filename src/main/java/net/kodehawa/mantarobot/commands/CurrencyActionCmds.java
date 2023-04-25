@@ -695,6 +695,7 @@ public class CurrencyActionCmds {
 
             //Save all changes to the player object.
             player.updateAllChanged();
+
             if (pet != null && player.getActivePetChoice(marriage) == PetChoice.PERSONAL) {
                 pet.updateAllChanged(player);
             }
