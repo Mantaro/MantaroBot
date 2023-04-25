@@ -1818,14 +1818,14 @@
         "experience": "Expérience",
         "game": "%1sCette page montre le top 10 des gens qui ont gagnés le plus de parties.\n\nVa voir `/help command:game` ou `/help command:trivia` pour les détails!",
         "claim": "%1sCette page montre le top 10 des gens qui se sont le plus fait acheter en tant que Waifu.\n\nVa voir `/help command:waifu` pour plus de détails.",
-        "money_old": "%1$sCette page montre le top 10 des gens les plus riches de Mantaro (avant le reset)!\n",
-        "money": "%1$sCette page montre le top 10 des gens les plus riches de Mantaro. C'est difficile d'être avare!",
-        "rep": "%1sCette page montre le top 10 des gens qui ont le plus de réputation.",
-        "streak": "%1sCette page montre le top 10 des gens qui ont le plus gros multiplicateur journalier.\n\nVa voir `/help command:daily` pour plus de détails",
-        "lvl": "%1sCette page montre le top 10 des gens qui ont le plus de niveaux.\n\nLes niveaux sont gagnés en parlant. Les commandes ne comptent pas et l'expérience a 30 secondes de pause.",
-        "waifu": "%1sCette page montre le top 10 des gens qui ont le plus de valeur Waifu.\n\nVa voir `/help command:waifu` pour plus de détails.",
-        "gamble": "%1sCette page montre le top 10 des gens qui ont le plus de paris gagnés.\n\nVa voir `/help command:gamble` pour plus de détails.",
-        "slots": "%1sCette page montre le top 10 des gens qui ont le plus de slots gagnés.\n\nVa voir `/help command:slots` pour plus de détails."
+        "money_old": "%1$sThis page shows the top 15 richest people on Mantaro (before the reset).\n",
+        "money": "%1$sThis page shows the top 15 richest people on Mantaro. Grinding is hard!",
+        "rep": "%1sThis page shows the top 15 people with the most reputation.",
+        "streak": "%1sThis page shows the top 15 people with the most daily streaks.\n\nCheck out `/help command:daily` for more info",
+        "lvl": "%1sThis page shows the top 15 people with the most level.\n\nLevel is earning through talking. Command usage doesn't contribute to experience, and XP has a 30 seconds cooldown.",
+        "waifu": "%1sThis page shows the top 15 people with the most weighted waifu value.\n\nCheck out `/help command:waifu` for details on the waifu system.",
+        "gamble": "%1sThis page shows the top 15 people with the most gamble runs won.\n\nCheck out `/help command:gamble` for details on gamble.",
+        "slots": "%1sThis page shows the top 15 people with the most slots runs won.\n\nCheck out `/help command:slots` for details on slots."
       }
     },
     "iteminfo": {
