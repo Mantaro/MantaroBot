@@ -161,18 +161,13 @@ public class LeaderboardCmd {
             protected void process(SlashContext ctx) {
                 var tableName = "players";
                 var reputationLeaderboard = getLeaderboard(tableName, Player.class, Sorts.descending("reputation"));
-                try {
-                    System.out.println("send?");
-                    send(ctx,
-                            generateLeaderboardEmbed(ctx,
-                                    ctx.getLanguageContext().get("commands.leaderboard.inner.rep").formatted(EmoteReference.REP),
-                                    "commands.leaderboard.reputation", reputationLeaderboard,
-                                    player -> Pair.of(getMember(ctx, player.getId()), String.valueOf(player.getReputation())), "%s**%s#%s** - %,d")
-                                    .build()
-                    );
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                send(ctx,
+                        generateLeaderboardEmbed(ctx,
+                                ctx.getLanguageContext().get("commands.leaderboard.inner.rep").formatted(EmoteReference.REP),
+                                "commands.leaderboard.reputation", reputationLeaderboard,
+                                player -> Pair.of(getMember(ctx, player.getId()), String.valueOf(player.getReputation())), "%s**%s#%s** - %,d")
+                                .build()
+                );
             }
         }
 
@@ -238,14 +233,12 @@ public class LeaderboardCmd {
 
     private static <T> AggregateIterable<T> getLeaderboard(String table, Class<T> deserialize, Bson sortFunction) {
         // Somehow using an index is automatic?
-        var result = MantaroData.db().dbMantaro().getCollection(table, deserialize)
+
+        return MantaroData.db().dbMantaro().getCollection(table, deserialize)
                 .aggregate(List.of(
                         Aggregates.sort(sortFunction),
                         Aggregates.limit(15))
                 );
-
-        System.out.println(result);
-        return result;
     }
 
     private static <T> EmbedBuilder generateLeaderboardEmbed(IContext ctx, String description, String leaderboardKey,
@@ -264,28 +257,21 @@ public class LeaderboardCmd {
                                 .map(mapFunction)
                                 .filter(p -> Objects.nonNull(p.getKey()))
                                 .map(p -> {
-                                    try {
-                                        final var lbMember = p.getKey();
-                                        //This is... an interesting place to do it lol
-                                        if (lbMember.getId() == ctx.getAuthor().getIdLong()) {
-                                            var player = MantaroData.db().getPlayer(ctx.getAuthor());
-                                            if (player.addBadgeIfAbsent(Badge.CHAMPION))
-                                                player.updateAllChanged();
-                                        }
-
-                                        System.out.println("format");
-                                        return format.formatted(
-                                                EmoteReference.BLUE_SMALL_MARKER,
-                                                lbMember.getName(),
-                                                config.isOwner(ctx.getAuthor()) ?
-                                                        lbMember.getDiscriminator() + " (" + lbMember.getId() + ")" : lbMember.getDiscriminator(),
-                                                StringUtils.isNumeric(p.getValue()) ? Long.parseLong(p.getValue()) : p.getValue()
-                                        );
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
+                                    final var lbMember = p.getKey();
+                                    //This is... an interesting place to do it lol
+                                    if (lbMember.getId() == ctx.getAuthor().getIdLong()) {
+                                        var player = MantaroData.db().getPlayer(ctx.getAuthor());
+                                        if (player.addBadgeIfAbsent(Badge.CHAMPION))
+                                            player.updateAllChanged();
                                     }
 
-                                    return "error";
+                                    return format.formatted(
+                                            EmoteReference.BLUE_SMALL_MARKER,
+                                            lbMember.getName(),
+                                            config.isOwner(ctx.getAuthor()) ?
+                                                    lbMember.getDiscriminator() + " (" + lbMember.getId() + ")" : lbMember.getDiscriminator(),
+                                            StringUtils.isNumeric(p.getValue()) ? Long.parseLong(p.getValue()) : p.getValue()
+                                    );
                                 })
                                 .collect(Collectors.joining("\n")),
                         false
