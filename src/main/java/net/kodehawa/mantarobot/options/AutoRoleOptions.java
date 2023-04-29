@@ -67,8 +67,8 @@ public class AutoRoleOptions extends OptionHandler {
                     return;
                 }
 
-                dbGuild.setGuildAutoRole(role.getId());
-                dbGuild.save();
+                dbGuild.guildAutoRole(role.getId());
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.autorole_set.success", EmoteReference.CORRECT, role.getName(), role.getPosition());
             };
 
@@ -84,8 +84,8 @@ public class AutoRoleOptions extends OptionHandler {
                 **Example:** `~>opts autorole unbind`
                 """, "Resets the servers autorole.", (ctx, args) -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.setGuildAutoRole(null);
-            dbGuild.save();
+            dbGuild.guildAutoRole(null);
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.autorole_unbind.success", EmoteReference.OK);
         });
 
@@ -238,8 +238,8 @@ public class AutoRoleOptions extends OptionHandler {
                 "Bot autorole ignore", "Toggles between ignoring bots on autorole assign and not.", (ctx) -> {
             var dbGuild = ctx.getDBGuild();
             boolean ignore = dbGuild.isIgnoreBotsAutoRole();
-            dbGuild.setIgnoreBotsAutoRole(!ignore);
-            dbGuild.save();
+            dbGuild.ignoreBotsAutoRole(!ignore);
+            dbGuild.updateAllChanged();
 
             ctx.sendLocalized("options.server_ignorebots_autoroles_toggle.success", EmoteReference.CORRECT, dbGuild.isIgnoreBotsAutoRole());
         });

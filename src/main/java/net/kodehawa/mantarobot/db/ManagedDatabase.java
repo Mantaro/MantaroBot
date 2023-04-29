@@ -32,13 +32,13 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.db.entities.CustomCommand;
-import net.kodehawa.mantarobot.db.entities.GuildDatabase;
+import net.kodehawa.mantarobot.db.entities.MongoGuild;
 import net.kodehawa.mantarobot.db.entities.MantaroObject;
 import net.kodehawa.mantarobot.db.entities.Marriage;
+import net.kodehawa.mantarobot.db.entities.MongoUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PlayerStats;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
-import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.slf4j.Logger;
@@ -94,7 +94,7 @@ public class ManagedDatabase {
 
     @Nullable
     @CheckReturnValue
-    public CustomCommand getCustomCommand(@Nonnull GuildDatabase guild, @Nonnull String name) {
+    public CustomCommand getCustomCommand(@Nonnull MongoGuild guild, @Nonnull String name) {
         return getCustomCommand(guild.getId(), name);
     }
 
@@ -127,34 +127,34 @@ public class ManagedDatabase {
 
     @Nonnull
     @CheckReturnValue
-    public List<CustomCommand> getCustomCommands(@Nonnull GuildDatabase guild) {
+    public List<CustomCommand> getCustomCommands(@Nonnull MongoGuild guild) {
         return getCustomCommands(guild.getId());
     }
 
     @Nonnull
     @CheckReturnValue
-    public GuildDatabase getGuild(@Nonnull String guildId) {
+    public MongoGuild getGuild(@Nonnull String guildId) {
         log("Requesting Guild {} from MongoDB", guildId);
-        var collection = dbMantaro().getCollection(GuildDatabase.DB_TABLE, GuildDatabase.class);
+        var collection = dbMantaro().getCollection(MongoGuild.DB_TABLE, MongoGuild.class);
         var guild = collection.find().filter(Filters.eq(guildId)).first();
-        return guild == null ? GuildDatabase.of(guildId) : guild;
+        return guild == null ? MongoGuild.of(guildId) : guild;
     }
 
     @Nonnull
     @CheckReturnValue
-    public GuildDatabase getGuild(@Nonnull Guild guild) {
+    public MongoGuild getGuild(@Nonnull Guild guild) {
         return getGuild(guild.getId());
     }
 
     @Nonnull
     @CheckReturnValue
-    public GuildDatabase getGuild(@Nonnull Member member) {
+    public MongoGuild getGuild(@Nonnull Member member) {
         return getGuild(member.getGuild());
     }
 
     @Nonnull
     @CheckReturnValue
-    public GuildDatabase getGuild(@Nonnull MessageReceivedEvent event) {
+    public MongoGuild getGuild(@Nonnull MessageReceivedEvent event) {
         return getGuild(event.getGuild());
     }
 
@@ -254,23 +254,23 @@ public class ManagedDatabase {
 
     @Nonnull
     @CheckReturnValue
-    public UserDatabase getUser(@Nonnull String userId) {
+    public MongoUser getUser(@Nonnull String userId) {
         log("Requesting User {} from MongoDB", userId);
-        var collection = dbMantaro().getCollection(UserDatabase.DB_TABLE, UserDatabase.class);
+        var collection = dbMantaro().getCollection(MongoUser.DB_TABLE, MongoUser.class);
         var user = collection.find().filter(Filters.eq(userId)).first();
 
-        return user == null ? UserDatabase.of(userId) : user;
+        return user == null ? MongoUser.of(userId) : user;
     }
 
     @Nonnull
     @CheckReturnValue
-    public UserDatabase getUser(@Nonnull User user) {
+    public MongoUser getUser(@Nonnull User user) {
         return getUser(user.getId());
     }
 
     @Nonnull
     @CheckReturnValue
-    public UserDatabase getUser(@Nonnull Member member) {
+    public MongoUser getUser(@Nonnull Member member) {
         return getUser(member.getUser());
     }
 

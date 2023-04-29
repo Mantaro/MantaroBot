@@ -52,8 +52,8 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.MongoUser;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
@@ -589,7 +589,7 @@ public class CurrencyCmds {
         );
     }
 
-    private static void useItem(IContext ctx, UserDatabase dbUser, Player player, String itemString, int amount) {
+    private static void useItem(IContext ctx, MongoUser dbUser, Player player, String itemString, int amount) {
         var item = ItemHelper.fromAnyNoId(itemString, ctx.getLanguageContext()).orElse(null);
         //Well, shit.
         if (item == null) {
@@ -616,7 +616,7 @@ public class CurrencyCmds {
         applyPotionEffect(ctx, dbUser, item, player, amount);
     }
 
-    private static void tools(IContext ctx, UserDatabase dbUser) {
+    private static void tools(IContext ctx, MongoUser dbUser) {
         var equippedItems = dbUser.getEquippedItems();
         var equipment = ProfileCmd.parsePlayerEquipment(equippedItems, ctx.getLanguageContext());
 
@@ -698,7 +698,7 @@ public class CurrencyCmds {
         ctx.sendLocalized("commands.inventory.calculate", EmoteReference.DIAMOND, member.getEffectiveName(), all);
     }
 
-    private static void showInventory(IContext ctx, User user, Player player, UserDatabase dbUser, boolean brief) {
+    private static void showInventory(IContext ctx, User user, Player player, MongoUser dbUser, boolean brief) {
         if (user.isBot()) {
             ctx.sendLocalized("commands.inventory.bot_notice", EmoteReference.ERROR);
             return;
@@ -762,7 +762,7 @@ public class CurrencyCmds {
         DiscordUtils.sendPaginatedEmbed(ctx.getUtilsContext(), builder, DiscordUtils.divideFields(7, fields), toShow);
     }
 
-    public static void applyPotionEffect(IContext ctx, UserDatabase dbUser, Item item, Player player, int amount) {
+    public static void applyPotionEffect(IContext ctx, MongoUser dbUser, Item item, Player player, int amount) {
         if ((item.getItemType() == ItemType.POTION || item.getItemType() == ItemType.BUFF) && item instanceof Potion potion) {
             final var equippedItems = dbUser.getEquippedItems();
             var type = equippedItems.getTypeFor(item);

@@ -23,8 +23,8 @@ import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.db.entities.MongoUser;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.function.Function;
@@ -186,12 +186,12 @@ public enum StatsComponent {
 
     public static class Holder {
         private final Player player;
-        private final UserDatabase dbUser;
+        private final MongoUser dbUser;
         private final I18nContext i18nContext;
         private final IContext context;
         private final User user;
 
-        public Holder(IContext context, I18nContext i18nContext, Player player, UserDatabase dbUser, User member) {
+        public Holder(IContext context, I18nContext i18nContext, Player player, MongoUser dbUser, User member) {
             this.player = player;
             this.dbUser = dbUser;
             this.i18nContext = i18nContext;
@@ -203,7 +203,7 @@ public enum StatsComponent {
             return player;
         }
 
-        public UserDatabase getDbUser() {
+        public MongoUser getDbUser() {
             return dbUser;
         }
 

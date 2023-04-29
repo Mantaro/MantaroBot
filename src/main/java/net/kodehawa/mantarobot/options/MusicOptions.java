@@ -61,8 +61,8 @@ public class MusicOptions extends OptionHandler {
                 return;
             }
 
-            dbGuild.setMaxFairQueue(fq);
-            dbGuild.save();
+            dbGuild.maxFairQueue(fq);
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.fairqueue_max.success", EmoteReference.CORRECT, fq);
         });
 
@@ -71,9 +71,9 @@ public class MusicOptions extends OptionHandler {
             var dbGuild = ctx.getDBGuild();
             boolean t1 = dbGuild.isMusicAnnounce();
 
-            dbGuild.setMusicAnnounce(!t1);
+            dbGuild.musicAnnounce(!t1);
             ctx.sendLocalized("options.musicannounce_toggle.success", EmoteReference.CORRECT, !t1);
-            dbGuild.save();
+            dbGuild.updateAllChanged();
         });
 
         registerOption("music:channel", "Music VC lock", """
@@ -89,8 +89,8 @@ public class MusicOptions extends OptionHandler {
 
             var dbGuild = ctx.getDBGuild();
             Consumer<VoiceChannel> consumer = voiceChannel -> {
-                dbGuild.setMusicChannel(voiceChannel.getId());
-                dbGuild.save();
+                dbGuild.musicChannel(voiceChannel.getId());
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.music_channel.success", EmoteReference.OK, voiceChannel.getName());
             };
 
@@ -119,8 +119,8 @@ public class MusicOptions extends OptionHandler {
             try {
                 int finalSize = Integer.parseInt(args[0]);
                 int applySize = Math.min(finalSize, 300);
-                dbGuild.setMusicQueueSizeLimit((long) applySize);
-                dbGuild.save();
+                dbGuild.musicQueueSizeLimit((long) applySize);
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.music_queuelimit.success", EmoteReference.MEGA, applySize);
             } catch (NumberFormatException ex) {
                 ctx.sendLocalized("options.music_queuelimit.invalid", EmoteReference.ERROR);
@@ -129,15 +129,15 @@ public class MusicOptions extends OptionHandler {
 
         registerOption("music:clearchannel", "Music channel clear", "Clears the specific music channel.", (ctx) -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.setMusicChannel(null);
-            dbGuild.save();
+            dbGuild.musicChannel(null);
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.music_clearchannel.success", EmoteReference.CORRECT);
         });
 
         registerOption("music:vote:toggle", "Vote toggle", "Toggles voting.", (ctx) -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.setMusicVote(!dbGuild.isMusicVote());
-            dbGuild.save();
+            dbGuild.musicVote(!dbGuild.isMusicVote());
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.music_vote_toggle.success", EmoteReference.CORRECT, dbGuild.isMusicVote());
         });
     }

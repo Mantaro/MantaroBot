@@ -52,7 +52,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.UserDatabase;
+import net.kodehawa.mantarobot.db.entities.MongoUser;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RandomCollection;
 import net.kodehawa.mantarobot.utils.commands.campaign.Campaign;
@@ -249,7 +249,7 @@ public class CurrencyActionCmds {
         });
     }
 
-    private static void mine(IContext ctx, Player player, UserDatabase dbUser, Marriage marriage) {
+    private static void mine(IContext ctx, Player player, MongoUser dbUser, Marriage marriage) {
         final var languageContext = ctx.getLanguageContext();
         final var equipped = dbUser.getEquippedItems().of(PlayerEquipment.EquipmentType.PICK);
 
@@ -474,7 +474,7 @@ public class CurrencyActionCmds {
         ctx.sendStripped(message);
     }
 
-    private static void fish(IContext ctx, Player player, UserDatabase dbUser, Marriage marriage) {
+    private static void fish(IContext ctx, Player player, MongoUser dbUser, Marriage marriage) {
         final var languageContext = ctx.getLanguageContext();
         FishRod item;
         var equipped = dbUser.getEquippedItems().of(PlayerEquipment.EquipmentType.ROD);
@@ -709,7 +709,7 @@ public class CurrencyActionCmds {
         }
     }
 
-    private static void chop(IContext ctx, Player player, UserDatabase dbUser, Marriage marriage) {
+    private static void chop(IContext ctx, Player player, MongoUser dbUser, Marriage marriage) {
         final var languageContext = ctx.getLanguageContext();
         var extraMessage = "\n";
         var equipped = dbUser.getEquippedItems().of(PlayerEquipment.EquipmentType.AXE);

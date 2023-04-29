@@ -46,10 +46,10 @@ public class UserMessageOptions extends OptionHandler {
                 **Example:** `~>opts usermessage resetchannel`
                 """, "Clears the join/leave message channel.", (ctx, args) -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.setLogJoinLeaveChannel(null);
-            dbGuild.setLogLeaveChannel(null);
-            dbGuild.setLogJoinChannel(null);
-            dbGuild.save();
+            dbGuild.logJoinLeaveChannel(null);
+            dbGuild.logLeaveChannel(null);
+            dbGuild.logJoinChannel(null);
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.usermessage_resetchannel.success", EmoteReference.CORRECT);
         });
         registerOption("usermessage:resetdata", "Reset join/leave message data", """
@@ -57,11 +57,11 @@ public class UserMessageOptions extends OptionHandler {
                 Example:** `~>opts usermessage resetdata`
                 """, "Resets the join/leave message data.", (ctx, args) -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.setLeaveMessage(null);
-            dbGuild.setJoinMessage(null);
-            dbGuild.setLogJoinLeaveChannel(null);
+            dbGuild.leaveMessage(null);
+            dbGuild.joinMessage(null);
+            dbGuild.logJoinLeaveChannel(null);
 
-            dbGuild.save();
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.usermessage_resetdata.success", EmoteReference.CORRECT);
         });
 
@@ -79,8 +79,8 @@ public class UserMessageOptions extends OptionHandler {
             var channelName = args[0];
 
             Consumer<StandardGuildMessageChannel> consumer = tc -> {
-                dbGuild.setLogJoinChannel(tc.getId());
-                dbGuild.save();
+                dbGuild.logJoinChannel(tc.getId());
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.usermessage_join_channel.success", EmoteReference.OK, tc.getAsMention());
             };
 
@@ -134,8 +134,8 @@ public class UserMessageOptions extends OptionHandler {
 
         registerOption("usermessage:join:resetchannel", "Resets the join message channel", "Resets the join message channel", ctx -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.setLogJoinChannel(null);
-            dbGuild.save();
+            dbGuild.logJoinChannel(null);
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.usermessage_join_resetchannel.success", EmoteReference.CORRECT);
         });
         addOptionAlias("usermessage:join:resetchannel", "resetjoinchannel");
@@ -153,8 +153,8 @@ public class UserMessageOptions extends OptionHandler {
             var dbGuild = ctx.getDBGuild();
             var channelName = args[0];
             Consumer<StandardGuildMessageChannel> consumer = tc -> {
-                dbGuild.setLogLeaveChannel(tc.getId());
-                dbGuild.save();
+                dbGuild.logLeaveChannel(tc.getId());
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.usermessage_leave_channel.success", EmoteReference.CORRECT, tc.getAsMention());
             };
 
@@ -208,8 +208,8 @@ public class UserMessageOptions extends OptionHandler {
 
         registerOption("usermessage:leave:resetchannel", "Resets the leave message channel", "Resets the leave message channel", ctx -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.setLogLeaveChannel(null);
-            dbGuild.save();
+            dbGuild.logLeaveChannel(null);
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.usermessage_leave_resetchannel.success", EmoteReference.CORRECT);
         });
         addOptionAlias("usermessage:leave:resetchannel", "resetleavechannel");
@@ -228,8 +228,8 @@ public class UserMessageOptions extends OptionHandler {
             var channelName = args[0];
 
             Consumer<StandardGuildMessageChannel> consumer = textChannel -> {
-                dbGuild.setLogJoinLeaveChannel(textChannel.getId());
-                dbGuild.save();
+                dbGuild.logJoinLeaveChannel(textChannel.getId());
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.usermessage_channel.success", EmoteReference.OK, textChannel.getAsMention());
             };
 
@@ -251,8 +251,8 @@ public class UserMessageOptions extends OptionHandler {
             var dbGuild = ctx.getDBGuild();
             var joinMessage = ctx.getCustomContent();
 
-            dbGuild.setJoinMessage(joinMessage);
-            dbGuild.save();
+            dbGuild.joinMessage(joinMessage);
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.usermessage_joinmessage.success", EmoteReference.CORRECT, joinMessage);
         });
         addOptionAlias("usermessage:joinmessage", "joinmessage");
@@ -260,8 +260,8 @@ public class UserMessageOptions extends OptionHandler {
         registerOption("usermessage:resetjoinmessage", "Reset join message",
                 "Resets the join message", "Resets the join message.", (ctx, args) -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.setJoinMessage(null);
-            dbGuild.save();
+            dbGuild.joinMessage(null);
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.usermessage_joinmessage_reset.success", EmoteReference.CORRECT);
         });
         addOptionAlias("usermessage:resetjoinmessage", "resetjoinmessage");
@@ -278,8 +278,8 @@ public class UserMessageOptions extends OptionHandler {
             var dbGuild = ctx.getDBGuild();
             var leaveMessage = ctx.getCustomContent();
 
-            dbGuild.setLeaveMessage(leaveMessage);
-            dbGuild.save();
+            dbGuild.leaveMessage(leaveMessage);
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.usermessage_leavemessage.success", EmoteReference.CORRECT, leaveMessage);
         });
         addOptionAlias("usermessage:leavemessage", "leavemessage");
@@ -287,8 +287,8 @@ public class UserMessageOptions extends OptionHandler {
         registerOption("usermessage:resetleavemessage", "Reset leave message",
                 "Resets the leave message","Resets the leave message.", (ctx, args) -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.setLeaveMessage(null);
-            dbGuild.save();
+            dbGuild.leaveMessage(null);
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.usermessage_leavemessage_reset.success", EmoteReference.CORRECT);
         });
         addOptionAlias("usermessage:resetleavemessage", "resetleavemessage");

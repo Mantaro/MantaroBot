@@ -15,7 +15,7 @@
  */
 
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.db.entities.GuildDatabase;
+import net.kodehawa.mantarobot.db.entities.MongoGuild;
 import net.kodehawa.mantarobot.utils.LanguageKeyNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ class I18nTest {
     @Test
     void testI18n() throws LanguageKeyNotFoundException {
         //Should default to en_US
-        I18nContext context = new I18nContext(new GuildDatabase(), null);
+        I18nContext context = new I18nContext(new MongoGuild(), null);
         Assertions.assertEquals("en_US", context.getContextLanguage());
 
         String localized = context.get("test.inherited");

@@ -29,7 +29,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.GuildDatabase;
+import net.kodehawa.mantarobot.db.entities.MongoGuild;
 import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.utils.StringUtils;
@@ -222,15 +222,15 @@ public class OptsCmd {
                     var greetReceived = temp.hasReceivedGreet();
 
                     //Assign everything all over again
-                    var newDbGuild = GuildDatabase.of(dbGuild.getId());
-                    newDbGuild.setPremiumUntil(dbGuild.getPremiumUntil());
-                    newDbGuild.setGameTimeoutExpectedAt(gameTimeoutExpectedAt);
-                    newDbGuild.setRanPolls(ranPolls);
-                    newDbGuild.setCases(cases);
-                    newDbGuild.setPremiumKey(premiumKey);
-                    newDbGuild.setAllowedBirthdays(allowedBirthdays);
-                    newDbGuild.setNotifiedFromBirthdayChange(notified);
-                    newDbGuild.setHasReceivedGreet(greetReceived);
+                    var newDbGuild = MongoGuild.of(dbGuild.getId());
+                    newDbGuild.premiumUntil(dbGuild.getPremiumUntil());
+                    newDbGuild.gameTimeoutExpectedAt(gameTimeoutExpectedAt);
+                    newDbGuild.ranPolls(ranPolls);
+                    newDbGuild.cases(cases);
+                    newDbGuild.premiumKey(premiumKey);
+                    newDbGuild.getAllowedBirthdays().addAll(allowedBirthdays);
+                    newDbGuild.notifiedFromBirthdayChange(notified);
+                    newDbGuild.receivedGreet(greetReceived);
 
                     newDbGuild.save();
 

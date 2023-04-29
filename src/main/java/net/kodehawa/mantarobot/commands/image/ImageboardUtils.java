@@ -29,7 +29,7 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
-import net.kodehawa.mantarobot.db.entities.GuildDatabase;
+import net.kodehawa.mantarobot.db.entities.MongoGuild;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -168,7 +168,7 @@ public class ImageboardUtils {
         return filter;
     }
 
-    private static void sendImage(SlashContext ctx, String imageboard, BoardImage image, GuildDatabase dbGuild) {
+    private static void sendImage(SlashContext ctx, String imageboard, BoardImage image, MongoGuild dbGuild) {
         final var tags = image.getTags();
         final var blackListedImageTags = dbGuild.getBlackListedImageTags();
 

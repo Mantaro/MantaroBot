@@ -20,7 +20,7 @@ package net.kodehawa.mantarobot.commands.info;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.db.entities.GuildDatabase;
+import net.kodehawa.mantarobot.db.entities.MongoGuild;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 public class HelpUtils {
-    public static String forType(GuildMessageChannel channel, GuildDatabase guildData, CommandCategory category) {
+    public static String forType(GuildMessageChannel channel, MongoGuild guildData, CommandCategory category) {
         return forType(
                 CommandProcessor.REGISTRY.commands().entrySet().stream()
                         .filter(entry -> entry.getValue().category() == category)
@@ -41,7 +41,7 @@ public class HelpUtils {
         );
     }
 
-    public static String forTypeSlash(GuildMessageChannel channel, GuildDatabase guildData, CommandCategory category) {
+    public static String forTypeSlash(GuildMessageChannel channel, MongoGuild guildData, CommandCategory category) {
         return forType(
                 CommandProcessor.REGISTRY.getCommandManager().slashCommands().entrySet().stream()
                         .filter(entry -> entry.getValue().getCategory() == category)

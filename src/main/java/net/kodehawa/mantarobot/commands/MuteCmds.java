@@ -150,8 +150,8 @@ public class MuteCmds {
                 );
             }
 
-            dbGuild.setCases(dbGuild.getCases() + 1);
-            dbGuild.save();
+            dbGuild.cases(dbGuild.getCases() + 1);
+            dbGuild.updateAllChanged();
             ModLog.log(
                     ctx.getMember(), user, logReason, ctx.getChannel().getName(), ModLog.ModAction.MUTE, dbGuild.getCases()
             );
@@ -217,8 +217,8 @@ public class MuteCmds {
                 ctx.reply("commands.unmute.success", EmoteReference.CORRECT, user.getName());
 
                 ModLog.log(ctx.getMember(), user, logReason, "none", ModLog.ModAction.UNMUTE, dbGuild.getCases());
-                dbGuild.setCases(dbGuild.getCases() + 1);
-                dbGuild.save();
+                dbGuild.cases(dbGuild.getCases() + 1);
+                dbGuild.updateAllChanged();
             } else {
                 ctx.reply("commands.unmute.not_muted", EmoteReference.ERROR);
             }

@@ -25,8 +25,8 @@ import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
 import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.db.entities.Marriage;
+import net.kodehawa.mantarobot.db.entities.MongoUser;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -244,11 +244,11 @@ public enum ProfileComponent {
     public static class Holder {
         private User user;
         private Player player;
-        private UserDatabase dbUser;
+        private MongoUser dbUser;
         private List<Badge> badges;
         private Marriage marriage;
 
-        public Holder(User user, Player player, UserDatabase dbUser, Marriage marriage, List<Badge> badges) {
+        public Holder(User user, Player player, MongoUser dbUser, Marriage marriage, List<Badge> badges) {
             this.user = user;
             this.player = player;
             this.dbUser = dbUser;
@@ -273,11 +273,11 @@ public enum ProfileComponent {
             this.player = player;
         }
 
-        public UserDatabase getDbUser() {
+        public MongoUser getDbUser() {
             return this.dbUser;
         }
 
-        public void setDbUser(UserDatabase dbUser) {
+        public void setDbUser(MongoUser dbUser) {
             this.dbUser = dbUser;
         }
 

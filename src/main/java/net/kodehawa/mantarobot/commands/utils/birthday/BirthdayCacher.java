@@ -20,7 +20,7 @@ package net.kodehawa.mantarobot.commands.utils.birthday;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import net.kodehawa.mantarobot.commands.BirthdayCmd;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.UserDatabase;
+import net.kodehawa.mantarobot.db.entities.MongoUser;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +50,7 @@ public class BirthdayCacher {
     public void cache() {
         executorService.submit(() -> {
             try {
-                var users = MantaroData.db().dbMantaro().getCollection("users", UserDatabase.class).find();
+                var users = MantaroData.db().dbMantaro().getCollection("users", MongoUser.class).find();
                 cachedBirthdays.clear();
 
                 for (var r : users) {

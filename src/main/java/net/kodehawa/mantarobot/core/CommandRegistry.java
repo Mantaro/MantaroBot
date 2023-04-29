@@ -42,8 +42,8 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.GuildDatabase;
-import net.kodehawa.mantarobot.db.entities.UserDatabase;
+import net.kodehawa.mantarobot.db.entities.MongoGuild;
+import net.kodehawa.mantarobot.db.entities.MongoUser;
 import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -94,7 +94,7 @@ public class CommandRegistry {
 
     // Process non-slash commands.
     // We filter non-guild events early on.
-    public void process(MessageReceivedEvent event, GuildDatabase dbGuild, String cmdName, String content, String prefix, boolean isMention) {
+    public void process(MessageReceivedEvent event, MongoGuild dbGuild, String cmdName, String content, String prefix, boolean isMention) {
         if (cmdName.length() >= 50) {
             return;
         }
@@ -449,7 +449,7 @@ public class CommandRegistry {
         Metrics.COMMAND_LATENCY.observe(end - start);
     }
 
-    public void renewPremiumKey(ManagedDatabase managedDatabase, User author, UserDatabase dbUser, GuildDatabase guildData) {
+    public void renewPremiumKey(ManagedDatabase managedDatabase, User author, MongoUser dbUser, MongoGuild guildData) {
         if (dbUser.getPremiumKey() != null) {
             final var currentKey = managedDatabase.getPremiumKey(dbUser.getPremiumKey());
             if (currentKey != null) {
@@ -549,7 +549,7 @@ public class CommandRegistry {
     }
 
 
-    public void sendDisabledNotice(MessageReceivedEvent event, GuildDatabase data, CommandDisableLevel level) {
+    public void sendDisabledNotice(MessageReceivedEvent event, MongoGuild data, CommandDisableLevel level) {
         if (data.isCommandWarningDisplay() && level != CommandDisableLevel.NONE) {
             event.getChannel().sendMessageFormat("%sThis command is disabled on this server. Reason: %s",
                     EmoteReference.ERROR, Utils.capitalize(level.getName())

@@ -57,7 +57,7 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.CustomCommand;
-import net.kodehawa.mantarobot.db.entities.GuildDatabase;
+import net.kodehawa.mantarobot.db.entities.MongoGuild;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
@@ -110,7 +110,7 @@ public class CustomCmds {
         return true;
     };
 
-    public static void handle(String prefix, String cmdName, Context ctx, GuildDatabase guildData, String args) {
+    public static void handle(String prefix, String cmdName, Context ctx, MongoGuild guildData, String args) {
         CustomCommand customCommand = getCustomCommand(ctx.getGuild().getId(), cmdName);
         if (customCommand == null) {
             return;

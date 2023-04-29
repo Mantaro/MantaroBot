@@ -112,8 +112,8 @@ public class PremiumCmds {
                     }
 
                     key.activate(180);
-                    guild.setPremiumKey(key.getId());
-                    guild.save();
+                    guild.premiumKey(key.getId());
+                    guild.updateAllChanged();
 
                     ctx.reply("commands.activatekey.guild_successful", EmoteReference.POPPER, key.getDurationDays());
                     return;

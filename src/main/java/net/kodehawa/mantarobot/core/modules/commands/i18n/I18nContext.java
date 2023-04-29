@@ -18,15 +18,15 @@
 package net.kodehawa.mantarobot.core.modules.commands.i18n;
 
 import net.kodehawa.mantarobot.data.I18n;
-import net.kodehawa.mantarobot.db.entities.GuildDatabase;
-import net.kodehawa.mantarobot.db.entities.UserDatabase;
+import net.kodehawa.mantarobot.db.entities.MongoGuild;
+import net.kodehawa.mantarobot.db.entities.MongoUser;
 
 public class I18nContext {
-    private GuildDatabase guildData;
-    private UserDatabase userData;
+    private MongoGuild guildData;
+    private MongoUser userData;
     private I18n i18n = null;
 
-    public I18nContext(GuildDatabase guildData, UserDatabase userData) {
+    public I18nContext(MongoGuild guildData, MongoUser userData) {
         this.guildData = guildData;
         this.userData = userData;
     }

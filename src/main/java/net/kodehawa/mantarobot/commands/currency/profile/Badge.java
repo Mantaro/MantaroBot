@@ -24,7 +24,7 @@ import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PlayerStats;
-import net.kodehawa.mantarobot.db.entities.UserDatabase;
+import net.kodehawa.mantarobot.db.entities.MongoUser;
 import net.kodehawa.mantarobot.utils.TriPredicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -773,7 +773,7 @@ public enum Badge {
     private final int iconStartX;
     //Where does the icon go in the Y axis relative to the circle placement on the avatar replacement.
     private final int iconStartY;
-    private final TriPredicate<Player, PlayerStats, UserDatabase> badgePredicate;
+    private final TriPredicate<Player, PlayerStats, MongoUser> badgePredicate;
     private final boolean obtainable;
 
     /**
@@ -787,7 +787,7 @@ public enum Badge {
      * @param description What did you do to win this
      * @param placeholder Whether to expect a placeholder image instead of an actual badge image (this being false will trigger a warning everytime the badge is loaded without a proper image)
      */
-    Badge(String display, String unicode, String description, int iconStartX, int iconStartY, TriPredicate<Player, PlayerStats, UserDatabase> badgePredicate, boolean placeholder, boolean obtainable) {
+    Badge(String display, String unicode, String description, int iconStartX, int iconStartY, TriPredicate<Player, PlayerStats, MongoUser> badgePredicate, boolean placeholder, boolean obtainable) {
         this.display = display;
         this.unicode = unicode;
         this.description = description;
@@ -824,7 +824,7 @@ public enum Badge {
 
     }
 
-    Badge(String display, String unicode, String description, int iconStartX, int iconStartY, TriPredicate<Player, PlayerStats, UserDatabase> badgePredicate, boolean placeholder) {
+    Badge(String display, String unicode, String description, int iconStartX, int iconStartY, TriPredicate<Player, PlayerStats, MongoUser> badgePredicate, boolean placeholder) {
         this(display, unicode, description, iconStartX, iconStartY, badgePredicate, placeholder, true);
     }
 
@@ -849,7 +849,7 @@ public enum Badge {
         return null;
     }
 
-    public static void assignBadges(Player player, PlayerStats stats, UserDatabase user) {
+    public static void assignBadges(Player player, PlayerStats stats, MongoUser user) {
         for (Badge b : Badge.values()) {
             if (b.badgePredicate.test(player, stats, user)) {
                 player.addBadgeIfAbsent(b);
@@ -905,7 +905,7 @@ public enum Badge {
         return this.unicode;
     }
 
-    public TriPredicate<Player, PlayerStats, UserDatabase> getBadgePredicate() {
+    public TriPredicate<Player, PlayerStats, MongoUser> getBadgePredicate() {
         return this.badgePredicate;
     }
 

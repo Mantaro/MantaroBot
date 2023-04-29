@@ -73,8 +73,8 @@ public class GuildOptions extends OptionHandler {
             }
 
             var dbGuild = ctx.getDBGuild();
-            dbGuild.setGuildCustomPrefix(prefix);
-            dbGuild.save();
+            dbGuild.guildCustomPrefix(prefix);
+            dbGuild.updateAllChanged();
 
             ctx.sendLocalized("options.prefix_set.success", EmoteReference.MEGA, prefix);
         });
@@ -82,8 +82,8 @@ public class GuildOptions extends OptionHandler {
         registerOption("prefix:clear", "Prefix clear",
                 "Clear the server prefix.\n**Example:** `~>opts prefix clear`", (ctx) -> {
                     var dbGuild = ctx.getDBGuild();
-                    dbGuild.setGuildCustomPrefix(null);
-                    dbGuild.save();
+                    dbGuild.guildCustomPrefix(null);
+                    dbGuild.updateAllChanged();
                     ctx.sendLocalized("options.prefix_clear.success", EmoteReference.MEGA);
         });
         addOptionAlias("prefix:clear", "prefix:reset");
@@ -110,8 +110,8 @@ public class GuildOptions extends OptionHandler {
                 return;
             }
 
-            dbGuild.setLang(language);
-            dbGuild.save();
+            dbGuild.lang(language);
+            dbGuild.updateAllChanged();
             ctx.sendFormat("%sSuccessfully set the language of this server to `%s`", EmoteReference.CORRECT, language);
         }));
 
@@ -129,8 +129,8 @@ public class GuildOptions extends OptionHandler {
             var lang = ctx.getLanguageContext();
 
             try {
-                dbGuild.setCustomAdminLockNew(Boolean.parseBoolean(action));
-                dbGuild.save();
+                dbGuild.customAdminLockNew(Boolean.parseBoolean(action));
+                dbGuild.updateAllChanged();
                 String toSend = String.format("%s%s", EmoteReference.CORRECT,
                         Boolean.parseBoolean(action) ? lang.get("options.admincustom.admin_only") : lang.get("options.admincustom.everyone")
                 );
@@ -156,13 +156,13 @@ public class GuildOptions extends OptionHandler {
             switch (mode) {
                 case "12h" -> {
                     ctx.sendLocalized("options.timedisplay_set.12h", EmoteReference.CORRECT);
-                    dbGuild.setTimeDisplay(1);
-                    dbGuild.save();
+                    dbGuild.timeDisplay(1);
+                    dbGuild.updateAllChanged();
                 }
                 case "24h" -> {
                     ctx.sendLocalized("options.timedisplay_set.24h", EmoteReference.CORRECT);
-                    dbGuild.setTimeDisplay(0);
-                    dbGuild.save();
+                    dbGuild.timeDisplay(0);
+                    dbGuild.updateAllChanged();
                 }
                 default -> ctx.sendLocalized("options.timedisplay_set.invalid", EmoteReference.ERROR);
             }
@@ -172,8 +172,8 @@ public class GuildOptions extends OptionHandler {
                 "Bot join/leave ignore", "Toggles between ignoring bots on join/leave message.", (ctx) -> {
             var dbGuild = ctx.getDBGuild();
             boolean ignore = dbGuild.isIgnoreBotsWelcomeMessage();
-            dbGuild.setIgnoreBotsWelcomeMessage(!ignore);
-            dbGuild.save();
+            dbGuild.ignoreBotsWelcomeMessage(!ignore);
+            dbGuild.updateAllChanged();
 
             ctx.sendLocalized("options.server_ignorebots_joinleave_toggle.success", EmoteReference.CORRECT, dbGuild.isIgnoreBotsWelcomeMessage());
         });
@@ -192,15 +192,15 @@ public class GuildOptions extends OptionHandler {
 
             var dbGuild = ctx.getDBGuild();
             if (args[0].equals("reset")) {
-                dbGuild.setEditMessageLog(null);
-                dbGuild.save();
+                dbGuild.editMessageLog(null);
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.logs_editmessage.reset_success", EmoteReference.CORRECT);
                 return;
             }
 
             String editMessage = ctx.getCustomContent();
-            dbGuild.setEditMessageLog(editMessage);
-            dbGuild.save();
+            dbGuild.editMessageLog(editMessage);
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.logs_editmessage.success", EmoteReference.CORRECT, editMessage);
         });
         addOptionAlias("logs:editmessage", "editmessage");
@@ -217,15 +217,15 @@ public class GuildOptions extends OptionHandler {
 
             var dbGuild = ctx.getDBGuild();
             if (args[0].equals("reset")) {
-                dbGuild.setDeleteMessageLog(null);
-                dbGuild.save();
+                dbGuild.deleteMessageLog(null);
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.logs_deletemessage.reset_success", EmoteReference.CORRECT);
                 return;
             }
 
             String deleteMessage = ctx.getCustomContent();
-            dbGuild.setDeleteMessageLog(deleteMessage);
-            dbGuild.save();
+            dbGuild.deleteMessageLog(deleteMessage);
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.logs_deletemessage.success", EmoteReference.CORRECT, deleteMessage);
         });
         addOptionAlias("logs:deletemessage", "deletemessage");
@@ -234,8 +234,8 @@ public class GuildOptions extends OptionHandler {
                 "Toggles on/off the disabled command warning.",
                 "Toggles on/off the disabled command warning.", (ctx, args) -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.setCommandWarningDisplay(!dbGuild.isCommandWarningDisplay()); //lombok names are amusing
-            dbGuild.save();
+            dbGuild.commandWarningDisplay(!dbGuild.isCommandWarningDisplay()); //lombok names are amusing
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.showdisablewarning.success", EmoteReference.CORRECT, dbGuild.isCommandWarningDisplay());
         });
 
@@ -243,8 +243,8 @@ public class GuildOptions extends OptionHandler {
                 "Disables game multiple and lobby.",
                 "Disables game multiple and lobby.", (ctx, args) -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.setGameMultipleDisabled(true);
-            dbGuild.save();
+            dbGuild.gameMultipleDisabled(true);
+            dbGuild.updateAllChanged();
 
             ctx.sendLocalized("options.lobby.disable.success", EmoteReference.CORRECT);
         });
@@ -258,8 +258,8 @@ public class GuildOptions extends OptionHandler {
                 return;
             }
 
-            dbGuild.setGameMultipleDisabled(false);
-            dbGuild.save();
+            dbGuild.gameMultipleDisabled(false);
+            dbGuild.updateAllChanged();
 
             ctx.sendLocalized("options.lobby.enable.success", EmoteReference.CORRECT);
         });
@@ -275,8 +275,8 @@ public class GuildOptions extends OptionHandler {
 
             Consumer<Role> consumer = (role) -> {
                 var dbGuild = ctx.getDBGuild();
-                dbGuild.setDjRoleId(role.getId());
-                dbGuild.save();
+                dbGuild.djRoleId(role.getId());
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.djrole_set.success", EmoteReference.CORRECT, role.getName(), role.getPosition());
             };
 
@@ -290,8 +290,8 @@ public class GuildOptions extends OptionHandler {
         registerOption("djrole:reset", "Resets the DJ role",
                 "Resets the DJ role", "Resets the DJ role.", (ctx, args) -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.setDjRoleId(null);
-            dbGuild.save();
+            dbGuild.djRoleId(null);
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.djrole_reset.success", EmoteReference.CORRECT);
         });
 
@@ -299,8 +299,8 @@ public class GuildOptions extends OptionHandler {
             "Disables explicit/questionable searches, regardless of the channel type.",
             "Disables explicit searches.", (ctx, args) -> {
                 var dbGuild = ctx.getDBGuild();
-                dbGuild.setDisableExplicit(true);
-                dbGuild.save();
+                dbGuild.disableExplicit(true);
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.imageboard_disableexplicit.success", EmoteReference.CORRECT);
         });
 
@@ -312,8 +312,8 @@ public class GuildOptions extends OptionHandler {
                     ctx.sendLocalized("options.imageboard_enableexplicit.already_enabled", EmoteReference.ERROR);
                     return;
                 }
-                dbGuild.setDisableExplicit(false);
-                dbGuild.save();
+                dbGuild.disableExplicit(false);
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.imageboard_enableexplicit.success", EmoteReference.CORRECT);
         });
     }

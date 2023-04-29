@@ -30,7 +30,7 @@ import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.GuildDatabase;
+import net.kodehawa.mantarobot.db.entities.MongoGuild;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONObject;
@@ -229,7 +229,7 @@ public class Poll {
     }
 
     // Cancel from outside.
-    public static void cancel(String id, GuildDatabase dbGuild) {
+    public static void cancel(String id, MongoGuild dbGuild) {
         try (var redis = pool.getResource()) {
             var data = redis.hget(table, id);
 

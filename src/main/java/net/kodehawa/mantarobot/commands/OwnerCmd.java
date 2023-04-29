@@ -594,8 +594,8 @@ import net.dv8tion.jda.api.entities.channel.concrete.*;
                 var optionalArguments = ctx.getOptionalArguments();
 
                 if (optionalArguments.containsKey("u")) {
-                    dbGuild.setMpLinkedTo(null);
-                    dbGuild.save();
+                    dbGuild.mpLinkedTo(null);
+                    dbGuild.updateAllChanged();
 
                     ctx.sendFormat("Un-linked MP for guild %s (%s).", guild.getName(), guild.getId());
                     return;
@@ -610,8 +610,8 @@ import net.dv8tion.jda.api.entities.channel.concrete.*;
                 }
 
                 //Guild assignment.
-                dbGuild.setMpLinkedTo(userString); //Patreon check will run from this user.
-                dbGuild.save();
+                dbGuild.mpLinkedTo(userString); //Patreon check will run from this user.
+                dbGuild.updateAllChanged();
 
                 ctx.sendFormat("Linked MP for guild %s (%s) to user %s (%s). Including this guild in pledge check (id -> user -> pledge). User tier: %s",
                         guild.getName(), guild.getId(), user.getName(), user.getId(), pledgeInfo.getReward()

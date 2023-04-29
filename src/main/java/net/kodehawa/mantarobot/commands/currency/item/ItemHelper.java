@@ -28,8 +28,8 @@ import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.MongoUser;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RandomCollection;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
@@ -67,7 +67,7 @@ public class ItemHelper {
 
         ItemReference.MOP.setAction(((ctx, season) -> {
             Player player = ctx.getPlayer();
-            UserDatabase dbUser = ctx.getDBUser();
+            MongoUser dbUser = ctx.getDBUser();
             if (!player.containsItem(ItemReference.MOP))
                 return false;
 
@@ -94,7 +94,7 @@ public class ItemHelper {
 
         ItemReference.POTION_CLEAN.setAction((ctx, season) -> {
             Player player = ctx.getPlayer();
-            UserDatabase dbUser = ctx.getDBUser();
+            MongoUser dbUser = ctx.getDBUser();
             var equipped = dbUser.getEquippedItems();
             equipped.resetEffect(PlayerEquipment.EquipmentType.POTION);
             player.processItem(ItemReference.POTION_CLEAN, -1);
@@ -425,7 +425,7 @@ public class ItemHelper {
                 .collect(Collectors.toList());
     }
 
-    public static boolean handleEffect(PlayerEquipment.EquipmentType type, PlayerEquipment equipment, Item item, UserDatabase user) {
+    public static boolean handleEffect(PlayerEquipment.EquipmentType type, PlayerEquipment equipment, Item item, MongoUser user) {
         boolean isEffectPresent = equipment.getCurrentEffect(type) != null;
 
         if (isEffectPresent) {
@@ -479,7 +479,7 @@ public class ItemHelper {
         return null;
     }
 
-    public static Pair<Boolean, Pair<Player, UserDatabase>> handleDurability(IContext ctx, Item item, Player player, UserDatabase user) {
+    public static Pair<Boolean, Pair<Player, MongoUser>> handleDurability(IContext ctx, Item item, Player player, MongoUser user) {
         var equippedItems = user.getEquippedItems();
         var subtractFrom = 0;
 
@@ -566,7 +566,7 @@ public class ItemHelper {
         }
     }
 
-    public static void handleItemDurability(Item item, IContext ctx, Player player, UserDatabase dbUser, String i18n) {
+    public static void handleItemDurability(Item item, IContext ctx, Player player, MongoUser dbUser, String i18n) {
         var breakage = handleDurability(ctx, item, player, dbUser);
         if (!breakage.getKey()) {
             return;

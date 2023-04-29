@@ -187,9 +187,9 @@ public class BirthdayOptions extends OptionHandler {
                     String content = interactiveEvent.getMessage().getContentRaw();
                     if (content.equalsIgnoreCase("yes")) {
                         String roleId = roleObj.getId();
-                        dbGuild.setBirthdayChannel(channelId);
-                        dbGuild.setBirthdayRole(roleId);
-                        dbGuild.save();
+                        dbGuild.birthdayChannel(channelId);
+                        dbGuild.birthdayRole(roleId);
+                        dbGuild.updateAllChanged();
                         ctx.sendLocalized("options.birthday_enable.success", EmoteReference.MEGA, channelObj.getName(), channelId, role, roleId);
                         return Operation.COMPLETED;
                     } else if (content.equalsIgnoreCase("no")) {
@@ -211,9 +211,9 @@ public class BirthdayOptions extends OptionHandler {
 
         registerOption("birthday:disable", "Birthday disable", "Disables birthday monitoring.", (ctx) -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.setBirthdayChannel(null);
-            dbGuild.setBirthdayRole(null);
-            dbGuild.save();
+            dbGuild.birthdayChannel(null);
+            dbGuild.birthdayRole(null);
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.birthday_disable.success", EmoteReference.MEGA);
         });
 
@@ -226,16 +226,16 @@ public class BirthdayOptions extends OptionHandler {
 
             var dbGuild = ctx.getDBGuild();
             String birthdayMessage = ctx.getCustomContent();
-            dbGuild.setBirthdayMessage(birthdayMessage);
-            dbGuild.save();
+            dbGuild.birthdayMessage(birthdayMessage);
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.birthday_message_set.success", EmoteReference.CORRECT, birthdayMessage);
         });
 
         registerOption("birthday:message:clear", "Birthday message clear", "Clears the message to display on a new birthday",
                 "Clears the message to display on birthday", (ctx, args) -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.setBirthdayMessage(null);
-            dbGuild.save();
+            dbGuild.birthdayMessage(null);
+            dbGuild.updateAllChanged();
 
             ctx.sendLocalized("options.birthday_message_clear.success", EmoteReference.CORRECT);
         });

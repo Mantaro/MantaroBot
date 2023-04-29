@@ -127,8 +127,8 @@ public class ModerationOptions extends OptionHandler {
             String logChannel = args[0];
             Consumer<StandardGuildMessageChannel> consumer = textChannel -> {
                 var dbGuild = ctx.getDBGuild();
-                dbGuild.setGuildLogChannel(textChannel.getId());
-                dbGuild.save();
+                dbGuild.guildLogChannel(textChannel.getId());
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.logs_enable.success", EmoteReference.MEGA, textChannel.getName(), textChannel.getId());
             };
 
@@ -214,16 +214,16 @@ public class ModerationOptions extends OptionHandler {
             }
 
             var dbGuild = ctx.getDBGuild();
-            dbGuild.setLogTimezone(timezone);
-            dbGuild.save();
+            dbGuild.logTimezone(timezone);
+            dbGuild.updateAllChanged();
 
             ctx.sendLocalized("options.logs_timezone.success", EmoteReference.CORRECT, timezone);
         });
 
         registerOption("logs:timezonereset", "Resets the log timezone", "Resets the log timezone", ctx -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.setLogTimezone(null);
-            dbGuild.save();
+            dbGuild.logTimezone(null);
+            dbGuild.updateAllChanged();
 
             ctx.sendLocalized("options.logs_timezonereset.success", EmoteReference.CORRECT);
         });
@@ -231,8 +231,8 @@ public class ModerationOptions extends OptionHandler {
         registerOption("logs:disable", "Disable logs",
                 "Disables logs.\n**Example:** `~>opts logs disable`", "Disables logs.", ctx -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.setGuildLogChannel(null);
-            dbGuild.save();
+            dbGuild.guildLogChannel(null);
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.logs_disable.success", EmoteReference.MEGA);
         });
 
@@ -269,8 +269,8 @@ public class ModerationOptions extends OptionHandler {
             }
 
             var dbGuild = ctx.getDBGuild();
-            dbGuild.setSetModTimeout(timeoutToSet);
-            dbGuild.save();
+            dbGuild.modTimeout(timeoutToSet);
+            dbGuild.updateAllChanged();
 
             ctx.sendLocalized("options.defaultmutetimeout_set.success", EmoteReference.CORRECT, args[0], timeoutToSet);
         });
@@ -278,8 +278,8 @@ public class ModerationOptions extends OptionHandler {
         registerOption("defaultmutetimeout:reset", "Default mute timeout reset",
             "Resets the default mute timeout which was set previously with `defaultmusictimeout set`", "Resets the default mute timeout.", ctx -> {
                 var dbGuild = ctx.getDBGuild();
-                dbGuild.setSetModTimeout(0L);
-                dbGuild.save();
+                dbGuild.modTimeout(0L);
+                dbGuild.updateAllChanged();
 
                 ctx.sendLocalized("options.defaultmutetimeout_reset.success", EmoteReference.CORRECT);
         });

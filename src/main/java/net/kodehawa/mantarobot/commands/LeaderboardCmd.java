@@ -39,9 +39,9 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.MongoUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PlayerStats;
-import net.kodehawa.mantarobot.db.entities.UserDatabase;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
@@ -195,7 +195,7 @@ public class LeaderboardCmd {
         public static class Claim extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                var claimLeaderboard = getLeaderboard("users", UserDatabase.class, Sorts.descending("timesClaimed"));
+                var claimLeaderboard = getLeaderboard("users", MongoUser.class, Sorts.descending("timesClaimed"));
                 send(ctx,
                         generateLeaderboardEmbed(ctx,
                                 ctx.getLanguageContext().get("commands.leaderboard.inner.claim").formatted(EmoteReference.HEART),

@@ -161,8 +161,8 @@ public class MessageCmds {
                     ctx.reply("commands.prune.success", EmoteReference.PENCIL, size);
 
                     var db = ctx.getDBGuild();
-                    db.setCases(db.getCases() + 1);
-                    db.save();
+                    db.cases(db.getCases() + 1);
+                    db.updateAllChanged();
                     var reason = "Pruned Messages";
                     var specifiedReason = ctx.getOptionAsString("reason");
                     if (specifiedReason != null) {

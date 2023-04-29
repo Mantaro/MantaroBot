@@ -205,8 +205,8 @@ public class AudioCmdUtils {
             //Reset custom channel.
             var dbGuild = MantaroData.db().getGuild(ctx.getGuild());
             if (dbGuild.getMusicChannel() != null) {
-                dbGuild.setMusicChannel(null);
-                dbGuild.save();
+                dbGuild.musicChannel(null);
+                dbGuild.updateAllChanged();
             }
 
             // Return as false, returning exceptionally here could fail in the handling we have done

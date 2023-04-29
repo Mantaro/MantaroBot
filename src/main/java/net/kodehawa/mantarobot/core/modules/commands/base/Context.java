@@ -39,12 +39,12 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.GuildDatabase;
+import net.kodehawa.mantarobot.db.entities.MongoGuild;
 import net.kodehawa.mantarobot.db.entities.MantaroObject;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PlayerStats;
-import net.kodehawa.mantarobot.db.entities.UserDatabase;
+import net.kodehawa.mantarobot.db.entities.MongoUser;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
@@ -179,23 +179,23 @@ public class Context implements IContext {
         return getBot().getShardManager();
     }
 
-    public GuildDatabase getDBGuild() {
+    public MongoGuild getDBGuild() {
         return managedDatabase.getGuild(getGuild());
     }
 
-    public UserDatabase getDBUser() {
+    public MongoUser getDBUser() {
         return managedDatabase.getUser(getUser());
     }
 
-    public UserDatabase getDBUser(User user) {
+    public MongoUser getDBUser(User user) {
         return managedDatabase.getUser(user);
     }
 
-    public UserDatabase getDBUser(Member member) {
+    public MongoUser getDBUser(Member member) {
         return managedDatabase.getUser(member);
     }
 
-    public UserDatabase getDBUser(String id) {
+    public MongoUser getDBUser(String id) {
         return managedDatabase.getUser(id);
     }
 
@@ -257,7 +257,7 @@ public class Context implements IContext {
         return StringUtils.parseArguments(getArguments());
     }
 
-    public Marriage getMarriage(UserDatabase userData) {
+    public Marriage getMarriage(MongoUser userData) {
         return MantaroData.db().getMarriage(userData.getMarriageId());
     }
 

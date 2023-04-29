@@ -45,7 +45,7 @@ import java.util.concurrent.TimeUnit;
 import static java.lang.System.currentTimeMillis;
 
 // Reminder: all setters MUST be protected!
-public class UserDatabase implements ManagedMongoObject {
+public class MongoUser implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "users";
     @BsonIgnore
@@ -84,15 +84,15 @@ public class UserDatabase implements ManagedMongoObject {
     private boolean actionsDisabled = false;
 
     // Mongo serialization
-    public UserDatabase() { }
+    public MongoUser() { }
 
-    protected UserDatabase(String id, long premiumUntil) {
+    protected MongoUser(String id, long premiumUntil) {
         this.id = id;
         this.premiumUntil = premiumUntil;
     }
 
-    public static UserDatabase of(String id) {
-        return new UserDatabase(id, 0);
+    public static MongoUser of(String id) {
+        return new MongoUser(id, 0);
     }
 
     // --- Getters
@@ -337,7 +337,7 @@ public class UserDatabase implements ManagedMongoObject {
 
     // --- Helpers
     @BsonIgnore
-    public UserDatabase incrementPremium(long milliseconds) {
+    public MongoUser incrementPremium(long milliseconds) {
         if (isPremium()) {
             this.premiumUntil += milliseconds;
         } else {
@@ -475,7 +475,7 @@ public class UserDatabase implements ManagedMongoObject {
             //Check for this because there's no need to check if this key is active.
             boolean isKeyActive = currentTimeMillis() < key.getExpiration();
             if (!isKeyActive && LocalDate.now(ZoneId.of("America/Chicago")).getDayOfMonth() > 5) {
-                UserDatabase owner = MantaroData.db().getUser(key.getOwner());
+                MongoUser owner = MantaroData.db().getUser(key.getOwner());
                 //Remove from owner's key ownership storage if key owner != key holder.
                 if (!key.getOwner().equals(getId())) {
                     owner.removeKeyClaimed(getId());
@@ -521,7 +521,7 @@ public class UserDatabase implements ManagedMongoObject {
             //This has usage later when seeing how many keys can they take. The second/third check is kind of redundant, but necessary anyway to see if it works.
             String keyLinkedTo = key.getLinkedTo();
             if (!getId().equals(key.getOwner()) && keyLinkedTo != null && keyLinkedTo.equals(key.getOwner())) {
-                UserDatabase owner = MantaroData.db().getUser(key.getOwner());
+                MongoUser owner = MantaroData.db().getUser(key.getOwner());
                 if (!owner.getKeysClaimed().containsKey(getId())) {
                     owner.addKeyClaimed(getId(), key.getId());
                     owner.updateAllChanged();
@@ -580,12 +580,12 @@ public class UserDatabase implements ManagedMongoObject {
 
     @Override
     public void save() {
-        MantaroData.db().saveMongo(this, UserDatabase.class);
+        MantaroData.db().saveMongo(this, MongoUser.class);
     }
 
     @Override
     public void delete() {
-        MantaroData.db().deleteMongo(this, UserDatabase.class);
+        MantaroData.db().deleteMongo(this, MongoUser.class);
     }
 
     public Config getConfig() {

@@ -499,8 +499,8 @@ public class MantaroListener implements EventListener {
                     var channel = (TextChannel) ch;
                     if (channel.canTalk() && !dbGuild.hasReceivedGreet()) {
                         channel.sendMessageEmbeds(embedBuilder.build()).queue();
-                        dbGuild.setHasReceivedGreet(true);
-                        dbGuild.save();
+                        dbGuild.receivedGreet(true);
+                        dbGuild.updateAllChanged();
                     }
                 }, () -> {
                     // Attempt to find the first channel we can talk to.
@@ -512,8 +512,8 @@ public class MantaroListener implements EventListener {
                     // Basically same code as above, but w/e.
                     if (channel != null && !dbGuild.hasReceivedGreet()) {
                         channel.sendMessageEmbeds(embedBuilder.build()).queue();
-                        dbGuild.setHasReceivedGreet(true);
-                        dbGuild.save();
+                        dbGuild.receivedGreet(true);
+                        dbGuild.updateAllChanged();
                     }
                 });
             }
