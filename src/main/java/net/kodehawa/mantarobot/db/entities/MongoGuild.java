@@ -696,10 +696,6 @@ public class MongoGuild implements ManagedMongoObject {
         this.ignoreBotsWelcomeMessage = ignoreBotsWelcomeMessage;
     }
 
-    protected void setLinkProtectionAllowedUsers(Set<String> linkProtectionAllowedUsers) {
-        this.linkProtectionAllowedUsers = linkProtectionAllowedUsers;
-    }
-
     protected void setRoleSpecificDisabledCategories(Map<String, List<CommandCategory>> roleSpecificDisabledCategories) {
         this.roleSpecificDisabledCategories = roleSpecificDisabledCategories;
     }
