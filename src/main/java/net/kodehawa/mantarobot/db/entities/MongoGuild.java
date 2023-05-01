@@ -112,8 +112,6 @@ public class MongoGuild implements ManagedMongoObject {
     private String logJoinChannel = null;
     @ConfigName("Channel (id): Leave message channel")
     private String logLeaveChannel = null;
-    @ConfigName("Link Protection ignore (users)")
-    private Set<String> linkProtectionAllowedUsers = new HashSet<>();
     @ConfigName("Disabled Categories for Role (id)")
     private Map<String, List<CommandCategory>> roleSpecificDisabledCategories = new HashMap<>();
     @ConfigName("Disabled Commands for Role (id)")
@@ -169,8 +167,11 @@ public class MongoGuild implements ManagedMongoObject {
     private Long musicQueueSizeLimit = null;
     @HiddenConfig // its a list of polls
     private Map<String, Poll.PollDatabaseObject> runningPolls = new HashMap<>();
+
     // Constructors needed for the Mongo Codec to deserialize/serialize this.
-    public MongoGuild() {}
+    public MongoGuild() {
+    }
+
     public MongoGuild(String id) {
         this.id = id;
     }
@@ -299,16 +300,8 @@ public class MongoGuild implements ManagedMongoObject {
         }
     }
 
-    public long getPremiumUntil() {
-        return premiumUntil;
-    }
-
     public Map<String, String> getAutoroles() {
         return autoroles;
-    }
-
-    public long getCases() {
-        return cases;
     }
 
     public Map<String, List<CommandCategory>> getChannelSpecificDisabledCategories() {
@@ -339,6 +332,66 @@ public class MongoGuild implements ManagedMongoObject {
         return disabledUsers;
     }
 
+    public Set<String> getLogExcludedChannels() {
+        return logExcludedChannels;
+    }
+
+    public Set<String> getModlogBlacklistedPeople() {
+        return modlogBlacklistedPeople;
+    }
+
+    public List<String> getRolesBlockedFromCommands() {
+        return rolesBlockedFromCommands;
+    }
+
+    public Set<String> getBlackListedImageTags() {
+        return blackListedImageTags;
+    }
+
+    public Map<String, List<CommandCategory>> getRoleSpecificDisabledCategories() {
+        return roleSpecificDisabledCategories;
+    }
+
+    public Map<String, List<String>> getRoleSpecificDisabledCommands() {
+        return roleSpecificDisabledCommands;
+    }
+
+    public List<String> getExtraJoinMessages() {
+        return extraJoinMessages;
+    }
+
+    public List<String> getExtraLeaveMessages() {
+        return extraLeaveMessages;
+    }
+
+    public List<String> getModLogBlacklistWords() {
+        return modLogBlacklistWords;
+    }
+
+    public Map<String, List<String>> getAutoroleCategories() {
+        return autoroleCategories;
+    }
+
+    public List<String> getBirthdayBlockedIds() {
+        return birthdayBlockedIds;
+    }
+
+    public List<String> getAllowedBirthdays() {
+        return allowedBirthdays;
+    }
+
+    public Map<String, Poll.PollDatabaseObject> getRunningPolls() {
+        return runningPolls;
+    }
+
+    public long getPremiumUntil() {
+        return premiumUntil;
+    }
+
+    public long getCases() {
+        return cases;
+    }
+
     public String getGuildAutoRole() {
         return guildAutoRole;
     }
@@ -359,20 +412,12 @@ public class MongoGuild implements ManagedMongoObject {
         return leaveMessage;
     }
 
-    public Set<String> getLogExcludedChannels() {
-        return logExcludedChannels;
-    }
-
     public String getLogJoinLeaveChannel() {
         return logJoinLeaveChannel;
     }
 
     public int getMaxFairQueue() {
         return maxFairQueue;
-    }
-
-    public Set<String> getModlogBlacklistedPeople() {
-        return modlogBlacklistedPeople;
     }
 
     public boolean isMusicAnnounce() {
@@ -399,10 +444,6 @@ public class MongoGuild implements ManagedMongoObject {
         return ranPolls;
     }
 
-    public List<String> getRolesBlockedFromCommands() {
-        return rolesBlockedFromCommands;
-    }
-
     public long getSetModTimeout() {
         return setModTimeout;
     }
@@ -423,10 +464,6 @@ public class MongoGuild implements ManagedMongoObject {
         return ignoreBotsAutoRole;
     }
 
-    public Set<String> getBlackListedImageTags() {
-        return blackListedImageTags;
-    }
-
     public String getLogJoinChannel() {
         return logJoinChannel;
     }
@@ -435,32 +472,12 @@ public class MongoGuild implements ManagedMongoObject {
         return logLeaveChannel;
     }
 
-    public Set<String> getLinkProtectionAllowedUsers() {
-        return linkProtectionAllowedUsers;
-    }
-
-    public Map<String, List<CommandCategory>> getRoleSpecificDisabledCategories() {
-        return roleSpecificDisabledCategories;
-    }
-
-    public Map<String, List<String>> getRoleSpecificDisabledCommands() {
-        return roleSpecificDisabledCommands;
-    }
-
     public String getLang() {
         return lang;
     }
 
     public boolean isMusicVote() {
         return musicVote;
-    }
-
-    public List<String> getExtraJoinMessages() {
-        return extraJoinMessages;
-    }
-
-    public List<String> getExtraLeaveMessages() {
-        return extraLeaveMessages;
     }
 
     public String getBirthdayMessage() {
@@ -473,14 +490,6 @@ public class MongoGuild implements ManagedMongoObject {
 
     public String getMpLinkedTo() {
         return mpLinkedTo;
-    }
-
-    public List<String> getModLogBlacklistWords() {
-        return modLogBlacklistWords;
-    }
-
-    public Map<String, List<String>> getAutoroleCategories() {
-        return autoroleCategories;
     }
 
     public String getEditMessageLog() {
@@ -511,20 +520,12 @@ public class MongoGuild implements ManagedMongoObject {
         return hasReceivedGreet;
     }
 
-    public List<String> getBirthdayBlockedIds() {
-        return birthdayBlockedIds;
-    }
-
     public boolean isGameMultipleDisabled() {
         return gameMultipleDisabled;
     }
 
     public String getLogTimezone() {
         return logTimezone;
-    }
-
-    public List<String> getAllowedBirthdays() {
-        return allowedBirthdays;
     }
 
     public boolean isNotifiedFromBirthdayChange() {
@@ -541,10 +542,6 @@ public class MongoGuild implements ManagedMongoObject {
 
     public Long getMusicQueueSizeLimit() {
         return musicQueueSizeLimit;
-    }
-
-    public Map<String, Poll.PollDatabaseObject> getRunningPolls() {
-        return runningPolls;
     }
 
     public String getBirthdayRole() {
@@ -1034,5 +1031,249 @@ public class MongoGuild implements ManagedMongoObject {
     public void logLeaveChannel(String logLeaveChannel) {
         this.logLeaveChannel = logLeaveChannel;
         fieldTracker.put("logLeaveChannel", this.logLeaveChannel);
+    }
+
+    // --- List helpers
+    public void addChannelSpecificDisabledCategory(String channel, CommandCategory category) {
+        channelSpecificDisabledCategories.compute(channel, (k, list) -> {
+            list = list != null ? list : new ArrayList<>();
+            list.add(category);
+            return list;
+        });
+
+        fieldTracker.put("channelSpecificDisabledCategories", this.channelSpecificDisabledCategories);
+    }
+
+    public void removeChannelSpecificDisabledCategory(String channel, CommandCategory category) {
+        channelSpecificDisabledCategories.computeIfPresent(channel, (k, list) -> {
+            list.remove(category);
+            return list;
+        });
+
+        fieldTracker.put("channelSpecificDisabledCategories", this.channelSpecificDisabledCategories);
+    }
+
+    public void addChannelSpecificDisabledCommand(String channel, String command) {
+        channelSpecificDisabledCommands.compute(channel, (k, list) -> {
+            list = list != null ? list : new ArrayList<>();
+            list.add(command);
+            return list;
+        });
+
+        fieldTracker.put("channelSpecificDisabledCommands", this.channelSpecificDisabledCategories);
+    }
+
+    public void removeChannelSpecificDisabledCommand(String channel, String command) {
+        channelSpecificDisabledCommands.computeIfPresent(channel, (k, list) -> {
+            list.remove(command);
+            return list;
+        });
+
+        fieldTracker.put("channelSpecificDisabledCommands", this.channelSpecificDisabledCategories);
+    }
+
+    public void addDisabledCategory(CommandCategory category) {
+        disabledCategories.add(category);
+        fieldTracker.put("disabledCategories", this.disabledCategories);
+    }
+
+    public void removeDisabledCategory(CommandCategory category) {
+        disabledCategories.remove(category);
+        fieldTracker.put("disabledCategories", this.disabledCategories);
+    }
+
+    public void addDisabledChannel(String channelId) {
+        disabledChannels.add(channelId);
+        fieldTracker.put("disabledChannels", this.disabledChannels);
+    }
+
+    public void removeDisabledChannel(String channelId) {
+        disabledChannels.remove(channelId);
+        fieldTracker.put("disabledChannels", this.disabledChannels);
+    }
+
+    public void addDisabledCommand(String command) {
+        disabledCommands.add(command);
+        fieldTracker.put("disabledCommands", this.disabledCommands);
+    }
+
+    public void removeDisabledCommand(String command) {
+        disabledCommands.remove(command);
+        fieldTracker.put("disabledCommands", this.disabledCommands);
+    }
+
+    public void addDisabledRole(String roleId) {
+        disabledRoles.add(roleId);
+        fieldTracker.put("disabledRoles", this.disabledRoles);
+    }
+
+    public void removeDisabledRole(String roleId) {
+        disabledRoles.remove(roleId);
+        fieldTracker.put("disabledRoles", this.disabledRoles);
+    }
+
+    public void addDisabledUser(String userId) {
+        disabledUsers.add(userId);
+        fieldTracker.put("disabledUsers", this.disabledUsers);
+    }
+
+    public void removeDisabledUser(String userId) {
+        disabledUsers.remove(userId);
+        fieldTracker.put("disabledUsers", this.disabledUsers);
+    }
+
+    public void addLogExcludedChannel(String channelId) {
+        logExcludedChannels.add(channelId);
+        fieldTracker.put("logExcludedChannels", this.logExcludedChannels);
+    }
+
+    public void removeLogExcludedChannel(String channelId) {
+        logExcludedChannels.remove(channelId);
+        fieldTracker.put("logExcludedChannels", this.logExcludedChannels);
+    }
+
+    public void addModlogBlacklistedPeople(String userId) {
+        modlogBlacklistedPeople.add(userId);
+        fieldTracker.put("modlogBlacklistedPeople", this.modlogBlacklistedPeople);
+    }
+
+    public void removeModlogBlacklistedPeople(String userId) {
+        modlogBlacklistedPeople.remove(userId);
+        fieldTracker.put("modlogBlacklistedPeople", this.modlogBlacklistedPeople);
+    }
+
+    public void addRolesBlockedFromCommands(String roleId) {
+        rolesBlockedFromCommands.add(roleId);
+        fieldTracker.put("rolesBlockedFromCommands", this.rolesBlockedFromCommands);
+    }
+
+    public void addBlackListedImageTags(String tag) {
+        blackListedImageTags.add(tag);
+        fieldTracker.put("blackListedImageTags", this.blackListedImageTags);
+    }
+
+    public void removeBlackListedImageTags(String tag) {
+        blackListedImageTags.remove(tag);
+        fieldTracker.put("blackListedImageTags", this.blackListedImageTags);
+    }
+
+    public void addExtraJoinMessages(String message) {
+        extraJoinMessages.add(message);
+        fieldTracker.put("extraJoinMessages", this.extraJoinMessages);
+    }
+
+    public void removeExtraJoinMessages(String message) {
+        extraJoinMessages.remove(message);
+        fieldTracker.put("extraJoinMessages", this.extraJoinMessages);
+    }
+
+    public void addExtraLeaveMessages(String message) {
+        extraLeaveMessages.add(message);
+        fieldTracker.put("extraLeaveMessages", this.extraLeaveMessages);
+    }
+
+    public void removeExtraLeaveMessages(String message) {
+        extraLeaveMessages.remove(message);
+        fieldTracker.put("extraLeaveMessages", this.extraLeaveMessages);
+    }
+
+    public void addModLogBlacklistWords(String word) {
+        modLogBlacklistWords.add(word);
+        fieldTracker.put("modLogBlacklistWords", this.modLogBlacklistWords);
+    }
+
+    public void removeModLogBlacklistWords(String word) {
+        modLogBlacklistWords.remove(word);
+        fieldTracker.put("modLogBlacklistWords", this.modLogBlacklistWords);
+    }
+
+    public void addBirthdayBlockedIds(String userId) {
+        birthdayBlockedIds.add(userId);
+        fieldTracker.put("birthdayBlockedIds", this.birthdayBlockedIds);
+    }
+
+    public void removeBirthdayBlockedIds(String userId) {
+        birthdayBlockedIds.remove(userId);
+        fieldTracker.put("birthdayBlockedIds", this.birthdayBlockedIds);
+    }
+
+    public void addAllowedBirthdays(String userId) {
+        allowedBirthdays.add(userId);
+        fieldTracker.put("allowedBirthdays", this.allowedBirthdays);
+    }
+
+    public void removeAllowedBirthdays(String userId) {
+        allowedBirthdays.add(userId);
+        fieldTracker.put("allowedBirthdays", this.allowedBirthdays);
+    }
+
+    public void addRoleSpecificDisabledCategory(String roleId, CommandCategory category) {
+        roleSpecificDisabledCategories.compute(roleId, (k, list) -> {
+            list = list != null ? list : new ArrayList<>();
+            list.add(category);
+            return list;
+        });
+
+
+        fieldTracker.put("roleSpecificDisabledCategories", this.roleSpecificDisabledCategories);
+    }
+
+    public void removeRoleSpecificDisabledCategory(String roleId, CommandCategory category) {
+        roleSpecificDisabledCategories.computeIfPresent(roleId, (k, list) -> {
+            list.remove(category);
+            return list;
+        });
+
+        fieldTracker.put("roleSpecificDisabledCategories", this.roleSpecificDisabledCategories);
+    }
+
+    public void addRoleSpecificDisabledCommand(String roleId, String commandName) {
+        roleSpecificDisabledCommands.compute(roleId, (k, list) -> {
+            list = list != null ? list : new ArrayList<>();
+            list.add(commandName);
+            return list;
+        });
+
+
+        fieldTracker.put("roleSpecificDisabledCommands", this.roleSpecificDisabledCommands);
+    }
+
+    public void removeRoleSpecificDisabledCommand(String roleId, String commandName) {
+        roleSpecificDisabledCommands.computeIfPresent(roleId, (k, list) -> {
+            list.remove(commandName);
+            return list;
+        });
+
+        fieldTracker.put("roleSpecificDisabledCommands", this.roleSpecificDisabledCommands);
+    }
+
+    public void addAutoroleCategory(String categoryName, String autoroleName) {
+        autoroleCategories.compute(categoryName, (k, list) -> {
+            list = list != null ? list : new ArrayList<>();
+            list.add(autoroleName);
+            return list;
+        });
+
+
+        fieldTracker.put("autoroleCategories", this.autoroleCategories);
+    }
+
+    public void removeAutoroleCategory(String categoryName, String autoroleName) {
+        autoroleCategories.computeIfPresent(categoryName, (k, list) -> {
+            list.remove(autoroleName);
+            return list;
+        });
+
+        fieldTracker.put("autoroleCategories", this.autoroleCategories);
+    }
+
+    public void addRunningPoll(String id, Poll.PollDatabaseObject poll) {
+        runningPolls.put(id, poll);
+        fieldTracker.put("runningPolls", this.runningPolls);
+    }
+
+    public void removeRunningPoll(String id) {
+        runningPolls.remove(id);
+        fieldTracker.put("runningPolls", this.runningPolls);
     }
 }
