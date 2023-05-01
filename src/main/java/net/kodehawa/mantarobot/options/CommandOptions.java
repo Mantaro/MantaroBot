@@ -69,9 +69,9 @@ public class CommandOptions extends OptionHandler {
             }
 
             var dbGuild = ctx.getDBGuild();
-            dbGuild.getDisabledCommands().add(commandName);
+            dbGuild.addDisabledCommand(commandName);
             ctx.sendLocalized("options.server_command_disallow.success", EmoteReference.MEGA, commandName);
-            dbGuild.save();
+            dbGuild.updateAllChanged();
         });
         addOptionAlias("server:command:disallow", "command:disable");
 
@@ -95,9 +95,10 @@ public class CommandOptions extends OptionHandler {
                 return;
             }
             var dbGuild = ctx.getDBGuild();
-            dbGuild.getDisabledCommands().remove(commandName);
+            dbGuild.removeDisabledCommand(commandName);
+            dbGuild.updateAllChanged();
+
             ctx.sendLocalized("options.server_command_allow.success", EmoteReference.MEGA, commandName);
-            dbGuild.save();
         });
         addOptionAlias("server:command:allow", "command:enable");
 
@@ -132,12 +133,10 @@ public class CommandOptions extends OptionHandler {
             if (channel == null) return;
 
             String id = channel.getId();
-            dbGuild.getChannelSpecificDisabledCommands().computeIfAbsent(id, k -> new ArrayList<>());
-            dbGuild.getChannelSpecificDisabledCommands().get(id).add(commandName);
+            dbGuild.addChannelSpecificDisabledCommand(id, commandName);
+            dbGuild.updateAllChanged();
 
             ctx.sendLocalized("options.server_command_specific_disallow.success", EmoteReference.MEGA, commandName, channel.getName());
-            dbGuild.save();
-
         });
         addOptionAlias("server:command:specific:disallow", "command:specific:disable");
 
@@ -166,12 +165,10 @@ public class CommandOptions extends OptionHandler {
             if (channel == null) return;
 
             String id = channel.getId();
-
-            dbGuild.getChannelSpecificDisabledCommands().computeIfAbsent(id, k -> new ArrayList<>());
-            dbGuild.getChannelSpecificDisabledCommands().get(id).remove(commandName);
+            dbGuild.removeChannelSpecificDisabledCommand(id, commandName);
+            dbGuild.updateAllChanged();
 
             ctx.sendLocalized("options.server_command_specific_allow.success", EmoteReference.MEGA, commandName, channel.getName());
-            dbGuild.save();
         }));
         addOptionAlias("server:command:specific:allow", "command:specific:enable");
 
@@ -191,8 +188,8 @@ public class CommandOptions extends OptionHandler {
             }
 
             Consumer<StandardGuildMessageChannel> consumer = chn -> {
-                dbGuild.getDisabledChannels().add(chn.getId());
-                dbGuild.save();
+                dbGuild.addDisabledChannel(chn.getId());
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.server_channel_disallow.success", EmoteReference.OK, chn.getAsMention());
             };
 
@@ -215,8 +212,8 @@ public class CommandOptions extends OptionHandler {
 
             Consumer<StandardGuildMessageChannel> consumer = textChannel -> {
                 var dbGuild = ctx.getDBGuild();
-                dbGuild.getDisabledChannels().remove(textChannel.getId());
-                dbGuild.save();
+                dbGuild.removeDisabledChannel(textChannel.getId());
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.server_channel_allow.success", EmoteReference.OK, textChannel.getAsMention());
             };
 
@@ -260,8 +257,8 @@ public class CommandOptions extends OptionHandler {
                 return;
             }
 
-            dbGuild.getDisabledCategories().add(toDisable);
-            dbGuild.save();
+            dbGuild.addDisabledCategory(toDisable);
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.category_disable.success", EmoteReference.CORRECT, ctx.getLanguageContext().get(toDisable.toString()));
         });
 
@@ -287,8 +284,8 @@ public class CommandOptions extends OptionHandler {
                 return;
             }
 
-            dbGuild.getDisabledCategories().remove(toEnable);
-            dbGuild.save();
+            dbGuild.removeDisabledCategory(toEnable);
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.category_enable.success", EmoteReference.CORRECT, ctx.getLanguageContext().get(toEnable.toString()));
         });
 
@@ -329,8 +326,8 @@ public class CommandOptions extends OptionHandler {
                     return;
                 }
 
-                dbGuild.getChannelSpecificDisabledCategories().get(selectedChannel.getId()).add(toDisable);
-                dbGuild.save();
+                dbGuild.addChannelSpecificDisabledCategory(selectedChannel.getId(), toDisable);
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.category_specific_disable.success", EmoteReference.CORRECT,
                         ctx.getLanguageContext().get(toDisable.toString()), selectedChannel.getAsMention()
                 );
@@ -378,8 +375,8 @@ public class CommandOptions extends OptionHandler {
                     ctx.sendLocalized("options.category_specific_enable.not_disabled", EmoteReference.THINKING);
                     return;
                 }
-                dbGuild.getChannelSpecificDisabledCategories().get(selectedChannel.getId()).remove(toEnable);
-                dbGuild.save();
+                dbGuild.removeChannelSpecificDisabledCategory(selectedChannel.getId(), toEnable);
+                dbGuild.updateAllChanged();
 
                 ctx.sendLocalized("options.category_specific_enable.success", EmoteReference.CORRECT,
                         ctx.getLanguageContext().get(toEnable.toString()), selectedChannel.getAsMention()
@@ -439,8 +436,8 @@ public class CommandOptions extends OptionHandler {
                     return;
                 }
 
-                dbGuild.getRoleSpecificDisabledCommands().get(role.getId()).add(commandDisallow);
-                dbGuild.save();
+                dbGuild.addRoleSpecificDisabledCommand(role.getId(), commandDisallow);
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.server_role_specific_disallow.success", EmoteReference.CORRECT, commandDisallow, role.getName());
             };
 
@@ -488,8 +485,8 @@ public class CommandOptions extends OptionHandler {
                     return;
                 }
 
-                dbGuild.getRoleSpecificDisabledCommands().get(role.getId()).remove(commandAllow);
-                dbGuild.save();
+                dbGuild.removeRoleSpecificDisabledCommand(role.getId(), commandAllow);
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.server_role_specific_allow.success", EmoteReference.CORRECT, commandAllow, role.getName());
             };
 
@@ -536,7 +533,6 @@ public class CommandOptions extends OptionHandler {
                 }
 
                 dbGuild.getRoleSpecificDisabledCategories().computeIfAbsent(role.getId(), cat -> new ArrayList<>());
-
                 if (dbGuild.getRoleSpecificDisabledCategories().get(role.getId()).contains(toDisable)) {
                     ctx.sendLocalized("options.category_role_specific_disable.already_disabled", EmoteReference.WARNING);
                     return;
@@ -547,8 +543,8 @@ public class CommandOptions extends OptionHandler {
                     return;
                 }
 
-                dbGuild.getRoleSpecificDisabledCategories().get(role.getId()).add(toDisable);
-                dbGuild.save();
+                dbGuild.addRoleSpecificDisabledCategory(role.getId(), toDisable);
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.category_role_specific_disable.success", EmoteReference.CORRECT, toDisable.toString(), role.getName());
             };
 
@@ -593,8 +589,8 @@ public class CommandOptions extends OptionHandler {
                     ctx.sendLocalized("options.category_role_specific_enable.not_disabled", EmoteReference.THINKING);
                     return;
                 }
-                dbGuild.getRoleSpecificDisabledCategories().get(role.getId()).remove(toEnable);
-                dbGuild.save();
+                dbGuild.removeRoleSpecificDisabledCategory(role.getId(), toEnable);
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.category_role_specific_enable.success", EmoteReference.CORRECT, toEnable.toString(), role.getName());
             };
 
@@ -619,8 +615,8 @@ public class CommandOptions extends OptionHandler {
                     String roleName = String.join(" ", args);
                     Consumer<Role> consumer = role -> {
                         var dbGuild = ctx.getDBGuild();
-                        dbGuild.getDisabledRoles().add(role.getId());
-                        dbGuild.save();
+                        dbGuild.addDisabledRole(role.getId());
+                        dbGuild.updateAllChanged();
                         ctx.sendLocalized("options.server_role_disallow.success", EmoteReference.CORRECT, role.getName());
                     };
 
@@ -654,8 +650,8 @@ public class CommandOptions extends OptionHandler {
                     return;
                 }
 
-                dbGuild.getDisabledRoles().remove(role.getId());
-                dbGuild.save();
+                dbGuild.removeDisabledRole(role.getId());
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.server_role_allow.success", EmoteReference.CORRECT, role.getName());
             };
 

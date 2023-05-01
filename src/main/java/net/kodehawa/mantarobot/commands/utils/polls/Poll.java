@@ -237,8 +237,8 @@ public class Poll {
             redis.hdel(table, id);
         }
 
-        dbGuild.getRunningPolls().remove(id);
-        dbGuild.save();
+        dbGuild.removeRunningPoll(id);
+        dbGuild.updateAllChanged();
     }
 
     private void schedule() {
@@ -250,8 +250,8 @@ public class Poll {
         }
 
         var dbGuild = db.getGuild(getGuild());
-        dbGuild.getRunningPolls().put(id(), new PollDatabaseObject(messageId, channelId, name, time));
-        dbGuild.save();
+        dbGuild.addRunningPoll(id(), new PollDatabaseObject(messageId, channelId, name, time));
+        dbGuild.updateAllChanged();
     }
 
     public static PollBuilder builder() {

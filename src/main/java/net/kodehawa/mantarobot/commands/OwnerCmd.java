@@ -345,7 +345,7 @@ public class OwnerCmd {
 
             var dbGuild = MantaroData.db().getGuild(guild);
             dbGuild.incrementPremium(TimeUnit.DAYS.toMillis(days));
-            dbGuild.save();
+            dbGuild.updateAllChanged();
 
             ctx.send("%sThe premium feature for guild %s (%s) was extended for %s days".formatted(
                     EmoteReference.CORRECT, guild, guildObject.getName(), days

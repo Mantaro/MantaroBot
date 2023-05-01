@@ -298,6 +298,8 @@ public class MongoGuild implements ManagedMongoObject {
         } else {
             this.premiumUntil = currentTimeMillis() + milliseconds;
         }
+
+        fieldTracker.put("premiumUntil", this.premiumUntil);
     }
 
     public Map<String, String> getAutoroles() {
@@ -1128,6 +1130,11 @@ public class MongoGuild implements ManagedMongoObject {
         fieldTracker.put("logExcludedChannels", this.logExcludedChannels);
     }
 
+    public void clearLogExcludedChannels() {
+        logExcludedChannels.clear();
+        fieldTracker.put("logExcludedChannels", this.logExcludedChannels);
+    }
+
     public void addModlogBlacklistedPeople(String userId) {
         modlogBlacklistedPeople.add(userId);
         fieldTracker.put("modlogBlacklistedPeople", this.modlogBlacklistedPeople);
@@ -1138,57 +1145,66 @@ public class MongoGuild implements ManagedMongoObject {
         fieldTracker.put("modlogBlacklistedPeople", this.modlogBlacklistedPeople);
     }
 
-    public void addRolesBlockedFromCommands(String roleId) {
+    public void addRolesBlockedFromCommand(String roleId) {
         rolesBlockedFromCommands.add(roleId);
         fieldTracker.put("rolesBlockedFromCommands", this.rolesBlockedFromCommands);
     }
 
-    public void addBlackListedImageTags(String tag) {
+    public void addBlackListedImageTag(String tag) {
         blackListedImageTags.add(tag);
         fieldTracker.put("blackListedImageTags", this.blackListedImageTags);
     }
 
-    public void removeBlackListedImageTags(String tag) {
+    public void removeBlackListedImageTag(String tag) {
         blackListedImageTags.remove(tag);
         fieldTracker.put("blackListedImageTags", this.blackListedImageTags);
     }
 
-    public void addExtraJoinMessages(String message) {
+    public void addExtraJoinMessage(String message) {
         extraJoinMessages.add(message);
         fieldTracker.put("extraJoinMessages", this.extraJoinMessages);
     }
 
-    public void removeExtraJoinMessages(String message) {
+    public void removeExtraJoinMessage(String message) {
         extraJoinMessages.remove(message);
         fieldTracker.put("extraJoinMessages", this.extraJoinMessages);
     }
+    public void clearExtraJoinMessages() {
+        extraJoinMessages.clear();
+        fieldTracker.put("extraJoinMessages", this.extraJoinMessages);
+    }
 
-    public void addExtraLeaveMessages(String message) {
+    public void addExtraLeaveMessage(String message) {
         extraLeaveMessages.add(message);
         fieldTracker.put("extraLeaveMessages", this.extraLeaveMessages);
     }
 
-    public void removeExtraLeaveMessages(String message) {
+    public void clearExtraLeaveMessages() {
+        extraLeaveMessages.clear();
+        fieldTracker.put("extraLeaveMessages", this.extraLeaveMessages);
+    }
+
+    public void removeExtraLeaveMessage(String message) {
         extraLeaveMessages.remove(message);
         fieldTracker.put("extraLeaveMessages", this.extraLeaveMessages);
     }
 
-    public void addModLogBlacklistWords(String word) {
+    public void addModLogBlacklistWord(String word) {
         modLogBlacklistWords.add(word);
         fieldTracker.put("modLogBlacklistWords", this.modLogBlacklistWords);
     }
 
-    public void removeModLogBlacklistWords(String word) {
+    public void removeModLogBlacklistWord(String word) {
         modLogBlacklistWords.remove(word);
         fieldTracker.put("modLogBlacklistWords", this.modLogBlacklistWords);
     }
 
-    public void addBirthdayBlockedIds(String userId) {
+    public void addBirthdayBlockedId(String userId) {
         birthdayBlockedIds.add(userId);
         fieldTracker.put("birthdayBlockedIds", this.birthdayBlockedIds);
     }
 
-    public void removeBirthdayBlockedIds(String userId) {
+    public void removeBirthdayBlockedId(String userId) {
         birthdayBlockedIds.remove(userId);
         fieldTracker.put("birthdayBlockedIds", this.birthdayBlockedIds);
     }
@@ -1198,9 +1214,24 @@ public class MongoGuild implements ManagedMongoObject {
         fieldTracker.put("allowedBirthdays", this.allowedBirthdays);
     }
 
-    public void removeAllowedBirthdays(String userId) {
+    public void removeAllowedBirthday(String userId) {
         allowedBirthdays.add(userId);
         fieldTracker.put("allowedBirthdays", this.allowedBirthdays);
+    }
+
+    public void addAutorole(String name, String roleId) {
+        autoroles.put(name, roleId);
+        fieldTracker.put("autoroles", this.autoroles);
+    }
+
+    public void removeAutorole(String name) {
+        autoroles.remove(name);
+        fieldTracker.put("autoroles", this.autoroles);
+    }
+
+    public void clearAutoroles() {
+        autoroles.clear();
+        fieldTracker.put("autoroles", this.autoroles);
     }
 
     public void addRoleSpecificDisabledCategory(String roleId, CommandCategory category) {
@@ -1254,12 +1285,17 @@ public class MongoGuild implements ManagedMongoObject {
         fieldTracker.put("autoroleCategories", this.autoroleCategories);
     }
 
-    public void removeAutoroleCategory(String categoryName, String autoroleName) {
+    public void removeAutoroleCategoryRole(String categoryName, String autoroleName) {
         autoroleCategories.computeIfPresent(categoryName, (k, list) -> {
             list.remove(autoroleName);
             return list;
         });
 
+        fieldTracker.put("autoroleCategories", this.autoroleCategories);
+    }
+
+    public void removeAutoroleCategory(String categoryName) {
+        autoroleCategories.remove(categoryName);
         fieldTracker.put("autoroleCategories", this.autoroleCategories);
     }
 

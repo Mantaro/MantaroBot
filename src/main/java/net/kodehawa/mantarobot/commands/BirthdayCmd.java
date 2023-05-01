@@ -156,8 +156,8 @@ public class BirthdayCmd {
                     return;
                 }
 
-                dbGuild.getAllowedBirthdays().add(author.getId());
-                dbGuild.save();
+                dbGuild.addAllowedBirthdays(author.getId());
+                dbGuild.updateAllChanged();
 
                 var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getIdLong());
                 var cachedBirthday = ctx.getBot().getBirthdayCacher().getCachedBirthdays().get(author.getIdLong());
@@ -182,8 +182,8 @@ public class BirthdayCmd {
                     return;
                 }
 
-                dbGuild.getAllowedBirthdays().remove(author.getId());
-                dbGuild.save();
+                dbGuild.removeAllowedBirthday(author.getId());
+                dbGuild.updateAllChanged();
 
                 var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getIdLong());
                 if (cached != null) {

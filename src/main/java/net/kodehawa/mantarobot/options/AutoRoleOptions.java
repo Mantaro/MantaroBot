@@ -123,8 +123,8 @@ public class AutoRoleOptions extends OptionHandler {
                     return;
                 }
 
-                dbGuild.getAutoroles().put(iamName, role.getId());
-                dbGuild.save();
+                dbGuild.addAutorole(iamName, role.getId());
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.autoroles_add.success", EmoteReference.OK, iamName, role.getName());
             };
 
@@ -146,8 +146,8 @@ public class AutoRoleOptions extends OptionHandler {
             var dbGuild = ctx.getDBGuild();
             Map<String, String> autoroles = dbGuild.getAutoroles();
             if (autoroles.containsKey(args[0])) {
-                autoroles.remove(args[0]);
-                dbGuild.save();
+                dbGuild.removeAutorole(args[0]);
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.autoroles_remove.success", EmoteReference.OK, args[0]);
             } else {
                 ctx.sendLocalized("options.autoroles_remove.not_found", EmoteReference.ERROR);
@@ -158,8 +158,8 @@ public class AutoRoleOptions extends OptionHandler {
                 "Removes all autoroles.",
         "Removes all autoroles.", (ctx, args) -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.getAutoroles().clear();
-            dbGuild.save();
+            dbGuild.clearAutoroles();
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.autoroles_clear.success", EmoteReference.CORRECT);
         });
 
@@ -188,8 +188,8 @@ public class AutoRoleOptions extends OptionHandler {
 
             if (autorole != null) {
                 if (dbGuild.getAutoroles().containsKey(autorole)) {
-                    categories.get(category).add(autorole);
-                    dbGuild.save();
+                    dbGuild.addAutoroleCategory(category, autorole);
+                    dbGuild.updateAllChanged();
                     ctx.sendLocalized("options.autoroles_category_add.success", EmoteReference.CORRECT, autorole, category);
                 } else {
                     ctx.sendLocalized("options.autoroles_category_add.no_role", EmoteReference.ERROR, autorole);
@@ -197,7 +197,6 @@ public class AutoRoleOptions extends OptionHandler {
                 return;
             }
 
-            dbGuild.save();
             ctx.sendLocalized("options.autoroles_category_add.success_new", EmoteReference.CORRECT, category);
         });
 
@@ -223,14 +222,14 @@ public class AutoRoleOptions extends OptionHandler {
             }
 
             if (autorole != null) {
-                categories.get(category).remove(autorole);
-                dbGuild.save();
+                dbGuild.removeAutoroleCategoryRole(category, autorole);
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.autoroles_category_remove.success", EmoteReference.CORRECT, category, autorole);
                 return;
             }
 
-            categories.remove(category);
-            dbGuild.save();
+            dbGuild.removeAutoroleCategory(category);
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.autoroles_category_remove.success_new", EmoteReference.CORRECT, category);
         });
 

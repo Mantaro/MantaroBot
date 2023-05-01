@@ -301,8 +301,8 @@ public class BirthdayTask {
 
                         // If any of the member lookups to discord returned null, remove them.
                         if (!nullMembers.isEmpty()) {
-                            dbGuild.getAllowedBirthdays().removeAll(nullMembers.stream().map(String::valueOf).toList());
-                            dbGuild.save();
+                            nullMembers.forEach(member -> dbGuild.removeAllowedBirthday(String.valueOf(member)));
+                            dbGuild.updateAllChanged();
                         }
                     }
                 }

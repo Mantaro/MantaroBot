@@ -304,8 +304,8 @@ public class UserMessageOptions extends OptionHandler {
 
             var dbGuild = ctx.getDBGuild();
             var message = ctx.getCustomContent();
-            dbGuild.getExtraJoinMessages().add(message);
-            dbGuild.save();
+            dbGuild.addExtraJoinMessage(message);
+            dbGuild.updateAllChanged();
 
             ctx.sendLocalized("options.usermessage_joinmessage_add.success", EmoteReference.CORRECT, message);
         }));
@@ -331,8 +331,8 @@ public class UserMessageOptions extends OptionHandler {
                 }
 
                 var old = dbGuild.getExtraJoinMessages().get(index);
-                dbGuild.getExtraJoinMessages().remove(index);
-                dbGuild.save();
+                dbGuild.removeExtraJoinMessage(old);
+                dbGuild.updateAllChanged();
 
                 ctx.sendLocalized("options.usermessage_joinmessage_remove.success", EmoteReference.CORRECT, old, index);
             } catch (ArrayIndexOutOfBoundsException ex) {
@@ -346,8 +346,8 @@ public class UserMessageOptions extends OptionHandler {
                 **Example**: `~>opts usermessage joinmessages clear`"
                 """, "Clears all extra join messages", ((ctx, args) -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.getExtraJoinMessages().clear();
-            dbGuild.save();
+            dbGuild.clearExtraJoinMessages();
+            dbGuild.updateAllChanged();
 
             ctx.sendLocalized("options.usermessage_joinmessage_clear.success", EmoteReference.CORRECT);
         }));
@@ -396,8 +396,8 @@ public class UserMessageOptions extends OptionHandler {
             var dbGuild = ctx.getDBGuild();
             var message = ctx.getCustomContent();
 
-            dbGuild.getExtraLeaveMessages().add(message);
-            dbGuild.save();
+            dbGuild.addExtraLeaveMessage(message);
+            dbGuild.updateAllChanged();
             ctx.sendLocalized("options.usermessage_leavemessage_add.success", EmoteReference.CORRECT, message);
         }));
 
@@ -421,8 +421,8 @@ public class UserMessageOptions extends OptionHandler {
                 }
 
                 var old = dbGuild.getExtraLeaveMessages().get(index);
-                dbGuild.getExtraLeaveMessages().remove(index);
-                dbGuild.save();
+                dbGuild.removeExtraLeaveMessage(old);
+                dbGuild.updateAllChanged();
 
                 ctx.sendLocalized("options.usermessage_leavemessage_remove.success", EmoteReference.CORRECT, old, index);
             } catch (ArrayIndexOutOfBoundsException ae) {
@@ -435,8 +435,8 @@ public class UserMessageOptions extends OptionHandler {
                 **Example**: `~>opts usermessage leavemessages clear`
                 """, "Clears all extra leave messages", ((ctx, args) -> {
             var dbGuild = ctx.getDBGuild();
-            dbGuild.getExtraLeaveMessages().clear();
-            dbGuild.save();
+            dbGuild.clearExtraLeaveMessages();
+            dbGuild.updateAllChanged();
 
             ctx.sendLocalized("options.usermessage_leavemessage_clear.success", EmoteReference.CORRECT);
         }));

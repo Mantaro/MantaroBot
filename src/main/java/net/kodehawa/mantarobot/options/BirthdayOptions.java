@@ -255,8 +255,8 @@ public class BirthdayOptions extends OptionHandler {
                 if (member == null)
                     return;
 
-                dbGuild.getBirthdayBlockedIds().add(member.getId());
-                dbGuild.save();
+                dbGuild.addBirthdayBlockedId(member.getId());
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.birthdayblacklist.add.success", EmoteReference.CORRECT, member.getEffectiveName(), member.getId());
             });
         });
@@ -276,8 +276,8 @@ public class BirthdayOptions extends OptionHandler {
                 if (member == null)
                     return;
 
-                dbGuild.getBirthdayBlockedIds().remove(member.getId());
-                dbGuild.save();
+                dbGuild.addBirthdayBlockedId(member.getId());
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.birthdayblacklist.remove.success", EmoteReference.CORRECT, member.getEffectiveName(), member.getId());
             });
         });

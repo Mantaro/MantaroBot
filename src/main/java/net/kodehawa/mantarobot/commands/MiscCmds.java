@@ -435,8 +435,8 @@ public class MiscCmds {
                 ctx.sendLocalized("commands.iam.deleted_role", EmoteReference.ERROR);
 
                 // delete the non-existent autorole.
-                dbGuild.getAutoroles().remove(autoroleName);
-                dbGuild.save();
+                dbGuild.removeAutorole(autoroleName);
+                dbGuild.updateAllChanged();
             } else {
                 if (ctx.getMember().getRoles().stream().anyMatch(r1 -> r1.getId().equals(role.getId()))) {
                     ctx.sendLocalized("commands.iam.already_assigned", EmoteReference.ERROR);
@@ -475,8 +475,8 @@ public class MiscCmds {
             Role role = ctx.getGuild().getRoleById(autoroles.get(autoroleName));
             if (role == null) {
                 ctx.sendLocalized("commands.iam.deleted_role", EmoteReference.ERROR);
-                dbGuild.getAutoroles().remove(autoroleName);
-                dbGuild.save();
+                dbGuild.removeAutorole(autoroleName);
+                dbGuild.updateAllChanged();
             } else {
                 if (ctx.getMember().getRoles().stream().noneMatch(r1 -> r1.getId().equals(role.getId()))) {
                     ctx.sendLocalized("commands.iamnot.not_assigned", EmoteReference.ERROR);

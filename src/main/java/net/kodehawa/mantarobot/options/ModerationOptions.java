@@ -83,8 +83,8 @@ public class ModerationOptions extends OptionHandler {
                     .map(User::getAsTag)
                     .collect(Collectors.joining(","));
 
-            dbGuild.getDisabledUsers().addAll(toBlacklist);
-            dbGuild.save();
+            toBlacklist.forEach(dbGuild::addDisabledUser);
+            dbGuild.updateAllChanged();
 
             ctx.sendLocalized("options.localblacklist_add.success", EmoteReference.CORRECT, blacklisted);
         });
@@ -109,8 +109,8 @@ public class ModerationOptions extends OptionHandler {
                     .collect(Collectors.joining(",")
             );
 
-            dbGuild.getDisabledUsers().removeAll(toUnBlacklist);
-            dbGuild.save();
+            toUnBlacklist.forEach(dbGuild::removeDisabledUser);
+            dbGuild.updateAllChanged();
 
             ctx.sendLocalized("options.localblacklist_remove.success", EmoteReference.CORRECT, unBlacklisted);
         });
@@ -151,8 +151,8 @@ public class ModerationOptions extends OptionHandler {
 
             var dbGuild = ctx.getDBGuild();
             if (args[0].equals("clearchannels")) {
-                dbGuild.getLogExcludedChannels().clear();
-                dbGuild.save();
+                dbGuild.clearLogExcludedChannels();
+                dbGuild.updateAllChanged();
                 ctx.sendLocalized("options.logs_exclude.clearchannels.success", EmoteReference.OK);
                 return;
             }
@@ -166,8 +166,8 @@ public class ModerationOptions extends OptionHandler {
 
                 Consumer<StandardGuildMessageChannel> consumer = textChannel -> {
                     var dbGuildFinal = ctx.getDBGuild();
-                    dbGuildFinal.getLogExcludedChannels().remove(textChannel.getId());
-                    dbGuildFinal.save();
+                    dbGuildFinal.removeLogExcludedChannel(textChannel.getId());
+                    dbGuildFinal.updateAllChanged();
                     ctx.sendLocalized("options.logs_exclude.remove.success", EmoteReference.OK, textChannel.getAsMention());
                 };
 
@@ -182,8 +182,8 @@ public class ModerationOptions extends OptionHandler {
             String channel = args[0];
             Consumer<StandardGuildMessageChannel> consumer = textChannel -> {
                 var dbGuildFinal = ctx.getDBGuild();
-                dbGuildFinal.getLogExcludedChannels().add(textChannel.getId());
-                dbGuildFinal.save();
+                dbGuildFinal.addLogExcludedChannel(textChannel.getId());
+                dbGuildFinal.updateAllChanged();
                 ctx.sendLocalized("options.logs_exclude.success", EmoteReference.OK, textChannel.getAsMention());
             };
 
