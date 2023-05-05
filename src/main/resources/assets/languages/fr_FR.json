@@ -25,11 +25,11 @@
     "options": "Options",
     "find_members_failure": "%1$sAucun membre trouvé avec tes critères de recherche :(",
     "find_roles_failure": "%1$sAucun rôle trouvé avec tes critères de recherche :(",
-    "too_many_roles": "%1$sToo many roles found, maybe refine your search?\n**Roles found:** %2$s",
+    "too_many_roles": "%1$sTrop de rôles dans les résultats de la recherche. Tu veux peut-être l'affiner ?\n**Rôles trouvés :** %2$s",
     "role_select": "Sélectionne le rôle :",
     "find_channels_failure": "%1$sJe n'ai trouvé aucun salon textuel portant ce nom :(",
     "find_voice_channels_failure": "%1$sJe n'ai trouvé aucun salon vocal portant ce nom :(",
-    "too_many_channels": "%1$sToo many channels found, maybe refine your search?\n**Channels found:** %2$s",
+    "too_many_channels": "%1$sTrop de salons dans les résultats de la recherche. Tu veux peut-être l'affiner ?\n**Salons trouvés :** %2$s",
     "channel_select": "Sélectionne un salon :",
     "too_many_members": "%1$sTrop de membres trouvés, essaies d'affiner ta recherche peut-être ? (ex. utilises le name#discriminator)\n**Membres trouvés :** %2$s",
     "too_many_mentions": "%1$sMentionne une personne à la fois s'il te plait.",
@@ -38,8 +38,8 @@
     "invalid_syntax": "Syntaxe invalide.",
     "birthday": "**Nouveaux anniversaires pour aujourd'hui, souhaitez leur un Joyeux Anniversaire !**",
     "member_lookup_failure": "%1$sJe n'ai trouvé aucun membre portant ce nom :(",
-    "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
-    "and": "and",
+    "slash_member_lookup_failure": "%1$sL'utilisateur ne semble pas faire partie de ce serveur.",
+    "and": "et",
     "item_lookup": {
       "no_item_emoji": "Il n'y a pas d'objet associé à cet emoji.",
       "no_item_name": "Il n'y a pas d'objet associé à ce nom.",
@@ -187,13 +187,13 @@
       "1": "*Comment utiliser la musique avec Mantaro?*",
       "2": "- Pour **ajouter une musique de YouTube ou de Soundcloud dans la file de lecture ** utilises `/play` Par exemple : `/play song:https://www.youtube.com/watch?v=aAolFWjGfMs` *Mantaro se connectera automatiquement au le salon vocal dans lequel tu te trouves*",
       "3": "- Pour **rechercher une musique de YouTube** utilises `/play <terme de recherche>` (sans < et >) Par exemple : `/play song:see you again` (Tu auras besoin de choisir le numéro du morceau, *choisis simplement le numéro* après que la liste des propositions soit apparue !)",
-      "4": "- To **search for a song on soundcloud** use `/play song:<search term> soundcloud:true` For example `/play song:hot milk soundcloud:true`",
+      "4": "- Pour **chercher un son sur soundcloud** utilise ´/play s'ont:<search term> soundcloud:true` Par exemple `/play song:hot milk soundcloud:true`",
       "5": "- Pour **vérifier la liste de lecture** écris juste `/queue show`",
       "6": "- Pour **enlever une musique de la file de lecture** utilises `/removetrack` Tu dois préciser le numéro de la chanson à supprimer (tu peux vérifier le positionnement de la chanson avec la commande `/queue`)",
       "7": "- Pour **faire pause et continuer** utilises `/pause`",
       "8": "- Pour **arrêter la musique ** utilises `/stop`",
       "9": "- Pour **mélanger la liste de lecture** utilises `/shuffle`",
-      "10": "- And lastly, to **repeat a song** use `/repeat`. Using `/repeat` while repeat is on, turns it off. You can repeat a queue running `/repeat queue:True`.\n",
+      "10": "- Et enfin, pour **répéter un son** utilise `/repeat`. En l'utilisant quand le mode de répétition est activé, la commande aura pour effet de désactiver la répétition. Tu peux répéter une liste de lecture grâce à `/repeat queue:True`.\n",
       "11": "Pour plus d'info, utilises `/help command:<nom de la commande>` (sans les <> et remplace nom de la commande par la commande que tu souhaites)",
       "12": "Profites bien de ta musique et merci d'utiliser Mantaro!"
     },
@@ -201,7 +201,7 @@
       "info": "%1$sTu peux changer la langue du serveur (si applicable) en utilisant `~>opts language set <language code>`. Pour changer ta langue de préférence, utilises `/profile language lang:<code de la langue>`.\n**Langues disponibles : ** `%2$s`\nSi ta langue n'est pas dans la liste et que tu as envie d'aider, n'hésites pas à rejoindre serveur de support de Mantaro et à aider à la traduction !"
     },
     "music_general": {
-      "play_deprecated": "%1$sDue to circumstances outside of our control, we're unable to provide music playback on Mantaro.",
+      "play_deprecated": "%1$sSuite à des circonstances indépendantes de notre volonté, nous sommes dans l'incapacité de proposer un service de musique sur Mantaro.",
       "music_error": {
         "timeout": "%1$sImpossible de se connecter à %2$s: la connexion a expiré. Essaie de changer la région du serveur et d'exécuter à nouveau la commande.",
         "unknown": "%1$sImpossible de se connecter à %2$s: erreur inconnue."
@@ -244,7 +244,7 @@
       },
       "connect": {
         "success": "%1$sConnecté avec succès au salon vocal **%2$s**!",
-        "success_stage": "%1$sSuccessfully connected to stage channel **%2$s**! Make sure to promote the bot to Speaker to hear it.",
+        "success_stage": "%1$sConnexion au salon musical opérée avec succès **%2$s** ! N'oublie pas de permettre au bot de parler pour l'entendre.",
         "full_channel": "%1$sJe ne peux pas me connecter à ce salon vocal car il est plein!!",
         "non_existent_channel": "%1$sSalon vocal inexistant. Si tu configures un salon vocal et que tu le supprimes, cela peut en être la cause.\n J'ai réinitialisé ton salon musical pour toi, essaies de jouer la musique de nouveau.",
         "user_no_vc": "%1$s**Rejoins un salon vocal s'il te plait**. Si tu es dans un salon vocal et que le bot vient de se déconnecter, re-rejoins le salon à la place.",
@@ -253,8 +253,8 @@
         "channel_locked": "%1$sJe peux uniquement jouer de la musique dans ce salon vocal **%2$s**.",
         "already_connected": "%1$sJe suis déjà connecté à un salon vocal **%2$s**! (Utilises la commande `move` pour me déplacer dans un autre salon vocal)",
         "attempting_to_connect": "%1$sJ'essaie déjà de me connecter au salon vocal **%2$s**! (Utilises la commande `move` pour me déplacer dans un autre salon vocal)",
-        "no_stage_here": "%1$sThere's no running Stage Instance running here. Maybe start a Stage?",
-        "error": "%1$sThere was an unexpected error trying to connect to this channel."
+        "no_stage_here": "%1$sIl n'y a pas de session d'écoute en cours. Peut-être en lancer une ?",
+        "error": "%1$sUne erreur inattendue est survenue lors de la connexion à ce salon."
       },
       "listener": {
         "paused": "%1$sMusique en pause parce qu'on m'a rendu muet :(",
@@ -266,7 +266,7 @@
       "loader": {
         "over_limit": "%1$sLa liste de lecture que tu as ajouté a plus de %2$d musiques, alors j'ai ajouté uniquement les musiques jusqu'au nombre limite et j'ai ignoré les autres.",
         "loaded_playlist": "%1$sAjout de **%2$d musiques** à la file d'attente de la playlist: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If you used a link, try searching it.",
+        "no_matches": "%1$sLa recherche n'a apporté aucun résultat. Si tu as usé d'un lien, essaie de le rechercher.",
         "error_loading": "%1$sErreur en recherchant la musique: %2$s. Réessaie de nouveau ou utilise un autre lien?",
         "unknown_error_loading": "%1$sErreur inconnue en recherchant de la musique. Réessaie de nouveau ou utilise un autre lien?",
         "over_queue_limit": "%1$s**Je n'ai pas pu ajouter de musique à la file d'attente' %2$s: Limite de titres dans la liste de lecture dépassée (%3$s)**",
@@ -346,7 +346,7 @@
       },
       "success": "%1$sNombre de votes requis atteint, je passe la chanson...",
       "no_track": "%1$sAucune piste à passer, donc je ne peux rien faire...",
-      "cannot_force": "%1$sYou need to be a DJ or the person that queued this song to forcefully skip this track."
+      "cannot_force": "%1$sTu dois être DJ ou une personne ayant mis ce son dans la liste de lecture pour forcer le passage au morceau suivant."
     },
     "removetrack": {
       "invalid_range": "%1$s`%2$s` n'est pas une plage valide.",
@@ -416,8 +416,8 @@
         "description": "Ceci est une liste de toutes les réponses de cette commande au format brut (ce que vous entrez dans la commande)."
       },
       "clear": {
-        "confirmation": "%1$sWould you like to clear ALL the custom commands from this server? Click yes to continue, no otherwise.",
-        "cancelled": "%1$sCancelled clear operation.",
+        "confirmation": "%1$sDésires-tu supprimer TOUTES les commandes personnalisées de ce serveur? Clique sur yes pour continuer, no sinon.",
+        "cancelled": "%1$sOpération annulée.",
         "success": "%1$s**%2$d commandes personnalisées ont été effacées**. Exception faite des commandes verrouillées/épinglées, débloque-les d'abord si tu souhaites les supprimer."
       },
       "eval": {
@@ -433,7 +433,7 @@
       "edit": {
         "header_slash": "Édition des commandes personnalisées",
         "content_slash": "Nouveau contenu",
-        "content_slash_placeholder": "The new command content.",
+        "content_slash_placeholder": "Nouveau contenu de la commande.",
         "no_command": "%1$sTu dois spécifier la commande à éditer.",
         "invalid_number": "%1$sTu dois spécifier un nombre correct pour faire la modification.",
         "no_index": "%1$sTu ne peux pas éditer un index inexistant.",
@@ -460,7 +460,7 @@
         "content_slash": "Contenu",
         "custom_name_placeholder": "Le nom va ici.",
         "no_command": "$1$sTu dois spécifier la commande à ajouter.",
-        "time_out": "%1$sThe time for this custom command interaction has ran out (or you cancelled it, or started a new one).",
+        "time_out": "%1$sLa durée définie pour cette commande personnalisée est arrivée à son terme (ou tu l'as supprimée ou tu en as démarré une nouvelle).",
         "not_enough_args": "%1$sTu dois spécifier le nom et la réponse de la commande à ajouter.",
         "empty_content": "%1$sTu dois spécifier le contenu de cette commande personnalisée.",
         "too_long": "%1$sLe contenu de cette commande est trop long et le bot ne sera pas capable de l'afficher. Assure-toi qu'elle fasse moins de %2$,d caractères.",
@@ -479,11 +479,11 @@
         "success": "%1$sTu as déverrouillé la commande `%2$s` avec succès. Tu devras la verrouiller à nouveau si tu veux éviter de futures éditions."
       },
       "info": {
-        "header": "Custom Command Information for %1$s",
-        "owner": "**Owner:**",
-        "owner_id": "**Owner ID:**",
+        "header": "Information de commande personnalisée pour %1$s",
+        "owner": "**Propriétaire :**",
+        "owner_id": "**ID du ou de la propriétaire :**",
         "nsfw": "**NSFW:**",
-        "responses": "**Responses:**"
+        "responses": "**Réponses :**"
       },
       "character_not_allowed": "%1$sCe caractère n'est pas autorisé pour les noms de commandes personnalisées.",
       "already_exists": "%1$sLa commande `%2$s` existe déjà.",
@@ -498,7 +498,7 @@
       "locked_command": "%1$sTu ne peux pas éditer ou supprimer cette commande tant qu'elle est verrouillée, utilise `/custom unlockcommand name:<nom de la commande>` pour la déverrouiller s'il te plait."
     },
     "mute": {
-      "no_permissions": "%1$sYou need to have permission to Moderate Members in order to time out a user.",
+      "no_permissions": "%1$sTu dois avoir la permission de Gérer les Membres pour rendre un utilisateur muet.",
       "no_users": "%1$sTu dois me donner un utilisateur à mettre à l'écart.",
       "no_moderate_members": "%1$sJe n'ai pas la permission de gérer les mises à l'écart sur ce serveur.",
       "time_not_specified": "%1$sTu voulais ajouter une durée mais tu n'as pas précisé pendant combien de temps tu souhaites que le mute soit effectif.",
@@ -509,14 +509,14 @@
       "already_muted": "%1$sCet utilisateur.trice est déjà mis.e à l'écart. Écris `/unmute` pour l'annuler.",
       "self_hierarchy_error": "%1$sJe ne peux pas mettre cette personneà l'écart, car elle appartient à une hiérarchie supérieure à la mienne ou elle a un rôle supérieur au mien !",
       "user_hierarchy_error": "%1$sJe ne peux pas mettre cette personneà l'écart, car elle appartient à une hiérarchie supérieure à la mienne ou elle a un rôle supérieur au tien!",
-      "success": "%1$sSuccessfully timed out **%2$s** for %3$s",
+      "success": "%1$sTu as rendu **%2$s** muet pendant %3$s avec succès",
       "success_reason": "%1$sAjout du rôle de mise à l'écart à **%2$s** pour %3$s pour la raison suivante: %4$s"
     },
     "unmute": {
-      "no_permissions": "%1$sYou need to have permission to Moderate Members to remove a time out!",
-      "no_mentions": "%1$sYou need to tell me who to remove the time out from.",
-      "success": "%1$sSuccessfully removed time out from **%2$s**",
-      "not_muted": "%1$sThis user doesn't seem to be timed out."
+      "no_permissions": "%1$sTu dois avoir la permission de Gérer les Membres pour rendre la parole à un utilisateur !",
+      "no_mentions": "%1$sTu dois me dire à qui tu veux rendre la parole.",
+      "success": "%1$sLa parole est revenue à **%2$s** avec succès",
+      "not_muted": "%1$sCet utilisateur ne semble pas muet."
     },
     "ping": {
       "display": [
@@ -592,7 +592,7 @@
         "no_car": "%1$sTu dois d'abord acheter une voiture! Utilise `/buy item:car` pour ce faire.",
         "not_enough_money": "%1$sTu n'as pas assez d'argent pour acheter une voiture! (Prix actuel d'une voiture: %2$d crédits.)",
         "no_name": "%1$sVous devez nommer votre voiture! Par exemple, `/marry car name:vroom`",
-        "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Click on `yes` to confirm and `no` to cancel.",
+        "confirm": "%1$sTu es sûr.e de vouloir acheter cette voiture ? Le prix déduit de ton portefeuille est %2$d et le nom de ta voiture sera %3$s. Clique sur `yes` pour confirmer ou sur `no` pour annuler.",
         "success": "%1$sTu as acheté ta voiture pour %2$d crédits avec succès. Le nom de ton nouveau bolide est %3$s, profites-en!",
         "cancel_success": "%1$sOpération annulée."
       },
@@ -861,7 +861,7 @@
       "success": "%1$s%2$s, tu viens de recevoir le rôle **%3$s**",
       "error": "%1$sJe ne peux pas t'enlever **%2$s**. Assure toi que j'ai la permission d'ajouter les rôles (Gérer les rôles) et que mon rôle est au-dessus de **%2$s**",
       "no_role": "%1$sIl n'y a pas d'autorôle avec le nom que tu m'as donné.",
-      "privileged_role": "%1$sThis role has administrative permissions that prevent me from giving it.",
+      "privileged_role": "%1$sCe rôle a des permissions d'administration m'empêchant de l'attribuer.",
       "no_iam": "%1$sTu dois spécifier quel rôle auto-assignable tu veux t'assigner!"
     },
     "iamnot": {
@@ -871,43 +871,43 @@
     },
     "poll": {
       "missing": "%1$sTu n'as pas inclus l'argument %2$s ou alors c'était vide!\n%3$s",
-      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 2d and a minimum of 2m.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `/help poll`",
+      "invalid": "%1$sCe sondage ne peut être construit. **Souviens-toi que le nombre maximum d'option est 9 et que le minimum est de 2 et que le temps limite est de maximum 2d (2 jours) et de minimum 2m.**\nLes options sont séparées avec une virgule, par exemple `1,2,3` (pas d'espaces entre eux !). Pour les éléments requérants des espaces, veille à les écrire entre guillemets. Si tu es vraiment perdu.e, il y a un exemple sur `/help poll`",
       "other_poll_running": "%1$sIl semble qu'un autre sondage soit en cours..",
       "no_reaction_perms": "%1$sIl semble que je ne peux pas ajouter de réactions ici...",
       "too_long": "%1$sC'était trop long à montrer. Essaie avec moins d'option peut-être?",
-      "header": "Poll created by %1$s",
+      "header": "Sondage créé par %1$s",
       "success": "**Poll started. React to the number to vote.**\n*%1$s*",
       "time": "Tu as %1$s pour voter.",
-      "name_too_long": "%1$sThe name can only be up to 500 characters long.",
-      "too_many": "%1$sYou can only run up to 5 polls at once.",
+      "name_too_long": "%1$sLe nom peut contenir jusqu'à 500 caractères.",
+      "too_many": "%1$sTu ne peux lancer que 5 sondages à la fois.",
       "error": "%1$sUne erreur inconnue est survenue durant la mise en place du sondage. Réessaie peut-être ? (Erreur interne)",
       "result_header": "Résultats du sondage",
       "result_screen": "**Voici les résultats du sondage créé par %1$s** du nom de: *%2$s*",
       "vote_results": "+C'est enregistré! %1$d a voté pour l'option %2$s",
       "thank_note": "Merci pour ton vote!",
       "results": "Résultats",
-      "due_at": "due:",
-      "cancelled": "%1$sCancelled poll.",
-      "completed": "%1$sThis poll has ended. Results: %2$s",
-      "too_little_time": "%1$sThe poll should be at least 2 minutes long.",
-      "too_much_time": "%1$sThe poll should be at most 2 days long.",
-      "too_few_options": "%1$sPolls should at least have 2 options.",
-      "too_many_options": "%1$sPolls cannot have more than 9 options.",
-      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds), for example: 2m25s.",
+      "due_at": "Date limite :",
+      "cancelled": "%1$sSondage supprimé.",
+      "completed": "%1$sCe sondage est terminé. Résultats : %2$s",
+      "too_little_time": "%1$sCe sondage doit durer au moins 2 minutes.",
+      "too_much_time": "%1$sCe sondage doit durer au maximum 2 jours.",
+      "too_few_options": "%1$sUn sondage doit comporter au moins 2 options.",
+      "too_many_options": "%1$sLes sondages ne peuvent pas contenir plus de 9 options.",
+      "incorrect_time_format": "%1$sFormat de durée incorrect. Souviens-toi, le format adéquat utilise les nombres suivis de `h, m ou s` (heures, minutes ou secondes), exemple : 2m25s.",
       "invalid_channel": "%1$sI can't find the channel you tried to start this poll on.",
       "no_permissions": "%1$sYou need to have the Manage Server permission or the Bot Commander role to administrate polls.",
       "cancel": {
         "no_polls": "%1$sThere's no running polls here.",
-        "success": "%1$sCancelled this poll.",
-        "select": "Select the poll you want to cancel."
+        "success": "%1$sCe sondage est supprimé.",
+        "select": "Sélectionne le sondage que tu souhaites annuler."
       },
       "list": {
-        "header": "Running polls in %s.",
+        "header": "Sondage mis en route dans %s.",
         "description": "**This is a list of the running polls in this server**. You can cancel a poll by using `/poll cancel`.",
         "footer": "Thanks for using Mantaro <3 (Total Polls: %s)",
-        "format_header": "Poll #%d",
-        "format": "**Name:** %s, **due** <t:%s:R>, **[link](%s)**",
-        "empty": "%1$sThere are no running polls here."
+        "format_header": "Sondage №%d",
+        "format": "**Nom :** %s, **date de clôture** <t:%s:R>, **[link](%s)**",
+        "empty": "%1$sIl n'y a pas de sondage en cours ici."
       }
     },
     "profile": {
@@ -921,11 +921,11 @@
       "description": {
         "header": "Description du profil.",
         "content_placeholder": "La description prend place ici.",
-        "no_content": "%1$sYou didn't specify what you want on your description.",
+        "no_content": "%1$sTu n'as pas spécifié de description.",
         "too_long": "%1$sTa description est trop longue! (Limite de 300 caractères pour tout le monde et de 500 pour les utilisateurs premium)",
         "success": "%1$sJ'ai défini ta description avec succès. Tu peux voir ton profil tout neuf en faisant `/profile show`",
         "clear_success": "%1$sDescription supprimée avec succès.",
-        "time_out": "%1$sThe time to set your profile description has ran out (or you cancelled it, or started a new one)."
+        "time_out": "%1$sLa durée de ta description de profil est arrivée à son terme (ou tu l'as supprimée ou tu en as démarré une nouvelle)."
       },
       "displaybadge": {
         "not_specified": "%1$sYou need to specify your main badge! For example, `/badges display badge:claimer`",
@@ -961,7 +961,7 @@
         "potion_type": "Type de potions",
         "buff": "Bonus",
         "buff_type": "Type de buff",
-        "experience": "Experience (Old)",
+        "experience": "Expérience (Old)",
         "mine_xp": "Expérience de minage",
         "fish_xp": "Expérience de pêche",
         "chop_xp": "Expérience de bûcheron",
@@ -1113,7 +1113,7 @@
       },
       "no_time": "%1$sTu n'as pas spécifié le moment ou tu as mal utilisé le formatage. Le format est un nombre suivit de d (days/jours), h (hours/heures), m (minutes) ou s (seconds/secondes). Par exemple, 1m45s c'est 1 minute et 45 secondes.",
       "too_little_time": "%1$sCe n'est pas assez de temps (Minimum: 1 minute, Exemple: `/remindme add time:1m reminder:faire la vaisselle`)",
-      "too_long": "That's too much time... (Maximum: 1 year)",
+      "too_long": "Le délai est trop long... (Maximum : 1 an)",
       "success": "%1$sJe te rappellerai (%2$s) de `%3$s` dans %4$s",
       "too_many_reminders": "%1$sTu as beaucoup trop de rappels! Essaie d'en supprimer peut-être?",
       "content": "Contenu",
@@ -1164,7 +1164,7 @@
       "linked": "Lié",
       "linked_to": "Lié à",
       "keys_claimed": "Clés validées",
-      "premium_bot": "%1$sMantaro Patreon uses no keys. The server/user is premium if they can use the bot. Thanks you <3"
+      "premium_bot": "%1$sLe patron de Mantaro n'utilise pas de clé. Le serveur/l'utilisateur est premium si le bot peut être utilisé. Merci <3"
     },
     "support": {
       "info": "%1$sSi tu as besoin d'aide, rendez-vous sur le serveur support <https://support.mantaro.site> et pose ta question dans le salon #support! Attention, c'est un serveur anglophone."
@@ -1177,7 +1177,7 @@
       "error_retrieving": "%1$sJ'ai trouvé une erreur lors de la récupération du prochain gif pour cette action... (erreur externe, peut-être que WeebAPI est en panne?)",
       "no_type": "%1$sCette commande d'action n'a pas de type. (erreur interne)",
       "permission_or_unexpected_error": "%1$sD-Désolé je ne peux pas envoyer l'image. (Je n'en ai probablement pas la permission)",
-      "extra": "(with an extra message)",
+      "extra": "(avec un message supplémentaire)",
       "lonely": {
         "pat": "Ohh, je vois que tu es seul.e, voici une caresse <3",
         "hug": "Ohh, je vois que tu es seul.e, caliiiiiiin <3",
@@ -1250,12 +1250,12 @@
         "possibilities": "Possibilités",
         "difficulty": "Difficulté",
         "category": "Catégorie",
-        "all_attempts_used": "%1$sAlready used all attempts, ending game. Question: %2$s, Answer: %3$s",
-        "footer": "You have %1$s attempt and 1 minute (Click end to end the game)."
+        "all_attempts_used": "%1$sLe jeu se termine ici, tu as déjà utilisé tous tes essais. Question : %2$s, réponse : %3$s",
+        "footer": "Tu as %1$s essais et 1 minute. (Clique sur fin pour arrêter la partie)."
       },
       "number": {
         "start": "%1$sDevine le nombre! **Tu as 5 chances et 1 minute pour trouver ce nombre entre 0 et 150.**",
-        "nan": "%1$sThat's not a number...",
+        "nan": "%1$sCe n'est pas un nombre...",
         "ended_game": "%1$sPartie terminée, le nombre était: %2$d",
         "all_attempts_used": "%1$sTu n'as plus d'essais. Le nombre était : %2$d",
         "hint": "Indice: Le nombre est %1$s que ce que tu viens d'écrire.",
@@ -1274,14 +1274,14 @@
         "won_game": "%1$s**%2$s** vient de gagner $%3$,d crédits en répondant correctement!"
       },
       "character": {
-        "start": "Guess the Anime Character",
+        "start": "Devine le personnage d'Anime",
         "load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
-        "footer": "You have %1$d attempts and 1 minute (Type end to end the game)."
+        "footer": "Tu as %1$d essais et 1 minute. (Clique sur fin pour arrêter la partie)."
       },
       "game_timeout_drop": "%1$sOups... Il semble que j'aie laissé un jeu ici et que j'ai oublié de venir le chercher... J'en démarre un nouveau sans tarder !",
       "other_lobby_running": "%1$sJe ne peux pas démarrer un nouveau lobby tant qu'un jeu est en cours. (Si c'est une erreur, dis à un admin de faire la commande `~>opts lobby reset`)",
-      "lobby_timed_out": "%1$sThe time ran out! The correct answer is: %2$s",
-      "error": "%1$sI found an error while setting up the game (internal error).",
+      "lobby_timed_out": "%1$sLe temps est écoulé, la réponse correcte était : %2$s",
+      "error": "%1$sJ'ai rencontré une erreur en préparant le jeu (erreur interne).",
       "error_missing_permissions": "%1$sJe ne peux pas ajouter de fichier. Vérifie mes permissions s'il te plait.",
       "too_many_games": "%1$sTu peux démarrer au maximum %2$,d jeux en même temps dans un lobby. (%3$,d en étant Premium)"
     },
@@ -1512,7 +1512,7 @@
       "not_enough_money": "%1$sTu n'as pas assez d'argent pour sauver cet objet. *(Portefeuille; %2$,d crédits , Nécessaire: %3$,d crédits)*",
       "dust": "%1$sTon inventaire à trop de poussière pour essayer de sauver cet objet, essaye de le nettoyer avec un balai.",
       "no_returnables": "%1$sCet objet n'a pas rendu d'éléments ayant servi à le sauver.",
-      "success": "%1$sSuccessfully salvaged %2$s%3$s and got %4$s%5$s in return. The cost was %6$s credits.",
+      "success": "%1$s réparée avec succès %2$s%3$s et tu as obtenu %4$s%5$s en retour. Ça t'a couté %6$s crédits.",
       "ls": {
         "header": "Liste des objets qui peuvent être réparés",
         "cost": "Cout de la réparation: ",
@@ -1794,7 +1794,7 @@
         "no_amount": "%1$sTu ne m'as pas donné de montant!",
         "no_valid_amount": "%1$sCe n'est pas un montant valide! (Exemple de montants valides : 1000, 1k, 14000)",
         "too_many_tickets": "%1$sTu essaies d'utiliser trop de tickets. Maximum autorisé: %2$d",
-        "tickets_and_credits": "%1$sYou can only use tickets or credits, not both."
+        "tickets_and_credits": "%1$sTu peux utiliser soit des tickets, soit des crédits pas les deux."
       },
       "roll": "%1$s**Tu as utilisé %2$s et tu as lancé la machine**\n",
       "win": "Et tu as gagné **%1$,d** crédits et tu peux garder la mise (%2$,d credits)! Chaceux.se va !",
@@ -1818,14 +1818,14 @@
         "experience": "Expérience",
         "game": "%1sCette page montre le top 10 des gens qui ont gagnés le plus de parties.\n\nVa voir `/help command:game` ou `/help command:trivia` pour les détails!",
         "claim": "%1sCette page montre le top 10 des gens qui se sont le plus fait acheter en tant que Waifu.\n\nVa voir `/help command:waifu` pour plus de détails.",
-        "money_old": "%1$sCette page montre le top 10 des gens les plus riches de Mantaro (avant le reset)!\n",
-        "money": "%1$sCette page montre le top 10 des gens les plus riches de Mantaro. C'est difficile d'être avare!",
-        "rep": "%1sCette page montre le top 10 des gens qui ont le plus de réputation.",
-        "streak": "%1sCette page montre le top 10 des gens qui ont le plus gros multiplicateur journalier.\n\nVa voir `/help command:daily` pour plus de détails",
-        "lvl": "%1sCette page montre le top 10 des gens qui ont le plus de niveaux.\n\nLes niveaux sont gagnés en parlant. Les commandes ne comptent pas et l'expérience a 30 secondes de pause.",
-        "waifu": "%1sCette page montre le top 10 des gens qui ont le plus de valeur Waifu.\n\nVa voir `/help command:waifu` pour plus de détails.",
-        "gamble": "%1sCette page montre le top 10 des gens qui ont le plus de paris gagnés.\n\nVa voir `/help command:gamble` pour plus de détails.",
-        "slots": "%1sCette page montre le top 10 des gens qui ont le plus de slots gagnés.\n\nVa voir `/help command:slots` pour plus de détails."
+        "money_old": "%1$sThis page shows the top 15 richest people on Mantaro (before the reset).\n",
+        "money": "%1$sThis page shows the top 15 richest people on Mantaro. Grinding is hard!",
+        "rep": "%1sThis page shows the top 15 people with the most reputation.",
+        "streak": "%1sThis page shows the top 15 people with the most daily streaks.\n\nCheck out `/help command:daily` for more info",
+        "lvl": "%1sThis page shows the top 15 people with the most level.\n\nLevel is earning through talking. Command usage doesn't contribute to experience, and XP has a 30 seconds cooldown.",
+        "waifu": "%1sThis page shows the top 15 people with the most weighted waifu value.\n\nCheck out `/help command:waifu` for details on the waifu system.",
+        "gamble": "%1sThis page shows the top 15 people with the most gamble runs won.\n\nCheck out `/help command:gamble` for details on gamble.",
+        "slots": "%1sThis page shows the top 15 people with the most slots runs won.\n\nCheck out `/help command:slots` for details on slots."
       }
     },
     "iteminfo": {
@@ -1843,11 +1843,11 @@
         "upgrade_content": "Clique [ici](https://www.mantaro.site/mantaro-wiki/currency/103#tools---getting-an-upgrade) pour plus d'informations sur les améliorations d'outils!"
       },
       "attribute": {
-        "tier": "Wrench Tier (to craft):",
-        "tier_raw": "Wrench Tier:",
-        "increase": "Money Increase:",
+        "tier": "Niveau de la clé (à fabriquer) :",
+        "tier_raw": "Niveau de la clé :",
+        "increase": "Augmentation pécuniaire :",
         "diamond_drop": "Chance d'obtenir des Diamants :",
-        "gem_luck": "Sparkle / Gem Luck",
+        "gem_luck": "Poussière / Gemme de chance",
         "buff": "Item Buff:",
         "reduction": "Multiplier reduction:",
         "multiple_cast": "Possibilité d'en fabriquer plusieurs :"
@@ -2023,7 +2023,7 @@
     },
     "birthday_enable": {
       "no_args": "%1$sTu dois spécifier le nom du salon et celui du rôle.",
-      "administrative_role": "%1$sThis role contains administrative permissions and therefore cannot be set as a Birthday role.",
+      "administrative_role": "%1$sCe rôle contient des permissions administratives et ne peut donc pas devenir un rôle d'anniversaire.",
       "public_role": "%1$sLe rôle everyone ne peut pas servir pour les anniversaires! N'oublie pas qu'il s'agit d’un rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé.",
       "autorole": "%1$sTu ne peux pas assigner un autorôle comme rôle d'anniversaire. N'oublie pas qu'il s'agit d’un rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé.",
       "warning": "%1$sN'oublie pas qu'il s'agit d’un rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé. Si tu as le moindre doute sur la configuration, n'hésite pas à rejoindre le serveur de support et à demander. Tu peux aussi regarder `~>opts help birthday enable` par exemple.",
@@ -2052,7 +2052,7 @@
       "no_role_found": "%1$sJe n'ai pas trouvé de rôle de ce nom. S'il contient des espaces essaie de le mettre entre guillemets.",
       "hierarchy_conflict": "%1$sCe rôle est placé plus haut que le plus haut des rôles, ça ne peut donc pas être un autorole!",
       "self_hierarchy_conflict": "%1$sCe rôle est placé plus haut que le plus haut de mes rôles, ça ne peut donc pas être un autorole!",
-      "permissions_conflict": "%1$sYou cannot set an autorole with administrative permissions, even if you have them.",
+      "permissions_conflict": "%1$sTu ne peux pas définir un rôle d'administrateur comme autorôle, même si tu l'as.",
       "success": "%1$sL'autorole du serveur est défini sur: **%2$s** (Position: %3$d)"
     },
     "autorole_unbind": {
@@ -2118,7 +2118,7 @@
       "no_role_found": "%1$sJe n'ai pas trouvé de rôle de ce nom. S'il contient des espaces essaie de le mettre entre guillemets.",
       "hierarchy_conflict": "%1$sCe rôle est placé plus haut que le plus haut des rôles, ça ne peut donc pas être un autorole!",
       "self_hierarchy_conflict": "%1$sCe rôle est placé plus haut que le plus haut de mes rôles, ça ne peut donc pas être un autorole!",
-      "permissions_conflict": "%1$sYou cannot add iam roles with administrative permissions, even if you have them.",
+      "permissions_conflict": "%1$sTu ne peux pas définir un rôle d'administrateur comme rôle pour la commande iam, même si tu l'as.",
       "success": "%1$sAjout du rôle auto-assignable **%2$s**, qui donne le rôle **%3$s**"
     },
     "autoroles_category_add": {
@@ -2207,11 +2207,11 @@
     },
     "usermessage_joinmessage_add": {
       "no_message": "%1$sTu dois me donner le message supplémentaire que tu veux que j'envoie lorsque quelqu'un nous rejoins!",
-      "success": "%1$sAdded %2$s to the extra join messages successfully."
+      "success": "%1$sAjout de %2$s aux messages de bienvenue supplémentaires."
     },
     "usermessage_joinmessage_remove": {
       "no_message": "%1$sTu dois me donner le numéro du message à supprimer!",
-      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra join messages successfully.",
+      "success": "%1$sSuppression de %2$s `(numéro %3$d)` des messages de bienvenue supplémentaires.",
       "wrong_index": "%1$sCe numéro n'est pas attribué! Utilise `~>opts usermessage joinmessages list` pour voir les messages et leur numéro"
     },
     "usermessage_joinmessage_clear": {
@@ -2223,11 +2223,11 @@
     },
     "usermessage_leavemessage_add": {
       "no_message": "%1$sTu dois me donner le message supplémentaire que tu veux que j'envoie lorsque quelqu'un nous quitte!",
-      "success": "%1$sAdded %2$s to the extra leave messages successfully."
+      "success": "%1$sAjout de %2$s aux messages de départ supplémentaires."
     },
     "usermessage_leavemessage_remove": {
       "no_message": "%1$sTu dois me donner le numéro du message à supprimer!",
-      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra leave messages successfully.",
+      "success": "%1$sSuppression de %2$s `(numéro %3$d)` des messages de départ supplémentaires.",
       "wrong_index": "%1$sCe numéro n'est pas attribué! Utilise ~>opts usermessage leavemessages list ` pour voir les messages et leur numéro"
     },
     "usermessage_leavemessage_clear": {
@@ -2646,7 +2646,7 @@
     "accept": "Accepter",
     "deny": "Refuser",
     "cancel": "Annuler",
-    "end": "End"
+    "end": "Fin"
   },
   "time": {
     "day": "jour",

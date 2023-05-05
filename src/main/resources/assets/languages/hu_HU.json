@@ -24,22 +24,22 @@
     "description": "Leírás",
     "options": "Beállítások",
     "find_members_failure": "%1$sNem találtam senkit, aki megfelel a keresésednek :(",
-    "find_roles_failure": "%1$sDidn't find any roles that match your search criteria :(",
-    "too_many_roles": "%1$sToo many roles found, maybe refine your search?\n**Roles found:** %2$s",
-    "role_select": "Select the Role:",
-    "find_channels_failure": "%1$sCannot find any text channel with that name :(",
-    "find_voice_channels_failure": "%1$sCannot find any voice channel with that name :(",
-    "too_many_channels": "%1$sToo many channels found, maybe refine your search?\n**Channels found:** %2$s",
-    "channel_select": "Select the Channel:",
+    "find_roles_failure": "%1$sNem találtam rangot, aki megfelel a keresésednek :(",
+    "too_many_roles": "%1$sTúl sok rangot találtam, finomítsd a keresésed?\n**Talált rangok:** %2$s",
+    "role_select": "Válaszd ki a rangot:",
+    "find_channels_failure": "%1$sNem találtam csatornát ezzel a névvel :(",
+    "find_voice_channels_failure": "%1$sNem találtam hang csatornát ezzel a névvel :(",
+    "too_many_channels": "%1$sTúl sok csatornát találtam, finomítsd a keresésed?\n**Talált csatornák:** %2$s",
+    "channel_select": "Válassz csatornát:",
     "too_many_members": "%1$sTúl sok felhasználót találtam ezzel a névvel. Pontosítanád a keresést? (pl: név#1234)\n**Talált felhasználók:** %2$s",
     "too_many_mentions": "%1$sKérlek csak egy felhasználót említs meg.",
     "query_too_small": "%1$sTúl rövid szóra keresel. Győződj meg róla, hogy legalább 4 karakterből áll a keresésed. Ha a felhasználónév túl rövid, akkor jobb, ha a felhasználónév#1232, vagy a felhasználó \"id\" ét használod.",
     "dust": "Itt csak por van.",
     "invalid_syntax": "Érvénytelen szintaxis.",
-    "birthday": "**New birthdays for today, wish them Happy Birthday!**",
-    "member_lookup_failure": "%1$sCannot find any member with that name :(",
-    "slash_member_lookup_failure": "%1$sThe provided user doesn't seem to be in this server.",
-    "and": "and",
+    "birthday": "**Kívánjatok a mai születésnaposoknak boldog születésnapot**",
+    "member_lookup_failure": "%1$sNem találtam felhasználót ezzel a névvel :(",
+    "slash_member_lookup_failure": "%1$sA megadott felhasználó nincs bent a szerveren.",
+    "and": "és",
     "item_lookup": {
       "no_item_emoji": "Ehhez az emoji-hoz nincs társítva tárgy.",
       "no_item_name": "Nincs ilyen nevű tárgy.",
@@ -51,7 +51,7 @@
       "mop_not_enough": "%1$sA por szinted kevesebb, mint 5%%, ezért a felmosás nem lenne valami hasznos.",
       "milk": "%1$sAz összes bájital hatása elmúlt.",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `/buy item:key`",
+        "no_key": "%1$sSzükséged van egy láda kulcsra, hogy kinyithass egy ládát! Vehetsz kulcsot a `/buy item:key` parancs használatával.",
         "no_crate": "%1$sLádára van szükséged ehhez! Ládákat általában currency parancsokból kaphatsz.",
         "success": "%1$sKinyitottál egy ládát és nyertél: %2$s%3$s. Gratulálok!",
         "success_high": "%1$sA következő tárgyaid vannak, amik 3 csillagnál magasabb szintűek: %2$s",
@@ -68,7 +68,7 @@
     "campaigns": {
       "premium": {
         "generic_sellout": "Segítségre van szükségünk a Mantaro életben tartásához, és a Mantaro szervereinek fejlesztéséhez!\nMesés juttatásokat és **akár kétszeres kreditet is kaphatsz a Mantaro Premium** -al! A patreon tagság havi 2 dollárnál kezdődik, egy süti ára! További információ: <https://patreon.com/mantaro>. :heart:",
-        "daily_sellout": "We need your help to keep Mantaro alive!\nYou can get amazing perks and **double the daily credits** and access to `/dailycrate`! Memberships start at only $2 per month, check out more at <https://patreon.com/mantaro>.",
+        "daily_sellout": "A Segítségedre van szükségünk, hogy életben tartsuk Mantarót!\nMesés juttatásokat kaphatsz, **megduplázhatod a napi krediteidet** és hozzáférést kapsz a `/dailycrate` -hez is! A tagság havi 2 dollárnál kezdődik, további információkat itt találhatsz: <https://patreon.com/mantaro>.",
         "thanks_message": "Köszönjük, hogy támogattad Mantarót. A hozzád hasonló emberek segítsége nélkül nem tudnánk életben tartani Mantarót :heart:",
         "thanks_message_daily": "Köszönjük, hogy támogattad Mantarót. A hozzád hasonló emberek segítsége nélkül nem tudnánk életben tartani Mantarót :heart:\nDupla kreditet is kaptál bónuszként!"
       },
@@ -85,7 +85,7 @@
     "sellout": "Fontold meg az adományozást [Patreon] (https://www.patreon.com/mantaro) -on, ha tetszik, még egy kis adomány is segít a bot futtatásában!",
     "deprecated": "Már nem használt",
     "space_notice": "Ha a név tartalmaz spaceket próbáld meg \"idézőjelbe csomagolni őket\".",
-    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://www.mantaro.site/mantaro-wiki> for more information about the bot.",
+    "missing_embed_permissions": "A botnak nincs Embed links (hivatkozások beágyazása) joga, amely a parancs megjelenítéséhez szükséges. \nHa további segítségre van szükséged <https://support.mantaro.site> vagy <https://www.mantaro.site/mantaro-wiki>.",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Ezt a parancsot %3$s másodperc múlva használhatod újra.**",
       "spam_1": "Kérlek pihenj, ez jót tesz az egészségednek. **Ne felejtsd, minél többet próbálkozol, annál tovább fog tartani a visszaszámlálás!**",
@@ -98,7 +98,7 @@
       "next": "Következő",
       "close": "Bezárás"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `/mantaro shard`) when reporting!",
+    "generic_error": "Ha akarsz, csatlakozz a **Support szerverünkhöz** (`https: // support.mantaro.site`), vagy nézd meg a GitHub oldalunkat (`https://github.com/Kodehawa/MantaroBot`). \nKérlek, mondd meg nekik, hogy ne bántsanak, ne felejtsd el a Hibaazonosítót, a használt parancsot és a node -od (`/mantaro shard`)!",
     "boom_quotes": [
       "Úgy nézem Megunim felrobbantotta a kastélyunkat...",
       "Óó, látszólag a gazdám elhagyott néhány nullást és egyest a földön :<",
@@ -142,11 +142,11 @@
     "info": "Infó",
     "currency": "Currency",
     "pet": "Kisállat",
-    "hidden": "Hidden"
+    "hidden": "Rejtett"
   },
   "commands": {
     "slash": {
-      "title": "Slash commands transition",
+      "title": "Áttérés / jeles (Slash) parancsokra",
       "description_alias": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix. **This command was an alias**. Try to run the original command (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description": "%1$s**The command you're trying to run has been moved to Slash Commands only.** Try running it with / as the prefix (`/%2$s`).\n\nSlash Commands are the new way to use commands as per Discord's guidelines. **Commands that still work with prefixes will eventually become slash-only.**\nCommand aliases have been removed for Slash Commands as there's not enough room for us to add them (Discord only let us add 100 commands).",
       "description_image": "To run a slash command for some image commands, try using the command with the `/image` prefix instead of the one you've been using. For example, `~>catgirl` becomes `/image catgirl`. Imageboard commands don't follow this.\n\nIf you do not see the slash commands, re-add the bot using the invite link at https://add.mantaro.site.\nFor more help, use the new wiki at https://www.mantaro.site/mantaro-wiki/",
@@ -315,7 +315,7 @@
       "vc_not_found": "%1$sNem találtam a csatornát vagy nem adtál meg egyet!"
     },
     "shard": {
-      "info": "**Jelenleg a %1$d es/os shardon vagyok a %2$d** ból (Node %3$d / %4$d)\n\n**Ezen a shardon lévő szerverek:** %5$,d szerver\n**Gyorsítótárazott felhasználók:** %6$,d felhasználó\n**Gyorsítótárazott tagok:** %7$,d felhasználó\nHa segítségre van szükséged látogasd meg a bot support oldalát (<https://support.mantaro.site>). Köszönjük, hogy a Mantaro -t használod!"
+      "info": "**Jelenleg a %1$d. shardon vagyok a maximális %2$d** shardból (Node %3$d / %4$d)\n\n**Ezen a shardon lévő szerverek:** %5$,d szerver\n**Gyorsítótárazott felhasználók:** %6$,d felhasználó\n**Gyorsítótárazott tagok:** %7$,d felhasználó\n\nHa segítségre van szükséged látogasd meg a bot support oldalát <https://support.mantaro.site>. Köszönjük, hogy a Mantaro -t használod!"
     },
     "queue": {
       "clear": {
@@ -367,7 +367,7 @@
       "cleanup": "%1$sTöröltem **%2$d zenét** a listából."
     },
     "volume": {
-      "no_player": "%1$s A lejátszás szünetel.",
+      "no_player": "%1$sNincs mit lejátszani.",
       "check": "%1$sA hangerő: %2$d\n\n%3$s",
       "success": "%1$sHangerő beállítva %2$d\n\n%3$s",
       "no_args": "%1$sAdd meg mire szeretnéd megváltoztatni a hangerőt! (5 - 100)",
@@ -410,14 +410,14 @@
       "raw": {
         "no_command": "%1$sYou need to tell me what command you want to look at.",
         "not_found": "%1$sI can't find that command.",
-        "header": "Raw Custom Command: %1$s",
-        "amount": "(Showing %1$d responses of %2$d)",
-        "too_large_view": "Too large to view here, use `/custom view name:%1$s response:%2$s`",
-        "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
+        "header": "Teljes egyedi parancs: %1$s",
+        "amount": "(%1$d mutatása a maximális %2$d ból/ből)",
+        "too_large_view": "Túl hosszú, próbáld a `/custom view name:%1$s response:%2$s` parancsot",
+        "description": "Ez a parancs összes válaszának listája nyers (teljes) formában (Amit megadsz a parancsban)."
       },
       "clear": {
-        "confirmation": "%1$sWould you like to clear ALL the custom commands from this server? Click yes to continue, no otherwise.",
-        "cancelled": "%1$sCancelled clear operation.",
+        "confirmation": "%1$sSzeretnéd az összes egyedi parancsot törölni a szerveren? Ha igen nyomj az igen (Continue) gombra.",
+        "cancelled": "%1$sParancsok törlése megszakítva.",
         "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
       },
       "eval": {
@@ -1818,14 +1818,14 @@
         "experience": "Experience",
         "game": "%1sThis page shows the top 10 people who have won the most games.\n\nCheck out `/help command:game` or `/help command:trivia` for details on how games work!",
         "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `/help command:waifu` for details on the waifu system.",
-        "money_old": "%1$sThis page shows the top 10 richest people on Mantaro (before the reset).\n",
-        "money": "%1$sThis page shows the top 10 richest people on Mantaro. Grinding is hard!",
-        "rep": "%1sThis page shows the top 10 people with the most reputation.",
-        "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `/help command:daily` for more info",
-        "lvl": "%1sThis page shows the top 10 people with the most level.\n\nLevel is earning through talking. Command usage doesn't contribute to experience, and XP has a 30 seconds cooldown.",
-        "waifu": "%1sThis page shows the top 10 people with the most weighted waifu value.\n\nCheck out `/help command:waifu` for details on the waifu system.",
-        "gamble": "%1sThis page shows the top 10 people with the most gamble runs won.\n\nCheck out `/help command:gamble` for details on gamble.",
-        "slots": "%1sThis page shows the top 10 people with the most slots runs won.\n\nCheck out `/help command:slots` for details on slots."
+        "money_old": "%1$sThis page shows the top 15 richest people on Mantaro (before the reset).\n",
+        "money": "%1$sThis page shows the top 15 richest people on Mantaro. Grinding is hard!",
+        "rep": "%1sThis page shows the top 15 people with the most reputation.",
+        "streak": "%1sThis page shows the top 15 people with the most daily streaks.\n\nCheck out `/help command:daily` for more info",
+        "lvl": "%1sThis page shows the top 15 people with the most level.\n\nLevel is earning through talking. Command usage doesn't contribute to experience, and XP has a 30 seconds cooldown.",
+        "waifu": "%1sThis page shows the top 15 people with the most weighted waifu value.\n\nCheck out `/help command:waifu` for details on the waifu system.",
+        "gamble": "%1sThis page shows the top 15 people with the most gamble runs won.\n\nCheck out `/help command:gamble` for details on gamble.",
+        "slots": "%1sThis page shows the top 15 people with the most slots runs won.\n\nCheck out `/help command:slots` for details on slots."
       }
     },
     "iteminfo": {
