@@ -519,10 +519,12 @@ public class GambleCmds {
 
         if (luck > random.nextInt(140)) {
             if (player.addMoney(gains)) {
-                if (gains >= 4_950L) {
-                    if (!player.hasBadge(Badge.GAMBLER)) {
-                        player.addBadgeIfAbsent(Badge.GAMBLER);
-                    }
+                if (gains >= 4_950L && (!player.hasBadge(Badge.GAMBLER))) {
+                    player.addBadgeIfAbsent(Badge.GAMBLER);
+                }
+
+                if (String.valueOf(gains).matches("([1-9])\\1{3,}")) {
+                    player.addBadgeIfAbsent(Badge.NUMERIC_LUCK);
                 }
 
                 stats.incrementGambleWins();
