@@ -268,8 +268,7 @@ public class LeaderboardCmd {
                                     return format.formatted(
                                             EmoteReference.BLUE_SMALL_MARKER,
                                             lbMember.getName(),
-                                            config.isOwner(ctx.getAuthor()) ?
-                                                    lbMember.getDiscriminator() + " (" + lbMember.getId() + ")" : lbMember.getDiscriminator(),
+                                            config.isOwner(ctx.getAuthor()) ? "(" + lbMember.getId() + ")" : "",
                                             StringUtils.isNumeric(p.getValue()) ? Long.parseLong(p.getValue()) : p.getValue()
                                     );
                                 })
