@@ -21,6 +21,7 @@ import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.WebhookClientBuilder;
 import club.minnced.discord.webhook.send.WebhookEmbed;
 import net.dv8tion.jda.api.entities.User;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import org.slf4j.Logger;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
 
 public class LogUtils {
     private static final Logger log = LoggerFactory.getLogger(LogUtils.class);
-
+    private static final Config config = MantaroData.config().get();
     private final static String ICON_URL = "https://apiv2.mantaro.site/image/common/mantaro-logo.png";
     private static final String WEBHOOK_START = "https://discord.com/api/webhooks/";
     private static WebhookClient LOGBACK_WEBHOOK;
@@ -42,9 +43,9 @@ public class LogUtils {
     private static WebhookClient SPAMBOT_WEBHOOK;
 
     static {
-        var shardWebhook = MantaroData.config().get().getShardWebhookUrl();
-        var logWebhook = MantaroData.config().get().getWebhookUrl();
-        var spambotWebhook = MantaroData.config().get().getSpambotUrl();
+        var shardWebhook = config.getShardWebhookUrl();
+        var logWebhook = config.getWebhookUrl();
+        var spambotWebhook = config.getSpambotUrl();
 
         if (shardWebhook != null) {
             var parts = shardWebhook.replace(WEBHOOK_START, "").split("/");
