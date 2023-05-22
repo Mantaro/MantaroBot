@@ -541,7 +541,7 @@ public class GambleCmds {
             }
 
             var oldMoney = player.getCurrentMoney();
-            player.setCurrentMoney(Math.max(0, player.getCurrentMoney() - i));
+            player.currentMoney(Math.max(0, player.getCurrentMoney() - i));
 
             stats.incrementGambleLose();
             stats.updateAllChanged();

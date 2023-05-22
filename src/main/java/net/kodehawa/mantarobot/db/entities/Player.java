@@ -789,7 +789,7 @@ public class Player implements ManagedMongoObject {
     }
 
     @BsonIgnore
-    public void setCurrentMoney(long money) {
+    public void currentMoney(long money) {
         boolean useOld = config.isPremiumBot() || config.isSelfHost();
         if (useOld) {
             setOldMoney(money < 0 ? 0 : money);

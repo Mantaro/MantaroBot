@@ -196,7 +196,7 @@ public class OwnerCmd {
                 var transferToPlayer = ctx.getPlayer(transferTo);
 
                 if (e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
-                    transferToPlayer.setCurrentMoney(transferredPlayer.getCurrentMoney());
+                    transferToPlayer.currentMoney(transferredPlayer.getCurrentMoney());
                     transferToPlayer.level(transferredPlayer.getLevel());
                     transferToPlayer.reputation(transferredPlayer.getReputation());
                     transferToPlayer.mergeInventory(transferredPlayer.getInventoryList());
