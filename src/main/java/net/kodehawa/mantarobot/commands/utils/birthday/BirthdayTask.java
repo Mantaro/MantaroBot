@@ -83,11 +83,6 @@ public class BirthdayTask {
                 return;
             }
 
-            // We haven't finished caching all members, somehow?
-            if (!cache.isDone) {
-                return;
-            }
-
             final var start = System.currentTimeMillis();
             var membersAssigned = 0;
             var membersDivested = 0;

@@ -33,7 +33,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BirthdayCacher {
     private static final Logger log = LoggerFactory.getLogger(BirthdayCacher.class);
     private final Map<Long, BirthdayData> cachedBirthdays = new ConcurrentHashMap<>();
-    public volatile boolean isDone;
 
     public BirthdayCacher() {
         log.info("Caching birthdays...");
@@ -70,7 +69,6 @@ public class BirthdayCacher {
                 BirthdayCmd.getGuildBirthdayCache().invalidateAll();
             }
 
-            isDone = true;
             log.info("Cached all birthdays. Current size is {}", cachedBirthdays.size());
         } catch (Exception e) {
             e.printStackTrace();
