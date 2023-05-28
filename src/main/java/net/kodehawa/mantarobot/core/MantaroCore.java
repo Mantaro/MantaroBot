@@ -586,20 +586,24 @@ public class MantaroCore {
     private void startMonitor() {
         log.info("Starting latency monitor...");
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mantaro Latency Monitor")).scheduleAtFixedRate(() -> {
-            var shard = 0;
-            if (ExtraRuntimeOptions.FROM_SHARD.isPresent()) {
-                shard = ExtraRuntimeOptions.FROM_SHARD.getAsInt() + 1;
-            }
+            try {
+                var shard = 0;
+                if (ExtraRuntimeOptions.FROM_SHARD.isPresent()) {
+                    shard = ExtraRuntimeOptions.FROM_SHARD.getAsInt() + 1;
+                }
 
-            var previous = getRestPing();
-            var value = shards.get(shard).getJDA().getRestPing().complete().intValue();
-            if (previous < 625 && value > 625) {
-                log.warn("Detected lag! This will defer Slash Commands until it's resolved.");
-            } else if (previous > 625 && value < 625) {
-                log.warn("Disabled Slash Command auto-defer.");
-            }
+                var previous = getRestPing();
+                var value = shards.get(shard).getJDA().getRestPing().complete().intValue();
+                if (previous < 625 && value > 625) {
+                    log.warn("Detected lag! This will defer Slash Commands until it's resolved.");
+                } else if (previous > 625 && value < 625) {
+                    log.warn("Disabled Slash Command auto-defer.");
+                }
 
-            setRestPing(value);
+                setRestPing(value);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }, 0, 30, TimeUnit.SECONDS);
     }
 

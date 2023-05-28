@@ -268,7 +268,7 @@ public abstract class SlashCommand {
 
         var forceDefer = averageLatencyMax > 2500 && !modal;
         if (sub != null) {
-            if (sub.defer() || forceDefer) {
+            if ((sub.defer() || forceDefer) && !sub.modal) {
                 if (sub.isEphemeral()) ctx.deferEphemeral();
                 else ctx.defer();
             }
