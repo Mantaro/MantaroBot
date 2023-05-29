@@ -1169,6 +1169,7 @@ public class MongoGuild implements ManagedMongoObject {
         extraJoinMessages.remove(message);
         fieldTracker.put("extraJoinMessages", this.extraJoinMessages);
     }
+
     public void clearExtraJoinMessages() {
         extraJoinMessages.clear();
         fieldTracker.put("extraJoinMessages", this.extraJoinMessages);

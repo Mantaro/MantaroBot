@@ -120,7 +120,6 @@ public class MongoUser implements ManagedMongoObject {
         return this.dustLevel;
     }
 
-    // TODO: Need to track changes for this object?...
     public PlayerEquipment getEquippedItems() {
         return this.equippedItems;
     }
