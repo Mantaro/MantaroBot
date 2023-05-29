@@ -94,7 +94,7 @@ public class LeaderboardCmd {
             protected void process(SlashContext ctx) {
                 if (config.premiumBot) {
                     var tableName = "players";
-                    var moneyLeaderboard = getLeaderboard(tableName, Player.class, Sorts.descending("money"));
+                    var moneyLeaderboard = getLeaderboard(tableName, Player.class, Sorts.descending("oldMoney"));
                     send(ctx,
                             generateLeaderboardEmbed(ctx,
                                     ctx.getLanguageContext().get("commands.leaderboard.inner.money_old").formatted(EmoteReference.MONEY),
