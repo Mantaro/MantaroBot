@@ -126,7 +126,7 @@ public class LeaderboardCmd {
         public static class Gamble extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                var gambleLeaderboard = getLeaderboard("playerstats", PlayerStats.class, Sorts.descending("gameWins"));
+                var gambleLeaderboard = getLeaderboard("playerstats", PlayerStats.class, Sorts.descending("gambleWins"));
                 send(ctx,
                         generateLeaderboardEmbed(ctx,
                                 ctx.getLanguageContext().get("commands.leaderboard.inner.gamble").formatted(EmoteReference.MONEY),
