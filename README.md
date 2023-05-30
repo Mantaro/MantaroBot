@@ -13,7 +13,7 @@ You can see more information about the bot itself by reading the summary on [her
 ## ⚠ **Read before attempting**
 The owners of Mantaro do not recommend compiling Mantaro as it is not documented, and most builds you make from pulling the main branch will be extremely unstable and (definitely) untested, probably including unfinished features. There's no *stable* branch, all the features are immediately added to upstream. Yes, really.\
 You will however sometimes see a legacy branch, a branch we create before publishing larger update containing working code, it is highly recommended basing your building process from the legacy branch, as the master branch will very likely contain broken and non-working code, at least in a case where a legacy branch exist.
-The current legacy branch contains the pre-slash update (7.0.0) code.
+The current legacy branch contains the pre-mongodb migration update (7.0.0) code.
 
 **We will not provide any support whatsoever in selfhosting or building the bot by yourself.**
 The reason for this is not only that the builds in here are highly unstable and untested, and also the fact that there are very few people (two) who could actually help with questions regarding this, most of which are busy and not available to answer said questions. Most of the build process is pretty straightforward and outlined below, though.
