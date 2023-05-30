@@ -68,7 +68,7 @@ The above options can also be used as environment variables by removing `-D`, an
 ## Migrating data from RethinkDB to MongoDB
 If you have a self-hosted Mantaro instance and want to use the `master` branch, run [this](https://github.com/Mantaro/MantaroDatabaseMigrator) program with both MongoDB and RethinkDB on. You can either build it or run the main function on an IDE.
 
-Make sure to set the `MIGRATOR_MONGO_URI`, `MIGRATOR_RETHINK_HOST`, `MIGRATOR_RETHINK_USER` and `MIGRATOR_RETHINK_PW` (last two can be empty for defaults) environment variables. It should do the job by itself and let you know when it's done, assuming you set the database hosts/uri correctly.
+Make sure to set the `MIGRATOR_MONGO_URI`, `MIGRATOR_RETHINK_HOST`, `MIGRATOR_RETHINK_USER` and `MIGRATOR_RETHINK_PW` (last two can be omitted to use defaults) environment variables. It should do the job by itself and let you know when it's done, assuming you set the database hosts/uri correctly.
 
 # Tools and Contributors
 
