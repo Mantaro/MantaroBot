@@ -426,11 +426,7 @@ public class MoneyCmds {
         }
 
         toAddMoneyTo.addMoney(dailyMoney);
-        if (removedWatch) {
-            toAddMoneyTo.updateAllChanged();
-        } else {
-            toAddMoneyTo.updateAllChanged();
-        }
+        toAddMoneyTo.updateAllChanged();
 
         // Build Message
         var toSend = new StringBuilder();

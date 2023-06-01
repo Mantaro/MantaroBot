@@ -457,7 +457,7 @@ public class WaifuCmd {
                         p.removeMoney(valuePayment);
                         dbUser.removeWaifu(userId);
                         dbUser.updateAllChanged();
-                        p.save();
+                        p.updateAllChanged();
 
                         ctx.edit("commands.waifu.unclaim.success", EmoteReference.CORRECT, name, valuePayment);
                         return Operation.COMPLETED;
