@@ -105,7 +105,7 @@ public class Utils {
             Permission.VOICE_MUTE_OTHERS,
             Permission.VIEW_GUILD_INSIGHTS,
             Permission.VIEW_AUDIT_LOGS,
-            Permission.MANAGE_EMOJIS_AND_STICKERS,
+            Permission.MANAGE_GUILD_EXPRESSIONS,
             Permission.MANAGE_EVENTS,
             Permission.NICKNAME_MANAGE,
             Permission.MESSAGE_MANAGE,
