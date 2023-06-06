@@ -328,11 +328,16 @@ public class MantaroBot {
             var maxBackoff = 300_000; // In millis
             var randomBackoff = random.nextInt(maxBackoff);
             executorService.scheduleAtFixedRate(() -> BirthdayTask.handle(shard.getId()),
-                    millisecondsUntilTomorrow + randomBackoff, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
+                    millisecondsUntilTomorrow + randomBackoff,
+                    TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS
+            );
         }
 
         // Start the birthday cacher.
-        executorService.scheduleAtFixedRate(birthdayCacher::cache, Math.max(0, TimeUnit.MILLISECONDS.toHours(millisecondsUntilTomorrow) -1), 23, TimeUnit.HOURS);
+        executorService.scheduleAtFixedRate(birthdayCacher::cache,
+                Math.max(0, (millisecondsUntilTomorrow - TimeUnit.MINUTES.toMillis(30))),
+                TimeUnit.HOURS.toMillis(23), TimeUnit.MILLISECONDS
+        );
     }
 
     private void postStats(ShardManager manager) {
