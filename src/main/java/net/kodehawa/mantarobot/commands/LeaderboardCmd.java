@@ -100,7 +100,7 @@ public class LeaderboardCmd {
                                     ctx.getLanguageContext().get("commands.leaderboard.inner.money_old").formatted(EmoteReference.MONEY),
                                     "commands.leaderboard.money", moneyLeaderboard,
                                     player -> Pair.of(getMember(ctx, player.getId()),
-                                            String.valueOf(player.getOldMoney())), "%s**%s#%s** - $%,d"
+                                            String.valueOf(player.getOldMoney())), "%s**%s** - $%,d"
                             ).build()
                     );
                     return;
@@ -115,7 +115,7 @@ public class LeaderboardCmd {
                                 player -> {
                                     var money = player.getNewMoney();
                                     return Pair.of(getMember(ctx, player.getId()), String.valueOf(money));
-                                }, "%s**%s#%s** - $%,d"
+                                }, "%s**%s** - $%,d"
                         ).build()
                 );
             }
@@ -131,7 +131,7 @@ public class LeaderboardCmd {
                         generateLeaderboardEmbed(ctx,
                                 ctx.getLanguageContext().get("commands.leaderboard.inner.gamble").formatted(EmoteReference.MONEY),
                                 "commands.leaderboard.gamble", gambleLeaderboard,
-                                stats -> Pair.of(getMember(ctx, stats.getId()), String.valueOf(stats.getGambleWins())), "%s**%s#%s** - %,d"
+                                stats -> Pair.of(getMember(ctx, stats.getId()), String.valueOf(stats.getGambleWins())), "%s**%s** - %,d"
                         ).build()
                 );
             }
@@ -148,7 +148,7 @@ public class LeaderboardCmd {
                                 ctx.getLanguageContext().get("commands.leaderboard.inner.slots").formatted(EmoteReference.MONEY),
                                 "commands.leaderboard.slots", slotsLeaderboard,
                                 stats -> Pair.of(getMember(ctx, stats.getId()),
-                                        String.valueOf(stats.getSlotsWins())), "%s**%s#%s** - %,d"
+                                        String.valueOf(stats.getSlotsWins())), "%s**%s** - %,d"
                         ).build()
                 );
             }
@@ -165,7 +165,7 @@ public class LeaderboardCmd {
                         generateLeaderboardEmbed(ctx,
                                 ctx.getLanguageContext().get("commands.leaderboard.inner.rep").formatted(EmoteReference.REP),
                                 "commands.leaderboard.reputation", reputationLeaderboard,
-                                player -> Pair.of(getMember(ctx, player.getId()), String.valueOf(player.getReputation())), "%s**%s#%s** - %,d")
+                                player -> Pair.of(getMember(ctx, player.getId()), String.valueOf(player.getReputation())), "%s**%s** - %,d")
                                 .build()
                 );
             }
@@ -184,7 +184,7 @@ public class LeaderboardCmd {
                                 player -> {
                                     var streak = player.getDailyStreak();
                                     return Pair.of(getMember(ctx, player.getId()), String.valueOf(streak));
-                                }, "%s**%s#%s** - %sx")
+                                }, "%s**%s** - %sx")
                                 .build()
                 );
             }
@@ -203,7 +203,7 @@ public class LeaderboardCmd {
                                 user -> {
                                     var timesClaimed = user.getTimesClaimed();
                                     return Pair.of(getMember(ctx, user.getId()), String.valueOf(timesClaimed));
-                                }, "%s**%s#%s** - %,d")
+                                }, "%s**%s** - %,d")
                                 .build()
                 );
 
@@ -224,7 +224,7 @@ public class LeaderboardCmd {
                                 player -> {
                                     var gamesWon = player.getGamesWon();
                                     return Pair.of(getMember(ctx, player.getId()), String.valueOf(gamesWon));
-                                }, "%s**%s#%s** - %,d")
+                                }, "%s**%s** - %,d")
                                 .build()
                 );
             }
@@ -267,9 +267,7 @@ public class LeaderboardCmd {
 
                                     return format.formatted(
                                             EmoteReference.BLUE_SMALL_MARKER,
-                                            lbMember.getName(),
-                                            config.isOwner(ctx.getAuthor()) ?
-                                                    lbMember.getDiscriminator() + " (" + lbMember.getId() + ")" : lbMember.getDiscriminator(),
+                                            lbMember.getName() + (config.isOwner(ctx.getAuthor()) ? "(" + lbMember.getId() + ")" : ""),
                                             StringUtils.isNumeric(p.getValue()) ? Long.parseLong(p.getValue()) : p.getValue()
                                     );
                                 })
