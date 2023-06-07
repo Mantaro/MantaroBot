@@ -313,10 +313,15 @@ public class ManagedDatabase {
         map.forEach((key, value) -> {
             if (value instanceof Map<?, ?> e) {
                 var keySet = e.keySet();
+                Object next = null;
+                if(!keySet.isEmpty()) {
+                    next = keySet.iterator().next();
+                }
+
                 // If key is of type Enum<T> or int/long, we need to convert them to String.
                 // Thankfully both have rather easy methods to do so: Enum returns the equivalent of name() on its default implementation,
                 // and String.valueOf works if you pass an object, which in the case of int/long, will give a String representation of the numerical value.
-                if (!keySet.isEmpty() && keySet.iterator().next() instanceof Enum<?>) {
+                if (!keySet.isEmpty() && next instanceof Enum<?>) {
                     updates.add(Updates.set(
                             key,
                             // Yes, seemingly this is needed.
@@ -326,7 +331,7 @@ public class ManagedDatabase {
                     return; // This acts like continue; in a forEach loop
                 }
 
-                if (!keySet.isEmpty() && (keySet.iterator().next() instanceof Integer || keySet.iterator().next() instanceof Long)) {
+                if (!keySet.isEmpty() && (next instanceof Integer || next instanceof Long)) {
                     updates.add(Updates.set(
                             key,
                             // Yes, seemingly this is needed.
