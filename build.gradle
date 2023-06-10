@@ -65,7 +65,7 @@ dependencies {
     implementation 'com.github.walkyst:lavaplayer-fork:1.4.2'
 
     // JSON
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.15.0'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.15.2'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.0'
 
     // Core
