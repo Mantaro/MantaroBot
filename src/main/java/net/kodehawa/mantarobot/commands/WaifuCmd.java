@@ -176,8 +176,7 @@ public class WaifuCmd {
                         }
 
                         fields.add(new MessageEmbed.Field(
-                                EmoteReference.BLUE_SMALL_MARKER + user.getName() +
-                                        (!dbUser.isPrivateTag() ? "#" + user.getDiscriminator() : ""),
+                                EmoteReference.BLUE_SMALL_MARKER + user.getName(),
                                 (id ? lang.get("commands.waifu.id") + " " + user.getId() + "\n" : "") +
                                         lang.get("commands.waifu.value_format") + " " +
                                         waifuClaimed.getWaifuCachedValue() + " " +

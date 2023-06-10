@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.utils;
 
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -619,6 +620,14 @@ public class Utils {
 
     public static String roundPrefixNumber(Object number) {
         return prefixFormat.format(number, new StringBuffer(6)).toString();
+    }
+
+    public static String getTagOrDisplay(User user) {
+        if (user.getGlobalName() != null) {
+            return user.getGlobalName();
+        } else {
+            return user.getAsTag();
+        }
     }
 
     public static <T> Map<T, T> toMap(final T[][] array) {

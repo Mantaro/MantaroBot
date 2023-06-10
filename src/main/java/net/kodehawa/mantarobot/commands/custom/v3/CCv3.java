@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.commands.custom.v3.interpreter.InterpreterContext
 import net.kodehawa.mantarobot.commands.custom.v3.interpreter.InterpreterVisitor;
 import net.kodehawa.mantarobot.commands.custom.v3.interpreter.Operation;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 
@@ -360,7 +361,7 @@ public class CCv3 {
                     .addContent(EmoteReference.WARNING.toHeaderString())
                     .addContent("**This is a preview of how a CC with this content would look like, ALL MENTIONS ARE DISABLED ON THIS MODE.**\n")
                     .addContent("`Command preview requested by: ")
-                    .addContent(ctx.getTagOrDisplay(ctx.getAuthor()))
+                    .addContent(Utils.getTagOrDisplay(ctx.getAuthor()))
                     .addContent("`");
         }
 

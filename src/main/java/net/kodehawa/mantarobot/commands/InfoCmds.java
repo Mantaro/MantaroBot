@@ -337,7 +337,7 @@ public class InfoCmds {
                         languageContext.get("commands.serverinfo.channels"),
                         "%,d / %,d".formatted(guild.getVoiceChannels().size(), guild.getTextChannels().size()),
                         languageContext.get("commands.serverinfo.owner"),
-                        ctx.getTagOrDisplay(owner.getUser()),
+                        Utils.getTagOrDisplay(owner.getUser()),
                         languageContext.get("commands.serverinfo.created"),
                         Utils.formatDate(guild.getTimeCreated(), guildData.getLang())
                 );
@@ -459,8 +459,7 @@ public class InfoCmds {
         ctx.send(new EmbedBuilder()
                 .setColor(ctx.getMember().getColor())
                 .setAuthor(
-                        languageContext.get("commands.userinfo.header")
-                                .formatted( user.getName(), user.getDiscriminator()),
+                        languageContext.get("commands.userinfo.header").formatted(Utils.getTagOrDisplay(user)),
                         null, ctx.getAuthor().getEffectiveAvatarUrl()
                 )
                 .setThumbnail(user.getEffectiveAvatarUrl())

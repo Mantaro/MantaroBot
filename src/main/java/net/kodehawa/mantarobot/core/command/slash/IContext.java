@@ -68,7 +68,6 @@ public interface IContext {
     ShardManager getShardManager();
     MantaroObject getMantaroData();
     Config getConfig();
-    String getTagOrDisplay(User user);
 
     default EmbedBuilder baseEmbed(IContext ctx, String name, String image) {
         return new EmbedBuilder()

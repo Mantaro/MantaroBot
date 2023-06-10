@@ -112,7 +112,7 @@ public enum ProfileComponent {
             if (userData.isPrivateTag()) {
                 return String.format("%s", marriedTo.getName());
             } else {
-                return String.format("%s#%s", marriedTo.getName(), marriedTo.getDiscriminator());
+                return String.format("%s", Utils.getTagOrDisplay(marriedTo));
             }
         }
     }, true, false),

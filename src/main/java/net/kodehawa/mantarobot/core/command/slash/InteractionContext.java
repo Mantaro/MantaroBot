@@ -299,14 +299,6 @@ public class InteractionContext<T> implements IContext {
         }
     }
 
-    public String getTagOrDisplay(User user) {
-        if (user.getGlobalName() != null) {
-            return user.getGlobalName();
-        } else {
-            return user.getAsTag();
-        }
-    }
-
     @Override
     public void send(String s) {
         reply(s);

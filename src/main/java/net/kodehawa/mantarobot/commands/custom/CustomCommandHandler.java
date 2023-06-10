@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.commands.custom.v3.CCv3;
 import net.kodehawa.mantarobot.commands.custom.v3.Parser;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.utils.StringUtils;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 
@@ -141,7 +142,7 @@ public class CustomCommandHandler {
                     .addContent(EmoteReference.WARNING.toHeaderString())
                     .addContent("**This is a preview of how a CC with this content would look like, ALL MENTIONS ARE DISABLED ON THIS MODE.**\n")
                     .addContent("`Command preview requested by: ")
-                    .addContent(ctx.getTagOrDisplay(ctx.getAuthor()))
+                    .addContent(Utils.getTagOrDisplay(ctx.getAuthor()))
                     .addContent("`");
 
             var disallowed = EnumSet.of(Message.MentionType.ROLE, Message.MentionType.USER, Message.MentionType.EVERYONE, Message.MentionType.HERE);

@@ -228,8 +228,8 @@ public class MarryCmd {
 
                         // Send marriage confirmation message.
                         hook.editOriginal(languageContext.get("commands.marry.accepted").formatted(
-                                EmoteReference.POPPER, e.getUser().getName(), e.getUser().getDiscriminator(),
-                                proposingUser.getName(), proposingUser.getDiscriminator()
+                                EmoteReference.POPPER, Utils.getTagOrDisplay(e.getUser()),
+                                Utils.getTagOrDisplay(proposingUser)
                         )).setComponents().queue();
 
                         // Add the badge to the married couple.
@@ -298,8 +298,8 @@ public class MarryCmd {
                 final var marriedDBUser = ctx.getDBUser(marriedTo);
                 final var dateFormat = Utils.formatDate(currentMarriage.getMarriageCreationMillis(), dbUser.getLang());
                 final var eitherHasWaifus = !(dbUser.waifuAmount() == 0 && marriedDBUser.waifuAmount() == 0);
-                final var marriedToName = dbUser.isPrivateTag() ? marriedTo.getName() : ctx.getTagOrDisplay(marriedTo);
-                final var authorName = dbUser.isPrivateTag() ? author.getName() : ctx.getTagOrDisplay(author);
+                final var marriedToName = dbUser.isPrivateTag() ? marriedTo.getName() : Utils.getTagOrDisplay(marriedTo);
+                final var authorName = dbUser.isPrivateTag() ? author.getName() : Utils.getTagOrDisplay(author);
                 final var daysMarried = TimeUnit.of(ChronoUnit.MILLIS).toDays(System.currentTimeMillis() - currentMarriage.getMarriageCreationMillis());
 
                 var embedBuilder = new EmbedBuilder()
@@ -410,7 +410,7 @@ public class MarryCmd {
                 finalContent = Utils.DISCORD_INVITE_2.matcher(finalContent).replaceAll("-invite link-");
 
                 var message = ctx.sendResult(String.format(
-                        languageContext.get("commands.marry.loveletter.confirmation"), EmoteReference.TALKING, marriedTo.getName(), marriedTo.getDiscriminator(), finalContent)
+                        languageContext.get("commands.marry.loveletter.confirmation"), EmoteReference.TALKING, Utils.getTagOrDisplay(marriedTo), finalContent)
                 );
 
                 //Start the operation.

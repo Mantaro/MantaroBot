@@ -134,7 +134,7 @@ public class UtilsCmds {
                     displayRemind = "something";
                 }
 
-                ctx.reply("commands.remindme.success", EmoteReference.CORRECT, ctx.getTagOrDisplay(ctx.getAuthor()),
+                ctx.reply("commands.remindme.success", EmoteReference.CORRECT, Utils.getTagOrDisplay(ctx.getAuthor()),
                         displayRemind, Utils.formatDuration(ctx.getLanguageContext(), time)
                 );
 

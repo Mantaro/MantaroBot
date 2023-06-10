@@ -1099,7 +1099,7 @@ public class CustomCmds {
                 .setAuthor(lang.get("commands.custom.info.header").formatted(command.getName()), null, ctx.getAuthor().getEffectiveAvatarUrl())
                 .setDescription(
                         EmoteReference.BLUE_SMALL_MARKER +
-                                lang.get("commands.custom.info.owner") + " " + (member == null ? lang.get("commands.profile.nobody") : ctx.getTagOrDisplay(member.getUser())) + "\n" +
+                                lang.get("commands.custom.info.owner") + " " + (member == null ? lang.get("commands.profile.nobody") : Utils.getTagOrDisplay(member.getUser())) + "\n" +
                                 EmoteReference.BLUE_SMALL_MARKER +
                                 lang.get("commands.custom.info.owner_id") + " " + (member == null ? lang.get("general.none") : member.getId()) + "\n" +
                                 EmoteReference.BLUE_SMALL_MARKER +

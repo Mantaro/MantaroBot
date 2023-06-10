@@ -401,14 +401,6 @@ public class Context implements IContext {
         return member;
     }
 
-    public String getTagOrDisplay(User user) {
-        if (user.getGlobalName() != null) {
-            return user.getGlobalName();
-        } else {
-            return user.getAsTag();
-        }
-    }
-
     public Member retrieveMemberById(String id, boolean update) {
         Member member = null;
         try {

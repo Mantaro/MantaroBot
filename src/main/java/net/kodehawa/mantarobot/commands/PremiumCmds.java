@@ -174,7 +174,7 @@ public class PremiumCmds {
                 }
 
                 if (!dbUser.isPremium()) {
-                    ctx.reply("commands.vipstatus.user.not_premium", EmoteReference.ERROR, ctx.getTagOrDisplay(toCheck));
+                    ctx.reply("commands.vipstatus.user.not_premium", EmoteReference.ERROR, Utils.getTagOrDisplay(toCheck));
                     return;
                 }
 
@@ -185,7 +185,7 @@ public class PremiumCmds {
                         );
                 var currentKey = ctx.db().getPremiumKey(dbUser.getPremiumKey());
                 if (currentKey == null || currentKey.validFor() < 1) {
-                    ctx.reply("commands.vipstatus.user.not_premium", ctx.getTagOrDisplay(toCheck), EmoteReference.ERROR);
+                    ctx.reply("commands.vipstatus.user.not_premium", Utils.getTagOrDisplay(toCheck), EmoteReference.ERROR);
                     return;
                 }
 
@@ -207,10 +207,11 @@ public class PremiumCmds {
                 var linkedTo = currentKey.getLinkedTo();
                 var amountClaimed = dbUser.getKeysClaimed().size();
 
+
                 embedBuilder.setColor(Color.CYAN)
                         .setThumbnail(toCheck.getEffectiveAvatarUrl())
                         .setDescription(lang.get("commands.vipstatus.user.premium") + "\n" + lang.get("commands.vipstatus.description"))
-                        .addField(lang.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), true)
+                        .addField(lang.get("commands.vipstatus.key_owner"), Utils.getTagOrDisplay(owner), true)
                         .addField(lang.get("commands.vipstatus.patreon"),
                                 patreonInformation == null ? "Error" : String.valueOf(patreonInformation.left()), true)
                         .addField(lang.get("commands.vipstatus.keys_claimed"), String.valueOf(amountClaimed), false)
@@ -247,7 +248,7 @@ public class PremiumCmds {
                     var linkedUser = ctx.getShardManager().retrieveUserById((currentKey.getOwner())).complete();
                     if (linkedUser != null)
                         embedBuilder.addField(lang.get("commands.vipstatus.linked_to"),
-                                ctx.getTagOrDisplay(linkedUser),
+                                Utils.getTagOrDisplay(linkedUser),
                                 true
                         );
                 } else {
@@ -300,7 +301,7 @@ public class PremiumCmds {
                 embedBuilder.setColor(Color.CYAN)
                         .setThumbnail(ctx.getGuild().getIconUrl())
                         .setDescription(lang.get("commands.vipstatus.guild.premium")  + "\n" + lang.get("commands.vipstatus.description"))
-                        .addField(lang.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), true)
+                        .addField(lang.get("commands.vipstatus.key_owner"), Utils.getTagOrDisplay(owner), true)
                         .addField(lang.get("commands.vipstatus.patreon"),
                                 patreonInformation == null ? "Error" : String.valueOf(patreonInformation.left()), true)
                         .addField(lang.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), false)
@@ -309,8 +310,7 @@ public class PremiumCmds {
                 if (linkedTo != null) {
                     User linkedUser = ctx.getShardManager().retrieveUserById(currentKey.getOwner()).complete();
                     if (linkedUser != null)
-                        embedBuilder.addField(lang.get("commands.vipstatus.linked_to"), linkedUser.getName()  + "#" +
-                                linkedUser.getDiscriminator(), false);
+                        embedBuilder.addField(lang.get("commands.vipstatus.linked_to"), Utils.getTagOrDisplay(linkedUser), false);
                 } else {
                     embedBuilder
                             .addField(lang.get("commands.vipstatus.expire"), currentKey.validFor() + " " + lang.get("general.days"), true)

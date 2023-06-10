@@ -255,7 +255,7 @@ public class MantaroListener implements EventListener {
                     Metrics.PATRON_COUNTER.inc();
                     //Celebrate internally! \ o /
                     LogUtils.log("Delivered premium key to %s(%s)".formatted(user.getName(), user.getId()));
-                }, error -> LogUtils.log("Failed to deliver premium key to %s(%s). Maybe they had DMs disabled?".formatted(user.getAsTag(), user.getId()))));
+                }, error -> LogUtils.log("Failed to deliver premium key to %s(%s). Maybe they had DMs disabled?".formatted(Utils.getTagOrDisplay(user), user.getId()))));
             });
         }
     }
@@ -314,9 +314,9 @@ public class MantaroListener implements EventListener {
                             .resolve(dbGuild.getDeleteMessageLog());
                 } else {
                     message = String.format(EmoteReference.WARNING +
-                                    "`[%s]` Message (ID: %s) created by **%s#%s** (ID: %s) in channel **%s** was deleted.\n" +
+                                    "`[%s]` Message (ID: %s) created by **%s** (ID: %s) in channel **%s** was deleted.\n" +
                                     "```diff\n-%s```",
-                            hour, event.getMessageId(), author.getName(), author.getDiscriminator(),
+                            hour, event.getMessageId(), Utils.getTagOrDisplay(author),
                             authorId, textChannel.getName(), content.replace("```", "")
                     );
                 }
@@ -396,9 +396,9 @@ public class MantaroListener implements EventListener {
                             .resolve(guildData.getEditMessageLog());
                 } else {
                     message = String.format(EmoteReference.WARNING +
-                                    "`[%s]` Message (ID: %s) created by **%s#%s** in channel **%s** was modified." +
+                                    "`[%s]` Message (ID: %s) created by **%s** in channel **%s** was modified." +
                                     "\n```diff\n-%s\n+%s```",
-                            hour, originalMessage.getId(), author.getName(), author.getDiscriminator(),
+                            hour, originalMessage.getId(), Utils.getTagOrDisplay(author),
                             channel.getName(), content.replace("```", ""),
                             originalMessage.getContentDisplay().replace("```", "")
                     );
@@ -577,8 +577,8 @@ public class MantaroListener implements EventListener {
             try {
                 var tc = guild.getTextChannelById(logChannel);
                 if (tc != null && tc.canTalk()) {
-                    tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(ID: %s)`",
-                            hour, user.getName(), user.getDiscriminator(), guild.getName(), user.getId())
+                    tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s` just joined `%s` `(ID: %s)`",
+                            hour, Utils.getTagOrDisplay(user), guild.getName(), user.getId())
                     ).queue();
                 }
             } catch (Exception ignored) { }
@@ -622,9 +622,8 @@ public class MantaroListener implements EventListener {
                 final var tc = guild.getTextChannelById(logChannel);
                 if (tc != null && tc.canTalk()) {
                     tc.sendMessage(String.format(
-                            "`[%s]` \uD83D\uDCE3 `%s#%s` just left `%s` `(ID: %s)`",
-                            hour, user.getName(), user.getDiscriminator(),
-                            guild.getName(), user.getId())
+                            "`[%s]` \uD83D\uDCE3 `%s` just left `%s` `(ID: %s)`",
+                            hour, Utils.getTagOrDisplay(user), guild.getName(), user.getId())
                     ).queue();
                 }
             }

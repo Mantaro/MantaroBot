@@ -44,6 +44,7 @@ import net.kodehawa.mantarobot.db.entities.MantaroObject;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.utils.APIUtils;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.eval.JavaEvaluator;
@@ -267,7 +268,7 @@ public class OwnerCmd {
 
             ctx.send("%sAdded badge %s %s to %s (ID: %s)".formatted(
                     EmoteReference.CORRECT.getUnicode(), badge.icon, badge.display,
-                    ctx.getTagOrDisplay(user), user.getId()
+                    Utils.getTagOrDisplay(user), user.getId()
             ));
 
         }
@@ -299,7 +300,7 @@ public class OwnerCmd {
             if (player.removeBadge(badge)) {
                 ctx.send("%sRemoved badge %s from %s (%s)".formatted(
                         EmoteReference.CORRECT, badge,
-                        ctx.getTagOrDisplay(user), user.getId())
+                        Utils.getTagOrDisplay(user), user.getId())
                 );
                 player.updateAllChanged();
             } else {

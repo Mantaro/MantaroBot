@@ -542,14 +542,6 @@ public class SlashContext implements IContext {
         return MantaroData.db().getMarriage(userData.getMarriageId());
     }
 
-    public String getTagOrDisplay(User user) {
-        if (user.getGlobalName() != null) {
-            return user.getGlobalName();
-        } else {
-            return user.getAsTag();
-        }
-    }
-
     // Cursed wrapper to get around null checks on getAsX
     public Role getOptionAsRole(String name) {
         var option = getOption(name);
