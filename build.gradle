@@ -72,7 +72,7 @@ dependencies {
     implementation 'io.github.classgraph:classgraph:4.8.160'
     implementation 'ch.qos.logback:logback-classic:1.4.7'
     implementation 'com.google.guava:guava:32.0.1-jre'
-    implementation 'commons-io:commons-io:2.11.0'
+    implementation 'commons-io:commons-io:2.13.0'
     implementation 'org.java-websocket:Java-WebSocket:1.5.3'
 
     // Database
