@@ -623,8 +623,8 @@ public class Utils {
     }
 
     public static String getTagOrDisplay(User user) {
-        if (user.getGlobalName() != null) {
-            return user.getGlobalName();
+        if (user.getDiscriminator().equals("0000") || user.getDiscriminator().equals("0")) {
+            return user.getName();
         } else {
             return user.getAsTag();
         }
