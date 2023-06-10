@@ -66,7 +66,7 @@ public class CachedLeaderboardMember {
 
     @JsonIgnore
     public String getTag() {
-        return getName() + getDiscriminator();
+        return getName() + "#" + getDiscriminator();
     }
 
     @JsonIgnore
