@@ -337,7 +337,7 @@ public class InfoCmds {
                         languageContext.get("commands.serverinfo.channels"),
                         "%,d / %,d".formatted(guild.getVoiceChannels().size(), guild.getTextChannels().size()),
                         languageContext.get("commands.serverinfo.owner"),
-                        owner.getUser().getAsTag(),
+                        ctx.getTagOrDisplay(owner.getUser()),
                         languageContext.get("commands.serverinfo.created"),
                         Utils.formatDate(guild.getTimeCreated(), guildData.getLang())
                 );

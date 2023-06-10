@@ -288,7 +288,7 @@ public class InvestigateCmd {
                         authorName + "#" + authorDiscriminator,
                         authorId + ",",
                         bot,
-                        content, command == null ? "" : "%s ran by %d (%s)".formatted(command.getName(), command.getUser().getIdLong(), command.getUser().getAsTag())
+                        content, command == null ? "" : "%s ran by %d (%s)".formatted(command.getName(), command.getUser().getIdLong(), command.getUser().getName())
                 );
             }
 

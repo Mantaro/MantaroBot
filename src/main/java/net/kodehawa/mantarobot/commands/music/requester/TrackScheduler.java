@@ -175,7 +175,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                                 AudioCmdUtils.getDurationMinutes(trackLength),
                                 voiceChannel.getName(), user != null ?
                                         String.format(language.get("general.requested_by"),
-                                                String.format("**%s**", user.getUser().getAsTag())) : "")
+                                                String.format("**%s**", user.getUser().getName())) : "")
                     ).queue(message -> {
                         if (getRequestedTextChannel() != null) {
                             lastMessageSentAt = System.currentTimeMillis();

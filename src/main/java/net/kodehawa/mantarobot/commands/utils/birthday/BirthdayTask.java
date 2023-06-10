@@ -200,7 +200,8 @@ public class BirthdayTask {
                                     tempBirthdayMessage = dbGuild.getBirthdayMessage()
                                             .replace("$(user)", member.getEffectiveName())
                                             .replace("$(usermention)", member.getAsMention())
-                                            .replace("$(tag)", member.getUser().getAsTag());
+                                            .replace("$(tag)", member.getUser().getAsTag()) // eventually deprecated
+                                            .replace("$(global_name)", member.getUser().getGlobalName() == null ? "none" : member.getUser().getGlobalName());
                                 }
 
                                 // Variable used in lambda expression should be final or effectively final...

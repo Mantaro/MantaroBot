@@ -267,7 +267,7 @@ public class OwnerCmd {
 
             ctx.send("%sAdded badge %s %s to %s (ID: %s)".formatted(
                     EmoteReference.CORRECT.getUnicode(), badge.icon, badge.display,
-                    user.getAsTag(), user.getId()
+                    ctx.getTagOrDisplay(user), user.getId()
             ));
 
         }
@@ -299,7 +299,7 @@ public class OwnerCmd {
             if (player.removeBadge(badge)) {
                 ctx.send("%sRemoved badge %s from %s (%s)".formatted(
                         EmoteReference.CORRECT, badge,
-                        user.getAsTag(), user.getId())
+                        ctx.getTagOrDisplay(user), user.getId())
                 );
                 player.updateAllChanged();
             } else {
@@ -441,7 +441,7 @@ public class OwnerCmd {
                 super("User",
                         MantaroObject::getBlackListedUsers,
                         (manager, str) -> manager.retrieveUserById(str).complete(),
-                        user -> user.getAsTag() + " - " + user.getIdLong()
+                        user -> user.getName() + " - " + user.getIdLong()
                 );
             }
         }

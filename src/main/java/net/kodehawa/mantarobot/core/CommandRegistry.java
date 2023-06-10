@@ -240,7 +240,7 @@ public class CommandRegistry {
         }
 
         commandLog.debug("Command: {}, User: {} ({}), Guild: {}, Channel: {}, Message: {}" ,
-                cmdName, author.getAsTag(), author.getId(), guild.getId(), channel.getId(), event.getMessage().getId()
+                cmdName, author.getName(), author.getId(), guild.getId(), channel.getId(), event.getMessage().getId()
         );
 
         final var end = System.currentTimeMillis();
@@ -301,7 +301,7 @@ public class CommandRegistry {
         final var dbUser = managedDatabase.getUser(author);
         cmd.execute(new InteractionContext<>(event, new I18nContext(dbGuild, dbUser)));
         commandLog.debug("Context (user) command: {}, User: {} ({}), Guild: {}" ,
-                cmd.getName(), author.getAsTag(), author.getId(), guild.getId()
+                cmd.getName(), author.getName(), author.getId(), guild.getId()
         );
 
         final var end = System.currentTimeMillis();
@@ -438,7 +438,7 @@ public class CommandRegistry {
 
         cmd.execute(new SlashContext(event, new I18nContext(dbGuild, dbUser)));
         commandLog.debug("Slash command: {}, User: {} ({}), Guild: {}, Channel: {}, Options: {}" ,
-                cmd.getName(), author.getAsTag(), author.getId(), guild.getId(), channel.getId(), event.getOptions()
+                cmd.getName(), author.getName(), author.getId(), guild.getId(), channel.getId(), event.getOptions()
         );
 
         final var end = System.currentTimeMillis();

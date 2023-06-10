@@ -310,6 +310,14 @@ public class NewContext {
         return user;
     }
 
+    public String getTagOrDisplay(User user) {
+        if (user.getGlobalName() != null) {
+            return user.getGlobalName();
+        } else {
+            return user.getAsTag();
+        }
+    }
+
     public Member retrieveMemberById(Guild guild, String id, boolean update) {
         Member member = null;
         try {

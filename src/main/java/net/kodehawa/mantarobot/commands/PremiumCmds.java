@@ -174,7 +174,7 @@ public class PremiumCmds {
                 }
 
                 if (!dbUser.isPremium()) {
-                    ctx.reply("commands.vipstatus.user.not_premium", EmoteReference.ERROR, toCheck.getAsTag());
+                    ctx.reply("commands.vipstatus.user.not_premium", EmoteReference.ERROR, ctx.getTagOrDisplay(toCheck));
                     return;
                 }
 
@@ -185,7 +185,7 @@ public class PremiumCmds {
                         );
                 var currentKey = ctx.db().getPremiumKey(dbUser.getPremiumKey());
                 if (currentKey == null || currentKey.validFor() < 1) {
-                    ctx.reply("commands.vipstatus.user.not_premium", toCheck.getAsTag(), EmoteReference.ERROR);
+                    ctx.reply("commands.vipstatus.user.not_premium", ctx.getTagOrDisplay(toCheck), EmoteReference.ERROR);
                     return;
                 }
 
@@ -247,7 +247,7 @@ public class PremiumCmds {
                     var linkedUser = ctx.getShardManager().retrieveUserById((currentKey.getOwner())).complete();
                     if (linkedUser != null)
                         embedBuilder.addField(lang.get("commands.vipstatus.linked_to"),
-                                linkedUser.getAsTag(),
+                                ctx.getTagOrDisplay(linkedUser),
                                 true
                         );
                 } else {

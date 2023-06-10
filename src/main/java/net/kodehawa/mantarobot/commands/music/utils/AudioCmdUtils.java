@@ -76,7 +76,7 @@ public class AudioCmdUtils {
                     MarkdownSanitizer.sanitize(playingTrack.getInfo().title),
                     playingTrack.getInfo().uri,
                     getDurationMinutes(playingTrack.getInfo().length),
-                    dj != null ? lang.get("commands.music_general.queue.dj_np") + dj.getUser().getAsTag() : ""
+                    dj != null ? lang.get("commands.music_general.queue.dj_np") + dj.getUser().getName() : ""
             );
         }
 

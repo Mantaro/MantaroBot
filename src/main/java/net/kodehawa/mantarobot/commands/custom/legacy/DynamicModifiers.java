@@ -82,9 +82,8 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
 
     public DynamicModifiers mapUser(String prefix, User member) {
         return this.set(prefix, member.getAsMention())
-                .set(prefix, "tag", member.getAsTag())
+                .set(prefix, "global_username", member.getGlobalName())
                 .set(prefix, "username", member.getName())
-                .set(prefix, "discriminator", member.getDiscriminator())
                 .set(prefix, "name", member.getName())
                 .set(prefix, "mention", member.getAsMention())
                 .set(prefix, "avatar", member.getEffectiveAvatarUrl())

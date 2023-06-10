@@ -360,7 +360,7 @@ public class CCv3 {
                     .addContent(EmoteReference.WARNING.toHeaderString())
                     .addContent("**This is a preview of how a CC with this content would look like, ALL MENTIONS ARE DISABLED ON THIS MODE.**\n")
                     .addContent("`Command preview requested by: ")
-                    .addContent(ctx.getAuthor().getAsTag())
+                    .addContent(ctx.getTagOrDisplay(ctx.getAuthor()))
                     .addContent("`");
         }
 

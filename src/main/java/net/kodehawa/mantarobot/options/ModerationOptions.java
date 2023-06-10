@@ -80,7 +80,7 @@ public class ModerationOptions extends OptionHandler {
 
             String blacklisted = mentioned.stream()
                     .map(Member::getUser)
-                    .map(User::getAsTag)
+                    .map(User::getName)
                     .collect(Collectors.joining(","));
 
             toBlacklist.forEach(dbGuild::addDisabledUser);
@@ -105,7 +105,7 @@ public class ModerationOptions extends OptionHandler {
             List<String> toUnBlacklist = mentioned.stream().map(ISnowflake::getId).toList();
             String unBlacklisted = mentioned.stream()
                     .map(Member::getUser)
-                    .map(User::getAsTag)
+                    .map(User::getName)
                     .collect(Collectors.joining(",")
             );
 

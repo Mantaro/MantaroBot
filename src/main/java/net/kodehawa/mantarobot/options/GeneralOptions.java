@@ -60,7 +60,7 @@ public class GeneralOptions extends OptionHandler {
             List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).toList();
             String blacklisted = mentioned.stream()
                     .map(Member::getUser)
-                    .map(User::getAsTag)
+                    .map(User::getName)
                     .collect(Collectors.joining(","));
 
             toBlackList.forEach(dbGuild::addModlogBlacklistedPeople);
@@ -83,7 +83,7 @@ public class GeneralOptions extends OptionHandler {
             List<String> toUnBlacklist = mentioned.stream().map(ISnowflake::getId).toList();
             String unBlacklisted = mentioned.stream()
                     .map(Member::getUser)
-                    .map(User::getAsTag)
+                    .map(User::getName)
                     .collect(Collectors.joining(","));
 
             toUnBlacklist.forEach(dbGuild::removeModlogBlacklistedPeople);

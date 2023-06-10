@@ -141,7 +141,7 @@ public class CustomCommandHandler {
                     .addContent(EmoteReference.WARNING.toHeaderString())
                     .addContent("**This is a preview of how a CC with this content would look like, ALL MENTIONS ARE DISABLED ON THIS MODE.**\n")
                     .addContent("`Command preview requested by: ")
-                    .addContent(ctx.getAuthor().getAsTag())
+                    .addContent(ctx.getTagOrDisplay(ctx.getAuthor()))
                     .addContent("`");
 
             var disallowed = EnumSet.of(Message.MentionType.ROLE, Message.MentionType.USER, Message.MentionType.EVERYONE, Message.MentionType.HERE);

@@ -298,8 +298,8 @@ public class MarryCmd {
                 final var marriedDBUser = ctx.getDBUser(marriedTo);
                 final var dateFormat = Utils.formatDate(currentMarriage.getMarriageCreationMillis(), dbUser.getLang());
                 final var eitherHasWaifus = !(dbUser.waifuAmount() == 0 && marriedDBUser.waifuAmount() == 0);
-                final var marriedToName = dbUser.isPrivateTag() ? marriedTo.getName() : marriedTo.getAsTag();
-                final var authorName = dbUser.isPrivateTag() ? author.getName() : author.getAsTag();
+                final var marriedToName = dbUser.isPrivateTag() ? marriedTo.getName() : ctx.getTagOrDisplay(marriedTo);
+                final var authorName = dbUser.isPrivateTag() ? author.getName() : ctx.getTagOrDisplay(author);
                 final var daysMarried = TimeUnit.of(ChronoUnit.MILLIS).toDays(System.currentTimeMillis() - currentMarriage.getMarriageCreationMillis());
 
                 var embedBuilder = new EmbedBuilder()
