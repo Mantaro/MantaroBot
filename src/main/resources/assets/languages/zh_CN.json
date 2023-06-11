@@ -560,7 +560,7 @@
         "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `/marry status`",
         "too_long": "%1$s 大作家，你的情书太长啦！ 最长只能有五百字哦~~",
         "cannot_see": "%1$s 我找不到你的对象呢。他们可能不在我所在的任何协会吧~~",
-        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s. Click yes to accept, no to scrap.",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s**? This is PERMANENT while the marriage lasts. *Letter content:* %3$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `/marry status`",
         "scrapped": "%1$s你还有时间思考该写什么，不必着急！"
       },
@@ -605,7 +605,7 @@
       "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `/buy amount:2 item:ring` and then try proposing again <3",
       "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory :(",
-      "accepted": "%1$s**%2$s#%3$s** accepted the proposal of **%4$s#%5$s**!",
+      "accepted": "%1$s**%2$s** accepted the proposal of **%3$s**!",
       "denied": "%1$s 拒绝了来自**%2$s**的求婚 （好残忍！）",
       "ratelimit_message": "Why would you want to marry this much?"
     },
@@ -1563,7 +1563,7 @@
       "id_show": "Server ID: %1$s"
     },
     "userinfo": {
-      "header": "User info for %1$s#%2$s",
+      "header": "User info for %1$s",
       "roles": "Roles: [%1$,d]",
       "id": "User ID",
       "join_date": "Join Date",
