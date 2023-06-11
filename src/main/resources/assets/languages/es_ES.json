@@ -560,7 +560,7 @@
         "already_done": "%1$sEste casamiento ya tiene una carta de amor asignada. Revísala usando `/marry status`",
         "too_long": "%1$sEsta carta de amor es muy larga (500 carácteres máximo)",
         "cannot_see": "%1$sNo puedo encontrar al usuario con el que estás casado/a... Probablemente no está en ningun servidor donde me encuentro.",
-        "confirmation": "%1$s¿Estás *seguro* que quieres escribir esta carta de amor para tu casamiento con **%2$s#%3$s**? Esto es PERMANENTE mientras el casamiento esté en pie. *Contenido de la carta:* %4$s. haz click en si para aceptar, no para eliminar.",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s**? This is PERMANENT while the marriage lasts. *Letter content:* %3$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$s¡Le he enviado la carta correctamente a tu pareja! Revisala usando `/marry status`",
         "scrapped": "%1$sAún tienes tiempo para pensar en que escribirle, no es necesario apurarse :)"
       },
@@ -605,7 +605,7 @@
       "no_ring": "%1$s¡No puedes proponerte sin dos anillos de casamiento! Puedes comprarlos ejecutando `/buy amount:2 item:ring` y luego intenta proponerle tu amor denuevo <3",
       "confirmation": "%1$s%2$s, haz click en **si** o **no** para responder a la proposición de matrimonio de %3$s\n%4$sEsto expira en 2 minutos.",
       "ring_check_fail": "%1$sNo puedes casarte con menos de dos anillos en tu inventario!",
-      "accepted": "%1$s**%2$s#%3$s** ha aceptado la proposición de %4$s#%5$s!",
+      "accepted": "%1$s**%2$s** accepted the proposal of **%3$s**!",
       "denied": "%1$sLa proposición de `%2$s` fue negada :(",
       "ratelimit_message": "¿Por qué querrías casarte tan desesperadamente?"
     },
@@ -1563,7 +1563,7 @@
       "id_show": "ID del servidor: %1$s"
     },
     "userinfo": {
-      "header": "Información del usuario %1$s1%2$s",
+      "header": "User info for %1$s",
       "roles": "Roles: [%1$d]",
       "id": "ID del Usuario",
       "join_date": "Fecha de Union",
