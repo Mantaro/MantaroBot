@@ -560,7 +560,7 @@
         "already_done": "%1$sCuộc hôn nhân này đã có một bức thư tình được gửi đi. Kiểm tra trong `/marry status`",
         "too_long": "%1$sBức thư này quá dài (tối đa 500 ký tự)",
         "cannot_see": "%1$sTôi không thể tìm thấy người mà bạn đã cưới... Có lẽ là do họ không cùng trong máy chủ nào với tôi.",
-        "confirmation": "%1$sBạn có *chắc chắn* muốn gửi bức thư này để tỏ tình với **%2$s#%3$s**? Bức thư này sẽ được giữ MÃI MÃI trong hôn nhân. *Nội dung:*%4$s. Nhấn yes để chấp nhận, no để huỷ.",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s**? This is PERMANENT while the marriage lasts. *Letter content:* %3$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$sĐã gửi thành công bức thư tình đến người bạn yêu! Kiểm tra bằng `/marry status`",
         "scrapped": "%1$sBạn vẫn có thời gian để suy nghĩ và để viết, không cần phải vội!"
       },
@@ -605,7 +605,7 @@
       "no_ring": "%1$sBạn không thể cầu hôn mà không có hai chiếc nhẫn! Bạn có thể mua chúng bằng `/buy amount:2 item:ring` và sau đó hãy thử cầu hôn lại <3",
       "confirmation": "%1$s%2$s, hãy nhấn **yes** (đồng ý) hoặc **no** (không đồng ý) cho lời cầu hôn của %3$s\n%4$sHết hiệu lực sau 120 giây.",
       "ring_check_fail": "%1$sBạn không thể cưới khi có ít hơn hai chiếc nhẫn trong túi đồ của bạn :(",
-      "accepted": "%1$s**%2$s#%3$s** đã chấp nhận lời cầu hôn của **%4$s#%5$s**!",
+      "accepted": "%1$s**%2$s** accepted the proposal of **%3$s**!",
       "denied": "%1$sĐã từ chối lời cầu hôn từ **%2$s**",
       "ratelimit_message": "Tại sao bạn lại muốn cưới đến mức này cơ chứ?"
     },
@@ -1563,7 +1563,7 @@
       "id_show": "ID máy chủ: %1$s"
     },
     "userinfo": {
-      "header": "Thông tin của người dùng %1$s#%2$s",
+      "header": "User info for %1$s",
       "roles": "Vai trò: [%1$,d]",
       "id": "ID người dùng",
       "join_date": "Ngày tham gia",
