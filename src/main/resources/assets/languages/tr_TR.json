@@ -560,7 +560,7 @@
         "already_done": "%1$sBu evliliğe zaten atanmış bir aşk mektubu var. `/marry status` kullanarak kontrol edin",
         "too_long": "%1$sAşk mektubunuz çok uzun (maximum 500 harf)",
         "cannot_see": "%1$sEvli olduğunuz kullanıcıyı bulamadım... Büyük ihtimal benimle aynı sunucu da değiller.",
-        "confirmation": "%1$sBu mektubu **%2$s#%3$s** ile yazmak istediğinize emin misiniz? Bu evliliğiniz boyunca kalıcı olacak. *Mektup içeriği:* %4$s. Kabul etmek için yes, çöpe atmak için no ya tıklayın.",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s**? This is PERMANENT while the marriage lasts. *Letter content:* %3$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$sAşık olduğunuz kişiye aşk mektubunuz gönderildi! `/marry status` ile kontrol edebilirsiniz",
         "scrapped": "%1$sAcele gerek yok, hala yazmak için zamanınız var!"
       },
@@ -605,7 +605,7 @@
       "no_ring": "%1$sİki evlilik yüzüğü olmadan evlenme teklif edemezsiniz! Onları `/buy amount:2 item:ring` yazarak satın alabilir ve ardından tekrar teklif vermeyi deneyebilirsiniz <3",
       "confirmation": "%1$s%2$s, %3$s'den gelen evlilik teklifini **evet** tıklayarak onaylayabilir, **hayır** yazan düğmeye tıklayarak reddedebilirsin\n%4$sBu işlem 120 saniye sonra iptal edilecektir.",
       "ring_check_fail": "%1$sEnvanterinde iki adet yüzük bulundurmadığın sürece evlenme teklifinde bulunamazsın :(",
-      "accepted": "%1$s**%2$s#%3$s**, **%4$s#%5$s** kullanıcısının evlenme teklifini kabul etmiştir!",
+      "accepted": "%1$s**%2$s** accepted the proposal of **%3$s**!",
       "denied": "%1$s**%2$s** kullanıcısının evlenme teklifi reddedilmiştir",
       "ratelimit_message": "Neden bu kadar çok evlenmek istiyorsun?"
     },
@@ -1563,7 +1563,7 @@
       "id_show": "Sunucu ID: %1$s"
     },
     "userinfo": {
-      "header": "%1$s#%2$s için kullanıcı bilgisi",
+      "header": "User info for %1$s",
       "roles": "Roles: [%1$d]",
       "id": "Kullanıcı ID",
       "join_date": "Katılım Tarihi",
@@ -1818,14 +1818,14 @@
         "experience": "Deneyim",
         "game": "%1sBu sayfa en çok oyun kazanan ilk 10 kişiyi gösterir.\n\nOyunların nasıl çalıştığıyla ilgili ayrıntılar için `/help command:game` veya `/help command:trivia` komutlarına göz atın!",
         "claim": "%1sBu sayfa, en çok talep edilen waifu olan ilk 10 kişiyi gösterir.\n\nWaifu sistemiyle ilgili ayrıntılar için `/help command:waifu` komutuna bakın.",
-        "money_old": "%1$sThis page shows the top 15 richest people on Mantaro (before the reset).\n",
-        "money": "%1$sThis page shows the top 15 richest people on Mantaro. Grinding is hard!",
-        "rep": "%1sThis page shows the top 15 people with the most reputation.",
-        "streak": "%1sThis page shows the top 15 people with the most daily streaks.\n\nCheck out `/help command:daily` for more info",
-        "lvl": "%1sThis page shows the top 15 people with the most level.\n\nLevel is earning through talking. Command usage doesn't contribute to experience, and XP has a 30 seconds cooldown.",
-        "waifu": "%1sThis page shows the top 15 people with the most weighted waifu value.\n\nCheck out `/help command:waifu` for details on the waifu system.",
-        "gamble": "%1sThis page shows the top 15 people with the most gamble runs won.\n\nCheck out `/help command:gamble` for details on gamble.",
-        "slots": "%1sThis page shows the top 15 people with the most slots runs won.\n\nCheck out `/help command:slots` for details on slots."
+        "money_old": "%1$sBu sayfa Mantaro'daki en zengin 15 kişiyi gösterir (sıfırlamadan önce).\n",
+        "money": "%1$sBu sayfa Mantaro'daki en zengin 15 kişiyi gösterir. Bilemek zordur!",
+        "rep": "%1sBu sayfa en çok itibara sahip ilk 15 kişiyi gösterir.",
+        "streak": "%1sBu sayfa, en çok günlük galibiyet serisine sahip ilk 15 kişiyi gösterir",
+        "lvl": "%1sBu sayfa en yüksek seviyeye sahip ilk 15 kişiyi gösterir.\n\nSeviye konuşarak kazanılmaktadır. Komut kullanımı deneyime katkıda bulunmaz ve XP'nin 30 saniyelik bir bekleme süresi vardır.",
+        "waifu": "%1sBu sayfa, en ağırlıklı waifu değerine sahip ilk 15 kişiyi gösterir.\n\nWaifu sistemiyle ilgili ayrıntılar için `/help command:waifu` ya bakın.",
+        "gamble": "%1sBu sayfa, en çok kumar koşusu kazanan ilk 15 kişiyi gösterir.\n\nKumarla ilgili ayrıntılar için `/help command:gamble` a bakın.",
+        "slots": "%1sBu sayfa, en çok slot koşusu kazanan ilk 15 kişiyi gösterir.\n\nSlotla ilgili ayrıntılar için `/help command:slots` a bakın."
       }
     },
     "iteminfo": {

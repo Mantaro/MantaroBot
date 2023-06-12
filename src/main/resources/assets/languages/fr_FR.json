@@ -560,7 +560,7 @@
         "already_done": "%1$sCe mariage a déjà une lettre d'amour assignée. Vérifie-la en utilisant `/marry status`",
         "too_long": "%1$sLa lettre d'amour est trop longue (le maximum est 500 caractères)",
         "cannot_see": "%1$sJe ne peux pas trouver l'utilisateur auquel vous êtes marié... Il n'est probablement dans aucun serveur avec moi.",
-        "confirmation": "%1$sÊtes-vous *sûr.e* de vouloir écrire cette lettre pour votre mariage avec **%2$s#%3$s**? Ceci est PERMANENT contrairement au mariage. *Contenu de la lettre :* %4$s. Clique sur yes pour accepter et no pour annuler.",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s**? This is PERMANENT while the marriage lasts. *Letter content:* %3$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$sLa lettre d'amour a été délivrée avec succès à ton amoureux.se! Vérifie-la en utilisant `/marry status`",
         "scrapped": "%1$sTu as toujours du temps pour réfléchir à ce que tu veux écrire, pas besoin de se dépêcher!"
       },
@@ -605,7 +605,7 @@
       "no_ring": "%1$sTu ne peux pas faire une demande sans deux bagues de mariage ! Tu peux les acheter en faisant `/buy amount:2 item:ring` et ensuite, essaie de refaire ta demande <3",
       "confirmation": "%1$s%2$s, appuie sur **yes** ou **no** pour accepter ou refuser la demande en mariage de %3$s\n%4$sIl y a un délai d'attente de 120 secondes.",
       "ring_check_fail": "%1$sTu ne peux pas te marier avec moins de deux bagues de mariage dans ton inventaire :(",
-      "accepted": "%1$s**%2$s#%3$s** a accepté la demande de **%4$s#%5$s**!",
+      "accepted": "%1$s**%2$s** accepted the proposal of **%3$s**!",
       "denied": "%1$sa refusé la demande de **%2$s**",
       "ratelimit_message": "Pourquoi veux-tu te marier autant?"
     },
@@ -1563,7 +1563,7 @@
       "id_show": "ID: %1$s"
     },
     "userinfo": {
-      "header": "Infos pour %1$s#%2$s",
+      "header": "User info for %1$s",
       "roles": "Rôles: [%1$d]",
       "id": "ID",
       "join_date": "Date à laquelle l'utilisateur a rejoint",

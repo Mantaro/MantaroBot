@@ -560,7 +560,7 @@
         "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `/marry status`",
         "too_long": "%1$sList miłosny jest zbyt długi (maksymalnie 500 znaków)",
         "cannot_see": "%1$sNie mogę znaleźć użytkownika, z którym jesteś żonaty... Chyba nie ma ich ze mną na żadnym serwerze.",
-        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s. Click yes to accept, no to scrap.",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s**? This is PERMANENT while the marriage lasts. *Letter content:* %3$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `/marry status`",
         "scrapped": "%1$sNadal masz czas na zastanowienie się, co napisać, nie musisz się spieszyć!"
       },
@@ -605,7 +605,7 @@
       "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `/buy amount:2 item:ring` and then try proposing again <3",
       "confirmation": "%1$s%2$s, click the button with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$sNie możesz poślubić mniej niż dwóch pierścieni w ekwipunku :(",
-      "accepted": "%1$s**%2$s#%3$s** zaakceptował propozycję **%4$s#%5$s**!",
+      "accepted": "%1$s**%2$s** accepted the proposal of **%3$s**!",
       "denied": "%1$sOdrzucona propozycja od **%2$s**",
       "ratelimit_message": "Why would you want to marry this much?"
     },
@@ -1563,7 +1563,7 @@
       "id_show": "ID Serwera: %1$s"
     },
     "userinfo": {
-      "header": "Informacje o użytkowniku %1$s#%2$s",
+      "header": "User info for %1$s",
       "roles": "Role: [%1$,d]",
       "id": "ID Użytkownika",
       "join_date": "Data Dołączenia",

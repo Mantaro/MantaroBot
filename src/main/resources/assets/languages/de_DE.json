@@ -560,7 +560,7 @@
         "already_done": "%1$sDie Ehe hat bereits einen Liebesbrief. Schau ihn dir unter `/marry status` an.",
         "too_long": "%1$sDer Liebesbrief ist zu lang (maximal 500 Zeichen).",
         "cannot_see": "%1$sIch kann den Nutzer, mit dem du verheiratet bist, nicht sehen... Vielleicht ist er mit mir auf keinem Server?",
-        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s. Click yes to accept, no to scrap.",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s**? This is PERMANENT while the marriage lasts. *Letter content:* %3$s. Click yes to accept, no to scrap.",
         "confirmed": "%1$sDer Liebesbrief wurde erfolgreich an deine Liebe zugestellt! Schau ihn dir mit `/marry status` an.",
         "scrapped": "%1$sDu hast immer noch Zeit, um darüber nachzudenken, was du schreiben willst, kein Grund zur Eile!"
       },
@@ -605,7 +605,7 @@
       "no_ring": "%1$sOhne zwei Ringe kannst du nicht heiraten! Du kannst diese mit `/buy amount:2 item:ring` kaufen und dann versuch es erneut <3",
       "confirmation": "%1$s%2$s, beantworte den Heiratsantrag von %3$s mit den Knöpfen **Ja** oder **Nein**.\n%4$sDies läuft in 120 Sekunden ab.",
       "ring_check_fail": "%1$sDu kannst nicht mit weniger als zwei Ringen in deinem Inventar heiraten!",
-      "accepted": "%1$s**%2$s#%3$s** hat den Antrag von **%4$s#%5$s** angenommen!",
+      "accepted": "%1$s**%2$s** accepted the proposal of **%3$s**!",
       "denied": "%1$sAntrag von **%2$s** abgelehnt.",
       "ratelimit_message": "Warum willst du so viel heiraten?"
     },
@@ -1563,7 +1563,7 @@
       "id_show": "Server ID: %1$s"
     },
     "userinfo": {
-      "header": "Nutzerinfo für %1$s#%2$s",
+      "header": "User info for %1$s",
       "roles": "Rollen: [%1$,d]",
       "id": "Benutzer-ID",
       "join_date": "Beitrittsdatum",
