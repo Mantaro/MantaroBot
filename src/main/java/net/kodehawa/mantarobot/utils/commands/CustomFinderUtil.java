@@ -22,6 +22,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.utils.concurrent.Task;
 import net.dv8tion.jda.internal.utils.concurrent.task.GatewayTask;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
+import net.kodehawa.mantarobot.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -114,7 +115,7 @@ public class CustomFinderUtil {
         if (found.size() > 1) {
             ctx.sendFormat(lang.get("general.too_many_members"),
                     EmoteReference.THINKING,
-                    found.stream().limit(7).map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator())
+                    found.stream().limit(7).map(m -> Utils.getTagOrDisplay(m.getUser()))
                             .collect(Collectors.joining(", "))
             );
 

@@ -36,7 +36,7 @@ public class CachedLeaderboardMember {
     private final long lastCachedAt;
 
     @JsonCreator
-    @ConstructorProperties({"id", "name", "lastCachedAt"})
+    @ConstructorProperties({"id", "name", "discriminator", "lastCachedAt"})
     public CachedLeaderboardMember(long id, String name, String discriminator, long lastCachedAt) {
         this.id = id;
         this.name = name;
