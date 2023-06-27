@@ -1595,9 +1595,9 @@
     },
     "help": {
       "title": "Ajuda da Mantaro",
-      "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://www.mantaro.site/mantaro-wiki). [Currency Guide](https://www.mantaro.site/mantaro-wiki/currency/101)\n",
-      "base_prefix": "**Full prefix command list**. For a detailed guide, please check our [wiki](https://www.mantaro.site/mantaro-wiki).\nRemember you can get more information on a command using `~>help <name of command>` to see all commands use `/help` and press Tab.\n**Keep in mind a lot of commands are now slash-only, this only shows prefix commands.**\n",
-      "base": "**Full slash command list**. For a detailed guide, please check our [wiki](https://www.mantaro.site/mantaro-wiki).\nRemember you can get more information on a command using `/help command:<name of command>`\n",
+      "base_category": "Lista de comandos da categoria %1$s. Para um guia detalhado, por favor cheque a [wiki] (https://www.mantaro.site/mantaro-wiki). [Guia Monetário](https://www.mantaro.site/mantaro-wiki/currency/101)\n",
+      "base_prefix": "**Lista completa de comandos por prefixos**. Para um guia detalhado, por favor cheque nossa [wiki] (https://www.mantaro.site/mantaro-wiki).\nLembre-se de que você pode ter mais informações sobre um comando usando `~>help <name of command>` pra ver todos os comandos use `/help` e pressione Tab. **Tenha em mente de que muitos comandos agora só podem ser usados com barra, isso só mostra os comandos por prefixos.**\n",
+      "base": "**Lista completa de comandos por barra**. Para um guia detalhado, por favor cheque nossa [wiki] (https://www.mantaro.site/mantaro-wiki).\nLembre-se de que você pode ter mais informações de um comando usando `/help <name of command>`\n",
       "support": "Se você ainda estiver perdido você pode entrar em nosso [servidor de suporte](https://support.mantaro.site). Você pode me seguir também no [Twitter](https://twitter.com/mantarodiscord) para updates.\n",
       "patreon": "[Nós precisamos da sua ajuda para manter Mantaro online! Clique aqui para mais informações.]\n(https://www.patreon.com/mantaro)",
       "disabled_commands": "Apenas mostrando comandos não-desativados. Total de comandos desativados: %1$s",
@@ -1608,23 +1608,23 @@
         "no_help": "%1$sNão tem uma ajuda extendida para esse comando.",
         "not_found": "%1$sUm comando com esse nome não existe"
       },
-      "too_long": "Error displaying sub-command help. Check the [wiki](https://www.mantaro.site/mantaro-wiki) for more information on this specific command.",
+      "too_long": "Erro ao exibir a ajuda do sub-comando. Cheque a [wiki]\n(https://www.mantaro.site/mantaro-wiki) para mais informações nesse comando específico.",
       "include_warning": "**Não inlcui <> ou [] no comando em si.**",
       "help_header": "Ajuda do comando %s",
       "options": "Opções",
       "usage": "Uso",
       "optional": "(Isso é opcional)",
-      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help command:cast item`.\nThis goes for all subcommands, as long as they have some sort of help."
+      "subcommand_help": "Nota: pra receber ajuda sobre um subcomando você pode usar o nome do subcomando junto com o nome do comando, por exemplo pra receber ajuda de `/cast item` você pode usar `/help command:cast item`. Isso funciona em todos os subcomandos, desde que tenham algum tipo de ajuda."
     },
     "repair": {
       "no_item": "%1$sVocê não especificou nenhum item para consertar. Se você acha que tem o item correto, tente usar o nome completo.",
       "no_item_found": "%1$sEu não consegui encontrar esse item. Se você acha que tem o item correto. tente usar o nome completo.",
       "no_main_item": "%1$sVocê não o item que você está tentando consertar (%2$s)",
       "cant_repair": "%1$s**%2$s** não é um item que você pode consertar. Você só pode consertar itens quebrados.",
-      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can equip one if needed (`/equip item:Comet Wrench`, for example)",
+      "no_tool": "%1$sVocê precisa de uma Tier 2 (pelo menos uma Chave Inglesa de Cometa) ou uma chave inglesa superior pra consertar esse item. Você pode equipar uma se necessário (`/equip item:Comet Wrench`, por exemplo)",
       "dust": "%1$sSeu inventário está muito sujo pra consertar. Nível de poeira: %2$s",
       "not_wrench": "%1$sVocê não pode usar isso como uma chave inglesa. Lembre-se de usar aspas se o nome contém espaços.",
-      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. You can equip one if needed (`/equip item:Comet Wrench`, for example)",
+      "not_enough_level": "%1$sVocê precisa de uma chave inglesa de tier maior pra consertar isso. Você pode equipar uma se necessário (`/equip item:Comet Wrench`, por exemplo)",
       "not_enough_money": "%1$sVocê não tem dinheiro suficiente pra consertar este item. *(Carteira: %2$,d, Necessário: %3$,d)*",
       "no_item_recipe": "%1$sVocê não tem a necessária *%2$s* pra consertar isso.",
       "not_enough_items": "%1$sVocê não tem o suficiente de *%2$s* pra fazer este reparo em uma **%3$s**. **(Necessário: %4$s, Atual: %5$s)**",
@@ -1637,7 +1637,7 @@
     },
     "anime": {
       "no_args": "%1$sVocê precisa me dizer que anime procurar.",
-      "selection_start": "Select the number of the anime you want to select.",
+      "selection_start": "Selecione o número do anime que você deseja selecionar.",
       "information_footer": "Informação fornecida por Kitsu.io.",
       "no_results": "%1$sNenhum resultado encontrado...",
       "malformed_result": "%1$sEu peguei um resultado de API errado para essa pesquisa pesquisa especificada. Talvez tente outro termo de pesquisa?",
@@ -1660,7 +1660,7 @@
     },
     "character": {
       "no_args": "%1$sVocê precisa me dizer qual personagem você quer procurar.",
-      "selection_start": "Select the number of the character you want to select.",
+      "selection_start": "Selecione o número do personagem que você deseja selecionar.",
       "error": "%1$s**Eu juro que eu não d-deixei cair sua waifu, por favor me perdoe!**\nEu encontrei ``%2$s`` ao tentar processar este comando. (Erro interno)",
       "information_header": "Informação do personagem %1$s",
       "information": "Informação",
@@ -1816,16 +1816,16 @@
       "claim": "Classificação de Reivindicação de Waifu",
       "inner": {
         "experience": "Experiência",
-        "game": "%1sThis page shows the top 10 people who have won the most games.\n\nCheck out `/help command:game` or `/help command:trivia` for details on how games work!",
-        "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `/help command:waifu` for details on the waifu system.",
-        "money_old": "%1$sThis page shows the top 15 richest people on Mantaro (before the reset).\n",
-        "money": "%1$sThis page shows the top 15 richest people on Mantaro. Grinding is hard!",
-        "rep": "%1sThis page shows the top 15 people with the most reputation.",
-        "streak": "%1sThis page shows the top 15 people with the most daily streaks.\n\nCheck out `/help command:daily` for more info",
-        "lvl": "%1sThis page shows the top 15 people with the most level.\n\nLevel is earning through talking. Command usage doesn't contribute to experience, and XP has a 30 seconds cooldown.",
-        "waifu": "%1sThis page shows the top 15 people with the most weighted waifu value.\n\nCheck out `/help command:waifu` for details on the waifu system.",
-        "gamble": "%1sThis page shows the top 15 people with the most gamble runs won.\n\nCheck out `/help command:gamble` for details on gamble.",
-        "slots": "%1sThis page shows the top 15 people with the most slots runs won.\n\nCheck out `/help command:slots` for details on slots."
+        "game": "%1sEssa página mostra o top 10 de pessoas que ganharam mais jogos.\n\nCheque `/help command:game` ou `/help command:trivia` para mais detalhes de como os jogos funcionam!",
+        "claim": "%1sEssa página mostra o top 10 de pessoas que foram mais reivindicadas como waifu.\n\nCheque `/help command:waifu` para mais detalhes sobre o sistema de waifu.",
+        "money_old": "%1$sEssa página mostra as top 15 pessoas mais ricas na Mantaro (antes do reset).\n",
+        "money": "%1$sEssa página mostra as top 15 pessoas mais ricas na Mantaro. Grindar é difícil!",
+        "rep": "%1sEssa página mostra as top 15 pessoas com mais reputação.",
+        "streak": "%1sEssa página mostra as top 15 pessoas com os maiores combos diários.\n\nConfira `/help command:daily` para mais informações",
+        "lvl": "%1sEssa página mostra as top 15 pessoas com mais nível.\n\nNível é ganho por falar. Uso de comando não contribui, e XP tem 30 segundos de cooldown.",
+        "waifu": "%1sEssa página mostra as top 15 pessoas com o valor mais pesado de waifu.\n\nCheque `/help command:waifu` para mais detalhes sobre o sistema de waifu.",
+        "gamble": "%1sEssa página mostra as top 15 pessoas com mais vitórias em apostas.\n\nConfira `/help command:gamble` para detalhes sobre aposta.",
+        "slots": "%1sEssa página mostra as top 15 pessoas com mais vitórias no caça-níquel.\n\nConfira `/help command:slots` para detalhes sobre o caça-níquel."
       }
     },
     "iteminfo": {
@@ -1840,17 +1840,17 @@
         "durability": "Durabilidade",
         "desc": "Descrição",
         "upgrade": "Procurando por upgrades?",
-        "upgrade_content": "Click [here](https://www.mantaro.site/mantaro-wiki/currency/103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
+        "upgrade_content": "Clique [here](https://www.mantaro.site/mantaro-wiki/currency/103#tools---getting-an-upgrade) para mais informações de como melhorar suas ferramentas!"
       },
       "attribute": {
-        "tier": "Wrench Tier (to craft):",
-        "tier_raw": "Wrench Tier:",
-        "increase": "Money Increase:",
-        "diamond_drop": "Diamond Drop Range:",
-        "gem_luck": "Sparkle / Gem Luck",
-        "buff": "Item Buff:",
-        "reduction": "Multiplier reduction:",
-        "multiple_cast": "Can cast multiple:"
+        "tier": "Tier da Chave Inglesa (pra craftar):",
+        "tier_raw": "Tier da Chave Inglesa:",
+        "increase": "Aumento de Dinheiro:",
+        "diamond_drop": "Chance de Encontrar Diamante:",
+        "gem_luck": "Sorte de Sparkle / Gema",
+        "buff": "Buff de Item:",
+        "reduction": "Redução de multiplicador:",
+        "multiple_cast": "Pode fundir múltiplos:"
       },
       "success_tiered": "**Informação do Item** %2$s **%3$s** (%4$s)\n%1$s**Tipo:** %5$s\n%1$s**Descrição:** *%6$s*\n%1$s**Tier:** %7$s\n%1$s**Preço de Compra:** %8$s %9$s\n%1$s**Preço de Venda:** %10$s %11$s",
       "success": "**Informação do Item** %2$s **%3$s** (%4$s)\n%1$s**Tipo:** %5$s\n%1$s**Descrição:** *%6$s*\n%1$s**Preço de Compra:** %7$s %8$s\n%1$s**Preço de Venda:** %9$s %10$s"
@@ -1863,7 +1863,7 @@
   },
   "options": {
     "options": "Opções da Mantaro",
-    "error_general": "%1$sIncorrect usage or missing arguments. Make sure the first argument doesn't start with a new line!\nIf you're lost or want help on using opts, check <https://www.mantaro.site/mantaro-wiki/basics/server-configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
+    "error_general": "%1$sUso incorreto ou argumentos faltando. Certifique-se de que o primeiro argumento não começa com uma nova linha!\nSe estiver perdido ou querer ajuda sobre como usar opts, cheque <https://www.mantaro.site/mantaro-wiki/basics/server-configuration> para um guia de como usar opts. Se você tiver algum problema depois de ler a wiki, vá para <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sNão é possível recuperar valores. Coisa esquisita...",
       "header": "Opções definidas para o servidor **%1$s**.",
@@ -2000,7 +2000,7 @@
       "success": "%1$sFuso horário modificado para `%2$s`. Este fuso horário será utilizado para indicar as horas nos registros de moderação."
     },
     "logs_timezonereset": {
-      "success": "%1$sSuccessfully reset log timezone."
+      "success": "%1$sFuso horário dos registros resetado com sucesso."
     },
     "lobby_reset": {
       "success": "%1$sResetando o lobby corretamente."
@@ -2023,12 +2023,12 @@
     },
     "birthday_enable": {
       "no_args": "%1$sVocê tem que especificar o nome do canal e o nome do cargo.",
-      "administrative_role": "%1$sThis role contains administrative permissions and therefore cannot be set as a Birthday role.",
+      "administrative_role": "%1$sEsse cargo possui permissões administrativas e por isso não pode ser usado como cargo de Aniversário.",
       "public_role": "%1$sVocê não pode definir o cargo everyone como um cargo de aniversário! Lembre-se que o cargo de aniversário é um cargo que é atribuído para a pessoa quando o aniversário dela vem, e é removido quando o dia passa.",
       "autorole": "%1$sVocê não pode definir o cargo autorole como um cargo de aniversário! Lembre-se que o cargo de aniversário é um cargo que é atribuído para a pessoa quando o aniversário dela vem, e é removido quando o dia passa.",
       "warning": "%1$sLembre-se que o cargo de aniversário é um cargo que é atribuído para a pessoa quando o aniversário dela vem, e é removido quando o dia passa.Se você tem alguma dúvida sobre como configurá-lo, você pode sempre entrar no nosso servidor de suporte e perguntar. Você também pode checar `~>opts help birthday enable` por exemplo.",
       "warning_1": "Isso é como o atribuídor de aniversário funciona: Atribui um cargo temporário à pessoa que está fazendo aniversário, e remove quando o dia do aniversário passa. **Isso significa que todos com o cargo de aniversário terão o cargo removido no dia em que o aniversário passar**. Por favor, tome cuidado ao escolher o cargo a ser usado, comoum erro de configuração pode fazer coisas ruins acontecerem (realmente)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `/birthday allowserver` else their birthday won't appear! Read <https://www.mantaro.site/mantaro-wiki/guides/birthday-announcer> for more info.",
+      "warning_2": "O cargo *tem que ser recém-criado ou um cargo que você não usa em mais ninguém*. NÃO PODE ser um cargo que os usuários já possuem. Os usuários precisarão permitir que este servidor anuncie seu aniversário usando `/birthday allowserver` senão o aniversário não aparecerá! Leia <https://www.mantaro.site/mantaro-wiki/guides/birthday-announcer> para mais informações.",
       "warning_3": "Além disso, o cache de aniversário (o que é usado para armazená-los) só é atualizado a cada 23 horas. Significa que se você definir o seu aniversário hoje para amanhã para testar este anunciamento **não** funciona.",
       "warning_4": "Digite **yes** se você concordar em definir o cargo %2$s como cargo de aniversário, e **no** para cancelar. Esse tempo esgota em 45 segundos.",
       "success": "%1$sRegistro de aniversário ativado neste servidor com parâmetros -> Canal: `%2$s (%3$s)` e cargo: `%4$s (%5$s)`",
@@ -2052,7 +2052,7 @@
       "no_role_found": "%1$sEu não consegui encontrar um cargo com esse nome. Se o cargo tiver espaços, tente envolvê-lo entre aspas.",
       "hierarchy_conflict": "%1$sEste cargo é colocado acima do seu cargo mais alto, portanto, você não pode colocá-lo como autorole!",
       "self_hierarchy_conflict": "%1$sEste cargo é colocado acima do meu cargo mais alto, portanto, você não pode colocá-lo como autorole!",
-      "permissions_conflict": "%1$sYou cannot set an autorole with administrative permissions, even if you have them.",
+      "permissions_conflict": "%1$sVocê não pode definir um cargo automático com permissões administrativas, mesmo se você as tiver.",
       "success": "%1$sO cargo automático do servidor agora é: **%2$s** (Posição: %3$d)"
     },
     "autorole_unbind": {
@@ -2118,7 +2118,7 @@
       "no_role_found": "%1$sEu não achei um cargo com esse nome!\nSe o nome do cargoSe o nome do cargoo tiver espaços, coloque-o entre aspas tipo assim: \"Nome do Cargo\"",
       "hierarchy_conflict": "%1$sEste cargo é colocado acima do seu cargo mais alto, portanto, você não pode colocá-lo como um cargo auto-atribuível!",
       "self_hierarchy_conflict": "%1$sEste cargo é colocado acima do meu cargo mais alto, portanto, você não pode colocá-lo como um cargo auto-atribuível!",
-      "permissions_conflict": "%1$sYou cannot add iam roles with administrative permissions, even if you have them.",
+      "permissions_conflict": "%1$sVocê não pode adicionar um cargo iam com permissões administrativas, mesmo se você as tiver.",
       "success": "%1$sAdicionado o cargo auto-atribuível **%2$s**, que dá o cargo **%3$s**"
     },
     "autoroles_category_add": {
@@ -2196,7 +2196,7 @@
       "success": "%1$sResetado corretamente suas opções!"
     },
     "birthday_test": {
-      "no_user": "%1$sYou need to specify a user to test the assigner with. Just mention them.",
+      "no_user": "%1$sVocê tem que mencionar um usuário para testar o atribuidor. Apenas mencione ele.",
       "no_bd_channel": "%1$sVocê não tem nenhum canal de aniversário definido!",
       "no_bd_role": "%1$sVocê não especificou o cargo definido para o aniversariante! Certifique-se de criar um novo cargo para isso.",
       "no_talk_permission": "%1$sO bot não pode falar no canal de aniversário. Cheque as permissões do canal.",
@@ -2207,11 +2207,11 @@
     },
     "usermessage_joinmessage_add": {
       "no_message": "%1$sVocê precisa especificar qual mensagem extra você quer que eu diga quando alguém entrar!",
-      "success": "%1$sAdded %2$s to the extra join messages successfully."
+      "success": "%1$sAdicionada %2$s para a mensagem extra de entrada com sucesso."
     },
     "usermessage_joinmessage_remove": {
       "no_message": "%1$sVocê precisa especificar o índice da mensagem que deseja remover!",
-      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra join messages successfully.",
+      "success": "%1$sRemovido %2$s `(índice %3$d)` para a mensagem extra de entrada com sucesso.",
       "wrong_index": "%1$sEsse índice não existe! Use `~>opts usermessage joinmessage list` para ver todos os índices disponíveis"
     },
     "usermessage_joinmessage_clear": {
@@ -2223,11 +2223,11 @@
     },
     "usermessage_leavemessage_add": {
       "no_message": "%1$sVocê precisa especificar qual mensagem extra você quer que eu diga quando alguém sair!",
-      "success": "%1$sAdded %2$s to the extra leave messages successfully."
+      "success": "%1$sAdicionada %2$s para a mensagem extra de saída com sucesso."
     },
     "usermessage_leavemessage_remove": {
       "no_message": "%1$sVocê precisa especificar o índice da mensagem que deseja remover!",
-      "success": "%1$sRemoved %2$s `(index %3$d)` from the extra leave messages successfully.",
+      "success": "%1$sRemovido %2$s `(índice %3$d)` para a mensagem extra de saída com sucesso.",
       "wrong_index": "%1$sEsse índice não existe! Use `~>opts usermessage leavemessage list` para ver todos os índices disponíveis"
     },
     "usermessage_leavemessage_clear": {
@@ -2244,7 +2244,7 @@
     },
     "modlog_blacklistwords_remove": {
       "not_in": "%1$sPalavra `%2$s` não está na lista negra.",
-      "success": "%1$sSuccessfully removed word `%2$s` from the modlog blacklist."
+      "success": "%1$sRemovido com sucesso a palavra `%2$s` do modlog da lista negra."
     },
     "logs_editmessage": {
       "no_message": "%1$sVocê precisa especificar qual mensagem que você quer que eu diga quando alguém editar uma mensagem!",
@@ -2528,7 +2528,7 @@
       "lewd": "Muitos comandos sensuais. Demais. Se divertiu?",
       "ring": "Basicamente, o que torna o seu casamento oficial.",
       "letter": "Uma carta do seu amado.",
-      "key": "Used to open various crates with `/opencrate crate:<crate name>` or `/use item item:<crate name>`",
+      "key": "Usado pra abrir vários tipos de baús com o comando `/opencrate crate:<crate name>` ou `/use item item:<crate name>`",
       "clothes": "Basicamente o que você veste. Esperançosamente...",
       "diamond": "Basicamente, uma maneira melhor de salvar seu dinheiro. É brilhante também. E deixa você fundir coisas brilhantes. Que legal.",
       "dress": "Não é fofo?",
@@ -2565,7 +2565,7 @@
       "cobweb": "Algo que uma aranha deixou na mina. Me pergunto se isso vale algo.",
       "fragment": "Fragmento de uma antiga jóia. Útil para fundição.",
       "mop": "Uma maneira deliciosa de limpar toda a poeira que você tem por perto. Eu aposto que há muito disso.",
-      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `/waifu claimlock`",
+      "claim_key": "Esse item faz você irreivindicável (como waifu) se você usar `/waifu claimlock`",
       "coffee": "Uma maneira deliciosa de começar o seu dia.",
       "waifu_pill": "Te dá uma vantagem signficativa em mineração e pesca se uma de suas waifus está avaliada em mais de 20,000. Dura 3 sessões.",
       "bait": "Dá uma chance maior de pegar peixes.",
@@ -2581,10 +2581,10 @@
       "sparkle": "Uma das gemas mais raras daqui. Certifique-se de mantê-la. É usado para fundir uma picareta brilhante & varas brilhantes.",
       "sparkle_pick": "Uma das picaretas mais fortes daqui.",
       "pizza": "Delicioso.",
-      "mine_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `/opencrate crate:gem crate`",
-      "fish_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `/opencrate crate:treasure`",
-      "mine_premium_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `/opencrate crate:gem premium crate`",
-      "fish_premium_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `/opencrate crate:premium treasure`",
+      "mine_crate": "Uma gema que você encontrou enquanto minerava. Pode haver algumas coisas legais dentro. Pode ser aberta com `/opencrate crate:gem crate`",
+      "fish_crate": "Um tesouro que você encontrou enquanto pescava. Pode haver algumas coisas legais dentro. Pode ser aberto com `/opencrate crate:treasure`",
+      "mine_premium_crate": "Uma gema que você encontrou enquanto minerava. Pode haver algumas coisas legais dentro. Pode ser aberto com `/opencrate crate:gem premium crate`",
+      "fish_premium_crate": "Um tesouro que você encontrou enquanto pescava. Pode haver algumas coisas legais dentro. Pode ser aberto com `/opencrate crate:premium treasure`",
       "comet_rod": "Uma vara meio forte.",
       "star_rod": "Uma vara forte.",
       "sparkle_rod": "Uma vara até que mais forte.",
@@ -2636,8 +2636,8 @@
       "broken_hellfire_pick": "Uma picareta de fogo do inferno que se extinguiu enquanto minerava. Ainda recuperável.",
       "broken_hellfire_axe": "Um machado de fogo do inferno que se extinguiu enquanto cortava. Ainda recuperável.",
       "broken_hellfire_rod": "Uma vara de fogo do inferno que se extinguiu enquanto pescava. Ainda recuperável.",
-      "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `/opencrate crate:chop crate`",
-      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `/opencrate crate:chop premium crate`"
+      "chop_crate": "Um baú que você encontrou enquanto cortava. Pode conter coisas boas. Pode ser aberto com `/opencrate crate:chop crate`",
+      "chop_premium_crate": "Um baú que você encontrou enquanto cortava. Pode conter coisas boas. Pode ser aberto com `/opencrate crate:chop premium crate`"
     }
   },
   "buttons": {
@@ -2646,7 +2646,7 @@
     "accept": "Aceitar",
     "deny": "Negar",
     "cancel": "Cancelar",
-    "end": "End"
+    "end": "Fim"
   },
   "time": {
     "day": "dia",
