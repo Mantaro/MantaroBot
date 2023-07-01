@@ -17,6 +17,7 @@
 
 package lavalink.client.io;
 
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import lavalink.client.io.jda.JdaLavalink;
 import net.dv8tion.jda.api.JDA;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -29,6 +30,7 @@ import java.util.function.Function;
 
 public class LessAnnoyingJdaLavalink extends JdaLavalink {
     private static final Field USER_ID_FIELD;
+    private final AudioPlayerManager audioPlayerManager;
 
     static {
         try {
@@ -39,8 +41,15 @@ public class LessAnnoyingJdaLavalink extends JdaLavalink {
         }
     }
 
-    public LessAnnoyingJdaLavalink(String userId, int numShards, Function<Integer, JDA> jdaProvider) {
+    public LessAnnoyingJdaLavalink(String userId, int numShards, AudioPlayerManager audioPlayerManager, Function<Integer, JDA> jdaProvider) {
         super(userId, numShards, jdaProvider);
+        this.audioPlayerManager = audioPlayerManager;
+    }
+
+    // Someone forgot to make this actually work with the JdaLavalink class lol
+    @Override
+    public AudioPlayerManager getAudioPlayerManager() {
+        return audioPlayerManager;
     }
 
     @Override

@@ -22,7 +22,7 @@ plugins {
 }
 
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
-def ver = new Version(major: 8, minor: 0, revision: 1)
+def ver = new Version(major: 8, minor: 0, revision: 2)
 version ver.toString()
 
 sourceCompatibility = JavaVersion.VERSION_16
@@ -63,7 +63,7 @@ dependencies {
     implementation 'club.minnced:discord-webhooks:0.8.2'
 
     // Music
-    implementation ('com.github.freyacodes:Lavalink-Client:cde746afc23') {
+    implementation ('com.github.freyacodes:Lavalink-Client:jda5-SNAPSHOT') {
         exclude group: 'com.sedmelluq', module: 'lavaplayer'
     } // Lavalink-Client includes LP, but we specify it below, so we need to exclude it.
     implementation 'com.github.walkyst:lavaplayer-fork:1.4.2'

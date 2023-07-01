@@ -136,10 +136,16 @@ public class MantaroBot {
             }
         }
 
+        core = new MantaroCore(config, ExtraRuntimeOptions.DEBUG);
+        audioManager = new MantaroAudioManager();
+        birthdayCacher = new BirthdayCacher();
+        ItemHelper.setItemActions();
+
         // Lavalink stuff.
         lavaLink = new LessAnnoyingJdaLavalink(
                 config.clientId,
                 ExtraRuntimeOptions.SHARD_COUNT.orElse(config.totalShards),
+                audioManager.getPlayerManager(),
                 shardId -> getShardManager().getShardById(shardId)
         );
 
@@ -152,11 +158,6 @@ public class MantaroBot {
             lavaLink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getPlayerPenalty);
             lavaLink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getCpuPenalty);
         }
-
-        core = new MantaroCore(config, ExtraRuntimeOptions.DEBUG);
-        audioManager = new MantaroAudioManager();
-        birthdayCacher = new BirthdayCacher();
-        ItemHelper.setItemActions();
 
         LogUtils.log("Startup",
                 "Starting up Mantaro %s (Git: %s) in Node %s%nHold your seatbelts! <3"
