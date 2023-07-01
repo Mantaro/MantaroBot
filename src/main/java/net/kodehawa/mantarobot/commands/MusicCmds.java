@@ -461,7 +461,7 @@ public class MusicCmds {
         try {
             new URL(content);
         } catch (Exception e) {
-            content = "scsearch: " + content;
+            content = "dzsearch: " + content;
         }
 
         MantaroBot.getInstance().getAudioManager().loadAndPlay(ctx, content, firstSelection, force, ctx.getLanguageContext());

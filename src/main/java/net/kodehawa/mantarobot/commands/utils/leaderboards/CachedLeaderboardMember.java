@@ -20,7 +20,6 @@ package net.kodehawa.mantarobot.commands.utils.leaderboards;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import net.dv8tion.jda.api.entities.User;
 
 import java.beans.ConstructorProperties;
 import java.util.concurrent.TimeUnit;

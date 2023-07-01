@@ -17,6 +17,8 @@
 
 package net.kodehawa.mantarobot.commands.music;
 
+import com.github.topisenpai.lavasrc.deezer.DeezerAudioSourceManager;
+import com.github.topisenpai.lavasrc.yandexmusic.YandexMusicSourceManager;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -31,6 +33,8 @@ import net.kodehawa.mantarobot.commands.music.requester.AudioLoader;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Lazy;
 
 import java.util.Map;
@@ -48,6 +52,7 @@ public class MantaroAudioManager {
 
     private final Map<String, GuildMusicManager> musicManagers;
     private final AudioPlayerManager playerManager;
+    private final Config config = MantaroData.config().get();
 
     public MantaroAudioManager() {
         this.musicManagers = new ConcurrentHashMap<>();
@@ -59,6 +64,8 @@ public class MantaroAudioManager {
         playerManager.registerSourceManager(new VimeoAudioSourceManager());
         playerManager.registerSourceManager(new TwitchStreamAudioSourceManager());
         playerManager.registerSourceManager(new BeamAudioSourceManager());
+        playerManager.registerSourceManager(new DeezerAudioSourceManager(config.getdKey()));
+        playerManager.registerSourceManager(new YandexMusicSourceManager(config.getYandexKey()));
     }
 
     public GuildMusicManager getMusicManager(Guild guild) {

@@ -53,8 +53,8 @@ public class Config {
     public String lavalinkPass;
     public String ipv6Block = "";
     public String excludeAddress = "";
-    public String ytPapisId = "";
-    public String ytPSId = "";
+    public String dKey = "";
+    public String yandexKey = "";
     public int bucketFactor = 4;
     public long dailyMaxPeriodMilliseconds = TimeUnit.HOURS.toMillis(50);
     public boolean isSelfHost = false;
@@ -200,12 +200,20 @@ public class Config {
         return handleRatelimits;
     }
 
-    public String getYtPapisId() {
-        return ytPapisId;
+    public String getdKey() {
+        return dKey;
     }
 
-    public String getYtPSId() {
-        return ytPSId;
+    public void setdKey(String dKey) {
+        this.dKey = dKey;
+    }
+
+    public String getYandexKey() {
+        return yandexKey;
+    }
+
+    public void setYandexKey(String yandexKey) {
+        this.yandexKey = yandexKey;
     }
 
     public boolean isTesting() {

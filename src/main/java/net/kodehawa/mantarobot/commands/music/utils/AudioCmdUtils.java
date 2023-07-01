@@ -72,9 +72,8 @@ public class AudioCmdUtils {
                 } catch (Exception ignored) { }
             }
 
-            nowPlaying = String.format("**[%s](%s)** (%s)%n%s",
+            nowPlaying = String.format("**%s** (%s)%n%s",
                     MarkdownSanitizer.sanitize(playingTrack.getInfo().title),
-                    playingTrack.getInfo().uri,
                     getDurationMinutes(playingTrack.getInfo().length),
                     dj != null ? lang.get("commands.music_general.queue.dj_np") + dj.getUser().getName() : ""
             );
@@ -194,6 +193,7 @@ public class AudioCmdUtils {
             try {
                 joinVoiceChannel(link, userChannel);
             } catch (Exception e) {
+                e.printStackTrace();
                 ctx.edit("commands.music_general.connect.error", EmoteReference.ERROR);
                 return completedFuture(false);
             }
@@ -343,11 +343,10 @@ public class AudioCmdUtils {
             );
 
             sb.append("""
-                    %s**%,d.** [%s] **[%s](%s)**
+                    %s**%,d.** [%s] **%s**
                     """.formatted(EmoteReference.BLUE_SMALL_MARKER,
                     num, duration,
-                    formatTitle(audioTrack.getInfo().title),
-                    audioTrack.getInfo().uri)
+                    formatTitle(audioTrack.getInfo().title))
             );
 
             num++;
