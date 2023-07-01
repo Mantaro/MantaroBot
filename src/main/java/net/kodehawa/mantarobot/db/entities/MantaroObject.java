@@ -20,7 +20,6 @@ package net.kodehawa.mantarobot.db.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedMongoObject;
-import net.kodehawa.mantarobot.utils.Pair;
 import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
@@ -29,7 +28,6 @@ import org.bson.codecs.pojo.annotations.BsonProperty;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MantaroObject implements ManagedMongoObject {
@@ -40,22 +38,18 @@ public class MantaroObject implements ManagedMongoObject {
 
     public List<String> blackListedGuilds;
     public List<String> blackListedUsers;
-    public List<String> patreonUsers;
-    private Map<String, Long> tempBans;
 
     @BsonCreator
     public MantaroObject(@BsonProperty("blackListedGuilds") List<String> blackListedGuilds,
-                         @BsonProperty("blackListedUsers") List<String> blackListedUsers,
-                         @BsonProperty("patreonUsers") List<String> patreonUsers) {
+                         @BsonProperty("blackListedUsers") List<String> blackListedUsers) {
         this.blackListedGuilds = blackListedGuilds;
         this.blackListedUsers = blackListedUsers;
-        this.patreonUsers = patreonUsers;
     }
 
     public MantaroObject() { }
 
     public static MantaroObject create() {
-        return new MantaroObject(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        return new MantaroObject(new ArrayList<>(), new ArrayList<>());
     }
 
     @Nonnull
@@ -96,21 +90,5 @@ public class MantaroObject implements ManagedMongoObject {
 
     public void setBlackListedUsers(List<String> blackListedUsers) {
         this.blackListedUsers = blackListedUsers;
-    }
-
-    public List<String> getPatreonUsers() {
-        return this.patreonUsers;
-    }
-
-    public void setPatreonUsers(List<String> patreonUsers) {
-        this.patreonUsers = patreonUsers;
-    }
-
-    public Map<String, Long> getTempBans() {
-        return this.tempBans;
-    }
-
-    public void setTempBans(Map<String, Long> tempBans) {
-        this.tempBans = tempBans;
     }
 }
