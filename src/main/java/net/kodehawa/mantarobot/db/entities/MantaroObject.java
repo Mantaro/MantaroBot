@@ -30,7 +30,6 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MantaroObject implements ManagedMongoObject {
@@ -42,24 +41,21 @@ public class MantaroObject implements ManagedMongoObject {
     public List<String> blackListedGuilds;
     public List<String> blackListedUsers;
     public List<String> patreonUsers;
-    private Map<String, Pair<String, Long>> mutes;
     private Map<String, Long> tempBans;
 
     @BsonCreator
     public MantaroObject(@BsonProperty("blackListedGuilds") List<String> blackListedGuilds,
                          @BsonProperty("blackListedUsers") List<String> blackListedUsers,
-                         @BsonProperty("patreonUsers") List<String> patreonUsers,
-                         @BsonProperty("mutes") Map<String, Pair<String, Long>> mutes) {
+                         @BsonProperty("patreonUsers") List<String> patreonUsers) {
         this.blackListedGuilds = blackListedGuilds;
         this.blackListedUsers = blackListedUsers;
         this.patreonUsers = patreonUsers;
-        this.mutes = mutes;
     }
 
     public MantaroObject() { }
 
     public static MantaroObject create() {
-        return new MantaroObject(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ConcurrentHashMap<>());
+        return new MantaroObject(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 
     @Nonnull
@@ -108,14 +104,6 @@ public class MantaroObject implements ManagedMongoObject {
 
     public void setPatreonUsers(List<String> patreonUsers) {
         this.patreonUsers = patreonUsers;
-    }
-
-    public Map<String, Pair<String, Long>> getMutes() {
-        return this.mutes;
-    }
-
-    public void setMutes(Map<String, Pair<String, Long>> mutes) {
-        this.mutes = mutes;
     }
 
     public Map<String, Long> getTempBans() {

@@ -280,7 +280,6 @@ public class AudioLoader implements AudioLoadResultHandler {
         Metrics.TRACK_EVENTS.labels("tracks_load").inc();
     }
 
-
     private void onSearch(AudioPlaylist playlist) {
         final var list = playlist.getTracks();
         
@@ -301,6 +300,7 @@ public class AudioLoader implements AudioLoadResultHandler {
             return;
         }
 
+        System.out.println(list.size());
         DiscordUtils.selectListButtonSlash(ctx, list.subList(0, Math.min(5, list.size())),
                 track -> String.format(
                         "%s**%s** (%s)",
