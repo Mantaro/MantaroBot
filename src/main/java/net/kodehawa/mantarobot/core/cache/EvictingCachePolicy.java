@@ -19,6 +19,8 @@ package net.kodehawa.mantarobot.core.cache;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +31,7 @@ import java.util.function.Supplier;
 
 public class EvictingCachePolicy implements MemberCachePolicy {
     private static final Logger log = LoggerFactory.getLogger(EvictingCachePolicy.class);
-    
+    private final Config config = MantaroData.config().get();
     private final EvictionStrategy[] strategies;
     
     public EvictingCachePolicy(List<Integer> shardIds, Supplier<EvictionStrategy> strategySupplier) {
@@ -45,7 +47,8 @@ public class EvictingCachePolicy implements MemberCachePolicy {
     @Override
     public boolean cacheMember(@NotNull Member member) {
         var voiceState = member.getVoiceState();
-        if (voiceState != null && voiceState.getChannel() != null) {
+        // Always cache users in VC if music is enabled.
+        if (config.musicEnable() && (voiceState != null && voiceState.getChannel() != null)) {
             return true;
         }
 
@@ -79,8 +82,12 @@ public class EvictingCachePolicy implements MemberCachePolicy {
                 }
 
                 // Only remove if voice state is null, or channel in the voice state is null, or the member is not pending.
-                if (evicted.getVoiceState() == null || evicted.getVoiceState().getChannel() == null) {
-                    g.unloadMember(evict);
+                if (config.musicEnable()) {
+                    if (evicted.getVoiceState() == null || evicted.getVoiceState().getChannel() == null) {
+                        g.unloadMember(evict);
+                    }
+                } else {
+                    g.unloadMember(evict); // We don't need to account for music if it's not enabled.
                 }
             });
         }
