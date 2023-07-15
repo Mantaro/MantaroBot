@@ -13,7 +13,7 @@
     "daily": "一天",
     "total": "總計",
     "arrow_react": "使用箭號反應來改變頁數。",
-    "button_react": "使用箭號按鈕來改變頁數。",
+    "button_react": "使用箭頭按鈕來改變頁數。",
     "not_found": "沒有找到",
     "no_results": "查無結果",
     "timeout": "這將在%1$d秒內超時",
@@ -799,7 +799,7 @@
       "success": "%1$s%2$s 傳送了 **%3$s** 個 **%4$s** 給 %5$s",
       "multiple_items_error": "%1$s你的背包中沒有任何這些物品",
       "error": "%1$s你的背包中沒有足夠的這些物品來執行此操作！",
-      "no_item_mention": "%1$sYou need to specify the person to transfer the item to and the item to transfer."
+      "no_item_mention": "%1$s你需要指定要轉讓物品給誰和要轉讓的物品。"
     },
     "transfer": {
       "new_account_notice_yourself": "%1$s你的帳號年齡必須高於14天才能傳送金錢。",
