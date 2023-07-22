@@ -2185,7 +2185,7 @@
       "too_short": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "not_specified": "%1$sYou have to specify a mute timeout in the format of 1m20s, for example.",
       "wrong_format": "%1$sWrong time format. You have to specify a mute timeout in the format of 1m20s, for example.",
-      "too_long": "%1$sThe time specified is too long...",
+      "too_long": "%1$s指定的時間太長了...",
       "negative_notice": "You cannot mute someone for negative time!",
       "success": "%1$sSuccessfully set default mute timeout to *%2$s* (%3$dms)"
     },
