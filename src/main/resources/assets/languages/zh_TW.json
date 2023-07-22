@@ -274,7 +274,7 @@
         "fair_queue_limit_reached": "%1$s**超出公平播放數量%2$d (相同歌曲數目過多)**",
         "loaded_song": "%1$s已加入清單 -> **%2$s** *(%3$s)*",
         "selection_text": "Song selection. Select the song number to continue.",
-        "timeout_text": "This timeouts in 30 seconds."
+        "timeout_text": "這將在30秒後逾時"
       },
       "premium_beg": "%1$sConsider donating on <https://patreon.com/mantaro> if you like me, even a small donation will help towards keeping the bot alive (Check `/donate` for more info!)",
       "closed_connection": "%1$s已關閉音訊連接，取消綁定播放器中..."
