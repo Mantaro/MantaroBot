@@ -2186,7 +2186,7 @@
       "not_specified": "%1$sYou have to specify a mute timeout in the format of 1m20s, for example.",
       "wrong_format": "%1$sWrong time format. You have to specify a mute timeout in the format of 1m20s, for example.",
       "too_long": "%1$s指定的時間太長了...",
-      "negative_notice": "You cannot mute someone for negative time!",
+      "negative_notice": "你將某人靜音的時間不能是負數！",
       "success": "%1$sSuccessfully set default mute timeout to *%2$s* (%3$dms)"
     },
     "defaultmutetimeout_reset": {
@@ -2318,7 +2318,7 @@
     "message_ext_emoji": "使用外部表情符號",
     "voice_connect": "連接",
     "voice_speak": "說話",
-    "voice_mute_others": "讓成員靜音",
+    "voice_mute_others": "將成員靜音",
     "voice_deaf_others": "讓成員拒聽",
     "voice_move_others": "移動成員",
     "voice_use_vad": "使用語音活動",
