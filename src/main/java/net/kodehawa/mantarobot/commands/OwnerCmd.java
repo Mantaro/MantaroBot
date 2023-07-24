@@ -442,7 +442,7 @@ public class OwnerCmd {
                 super("User",
                         MantaroObject::getBlackListedUsers,
                         (manager, str) -> manager.retrieveUserById(str).complete(),
-                        user -> user.getName() + " - " + user.getIdLong()
+                        user -> Utils.getTagOrDisplay(user) + " - " + user.getIdLong()
                 );
             }
         }

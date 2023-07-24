@@ -206,7 +206,6 @@ public class LeaderboardCmd {
                                 }, "%s**%s** - %,d")
                                 .build()
                 );
-
             }
         }
 
@@ -233,7 +232,6 @@ public class LeaderboardCmd {
 
     private static <T> AggregateIterable<T> getLeaderboard(String table, Class<T> deserialize, Bson sortFunction) {
         // Somehow using an index is automatic?
-
         return MantaroData.db().dbMantaro().getCollection(table, deserialize)
                 .aggregate(List.of(
                         Aggregates.sort(sortFunction),
@@ -242,9 +240,9 @@ public class LeaderboardCmd {
     }
 
     private static <T> EmbedBuilder generateLeaderboardEmbed(IContext ctx, String description, String leaderboardKey,
-                                                         AggregateIterable<T> lbObject,
-                                                         Function<T, Pair<CachedLeaderboardMember, String>> mapFunction,
-                                                         String format) {
+                                                             AggregateIterable<T> lbObject,
+                                                             Function<T, Pair<CachedLeaderboardMember, String>> mapFunction,
+                                                             String format) {
         var languageContext = ctx.getLanguageContext();
         return new EmbedBuilder()
                 .setAuthor(languageContext.get("commands.leaderboard.header"),

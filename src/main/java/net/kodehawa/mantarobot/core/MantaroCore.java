@@ -230,7 +230,7 @@ public class MantaroCore {
                         CacheFlag.SCHEDULED_EVENTS, CacheFlag.FORUM_TAGS
                 );
 
-                eventListeners = new Object[] {
+                eventListeners = new Object[]{
                         VOICE_CHANNEL_LISTENER,
                         MantaroBot.getInstance().getLavaLink(),
                         InteractiveOperations.listener(),
@@ -248,7 +248,7 @@ public class MantaroCore {
                         CacheFlag.SCHEDULED_EVENTS, CacheFlag.FORUM_TAGS, CacheFlag.VOICE_STATE
                 );
 
-                eventListeners = new Object[] {
+                eventListeners = new Object[]{
                         InteractiveOperations.listener(),
                         ButtonOperations.listener(),
                         ModalOperations.listener(),
