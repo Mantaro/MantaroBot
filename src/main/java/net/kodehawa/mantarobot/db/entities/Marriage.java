@@ -221,7 +221,7 @@ public class Marriage implements ManagedMongoObject {
 
     @BsonIgnore
     public void house(boolean house) {
-        this.hasCar = house;
+        this.hasHouse = house;
         fieldTracker.put("hasHouse", this.hasHouse);
     }
 
