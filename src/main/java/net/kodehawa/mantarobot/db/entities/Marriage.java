@@ -119,7 +119,8 @@ public class Marriage implements ManagedMongoObject {
         return this.loveLetter;
     }
 
-    public boolean hasHouse() {
+    @BsonProperty("hasHouse")
+    public boolean getHasHouse() {
         return hasHouse;
     }
 
@@ -127,7 +128,8 @@ public class Marriage implements ManagedMongoObject {
         return houseName;
     }
 
-    public boolean hasCar() {
+    @BsonProperty("hasCar")
+    public boolean getHasCar() {
         return hasCar;
     }
 

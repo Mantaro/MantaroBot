@@ -546,8 +546,8 @@ public class PetCmds {
                         return;
                     }
 
-                    if (!marriage.hasCar() || !marriage.hasHouse()) {
-                        ctx.reply("commands.pet.buy.no_requirements", EmoteReference.ERROR, marriage.hasHouse(), marriage.hasCar());
+                    if (!marriage.getHasCar() || !marriage.getHasHouse()) {
+                        ctx.reply("commands.pet.buy.no_requirements", EmoteReference.ERROR, marriage.getHasHouse(), marriage.getHasCar());
                         return;
                     }
 
@@ -664,11 +664,11 @@ public class PetCmds {
                                 hook.editOriginal(lang.get("commands.pet.buy.no_marriage_marry").formatted(EmoteReference.ERROR)).setComponents().queue();
                                 return Operation.COMPLETED;
                             }
-                            if (!marriageConfirmed.hasCar() || !marriageConfirmed.hasHouse()) {
+                            if (!marriageConfirmed.getHasCar() || !marriageConfirmed.getHasHouse()) {
                                 playerConfirmed.locked(false);
 
                                 hook.editOriginal(lang.get("commands.pet.buy.no_requirements").formatted(
-                                        EmoteReference.ERROR, marriageConfirmed.hasHouse(), marriageConfirmed.hasCar()
+                                        EmoteReference.ERROR, marriageConfirmed.getHasHouse(), marriageConfirmed.getHasCar()
                                 )).setComponents().queue();
                                 return Operation.COMPLETED;
                             }

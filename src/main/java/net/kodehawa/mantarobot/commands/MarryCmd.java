@@ -322,14 +322,14 @@ public class MarryCmd {
                         )
                         .setFooter("Marriage ID: " + currentMarriage.getId(), author.getEffectiveAvatarUrl());
 
-                if (currentMarriage.hasHouse()) {
+                if (currentMarriage.getHasHouse()) {
                     var houseName = currentMarriage.getHouseName().replace("\n", "").trim();
                     embedBuilder.addField(EmoteReference.HOUSE.toHeaderString() + languageContext.get("commands.marry.status.house"),
                             houseName, true
                     );
                 }
 
-                if (currentMarriage.hasCar()) {
+                if (currentMarriage.getHasCar()) {
                     var carName = currentMarriage.getCarName().replace("\n", "").trim();
                     embedBuilder.addField(EmoteReference.CAR.toHeaderString() + languageContext.get("commands.marry.status.car"),
                             carName, true
@@ -706,11 +706,11 @@ public class MarryCmd {
 
                     var moneySplit = 0L;
 
-                    if (marriage.hasHouse()) {
+                    if (marriage.getHasHouse()) {
                         moneySplit += housePrice;
                     }
 
-                    if (marriage.hasCar()) {
+                    if (marriage.getHasCar()) {
                         moneySplit += carPrice;
                     }
 
