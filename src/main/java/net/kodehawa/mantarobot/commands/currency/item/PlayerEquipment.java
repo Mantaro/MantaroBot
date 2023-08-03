@@ -71,6 +71,7 @@ public class PlayerEquipment {
             durability.put(type, it.getMaxDurability());
         }
 
+        fieldTracker.put("equippedItems.durability", durability);
         fieldTracker.put("equippedItems.equipment", equipment);
         return true;
     }
