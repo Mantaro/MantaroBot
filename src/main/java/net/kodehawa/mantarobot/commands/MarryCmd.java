@@ -296,7 +296,7 @@ public class MarryCmd {
                 }
 
                 final var marriedDBUser = ctx.getDBUser(marriedTo);
-                final var dateFormat = Utils.formatDate(currentMarriage.getMarriageCreationMillis(), dbUser.getLang());
+                final var dateFormat = String.format("<t:%s:f>", currentMarriage.getMarriageCreationMillis() / 1000);
                 final var eitherHasWaifus = !(dbUser.waifuAmount() == 0 && marriedDBUser.waifuAmount() == 0);
                 final var marriedToName = dbUser.isPrivateTag() ? marriedTo.getName() : Utils.getTagOrDisplay(marriedTo);
                 final var authorName = dbUser.isPrivateTag() ? author.getName() : Utils.getTagOrDisplay(author);

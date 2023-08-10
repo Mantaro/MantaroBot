@@ -329,7 +329,7 @@ public class InfoCmds {
                         %2$s **%3$s:** %4$s
                         %2$s **%5$s:** %6$s
                         %2$s **%7$s:** %8$s
-                        %2$s **%9$s:** <t:%10$s>
+                        %2$s **%9$s:** <t:%10$s:f>
                         """.formatted(languageContext.get("commands.serverinfo.description").formatted(guild.getName()),
                         BLUE_SMALL_MARKER,
                         languageContext.get("commands.serverinfo.users"),
@@ -371,7 +371,7 @@ public class InfoCmds {
                 var lang = ctx.getLanguageContext();
                 var str = """
                         %1$s **%2$s:** %3$s
-                        %1$s **%4$s:** <t:%5$s>
+                        %1$s **%4$s:** <t:%5$s:f>
                         %1$s **%6$s:** %7$s
                         %1$s **%8$s:** %9$s
                         %1$s **%10$s:** %11$s
@@ -430,8 +430,8 @@ public class InfoCmds {
         var voiceState = member.getVoiceState();
         var str = """
                             %1$s **%2$s:** %3$s
-                            %1$s **%4$s:** <t:%5$s>
-                            %1$s **%6$s:** <t:%7$s>
+                            %1$s **%4$s:** <t:%5$s:f>
+                            %1$s **%6$s:** <t:%7$s:f>
                             %1$s **%8$s:** %9$s
                             %1$s **%10$s:** %11$s
                             %1$s **%12$s:** %13$s
