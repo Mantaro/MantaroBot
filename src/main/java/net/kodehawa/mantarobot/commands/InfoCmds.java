@@ -329,7 +329,7 @@ public class InfoCmds {
                         %2$s **%3$s:** %4$s
                         %2$s **%5$s:** %6$s
                         %2$s **%7$s:** %8$s
-                        %2$s **%9$s:** %10$s
+                        %2$s **%9$s:** <t:%10$s>
                         """.formatted(languageContext.get("commands.serverinfo.description").formatted(guild.getName()),
                         BLUE_SMALL_MARKER,
                         languageContext.get("commands.serverinfo.users"),
@@ -338,8 +338,7 @@ public class InfoCmds {
                         "%,d / %,d".formatted(guild.getVoiceChannels().size(), guild.getTextChannels().size()),
                         languageContext.get("commands.serverinfo.owner"),
                         Utils.getTagOrDisplay(owner.getUser()),
-                        languageContext.get("commands.serverinfo.created"),
-                        Utils.formatDate(guild.getTimeCreated(), guildData.getLang())
+                        languageContext.get("commands.serverinfo.created"), guild.getTimeCreated().toEpochSecond()
                 );
 
                 ctx.reply(new EmbedBuilder()
@@ -372,15 +371,13 @@ public class InfoCmds {
                 var lang = ctx.getLanguageContext();
                 var str = """
                         %1$s **%2$s:** %3$s
-                        %1$s **%4$s:** %5$s
+                        %1$s **%4$s:** <t:%5$s>
                         %1$s **%6$s:** %7$s
                         %1$s **%8$s:** %9$s
                         %1$s **%10$s:** %11$s
                         """.formatted(BLUE_SMALL_MARKER,
-                        lang.get("commands.roleinfo.id"),
-                        role.getId(),
-                        lang.get("commands.roleinfo.created"),
-                        Utils.formatDate(role.getTimeCreated(), ctx.getDBGuild().getLang()),
+                        lang.get("commands.roleinfo.id"), role.getId(),
+                        lang.get("commands.roleinfo.created"), role.getTimeCreated().toEpochSecond(),
                         lang.get("commands.roleinfo.color"),
                         role.getColor() == null ?
                                 lang.get("general.none") :
@@ -433,17 +430,15 @@ public class InfoCmds {
         var voiceState = member.getVoiceState();
         var str = """
                             %1$s **%2$s:** %3$s
-                            %1$s **%4$s:** %5$s
-                            %1$s **%6$s:** %7$s
+                            %1$s **%4$s:** <t:%5$s>
+                            %1$s **%6$s:** <t:%7$s>
                             %1$s **%8$s:** %9$s
                             %1$s **%10$s:** %11$s
                             %1$s **%12$s:** %13$s
                             """.formatted(BLUE_SMALL_MARKER,
                 languageContext.get("commands.userinfo.id"), user.getId(),
-                languageContext.get("commands.userinfo.join_date"),
-                Utils.formatDate(member.getTimeJoined(), guildData.getLang()),
-                languageContext.get("commands.userinfo.created"),
-                Utils.formatDate(user.getTimeCreated(), guildData.getLang()),
+                languageContext.get("commands.userinfo.join_date"), member.getTimeJoined().toEpochSecond(),
+                languageContext.get("commands.userinfo.created"), user.getTimeCreated().toEpochSecond(),
                 languageContext.get("commands.userinfo.account_age"),
                 TimeUnit.MILLISECONDS.toDays(
                         System.currentTimeMillis() - user.getTimeCreated().toInstant().toEpochMilli())
