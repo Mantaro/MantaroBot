@@ -67,7 +67,7 @@ dependencies {
         exclude group: 'com.sedmelluq', module: 'lavaplayer'
     } // Lavalink-Client includes LP, but we specify it below, so we need to exclude it.
     implementation 'com.github.walkyst:lavaplayer-fork:1.4.2'
-    implementation "com.github.TopiSenpai.LavaSrc:lavasrc:3.2.4"
+    implementation "com.github.TopiSenpai.LavaSrc:lavasrc:3.2.6"
 
     // JSON
     implementation 'com.fasterxml.jackson.core:jackson-core:2.15.2'
