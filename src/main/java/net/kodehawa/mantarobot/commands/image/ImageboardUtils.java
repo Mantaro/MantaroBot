@@ -243,8 +243,8 @@ public class ImageboardUtils {
             "bestiality", "zoophilia",
             // very nsfl tags
             "dismemberment", "death", "decapitation", "guro", "eye_socket", "necrophilia",
-            "rape", "gangrape", "gore", "gross", "bruise", "asphyxiation", "scat",
-            "strangling", "torture", "vore", "digestion", "stomach_(organ)", "inside_creature",
+            "gore", "gross", "bruise", "asphyxiation", "scat",
+            "strangling", "vore", "digestion", "stomach_(organ)", "inside_creature",
             // Not quite a bad tag, just filter it out for R34
             "video"
     );
