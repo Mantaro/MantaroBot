@@ -168,7 +168,7 @@ public class MantaroBot {
                 .setOptionsPackage("net.kodehawa.mantarobot.options")
                 .start();
 
-        log.info("Finished loading basic components. Current status: {}", MantaroCore.getLoadState());
+        log.info("Finished loading basic components. Current status: {}", core.getLoadState());
 
         MantaroData.config().save();
         ImageBoard.setUserAgent(MantaroInfo.USER_AGENT);

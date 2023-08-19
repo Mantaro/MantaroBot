@@ -147,7 +147,7 @@ public class MantaroListener implements EventListener {
 
             onJoin(evt);
 
-            if (MantaroCore.hasLoadedCompletely()) {
+            if (bot.getCore().hasLoadedCompletely()) {
                 Metrics.GUILD_COUNT.set(shardManager.getGuildCache().size());
                 Metrics.USER_COUNT.set(shardManager.getUserCache().size());
             }
@@ -157,7 +157,7 @@ public class MantaroListener implements EventListener {
 
         if (event instanceof GuildLeaveEvent evt) {
             onLeave(evt);
-            if (MantaroCore.hasLoadedCompletely()) {
+            if (bot.getCore().hasLoadedCompletely()) {
                 Metrics.GUILD_COUNT.set(shardManager.getGuildCache().size());
                 Metrics.USER_COUNT.set(shardManager.getUserCache().size());
             }

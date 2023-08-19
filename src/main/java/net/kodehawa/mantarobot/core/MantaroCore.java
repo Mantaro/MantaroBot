@@ -98,7 +98,7 @@ public class MantaroCore {
     private static final Logger log = LoggerFactory.getLogger(MantaroCore.class);
     private static final VoiceChannelListener VOICE_CHANNEL_LISTENER = new VoiceChannelListener();
 
-    private static LoadState loadState = PRELOAD;
+    private LoadState loadState = PRELOAD;
     private final Map<Integer, Shard> shards = new ConcurrentHashMap<>();
     private final ExecutorService threadPool = Executors.newCachedThreadPool(
             new ThreadFactoryBuilder().setNameFormat("Mantaro Thread-%d").build()
@@ -118,16 +118,16 @@ public class MantaroCore {
         Metrics.THREAD_POOL_COLLECTOR.add("mantaro-executor", threadPool);
     }
 
-    public static boolean hasLoadedCompletely() {
+    public boolean hasLoadedCompletely() {
         return getLoadState().equals(POSTLOAD);
     }
 
-    public static LoadState getLoadState() {
+    public LoadState getLoadState() {
         return loadState;
     }
 
-    public static void setLoadState(LoadState loadState) {
-        MantaroCore.loadState = loadState;
+    public void setLoadState(LoadState loadState) {
+        this.loadState = loadState;
     }
 
     private static int getInstanceShards(String token) {
@@ -354,7 +354,7 @@ public class MantaroCore {
 
             // Use a LRU cache policy.
             shardManager.setMemberCachePolicy(new EvictingCachePolicy(shardIds, () -> leastRecentlyUsed(config.memberCacheSize)));
-            MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
+            MantaroBot.getInstance().getCore().setLoadState(LoadState.LOADING_SHARDS);
 
             log.info("Spawning {} shards...", latchCount);
             var start = System.currentTimeMillis();
@@ -526,7 +526,7 @@ public class MantaroCore {
                 )
         );
 
-        log.info("Loaded all shards successfully! Current status: {}", MantaroCore.getLoadState());
+        log.info("Loaded all shards successfully! Current status: {}", bot.getCore().getLoadState());
 
         log.info("Firing PostLoadEvent...");
         bot.getCore().getShardEventBus().post(new PostLoadEvent());
