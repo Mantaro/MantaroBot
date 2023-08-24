@@ -275,7 +275,7 @@ public abstract class SlashCommand {
 
             sub.process(ctx);
         } else {
-            if (defer() || forceDefer) {
+            if ((defer() || forceDefer) && !modal) {
                 if (isEphemeral()) ctx.deferEphemeral();
                 else ctx.defer();
             }

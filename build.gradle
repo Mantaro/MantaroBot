@@ -63,7 +63,7 @@ dependencies {
     implementation 'club.minnced:discord-webhooks:0.8.2'
 
     // Music
-    implementation ('com.github.freyacodes:Lavalink-Client:jda5-SNAPSHOT') {
+    implementation ('com.github.freyacodes:Lavalink-Client:5fe1b90ab5') {
         exclude group: 'com.sedmelluq', module: 'lavaplayer'
     } // Lavalink-Client includes LP, but we specify it below, so we need to exclude it.
     implementation 'com.github.walkyst:lavaplayer-fork:1.4.2'
