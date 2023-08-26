@@ -32,6 +32,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.apache.commons.lang3.LocaleUtils;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -580,7 +581,8 @@ public class Utils {
 
                 Object newObj = valueObjField.get(valueObj);
 
-                if (valueObjField.getAnnotation(HiddenConfig.class) != null) {
+                if (valueObjField.getAnnotation(HiddenConfig.class) != null ||
+                        valueObjField.getAnnotation(ConfigName.class) == null) {
                     continue;
                 }
 
