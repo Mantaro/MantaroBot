@@ -2488,6 +2488,9 @@
     "broken_hellfire_pick": "Broken Hellfire Pickaxe",
     "broken_hellfire_axe": "Broken Hellfire Axe",
     "broken_hellfire_rod": "Broken Hellfire Rod",
+    "old_sparkle_fragment": "Old Sparkle Fragment",
+    "old_sparkly_pickaxe": "Old Sparkly Pickaxe",
+    "old_sparkly_rod": "Old Sparkly Rod",
     "explanation": {
       "pick": "A normal pickaxe you bought on the local market. Seems sturdy enough to mine some stuff.",
       "diamond_pick": "A diamond pick is definitely stronger than the market-bought iron picks I could get on the market, that's for sure!",

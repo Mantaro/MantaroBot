@@ -387,12 +387,12 @@ public class ItemReference {
             ),
 
             OLD_SPARKLE_FRAGMENT = new Item(ItemType.DEPRECATED, "\u200B",
-                    "Old Sparkle Fragment", "general.deprecated", "general.deprecated",
+                    "Old Sparkle Fragment", "items.old_sparkle_fragment", "general.deprecated",
                     0, false, false
             ),
 
             GEM5_PICKAXE = new Item(ItemType.DEPRECATED, "\u26cf",
-                    "Old Sparkly Pickaxe", "general.deprecated", "general.deprecated",
+                    "Old Sparkly Pickaxe", "items.old_sparkly_pickaxe", "general.deprecated",
                     550, true, false
             ),
 
@@ -443,7 +443,7 @@ public class ItemReference {
 
             OLD_SPARKLE_ROD = new FishRod(ItemType.DEPRECATED, 3,
                     -1, -1, "\uD83C\uDFA3",
-                    "Old Sparkly Rod", "general.deprecated", "general.deprecated",
+                    "Old Sparkly Rod", "items.old_sparkly_rod", "general.deprecated",
                     "general.deprecated", 1, 65,
                     "", 2
             ),
