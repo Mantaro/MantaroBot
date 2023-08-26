@@ -2487,6 +2487,9 @@
     "broken_hellfire_pick": "Kırık Cehennem Ateşi Kazması",
     "broken_hellfire_axe": "Kırık Cehennem Ateşi Baltası",
     "broken_hellfire_rod": "Kırık Cehennem Ateşi Oltası",
+    "old_sparkle_fragment": "Old Sparkle Fragment",
+    "old_sparkly_pickaxe": "Old Sparkly Pickaxe",
+    "old_sparkly_rod": "Old Sparkly Rod",
     "explanation": {
       "pick": "Yerel pazardan satın aldığınız normal bir kazma. Bazı şeyleri kazmak için yeterince sağlam görünüyor.",
       "diamond_pick": "Elmas kazma, piyasadan alabileceğin demir kazmalardan kesinlikle daha güçlüdür, orası kesin!",
