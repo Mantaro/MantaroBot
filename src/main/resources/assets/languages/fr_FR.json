@@ -2487,6 +2487,9 @@
     "broken_hellfire_pick": "Pioche des enfers endommagée",
     "broken_hellfire_axe": "Hache des enfers endommagée",
     "broken_hellfire_rod": "Canne des enfers endommagée",
+    "old_sparkle_fragment": "Old Sparkle Fragment",
+    "old_sparkly_pickaxe": "Old Sparkly Pickaxe",
+    "old_sparkly_rod": "Old Sparkly Rod",
     "explanation": {
       "pick": "Une pioche normale que tu as achetée au magasin du coin. Elle à l'air assez solide pour miner quelques trucs.",
       "diamond_pick": "Une pioche en diamant est définitivement plus solide que ta pioche en fer que je trouverais au magasin du coin, c'est certain !",
