@@ -183,27 +183,27 @@ public class ItemReference {
 
             // Left overs from v1
             LOADED_DICE_2 = new Item("\uD83C\uDFB2",
-                    "Special Loaded Die", "items.description.die_2"
+                    "Special Loaded Die", "items.die_2", "items.description.die_2"
             ),
 
             BOOSTER = new Item(EmoteReference.RUNNER.getUnicode(),
-                    "Booster", "items.description.booster"
+                    "Booster", "items.booster", "items.description.booster"
             ),
 
             BERSERK = new Item(EmoteReference.CROSSED_SWORD.getUnicode(),
-                    "Berserk", "items.description.berserk"
+                    "Berserk", "items.berserk", "items.description.berserk"
             ),
 
             COMPANION = new Item(EmoteReference.DOG.getUnicode(),
-                    "Companion", "items.description.companion"
+                    "Companion", "items.companion","items.description.companion"
             ),
 
             RING_2 = new Item("\uD83D\uDC5A",
-                    "Special Ring", "items.description.special_ring"
+                    "Special Ring", "items.special_ring","items.description.special_ring"
             ),
 
             ENHANCER = new Item(EmoteReference.MAG.getUnicode(),
-                    "Enchancer", "items.description.enchancer"
+                    "Enchancer", "items.enchancer","items.description.enchancer"
             ),
 
             STAR = new Item(ItemType.COLLECTABLE, "\uE335",

@@ -208,9 +208,9 @@ public class Item {
      * @param name  Display name.
      * @param desc  A short description, normally used in inventory.
      */
-    public Item(String emoji, String name, String desc) {
+    public Item(String emoji, String name, String translatedName, String desc) {
         this(ItemType.COLLECTABLE, emoji, name, null,
-                "", desc, 0,
+                translatedName, desc, 0,
                 false, false, true,
                 100, null,
                 "", false
