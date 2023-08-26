@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.Utils;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import javax.annotation.Nonnull;
 import java.time.LocalDate;
@@ -160,8 +161,10 @@ public class MongoUser implements ManagedMongoObject {
         return this.premiumUntil;
     }
 
-    // Protected: DO NOT INTERACT DIRECTLY WITH, CHANGES TO THE MAP FROM THIS METHOD WILL NOT BE UPDATED
-    protected Map<String, Long> getWaifus() {
+    // DO NOT INTERACT DIRECTLY WITH, CHANGES TO THE MAP FROM THIS METHOD WILL NOT BE UPDATED
+    // Can't make getters protected!
+    @BsonProperty("waifus")
+    public Map<String, Long> getWaifus() {
         return this.waifus;
     }
 
@@ -249,15 +252,15 @@ public class MongoUser implements ManagedMongoObject {
         this.reminders = reminders;
     }
 
-    protected void setRemindedTimes(int remindedTimes) {
+    public void setRemindedTimes(int remindedTimes) {
         this.remindedTimes = remindedTimes;
     }
 
-    protected void setEquippedItems(PlayerEquipment equippedItems) {
+    public void setEquippedItems(PlayerEquipment equippedItems) {
         this.equippedItems = equippedItems;
     }
 
-    protected void setKeysClaimed(Map<String, String> keysClaimed) {
+    public void setKeysClaimed(Map<String, String> keysClaimed) {
         this.keysClaimed = keysClaimed;
     }
 
