@@ -58,14 +58,16 @@ public class MantaroAudioManager {
         this.musicManagers = new ConcurrentHashMap<>();
         this.playerManager = new DefaultAudioPlayerManager();
 
-        //Register source managers and configure the Player
-        playerManager.registerSourceManager(SoundCloudAudioSourceManager.createDefault());
-        playerManager.registerSourceManager(new BandcampAudioSourceManager());
-        playerManager.registerSourceManager(new VimeoAudioSourceManager());
-        playerManager.registerSourceManager(new TwitchStreamAudioSourceManager());
-        playerManager.registerSourceManager(new BeamAudioSourceManager());
-        playerManager.registerSourceManager(new DeezerAudioSourceManager(config.getdKey()));
-        playerManager.registerSourceManager(new YandexMusicSourceManager(config.getYandexKey()));
+        if (config.musicEnable()) {
+            //Register source managers and configure the Player
+            playerManager.registerSourceManager(SoundCloudAudioSourceManager.createDefault());
+            playerManager.registerSourceManager(new BandcampAudioSourceManager());
+            playerManager.registerSourceManager(new VimeoAudioSourceManager());
+            playerManager.registerSourceManager(new TwitchStreamAudioSourceManager());
+            playerManager.registerSourceManager(new BeamAudioSourceManager());
+            playerManager.registerSourceManager(new DeezerAudioSourceManager(config.getdKey()));
+            playerManager.registerSourceManager(new YandexMusicSourceManager(config.getYandexKey()));
+        }
     }
 
     public GuildMusicManager getMusicManager(Guild guild) {
