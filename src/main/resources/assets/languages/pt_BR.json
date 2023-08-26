@@ -2390,7 +2390,7 @@
     "die_2": "Dado Carregado Especial",
     "booster": "Impulsionador",
     "berserk": "Furioso",
-    "companion": "Companion",
+    "companion": "Companheiro",
     "special_ring": "Anel Especial",
     "enchancer": "Feiticeiro",
     "prize": "Prêmio",
@@ -2487,6 +2487,9 @@
     "broken_hellfire_pick": "Picareta Flamejante Danificada",
     "broken_hellfire_axe": "Machado de Fogo do Inferno quebrado",
     "broken_hellfire_rod": "Vara de Fogo do Inferno quebrada",
+    "old_sparkle_fragment": "Fragmento Brilhante Antigo",
+    "old_sparkly_pickaxe": "Picareta Brilhante Antiga",
+    "old_sparkly_rod": "Vara Brilhante Antiga",
     "explanation": {
       "pick": "Uma picareta normal que você comprou no mercado local. Parece resistente o suficiente para minerar algumas coisas.",
       "diamond_pick": "Uma picareta de diamante é definitivamente mais forte do que picaretas de ferro compradas no mercado, com certeza!",
