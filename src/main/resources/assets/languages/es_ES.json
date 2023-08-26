@@ -2487,6 +2487,9 @@
     "broken_hellfire_pick": "Pico de Fuego Infernal Roto",
     "broken_hellfire_axe": "Hacha de Fuego Infernal Rota",
     "broken_hellfire_rod": "Caña de Fuego Infernal Rota",
+    "old_sparkle_fragment": "Old Sparkle Fragment",
+    "old_sparkly_pickaxe": "Old Sparkly Pickaxe",
+    "old_sparkly_rod": "Old Sparkly Rod",
     "explanation": {
       "pick": "Un pico normal que compraste en la tiendita local. Se ve lo suficientemente rígido para minar.",
       "diamond_pick": "Un pico de diamante es definitivamente más rígida que la normal de hierro que compré en la tiendita, ¡eso de seguro!",
