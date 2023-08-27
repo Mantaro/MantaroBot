@@ -1810,7 +1810,7 @@
       "gamble": "Gamble Wins Leaderboard",
       "slots": "Slots Wins Leaderboard",
       "daily": "Daily Streak Leaderboard",
-      "level": "Level leaderboard",
+      "level": "Szint toplista",
       "game": "Game Wins leaderboard",
       "waifu": "Waifu Value leaderboard",
       "claim": "Waifu Claim leaderboard",
@@ -1833,12 +1833,12 @@
       "no_item": "%1$sThere's no item matching your search query.",
       "embed": {
         "header": "Item Information for %1$s",
-        "type": "Type",
+        "type": "Típus",
         "usefulness": "Usefulness",
         "attributes": "Attributes",
         "tier": "Tier",
         "durability": "Durability",
-        "desc": "Description",
+        "desc": "Leírás",
         "upgrade": "Looking to upgrade?",
         "upgrade_content": "Click [here](https://www.mantaro.site/mantaro-wiki/currency/103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
       },
