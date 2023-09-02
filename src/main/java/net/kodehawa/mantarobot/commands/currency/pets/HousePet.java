@@ -49,6 +49,8 @@ public class HousePet {
     private long level = 1;
 
     @BsonIgnore
+    public int attributeCeiling = 120;
+    @BsonIgnore
     public Map<String, Object> fieldTracker = new HashMap<>();
 
     // Serialization constructor
@@ -235,7 +237,7 @@ public class HousePet {
             return;
         }
 
-        this.maxHealth = Math.min(120, maxHealth + by);
+        this.maxHealth = Math.min(attributeCeiling, maxHealth + by);
         fieldTracker.put("pet.maxHealth", this.maxHealth);
     }
 
@@ -244,7 +246,7 @@ public class HousePet {
             return;
         }
 
-        this.maxHunger = Math.min(120, maxHunger + by);
+        this.maxHunger = Math.min(attributeCeiling, maxHunger + by);
         fieldTracker.put("pet.maxHunger", this.maxHunger);
     }
 
@@ -253,7 +255,7 @@ public class HousePet {
             return;
         }
 
-        this.maxStamina = Math.min(120, maxStamina + by);
+        this.maxStamina = Math.min(attributeCeiling, maxStamina + by);
         fieldTracker.put("pet.maxStamina", this.maxStamina);
     }
 
@@ -262,7 +264,7 @@ public class HousePet {
             return;
         }
 
-        this.maxThirst = Math.min(120, maxThirst + by);
+        this.maxThirst = Math.min(attributeCeiling, maxThirst + by);
         fieldTracker.put("pet.maxThirst", this.maxThirst);
     }
 
