@@ -32,14 +32,22 @@ public class HousePet {
 
     private String name;
     private HousePetType type;
+
     private int stamina = 100;
     private int health = 100;
     private int hunger = 100;
     private int thirst = 100;
+
+    private int maxStamina = 100;
+    private int maxHealth = 100;
+    private int maxHunger = 100;
+    private int maxThirst = 100;
+
     private int dust = 0;
     private int patCounter;
     private long experience;
     private long level = 1;
+
     @BsonIgnore
     public Map<String, Object> fieldTracker = new HashMap<>();
 
@@ -83,6 +91,38 @@ public class HousePet {
         this.health = health;
     }
 
+    public int getMaxStamina() {
+        return maxStamina;
+    }
+
+    public void setMaxStamina(int maxStamina) {
+        this.maxStamina = maxStamina;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
+    public int getMaxHunger() {
+        return maxHunger;
+    }
+
+    public void setMaxHunger(int maxHunger) {
+        this.maxHunger = maxHunger;
+    }
+
+    public int getMaxThirst() {
+        return maxThirst;
+    }
+
+    public void setMaxThirst(int maxThirst) {
+        this.maxThirst = maxThirst;
+    }
+
     public void decreaseHealth() {
         var defaultDecrease = 2;
         if (health < 1) {
@@ -124,44 +164,44 @@ public class HousePet {
     }
 
     public void increaseHealth() {
-        if (health >= 100) {
-            this.health = 100;
+        if (health >= maxHealth) {
+            this.health = maxHealth;
             return;
         }
 
         var defaultIncrease = 10;
-        this.health = Math.min(100, health + defaultIncrease);
+        this.health = Math.min(maxHealth, health + defaultIncrease);
         fieldTracker.put("pet.health", this.health);
     }
 
     public void increaseStamina() {
-        if (stamina >= 100) {
-            this.stamina = 100;
+        if (stamina >= maxStamina) {
+            this.stamina = maxStamina;
             return;
         }
 
         var defaultIncrease = 30;
-        this.stamina = Math.min(100, stamina + defaultIncrease);
+        this.stamina = Math.min(maxStamina, stamina + defaultIncrease);
         fieldTracker.put("pet.stamina", this.stamina);
     }
 
     public void increaseHunger(int by) {
-        if (hunger >= 100) {
-            this.hunger = 100;
+        if (hunger >= maxHunger) {
+            this.hunger = maxHunger;
             return;
         }
 
-        this.hunger = Math.min(100, hunger + by);
+        this.hunger = Math.min(maxHunger, hunger + by);
         fieldTracker.put("pet.hunger", this.hunger);
     }
 
     public void increaseThirst(int by) {
-        if (thirst >= 100) {
-            this.thirst = 100;
+        if (thirst >= maxThirst) {
+            this.thirst = maxThirst;
             return;
         }
 
-        this.thirst = Math.min(100, thirst + by);
+        this.thirst = Math.min(maxThirst, thirst + by);
         fieldTracker.put("pet.thirst", this.thirst);
     }
 
@@ -189,7 +229,43 @@ public class HousePet {
         this.patCounter += 1;
         fieldTracker.put("pet.patCounter", this.patCounter);
     }
-    
+
+    public void increaseMaxHealth(int by) {
+        if (by == 0) {
+            return;
+        }
+
+        this.maxHealth = Math.min(120, maxHealth + by);
+        fieldTracker.put("pet.maxHealth", this.maxHealth);
+    }
+
+    public void increaseMaxHunger(int by) {
+        if (by == 0) {
+            return;
+        }
+
+        this.maxHunger = Math.min(120, maxHunger + by);
+        fieldTracker.put("pet.maxHunger", this.maxHunger);
+    }
+
+    public void increaseMaxStamina(int by) {
+        if (by == 0) {
+            return;
+        }
+
+        this.maxStamina = Math.min(120, maxStamina + by);
+        fieldTracker.put("pet.maxStamina", this.maxStamina);
+    }
+
+    public void increaseMaxThirst(int by) {
+        if (by == 0) {
+            return;
+        }
+
+        this.maxThirst = Math.min(120, maxThirst + by);
+        fieldTracker.put("pet.maxThirst", this.maxThirst);
+    }
+
     public int getHunger() {
         return hunger;
     }
