@@ -53,6 +53,7 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
 import java.awt.Color;
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.concurrent.TimeUnit;
@@ -344,6 +345,17 @@ public class PetCmds {
                 var message = pet.handlePat().getMessage();
                 var extraMessage = "";
                 ctx.replyStripped(message, pet.getType().getEmoji(), pet.getName(), extraMessage);
+            }
+        }
+
+        @Defer
+        @Description("Plays with your pet.")
+        public static class Play extends SlashCommand {
+            final SecureRandom random = new SecureRandom();
+
+            @Override
+            protected void process(SlashContext ctx) {
+                // Handle play response. HousePet#handlePlay
             }
         }
 

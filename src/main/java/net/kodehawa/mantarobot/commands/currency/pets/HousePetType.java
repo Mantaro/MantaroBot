@@ -20,6 +20,8 @@ package net.kodehawa.mantarobot.commands.currency.pets;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,6 +65,34 @@ public enum HousePetType {
 
         public String getMessage() {
             return message;
+        }
+    }
+
+    public enum PlayReaction {
+        PLAYFUL(List.of(HousePetType.DOG, HousePetType.CAT), "commands.pet.pet_play.playful"),
+        LOVE(List.of(HousePetType.DOG, HousePetType.CAT, HousePetType.RAT), "commands.pet.pet_play.love"),
+        DEV(List.of(HousePetType.KODE), "commands.pet.pet_play.dev"),
+        NOTHING(List.of(HousePetType.ROCK), "commands.pet.pet_play.nothing");
+
+        final String message;
+        final List<HousePetType> types;
+        PlayReaction(List<HousePetType> types, String i18n) {
+            this.types = types;
+            this.message = i18n;
+        }
+
+        public List<HousePetType> getTypes() {
+            return types;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public static PlayReaction getReactionForPlay(HousePetType type) {
+            var typeMatch = Arrays.stream(values()).filter(react -> react.getTypes().contains(type)).collect(Collectors.toList());
+            Collections.shuffle(typeMatch); // will this be random enough?
+            return typeMatch.get(0);
         }
     }
 

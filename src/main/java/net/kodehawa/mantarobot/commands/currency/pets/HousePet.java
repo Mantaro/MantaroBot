@@ -376,6 +376,11 @@ public class HousePet {
     }
 
     @BsonIgnore
+    public HousePetType.PlayReaction handlePlay(HousePetType type) {
+        return HousePetType.PlayReaction.getReactionForPlay(type);
+    }
+
+    @BsonIgnore
     public HousePetType.PatReaction handlePat() {
         if (getType() == HousePetType.CAT) {
             return random.nextBoolean() ? HousePetType.PatReaction.CUTE : HousePetType.PatReaction.SCARE;
