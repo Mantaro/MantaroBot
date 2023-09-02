@@ -31,12 +31,7 @@ import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
 import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.meta.Category;
-import net.kodehawa.mantarobot.core.command.meta.Defer;
-import net.kodehawa.mantarobot.core.command.meta.Description;
-import net.kodehawa.mantarobot.core.command.meta.Help;
-import net.kodehawa.mantarobot.core.command.meta.Name;
-import net.kodehawa.mantarobot.core.command.meta.Options;
+import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
@@ -52,7 +47,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
-import java.awt.Color;
+import java.awt.*;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -539,7 +534,18 @@ public class PetCmds {
         @Defer
         @Description("Buys a pet to have adventures with. You need to buy a pet house in market first.")
         @Options({
-                @Options.Option(type = OptionType.STRING, name = "type", description = "The pet type. Use /pet list for a list.", required = true),
+                @Options.Option(type = OptionType.STRING,
+                        name = "type",
+                        description = "The pet type. Use /pet list for a list.",
+                        required = true,
+                        choices = {
+                                @Options.Choice(value = "cat", description = "Cat"),
+                                @Options.Choice(value = "dog", description = "Dog"),
+                                @Options.Choice(value = "hamster", description = "Hamster"),
+                                @Options.Choice(value = "rock", description = "Rock"),
+                                @Options.Choice(value = "developer", description = "Developer")
+                        }
+                ),
                 @Options.Option(type = OptionType.STRING, name = "name", description = "The pet name.", required = true)
         })
         public static class Buy extends SlashCommand {
@@ -960,7 +966,19 @@ public class PetCmds {
         }
 
         @Description("Shows info about a pet type.")
-        @Options(@Options.Option(type = OptionType.STRING, name = "type", description = "The pet type to check.", required = true))
+        @Options(@Options.Option(
+                type = OptionType.STRING,
+                name = "type",
+                description = "The pet type to check.",
+                required = true,
+                choices = {
+                        @Options.Choice(value = "cat", description = "Cat"),
+                        @Options.Choice(value = "dog", description = "Dog"),
+                        @Options.Choice(value = "hamster", description = "Hamster"),
+                        @Options.Choice(value = "rock", description = "Rock"),
+                        @Options.Choice(value = "developer", description = "Developer")
+                }
+        ))
         public static class Info extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {

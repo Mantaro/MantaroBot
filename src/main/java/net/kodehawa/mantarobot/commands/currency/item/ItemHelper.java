@@ -17,6 +17,7 @@
 
 package net.kodehawa.mantarobot.commands.currency.item;
 
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
@@ -24,7 +25,9 @@ import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Axe;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Pickaxe;
+import net.kodehawa.mantarobot.commands.currency.item.special.tools.Wrench;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.core.command.slash.AutocompleteContext;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -43,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
@@ -50,6 +54,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ItemHelper {
+    private static Item[] equipableItems;
     private static final Logger log = LoggerFactory.getLogger(ItemHelper.class);
     private static final SecureRandom random = new SecureRandom();
     private static final IncreasingRateLimiter lootCrateRatelimiter = new IncreasingRateLimiter.Builder()
@@ -158,7 +163,7 @@ public class ItemHelper {
 
     public static Optional<Item> fromEmoji(String emoji) {
         return Stream.of(ItemReference.ALL)
-                .filter(item -> item.getEmoji().equals(emoji.replace("\ufe0f", "")))
+                .filter(item -> isMatchingEmoji(item, emoji))
                 .findFirst();
     }
 
@@ -168,17 +173,7 @@ public class ItemHelper {
 
     public static Optional<Item> fromName(String name, I18nContext languageContext) {
         return Arrays.stream(ItemReference.ALL)
-                .filter(item -> {
-                    final var itemName = item.getName().toLowerCase().trim();
-                    final var lookup = name.toLowerCase().trim();
-                    final var translatedName = item.getTranslatedName();
-
-                    // Either name or translated name
-                    return itemName.equals(lookup) || (
-                            !translatedName.isEmpty() && !languageContext.getContextLanguage().equals("en_US") &&
-                            languageContext.get(translatedName).toLowerCase().trim().equals(lookup)
-                    );
-                })
+                .filter(item -> isMatchingItemName(item, name, languageContext))
                 .findFirst();
     }
 
@@ -189,41 +184,16 @@ public class ItemHelper {
     }
 
     public static Optional<Item> fromAlias(String name) {
-        return Arrays.stream(ItemReference.ALL).filter(item -> {
-            if (item.getAlias() == null) {
-                return false;
-            }
-
-            return item.getAlias()
-                    .toLowerCase()
-                    .trim()
-                    .equals(name.toLowerCase().trim());
-        }).findFirst();
+        return Arrays.stream(ItemReference.ALL).filter(item -> isMatchingAlias(item, name)).findFirst();
     }
 
     public static Optional<Item> fromAliasList(String name) {
-        return Arrays.stream(ItemReference.ALL).filter(item -> {
-            if (item.getAliases().isEmpty()) {
-                return false;
-            }
-
-            final var lookup = name.toLowerCase().trim();
-            return item.getAliases().stream().anyMatch(lookup::equals);
-        }).findFirst();
+        return Arrays.stream(ItemReference.ALL).filter(item -> hasMatchingAlias(item, name)).findFirst();
     }
 
     public static Optional<Item> fromPartialName(String name, I18nContext languageContext) {
         return Arrays.stream(ItemReference.ALL)
-                .filter(item -> {
-                    final var itemName = item.getName().toLowerCase().trim();
-                    final var lookup = name.toLowerCase().trim();
-                    final var translatedName = item.getTranslatedName();
-
-                    return itemName.contains(lookup) || (
-                            !translatedName.isEmpty() && !languageContext.getContextLanguage().equals("en_US") &&
-                            languageContext.get(translatedName).toLowerCase().trim().contains(lookup)
-                    );
-                })
+                .filter(item -> isPartialNameMatch(item, name, languageContext))
                 .findFirst();
     }
 
@@ -585,5 +555,86 @@ public class ItemHelper {
 
             ctx.sendLocalized(i18n, EmoteReference.CORRECT, item.getName());
         }
+    }
+
+    private static boolean isMatchingItemName(Item item, String name, I18nContext languageContext) {
+        final var itemName = item.getName().toLowerCase().trim();
+        final var lookup = name.toLowerCase().trim();
+        final var translatedName = item.getTranslatedName();
+
+        // Either name or translated name
+        return itemName.equals(lookup) || (
+                !translatedName.isEmpty() && !languageContext.getContextLanguage().equals("en_US") &&
+                        languageContext.get(translatedName).toLowerCase().trim().equals(lookup)
+        );
+    }
+
+    private static boolean isMatchingEmoji(Item item, String emoji) {
+        return item.getEmoji().equals(emoji.replace("\ufe0f", ""));
+    }
+
+    private static boolean isMatchingAlias(Item item, String name) {
+        if (item.getAlias() == null) {
+            return false;
+        }
+        return item.getAlias()
+                .toLowerCase()
+                .trim()
+                .equals(name.toLowerCase().trim());
+    }
+
+    private static boolean hasMatchingAlias(Item item, String name) {
+        if (item.getAliases().isEmpty()) {
+            return false;
+        }
+
+        final var lookup = name.toLowerCase().trim();
+        return item.getAliases().stream().anyMatch(lookup::equals);
+    }
+
+    private static boolean isPartialNameMatch(Item item, String name, I18nContext languageContext) {
+        final var itemName = item.getName().toLowerCase().trim();
+        final var lookup = name.toLowerCase().trim();
+        final var translatedName = item.getTranslatedName();
+
+        return itemName.contains(lookup) || (
+                !translatedName.isEmpty() && !languageContext.getContextLanguage().equals("en_US") &&
+                        languageContext.get(translatedName).toLowerCase().trim().contains(lookup)
+        );
+    }
+
+    public static List<Item> findFrom(Item[] items, String search, I18nContext langContext) {
+        return Stream.of(items)
+                .filter(item -> {
+                    // each item should only traverse as many helper funcs as needed
+                    // so, we return as early as we can
+                    if (isMatchingItemName(item, search, langContext)) return true;
+                    if (isMatchingEmoji(item, search)) return true;
+                    if (isMatchingAlias(item, search)) return true;
+                    if (hasMatchingAlias(item, search)) return true;
+                    return isPartialNameMatch(item, search, langContext);
+                }).toList();
+
+    }
+
+    public static void autoCompleteEquipable(final AutocompleteContext event) {
+        if (event.getFocused().getName().equals("item")) {
+            final String search = event.getOption("item").getAsString();
+            final List<Item> matches = findFrom(getEquipableItems(), search, event.getI18n());
+            final List<Command.Choice> choices = new ArrayList<>();
+            for (Item item : matches) {
+                choices.add(new Command.Choice(
+                        event.getI18n().get(item.getTranslatedName()),
+                        item.getName()
+                ));
+            }
+            event.replyChoices(choices);
+        }
+    }
+
+    private static Item[] getEquipableItems() {
+        return Objects.requireNonNullElseGet(equipableItems, () -> equipableItems = Stream.of(ItemReference.ALL)
+                .filter(i -> i instanceof Pickaxe || i instanceof Axe || i instanceof FishRod || i instanceof Wrench)
+                .toArray(Item[]::new));
     }
 }

@@ -42,6 +42,8 @@ public @interface Options {
         int maxValue()
                 default Integer.MAX_VALUE;
         Choice[] choices() default {};
+
+        boolean autocomplete() default false;
     }
     @Retention(RetentionPolicy.RUNTIME)
     @Target({})

@@ -160,6 +160,11 @@ public enum HousePetType {
         return gemLuckIncrease;
     }
 
+
+    public String getTranslationKey() {
+        return "commands.pet.types." + name().toLowerCase();
+    }
+
     /**
      * Looks up the HousePet based on a String value, if nothing is found returns null.
      *
