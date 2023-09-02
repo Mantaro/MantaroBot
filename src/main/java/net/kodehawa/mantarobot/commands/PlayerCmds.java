@@ -36,6 +36,7 @@ import net.kodehawa.mantarobot.core.command.meta.Description;
 import net.kodehawa.mantarobot.core.command.meta.Help;
 import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.meta.Options;
+import net.kodehawa.mantarobot.core.command.slash.AutocompleteContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
@@ -169,7 +170,13 @@ public class PlayerCmds {
     @Description("Equips an item into a slot.")
     @Category(CommandCategory.CURRENCY)
     @Options({
-            @Options.Option(type = OptionType.STRING, name = "item", description = "The item to equip.", required = true)
+            @Options.Option(
+                    type = OptionType.STRING,
+                    name = "item",
+                    description = "The item to equip.",
+                    required = true,
+                    autocomplete = true
+            )
     })
     @Help(
             description = "Equips an item into a slot.",
@@ -222,6 +229,11 @@ public class PlayerCmds {
             } else {
                 ctx.reply("commands.profile.equip.not_suitable", EmoteReference.ERROR);
             }
+        }
+
+        @Override
+        public void onAutocomplete(AutocompleteContext event) {
+            ItemHelper.autoCompleteEquipable(event);
         }
     }
 

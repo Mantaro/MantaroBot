@@ -20,6 +20,7 @@ package net.kodehawa.mantarobot.core;
 import com.google.common.base.Preconditions;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -28,6 +29,7 @@ import net.kodehawa.mantarobot.core.command.CommandManager;
 import net.kodehawa.mantarobot.core.command.NewCommand;
 import net.kodehawa.mantarobot.core.command.NewContext;
 import net.kodehawa.mantarobot.core.command.argument.ArgumentParseError;
+import net.kodehawa.mantarobot.core.command.slash.AutocompleteContext;
 import net.kodehawa.mantarobot.core.command.slash.ContextCommand;
 import net.kodehawa.mantarobot.core.command.slash.InteractionContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
@@ -447,6 +449,14 @@ public class CommandRegistry {
         Metrics.CATEGORY_COUNTER.labels(category).inc();
         Metrics.COMMAND_COUNTER.labels(name + "-slash").inc();
         Metrics.COMMAND_LATENCY.observe(end - start);
+    }
+
+
+    public void processAutocomplete(CommandAutoCompleteInteractionEvent event) {
+        var command = getCommandManager().slashCommands().get(event.getName().toLowerCase());
+        if (command != null) {
+            command.onAutocomplete(new AutocompleteContext(event));
+        }
     }
 
     public void renewPremiumKey(ManagedDatabase managedDatabase, User author, MongoUser dbUser, MongoGuild guildData) {

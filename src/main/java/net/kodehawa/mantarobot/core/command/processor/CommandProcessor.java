@@ -18,6 +18,7 @@
 package net.kodehawa.mantarobot.core.command.processor;
 
 import io.prometheus.client.Histogram;
+import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -62,6 +63,10 @@ public class CommandProcessor {
         final long end = System.currentTimeMillis();
         commandTime.observe(end - start);
         return true;
+    }
+
+    public void runAutocomplete(CommandAutoCompleteInteractionEvent event) {
+        REGISTRY.processAutocomplete(event);
     }
 
     public boolean run(MessageReceivedEvent event) {
