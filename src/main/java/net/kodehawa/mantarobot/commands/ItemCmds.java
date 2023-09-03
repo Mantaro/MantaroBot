@@ -701,7 +701,7 @@ public class ItemCmds {
         public static class ListItems extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                var broken = ItemHelper.getSalvagbleItems();
+                var broken = ItemHelper.getSalvageableItems();
 
                 List<MessageEmbed.Field> fields = new LinkedList<>();
                 var lang = ctx.getLanguageContext();
