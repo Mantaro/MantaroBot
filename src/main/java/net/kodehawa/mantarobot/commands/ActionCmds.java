@@ -194,7 +194,7 @@ public class ActionCmds {
         })
         public static class Lewd extends ImageCmdSlash {
             public Lewd() {
-                super("lewd", "commands.action.lewd", true);
+                super("lewd", "commands.action.lewd");
             }
         }
 

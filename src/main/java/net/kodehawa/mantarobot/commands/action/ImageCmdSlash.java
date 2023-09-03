@@ -21,6 +21,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Collections;
@@ -40,6 +41,11 @@ public class ImageCmdSlash extends SlashCommand {
         super.setDefer(true);
         this.images = images;
         this.toSend = toSend;
+        super.setHelp(new HelpContent.Builder()
+                .setDescription(getDescription())
+                .setUsage("`/action " + getName().toLowerCase() + (noMentions ? "" : " user:[user]") + "`")
+                .build()
+        );
     }
 
     public ImageCmdSlash(String type, String toSend) {
@@ -48,6 +54,11 @@ public class ImageCmdSlash extends SlashCommand {
         this.images = Collections.emptyList();
         this.toSend = toSend;
         this.type = type;
+        super.setHelp(new HelpContent.Builder()
+                .setDescription(getDescription())
+                .setUsage("`/action " + getName().toLowerCase() + (noMentions ? "" : " user:[user]") + "`")
+                .build()
+        );
     }
 
     public ImageCmdSlash(String type, String toSend, boolean noMentions) {
@@ -57,6 +68,11 @@ public class ImageCmdSlash extends SlashCommand {
         this.toSend = toSend;
         this.noMentions = noMentions;
         this.type = type;
+        super.setHelp(new HelpContent.Builder()
+                .setDescription(getDescription())
+                .setUsage("`/action " + getName().toLowerCase() + (noMentions ? "" : " user:[user]") + "`")
+                .build()
+        );
     }
 
     @Override
