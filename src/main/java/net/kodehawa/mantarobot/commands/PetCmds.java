@@ -208,13 +208,18 @@ public class PetCmds {
         }
 
         @Description("Shows the status of your current pet.")
+        @Options({
+                @Options.Option(type = OptionType.USER, name = "user", description = "The user to check for. You if unspecified.")
+        })
         public static class Status extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
                 var language = ctx.getLanguageContext();
-                var dbUser = ctx.getDBUser();
+                var user = ctx.getOptionAsUser("user", ctx.getAuthor());
+
+                var dbUser = ctx.getDBUser(user);
                 var marriage = dbUser.getMarriage();
-                var player = ctx.getPlayer();
+                var player = ctx.getPlayer(user);
                 var pet = getCurrentPet(ctx, player, marriage, "commands.pet.status.no_pet");
                 if (pet == null) {
                     return;
