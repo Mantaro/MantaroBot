@@ -51,9 +51,10 @@
       "mop_not_enough": "%1$sToz seviyeniz 5%%'ten az, bu nedenle paspaslamak çok yararlı olmaz.",
       "milk": "%1$sTüm iksir etkileri temizlendi.",
       "crate": {
-        "no_key": "%1$sBir sandık açmak için bir sandık anahtarına ihtiyacınız var. Kilitli! `/buy item:key` kullanarak bir tane satın alabilirsiniz",
-        "no_crate": "%1$sBir kasaya ihtiyacın var! Kasaları genellikle ekonomi komutlarından alırsınız.",
-        "success": "%1$sKasayi actin, icinden: %2$s%3$s cikti. Tebrikler!",
+        "too_many": "%1$sYou cannot open more than 5 crates at once.",
+        "no_key": "%1$sYou do not have enough crate keys to open that many crates. Crates are locked! You can buy them using `/buy item:key`",
+        "no_crate": "%1$sYou do not have that many crates! You usually get crates from currency commands.",
+        "success": "%1$sYou opened the crate %2$s time(s) and won: %3$s%4$s. Congratulations!",
         "success_high": "%1$sNadirliği 3 yıldızın üzerinde olan şu eşyalara sahipsin: %2$s. Öge miktarı yukarıda gösterildi",
         "overflow": "Zaten elinde cok fazla vardı, fazlaliktan kurtulmayi sectin!"
       },
@@ -1614,7 +1615,10 @@
       "options": "Şeçenekler",
       "usage": "Kullanım",
       "optional": "(Bu isteğe bağlıdır)",
-      "subcommand_help": "Not: Bir alt komut hakkında yardım almak için komut adının yanında alt komut adını kullanabilirsiniz, örneğin `/cast item` konusunda yardım almak için `/help command:cast item` kullanabilirsiniz.\nBu, bir tür yardımları olduğu sürece tüm alt komutlar için geçerlidir."
+      "subcommand_help": "Not: Bir alt komut hakkında yardım almak için komut adının yanında alt komut adını kullanabilirsiniz, örneğin `/cast item` konusunda yardım almak için `/help command:cast item` kullanabilirsiniz.\nBu, bir tür yardımları olduğu sürece tüm alt komutlar için geçerlidir.",
+      "mention": "Command Mention",
+      "mention_tip": "You can click this to have discord bring up the command for you.",
+      "mention_tip_subs": "You can click any of the below sub commands to have discord bring up the command for you."
     },
     "repair": {
       "no_item": "%1$sOnarılacak herhangi bir öğe belirtmediniz. Doğru öğeye sahip olduğunuzu düşünüyorsanız, tam ismini kullanmayı deneyin.",
