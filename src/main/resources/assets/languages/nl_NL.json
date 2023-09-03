@@ -51,9 +51,10 @@
       "mop_not_enough": "%1$sJe stof level is minder dan 5%%, dus afstoffen zal niet zo nuttig zijn.",
       "milk": "%1$sAlle tovereffecten gewist.",
       "crate": {
-        "no_key": "%1$sJe hebt een kist sleutel nodig om een ​​kist te openen. Het is op slot! Je kunt er een kopen met`/buy item:key`",
-        "no_crate": "%1$sJe hebt een krat nodig! Je krijgt meestal kratten van valuta opdrachten.",
-        "success": "%1$sJe hebt een kist geopend en hebt gewonnen: %2$s%3$s. Gefeliciteerd!",
+        "too_many": "%1$sYou cannot open more than 5 crates at once.",
+        "no_key": "%1$sYou do not have enough crate keys to open that many crates. Crates are locked! You can buy them using `/buy item:key`",
+        "no_crate": "%1$sYou do not have that many crates! You usually get crates from currency commands.",
+        "success": "%1$sYou opened the crate %2$s time(s) and won: %3$s%4$s. Congratulations!",
         "success_high": "%1$se hebt de volgende voorwerp met een zeldzaamheid van meer dan 3 sterren: %2$s. Het item bedrag word hierboven getoond",
         "overflow": "Je hebt al te veel gekregen dus je hebt besloten om wat je te veel had, weg te gooien"
       },
@@ -1614,7 +1615,10 @@
       "options": "Options",
       "usage": "Usage",
       "optional": "(This is optional)",
-      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help command:cast item`.\nThis goes for all subcommands, as long as they have some sort of help."
+      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help command:cast item`.\nThis goes for all subcommands, as long as they have some sort of help.",
+      "mention": "Command Mention",
+      "mention_tip": "You can click this to have discord bring up the command for you.",
+      "mention_tip_subs": "You can click any of the below sub commands to have discord bring up the command for you."
     },
     "repair": {
       "no_item": "%1$sYou didn't specify any item to repair. If you think you have the correct item, try using the full name.",
