@@ -20,7 +20,7 @@ package net.kodehawa.mantarobot.data;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GenericGuildEvent;
-import net.kodehawa.mantarobot.core.listeners.MantaroListener;
+import net.dv8tion.jda.api.interactions.DiscordLocale;
 import net.kodehawa.mantarobot.utils.LanguageKeyNotFoundException;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
@@ -62,7 +62,7 @@ public class I18n {
                 Map<String, ?> map = (Map<String, ?>) JsonDataManager.fromJson(is, Map.class);
 
                 var name = lang.replace(".json", "");
-                m.put(name, new I18n(map, lang));
+                m.put(name, new I18n(map, name));
 
                 log.debug("Initialized I18n for: {}", name);
             } catch (Exception e) {
@@ -79,6 +79,15 @@ public class I18n {
     private I18n(Map<String, ?> map, String language) {
         this.map = map;
         this.language = language;
+    }
+
+    public static I18n of(DiscordLocale dLocal) {
+        String locale = dLocal.getLocale()
+                .replaceAll("-", "_");
+        if (!locale.contains("_")) {
+            locale += "_" + locale.toUpperCase();
+        }
+        return getForLanguage(locale);
     }
 
     public static I18n of(String guildId) {
