@@ -4,7 +4,7 @@ import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInterac
 import net.dv8tion.jda.api.interactions.AutoCompleteQuery;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
-import net.dv8tion.jda.api.requests.restaction.interactions.AutoCompleteCallbackAction;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.I18n;
 
@@ -31,25 +31,18 @@ public class AutocompleteContext {
         return event.getFocusedOption();
     }
 
-    public void replyChoices(final List<Command.Choice> choices) {
+    public void replyChoices(List<Command.Choice> choices) {
+        if (choices.size() > OptionData.MAX_CHOICES) {
+            choices = choices.subList(0, OptionData.MAX_CHOICES + 1);
+        }
         event.replyChoices(choices).queue();
-    }
-
-
-    public void replyChoice(final String name, final String value) {
-        event.replyChoice(name, value).queue();
-    }
-
-    public void replyChoice(final String name, final long value) {
-        event.replyChoice(name, value).queue();
-    }
-
-    public AutoCompleteCallbackAction createReply() {
-        return event.replyChoices();
     }
 
     public OptionMapping getOption(String name) {
         return event.getOption(name);
     }
 
+    public String getSubCommand() {
+        return event.getSubcommandName();
+    }
 }

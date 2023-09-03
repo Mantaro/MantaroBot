@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.*;
+import net.kodehawa.mantarobot.core.command.slash.AutocompleteContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
@@ -809,7 +810,7 @@ public class PetCmds {
         @Defer
         @Description("Feeds your pet.")
         @Options({
-                @Options.Option(type = OptionType.STRING, name = "item", description = "The item to feed your pet with.", required = true),
+                @Options.Option(type = OptionType.STRING, name = "item", description = "The item to feed your pet with.", required = true, autocomplete = true),
                 @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of food to give the pet. Defaults to 1.", maxValue = 10),
                 @Options.Option(type = OptionType.BOOLEAN, name = "full", description = "Give all the food possible. Makes it so amount is ignored.")
         })
@@ -893,6 +894,11 @@ public class PetCmds {
                 }
 
                 ctx.reply("commands.pet.feed.success", EmoteReference.POPPER, foodItem.getName(), amount, increase, pet.getHunger());
+            }
+
+            @Override
+            public void onAutocomplete(AutocompleteContext event) {
+                ItemHelper.autoCompletePetFood(event);
             }
         }
 
@@ -997,9 +1003,7 @@ public class PetCmds {
                 var coinBuildup100 = lookup.getMaxCoinBuildup(100);
                 var itemBuildup = lookup.getMaxItemBuildup(1);
                 var itemBuildup100 = lookup.getMaxItemBuildup(100);
-                var food = Arrays.stream(ItemReference.ALL)
-                        .filter(Food.class::isInstance)
-                        .map(Food.class::cast)
+                var food = Arrays.stream(ItemHelper.getPetFoodItems())
                         .filter(f -> (f.getType().getApplicableType() == lookup) || f.getType() == Food.FoodType.GENERAL)
                         .map(Item::toDisplayString)
                         .collect(Collectors.joining(", "));

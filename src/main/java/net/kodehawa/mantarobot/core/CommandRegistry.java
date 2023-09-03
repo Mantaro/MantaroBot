@@ -455,7 +455,10 @@ public class CommandRegistry {
     public void processAutocomplete(CommandAutoCompleteInteractionEvent event) {
         var command = getCommandManager().slashCommands().get(event.getName().toLowerCase());
         if (command != null) {
-            command.onAutocomplete(new AutocompleteContext(event));
+            final AutocompleteContext ctx = new AutocompleteContext(event);
+            var sub = command.getSubCommands().get(ctx.getSubCommand());
+            if (sub != null) sub.onAutocomplete(ctx);
+            else command.onAutocomplete(ctx);
         }
     }
 
