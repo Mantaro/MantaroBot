@@ -51,5 +51,6 @@ quotes.json
 /logs/
 /urlcache_files/
 
-#RethinkDB
+# Misc
 /db/
+/src/main/resources/assets/languages/list.txt
