@@ -19,8 +19,10 @@ package net.kodehawa.mantarobot.commands.currency.item;
 
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
+import net.kodehawa.mantarobot.commands.currency.item.special.Food;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Tiered;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Axe;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.FishRod;
@@ -56,6 +58,11 @@ import java.util.stream.Stream;
 
 public class ItemHelper {
     private static Item[] equipableItems;
+    private static Item[] castableItems;
+    private static Broken[] brokenItems;
+    private static Broken[] salvagbleItems;
+    private static Item[] useableItems;
+    private static Food[] petFoodItems;
     private static final Logger log = LoggerFactory.getLogger(ItemHelper.class);
     private static final SecureRandom random = new SecureRandom();
     private static final IncreasingRateLimiter lootCrateRatelimiter = new IncreasingRateLimiter.Builder()
@@ -459,7 +466,7 @@ public class ItemHelper {
     }
 
     public static Item getBrokenItemFrom(Item item) {
-        for (Item i : ItemReference.ALL) {
+        for (Item i : getBrokenItems()) {
             if (i instanceof Broken) {
                 if (((Broken) i).getMainItem() == idOf(item))
                     return i;
@@ -637,10 +644,10 @@ public class ItemHelper {
 
     }
 
-    public static void autoCompleteEquipable(final AutocompleteContext event) {
+    private static void handleAutoComplete(Item[] items, AutocompleteContext event) {
         if (event.getFocused().getName().equals("item")) {
             final String search = event.getOption("item").getAsString();
-            final List<Item> matches = findFrom(getEquipableItems(), search, event.getI18n());
+            final List<Item> matches = findFrom(items, search, event.getI18n());
             final List<Command.Choice> choices = new ArrayList<>();
             for (Item item : matches) {
                 choices.add(new Command.Choice(
@@ -652,9 +659,71 @@ public class ItemHelper {
         }
     }
 
-    private static Item[] getEquipableItems() {
+    public static void autoCompleteCastable(AutocompleteContext event) {
+        handleAutoComplete(getCastableItems(), event);
+    }
+
+    public static void autoCompleteEquipable(AutocompleteContext event) {
+        handleAutoComplete(getEquipableItems(), event);
+    }
+
+    public static void autoCompleteRepairable(AutocompleteContext event) {
+        handleAutoComplete(getBrokenItems(), event);
+    }
+
+    public static void autoCompleteSalvagable(AutocompleteContext event) {
+        handleAutoComplete(getSalvagbleItems(), event);
+    }
+
+    public static void autoCompleteUsable(AutocompleteContext event) {
+        handleAutoComplete(getUsableItems() ,event);
+    }
+
+    public static void autoCompletePetFood(AutocompleteContext event) {
+        handleAutoComplete(getPetFoodItems(), event);
+    }
+
+    public static Item[] getEquipableItems() {
         return Objects.requireNonNullElseGet(equipableItems, () -> equipableItems = Stream.of(ItemReference.ALL)
                 .filter(i -> i instanceof Pickaxe || i instanceof Axe || i instanceof FishRod || i instanceof Wrench)
                 .toArray(Item[]::new));
+    }
+
+    public static Item[] getCastableItems() {
+        return Objects.requireNonNullElseGet(castableItems, () -> castableItems = Stream.of(ItemReference.ALL)
+                .filter(i -> i.getItemType().isCastable() && !i.getRecipe().isEmpty())
+                .sorted(Comparator.comparingInt(i -> i.getItemType().ordinal()))
+                .toArray(Item[]::new));
+    }
+
+    public static Broken[] getBrokenItems() {
+        return Objects.requireNonNullElseGet(brokenItems, () -> brokenItems = Stream.of(ItemReference.ALL)
+                .filter(Broken.class::isInstance)
+                .sorted(Comparator.comparingInt(i -> i.getItemType().ordinal()))
+                .map(Broken.class::cast)
+                .toArray(Broken[]::new));
+    }
+
+    public static Broken[] getSalvagbleItems() {
+        return Objects.requireNonNullElseGet(salvagbleItems, () -> salvagbleItems = Stream.of(getBrokenItems())
+                .filter(i -> i.getItem() instanceof Salvageable)
+                .toArray(Broken[]::new));
+    }
+
+    public static Item[] getUsableItems() {
+        return Objects.requireNonNullElseGet(useableItems, () -> useableItems = Stream.of(ItemReference.ALL)
+                .filter(i -> i.getItemType() == ItemType.INTERACTIVE ||
+                        i.getItemType() == ItemType.POTION ||
+                        i.getItemType() == ItemType.CRATE ||
+                        i.getItemType() == ItemType.BUFF)
+                .toArray(Item[]::new));
+    }
+
+
+    public static Food[] getPetFoodItems() {
+        return Objects.requireNonNullElseGet(petFoodItems, () -> petFoodItems = Stream.of(ItemReference.ALL)
+                .filter(Food.class::isInstance)
+                .map(Food.class::cast)
+                .toArray(Food[]::new));
     }
 }

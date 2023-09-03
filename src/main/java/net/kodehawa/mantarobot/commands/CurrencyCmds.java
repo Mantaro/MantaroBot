@@ -39,6 +39,7 @@ import net.kodehawa.mantarobot.core.command.meta.Description;
 import net.kodehawa.mantarobot.core.command.meta.Help;
 import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.meta.Options;
+import net.kodehawa.mantarobot.core.command.slash.AutocompleteContext;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
@@ -63,7 +64,6 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
 import java.awt.Color;
 import java.security.SecureRandom;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -296,7 +296,7 @@ public class CurrencyCmds {
         @Name("item")
         @Description("Use a interactive item.")
         @Options({
-                @Options.Option(type = OptionType.STRING, name = "item", description = "The item to use", required = true),
+                @Options.Option(type = OptionType.STRING, name = "item", description = "The item to use", required = true, autocomplete = true),
                 @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to use"),
                 @Options.Option(type = OptionType.BOOLEAN, name = "max", description = "Use as many as possible. Makes it so amount is ignored.")
         })
@@ -323,6 +323,11 @@ public class CurrencyCmds {
                         ctx.getOptionAsInteger("amount", 1),
                         ctx.getOptionAsBoolean("max")
                 );
+            }
+
+            @Override
+            public void onAutocomplete(AutocompleteContext event) {
+                ItemHelper.autoCompleteUsable(event);
             }
         }
 
@@ -582,12 +587,7 @@ public class CurrencyCmds {
 
     private static void useItemList(IContext ctx) {
         var lang = ctx.getLanguageContext();
-        var interactiveItems = Arrays.stream(ItemReference.ALL).filter(
-                i -> i.getItemType() == ItemType.INTERACTIVE ||
-                        i.getItemType() == ItemType.POTION ||
-                        i.getItemType() == ItemType.CRATE ||
-                        i.getItemType() == ItemType.BUFF
-        ).toList();
+        var interactiveItems = ItemHelper.getUsableItems();
         List<MessageEmbed.Field> fields = new LinkedList<>();
 
         for (var item : interactiveItems) {
