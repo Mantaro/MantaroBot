@@ -92,6 +92,16 @@ public class PetCmds {
             .prefix("pet-pet")
             .build();
 
+    private static final IncreasingRateLimiter petPlayRatelimiter = new IncreasingRateLimiter.Builder()
+            .limit(1)
+            .spamTolerance(5)
+            .cooldown(15, TimeUnit.MINUTES)
+            .maxCooldown(20, TimeUnit.MINUTES)
+            .randomIncrement(false)
+            .pool(MantaroData.getDefaultJedisPool())
+            .prefix("pet-play")
+            .build();
+
     private static final IncreasingRateLimiter petChoiceRatelimiter = new IncreasingRateLimiter.Builder()
             .limit(3)
             .spamTolerance(5)
@@ -360,7 +370,34 @@ public class PetCmds {
 
             @Override
             protected void process(SlashContext ctx) {
-                // Handle play response. HousePet#handlePlay
+                var dbUser = ctx.getDBUser();
+                var player = ctx.getPlayer();
+                var marriage = dbUser.getMarriage();
+                var pet = player.getPet();
+                var choice = player.getActivePetChoice(marriage);
+
+                if (choice == PetChoice.MARRIAGE) {
+                    if (marriage == null) {
+                        ctx.reply("commands.pet.no_marriage", EmoteReference.ERROR);
+                        return;
+                    }
+
+                    pet = marriage.getPet();
+                }
+
+                if (pet == null) {
+                    ctx.reply("commands.pet.pat.no_pet", EmoteReference.ERROR, choice.getReadableName());
+                    return;
+                }
+
+                if (!RatelimitUtils.ratelimit(petPlayRatelimiter, ctx))
+                    return;
+
+                // TODO: Handle giving out more health/hunger/thrist/stamina randomly.
+                // This should also be done with normal pet actions so it's probably a
+                // good idea to make a generic function for this and just pass the SecureRandom instance.
+                var message = pet.handlePlay(pet.getType()).getMessage();
+                ctx.replyStripped(message, pet.getType().getEmoji(), pet.getName());
             }
         }
 

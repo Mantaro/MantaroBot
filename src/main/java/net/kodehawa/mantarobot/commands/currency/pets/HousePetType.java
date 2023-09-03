@@ -69,10 +69,10 @@ public enum HousePetType {
     }
 
     public enum PlayReaction {
-        PLAYFUL(List.of(HousePetType.DOG, HousePetType.CAT), "commands.pet.pet_play.playful"),
-        LOVE(List.of(HousePetType.DOG, HousePetType.CAT, HousePetType.RAT), "commands.pet.pet_play.love"),
-        DEV(List.of(HousePetType.KODE), "commands.pet.pet_play.dev"),
-        NOTHING(List.of(HousePetType.ROCK), "commands.pet.pet_play.nothing");
+        PLAYFUL(List.of(HousePetType.DOG, HousePetType.CAT), "commands.pet.play.reactions.playful"),
+        LOVE(List.of(HousePetType.DOG, HousePetType.CAT, HousePetType.RAT), "commands.pet.play.reactions.love"),
+        DEV(List.of(HousePetType.KODE), "commands.pet.play.reactions.dev"),
+        NOTHING(List.of(HousePetType.ROCK), "commands.pet.play.reactions.nothing");
 
         final String message;
         final List<HousePetType> types;
