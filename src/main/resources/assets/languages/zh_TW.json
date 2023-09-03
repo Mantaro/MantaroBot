@@ -51,9 +51,10 @@
       "mop_not_enough": "%1$s你的粉塵高度少於5%%， 所以掃除不會有什麼作用。",
       "milk": "%1$s所有藥水效果已清除。",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `/buy item:key`",
-        "no_crate": "%1$s你需要一個寶箱！你能透過貨幣指令獲得寶箱。",
-        "success": "%1$s你開啟了一個寶箱且得到了：%2$s%3$s。恭喜！",
+        "too_many": "%1$sYou cannot open more than 5 crates at once.",
+        "no_key": "%1$sYou do not have enough crate keys to open that many crates. Crates are locked! You can buy them using `/buy item:key`",
+        "no_crate": "%1$sYou do not have that many crates! You usually get crates from currency commands.",
+        "success": "%1$sYou opened the crate %2$s time(s) and won: %3$s%4$s. Congratulations!",
         "success_high": "%1$s你獲得了以下等級超過三星的物品：%2$s。數量如上所示",
         "overflow": "但是你已經擁有太多了，所以你決定將多出來的丟掉"
       },
@@ -1614,7 +1615,10 @@
       "options": "Options",
       "usage": "Usage",
       "optional": "(This is optional)",
-      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help command:cast item`.\nThis goes for all subcommands, as long as they have some sort of help."
+      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help command:cast item`.\nThis goes for all subcommands, as long as they have some sort of help.",
+      "mention": "Command Mention",
+      "mention_tip": "You can click this to have discord bring up the command for you.",
+      "mention_tip_subs": "You can click any of the below sub commands to have discord bring up the command for you."
     },
     "repair": {
       "no_item": "%1$s你需要指出你想修復的物品。如果你確定那是正確的，請輸入該物品的全名。",
