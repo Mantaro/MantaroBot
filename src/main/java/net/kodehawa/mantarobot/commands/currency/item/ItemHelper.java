@@ -59,8 +59,8 @@ public class ItemHelper {
     private static Item[] equipableItems;
     private static Item[] castableItems;
     private static Broken[] brokenItems;
-    private static Broken[] salvagbleItems;
-    private static Item[] useableItems;
+    private static Broken[] salvageableItems;
+    private static Item[] usableItems;
     private static Food[] petFoodItems;
     private static final Logger log = LoggerFactory.getLogger(ItemHelper.class);
     private static final SecureRandom random = new SecureRandom();
@@ -650,7 +650,7 @@ public class ItemHelper {
     }
 
     public static void autoCompleteSalvagable(AutocompleteContext event) {
-        handleAutoComplete(getSalvagbleItems(), event);
+        handleAutoComplete(getSalvageableItems(), event);
     }
 
     public static void autoCompleteUsable(AutocompleteContext event) {
@@ -682,14 +682,14 @@ public class ItemHelper {
                 .toArray(Broken[]::new));
     }
 
-    public static Broken[] getSalvagbleItems() {
-        return Objects.requireNonNullElseGet(salvagbleItems, () -> salvagbleItems = Stream.of(getBrokenItems())
+    public static Broken[] getSalvageableItems() {
+        return Objects.requireNonNullElseGet(salvageableItems, () -> salvageableItems = Stream.of(getBrokenItems())
                 .filter(i -> i.getItem() instanceof Salvageable)
                 .toArray(Broken[]::new));
     }
 
     public static Item[] getUsableItems() {
-        return Objects.requireNonNullElseGet(useableItems, () -> useableItems = Stream.of(ItemReference.ALL)
+        return Objects.requireNonNullElseGet(usableItems, () -> usableItems = Stream.of(ItemReference.ALL)
                 .filter(i -> i.getItemType() == ItemType.INTERACTIVE ||
                         i.getItemType() == ItemType.POTION ||
                         i.getItemType() == ItemType.CRATE ||
