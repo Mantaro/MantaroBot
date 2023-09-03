@@ -26,6 +26,7 @@ import net.kodehawa.mantarobot.commands.currency.item.special.tools.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.MongoUser;
@@ -235,9 +236,17 @@ public class ItemHelper {
     static boolean openLootCrate(IContext ctx, ItemType.LootboxType type, int item, EmoteReference typeEmote, int bound) {
         Player player = ctx.getPlayer();
         Item crate = fromId(item);
+        int amount = 1;
+        if (ctx instanceof SlashContext sCtx) {
+            amount = sCtx.getOptionAsInteger("amount", 1);
+        }
+        if (amount > 5) {
+            ctx.sendLocalized("general.misc_item_usage.crate.too_many", EmoteReference.ERROR);
+            return false;
+        }
 
-        if (player.containsItem(crate)) {
-            if (player.containsItem(ItemReference.LOOT_CRATE_KEY)) {
+        if (player.getItemAmount(crate) >= amount) {
+            if (player.getItemAmount(ItemReference.LOOT_CRATE_KEY) >= amount) {
                 if (!RatelimitUtils.ratelimit(lootCrateRatelimiter, ctx, false))
                     return false;
 
@@ -246,7 +255,7 @@ public class ItemHelper {
                 }
 
                 //It saves the changes here.
-                openLootBox(ctx, player, type, crate, typeEmote, bound);
+                openLootBox(ctx, player, amount, type, crate, typeEmote, bound);
                 return true;
             } else {
                 ctx.sendLocalized("general.misc_item_usage.crate.no_key", EmoteReference.ERROR);
@@ -258,9 +267,12 @@ public class ItemHelper {
         }
     }
 
-    private static void openLootBox(IContext ctx, Player player, ItemType.LootboxType type, Item crate,
+    private static void openLootBox(IContext ctx, Player player, int amount, ItemType.LootboxType type, Item crate,
                                     EmoteReference typeEmote, int bound) {
-        List<Item> toAdd = selectItems(random.nextInt(bound) + bound, type);
+        List<Item> toAdd = new ArrayList<>();
+        for (int i = 0; i < amount; i++) {
+            toAdd.addAll(selectItems(random.nextInt(bound) + bound, type));
+        }
 
         ArrayList<ItemStack> ita = new ArrayList<>();
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
@@ -286,9 +298,9 @@ public class ItemHelper {
 
         boolean overflow = player.mergeInventory(toShow);
 
-        player.processItem(ItemReference.LOOT_CRATE_KEY, -1);
-        player.processItem(crate, -1);
-        player.cratesOpened(player.getCratesOpened() + 1);
+        player.processItem(ItemReference.LOOT_CRATE_KEY, -amount);
+        player.processItem(crate, -amount);
+        player.cratesOpened(player.getCratesOpened() + amount);
         player.updateAllChanged();
 
         I18nContext lang = ctx.getLanguageContext();
@@ -311,7 +323,7 @@ public class ItemHelper {
         }
 
         ctx.sendFormat(lang.get("general.misc_item_usage.crate.success"),
-                typeEmote.getDiscordNotation() + " ", show, extra);
+                typeEmote.getDiscordNotation() + " ", amount, show, extra);
     }
 
     @SuppressWarnings("fallthrough")

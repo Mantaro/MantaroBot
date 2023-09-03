@@ -216,7 +216,8 @@ public class CurrencyCmds {
     @Description("Opens a loot crate.")
     @Category(CommandCategory.CURRENCY)
     @Options({
-            @Options.Option(type = OptionType.STRING, name = "crate", description = "The crate to open")
+            @Options.Option(type = OptionType.STRING, name = "crate", description = "The crate to open"),
+            @Options.Option(type = OptionType.STRING, name = "amount", description = "The amount to open", maxValue = 1)
     })
     @Help(
             description = "Opens a loot crate.",
