@@ -29,6 +29,7 @@ import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.exceptions.InvalidTokenException;
 import net.dv8tion.jda.api.hooks.EventListener;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
@@ -336,7 +337,7 @@ public class MantaroCore {
                     shardIds = IntStream.range(0, shardCount).boxed().collect(Collectors.toList());
                     latchCount = shardCount;
                 }
-    
+
                 var gatewayThreads = Math.max(1, latchCount / 16);
                 var rateLimitThreads = Math.max(2, latchCount * 5 / 4);
 
@@ -461,7 +462,13 @@ public class MantaroCore {
         if (MantaroBot.getInstance().isMasterNode()) {
             log.info("[Controller] Attempted to register Slash/Context commands (@Module). List size: {}", data.size());
             var jda = getShard(0).getJDA();
-            jda.updateCommands().addCommands(data).queue();
+            jda.updateCommands().addCommands(data).queue(cmds -> {
+                try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
+                    for (Command cmd : cmds) {
+                        jedis.hset("command-ids", cmd.getName(), cmd.getId());
+                    }
+                }
+            });
         }
     }
 

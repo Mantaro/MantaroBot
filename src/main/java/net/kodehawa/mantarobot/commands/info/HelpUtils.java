@@ -20,6 +20,7 @@ package net.kodehawa.mantarobot.commands.info;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.MongoGuild;
 
 import java.util.ArrayList;
@@ -61,5 +62,23 @@ public class HelpUtils {
 
         return "\u2009\u2009`" + values.stream().sorted()
                 .collect(Collectors.joining("` `")) + "`";
+    }
+
+    public static String getCommandMention(String cmd, String sub) {
+        String mention = cmd;
+        if (!sub.isBlank()) {
+            mention += " " + sub;
+        }
+        try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
+            String id = jedis.hget("command-ids", cmd);
+            if (id != null) {
+                if (!sub.isBlank()) {
+                    mention ="</" + cmd + " " + sub + ":" + id + ">";
+                } else {
+                    mention ="</" + cmd + ":" + id + ">";
+                }
+            }
+        }
+        return mention;
     }
 }

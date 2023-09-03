@@ -62,7 +62,7 @@ public class ActionCmds {
         public static class HoldHands extends ImageActionSlash {
             public HoldHands() {
                 super("Hold Hands", "Hold someone's hands", EmoteReference.HEART,
-                        "commands.action.holdhands", "handholding", "commands.action.lonely.holdhands", "commands.action.self.holdhands", true);
+                        "commands.action.holdhands", "handholding", "commands.action.lonely.holdhands", "commands.action.self.holdhands", true, true);
             }
         }
 
@@ -75,7 +75,7 @@ public class ActionCmds {
         public static class Stare extends ImageActionSlash {
             public Stare() {
                 super("Stare", "Stares at someone", EmoteReference.EYES,
-                        "commands.action.stare", "stare", "commands.action.lonely.stare", "commands.action.self.stare", true);
+                        "commands.action.stare", "stare", "commands.action.lonely.stare", "commands.action.self.stare", true, true);
             }
         }
 
@@ -88,7 +88,7 @@ public class ActionCmds {
         public static class Blush extends ImageActionSlash {
             public Blush() {
                 super("Blush", "Blushes at someone", EmoteReference.HEART,
-                        "commands.action.blush", "blush", "commands.action.lonely.blush", "commands.action.self.blush", true);
+                        "commands.action.blush", "blush", "commands.action.lonely.blush", "commands.action.self.blush", true, true);
             }
         }
 
@@ -101,7 +101,7 @@ public class ActionCmds {
         public static class Nuzzle extends ImageActionSlash {
             public Nuzzle() {
                 super("Nuzzle Command", "Nuzzles the specified user.", EmoteReference.TALKING,
-                        "commands.action.nuzzle", NUZZLE.get(), "commands.action.lonely.nuzzle", "commands.action.self.nuzzle", true);
+                        "commands.action.nuzzle", NUZZLE.get(), "commands.action.lonely.nuzzle", "commands.action.self.nuzzle", true, true);
             }
         }
 
@@ -114,7 +114,7 @@ public class ActionCmds {
         public static class BloodSuck extends ImageActionSlash {
             public BloodSuck() {
                 super("Bloodsuck command", "Sucks the blood of a user", EmoteReference.TALKING,
-                        "commands.action.bloodsuck", BLOODSUCK.get(), "commands.action.lonely.bloodsuck", "commands.action.self.bloodsuck", true);
+                        "commands.action.bloodsuck", BLOODSUCK.get(), "commands.action.lonely.bloodsuck", "commands.action.self.bloodsuck", true, true);
             }
         }
 
@@ -127,7 +127,7 @@ public class ActionCmds {
         public static class HighFive extends ImageActionSlash {
             public HighFive() {
                 super("Highfive", "Highfives with the specified user.", EmoteReference.TALKING,
-                        "commands.action.highfive", "highfive", "commands.action.lonely.highfive", "commands.action.self.highfive", true
+                        "commands.action.highfive", "highfive", "commands.action.lonely.highfive", "commands.action.self.highfive", true, true
                 );
             }
         }
@@ -141,7 +141,7 @@ public class ActionCmds {
         public static class Lick extends ImageActionSlash {
             public Lick() {
                 super("lick", "Licks the specified user.", EmoteReference.TALKING,
-                        "commands.action.lick", "lick", "commands.action.lonely.lick", "commands.action.self.lick"
+                        "commands.action.lick", "lick", "commands.action.lonely.lick", "commands.action.self.lick", false, true
                 );
             }
         }
@@ -155,7 +155,7 @@ public class ActionCmds {
         public static class Smile extends ImageActionSlash {
             public Smile() {
                 super("Smile", "Smiles at someone", EmoteReference.TALKING,
-                        "commands.action.smile", "smile", "commands.action.lonely.smile", "commands.action.self.smile", true
+                        "commands.action.smile", "smile", "commands.action.lonely.smile", "commands.action.self.smile", true, true
                 );
             }
         }
@@ -169,7 +169,7 @@ public class ActionCmds {
         public static class Bite extends ImageActionSlash {
             public Bite() {
                 super("Bite", "Bites the specified user.", EmoteReference.TALKING,
-                        "commands.action.bite", "bite", "commands.action.lonely.bite", "commands.action.self.bite"
+                        "commands.action.bite", "bite", "commands.action.lonely.bite", "commands.action.self.bite", false, true
                 );
             }
         }
@@ -183,7 +183,7 @@ public class ActionCmds {
         public static class Teehee extends ImageActionSlash {
             public Teehee() {
                 super("Teehee", "Teehee~", EmoteReference.EYES,
-                        "commands.action.teehee", "teehee", "commands.action.lonely.teehee", "commands.action.self.teehee", true);
+                        "commands.action.teehee", "teehee", "commands.action.lonely.teehee", "commands.action.self.teehee", true, true);
             }
         }
 
@@ -194,7 +194,7 @@ public class ActionCmds {
         })
         public static class Lewd extends ImageCmdSlash {
             public Lewd() {
-                super("lewd", "commands.action.lewd");
+                super("lewd", "commands.action.lewd", true);
             }
         }
 
@@ -320,7 +320,7 @@ public class ActionCmds {
     public static class Pout extends ImageActionSlash {
         public Pout() {
             super("Pout", "Pouts at the specified user.", EmoteReference.TALKING,
-                    "commands.action.pout", "pout", "commands.action.lonely.pout", "commands.action.self.pout", true
+                    "commands.action.pout", "pout", "commands.action.lonely.pout", "commands.action.self.pout", true, false
             );
         }
     }

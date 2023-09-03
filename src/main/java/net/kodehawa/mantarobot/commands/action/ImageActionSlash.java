@@ -49,7 +49,7 @@ public class ImageActionSlash extends SlashCommand {
     private final String botLine;
 
     public ImageActionSlash(String name, String desc, EmoteReference emoji,
-                          String format, List<String> images, String lonelyLine, String botLine, boolean swap) {
+                          String format, List<String> images, String lonelyLine, String botLine, boolean swap, boolean isSub) {
         super.setCategory(CommandCategory.ACTION);
         super.setDefer(true);
         this.format = format;
@@ -61,7 +61,7 @@ public class ImageActionSlash extends SlashCommand {
         this.rateLimiter = buildRatelimiter(name);
         super.setHelp(new HelpContent.Builder()
                 .setDescription(desc)
-                .setUsagePrefixed(name + " @user")
+                .setUsage("`/" + (isSub ? "action " : "") + name.toLowerCase() + " user:[user] extra:[@mentions]`")
                 .build()
         );
     }
@@ -85,7 +85,7 @@ public class ImageActionSlash extends SlashCommand {
     }
 
     public ImageActionSlash(String name, String desc, EmoteReference emoji,
-                          String format, String type, String lonelyLine, String botLine, boolean swap) {
+                          String format, String type, String lonelyLine, String botLine, boolean swap, boolean isSub) {
         super.setCategory(CommandCategory.ACTION);
         super.setDefer(true);
         this.format = format;
@@ -98,7 +98,7 @@ public class ImageActionSlash extends SlashCommand {
         this.rateLimiter = buildRatelimiter(name);
         super.setHelp(new HelpContent.Builder()
                 .setDescription(desc)
-                .setUsage("`/" + name.toLowerCase() + " user:[user] extra:[@mentions]`")
+                .setUsage("`/" + (isSub ? "action " : "") + name.toLowerCase() + " user:[user] extra:[@mentions]`")
                 .build()
         );
     }

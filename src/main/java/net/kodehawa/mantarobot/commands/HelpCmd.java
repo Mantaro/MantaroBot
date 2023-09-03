@@ -59,6 +59,7 @@ import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forTypeSlash;
+import static net.kodehawa.mantarobot.commands.info.HelpUtils.getCommandMention;
 import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_MARKER;
 
 @Module
@@ -118,11 +119,12 @@ public class HelpCmd {
                 buildHelpSlash(ctx);
             } else {
                 var cmd = CommandProcessor.REGISTRY.getCommandManager().slashCommands().get(command);
+                var parent = "";
                 // Cursed sub-command detection.
                 if (command.contains(" ")) {
                     var split = command.trim().split("\\s+");
                     if (split.length > 0) {
-                        var parent = split[0];
+                        parent = split[0];
                         var parentCmd = CommandProcessor.REGISTRY.getCommandManager().slashCommands().get(parent);
                         if (parentCmd != null && !parentCmd.getSubCommands().isEmpty()) {
                             var sub = split[1];
@@ -153,11 +155,24 @@ public class HelpCmd {
 
                 desc.append(help.description());
                 desc.append("\n").append(languageContext.get("commands.help.include_warning"));
+
+                var hasSubs = !cmd.getSubCommands().isEmpty();
+
+                String cmdMentionText;
+                if (hasSubs) {
+                    cmdMentionText =  languageContext.get("commands.help.mention_tip_subs");
+                } else {
+                    cmdMentionText = getCommandMention(
+                            parent.isBlank() ? cmd.getName() : parent,
+                            parent.isBlank() ? "" : cmd.getName()
+                    ) + "\n" + languageContext.get("commands.help.mention_tip");
+                }
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Color.PINK)
                         .setAuthor(languageContext.get("commands.help.help_header").formatted(command), null,
                                 ctx.getAuthor().getEffectiveAvatarUrl()
-                        ).setDescription(desc);
+                        ).setDescription(desc)
+                        .addField(EmoteReference.MEGA.toHeaderString() + languageContext.get("commands.help.mention"), cmdMentionText, false);
 
                 var options = cmd.getOptions();
                 var parameters = cmd.getHelp().parameters();
@@ -197,8 +212,8 @@ public class HelpCmd {
                     builder.addField(EmoteReference.ZAP.toHeaderString() + languageContext.get("commands.help.options"), paramString, false);
                 }
 
-                var subCommands = cmd.getSubCommands();
-                if (!subCommands.isEmpty()) {
+
+                if (hasSubs) {
                     var subs =
                             cmd.getSubCommands()
                                     .entrySet()
@@ -218,8 +233,8 @@ public class HelpCmd {
 
                         if (inner.getDescription() != null) {
                             stringBuilder.append("""
-                                        %s`/%s%s` - %s
-                                        """.formatted(BLUE_SMALL_MARKER, cmd.getName() + " ", name, inner.getDescription())
+                                        %s %s - %s
+                                        """.formatted(BLUE_SMALL_MARKER, getCommandMention(cmd.getName(), name), inner.getDescription())
                             );
                         }
                     }
