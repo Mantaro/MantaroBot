@@ -53,7 +53,7 @@ import net.kodehawa.mantarobot.utils.commands.campaign.Campaign;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
-import java.awt.*;
+import java.awt.Color;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.HashMap;

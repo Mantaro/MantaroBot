@@ -446,11 +446,9 @@ public class ItemHelper {
     }
 
     public static Item getBrokenItemFrom(Item item) {
-        for (Item i : getBrokenItems()) {
-            if (i instanceof Broken) {
-                if (((Broken) i).getMainItem() == idOf(item))
-                    return i;
-            }
+        for (Broken i : getBrokenItems()) {
+            if (i.getMainItem() == idOf(item))
+                return i;
         }
 
         return null;
@@ -615,10 +613,10 @@ public class ItemHelper {
                 .filter(item -> {
                     // each item should only traverse as many helper funcs as needed
                     // so, we return as early as we can
-                    if (isMatchingItemName(item, search, langContext)) return true;
                     if (isMatchingEmoji(item, search)) return true;
                     if (isMatchingAlias(item, search)) return true;
                     if (hasMatchingAlias(item, search)) return true;
+                    if (isMatchingItemName(item, search, langContext)) return true;
                     return isPartialNameMatch(item, search, langContext);
                 }).toList();
 
