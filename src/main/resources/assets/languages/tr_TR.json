@@ -1408,6 +1408,16 @@
         "ratelimit_message": "Evcil hayvanınızı 25 defaya kadar okşayabilirsiniz. Bundan sonra 25 kere daha okşamak isterseniz yukarıdaki süreyi beklemeniz gerekecek.",
         "too_many": "Nasıl bu kadar çok okşama aldın?"
       },
+      "play": {
+        "no_pet": "%1$sYou don't have any pets to play with. Check `/pet explanation` for an explanation. (Choice: %2$s)",
+        "no_pet_other": "%1$s%2$s doesn't have any pets to play with. Check `/pet explanation` for an explanation.",
+        "reactions": {
+          "playful": "Your pet playfully plays with you.",
+          "love": "After a long play session, your pet looks lovingly at you.",
+          "dev": "You both played some games together. It was fun.",
+          "nothing": "The pet rock stares deeply at your soul, ever unmoving."
+        }
+      },
       "pet_reactions": {
         "cute": "%1$s**%2$s**, siz onun kafasını okşarken mutlu bir şekilde kuyruğunu sallıyor.%3$s",
         "cute_not_animal": "%1$s**%2$s**, siz onun kafasını okşarken mutlu bir şekilde gülümsüyor.%3$s",
