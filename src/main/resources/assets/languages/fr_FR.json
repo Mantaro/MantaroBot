@@ -1408,6 +1408,16 @@
         "ratelimit_message": "Tu peux caresser ton animal 25 fois. Après ça il te faudra attendre le temps ci-dessus pour le caresser de nouveau 25 fois.",
         "too_many": "Comment as-tu obtenu autant de caresses?"
       },
+      "play": {
+        "no_pet": "%1$sYou don't have any pets to play with. Check `/pet explanation` for an explanation. (Choice: %2$s)",
+        "no_pet_other": "%1$s%2$s doesn't have any pets to play with. Check `/pet explanation` for an explanation.",
+        "reactions": {
+          "playful": "Your pet playfully plays with you.",
+          "love": "After a long play session, your pet looks lovingly at you.",
+          "dev": "You both played some games together. It was fun.",
+          "nothing": "The pet rock stares deeply at your soul, ever unmoving."
+        }
+      },
       "pet_reactions": {
         "cute": "%1$s**%2$s** remue joyeusement sa queue pendant que tu caresses sa tête.%3$s",
         "cute_not_animal": "%1$s**%2$s** souris généreusement pendant que tu caresses sa tête.%3$s",
