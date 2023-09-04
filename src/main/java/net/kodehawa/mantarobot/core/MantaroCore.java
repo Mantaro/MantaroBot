@@ -464,7 +464,8 @@ public class MantaroCore {
             var jda = getShard(0).getJDA();
             jda.updateCommands().addCommands(data).queue(cmds -> {
                 try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
-                    for (Command cmd : cmds) {
+                    jedis.del("command-ids"); // Reset list in case commands were removed or renamed.
+                    for (var cmd : cmds) {
                         jedis.hset("command-ids", cmd.getName(), cmd.getId());
                     }
                 }
