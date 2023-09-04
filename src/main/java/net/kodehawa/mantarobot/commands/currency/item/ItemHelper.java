@@ -237,9 +237,16 @@ public class ItemHelper {
         Player player = ctx.getPlayer();
         Item crate = fromId(item);
         int amount = 1;
+        // cant really make this work without slash without changing the whole openCrate logic :(
         if (ctx instanceof SlashContext sCtx) {
-            amount = sCtx.getOptionAsInteger("amount", 1);
+            if (sCtx.getOptionAsBoolean("max")) {
+                amount = Math.max(1, Math.min(5, Math.min(player.getItemAmount(crate), player.getItemAmount(ItemReference.LOOT_CRATE_KEY))));
+            } else {
+                amount = sCtx.getOptionAsInteger("amount", 1);
+            }
         }
+
+
         if (amount > 5) {
             ctx.sendLocalized("general.misc_item_usage.crate.too_many", EmoteReference.ERROR);
             return false;

@@ -22,6 +22,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
+import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Description;
@@ -200,7 +201,8 @@ public class TransferCmds {
     @Options({
             @Options.Option(type = OptionType.USER, name = "user", description = "The user to transfer money to.", required = true),
             @Options.Option(type = OptionType.STRING, name = "item", description = "The item to transfer.", required = true),
-            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to transfer. Defaults to 1.", maxValue = 5000),
+            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to transfer. Defaults to 1.", maxValue = ItemStack.MAX_STACK_SIZE),
+            @Options.Option(type = OptionType.BOOLEAN, name = "max", description = "Transfer as many as possible. Makes it so amount is ignored.")
     })
     @Help(
             description = "Transfers items from you to another player.",
@@ -209,6 +211,7 @@ public class TransferCmds {
                     @Help.Parameter(name = "user", description = "The user to transfer money to. Needs to be in the server you're running the command in."),
                     @Help.Parameter(name = "item", description = "The item to transfer. Can be a shorten name."),
                     @Help.Parameter(name = "amount", description = "The amount of the item to transfer. If not specified, this is 1. Maximum is 5000.", optional = true),
+                    @Help.Parameter(name = "max", description = "Whether to attempt transferring the maximum amount currently possible for you and them. Makes it so amount is ignored.", optional = true),
             }
     )
     public static class TransferItems extends SlashCommand {
@@ -275,42 +278,21 @@ public class TransferCmds {
             }
 
             var amount = ctx.getOptionAsInteger("amount", 1);
-            if (amount == 1) {
-                if (!player.containsItem(item)) {
-                    ctx.reply("commands.itemtransfer.multiple_items_error", EmoteReference.ERROR);
-                    return;
-                }
+            var isMax = ctx.getOptionAsBoolean("max");
 
-                if (item.isHidden()) {
-                    ctx.reply("commands.itemtransfer.hidden_item", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (giveToPlayer.getItemAmount(item) >= 5000) {
-                    ctx.reply("commands.itemtransfer.overflow", EmoteReference.ERROR);
-                    return;
-                }
-
-                player.processItem(item, -1);
-                giveToPlayer.processItem(item, 1);
-
-                player.updateAllChanged();
-                giveToPlayer.updateAllChanged();
-                ctx.reply("commands.itemtransfer.success",
-                        EmoteReference.OK, ctx.getMember().getEffectiveName(), 1,
-                        item.getName(), giveTo.getAsMention()
-                );
-
-                return;
+            var playerCount = player.getItemAmount(item);
+            var giveToCount = giveToPlayer.getItemAmount(item);
+            if (isMax) {
+                amount = Math.max(1, Math.min(playerCount, ItemStack.MAX_STACK_SIZE - giveToCount));
             }
 
-            if (player.containsItem(item) && player.getItemAmount(item) >= amount) {
+            if (playerCount >= amount) {
                 if (item.isHidden()) {
                     ctx.reply("commands.itemtransfer.hidden_item", EmoteReference.ERROR);
                     return;
                 }
 
-                if (giveToPlayer.getItemAmount(item) + amount > 5000) {
+                if (!giveToPlayer.fitsItemAmount(item, amount)) {
                     ctx.reply("commands.itemtransfer.overflow_after", EmoteReference.ERROR);
                     return;
                 }

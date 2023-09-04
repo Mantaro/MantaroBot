@@ -371,7 +371,7 @@ public class MoneyCmds {
             if (streak > 10) {
                 authorPlayer.addBadgeIfAbsent(Badge.CLAIMER);
 
-                if (streak % 20 == 0 && authorPlayer.getItemAmount(ItemReference.LOOT_CRATE) < 5000) {
+                if (streak % 20 == 0 && authorPlayer.canFitItem(ItemReference.LOOT_CRATE)) {
                     authorPlayer.processItem(ItemReference.LOOT_CRATE, 1);
                     returnMessage.add(languageContext.get("commands.daily.crate"));
                 }
@@ -504,7 +504,7 @@ public class MoneyCmds {
             if (player.mergeInventory(loot)) {
                 extraMessage += languageContext.withRoot("commands", "loot.item_overflow");
             }
-            
+
             if (moneyFound != 0) {
                 if (player.addMoney(moneyFound)) {
                     ctx.sendLocalized("commands.loot.with_item.found", EmoteReference.POPPER, stack, moneyFound, extraMessage);

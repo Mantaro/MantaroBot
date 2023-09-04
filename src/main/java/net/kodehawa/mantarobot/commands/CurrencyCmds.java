@@ -217,13 +217,18 @@ public class CurrencyCmds {
     @Category(CommandCategory.CURRENCY)
     @Options({
             @Options.Option(type = OptionType.STRING, name = "crate", description = "The crate to open"),
-            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount to open", maxValue = 5)
+            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount to open", maxValue = 5),
+            @Options.Option(type = OptionType.BOOLEAN, name = "max", description = "Open as many as possible. Makes it so amount is ignored.")
     })
     @Help(
             description = "Opens a loot crate.",
-            usage = "`/opencrate crate:[crate name]`",
+            usage = """
+                    `/opencrate crate:[crate name] amount:[amount]`
+                    `/opencrate crate:[crate name] max:true`""",
             parameters = {
-                    @Help.Parameter(name = "crate", description = "The crate to open", optional = true)
+                    @Help.Parameter(name = "crate", description = "The crate to open", optional = true),
+                    @Help.Parameter(name = "amount", description = "The amount of the crate to open. Maximum is 5.", optional = true),
+                    @Help.Parameter(name = "crate", description = "Whether to attempt to open as many as currently possible for you. Makes it so amount is ignored.", optional = true)
             }
     )
     public static class OpenCrate extends SlashCommand {
@@ -292,17 +297,21 @@ public class CurrencyCmds {
         @Description("Use a interactive item.")
         @Options({
                 @Options.Option(type = OptionType.STRING, name = "item", description = "The item to use", required = true),
-                @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to use")
+                @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to use"),
+                @Options.Option(type = OptionType.BOOLEAN, name = "max", description = "Use as many as possible. Makes it so amount is ignored.")
         })
         @Help(
                 description = """
                     Uses an item.
                     You need to have the item to use it, and the item has to be marked as *interactive*.
                     """,
-                usage = "`/use item item:[item name] amount:[amount]`",
+                usage = """
+                        `/use item item:[item name] amount:[amount]`
+                        `/use item item:[item name] max:true`""",
                 parameters = {
                         @Help.Parameter(name = "item", description = "The item to use"),
-                        @Help.Parameter(name = "amount", description = "The amount of the item to use. Maximum of 15.", optional = true)
+                        @Help.Parameter(name = "amount", description = "The amount of the item to use. Maximum of 15.", optional = true),
+                        @Help.Parameter(name = "max", description = "Whether to attempt to use as many as currently possible. Makes it so amount is ignored.", optional = true)
                 }
         )
         public static class Item extends SlashCommand {
@@ -310,7 +319,9 @@ public class CurrencyCmds {
             protected void process(SlashContext ctx) {
                 useItem(
                         ctx, ctx.getDBUser(), ctx.getPlayer(),
-                        ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount", 1)
+                        ctx.getOptionAsString("item"),
+                        ctx.getOptionAsInteger("amount", 1),
+                        ctx.getOptionAsBoolean("max")
                 );
             }
         }
@@ -488,12 +499,16 @@ public class CurrencyCmds {
                         // Yes, parser limitations. Natan change to your parser eta wen :^), really though, we could use some generics on here lol
                         // NumberFormatException?
                         int amount = 1;
+                        boolean isMax = false;
                         if (arguments.containsKey("amount")) {
-                            try {
-                                amount = Math.max(1, Math.abs(Integer.parseInt(arguments.get("amount"))));
-                            } catch (NumberFormatException e) {
-                                ctx.sendLocalized("commands.useitem.invalid_amount", EmoteReference.WARNING);
-                                return;
+                            isMax = "max".equalsIgnoreCase(arguments.get("amount"));
+                            if (!isMax) {
+                                try {
+                                    amount = Math.max(1, Math.abs(Integer.parseInt(arguments.get("amount"))));
+                                } catch (NumberFormatException e) {
+                                    ctx.sendLocalized("commands.useitem.invalid_amount", EmoteReference.WARNING);
+                                    return;
+                                }
                             }
                         }
 
@@ -502,7 +517,7 @@ public class CurrencyCmds {
                             return;
                         }
 
-                        useItem(ctx, ctx.getDBUser(), ctx.getPlayer(), args[0], amount);
+                        useItem(ctx, ctx.getDBUser(), ctx.getPlayer(), args[0], amount, isMax);
                     }
                 };
             }
@@ -590,7 +605,7 @@ public class CurrencyCmds {
         );
     }
 
-    private static void useItem(IContext ctx, MongoUser dbUser, Player player, String itemString, int amount) {
+    private static void useItem(IContext ctx, MongoUser dbUser, Player player, String itemString, int amount, boolean isMax) {
         var item = ItemHelper.fromAnyNoId(itemString, ctx.getLanguageContext()).orElse(null);
         //Well, shit.
         if (item == null) {
@@ -614,7 +629,7 @@ public class CurrencyCmds {
             return;
         }
 
-        applyPotionEffect(ctx, dbUser, item, player, amount);
+        applyPotionEffect(ctx, dbUser, item, player, amount, isMax);
     }
 
     private static void tools(IContext ctx, MongoUser dbUser) {
@@ -763,10 +778,21 @@ public class CurrencyCmds {
         DiscordUtils.sendPaginatedEmbed(ctx.getUtilsContext(), builder, DiscordUtils.divideFields(7, fields), toShow);
     }
 
-    public static void applyPotionEffect(IContext ctx, MongoUser dbUser, Item item, Player player, int amount) {
+    public static void applyPotionEffect(IContext ctx, MongoUser dbUser, Item item, Player player, int amount, boolean isMax) {
         if ((item.getItemType() == ItemType.POTION || item.getItemType() == ItemType.BUFF) && item instanceof Potion potion) {
             final var equippedItems = dbUser.getEquippedItems();
             var type = equippedItems.getTypeFor(item);
+            var currentPotion = equippedItems.getCurrentEffect(type);
+            var activePotion = equippedItems.isEffectActive(type, potion.getMaxUses());
+            var isActive = currentPotion != null && currentPotion.getAmountEquipped() > 1;
+            var amountEquipped = 0L;
+            if (activePotion || isActive) { // currentPotion is NOT null here (both activePotion and isActive would mean a potion exists)
+                amountEquipped = currentPotion.getAmountEquipped();
+            }
+
+            if (isMax) {
+                amount = (int) Math.max(1, Math.min(15 - amountEquipped, player.getItemAmount(item)));
+            }
 
             if (amount < 1) {
                 ctx.sendLocalized("commands.useitem.too_little", EmoteReference.SAD);
@@ -777,10 +803,6 @@ public class CurrencyCmds {
                 ctx.sendLocalized("commands.useitem.not_enough_items", EmoteReference.SAD);
                 return;
             }
-
-            var currentPotion = equippedItems.getCurrentEffect(type);
-            var activePotion = equippedItems.isEffectActive(type, potion.getMaxUses());
-            var isActive = currentPotion != null && currentPotion.getAmountEquipped() > 1;
 
             // This used to only check for activePotion.
             // The issue with this was that there could be one potion that was fully used, but there was another potion
@@ -798,7 +820,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                var amountEquipped = currentPotion.getAmountEquipped();
+
                 var attempted = amountEquipped + amount;
 
                 // Currently has a potion equipped, and is of the same type.

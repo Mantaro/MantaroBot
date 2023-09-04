@@ -268,6 +268,7 @@ public class CurrencyActionCmds {
 
         var item = (Pickaxe) ItemHelper.fromId(equipped);
         var money = Math.max(30, random.nextInt(200)); // 30 to 150 credits.
+        var overflowMoney = 0;
         var moneyIncrease = item.getMoneyIncrease() <= 0 ? 1 : item.getMoneyIncrease();
         money += Math.max(moneyIncrease / 2, random.nextInt(moneyIncrease));
 
@@ -318,9 +319,9 @@ public class CurrencyActionCmds {
 
         if (random.nextInt(400) >= chance) {
             var amount = 1 + random.nextInt(item.getDiamondIncrease());
-            if (player.getItemAmount(ItemReference.DIAMOND) + amount > 5000) {
+            if (!player.fitsItemAmount(ItemReference.DIAMOND, amount)) {
                 message += "\n" + languageContext.get("commands.mine.diamond.overflow").formatted(amount);
-                money += Math.round((ItemReference.DIAMOND.getValue() * 0.9) * amount);
+                overflowMoney += Math.round((ItemReference.DIAMOND.getValue() * 0.9) * amount);
             } else {
                 player.processItem(ItemReference.DIAMOND, amount);
                 message += "\n" + EmoteReference.DIAMOND + languageContext.get("commands.mine.diamond.success").formatted(amount);
@@ -382,14 +383,14 @@ public class CurrencyActionCmds {
                 );
             }
 
-            if (extraGem != null && (player.getItemAmount(extraItem) + extraGem.getAmount() >= 5000)) {
+            if (extraGem != null && !player.fitsItemAmount(extraItem, extraGem.getAmount())) {
                 extraGem = null;
             }
 
-            if (player.getItemAmount(itemGem) + selectedGem.getAmount() >= 5000) {
+            if (!player.fitsItemAmount(itemGem, selectedGem.getAmount())) {
                 message += "\n" + languageContext.get("commands.mine.gem.overflow")
                         .formatted(itemGem.getEmojiDisplay() + " x" + selectedGem.getAmount());
-                money += Math.round((itemGem.getValue() * 0.9) * selectedGem.getAmount());
+                overflowMoney += Math.round((itemGem.getValue() * 0.9) * selectedGem.getAmount());
             } else {
                 player.processItem(selectedGem);
 
@@ -427,9 +428,9 @@ public class CurrencyActionCmds {
         if (random.nextInt(400) >= sparkleChance) {
             var gem = ItemReference.SPARKLE_FRAGMENT;
 
-            if (player.getItemAmount(gem) + 1 >= 5000) {
+            if (!player.canFitItem(gem)) {
                 message += "\n" + languageContext.get("commands.mine.sparkle.overflow");
-                money += Math.round(gem.getValue() * 0.9);
+                overflowMoney += Math.round(gem.getValue() * 0.9);
             } else {
                 player.processItem(gem, 1);
                 message += "\n" + EmoteReference.MEGA +
@@ -442,7 +443,7 @@ public class CurrencyActionCmds {
         if (random.nextInt(400) >= 392) {
             var crate = dbUser.isPremium() ? ItemReference.MINE_PREMIUM_CRATE : ItemReference.MINE_CRATE;
 
-            if (player.getItemAmount(crate) + 1 > 5000) {
+            if (!player.canFitItem(crate)) {
                 message += "\n" + languageContext.get("commands.mine.crate.overflow");
             } else {
                 player.processItem(crate, 1);
@@ -455,6 +456,8 @@ public class CurrencyActionCmds {
             message += Campaign.PREMIUM.getStringFromCampaign(languageContext, dbUser.isPremium());
             player.markCampaignAsSeen();
         }
+
+        money += overflowMoney;
 
         player.incrementMiningExperience(random);
         player.addMoney(money);
@@ -518,7 +521,7 @@ public class CurrencyActionCmds {
                     .filter(i -> i.getItemType() == ItemType.COMMON && !i.isHidden() && i.isSellable() && i.getValue() < 45).toList();
 
             var selected = common.get(random.nextInt(common.size()));
-            if (player.getItemAmount(selected) >= 5000) {
+            if (!player.canFitItem(selected)) {
                 ctx.sendLocalized("commands.fish.trash.overflow", EmoteReference.SAD);
                 ItemHelper.handleItemDurability(item, ctx, player, dbUser, "commands.fish.autoequip.success");
                 return;
@@ -588,8 +591,7 @@ public class CurrencyActionCmds {
             // START OF FISH LOOT CRATE HANDLING
             if (random.nextInt(400) > 380) {
                 var crate = dbUser.isPremium() ? ItemReference.FISH_PREMIUM_CRATE : ItemReference.FISH_CRATE;
-
-                if (player.getItemAmount(crate) >= 5000) {
+                if (!player.canFitItem(crate)) {
                     extraMessage += "\n" + languageContext.get("commands.fish.crate.overflow");
                 } else {
                     player.processItem(crate, 1);
@@ -623,7 +625,7 @@ public class CurrencyActionCmds {
             ArrayList<ItemStack> ita = new ArrayList<>();
             var stack = ItemStack.reduce(list);
             stack.forEach(it -> {
-                if (player.getItemAmount(it.getItem()) + it.getAmount() <= 5000) {
+                if (player.fitsItemStack(it)) {
                     ita.add(it);
                 } else {
                     overflow.set(true);
@@ -782,7 +784,7 @@ public class CurrencyActionCmds {
             ArrayList<ItemStack> ita = new ArrayList<>();
             var stack = ItemStack.reduce(list);
             stack.forEach(it -> {
-                if (player.getItemAmount(it.getItem()) + it.getAmount() <= 5000) {
+                if (player.fitsItemStack(it)) {
                     ita.add(it);
                 } else {
                     overflow.set(true);
@@ -799,10 +801,10 @@ public class CurrencyActionCmds {
                 // There should only be one, as we merged it beforehand.
                 var wood = ita.stream().filter(is -> is.getItem() == ItemReference.WOOD).toList();
                 int am = Math.max(1, random.nextInt(7));
-                if (player.getItemAmount(ItemReference.WOOD) + am + wood.get(0).getAmount() <= 5000) {
+                if (player.fitsItemAmount(ItemReference.WOOD, am + wood.get(0).getAmount())) {
                     ita.add(new ItemStack(ItemReference.WOOD, am));
                 }
-            } else if (found && (player.getItemAmount(ItemReference.WOOD) + 1 <= 5000)) {
+            } else if (found && player.canFitItem(ItemReference.WOOD)) {
                     ita.add(new ItemStack(ItemReference.WOOD, 1));
 
             }
@@ -828,7 +830,7 @@ public class CurrencyActionCmds {
 
             if (random.nextInt(400) > 380) {
                 var crate = dbUser.isPremium() ? ItemReference.CHOP_PREMIUM_CRATE : ItemReference.CHOP_CRATE;
-                if (player.getItemAmount(crate) >= 5000) {
+                if (!player.canFitItem(crate)) {
                     extraMessage += "\n" + languageContext.get("commands.chop.crate.overflow");
                 } else {
                     player.processItem(crate, 1);

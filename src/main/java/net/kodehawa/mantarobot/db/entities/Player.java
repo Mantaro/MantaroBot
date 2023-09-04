@@ -597,6 +597,21 @@ public class Player implements ManagedMongoObject {
     }
 
     @BsonIgnore
+    public boolean fitsItemAmount(Item item, int amount) {
+        return getItemAmount(item) + amount <= ItemStack.MAX_STACK_SIZE;
+    }
+
+    @BsonIgnore
+    public boolean canFitItem(Item item) {
+        return fitsItemAmount(item, 1);
+    }
+
+    @BsonIgnore
+    public boolean fitsItemStack(ItemStack it) {
+        return fitsItemAmount(it.getItem(), it.getAmount());
+    }
+
+    @BsonIgnore
     public void processItem(Item item, int amount) {
         inventoryObject.process(new ItemStack(item, amount));
         fieldTracker.put("inventory", getInventory());

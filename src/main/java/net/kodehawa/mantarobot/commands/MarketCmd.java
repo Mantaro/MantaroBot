@@ -232,22 +232,24 @@ public class MarketCmd {
     @Category(CommandCategory.CURRENCY)
     @Options({
             @Options.Option(type = OptionType.STRING, name = "item", description = "The item to buy", required = true),
-            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to buy.", maxValue = 5000)
+            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to buy.", maxValue = ItemStack.MAX_STACK_SIZE),
+            @Options.Option(type = OptionType.BOOLEAN, name = "max", description = "Buy as many as possible. Makes it so amount is ignored.")
     })
     @Help(
             description = "Buys an item",
             usage = """
-                    To buy an item do `/buy amount:<amount> item:<item name>`. The maximum amount is 5000.
+                    To buy an item do `/buy amount:<amount> item:<item name>` or `/buy max:true item:<item name>`. The maximum amount is 5000.
                     """,
             parameters = {
                     @Help.Parameter(name = "amount", description = "The amount of the item to buy."),
-                    @Help.Parameter(name = "item", description = "The item to buy.")
+                    @Help.Parameter(name = "item", description = "The item to buy."),
+                    @Help.Parameter(name = "max", description = "Whether to attempt buying the maximum amount currently possible for you. Makes it so amount is ignored.", optional = true)
             }
     )
     public static class Buy extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            buy(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount", 1));
+            buy(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount", 1), ctx.getOptionAsBoolean("max"));
         }
     }
 
@@ -256,22 +258,24 @@ public class MarketCmd {
     @Category(CommandCategory.CURRENCY)
     @Options({
             @Options.Option(type = OptionType.STRING, name = "item", description = "The item to sell", required = true),
-            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to sell.", maxValue = 5000)
+            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to sell.", maxValue = ItemStack.MAX_STACK_SIZE),
+            @Options.Option(type = OptionType.BOOLEAN, name = "max", description = "Sell as many as possible. Makes it so amount is ignored.")
     })
     @Help(
             description = "Sells an item",
             usage = """
-                    To sell an item do `/sell amount:<amount> item:<item name>`. The maximum amount is the amount of items you have.
+                    To sell an item do `/sell amount:<amount> item:<item name>` or `/sell max:true item:<item name>`. The maximum amount is the amount of items you have.
                     """,
             parameters = {
                     @Help.Parameter(name = "amount", description = "The amount of the item to sell."),
-                    @Help.Parameter(name = "item", description = "The item to sell.")
+                    @Help.Parameter(name = "item", description = "The item to sell."),
+                    @Help.Parameter(name = "max", description = "Whether to attempt selling as many as currently possible for you. Makes it so amount is ignored.")
             }
     )
     public static class Sell extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            sell(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount", 1));
+            sell(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount", 1), ctx.getOptionAsBoolean("max"));
         }
     }
 
@@ -281,7 +285,8 @@ public class MarketCmd {
     @Category(CommandCategory.CURRENCY)
     @Options({
             @Options.Option(type = OptionType.STRING, name = "item", description = "The item to dump", required = true),
-            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to dump.", maxValue = 5000)
+            @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of the item to dump.", maxValue = ItemStack.MAX_STACK_SIZE),
+            @Options.Option(type = OptionType.BOOLEAN, name = "max", description = "Dump as many as possible. Makes it so amount is ignored.")
     })
     @Help(
             description = "Dumps an item",
@@ -290,13 +295,14 @@ public class MarketCmd {
                     """,
             parameters = {
                     @Help.Parameter(name = "amount", description = "The amount of the item to dump"),
-                    @Help.Parameter(name = "item", description = "The item to dump")
+                    @Help.Parameter(name = "item", description = "The item to dump"),
+                    @Help.Parameter(name = "max", description = "Whether to attempt dumping as many as currently possible for you. Makes it so amount is ignored.")
             }
     )
     public static class Dump extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            dump(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount", 1));
+            dump(ctx, ctx.getOptionAsString("item"), ctx.getOptionAsInteger("amount", 1), ctx.getOptionAsBoolean("max"));
         }
     }
 
@@ -435,6 +441,7 @@ public class MarketCmd {
                 var itemNumber = 1;
                 var split = args[0];
                 var isMassive = split.matches("^[0-9]*$");
+                var isMax = "max".equalsIgnoreCase(split);
 
                 if (isMassive) {
                     try {
@@ -445,8 +452,11 @@ public class MarketCmd {
                         return;
                     }
                 }
+                if (isMax) {
+                    itemName = itemName.replace(args[0], "").trim();
+                }
 
-                sell(ctx, itemName, itemNumber);
+                sell(ctx, itemName, itemNumber, isMax);
             }
 
             @Override
@@ -479,6 +489,7 @@ public class MarketCmd {
                 var itemNumber = 1;
                 var split = args[0];
                 var isMassive = split.matches("^[0-9]*$");
+                var isMax = false;
                 if (isMassive) {
                     try {
                         itemNumber = Math.abs(Integer.parseInt(split));
@@ -493,15 +504,19 @@ public class MarketCmd {
                         case "all" -> itemNumber = ItemStack.MAX_STACK_SIZE;
                         case "half" -> itemNumber = ItemStack.MAX_STACK_SIZE / 2;
                         case "quarter" -> itemNumber = ItemStack.MAX_STACK_SIZE / 4;
+                        // you might think: isn't "all" and "max", to that I say no
+                        // all is MAX_STACK_SIZE, while max changes based on how much the
+                        // player can still fit into their inventory
+                        case "max" -> isMax = true;
                         default -> {}
                     }
 
-                    if (itemNumber > 1) {
+                    if (itemNumber > 1 || isMax) {
                         itemName = itemName.replace(args[0], "").trim();
                     }
                 }
 
-                buy(ctx, itemName, itemNumber);
+                buy(ctx, itemName, itemNumber, isMax);
             }
 
             @Override
@@ -532,7 +547,9 @@ public class MarketCmd {
 
                 var itemName = content;
                 var itemNumber = 1;
-                var isMassive = itemName.split(" ")[0].matches("^[0-9]*$");
+                var split = itemName.split(" ")[0];
+                var isMassive = split.matches("^[0-9]*$");
+                var isMax = "max".equalsIgnoreCase(split);
                 if (isMassive) {
                     try {
                         itemNumber = Math.abs(Integer.parseInt(itemName.split(" ")[0]));
@@ -542,8 +559,11 @@ public class MarketCmd {
                         return;
                     }
                 }
+                if (isMax) {
+                    itemName = itemName.replace(args[0], "").trim();
+                }
 
-                dump(ctx, itemName, itemNumber);
+                dump(ctx, itemName, itemNumber, isMax);
             }
 
             @Override
@@ -583,7 +603,7 @@ public class MarketCmd {
         );
     }
 
-    private static void dump(IContext ctx, String itemName, int itemNumber) {
+    private static void dump(IContext ctx, String itemName, int itemNumber, boolean isMax) {
         if (itemNumber < 1) {
             ctx.sendLocalized("commands.market.dump.invalid", EmoteReference.ERROR);
             return;
@@ -602,7 +622,13 @@ public class MarketCmd {
             return;
         }
 
-        if (player.getItemAmount(item) < itemNumber) {
+        var playerCount = player.getItemAmount(item);
+
+        if (isMax) {
+            itemNumber = Math.max(1, playerCount);
+        }
+
+        if (playerCount < itemNumber) {
             ctx.sendLocalized("commands.market.dump.more_items_than_player", EmoteReference.ERROR);
             return;
         }
@@ -620,7 +646,7 @@ public class MarketCmd {
         ctx.sendLocalized("commands.market.dump.success", EmoteReference.CORRECT, itemNumber, item.getEmoji(), item.getName());
     }
 
-    private static void sell(IContext ctx, String item, int amount) {
+    private static void sell(IContext ctx, String item, int amount, boolean isMax) {
         if (amount < 1) {
             ctx.sendLocalized("commands.market.sell.invalid", EmoteReference.ERROR);
             return;
@@ -645,12 +671,17 @@ public class MarketCmd {
                 return;
             }
 
-            if (player.getItemAmount(toSell) < 1) {
+            var playerCount = player.getItemAmount(toSell);
+            if (isMax) {
+                amount = Math.max(1, playerCount);
+            }
+
+            if (playerCount < 1) {
                 ctx.sendLocalized("commands.market.sell.no_item_player", EmoteReference.STOP);
                 return;
             }
 
-            if (player.getItemAmount(toSell) < amount) {
+            if (playerCount < amount) {
                 ctx.sendLocalized("commands.market.sell.more_items_than_player", EmoteReference.ERROR);
                 return;
             }
@@ -672,9 +703,10 @@ public class MarketCmd {
         }
     }
 
-    private static void buy(IContext ctx, String itemName, int itemNumber) {
+    private static void buy(IContext ctx, String itemName, int itemNumber, boolean isMax) {
         var languageContext = ctx.getLanguageContext();
         var player = ctx.getPlayer();
+
         if (itemNumber < 1) {
             ctx.sendLocalized("commands.market.buy.invalid", EmoteReference.ERROR);
             return;
@@ -699,7 +731,14 @@ public class MarketCmd {
                 return;
             }
 
-            if (player.getItemAmount(itemToBuy) + itemNumber > 5000) {
+            var price = itemToBuy.getValue();
+            var playerCount = player.getItemAmount(itemToBuy);
+
+            if (isMax) {
+                itemNumber = (int) Math.max(1, Math.min(ItemStack.MAX_STACK_SIZE - playerCount, player.getNewMoney() / price));
+            }
+
+            if (!player.fitsItemAmount(itemToBuy, itemNumber)) {
                 ctx.sendLocalized("commands.market.buy.item_limit_reached", EmoteReference.ERROR);
                 return;
             }
@@ -708,7 +747,7 @@ public class MarketCmd {
                 return;
             }
 
-            var value = itemToBuy.getValue() * itemNumber;
+            var value = price * itemNumber;
             var removedMoney = player.removeMoney(value);
             if (removedMoney) {
                 player.processItem(itemToBuy, itemNumber);

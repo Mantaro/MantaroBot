@@ -887,16 +887,15 @@ public class PetCmds {
                 }
 
                 var baseline = foodItem.getHungerLevel();
-                var increase = baseline * amount;
 
                 if (isFull) {
                     amount = (100 - pet.getHunger()) / baseline;
                     if (pet.getHunger() + (baseline * amount) < 100 || amount == 0) {
                         amount += 1;
                     }
-
-                    increase = baseline * amount;
                 }
+
+                var increase = baseline * amount;
 
                 if (amount > player.getItemAmount(itemObject)) {
                     ctx.reply("commands.pet.feed.not_inventory", EmoteReference.ERROR, amount);

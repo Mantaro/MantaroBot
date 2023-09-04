@@ -43,7 +43,7 @@ public class ImageCmdSlash extends SlashCommand {
         this.toSend = toSend;
         super.setHelp(new HelpContent.Builder()
                 .setDescription(getDescription())
-                .setUsage("`/action " + getName().toLowerCase() + (noMentions ? "" : " user:[user]") + "`")
+                .setUsage("`/action " + getName().toLowerCase() + " user:[user]`")
                 .build()
         );
     }
@@ -56,7 +56,7 @@ public class ImageCmdSlash extends SlashCommand {
         this.type = type;
         super.setHelp(new HelpContent.Builder()
                 .setDescription(getDescription())
-                .setUsage("`/action " + getName().toLowerCase() + (noMentions ? "" : " user:[user]") + "`")
+                .setUsage("`/action " + getName().toLowerCase() + " user:[user]`")
                 .build()
         );
     }

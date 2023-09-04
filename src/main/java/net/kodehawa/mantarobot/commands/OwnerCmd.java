@@ -158,7 +158,7 @@ public class OwnerCmd {
 
             var player = ctx.getPlayer();
 
-            if (player.getItemAmount(item) + amount < 5000) {
+            if (player.fitsItemAmount(item, amount)) {
                 player.processItem(item, amount);
             } else {
                 ctx.send(EmoteReference.ERROR + "Too many of this item already.");
@@ -353,7 +353,7 @@ public class OwnerCmd {
             ));
         }
     }
-    
+
     @Permission(CommandPermission.OWNER)
     @Category(CommandCategory.OWNER)
     @Help(
@@ -370,13 +370,13 @@ public class OwnerCmd {
         protected void process(NewContext ctx) {
             ctx.send(EmoteReference.ERROR + "Invalid type. (Valid: guild, user)");
         }
-        
+
         private abstract static class BlacklistCommand<T> extends NewCommand {
             private final String type;
             private final Function<MantaroObject, List<String>> dbGetter;
             private final BiFunction<ShardManager, String, T> entityGetter;
             private final Function<T, String> formatter;
-    
+
             private BlacklistCommand(String type, Function<MantaroObject, List<String>> dbGetter,
                                      BiFunction<ShardManager, String, T> entityGetter, Function<T, String> formatter) {
                 this.type = type;
@@ -384,7 +384,7 @@ public class OwnerCmd {
                 this.entityGetter = entityGetter;
                 this.formatter = formatter;
             }
-    
+
             @Override
             protected void process(NewContext ctx) {
                 var action = ctx.argument(Parsers.string());
@@ -426,7 +426,7 @@ public class OwnerCmd {
                 }
             }
         }
-    
+
         public static class Guild extends BlacklistCommand<net.dv8tion.jda.api.entities.Guild> {
             public Guild() {
                 super("Guild",
@@ -436,7 +436,7 @@ public class OwnerCmd {
                 );
             }
         }
-    
+
         public static class User extends BlacklistCommand<net.dv8tion.jda.api.entities.User> {
             public User() {
                 super("User",

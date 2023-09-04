@@ -205,8 +205,8 @@ public class MarryCmd {
                         // Remove the ring from the proposing player inventory.
                         proposingPlayerFinal.processItem(ItemReference.RING, -1);
 
-                        // Silently scrape the ring if the receipt has more than 5000 rings.
-                        if (proposedToPlayer.getItemAmount(ItemReference.RING) < 5000) {
+                        // Silently scrap the ring if the receipt has more than 5000 rings.
+                        if (proposedToPlayer.canFitItem(ItemReference.RING)) {
                             proposedToPlayer.processItem(ItemReference.RING, 1);
                         }
 
@@ -237,11 +237,11 @@ public class MarryCmd {
                         proposedToPlayer.addBadgeIfAbsent(Badge.MARRIED);
 
                         // Give a love letter both to the proposing player and the one who was proposed to.
-                        if (proposingPlayerFinal.getItemAmount(ItemReference.LOVE_LETTER) < 5000) {
+                        if (proposingPlayerFinal.canFitItem(ItemReference.LOVE_LETTER)) {
                             proposingPlayerFinal.processItem(ItemReference.LOVE_LETTER, 1);
                         }
 
-                        if (proposedToPlayer.getItemAmount(ItemReference.LOVE_LETTER) < 5000) {
+                        if (proposedToPlayer.canFitItem(ItemReference.LOVE_LETTER)) {
                             proposedToPlayer.processItem(ItemReference.LOVE_LETTER, 1);
                         }
 

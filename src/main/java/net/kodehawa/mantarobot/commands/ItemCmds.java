@@ -24,6 +24,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
+import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
@@ -122,7 +123,8 @@ public class ItemCmds {
         @Description("Cast an item.")
         @Options({
                 @Options.Option(type = OptionType.STRING, name = "item", description = "The item to cast.", required = true),
-                @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount to cast.", maxValue = 10)
+                @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount to cast.", maxValue = 10),
+                @Options.Option(type = OptionType.BOOLEAN, name = "max", description = "Cast as many as possible. Makes it so amount is ignored.")
         })
         @Help(
                 description = """
@@ -130,10 +132,13 @@ public class ItemCmds {
                             Casting requires you to have the necessary materials to cast the item, and it has a cost of `item value / 2`.
                             Cast-able items are only able to be acquired by this command. They're non-buyable items, though you can sell them for a profit.
                             You need to equip a wrench if you want to use it. Wrenches have no broken type.""",
-                usage = "`/cast item item:<item name> amount:[amount]`",
+                usage = """
+                        `/cast item item:<item name> amount:[amount]`
+                        `/cast item item:<item name> max:true`""",
                 parameters = {
                         @Help.Parameter(name = "item", description = "The item to cast."),
-                        @Help.Parameter(name = "amount", description = "The amount of the item to cast, 1 by default. Depends on your wrench, maximum is 10.", optional = true)
+                        @Help.Parameter(name = "amount", description = "The amount of the item to cast, 1 by default. Depends on your wrench, maximum is 10.", optional = true),
+                        @Help.Parameter(name = "max", description = "Whether to attempt casting as many of the item as currently possible for you. Makes it so amount is ignored.", optional = true)
                 }
         )
         public static class CastItem extends SlashCommand {
@@ -141,6 +146,14 @@ public class ItemCmds {
             protected void process(SlashContext ctx) {
                 var itemName = ctx.getOptionAsString("item");
                 var amountSpecified = ctx.getOptionAsInteger("amount", 1);
+                var maxAmount = ItemStack.MAX_STACK_SIZE; // set to stacklimit for now, it will never truly attempt 5000
+                var isMax = ctx.getOptionAsBoolean("max");
+                if (isMax) {
+                    // for max it is important that we set this to one
+                    // as we will always attempt to make at least one
+                    // so this ensures all the other checks remain functional
+                    amountSpecified = 1;
+                }
 
                 // Get the necessary entities.
                 var player = ctx.getPlayer();
@@ -175,6 +188,12 @@ public class ItemCmds {
                     return;
                 }
 
+                // if wrench tier is below 2 we cannot make more than one item
+                // so maxAmount should fall to 1
+                if (wrenchItem.getLevel() < 2) maxAmount = 1;
+
+                // max will never fall into this as we mimic one until the very end
+                // however the above ensures this check isn't needed
                 if (amountSpecified > 1 && wrenchItem.getLevel() < 2) {
                     ctx.reply("commands.cast.low_tier", EmoteReference.ERROR, wrenchItem.getLevel());
                     return;
@@ -185,15 +204,24 @@ public class ItemCmds {
                 var recipe = castItem.getRecipe();
                 var splitRecipe = recipe.split(";");
 
-                // How many parenthesis again?
-                var castCost = (long) (((castItem.getValue() / 2) * amountSpecified) * wrenchItem.getMultiplierReduction());
 
-                var money = player.getCurrentMoney();
+
+
                 var isItemCastable = castItem instanceof Castable;
                 var wrenchLevelRequired = isItemCastable ? ((Castable) castItem).getCastLevelRequired() : 1;
 
-                if (money < castCost) {
-                    ctx.reply("commands.cast.not_enough_money", EmoteReference.ERROR, castCost);
+                // How many parenthesis again? (cost for one recipe attempt)
+                var castCost = (long) (((castItem.getValue() / 2)) * wrenchItem.getMultiplierReduction());
+                var money = player.getCurrentMoney();
+                // calculate maximum amount possible by cost (can be 0)
+                int maxByMoney = (int) (player.getCurrentMoney() / castCost);
+
+                // if maxByMoney is lower than maxAmount should fall to this value
+                if (maxByMoney < maxAmount) maxAmount = maxByMoney;
+
+                // max falls into this and pretends like one recipe was attempted if the user cannot make a single one
+                if (money < castCost * amountSpecified || maxAmount <= 0) {
+                    ctx.reply("commands.cast.not_enough_money", EmoteReference.ERROR, castCost * amountSpecified);
                     return;
                 }
 
@@ -206,10 +234,13 @@ public class ItemCmds {
                 if (wrenchItem.getTier() >= 4)
                     limit *= 2;
 
-                if (amountSpecified > limit) {
+                if (amountSpecified > limit && !isMax) {
                     ctx.reply("commands.cast.too_many_amount", EmoteReference.ERROR, limit, amountSpecified);
                     return;
                 }
+
+                // if the limit is less than what by money etc. determined we set maxAmount to the limit.
+                if (limit < maxAmount) maxAmount = limit;
 
                 var dust = user.getDustLevel();
                 if (dust > 95) {
@@ -222,7 +253,8 @@ public class ItemCmds {
                 var recipeString = new StringBuilder();
                 for (int i : castItem.getRecipeTypes()) {
                     var item = ItemHelper.fromId(i);
-                    var amount = Integer.parseInt(splitRecipe[increment]) * amountSpecified;
+                    // amount cost for a single item
+                    var amount = Integer.parseInt(splitRecipe[increment]);
 
                     if (!player.containsItem(item)) {
                         ctx.reply("commands.cast.no_item", EmoteReference.ERROR, item.getName(), amount);
@@ -230,27 +262,44 @@ public class ItemCmds {
                     }
 
                     int inventoryAmount = player.getItemAmount(item);
-                    if (inventoryAmount < amount) {
+                    // maximum amount possible by items the player has (can be 0)
+                    int max = inventoryAmount / amount;
+
+                    // max falls into this if the above determined 0 and will pretend like 1 recipe was attempted
+                    if (inventoryAmount < amount * amountSpecified || (isMax && max <= 0)) {
                         ctx.reply("commands.cast.not_enough_items",
-                                EmoteReference.ERROR, item.getName(), castItem.getName(), amount, inventoryAmount
+                                EmoteReference.ERROR, item.getName(), castItem.getName(), amount * amountSpecified, inventoryAmount
                         );
                         return;
                     }
+                    // if max is less than what was previous determined by maxAmount
+                    // then maxAmount should fall to max
+                    if (max < maxAmount) maxAmount = max;
 
                     castMap.put(item, amount);
-                    recipeString.append(amount).append("x \u2009").append(item.getEmojiDisplay()).append(item.getName()).append(" ");
                     increment++;
                 }
 
-                if (player.getItemAmount(castItem) + amountSpecified > 5000) {
+                // determine maximum possible by amount of final item already in players inv (can be 0)
+                int maxByStackLimit = ItemStack.MAX_STACK_SIZE - player.getItemAmount(castItem);
+                // if max by stack limit is less maxAmount should fall to this
+                if (maxByStackLimit < maxAmount) maxAmount = maxByStackLimit;
+
+                // max will fall into this if max by stack limit determined 0 and pretend like a single was attempted
+                if (!player.fitsItemAmount(castItem, amountSpecified) || (isMax && maxAmount <= 0)) {
                     ctx.reply("commands.cast.too_many", EmoteReference.ERROR);
                     return;
                 }
 
+                // if max was used, we have passed all checks by this point and can set the "user provided amount"
+                // to the determined value and continue with handling
+                if (isMax) amountSpecified = maxAmount;
+
                 for (var entry : castMap.entrySet()) {
                     var i = entry.getKey();
-                    var amount = entry.getValue();
+                    var amount = entry.getValue() * amountSpecified;
                     player.processItem(i, -amount);
+                    recipeString.append(amount).append("x \u2009").append(i.getEmojiDisplay()).append(i.getName()).append(" ");
                 }
                 // end of recipe build
 
@@ -272,7 +321,7 @@ public class ItemCmds {
                 user.increaseDustLevel(3);
                 user.updateAllChanged();
 
-                player.removeMoney(castCost);
+                player.removeMoney(castCost * amountSpecified);
                 player.updateAllChanged();
 
                 PlayerStats stats = ctx.getPlayerStats();
@@ -282,7 +331,7 @@ public class ItemCmds {
                 ItemHelper.handleItemDurability(wrenchItem, ctx, player, user, "commands.cast.autoequip.success");
                 ctx.replyRaw(ctx.getLanguageContext().get("commands.cast.success") + "\n" + message,
                         wrenchItem.getEmojiDisplay(), amountSpecified, "\u2009" + castItem.getEmoji(),
-                        castItem.getName(), castCost, recipeString.toString().trim()
+                        castItem.getName(), castCost * amountSpecified, recipeString.toString().trim()
                 );
             }
         }

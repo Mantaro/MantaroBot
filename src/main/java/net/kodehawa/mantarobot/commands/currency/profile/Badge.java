@@ -20,6 +20,7 @@ package net.kodehawa.mantarobot.commands.currency.profile;
 import net.dv8tion.jda.internal.utils.IOUtil;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
+import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -327,7 +328,7 @@ public enum Badge {
             91, 92,
             (player, stats, dbUser) -> player.getInventoryList().stream()
                     .filter(itemStack -> itemStack.getItem() != ItemReference.CLAIM_KEY)
-                    .anyMatch(stack -> stack.getAmount() == 5000), false
+                    .anyMatch(stack -> stack.getAmount() == ItemStack.MAX_STACK_SIZE), false
     ),
 
     EXPERIENCED_MINER("Experienced Miner", "<:star_pick:492882142993580038>",

@@ -75,8 +75,8 @@ public class Inventory {
         boolean[] hadOverflow = {false};
         toAdd.forEach((id, amount) -> {
             int currentAmount = map.getOrDefault(id, 0);
-            if (currentAmount + amount > 5000) {
-                currentAmount = 5000;
+            if (currentAmount + amount > ItemStack.MAX_STACK_SIZE) {
+                currentAmount = ItemStack.MAX_STACK_SIZE;
                 hadOverflow[0] = true;
             } else {
                 currentAmount += amount;
@@ -111,7 +111,7 @@ public class Inventory {
     public static List<ItemStack> unserialize(Map<String, Integer> map) {
         return map.entrySet().stream().filter(e -> e.getValue() != 0)
                 .filter(e -> ItemHelper.fromTranslationSlice(e.getKey()).isPresent())
-                .map(entry -> new ItemStack(ItemHelper.fromTranslationSlice(entry.getKey()).get(), Math.max(Math.min(entry.getValue(), 5000), 0)))
+                .map(entry -> new ItemStack(ItemHelper.fromTranslationSlice(entry.getKey()).get(), Math.max(Math.min(entry.getValue(), ItemStack.MAX_STACK_SIZE), 0)))
                 .collect(Collectors.toList());
     }
 }
