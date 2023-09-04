@@ -1408,6 +1408,16 @@
         "ratelimit_message": "Você pode acariciar seu pet até 25 vezes. Depois disso você tem que esperar o tempo acima para mais acariciar mais 25 vezes.",
         "too_many": "Como você conseguiu tanto carinho?"
       },
+      "play": {
+        "no_pet": "%1$sYou don't have any pets to play with. Check `/pet explanation` for an explanation. (Choice: %2$s)",
+        "no_pet_other": "%1$s%2$s doesn't have any pets to play with. Check `/pet explanation` for an explanation.",
+        "reactions": {
+          "playful": "Your pet playfully plays with you.",
+          "love": "After a long play session, your pet looks lovingly at you.",
+          "dev": "You both played some games together. It was fun.",
+          "nothing": "The pet rock stares deeply at your soul, ever unmoving."
+        }
+      },
       "pet_reactions": {
         "cute": "%1$s**%2$s** abana o rabo alegremente enquanto você acaricia sua cabeça.%3$s",
         "cute_not_animal": "%1$s**%2$s** sorri alegremente enquanto você acaricia sua cabeça.%3$s",
