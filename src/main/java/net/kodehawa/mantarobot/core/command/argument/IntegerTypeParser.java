@@ -50,7 +50,7 @@ public class IntegerTypeParser<T> implements Parser<T> {
                 if (!Character.isDigit(c)) break;
                 builder.append(c);
             }
-            if (builder.length() == 0) return Optional.empty();
+            if (builder.isEmpty()) return Optional.empty();
             int multiplier;
             if (offset < s.length()) {
                 switch (s.substring(offset).toLowerCase()) {

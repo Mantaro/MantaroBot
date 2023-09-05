@@ -90,7 +90,7 @@ public class OptsCmd {
                 if (args[0].equalsIgnoreCase("help")) {
                     for (int i = 1; i < args.length; i++) {
                         var s = args[i];
-                        if (name.length() > 0) {
+                        if (!name.isEmpty()) {
                             name.append(":");
                         }
 
@@ -117,7 +117,7 @@ public class OptsCmd {
 
                 for (int i = 0; i < args.length; i++) {
                     var str = args[i];
-                    if (name.length() > 0) {
+                    if (!name.isEmpty()) {
                         name.append(":");
                     }
 

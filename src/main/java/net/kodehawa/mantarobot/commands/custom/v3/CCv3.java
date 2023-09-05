@@ -280,7 +280,7 @@ public class CCv3 {
             }
             String iam = args.get(0).evaluate();
             String ctn = args.stream().skip(1).map(Operation.Argument::evaluate).collect(Collectors.joining(" "));
-            
+
             if (ctn.isEmpty())
                 MiscCmds.iamnotFunction(iam, context.getCommandContext());
             else
@@ -292,7 +292,7 @@ public class CCv3 {
         DEFAULT_OPERATIONS.put("timestamp", (context, args) -> {
             DateTimeFormatter formatter = DEFAULT_TIMESTAMP_FORMATTER;
             ZoneId zone = ZoneId.of("UTC");
-            if (args.isEmpty()) {
+            if (!args.isEmpty()) {
                 String pattern = args.get(0).evaluate();
                 try {
                     formatter = DateTimeFormatter.ofPattern(pattern);

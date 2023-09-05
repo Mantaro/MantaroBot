@@ -75,7 +75,7 @@ public class TokenIterator implements Iterator<Token> {
         }
 
         private void pushCurrentLiteral() {
-            if (current.length() > 0) {
+            if (!current.isEmpty()) {
                 out.add(new Token(position(i - current.length(), i - 1), TokenType.LITERAL, current.toString()));
                 current.setLength(0);
             }

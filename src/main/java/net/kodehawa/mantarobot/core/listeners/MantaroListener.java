@@ -51,7 +51,6 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.BirthdayCmd;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
-import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.core.listeners.helpers.WelcomeUtils;

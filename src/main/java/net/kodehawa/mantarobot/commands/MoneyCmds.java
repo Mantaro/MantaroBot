@@ -322,7 +322,6 @@ public class MoneyCmds {
         final long currentDailyOffset = DAILY_VALID_PERIOD_MILLIS - (currentTime - authorPlayer.getLastDailyAt()) ;
 
         long streak = authorPlayer.getDailyStreak();
-        var removedWatch = false;
         // Not expired?
         if (currentDailyOffset + amountStreakSavers * DAILY_VALID_PERIOD_MILLIS >= 0) {
             streak++;
@@ -337,8 +336,6 @@ public class MoneyCmds {
                         streakSaversUsed, streakSaversUsed + 1,
                         amountStreakSavers - streakSaversUsed)
                 );
-
-                removedWatch = true;
             }
         } else {
             if (streak == 0) {
@@ -350,8 +347,6 @@ public class MoneyCmds {
                     );
 
                     authorPlayer.processItem(ItemReference.MAGIC_WATCH, authorPlayer.getItemAmount(ItemReference.MAGIC_WATCH) * -1);
-                    removedWatch = true;
-
                 } else {
                     returnMessage.add(languageContext.get("commands.daily.streak.lost_streak.normal").formatted(streak));
                 }
@@ -377,7 +372,7 @@ public class MoneyCmds {
                 }
 
                 if (streak > 15){
-                    bonus += Math.min(targetOther ? 2000 : 1000, Math.floor(200 * streak / (targetOther ? 10D : 15D)));
+                    bonus += (int) Math.min(targetOther ? 2000 : 1000, Math.floor(200 * streak / (targetOther ? 10D : 15D)));
 
                     if (streak >= 180) {
                         authorPlayer.addBadgeIfAbsent(Badge.BIG_CLAIMER);

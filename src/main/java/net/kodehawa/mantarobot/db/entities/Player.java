@@ -93,6 +93,7 @@ public class Player implements ManagedMongoObject {
     private HousePet pet;
     private List<Badge> badges = new ArrayList<>();
     private List<ProfileComponent> profileComponents = new LinkedList<>();
+    @SuppressWarnings("FieldCanBeLocal")
     private Map<String, Integer> inventory = new HashMap<>();
 
     public Player() {}

@@ -137,7 +137,7 @@ public class RateLimiter {
         return this.usersRateLimited;
     }
 
-    private static class Pair<F, S> {
+    public static class Pair<F, S> {
         F first;
         S second;
     }

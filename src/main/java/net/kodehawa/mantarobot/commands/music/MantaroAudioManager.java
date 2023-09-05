@@ -52,12 +52,12 @@ public class MantaroAudioManager {
 
     private final Map<String, GuildMusicManager> musicManagers;
     private final AudioPlayerManager playerManager;
-    private final Config config = MantaroData.config().get();
 
     public MantaroAudioManager() {
         this.musicManagers = new ConcurrentHashMap<>();
         this.playerManager = new DefaultAudioPlayerManager();
 
+        Config config = MantaroData.config().get();
         if (config.musicEnable()) {
             //Register source managers and configure the Player
             playerManager.registerSourceManager(SoundCloudAudioSourceManager.createDefault());

@@ -474,7 +474,7 @@ public class DiscordUtils {
         var stringBuilder = new StringBuilder();
 
         // Since we remove data from the string, loop until there's nothing left.
-        while (str.length() > 0) {
+        while (!str.isEmpty()) {
             // We're gonna split on the given split character. Most commonly newline.
             var index = str.indexOf(splitOn);
             // Split the string on the first occurrence of the split character
@@ -498,7 +498,7 @@ public class DiscordUtils {
         }
 
         // We have a dangling StringBuilder with actual content, add it to a new page.
-        if (stringBuilder.length() != 0) {
+        if (!stringBuilder.isEmpty()) {
             list.add(stringBuilder.toString().trim());
         }
 
@@ -566,7 +566,7 @@ public class DiscordUtils {
         // If we have a dangling builder, it means we didn't get to reset the builder
         // when building a new embed, and there's a dangling one:
         // Add it to the total.
-        if (stringBuilder.length() > 0) {
+        if (!stringBuilder.isEmpty()) {
             var embedBuilder = supplier.apply(embeds.size() + 1, total);
             embedBuilder.setDescription(stringBuilder.toString());
 
@@ -592,7 +592,7 @@ public class DiscordUtils {
                                           List<List<MessageEmbed.Field>> splitFields, final String str) {
         final var languageContext = ctx.getLanguageContext();
         final var show =  str.isEmpty() ? "" : EmoteReference.TALKING.toHeaderString() + str + "\n";
-        final var newLine = builder.getDescriptionBuilder().length() > 0 ? "\n" : "";
+        final var newLine = !builder.getDescriptionBuilder().isEmpty() ? "\n" : "";
 
         if (splitFields.size() > 1) {
             builder.appendDescription(

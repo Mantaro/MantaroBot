@@ -52,7 +52,7 @@ public class StringUtils {
                 currentBlock.append(currentChar);
             } else if (Character.isSpaceChar(currentChar)) { //If current character is a space.
                 // Check if next or last character is a " or a start/end smart quote character aka “ or ” and remove them.
-                if (currentBlock.length() != 0) {
+                if (!currentBlock.isEmpty()) {
                     if (((currentBlock.charAt(0) == '"' || currentBlock.charAt(0) == '“') &&
                             (currentBlock.charAt(currentBlock.length() - 1) == '"' || currentBlock.charAt(currentBlock.length() - 1) == '”'))
                     ) {
@@ -73,7 +73,7 @@ public class StringUtils {
             }
         }
 
-        if (currentBlock.length() != 0) {
+        if (!currentBlock.isEmpty()) {
             // Check if next or last character is a " or a start/end smart quote character aka “ or ” and remove them.
             if ((currentBlock.charAt(0) == '"' || currentBlock.charAt(0) == '“') &&
                     (currentBlock.charAt(currentBlock.length() - 1) == '"' || currentBlock.charAt(currentBlock.length() - 1) == '”')

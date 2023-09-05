@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.commands.utils.polls;
 
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import org.slf4j.Logger;

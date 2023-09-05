@@ -549,7 +549,7 @@ public class CommandRegistry {
     }
 
 
-    public void sendDisabledNotice(MessageReceivedEvent event, MongoGuild data, CommandDisableLevel level) {
+    private void sendDisabledNotice(MessageReceivedEvent event, MongoGuild data, CommandDisableLevel level) {
         if (data.isCommandWarningDisplay() && level != CommandDisableLevel.NONE) {
             event.getChannel().sendMessageFormat("%sThis command is disabled on this server. Reason: %s",
                     EmoteReference.ERROR, Utils.capitalize(level.getName())
@@ -557,7 +557,7 @@ public class CommandRegistry {
         } // else don't
     }
 
-    public void sendDisabledNotice(SlashCommandInteractionEvent event, CommandDisableLevel level) {
+    private void sendDisabledNotice(SlashCommandInteractionEvent event, CommandDisableLevel level) {
         event.reply("%sThis command is disabled on this server. Reason: %s"
                 .formatted(EmoteReference.ERROR, Utils.capitalize(level.getName()))
         ).setEphemeral(true).queue();

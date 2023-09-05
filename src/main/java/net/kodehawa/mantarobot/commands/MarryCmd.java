@@ -715,7 +715,7 @@ public class MarryCmd {
                     }
 
                     if (marriage.getPet() != null) {
-                        moneySplit += marriage.getPet().getType().getCost() * 0.9;
+                        moneySplit += (long) (marriage.getPet().getType().getCost() * 0.9);
                     }
 
                     // Scrape this marriage.

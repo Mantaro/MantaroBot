@@ -49,6 +49,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.time.temporal.TemporalUnit;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -123,7 +124,7 @@ public class Utils {
      * @return A string with the first letter capitalized.
      */
     public static String capitalize(String s) {
-        if (s.length() == 0) {
+        if (s.isEmpty()) {
             return s;
         }
 
@@ -292,7 +293,7 @@ public class Utils {
     public static String urlEncodeUTF8(Map<?, ?> map) {
         var sb = new StringBuilder();
         for (var entry : map.entrySet()) {
-            if (sb.length() > 0) {
+            if (!sb.isEmpty()) {
                 sb.append("&");
             }
 
@@ -663,5 +664,9 @@ public class Utils {
 
     public enum HushType {
         ANIME, CHARACTER, MUSIC
+    }
+
+    public static boolean isAccountOldEnough(User user, int time, TemporalUnit unit) {
+        return user.getTimeCreated().isBefore(OffsetDateTime.now().minus(time, unit));
     }
 }
