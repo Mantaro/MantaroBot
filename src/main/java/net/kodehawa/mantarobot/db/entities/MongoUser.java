@@ -562,6 +562,7 @@ public class MongoUser implements ManagedMongoObject {
         updateAllChanged();
     }
 
+    @Override
     @Nonnull
     public String getId() {
         return this.id;

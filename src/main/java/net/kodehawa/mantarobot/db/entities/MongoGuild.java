@@ -181,6 +181,7 @@ public class MongoGuild implements ManagedMongoObject {
         return new MongoGuild(guildId);
     }
 
+    @Override
     public @NotNull String getId() {
         return id;
     }

@@ -17,26 +17,15 @@
 
 package net.kodehawa.mantarobot.core.command.slash;
 
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.core.command.meta.Category;
-import net.kodehawa.mantarobot.core.command.meta.Defer;
 import net.kodehawa.mantarobot.core.command.meta.Description;
-import net.kodehawa.mantarobot.core.command.meta.Ephemeral;
-import net.kodehawa.mantarobot.core.command.meta.GuildOnly;
-import net.kodehawa.mantarobot.core.command.meta.Help;
-import net.kodehawa.mantarobot.core.command.meta.ModalInteraction;
 import net.kodehawa.mantarobot.core.command.meta.NSFW;
-import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.meta.Options;
-import net.kodehawa.mantarobot.core.command.meta.Permission;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,50 +34,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-public abstract class SlashCommand {
-    private final String name;
+public abstract class SlashCommand extends DeferrableCommand<SlashContext> {
     private final String description;
     private final List<OptionData> types = new ArrayList<>();
     private final Map<String, SlashCommand> subCommands = new HashMap<>();
-    private CommandCategory category;
-    private final CommandPermission permission;
     private Predicate<SlashContext> predicate = c -> true;
-    private boolean ephemeral;
-    private final boolean guildOnly;
-    private final boolean modal;
     private final boolean nsfw;
-    private boolean defer;
-    private HelpContent help;
 
-    // This is basically the same as NewCommand, but the handling ought to be different everywhere else.
-    // There's no aliases either, too little slots.
     public SlashCommand() {
+        super();
         var clazz = getClass();
-        if (clazz.getAnnotation(Name.class) != null) {
-            this.name = clazz.getAnnotation(Name.class).value();
-        } else {
-            this.name = clazz.getSimpleName().toLowerCase();
-        }
 
         // Basically the same as the one above.
         if (clazz.getAnnotation(Description.class) != null) {
             this.description = clazz.getAnnotation(Description.class).value();
         } else {
             this.description = clazz.getSimpleName().toLowerCase();
-        }
-
-        var c = clazz.getAnnotation(Category.class);
-        if (c == null) {
-            this.category = null;
-        } else {
-            this.category = c.value();
-        }
-
-        var p = clazz.getAnnotation(Permission.class);
-        if (p == null) {
-            this.permission = CommandPermission.USER;
-        } else {
-            this.permission = p.value();
         }
 
         var o = clazz.getAnnotation(Options.class);
@@ -118,40 +79,7 @@ public abstract class SlashCommand {
             }
         }
 
-        this.guildOnly = clazz.getAnnotation(GuildOnly.class) != null;
-        this.ephemeral = clazz.getAnnotation(Ephemeral.class) != null;
-        this.modal = clazz.getAnnotation(ModalInteraction.class) != null;
-        this.defer = clazz.getAnnotation(Defer.class) != null;
         this.nsfw = clazz.getAnnotation(NSFW.class) != null;
-
-        var h = clazz.getAnnotation(Help.class);
-        if (h == null) {
-            if (description.isBlank()) {
-                this.help = new HelpContent.Builder().build();
-            } else {
-                this.help = new HelpContent.Builder().setDescription(this.description).build();
-            }
-        } else {
-            var builder = new HelpContent.Builder()
-                    .setDescription(h.description().isBlank() ? this.description : h.description())
-                    .setUsage(h.usage().isBlank() ? null : h.usage())
-                    .setRelated(Arrays.asList(h.related()))
-                    .setParameters(Arrays.asList(h.parameters()))
-                    .setSeasonal(h.seasonal());
-            this.help = builder.build();
-        }
-    }
-
-    public void setEphemeral(boolean ephemeral) {
-        this.ephemeral = ephemeral;
-    }
-
-    public void setDefer(boolean defer) {
-        this.defer = defer;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getDescription() {
@@ -182,11 +110,6 @@ public abstract class SlashCommand {
         return new ArrayList<>(subCommands.values());
     }
 
-    // Needed for subcommands
-    public void setCategory(CommandCategory category) {
-        this.category = category;
-    }
-
     // This is slow, but it's only called once per command.
     public List<SubcommandData> getSubCommandsRaw() {
         List<SubcommandData> temp = new ArrayList<>();
@@ -200,36 +123,12 @@ public abstract class SlashCommand {
         return temp;
     }
 
-    public boolean defer() {
-        return defer;
-    }
-
-    public CommandCategory getCategory() {
-        return category;
-    }
-
-    public CommandPermission getPermission() {
-        return permission;
-    }
-
-    public boolean isGuildOnly() {
-        return guildOnly;
-    }
-
-    public HelpContent getHelp() {
-        return help;
-    }
-
     public void addOption(OptionData data) {
         types.add(data);
     }
 
     public List<OptionData> getOptions() {
         return types;
-    }
-
-    public void setHelp(HelpContent help) {
-        this.help = help;
     }
 
     public void setPredicate(Predicate<SlashContext> predicate) {
@@ -241,21 +140,7 @@ public abstract class SlashCommand {
         return predicate;
     }
 
-    protected abstract void process(SlashContext ctx);
-
-    protected EmbedBuilder baseEmbed(SlashContext ctx, String name) {
-        return baseEmbed(ctx, name, ctx.getMember().getEffectiveAvatarUrl());
-    }
-
-    protected EmbedBuilder baseEmbed(SlashContext ctx, String name, String image) {
-        return new EmbedBuilder()
-                .setAuthor(name, null, image)
-                .setColor(ctx.getMember().getColor())
-                .setFooter("Requested by: %s".formatted(ctx.getMember().getEffectiveName()),
-                        ctx.getGuild().getIconUrl()
-                );
-    }
-
+    @Override
     public final void execute(SlashContext ctx) {
         var sub = getSubCommands().get(ctx.getSubCommand());
         // If this is over 2500ms, we should attempt to defer instead, as discord might be lagging.

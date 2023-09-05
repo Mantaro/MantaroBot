@@ -147,6 +147,7 @@ public class PremiumKey implements ManagedMongoObject {
         return this.expiration;
     }
 
+    @Override
     @Nonnull
     public String getId() {
         return this.id;

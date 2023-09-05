@@ -91,10 +91,12 @@ public class Context implements IContext {
         return bot;
     }
 
+    @Override
     public Config getConfig() {
         return config;
     }
 
+    @Override
     public ManagedDatabase db() {
         return managedDatabase;
     }
@@ -107,6 +109,7 @@ public class Context implements IContext {
         return getEvent().getJDA();
     }
 
+    @Override
     public I18nContext getLanguageContext() {
         return languageContext;
     }
@@ -135,10 +138,12 @@ public class Context implements IContext {
         return mentionedMembers;
     }
 
+    @Override
     public RateLimitContext ratelimitContext() {
         return new RateLimitContext(getGuild(), getMessage(), getChannel(), getEvent(), null);
     }
 
+    @Override
     public Member getMember() {
         return event.getMember();
     }
@@ -147,10 +152,12 @@ public class Context implements IContext {
         return event.getAuthor();
     }
 
+    @Override
     public User getAuthor() {
         return getUser();
     }
 
+    @Override
     public Guild getGuild() {
         return event.getGuild();
     }
@@ -167,6 +174,7 @@ public class Context implements IContext {
         return getGuild().getSelfMember();
     }
 
+    @Override
     public GuildMessageChannel getChannel() {
         return event.getGuildChannel();
     }
@@ -175,18 +183,22 @@ public class Context implements IContext {
         return getBot().getAudioManager();
     }
 
+    @Override
     public ShardManager getShardManager() {
         return getBot().getShardManager();
     }
 
+    @Override
     public MongoGuild getDBGuild() {
         return managedDatabase.getGuild(getGuild());
     }
 
+    @Override
     public MongoUser getDBUser() {
         return managedDatabase.getUser(getUser());
     }
 
+    @Override
     public MongoUser getDBUser(User user) {
         return managedDatabase.getUser(user);
     }
@@ -199,10 +211,12 @@ public class Context implements IContext {
         return managedDatabase.getUser(id);
     }
 
+    @Override
     public Player getPlayer() {
         return managedDatabase.getPlayer(getUser());
     }
 
+    @Override
     public Player getPlayer(User user) {
         return managedDatabase.getPlayer(user);
     }
@@ -235,6 +249,7 @@ public class Context implements IContext {
         return managedDatabase.getPlayerStats(member);
     }
 
+    @Override
     public MantaroObject getMantaroData() {
         return managedDatabase.getMantaroData();
     }
@@ -261,10 +276,12 @@ public class Context implements IContext {
         return MantaroData.db().getMarriage(userData.getMarriageId());
     }
 
+    @Override
     public void send(MessageCreateData message) {
         getChannel().sendMessage(message).queue();
     }
 
+    @Override
     public void send(String message) {
         getChannel().sendMessage(message).queue();
     }
@@ -291,6 +308,7 @@ public class Context implements IContext {
         getChannel().sendMessage(message).setComponents(actionRow).queue();
     }
 
+    @Override
     public void sendFormat(String message, Object... format) {
         getChannel().sendMessage(
                 String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format)
@@ -304,12 +322,14 @@ public class Context implements IContext {
         ).setAllowedMentions(EnumSet.noneOf(Message.MentionType.class)).queue();
     }
 
+    @Override
     public void sendFormat(String message, Collection<ActionRow> actionRow, Object... format) {
         getChannel().sendMessage(
                 String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format)
         ).setComponents(actionRow).queue();
     }
 
+    @Override
     public void send(MessageEmbed embed, ActionRow... actionRow) {
         // Sending embeds while supressing the failure callbacks leads to very hard
         // to debug bugs, so enable it.
@@ -317,6 +337,7 @@ public class Context implements IContext {
                 .setComponents(actionRow).queue(success -> {}, Throwable::printStackTrace);
     }
 
+    @Override
     public void send(MessageEmbed embed) {
         // Sending embeds while supressing the failure callbacks leads to very hard
         // to debug bugs, so enable it.
@@ -324,6 +345,7 @@ public class Context implements IContext {
                 .queue(success -> {}, Throwable::printStackTrace);
     }
 
+    @Override
     public void sendLocalized(String localizedMessage, Object... args) {
         // Stop swallowing issues with String replacements (somehow really common)
         getChannel().sendMessage(
@@ -353,6 +375,7 @@ public class Context implements IContext {
         getChannel().sendMessage(languageContext.get(localizedMessage)).setComponents(actionRow).queue();
     }
 
+    @Override
     public void sendStripped(String message) {
         getChannel().sendMessage(message)
                 .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
@@ -422,6 +445,7 @@ public class Context implements IContext {
         this.languageContext = languageContext;
     }
 
+    @Override
     public UtilsContext getUtilsContext() {
         return new UtilsContext(getGuild(), getMember(), getChannel(), languageContext, null);
     }

@@ -63,11 +63,11 @@ public class CommandManager {
         return register(instantiate(clazz));
     }
     public <T extends NewCommand> T register(@Nonnull T command) {
-        if (commands.putIfAbsent(command.name(), command) != null) {
-            throw new IllegalArgumentException("Duplicate command " + command.name());
+        if (commands.putIfAbsent(command.getName(), command) != null) {
+            throw new IllegalArgumentException("Duplicate command " + command.getName());
         }
         for (var alias : command.aliases()) {
-            if (aliases.putIfAbsent(alias, command.name()) != null) {
+            if (aliases.putIfAbsent(alias, command.getName()) != null) {
                 throw new IllegalArgumentException("Duplicate alias " + alias);
             }
         }

@@ -261,6 +261,7 @@ public class Marriage implements ManagedMongoObject {
         lockedUntil(locked ? System.currentTimeMillis() + 35000 : 0);
     }
 
+    @Override
     @Nonnull
     public String getId() {
         return this.id;

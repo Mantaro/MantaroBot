@@ -23,7 +23,9 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.SelfUser;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.FileUpload;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
@@ -34,39 +36,45 @@ import net.kodehawa.mantarobot.core.command.argument.Arguments;
 import net.kodehawa.mantarobot.core.command.argument.MarkedBlock;
 import net.kodehawa.mantarobot.core.command.argument.Parser;
 import net.kodehawa.mantarobot.core.command.argument.split.StringSplitter;
+import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
+import net.kodehawa.mantarobot.db.entities.MantaroObject;
 import net.kodehawa.mantarobot.db.entities.MongoGuild;
 import net.kodehawa.mantarobot.db.entities.MongoUser;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.UtilsContext;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimitContext;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 
-public class NewContext {
+public class NewContext implements IContext {
     private final ManagedDatabase managedDatabase = MantaroData.db();
     private final Config config = MantaroData.config().get();
     private static final StringSplitter SPLITTER = new StringSplitter();
 
-    private final Message message;
+    private final MessageReceivedEvent event;
     private final I18nContext i18n;
     private final Arguments args;
 
-    private NewContext(@Nonnull Message message, @Nonnull I18nContext i18n, @Nonnull Arguments args) {
-        this.message = message;
+    private NewContext(@Nonnull MessageReceivedEvent event, @Nonnull I18nContext i18n, @Nonnull Arguments args) {
+        this.event = event;
         this.i18n = i18n;
         this.args = args;
     }
 
-    public NewContext(@Nonnull Message message, @Nonnull I18nContext i18n, @Nonnull String contentAfterPrefix) {
-        this(message, i18n, new Arguments(SPLITTER.split(contentAfterPrefix), 0));
+    public NewContext(@Nonnull MessageReceivedEvent event, @Nonnull I18nContext i18n, @Nonnull String contentAfterPrefix) {
+        this(event, i18n, new Arguments(SPLITTER.split(contentAfterPrefix), 0));
     }
 
     public Arguments arguments() {
@@ -74,7 +82,7 @@ public class NewContext {
     }
 
     public NewContext snapshot() {
-        return new NewContext(message, i18n, args.snapshot());
+        return new NewContext(event, i18n, args.snapshot());
     }
 
     /**
@@ -253,18 +261,29 @@ public class NewContext {
         return list;
     }
 
-    public MessageChannel getChannel() {
-        return message.getChannel();
+    public Message getMessage() {
+        return event.getMessage();
     }
 
+    @Override
+    public GuildMessageChannel getChannel() {
+        if (getMessage().getChannel() instanceof GuildMessageChannel c) {
+            return c;
+        }
+        return null;
+    }
+
+    @Override
     public Guild getGuild() {
-        return message.getGuild();
+        return getMessage().getGuild();
     }
 
+    @Override
     public void send(MessageCreateData message) {
         getChannel().sendMessage(message).queue();
     }
 
+    @Override
     public void send(String message) {
         getChannel().sendMessage(message).queue();
     }
@@ -273,26 +292,79 @@ public class NewContext {
         getChannel().sendFiles(FileUpload.fromData(bytes, name)).queue();
     }
 
-    public void sendFormat(String message, Object... format) {
-        getChannel().sendMessageFormat(message, format).queue();
+    @Override
+    public ManagedDatabase db() {
+        return managedDatabase;
     }
 
-    public void send(MessageEmbed embed) {
-        getChannel().sendMessageEmbeds(embed).queue();
+    @Override
+    public Message sendResult(String s) {
+        return getChannel().sendMessage(s).complete();
     }
 
+    @Override
+    public Message sendResult(MessageEmbed e) {
+        return getChannel().sendMessageEmbeds(e).complete();
+    }
+
+    @Override
     public void sendLocalized(String localizedMessage, Object... args) {
         getChannel().sendMessageFormat(i18n.get(localizedMessage), args).queue();
+    }
+
+    @Override
+    public void sendLocalizedStripped(String s, Object... args) {
+        getChannel().sendMessage(getLanguageContext().get(s).formatted(args))
+                .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                .queue();
+    }
+
+    @Override
+    public void sendFormat(String message, Object... format) {
+        getChannel().sendMessage(
+                String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format)
+        ).queue();
+    }
+
+    @Override
+    public void sendFormatStripped(String message, Object... format) {
+        getChannel().sendMessage(
+                String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format)
+        ).setAllowedMentions(EnumSet.noneOf(Message.MentionType.class)).queue();
+    }
+
+    @Override
+    public void sendFormat(String message, Collection<ActionRow> actionRow, Object... format) {
+        getChannel().sendMessage(
+                String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format)
+        ).setComponents(actionRow).queue();
     }
 
     public void sendLocalized(String localizedMessage) {
         getChannel().sendMessage(i18n.get(localizedMessage)).queue();
     }
 
+    @Override
     public void sendStripped(String message) {
         getChannel().sendMessageFormat(message)
                 .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
+    }
+
+    @Override
+    public void send(MessageEmbed e) {
+        // Sending embeds while supressing the failure callbacks leads to very hard
+        // to debug bugs, so enable it.
+        getChannel().sendMessageEmbeds(e)
+                .queue(success -> {}, Throwable::printStackTrace);
+    }
+
+    @Override
+    public void send(MessageEmbed embed, ActionRow... actionRow) {
+        // Sending embeds while supressing the failure callbacks leads to very hard
+        // to debug bugs, so enable it.
+        getChannel().sendMessageEmbeds(embed)
+                .setComponents(actionRow).queue(success -> {}, Throwable::printStackTrace);
     }
 
     public void sendStrippedLocalized(String localizedMessage, Object... args) {
@@ -336,12 +408,9 @@ public class NewContext {
         return member;
     }
 
+    @Override
     public Member getMember() {
-        return message.getMember();
-    }
-
-    public User getUser() {
-        return message.getAuthor();
+        return getMessage().getMember();
     }
 
     public SelfUser getSelfUser() {
@@ -356,18 +425,32 @@ public class NewContext {
         return getBot().getAudioManager();
     }
 
+    @Override
     public ShardManager getShardManager() {
         return getBot().getShardManager();
     }
 
+    @Override
+    public MantaroObject getMantaroData() {
+        return managedDatabase.getMantaroData();
+    }
+
+    @Override
+    public Config getConfig() {
+        return config;
+    }
+
+    @Override
     public MongoGuild getDBGuild() {
         return managedDatabase.getGuild(getGuild());
     }
 
+    @Override
     public MongoUser getDBUser() {
-        return managedDatabase.getUser(getUser());
+        return managedDatabase.getUser(getAuthor());
     }
 
+    @Override
     public MongoUser getDBUser(User user) {
         return managedDatabase.getUser(user);
     }
@@ -380,10 +463,12 @@ public class NewContext {
         return managedDatabase.getUser(id);
     }
 
+    @Override
     public Player getPlayer() {
-        return managedDatabase.getPlayer(getUser());
+        return managedDatabase.getPlayer(getAuthor());
     }
 
+    @Override
     public Player getPlayer(User user) {
         return managedDatabase.getPlayer(user);
     }
@@ -400,7 +485,24 @@ public class NewContext {
         return MantaroBot.getInstance();
     }
 
+    @Override
     public User getAuthor() {
-        return message.getAuthor();
+        return getMessage().getAuthor();
+    }
+
+    @Override
+    public RateLimitContext ratelimitContext() {
+        return new RateLimitContext(getGuild(), getMessage(), getChannel(), event, null);
+    }
+
+    @Override
+    public UtilsContext getUtilsContext() {
+        return new UtilsContext(getGuild(), getMember(), getChannel(), i18n, null);
+    }
+
+
+    @Override
+    public I18nContext getLanguageContext() {
+        return i18n;
     }
 }

@@ -149,14 +149,17 @@ public class Pickaxe extends Item implements Castable, Salvageable, Attribute {
         return salvageReturns;
     }
 
+    @Override
     public int getMaxDurability() {
         return maxDurability;
     }
 
+    @Override
     public int getCastLevelRequired() {
         return this.castLevelRequired;
     }
 
+    @Override
     public int getMaximumCastAmount() {
         return this.maximumCastAmount;
     }

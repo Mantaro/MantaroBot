@@ -99,10 +99,12 @@ public class FishRod extends Item implements Castable, Salvageable, Attribute {
         return this.level;
     }
 
+    @Override
     public int getCastLevelRequired() {
         return this.castLevelRequired;
     }
 
+    @Override
     public int getMaximumCastAmount() {
         return this.maximumCastAmount;
     }

@@ -330,6 +330,7 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
         return event.getHook().editOriginal(s).setEmbeds(Collections.emptyList());
     }
 
+    @Override
     public void send(MessageEmbed embed, ActionRow... actionRow) {
         // Sending embeds while supressing the failure callbacks leads to very hard
         // to debug bugs, so enable it.
@@ -345,6 +346,7 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
     }
 
 
+    @Override
     public void sendFormat(String message, Object... format) {
         reply(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format));
     }
@@ -425,10 +427,12 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
         return new I18nContext(getDBGuild(), null);
     }
 
+    @Override
     public ManagedDatabase db() {
         return managedDatabase;
     }
 
+    @Override
     public Config getConfig() {
         return config;
     }
@@ -445,6 +449,7 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
         return MantaroBot.getInstance();
     }
 
+    @Override
     public UtilsContext getUtilsContext() {
         return new UtilsContext(getGuild(), getMember(), getChannel(), getLanguageContext(), event);
     }

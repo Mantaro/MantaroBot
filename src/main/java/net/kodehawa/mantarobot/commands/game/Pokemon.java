@@ -70,6 +70,7 @@ public class Pokemon extends ImageGame {
         });
     }
 
+    @Override
     public boolean onStart(GameLobby lobby) {
         final var lang = lobby.getLanguageContext();
 

@@ -72,6 +72,7 @@ public class PlayerStats implements ManagedMongoObject {
         return new PlayerStats(userId, 0L, 0L, 0L, 0L);
     }
 
+    @Override
     @Nonnull
     public String getId() {
         return this.id;

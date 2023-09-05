@@ -69,6 +69,7 @@ public class Axe extends Item implements Castable, Salvageable, Attribute {
         this.explanation = explanation;
     }
 
+    @Override
     public int getMaxDurability() {
         return maxDurability;
     }
@@ -77,10 +78,12 @@ public class Axe extends Item implements Castable, Salvageable, Attribute {
         return this.chance;
     }
 
+    @Override
     public int getCastLevelRequired() {
         return this.castLevelRequired;
     }
 
+    @Override
     public int getMaximumCastAmount() {
         return this.maximumCastAmount;
     }

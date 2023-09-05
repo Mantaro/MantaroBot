@@ -52,6 +52,7 @@ public class MantaroObject implements ManagedMongoObject {
         return new MantaroObject(new ArrayList<>(), new ArrayList<>());
     }
 
+    @Override
     @Nonnull
     public String getId() {
         return id;
