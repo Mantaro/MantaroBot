@@ -33,6 +33,7 @@ import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Pair;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
@@ -200,7 +201,7 @@ public class BirthdayTask {
                                     tempBirthdayMessage = dbGuild.getBirthdayMessage()
                                             .replace("$(user)", member.getEffectiveName())
                                             .replace("$(usermention)", member.getAsMention())
-                                            .replace("$(tag)", member.getUser().getAsTag()) // eventually deprecated
+                                            .replace("$(tag)", Utils.getTagOrDisplay(member.getUser())) // legacy support, discrims are technically gone
                                             .replace("$(global_name)", member.getUser().getGlobalName() == null ? "none" : member.getUser().getGlobalName());
                                 }
 

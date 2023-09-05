@@ -19,6 +19,8 @@ package net.kodehawa.mantarobot.core.command.argument;
 
 import net.kodehawa.mantarobot.core.command.NewContext;
 
+import java.io.Serial;
+
 /**
  * Thrown when an argument cannot be parsed on methods that must return a valid parsed argument.
  */
@@ -27,6 +29,7 @@ public class ArgumentParseError extends RuntimeException {
     private final NewContext context;
     private final Parser<?> parser;
     private final Arguments readArguments;
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public ArgumentParseError(String message, NewContext context, Parser<?> parser, Arguments readArguments) {
