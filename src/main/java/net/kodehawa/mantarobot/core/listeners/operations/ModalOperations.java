@@ -130,6 +130,7 @@ public class ModalOperations {
             this.timeout = System.nanoTime() + timeout;
         }
 
+        @SuppressWarnings("SameParameterValue")
         boolean isTimedOut(boolean expire) {
             if (expired) {
                 return true;

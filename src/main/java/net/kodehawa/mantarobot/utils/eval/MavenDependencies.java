@@ -36,6 +36,7 @@ public class MavenDependencies implements Closeable {
     private final Path dir;
     private final boolean delete;
 
+    @SuppressWarnings("unused")
     public MavenDependencies() throws IOException {
         this(Files.createTempDirectory("maven-deps"), true);
     }
