@@ -60,6 +60,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+@SuppressWarnings("unused") // class will die eventually
 public class Context implements IContext {
     private final MantaroBot bot = MantaroBot.getInstance();
     private final ManagedDatabase managedDatabase = MantaroData.db();

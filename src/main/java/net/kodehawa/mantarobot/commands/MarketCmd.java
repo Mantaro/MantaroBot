@@ -309,6 +309,7 @@ public class MarketCmd {
     @Subscribe
     public void market(CommandRegistry cr) {
         TreeCommand marketCommand = cr.register("market", new TreeCommand(CommandCategory.CURRENCY) {
+            @SuppressWarnings("unused")
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {

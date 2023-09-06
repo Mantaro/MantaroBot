@@ -26,6 +26,8 @@ import net.kodehawa.mantarobot.commands.custom.v3.ast.VariableNode;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+// this class might legitimately be unused by v3 is above my head
+@SuppressWarnings("unused")
 public class SerializerVisitor implements NodeVisitor<JSONObject, Void> {
     @Override
     public JSONObject visitLiteral(LiteralNode node, Void context) {

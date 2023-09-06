@@ -342,6 +342,7 @@ public class CCv3 {
         });
     }
 
+    @SuppressWarnings("unused") // not sure why prefix is unused here but oh well
     public static void process(String prefix, Context ctx, Node ast, boolean preview) {
         InterpreterContext context = new InterpreterContext(new DynamicModifiers()
                 .mapEvent("event", ctx), DEFAULT_OPERATIONS, ctx);
@@ -368,6 +369,7 @@ public class CCv3 {
         builder.setComponents(ActionRow.of(Button.primary("yes", ctx.getLanguageContext().get("commands.custom.custom_notice")).asDisabled()));
 
         var deny = EnumSet.of(Message.MentionType.ROLE, Message.MentionType.EVERYONE, Message.MentionType.HERE);
+        //noinspection ResultOfMethodCallIgnored
         builder.setAllowedMentions(deny);
         if (embed != null) {
             builder.setEmbeds(embed.gen(ctx.getMember()));

@@ -39,6 +39,7 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimitContext;
 
 import java.util.Collection;
 
+@SuppressWarnings("unused")
 public interface IContext {
     Guild getGuild();
     GuildMessageChannel getChannel();

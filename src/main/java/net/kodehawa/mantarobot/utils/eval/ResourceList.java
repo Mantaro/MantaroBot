@@ -29,15 +29,16 @@ import java.util.stream.Stream;
 public class ResourceList {
     private final Set<String> resources = new HashSet<>();
     private final Map<String, ResourceList> subpackages = new HashMap<>();
-    
+
     private ResourceList() {}
-    
+
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public Stream<String> stream(@Nonnull String pkg, boolean recursive) {
         return findPackage(pkg).stream(recursive);
     }
-    
+
     @Nonnull
     private Stream<String> stream(boolean recursive) {
         if(!recursive) {
@@ -52,19 +53,19 @@ public class ResourceList {
                 s
         );
     }
-    
+
     @Nonnull
     public ResourceList findPackage(String name) {
         if(name.isEmpty()) return this;
         var parts = name.split("\\.");
         return resolveChild(parts, parts.length);
     }
-    
+
     @Nonnull
     private ResourceList child(String name) {
         return subpackages.computeIfAbsent(name, __ -> new ResourceList());
     }
-    
+
     @Nonnull
     private ResourceList resolveChild(String[] parts, int limit) {
         ResourceList r = this;
@@ -73,7 +74,7 @@ public class ResourceList {
         }
         return r;
     }
-    
+
     @Nonnull
     public static ResourceList fromJar(@Nonnull JarFile jf) {
         var root = new ResourceList();

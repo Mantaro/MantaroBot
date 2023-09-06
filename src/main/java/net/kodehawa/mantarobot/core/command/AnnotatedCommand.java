@@ -2,7 +2,6 @@ package net.kodehawa.mantarobot.core.command;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.kodehawa.mantarobot.core.command.meta.Category;
-import net.kodehawa.mantarobot.core.command.meta.GuildOnly;
 import net.kodehawa.mantarobot.core.command.meta.Help;
 import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.meta.Permission;
@@ -17,7 +16,6 @@ public abstract class AnnotatedCommand<T extends IContext> {
     protected CommandCategory category;
 
     protected final String name;
-    protected final boolean guildOnly;
     protected final CommandPermission permission;
     protected HelpContent help;
 
@@ -34,11 +32,10 @@ public abstract class AnnotatedCommand<T extends IContext> {
         } else {
             this.category = c.value();
         }
-        this.guildOnly = clazz.getAnnotation(GuildOnly.class) != null;
 
         var p = clazz.getAnnotation(Permission.class);
         if (p == null) {
-            this.permission = CommandPermission.INHERIT;
+            this.permission = getDefaultPermission();
         } else {
             this.permission = p.value();
         }
@@ -57,6 +54,10 @@ public abstract class AnnotatedCommand<T extends IContext> {
         }
     }
 
+    protected CommandPermission getDefaultPermission() {
+        return CommandPermission.USER;
+    }
+
     public String getName() {
         return name;
     }
@@ -73,10 +74,7 @@ public abstract class AnnotatedCommand<T extends IContext> {
         return help;
     }
 
-    public boolean isGuildOnly() {
-        return guildOnly;
-    }
-
+    @SuppressWarnings("unused")
     public abstract void execute(T ctx);
     protected abstract void process(T ctx);
 

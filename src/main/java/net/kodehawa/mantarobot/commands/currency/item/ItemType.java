@@ -104,12 +104,15 @@ public enum ItemType {
         CHOP_PREMIUM,
         PREMIUM,
         //-insert ea logo here-
+        @SuppressWarnings("unused") // currently no epic chests :(
         EPIC
     }
 
     public enum PotionType {
         PLAYER,
+        @SuppressWarnings("unused")
         CHANNEL,
+        @SuppressWarnings("unused")
         SPECIAL
     }
 }

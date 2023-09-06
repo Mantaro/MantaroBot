@@ -32,6 +32,7 @@ public class CommandProcessor {
             .name("command_time").help("Time it takes for a command to be ran.")
             .register();
 
+    @SuppressWarnings("SameReturnValue")
     public boolean runContextUser(UserContextInteractionEvent event) {
         final long start = System.currentTimeMillis();
         // Run the actual command here.
@@ -47,6 +48,7 @@ public class CommandProcessor {
         return true;
     }
 
+    @SuppressWarnings("SameReturnValue")
     public boolean runSlash(SlashCommandInteractionEvent event) {
         final long start = System.currentTimeMillis();
         // Run the actual command here.

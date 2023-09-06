@@ -30,6 +30,7 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class Marriage implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "marriages";

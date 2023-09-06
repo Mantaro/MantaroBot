@@ -61,6 +61,7 @@ public class WeebAPIRequester {
         return JsonDataManager.fromJson(req, WeebAPIObject.class);
     }
 
+    @SuppressWarnings("unused")
     public JSONObject getTypes() {
         var req = request(ALL_TYPES, null);
         if (req == null) {
@@ -70,6 +71,7 @@ public class WeebAPIRequester {
         return new JSONObject(req);
     }
 
+    @SuppressWarnings("unused")
     public JSONObject getTags() {
         var req = request(ALL_TAGS, null);
         if (req == null) {
@@ -108,5 +110,6 @@ public class WeebAPIRequester {
     }
 
     public record WeebAPIObject(String id, String url, String fileType, boolean nsfw, String type, List<WeebAPITag> tags) { }
+    @SuppressWarnings("unused")
     public record WeebAPITag(String user, boolean hidden, String name) { }
 }

@@ -33,6 +33,7 @@ import java.util.function.Predicate;
  *
  * @param <T> Type of object this parser creates.
  */
+@SuppressWarnings("unused")
 @FunctionalInterface
 @ThreadSafe
 public interface Parser<T> {

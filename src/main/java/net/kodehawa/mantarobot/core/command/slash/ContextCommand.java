@@ -28,6 +28,7 @@ public abstract class ContextCommand<T> extends DeferrableCommand<InteractionCon
         super();
     }
 
+    @SuppressWarnings("unused")
     public void setPredicate(Predicate<InteractionContext<T>> predicate) {
         this.predicate = predicate;
     }
@@ -45,7 +46,7 @@ public abstract class ContextCommand<T> extends DeferrableCommand<InteractionCon
             return;
         }
 
-        if (defer() || averageLatencyMax > 2500) {
+        if ((defer() || averageLatencyMax > 2500) && !modal) {
             ctx.defer();
         }
 

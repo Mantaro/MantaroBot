@@ -42,6 +42,7 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
         super(category);
     }
 
+    @SuppressWarnings("unused")
     public TreeCommand(CommandCategory category, CommandPermission permission) {
         super(category, permission);
     }
@@ -82,6 +83,7 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
         return this;
     }
 
+    @SuppressWarnings("unused")
     public void setPredicate(Predicate<Context> predicate) {
         this.predicate = predicate;
     }

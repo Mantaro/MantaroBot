@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 /**
  * Splits strings, returning an object that preserves the delimiters (defaults to whitespace).
  */
+@SuppressWarnings("unused")
 public class StringSplitter {
     private static final Pattern DEFAULT_PATTERN = Pattern.compile("\\s+");
 

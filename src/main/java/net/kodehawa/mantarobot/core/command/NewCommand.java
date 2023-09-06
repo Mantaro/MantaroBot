@@ -18,14 +18,7 @@
 package net.kodehawa.mantarobot.core.command;
 
 import net.kodehawa.mantarobot.core.command.meta.Alias;
-import net.kodehawa.mantarobot.core.command.meta.Category;
-import net.kodehawa.mantarobot.core.command.meta.GuildOnly;
-import net.kodehawa.mantarobot.core.command.meta.Help;
-import net.kodehawa.mantarobot.core.command.meta.Name;
-import net.kodehawa.mantarobot.core.command.meta.Permission;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -63,11 +56,6 @@ public abstract class NewCommand extends AnnotatedCommand<NewContext> {
     }
 
     @Override
-    public boolean isGuildOnly() {
-        return guildOnly || (parent != null && parent.isGuildOnly());
-    }
-
-    @Override
     public final void execute(NewContext ctx) {
         var args = ctx.arguments();
         if (args.hasNext()) {
@@ -89,5 +77,10 @@ public abstract class NewCommand extends AnnotatedCommand<NewContext> {
         this.parent = parent;
         parent.children.put(name, this);
         aliases.forEach(a -> parent.childrenAliases.put(a, name));
+    }
+
+    @Override
+    protected CommandPermission getDefaultPermission() {
+        return CommandPermission.INHERIT;
     }
 }

@@ -43,6 +43,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+@SuppressWarnings("UnusedReturnValue")
 public class DiscordUtils {
     private static final Button[] DEFAULT_COMPONENTS_FIRST = {
             Button.primary("button_first", Emoji.fromUnicode("⏪")).asDisabled(),
@@ -90,7 +91,9 @@ public class DiscordUtils {
     }
 
     public static Future<Void> selectIntButton(IContext ctx, Message message, int max,
-                                               BiConsumer<Integer, InteractionHook> valueConsumer, Consumer<Void> cancelConsumer) {
+                                               BiConsumer<Integer, InteractionHook> valueConsumer,
+                                               @SuppressWarnings("unused") Consumer<Void> cancelConsumer
+    ) {
         int count = 0;
         List<ActionRow> buttons = new ArrayList<>();
         List<Button> temp = new ArrayList<>();

@@ -49,14 +49,17 @@ public class TokenIterator implements Iterator<Token> {
         return tokens.get(index);
     }
 
+    @SuppressWarnings("unused")
     public void back() {
         index--;
     }
 
+    @SuppressWarnings("unused")
     public boolean match(TokenType tokenType) {
         return hasNext() && peek().type() == tokenType;
     }
 
+    @SuppressWarnings("unused")
     public void expect(TokenType tokenType) {
         Token t = hasNext() ? next() : null;
         if (t == null || t.type() != tokenType) {

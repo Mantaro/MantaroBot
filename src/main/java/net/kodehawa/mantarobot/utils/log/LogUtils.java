@@ -119,6 +119,7 @@ public class LogUtils {
         }
     }
 
+    @SuppressWarnings("unused")
     public static void simple(String message) {
         if (LOGBACK_WEBHOOK == null) {
             return;
@@ -131,6 +132,7 @@ public class LogUtils {
         }
     }
 
+    @SuppressWarnings("unused")
     public static void shardSimple(String message) {
         if (SHARD_WEBHOOK == null) {
             return;

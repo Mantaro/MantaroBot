@@ -26,6 +26,7 @@ import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class HousePet {
     @BsonIgnore
     private static final SecureRandom random = new SecureRandom();
@@ -55,7 +56,7 @@ public class HousePet {
 
     // Serialization constructor
     public HousePet() { }
-    
+
     public HousePet(String name, HousePetType type) {
         this.name = name;
         this.type = type;
@@ -303,7 +304,7 @@ public class HousePet {
     public void setLevel(long level) {
         this.level = level;
     }
-    
+
     public int getDust() {
         return dust;
     }
@@ -397,6 +398,7 @@ public class HousePet {
         return HousePetType.PatReaction.CUTE;
     }
 
+    @SuppressWarnings("unused")
     public static class ActivityReward {
         private int items;
         private int money;
@@ -438,7 +440,6 @@ public class HousePet {
         LOW_HEALTH(false, "commands.pet.activity.low_health"),
         LOW_HUNGER(false, "commands.pet.activity.low_hunger"),
         LOW_THIRST(false, "commands.pet.activity.low_thirst"),
-        LOW_MOOD(false, "commands.pet.activity.low_mood"),
         DUSTY(false, "commands.pet.activity.dusty"),
         PASS(true, "commands.pet.activity.success"),
         PASS_MINE(true, "commands.pet.activity.success_mine"),

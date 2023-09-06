@@ -36,6 +36,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 
+@SuppressWarnings("unused")
 public abstract class BaseInteractionContext<T extends GenericCommandInteractionEvent> implements IContext {
     protected final ManagedDatabase managedDatabase = MantaroData.db();
     protected final Config config = MantaroData.config().get();

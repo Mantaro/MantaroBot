@@ -17,6 +17,7 @@
 
 package net.kodehawa.mantarobot.utils.patreon;
 
+@SuppressWarnings("unused")
 public enum PatreonReward {
     NONE(0),
     SUPPORTER(1),

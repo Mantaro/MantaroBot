@@ -118,6 +118,7 @@ public class ItemHelper {
         ItemReference.CHOP_PREMIUM_CRATE.registerItemAlias("premium chop lootbox");
     }
 
+    @SuppressWarnings("unused")
     public static Optional<Item> fromAny(String any, I18nContext languageContext) {
         try {
             Item item = fromId(Integer.parseInt(any));

@@ -38,35 +38,36 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("SameParameterValue")
 public enum ProfileComponent {
     HEADER(null,
             i18nContext -> String.format(i18nContext.get("commands.profile.badge_header"), EmoteReference.TROPHY), (holder, i18nContext) -> {
-        var playerData = holder.getPlayer();
-        if (holder.getBadges().isEmpty() || !playerData.isShowBadge()) {
+        var playerData = holder.player();
+        if (holder.badges().isEmpty() || !playerData.isShowBadge()) {
             return " \u2009\u2009None";
         }
 
         if (playerData.getMainBadge() != null) {
             return String.format(" \u2009**%s**%n", playerData.getMainBadge());
         } else {
-            return String.format(" \u2009**%s**%n", holder.getBadges().get(0));
+            return String.format(" \u2009**%s**%n", holder.badges().get(0));
         }
     }, true, false),
     CREDITS(EmoteReference.MONEY, i18nContext -> i18nContext.get("commands.profile.credits"),
-            (holder, i18nContext) -> String.format(Utils.getLocaleFromLanguage(i18nContext), "$ %,d", holder.getPlayer().getCurrentMoney()),
+            (holder, i18nContext) -> String.format(Utils.getLocaleFromLanguage(i18nContext), "$ %,d", holder.player().getCurrentMoney()),
             true, false
     ),
     OLD_CREDITS(EmoteReference.DOLLAR, i18nContext -> i18nContext.get("commands.profile.old_credits"), (holder, i18nContext) ->
-            "$ %,d".formatted(holder.getPlayer().getOldMoney()),
+            "$ %,d".formatted(holder.player().getOldMoney()),
             true, false
     ),
-    REPUTATION(EmoteReference.REP, i18nContext -> i18nContext.get("commands.profile.rep"), (holder, i18nContext) -> String.valueOf(holder.getPlayer().getReputation())),
+    REPUTATION(EmoteReference.REP, i18nContext -> i18nContext.get("commands.profile.rep"), (holder, i18nContext) -> String.valueOf(holder.player().getReputation())),
     LEVEL(EmoteReference.ZAP, i18nContext -> i18nContext.get("commands.profile.level"), (holder, i18nContext) -> {
-        var player = holder.getPlayer();
+        var player = holder.player();
         return String.format(Utils.getLocaleFromLanguage(i18nContext), "%d (%s: %,d)", player.getLevel(), i18nContext.get("commands.profile.xp"), player.getExperience());
     }, true, false),
     EXPERIENCE(EmoteReference.ZAP, i18nContext -> i18nContext.get("commands.profile.activity_xp"), (holder, i18nContext) -> {
-        var data = holder.getPlayer();
+        var data = holder.player();
         var mine = Utils.roundPrefixNumber(data.getMiningExperience());
         var fish = Utils.roundPrefixNumber(data.getFishingExperience());
         var chop = Utils.roundPrefixNumber(data.getChopExperience());
@@ -74,7 +75,7 @@ public enum ProfileComponent {
         return "**Mine:** %s XP | **Fish:** %s XP | **Chop:** %s XP".formatted(mine, fish, chop);
     }, true, false),
     BIRTHDAY(EmoteReference.POPPER, i18nContext -> i18nContext.get("commands.profile.birthday"), (holder, i18nContext) -> {
-        var data = holder.getDbUser();
+        var data = holder.dbUser();
 
         try {
             if (data.getBirthday() == null)
@@ -92,13 +93,13 @@ public enum ProfileComponent {
         }
     }),
     MARRIAGE(EmoteReference.HEART, i18nContext -> i18nContext.get("commands.profile.married"), (holder, i18nContext) -> {
-        var userData = holder.getDbUser();
-        var currentMarriage = holder.getMarriage();
+        var userData = holder.dbUser();
+        var currentMarriage = holder.marriage();
         User marriedTo = null;
 
         //Expecting save to work in PlayerCmds, not here, just handle this here.
         if (currentMarriage != null) {
-            String marriedToId = currentMarriage.getOtherPlayer(holder.getUser().getId());
+            String marriedToId = currentMarriage.getOtherPlayer(holder.user().getId());
             if (marriedToId != null)
                 //Yes, this uses complete, not like we have many options.
                 try {
@@ -117,7 +118,7 @@ public enum ProfileComponent {
         }
     }, true, false),
     INVENTORY(EmoteReference.POUCH, i18nContext -> i18nContext.get("commands.profile.inventory"), (holder, i18nContext) -> {
-        final var stackList = holder.getPlayer().getInventoryList();
+        final var stackList = holder.player().getInventoryList();
         if (stackList.isEmpty()) {
             return i18nContext.get("general.dust");
         }
@@ -130,7 +131,7 @@ public enum ProfileComponent {
                 .collect(Collectors.joining(" \u2009\u2009"));
     }, true, false),
     BADGES(EmoteReference.HEART, i18nContext -> i18nContext.get("commands.profile.badges"), (holder, i18nContext) -> {
-        final var badges = holder.getBadges();
+        final var badges = holder.badges();
         if (badges.isEmpty()) {
             return i18nContext.get("commands.profile.no_badges");
         }
@@ -141,11 +142,11 @@ public enum ProfileComponent {
                 .collect(Collectors.joining(" \u2009\u2009"));
     }, true, false),
     PET(EmoteReference.DOG, i18nContext -> i18nContext.get("commands.profile.pet.header"), (holder, i18nContext) -> {
-        final var playerData = holder.getPlayer();
-        final var petType = playerData.getActivePetChoice(holder.getMarriage());
+        final var playerData = holder.player();
+        final var petType = playerData.getActivePetChoice(holder.marriage());
         HousePet pet = null;
-        if (petType == PetChoice.MARRIAGE && holder.getMarriage() != null) {
-            pet = holder.getMarriage().getPet();
+        if (petType == PetChoice.MARRIAGE && holder.marriage() != null) {
+            pet = holder.marriage().getPet();
         }
 
         if (petType == PetChoice.PERSONAL) {
@@ -163,7 +164,7 @@ public enum ProfileComponent {
                 );
     }, true, false),
     FOOTER(null, null, (holder, i18nContext) -> {
-        var userData = holder.getDbUser();
+        var userData = holder.dbUser();
         String timezone;
 
         if (userData.getTimezone() == null) {
@@ -241,60 +242,5 @@ public enum ProfileComponent {
         return this.inline;
     }
 
-    public static class Holder {
-        private User user;
-        private Player player;
-        private MongoUser dbUser;
-        private List<Badge> badges;
-        private Marriage marriage;
-
-        public Holder(User user, Player player, MongoUser dbUser, Marriage marriage, List<Badge> badges) {
-            this.user = user;
-            this.player = player;
-            this.dbUser = dbUser;
-            this.badges = badges;
-            this.marriage = marriage;
-        }
-
-        public Holder() { }
-        public User getUser() {
-            return this.user;
-        }
-
-        public void setUser(User user) {
-            this.user = user;
-        }
-
-        public Player getPlayer() {
-            return this.player;
-        }
-
-        public void setPlayer(Player player) {
-            this.player = player;
-        }
-
-        public MongoUser getDbUser() {
-            return this.dbUser;
-        }
-
-        public void setDbUser(MongoUser dbUser) {
-            this.dbUser = dbUser;
-        }
-
-        public List<Badge> getBadges() {
-            return this.badges;
-        }
-
-        public void setBadges(List<Badge> badges) {
-            this.badges = badges;
-        }
-
-        public Marriage getMarriage() {
-            return marriage;
-        }
-
-        public void setMarriage(Marriage marriage) {
-            this.marriage = marriage;
-        }
-    }
+    public record Holder(User user, Player player, MongoUser dbUser, Marriage marriage, List<Badge> badges) { }
 }

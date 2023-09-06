@@ -58,6 +58,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("unused")
 public class NewContext implements IContext {
     private final ManagedDatabase managedDatabase = MantaroData.db();
     private final Config config = MantaroData.config().get();
@@ -84,6 +85,11 @@ public class NewContext implements IContext {
     public NewContext snapshot() {
         return new NewContext(event, i18n, args.snapshot());
     }
+
+    public MessageReceivedEvent getEvent() {
+        return event;
+    }
+
 
     /**
      * Attempts to parse an argument with the provided {@link net.kodehawa.mantarobot.core.command.argument.Parser parser}.

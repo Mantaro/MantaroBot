@@ -41,6 +41,7 @@ public class SlashContext extends BaseInteractionContext<SlashCommandInteraction
     }
 
     // This is a little cursed, but I guess we can make do.
+    @SuppressWarnings("unused")
     public List<OptionMapping> getOptions() {
         return event.getOptions();
     }
@@ -107,6 +108,7 @@ public class SlashContext extends BaseInteractionContext<SlashCommandInteraction
         return option.getAsString();
     }
 
+    @SuppressWarnings("unused")
     public long getOptionAsLong(String name) {
         return getOptionAsLong(name, 0);
     }

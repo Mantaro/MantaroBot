@@ -620,6 +620,7 @@ public class ProfileCmd {
             description = player.getDescription();
         }
 
+        //noinspection DataFlowIssue
         profileBuilder.setAuthor(
                         (ringHolder ? EmoteReference.RING : "") + String.format(lang.get("commands.profile.header"),
                                 userLooked.getName()), null, userLooked.getEffectiveAvatarUrl())

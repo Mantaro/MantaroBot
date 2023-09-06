@@ -18,6 +18,7 @@ public abstract class DeferrableCommand<T extends IContext> extends AnnotatedCom
         this.modal = clazz.getAnnotation(ModalInteraction.class) != null;
     }
 
+    @SuppressWarnings("unused")
     public void setEphemeral(boolean ephemeral) {
         this.ephemeral = ephemeral;
     }

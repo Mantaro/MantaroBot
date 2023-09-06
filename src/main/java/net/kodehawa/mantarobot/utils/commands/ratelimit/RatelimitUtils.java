@@ -119,6 +119,7 @@ public class RatelimitUtils {
         return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), languageContext, null, false);
     }
 
+    @SuppressWarnings("unused")
     public static boolean ratelimit(IncreasingRateLimiter rateLimiter, IContext ctx,
                                     I18nContext languageContext, String extra) {
         return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), languageContext, extra, false);
@@ -132,11 +133,13 @@ public class RatelimitUtils {
         return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), ctx.getLanguageContext(), extra, spamAware);
     }
 
+    @SuppressWarnings("unused")
     public static boolean ratelimit(IncreasingRateLimiter rateLimiter, IContext ctx,
                                     I18nContext languageContext, boolean spamAware) {
         return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), languageContext, null, spamAware);
     }
 
+    @SuppressWarnings("unused")
     public static boolean ratelimit(IncreasingRateLimiter rateLimiter, IContext ctx,
                                     I18nContext languageContext, String extra, boolean spamAware) {
         return ratelimit(rateLimiter, ctx.getAuthor().getId(), ctx.ratelimitContext(), languageContext, extra, spamAware);

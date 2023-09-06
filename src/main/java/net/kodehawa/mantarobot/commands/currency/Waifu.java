@@ -17,6 +17,7 @@
 
 package net.kodehawa.mantarobot.commands.currency;
 
+@SuppressWarnings("unused")
 public class Waifu {
     private long moneyValue;
     private long badgeValue;

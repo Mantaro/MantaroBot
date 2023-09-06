@@ -113,8 +113,4 @@ public class Character extends ImageGame {
     public String name() {
         return "character";
     }
-
-    public int getMaxAttempts() {
-        return maxAttempts;
-    }
 }

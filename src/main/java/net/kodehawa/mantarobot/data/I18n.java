@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
+@SuppressWarnings("unused")
 public class I18n {
     private static final Logger log = LoggerFactory.getLogger(I18n.class);
     public static final List<String> LANGUAGES = new ArrayList<>();
@@ -46,6 +47,7 @@ public class I18n {
     static {
         Map<String, I18n> m = new HashMap<>();
         try (var is = I18n.class.getResourceAsStream("/assets/languages/list.txt")) {
+            //noinspection DataFlowIssue
             for (var lang : IOUtils.toString(is, StandardCharsets.UTF_8).trim().split("\n")) {
                 var language = lang.trim();
                 LANGUAGES.add(language);

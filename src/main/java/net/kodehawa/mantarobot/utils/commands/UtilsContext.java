@@ -45,10 +45,12 @@ public class UtilsContext {
         return languageContext;
     }
 
+    @SuppressWarnings("unused")
     public Guild getGuild() {
         return guild;
     }
 
+    @SuppressWarnings("unused")
     public Member getMember() {
         return member;
     }

@@ -29,6 +29,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MantaroObject implements ManagedMongoObject {
     @BsonIgnore

@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Axe extends Item implements Castable, Salvageable, Attribute {
-    private final float chance;
     //Wrench level, basically.
     private final int castLevelRequired;
     private final int maximumCastAmount;
@@ -41,12 +40,11 @@ public class Axe extends Item implements Castable, Salvageable, Attribute {
     private final String explanation;
     private final List<Integer> salvageReturns;
 
-    public Axe(ItemType type, float chance, int castLevelRequired, int maximumCastAmount,
+    public Axe(ItemType type, int castLevelRequired, int maximumCastAmount,
                String emoji, String name, String translatedName,
                String desc, String explanation, int rarity, long value, boolean sellable, boolean buyable,
                String recipe, int maxDurability, int moneyIncrease, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, sellable, buyable, recipe, recipeTypes);
-        this.chance = chance;
         this.castLevelRequired = castLevelRequired;
         this.maximumCastAmount = maximumCastAmount;
         this.maxDurability = maxDurability;
@@ -56,10 +54,9 @@ public class Axe extends Item implements Castable, Salvageable, Attribute {
         this.explanation = explanation;
     }
 
-    public Axe(ItemType type, float chance, String emoji, String name, String translatedName,
+    public Axe(ItemType type, String emoji, String name, String translatedName,
                String desc, String explanation, int rarity, long value, boolean buyable, int maxDurability, int moneyIncrease) {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
-        this.chance = chance;
         this.castLevelRequired = -1;
         this.maximumCastAmount = -1;
         this.maxDurability = maxDurability;
@@ -72,10 +69,6 @@ public class Axe extends Item implements Castable, Salvageable, Attribute {
     @Override
     public int getMaxDurability() {
         return maxDurability;
-    }
-
-    public float getChance() {
-        return this.chance;
     }
 
     @Override

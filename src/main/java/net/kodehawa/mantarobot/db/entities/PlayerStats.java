@@ -28,6 +28,7 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class PlayerStats implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "playerstats";

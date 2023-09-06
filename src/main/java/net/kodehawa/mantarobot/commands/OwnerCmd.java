@@ -371,6 +371,7 @@ public class OwnerCmd {
             ctx.send(EmoteReference.ERROR + "Invalid type. (Valid: guild, user)");
         }
 
+        @SuppressWarnings("unused")
         private abstract static class BlacklistCommand<T> extends NewCommand {
             private final String type;
             private final Function<MantaroObject, List<String>> dbGetter;
@@ -427,6 +428,7 @@ public class OwnerCmd {
             }
         }
 
+        @SuppressWarnings("unused")
         public static class Guild extends BlacklistCommand<net.dv8tion.jda.api.entities.Guild> {
             public Guild() {
                 super("Guild",
@@ -437,6 +439,7 @@ public class OwnerCmd {
             }
         }
 
+        @SuppressWarnings("unused")
         public static class User extends BlacklistCommand<net.dv8tion.jda.api.entities.User> {
             public User() {
                 super("User",

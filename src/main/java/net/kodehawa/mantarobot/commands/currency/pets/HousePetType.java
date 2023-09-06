@@ -54,11 +54,13 @@ public enum HousePetType {
     }
 
     public enum PatReaction {
+        @SuppressWarnings("unused")
         CHEER("commands.pet.pet_reactions.cheer"), SCARE("commands.pet.pet_reactions.scare"),
         CUTE("commands.pet.pet_reactions.cute"), CUTE_2("commands.pet.pet_reactions.cute_not_animal"),
         NOTHING("commands.pet.pet_reactions.nothing");
 
         final String message;
+        @SuppressWarnings("unused") // this is used but bc HousePet is suppressed this would also report
         PatReaction(String i18n) {
             this.message = i18n;
         }

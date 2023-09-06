@@ -96,7 +96,7 @@ public class TracingPrintStream extends PrintStream {
     }
 
     @Override
-    public void print(char [] s) {
+    public void print(@NotNull char [] s) {
         super.print(s);
     }
 
@@ -147,7 +147,7 @@ public class TracingPrintStream extends PrintStream {
     }
 
     @Override
-    public void println(char [] x) {
+    public void println(@NotNull char [] x) {
         super.println(x);
     }
 

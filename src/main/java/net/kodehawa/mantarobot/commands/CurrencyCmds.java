@@ -340,6 +340,7 @@ public class CurrencyCmds {
     @Subscribe
     public void inventory(CommandRegistry cr) {
         var inv = (TreeCommand) cr.register("inventory", new TreeCommand(CommandCategory.CURRENCY) {
+            @SuppressWarnings("unused")
             @Override
             public Command defaultTrigger(Context context, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -489,6 +490,7 @@ public class CurrencyCmds {
     @Subscribe
     public void useItem(CommandRegistry cr) {
         TreeCommand ui = cr.register("useitem", new TreeCommand(CommandCategory.CURRENCY) {
+            @SuppressWarnings("unused")
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -787,6 +789,7 @@ public class CurrencyCmds {
             var isActive = currentPotion != null && currentPotion.getAmountEquipped() > 1;
             var amountEquipped = 0L;
             if (activePotion || isActive) { // currentPotion is NOT null here (both activePotion and isActive would mean a potion exists)
+                //noinspection DataFlowIssue
                 amountEquipped = currentPotion.getAmountEquipped();
             }
 

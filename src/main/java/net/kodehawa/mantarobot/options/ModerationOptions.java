@@ -285,6 +285,7 @@ public class ModerationOptions extends OptionHandler {
         });
     }
 
+    @SuppressWarnings("unused")
     @Override
     public String description() {
         return null;

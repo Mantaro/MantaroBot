@@ -46,6 +46,7 @@ import java.util.concurrent.TimeUnit;
 import static java.lang.System.currentTimeMillis;
 
 // Reminder: all setters MUST be protected!
+@SuppressWarnings("unused") // data class with too much in it to actually care
 public class MongoUser implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "users";

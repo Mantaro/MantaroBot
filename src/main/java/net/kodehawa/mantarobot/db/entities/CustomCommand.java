@@ -58,6 +58,7 @@ public class CustomCommand implements ManagedMongoObject {
                 "", false, false);
     }
 
+    @SuppressWarnings("unused") // probably gone
     @BsonIgnore
     public static CustomCommand transfer(String guildId, CustomCommand command) {
         return new CustomCommand(guildId + ":" + command.getName(), guildId, command.getValues(),
@@ -107,6 +108,7 @@ public class CustomCommand implements ManagedMongoObject {
         this.locked = locked;
     }
 
+    @SuppressWarnings("unused")
     @BsonIgnore
     @Nonnull
     @Override

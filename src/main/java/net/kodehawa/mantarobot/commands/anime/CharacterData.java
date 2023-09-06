@@ -20,6 +20,7 @@ package net.kodehawa.mantarobot.commands.anime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 //Kitsu API character data.
+@SuppressWarnings("unused")
 public class CharacterData {
     private String id;
     private String type;

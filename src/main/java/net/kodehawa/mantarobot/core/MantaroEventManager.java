@@ -27,6 +27,7 @@ public class MantaroEventManager extends InterfacedEventManager {
     private static final Logger log = LoggerFactory.getLogger(MantaroEventManager.class);
     private long lastJdaEvent;
 
+    @SuppressWarnings("unused")
     public static Logger getLog() {
         return log;
     }

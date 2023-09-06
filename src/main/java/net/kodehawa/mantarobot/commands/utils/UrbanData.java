@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands.utils;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("unused")
 public class UrbanData {
 
     public final ArrayList<List> list = new ArrayList<>();

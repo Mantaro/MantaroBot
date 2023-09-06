@@ -37,6 +37,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author natanbc, modified by Kodehawa.
  * @since 01-06-2017
  */
+@SuppressWarnings("unused") // mostly unused class now, could prolly be removed at some point
 public class RateLimiter {
     private static final ScheduledExecutorService ses = Executors.newScheduledThreadPool(1);
 

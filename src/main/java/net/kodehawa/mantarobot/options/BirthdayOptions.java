@@ -283,6 +283,7 @@ public class BirthdayOptions extends OptionHandler {
         });
     }
 
+    @SuppressWarnings("unused")
     @Override
     public String description() {
         return "Guild birthday announcer options";

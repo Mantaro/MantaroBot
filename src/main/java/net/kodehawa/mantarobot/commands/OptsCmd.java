@@ -46,9 +46,6 @@ import static net.kodehawa.mantarobot.utils.Utils.mapConfigObjects;
 @Module
 public class OptsCmd {
     public static SimpleCommand optsCmd;
-    public static SimpleCommand getOpts() {
-        return optsCmd;
-    }
 
     @Subscribe
     public void register(CommandRegistry registry) {

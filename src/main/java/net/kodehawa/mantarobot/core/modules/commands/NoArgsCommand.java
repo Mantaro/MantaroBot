@@ -27,11 +27,12 @@ public abstract class NoArgsCommand extends AbstractCommand {
         super(category);
     }
 
+    @SuppressWarnings("unused")
     public NoArgsCommand(CommandCategory category, CommandPermission permission) {
         super(category, permission);
     }
 
-    protected abstract void call(Context context, String content);
+    protected abstract void call(Context context, @SuppressWarnings("unused") String content);
 
     @Override
     public void run(Context context, String commandName, String content) {

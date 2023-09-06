@@ -17,6 +17,7 @@
 
 package net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes;
 
+@SuppressWarnings("unused")
 public enum GemType {
     UTILITY, GEM
 }

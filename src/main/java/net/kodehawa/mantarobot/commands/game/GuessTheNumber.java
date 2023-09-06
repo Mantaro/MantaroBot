@@ -104,6 +104,7 @@ public class GuessTheNumber extends Game<Object> {
                         player.updateAllChanged();
                         TextChannelGround.of(e.getChannel()).dropItemWithChance(ItemReference.FLOPPY_DISK, 3);
 
+                        //noinspection DataFlowIssue
                         ctx.reply("commands.game.lobby.won_game", EmoteReference.MEGA, e.getMember().getEffectiveName(), gains);
                         lobby.startNextGame(true);
                         return Operation.COMPLETED;

@@ -24,7 +24,7 @@ import java.io.Serial;
 /**
  * Thrown when an argument cannot be parsed on methods that must return a valid parsed argument.
  */
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({"rawtypes", "unused"})
 public class ArgumentParseError extends RuntimeException {
     private final NewContext context;
     private final Parser<?> parser;

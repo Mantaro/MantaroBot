@@ -213,6 +213,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
     }
 
     public int getRequiredVotes() {
+        //noinspection DataFlowIssue
         var listeners = (int) getGuild().getChannelById(AudioChannel.class, getAudioPlayer().getChannel())
                 .getMembers().stream()
                 .filter(m -> m.getVoiceState() != null) // Shouldn't happen?
@@ -309,6 +310,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         return this.voteStop;
     }
 
+    @SuppressWarnings("unused")
     public AudioTrack getPreviousTrack() {
         return this.previousTrack;
     }

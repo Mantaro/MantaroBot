@@ -45,6 +45,7 @@ import java.util.concurrent.TimeUnit;
 
 import static net.kodehawa.mantarobot.db.entities.Inventory.serialize;
 
+@SuppressWarnings("unused") // it's a data class way too massive to care
 public class Player implements ManagedMongoObject {
     @BsonIgnore
     private static final Config config = MantaroData.config().get();

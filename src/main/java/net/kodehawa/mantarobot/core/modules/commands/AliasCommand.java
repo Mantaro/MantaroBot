@@ -39,6 +39,7 @@ public class AliasCommand implements Command {
         this.aliases = command.getAliases();
     }
 
+    @SuppressWarnings("unused")
     public CommandCategory parentCategory() {
         return command.category();
     }
@@ -82,6 +83,7 @@ public class AliasCommand implements Command {
         return this.command;
     }
 
+    @SuppressWarnings("unused")
     public String getCommandName() {
         return this.commandName;
     }

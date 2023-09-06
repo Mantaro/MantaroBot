@@ -31,6 +31,7 @@ public class InteractionContext<T> extends BaseInteractionContext<GenericContext
         return event.getTarget();
     }
 
+    @SuppressWarnings("unused")
     public GuildChannel getGuildChannel() {
         return event.getGuildChannel();
     }

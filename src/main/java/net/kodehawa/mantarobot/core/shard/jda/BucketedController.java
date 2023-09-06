@@ -37,6 +37,7 @@ public class BucketedController extends SessionControllerAdapter {
         }
     }
 
+    @SuppressWarnings("unused")
     public BucketedController(long homeGuildId) {
         this(16, homeGuildId);
     }

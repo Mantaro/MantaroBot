@@ -371,6 +371,7 @@ public class PlayerCmds {
                 var dbUser = ctx.getDBUser();
 
                 if (ctx.getOptionAsBoolean("brief")) {
+                    //noinspection DataFlowIssue
                     ctx.sendLocalized("commands.badges.brief_success", member.getEffectiveName(),
                             player.getBadges().stream()
                                     .sorted()

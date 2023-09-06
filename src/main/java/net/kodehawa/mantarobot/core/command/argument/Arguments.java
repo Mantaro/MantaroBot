@@ -110,6 +110,7 @@ public class Arguments implements Iterator<SplitString> {
      *
      * @return A range of the underlying array.
      */
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public SplitString[] range(int from, int to) {

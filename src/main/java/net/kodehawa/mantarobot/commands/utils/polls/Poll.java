@@ -82,6 +82,7 @@ public class Poll {
         this.time = time;
     }
 
+    @SuppressWarnings("unused")
     public String guildId() {
         return guildId;
     }
@@ -94,6 +95,7 @@ public class Poll {
         return messageId;
     }
 
+    @SuppressWarnings("unused")
     public String name() {
         return name;
     }

@@ -25,6 +25,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class EmbedJSON {
     public final List<EmbedField> fields = new ArrayList<>();
     public String author, authorImg, authorUrl;

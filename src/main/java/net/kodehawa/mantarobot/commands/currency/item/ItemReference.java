@@ -33,6 +33,7 @@ import net.kodehawa.mantarobot.commands.currency.item.special.tools.Wrench;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 public class ItemReference {
+    @SuppressWarnings("unused")
     public static final Item HEADPHONES, BAN_HAMMER, KICK_BOOT, FLOPPY_DISK, MY_MATHS, PING_RACKET,
             LOADED_DICE, FORGOTTEN_MUSIC, CC_PENCIL, OVERFLOWED_BAG, BROM_PICKAXE, MILK, ALCOHOL, LEWD_MAGAZINE, RING,
             LOOT_CRATE_KEY, BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES,
@@ -354,7 +355,7 @@ public class ItemReference {
                     45, true
             ),
 
-            WRENCH = new Wrench(ItemType.WRENCH, 65, 1, 1.0d,
+            WRENCH = new Wrench(ItemType.WRENCH, 1, 1.0d,
                     "\ud83d\udd27",
                     "Wrench", "items.wrench", "items.description.wrench",
                     "items.explanation.wrench",
@@ -478,7 +479,7 @@ public class ItemReference {
                     1000, false
             ),
 
-            WRENCH_COMET = new Wrench(ItemType.WRENCH, 90,
+            WRENCH_COMET = new Wrench(ItemType.WRENCH,
                     3, 0.90d, EmoteReference.COMET_WRENCH.getDiscordNotation(),
                     "Comet Wrench", "items.comet_wrench", "items.description.comet_wrench",
                     "items.explanation.comet_wrench",
@@ -486,7 +487,7 @@ public class ItemReference {
                     "1;2;2", 59, 48, 83
             ),
 
-            WRENCH_SPARKLE = new Wrench(ItemType.WRENCH, 96,
+            WRENCH_SPARKLE = new Wrench(ItemType.WRENCH,
                     4, 0.65d, EmoteReference.SPARKLE_WRENCH.getDiscordNotation(),
                     "Sparkle Wrench", "items.sparkle_wrench", "items.description.sparkle_wrench",
                     "items.explanation.sparkle_wrench",
@@ -621,12 +622,12 @@ public class ItemReference {
                     18, 57, 48, 61, 49, 62, 74, 73, 101, 76
             ),
 
-            AXE = new Axe(ItemType.CHOP_AXE, 0.19f, "\uD83E\uDE93",
+            AXE = new Axe(ItemType.CHOP_AXE, "\uD83E\uDE93",
                     "Axe", "items.axe", "items.description.axe", "items.explanation.axe",
                     1, 100, true, 35, 0
             ),
 
-            COMET_AXE = new Axe(ItemType.CHOP_AXE, 0.13f,
+            COMET_AXE = new Axe(ItemType.CHOP_AXE,
                     1, 10, EmoteReference.COMET_AXE.getDiscordNotation(),
                     "Comet Axe", "items.comet_axe", "items.description.comet_axe",
                     "items.explanation.comet_axe",
@@ -634,7 +635,7 @@ public class ItemReference {
                     "1;3;8", 170, 100, 104, 48, 101
             ),
 
-            STAR_AXE = new Axe(ItemType.CHOP_AXE, 0.09f,
+            STAR_AXE = new Axe(ItemType.CHOP_AXE,
                     1, 10, EmoteReference.STAR_AXE.getDiscordNotation(),
                     "Star Axe", "items.star_axe", "items.description.star_axe",
                     "items.explanation.star_axe",
@@ -642,7 +643,7 @@ public class ItemReference {
                     "1;3;7", 220, 100, 104, 49, 101
             ),
 
-            SPARKLE_AXE = new Axe(ItemType.CHOP_RARE_AXE, 0.04f,
+            SPARKLE_AXE = new Axe(ItemType.CHOP_RARE_AXE,
                     3, 5, EmoteReference.SPARKLE_AXE.getDiscordNotation(),
                     "Sparkle Axe", "items.sparkle_axe", "items.description.sparkle_axe",
                     "items.explanation.sparkle_axe",
@@ -650,7 +651,7 @@ public class ItemReference {
                     "1;3;2;8", 500, 300, 104, 74, 18, 101
             ),
 
-            MOON_AXE = new Axe(ItemType.CHOP_RARE_AXE, 0.1f,
+            MOON_AXE = new Axe(ItemType.CHOP_RARE_AXE,
                     2, 7, EmoteReference.MOON_AXE.getDiscordNotation(),
                     "Moon Axe", "items.moon_axe", "items.description.moon_axe",
                     "items.explanation.moon_axe",
@@ -658,7 +659,7 @@ public class ItemReference {
                     "1;3;2;3;10", 350, 130, 104, 83, 18, 76, 101
             ),
 
-            HELLFIRE_AXE = new Axe(ItemType.CHOP_RARE_AXE_NODROP, 0.00001f,
+            HELLFIRE_AXE = new Axe(ItemType.CHOP_RARE_AXE_NODROP,
                     3, 1, EmoteReference.HELLFIRE_AXE.getDiscordNotation(),
                     "Hellfire Axe", "items.hellfire_axe", "items.description.hellfire_axe",
                     "items.explanation.hellfire_axe",

@@ -23,6 +23,7 @@ import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import java.util.UUID;
 
+@SuppressWarnings("unused")
 public class PotionEffect {
     private String uuid;
     private int potion; //item id

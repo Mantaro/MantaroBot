@@ -22,6 +22,7 @@ import com.google.common.primitives.Longs;
 import java.util.Base64;
 
 public class Snow64 {
+    @SuppressWarnings("unused")
     public static long fromSnow64(String snow64) {
         return Longs.fromByteArray(
                 Base64.getDecoder()

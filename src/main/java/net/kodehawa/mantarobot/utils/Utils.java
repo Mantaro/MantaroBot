@@ -41,7 +41,6 @@ import javax.annotation.Nonnull;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -65,15 +64,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_MARKER;
-
 public class Utils {
     private static final Logger log = LoggerFactory.getLogger(Utils.class);
     private static final char ACTIVE_BLOCK = '\u2588';
     private static final char EMPTY_BLOCK = '\u200b';
 
     public static final OkHttpClient httpClient = new OkHttpClient();
-    public static final Pattern mentionPattern = Pattern.compile("<(#|@|@&)?.[0-9]{17,21}>");
 
     private static final String BLOCK_INACTIVE = "\u25AC";
     private static final String BLOCK_ACTIVE = "\uD83D\uDD18";
@@ -388,24 +384,12 @@ public class Utils {
         return TimeZone.getTimeZone(timeZone).toZoneId();
     }
 
-    public static String prettyDisplay(String header, String body) {
-        return BLUE_SMALL_MARKER + "**" + header + "**: " + body;
-    }
-
-    public static String prettyDisplayLine(String header, String body) {
-        return BLUE_SMALL_MARKER + "**" + header + "**:\n" + body;
-    }
-
     private static String formatMemoryHelper(long bytes, long unitSize, String unit) {
         if (bytes % unitSize == 0) {
             return String.format("%d %s", bytes / unitSize, unit);
         }
 
         return String.format("%.1f %s", bytes / (double) unitSize, unit);
-    }
-
-    public static String formatMemoryUsage(long used, long total) {
-        return String.format("%s/%s", formatMemoryAmount(used), formatMemoryAmount(total));
     }
 
     public static String formatMemoryAmount(long bytes) {
@@ -424,33 +408,14 @@ public class Utils {
         return String.format("%d B", bytes);
     }
 
-    public static OffsetDateTime epochToDate(long epoch) {
-        return OffsetDateTime.ofInstant(Instant.ofEpochMilli(epoch), ZoneId.systemDefault());
-    }
-
     public static String formatDate(OffsetDateTime date) {
         return date.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
-    }
-
-    public static String formatHours(OffsetDateTime date, String locale) {
-        return date.format(DateTimeFormatter.ofPattern("HH:mm:ss").withLocale(getLocaleFromLanguage(locale)));
     }
 
     public static String formatHours(OffsetDateTime date, String zone, String locale) {
         return date.format(DateTimeFormatter.ofPattern("HH:mm:ss")
                 .withZone(timezoneToZoneID(zone))
                 .withLocale(getLocaleFromLanguage(locale)));
-    }
-
-    public static String formatDate(long epoch, String lang) {
-        return epochToDate(epoch)
-                .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-                .withLocale(getLocaleFromLanguage(lang)));
-    }
-
-    public static String formatDate(OffsetDateTime date, String lang) {
-        return date.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-                .withLocale(getLocaleFromLanguage(lang)));
     }
 
     public static String formatDate(LocalDateTime date, String lang) {

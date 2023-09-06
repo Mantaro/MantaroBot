@@ -43,6 +43,7 @@ public class InterpreterContext {
         return operations;
     }
 
+    @SuppressWarnings("unused")
     public MessageReceivedEvent event() {
         return commandContext.getEvent();
     }

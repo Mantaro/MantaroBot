@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.currentTimeMillis;
 
+@SuppressWarnings("unused")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PremiumKey implements ManagedMongoObject {
     @BsonIgnore
@@ -164,6 +165,7 @@ public class PremiumKey implements ManagedMongoObject {
         return this.owner;
     }
 
+    @SuppressWarnings("unused")
     public int getType() {
         return this.type;
     }

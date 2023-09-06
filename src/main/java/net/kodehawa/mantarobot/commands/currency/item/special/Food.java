@@ -40,6 +40,7 @@ public class Food extends Item {
         return type;
     }
 
+    @SuppressWarnings("unused")
     public enum FoodType {
         CAT(HousePetType.CAT), DOG(HousePetType.DOG), HAMSTER(HousePetType.RAT), GENERAL(HousePetType.ALL);
 

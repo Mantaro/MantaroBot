@@ -43,6 +43,7 @@ public interface InnerCommand extends Command {
         return "";
     }
 
+    @SuppressWarnings("unused")
     default boolean isChild() {
         return false;
     }

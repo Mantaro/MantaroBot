@@ -5,6 +5,7 @@ import org.bson.codecs.pojo.annotations.BsonIgnore;
 
 import javax.annotation.Nonnull;
 
+@SuppressWarnings("unused")
 public interface ManagedMongoObject {
     @Nonnull
     String getId();

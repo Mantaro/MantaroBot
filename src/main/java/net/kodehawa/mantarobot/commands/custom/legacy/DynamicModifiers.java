@@ -113,6 +113,7 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
                 .mapMember(k(prefix, "me"), event.getGuild().getSelfMember());
     }
 
+    @SuppressWarnings("unused")
     public DynamicModifiers mapEvent(String prefix, GenericGuildMemberEvent event) {
         return this.set(prefix, event.getMember().getAsMention() + "@" + event.getGuild().getName())
                 .mapGuild(k(prefix, "guild"), event.getGuild())
@@ -120,6 +121,7 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
                 .mapMember(k(prefix, "user"), event.getMember());
     }
 
+    @SuppressWarnings("unused")
     public DynamicModifiers mapEvent(String prefix, GenericGuildEvent event) {
         return this.mapGuild(k(prefix, "guild"), event.getGuild())
                 .mapMember(k(prefix, "me"), event.getGuild().getSelfMember());

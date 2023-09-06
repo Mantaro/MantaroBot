@@ -641,6 +641,7 @@ public class CommandRegistry {
         }
     }
 
+    @SuppressWarnings("unused")
     enum CommandDisableLevel {
         NONE("None"),
         CATEGORY("Disabled category on server"),

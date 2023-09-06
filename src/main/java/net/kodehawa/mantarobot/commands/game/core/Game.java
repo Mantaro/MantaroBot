@@ -24,7 +24,6 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.game.core.lobby.GameLobby;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
-import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -34,7 +33,6 @@ import java.util.stream.Collectors;
 
 public abstract class Game<T> {
     private static final ManagedDatabase managedDatabase = MantaroData.db();
-    protected final Config config = MantaroData.config().get();
     private int attempts = 1;
 
     public abstract void call(GameLobby lobby, List<String> players);
@@ -43,6 +41,7 @@ public abstract class Game<T> {
 
     public abstract String name();
 
+    @SuppressWarnings("SameParameterValue")
     protected int callDefaultButton(ButtonInteractionEvent event, long userId, GameLobby lobby, String expectedAnswer, String expectedAnswerRaw, int attempts, int maxAttempts, int extra) {
         if (!event.isFromGuild()) {
             return Operation.IGNORED;
@@ -180,6 +179,7 @@ public abstract class Game<T> {
                 player.updateAllChanged();
 
                 TextChannelGround.of(e.getChannel()).dropItemWithChance(ItemReference.FLOPPY_DISK, 3);
+                //noinspection DataFlowIssue
                 ctx.reply("commands.game.lobby.won_game", EmoteReference.MEGA, e.getMember().getEffectiveName(), gains);
 
                 lobby.startNextGame(true);

@@ -41,6 +41,7 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
         super(category);
     }
 
+    @SuppressWarnings("unused")
     public SimpleTreeCommand(CommandCategory category, CommandPermission permission) {
         super(category, permission);
     }
@@ -93,6 +94,7 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
         return this;
     }
 
+    @SuppressWarnings("unused")
     public SimpleTreeCommand addSubCommand(String name, BiConsumer<Context, String> command) {
         return addSubCommand(name, null, command);
     }

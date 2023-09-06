@@ -102,10 +102,12 @@ public abstract class SlashCommand extends DeferrableCommand<SlashContext> {
         return nsfw;
     }
 
+    @SuppressWarnings("unused")
     public boolean isOwnerCommand() {
         return getPermission() == CommandPermission.OWNER;
     }
 
+    @SuppressWarnings("unused")
     public List<SlashCommand> getSubCommandList() {
         return new ArrayList<>(subCommands.values());
     }
@@ -123,6 +125,7 @@ public abstract class SlashCommand extends DeferrableCommand<SlashContext> {
         return temp;
     }
 
+    @SuppressWarnings("unused")
     public void addOption(OptionData data) {
         types.add(data);
     }

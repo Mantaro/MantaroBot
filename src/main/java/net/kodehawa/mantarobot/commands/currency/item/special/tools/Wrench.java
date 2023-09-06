@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Wrench extends Item implements Castable, Salvageable, Attribute {
-    private final float chance;
     private final int level;
     private final int durability;
     private final int tier;
@@ -39,11 +38,10 @@ public class Wrench extends Item implements Castable, Salvageable, Attribute {
     private final double multiplierReduction;
     private final List<Integer> salvageReturns;
 
-    public Wrench(ItemType type, float chance, int level, double multiplierReduction, String emoji, String name,
+    public Wrench(ItemType type, int level, double multiplierReduction, String emoji, String name,
                   String translatedName, String desc, String explanation, long value, int durability, int tier, boolean sellable,
                   boolean buyable, String recipe, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, sellable, buyable, recipe, recipeTypes);
-        this.chance = chance;
         this.level = level;
         this.multiplierReduction = multiplierReduction;
         this.explanation = explanation;
@@ -52,21 +50,16 @@ public class Wrench extends Item implements Castable, Salvageable, Attribute {
         this.tier = tier;
     }
 
-    public Wrench(ItemType type, float chance, int level, double multiplierReduction, String emoji, String name,
+    public Wrench(ItemType type, int level, double multiplierReduction, String emoji, String name,
                   String translatedName, String desc, String explanation, long value,
                   int durability, int tier, boolean buyable) {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
-        this.chance = chance;
         this.level = level;
         this.multiplierReduction = multiplierReduction;
         this.salvageReturns = Collections.emptyList();
         this.durability = durability;
         this.explanation = explanation;
         this.tier = tier;
-    }
-
-    public float getChance() {
-        return this.chance;
     }
 
     public int getLevel() {

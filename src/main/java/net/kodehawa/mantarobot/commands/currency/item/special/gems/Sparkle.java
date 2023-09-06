@@ -25,7 +25,7 @@ import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes
 public class Sparkle extends Item implements Tiered {
     public Sparkle(String emoji, String name, String translatedName, String desc, long value, boolean buyable) {
         super(ItemType.MINE_RARE, emoji, name, null, translatedName, desc, value,
-                true, buyable, false, 100, null, "", false
+                true, buyable, false, null, "", false
         );
     }
 

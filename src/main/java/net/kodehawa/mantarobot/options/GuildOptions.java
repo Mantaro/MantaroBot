@@ -318,6 +318,7 @@ public class GuildOptions extends OptionHandler {
         });
     }
 
+    @SuppressWarnings("unused")
     @Override
     public String description() {
         return "Guild Configuration";

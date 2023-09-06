@@ -76,6 +76,7 @@ public class TextChannelGround {
         }
     }
 
+    @SuppressWarnings("unused")
     public static class Ground {
         @JsonProperty("groundItems")
         final Inventory groundItems = new Inventory();

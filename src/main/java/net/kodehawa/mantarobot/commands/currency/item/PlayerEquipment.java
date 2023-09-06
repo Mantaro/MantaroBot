@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
+@SuppressWarnings("unused")
 public class PlayerEquipment {
     //int = itemId
     private final Map<EquipmentType, Integer> equipment;
@@ -172,6 +173,7 @@ public class PlayerEquipment {
 
     @BsonIgnore
     public int reduceDurability(EquipmentType type, int amount) {
+        //noinspection DataFlowIssue
         int dur = durability.computeIfPresent(type, (t, a) -> a - amount);
         fieldTracker.put("equippedItems.durability", durability);
 
