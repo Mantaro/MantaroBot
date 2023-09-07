@@ -40,10 +40,11 @@ public class WeebAPIRequester {
     private static final String AUTH_HEADER = "Bearer " + MantaroData.config().get().weebapiKey;
     private static final String RANDOM_IMAGE = "/random";
 
-    // Fail if nothing gets sent in 2.5ms.
+    // I know it's better to have a global OkHttp3 client, but we need a custom timeout handler here.
     private static final OkHttpClient httpClient = new OkHttpClient.Builder()
-            .connectTimeout(2500, TimeUnit.MILLISECONDS)
-            .writeTimeout(2500, TimeUnit.MILLISECONDS)
+            // Fail if we can't establish a connection in 1.5s.
+            .connectTimeout(1500, TimeUnit.MILLISECONDS)
+            // Fail if nothing gets sent in 2.5s.
             .readTimeout(2500, TimeUnit.MILLISECONDS)
             .build();
 
