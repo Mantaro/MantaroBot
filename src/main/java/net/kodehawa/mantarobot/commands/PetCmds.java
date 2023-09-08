@@ -393,9 +393,14 @@ public class PetCmds {
                 if (!RatelimitUtils.ratelimit(petPlayRatelimiter, ctx))
                     return;
 
-                // TODO: Handle giving out more health/hunger/thrist/stamina randomly.
-                // This should also be done with normal pet actions so it's probably a
-                // good idea to make a generic function for this and just pass the SecureRandom instance.
+                if (pet.handleStatIncrease(random)) {
+                    if (choice == PetChoice.MARRIAGE) { // Marriage null check is above.
+                        pet.updateAllChanged(marriage);
+                    } else {
+                        pet.updateAllChanged(player);
+                    }
+                }
+
                 var message = pet.handlePlay(pet.getType()).getMessage();
                 ctx.replyStripped(message, pet.getType().getEmoji(), pet.getName());
             }

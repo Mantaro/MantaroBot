@@ -49,7 +49,7 @@ public class HousePet {
     private long level = 1;
 
     @BsonIgnore
-    public int attributeCeiling = 120;
+    public int attributeCeiling = 135;
     @BsonIgnore
     public Map<String, Object> fieldTracker = new HashMap<>();
 
@@ -363,6 +363,22 @@ public class HousePet {
         increaseExperience();
 
         return neededAbility.getPassActivity();
+    }
+
+    @BsonIgnore
+    public boolean handleStatIncrease(SecureRandom random) {
+        var doChance = random.nextDouble() < 0.03f; // 3%
+        if (doChance) {
+            // 3 in 10 chance of it being 2 instead of 1, after the initial. Guarantee at least 1, though.
+            // This handles the attribute ceiling on the calls for increase,
+            // so it's fine to just blindly increase the statistics here.
+            increaseMaxStamina(Math.max(1, random.nextInt(3)));
+            increaseMaxHealth(Math.max(1, random.nextInt(3)));
+            increaseMaxHunger(Math.max(1, random.nextInt(3)));
+            increaseMaxThirst(Math.max(1, random.nextInt(3)));
+        } // else do nothing.
+
+        return doChance;
     }
 
     @BsonIgnore
