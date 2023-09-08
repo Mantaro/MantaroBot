@@ -12,21 +12,21 @@
     "hourly": "一小時",
     "daily": "一天",
     "total": "總計",
-    "arrow_react": "使用箭號反應來改變頁數。",
-    "button_react": "Use the arrow buttons to change pages.",
+    "arrow_react": "使用箭頭反應來改變頁數。",
+    "button_react": "使用箭頭按鈕來改變頁數。",
     "not_found": "沒有找到",
     "no_results": "查無結果",
     "timeout": "這將在%1$d秒內超時",
-    "reaction_timeout": "Buttons will timeout in %1$d seconds.",
+    "reaction_timeout": "按鈕將在%1$d秒後逾時",
     "example": "範例",
     "definition": "定義",
     "name": "名稱",
     "description": "說明",
     "options": "選項",
     "find_members_failure": "%1$s找不到符合你搜索條件的成員 :(",
-    "find_roles_failure": "%1$sDidn't find any roles that match your search criteria :(",
-    "too_many_roles": "%1$sToo many roles found, maybe refine your search?\n**Roles found:** %2$s",
-    "role_select": "Select the Role:",
+    "find_roles_failure": "%1$s找不到任何符合你搜尋條件的身份組 :(",
+    "too_many_roles": "%1$s找到的身分組太多，或許你可以輸入更精確的搜尋關鍵字？\n**找到的身分組：** %2$s",
+    "role_select": "選擇身分組：",
     "find_channels_failure": "%1$sCannot find any text channel with that name :(",
     "find_voice_channels_failure": "%1$sCannot find any voice channel with that name :(",
     "too_many_channels": "%1$sToo many channels found, maybe refine your search?\n**Channels found:** %2$s",
@@ -51,9 +51,10 @@
       "mop_not_enough": "%1$s你的粉塵高度少於5%%， 所以掃除不會有什麼作用。",
       "milk": "%1$s所有藥水效果已清除。",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `/buy item:key`",
-        "no_crate": "%1$s你需要一個寶箱！你能透過貨幣指令獲得寶箱。",
-        "success": "%1$s你開啟了一個寶箱且得到了：%2$s%3$s。恭喜！",
+        "too_many": "%1$sYou cannot open more than 5 crates at once.",
+        "no_key": "%1$sYou do not have enough crate keys to open that many crates. Crates are locked! You can buy them using `/buy item:key`",
+        "no_crate": "%1$sYou do not have that many crates! You usually get crates from currency commands.",
+        "success": "%1$sYou opened the crate %2$s time(s) and won: %3$s%4$s. Congratulations!",
         "success_high": "%1$s你獲得了以下等級超過三星的物品：%2$s。數量如上所示",
         "overflow": "但是你已經擁有太多了，所以你決定將多出來的丟掉"
       },
@@ -274,7 +275,7 @@
         "fair_queue_limit_reached": "%1$s**超出公平播放數量%2$d (相同歌曲數目過多)**",
         "loaded_song": "%1$s已加入清單 -> **%2$s** *(%3$s)*",
         "selection_text": "Song selection. Select the song number to continue.",
-        "timeout_text": "This timeouts in 30 seconds."
+        "timeout_text": "這將在30秒後逾時"
       },
       "premium_beg": "%1$sConsider donating on <https://patreon.com/mantaro> if you like me, even a small donation will help towards keeping the bot alive (Check `/donate` for more info!)",
       "closed_connection": "%1$s已關閉音訊連接，取消綁定播放器中..."
@@ -799,7 +800,7 @@
       "success": "%1$s%2$s 傳送了 **%3$s** 個 **%4$s** 給 %5$s",
       "multiple_items_error": "%1$s你的背包中沒有任何這些物品",
       "error": "%1$s你的背包中沒有足夠的這些物品來執行此操作！",
-      "no_item_mention": "%1$sYou need to specify the person to transfer the item to and the item to transfer."
+      "no_item_mention": "%1$s你需要指定要轉讓物品給誰和要轉讓的物品。"
     },
     "transfer": {
       "new_account_notice_yourself": "%1$s你的帳號年齡必須高於14天才能傳送金錢。",
@@ -1407,6 +1408,16 @@
         "ratelimit_message": "你最多可以撫摸你的寵物25次。到達之後將需要等待一個小時才能再次撫摸25次。",
         "too_many": "你是怎麼撫摸那麼多次的？"
       },
+      "play": {
+        "no_pet": "%1$sYou don't have any pets to play with. Check `/pet explanation` for an explanation. (Choice: %2$s)",
+        "no_pet_other": "%1$s%2$s doesn't have any pets to play with. Check `/pet explanation` for an explanation.",
+        "reactions": {
+          "playful": "Your pet playfully plays with you.",
+          "love": "After a long play session, your pet looks lovingly at you.",
+          "dev": "You both played some games together. It was fun.",
+          "nothing": "The pet rock stares deeply at your soul, ever unmoving."
+        }
+      },
       "pet_reactions": {
         "cute": "%1$s**%2$s** happily wags their tail as you caress their head.%3$s",
         "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head.%3$s",
@@ -1614,7 +1625,10 @@
       "options": "Options",
       "usage": "Usage",
       "optional": "(This is optional)",
-      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help command:cast item`.\nThis goes for all subcommands, as long as they have some sort of help."
+      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help command:cast item`.\nThis goes for all subcommands, as long as they have some sort of help.",
+      "mention": "Command Mention",
+      "mention_tip": "You can click this to have discord bring up the command for you.",
+      "mention_tip_subs": "You can click any of the below sub commands to have discord bring up the command for you."
     },
     "repair": {
       "no_item": "%1$s你需要指出你想修復的物品。如果你確定那是正確的，請輸入該物品的全名。",
@@ -2185,8 +2199,8 @@
       "too_short": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "not_specified": "%1$sYou have to specify a mute timeout in the format of 1m20s, for example.",
       "wrong_format": "%1$sWrong time format. You have to specify a mute timeout in the format of 1m20s, for example.",
-      "too_long": "%1$sThe time specified is too long...",
-      "negative_notice": "You cannot mute someone for negative time!",
+      "too_long": "%1$s指定的時間太長了...",
+      "negative_notice": "你將某人靜音的時間不能是負數！",
       "success": "%1$sSuccessfully set default mute timeout to *%2$s* (%3$dms)"
     },
     "defaultmutetimeout_reset": {
@@ -2318,7 +2332,7 @@
     "message_ext_emoji": "使用外部表情符號",
     "voice_connect": "連接",
     "voice_speak": "說話",
-    "voice_mute_others": "讓成員靜音",
+    "voice_mute_others": "將成員靜音",
     "voice_deaf_others": "讓成員拒聽",
     "voice_move_others": "移動成員",
     "voice_use_vad": "使用語音活動",
@@ -2390,7 +2404,7 @@
     "die_2": "特別的灌鉛骰子",
     "booster": "加速",
     "berserk": "狂怒",
-    "Companion": "同伴",
+    "companion": "Companion",
     "special_ring": "特別的指環",
     "enchancer": "附魔器",
     "prize": "獎品",
@@ -2487,6 +2501,9 @@
     "broken_hellfire_pick": "壞掉的地獄鎬子",
     "broken_hellfire_axe": "壞掉的地獄斧頭",
     "broken_hellfire_rod": "壞掉的地獄釣竿",
+    "old_sparkle_fragment": "Old Sparkle Fragment",
+    "old_sparkly_pickaxe": "Old Sparkly Pickaxe",
+    "old_sparkly_rod": "Old Sparkly Rod",
     "explanation": {
       "pick": "一把市場買來的普通鎬子。看起來還算是堅固。",
       "diamond_pick": "鑽石鎬子絕對會比市場隨便買來的鐵鎬堅固，不用想也知道！",

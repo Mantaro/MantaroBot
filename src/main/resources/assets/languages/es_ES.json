@@ -51,9 +51,10 @@
       "mop_not_enough": "%1$sEl nivel de polvo es menor a 5%%, no creo que fregar sea útil.",
       "milk": "%1$sTodos los efectos de poción han sido removidos.",
       "crate": {
-        "no_key": "%1$sNecesitas una crate key para abrir una caja. Puedes comprar una usando `/buy item:key`",
-        "no_crate": "%1$sNecesitas una crate! Normalmente se consiguen usando comandos de economía.",
-        "success": "%1$sAbriste una loot crate y ganaste: %2$s%3$s. ¡Felicidades!",
+        "too_many": "%1$sYou cannot open more than 5 crates at once.",
+        "no_key": "%1$sYou do not have enough crate keys to open that many crates. Crates are locked! You can buy them using `/buy item:key`",
+        "no_crate": "%1$sYou do not have that many crates! You usually get crates from currency commands.",
+        "success": "%1$sYou opened the crate %2$s time(s) and won: %3$s%4$s. Congratulations!",
         "success_high": "%1$sConseguiste los siguientes ítems con una rareza sobre 3 estrellas: %2$s. El monto se mostró arriba",
         "overflow": "Pero ya tenías demasiado, así que decidiste tirar el exceso."
       },
@@ -1407,6 +1408,16 @@
         "ratelimit_message": "Puedes acariciar tu mascota 25 veces. Luego de esto, debes esperar el tiempo descrito arriba para hacerlo más veces.",
         "too_many": "¿Como conseguiste tantos pats?"
       },
+      "play": {
+        "no_pet": "%1$sYou don't have any pets to play with. Check `/pet explanation` for an explanation. (Choice: %2$s)",
+        "no_pet_other": "%1$s%2$s doesn't have any pets to play with. Check `/pet explanation` for an explanation.",
+        "reactions": {
+          "playful": "Your pet playfully plays with you.",
+          "love": "After a long play session, your pet looks lovingly at you.",
+          "dev": "You both played some games together. It was fun.",
+          "nothing": "The pet rock stares deeply at your soul, ever unmoving."
+        }
+      },
       "pet_reactions": {
         "cute": "%1$s**%2$s** happily wags their tail as you caress their head.%3$s",
         "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head.%3$s",
@@ -1614,7 +1625,10 @@
       "options": "Opciones",
       "usage": "Uso",
       "optional": "(Esto es opcional)",
-      "subcommand_help": "Nota: Para conseguir ayuda sobre un sub-comando puedes usar el nombre del sub-comando con el nombre del comando al principio. Por ejemplo, para conseguir ayuda sobre `/cast item` puedes usar `/help command:cast item`.\nEsto va para todos los sub-comandos, mientras tengan algun tipo de ayuda."
+      "subcommand_help": "Nota: Para conseguir ayuda sobre un sub-comando puedes usar el nombre del sub-comando con el nombre del comando al principio. Por ejemplo, para conseguir ayuda sobre `/cast item` puedes usar `/help command:cast item`.\nEsto va para todos los sub-comandos, mientras tengan algun tipo de ayuda.",
+      "mention": "Command Mention",
+      "mention_tip": "You can click this to have discord bring up the command for you.",
+      "mention_tip_subs": "You can click any of the below sub commands to have discord bring up the command for you."
     },
     "repair": {
       "no_item": "%1$sNo especificaste ningún ítem a reparar. Si crees que se puede reparar, intenta usar el nombre completo.",
@@ -2390,7 +2404,7 @@
     "die_2": "Dado Especial",
     "booster": "Potenciador",
     "berserk": "Enloquecedor",
-    "Companion": "Compañero",
+    "companion": "Companion",
     "special_ring": "Anillo Especial",
     "enchancer": "Mejorador",
     "prize": "Premio",
@@ -2487,6 +2501,9 @@
     "broken_hellfire_pick": "Pico de Fuego Infernal Roto",
     "broken_hellfire_axe": "Hacha de Fuego Infernal Rota",
     "broken_hellfire_rod": "Caña de Fuego Infernal Rota",
+    "old_sparkle_fragment": "Old Sparkle Fragment",
+    "old_sparkly_pickaxe": "Old Sparkly Pickaxe",
+    "old_sparkly_rod": "Old Sparkly Rod",
     "explanation": {
       "pick": "Un pico normal que compraste en la tiendita local. Se ve lo suficientemente rígido para minar.",
       "diamond_pick": "Un pico de diamante es definitivamente más rígida que la normal de hierro que compré en la tiendita, ¡eso de seguro!",
