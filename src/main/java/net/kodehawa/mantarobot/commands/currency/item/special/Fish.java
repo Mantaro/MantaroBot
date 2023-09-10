@@ -20,17 +20,19 @@ package net.kodehawa.mantarobot.commands.currency.item.special;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 
-@SuppressWarnings("unused")
 public class Fish extends Item {
+    @SuppressWarnings("unused")
     public boolean isEdible;
     private final int level;
 
+    @SuppressWarnings("unused")
     public Fish(ItemType type, int level, String emoji, String name, String translatedName,
                 String desc, long value, String recipe, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, true, false, recipe, recipeTypes);
         this.level = level;
     }
 
+    @SuppressWarnings("unused")
     public Fish(ItemType type, int level, String emoji, String name, String translatedName,
                 String desc, long value, boolean buyable, String recipe, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, true, buyable, recipe, recipeTypes);
@@ -43,10 +45,12 @@ public class Fish extends Item {
         this.level = level;
     }
 
+    @SuppressWarnings("unused")
     public int getLevel() {
         return this.level;
     }
 
+    @SuppressWarnings("unused")
     public boolean isEdible() {
         return this.isEdible;
     }

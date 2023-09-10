@@ -26,7 +26,6 @@ import net.kodehawa.mantarobot.commands.custom.v3.ast.VariableNode;
 
 import java.util.stream.Collectors;
 
-@SuppressWarnings("unused")
 public class InterpreterVisitor implements NodeVisitor<String, InterpreterContext> {
     @Override
     public String visitLiteral(LiteralNode node, InterpreterContext context) {

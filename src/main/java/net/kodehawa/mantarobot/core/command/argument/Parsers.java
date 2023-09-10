@@ -30,7 +30,6 @@ import java.util.regex.Pattern;
 /**
  * Provides default parser implementations.
  */
-@SuppressWarnings("unused")
 public class Parsers {
     private Parsers() {}
 
@@ -95,6 +94,7 @@ public class Parsers {
      *
      * @return A parser that matches floats.
      */
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public static Parser<Float> parseFloat() {
@@ -151,6 +151,7 @@ public class Parsers {
      *
      * @return A parser that matches doubles.
      */
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public static Parser<Double> parseDouble() {
@@ -165,6 +166,7 @@ public class Parsers {
      *
      * @return A parser that matches integer ranges, inclusive on both ends.
      */
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public static Parser<Integer> range(int from, int to) {
@@ -181,6 +183,7 @@ public class Parsers {
      *
      * @return A parser that matches integer ranges, inclusive on both ends.
      */
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public static Parser<Integer> rangeStrict(int from, int to) {
@@ -197,6 +200,7 @@ public class Parsers {
      *
      * @return A parser that matches long ranges, inclusive on both ends.
      */
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public static Parser<Long> range(long from, long to) {
@@ -213,6 +217,7 @@ public class Parsers {
      *
      * @return A parser that matches long ranges, inclusive on both ends.
      */
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public static Parser<Long> rangeStrict(long from, long to) {
@@ -228,6 +233,7 @@ public class Parsers {
      *
      * @return A parser that matches based on regular expressions.
      */
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public static Parser<String> matching(@Nonnull String regex) {
@@ -242,6 +248,7 @@ public class Parsers {
      *
      * @return A parser that matches based on regular expressions.
      */
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public static Parser<String> matching(@Nonnull String regex, int flags) {
@@ -269,6 +276,7 @@ public class Parsers {
      *
      * @return A parser that matches enum values.
      */
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public static <T extends Enum<T>> Parser<T> toEnum(@Nonnull Class<T> enumClass) {
@@ -309,6 +317,7 @@ public class Parsers {
      *
      * @return A parser that yields all the remaining content as-is.
      */
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public static Parser<String> remainingContent() {
@@ -327,6 +336,7 @@ public class Parsers {
      *
      * @return A parser that yields all remaining arguments as a string.
      */
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public static Parser<String> remainingArguments() {
@@ -384,6 +394,7 @@ public class Parsers {
      *
      * @return A parser that matches an URL with one of the given protocols.
      */
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public static Parser<URL> url(String... allowedProtocols) {
@@ -395,6 +406,7 @@ public class Parsers {
      *
      * @return A parser that matches an HTTP URL.
      */
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public static Parser<URL> httpUrl() {
@@ -439,6 +451,7 @@ public class Parsers {
      *
      * @return Parser that never fails, always returning a valid option.
      */
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public static <T> Parser<Optional<T>> option(@Nonnull Parser<T> parser) {

@@ -46,7 +46,6 @@ import java.util.concurrent.TimeUnit;
 import static java.lang.System.currentTimeMillis;
 
 // Reminder: all setters MUST be protected!
-@SuppressWarnings("unused") // data class with too much in it to actually care
 public class MongoUser implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "users";
@@ -88,6 +87,7 @@ public class MongoUser implements ManagedMongoObject {
     // Mongo serialization
     public MongoUser() { }
 
+    @SuppressWarnings("SameParameterValue")
     protected MongoUser(String id, long premiumUntil) {
         this.id = id;
         this.premiumUntil = premiumUntil;
@@ -150,20 +150,24 @@ public class MongoUser implements ManagedMongoObject {
         return actionsDisabled;
     }
 
+    @SuppressWarnings("unused")
     public boolean getReceivedFirstKey() {
         return this.receivedFirstKey;
     }
 
+    @SuppressWarnings("unused")
     public boolean getReceivedExpirationWarning() {
         return this.receivedExpirationWarning;
     }
 
+    @SuppressWarnings("unused")
     public long getPremiumUntil() {
         return this.premiumUntil;
     }
 
     // DO NOT INTERACT DIRECTLY WITH, CHANGES TO THE MAP FROM THIS METHOD WILL NOT BE UPDATED
     // Can't make getters protected!
+    @SuppressWarnings("unused")
     @BsonProperty("waifus")
     public Map<String, Long> getWaifus() {
         return this.waifus;
@@ -192,18 +196,22 @@ public class MongoUser implements ManagedMongoObject {
     }
 
     // --- Setters needed for serialization (unless I want to make the structure more rigid and use a constructor)
+    @SuppressWarnings("unused")
     protected void setLang(String lang) {
         this.lang = lang;
     }
 
+    @SuppressWarnings("unused")
     protected void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
+    @SuppressWarnings("unused")
     protected void setPremiumKey(String premiumKey) {
         this.premiumKey = premiumKey;
     }
 
+    @SuppressWarnings("unused")
     protected void setTimezone(String timezone) {
         this.timezone = timezone;
     }
@@ -212,55 +220,68 @@ public class MongoUser implements ManagedMongoObject {
         this.dustLevel = dustLevel;
     }
 
+    @SuppressWarnings("unused")
     protected void setMarriageId(String marriageId) {
         this.marriageId = marriageId;
     }
 
+    @SuppressWarnings("unused")
     protected void setWaifuSlots(int waifuSlots) {
         this.waifuSlots = waifuSlots;
     }
 
+    @SuppressWarnings("unused")
     protected void setTimesClaimed(int timesClaimed) {
         this.timesClaimed = timesClaimed;
     }
 
+    @SuppressWarnings("unused")
     protected void setPrivateTag(boolean privateTag) {
         this.privateTag = privateTag;
     }
 
+    @SuppressWarnings("unused")
     protected void setAutoEquip(boolean autoEquip) {
         this.autoEquip = autoEquip;
     }
 
+    @SuppressWarnings("unused")
     protected void setActionsDisabled(boolean actionsDisabled) {
         this.actionsDisabled = actionsDisabled;
     }
 
+    @SuppressWarnings("unused")
     protected void setReceivedFirstKey(boolean hasReceivedFirstKey) {
         this.receivedFirstKey = hasReceivedFirstKey;
     }
 
+    @SuppressWarnings("unused")
     protected void setReceivedExpirationWarning(boolean receivedExpirationWarning) {
         this.receivedExpirationWarning = receivedExpirationWarning;
     }
 
     // --- Unused (?) setters, also definitely needed for serialization.
+    @SuppressWarnings("unused")
     protected void setWaifus(Map<String, Long> waifus) {
         this.waifus = waifus;
     }
 
+    @SuppressWarnings("unused")
     protected void setReminders(List<String> reminders) {
         this.reminders = reminders;
     }
 
+    @SuppressWarnings("unused")
     public void setRemindedTimes(int remindedTimes) {
         this.remindedTimes = remindedTimes;
     }
 
+    @SuppressWarnings("unused")
     public void setEquippedItems(PlayerEquipment equippedItems) {
         this.equippedItems = equippedItems;
     }
 
+    @SuppressWarnings("unused")
     public void setKeysClaimed(Map<String, String> keysClaimed) {
         this.keysClaimed = keysClaimed;
     }
@@ -339,6 +360,7 @@ public class MongoUser implements ManagedMongoObject {
     }
 
     // --- Helpers
+    @SuppressWarnings("unused")
     @BsonIgnore
     public MongoUser incrementPremium(long milliseconds) {
         if (isPremium()) {
@@ -401,16 +423,19 @@ public class MongoUser implements ManagedMongoObject {
         fieldTracker.put("reminders", this.reminders);
     }
 
+    @SuppressWarnings("unused")
     @BsonIgnore
     public User getUser(JDA jda) {
         return jda.retrieveUserById(getId()).complete();
     }
 
+    @SuppressWarnings("unused")
     @BsonIgnore
     public User getUser() {
         return MantaroBot.getInstance().getShardManager().retrieveUserById(getId()).complete();
     }
 
+    @SuppressWarnings("unused")
     @BsonIgnore
     public long getPremiumLeft() {
         return isPremium() ? this.premiumUntil - currentTimeMillis() : 0;
@@ -543,6 +568,7 @@ public class MongoUser implements ManagedMongoObject {
         return key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.USER) && isActive;
     }
 
+    @SuppressWarnings("unused")
     @BsonIgnore
     public PremiumKey generateAndApplyPremiumKey(int days, String owner) {
         String premiumId = UUID.randomUUID().toString();
@@ -569,6 +595,7 @@ public class MongoUser implements ManagedMongoObject {
         return this.id;
     }
 
+    @SuppressWarnings("unused")
     @BsonIgnore
     @Override
     @Nonnull
@@ -582,16 +609,19 @@ public class MongoUser implements ManagedMongoObject {
         MantaroData.db().updateFieldValues(this, fieldTracker);
     }
 
+    @SuppressWarnings("unused")
     @Override
     public void save() {
         MantaroData.db().saveMongo(this, MongoUser.class);
     }
 
+    @SuppressWarnings("unused")
     @Override
     public void delete() {
         MantaroData.db().deleteMongo(this, MongoUser.class);
     }
 
+    @SuppressWarnings("unused")
     public Config getConfig() {
         return this.config;
     }

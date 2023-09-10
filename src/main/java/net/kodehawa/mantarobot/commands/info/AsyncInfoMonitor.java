@@ -31,7 +31,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-@SuppressWarnings("unused")
 public class AsyncInfoMonitor {
     private static final ScheduledExecutorService POOL = Executors.newSingleThreadScheduledExecutor(
             task -> new Thread(task, "Mantaro-AsyncInfoMonitor")
@@ -61,11 +60,13 @@ public class AsyncInfoMonitor {
         return freeMemory;
     }
 
+    @SuppressWarnings("unused")
     public static long getMaxMemory() {
         check();
         return maxMemory;
     }
 
+    @SuppressWarnings("unused")
     public static long getThreadCount() {
         check();
         return threadCount;

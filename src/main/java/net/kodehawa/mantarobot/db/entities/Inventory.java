@@ -42,6 +42,10 @@ public class Inventory {
         return ItemStack.mapped(asList());
     }
 
+    // Serialization constructor
+    @SuppressWarnings("unused")
+    public Inventory() { }
+
     public void clear() {
         replaceWith(new ArrayList<>());
     }

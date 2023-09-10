@@ -19,13 +19,14 @@ package net.kodehawa.mantarobot.commands.utils;
 
 import java.util.ArrayList;
 
-@SuppressWarnings("unused")
 public class UrbanData {
 
     public final ArrayList<List> list = new ArrayList<>();
 
+    @SuppressWarnings("unused")
     public UrbanData() { }
 
+    @SuppressWarnings("unused")
     public ArrayList<List> getList() {
         return this.list;
     }
@@ -38,56 +39,70 @@ public class UrbanData {
         public String thumbs_down;
         public String thumbs_up;
 
+        @SuppressWarnings("unused")
         public List() { }
 
+        @SuppressWarnings("unused")
         public String getAuthor() {
             return this.author;
         }
 
+        @SuppressWarnings("unused")
         public void setAuthor(String author) {
             this.author = author;
         }
 
+        @SuppressWarnings("unused")
         public String getDefinition() {
             return this.definition;
         }
 
+        @SuppressWarnings("unused")
         public void setDefinition(String definition) {
             this.definition = definition;
         }
 
+        @SuppressWarnings("unused")
         public String getExample() {
             return this.example;
         }
 
+        @SuppressWarnings("unused")
         public void setExample(String example) {
             this.example = example;
         }
 
+        @SuppressWarnings("unused")
         public String getPermalink() {
             return this.permalink;
         }
 
+        @SuppressWarnings("unused")
         public void setPermalink(String permalink) {
             this.permalink = permalink;
         }
 
+        @SuppressWarnings("unused")
         public String getThumbs_down() {
             return this.thumbs_down;
         }
 
+        @SuppressWarnings("unused")
         public void setThumbs_down(String thumbs_down) {
             this.thumbs_down = thumbs_down;
         }
 
+        @SuppressWarnings("unused")
         public String getThumbs_up() {
             return this.thumbs_up;
         }
 
+        @SuppressWarnings("unused")
         public void setThumbs_up(String thumbs_up) {
             this.thumbs_up = thumbs_up;
         }
 
+        @SuppressWarnings("unused")
         protected boolean canEqual(final Object other) {
             return other instanceof List;
         }

@@ -49,6 +49,16 @@ public class Food extends Item implements Castable {
         return type;
     }
 
+    @Override
+    public int getCastLevelRequired() {
+        return 1;
+    }
+
+    @Override
+    public int getMaximumCastAmount() {
+        return 20;
+    }
+
     @SuppressWarnings("unused")
     public enum FoodType {
         CAT(HousePetType.CAT), DOG(HousePetType.DOG), HAMSTER(HousePetType.RAT), DEV(HousePetType.KODE), GENERAL(HousePetType.ALL);

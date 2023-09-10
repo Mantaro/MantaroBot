@@ -23,7 +23,6 @@ import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import java.util.UUID;
 
-@SuppressWarnings("unused")
 public class PotionEffect {
     private String uuid;
     private int potion; //item id
@@ -62,15 +61,18 @@ public class PotionEffect {
         }
     }
 
+    @SuppressWarnings("unused")
     @BsonIgnore
     public void equip() {
         equip(1);
     }
 
+    @SuppressWarnings("unused")
     public String getUuid() {
         return this.uuid;
     }
 
+    @SuppressWarnings("unused")
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
@@ -79,22 +81,27 @@ public class PotionEffect {
         return this.potion;
     }
 
+    @SuppressWarnings("unused")
     public void setPotion(int potion) {
         this.potion = potion;
     }
 
+    @SuppressWarnings("unused")
     public long getUntil() {
         return this.until;
     }
 
+    @SuppressWarnings("unused")
     public void setUntil(long until) {
         this.until = until;
     }
 
+    @SuppressWarnings("unused")
     public ItemType.PotionType getType() {
         return this.type;
     }
 
+    @SuppressWarnings("unused")
     public void setType(ItemType.PotionType type) {
         this.type = type;
     }

@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 import java.beans.ConstructorProperties;
 
-@SuppressWarnings("unused")
 public class AnimeGameData {
     private String name;
     private String image;
@@ -37,6 +36,7 @@ public class AnimeGameData {
         return name;
     }
 
+    @SuppressWarnings("unused")
     public void setName(String name) {
         this.name = name;
     }
@@ -45,6 +45,7 @@ public class AnimeGameData {
         return image;
     }
 
+    @SuppressWarnings("unused")
     public void setImage(String image) {
         this.image = image;
     }

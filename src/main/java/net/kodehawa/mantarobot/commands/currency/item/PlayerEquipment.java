@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-@SuppressWarnings("unused")
 public class PlayerEquipment {
     //int = itemId
     private final Map<EquipmentType, Integer> equipment;
@@ -41,6 +40,7 @@ public class PlayerEquipment {
     @BsonIgnore
     public Map<String, Object> fieldTracker = new HashMap<>();
 
+    @SuppressWarnings("unused")
     @BsonCreator
     public PlayerEquipment(@BsonProperty("equipment") Map<EquipmentType, Integer> equipment, @BsonProperty("effects") Map<EquipmentType, PotionEffect> effects, @BsonProperty("durability") Map<EquipmentType, Integer> durability) {
         this.equipment = equipment == null ? new HashMap<>() : equipment;
@@ -52,6 +52,7 @@ public class PlayerEquipment {
         return this.equipment;
     }
 
+    @SuppressWarnings("unused")
     public Map<EquipmentType, PotionEffect> getEffects() {
         return this.effects;
     }

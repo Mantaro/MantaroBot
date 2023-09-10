@@ -23,6 +23,7 @@ public abstract class DeferrableCommand<T extends IContext> extends AnnotatedCom
         this.ephemeral = ephemeral;
     }
 
+    @SuppressWarnings("unused")
     public void setDefer(boolean defer) {
         this.defer = defer;
     }

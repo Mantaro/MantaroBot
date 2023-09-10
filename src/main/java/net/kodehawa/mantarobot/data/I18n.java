@@ -37,7 +37,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-@SuppressWarnings("unused")
 public class I18n {
     private static final Logger log = LoggerFactory.getLogger(I18n.class);
     public static final List<String> LANGUAGES = new ArrayList<>();
@@ -87,6 +86,7 @@ public class I18n {
         return getForLanguage(lang);
     }
 
+    @SuppressWarnings("unused")
     public static I18n ofUser(String userId) {
         var lang = MantaroData.db().getUser(userId).getLang();
         return getForLanguage(lang);
@@ -96,10 +96,12 @@ public class I18n {
         return of(guild.getId());
     }
 
+    @SuppressWarnings("unused")
     public static I18n ofUser(User user) {
         return of(user.getId());
     }
 
+    @SuppressWarnings("unused")
     public static I18n of(GenericGuildEvent event) {
         return of(event.getGuild().getId());
     }
@@ -121,6 +123,7 @@ public class I18n {
         return language;
     }
 
+    @SuppressWarnings("unused")
     public static void root(String newRoot) {
         ROOT.set(newRoot);
     }

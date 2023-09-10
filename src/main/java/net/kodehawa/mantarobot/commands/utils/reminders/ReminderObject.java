@@ -18,7 +18,6 @@
 package net.kodehawa.mantarobot.commands.utils.reminders;
 
 //This just exists for the sake of serializing (!)
-@SuppressWarnings("unused")
 public class ReminderObject {
     public final String id;
     public final String reminder;
@@ -41,6 +40,7 @@ public class ReminderObject {
         return new ReminderObjectBuilder();
     }
 
+    @SuppressWarnings("unused")
     public String getId() {
         return this.id;
     }
@@ -61,6 +61,7 @@ public class ReminderObject {
         return this.userId;
     }
 
+    @SuppressWarnings("unused")
     public String getGuildId() {
         return this.guildId;
     }

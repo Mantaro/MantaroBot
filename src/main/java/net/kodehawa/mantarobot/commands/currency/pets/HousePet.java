@@ -26,7 +26,6 @@ import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
-@SuppressWarnings("unused")
 public class HousePet {
     @BsonIgnore
     private static final SecureRandom random = new SecureRandom();
@@ -55,6 +54,7 @@ public class HousePet {
     public Map<String, Object> fieldTracker = new HashMap<>();
 
     // Serialization constructor
+    @SuppressWarnings("unused")
     public HousePet() { }
 
     public HousePet(String name, HousePetType type) {
@@ -74,6 +74,7 @@ public class HousePet {
         return type;
     }
 
+    @SuppressWarnings("unused")
     public void setType(HousePetType type) {
         this.type = type;
     }
@@ -82,6 +83,7 @@ public class HousePet {
         return stamina;
     }
 
+    @SuppressWarnings("unused")
     public void setStamina(int stamina) {
         this.stamina = stamina;
     }
@@ -90,38 +92,47 @@ public class HousePet {
         return health;
     }
 
+    @SuppressWarnings("unused")
     public void setHealth(int health) {
         this.health = health;
     }
 
+    @SuppressWarnings("unused")
     public int getMaxStamina() {
         return maxStamina;
     }
 
+    @SuppressWarnings("unused")
     public void setMaxStamina(int maxStamina) {
         this.maxStamina = maxStamina;
     }
 
+    @SuppressWarnings("unused")
     public int getMaxHealth() {
         return maxHealth;
     }
 
+    @SuppressWarnings("unused")
     public void setMaxHealth(int maxHealth) {
         this.maxHealth = maxHealth;
     }
 
+    @SuppressWarnings("unused")
     public int getMaxHunger() {
         return maxHunger;
     }
 
+    @SuppressWarnings("unused")
     public void setMaxHunger(int maxHunger) {
         this.maxHunger = maxHunger;
     }
 
+    @SuppressWarnings("unused")
     public int getMaxThirst() {
         return maxThirst;
     }
 
+    @SuppressWarnings("unused")
     public void setMaxThirst(int maxThirst) {
         this.maxThirst = maxThirst;
     }
@@ -219,6 +230,7 @@ public class HousePet {
         fieldTracker.put("pet.dust", this.dust);
     }
 
+    @SuppressWarnings("unused")
     public void decreaseDust(int by) {
         if (dust < 1) {
             return;
@@ -228,6 +240,7 @@ public class HousePet {
         fieldTracker.put("pet.dust", this.dust);
     }
 
+    @SuppressWarnings("unused")
     public void increasePats() {
         this.patCounter += 1;
         fieldTracker.put("pet.patCounter", this.patCounter);
@@ -273,6 +286,7 @@ public class HousePet {
         return hunger;
     }
 
+    @SuppressWarnings("unused")
     public void setHunger(int hunger) {
         this.hunger = hunger;
     }
@@ -281,10 +295,12 @@ public class HousePet {
         return thirst;
     }
 
+    @SuppressWarnings("unused")
     public void setThirst(int thirst) {
         this.thirst = thirst;
     }
 
+    @SuppressWarnings("unused")
     public int getPatCounter() {
         return patCounter;
     }
@@ -293,6 +309,7 @@ public class HousePet {
         return experience;
     }
 
+    @SuppressWarnings("unused")
     public void setExperience(long experience) {
         this.experience = experience;
     }
@@ -301,6 +318,7 @@ public class HousePet {
         return level;
     }
 
+    @SuppressWarnings("unused")
     public void setLevel(long level) {
         this.level = level;
     }
