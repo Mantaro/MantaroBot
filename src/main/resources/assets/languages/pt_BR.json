@@ -1409,13 +1409,13 @@
         "too_many": "Como você conseguiu tanto carinho?"
       },
       "play": {
-        "no_pet": "%1$sYou don't have any pets to play with. Check `/pet explanation` for an explanation. (Choice: %2$s)",
-        "no_pet_other": "%1$s%2$s doesn't have any pets to play with. Check `/pet explanation` for an explanation.",
+        "no_pet": "%1$sVocê não tem nenhum pet pra brincar. Cheque `/pet explanation` para uma explicação. (Escolha: %2$s)",
+        "no_pet_other": "%1$s%2$s não tem nenhum pet pra brincar. Cheque `/pet explanation` para uma explicação.",
         "reactions": {
-          "playful": "Your pet playfully plays with you.",
-          "love": "After a long play session, your pet looks lovingly at you.",
-          "dev": "You both played some games together. It was fun.",
-          "nothing": "The pet rock stares deeply at your soul, ever unmoving."
+          "playful": "Seu pet brinca com você.",
+          "love": "Depois de uma longa sessão de brincadeira, seu pet olha pra você com carinho.",
+          "dev": "Vocês dois jogaram alguns jogos juntos. Foi divertido.",
+          "nothing": "O pet encara profundamente sua alma, estando imóvel."
         }
       },
       "pet_reactions": {
