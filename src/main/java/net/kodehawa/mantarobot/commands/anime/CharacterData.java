@@ -20,20 +20,16 @@ package net.kodehawa.mantarobot.commands.anime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 //Kitsu API character data.
+@SuppressWarnings("unused")
 public class CharacterData {
-    @SuppressWarnings("unused")
     private String id;
-    @SuppressWarnings("unused")
     private String type;
-    @SuppressWarnings("unused")
     private Attributes attributes;
 
-    @SuppressWarnings("unused")
     public String getId() {
         return this.id;
     }
 
-    @SuppressWarnings("unused")
     public String getType() {
         return this.type;
     }
@@ -48,13 +44,9 @@ public class CharacterData {
     }
 
     public static class Attributes {
-        @SuppressWarnings("unused")
         private Names names;
-        @SuppressWarnings("unused")
         private String name;
-        @SuppressWarnings("unused")
         private String description;
-        @SuppressWarnings("unused")
         private Image image;
 
         public Names getNames() {
@@ -74,30 +66,23 @@ public class CharacterData {
         }
     }
 
-    @SuppressWarnings("unused")
+
     public static class Names {
-        @SuppressWarnings("unused")
         private String en;
-        @SuppressWarnings("unused")
         private String ja_jp;
 
-        @SuppressWarnings("unused")
         public String getEn() {
             return this.en;
         }
 
-        @SuppressWarnings("unused")
         public String getJa_jp() {
             return this.ja_jp;
         }
     }
 
-    @SuppressWarnings("unused")
     public static class Image {
-        @SuppressWarnings("unused")
         private String original;
 
-        @SuppressWarnings("unused")
         public String getOriginal() {
             return this.original;
         }

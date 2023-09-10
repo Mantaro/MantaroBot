@@ -27,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.currentTimeMillis;
 
+@SuppressWarnings("unused")
 public class MongoGuild implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "guilds";
@@ -185,12 +186,10 @@ public class MongoGuild implements ManagedMongoObject {
         return id;
     }
 
-    @SuppressWarnings("unused")
     public void setId(String id) {
         this.id = id;
     }
 
-    @SuppressWarnings("unused")
     @BsonIgnore
     @Override
     public @NotNull String getTableName() {
@@ -203,7 +202,6 @@ public class MongoGuild implements ManagedMongoObject {
         MantaroData.db().saveMongo(this, MongoGuild.class);
     }
 
-    @SuppressWarnings("unused")
     @Override
     @BsonIgnore
     public void delete() {
@@ -216,7 +214,6 @@ public class MongoGuild implements ManagedMongoObject {
         MantaroData.db().updateFieldValues(this, fieldTracker);
     }
 
-    @SuppressWarnings("unused")
     @BsonIgnore
     public long getPremiumLeft() {
         return isPremium() ? this.premiumUntil - currentTimeMillis() : 0;
@@ -272,7 +269,6 @@ public class MongoGuild implements ManagedMongoObject {
         return currentTimeMillis() < premiumUntil || (key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.GUILD));
     }
 
-    @SuppressWarnings("unused")
     @BsonIgnore
     public PremiumKey generateAndApplyPremiumKey(int days) {
         String premiumId = UUID.randomUUID().toString();
@@ -347,7 +343,6 @@ public class MongoGuild implements ManagedMongoObject {
         return modlogBlacklistedPeople;
     }
 
-    @SuppressWarnings("unused")
     public List<String> getRolesBlockedFromCommands() {
         return rolesBlockedFromCommands;
     }
@@ -436,12 +431,10 @@ public class MongoGuild implements ManagedMongoObject {
         return musicChannel;
     }
 
-    @SuppressWarnings("unused")
     public String getMutedRole() {
         return mutedRole;
     }
 
-    @SuppressWarnings("unused")
     public boolean isNoMentionsAction() {
         return noMentionsAction;
     }
@@ -458,7 +451,6 @@ public class MongoGuild implements ManagedMongoObject {
         return setModTimeout;
     }
 
-    @SuppressWarnings("unused")
     public int getTimeDisplay() {
         return timeDisplay;
     }
@@ -511,17 +503,14 @@ public class MongoGuild implements ManagedMongoObject {
         return deleteMessageLog;
     }
 
-    @SuppressWarnings("unused")
     public String getBannedMemberLog() {
         return bannedMemberLog;
     }
 
-    @SuppressWarnings("unused")
     public String getUnbannedMemberLog() {
         return unbannedMemberLog;
     }
 
-    @SuppressWarnings("unused")
     public String getKickedMemberLog() {
         return kickedMemberLog;
     }
@@ -530,7 +519,6 @@ public class MongoGuild implements ManagedMongoObject {
         return commandWarningDisplay;
     }
 
-    @SuppressWarnings("unused")
     public boolean isHasReceivedGreet() {
         return hasReceivedGreet;
     }
@@ -571,127 +559,102 @@ public class MongoGuild implements ManagedMongoObject {
         return hasReceivedGreet;
     }
 
-    @SuppressWarnings("unused")
     protected void setPremiumUntil(long premiumUntil) {
         this.premiumUntil = premiumUntil;
     }
 
-    @SuppressWarnings("unused")
     protected void setAutoroles(Map<String, String> autoroles) {
         this.autoroles = autoroles;
     }
 
-    @SuppressWarnings("unused")
     protected void setBirthdayChannel(String birthdayChannel) {
         this.birthdayChannel = birthdayChannel;
     }
 
-    @SuppressWarnings("unused")
     protected void setBirthdayRole(String birthdayRole) {
         this.birthdayRole = birthdayRole;
     }
 
-    @SuppressWarnings("unused")
     protected void setCases(long cases) {
         this.cases = cases;
     }
 
-    @SuppressWarnings("unused")
     protected void setChannelSpecificDisabledCategories(Map<String, List<CommandCategory>> channelSpecificDisabledCategories) {
         this.channelSpecificDisabledCategories = channelSpecificDisabledCategories;
     }
 
-    @SuppressWarnings("unused")
     protected void setChannelSpecificDisabledCommands(Map<String, List<String>> channelSpecificDisabledCommands) {
         this.channelSpecificDisabledCommands = channelSpecificDisabledCommands;
     }
 
-    @SuppressWarnings("unused")
     protected void setDisabledCategories(Set<CommandCategory> disabledCategories) {
         this.disabledCategories = disabledCategories;
     }
 
-    @SuppressWarnings("unused")
     protected void setDisabledChannels(Set<String> disabledChannels) {
         this.disabledChannels = disabledChannels;
     }
 
-    @SuppressWarnings("unused")
     protected void setDisabledCommands(Set<String> disabledCommands) {
         this.disabledCommands = disabledCommands;
     }
 
-    @SuppressWarnings("unused")
     protected void setDisabledRoles(Set<String> disabledRoles) {
         this.disabledRoles = disabledRoles;
     }
 
-    @SuppressWarnings("unused")
     protected void setDisabledUsers(List<String> disabledUsers) {
         this.disabledUsers = disabledUsers;
     }
 
-    @SuppressWarnings("unused")
     protected void setGuildAutoRole(String guildAutoRole) {
         this.guildAutoRole = guildAutoRole;
     }
 
-    @SuppressWarnings("unused")
     protected void setGuildCustomPrefix(String guildCustomPrefix) {
         this.guildCustomPrefix = guildCustomPrefix;
     }
 
-    @SuppressWarnings("unused")
     protected void setGuildLogChannel(String guildLogChannel) {
         this.guildLogChannel = guildLogChannel;
     }
 
-    @SuppressWarnings("unused")
     protected void setJoinMessage(String joinMessage) {
         this.joinMessage = joinMessage;
     }
 
-    @SuppressWarnings("unused")
     protected void setLeaveMessage(String leaveMessage) {
         this.leaveMessage = leaveMessage;
     }
 
-    @SuppressWarnings("unused")
     protected void setLogExcludedChannels(Set<String> logExcludedChannels) {
         this.logExcludedChannels = logExcludedChannels;
     }
 
-    @SuppressWarnings("unused")
     protected void setLogJoinLeaveChannel(String logJoinLeaveChannel) {
         this.logJoinLeaveChannel = logJoinLeaveChannel;
     }
 
-    @SuppressWarnings("unused")
     protected void setMaxFairQueue(int maxFairQueue) {
         this.maxFairQueue = maxFairQueue;
     }
 
-    @SuppressWarnings("unused")
     protected void setModlogBlacklistedPeople(Set<String> modlogBlacklistedPeople) {
         this.modlogBlacklistedPeople = modlogBlacklistedPeople;
     }
 
-    @SuppressWarnings("unused")
     protected void setMusicAnnounce(boolean musicAnnounce) {
         this.musicAnnounce = musicAnnounce;
     }
 
-    @SuppressWarnings("unused")
     protected void setMusicChannel(String musicChannel) {
         this.musicChannel = musicChannel;
     }
 
-    @SuppressWarnings("unused")
     protected void setMutedRole(String mutedRole) {
         this.mutedRole = mutedRole;
     }
 
-    @SuppressWarnings("unused")
     protected void setNoMentionsAction(boolean noMentionsAction) {
         this.noMentionsAction = noMentionsAction;
     }
@@ -700,187 +663,150 @@ public class MongoGuild implements ManagedMongoObject {
         this.premiumKey = premiumKey;
     }
 
-    @SuppressWarnings("unused")
     protected void setRanPolls(long ranPolls) {
         this.ranPolls = ranPolls;
     }
 
-    @SuppressWarnings("unused")
     protected void setRolesBlockedFromCommands(List<String> rolesBlockedFromCommands) {
         this.rolesBlockedFromCommands = rolesBlockedFromCommands;
     }
 
-    @SuppressWarnings("unused")
     protected void setSetModTimeout(long setModTimeout) {
         this.setModTimeout = setModTimeout;
     }
 
-    @SuppressWarnings("unused")
     protected void setTimeDisplay(int timeDisplay) {
         this.timeDisplay = timeDisplay;
     }
 
-    @SuppressWarnings("unused")
     protected void setGameTimeoutExpectedAt(String gameTimeoutExpectedAt) {
         this.gameTimeoutExpectedAt = gameTimeoutExpectedAt;
     }
 
-    @SuppressWarnings("unused")
     protected void setBlackListedImageTags(Set<String> blackListedImageTags) {
         this.blackListedImageTags = blackListedImageTags;
     }
 
-    @SuppressWarnings("unused")
     protected void setIgnoreBotsAutoRole(boolean ignoreBotsAutoRole) {
         this.ignoreBotsAutoRole = ignoreBotsAutoRole;
     }
 
-    @SuppressWarnings("unused")
     protected void setLogJoinChannel(String logJoinChannel) {
         this.logJoinChannel = logJoinChannel;
     }
 
-    @SuppressWarnings("unused")
     protected void setIgnoreBotsWelcomeMessage(boolean ignoreBotsWelcomeMessage) {
         this.ignoreBotsWelcomeMessage = ignoreBotsWelcomeMessage;
     }
 
-    @SuppressWarnings("unused")
     protected void setRoleSpecificDisabledCategories(Map<String, List<CommandCategory>> roleSpecificDisabledCategories) {
         this.roleSpecificDisabledCategories = roleSpecificDisabledCategories;
     }
 
-    @SuppressWarnings("unused")
     protected void setRoleSpecificDisabledCommands(Map<String, List<String>> roleSpecificDisabledCommands) {
         this.roleSpecificDisabledCommands = roleSpecificDisabledCommands;
     }
 
-    @SuppressWarnings("unused")
     protected void setMusicVote(boolean musicVote) {
         this.musicVote = musicVote;
     }
 
-    @SuppressWarnings("unused")
     protected void setExtraJoinMessages(List<String> extraJoinMessages) {
         this.extraJoinMessages = extraJoinMessages;
     }
 
-    @SuppressWarnings("unused")
     protected void setExtraLeaveMessages(List<String> extraLeaveMessages) {
         this.extraLeaveMessages = extraLeaveMessages;
     }
 
-    @SuppressWarnings("unused")
     protected void setBirthdayMessage(String birthdayMessage) {
         this.birthdayMessage = birthdayMessage;
     }
 
-    @SuppressWarnings("unused")
     protected void setCustomAdminLockNew(boolean customAdminLockNew) {
         this.customAdminLockNew = customAdminLockNew;
     }
 
-    @SuppressWarnings("unused")
     protected void setMpLinkedTo(String mpLinkedTo) {
         this.mpLinkedTo = mpLinkedTo;
     }
 
-    @SuppressWarnings("unused")
     protected void setModLogBlacklistWords(List<String> modLogBlacklistWords) {
         this.modLogBlacklistWords = modLogBlacklistWords;
     }
 
-    @SuppressWarnings("unused")
     protected void setAutoroleCategories(Map<String, List<String>> autoroleCategories) {
         this.autoroleCategories = autoroleCategories;
     }
 
-    @SuppressWarnings("unused")
     protected void setDeleteMessageLog(String deleteMessageLog) {
         this.deleteMessageLog = deleteMessageLog;
     }
 
-    @SuppressWarnings("unused")
     protected void setEditMessageLog(String editMessageLog) {
         this.editMessageLog = editMessageLog;
     }
 
-    @SuppressWarnings("unused")
     protected void setBannedMemberLog(String bannedMemberLog) {
         this.bannedMemberLog = bannedMemberLog;
     }
 
-    @SuppressWarnings("unused")
     protected void setUnbannedMemberLog(String unbannedMemberLog) {
         this.unbannedMemberLog = unbannedMemberLog;
     }
 
-    @SuppressWarnings("unused")
     protected void setKickedMemberLog(String kickedMemberLog) {
         this.kickedMemberLog = kickedMemberLog;
     }
 
-    @SuppressWarnings("unused")
     protected void setCommandWarningDisplay(boolean commandWarningDisplay) {
         this.commandWarningDisplay = commandWarningDisplay;
     }
 
-    @SuppressWarnings("unused")
     protected void setGameMultipleDisabled(boolean gameMultipleDisabled) {
         this.gameMultipleDisabled = gameMultipleDisabled;
     }
 
-    @SuppressWarnings("unused")
     protected void setBirthdayBlockedIds(List<String> birthdayBlockedIds) {
         this.birthdayBlockedIds = birthdayBlockedIds;
     }
 
-    @SuppressWarnings("unused")
     protected void setHasReceivedGreet(boolean hasReceivedGreet) {
         this.hasReceivedGreet = hasReceivedGreet;
     }
 
-    @SuppressWarnings("unused")
     protected void setLogTimezone(String logTimezone) {
         this.logTimezone = logTimezone;
     }
 
-    @SuppressWarnings("unused")
     protected void setAllowedBirthdays(List<String> allowedBirthdays) {
         this.allowedBirthdays = allowedBirthdays;
     }
 
-    @SuppressWarnings("unused")
     protected void setNotifiedFromBirthdayChange(boolean notifiedFromBirthdayChange) {
         this.notifiedFromBirthdayChange = notifiedFromBirthdayChange;
     }
 
-    @SuppressWarnings("unused")
     protected void setDjRoleId(String djRoleId) {
         this.djRoleId = djRoleId;
     }
 
-    @SuppressWarnings("unused")
     protected void setDisableExplicit(boolean disableExplicit) {
         this.disableExplicit = disableExplicit;
     }
 
-    @SuppressWarnings("unused")
     protected void setMusicQueueSizeLimit(Long musicQueueSizeLimit) {
         this.musicQueueSizeLimit = musicQueueSizeLimit;
     }
 
-    @SuppressWarnings("unused")
     protected void setRunningPolls(Map<String, Poll.PollDatabaseObject> polls) {
         this.runningPolls = polls;
     }
 
-    @SuppressWarnings("unused")
     protected void setLogLeaveChannel(String logLeaveChannel) {
         this.logLeaveChannel = logLeaveChannel;
     }
 
-    @SuppressWarnings("unused")
     protected void setLang(String lang) {
         this.lang = lang;
     }
@@ -891,7 +817,6 @@ public class MongoGuild implements ManagedMongoObject {
         fieldTracker.put("premiumUntil", this.premiumUntil);
     }
 
-    @SuppressWarnings("unused")
     public void autoroles(Map<String, String> autoroles) {
         this.autoroles = autoroles;
         fieldTracker.put("autoroles", this.autoroles);
@@ -967,13 +892,11 @@ public class MongoGuild implements ManagedMongoObject {
         fieldTracker.put("musicChannel", this.musicChannel);
     }
 
-    @SuppressWarnings("unused")
     public void mutedRole(String mutedRole) {
         this.mutedRole = mutedRole;
         fieldTracker.put("mutedRole", this.mutedRole);
     }
 
-    @SuppressWarnings("unused")
     public void noMentionsAction(boolean noMentionsAction) {
         this.noMentionsAction = noMentionsAction;
         fieldTracker.put("noMentionsAction", this.noMentionsAction);
@@ -989,7 +912,6 @@ public class MongoGuild implements ManagedMongoObject {
         fieldTracker.put("ranPolls", this.ranPolls);
     }
 
-    @SuppressWarnings("unused")
     public void rolesBlockedFromCommands(List<String> rolesBlockedFromCommands) {
         this.rolesBlockedFromCommands = rolesBlockedFromCommands;
         fieldTracker.put("rolesBlockedFromCommands", this.rolesBlockedFromCommands);
@@ -1050,19 +972,16 @@ public class MongoGuild implements ManagedMongoObject {
         fieldTracker.put("editMessageLog", this.editMessageLog);
     }
 
-    @SuppressWarnings("unused")
     public void bannedMemberLog(String bannedMemberLog) {
         this.bannedMemberLog = bannedMemberLog;
         fieldTracker.put("bannedMemberLog", this.bannedMemberLog);
     }
 
-    @SuppressWarnings("unused")
     public void unbannedMemberLog(String unbannedMemberLog) {
         this.unbannedMemberLog = unbannedMemberLog;
         fieldTracker.put("unbannedMemberLog", this.unbannedMemberLog);
     }
 
-    @SuppressWarnings("unused")
     public void kickedMemberLog(String kickedMemberLog) {
         this.kickedMemberLog = kickedMemberLog;
         fieldTracker.put("kickedMemberLog", this.kickedMemberLog);
@@ -1227,7 +1146,6 @@ public class MongoGuild implements ManagedMongoObject {
         fieldTracker.put("modlogBlacklistedPeople", this.modlogBlacklistedPeople);
     }
 
-    @SuppressWarnings("unused")
     public void addRolesBlockedFromCommand(String roleId) {
         rolesBlockedFromCommands.add(roleId);
         fieldTracker.put("rolesBlockedFromCommands", this.rolesBlockedFromCommands);
@@ -1288,7 +1206,6 @@ public class MongoGuild implements ManagedMongoObject {
         fieldTracker.put("birthdayBlockedIds", this.birthdayBlockedIds);
     }
 
-    @SuppressWarnings("unused")
     public void removeBirthdayBlockedId(String userId) {
         birthdayBlockedIds.remove(userId);
         fieldTracker.put("birthdayBlockedIds", this.birthdayBlockedIds);

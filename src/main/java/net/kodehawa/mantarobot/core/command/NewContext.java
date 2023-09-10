@@ -58,6 +58,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("unused") // remove when old cmds are ported over
 public class NewContext implements IContext {
     private final ManagedDatabase managedDatabase = MantaroData.db();
     private final Config config = MantaroData.config().get();
@@ -81,12 +82,10 @@ public class NewContext implements IContext {
         return args;
     }
 
-    @SuppressWarnings("unused")
     public NewContext snapshot() {
         return new NewContext(event, i18n, args.snapshot());
     }
 
-    @SuppressWarnings("unused")
     public MessageReceivedEvent getEvent() {
         return event;
     }
@@ -205,7 +204,6 @@ public class NewContext implements IContext {
      *
      * @return A possibly empty list of arguments returned by the parser.
      */
-    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public <T> List<T> many(@Nonnull Parser<T> parser) {
@@ -225,7 +223,6 @@ public class NewContext implements IContext {
      *
      * @return True if the current argument matched the parser.
      */
-    @SuppressWarnings("unused")
     @CheckReturnValue
     public boolean matches(@Nonnull Parser<?> parser) {
         return tryArgument(parser).isPresent();
@@ -250,7 +247,6 @@ public class NewContext implements IContext {
      *
      * @return Possibly empty list of arguments matching.
      */
-    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public <T> List<T> takeUntil(Parser<T> valueParser, Parser<?> delimiter) {
@@ -288,7 +284,6 @@ public class NewContext implements IContext {
         return getMessage().getGuild();
     }
 
-    @SuppressWarnings("unused")
     @Override
     public void send(MessageCreateData message) {
         getChannel().sendMessage(message).queue();
@@ -303,31 +298,26 @@ public class NewContext implements IContext {
         getChannel().sendFiles(FileUpload.fromData(bytes, name)).queue();
     }
 
-    @SuppressWarnings("unused")
     @Override
     public ManagedDatabase db() {
         return managedDatabase;
     }
 
-    @SuppressWarnings("unused")
     @Override
     public Message sendResult(String s) {
         return getChannel().sendMessage(s).complete();
     }
 
-    @SuppressWarnings("unused")
     @Override
     public Message sendResult(MessageEmbed e) {
         return getChannel().sendMessageEmbeds(e).complete();
     }
 
-    @SuppressWarnings("unused")
     @Override
     public void sendLocalized(String localizedMessage, Object... args) {
         getChannel().sendMessageFormat(i18n.get(localizedMessage), args).queue();
     }
 
-    @SuppressWarnings("unused")
     @Override
     public void sendLocalizedStripped(String s, Object... args) {
         getChannel().sendMessage(getLanguageContext().get(s).formatted(args))
@@ -335,7 +325,6 @@ public class NewContext implements IContext {
                 .queue();
     }
 
-    @SuppressWarnings("unused")
     @Override
     public void sendFormat(String message, Object... format) {
         getChannel().sendMessage(
@@ -343,7 +332,6 @@ public class NewContext implements IContext {
         ).queue();
     }
 
-    @SuppressWarnings("unused")
     @Override
     public void sendFormatStripped(String message, Object... format) {
         getChannel().sendMessage(
@@ -351,7 +339,6 @@ public class NewContext implements IContext {
         ).setAllowedMentions(EnumSet.noneOf(Message.MentionType.class)).queue();
     }
 
-    @SuppressWarnings("unused")
     @Override
     public void sendFormat(String message, Collection<ActionRow> actionRow, Object... format) {
         getChannel().sendMessage(
@@ -359,12 +346,10 @@ public class NewContext implements IContext {
         ).setComponents(actionRow).queue();
     }
 
-    @SuppressWarnings("unused")
     public void sendLocalized(String localizedMessage) {
         getChannel().sendMessage(i18n.get(localizedMessage)).queue();
     }
 
-    @SuppressWarnings("unused")
     @Override
     public void sendStripped(String message) {
         getChannel().sendMessageFormat(message)
@@ -372,7 +357,6 @@ public class NewContext implements IContext {
                 .queue();
     }
 
-    @SuppressWarnings("unused")
     @Override
     public void send(MessageEmbed e) {
         // Sending embeds while supressing the failure callbacks leads to very hard
@@ -381,7 +365,6 @@ public class NewContext implements IContext {
                 .queue(success -> {}, Throwable::printStackTrace);
     }
 
-    @SuppressWarnings("unused")
     @Override
     public void send(MessageEmbed embed, ActionRow... actionRow) {
         // Sending embeds while supressing the failure callbacks leads to very hard
@@ -390,7 +373,6 @@ public class NewContext implements IContext {
                 .setComponents(actionRow).queue(success -> {}, Throwable::printStackTrace);
     }
 
-    @SuppressWarnings("unused")
     public void sendStrippedLocalized(String localizedMessage, Object... args) {
         getChannel().sendMessageFormat(i18n.get(localizedMessage), args)
                 .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
@@ -406,7 +388,6 @@ public class NewContext implements IContext {
         return user;
     }
 
-    @SuppressWarnings("unused")
     public String getTagOrDisplay(User user) {
         if (user.getGlobalName() != null) {
             return user.getGlobalName();
@@ -415,7 +396,6 @@ public class NewContext implements IContext {
         }
     }
 
-    @SuppressWarnings("unused")
     public Member retrieveMemberById(Guild guild, String id, boolean update) {
         Member member = null;
         try {
@@ -425,7 +405,6 @@ public class NewContext implements IContext {
         return member;
     }
 
-    @SuppressWarnings("unused")
     public Member retrieveMemberById(String id, boolean update) {
         Member member = null;
         try {
@@ -440,17 +419,14 @@ public class NewContext implements IContext {
         return getMessage().getMember();
     }
 
-    @SuppressWarnings("unused")
     public SelfUser getSelfUser() {
         return getChannel().getJDA().getSelfUser();
     }
 
-    @SuppressWarnings("unused")
     public Member getSelfMember() {
         return getGuild().getSelfMember();
     }
 
-    @SuppressWarnings("unused")
     public MantaroAudioManager getAudioManager() {
         return getBot().getAudioManager();
     }
@@ -460,42 +436,35 @@ public class NewContext implements IContext {
         return getBot().getShardManager();
     }
 
-    @SuppressWarnings("unused")
     @Override
     public MantaroObject getMantaroData() {
         return managedDatabase.getMantaroData();
     }
 
-    @SuppressWarnings("unused")
     @Override
     public Config getConfig() {
         return config;
     }
 
-    @SuppressWarnings("unused")
     @Override
     public MongoGuild getDBGuild() {
         return managedDatabase.getGuild(getGuild());
     }
 
-    @SuppressWarnings("unused")
     @Override
     public MongoUser getDBUser() {
         return managedDatabase.getUser(getAuthor());
     }
 
-    @SuppressWarnings("unused")
     @Override
     public MongoUser getDBUser(User user) {
         return managedDatabase.getUser(user);
     }
 
-    @SuppressWarnings("unused")
     public MongoUser getDBUser(Member member) {
         return managedDatabase.getUser(member);
     }
 
-    @SuppressWarnings("unused")
     public MongoUser getDBUser(String id) {
         return managedDatabase.getUser(id);
     }
@@ -510,7 +479,6 @@ public class NewContext implements IContext {
         return managedDatabase.getPlayer(user);
     }
 
-    @SuppressWarnings("unused")
     public Player getPlayer(Member member) {
         return managedDatabase.getPlayer(member);
     }
@@ -528,13 +496,11 @@ public class NewContext implements IContext {
         return getMessage().getAuthor();
     }
 
-    @SuppressWarnings("unused")
     @Override
     public RateLimitContext ratelimitContext() {
         return new RateLimitContext(getGuild(), getMessage(), getChannel(), event, null);
     }
 
-    @SuppressWarnings("unused")
     @Override
     public UtilsContext getUtilsContext() {
         return new UtilsContext(getGuild(), getMember(), getChannel(), i18n, null);

@@ -30,6 +30,7 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class Marriage implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "marriages";
@@ -42,7 +43,6 @@ public class Marriage implements ManagedMongoObject {
     private String player2;
 
     // Serialization constructor
-    @SuppressWarnings("unused")
     public Marriage() { }
 
     protected Marriage(String id, String player1, String player2) {
@@ -65,7 +65,6 @@ public class Marriage implements ManagedMongoObject {
      *
      * @return The new Marriage.
      */
-    @SuppressWarnings("unused")
     public static Marriage of(String marriageId, Member member1, Member member2) {
         return of(marriageId, member1.getUser(), member2.getUser());
     }
@@ -90,12 +89,10 @@ public class Marriage implements ManagedMongoObject {
         }
     }
 
-    @SuppressWarnings("unused")
     public String getPlayer1() {
         return this.player1;
     }
 
-    @SuppressWarnings("unused")
     public String getPlayer2() {
         return this.player2;
     }
@@ -145,7 +142,6 @@ public class Marriage implements ManagedMongoObject {
         return pet;
     }
 
-    @SuppressWarnings("unused")
     public String getTimezone() {
         return timezone;
     }
@@ -154,47 +150,38 @@ public class Marriage implements ManagedMongoObject {
         return lockedUntil;
     }
 
-    @SuppressWarnings("unused")
     protected void setHouseName(String houseName) {
         this.houseName = houseName;
     }
 
-    @SuppressWarnings("unused")
     protected void setHasHouse(boolean hasHouse) {
         this.hasHouse = hasHouse;
     }
 
-    @SuppressWarnings("unused")
     protected void setHasCar(boolean hasCar) {
         this.hasCar = hasCar;
     }
 
-    @SuppressWarnings("unused")
     protected void setCarName(String carName) {
         this.carName = carName;
     }
 
-    @SuppressWarnings("unused")
     protected void setPet(HousePet pet) {
         this.pet = pet;
     }
 
-    @SuppressWarnings("unused")
     protected void setTimezone(String timezone) {
         this.timezone = timezone;
     }
 
-    @SuppressWarnings("unused")
     protected void setLockedUntil(long lockedUntil) {
         this.lockedUntil = lockedUntil;
     }
 
-    @SuppressWarnings("unused")
     protected void setMarriageCreationMillis(long marriageCreationMillis) {
         this.marriageCreationMillis = marriageCreationMillis;
     }
 
-    @SuppressWarnings("unused")
     protected void setLoveLetter(String loveLetter) {
         this.loveLetter = loveLetter;
     }
@@ -205,7 +192,6 @@ public class Marriage implements ManagedMongoObject {
         fieldTracker.put("lockedUntil", this.lockedUntil);
     }
 
-    @SuppressWarnings("unused")
     @BsonIgnore
     public void timezone(String timezone) {
         this.timezone = timezone;
@@ -282,7 +268,6 @@ public class Marriage implements ManagedMongoObject {
         return this.id;
     }
 
-    @SuppressWarnings("unused")
     @BsonIgnore
     @Nonnull
     @Override

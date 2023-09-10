@@ -23,9 +23,11 @@ import javax.annotation.Nonnull;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+
 /**
  * Splits strings, returning an object that preserves the delimiters (defaults to whitespace).
  */
+@SuppressWarnings("unused") // this class has more unused stuff than used stuff lmao
 public class StringSplitter {
     private static final Pattern DEFAULT_PATTERN = Pattern.compile("\\s+");
 
@@ -46,7 +48,6 @@ public class StringSplitter {
      * @param regex Pattern used to split strings.
      * @param flags Regex flags to compile with.
      */
-    @SuppressWarnings("unused")
     public StringSplitter(@Nonnull String regex, int flags) {
         this(Pattern.compile(regex, flags));
     }
@@ -56,7 +57,6 @@ public class StringSplitter {
      *
      * @param regex Pattern used to split strings.
      */
-    @SuppressWarnings("unused")
     public StringSplitter(@Nonnull String regex) {
         this(Pattern.compile(regex));
     }
@@ -102,7 +102,6 @@ public class StringSplitter {
      *
      * @see Pattern#split(CharSequence)
      */
-    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public String[] rawSplit(@Nonnull String string) {
@@ -119,7 +118,6 @@ public class StringSplitter {
      *
      * @see Pattern#split(CharSequence, int)
      */
-    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public String[] rawSplit(@Nonnull String string, @Nonnegative int limit) {

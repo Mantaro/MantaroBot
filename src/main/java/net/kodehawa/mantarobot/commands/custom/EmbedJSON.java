@@ -25,23 +25,16 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class EmbedJSON {
     public final List<EmbedField> fields = new ArrayList<>();
-    @SuppressWarnings("unused")
     public String author, authorImg, authorUrl;
-    @SuppressWarnings("unused")
     public String color;
-    @SuppressWarnings("unused")
     public String description;
-    @SuppressWarnings("unused")
     public String footer, footerImg;
-    @SuppressWarnings("unused")
     public String image;
-    @SuppressWarnings("unused")
     public String thumbnail;
-    @SuppressWarnings("unused")
     public String title;
-    @SuppressWarnings("unused")
     public String titleUrl;
 
     public MessageEmbed gen(Member member) {
@@ -85,11 +78,8 @@ public class EmbedJSON {
     }
 
     public static class EmbedField {
-        @SuppressWarnings("unused")
         public boolean inline;
-        @SuppressWarnings("unused")
         public String name;
-        @SuppressWarnings("unused")
         public String value;
     }
 }

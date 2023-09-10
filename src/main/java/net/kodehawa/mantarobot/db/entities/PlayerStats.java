@@ -28,6 +28,7 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class PlayerStats implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "playerstats";
@@ -50,7 +51,6 @@ public class PlayerStats implements ManagedMongoObject {
     private long slotsLose;
 
     // Needed for serialization
-    @SuppressWarnings("unused")
     public PlayerStats() { }
 
     @SuppressWarnings("SameParameterValue")
@@ -66,7 +66,6 @@ public class PlayerStats implements ManagedMongoObject {
         return of(user.getId());
     }
 
-    @SuppressWarnings("unused")
     public static PlayerStats of(Member member) {
         return of(member.getUser());
     }
@@ -81,7 +80,6 @@ public class PlayerStats implements ManagedMongoObject {
         return this.id;
     }
 
-    @SuppressWarnings("unused")
     @Nonnull
     @Override
     @BsonIgnore
@@ -89,7 +87,6 @@ public class PlayerStats implements ManagedMongoObject {
         return DB_TABLE;
     }
 
-    @SuppressWarnings("unused")
     @BsonIgnore
     @Nonnull
     @Override
@@ -105,12 +102,10 @@ public class PlayerStats implements ManagedMongoObject {
         return this.slotsWins;
     }
 
-    @SuppressWarnings("unused")
     public long getGambleWinAmount() {
         return this.gambleWinAmount;
     }
 
-    @SuppressWarnings("unused")
     public long getSlotsWinAmount() {
         return this.slotsWinAmount;
     }
@@ -127,67 +122,54 @@ public class PlayerStats implements ManagedMongoObject {
         return salvagedItems;
     }
 
-    @SuppressWarnings("unused")
     public long getToolsBroken() {
         return toolsBroken;
     }
 
-    @SuppressWarnings("unused")
     public long getLooted() {
         return this.looted;
     }
 
-    @SuppressWarnings("unused")
     public long getMined() {
         return this.mined;
     }
 
-    @SuppressWarnings("unused")
     public long getGambleLose() {
         return this.gambleLose;
     }
 
-    @SuppressWarnings("unused")
     public void setGambleLose(long gambleLose) {
         this.gambleLose = gambleLose;
     }
 
-    @SuppressWarnings("unused")
     public long getSlotsLose() {
         return this.slotsLose;
     }
 
-    @SuppressWarnings("unused")
     public void setSlotsLose(long slotsLose) {
         this.slotsLose = slotsLose;
     }
 
-    @SuppressWarnings("unused")
     public void setLooted(long looted) {
         this.looted = looted;
     }
 
-    @SuppressWarnings("unused")
     public void setMined(long mined) {
         this.mined = mined;
     }
 
-    @SuppressWarnings("unused")
     public void setCraftedItems(long craftedItems) {
         this.craftedItems = craftedItems;
     }
 
-    @SuppressWarnings("unused")
     public void setRepairedItems(long repairedItems) {
         this.repairedItems = repairedItems;
     }
 
-    @SuppressWarnings("unused")
     public void setToolsBroken(long toolsBroken) {
         this.toolsBroken = toolsBroken;
     }
 
-    @SuppressWarnings("unused")
     public void setSalvagedItems(long salvagedItems) {
         this.salvagedItems = salvagedItems;
     }
@@ -204,14 +186,12 @@ public class PlayerStats implements ManagedMongoObject {
         fieldTracker.put("slotsWinAmount", this.slotsWinAmount);
     }
 
-    @SuppressWarnings("unused")
     @BsonIgnore
     public void incrementMined() {
         this.mined += 1;
         fieldTracker.put("mined", this.mined);
     }
 
-    @SuppressWarnings("unused")
     @BsonIgnore
     public void incrementLooted() {
         this.looted += 1;
@@ -248,7 +228,6 @@ public class PlayerStats implements ManagedMongoObject {
         fieldTracker.put("toolsBroken", this.toolsBroken);
     }
 
-    @SuppressWarnings("unused")
     @BsonIgnore
     public void incrementCraftedItems() {
         this.craftedItems++;
@@ -279,13 +258,11 @@ public class PlayerStats implements ManagedMongoObject {
         MantaroData.db().updateFieldValues(this, fieldTracker);
     }
 
-    @SuppressWarnings("unused")
     @Override
     public void save() {
         MantaroData.db().saveMongo(this, PlayerStats.class);
     }
 
-    @SuppressWarnings("unused")
     @Override
     public void delete() {
         MantaroData.db().deleteMongo(this, PlayerStats.class);

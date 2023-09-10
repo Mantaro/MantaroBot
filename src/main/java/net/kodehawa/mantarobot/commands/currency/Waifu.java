@@ -17,6 +17,7 @@
 
 package net.kodehawa.mantarobot.commands.currency;
 
+@SuppressWarnings("unused")
 public class Waifu {
     private long moneyValue;
     private long badgeValue;
@@ -37,7 +38,6 @@ public class Waifu {
         this.performance = performance;
     }
 
-    @SuppressWarnings("unused")
     public Waifu() {
     }
 
@@ -45,7 +45,6 @@ public class Waifu {
         return this.moneyValue;
     }
 
-    @SuppressWarnings("unused")
     public void setMoneyValue(long moneyValue) {
         this.moneyValue = moneyValue;
     }
@@ -54,7 +53,6 @@ public class Waifu {
         return this.badgeValue;
     }
 
-    @SuppressWarnings("unused")
     public void setBadgeValue(long badgeValue) {
         this.badgeValue = badgeValue;
     }
@@ -63,7 +61,6 @@ public class Waifu {
         return this.experienceValue;
     }
 
-    @SuppressWarnings("unused")
     public void setExperienceValue(long experienceValue) {
         this.experienceValue = experienceValue;
     }
@@ -72,7 +69,6 @@ public class Waifu {
         return this.reputationMultiplier;
     }
 
-    @SuppressWarnings("unused")
     public void setReputationMultiplier(double reputationMultiplier) {
         this.reputationMultiplier = reputationMultiplier;
     }
@@ -81,7 +77,6 @@ public class Waifu {
         return this.claimValue;
     }
 
-    @SuppressWarnings("unused")
     public void setClaimValue(long claimValue) {
         this.claimValue = claimValue;
     }
@@ -90,7 +85,6 @@ public class Waifu {
         return this.finalValue;
     }
 
-    @SuppressWarnings("unused")
     public void setFinalValue(long finalValue) {
         this.finalValue = finalValue;
     }
@@ -99,7 +93,6 @@ public class Waifu {
         return this.performance;
     }
 
-    @SuppressWarnings("unused")
     public void setPerformance(long performance) {
         this.performance = performance;
     }
