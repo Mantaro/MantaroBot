@@ -393,7 +393,13 @@ public class PetCmds {
                 if (!RatelimitUtils.ratelimit(petPlayRatelimiter, ctx))
                     return;
 
-                if (pet.handleStatIncrease(random)) {
+                var increaseCeiling = pet.handleStatIncrease(random);
+                var increaseExperience = random.nextInt(100) < 25;
+                if (increaseExperience) {
+                    pet.increaseExperience();
+                }
+
+                if (increaseCeiling || increaseExperience) {
                     if (choice == PetChoice.MARRIAGE) { // Marriage null check is above.
                         pet.updateAllChanged(marriage);
                     } else {
