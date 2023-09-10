@@ -51,8 +51,8 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Marriage;
-import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.MongoUser;
+import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RandomCollection;
 import net.kodehawa.mantarobot.utils.commands.campaign.Campaign;
@@ -289,7 +289,8 @@ public class CurrencyActionCmds {
         );
 
         HousePet pet = null;
-        if (player.getActivePetChoice(marriage) == PetChoice.MARRIAGE) {
+        var activePetChoice = player.getActivePetChoice(marriage);
+        if (activePetChoice == PetChoice.MARRIAGE) {
             if (marriage != null && marriage.getPet() != null) {
                 pet = marriage.getPet();
             }
@@ -299,6 +300,7 @@ public class CurrencyActionCmds {
 
         if (pet != null) {
             var rewards = handlePetBuff(pet, HousePetType.HousePetAbility.CATCH, languageContext, false);
+            pet.handleStatIncrease(random);
             money += rewards.getMoney();
             message += rewards.getResult();
 
@@ -464,11 +466,11 @@ public class CurrencyActionCmds {
 
         handlePetBadges(player, marriage, pet);
         player.updateAllChanged();
-        if (pet != null && player.getActivePetChoice(marriage) == PetChoice.PERSONAL) {
+        if (pet != null && activePetChoice == PetChoice.PERSONAL) {
             pet.updateAllChanged(player);
         }
 
-        if (marriage != null && pet != null && player.getActivePetChoice(marriage) == PetChoice.MARRIAGE) {
+        if (marriage != null && pet != null && activePetChoice == PetChoice.MARRIAGE) {
             pet.updateAllChanged(marriage);
         }
 
@@ -552,7 +554,8 @@ public class CurrencyActionCmds {
 
             fish.forEach((i1) -> fishItems.add(3, i1));
             HousePet pet = null;
-            if (player.getActivePetChoice(marriage) == PetChoice.MARRIAGE) {
+            var activePetChoice = player.getActivePetChoice(marriage);
+            if (activePetChoice == PetChoice.MARRIAGE) {
                 if (marriage != null && marriage.getPet() != null) {
                     pet = marriage.getPet();
                 }
@@ -562,6 +565,7 @@ public class CurrencyActionCmds {
 
             if (pet != null) {
                 HousePet.ActivityReward rewards = handlePetBuff(pet, HousePetType.HousePetAbility.FISH, languageContext);
+                pet.handleStatIncrease(random);
                 amount += rewards.getItems();
                 money += rewards.getMoney();
                 extraMessage += "\n" + rewards.getResult();
@@ -698,12 +702,12 @@ public class CurrencyActionCmds {
             //Save all changes to the player object.
             player.updateAllChanged();
 
-            if (pet != null && player.getActivePetChoice(marriage) == PetChoice.PERSONAL) {
+            if (pet != null && activePetChoice == PetChoice.PERSONAL) {
                 pet.updateAllChanged(player);
             }
 
             // Save pet stats.
-            if (marriage != null && pet != null && player.getActivePetChoice(marriage) == PetChoice.MARRIAGE) {
+            if (marriage != null && pet != null && activePetChoice == PetChoice.MARRIAGE) {
                 pet.updateAllChanged(marriage);
             }
 
@@ -750,7 +754,8 @@ public class CurrencyActionCmds {
             money += Math.max(moneyIncrease / 4, random.nextInt(moneyIncrease));
 
             HousePet pet = null;
-            if (player.getActivePetChoice(marriage) == PetChoice.MARRIAGE) {
+            var activePetChoice = player.getActivePetChoice(marriage);
+            if (activePetChoice == PetChoice.MARRIAGE) {
                 if (marriage != null && marriage.getPet() != null) {
                     pet = marriage.getPet();
                 }
@@ -760,6 +765,7 @@ public class CurrencyActionCmds {
 
             if (pet != null) {
                 HousePet.ActivityReward rewards = handlePetBuff(pet, HousePetType.HousePetAbility.CHOP, languageContext);
+                pet.handleStatIncrease(random);
                 amount += rewards.getItems();
                 money += rewards.getMoney();
                 extraMessage += rewards.getResult();
@@ -864,12 +870,12 @@ public class CurrencyActionCmds {
             }
 
             player.updateAllChanged();
-            if (pet != null && player.getActivePetChoice(marriage) == PetChoice.PERSONAL) {
+            if (pet != null && activePetChoice == PetChoice.PERSONAL) {
                 pet.updateAllChanged(player);
             }
 
             // Save pet stuff.
-            if (marriage != null && pet != null && player.getActivePetChoice(marriage) == PetChoice.MARRIAGE) {
+            if (marriage != null && pet != null && activePetChoice == PetChoice.MARRIAGE) {
                 pet.updateAllChanged(marriage);
             }
 

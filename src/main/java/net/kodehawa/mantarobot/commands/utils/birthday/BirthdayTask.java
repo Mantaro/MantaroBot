@@ -60,7 +60,6 @@ public class BirthdayTask {
     private static final Pattern MODIFIER_PATTERN = Pattern.compile("\\p{L}*:");
     private static final Logger log = LoggerFactory.getLogger(BirthdayTask.class);
     private static final DateTimeFormatter dayMonthFormat = DateTimeFormatter.ofPattern("dd-MM");
-    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private static final DateTimeFormatter monthFormat = DateTimeFormatter.ofPattern("MM");
 
     private static final String modLogMessage = "Birthday assigner." +
@@ -106,7 +105,7 @@ public class BirthdayTask {
             // Example: 01
             final var lastMonthTz = ZonedDateTime.ofInstant(instant, ZoneId.of("America/Chicago"))
                     .minusMonths(1);
-            final var lastMonth = lastMonthTz.format(dateFormat);
+            final var lastMonth = lastMonthTz.format(monthFormat);
 
             final var cached = cache.getCachedBirthdays();
             final var guilds = jda.getGuildCache();

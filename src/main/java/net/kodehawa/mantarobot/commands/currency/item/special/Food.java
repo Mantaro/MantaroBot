@@ -19,15 +19,24 @@ package net.kodehawa.mantarobot.commands.currency.item.special;
 
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
 
-public class Food extends Item {
+// Only castable sometimes... no matter, though. If the recipe is empty it won't show on cast list, nor be castable.
+public class Food extends Item implements Castable {
     private final int hungerLevel;
     private final FoodType type;
 
     public Food(FoodType type, int hungerLevel, String emoji, String name, String translatedName,
                 String desc, long value, boolean buyable) {
         super(ItemType.PET_FOOD, emoji, name, translatedName, desc, value, true, buyable);
+        this.hungerLevel = hungerLevel;
+        this.type = type;
+    }
+
+    public Food(FoodType type, int hungerLevel, String emoji, String name, String translatedName,
+                String desc, long value, boolean buyable, String recipe, int... recipeTypes) {
+        super(ItemType.PET_FOOD_CAST, emoji, name, translatedName, desc, value, true, buyable, recipe, recipeTypes);
         this.hungerLevel = hungerLevel;
         this.type = type;
     }
@@ -42,7 +51,7 @@ public class Food extends Item {
 
     @SuppressWarnings("unused")
     public enum FoodType {
-        CAT(HousePetType.CAT), DOG(HousePetType.DOG), HAMSTER(HousePetType.RAT), GENERAL(HousePetType.ALL);
+        CAT(HousePetType.CAT), DOG(HousePetType.DOG), HAMSTER(HousePetType.RAT), DEV(HousePetType.KODE), GENERAL(HousePetType.ALL);
 
         final HousePetType applicableType;
 

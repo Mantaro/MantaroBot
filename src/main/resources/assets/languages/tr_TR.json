@@ -51,9 +51,10 @@
       "mop_not_enough": "%1$sToz seviyeniz 5%%'ten az, bu nedenle paspaslamak çok yararlı olmaz.",
       "milk": "%1$sTüm iksir etkileri temizlendi.",
       "crate": {
-        "no_key": "%1$sBir sandık açmak için bir sandık anahtarına ihtiyacınız var. Kilitli! `/buy item:key` kullanarak bir tane satın alabilirsiniz",
-        "no_crate": "%1$sBir kasaya ihtiyacın var! Kasaları genellikle ekonomi komutlarından alırsınız.",
-        "success": "%1$sKasayi actin, icinden: %2$s%3$s cikti. Tebrikler!",
+        "too_many": "%1$sYou cannot open more than 5 crates at once.",
+        "no_key": "%1$sYou do not have enough crate keys to open that many crates. Crates are locked! You can buy them using `/buy item:key`",
+        "no_crate": "%1$sYou do not have that many crates! You usually get crates from currency commands.",
+        "success": "%1$sYou opened the crate %2$s time(s) and won: %3$s%4$s. Congratulations!",
         "success_high": "%1$sNadirliği 3 yıldızın üzerinde olan şu eşyalara sahipsin: %2$s. Öge miktarı yukarıda gösterildi",
         "overflow": "Zaten elinde cok fazla vardı, fazlaliktan kurtulmayi sectin!"
       },
@@ -1407,6 +1408,16 @@
         "ratelimit_message": "Evcil hayvanınızı 25 defaya kadar okşayabilirsiniz. Bundan sonra 25 kere daha okşamak isterseniz yukarıdaki süreyi beklemeniz gerekecek.",
         "too_many": "Nasıl bu kadar çok okşama aldın?"
       },
+      "play": {
+        "no_pet": "%1$sYou don't have any pets to play with. Check `/pet explanation` for an explanation. (Choice: %2$s)",
+        "no_pet_other": "%1$s%2$s doesn't have any pets to play with. Check `/pet explanation` for an explanation.",
+        "reactions": {
+          "playful": "Your pet playfully plays with you.",
+          "love": "After a long play session, your pet looks lovingly at you.",
+          "dev": "You both played some games together. It was fun.",
+          "nothing": "The pet rock stares deeply at your soul, ever unmoving."
+        }
+      },
       "pet_reactions": {
         "cute": "%1$s**%2$s**, siz onun kafasını okşarken mutlu bir şekilde kuyruğunu sallıyor.%3$s",
         "cute_not_animal": "%1$s**%2$s**, siz onun kafasını okşarken mutlu bir şekilde gülümsüyor.%3$s",
@@ -1614,7 +1625,10 @@
       "options": "Şeçenekler",
       "usage": "Kullanım",
       "optional": "(Bu isteğe bağlıdır)",
-      "subcommand_help": "Not: Bir alt komut hakkında yardım almak için komut adının yanında alt komut adını kullanabilirsiniz, örneğin `/cast item` konusunda yardım almak için `/help command:cast item` kullanabilirsiniz.\nBu, bir tür yardımları olduğu sürece tüm alt komutlar için geçerlidir."
+      "subcommand_help": "Not: Bir alt komut hakkında yardım almak için komut adının yanında alt komut adını kullanabilirsiniz, örneğin `/cast item` konusunda yardım almak için `/help command:cast item` kullanabilirsiniz.\nBu, bir tür yardımları olduğu sürece tüm alt komutlar için geçerlidir.",
+      "mention": "Command Mention",
+      "mention_tip": "You can click this to have discord bring up the command for you.",
+      "mention_tip_subs": "You can click any of the below sub commands to have discord bring up the command for you."
     },
     "repair": {
       "no_item": "%1$sOnarılacak herhangi bir öğe belirtmediniz. Doğru öğeye sahip olduğunuzu düşünüyorsanız, tam ismini kullanmayı deneyin.",
@@ -2390,7 +2404,7 @@
     "die_2": "Özel Yüklü Zar",
     "booster": "Hızlandırıcı",
     "berserk": "Çılgın",
-    "Companion": "Partner",
+    "companion": "Companion",
     "special_ring": "Özel Yüzük",
     "enchancer": "Geliştirici",
     "prize": "Ödül",
@@ -2487,6 +2501,9 @@
     "broken_hellfire_pick": "Kırık Cehennem Ateşi Kazması",
     "broken_hellfire_axe": "Kırık Cehennem Ateşi Baltası",
     "broken_hellfire_rod": "Kırık Cehennem Ateşi Oltası",
+    "old_sparkle_fragment": "Old Sparkle Fragment",
+    "old_sparkly_pickaxe": "Old Sparkly Pickaxe",
+    "old_sparkly_rod": "Old Sparkly Rod",
     "explanation": {
       "pick": "Yerel pazardan satın aldığınız normal bir kazma. Bazı şeyleri kazmak için yeterince sağlam görünüyor.",
       "diamond_pick": "Elmas kazma, piyasadan alabileceğin demir kazmalardan kesinlikle daha güçlüdür, orası kesin!",

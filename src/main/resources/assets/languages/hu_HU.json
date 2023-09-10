@@ -51,9 +51,10 @@
       "mop_not_enough": "%1$sA por szinted kevesebb, mint 5%%, ezért a felmosás nem lenne valami hasznos.",
       "milk": "%1$sAz összes bájital hatása elmúlt.",
       "crate": {
-        "no_key": "%1$sSzükséged van egy láda kulcsra, hogy kinyithass egy ládát! Vehetsz kulcsot a `/buy item:key` parancs használatával.",
-        "no_crate": "%1$sLádára van szükséged ehhez! Ládákat általában currency parancsokból kaphatsz.",
-        "success": "%1$sKinyitottál egy ládát és nyertél: %2$s%3$s. Gratulálok!",
+        "too_many": "%1$sYou cannot open more than 5 crates at once.",
+        "no_key": "%1$sYou do not have enough crate keys to open that many crates. Crates are locked! You can buy them using `/buy item:key`",
+        "no_crate": "%1$sYou do not have that many crates! You usually get crates from currency commands.",
+        "success": "%1$sYou opened the crate %2$s time(s) and won: %3$s%4$s. Congratulations!",
         "success_high": "%1$sA következő tárgyaid vannak, amik 3 csillagnál magasabb szintűek: %2$s",
         "overflow": "De már túl sok volt belőle, ezért úgy döntöttél, hogy kidobod a felesleget"
       },
@@ -1407,6 +1408,16 @@
         "ratelimit_message": "You can pat your pet up to 25 times. After this you'll have to wait the time above for 25 more pats.",
         "too_many": "How did you even get this many pats?"
       },
+      "play": {
+        "no_pet": "%1$sYou don't have any pets to play with. Check `/pet explanation` for an explanation. (Choice: %2$s)",
+        "no_pet_other": "%1$s%2$s doesn't have any pets to play with. Check `/pet explanation` for an explanation.",
+        "reactions": {
+          "playful": "Your pet playfully plays with you.",
+          "love": "After a long play session, your pet looks lovingly at you.",
+          "dev": "You both played some games together. It was fun.",
+          "nothing": "The pet rock stares deeply at your soul, ever unmoving."
+        }
+      },
       "pet_reactions": {
         "cute": "%1$s**%2$s** happily wags their tail as you caress their head.%3$s",
         "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head.%3$s",
@@ -1614,7 +1625,10 @@
       "options": "Options",
       "usage": "Usage",
       "optional": "(This is optional)",
-      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help command:cast item`.\nThis goes for all subcommands, as long as they have some sort of help."
+      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help command:cast item`.\nThis goes for all subcommands, as long as they have some sort of help.",
+      "mention": "Command Mention",
+      "mention_tip": "You can click this to have discord bring up the command for you.",
+      "mention_tip_subs": "You can click any of the below sub commands to have discord bring up the command for you."
     },
     "repair": {
       "no_item": "%1$sYou didn't specify any item to repair. If you think you have the correct item, try using the full name.",
@@ -1810,7 +1824,7 @@
       "gamble": "Gamble Wins Leaderboard",
       "slots": "Slots Wins Leaderboard",
       "daily": "Daily Streak Leaderboard",
-      "level": "Level leaderboard",
+      "level": "Szint toplista",
       "game": "Game Wins leaderboard",
       "waifu": "Waifu Value leaderboard",
       "claim": "Waifu Claim leaderboard",
@@ -1833,12 +1847,12 @@
       "no_item": "%1$sThere's no item matching your search query.",
       "embed": {
         "header": "Item Information for %1$s",
-        "type": "Type",
+        "type": "Típus",
         "usefulness": "Usefulness",
         "attributes": "Attributes",
         "tier": "Tier",
         "durability": "Durability",
-        "desc": "Description",
+        "desc": "Leírás",
         "upgrade": "Looking to upgrade?",
         "upgrade_content": "Click [here](https://www.mantaro.site/mantaro-wiki/currency/103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
       },
@@ -2390,7 +2404,7 @@
     "die_2": "Special Loaded Die",
     "booster": "Booster",
     "berserk": "Berserk",
-    "Companion": "Companion",
+    "companion": "Companion",
     "special_ring": "Special Ring",
     "enchancer": "Enchancer",
     "prize": "Prize",
@@ -2487,6 +2501,9 @@
     "broken_hellfire_pick": "Broken Hellfire Pickaxe",
     "broken_hellfire_axe": "Broken Hellfire Axe",
     "broken_hellfire_rod": "Broken Hellfire Rod",
+    "old_sparkle_fragment": "Old Sparkle Fragment",
+    "old_sparkly_pickaxe": "Old Sparkly Pickaxe",
+    "old_sparkly_rod": "Old Sparkly Rod",
     "explanation": {
       "pick": "A normal pickaxe you bought on the local market. Seems sturdy enough to mine some stuff.",
       "diamond_pick": "A diamond pick is definitely stronger than the market-bought iron picks I could get on the market, that's for sure!",

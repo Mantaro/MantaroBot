@@ -51,9 +51,10 @@
       "mop_not_enough": "%1$sMức độ bám bụi của bạn ít hơn 5%%, vì vậy lau dọn sẽ không quá hữu ích.",
       "milk": "%1$sĐã xóa bỏ hết tất cả các hiệu ứng của thuốc.",
       "crate": {
-        "no_key": "%1$sBạn cần có một cái chìa khóa để mở hòm. Nó đã bị khóa! Hãy mua chìa khoá ngay bằng lệnh `/buy item:key`",
-        "no_crate": "%1$sBạn cần phải có hòm để mở! Bạn sẽ thường nhận được hòm từ các lệnh tiền tệ.",
-        "success": "%1$sBạn đã mở hòm và nhận được: %2$s%3$s. Chúc mừng!",
+        "too_many": "%1$sYou cannot open more than 5 crates at once.",
+        "no_key": "%1$sYou do not have enough crate keys to open that many crates. Crates are locked! You can buy them using `/buy item:key`",
+        "no_crate": "%1$sYou do not have that many crates! You usually get crates from currency commands.",
+        "success": "%1$sYou opened the crate %2$s time(s) and won: %3$s%4$s. Congratulations!",
         "success_high": "%1$sChúc mừng bạn đã thu được vật phẩm với độ hiếm trên 3 sao này: %2$s. Số lượng vật phẩm thu được đã được thể hiện qua dòng tin nhắn trên",
         "overflow": "Cơ mà do bạn có quá nhiều đồ, vì vậy bạn đã quyết định vứt đồ thừa đi"
       },
@@ -1407,6 +1408,16 @@
         "ratelimit_message": "Bạn có thể vỗ về thú cưng của mình tối đa 25 lần. Sau đó, bạn sẽ phải đợi khoảng thời gian trên cho 25 lần vỗ nữa.",
         "too_many": "Làm thế nào mà bạn thậm chí xoa đầu nhiều như thế này?"
       },
+      "play": {
+        "no_pet": "%1$sYou don't have any pets to play with. Check `/pet explanation` for an explanation. (Choice: %2$s)",
+        "no_pet_other": "%1$s%2$s doesn't have any pets to play with. Check `/pet explanation` for an explanation.",
+        "reactions": {
+          "playful": "Your pet playfully plays with you.",
+          "love": "After a long play session, your pet looks lovingly at you.",
+          "dev": "You both played some games together. It was fun.",
+          "nothing": "The pet rock stares deeply at your soul, ever unmoving."
+        }
+      },
       "pet_reactions": {
         "cute": "%1$s**%2$s** happily wags their tail as you caress their head.%3$s",
         "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head.%3$s",
@@ -1614,7 +1625,10 @@
       "options": "Options",
       "usage": "Usage",
       "optional": "(This is optional)",
-      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help command:cast item`.\nThis goes for all subcommands, as long as they have some sort of help."
+      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help command:cast item`.\nThis goes for all subcommands, as long as they have some sort of help.",
+      "mention": "Command Mention",
+      "mention_tip": "You can click this to have discord bring up the command for you.",
+      "mention_tip_subs": "You can click any of the below sub commands to have discord bring up the command for you."
     },
     "repair": {
       "no_item": "%1$sBạn không ghi rõ vật phẩm để sửa. Nếu bạn nghĩ là bạn đã có vật phẩm, hãy thử sử dụng tên đầy đủ.",
@@ -2390,7 +2404,7 @@
     "die_2": "Xúc xắc đặc biệt",
     "booster": "Gia tốc",
     "berserk": "Cuồng bạo",
-    "Companion": "Thú nuôi",
+    "companion": "Companion",
     "special_ring": "Nhẫn đặc biệt",
     "enchancer": "Kính phù phép",
     "prize": "Phần thưởng",
@@ -2487,6 +2501,9 @@
     "broken_hellfire_pick": "Cuốc lửa địa ngục hỏng",
     "broken_hellfire_axe": "Rìu lửa địa ngục hỏng",
     "broken_hellfire_rod": "Cần câu lửa địa ngục hỏng",
+    "old_sparkle_fragment": "Old Sparkle Fragment",
+    "old_sparkly_pickaxe": "Old Sparkly Pickaxe",
+    "old_sparkly_rod": "Old Sparkly Rod",
     "explanation": {
       "pick": "Một cái cuốc bình thường bạn mua ở chợ địa phương. Có vẻ đủ cứng cáp để khai thác một số thứ.",
       "diamond_pick": "Một cái cuốc kim cương khoẻ hơn mấy cây cuốc sắt mua ngoài chợ là điều hiển nhiên!",
