@@ -218,7 +218,7 @@ public class MarryCmd {
                         // Make and save the new marriage object.
                         var actualMarriage = Marriage.of(marriageId, proposingUser, proposedToUser);
                         actualMarriage.marriageCreationMillis(marriageCreationMillis); // No need to update, saving whole object
-                        actualMarriage.save();
+                        actualMarriage.insertOrReplace();
 
                         // Assign the marriage ID to the respective users and save it.
                         proposingUserDB.marriageId(marriageId);

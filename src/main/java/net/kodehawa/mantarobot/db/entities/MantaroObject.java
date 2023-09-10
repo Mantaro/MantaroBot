@@ -71,7 +71,7 @@ public class MantaroObject implements ManagedMongoObject {
 
     @Override
     @BsonIgnore
-    public void save() {
+    public void insertOrReplace() {
         MantaroData.db().saveMongo(this, MantaroObject.class);
     }
 

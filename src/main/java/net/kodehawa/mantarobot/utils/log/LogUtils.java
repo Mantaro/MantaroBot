@@ -169,7 +169,7 @@ public class LogUtils {
             if (type == SpamType.BLATANT) {
                 var mantaroData = MantaroData.db().getMantaroData();
                 mantaroData.getBlackListedUsers().add(user.getId());
-                mantaroData.save();
+                mantaroData.insertOrReplace();
 
                 fields.add(new WebhookEmbed.EmbedField(false, "Info", "User has been blacklisted automatically. " +
                         "For more information use the investigate command.")

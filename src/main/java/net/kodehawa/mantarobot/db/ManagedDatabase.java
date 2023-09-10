@@ -172,7 +172,7 @@ public class ManagedDatabase {
         var obj = collection.find().first();
         if (obj == null) {
             obj = MantaroObject.create();
-            obj.save();
+            obj.insertOrReplace();
         }
 
         return obj;

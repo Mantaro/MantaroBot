@@ -860,7 +860,7 @@ public class Player implements ManagedMongoObject {
     }
 
     @Override
-    public void save() {
+    public void insertOrReplace() {
         MantaroData.db().saveMongo(this, Player.class);
     }
 

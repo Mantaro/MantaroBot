@@ -66,7 +66,7 @@ public class PremiumKey implements ManagedMongoObject {
         if (linked)
             newKey.setLinkedTo(owner); //used for patreon checks in newly-activated keys (if applicable)
 
-        newKey.save();
+        newKey.insertOrReplace();
         return newKey;
     }
 
@@ -78,7 +78,7 @@ public class PremiumKey implements ManagedMongoObject {
         if (linked)
             newKey.setLinkedTo(owner); //used for patreon checks in newly-activated keys (if applicable)
 
-        newKey.save();
+        newKey.insertOrReplace();
         return newKey;
     }
 
@@ -108,7 +108,7 @@ public class PremiumKey implements ManagedMongoObject {
         this.enabled = true;
         this.duration = TimeUnit.DAYS.toMillis(days);
         this.expiration = currentTimeMillis() + TimeUnit.DAYS.toMillis(days);
-        save();
+        insertOrReplace();
     }
 
     @BsonIgnore
@@ -180,7 +180,7 @@ public class PremiumKey implements ManagedMongoObject {
     }
 
     @Override
-    public void save() {
+    public void insertOrReplace() {
         MantaroData.db().saveMongo(this, PremiumKey.class);
     }
 

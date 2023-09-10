@@ -218,10 +218,10 @@ public class OwnerCmd {
                     transferToPlayer.setPet(transferredPlayer.getPet());
                     transferToPlayer.petChoice(transferredPlayer.getPetChoice());
 
-                    transferToPlayer.save();
+                    transferToPlayer.insertOrReplace();
 
                     var reset = Player.of(transferred);
-                    reset.save();
+                    reset.insertOrReplace();
 
                     ctx.send("%sTransfer from %s %s completed.".formatted(
                             EmoteReference.CORRECT, transferred, transferTo
@@ -408,7 +408,7 @@ public class OwnerCmd {
 
                         list.add(target);
                         ctx.send(EmoteReference.CORRECT + "Blacklisted " + type + ": " + formatter.apply(entity));
-                        obj.save();
+                        obj.insertOrReplace();
                     }
                     case "remove" -> {
                         var list = dbGetter.apply(obj);
@@ -421,7 +421,7 @@ public class OwnerCmd {
                         var toRemove = list.stream().filter(s -> s.equals(target)).toList();
                         toRemove.forEach(list::remove);
                         ctx.send(EmoteReference.CORRECT + "Un-blacklisted " + type + ": " + target);
-                        obj.save();
+                        obj.insertOrReplace();
                     }
                     default -> ctx.send("Invalid scope. (Valid: add, remove)");
                 }

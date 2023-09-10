@@ -259,7 +259,7 @@ public class PlayerStats implements ManagedMongoObject {
     }
 
     @Override
-    public void save() {
+    public void insertOrReplace() {
         MantaroData.db().saveMongo(this, PlayerStats.class);
     }
 
