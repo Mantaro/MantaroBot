@@ -49,7 +49,7 @@ public class ItemReference {
             CHICKEN, MILK_2, DOG_FOOD, CAT_FOOD, HAMSTER_FOOD, WOOD, AXE, COMET_AXE, STAR_AXE, SPARKLE_AXE, HELLFIRE_AXE, MOON_AXE,
             MOON_PICK, MOON_ROD, HELLFIRE_PICK, HELLFIRE_ROD, PET_HOUSE, LEAVES, APPLE, PEAR, CHERRY_BLOSSOM, ROCK, BROKEN_MOON_PICK,
             BROKEN_MOON_ROD, BROKEN_COMET_AXE, BROKEN_STAR_AXE, BROKEN_SPARKLE_AXE, BROKEN_MOON_AXE, BROKEN_HELLFIRE_PICK,
-            BROKEN_HELLFIRE_AXE, BROKEN_HELLFIRE_ROD, CHOP_CRATE, CHOP_PREMIUM_CRATE, PIE;
+            BROKEN_HELLFIRE_AXE, BROKEN_HELLFIRE_ROD, CHOP_CRATE, CHOP_PREMIUM_CRATE, PIE, FISH_BOWL;
 
     public static final Item[] ALL = {
             HEADPHONES = new Item(ItemType.COLLECTABLE, "\uD83C\uDFA7",
@@ -770,6 +770,11 @@ public class ItemReference {
             PIE = new Food(Food.FoodType.DEV, 10, "\uD83E\uDD67",
                     "Fruit Pie", "items.fruit_pie", "items.description.fruit_pie",
                     70, false, "3;3;5", 114, 115, 113
+            ),
+
+            FISH_BOWL = new Food(Food.FoodType.CAT, 10, "\uD83E\uDD63",
+                    "Fish Bowl", "items.fish_bowl", "items.description.fish_bowl",
+                    70, false, "4;3", 45, 46
             ),
     };
 }
