@@ -274,22 +274,22 @@ public class MongoGuild implements ManagedMongoObject {
         String premiumId = UUID.randomUUID().toString();
         PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days),
                 currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.GUILD, true, id, null);
-        setPremiumKey(premiumId);
+        premiumKey(premiumId);
         newKey.insertOrReplace();
 
-        insertOrReplace();
+        updateAllChanged();
         return newKey;
     }
 
     @BsonIgnore
     public void removePremiumKey(String keyOwner, String originalKey) {
-        setPremiumKey(null);
+        premiumKey(null);
 
         MongoUser dbUser = MantaroData.db().getUser(keyOwner);
         dbUser.removePremiumKey(dbUser.getUserIdFromKeyId(originalKey));
         dbUser.updateAllChanged();
 
-        insertOrReplace();
+        updateAllChanged();
     }
 
     @BsonIgnore
