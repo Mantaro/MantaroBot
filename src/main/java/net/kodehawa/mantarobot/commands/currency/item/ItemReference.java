@@ -32,6 +32,9 @@ import net.kodehawa.mantarobot.commands.currency.item.special.tools.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Wrench;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+// TODO: Get rid of item IDs on recipe builds! They're annoying to deal with.
+// Ugh I just realized Equipment still uses Item IDs. And they shall for all eternity, as I'm NOT running another
+// database migration.
 public class ItemReference {
     public static final Item HEADPHONES, BAN_HAMMER, KICK_BOOT, FLOPPY_DISK, MY_MATHS, PING_RACKET,
             LOADED_DICE, FORGOTTEN_MUSIC, CC_PENCIL, OVERFLOWED_BAG, BROM_PICKAXE, MILK, ALCOHOL, LEWD_MAGAZINE, RING,
@@ -46,7 +49,7 @@ public class ItemReference {
             CHICKEN, MILK_2, DOG_FOOD, CAT_FOOD, HAMSTER_FOOD, WOOD, AXE, COMET_AXE, STAR_AXE, SPARKLE_AXE, HELLFIRE_AXE, MOON_AXE,
             MOON_PICK, MOON_ROD, HELLFIRE_PICK, HELLFIRE_ROD, PET_HOUSE, LEAVES, APPLE, PEAR, CHERRY_BLOSSOM, ROCK, BROKEN_MOON_PICK,
             BROKEN_MOON_ROD, BROKEN_COMET_AXE, BROKEN_STAR_AXE, BROKEN_SPARKLE_AXE, BROKEN_MOON_AXE, BROKEN_HELLFIRE_PICK,
-            BROKEN_HELLFIRE_AXE, BROKEN_HELLFIRE_ROD, CHOP_CRATE, CHOP_PREMIUM_CRATE;
+            BROKEN_HELLFIRE_AXE, BROKEN_HELLFIRE_ROD, CHOP_CRATE, CHOP_PREMIUM_CRATE, PIE;
 
     public static final Item[] ALL = {
             HEADPHONES = new Item(ItemType.COLLECTABLE, "\uD83C\uDFA7",
@@ -761,6 +764,12 @@ public class ItemReference {
                     0, false, false, true,
                     (ctx, season) ->
                             ItemHelper.openLootCrate(ctx, ItemType.LootboxType.CHOP_PREMIUM, 127, EmoteReference.PREMIUM_CHOP_CRATE, 5)
-            )
+            ),
+
+            // Technically a bit cheaper than buying steak. Not much, though, as it chips through a Wrench durability.
+            PIE = new Food(Food.FoodType.DEV, 10, "\uD83E\uDD67",
+                    "Fruit Pie", "items.fruit_pie", "items.description.fruit_pie",
+                    70, false, "3;3;5", 114, 115, 113
+            ),
     };
 }
