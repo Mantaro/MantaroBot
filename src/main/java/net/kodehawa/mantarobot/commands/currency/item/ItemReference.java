@@ -737,6 +737,7 @@ public class ItemReference {
                     30, "1,83;5,84;3,50"
             ),
 
+            // TODO: Rewrite the insanity that's recipe typing. Use translatedName[1] (ItemHelper.fromTranslationSlice) instead of itemId (current is itemId,amount;)!
             BROKEN_HELLFIRE_PICK = new Broken(103, EmoteReference.BROKEN_HELLFIRE_PICK.getDiscordNotation(),
                     "Broken Hellfire Pick", "items.broken_hellfire_pick", "items.description.broken_hellfire_pick",
                     5000, "90,18;50,48;50,49;20,74;25,76;10,84;30,50"
