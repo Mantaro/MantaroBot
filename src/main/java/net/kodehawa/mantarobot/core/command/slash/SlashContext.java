@@ -199,7 +199,7 @@ public class SlashContext implements IContext {
         if (deferred) {
             slash.getHook().sendMessage(message).queue();
         } else {
-            slash.reply(message.getContent()).queue();
+            slash.reply(message).queue();
         }
     }
 

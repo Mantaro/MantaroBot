@@ -207,6 +207,12 @@ public enum Badge {
             (player, stats, dbUser) -> false, false
     ),
 
+    LASTING_MARRIAGE("Lasting Marriage", "\uD83D\uDC9D",
+            "Be married for more than a year.",
+            91, 92,
+            (player, stats, dbUser) -> false, false
+    ),
+
     CHAMPION("Champion", "\uD83D\uDC51",
             "See yourself in a leaderboard.",
             91, 92,

@@ -38,6 +38,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Marriage;
+import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
@@ -301,6 +302,17 @@ public class MarryCmd {
                 final var marriedToName = dbUser.isPrivateTag() ? marriedTo.getName() : Utils.getTagOrDisplay(marriedTo);
                 final var authorName = dbUser.isPrivateTag() ? author.getName() : Utils.getTagOrDisplay(author);
                 final var daysMarried = TimeUnit.of(ChronoUnit.MILLIS).toDays(System.currentTimeMillis() - currentMarriage.getMarriageCreationMillis());
+
+                if (daysMarried > 356) { // we assume non leap years for our own sanity
+                    Player authorPlayer = ctx.getPlayer();
+                    Player marriedToPlayer = ctx.getPlayer(marriedTo);
+                    if (authorPlayer.addBadgeIfAbsent(Badge.LASTING_MARRIAGE)) {
+                        authorPlayer.updateAllChanged();
+                    }
+                    if (marriedToPlayer.addBadgeIfAbsent(Badge.LASTING_MARRIAGE)) {
+                        marriedToPlayer.updateAllChanged();
+                    }
+                }
 
                 var embedBuilder = new EmbedBuilder()
                         .setThumbnail(author.getEffectiveAvatarUrl())
