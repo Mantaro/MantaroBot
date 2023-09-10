@@ -31,7 +31,6 @@ import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.currentTimeMillis;
 
-@SuppressWarnings("unused")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PremiumKey implements ManagedMongoObject {
     @BsonIgnore
@@ -46,6 +45,8 @@ public class PremiumKey implements ManagedMongoObject {
     private int type;
     private String linkedTo;
 
+    // Serialization constructor
+    @SuppressWarnings("unused")
     public PremiumKey() {}
 
     public PremiumKey(String id, long duration, long expiration, Type type, boolean enabled, String owner, String linkedTo) {
@@ -69,6 +70,7 @@ public class PremiumKey implements ManagedMongoObject {
         return newKey;
     }
 
+    @SuppressWarnings("unused")
     @BsonIgnore
     public static PremiumKey generatePremiumKeyTimed(String owner, Type type, int days, boolean linked) {
         String premiumId = UUID.randomUUID().toString();
@@ -95,6 +97,7 @@ public class PremiumKey implements ManagedMongoObject {
         return TimeUnit.MILLISECONDS.toDays(getExpiration() - currentTimeMillis());
     }
 
+    @SuppressWarnings("unused")
     @BsonIgnore
     public long validForMs() {
         return getExpiration() - currentTimeMillis();
@@ -136,6 +139,7 @@ public class PremiumKey implements ManagedMongoObject {
         this.linkedTo = linkedTo;
     }
 
+    @SuppressWarnings("unused")
     public long getDuration() {
         return this.duration;
     }
@@ -154,6 +158,7 @@ public class PremiumKey implements ManagedMongoObject {
         return this.id;
     }
 
+    @SuppressWarnings("unused")
     @BsonIgnore
     @Override
     @Nonnull

@@ -19,9 +19,18 @@ package net.kodehawa.mantarobot.options.core;
 
 import net.kodehawa.mantarobot.utils.Utils;
 
-@SuppressWarnings("unused")
 public enum OptionType {
-    GENERAL, SPECIFIC, COMMAND, GUILD, CHANNEL, USER, MUSIC, MODERATION;
+    GENERAL,
+    @SuppressWarnings("unused")
+    SPECIFIC,
+    COMMAND,
+    GUILD,
+    @SuppressWarnings("unused")
+    CHANNEL,
+    @SuppressWarnings("unused")
+    USER,
+    MUSIC,
+    MODERATION;
 
     @Override
     public String toString() {
