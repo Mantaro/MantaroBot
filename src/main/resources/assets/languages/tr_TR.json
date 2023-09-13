@@ -1465,7 +1465,6 @@
         "low_health": "%1$s**%2$s** gerçekten düşük bir sağlığa sahip. Ona yiyecek/su verin ve yenilenmesi için bir süre dinlendirin.",
         "low_hunger": "%1$s**%2$s** şu anda bir şey yapmak için çok aç. *Yemeeeeeek~*",
         "low_thirst": "%1$s**%2$s** şu anda herhangi bir şey yapmak için çok susamış.",
-        "low_mood": "%1$s**%2$s** çok karamsar. Onlarla oynamak isteyebilirsiniz!",
         "dusty": "%1$s**%2$s** çok tozlu. Tozu temizlemek için evcil hayvanınızı temizleyin.",
         "success_fish": "%1$s**%2$s** balık yakalamanıza başarıyla yardımcı oldu! **Evcil hayvanınızın sizin için yapabileceği ekstra iş sayesinde fazladan %3$,d kredi ve %4$,d öğe kazandınız**! *aldıklarınıza dahildir*",
         "success_chop": "%1$s**%2$s** bir ağaç kesmenize başarıyla yardımcı oldu! **Evcil hayvanınızın sizin için yapabileceği ekstra iş sayesinde fazladan %3$,d kredi ve %4$,d öğe kazandınız**! *aldıklarınıza dahildir*",
