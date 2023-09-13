@@ -1465,7 +1465,6 @@
         "low_health": "%1$s**%2$s** tem uma saúde muito baixa. Dê a ele comida/água e deixe-o descansar um pouco para reabastecer.",
         "low_hunger": "%1$s**%2$s** está com muita fome pra fazer alguma coisa agora. *Coooomida~*",
         "low_thirst": "%1$s**%2$s** está com muita sede pra fazer alguma coisa agora.",
-        "low_mood": "%1$s**%2$s** seu pet tá com um humor muito baixo. Você pode querer brincar com ele!",
         "dusty": "%1$s**%2$s** está muito sujo. Limpe seu pet para tirar a sujeira.",
         "success_fish": "%1$s**%2$s** ajudou você a pescar com sucesso! **Você ganhou %3$,d créditos e %4$,d itens** graças ao trabalho extra que seu pet foi capaz de fazer por você! *incluído no que você ganhou*",
         "success_chop": "%1$s**%2$s** ajudou você a cortar a árvore com sucesso! **Você ganhou %3$,d créditos e %4$,d itens** graças ao trabalho extra que seu pet foi capaz de fazer por você! *incluído no que você ganhou*",
