@@ -33,6 +33,7 @@ public interface InnerCommand extends Command {
         return null;
     }
 
+    @Override
     default List<String> getAliases() {
         return Collections.emptyList();
     }
@@ -42,6 +43,7 @@ public interface InnerCommand extends Command {
         return "";
     }
 
+    @SuppressWarnings("unused")
     default boolean isChild() {
         return false;
     }

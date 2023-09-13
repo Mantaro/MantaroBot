@@ -378,7 +378,7 @@ public class BirthdayCmd {
         final var cachedBirthdays = MantaroBot.getInstance().getBirthdayCacher().getCachedBirthdays();
 
         var cached = guildBirthdayCache.getIfPresent(guildId);
-        if (cached != null && cached.size() >= 1) {
+        if (cached != null && !cached.isEmpty()) {
             guildCurrentBirthdays = cached;
         } else {
             for (var birthdays : cachedBirthdays.entrySet()) {
@@ -388,7 +388,7 @@ public class BirthdayCmd {
             }
 
             // Populate guild cache
-            if (guildCurrentBirthdays.size() >= 1) {
+            if (!guildCurrentBirthdays.isEmpty()) {
                 guildBirthdayCache.put(guildId, guildCurrentBirthdays);
             }
         }

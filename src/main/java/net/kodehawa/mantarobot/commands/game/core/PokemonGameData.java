@@ -26,10 +26,12 @@ public class PokemonGameData {
 
     public PokemonGameData() { }
 
+    @SuppressWarnings("unused")
     public String getName() {
         return this.name;
     }
 
+    @SuppressWarnings("unused")
     public void setName(String name) {
         this.name = name;
     }
@@ -38,6 +40,7 @@ public class PokemonGameData {
         return this.image;
     }
 
+    @SuppressWarnings("unused")
     public void setImage(String image) {
         this.image = image;
     }
@@ -46,6 +49,7 @@ public class PokemonGameData {
         return this.names;
     }
 
+    @SuppressWarnings("unused")
     public void setNames(List<String> names) {
         this.names = names;
     }

@@ -138,7 +138,7 @@ public class JFRExports {
         if (!REGISTERED.compareAndSet(false, true)) {
             return;
         }
-        
+
         SAFEPOINTS.register();
         GC_PAUSES.register();
         GC_PAUSES_SUM.register();
@@ -386,7 +386,7 @@ public class JFRExports {
                     + getNestedUsed(e, "classSpace");
             MEMORY_USAGE_NONHEAP.set(amt);
         }).withPeriod(Prometheus.UPDATE_PERIOD);
-        
+
         //start AsyncInfoMonitor data collection
 
         /*
@@ -454,6 +454,7 @@ public class JFRExports {
         private final int size;
         private int index = -1;
 
+        @SuppressWarnings("SameParameterValue")
         LongLongRingBuffer(int size) {
             this.table = new long[size * 2];
             this.size = size;

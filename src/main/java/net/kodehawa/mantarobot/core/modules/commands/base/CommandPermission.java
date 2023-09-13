@@ -21,35 +21,29 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.kodehawa.mantarobot.data.MantaroData;
 
-public enum CommandPermission {
-    USER() {
-        @Override
-        public boolean test(Member member) {
-            return true;
-        }
-    },
-    ADMIN() {
-        @Override
-        public boolean test(Member member) {
-            return member.isOwner() || member.hasPermission(Permission.ADMINISTRATOR) ||
-                    member.hasPermission(Permission.MANAGE_SERVER) || OWNER.test(member) ||
-                    member.getRoles().stream().anyMatch(role -> role.getName().equalsIgnoreCase("Bot Commander"));
-        }
-    },
-    OWNER() {
-        @Override
-        public boolean test(Member member) {
-            return MantaroData.config().get().isOwner(member);
-        }
-    },
-    INHERIT() {
-        @Override
-        public boolean test(Member member) {
-            throw new UnsupportedOperationException("Used by NewCommand to inherit from parent");
-        }
-    };
+import java.util.function.Predicate;
 
-    public abstract boolean test(Member member);
+public enum CommandPermission {
+    USER(member -> true),
+    ADMIN(
+            member -> member.isOwner() || member.hasPermission(Permission.ADMINISTRATOR) ||
+                    member.hasPermission(Permission.MANAGE_SERVER) || MantaroData.config().get().isOwner(member) ||
+                    member.getRoles().stream().anyMatch(role -> role.getName().equalsIgnoreCase("Bot Commander"))
+    ),
+    OWNER(member -> MantaroData.config().get().isOwner(member)),
+    INHERIT(member -> {
+        throw new UnsupportedOperationException("Used by NewCommand to inherit from parent");
+    });
+
+    private final Predicate<Member> predicate;
+
+    CommandPermission(Predicate<Member> predicate) {
+        this.predicate = predicate;
+    }
+
+    public boolean test(Member member) {
+        return predicate.test(member);
+    }
 
     @Override
     public String toString() {

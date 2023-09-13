@@ -36,7 +36,7 @@ public class Parser {
             Stack<Position> stack = new Stack<>();
             stack.push(t.position());
             List<Node> name = new ArrayList<>();
-            while (stack.size() > 0 && it.hasNext()) {
+            while (!stack.isEmpty() && it.hasNext()) {
                 t = it.next();
                 switch (t.type()) {
                     case LITERAL -> {
@@ -45,14 +45,14 @@ public class Parser {
                     }
                     case RIGHT_PAREN -> {
                         stack.pop();
-                        if (stack.size() > 0) {
+                        if (!stack.isEmpty()) {
                             get(TokenType.LITERAL).apply(it, name, t);
                         }
                     }
                     default -> get(t.type()).apply(it, name, t);
                 }
             }
-            if (stack.size() > 0) {
+            if (!stack.isEmpty()) {
                 throw syntaxError(it, stack.pop(), '(');
             }
             c.add(new VariableNode(new MultiNode(name).simplify()));
@@ -64,7 +64,7 @@ public class Parser {
             List<Node> name = new ArrayList<>();
             List<Node> args = new ArrayList<>();
             List<Node> current = new ArrayList<>();
-            while (stack.size() > 0 && it.hasNext()) {
+            while (!stack.isEmpty() && it.hasNext()) {
                 t = it.next();
                 switch (t.type()) {
                     case LITERAL -> {
@@ -73,7 +73,7 @@ public class Parser {
                     }
                     case RIGHT_BRACE -> {
                         stack.pop();
-                        if (stack.size() > 0) {
+                        if (!stack.isEmpty()) {
                             get(TokenType.LITERAL).apply(it, current, t);
                         }
                     }
@@ -89,7 +89,7 @@ public class Parser {
                     default -> get(t.type()).apply(it, current, t);
                 }
             }
-            if (stack.size() > 0) {
+            if (!stack.isEmpty()) {
                 throw syntaxError(it, stack.pop(), '{');
             }
             if (!hasName) {

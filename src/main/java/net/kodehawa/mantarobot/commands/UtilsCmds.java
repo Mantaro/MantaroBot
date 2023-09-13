@@ -294,6 +294,7 @@ public class UtilsCmds {
     @Subscribe
     public void wiki(CommandRegistry registry) {
         registry.register("wiki", new TreeCommand(CommandCategory.UTILS) {
+            @SuppressWarnings("unused")
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {

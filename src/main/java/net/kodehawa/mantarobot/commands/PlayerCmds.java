@@ -20,7 +20,6 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
@@ -52,14 +51,12 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
 import java.awt.Color;
-import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Module
@@ -119,15 +116,14 @@ public class PlayerCmds {
             }
 
             var author = ctx.getAuthor();
-            Predicate<User> oldEnough = (u -> u.getTimeCreated().isBefore(OffsetDateTime.now().minus(30, ChronoUnit.DAYS)));
 
             // Didn't want to repeat the code twice, lol.
-            if (!oldEnough.test(usr)) {
+            if (!Utils.isAccountOldEnough(usr, 30, ChronoUnit.DAYS)) {
                 ctx.reply("commands.rep.new_account_notice", EmoteReference.ERROR);
                 return;
             }
 
-            if (!oldEnough.test(author)) {
+            if (!Utils.isAccountOldEnough(author, 30, ChronoUnit.DAYS)) {
                 ctx.reply("commands.rep.new_account_notice", EmoteReference.ERROR);
                 return;
             }
@@ -375,6 +371,7 @@ public class PlayerCmds {
                 var dbUser = ctx.getDBUser();
 
                 if (ctx.getOptionAsBoolean("brief")) {
+                    //noinspection DataFlowIssue
                     ctx.sendLocalized("commands.badges.brief_success", member.getEffectiveName(),
                             player.getBadges().stream()
                                     .sorted()

@@ -25,6 +25,7 @@ import java.util.function.Consumer;
 public abstract class OptionHandler {
     protected OptionType type = OptionType.GENERAL;
 
+    @SuppressWarnings("unused")
     public abstract String description();
 
     protected void registerOption(String name, String displayName, String description, Consumer<Context> code) {

@@ -22,11 +22,14 @@ import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import java.util.Map;
 
 public interface ITreeCommand extends Command {
+    @SuppressWarnings({"unused" , "UnusedReturnValue"})
     ITreeCommand createSubCommandAlias(String name, String alias);
 
+    @SuppressWarnings("unused")
     ITreeCommand addSubCommand(String name, SubCommand command);
 
     Map<String, SubCommand> getSubCommands();
 
+    @SuppressWarnings("unused")
     Command defaultTrigger(Context context, String mainCommand, String commandName);
 }

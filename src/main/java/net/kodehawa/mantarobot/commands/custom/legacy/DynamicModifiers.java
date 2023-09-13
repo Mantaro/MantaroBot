@@ -83,9 +83,9 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
     public DynamicModifiers mapUser(String prefix, User member) {
         return this.set(prefix, member.getAsMention())
                 .set(prefix, "global_username", member.getGlobalName())
-                .set(prefix, "tag", member.getAsTag())
+                .set(prefix, "tag", Utils.getTagOrDisplay(member)) // legacy support, discrims are technically gone
                 .set(prefix, "username", member.getName())
-                .set(prefix, "discriminator", member.getDiscriminator())
+                .set(prefix, "discriminator", member.getDiscriminator()) // legacy support, discrims are technically gone
                 .set(prefix, "name", member.getName())
                 .set(prefix, "mention", member.getAsMention())
                 .set(prefix, "avatar", member.getEffectiveAvatarUrl())
@@ -113,6 +113,7 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
                 .mapMember(k(prefix, "me"), event.getGuild().getSelfMember());
     }
 
+    @SuppressWarnings("unused")
     public DynamicModifiers mapEvent(String prefix, GenericGuildMemberEvent event) {
         return this.set(prefix, event.getMember().getAsMention() + "@" + event.getGuild().getName())
                 .mapGuild(k(prefix, "guild"), event.getGuild())
@@ -120,6 +121,7 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
                 .mapMember(k(prefix, "user"), event.getMember());
     }
 
+    @SuppressWarnings("unused")
     public DynamicModifiers mapEvent(String prefix, GenericGuildEvent event) {
         return this.mapGuild(k(prefix, "guild"), event.getGuild())
                 .mapMember(k(prefix, "me"), event.getGuild().getSelfMember());

@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands.currency.pets.global;
 
 import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 
+@SuppressWarnings("unused") // some day somewhere in some universe on some planet we might use this
 public class PetStats {
     private boolean inBattle = false;
 

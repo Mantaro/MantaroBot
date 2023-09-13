@@ -98,6 +98,7 @@ public class ImageCmdSlash extends SlashCommand {
         var user = ctx.getOptionAsMember("user");
         if (user != null && !noMentions) {
             var member = ctx.getGuild().getMember(user);
+            //noinspection DataFlowIssue
             builder.appendDescription("**%s**, ".formatted(member.getEffectiveName()));
         }
 

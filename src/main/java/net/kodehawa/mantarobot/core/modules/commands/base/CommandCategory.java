@@ -75,6 +75,7 @@ public enum CommandCategory {
     /**
      * @return All categories as a List. You could do Category#values anyway, this is just for my convenience.
      */
+    @SuppressWarnings("unused")
     public static List<CommandCategory> getAllCategories() {
         return Arrays.asList(CommandCategory.values());
     }

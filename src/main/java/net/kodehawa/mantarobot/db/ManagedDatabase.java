@@ -92,18 +92,21 @@ public class ManagedDatabase {
         return getCustomCommand(guild.getId(), name);
     }
 
+    @SuppressWarnings("unused")
     @Nullable
     @CheckReturnValue
     public CustomCommand getCustomCommand(@Nonnull MongoGuild guild, @Nonnull String name) {
         return getCustomCommand(guild.getId(), name);
     }
 
+    @SuppressWarnings("unused")
     @Nullable
     @CheckReturnValue
     public CustomCommand getCustomCommand(@Nonnull MessageReceivedEvent event, @Nonnull String cmd) {
         return getCustomCommand(event.getGuild(), cmd);
     }
 
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public List<CustomCommand> getCustomCommands() {
@@ -125,6 +128,7 @@ public class ManagedDatabase {
         return getCustomCommands(guild.getId());
     }
 
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public List<CustomCommand> getCustomCommands(@Nonnull MongoGuild guild) {
@@ -146,12 +150,14 @@ public class ManagedDatabase {
         return getGuild(guild.getId());
     }
 
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public MongoGuild getGuild(@Nonnull Member member) {
         return getGuild(member.getGuild());
     }
 
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public MongoGuild getGuild(@Nonnull MessageReceivedEvent event) {
@@ -166,7 +172,7 @@ public class ManagedDatabase {
         var obj = collection.find().first();
         if (obj == null) {
             obj = MantaroObject.create();
-            obj.save();
+            obj.insertOrReplace();
         }
 
         return obj;
@@ -226,6 +232,7 @@ public class ManagedDatabase {
         return dbMantaro().getCollection(Marriage.DB_TABLE, Marriage.class).find(Filters.eq(marriageId)).first();
     }
 
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public List<Marriage> getMarriages() {
@@ -233,6 +240,7 @@ public class ManagedDatabase {
         return Lists.newArrayList(dbMantaro().getCollection(Marriage.DB_TABLE, Marriage.class).find());
     }
 
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public List<PremiumKey> getPremiumKeys() {

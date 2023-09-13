@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface Node {
+    @SuppressWarnings("unused")
     static Node fromJSON(JSONObject serialized) {
         switch (serialized.getString("type")) {
             case "literal" -> {

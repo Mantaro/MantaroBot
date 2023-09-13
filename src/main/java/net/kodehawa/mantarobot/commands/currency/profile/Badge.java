@@ -819,6 +819,7 @@ public enum Badge {
                         this.icon = emptyIcon;
                     } else {
                         //apply placeholder image
+                        //noinspection DataFlowIssue
                         this.icon = IOUtil.readFully(getClass().getClassLoader().getResourceAsStream("badges/missing_image.png"));
                     }
                 } else {
@@ -882,6 +883,7 @@ public enum Badge {
      * @param userAvatar Avatar image as a byte array.
      * @return A byte[] with the modified image.
      */
+    @SuppressWarnings("unused")
     public byte[] apply(byte[] userAvatar) {
         return apply(userAvatar, false);
     }
@@ -904,6 +906,7 @@ public enum Badge {
         return this.display;
     }
 
+    @SuppressWarnings("unused")
     public byte[] getIcon() {
         return this.icon;
     }
@@ -912,6 +915,7 @@ public enum Badge {
         return this.unicode;
     }
 
+    @SuppressWarnings("unused")
     public TriPredicate<Player, PlayerStats, MongoUser> getBadgePredicate() {
         return this.badgePredicate;
     }

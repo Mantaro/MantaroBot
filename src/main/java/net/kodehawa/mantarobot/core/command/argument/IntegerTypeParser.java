@@ -28,15 +28,18 @@ public class IntegerTypeParser<T> implements Parser<T> {
     private final BiFunction<String, Integer, T> parseFunction;
     private final Function<Exception, Optional<T>> errorHandler;
 
+    @SuppressWarnings("unused")
     public IntegerTypeParser(BiFunction<String, Integer, T> parseFunction, Function<Exception, Optional<T>> errorHandler) {
         this.parseFunction = parseFunction;
         this.errorHandler = errorHandler;
     }
 
+    @SuppressWarnings("unused")
     public IntegerTypeParser(BiFunction<String, Integer, T> parseFunction) {
         this(parseFunction, __ -> Optional.empty());
     }
 
+    @SuppressWarnings("unused")
     @Nonnull
     @Override
     public Optional<T> parse(@Nonnull NewContext context, @Nonnull Arguments arguments) {
@@ -50,7 +53,7 @@ public class IntegerTypeParser<T> implements Parser<T> {
                 if (!Character.isDigit(c)) break;
                 builder.append(c);
             }
-            if (builder.length() == 0) return Optional.empty();
+            if (builder.isEmpty()) return Optional.empty();
             int multiplier;
             if (offset < s.length()) {
                 switch (s.substring(offset).toLowerCase()) {

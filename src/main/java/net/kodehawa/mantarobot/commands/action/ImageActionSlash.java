@@ -160,6 +160,7 @@ public class ImageActionSlash extends SlashCommand {
                 return;
             }
 
+            //noinspection DataFlowIssue
             var mentioned = member.getAsMention();
             boolean filtered = false;
             if (!mentions.isEmpty()) {

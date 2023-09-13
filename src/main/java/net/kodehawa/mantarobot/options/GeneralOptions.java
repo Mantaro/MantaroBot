@@ -135,7 +135,7 @@ public class GeneralOptions extends OptionHandler {
             ctx.sendLocalized("options.modlog_blacklistwords_remove.success", EmoteReference.CORRECT, word);
         });
 
-        registerOption("imageboard:tags:blacklist:add", "Blacklist imageboard tags", 
+        registerOption("imageboard:tags:blacklist:add", "Blacklist imageboard tags",
                 "Blacklists the specified imageboard tag from being looked up.",
                 "Blacklist imageboard tags", (ctx, args) -> {
             if (args.length == 0) {
@@ -154,7 +154,7 @@ public class GeneralOptions extends OptionHandler {
             );
         });
 
-        registerOption("imageboard:tags:blacklist:remove", "Un-blacklist imageboard tags", 
+        registerOption("imageboard:tags:blacklist:remove", "Un-blacklist imageboard tags",
                 "Un-blacklist the specified imageboard tag from being looked up.",
                 "Un-blacklist imageboard tags", (ctx, args) -> {
             if (args.length == 0) {
@@ -172,6 +172,7 @@ public class GeneralOptions extends OptionHandler {
         });
     }
 
+    @SuppressWarnings("unused")
     @Override
     public String description() {
         return "Everything that doesn't fit anywhere else.";

@@ -26,12 +26,12 @@ import java.util.stream.Stream;
 
 public class MavenClassLoader extends ClassLoader {
     private final List<MavenDependencies.DownloadedJar> jars;
-    
+
     MavenClassLoader(ClassLoader parent, List<MavenDependencies.DownloadedJar> jars) {
         super("MavenLoader", parent);
         this.jars = jars;
     }
-    
+
     @Override
     protected URL findResource(String name) {
         for(var f : jars) {
@@ -45,7 +45,7 @@ public class MavenClassLoader extends ClassLoader {
         }
         return null;
     }
-    
+
     @Override
     public InputStream getResourceAsStream(String name) {
         if(getParent() != null) {
@@ -64,7 +64,7 @@ public class MavenClassLoader extends ClassLoader {
         }
         return null;
     }
-    
+
     @Override
     @SuppressWarnings("try")
     protected Class<?> findClass(String name) throws ClassNotFoundException {
@@ -76,14 +76,14 @@ public class MavenClassLoader extends ClassLoader {
         // It's meant to be this way, we just want the InputStream
         // to be closed, but we don't need to use it anymore.
         // Warning is supressed above, else compiler complains :)
-        try(var __ = is) {
+        try(var ignored = is) {
             var bytes = is.readAllBytes();
             return super.defineClass(name, bytes, 0, bytes.length);
         } catch(IOException e) {
             throw new ClassNotFoundException(name, e);
         }
     }
-    
+
     public Stream<String> resources(String pkg, boolean recursive) {
         return jars.stream().flatMap(jar -> jar.resourceList.stream(pkg, recursive));
     }

@@ -31,7 +31,6 @@ public class Item {
     private final boolean buyable;
     private final String emoji, name, desc;
     private final boolean hidden;
-    private final long maxSize;
     private final boolean sellable;
     //EXAMPLE: 1;3 will mean require two items of type 1 and 3 of type 2. For example a pick will require 2 of type 1 and 1 of type 2.
     //You can have as many types as you want.
@@ -47,7 +46,7 @@ public class Item {
     private final List<String> aliases = new ArrayList<>();
 
     public Item(ItemType type, String emoji, String name, String alias, String translatedName,
-                String desc, long value, boolean sellable, boolean buyable, boolean hidden, long maxSize,
+                String desc, long value, boolean sellable, boolean buyable, boolean hidden,
                 BiPredicate<IContext, Boolean> action,
                 String recipe, boolean petOnly, int... recipeTypes) {
         this.emoji = emoji;
@@ -57,7 +56,6 @@ public class Item {
         this.price = value;
         this.sellable = sellable;
         this.buyable = buyable;
-        this.maxSize = maxSize;
         this.hidden = hidden;
         this.action = action;
         this.itemType = type;
@@ -74,7 +72,7 @@ public class Item {
         this(type, emoji, name, alias,
                 translatedName, desc, value,
                 true, true, false,
-                100, null, "", false
+                null, "", false
         );
     }
 
@@ -83,7 +81,7 @@ public class Item {
         this(type, emoji, name, null,
                 translatedName, desc, value,
                 true, true, false,
-                100, null, "", false
+                null, "", false
         );
     }
 
@@ -92,7 +90,7 @@ public class Item {
         this(type, emoji, name, alias,
                 translatedName, desc, value,
                 sellable, buyable, false,
-                100, null, "", false
+                null, "", false
         );
     }
 
@@ -101,7 +99,7 @@ public class Item {
         this(type, emoji, name, null,
                 translatedName, desc, value,
                 sellable, buyable, false,
-                100, null, "", false
+                null, "", false
         );
     }
 
@@ -110,7 +108,7 @@ public class Item {
         this(type, emoji, name, alias,
                 translatedName, desc, value,
                 sellable, buyable, false,
-                100, null,
+                null,
                 recipe, false, recipeTypes
         );
     }
@@ -120,7 +118,7 @@ public class Item {
         this(type, emoji, name, null,
                 translatedName, desc, value,
                 sellable, buyable, false,
-                100, null,
+                null,
                 recipe, false, recipeTypes
         );
     }
@@ -130,7 +128,7 @@ public class Item {
         this(type, emoji, name, null,
                 translatedName, desc, value,
                 true, buyable, false,
-                100, null, "", false
+                null, "", false
         );
     }
 
@@ -139,7 +137,7 @@ public class Item {
         this(type, emoji, name, alias,
                 translatedName, desc, value,
                 true, buyable, false,
-                100, null, "", false
+                null, "", false
         );
     }
 
@@ -148,7 +146,7 @@ public class Item {
         this(type, emoji, name, null,
                 translatedName, desc, value,
                 sellable, buyable, hidden,
-                100, null, "", false
+                null, "", false
         );
     }
 
@@ -157,7 +155,7 @@ public class Item {
         this(type, emoji, name, null,
                 translatedName, desc, value,
                 sellable, buyable, false,
-                100, action, "", false
+                action, "", false
         );
     }
 
@@ -166,7 +164,7 @@ public class Item {
         this(type, emoji, name, null,
                 translatedName, desc, value,
                 true, buyable, false,
-                100, action, "", false
+                action, "", false
         );
     }
 
@@ -176,7 +174,7 @@ public class Item {
         this(type, emoji, name, null,
                 translatedName, desc, value,
                 sellable, buyable, hidden,
-                100, action, "", false
+                action, "", false
         );
     }
 
@@ -185,7 +183,7 @@ public class Item {
         this(type, emoji, name, null,
                 translatedName, desc, value,
                 sellable, buyable, hidden,
-                100, null, "", petOnly
+                null, "", petOnly
         );
     }
 
@@ -195,7 +193,7 @@ public class Item {
         this(type, emoji, name, null,
                 translatedName, desc, value,
                 sellable, buyable, hidden,
-                100, null,
+                null,
                 recipe, petOnly, recipeTypes
         );
     }
@@ -212,7 +210,7 @@ public class Item {
         this(ItemType.COLLECTABLE, emoji, name, null,
                 translatedName, desc, 0,
                 false, false, true,
-                100, null,
+                null,
                 "", false
         );
     }
@@ -263,10 +261,6 @@ public class Item {
 
     public boolean isHidden() {
         return hidden || (!sellable && !buyable);
-    }
-
-    public long maxSize() {
-        return maxSize;
     }
 
     public String getRecipe() {

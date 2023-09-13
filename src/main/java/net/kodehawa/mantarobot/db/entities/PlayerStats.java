@@ -28,6 +28,7 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class PlayerStats implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "playerstats";
@@ -52,6 +53,7 @@ public class PlayerStats implements ManagedMongoObject {
     // Needed for serialization
     public PlayerStats() { }
 
+    @SuppressWarnings("SameParameterValue")
     private PlayerStats(String id, long gambleWins, long slotsWins, long gambleWinAmount, long slotsWinAmount) {
         this.id = id;
         this.gambleWins = gambleWins;
@@ -72,6 +74,7 @@ public class PlayerStats implements ManagedMongoObject {
         return new PlayerStats(userId, 0L, 0L, 0L, 0L);
     }
 
+    @Override
     @Nonnull
     public String getId() {
         return this.id;
@@ -256,7 +259,7 @@ public class PlayerStats implements ManagedMongoObject {
     }
 
     @Override
-    public void save() {
+    public void insertOrReplace() {
         MantaroData.db().saveMongo(this, PlayerStats.class);
     }
 

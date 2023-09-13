@@ -146,9 +146,11 @@ public class CustomCommandHandler {
                     .addContent("`");
 
             var disallowed = EnumSet.of(Message.MentionType.ROLE, Message.MentionType.USER, Message.MentionType.EVERYONE, Message.MentionType.HERE);
+            //noinspection ResultOfMethodCallIgnored
             builder.setAllowedMentions(EnumSet.complementOf(disallowed));
         } else {
             var disallowed = EnumSet.of(Message.MentionType.ROLE, Message.MentionType.EVERYONE, Message.MentionType.HERE);
+            //noinspection ResultOfMethodCallIgnored
             builder.setAllowedMentions(EnumSet.complementOf(disallowed));
         }
 
@@ -159,6 +161,7 @@ public class CustomCommandHandler {
         this.handle(false);
     }
 
+    @SuppressWarnings("SameReturnValue")
     private boolean processResponse() {
         if (response.startsWith("v3:")) {
             return true;
@@ -202,6 +205,7 @@ public class CustomCommandHandler {
         return true;
     }
 
+    @SuppressWarnings("unused")
     private interface Func {
         void handle(Context ctx, String value, String args);
     }

@@ -23,10 +23,11 @@ import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes
 
 public class CastedGem extends Item implements Tiered {
     private final int tier;
+    @SuppressWarnings("unused")
     public CastedGem(String emoji, String name, String translatedName,
-                String desc, long value, int tier, boolean sellable, boolean buyable, String recipe, int... recipeTypes) {
+                     String desc, long value, int tier, boolean sellable, boolean buyable, String recipe, int... recipeTypes) {
         super(ItemType.CAST_OBTAINABLE, emoji, name, null, translatedName, desc, value, sellable, buyable, false,
-                100, null, recipe, false, recipeTypes
+                null, recipe, false, recipeTypes
         );
 
         this.tier = tier;

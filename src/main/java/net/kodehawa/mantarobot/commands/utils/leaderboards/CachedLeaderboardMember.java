@@ -55,10 +55,12 @@ public class CachedLeaderboardMember {
         return disriminator;
     }
 
+    @SuppressWarnings("unused")
     public long getLastCachedAt() {
         return lastCachedAt;
     }
 
+    @SuppressWarnings("unused")
     public long getLastCachedAtHours() {
         return TimeUnit.MILLISECONDS.toHours(System.currentTimeMillis() - lastCachedAt);
     }

@@ -34,6 +34,7 @@ public class Prometheus {
     private static final AtomicReference<State> STATE = new AtomicReference<>(State.DISABLED);
     private static volatile HTTPServer server;
 
+    @SuppressWarnings("unused")
     public static State currentState() {
         return STATE.get();
     }
@@ -54,6 +55,7 @@ public class Prometheus {
         }
     }
 
+    @SuppressWarnings("unused")
     public static void disable() {
         while (!STATE.compareAndSet(State.ENABLED, State.DISABLED)) {
             if (STATE.get() == State.DISABLED) {

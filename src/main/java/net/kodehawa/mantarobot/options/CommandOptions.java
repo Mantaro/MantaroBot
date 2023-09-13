@@ -663,6 +663,7 @@ public class CommandOptions extends OptionHandler {
         });
     }
 
+    @SuppressWarnings("unused")
     @Override
     public String description() {
         return "Command related options. Disabling/enabling commands or categories belong here.";

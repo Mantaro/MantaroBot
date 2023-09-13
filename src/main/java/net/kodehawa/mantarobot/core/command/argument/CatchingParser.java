@@ -42,6 +42,7 @@ public class CatchingParser<T> implements Parser<T> {
         this(parseFunction, __->Optional.empty());
     }
 
+    @SuppressWarnings("unused")
     @Nonnull
     @Override
     public Optional<T> parse(@Nonnull NewContext context, @Nonnull Arguments arguments) {
@@ -54,6 +55,7 @@ public class CatchingParser<T> implements Parser<T> {
 
     @FunctionalInterface
     public interface ThrowingParser<T> {
+        @SuppressWarnings("unused") // value not being used is just incorrect intellij. Thanks.
         T parse(String value) throws Exception;
     }
 }

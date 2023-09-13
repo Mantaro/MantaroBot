@@ -34,8 +34,6 @@ public class Inventory {
     private static final Logger LOGGER = LoggerFactory.getLogger("Inventory");
     private Map<String, Integer> stored = new HashMap<>();
 
-    public Inventory() {}
-
     public List<ItemStack> asList() {
         return unserialize(stored);
     }
@@ -44,10 +42,15 @@ public class Inventory {
         return ItemStack.mapped(asList());
     }
 
+    // Serialization constructor
+    @SuppressWarnings("unused")
+    public Inventory() { }
+
     public void clear() {
         replaceWith(new ArrayList<>());
     }
 
+    @SuppressWarnings("unused")
     public void clearOnlySellables() {
         List<ItemStack> ns = asList().stream().filter(item -> !item.getItem().isSellable()).collect(Collectors.toList());
         replaceWith(ns);
@@ -57,6 +60,7 @@ public class Inventory {
         return asMap().containsKey(item);
     }
 
+    @SuppressWarnings("unused")
     public ItemStack getStackOf(Item item) {
         if (containsItem(item)) {
             return asMap().get(item);
@@ -109,6 +113,7 @@ public class Inventory {
     }
 
     public static List<ItemStack> unserialize(Map<String, Integer> map) {
+        //noinspection OptionalGetWithoutIsPresent
         return map.entrySet().stream().filter(e -> e.getValue() != 0)
                 .filter(e -> ItemHelper.fromTranslationSlice(e.getKey()).isPresent())
                 .map(entry -> new ItemStack(ItemHelper.fromTranslationSlice(entry.getKey()).get(), Math.max(Math.min(entry.getValue(), ItemStack.MAX_STACK_SIZE), 0)))

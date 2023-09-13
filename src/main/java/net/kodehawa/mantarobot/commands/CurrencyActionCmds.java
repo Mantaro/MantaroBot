@@ -323,7 +323,7 @@ public class CurrencyActionCmds {
             var amount = 1 + random.nextInt(item.getDiamondIncrease());
             if (!player.fitsItemAmount(ItemReference.DIAMOND, amount)) {
                 message += "\n" + languageContext.get("commands.mine.diamond.overflow").formatted(amount);
-                overflowMoney += Math.round((ItemReference.DIAMOND.getValue() * 0.9) * amount);
+                overflowMoney += (int) Math.round((ItemReference.DIAMOND.getValue() * 0.9) * amount);
             } else {
                 player.processItem(ItemReference.DIAMOND, amount);
                 message += "\n" + EmoteReference.DIAMOND + languageContext.get("commands.mine.diamond.success").formatted(amount);
@@ -392,7 +392,7 @@ public class CurrencyActionCmds {
             if (!player.fitsItemAmount(itemGem, selectedGem.getAmount())) {
                 message += "\n" + languageContext.get("commands.mine.gem.overflow")
                         .formatted(itemGem.getEmojiDisplay() + " x" + selectedGem.getAmount());
-                overflowMoney += Math.round((itemGem.getValue() * 0.9) * selectedGem.getAmount());
+                overflowMoney += (int) Math.round((itemGem.getValue() * 0.9) * selectedGem.getAmount());
             } else {
                 player.processItem(selectedGem);
 
@@ -432,7 +432,7 @@ public class CurrencyActionCmds {
 
             if (!player.canFitItem(gem)) {
                 message += "\n" + languageContext.get("commands.mine.sparkle.overflow");
-                overflowMoney += Math.round(gem.getValue() * 0.9);
+                overflowMoney += (int) Math.round(gem.getValue() * 0.9);
             } else {
                 player.processItem(gem, 1);
                 message += "\n" + EmoteReference.MEGA +

@@ -30,6 +30,7 @@ public class RateLimit {
         this.spamAttempts = spamAttempts;
     }
 
+    @SuppressWarnings("unused")
     public long getTimestamp() {
         return timestamp;
     }
@@ -46,6 +47,7 @@ public class RateLimit {
         return spamAttempts;
     }
 
+    @SuppressWarnings("unused")
     public long getCooldownReset() {
         return timestamp + cooldown;
     }

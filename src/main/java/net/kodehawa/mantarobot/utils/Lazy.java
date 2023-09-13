@@ -28,6 +28,7 @@ public class Lazy<T> implements Supplier<T> {
         this.supplier = supplier;
     }
 
+    @Override
     public T get() {
         if (set) {
             return value;

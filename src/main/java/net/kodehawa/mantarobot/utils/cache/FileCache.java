@@ -37,6 +37,7 @@ public class FileCache {
                 .maximumSize(maxSize)
                 .concurrencyLevel(concurrencyLevel)
                 .build(new CacheLoader<>() {
+                    @NotNull
                     @Override
                     public byte [] load(@NotNull File key) throws Exception {
                         if (!key.isFile()) throw new IllegalArgumentException(key + ": not a file");

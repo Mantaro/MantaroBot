@@ -35,6 +35,7 @@ public class ItemStack {
         this.amount = amount;
     }
 
+    @SuppressWarnings("unused")
     public ItemStack(int i, int amount) {
         this(ItemHelper.fromId(i), amount);
     }
@@ -62,6 +63,7 @@ public class ItemStack {
                 .collect(Collectors.joining(", "));
     }
 
+    @SuppressWarnings("unused")
     public static String toString(ItemStack... stacks) {
         return toString(Arrays.asList(stacks));
     }

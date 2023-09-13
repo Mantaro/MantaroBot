@@ -17,60 +17,18 @@
 
 package net.kodehawa.mantarobot.core.command.slash;
 
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.core.command.meta.Defer;
-import net.kodehawa.mantarobot.core.command.meta.GuildOnly;
-import net.kodehawa.mantarobot.core.command.meta.Name;
-import net.kodehawa.mantarobot.core.command.meta.Permission;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 
 import java.util.function.Predicate;
 
-public abstract class ContextCommand<T> {
-    private final String name;
-    private final CommandPermission permission;
+public abstract class ContextCommand<T> extends DeferrableCommand<InteractionContext<T>> {
     private Predicate<InteractionContext<T>> predicate = c -> true;
-    private final boolean guildOnly;
-    private final boolean defer;
 
-    // This is basically the same as NewCommand, but the handling ought to be different everywhere else.
-    // There's no aliases either, too little slots.
     public ContextCommand() {
-        var clazz = getClass();
-        if (clazz.getAnnotation(Name.class) != null) {
-            this.name = clazz.getAnnotation(Name.class).value();
-        } else {
-            this.name = clazz.getSimpleName().toLowerCase();
-        }
-
-        var p = clazz.getAnnotation(Permission.class);
-        if (p == null) {
-            this.permission = CommandPermission.USER;
-        } else {
-            this.permission = p.value();
-        }
-
-        this.defer = clazz.getAnnotation(Defer.class) != null;
-        this.guildOnly = clazz.getAnnotation(GuildOnly.class) != null;
+        super();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public CommandPermission getPermission() {
-        return permission;
-    }
-
-    public boolean isGuildOnly() {
-        return guildOnly;
-    }
-
-    public boolean defer() {
-        return defer;
-    }
-
+    @SuppressWarnings("unused")
     public void setPredicate(Predicate<InteractionContext<T>> predicate) {
         this.predicate = predicate;
     }
@@ -80,21 +38,7 @@ public abstract class ContextCommand<T> {
         return predicate;
     }
 
-    protected abstract void process(InteractionContext<T> ctx);
-
-    protected EmbedBuilder baseEmbed(InteractionContext<T> ctx, String name) {
-        return baseEmbed(ctx, name, ctx.getMember().getEffectiveAvatarUrl());
-    }
-
-    protected EmbedBuilder baseEmbed(InteractionContext<T> ctx, String name, String image) {
-        return new EmbedBuilder()
-                .setAuthor(name, null, image)
-                .setColor(ctx.getMember().getColor())
-                .setFooter("Requested by: %s".formatted(ctx.getMember().getEffectiveName()),
-                        ctx.getGuild().getIconUrl()
-                );
-    }
-
+    @Override
     public final void execute(InteractionContext<T> ctx) {
         // If this is over 2500ms, we should attempt to defer instead, as discord might be lagging.
         var averageLatencyMax = MantaroBot.getInstance().getCore().getRestPing() * 4;
@@ -102,7 +46,7 @@ public abstract class ContextCommand<T> {
             return;
         }
 
-        if (defer() || averageLatencyMax > 2500) {
+        if ((defer() || averageLatencyMax > 2500) && !modal) {
             ctx.defer();
         }
 

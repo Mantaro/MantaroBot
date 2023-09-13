@@ -35,6 +35,7 @@ public class BasicParser<T> implements Parser<T> {
         this.parseFunction = parseFunction;
     }
 
+    @SuppressWarnings("unused")
     @Nonnull
     @Override
     public Optional<T> parse(@Nonnull NewContext context, @Nonnull Arguments arguments) {

@@ -280,7 +280,7 @@ public class CCv3 {
             }
             String iam = args.get(0).evaluate();
             String ctn = args.stream().skip(1).map(Operation.Argument::evaluate).collect(Collectors.joining(" "));
-            
+
             if (ctn.isEmpty())
                 MiscCmds.iamnotFunction(iam, context.getCommandContext());
             else
@@ -292,7 +292,7 @@ public class CCv3 {
         DEFAULT_OPERATIONS.put("timestamp", (context, args) -> {
             DateTimeFormatter formatter = DEFAULT_TIMESTAMP_FORMATTER;
             ZoneId zone = ZoneId.of("UTC");
-            if (args.isEmpty()) {
+            if (!args.isEmpty()) {
                 String pattern = args.get(0).evaluate();
                 try {
                     formatter = DateTimeFormatter.ofPattern(pattern);
@@ -342,6 +342,7 @@ public class CCv3 {
         });
     }
 
+    @SuppressWarnings("unused") // not sure why prefix is unused here but oh well
     public static void process(String prefix, Context ctx, Node ast, boolean preview) {
         InterpreterContext context = new InterpreterContext(new DynamicModifiers()
                 .mapEvent("event", ctx), DEFAULT_OPERATIONS, ctx);
@@ -368,6 +369,7 @@ public class CCv3 {
         builder.setComponents(ActionRow.of(Button.primary("yes", ctx.getLanguageContext().get("commands.custom.custom_notice")).asDisabled()));
 
         var deny = EnumSet.of(Message.MentionType.ROLE, Message.MentionType.EVERYONE, Message.MentionType.HERE);
+        //noinspection ResultOfMethodCallIgnored
         builder.setAllowedMentions(deny);
         if (embed != null) {
             builder.setEmbeds(embed.gen(ctx.getMember()));

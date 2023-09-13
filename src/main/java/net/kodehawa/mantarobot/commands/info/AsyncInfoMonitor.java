@@ -60,11 +60,13 @@ public class AsyncInfoMonitor {
         return freeMemory;
     }
 
+    @SuppressWarnings("unused")
     public static long getMaxMemory() {
         check();
         return maxMemory;
     }
 
+    @SuppressWarnings("unused")
     public static long getThreadCount() {
         check();
         return threadCount;

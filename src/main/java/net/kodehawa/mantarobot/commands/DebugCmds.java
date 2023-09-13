@@ -141,7 +141,8 @@ public class DebugCmds {
                     uptime / (10 * 24 * 60 * 60 * 1000.0),
                     uptime / (44 * 24 * 60 * 60 * 1000.0)
             );
-            
+
+            //noinspection DataFlowIssue
             ctx.reply("```prolog\n"
                     + " --------- Technical Information --------- \n\n"
                     + "Uptime: " + uptimeString + "\n"

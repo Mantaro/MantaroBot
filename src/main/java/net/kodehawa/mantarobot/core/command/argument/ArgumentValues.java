@@ -48,6 +48,7 @@ public class ArgumentValues implements Iterator<String> {
      *
      * @return A marker for a given offset, with support for back (and front) jumps.
      */
+    @SuppressWarnings("unused")
     public MarkedBlock marked() {
         return arguments.marked();
     }
@@ -57,6 +58,7 @@ public class ArgumentValues implements Iterator<String> {
      *
      * @return The current offset in the arguments array.
      */
+    @SuppressWarnings("unused")
     @Nonnegative
     @CheckReturnValue
     public int getOffset() {
@@ -70,6 +72,7 @@ public class ArgumentValues implements Iterator<String> {
      *
      * @apiNote This method should be avoided by parsers. Use the {@link #marked() marker} API instead.
      */
+    @SuppressWarnings("unused")
     public void setOffset(@Nonnegative int offset) {
         arguments.setOffset(offset);
     }
@@ -84,6 +87,7 @@ public class ArgumentValues implements Iterator<String> {
      *
      * @apiNote When possible, prefer using {@link #range(int, int) relative ranges} instead.
      */
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public String[] absoluteRange(int from, int to) {
@@ -102,6 +106,7 @@ public class ArgumentValues implements Iterator<String> {
      *
      * @return A range of the underlying array.
      */
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public String[] range(int from, int to) {
@@ -137,6 +142,7 @@ public class ArgumentValues implements Iterator<String> {
      * @apiNote Parsers should avoid stepping back more times than they stepped forward, as that may result
      *          in an inconsistent state.
      */
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public String previous() {
@@ -148,6 +154,7 @@ public class ArgumentValues implements Iterator<String> {
      *
      * @return True if there is a previous element.
      */
+    @SuppressWarnings("unused")
     @CheckReturnValue
     public boolean hasPrevious() {
         return arguments.hasPrevious();
@@ -161,6 +168,7 @@ public class ArgumentValues implements Iterator<String> {
      * @apiNote Parsers should avoid stepping back more times than they stepped forward, as that may result
      *          in an inconsistent state.
      */
+    @SuppressWarnings("unused")
     public void back() {
         arguments.back();
     }
@@ -197,6 +205,7 @@ public class ArgumentValues implements Iterator<String> {
      *
      * @return A copy of this object.
      */
+    @SuppressWarnings("unused")
     @Nonnull
     @CheckReturnValue
     public ArgumentValues snapshot() {

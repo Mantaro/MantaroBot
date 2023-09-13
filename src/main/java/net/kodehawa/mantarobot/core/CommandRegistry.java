@@ -218,7 +218,7 @@ public class CommandRegistry {
         // sort-of-fix: remove if statement when we port all commands
         boolean executedNew;
         try {
-            executedNew = newCommands.execute(new NewContext(event.getMessage(),
+            executedNew = newCommands.execute(new NewContext(event,
                     new I18nContext(dbGuild, dbUser),
                     event.getMessage().getContentRaw().substring(prefix.length()))
             );
@@ -492,7 +492,7 @@ public class CommandRegistry {
     public void register(Class<? extends NewCommand> clazz) {
         var cmd = newCommands.register(clazz);
         var p = new ProxyCommand(cmd);
-        commands.put(cmd.name(), p);
+        commands.put(cmd.getName(), p);
         cmd.aliases().forEach(a -> commands.put(a, new AliasProxyCommand(p)));
     }
 
@@ -549,7 +549,7 @@ public class CommandRegistry {
     }
 
 
-    public void sendDisabledNotice(MessageReceivedEvent event, MongoGuild data, CommandDisableLevel level) {
+    private void sendDisabledNotice(MessageReceivedEvent event, MongoGuild data, CommandDisableLevel level) {
         if (data.isCommandWarningDisplay() && level != CommandDisableLevel.NONE) {
             event.getChannel().sendMessageFormat("%sThis command is disabled on this server. Reason: %s",
                     EmoteReference.ERROR, Utils.capitalize(level.getName())
@@ -557,7 +557,7 @@ public class CommandRegistry {
         } // else don't
     }
 
-    public void sendDisabledNotice(SlashCommandInteractionEvent event, CommandDisableLevel level) {
+    private void sendDisabledNotice(SlashCommandInteractionEvent event, CommandDisableLevel level) {
         event.reply("%sThis command is disabled on this server. Reason: %s"
                 .formatted(EmoteReference.ERROR, Utils.capitalize(level.getName()))
         ).setEphemeral(true).queue();
@@ -572,7 +572,7 @@ public class CommandRegistry {
         }
 
         if (c instanceof ProxyCommand proxyCommand) {
-            return proxyCommand.c.name();
+            return proxyCommand.c.getName();
         }
 
         return userInput.toLowerCase();
@@ -598,12 +598,12 @@ public class CommandRegistry {
 
         @Override
         public CommandCategory category() {
-            return c.category();
+            return c.getCategory();
         }
 
         @Override
         public CommandPermission permission() {
-            return c.permission();
+            return c.getPermission();
         }
 
         @Override
@@ -613,7 +613,7 @@ public class CommandRegistry {
 
         @Override
         public HelpContent help() {
-            return c.help();
+            return c.getHelp();
         }
 
         @Override
@@ -647,8 +647,10 @@ public class CommandRegistry {
         SPECIFIC_CATEGORY("Disabled category on specific channel"),
         COMMAND("Disabled command"),
         COMMAND_SPECIFIC("Disabled command on specific channel"),
+        @SuppressWarnings("unused")
         GUILD("Disabled command on this server"),
         ROLE("Disabled role on this server"),
+        @SuppressWarnings("unused")
         ROLE_CATEGORY("Disabled role for this category in this server"),
         SPECIFIC_ROLE("Disabled role for this command in this server"),
         SPECIFIC_ROLE_CATEGORY("Disabled role for this category in this server"),

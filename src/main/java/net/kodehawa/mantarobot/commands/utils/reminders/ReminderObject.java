@@ -40,6 +40,7 @@ public class ReminderObject {
         return new ReminderObjectBuilder();
     }
 
+    @SuppressWarnings("unused")
     public String getId() {
         return this.id;
     }
@@ -60,6 +61,7 @@ public class ReminderObject {
         return this.userId;
     }
 
+    @SuppressWarnings("unused")
     public String getGuildId() {
         return this.guildId;
     }

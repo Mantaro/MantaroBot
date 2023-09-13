@@ -118,6 +118,7 @@ public class ItemHelper {
         ItemReference.CHOP_PREMIUM_CRATE.registerItemAlias("premium chop lootbox");
     }
 
+    @SuppressWarnings("unused")
     public static Optional<Item> fromAny(String any, I18nContext languageContext) {
         try {
             Item item = fromId(Integer.parseInt(any));
@@ -325,7 +326,7 @@ public class ItemHelper {
                 .filter(stack -> ((Tiered) stack.getItem()).getTier() >= 4)
                 .map(stack -> "%s \u2009(%d \u2b50)".formatted(stack.getItem().getEmoji(), ((Tiered) stack.getItem()).getTier()))
                 .collect(Collectors.joining(", "));
-        if (high.length() >= 1) {
+        if (!high.isEmpty()) {
             extra = ".\n\n" + lang.get("general.misc_item_usage.crate.success_high").formatted(EmoteReference.POPPER, high);
         }
 

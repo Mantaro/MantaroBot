@@ -181,6 +181,7 @@ public class MongoGuild implements ManagedMongoObject {
         return new MongoGuild(guildId);
     }
 
+    @Override
     public @NotNull String getId() {
         return id;
     }
@@ -197,7 +198,7 @@ public class MongoGuild implements ManagedMongoObject {
 
     @Override
     @BsonIgnore
-    public void save() {
+    public void insertOrReplace() {
         MantaroData.db().saveMongo(this, MongoGuild.class);
     }
 
@@ -239,7 +240,7 @@ public class MongoGuild implements ManagedMongoObject {
             Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(key.getOwner());
             if (pledgeInfo != null && pledgeInfo.left()) {
                 key.setLinkedTo(key.getOwner());
-                key.save(); //doesn't matter if it doesn't save immediately, will do later anyway (key is usually immutable in db)
+                key.insertOrReplace(); //doesn't matter if it doesn't save immediately, will do later anyway (key is usually immutable in db)
             }
 
             //If the receipt is not the owner, account them to the keys the owner has claimed.
@@ -274,7 +275,7 @@ public class MongoGuild implements ManagedMongoObject {
         PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days),
                 currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.GUILD, true, id, null);
         premiumKey(premiumId);
-        newKey.save();
+        newKey.insertOrReplace();
 
         updateAllChanged();
         return newKey;

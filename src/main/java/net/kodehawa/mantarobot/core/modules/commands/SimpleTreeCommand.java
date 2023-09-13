@@ -41,6 +41,7 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
         super(category);
     }
 
+    @SuppressWarnings("unused")
     public SimpleTreeCommand(CommandCategory category, CommandPermission permission) {
         super(category, permission);
     }
@@ -93,10 +94,12 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
         return this;
     }
 
+    @SuppressWarnings("unused")
     public SimpleTreeCommand addSubCommand(String name, BiConsumer<Context, String> command) {
         return addSubCommand(name, null, command);
     }
 
+    @Override
     public SimpleTreeCommand addSubCommand(String name, SubCommand command) {
         subCommands.put(name, command);
         return this;
@@ -128,6 +131,7 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
      * @param ctx         the context of the event that triggered the command
      * @param commandName the Name of the not-found command.
      */
+    @Override
     public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
         ctx.sendStripped(String.format("%1$sI didn't find this subcommand. Check `~>help %2$s` for a list of available subcommands", EmoteReference.ERROR, mainCommand));
         return null;

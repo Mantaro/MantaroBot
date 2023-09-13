@@ -27,6 +27,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
+@SuppressWarnings("unused") // some day somewhere in some universe on some planet we might use this
 public class PetData {
     //Current pet upgrade level
     public Level upgradeLevel = Level.BASIC; //The bigger this number, the easier it is to gain XP.

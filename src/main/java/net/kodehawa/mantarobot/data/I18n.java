@@ -20,7 +20,6 @@ package net.kodehawa.mantarobot.data;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GenericGuildEvent;
-import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.utils.LanguageKeyNotFoundException;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
@@ -47,6 +46,7 @@ public class I18n {
     static {
         Map<String, I18n> m = new HashMap<>();
         try (var is = I18n.class.getResourceAsStream("/assets/languages/list.txt")) {
+            //noinspection DataFlowIssue
             for (var lang : IOUtils.toString(is, StandardCharsets.UTF_8).trim().split("\n")) {
                 var language = lang.trim();
                 LANGUAGES.add(language);
@@ -86,6 +86,7 @@ public class I18n {
         return getForLanguage(lang);
     }
 
+    @SuppressWarnings("unused")
     public static I18n ofUser(String userId) {
         var lang = MantaroData.db().getUser(userId).getLang();
         return getForLanguage(lang);
@@ -95,10 +96,12 @@ public class I18n {
         return of(guild.getId());
     }
 
+    @SuppressWarnings("unused")
     public static I18n ofUser(User user) {
         return of(user.getId());
     }
 
+    @SuppressWarnings("unused")
     public static I18n of(GenericGuildEvent event) {
         return of(event.getGuild().getId());
     }
@@ -120,6 +123,7 @@ public class I18n {
         return language;
     }
 
+    @SuppressWarnings("unused")
     public static void root(String newRoot) {
         ROOT.set(newRoot);
     }

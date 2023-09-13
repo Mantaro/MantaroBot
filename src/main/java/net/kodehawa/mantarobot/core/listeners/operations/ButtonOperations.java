@@ -37,6 +37,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings("UnusedReturnValue")
 public class ButtonOperations {
     private static final EventListener LISTENER = new ButtonOperations.ButtonListener();
     private static final ConcurrentHashMap<Long, RunningOperation> OPERATIONS = new ConcurrentHashMap<>();
@@ -59,6 +60,7 @@ public class ButtonOperations {
         s.scheduleAtFixedRate(() -> OPERATIONS.values().removeIf(op -> op.isTimedOut(true)), 1, 1, TimeUnit.SECONDS);
     }
 
+    @SuppressWarnings("unused")
     public static Future<Void> get(Long messageId) {
         RunningOperation o = OPERATIONS.get(messageId);
         return o == null ? null : o.future;
@@ -201,6 +203,7 @@ public class ButtonOperations {
             this.timeout = System.nanoTime() + timeout;
         }
 
+        @SuppressWarnings("SameParameterValue")
         boolean isTimedOut(boolean expire) {
             if (expired) {
                 return true;

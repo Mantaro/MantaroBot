@@ -30,6 +30,7 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class Marriage implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "marriages";
@@ -261,6 +262,7 @@ public class Marriage implements ManagedMongoObject {
         lockedUntil(locked ? System.currentTimeMillis() + 35000 : 0);
     }
 
+    @Override
     @Nonnull
     public String getId() {
         return this.id;
@@ -274,7 +276,7 @@ public class Marriage implements ManagedMongoObject {
     }
 
     @Override
-    public void save() {
+    public void insertOrReplace() {
         MantaroData.db().saveMongo(this, Marriage.class);
     }
 

@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.utils.commands;
 
 import java.util.Optional;
 
+@SuppressWarnings("unused")
 public enum EmoteReference {
     ERROR(":x:", "\u274C"),
     ERROR2(":x:", "\u274C"),

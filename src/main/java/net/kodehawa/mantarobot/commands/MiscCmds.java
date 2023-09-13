@@ -129,7 +129,7 @@ public class MiscCmds {
                         .setDescription(languageContext.get("commands.iam.list.no_autoroles"))
                         .setThumbnail(ctx.getGuild().getIconUrl());
 
-                if (autoroles.size() > 0) {
+                if (!autoroles.isEmpty()) {
                     var categorizedRoles = new ArrayList<>();
                     autorolesCategories.forEach((cat, roles) -> {
                         var roleString = new StringBuilder();
@@ -154,7 +154,7 @@ public class MiscCmds {
                             }
                         }
 
-                        if (roleString.length() > 0) {
+                        if (!roleString.isEmpty()) {
                             fields.add(new MessageEmbed.Field(
                                     languageContext.get("commands.iam.list.category") + " " + cat,  roleString.toString(), false)
                             );

@@ -18,7 +18,6 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
@@ -38,11 +37,9 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
-import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Predicate;
 
 @Module
 public class TransferCmds {
@@ -121,13 +118,12 @@ public class TransferCmds {
                 return;
             }
 
-            Predicate<User> oldEnough = (u -> u.getTimeCreated().isBefore(OffsetDateTime.now().minus(14, ChronoUnit.DAYS)));
-            if (!oldEnough.test(ctx.getAuthor())) {
+            if (!Utils.isAccountOldEnough(ctx.getAuthor(), 14, ChronoUnit.DAYS)) {
                 ctx.reply("commands.transfer.new_account_notice_yourself", EmoteReference.ERROR);
                 return;
             }
 
-            if (!oldEnough.test(giveTo)) {
+            if (!Utils.isAccountOldEnough(giveTo, 14, ChronoUnit.DAYS)) {
                 ctx.reply("commands.transfer.new_account_notice_other", EmoteReference.ERROR);
                 return;
             }
@@ -233,13 +229,12 @@ public class TransferCmds {
                 return;
             }
 
-            Predicate<User> oldEnough = (u -> u.getTimeCreated().isBefore(OffsetDateTime.now().minus(14, ChronoUnit.DAYS)));
-            if (!oldEnough.test(ctx.getAuthor())) {
+            if (!Utils.isAccountOldEnough(ctx.getAuthor(), 14, ChronoUnit.DAYS)) {
                 ctx.reply("commands.transfer.new_account_notice_yourself", EmoteReference.ERROR);
                 return;
             }
 
-            if (!oldEnough.test(giveTo)) {
+            if (!Utils.isAccountOldEnough(giveTo, 14, ChronoUnit.DAYS)) {
                 ctx.reply("commands.transfer.new_account_notice_other", EmoteReference.ERROR);
                 return;
             }

@@ -49,6 +49,7 @@ public class IncreasingRateLimiter {
     static {
         try {
             // We actually ratelimit using a lua script :p
+            //noinspection DataFlowIssue
             SCRIPT = IOUtils.toString(
                     IncreasingRateLimiter.class.getResourceAsStream("/ratelimiter.lua"), StandardCharsets.UTF_8
             );

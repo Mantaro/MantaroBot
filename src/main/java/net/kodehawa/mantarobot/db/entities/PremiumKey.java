@@ -45,6 +45,8 @@ public class PremiumKey implements ManagedMongoObject {
     private int type;
     private String linkedTo;
 
+    // Serialization constructor
+    @SuppressWarnings("unused")
     public PremiumKey() {}
 
     public PremiumKey(String id, long duration, long expiration, Type type, boolean enabled, String owner, String linkedTo) {
@@ -64,10 +66,11 @@ public class PremiumKey implements ManagedMongoObject {
         if (linked)
             newKey.setLinkedTo(owner); //used for patreon checks in newly-activated keys (if applicable)
 
-        newKey.save();
+        newKey.insertOrReplace();
         return newKey;
     }
 
+    @SuppressWarnings("unused")
     @BsonIgnore
     public static PremiumKey generatePremiumKeyTimed(String owner, Type type, int days, boolean linked) {
         String premiumId = UUID.randomUUID().toString();
@@ -75,7 +78,7 @@ public class PremiumKey implements ManagedMongoObject {
         if (linked)
             newKey.setLinkedTo(owner); //used for patreon checks in newly-activated keys (if applicable)
 
-        newKey.save();
+        newKey.insertOrReplace();
         return newKey;
     }
 
@@ -94,6 +97,7 @@ public class PremiumKey implements ManagedMongoObject {
         return TimeUnit.MILLISECONDS.toDays(getExpiration() - currentTimeMillis());
     }
 
+    @SuppressWarnings("unused")
     @BsonIgnore
     public long validForMs() {
         return getExpiration() - currentTimeMillis();
@@ -104,7 +108,7 @@ public class PremiumKey implements ManagedMongoObject {
         this.enabled = true;
         this.duration = TimeUnit.DAYS.toMillis(days);
         this.expiration = currentTimeMillis() + TimeUnit.DAYS.toMillis(days);
-        save();
+        insertOrReplace();
     }
 
     @BsonIgnore
@@ -135,6 +139,7 @@ public class PremiumKey implements ManagedMongoObject {
         this.linkedTo = linkedTo;
     }
 
+    @SuppressWarnings("unused")
     public long getDuration() {
         return this.duration;
     }
@@ -147,11 +152,13 @@ public class PremiumKey implements ManagedMongoObject {
         return this.expiration;
     }
 
+    @Override
     @Nonnull
     public String getId() {
         return this.id;
     }
 
+    @SuppressWarnings("unused")
     @BsonIgnore
     @Override
     @Nonnull
@@ -163,6 +170,7 @@ public class PremiumKey implements ManagedMongoObject {
         return this.owner;
     }
 
+    @SuppressWarnings("unused")
     public int getType() {
         return this.type;
     }
@@ -172,7 +180,7 @@ public class PremiumKey implements ManagedMongoObject {
     }
 
     @Override
-    public void save() {
+    public void insertOrReplace() {
         MantaroData.db().saveMongo(this, PremiumKey.class);
     }
 

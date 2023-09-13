@@ -59,6 +59,7 @@ public class Food extends Item implements Castable {
         return 20;
     }
 
+
     public enum FoodType {
         CAT(HousePetType.CAT), DOG(HousePetType.DOG), HAMSTER(HousePetType.RAT), DEV(HousePetType.KODE), GENERAL(HousePetType.ALL);
 

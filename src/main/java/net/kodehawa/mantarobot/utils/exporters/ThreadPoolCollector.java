@@ -33,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 public class ThreadPoolCollector extends Collector {
     private final ConcurrentMap<String, ThreadPoolExecutor> executors = new ConcurrentHashMap<>();
 
+    @SuppressWarnings("unused")
     public ThreadPoolExecutor remove(String name) {
         return executors.remove(name);
     }
@@ -52,11 +53,13 @@ public class ThreadPoolCollector extends Collector {
         throw new IllegalArgumentException("Provided executor is not a ThreadPoolExecutor");
     }
 
+    @SuppressWarnings("unused")
     public boolean add(ThreadPoolExecutor executor) {
         Objects.requireNonNull(executor, "Executor may not be null");
         return add(executor.toString(), executor);
     }
 
+    @SuppressWarnings("unused")
     public boolean add(Executor executor) {
         Objects.requireNonNull(executor, "Executor may not be null");
         return add(executor.toString(), executor);

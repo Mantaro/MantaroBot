@@ -180,13 +180,13 @@ public class CustomCmds {
 
             custom.delete();
             custom = CustomCommand.of(custom.getGuildId(), newName, custom.getValues());
-            custom.save();
+            custom.insertOrReplace();
         }
 
         if (CommandProcessor.REGISTRY.commands().containsKey(custom.getName())) {
             custom.delete();
             custom = CustomCommand.of(custom.getGuildId(), "_" + custom.getName(), custom.getValues());
-            custom.save();
+            custom.insertOrReplace();
         }
 
         //add to registry
@@ -506,7 +506,7 @@ public class CustomCmds {
                         }
 
                         // save at DB
-                        custom.save();
+                        custom.insertOrReplace();
                         // reflect at local
                         customCommands.put(custom.getId(), custom);
 
@@ -661,7 +661,7 @@ public class CustomCmds {
                         }
 
                         custom.getValues().set(where - 1, commandContent);
-                        custom.save();
+                        custom.insertOrReplace();
                         customCommands.put(custom.getId(), custom);
                         event.reply(lang.get("commands.custom.edit.success").formatted(EmoteReference.CORRECT, where, custom.getName())).queue();
                         return Operation.COMPLETED;
@@ -1191,7 +1191,7 @@ public class CustomCmds {
 
         //change at DB
         oldCustom.delete();
-        newCustom.save();
+        newCustom.insertOrReplace();
 
         //reflect at local
         customCommands.remove(oldCustom.getId());
@@ -1229,7 +1229,7 @@ public class CustomCmds {
         }
 
         cmd.setLocked(true);
-        cmd.save();
+        cmd.insertOrReplace();
 
         ctx.sendLocalized("commands.custom.lockcommand.success", EmoteReference.CORRECT, name);
     }
@@ -1261,7 +1261,7 @@ public class CustomCmds {
         }
 
         cmd.setLocked(false);
-        cmd.save();
+        cmd.insertOrReplace();
 
         ctx.sendLocalized("commands.custom.unlockcommand.success", EmoteReference.CORRECT, name);
     }
@@ -1296,7 +1296,7 @@ public class CustomCmds {
             return;
         }
 
-        custom.save();
+        custom.insertOrReplace();
         customCommands.put(custom.getId(), custom);
         ctx.sendLocalized("commands.custom.deleteresponse.success", EmoteReference.CORRECT, where, custom.getName());
     }
@@ -1412,7 +1412,7 @@ public class CustomCmds {
         }
 
         //save at DB
-        custom.save();
+        custom.insertOrReplace();
         //reflect at local
         customCommands.put(custom.getId(), custom);
         ctx.sendLocalized("commands.custom.add.success", EmoteReference.CORRECT, name);
@@ -1458,7 +1458,7 @@ public class CustomCmds {
         }
 
         custom.getValues().set(where - 1, commandContent);
-        custom.save();
+        custom.insertOrReplace();
         customCommands.put(custom.getId(), custom);
         ctx.sendLocalized("commands.custom.edit.success", EmoteReference.CORRECT, where, custom.getName());
     }

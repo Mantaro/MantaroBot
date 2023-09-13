@@ -208,6 +208,7 @@ public class AudioLoader implements AudioLoadResultHandler {
     }
 
     // Yes, this is repeated twice. I need the hook for the search stuff.
+    @SuppressWarnings("SameParameterValue")
     private void loadSingle(InteractionHook hook, AudioTrack audioTrack, boolean silent, MongoGuild dbGuild, MongoUser dbUser) {
         final var trackInfo = audioTrack.getInfo();
         final var trackScheduler = musicManager.getTrackScheduler();
@@ -282,7 +283,7 @@ public class AudioLoader implements AudioLoadResultHandler {
 
     private void onSearch(AudioPlaylist playlist) {
         final var list = playlist.getTracks();
-        
+
         if (!ctx.getGuild().getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
             ctx.edit("commands.music_general.missing_embed_permissions", EmoteReference.ERROR);
 

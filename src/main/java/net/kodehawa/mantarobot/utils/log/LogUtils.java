@@ -119,6 +119,7 @@ public class LogUtils {
         }
     }
 
+    @SuppressWarnings("unused")
     public static void simple(String message) {
         if (LOGBACK_WEBHOOK == null) {
             return;
@@ -131,6 +132,7 @@ public class LogUtils {
         }
     }
 
+    @SuppressWarnings("unused")
     public static void shardSimple(String message) {
         if (SHARD_WEBHOOK == null) {
             return;
@@ -167,7 +169,7 @@ public class LogUtils {
             if (type == SpamType.BLATANT) {
                 var mantaroData = MantaroData.db().getMantaroData();
                 mantaroData.getBlackListedUsers().add(user.getId());
-                mantaroData.save();
+                mantaroData.insertOrReplace();
 
                 fields.add(new WebhookEmbed.EmbedField(false, "Info", "User has been blacklisted automatically. " +
                         "For more information use the investigate command.")

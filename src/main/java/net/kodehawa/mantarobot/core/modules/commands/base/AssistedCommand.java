@@ -38,6 +38,7 @@ public interface AssistedCommand extends Command {
                 );
     }
 
+    @SuppressWarnings("unused")
     default void doTimes(int times, Runnable runnable) {
         for (int i = 0; i < times; i++) runnable.run();
     }

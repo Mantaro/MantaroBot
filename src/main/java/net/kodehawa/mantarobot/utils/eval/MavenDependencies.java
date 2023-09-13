@@ -35,15 +35,16 @@ public class MavenDependencies implements Closeable {
     private final List<DownloadedJar> jars = new ArrayList<>();
     private final Path dir;
     private final boolean delete;
-    
+
+    @SuppressWarnings("unused")
     public MavenDependencies() throws IOException {
         this(Files.createTempDirectory("maven-deps"), true);
     }
-    
+
     public MavenDependencies(Path dir) {
         this(dir, false);
     }
-    
+
     public MavenDependencies(Path dir, boolean delete) {
         this.dir = dir;
         if(Files.exists(dir) && !Files.isDirectory(dir)) {
@@ -51,7 +52,7 @@ public class MavenDependencies implements Closeable {
         }
         this.delete = delete;
     }
-    
+
     protected void downloadJar(String url, Path path) throws IOException {
         try(var res = Utils.httpClient.newCall(
                 new Request.Builder()
@@ -65,7 +66,7 @@ public class MavenDependencies implements Closeable {
             }
         }
     }
-    
+
     public MavenDependencies addRepository(String repositoryUrl) {
         if(!repositoryUrl.endsWith("/")) {
             repositoryUrl = repositoryUrl + "/";
@@ -73,7 +74,8 @@ public class MavenDependencies implements Closeable {
         repos.add(repositoryUrl);
         return this;
     }
-    
+
+    @SuppressWarnings("unused")
     public MavenDependencies addDependency(String name) throws IOException {
         var parts = name.split(":");
         if(parts.length != 3) {
@@ -81,7 +83,7 @@ public class MavenDependencies implements Closeable {
         }
         return addDependency(parts[0], parts[1], parts[2]);
     }
-    
+
     public MavenDependencies addDependency(String group, String artifact, String version) throws IOException {
         for(var s : repos) {
             var url = s + String.join("/",
@@ -105,11 +107,11 @@ public class MavenDependencies implements Closeable {
         }
         throw new IOException("Unable to find dependency " + String.join(":", group, artifact, version));
     }
-    
+
     public MavenClassLoader createClassLoader(ClassLoader parent) {
         return new MavenClassLoader(parent, new ArrayList<>(jars));
     }
-    
+
     @Override
     public void close() throws IOException {
         for(var j : jars) {
@@ -122,13 +124,13 @@ public class MavenDependencies implements Closeable {
             Files.delete(dir);
         }
     }
-    
+
     static class DownloadedJar {
         private final Path path;
         final URL url;
         final JarFile jf;
         final ResourceList resourceList;
-        
+
         private DownloadedJar(Path path) throws IOException {
             this.path = path;
             try {
@@ -139,10 +141,10 @@ public class MavenDependencies implements Closeable {
             this.jf = new JarFile(path.toFile());
             this.resourceList = ResourceList.fromJar(jf);
         }
-        
+
         public void close() throws IOException {
             jf.close();
         }
     }
-    
+
 }

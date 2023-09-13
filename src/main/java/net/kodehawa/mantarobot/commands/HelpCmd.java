@@ -239,7 +239,7 @@ public class HelpCmd {
                         }
                     }
 
-                    if (stringBuilder.length() > 0) {
+                    if (!stringBuilder.isEmpty()) {
                         var value = stringBuilder.toString();
                         if (value.length() > 1024) {
                             value = languageContext.get("commands.help.too_long");
@@ -372,7 +372,7 @@ public class HelpCmd {
                             }
                         }
 
-                        if (stringBuilder.length() > 0) {
+                        if (!stringBuilder.isEmpty()) {
                             var value = stringBuilder.toString();
                             if (value.length() > 1024) {
                                 value = languageContext.get("commands.help.too_long");

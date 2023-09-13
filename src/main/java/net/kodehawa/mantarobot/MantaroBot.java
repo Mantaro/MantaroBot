@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot;
 
-import ch.qos.logback.classic.Level;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lavalink.client.io.LavalinkLoadBalancer;
 import lavalink.client.io.LessAnnoyingJdaLavalink;
@@ -44,7 +43,6 @@ import net.kodehawa.mantarobot.utils.TracingPrintStream;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
-import net.kodehawa.mantarobot.utils.log.LogFilter;
 import net.kodehawa.mantarobot.utils.log.LogUtils;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -92,8 +90,6 @@ public class MantaroBot {
                     ErrorResponse.UNKNOWN_MESSAGE
             ));
         }
-
-        log.info("Filtering all logs below {}", LogFilter.LEVEL);
     }
 
     private final MantaroAudioManager audioManager;
@@ -208,10 +204,12 @@ public class MantaroBot {
         Prometheus.registerPostStartup();
     }
 
+    @SuppressWarnings("unused")
     public static boolean isDebug() {
         return ExtraRuntimeOptions.DEBUG;
     }
 
+    @SuppressWarnings("unused")
     public static boolean isVerbose() {
         return ExtraRuntimeOptions.VERBOSE;
     }
@@ -229,10 +227,12 @@ public class MantaroBot {
     }
 
     // -- This bunch are basically almost always eval'd, so they're unused
+    @SuppressWarnings("unused")
     public void restartShard(int shardId) {
         getShardManager().restart(shardId);
     }
 
+    @SuppressWarnings("unused")
     public JDA getShardGuild(String guildId) {
         return getShardGuild(MiscUtil.parseSnowflake(guildId));
     }
@@ -243,18 +243,9 @@ public class MantaroBot {
         );
     }
 
+    @SuppressWarnings("unused")
     public int getShardIdForGuild(long guildId) {
         return (int) ((guildId >> 22) % getShardManager().getShardsTotal());
-    }
-
-    public void enableDebugCommands() {
-        ((ch.qos.logback.classic.Logger) LoggerFactory.getLogger("net.kodehawa.mantarobot.core"))
-                .setLevel(Level.DEBUG);
-    }
-
-    public void disableDebugCommands() {
-        ((ch.qos.logback.classic.Logger) LoggerFactory.getLogger("net.kodehawa.mantarobot.core"))
-                .setLevel(Level.INFO);
     }
 
     // -- Until here
@@ -265,6 +256,7 @@ public class MantaroBot {
         return getShardManager().getShardsRunning() + getShardManager().getShardsQueued();
     }
 
+    @SuppressWarnings("unused")
     public List<JDA> getShardList() {
         return IntStream.range(0, getManagedShards())
                 .mapToObj(this::getShard)
@@ -417,9 +409,7 @@ public class MantaroBot {
                 Environment variables set on this startup:
                 VERBOSE_SHARD_LOGS = {}
                 DEBUG = {}
-                DEBUG_LOGS = {}
                 LOG_DB_ACCESS = {}
-                TRACE_LOGS = {}
                 VERBOSE = {}
                 VERBOSE_SHARD_LOGS = {}
                 FROM_SHARD = {}
@@ -428,9 +418,7 @@ public class MantaroBot {
                 NODE_NUMBER = {}""",
                 ExtraRuntimeOptions.VERBOSE_SHARD_LOGS,
                 ExtraRuntimeOptions.DEBUG,
-                ExtraRuntimeOptions.DEBUG_LOGS,
                 ExtraRuntimeOptions.LOG_DB_ACCESS,
-                ExtraRuntimeOptions.TRACE_LOGS,
                 ExtraRuntimeOptions.VERBOSE,
                 ExtraRuntimeOptions.VERBOSE_SHARD_LOGS,
                 ExtraRuntimeOptions.FROM_SHARD,

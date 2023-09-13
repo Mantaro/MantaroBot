@@ -142,6 +142,7 @@ public class MusicOptions extends OptionHandler {
         });
     }
 
+    @SuppressWarnings("unused")
     @Override
     public String description() {
         return "Music related options. Everything from fair queue to locking the bot to a specific channel";

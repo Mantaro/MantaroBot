@@ -23,7 +23,6 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.kodehawa.mantarobot.core.command.slash.ContextCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
-import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Modifier;
@@ -40,9 +39,11 @@ public class CommandManager {
     private final Map<String, ContextCommand<Message>> contextMessageCommand = new HashMap<>();
     private static final List<CommandData> slashCommandsList = new ArrayList<>();
     private static final List<CommandData> contextUserCommandList = new ArrayList<>();
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     private static final List<CommandData> contextMessageCommandList = new ArrayList<>();
     private final Map<String, String> aliases = new HashMap<>();
 
+    @SuppressWarnings("unused")
     public Map<String, NewCommand> commands() {
         return Collections.unmodifiableMap(commands);
     }
@@ -55,6 +56,7 @@ public class CommandManager {
         return Collections.unmodifiableMap(contextUserCommand);
     }
 
+    @SuppressWarnings("unused")
     public Map<String, ContextCommand<Message>> contextMessageCommands() {
         return Collections.unmodifiableMap(contextMessageCommand);
     }
@@ -63,11 +65,11 @@ public class CommandManager {
         return register(instantiate(clazz));
     }
     public <T extends NewCommand> T register(@Nonnull T command) {
-        if (commands.putIfAbsent(command.name(), command) != null) {
-            throw new IllegalArgumentException("Duplicate command " + command.name());
+        if (commands.putIfAbsent(command.getName(), command) != null) {
+            throw new IllegalArgumentException("Duplicate command " + command.getName());
         }
         for (var alias : command.aliases()) {
-            if (aliases.putIfAbsent(alias, command.name()) != null) {
+            if (aliases.putIfAbsent(alias, command.getName()) != null) {
                 throw new IllegalArgumentException("Duplicate alias " + alias);
             }
         }
@@ -75,14 +77,17 @@ public class CommandManager {
         return command;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public <T extends SlashCommand> T registerSlash(@Nonnull Class<T> clazz) {
         return registerSlash(instantiate(clazz));
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public <T extends ContextCommand<User>> T registerContextUser(@Nonnull Class<T> clazz) {
         return registerContextUser(instantiate(clazz));
     }
 
+    @SuppressWarnings("unused")
     public <T extends ContextCommand<Message>> T registerContextMessage(@Nonnull Class<T> clazz) {
         return registerContextMessage(instantiate(clazz));
     }
@@ -133,11 +138,6 @@ public class CommandManager {
         slashCommands.put(command.getName(), command);
         slashCommandsList.add(commandData);
         return command;
-    }
-
-    // Surprisingly simple?
-    public void execute(@Nonnull SlashContext ctx) {
-        slashCommands.get(ctx.getName()).execute(ctx);
     }
 
     public boolean execute(@Nonnull NewContext ctx) {

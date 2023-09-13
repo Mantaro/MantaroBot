@@ -46,9 +46,6 @@ import static net.kodehawa.mantarobot.utils.Utils.mapConfigObjects;
 @Module
 public class OptsCmd {
     public static SimpleCommand optsCmd;
-    public static SimpleCommand getOpts() {
-        return optsCmd;
-    }
 
     @Subscribe
     public void register(CommandRegistry registry) {
@@ -90,7 +87,7 @@ public class OptsCmd {
                 if (args[0].equalsIgnoreCase("help")) {
                     for (int i = 1; i < args.length; i++) {
                         var s = args[i];
-                        if (name.length() > 0) {
+                        if (!name.isEmpty()) {
                             name.append(":");
                         }
 
@@ -117,7 +114,7 @@ public class OptsCmd {
 
                 for (int i = 0; i < args.length; i++) {
                     var str = args[i];
-                    if (name.length() > 0) {
+                    if (!name.isEmpty()) {
                         name.append(":");
                     }
 
@@ -232,7 +229,7 @@ public class OptsCmd {
                     newDbGuild.notifiedFromBirthdayChange(notified);
                     newDbGuild.receivedGreet(greetReceived);
 
-                    newDbGuild.save();
+                    newDbGuild.insertOrReplace();
 
                     ctx.sendLocalized("options.reset_all.success", EmoteReference.CORRECT);
                 })

@@ -46,6 +46,7 @@ import java.util.concurrent.TimeUnit;
 import static java.lang.System.currentTimeMillis;
 
 // Reminder: all setters MUST be protected!
+@SuppressWarnings("unused")
 public class MongoUser implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "users";
@@ -87,6 +88,7 @@ public class MongoUser implements ManagedMongoObject {
     // Mongo serialization
     public MongoUser() { }
 
+    @SuppressWarnings("SameParameterValue")
     protected MongoUser(String id, long premiumUntil) {
         this.id = id;
         this.premiumUntil = premiumUntil;
@@ -516,7 +518,7 @@ public class MongoUser implements ManagedMongoObject {
             Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(key.getOwner());
             if (pledgeInfo != null && pledgeInfo.left()) {
                 key.setLinkedTo(key.getOwner());
-                key.save(); //doesn't matter if it doesnt save immediately, will do later anyway (key is usually immutable in db)
+                key.insertOrReplace(); //doesn't matter if it doesnt save immediately, will do later anyway (key is usually immutable in db)
             }
 
             //If the receipt is not the owner, account them to the keys the owner has claimed.
@@ -546,7 +548,7 @@ public class MongoUser implements ManagedMongoObject {
     public PremiumKey generateAndApplyPremiumKey(int days, String owner) {
         String premiumId = UUID.randomUUID().toString();
         PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days), currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.USER, true, owner, null);
-        newKey.save();
+        newKey.insertOrReplace();
 
         premiumKey(premiumId);
         updateAllChanged();
@@ -562,6 +564,7 @@ public class MongoUser implements ManagedMongoObject {
         updateAllChanged();
     }
 
+    @Override
     @Nonnull
     public String getId() {
         return this.id;
@@ -581,7 +584,7 @@ public class MongoUser implements ManagedMongoObject {
     }
 
     @Override
-    public void save() {
+    public void insertOrReplace() {
         MantaroData.db().saveMongo(this, MongoUser.class);
     }
 
