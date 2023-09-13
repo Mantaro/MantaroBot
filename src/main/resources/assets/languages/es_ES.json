@@ -1465,7 +1465,6 @@
         "low_health": "%1$s**%2$s** tiene poca salud. Dale agua/comida y dejalo descansar un ratito.",
         "low_hunger": "%1$s**%2$s** tiene mucha hambre para hacer cualquier cosa ahorita. *Comidaa~*",
         "low_thirst": "%1$s**%2$s** tiene mucha sed para hacer cualquier cosa ahora.",
-        "low_mood": "%1$s**%2$s** tiene el ánimo muy bajo. ¡Juega con él/ella!",
         "dusty": "%1$s**%2$s** está muy sucio. Limpia tu mascota para quitar el polvo.",
         "success_fish": "%1$s¡**%2$s** te ayudó a capturar un pez! **Conseguiste %3$,d créditos extra y %4$,d ítems extra** debido al trabajo que tu mascota hizo por ti. *incluido en lo que conseguiste*",
         "success_chop": "%1$s¡**%2$s** te ayudó a capturar un cortar un árbol! **Conseguiste %3$,d créditos extra y %4$,d ítems extra** debido al trabajo que tu mascota hizo por ti. *incluido en lo que conseguiste*",
