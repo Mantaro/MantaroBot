@@ -1465,7 +1465,6 @@
         "low_health": "%1$s**%2$s** mempunyai kesihatan yang amat rendah. Memberinya makanan/air dan membiarkannya rehat sebentar untuk memulihkannya.",
         "low_hunger": "%1$s**%2$s** terlalu lapar untuk membuat apa-apa sekarang. *Makanaaan~*",
         "low_thirst": "%1$s**%2$s** terlalu dahaga untuk membuat apa-apa sekarang.",
-        "low_mood": "%1$sMood **%2$s** terlalu rendah. Anda hendaklah bermain dengannya!",
         "dusty": "%1$s**%2$s** terlalu berhabuk. Membersihkan haiwan peliharaan anda untuk membersihkan habuk itu.",
         "success_fish": "%1$s**%2$s** successfully helped you catch fish! **You got an extra %3$,d credits and %4$,d items** thanks to the extra work your pet was able to do for you! *included on what you got*",
         "success_chop": "%1$s**%2$s** successfully helped you chop a tree! **You got an extra %3$,d credits and %4$,d items** thanks to the extra work your pet was able to do for you! *included on what you got*",
