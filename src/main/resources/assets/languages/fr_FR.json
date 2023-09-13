@@ -1465,7 +1465,6 @@
         "low_health": "%1$s**%2$s** a vraiment peu de vie. Nourris-le et laisse-le se reposer un peu pour l'aider à regagner des forces.",
         "low_hunger": "%1$s**%2$s** est trop affamé pour faire quoique ce soit. *Mangeeeeeer~*",
         "low_thirst": "%1$s**%2$s** est trop assoiffé pour faire quoique ce soit.",
-        "low_mood": "%1$s**%2$s** déprime un peu. Tu voudrais peut-être jouer avec?!",
         "dusty": "%1$s**%2$s** est trop sale. Toilette ton animal de compagnie pour enlever la poussière.",
         "success_fish": "%1$s**%2$s** t'a aidé à pêcher avec succès! **Tu as eu %3$,d crédits en plus et %4$,d objets** grâce au travail supplémentaire que ton animal a pu faire pour toi! *inclus dans ce que tu as obtenu*",
         "success_chop": "%1$s**%2$s** vous a aidé à couper l'arbre avec succès ! ** Vous avez reçu %3$,d crédits en extra et %4$,d items** grâce au travail supplémentaire que votre animal de compagnie a pu faire pour vous ! *inclus sur ce que vous avez reçu*",
