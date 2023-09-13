@@ -1465,7 +1465,6 @@
         "low_health": "%1$sSức khoẻ hiện tại của **%2$s** thực sự rất thấp. Hãy cho nó ăn/uống và để nó nghỉ ngơi để hồi phục.",
         "low_hunger": "%1$s**%2$s** đang đói lắm luôn nên chả làm được gì cả. *Đồ ănnnnnn~*",
         "low_thirst": "%1$s**%2$s** đang khát lắm luôn nên chả làm được gì cả.",
-        "low_mood": "%1$s**%2$s** chả có hứng thú gì nữa. Còn không mau chơi với thú cưng của bạn đi!",
         "dusty": "%1$s**%2$s** đang rất bẩn. Bạn tắm rửa giúp nó đi.",
         "success_fish": "%1$s**%2$s** đã thành công giúp bạn bắt cá! **Bạn nhận được thêm %3$,d đồng và %4$,d vật phẩm** đều là nhờ vào những gì thú cưng có thể làm được cho bạn *thêm cả những gì bạn có được*",
         "success_chop": "%1$s**%2$s** đã thành công giúp bạn chặt cây! **Bạn nhận được thêm %3$,d đồng và %4$,d vật phẩm** đều là nhờ vào những gì thú cưng có thể làm được cho bạn *thêm cả những gì bạn có được*",
