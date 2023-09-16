@@ -31,7 +31,6 @@ import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.currentTimeMillis;
 
-@SuppressWarnings("unused")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PremiumKey implements ManagedMongoObject {
     @BsonIgnore

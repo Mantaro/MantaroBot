@@ -25,7 +25,6 @@ import java.util.Iterator;
 /**
  * Helper for reading arguments in order, without having to explicitly keep track of indexes.
  */
-@SuppressWarnings("unused")
 public class ArgumentValues implements Iterator<String> {
     private final Arguments arguments;
 

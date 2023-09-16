@@ -49,7 +49,6 @@ public class Food extends Item implements Castable {
         return type;
     }
 
-    @SuppressWarnings("unused")
     @Override
     public int getCastLevelRequired() {
         return 1;

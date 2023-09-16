@@ -31,7 +31,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-@SuppressWarnings("unused")
 public class AsyncInfoMonitor {
     private static final ScheduledExecutorService POOL = Executors.newSingleThreadScheduledExecutor(
             task -> new Thread(task, "Mantaro-AsyncInfoMonitor")

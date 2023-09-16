@@ -414,7 +414,6 @@ public class HousePet {
         return HousePetType.PatReaction.CUTE;
     }
 
-    @SuppressWarnings("unused")
     public static class ActivityReward {
         private int items;
         private int money;

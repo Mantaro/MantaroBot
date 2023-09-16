@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 import java.beans.ConstructorProperties;
 
-@SuppressWarnings("unused")
 public class AnimeGameData {
     private String name;
     private String image;

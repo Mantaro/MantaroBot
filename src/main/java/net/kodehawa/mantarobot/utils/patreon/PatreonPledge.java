@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.beans.ConstructorProperties;
 
-@SuppressWarnings("unused")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PatreonPledge {
     private double amount;

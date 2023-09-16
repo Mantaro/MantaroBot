@@ -30,7 +30,6 @@ import java.util.regex.Pattern;
 /**
  * Provides default parser implementations.
  */
-@SuppressWarnings("unused")
 public class Parsers {
     private Parsers() {}
 

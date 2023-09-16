@@ -20,7 +20,6 @@ package net.kodehawa.mantarobot.commands.currency.item.special;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 
-@SuppressWarnings("unused")
 public class Fish extends Item {
     @SuppressWarnings("unused")
     public boolean isEdible;

@@ -18,7 +18,6 @@
 package net.kodehawa.mantarobot.commands.utils.reminders;
 
 //This just exists for the sake of serializing (!)
-@SuppressWarnings("unused")
 public class ReminderObject {
     public final String id;
     public final String reminder;

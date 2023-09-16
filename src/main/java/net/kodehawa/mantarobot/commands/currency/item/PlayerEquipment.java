@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-@SuppressWarnings("unused")
 public class PlayerEquipment {
     //int = itemId
     private final Map<EquipmentType, Integer> equipment;

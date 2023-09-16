@@ -20,7 +20,6 @@ package net.kodehawa.mantarobot.core.shard.discord;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 // The *sheer* amount of boilerplate here, holy shit.
-@SuppressWarnings("unused")
 public class BotGateway {
     private String url;
     private int shards;

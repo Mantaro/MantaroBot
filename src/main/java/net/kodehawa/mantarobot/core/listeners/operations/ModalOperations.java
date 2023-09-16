@@ -34,7 +34,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 // This one is probably the shortest one, since we already have to reply with a modal.
-@SuppressWarnings("unused")
 public class ModalOperations {
     private static final EventListener LISTENER = new ModalListener();
     private static final ConcurrentHashMap<String, RunningOperation> OPERATIONS = new ConcurrentHashMap<>();
