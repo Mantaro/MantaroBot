@@ -18,6 +18,7 @@
 package net.kodehawa.mantarobot.commands.currency.item;
 
 import net.dv8tion.jda.api.interactions.commands.Command;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
 import net.kodehawa.mantarobot.commands.currency.item.special.Food;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
@@ -655,8 +656,12 @@ public class ItemHelper {
             final List<Item> matches = findFrom(items, search, event.getI18n());
             final List<Command.Choice> choices = new ArrayList<>();
             for (Item item : matches) {
+                var isEnglish = event.getI18n().getContextLanguage().equalsIgnoreCase("en_us");
+                var fullChoice = event.getI18n().get(item.getTranslatedName()) + " (" + item.getName() + ")";
+                // we fall back to english if the choice would be too long
+                // because we want to avoid confusion
                 choices.add(new Command.Choice(
-                        event.getI18n().get(item.getTranslatedName()),
+                        isEnglish || fullChoice.length() > OptionData.MAX_CHOICE_VALUE_LENGTH ? item.getName() : fullChoice,
                         item.getName()
                 ));
             }
