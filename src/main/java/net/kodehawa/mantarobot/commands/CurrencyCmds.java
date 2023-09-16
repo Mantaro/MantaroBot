@@ -288,6 +288,7 @@ public class CurrencyCmds {
     @Name("use")
     @Defer
     @Description("Use an item or show all usable items.")
+    @Help(description = "A hub for item usage related commands")
     @Category(CommandCategory.CURRENCY)
     public static class Use extends SlashCommand {
         @Override

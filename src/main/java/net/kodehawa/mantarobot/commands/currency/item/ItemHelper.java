@@ -247,7 +247,6 @@ public class ItemHelper {
             }
         }
 
-
         if (amount > 5) {
             ctx.sendLocalized("general.misc_item_usage.crate.too_many", EmoteReference.ERROR);
             return false;
@@ -313,7 +312,7 @@ public class ItemHelper {
 
         I18nContext lang = ctx.getLanguageContext();
         var show = toShow.stream()
-                .map(itemStack -> "x%,d \u2009%s".formatted(itemStack.getAmount(), itemStack.getItem().toDisplayString()))
+                .map(itemStack -> "%,dx \u2009%s".formatted(itemStack.getAmount(), itemStack.getItem().toDisplayString()))
                 .collect(Collectors.joining(", "));
 
         var extra = "";
