@@ -645,7 +645,7 @@ public class ItemHelper {
     private static void handleAutoComplete(Item[] items, AutocompleteContext event) {
         if (event.getFocused().getName().equals("item")) {
             final String search = event.getOption("item").getAsString();
-            if (search.isEmpty()) {
+            if (search.isBlank()) {
                 // This internally calls to ImmutableCollections.EMPTY_LIST.
                 // Sending empty sends "no results for search" on the Discord :tm: client.
                 // Which is fine and relays them that they need to start searching anyway.
