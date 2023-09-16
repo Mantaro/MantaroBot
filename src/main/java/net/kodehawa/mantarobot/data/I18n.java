@@ -38,7 +38,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-@SuppressWarnings("unused")
 public class I18n {
     private static final Logger log = LoggerFactory.getLogger(I18n.class);
     public static final List<String> LANGUAGES = new ArrayList<>();

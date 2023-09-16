@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.commands.game.core;
 
 import java.util.List;
 
-@SuppressWarnings("unused")
 public class PokemonGameData {
     private String name;
     private String image;

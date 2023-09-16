@@ -55,7 +55,6 @@ public class MantaroObject implements ManagedMongoObject {
     }
 
     @Override
-    @SuppressWarnings("unused")
     @Nonnull
     public String getId() {
         return id;
