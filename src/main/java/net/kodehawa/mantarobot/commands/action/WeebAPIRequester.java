@@ -22,6 +22,7 @@ import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -29,6 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class WeebAPIRequester {
     private static final Logger log = LoggerFactory.getLogger(WeebAPIRequester.class);
@@ -37,6 +39,14 @@ public class WeebAPIRequester {
     private static final String API_BASE_URL = "https://api.weeb.sh/images";
     private static final String AUTH_HEADER = "Bearer " + MantaroData.config().get().weebapiKey;
     private static final String RANDOM_IMAGE = "/random";
+
+    // I know it's better to have a global OkHttp3 client, but we need a custom timeout handler here.
+    private static final OkHttpClient httpClient = new OkHttpClient.Builder()
+            // Fail if we can't establish a connection in 1.5s.
+            .connectTimeout(1500, TimeUnit.MILLISECONDS)
+            // Fail if nothing gets sent in 2.5s.
+            .readTimeout(2500, TimeUnit.MILLISECONDS)
+            .build();
 
     public WeebAPIObject getRandomImageByType(String type, boolean nsfw, String filetype) throws JsonProcessingException {
         HashMap<String, Object> queryParams = new HashMap<>();
@@ -95,7 +105,7 @@ public class WeebAPIRequester {
                     .addHeader("Authorization", AUTH_HEADER)
                     .build();
 
-            try(var response = Utils.httpClient.newCall(r).execute()) {
+            try(var response = httpClient.newCall(r).execute()) {
                 var body = response.body();
                 if (body == null) {
                     throw new IllegalStateException("body == null");

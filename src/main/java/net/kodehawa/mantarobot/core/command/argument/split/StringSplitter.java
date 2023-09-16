@@ -23,10 +23,11 @@ import javax.annotation.Nonnull;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+
 /**
  * Splits strings, returning an object that preserves the delimiters (defaults to whitespace).
  */
-@SuppressWarnings("unused")
+@SuppressWarnings("unused") // this class has more unused stuff than used stuff lmao
 public class StringSplitter {
     private static final Pattern DEFAULT_PATTERN = Pattern.compile("\\s+");
 

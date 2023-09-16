@@ -45,7 +45,6 @@ import java.util.concurrent.TimeUnit;
 
 import static net.kodehawa.mantarobot.db.entities.Inventory.serialize;
 
-@SuppressWarnings("unused") // it's a data class way too massive to care
 public class Player implements ManagedMongoObject {
     @BsonIgnore
     private static final Config config = MantaroData.config().get();
@@ -94,11 +93,12 @@ public class Player implements ManagedMongoObject {
     private HousePet pet;
     private List<Badge> badges = new ArrayList<>();
     private List<ProfileComponent> profileComponents = new LinkedList<>();
-    @SuppressWarnings("FieldCanBeLocal")
+    @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private Map<String, Integer> inventory = new HashMap<>();
 
     public Player() {}
 
+    @SuppressWarnings("SameParameterValue")
     private Player(String id, Long level, Long oldMoney, Long reputation, Map<String, Integer> inventory) {
         this.id = id;
         this.level = level == null ? 0 : level;
@@ -123,6 +123,7 @@ public class Player implements ManagedMongoObject {
      * @param member The user to create or reset.
      * @return The new Player.
      */
+    @SuppressWarnings("unused")
     public static Player of(Member member) {
         return of(member.getUser());
     }
@@ -186,10 +187,12 @@ public class Player implements ManagedMongoObject {
         return this.showBadge;
     }
 
+    @SuppressWarnings("unused")
     public PotionEffect getActivePotion() {
         return this.activePotion;
     }
 
+    @SuppressWarnings("unused")
     public PotionEffect getActiveBuff() {
         return this.activeBuff;
     }
@@ -202,6 +205,7 @@ public class Player implements ManagedMongoObject {
         return this.profileComponents;
     }
 
+    @SuppressWarnings("unused")
     public long getPetSlots() {
         return this.petSlots;
     }
@@ -243,6 +247,7 @@ public class Player implements ManagedMongoObject {
     }
 
     // -- Setters (protected if possible)
+    @SuppressWarnings("unused")
     protected void setClaimLocked(boolean claimLocked) {
         this.claimLocked = claimLocked;
     }
@@ -267,18 +272,22 @@ public class Player implements ManagedMongoObject {
         this.fishingExperience = fishingExperience;
     }
 
+    @SuppressWarnings("unused")
     protected void setDailyStreak(long dailyStreak) {
         this.dailyStreak = dailyStreak;
     }
 
+    @SuppressWarnings("unused")
     protected void setDescription(String description) {
         this.description = description;
     }
 
+    @SuppressWarnings("unused")
     protected void setGamesWon(long gamesWon) {
         this.gamesWon = gamesWon;
     }
 
+    @SuppressWarnings("unused")
     protected void setLastDailyAt(long lastDailyAt) {
         this.lastDailyAt = lastDailyAt;
     }
@@ -287,54 +296,67 @@ public class Player implements ManagedMongoObject {
         this.lockedUntil = lockedUntil;
     }
 
+    @SuppressWarnings("unused")
     protected void setMainBadge(Badge mainBadge) {
         this.mainBadge = mainBadge;
     }
 
+    @SuppressWarnings("unused")
     protected void setShowBadge(boolean showBadge) {
         this.showBadge = showBadge;
     }
 
+    @SuppressWarnings("unused")
     protected void setMarketUsed(long marketUsed) {
         this.marketUsed = marketUsed;
     }
 
+    @SuppressWarnings("unused")
     protected void setActivePotion(PotionEffect activePotion) {
         this.activePotion = activePotion;
     }
 
+    @SuppressWarnings("unused")
     protected void setActiveBuff(PotionEffect activeBuff) {
         this.activeBuff = activeBuff;
     }
 
+    @SuppressWarnings("unused")
     protected void setWaifuCachedValue(long waifuCachedValue) {
         this.waifuCachedValue = waifuCachedValue;
     }
 
+    @SuppressWarnings("unused")
     protected void setProfileComponents(List<ProfileComponent> profileComponents) {
         this.profileComponents = profileComponents;
     }
 
+    @SuppressWarnings("unused")
     protected void setPetSlots(long petSlots) {
         this.petSlots = petSlots;
     }
 
+    @SuppressWarnings("unused")
     protected void setTimesMopped(long timesMopped) {
         this.timesMopped = timesMopped;
     }
 
+    @SuppressWarnings("unused")
     protected void setCratesOpened(long cratesOpened) {
         this.cratesOpened = cratesOpened;
     }
 
+    @SuppressWarnings("unused")
     protected void setSharksCaught(long sharksCaught) {
         this.sharksCaught = sharksCaught;
     }
 
+    @SuppressWarnings("unused")
     protected void setWaifuout(boolean waifuout) {
         this.waifuout = waifuout;
     }
 
+    @SuppressWarnings("unused")
     protected void setLastCrateGiven(int lastCrateGiven) {
         this.lastCrateGiven = lastCrateGiven;
     }
@@ -343,14 +365,17 @@ public class Player implements ManagedMongoObject {
         this.newMoney = newMoney;
     }
 
+    @SuppressWarnings("unused")
     protected void setInventorySortType(InventorySortType inventorySortType) {
         this.inventorySortType = inventorySortType;
     }
 
+    @SuppressWarnings("unused")
     protected void setHiddenLegacy(boolean hiddenLegacy) {
         this.hiddenLegacy = hiddenLegacy;
     }
 
+    @SuppressWarnings("unused")
     protected void setNewPlayerNotice(boolean newPlayerNotice) {
         this.newPlayerNotice = newPlayerNotice;
     }
@@ -363,22 +388,27 @@ public class Player implements ManagedMongoObject {
         this.reputation = reputation;
     }
 
+    @SuppressWarnings("unused")
     protected void setLevel(long level) {
         this.level = level;
     }
 
+    @SuppressWarnings("unused")
     protected void setChopExperience(long chopExperience) {
         this.chopExperience = chopExperience;
     }
 
+    @SuppressWarnings("unused")
     protected void setLastSeenCampaign(long lastSeenCampaign) {
         this.lastSeenCampaign = lastSeenCampaign;
     }
 
+    @SuppressWarnings("unused")
     protected void setPetChoice(PetChoice petChoice) {
         this.petChoice = petChoice;
     }
 
+    @SuppressWarnings("unused")
     public void setInventory(Map<String, Integer> inventory) {
         this.inventory = inventory;
         this.inventoryObject.replaceWith(Inventory.unserialize(inventory));
@@ -536,6 +566,7 @@ public class Player implements ManagedMongoObject {
         fieldTracker.put("chopExperience", chopExperience);
     }
 
+    @SuppressWarnings("unused")
     @BsonProperty("inventory")
     public Map<String, Integer> rawInventory() {
         return serialize(inventoryObject.asList());
@@ -549,10 +580,12 @@ public class Player implements ManagedMongoObject {
         return lastSeenCampaign;
     }
 
+    @SuppressWarnings("unused")
     public boolean isResetWarning() {
         return resetWarning;
     }
 
+    @SuppressWarnings("unused")
     public void setResetWarning(boolean resetWarning) {
         this.resetWarning = resetWarning;
     }
@@ -782,6 +815,7 @@ public class Player implements ManagedMongoObject {
         return this.id;
     }
 
+    @SuppressWarnings("unused")
     @BsonIgnore
     @Override
     @Nonnull
@@ -789,6 +823,7 @@ public class Player implements ManagedMongoObject {
         return DB_TABLE;
     }
 
+    @SuppressWarnings("unused")
     @BsonIgnore
     @Nonnull
     @Override
@@ -825,10 +860,11 @@ public class Player implements ManagedMongoObject {
     }
 
     @Override
-    public void save() {
+    public void insertOrReplace() {
         MantaroData.db().saveMongo(this, Player.class);
     }
 
+    @SuppressWarnings("unused")
     @Override
     public void delete() {
         MantaroData.db().deleteMongo(this, Player.class);

@@ -229,7 +229,7 @@ public class OptsCmd {
                     newDbGuild.notifiedFromBirthdayChange(notified);
                     newDbGuild.receivedGreet(greetReceived);
 
-                    newDbGuild.save();
+                    newDbGuild.insertOrReplace();
 
                     ctx.sendLocalized("options.reset_all.success", EmoteReference.CORRECT);
                 })

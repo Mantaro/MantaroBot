@@ -51,9 +51,10 @@
       "mop_not_enough": "%1$sTahap habuk anda kurang dari 5%%, jadi menggunakan mop tidak akan terlalu berguna.",
       "milk": "%1$sSemua kesan ramuan telah dihilangkan.",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `/buy item:key`",
-        "no_crate": "%1$sAnda memerlukan sebuah peti! Anda biasanya mendapatkan peti melalui arahan mata wang.",
-        "success": "%1$sAnda membuka peti dan memenangi: %2$s%3$s. Tahniah!",
+        "too_many": "%1$sYou cannot open more than 5 crates at once.",
+        "no_key": "%1$sYou do not have enough crate keys to open that many crates. Crates are locked! You can buy them using `/buy item:key`",
+        "no_crate": "%1$sYou do not have that many crates! You usually get crates from currency commands.",
+        "success": "%1$sYou opened the crate %2$s time(s) and won: %3$s%4$s. Congratulations!",
         "success_high": "%1$sAnda mendapat item berikut dengan jarangan yang lebih daripada 3 bintang: %2$s. Item tersebut dinyatakan di atas",
         "overflow": "Tetapi anda sudah mempunyai terlalu banyak, jadi anda memutuskan untuk membuang lebihan itu"
       },
@@ -1407,6 +1408,16 @@
         "ratelimit_message": "Anda boleh membelai haiwan peliharaan anda sebanyak 25 kali. Setelah itu anda perlu menunggu selama masa tersebut di atas untuk 25 belaian lagi.",
         "too_many": "Bagaimanakah anda mendapat belaian sebanyak itu?"
       },
+      "play": {
+        "no_pet": "%1$sYou don't have any pets to play with. Check `/pet explanation` for an explanation. (Choice: %2$s)",
+        "no_pet_other": "%1$s%2$s doesn't have any pets to play with. Check `/pet explanation` for an explanation.",
+        "reactions": {
+          "playful": "Your pet playfully plays with you.",
+          "love": "After a long play session, your pet looks lovingly at you.",
+          "dev": "You both played some games together. It was fun.",
+          "nothing": "The pet rock stares deeply at your soul, ever unmoving."
+        }
+      },
       "pet_reactions": {
         "cute": "%1$s**%2$s** happily wags their tail as you caress their head.%3$s",
         "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head.%3$s",
@@ -1614,7 +1625,10 @@
       "options": "Options",
       "usage": "Usage",
       "optional": "(This is optional)",
-      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help command:cast item`.\nThis goes for all subcommands, as long as they have some sort of help."
+      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help command:cast item`.\nThis goes for all subcommands, as long as they have some sort of help.",
+      "mention": "Command Mention",
+      "mention_tip": "You can click this to have discord bring up the command for you.",
+      "mention_tip_subs": "You can click any of the below sub commands to have discord bring up the command for you."
     },
     "repair": {
       "no_item": "%1$sAnda tidak menyatakan sebarang item untuk diperbaiki. Jika anda yakin bahawa item tersebut adalah betul, cuba menggunakan nama penuhnya.",
@@ -2390,7 +2404,7 @@
     "die_2": "Dadu Istimewa",
     "booster": "Penggalak",
     "berserk": "Berserk",
-    "Companion": "Peneman",
+    "companion": "Companion",
     "special_ring": "Cincin Istimewa",
     "enchancer": "Pemikat",
     "prize": "Hadiah",
@@ -2487,6 +2501,9 @@
     "broken_hellfire_pick": "Kapak Beliung Api Neraka Rosak",
     "broken_hellfire_axe": "Kapak Api Neraka Rosak",
     "broken_hellfire_rod": "Joran Api Neraka Rosak",
+    "old_sparkle_fragment": "Old Sparkle Fragment",
+    "old_sparkly_pickaxe": "Old Sparkly Pickaxe",
+    "old_sparkly_rod": "Old Sparkly Rod",
     "explanation": {
       "pick": "Kapak beliung biasa yang dibeli dari pasar tempatan. Nampaknya cukup kukuh untuk melombong beberapa benda.",
       "diamond_pick": "Beliung berlian pastilah lebih kukuh daripada beliung besi yang dibeli dari pasar itu, saya yakin!",

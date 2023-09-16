@@ -32,7 +32,7 @@ public interface ManagedMongoObject {
 
     // Need to implement class-by-class...
     @BsonIgnore
-    void save();
+    void insertOrReplace();
     @BsonIgnore
     void delete();
 }

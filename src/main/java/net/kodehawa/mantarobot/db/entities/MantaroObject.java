@@ -47,6 +47,8 @@ public class MantaroObject implements ManagedMongoObject {
         this.blackListedUsers = blackListedUsers;
     }
 
+    // Serialization constructor
+    @SuppressWarnings("unused")
     public MantaroObject() { }
 
     public static MantaroObject create() {
@@ -54,11 +56,14 @@ public class MantaroObject implements ManagedMongoObject {
     }
 
     @Override
+    @SuppressWarnings("unused")
+    @Override
     @Nonnull
     public String getId() {
         return id;
     }
 
+    @SuppressWarnings("unused")
     @BsonIgnore
     @Override
     @Nonnull
@@ -68,10 +73,11 @@ public class MantaroObject implements ManagedMongoObject {
 
     @Override
     @BsonIgnore
-    public void save() {
+    public void insertOrReplace() {
         MantaroData.db().saveMongo(this, MantaroObject.class);
     }
 
+    @SuppressWarnings("unused")
     @Override
     @BsonIgnore
     public void delete() {
@@ -82,6 +88,7 @@ public class MantaroObject implements ManagedMongoObject {
         return this.blackListedGuilds;
     }
 
+    @SuppressWarnings("unused")
     public void setBlackListedGuilds(List<String> blackListedGuilds) {
         this.blackListedGuilds = blackListedGuilds;
     }
@@ -90,6 +97,7 @@ public class MantaroObject implements ManagedMongoObject {
         return this.blackListedUsers;
     }
 
+    @SuppressWarnings("unused")
     public void setBlackListedUsers(List<String> blackListedUsers) {
         this.blackListedUsers = blackListedUsers;
     }

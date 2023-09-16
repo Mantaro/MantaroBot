@@ -204,9 +204,6 @@ public class ItemCmds {
                 var recipe = castItem.getRecipe();
                 var splitRecipe = recipe.split(";");
 
-
-
-
                 var isItemCastable = castItem instanceof Castable;
                 var wrenchLevelRequired = isItemCastable ? ((Castable) castItem).getCastLevelRequired() : 1;
 

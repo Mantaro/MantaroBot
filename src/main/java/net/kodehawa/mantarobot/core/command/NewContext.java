@@ -58,7 +58,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 
-@SuppressWarnings("unused")
+@SuppressWarnings("unused") // remove when old cmds are ported over
 public class NewContext implements IContext {
     private final ManagedDatabase managedDatabase = MantaroData.db();
     private final Config config = MantaroData.config().get();

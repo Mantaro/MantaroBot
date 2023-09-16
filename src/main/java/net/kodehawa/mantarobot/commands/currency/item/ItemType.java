@@ -72,6 +72,7 @@ public enum ItemType {
     //Pet items don't appear in the normal market.
     PET(true, "items.categories.pet"),
     PET_FOOD(false, "items.categories.pet_food"),
+    PET_FOOD_CAST(true, "items.categories.pet_food"),
 
     // Not used anymore
     DEPRECATED(false, "items.categories.deprecated");

@@ -57,6 +57,7 @@ public class ModalOperations {
         s.scheduleAtFixedRate(() -> OPERATIONS.values().removeIf(op -> op.isTimedOut(true)), 1, 1, TimeUnit.SECONDS);
     }
 
+    @SuppressWarnings("unused")
     public static Future<Void> get(String interactionId) {
         RunningOperation o = OPERATIONS.get(interactionId);
         return o == null ? null : o.future;

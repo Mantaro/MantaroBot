@@ -60,14 +60,14 @@ task generateLanguageList {
 dependencies {
     // Base
     implementation 'net.dv8tion:JDA:5.0.0-beta.13'
-    implementation 'club.minnced:discord-webhooks:0.8.2'
+    implementation 'club.minnced:discord-webhooks:0.8.4'
 
     // Music
     implementation ('com.github.freyacodes:Lavalink-Client:5fe1b90ab5') {
         exclude group: 'com.sedmelluq', module: 'lavaplayer'
     } // Lavalink-Client includes LP, but we specify it below, so we need to exclude it.
-    implementation 'com.github.walkyst:lavaplayer-fork:1.4.2'
-    implementation "com.github.TopiSenpai.LavaSrc:lavasrc:3.2.6"
+    implementation 'com.github.walkyst:lavaplayer-fork:1.4.3'
+    implementation "com.github.TopiSenpai.LavaSrc:lavasrc:3.2.9"
 
     // JSON
     implementation 'com.fasterxml.jackson.core:jackson-core:2.15.2'
@@ -75,14 +75,14 @@ dependencies {
 
     // Core
     implementation 'io.github.classgraph:classgraph:4.8.162'
-    implementation 'ch.qos.logback:logback-classic:1.4.8'
+    implementation 'ch.qos.logback:logback-classic:1.4.11'
     implementation 'com.google.guava:guava:32.1.2-jre'
     implementation 'commons-io:commons-io:2.13.0'
     implementation 'org.java-websocket:Java-WebSocket:1.5.4'
 
     // Database
     implementation 'org.mongodb:mongodb-driver-sync:4.10.2'
-    implementation 'redis.clients:jedis:4.4.3'
+    implementation 'redis.clients:jedis:5.0.0'
 
     // Utilities
     implementation 'org.apache.commons:commons-lang3:3.13.0'

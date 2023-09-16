@@ -53,6 +53,7 @@ public class PlayerStats implements ManagedMongoObject {
     // Needed for serialization
     public PlayerStats() { }
 
+    @SuppressWarnings("SameParameterValue")
     private PlayerStats(String id, long gambleWins, long slotsWins, long gambleWinAmount, long slotsWinAmount) {
         this.id = id;
         this.gambleWins = gambleWins;
@@ -258,7 +259,7 @@ public class PlayerStats implements ManagedMongoObject {
     }
 
     @Override
-    public void save() {
+    public void insertOrReplace() {
         MantaroData.db().saveMongo(this, PlayerStats.class);
     }
 

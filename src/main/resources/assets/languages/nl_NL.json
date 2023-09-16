@@ -51,9 +51,10 @@
       "mop_not_enough": "%1$sJe stof level is minder dan 5%%, dus afstoffen zal niet zo nuttig zijn.",
       "milk": "%1$sAlle tovereffecten gewist.",
       "crate": {
-        "no_key": "%1$sJe hebt een kist sleutel nodig om een ​​kist te openen. Het is op slot! Je kunt er een kopen met`/buy item:key`",
-        "no_crate": "%1$sJe hebt een krat nodig! Je krijgt meestal kratten van valuta opdrachten.",
-        "success": "%1$sJe hebt een kist geopend en hebt gewonnen: %2$s%3$s. Gefeliciteerd!",
+        "too_many": "%1$sYou cannot open more than 5 crates at once.",
+        "no_key": "%1$sYou do not have enough crate keys to open that many crates. Crates are locked! You can buy them using `/buy item:key`",
+        "no_crate": "%1$sYou do not have that many crates! You usually get crates from currency commands.",
+        "success": "%1$sYou opened the crate %2$s time(s) and won: %3$s%4$s. Congratulations!",
         "success_high": "%1$se hebt de volgende voorwerp met een zeldzaamheid van meer dan 3 sterren: %2$s. Het item bedrag word hierboven getoond",
         "overflow": "Je hebt al te veel gekregen dus je hebt besloten om wat je te veel had, weg te gooien"
       },
@@ -1407,6 +1408,16 @@
         "ratelimit_message": "You can pat your pet up to 25 times. After this you'll have to wait the time above for 25 more pats.",
         "too_many": "How did you even get this many pats?"
       },
+      "play": {
+        "no_pet": "%1$sYou don't have any pets to play with. Check `/pet explanation` for an explanation. (Choice: %2$s)",
+        "no_pet_other": "%1$s%2$s doesn't have any pets to play with. Check `/pet explanation` for an explanation.",
+        "reactions": {
+          "playful": "Your pet playfully plays with you.",
+          "love": "After a long play session, your pet looks lovingly at you.",
+          "dev": "You both played some games together. It was fun.",
+          "nothing": "The pet rock stares deeply at your soul, ever unmoving."
+        }
+      },
       "pet_reactions": {
         "cute": "%1$s**%2$s** happily wags their tail as you caress their head.%3$s",
         "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head.%3$s",
@@ -1614,7 +1625,10 @@
       "options": "Options",
       "usage": "Usage",
       "optional": "(This is optional)",
-      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help command:cast item`.\nThis goes for all subcommands, as long as they have some sort of help."
+      "subcommand_help": "Note: To get help about a subcommand you can use the subcommand name alongside the command name, for example to get the help for `/cast item` you can use `/help command:cast item`.\nThis goes for all subcommands, as long as they have some sort of help.",
+      "mention": "Command Mention",
+      "mention_tip": "You can click this to have discord bring up the command for you.",
+      "mention_tip_subs": "You can click any of the below sub commands to have discord bring up the command for you."
     },
     "repair": {
       "no_item": "%1$sYou didn't specify any item to repair. If you think you have the correct item, try using the full name.",
@@ -2390,7 +2404,7 @@
     "die_2": "Special Gelade Dobbelsteen",
     "booster": "Versneller",
     "berserk": "Gek",
-    "Companion": "Metgezel",
+    "companion": "Companion",
     "special_ring": "Speciale Ring",
     "enchancer": "Versterker",
     "prize": "Prijs",
@@ -2487,6 +2501,9 @@
     "broken_hellfire_pick": "Gebroken Hellevuur Pikhouweel",
     "broken_hellfire_axe": "Gebroken Hellevuur Bijl",
     "broken_hellfire_rod": "Gebroken Hellevuur Hengel",
+    "old_sparkle_fragment": "Old Sparkle Fragment",
+    "old_sparkly_pickaxe": "Old Sparkly Pickaxe",
+    "old_sparkly_rod": "Old Sparkly Rod",
     "explanation": {
       "pick": "A normal pickaxe you bought on the local market. Seems sturdy enough to mine some stuff.",
       "diamond_pick": "A diamond pick is definitely stronger than the market-bought iron picks I could get on the market, that's for sure!",

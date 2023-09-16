@@ -66,6 +66,7 @@ public class CharacterData {
         }
     }
 
+
     public static class Names {
         private String en;
         private String ja_jp;

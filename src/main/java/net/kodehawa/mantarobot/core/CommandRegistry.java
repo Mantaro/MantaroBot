@@ -661,8 +661,10 @@ public class CommandRegistry {
         SPECIFIC_CATEGORY("Disabled category on specific channel"),
         COMMAND("Disabled command"),
         COMMAND_SPECIFIC("Disabled command on specific channel"),
+        @SuppressWarnings("unused")
         GUILD("Disabled command on this server"),
         ROLE("Disabled role on this server"),
+        @SuppressWarnings("unused")
         ROLE_CATEGORY("Disabled role for this category in this server"),
         SPECIFIC_ROLE("Disabled role for this command in this server"),
         SPECIFIC_ROLE_CATEGORY("Disabled role for this category in this server"),

@@ -41,10 +41,12 @@ public class PatreonPledge {
         return active;
     }
 
+    @SuppressWarnings("unused")
     public double getAmount() {
         return amount;
     }
 
+    @SuppressWarnings("unused")
     public void setAmount(double amount) {
         this.amount = amount;
     }
@@ -53,6 +55,7 @@ public class PatreonPledge {
         return reward;
     }
 
+    @SuppressWarnings("unused")
     public void setReward(PatreonReward reward) {
         this.reward = reward;
     }

@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands.action;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
@@ -32,6 +33,7 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -51,7 +53,6 @@ public class ImageActionSlash extends SlashCommand {
     public ImageActionSlash(String name, String desc, EmoteReference emoji,
                           String format, List<String> images, String lonelyLine, String botLine, boolean swap, boolean isSub) {
         super.setCategory(CommandCategory.ACTION);
-        super.setDefer(true);
         this.format = format;
         this.emoji = emoji;
         this.images = images;
@@ -69,7 +70,6 @@ public class ImageActionSlash extends SlashCommand {
     public ImageActionSlash(String name, String desc, EmoteReference emoji,
                           String format, String type, String lonelyLine, String botLine) {
         super.setCategory(CommandCategory.ACTION);
-        super.setDefer(true);
         this.format = format;
         this.emoji = emoji;
         this.images = Collections.emptyList();
@@ -87,7 +87,6 @@ public class ImageActionSlash extends SlashCommand {
     public ImageActionSlash(String name, String desc, EmoteReference emoji,
                           String format, String type, String lonelyLine, String botLine, boolean swap, boolean isSub) {
         super.setCategory(CommandCategory.ACTION);
-        super.setDefer(true);
         this.format = format;
         this.emoji = emoji;
         this.images = Collections.emptyList();
@@ -126,9 +125,7 @@ public class ImageActionSlash extends SlashCommand {
         try {
             if (type != null) {
                 var result = ImageCache.getImage(type);
-                var image = result.url();
-                images = Collections.singletonList(image);
-                random = images.get(0); //Guaranteed random selection :^).
+                random = result.url();
             } else {
                 if (images.isEmpty()) {
                     ctx.reply("commands.action.no_type", EmoteReference.ERROR);
@@ -164,7 +161,7 @@ public class ImageActionSlash extends SlashCommand {
             }
 
             //noinspection DataFlowIssue
-            var mentioned = member.getEffectiveName();
+            var mentioned = member.getAsMention();
             boolean filtered = false;
             if (!mentions.isEmpty()) {
                 var filter = mentions.stream()
@@ -178,7 +175,7 @@ public class ImageActionSlash extends SlashCommand {
                 }
 
                 if (!mentions.isEmpty()) {
-                    mentioned += ", " + mentions.stream().map(Member::getEffectiveName).collect(Collectors.joining(", "));
+                    mentioned += ", " + mentions.stream().map(Member::getAsMention).collect(Collectors.joining(", "));
                 }
             }
 
@@ -186,8 +183,12 @@ public class ImageActionSlash extends SlashCommand {
                     .addContent(emoji.toHeaderString())
                     .addContent(String.format(languageContext.get(format),
                             "**%s**".formatted(mentioned),
-                            "**%s**".formatted(ctx.getMember().getEffectiveName()))
-                    );
+                            "**%s**".formatted(ctx.getMember().getAsMention()))
+                    )
+                    // prevent accidental mentions & executor being mentioned for their own cmd
+                    .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .mention(member)
+                    .mention(mentions);
 
             if (filtered) {
                 toSend.addContent("\n").addContent(
@@ -196,40 +197,44 @@ public class ImageActionSlash extends SlashCommand {
             }
 
             if (swapNames) {
-                toSend = new MessageCreateBuilder()
-                        .addContent(emoji.toHeaderString())
+                // set content overrides old content
+                toSend.setContent(emoji.toHeaderString())
                         .addContent(String.format(
                                 languageContext.get(format),
-                                "**%s**".formatted(ctx.getMember().getEffectiveName()),
+                                "**%s**".formatted(ctx.getMember().getAsMention()),
                                 "**%s**".formatted(mentioned))
                         );
             }
 
             if (isLonely(ctx, user)) {
-                toSend = new MessageCreateBuilder()
-                        .addContent("**")
+                // set content overrides old content
+                toSend.setContent("**")
                         .addContent(languageContext.get(lonelyLine))
                         .addContent("**");
             }
 
             if (isMentioningBot(ctx, user)) {
-                toSend = new MessageCreateBuilder()
-                        .addContent("**")
+                // set content overrides old content
+                toSend.setContent("**")
                         .addContent(languageContext.get(botLine))
                         .addContent("**");
             }
 
-            toSend.setEmbeds(new EmbedBuilder()
-                    .setColor(ctx.getMemberColor())
-                    .setImage(random)
-                    .build()
-            );
+            // if the image times out, we cannot add this embed
+            // otherwise discord will complain as the embed will only contain a color
+            if (random != null) {
+                toSend.setEmbeds(new EmbedBuilder()
+                        .setColor(ctx.getMemberColor())
+                        .setImage(random)
+                        .build()
+                );
+            }
 
             if (ctx.getOption("extra") != null) {
                 toSend.addContent(" ").addContent(languageContext.get("commands.action.extra"));
             }
 
-            ctx.getEvent().getHook().sendMessage(toSend.build()).queue();
+            ctx.reply(toSend.build());
         } catch (Exception e) {
             e.printStackTrace();
             ctx.reply("commands.action.permission_or_unexpected_error", EmoteReference.ERROR);

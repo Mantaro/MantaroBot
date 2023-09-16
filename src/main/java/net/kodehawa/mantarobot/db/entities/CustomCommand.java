@@ -118,7 +118,7 @@ public class CustomCommand implements ManagedMongoObject {
 
     @BsonIgnore
     @Override
-    public void save() {
+    public void insertOrReplace() {
         MantaroData.db().saveMongo(this, CustomCommand.class);
     }
 

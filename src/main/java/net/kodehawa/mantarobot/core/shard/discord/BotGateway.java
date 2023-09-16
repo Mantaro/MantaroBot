@@ -27,10 +27,12 @@ public class BotGateway {
     @JsonProperty("session_start_limit")
     private SessionStartLimit sessionStartLimit;
 
+    @SuppressWarnings("unused")
     public String getUrl() {
         return url;
     }
 
+    @SuppressWarnings("unused")
     public int getShards() {
         return shards;
     }
@@ -40,18 +42,22 @@ public class BotGateway {
         return sessionStartLimit;
     }
 
+    @SuppressWarnings("unused")
     public void setUrl(String url) {
         this.url = url;
     }
 
+    @SuppressWarnings("unused")
     public void setShards(int shards) {
         this.shards = shards;
     }
 
+    @SuppressWarnings("unused")
     public void setSessionStartLimit(SessionStartLimit sessionStartLimit) {
         this.sessionStartLimit = sessionStartLimit;
     }
 
+    @SuppressWarnings("unused")
     public static class SessionStartLimit {
         private int total;
         private int remaining;
