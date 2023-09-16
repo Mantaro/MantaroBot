@@ -353,7 +353,7 @@ public class MarryCmd {
                     var petType = currentMarriage.getPet().getType();
 
                     embedBuilder.addField(EmoteReference.PET_HOUSE.toHeaderString() + languageContext.get("commands.marry.status.pet"),
-                            pet.getName() + " (" + petType.getName() + ")", false
+                            pet.getName() + " (" + ctx.getI18nContext().get(petType.getTranslationKey()) + ")", false
                     );
                 }
 

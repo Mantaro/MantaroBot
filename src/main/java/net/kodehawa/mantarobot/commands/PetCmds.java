@@ -149,7 +149,7 @@ public class PetCmds {
                         .filter(HousePetType::isBuyable)
                         .map(pet -> {
                             var emoji = pet.getEmoji();
-                            var name = pet.getName();
+                            var name = ctx.getLanguageContext().get(pet.getTranslationKey());
                             var abilities = pet.getStringAbilities();
                             var value = pet.getCost();
 
@@ -250,7 +250,7 @@ public class PetCmds {
                         )
                         .addField(
                                 EmoteReference.ZAP.toHeaderString() + language.get("commands.pet.status.type"),
-                                pet.getType().getEmoji() + pet.getType().getName(), true
+                                pet.getType().getEmoji() + ctx.getI18nContext().get(pet.getType().getTranslationKey()), true
                         )
                         .addField(
                                 EmoteReference.WRENCH.toHeaderString() + language.get("commands.pet.status.abilities"),
@@ -770,12 +770,12 @@ public class PetCmds {
 
                         if (petChoiceConfirmed == PetChoice.MARRIAGE) {
                             hook.editOriginal(lang.get("commands.pet.buy.success").formatted(
-                                    EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), finalName,
+                                    EmoteReference.POPPER, toBuy.getEmoji(), ctx.getI18nContext().get(toBuy.getTranslationKey()), finalName,
                                     toBuy.getCost(), petChoiceConfirmed.getReadableName()
                             )).setComponents().queue();
                         } else {
                             hook.editOriginal(lang.get("commands.pet.buy.success_personal").formatted(
-                                    EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), finalName,
+                                    EmoteReference.POPPER, toBuy.getEmoji(), ctx.getI18nContext().get(toBuy.getTranslationKey()), finalName,
                                     toBuy.getCost(), petChoiceConfirmed.getReadableName()
                             )).setComponents().queue();
                         }
@@ -1048,7 +1048,7 @@ public class PetCmds {
 
                 var languageContext = ctx.getLanguageContext();
                 var emoji = lookup.getEmoji();
-                var name = lookup.getName();
+                var name = lookup.getTranslationKey();
                 var cost = lookup.getCost();
                 var abilities = lookup.getStringAbilities();
                 var coinBuildup = lookup.getMaxCoinBuildup(1);
