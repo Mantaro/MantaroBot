@@ -676,7 +676,7 @@ public class ItemHelper {
         handleAutoComplete(getBrokenItems(), event);
     }
 
-    public static void autoCompleteSalvagable(AutocompleteContext event) {
+    public static void autoCompleteSalvageable(AutocompleteContext event) {
         handleAutoComplete(getSalvageableItems(), event);
     }
 

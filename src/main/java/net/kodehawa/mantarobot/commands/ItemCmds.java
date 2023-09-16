@@ -688,7 +688,7 @@ public class ItemCmds {
 
             @Override
             public void onAutocomplete(AutocompleteContext event) {
-                ItemHelper.autoCompleteSalvagable(event);
+                ItemHelper.autoCompleteSalvageable(event);
             }
         }
 
