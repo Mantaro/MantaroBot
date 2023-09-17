@@ -1352,6 +1352,14 @@
       "disabled_explicit": "%1$sEste servidor desativou pesquisas de imageboards explícitos/questionáveis independentemente se o canal está marcado como NSFW."
     },
     "pet": {
+      "types": {
+        "cat": "Cat",
+        "dog": "Dog",
+        "rat": "Hamster",
+        "rock": "Rock",
+        "kode": "Developer",
+        "all": "All"
+      },
       "explanation": "Pets são companhias úteis na moeda!\nEles te ajudam a ganhar mais dinheiro, mais loot, achar coisas aleatórias no mine, chop e até no fish. Quanto mais level, mais alta serão as recompensas!\nObtendo o pet certo pra suas atividades é importante, então tenha certeza de checar o tipo e as habilidades do pet que você escolher!\nLembre-se de que você precisa alimentar seu pet e dar água pra ele, também deixar ele descansar e recarregar a energia de vez em quando, como um pet real! Você ainda pode acariciar ele :)\nTêm dois tipos: Personal (para você mesmo) e Marriage (compartilhado com seu parceiro e você). Escolha um usando `/pet choice`. O padrão é Personal\nPra mais ajuda, use `/help command:pet` e `/pet list` pra uma lista de pets.",
       "no_marriage": "%1$sVocê precisa estar casado pra ter um pet de casamento. Cheque `/help command:marry` e `/pet explanation`",
       "no_marriage_other": "%1$s%2$s precisa estar casado pra ter um pet de casamento. Cheque `/help command:marry` e `/pet explanation`",
