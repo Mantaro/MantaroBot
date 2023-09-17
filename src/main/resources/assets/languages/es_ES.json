@@ -1352,6 +1352,14 @@
       "disabled_explicit": "%1$sEste servidor ha deshabilitado las busquedas explícitas y questionables, aunque el canal sea NSFW."
     },
     "pet": {
+      "types": {
+        "cat": "Cat",
+        "dog": "Dog",
+        "rat": "Hamster",
+        "rock": "Rock",
+        "kode": "Developer",
+        "all": "All"
+      },
       "explanation": "¡Las mascotas son un compañero muy útil en la economía!\nEllos/as te ayudan a ganar más dinero, encontrar más cosas minando, cortando árboles y ¡hasta te ayudan a pescar!. ¡Mientras más alto su nivel, más recompensas obtendrás!\nComprar la mascota correcta para la actividad que necesites es importante, así que ¡asegurate de ver las habilidades y capacidades de la mascota antes de conseguirla!\nRecuerda que debes alimentar y darle agua a tu mascota, así como dejarla descansar cada un rato, ¡como a una mascota de verdad!. Hasta le puedes acariciar la cabeza :)\nHay dos tipos: Personal (para tí) y Marriage (compartida entre tú y tu pareja). Elige una usando `/pet choice`. Por defecto esto es Personal.\nPara conseguir más ayuda, usa `/help command:pet` y `/pet list` para una lista de mascotas.",
       "no_marriage": "%1$sNecesitas estar casado/a para tener una mascota de casamiento. Revisa `/help command:marry` y `/pet explanation`",
       "no_marriage_other": "%1$s%2$s necesita estár casado para tener una mascota de casamiento. Revisa `/help command:marry` y `/pet explanation`",
