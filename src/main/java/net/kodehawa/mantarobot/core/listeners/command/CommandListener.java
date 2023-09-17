@@ -21,6 +21,7 @@ import com.google.common.cache.Cache;
 import com.mongodb.MongoException;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.GenericEvent;
+import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
@@ -68,7 +69,7 @@ public class CommandListener implements EventListener {
             if(!msg.isFromGuild()) {
                 return;
             }
-            
+
             // Ignore myself and bots.
             // Technically ignoring oneself is an extra step -- we're a bot, and we ignore bots.
             var isSelf = msg.getAuthor().getIdLong() == msg.getJDA().getSelfUser().getIdLong();
@@ -92,6 +93,10 @@ public class CommandListener implements EventListener {
 
         if (event instanceof SlashCommandInteractionEvent slashInteraction) {
             threadPool.execute(() -> onSlash(slashInteraction));
+        }
+
+        if (event instanceof CommandAutoCompleteInteractionEvent autoCompleteInteraction) {
+            threadPool.execute(() -> commandProcessor.runAutocomplete(autoCompleteInteraction));
         }
 
         if (event instanceof UserContextInteractionEvent userInteraction) {

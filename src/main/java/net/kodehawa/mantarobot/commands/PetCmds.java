@@ -31,12 +31,8 @@ import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
 import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.meta.Category;
-import net.kodehawa.mantarobot.core.command.meta.Defer;
-import net.kodehawa.mantarobot.core.command.meta.Description;
-import net.kodehawa.mantarobot.core.command.meta.Help;
-import net.kodehawa.mantarobot.core.command.meta.Name;
-import net.kodehawa.mantarobot.core.command.meta.Options;
+import net.kodehawa.mantarobot.core.command.meta.*;
+import net.kodehawa.mantarobot.core.command.slash.AutocompleteContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
@@ -52,7 +48,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
-import java.awt.Color;
+import java.awt.*;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -153,7 +149,7 @@ public class PetCmds {
                         .filter(HousePetType::isBuyable)
                         .map(pet -> {
                             var emoji = pet.getEmoji();
-                            var name = pet.getName();
+                            var name = ctx.getLanguageContext().get(pet.getTranslationKey());
                             var abilities = pet.getStringAbilities();
                             var value = pet.getCost();
 
@@ -254,7 +250,7 @@ public class PetCmds {
                         )
                         .addField(
                                 EmoteReference.ZAP.toHeaderString() + language.get("commands.pet.status.type"),
-                                pet.getType().getEmoji() + pet.getType().getName(), true
+                                pet.getType().getEmoji() + ctx.getI18nContext().get(pet.getType().getTranslationKey()), true
                         )
                         .addField(
                                 EmoteReference.WRENCH.toHeaderString() + language.get("commands.pet.status.abilities"),
@@ -592,7 +588,18 @@ public class PetCmds {
         @Defer
         @Description("Buys a pet to have adventures with. You need to buy a pet house in market first.")
         @Options({
-                @Options.Option(type = OptionType.STRING, name = "type", description = "The pet type. Use /pet list for a list.", required = true),
+                @Options.Option(type = OptionType.STRING,
+                        name = "type",
+                        description = "The pet type. Use /pet list for a list.",
+                        required = true,
+                        choices = {
+                                @Options.Choice(value = "cat", description = "Cat"),
+                                @Options.Choice(value = "dog", description = "Dog"),
+                                @Options.Choice(value = "hamster", description = "Hamster"),
+                                @Options.Choice(value = "rock", description = "Rock"),
+                                @Options.Choice(value = "developer", description = "Developer")
+                        }
+                ),
                 @Options.Option(type = OptionType.STRING, name = "name", description = "The pet name.", required = true)
         })
         public static class Buy extends SlashCommand {
@@ -763,12 +770,12 @@ public class PetCmds {
 
                         if (petChoiceConfirmed == PetChoice.MARRIAGE) {
                             hook.editOriginal(lang.get("commands.pet.buy.success").formatted(
-                                    EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), finalName,
+                                    EmoteReference.POPPER, toBuy.getEmoji(), ctx.getI18nContext().get(toBuy.getTranslationKey()), finalName,
                                     toBuy.getCost(), petChoiceConfirmed.getReadableName()
                             )).setComponents().queue();
                         } else {
                             hook.editOriginal(lang.get("commands.pet.buy.success_personal").formatted(
-                                    EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), finalName,
+                                    EmoteReference.POPPER, toBuy.getEmoji(), ctx.getI18nContext().get(toBuy.getTranslationKey()), finalName,
                                     toBuy.getCost(), petChoiceConfirmed.getReadableName()
                             )).setComponents().queue();
                         }
@@ -856,7 +863,7 @@ public class PetCmds {
         @Defer
         @Description("Feeds your pet.")
         @Options({
-                @Options.Option(type = OptionType.STRING, name = "item", description = "The item to feed your pet with.", required = true),
+                @Options.Option(type = OptionType.STRING, name = "item", description = "The item to feed your pet with.", required = true, autocomplete = true),
                 @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount of food to give the pet. Defaults to 1.", maxValue = 10),
                 @Options.Option(type = OptionType.BOOLEAN, name = "full", description = "Give all the food possible. Makes it so amount is ignored.")
         })
@@ -940,6 +947,11 @@ public class PetCmds {
 
                 ctx.reply("commands.pet.feed.success", EmoteReference.POPPER, foodItem.getName(), amount, increase, pet.getHunger());
             }
+
+            @Override
+            public void onAutocomplete(AutocompleteContext event) {
+                ItemHelper.autoCompletePetFood(event);
+            }
         }
 
         @Defer
@@ -1012,7 +1024,19 @@ public class PetCmds {
         }
 
         @Description("Shows info about a pet type.")
-        @Options(@Options.Option(type = OptionType.STRING, name = "type", description = "The pet type to check.", required = true))
+        @Options(@Options.Option(
+                type = OptionType.STRING,
+                name = "type",
+                description = "The pet type to check.",
+                required = true,
+                choices = {
+                        @Options.Choice(value = "cat", description = "Cat"),
+                        @Options.Choice(value = "dog", description = "Dog"),
+                        @Options.Choice(value = "hamster", description = "Hamster"),
+                        @Options.Choice(value = "rock", description = "Rock"),
+                        @Options.Choice(value = "developer", description = "Developer")
+                }
+        ))
         public static class Info extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
@@ -1024,16 +1048,14 @@ public class PetCmds {
 
                 var languageContext = ctx.getLanguageContext();
                 var emoji = lookup.getEmoji();
-                var name = lookup.getName();
+                var name = lookup.getTranslationKey();
                 var cost = lookup.getCost();
                 var abilities = lookup.getStringAbilities();
                 var coinBuildup = lookup.getMaxCoinBuildup(1);
                 var coinBuildup100 = lookup.getMaxCoinBuildup(100);
                 var itemBuildup = lookup.getMaxItemBuildup(1);
                 var itemBuildup100 = lookup.getMaxItemBuildup(100);
-                var food = Arrays.stream(ItemReference.ALL)
-                        .filter(Food.class::isInstance)
-                        .map(Food.class::cast)
+                var food = Arrays.stream(ItemHelper.getPetFoodItems())
                         .filter(f -> (f.getType().getApplicableType() == lookup) || f.getType() == Food.FoodType.GENERAL)
                         .map(Item::toDisplayString)
                         .collect(Collectors.joining(", "));

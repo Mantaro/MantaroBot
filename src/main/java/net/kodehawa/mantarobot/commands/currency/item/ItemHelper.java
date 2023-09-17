@@ -17,14 +17,20 @@
 
 package net.kodehawa.mantarobot.commands.currency.item;
 
+import net.dv8tion.jda.api.interactions.commands.Command;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
+import net.kodehawa.mantarobot.commands.currency.item.special.Food;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Tiered;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Axe;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Pickaxe;
+import net.kodehawa.mantarobot.commands.currency.item.special.tools.Wrench;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.core.command.slash.AutocompleteContext;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -44,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
@@ -51,6 +58,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ItemHelper {
+    private static Item[] equipableItems;
+    private static Item[] castableItems;
+    private static Broken[] brokenItems;
+    private static Broken[] salvageableItems;
+    private static Item[] usableItems;
+    private static Food[] petFoodItems;
     private static final Logger log = LoggerFactory.getLogger(ItemHelper.class);
     private static final SecureRandom random = new SecureRandom();
     private static final IncreasingRateLimiter lootCrateRatelimiter = new IncreasingRateLimiter.Builder()
@@ -160,7 +173,7 @@ public class ItemHelper {
 
     public static Optional<Item> fromEmoji(String emoji) {
         return Stream.of(ItemReference.ALL)
-                .filter(item -> item.getEmoji().equals(emoji.replace("\ufe0f", "")))
+                .filter(item -> isMatchingEmoji(item, emoji))
                 .findFirst();
     }
 
@@ -170,17 +183,7 @@ public class ItemHelper {
 
     public static Optional<Item> fromName(String name, I18nContext languageContext) {
         return Arrays.stream(ItemReference.ALL)
-                .filter(item -> {
-                    final var itemName = item.getName().toLowerCase().trim();
-                    final var lookup = name.toLowerCase().trim();
-                    final var translatedName = item.getTranslatedName();
-
-                    // Either name or translated name
-                    return itemName.equals(lookup) || (
-                            !translatedName.isEmpty() && !languageContext.getContextLanguage().equals("en_US") &&
-                            languageContext.get(translatedName).toLowerCase().trim().equals(lookup)
-                    );
-                })
+                .filter(item -> isMatchingItemName(item, name, languageContext))
                 .findFirst();
     }
 
@@ -191,41 +194,16 @@ public class ItemHelper {
     }
 
     public static Optional<Item> fromAlias(String name) {
-        return Arrays.stream(ItemReference.ALL).filter(item -> {
-            if (item.getAlias() == null) {
-                return false;
-            }
-
-            return item.getAlias()
-                    .toLowerCase()
-                    .trim()
-                    .equals(name.toLowerCase().trim());
-        }).findFirst();
+        return Arrays.stream(ItemReference.ALL).filter(item -> isMatchingAlias(item, name)).findFirst();
     }
 
     public static Optional<Item> fromAliasList(String name) {
-        return Arrays.stream(ItemReference.ALL).filter(item -> {
-            if (item.getAliases().isEmpty()) {
-                return false;
-            }
-
-            final var lookup = name.toLowerCase().trim();
-            return item.getAliases().stream().anyMatch(lookup::equals);
-        }).findFirst();
+        return Arrays.stream(ItemReference.ALL).filter(item -> hasMatchingAlias(item, name)).findFirst();
     }
 
     public static Optional<Item> fromPartialName(String name, I18nContext languageContext) {
         return Arrays.stream(ItemReference.ALL)
-                .filter(item -> {
-                    final var itemName = item.getName().toLowerCase().trim();
-                    final var lookup = name.toLowerCase().trim();
-                    final var translatedName = item.getTranslatedName();
-
-                    return itemName.contains(lookup) || (
-                            !translatedName.isEmpty() && !languageContext.getContextLanguage().equals("en_US") &&
-                            languageContext.get(translatedName).toLowerCase().trim().contains(lookup)
-                    );
-                })
+                .filter(item -> isPartialNameMatch(item, name, languageContext))
                 .findFirst();
     }
 
@@ -488,11 +466,9 @@ public class ItemHelper {
     }
 
     public static Item getBrokenItemFrom(Item item) {
-        for (Item i : ItemReference.ALL) {
-            if (i instanceof Broken) {
-                if (((Broken) i).getMainItem() == idOf(item))
-                    return i;
-            }
+        for (Broken i : getBrokenItems()) {
+            if (i.getMainItem() == idOf(item))
+                return i;
         }
 
         return null;
@@ -604,5 +580,160 @@ public class ItemHelper {
 
             ctx.sendLocalized(i18n, EmoteReference.CORRECT, item.getName());
         }
+    }
+
+    private static boolean isMatchingItemName(Item item, String name, I18nContext languageContext) {
+        final var itemName = item.getName().toLowerCase().trim();
+        final var lookup = name.toLowerCase().trim();
+        final var translatedName = item.getTranslatedName();
+
+        // Either name or translated name
+        return itemName.equals(lookup) || (
+                !translatedName.isEmpty() && !languageContext.getContextLanguage().equals("en_US") &&
+                        languageContext.get(translatedName).toLowerCase().trim().equals(lookup)
+        );
+    }
+
+    private static boolean isMatchingEmoji(Item item, String emoji) {
+        return item.getEmoji().equals(emoji.replace("\ufe0f", ""));
+    }
+
+    private static boolean isMatchingAlias(Item item, String name) {
+        if (item.getAlias() == null) {
+            return false;
+        }
+        return item.getAlias()
+                .toLowerCase()
+                .trim()
+                .equals(name.toLowerCase().trim());
+    }
+
+    private static boolean hasMatchingAlias(Item item, String name) {
+        if (item.getAliases().isEmpty()) {
+            return false;
+        }
+
+        final var lookup = name.toLowerCase().trim();
+        return item.getAliases().stream().anyMatch(lookup::equals);
+    }
+
+    private static boolean isPartialNameMatch(Item item, String name, I18nContext languageContext) {
+        final var itemName = item.getName().toLowerCase().trim();
+        final var lookup = name.toLowerCase().trim();
+        final var translatedName = item.getTranslatedName();
+
+        return itemName.contains(lookup) || (
+                !translatedName.isEmpty() && !languageContext.getContextLanguage().equals("en_US") &&
+                        languageContext.get(translatedName).toLowerCase().trim().contains(lookup)
+        );
+    }
+
+    public static List<Item> findFrom(Item[] items, String search, I18nContext langContext) {
+        return Stream.of(items)
+                .filter(item -> {
+                    // each item should only traverse as many helper funcs as needed
+                    // so, we return as early as we can
+                    if (isMatchingEmoji(item, search)) return true;
+                    if (isMatchingAlias(item, search)) return true;
+                    if (hasMatchingAlias(item, search)) return true;
+                    if (isMatchingItemName(item, search, langContext)) return true;
+                    return isPartialNameMatch(item, search, langContext);
+                }).toList();
+
+    }
+
+    private static void handleAutoComplete(Item[] items, AutocompleteContext event) {
+        if (event.getFocused().getName().equals("item")) {
+            final String search = event.getOption("item").getAsString();
+            if (search.isBlank()) {
+                // This internally calls to ImmutableCollections.EMPTY_LIST.
+                // Sending empty sends "no results for search" on the Discord :tm: client.
+                // Which is fine and relays them that they need to start searching anyway.
+                event.replyChoices(List.of());
+                return;
+            }
+
+            final List<Item> matches = findFrom(items, search, event.getI18n());
+            final List<Command.Choice> choices = new ArrayList<>();
+            for (Item item : matches) {
+                var isEnglish = event.getI18n().getContextLanguage().equalsIgnoreCase("en_us");
+                var fullChoice = event.getI18n().get(item.getTranslatedName()) + " (" + item.getName() + ")";
+                // we fall back to english if the choice would be too long
+                // because we want to avoid confusion
+                choices.add(new Command.Choice(
+                        isEnglish || fullChoice.length() > OptionData.MAX_CHOICE_VALUE_LENGTH ? item.getName() : fullChoice,
+                        item.getName()
+                ));
+            }
+            event.replyChoices(choices);
+        }
+    }
+
+    public static void autoCompleteCastable(AutocompleteContext event) {
+        handleAutoComplete(getCastableItems(), event);
+    }
+
+    public static void autoCompleteEquipable(AutocompleteContext event) {
+        handleAutoComplete(getEquipableItems(), event);
+    }
+
+    public static void autoCompleteRepairable(AutocompleteContext event) {
+        handleAutoComplete(getBrokenItems(), event);
+    }
+
+    public static void autoCompleteSalvageable(AutocompleteContext event) {
+        handleAutoComplete(getSalvageableItems(), event);
+    }
+
+    public static void autoCompleteUsable(AutocompleteContext event) {
+        handleAutoComplete(getUsableItems() ,event);
+    }
+
+    public static void autoCompletePetFood(AutocompleteContext event) {
+        handleAutoComplete(getPetFoodItems(), event);
+    }
+
+    public static Item[] getEquipableItems() {
+        return Objects.requireNonNullElseGet(equipableItems, () -> equipableItems = Stream.of(ItemReference.ALL)
+                .filter(i -> i instanceof Pickaxe || i instanceof Axe || i instanceof FishRod || i instanceof Wrench)
+                .toArray(Item[]::new));
+    }
+
+    public static Item[] getCastableItems() {
+        return Objects.requireNonNullElseGet(castableItems, () -> castableItems = Stream.of(ItemReference.ALL)
+                .filter(i -> i.getItemType().isCastable() && !i.getRecipe().isEmpty())
+                .sorted(Comparator.comparingInt(i -> i.getItemType().ordinal()))
+                .toArray(Item[]::new));
+    }
+
+    public static Broken[] getBrokenItems() {
+        return Objects.requireNonNullElseGet(brokenItems, () -> brokenItems = Stream.of(ItemReference.ALL)
+                .filter(Broken.class::isInstance)
+                .sorted(Comparator.comparingInt(i -> i.getItemType().ordinal()))
+                .map(Broken.class::cast)
+                .toArray(Broken[]::new));
+    }
+
+    public static Broken[] getSalvageableItems() {
+        return Objects.requireNonNullElseGet(salvageableItems, () -> salvageableItems = Stream.of(getBrokenItems())
+                .filter(i -> i.getItem() instanceof Salvageable)
+                .toArray(Broken[]::new));
+    }
+
+    public static Item[] getUsableItems() {
+        return Objects.requireNonNullElseGet(usableItems, () -> usableItems = Stream.of(ItemReference.ALL)
+                .filter(i -> i.getItemType() == ItemType.INTERACTIVE ||
+                        i.getItemType() == ItemType.POTION ||
+                        i.getItemType() == ItemType.CRATE ||
+                        i.getItemType() == ItemType.BUFF)
+                .toArray(Item[]::new));
+    }
+
+
+    public static Food[] getPetFoodItems() {
+        return Objects.requireNonNullElseGet(petFoodItems, () -> petFoodItems = Stream.of(ItemReference.ALL)
+                .filter(Food.class::isInstance)
+                .map(Food.class::cast)
+                .toArray(Food[]::new));
     }
 }

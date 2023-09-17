@@ -76,7 +76,6 @@ public class ModLog {
         log(author, target, reason, channel, action, caseNumber, 0);
     }
 
-
     public enum ModAction {
         @SuppressWarnings("unused")
         TEMP_BAN,

@@ -40,6 +40,7 @@ import net.kodehawa.mantarobot.core.command.meta.Description;
 import net.kodehawa.mantarobot.core.command.meta.Help;
 import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.meta.Options;
+import net.kodehawa.mantarobot.core.command.slash.AutocompleteContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -56,7 +57,6 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 import java.awt.Color;
 import java.security.SecureRandom;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -122,7 +122,7 @@ public class ItemCmds {
         @Defer
         @Description("Cast an item.")
         @Options({
-                @Options.Option(type = OptionType.STRING, name = "item", description = "The item to cast.", required = true),
+                @Options.Option(type = OptionType.STRING, name = "item", description = "The item to cast.", required = true, autocomplete = true),
                 @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount to cast.", maxValue = 10),
                 @Options.Option(type = OptionType.BOOLEAN, name = "max", description = "Cast as many as possible. Makes it so amount is ignored.")
         })
@@ -331,6 +331,11 @@ public class ItemCmds {
                         castItem.getName(), castCost * amountSpecified, recipeString.toString().trim()
                 );
             }
+
+            @Override
+            public void onAutocomplete(AutocompleteContext event) {
+                ItemHelper.autoCompleteCastable(event);
+            }
         }
 
         @Name("list")
@@ -338,10 +343,7 @@ public class ItemCmds {
         public static class CastList extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                var castableItems = Arrays.stream(ItemReference.ALL)
-                        .sorted(Comparator.comparingInt(i -> i.getItemType().ordinal()))
-                        .filter(i -> i.getItemType().isCastable() && i.getRecipeTypes() != null && i.getRecipe() != null)
-                        .toList();
+                var castableItems = ItemHelper.getCastableItems();
 
                 List<MessageEmbed.Field> fields = new LinkedList<>();
                 var lang = ctx.getLanguageContext();
@@ -419,7 +421,7 @@ public class ItemCmds {
                 parameters = @Help.Parameter(name = "item", description = "The item to repair. You can check a list of repairable items using `/repair list`")
         )
         @Options({
-                @Options.Option(type = OptionType.STRING, name = "item", description = "The item to repair.", required = true),
+                @Options.Option(type = OptionType.STRING, name = "item", description = "The item to repair.", required = true, autocomplete = true),
         })
         public static class RepairItem extends SlashCommand {
             @Override
@@ -530,6 +532,11 @@ public class ItemCmds {
                         repairedItem.getName(), repairCost, recipeString.toString().trim()
                 );
             }
+
+            @Override
+            public void onAutocomplete(AutocompleteContext event) {
+                ItemHelper.autoCompleteRepairable(event);
+            }
         }
 
         @Name("list")
@@ -537,10 +544,7 @@ public class ItemCmds {
         public static class ListItems extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                var repairableItems = Arrays.stream(ItemReference.ALL)
-                        .sorted(Comparator.comparingInt(i -> i.getItemType().ordinal()))
-                        .filter(Broken.class::isInstance)
-                        .map(Broken.class::cast).toList();
+                var repairableItems = ItemHelper.getBrokenItems();
 
                 var lang = ctx.getLanguageContext();
                 List<MessageEmbed.Field> fields = new LinkedList<>();
@@ -598,7 +602,7 @@ public class ItemCmds {
         @Name("item")
         @Defer
         @Description("Salvages an item.")
-        @Options(@Options.Option(type = OptionType.STRING, name = "item", description = "The item to salvage.", required = true))
+        @Options(@Options.Option(type = OptionType.STRING, name = "item", description = "The item to salvage.", required = true, autocomplete = true))
         @Help(description = """
                             Salvages an item. Useful when you can't repair it but wanna get something back.
                             The cost is 1/3rd of the item price.""",
@@ -681,6 +685,11 @@ public class ItemCmds {
                 ItemHelper.handleItemDurability(wrenchItem, ctx, player, user, "commands.cast.autoequip.success");
                 ctx.reply("commands.salvage.success", wrenchItem.getEmojiDisplay(), item.getEmojiDisplay(), item.getName(), toReturn.getEmojiDisplay(), toReturn.getName(), salvageCost);
             }
+
+            @Override
+            public void onAutocomplete(AutocompleteContext event) {
+                ItemHelper.autoCompleteSalvageable(event);
+            }
         }
 
         @Name("list")
@@ -689,10 +698,7 @@ public class ItemCmds {
         public static class ListItems extends SlashCommand {
             @Override
             protected void process(SlashContext ctx) {
-                var broken = Arrays.stream(ItemReference.ALL)
-                        .sorted(Comparator.comparingInt(i -> i.getItemType().ordinal()))
-                        .filter(Broken.class::isInstance)
-                        .map(Broken.class::cast).toList();
+                var broken = ItemHelper.getSalvageableItems();
 
                 List<MessageEmbed.Field> fields = new LinkedList<>();
                 var lang = ctx.getLanguageContext();
@@ -707,15 +713,13 @@ public class ItemCmds {
 
                 for (var item : broken) {
                     var mainItem = item.getItem();
-                    if (!(mainItem instanceof Salvageable salvageable)) {
-                        continue;
-                    }
+                    var asSalvagable = (Salvageable) mainItem;
 
-                    if (salvageable.getReturns().isEmpty())
+                    if (asSalvagable.getReturns().isEmpty())
                         continue;
 
                     var recipeString = new StringBuilder();
-                    var returns = salvageable.getReturns();
+                    var returns = asSalvagable.getReturns();
                     var salvageCost = mainItem.getValue() / 3;
                     for(int id : returns) {
                         Item rt = ItemHelper.fromId(id);

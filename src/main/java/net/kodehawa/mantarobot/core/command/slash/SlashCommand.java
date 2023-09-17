@@ -75,6 +75,10 @@ public abstract class SlashCommand extends DeferrableCommand<SlashContext> {
                     }).toList());
                 }
 
+                if (option.autocomplete() && option.type().canSupportChoices()) {
+                    data.setAutoComplete(true);
+                }
+
                 types.add(data);
             }
         }
@@ -170,5 +174,9 @@ public abstract class SlashCommand extends DeferrableCommand<SlashContext> {
 
             process(ctx);
         }
+    }
+
+    public void onAutocomplete(AutocompleteContext event) {
+        // no-op; override to add op
     }
 }

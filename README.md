@@ -36,6 +36,11 @@ You will need the following to utilize all of Mantaro's features when building y
 Mantaro isn't a modular bot (sadly), but removing features is fairly easy. You can just remove the respective command or the Module file on the commands directory and everything *should* still work. The exception are some Modules that are required by other Modules.
 Make sure you pay close attention to the [license](https://github.com/Mantaro/MantaroBot/blob/master/LICENSE) as you will be required to disclose your source as well as state any changes made.
 
+#### Large Language Model (LLM) or AI Training
+DO NOT use our code to train any form of Artificial Intelligence, LLM or anything of the like. Our licence 
+technically covers that (if not used for free and open software purposes), however we would like to be absolutely sure 
+you understand that we are not ok with this.
+
 ### Steps for building:
 <sub>Please do note that you will not receive any help whatsoever while trying to make your own Mantaro build (see above).</sub>
 
