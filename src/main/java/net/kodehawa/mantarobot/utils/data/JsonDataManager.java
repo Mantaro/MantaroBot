@@ -49,7 +49,11 @@ public class JsonDataManager<T> implements DataManager<T> {
         if (!configPath.toFile().exists()) {
             log.info("Could not find config file at {}", configPath.toFile().getAbsolutePath() + ", creating a new one...");
             try {
-                if (configPath.toFile().createNewFile()) {
+                var pathExists = this.configPath.toFile().getParentFile().exists();
+                if (!pathExists) {
+                    pathExists = this.configPath.toFile().getParentFile().mkdirs();
+                }
+                if (pathExists && configPath.toFile().createNewFile()) {
                     log.info("Generated new config file at {}", configPath.toFile().getAbsolutePath() + ".");
                     FileIOUtils.write(configPath, mapper.writerWithDefaultPrettyPrinter().writeValueAsString(constructor.get()));
                     log.info("Please, fill the file with valid properties.");
