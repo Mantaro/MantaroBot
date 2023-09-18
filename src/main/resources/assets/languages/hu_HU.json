@@ -51,9 +51,9 @@
       "mop_not_enough": "%1$sA por szinted kevesebb, mint 5%%, ezért a felmosás nem lenne valami hasznos.",
       "milk": "%1$sAz összes bájital hatása elmúlt.",
       "crate": {
-        "too_many": "%1$sYou cannot open more than 5 crates at once.",
-        "no_key": "%1$sYou do not have enough crate keys to open that many crates. Crates are locked! You can buy them using `/buy item:key`",
-        "no_crate": "%1$sYou do not have that many crates! You usually get crates from currency commands.",
+        "too_many": "%1$sNem nyithatsz ki egyszerre több mint 5 ládát.",
+        "no_key": "%1$sNincs elég kulcsod ennyi láda kinyitására. Vásárolhatsz a `/buy item:key` parancs használatával",
+        "no_crate": "%1$sNincs elég ládád! Szerezhetsz 'currency' parancsok használatával.",
         "success": "%1$sYou opened the crate %2$s time(s) and won: %3$s%4$s. Congratulations!",
         "success_high": "%1$sA következő tárgyaid vannak, amik 3 csillagnál magasabb szintűek: %2$s",
         "overflow": "De már túl sok volt belőle, ezért úgy döntöttél, hogy kidobod a felesleget"
