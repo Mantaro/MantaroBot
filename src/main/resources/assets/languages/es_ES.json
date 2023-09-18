@@ -1352,6 +1352,14 @@
       "disabled_explicit": "%1$sEste servidor ha deshabilitado las busquedas explícitas y questionables, aunque el canal sea NSFW."
     },
     "pet": {
+      "types": {
+        "cat": "Cat",
+        "dog": "Dog",
+        "rat": "Hamster",
+        "rock": "Rock",
+        "kode": "Developer",
+        "all": "All"
+      },
       "explanation": "¡Las mascotas son un compañero muy útil en la economía!\nEllos/as te ayudan a ganar más dinero, encontrar más cosas minando, cortando árboles y ¡hasta te ayudan a pescar!. ¡Mientras más alto su nivel, más recompensas obtendrás!\nComprar la mascota correcta para la actividad que necesites es importante, así que ¡asegurate de ver las habilidades y capacidades de la mascota antes de conseguirla!\nRecuerda que debes alimentar y darle agua a tu mascota, así como dejarla descansar cada un rato, ¡como a una mascota de verdad!. Hasta le puedes acariciar la cabeza :)\nHay dos tipos: Personal (para tí) y Marriage (compartida entre tú y tu pareja). Elige una usando `/pet choice`. Por defecto esto es Personal.\nPara conseguir más ayuda, usa `/help command:pet` y `/pet list` para una lista de mascotas.",
       "no_marriage": "%1$sNecesitas estar casado/a para tener una mascota de casamiento. Revisa `/help command:marry` y `/pet explanation`",
       "no_marriage_other": "%1$s%2$s necesita estár casado para tener una mascota de casamiento. Revisa `/help command:marry` y `/pet explanation`",
@@ -1465,7 +1473,6 @@
         "low_health": "%1$s**%2$s** tiene poca salud. Dale agua/comida y dejalo descansar un ratito.",
         "low_hunger": "%1$s**%2$s** tiene mucha hambre para hacer cualquier cosa ahorita. *Comidaa~*",
         "low_thirst": "%1$s**%2$s** tiene mucha sed para hacer cualquier cosa ahora.",
-        "low_mood": "%1$s**%2$s** tiene el ánimo muy bajo. ¡Juega con él/ella!",
         "dusty": "%1$s**%2$s** está muy sucio. Limpia tu mascota para quitar el polvo.",
         "success_fish": "%1$s¡**%2$s** te ayudó a capturar un pez! **Conseguiste %3$,d créditos extra y %4$,d ítems extra** debido al trabajo que tu mascota hizo por ti. *incluido en lo que conseguiste*",
         "success_chop": "%1$s¡**%2$s** te ayudó a capturar un cortar un árbol! **Conseguiste %3$,d créditos extra y %4$,d ítems extra** debido al trabajo que tu mascota hizo por ti. *incluido en lo que conseguiste*",
@@ -2492,6 +2499,8 @@
     "pear": "Pera",
     "cherry_blossom": "Flor de cerezo",
     "rock": "Roca",
+    "fruit_pie": "Fruit Pie",
+    "fish_bowl": "Fish Bowl",
     "broken_moon_pick": "Pico de Luna Roto",
     "broken_moon_axe": "Hacha de Luna Rota",
     "broken_moon_rod": "Caña de Luna Rota",
@@ -2644,6 +2653,8 @@
       "pear": "Una manzana que cayó mientras cortabas un árbol de pera. Ay.",
       "cherry_blossom": "Algo que cayó lentamente de un arbol de cerezo que intentaste cortar. Bonito, ¿no?",
       "rock": "Una roca. Si, es muy dura, ¿no?",
+      "fruit_pie": "A Pie made from the freshest fruits from your inventory. Looks yummy.",
+      "fish_bowl": "A freshly cut of the fish you just caught. Or the ones you caught a while ago, but stuff doesn't spoil on your inventory, anyway.",
       "broken_moon_pick": "Un pico de luna que se rompió mientras minabas. Aún se puede salvar.",
       "broken_moon_axe": "Una hacha de luna que se rompió mientras cortabas árboles. Aún se puede salvar.",
       "broken_moon_rod": "Una caña de luna que se rompió mientras pescabas. Aún se puede salvar.",

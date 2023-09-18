@@ -1352,6 +1352,14 @@
       "disabled_explicit": "%1$sMáy chủ này đã vô hiệu hóa các tìm kiếm trên bảng ảnh rõ ràng/có vấn đề bất kể kênh nào được đánh dấu là NSFW."
     },
     "pet": {
+      "types": {
+        "cat": "Cat",
+        "dog": "Dog",
+        "rat": "Hamster",
+        "rock": "Rock",
+        "kode": "Developer",
+        "all": "All"
+      },
       "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nThere's two types: Personal (for yourself) and Marriage (shared between your partner and you). Choose one with `/pet choice`. The default is Personal.\nFor more help, use `/help command:pet` and `/pet list` for a list of pets.",
       "no_marriage": "%1$sYou need to be married to have a marriage pet. Check `/help command:marry` and `/pet explanation`",
       "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. Check `/help command:marry` and `/pet explanation`",
@@ -1465,7 +1473,6 @@
         "low_health": "%1$sSức khoẻ hiện tại của **%2$s** thực sự rất thấp. Hãy cho nó ăn/uống và để nó nghỉ ngơi để hồi phục.",
         "low_hunger": "%1$s**%2$s** đang đói lắm luôn nên chả làm được gì cả. *Đồ ănnnnnn~*",
         "low_thirst": "%1$s**%2$s** đang khát lắm luôn nên chả làm được gì cả.",
-        "low_mood": "%1$s**%2$s** chả có hứng thú gì nữa. Còn không mau chơi với thú cưng của bạn đi!",
         "dusty": "%1$s**%2$s** đang rất bẩn. Bạn tắm rửa giúp nó đi.",
         "success_fish": "%1$s**%2$s** đã thành công giúp bạn bắt cá! **Bạn nhận được thêm %3$,d đồng và %4$,d vật phẩm** đều là nhờ vào những gì thú cưng có thể làm được cho bạn *thêm cả những gì bạn có được*",
         "success_chop": "%1$s**%2$s** đã thành công giúp bạn chặt cây! **Bạn nhận được thêm %3$,d đồng và %4$,d vật phẩm** đều là nhờ vào những gì thú cưng có thể làm được cho bạn *thêm cả những gì bạn có được*",
@@ -2492,6 +2499,8 @@
     "pear": "Lê",
     "cherry_blossom": "Hoa anh đào",
     "rock": "Đá",
+    "fruit_pie": "Fruit Pie",
+    "fish_bowl": "Fish Bowl",
     "broken_moon_pick": "Cuốc mặt trăng hỏng",
     "broken_moon_axe": "Rìu mặt trăng hỏng",
     "broken_moon_rod": "Cần câu mặt trăng hỏng",
@@ -2644,6 +2653,8 @@
       "pear": "Bạn chặt một cây lê và quả lê rơi trúng đầu bạn. Ui da.",
       "cherry_blossom": "Rơi một cách chậm rãi từ cây anh đào. Lãng mạn chứ, nhỉ?",
       "rock": "Một hòn đá. Chuẩn rồi. Rất khó đào, phải không?",
+      "fruit_pie": "A Pie made from the freshest fruits from your inventory. Looks yummy.",
+      "fish_bowl": "A freshly cut of the fish you just caught. Or the ones you caught a while ago, but stuff doesn't spoil on your inventory, anyway.",
       "broken_moon_pick": "Một chiếc cuốc mặt trăng bị gãy trong khi đào. Nhưng vẫn sửa lại được.",
       "broken_moon_axe": "Một chiếc rìu mặt trăng đã bị gãy trong lúc đang chặt. Nhưng vẫn sửa lại được.",
       "broken_moon_rod": "Một chiếc cần câu mặt trăng đã bị gãy trong khi câu cá. Vẫn sửa lại được.",

@@ -1352,6 +1352,14 @@
       "disabled_explicit": "%1$sBu sunucu, kanalın NSFW olarak işaretlenmesinden bağımsız olarak müstehcen/şüpheli görüntü panosu aramalarını devre dışı bıraktı."
     },
     "pet": {
+      "types": {
+        "cat": "Cat",
+        "dog": "Dog",
+        "rat": "Hamster",
+        "rock": "Rock",
+        "kode": "Developer",
+        "all": "All"
+      },
       "explanation": "Evcil hayvanlar, para biriminde yararlı bir arkadaştır!\nDaha fazla para kazanmanıza, daha fazla yağmalamanıza, madende rastgele şeyler bulmanıza, ağaçları kesmenize ve hatta balık tutmanıza yardımcı olurlar. Seviye ne kadar yüksek olursa, ödüller de o kadar yüksek olur!\nFaaliyetleriniz için doğru evcil hayvanı almak önemlidir, bu nedenle seçmek istediğiniz evcil hayvanın türünü ve yeteneklerini kontrol ettiğinizden emin olun!\nEvcil hayvanınızı beslemeniz ve ona su vermeniz ve aynı zamanda gerçek bir evcil hayvan gibi dinlenmesini ve arada bir enerji toplamasını sağlamanız gerektiğini unutmayın! sevebilirsin bile :)\nİki tür vardır: Kişisel (kendiniz için) ve Evlilik (eşinizle sizin aranızda paylaşılan). `/pet choice` ile birini seçin. Varsayılan Kişisel'dir.\nDaha fazla yardım için `/help command:pet` ve evcil hayvan listesi için `/pet list` kullanın.",
       "no_marriage": "%1$sEvlilik hayvanına sahip olmak için evli olmanız gerekir. `/help command:marry` ve `/pet explanation` komutlarını kontrol edin",
       "no_marriage_other": "%1$s%2$s evcil hayvan sahibi olmak için evli olmalıdır. `/help command:marry` ve `/pet explanation` komutlarını kontrol edin",
@@ -1465,7 +1473,6 @@
         "low_health": "%1$s**%2$s** gerçekten düşük bir sağlığa sahip. Ona yiyecek/su verin ve yenilenmesi için bir süre dinlendirin.",
         "low_hunger": "%1$s**%2$s** şu anda bir şey yapmak için çok aç. *Yemeeeeeek~*",
         "low_thirst": "%1$s**%2$s** şu anda herhangi bir şey yapmak için çok susamış.",
-        "low_mood": "%1$s**%2$s** çok karamsar. Onlarla oynamak isteyebilirsiniz!",
         "dusty": "%1$s**%2$s** çok tozlu. Tozu temizlemek için evcil hayvanınızı temizleyin.",
         "success_fish": "%1$s**%2$s** balık yakalamanıza başarıyla yardımcı oldu! **Evcil hayvanınızın sizin için yapabileceği ekstra iş sayesinde fazladan %3$,d kredi ve %4$,d öğe kazandınız**! *aldıklarınıza dahildir*",
         "success_chop": "%1$s**%2$s** bir ağaç kesmenize başarıyla yardımcı oldu! **Evcil hayvanınızın sizin için yapabileceği ekstra iş sayesinde fazladan %3$,d kredi ve %4$,d öğe kazandınız**! *aldıklarınıza dahildir*",
@@ -2492,6 +2499,8 @@
     "pear": "Armut",
     "cherry_blossom": "Kiraz Çiçeği",
     "rock": "Taş",
+    "fruit_pie": "Fruit Pie",
+    "fish_bowl": "Fish Bowl",
     "broken_moon_pick": "Kırık Ay Kazması",
     "broken_moon_axe": "Kırık Ay Baltası",
     "broken_moon_rod": "Kırık Ay Oltası",
@@ -2644,6 +2653,8 @@
       "pear": "Armut ağacını kestin ve armut kafana düştü. Ah.",
       "cherry_blossom": "Kiraz ağacından çok yavaş bir düşüş. Güzel, ha?",
       "rock": "Bir kaya. Evet. Çok zor, değil mi?",
+      "fruit_pie": "A Pie made from the freshest fruits from your inventory. Looks yummy.",
+      "fish_bowl": "A freshly cut of the fish you just caught. Or the ones you caught a while ago, but stuff doesn't spoil on your inventory, anyway.",
       "broken_moon_pick": "Madencilik sırasında kırılan bir ay kazması. Hala kurtarılabilir.",
       "broken_moon_axe": "Doğrama sırasında kırılan bir ay baltası. Hala kurtarılabilir.",
       "broken_moon_rod": "Balık tutarken kırılan bir ay oltası. Hala kurtarılabilir.",

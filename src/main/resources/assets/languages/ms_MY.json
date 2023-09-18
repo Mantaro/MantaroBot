@@ -1352,6 +1352,14 @@
       "disabled_explicit": "%1$sThis server has disabled explicit/questionable imageboard searches regardless of the channel being marked as NSFW."
     },
     "pet": {
+      "types": {
+        "cat": "Cat",
+        "dog": "Dog",
+        "rat": "Hamster",
+        "rock": "Rock",
+        "kode": "Developer",
+        "all": "All"
+      },
       "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nThere's two types: Personal (for yourself) and Marriage (shared between your partner and you). Choose one with `/pet choice`. The default is Personal.\nFor more help, use `/help command:pet` and `/pet list` for a list of pets.",
       "no_marriage": "%1$sYou need to be married to have a marriage pet. Check `/help command:marry` and `/pet explanation`",
       "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. Check `/help command:marry` and `/pet explanation`",
@@ -1465,7 +1473,6 @@
         "low_health": "%1$s**%2$s** mempunyai kesihatan yang amat rendah. Memberinya makanan/air dan membiarkannya rehat sebentar untuk memulihkannya.",
         "low_hunger": "%1$s**%2$s** terlalu lapar untuk membuat apa-apa sekarang. *Makanaaan~*",
         "low_thirst": "%1$s**%2$s** terlalu dahaga untuk membuat apa-apa sekarang.",
-        "low_mood": "%1$sMood **%2$s** terlalu rendah. Anda hendaklah bermain dengannya!",
         "dusty": "%1$s**%2$s** terlalu berhabuk. Membersihkan haiwan peliharaan anda untuk membersihkan habuk itu.",
         "success_fish": "%1$s**%2$s** successfully helped you catch fish! **You got an extra %3$,d credits and %4$,d items** thanks to the extra work your pet was able to do for you! *included on what you got*",
         "success_chop": "%1$s**%2$s** successfully helped you chop a tree! **You got an extra %3$,d credits and %4$,d items** thanks to the extra work your pet was able to do for you! *included on what you got*",
@@ -2492,6 +2499,8 @@
     "pear": "Buah Pir",
     "cherry_blossom": "Bunga Sakura",
     "rock": "Batu",
+    "fruit_pie": "Fruit Pie",
+    "fish_bowl": "Fish Bowl",
     "broken_moon_pick": "Kapak Beliung Bulan Rosak",
     "broken_moon_axe": "Kapak Bulan Rosak",
     "broken_moon_rod": "Joran Bulan Rosak",
@@ -2644,6 +2653,8 @@
       "pear": "Anda kebetulan menebang sebatang pokok pir dan buah pir itu jatuh ke atas kepala anda. Aduh.",
       "cherry_blossom": "Kejatuhan perlahan dari sebatang pokok ceri. Indahnya, ya?",
       "rock": "Batu. Ye. Ia sangat keras, kan?",
+      "fruit_pie": "A Pie made from the freshest fruits from your inventory. Looks yummy.",
+      "fish_bowl": "A freshly cut of the fish you just caught. Or the ones you caught a while ago, but stuff doesn't spoil on your inventory, anyway.",
       "broken_moon_pick": "Beliung bulan yang patah semasa melombong. Masih boleh diselamatkan.",
       "broken_moon_axe": "Kapak bulan yang patah semasa menebang pokok. Masih boleh diselamatkan.",
       "broken_moon_rod": "Joran bulan yang patah semasa memancing. Masih boleh diselamatkan.",

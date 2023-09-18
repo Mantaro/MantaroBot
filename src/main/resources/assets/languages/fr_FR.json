@@ -1352,6 +1352,14 @@
       "disabled_explicit": "%1$sCe serveur a désactivé la recherche de contenu explicite/discutable en dehors des salons NSFW."
     },
     "pet": {
+      "types": {
+        "cat": "Cat",
+        "dog": "Dog",
+        "rat": "Hamster",
+        "rock": "Rock",
+        "kode": "Developer",
+        "all": "All"
+      },
       "explanation": "Les animaux sont d'utiles compagnon pécuniaires!\nIls t'aident à accumuler plus d'argent, plus de loot, trouver plus d'objets dans 'mine', dans 'chop' et dans 'fish'. Plus ils sont haut niveaux, plus il y a de récompenses.\nChoisir le meilleur animal pour tes activités est très important, donc vérifie bien le type et les capacités de l'animal que tu désires.\nN'oublie pas que tu dois nourrir ton animal et lui donner de l'eau, ainsi que le laisser se reposer pour recharger son énergie, comme un vrai animal de compagnie! Tu peux même le caresser :)\nTu peux créer deux type de lien avec ton animal: personnel (pour toi) et de mariage (partagé avec ton-ta partenaire). Choisis son lien avec toi en utilisant `/pet choice`. Le lien par défaut est personnel.\nPour plus d'aide, utilise `/help command:pet` et `/pet list` pour une liste de tous les animaux.",
       "no_marriage": "%1$sYou need to be married to have a marriage pet. Check `/help command:marry` and `/pet explanation`",
       "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. Check `/help command:marry` and `/pet explanation`",
@@ -1465,7 +1473,6 @@
         "low_health": "%1$s**%2$s** a vraiment peu de vie. Nourris-le et laisse-le se reposer un peu pour l'aider à regagner des forces.",
         "low_hunger": "%1$s**%2$s** est trop affamé pour faire quoique ce soit. *Mangeeeeeer~*",
         "low_thirst": "%1$s**%2$s** est trop assoiffé pour faire quoique ce soit.",
-        "low_mood": "%1$s**%2$s** déprime un peu. Tu voudrais peut-être jouer avec?!",
         "dusty": "%1$s**%2$s** est trop sale. Toilette ton animal de compagnie pour enlever la poussière.",
         "success_fish": "%1$s**%2$s** t'a aidé à pêcher avec succès! **Tu as eu %3$,d crédits en plus et %4$,d objets** grâce au travail supplémentaire que ton animal a pu faire pour toi! *inclus dans ce que tu as obtenu*",
         "success_chop": "%1$s**%2$s** vous a aidé à couper l'arbre avec succès ! ** Vous avez reçu %3$,d crédits en extra et %4$,d items** grâce au travail supplémentaire que votre animal de compagnie a pu faire pour vous ! *inclus sur ce que vous avez reçu*",
@@ -2492,6 +2499,8 @@
     "pear": "Poire",
     "cherry_blossom": "Fleur de cerisier",
     "rock": "Roche",
+    "fruit_pie": "Fruit Pie",
+    "fish_bowl": "Fish Bowl",
     "broken_moon_pick": "Pioche de lune endommagée",
     "broken_moon_axe": "Hache de lune endommagée",
     "broken_moon_rod": "Canne de lune endommagée",
@@ -2644,6 +2653,8 @@
       "pear": "Tu coupais un poirier quand soudain, une poire t'est tombée sur la tête. Ouch.",
       "cherry_blossom": "Un don tombé très lentement d'un cerisier. Adorable, n'est-ce pas?",
       "rock": "Un rocher. Oui c'est vraiment dur n'est-ce pas?",
+      "fruit_pie": "A Pie made from the freshest fruits from your inventory. Looks yummy.",
+      "fish_bowl": "A freshly cut of the fish you just caught. Or the ones you caught a while ago, but stuff doesn't spoil on your inventory, anyway.",
       "broken_moon_pick": "Pioche de lune qui a cassé durant une session de minage, il y a toujours de l'espoir pour la réparer.",
       "broken_moon_axe": "Une hache de lune qui a cassé durant une session de bucheronnage, il y a toujours de l'espoir pour la réparer.",
       "broken_moon_rod": "Canne de lune qui a cassé durant une session de pêche, il y a toujours de l'espoir pour la réparer.",

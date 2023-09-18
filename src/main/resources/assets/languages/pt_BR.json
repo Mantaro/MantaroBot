@@ -1352,6 +1352,14 @@
       "disabled_explicit": "%1$sEste servidor desativou pesquisas de imageboards explícitos/questionáveis independentemente se o canal está marcado como NSFW."
     },
     "pet": {
+      "types": {
+        "cat": "Cat",
+        "dog": "Dog",
+        "rat": "Hamster",
+        "rock": "Rock",
+        "kode": "Developer",
+        "all": "All"
+      },
       "explanation": "Pets são companhias úteis na moeda!\nEles te ajudam a ganhar mais dinheiro, mais loot, achar coisas aleatórias no mine, chop e até no fish. Quanto mais level, mais alta serão as recompensas!\nObtendo o pet certo pra suas atividades é importante, então tenha certeza de checar o tipo e as habilidades do pet que você escolher!\nLembre-se de que você precisa alimentar seu pet e dar água pra ele, também deixar ele descansar e recarregar a energia de vez em quando, como um pet real! Você ainda pode acariciar ele :)\nTêm dois tipos: Personal (para você mesmo) e Marriage (compartilhado com seu parceiro e você). Escolha um usando `/pet choice`. O padrão é Personal\nPra mais ajuda, use `/help command:pet` e `/pet list` pra uma lista de pets.",
       "no_marriage": "%1$sVocê precisa estar casado pra ter um pet de casamento. Cheque `/help command:marry` e `/pet explanation`",
       "no_marriage_other": "%1$s%2$s precisa estar casado pra ter um pet de casamento. Cheque `/help command:marry` e `/pet explanation`",
@@ -1409,13 +1417,13 @@
         "too_many": "Como você conseguiu tanto carinho?"
       },
       "play": {
-        "no_pet": "%1$sYou don't have any pets to play with. Check `/pet explanation` for an explanation. (Choice: %2$s)",
-        "no_pet_other": "%1$s%2$s doesn't have any pets to play with. Check `/pet explanation` for an explanation.",
+        "no_pet": "%1$sVocê não tem nenhum pet pra brincar. Cheque `/pet explanation` para uma explicação. (Escolha: %2$s)",
+        "no_pet_other": "%1$s%2$s não tem nenhum pet pra brincar. Cheque `/pet explanation` para uma explicação.",
         "reactions": {
-          "playful": "Your pet playfully plays with you.",
-          "love": "After a long play session, your pet looks lovingly at you.",
-          "dev": "You both played some games together. It was fun.",
-          "nothing": "The pet rock stares deeply at your soul, ever unmoving."
+          "playful": "Seu pet brinca com você.",
+          "love": "Depois de uma longa sessão de brincadeira, seu pet olha pra você com carinho.",
+          "dev": "Vocês dois jogaram alguns jogos juntos. Foi divertido.",
+          "nothing": "O pet encara profundamente sua alma, estando imóvel."
         }
       },
       "pet_reactions": {
@@ -1465,7 +1473,6 @@
         "low_health": "%1$s**%2$s** tem uma saúde muito baixa. Dê a ele comida/água e deixe-o descansar um pouco para reabastecer.",
         "low_hunger": "%1$s**%2$s** está com muita fome pra fazer alguma coisa agora. *Coooomida~*",
         "low_thirst": "%1$s**%2$s** está com muita sede pra fazer alguma coisa agora.",
-        "low_mood": "%1$s**%2$s** seu pet tá com um humor muito baixo. Você pode querer brincar com ele!",
         "dusty": "%1$s**%2$s** está muito sujo. Limpe seu pet para tirar a sujeira.",
         "success_fish": "%1$s**%2$s** ajudou você a pescar com sucesso! **Você ganhou %3$,d créditos e %4$,d itens** graças ao trabalho extra que seu pet foi capaz de fazer por você! *incluído no que você ganhou*",
         "success_chop": "%1$s**%2$s** ajudou você a cortar a árvore com sucesso! **Você ganhou %3$,d créditos e %4$,d itens** graças ao trabalho extra que seu pet foi capaz de fazer por você! *incluído no que você ganhou*",
@@ -2492,6 +2499,8 @@
     "pear": "Pera",
     "cherry_blossom": "Flor de Cerejeira",
     "rock": "Pedra",
+    "fruit_pie": "Fruit Pie",
+    "fish_bowl": "Fish Bowl",
     "broken_moon_pick": "Picareta Lunar Danificada",
     "broken_moon_axe": "Machado da Lua Quebrado",
     "broken_moon_rod": "Vara da Lua Quebrada",
@@ -2644,6 +2653,8 @@
       "pear": "Você por acaso cortou uma pereira e uma pera caiu na sua cabeça. Ouch.",
       "cherry_blossom": "Um drop muito lento de uma cerejeira. Adorável, hein?",
       "rock": "Uma pedra. Sim. É muito dura, não é?",
+      "fruit_pie": "A Pie made from the freshest fruits from your inventory. Looks yummy.",
+      "fish_bowl": "A freshly cut of the fish you just caught. Or the ones you caught a while ago, but stuff doesn't spoil on your inventory, anyway.",
       "broken_moon_pick": "Uma picareta de lua que quebrou enquanto minerava. Ainda recuperável.",
       "broken_moon_axe": "Um machado de lua que quebrou enquanto cortava. Ainda recuperável.",
       "broken_moon_rod": "Uma vara de lua que quebrou enquanto pescava. Ainda recuperável.",
