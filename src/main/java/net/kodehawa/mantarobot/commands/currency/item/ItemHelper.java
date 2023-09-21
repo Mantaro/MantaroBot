@@ -37,6 +37,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.MongoUser;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.utils.Tuple;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RandomCollection;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
@@ -474,7 +475,7 @@ public class ItemHelper {
         return null;
     }
 
-    public static Pair<Boolean, Pair<Player, MongoUser>> handleDurability(IContext ctx, Item item, Player player, MongoUser user) {
+    public static Tuple<Boolean, Player, MongoUser> handleDurability(IContext ctx, Item item, Player player, MongoUser user) {
         var equippedItems = user.getEquippedItems();
         var subtractFrom = 0;
 
@@ -533,7 +534,7 @@ public class ItemHelper {
             stats.updateAllChanged();
 
             //is broken
-            return Pair.of(true, Pair.of(player, user));
+            return Tuple.of(true, player, user);
         } else {
             var addedBadge = false;
             if (item == ItemReference.HELLFIRE_PICK) {
@@ -557,19 +558,19 @@ public class ItemHelper {
             equippedItems.updateAllChanged(user);
 
             //is not broken
-            return Pair.of(false, Pair.of(player, user));
+            return Tuple.of(false, player, user);
         }
     }
 
     public static void handleItemDurability(Item item, IContext ctx, Player player, MongoUser dbUser, String i18n) {
         var breakage = handleDurability(ctx, item, player, dbUser);
-        if (!breakage.getKey()) {
+        if (!breakage.first()) {
             return;
         }
 
         //We need to get this again since reusing the old ones will cause :fire:
-        var finalPlayer = breakage.getValue().getKey();
-        var finalUser = breakage.getValue().getValue();
+        var finalPlayer = breakage.second();
+        var finalUser = breakage.third();
         if (finalUser.isAutoEquip() && finalPlayer.containsItem(item)) {
             var equipped = finalUser.getEquippedItems();
             equipped.equipItem(item);
