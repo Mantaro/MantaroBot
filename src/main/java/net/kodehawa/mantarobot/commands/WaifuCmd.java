@@ -196,7 +196,6 @@ public class WaifuCmd {
                     }
 
                     dbUser.updateAllChanged();
-                    player.updateAllChanged();
                 }
             }
         }
