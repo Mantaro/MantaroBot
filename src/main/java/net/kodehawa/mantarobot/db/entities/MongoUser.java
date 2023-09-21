@@ -65,7 +65,12 @@ public class MongoUser implements ManagedMongoObject {
     private String timezone;
     private String lang;
     private int dustLevel; //percentage
-    private PlayerEquipment equippedItems = new PlayerEquipment(new EnumMap<>(PlayerEquipment.EquipmentType.class), new EnumMap<>(PlayerEquipment.EquipmentType.class), new EnumMap<>(PlayerEquipment.EquipmentType.class)); //hashmap is type -> itemId
+    private PlayerEquipment equippedItems = new PlayerEquipment(
+            new EnumMap<>(PlayerEquipment.EquipmentType.class),
+            new EnumMap<>(PlayerEquipment.EquipmentType.class), // legacy potion/buff effects
+            new EnumMap<>(PlayerEquipment.EquipmentType.class),
+            new ArrayList<>()
+    ); //hashmap is type -> itemId, list is PortionEffects (post-legacy handling)
     private boolean receivedExpirationWarning = false; //premium key about to expire!
     private Map<String, String> keysClaimed = new HashMap<>(); //Map of user -> key. Will be used to account for keys the user can create themselves.
 

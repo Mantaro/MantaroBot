@@ -60,11 +60,11 @@
       },
       "potion_active": "%1$sYou already have an active **%2$s** potion effect and have the max amount possible of it!",
       "potion_not_found": "%1$sI can't find that potion or equipment type!",
-      "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s* (%4$dx). Check your shiny new effect on `/profile stats`",
-      "potion_applied_multiple": "%1$sSuccessfully applied **%2$s** of type *%3$s*.\nYou already had this effect applied, so we stacked it up. Current stack size: %4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
-      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15, Attempted: %3$s)",
-      "not_same_potion": "%1$sYou already have a potion of type %2$s stacked and active, so you can't stack potions of type %3$s into it."
+      "potion_applied": "%1$sSuccessfully applied effect %2$s**%3$s** of type *%4$s* (%5$dx). Check your shiny new effect on `/profile stats`",
+      "potion_applied_multiple": "%1$sSuccessfully applied %2$s**%3$s** of type *%4$s*.\nYou already had this effect applied, so we stacked it up. Current stack size: %5$s",
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s%3$s you possibly can. (Maximum: 15, After stack: %4$s)",
+      "max_stack_size_2": "%1$sYou can't stack that many %2$s%3$s. (Maximum: 15, Attempted: %4$s)",
+      "not_same_potion": "%1$sYou already have a potion of type %2$s%3$s stacked and active, so you can't stack potions of type %4$s%5$s into it (Both are of type *%6$s*)."
     },
     "campaigns": {
       "premium": {
@@ -958,10 +958,12 @@
         "header": "Profile Statistics for %1$s",
         "wins": "Casino Wins",
         "market": "Market Used",
-        "potion": "Active Potion",
+        "potion": "Active Potion(s)",
+        "no_active_potions": "No Active Potions",
         "potion_type": "Potion Type",
-        "buff": "Buff",
+        "buff": "Buff(s)",
         "buff_type": "Buff Type",
+        "no_active_buffs": "No Active Buffs",
         "experience": "Experience (Old)",
         "mine_xp": "Mining Experience",
         "fish_xp": "Fishing Experience",
@@ -2386,6 +2388,12 @@
       "pet_food": "Pet Food",
       "deprecated": "Deprecated",
       "interactive": "Interactive Item"
+    },
+    "effect_types": {
+      "drop_chance_other": "Drop Chance (Mine, Chop)",
+      "waifu": "Waifu Buff",
+      "durability": "Durability",
+      "drop_chance_fish": "Drop Chance (Fish)"
     },
     "headphones": "Headphones",
     "ban_hammer": "Ban Hammer",

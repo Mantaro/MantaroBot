@@ -784,9 +784,8 @@ public class CurrencyCmds {
     public static void applyPotionEffect(IContext ctx, MongoUser dbUser, Item item, Player player, int amount, boolean isMax) {
         if ((item.getItemType() == ItemType.POTION || item.getItemType() == ItemType.BUFF) && item instanceof Potion potion) {
             final var equippedItems = dbUser.getEquippedItems();
-            var type = equippedItems.getTypeFor(item);
-            var currentPotion = equippedItems.getCurrentEffect(type);
-            var activePotion = equippedItems.isEffectActive(type, potion.getMaxUses());
+            var currentPotion = equippedItems.getCurrentEffect(potion.getEffectType());
+            var activePotion = equippedItems.isEffectActive(potion.getEffectType(), potion.getMaxUses());
             var isActive = currentPotion != null && currentPotion.getAmountEquipped() > 1;
             var amountEquipped = 0L;
             if (activePotion || isActive) { // currentPotion is NOT null here (both activePotion and isActive would mean a potion exists)
@@ -814,11 +813,15 @@ public class CurrencyCmds {
             // In case you have more than a potion equipped, we'll just stack the rest as necessary.
             if (activePotion || isActive) { // currentPotion is NOT null here (both activePotion and isActive would mean a potion exists)
                 //Currently has a potion equipped, but wants to stack a potion of other type.
+                var equippedItem = ItemHelper.fromId(currentPotion.getPotion());
                 if (currentPotion.getPotion() != ItemHelper.idOf(item)) {
                     ctx.sendLocalized("general.misc_item_usage.not_same_potion",
                             EmoteReference.ERROR,
-                            ItemHelper.fromId(currentPotion.getPotion()).getName(),
-                            item.getName()
+                            equippedItem.getEmojiDisplay(),
+                            equippedItem.getName(),
+                            item.getEmojiDisplay(),
+                            item.getName(),
+                            ctx.getLanguageContext().get("items.effect_types." + potion.getEffectType().name().toLowerCase())
                     );
 
                     return;
@@ -829,15 +832,24 @@ public class CurrencyCmds {
 
                 // Currently has a potion equipped, and is of the same type.
                 if (attempted < 16) {
-                    equippedItems.equipEffect(type, activePotion ? amount : Math.max(1, amount - 1));
+                    equippedItems.equipEffect(potion.getEffectType(), activePotion ? amount : Math.max(1, amount - 1));
                     var equipped = currentPotion.getAmountEquipped();
 
                     ctx.sendLocalized("general.misc_item_usage.potion_applied_multiple",
-                            EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), equipped
+                            EmoteReference.CORRECT,
+                            item.getEmojiDisplay(),
+                            item.getName(),
+                            ctx.getLanguageContext().get("items.effect_types." + potion.getEffectType().name().toLowerCase()),
+                            equipped
                     );
                 } else {
                     // Too many stacked (max: 15).
-                    ctx.sendLocalized("general.misc_item_usage.max_stack_size", EmoteReference.ERROR, item.getName(), attempted);
+                    ctx.sendLocalized("general.misc_item_usage.max_stack_size",
+                            EmoteReference.ERROR,
+                            item.getEmojiDisplay(),
+                            item.getName(),
+                            attempted
+                    );
                     return;
                 }
             } else {
@@ -847,7 +859,11 @@ public class CurrencyCmds {
                 // If there's more than 1, proceed to equip the stacks.
                 if (amount > 15) {
                     //Too many stacked (max: 15).
-                    ctx.sendLocalized("general.misc_item_usage.max_stack_size_2", EmoteReference.ERROR, item.getName(), amount);
+                    ctx.sendLocalized("general.misc_item_usage.max_stack_size_2",
+                            EmoteReference.ERROR,
+                            item.getEmojiDisplay(),
+                            item.getName(),
+                            amount);
                     return;
                 }
 
@@ -858,7 +874,11 @@ public class CurrencyCmds {
                 // Apply the effect.
                 equippedItems.applyEffect(effect);
                 ctx.sendLocalized("general.misc_item_usage.potion_applied",
-                        EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), amount
+                        EmoteReference.CORRECT,
+                        item.getEmojiDisplay(),
+                        item.getName(),
+                        ctx.getLanguageContext().get("items.effect_types." + potion.getEffectType().name().toLowerCase()),
+                        amount
                 );
             }
 

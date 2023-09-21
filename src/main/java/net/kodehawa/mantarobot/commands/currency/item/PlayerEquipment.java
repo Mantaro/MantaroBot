@@ -17,6 +17,7 @@
 
 package net.kodehawa.mantarobot.commands.currency.item;
 
+import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Axe;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.FishRod;
@@ -28,24 +29,43 @@ import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
 public class PlayerEquipment {
     //int = itemId
     private final Map<EquipmentType, Integer> equipment;
-    private final Map<EquipmentType, PotionEffect> effects;
+    private final Map<PotionEffectType, PotionEffect> effectList;
     private final Map<EquipmentType, Integer> durability;
     @BsonIgnore
     public Map<String, Object> fieldTracker = new HashMap<>();
 
     @SuppressWarnings("unused")
     @BsonCreator
-    public PlayerEquipment(@BsonProperty("equipment") Map<EquipmentType, Integer> equipment, @BsonProperty("effects") Map<EquipmentType, PotionEffect> effects, @BsonProperty("durability") Map<EquipmentType, Integer> durability) {
+    public PlayerEquipment(@BsonProperty("equipment") Map<EquipmentType, Integer> equipment, @BsonProperty("effects") Map<EquipmentType, PotionEffect> effects, @BsonProperty("durability") Map<EquipmentType, Integer> durability, @BsonProperty("effectList") List<PotionEffect> effectList) {
         this.equipment = equipment == null ? new HashMap<>() : equipment;
-        this.effects = effects == null ? new HashMap<>() : effects;
+        this.effectList = new HashMap<>();
+        List<PotionEffect> list = new ArrayList<>(); // ensure mutability
+        if (effectList != null) {
+            list.addAll(effectList);
+        }
+        if (effects != null) { // legacy
+            list.addAll(effects.values());
+        }
+        for (var value : list) {
+            var item = ItemHelper.fromId(value.getPotion());
+            if (!(item instanceof Potion potion)) continue;
+            this.effectList.put(potion.getEffectType(), value);
+        }
         this.durability = durability == null ? new HashMap<>() : durability;
+    }
+
+    public List<PotionEffect> getEffectList() {
+        // we only save this as the list as we can create keys from the list itself
+        return new ArrayList<>(effectList.values());
     }
 
     public Map<EquipmentType, Integer> getEquipment() {
@@ -54,7 +74,7 @@ public class PlayerEquipment {
 
     @SuppressWarnings("unused")
     public Map<EquipmentType, PotionEffect> getEffects() {
-        return this.effects;
+        return null; // legacy, pojo needs this
     }
 
     public Map<EquipmentType, Integer> getDurability() {
@@ -64,7 +84,7 @@ public class PlayerEquipment {
     @BsonIgnore
     public boolean equipItem(Item item) {
         EquipmentType type = getTypeFor(item);
-        if (type == null || type.getType() != 0) {
+        if (type == null) {
             return false;
         }
 
@@ -80,13 +100,19 @@ public class PlayerEquipment {
 
     @BsonIgnore
     public void applyEffect(PotionEffect effect) {
-        EquipmentType type = getTypeFor(ItemHelper.fromId(effect.getPotion()));
-        if (type == null || type.getType() != 1) {
+        var item = ItemHelper.fromId(effect.getPotion());
+        if (item == null) {
             return;
         }
+         if (item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF) {
+             return;
+         }
+         if (!(item instanceof Potion potion)) {
+             return;
+         }
 
-        effects.put(type, effect);
-        fieldTracker.put("equippedItems.effects", effects);
+        effectList.put(potion.getEffectType(), effect);
+        fieldTracker.put("equippedItems.effectList", getEffectList());
     }
 
     //Convenience methods start here.
@@ -99,38 +125,38 @@ public class PlayerEquipment {
     }
 
     @BsonIgnore
-    public void resetEffect(EquipmentType type) {
-        effects.remove(type);
+    public void resetEffect(PotionEffectType effectType) {
+        effectList.keySet().removeIf(e -> effectType == null ? e.isPotion() : e == effectType);
     }
 
     @BsonIgnore
-    public void incrementEffectUses(EquipmentType type) {
-        effects.computeIfPresent(type, (i, effect) -> {
+    public void incrementEffectUses(PotionEffectType type) {
+        effectList.computeIfPresent(type, (i, effect) -> {
             effect.setTimesUsed(effect.getTimesUsed() + 1);
 
             return effect;
         });
 
-        fieldTracker.put("equippedItems.effects", effects);
+        fieldTracker.put("equippedItems.effectList", getEffectList());
 
     }
 
     @BsonIgnore
-    public boolean useEffect(EquipmentType type) {
+    public boolean useEffect(PotionEffectType type) {
         var use = getCurrentEffect(type).use();
-        fieldTracker.put("equippedItems.effects", effects);
+        fieldTracker.put("equippedItems.effectList", getEffectList());
         return use;
     }
 
     @BsonIgnore
-    public void equipEffect(EquipmentType type, int amount) {
+    public void equipEffect(PotionEffectType type, int amount) {
         getCurrentEffect(type).equip(amount);
-        fieldTracker.put("equippedItems.effects", effects);
+        fieldTracker.put("equippedItems.effectList", getEffectList());
     }
 
     @BsonIgnore
-    public boolean isEffectActive(EquipmentType type, int maxUses) {
-        PotionEffect effect = effects.get(type);
+    public boolean isEffectActive(PotionEffectType type, int maxUses) {
+        PotionEffect effect = effectList.get(type);
         if (effect == null) {
             return false;
         }
@@ -139,13 +165,13 @@ public class PlayerEquipment {
     }
 
     @BsonIgnore
-    public PotionEffect getCurrentEffect(EquipmentType type) {
-        return effects.get(type);
+    public PotionEffect getCurrentEffect(PotionEffectType type) {
+        return effectList.get(type);
     }
 
     @BsonIgnore
-    public Item getEffectItem(EquipmentType type) {
-        PotionEffect effect = effects.get(type);
+    public Item getEffectItem(PotionEffectType type) {
+        PotionEffect effect = effectList.get(type);
         return effect == null ? null : ItemHelper.fromId(effect.getPotion());
     }
 
@@ -186,20 +212,28 @@ public class PlayerEquipment {
         MantaroData.db().updateFieldValues(database, fieldTracker);
     }
 
+    @BsonIgnore
+    public List<PotionEffect> getPotions() {
+        return effectList.entrySet().stream().filter(e -> e.getKey().isPotion()).map(Map.Entry::getValue).toList();
+    }
+
+    @BsonIgnore
+    public List<PotionEffect> getBuffs() {
+        return effectList.entrySet().stream().filter(e -> !e.getKey().isPotion()).map(Map.Entry::getValue).toList();
+    }
+
     public enum EquipmentType {
-        ROD(FishRod.class::isInstance, 0),
-        PICK(Pickaxe.class::isInstance, 0),
-        AXE(Axe.class::isInstance, 0),
-        WRENCH(Wrench.class::isInstance, 0),
-        POTION(item -> item.getItemType() == ItemType.POTION, 1),
-        BUFF(item -> item.getItemType() == ItemType.BUFF, 1);
+        ROD(FishRod.class::isInstance),
+        PICK(Pickaxe.class::isInstance),
+        AXE(Axe.class::isInstance),
+        WRENCH(Wrench.class::isInstance),
+        POTION(item -> item.getItemType() == ItemType.POTION), // legacy
+        BUFF(item -> item.getItemType() == ItemType.BUFF); // legacy
 
         private final Predicate<Item> predicate;
-        private final int type;
 
-        EquipmentType(Predicate<Item> predicate, int type) {
+        EquipmentType(Predicate<Item> predicate) {
             this.predicate = predicate;
-            this.type = type;
         }
 
         public static EquipmentType fromString(String text) {
@@ -216,7 +250,8 @@ public class PlayerEquipment {
         }
 
         public int getType() {
-            return this.type;
+            // 1 is legacy type
+            return this == BUFF || this == POTION ? 1 : 0;
         }
 
         @Override

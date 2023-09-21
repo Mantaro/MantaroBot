@@ -20,6 +20,7 @@ package net.kodehawa.mantarobot.commands.currency.pets.global;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +61,12 @@ public class PetData {
     private float saturation;
     private long lastFedAt;
     //not so much of "player" anymore
-    private PlayerEquipment equippedItems = new PlayerEquipment(new EnumMap<>(PlayerEquipment.EquipmentType.class), new EnumMap<>(PlayerEquipment.EquipmentType.class), new EnumMap<>(PlayerEquipment.EquipmentType.class)); //hashmap is type -> itemId
+    private PlayerEquipment equippedItems = new PlayerEquipment(
+            new EnumMap<>(PlayerEquipment.EquipmentType.class),
+            new EnumMap<>(PlayerEquipment.EquipmentType.class),
+            new EnumMap<>(PlayerEquipment.EquipmentType.class),
+            new ArrayList<>()
+    ); //hashmap is type -> itemId
 
     @JsonIgnore
     public long getCurrentHydration() {

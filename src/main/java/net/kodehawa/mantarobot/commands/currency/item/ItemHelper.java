@@ -110,7 +110,7 @@ public class ItemHelper {
             Player player = ctx.getPlayer();
             MongoUser dbUser = ctx.getDBUser();
             var equipped = dbUser.getEquippedItems();
-            equipped.resetEffect(PlayerEquipment.EquipmentType.POTION);
+            equipped.resetEffect(null);
             player.processItem(ItemReference.POTION_CLEAN, -1);
 
             player.updateAllChanged();
@@ -422,7 +422,9 @@ public class ItemHelper {
                 .collect(Collectors.toList());
     }
 
-    public static boolean handleEffect(PlayerEquipment.EquipmentType type, PlayerEquipment equipment, Item item, MongoUser user) {
+    public static boolean handleEffect(PlayerEquipment equipment, Item item, MongoUser user) {
+        if (!(item instanceof Potion potion)) return false;
+        var type = potion.getEffectType();
         boolean isEffectPresent = equipment.getCurrentEffect(type) != null;
 
         if (isEffectPresent) {
@@ -432,7 +434,7 @@ public class ItemHelper {
             }
 
             // Effect is active when it's been used less than the max amount
-            if (!equipment.isEffectActive(type, ((Potion) item).getMaxUses())) {
+            if (!equipment.isEffectActive(type, potion.getMaxUses())) {
                 // Reset effect if the current amount equipped is 0. Else, subtract one from the current amount equipped.
                 if (!equipment.useEffect(type)) { //This call subtracts one from the current amount equipped.
                     equipment.resetEffect(type);
@@ -446,7 +448,7 @@ public class ItemHelper {
                 }
             } else {
                 equipment.incrementEffectUses(type);
-                if (!equipment.isEffectActive(type, ((Potion) item).getMaxUses())) {
+                if (!equipment.isEffectActive(type, potion.getMaxUses())) {
                     // Get the new amount. If the effect is not active we need to remove it
                     // This is obviously a little hacky, but that's what I get for not thinking about it before.
                     // This option will blow through the stack if the used amount > allowed amount,
@@ -478,7 +480,7 @@ public class ItemHelper {
         var equippedItems = user.getEquippedItems();
         var subtractFrom = 0;
 
-        if (handleEffect(PlayerEquipment.EquipmentType.POTION, equippedItems, ItemReference.POTION_STAMINA, user)) {
+        if (handleEffect(equippedItems, ItemReference.POTION_STAMINA, user)) {
             subtractFrom = random.nextInt(7);
         } else {
             subtractFrom = random.nextInt(10);

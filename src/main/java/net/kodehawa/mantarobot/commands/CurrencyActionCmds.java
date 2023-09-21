@@ -272,7 +272,7 @@ public class CurrencyActionCmds {
         var moneyIncrease = item.getMoneyIncrease() <= 0 ? 1 : item.getMoneyIncrease();
         money += Math.max(moneyIncrease / 2, random.nextInt(moneyIncrease));
 
-        if (ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, dbUser.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
+        if (ItemHelper.handleEffect(dbUser.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
             final var waifus = dbUser.waifuEntrySet();
             if (waifus.stream().anyMatch((w) -> w.getValue() > 20_000L)) {
                 money += Math.max(20, random.nextInt(100));
@@ -284,7 +284,7 @@ public class CurrencyActionCmds {
                 languageContext.get("commands.mine.reminder") : "";
 
         var hasPotion = ItemHelper.handleEffect(
-                PlayerEquipment.EquipmentType.POTION, dbUser.getEquippedItems(),
+                dbUser.getEquippedItems(),
                 ItemReference.POTION_HASTE, dbUser
         );
 
@@ -499,11 +499,7 @@ public class CurrencyActionCmds {
         var nominalLevel = item.getLevel() - 3;
         var extraMessage = "";
         var chance = random.nextInt(100);
-        var buff = ItemHelper.handleEffect(
-                PlayerEquipment.EquipmentType.BUFF,
-                dbUser.getEquippedItems(),
-                ItemReference.FISHING_BAIT, dbUser
-        );
+        var buff = ItemHelper.handleEffect(dbUser.getEquippedItems(), ItemReference.FISHING_BAIT, dbUser);
 
         if (buff) {
             chance += 6;
@@ -582,7 +578,7 @@ public class CurrencyActionCmds {
 
             // START OF WAIFU HELP IMPLEMENTATION
             boolean waifuHelp = false;
-            if (ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, dbUser.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
+            if (ItemHelper.handleEffect(dbUser.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
                 if (dbUser.waifuEntrySet().stream().anyMatch((w) -> w.getValue() > 20_000L)) {
                     money += Math.max(10, random.nextInt(150));
                     waifuHelp = true;
@@ -729,9 +725,7 @@ public class CurrencyActionCmds {
         }
 
         var chance = random.nextInt(100);
-        var hasPotion = ItemHelper.handleEffect(
-                PlayerEquipment.EquipmentType.POTION, dbUser.getEquippedItems(), ItemReference.POTION_HASTE, dbUser
-        );
+        var hasPotion = ItemHelper.handleEffect(dbUser.getEquippedItems(), ItemReference.POTION_HASTE, dbUser);
 
         if (hasPotion) {
             chance += 9;

@@ -259,7 +259,7 @@ public class ItemReference {
                     20, true
             ),
 
-            POTION_HASTE = new Potion(ItemType.POTION, 4, "\uD83C\uDF76",
+            POTION_HASTE = new Potion(ItemType.POTION, PotionEffectType.DROP_CHANCE_OTHER, 4, "\uD83C\uDF76",
                     "Haste Potion", "items.haste", "items.description.haste",
                     490, true
             ),
@@ -269,7 +269,7 @@ public class ItemReference {
                     50, true
             ),
 
-            POTION_STAMINA = new Potion(ItemType.POTION, 4, "\uD83C\uDFFA",
+            POTION_STAMINA = new Potion(ItemType.POTION, PotionEffectType.DURABILITY, 4, "\uD83C\uDFFA",
                     "Energy Beverage", "items.energy", "items.description.energy",
                     450, true
             ),
@@ -335,12 +335,12 @@ public class ItemReference {
                     10, true
             ),
 
-            WAIFU_PILL = new Potion(ItemType.POTION, 3, "\ud83d\udc8a",
+            WAIFU_PILL = new Potion(ItemType.POTION, PotionEffectType.WAIFU, 3, "\ud83d\udc8a",
                     "Waifu Pill", "items.waifu_pill", "items.description.waifu_pill",
                     370, true
             ),
 
-            FISHING_BAIT = new Potion(ItemType.BUFF, 1, "\uD83D\uDC1B",
+            FISHING_BAIT = new Potion(ItemType.BUFF, PotionEffectType.DROP_CHANCE_FISH, 1, "\uD83D\uDC1B",
                     "Fishing Bait", "items.bait", "items.description.bait",
                     15, true
             ),

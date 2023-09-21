@@ -19,7 +19,7 @@ package net.kodehawa.mantarobot.commands.currency.profile;
 
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.ProfileCmd;
-import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
+import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -33,53 +33,10 @@ import java.util.function.Function;
 public enum StatsComponent {
     MARKET_USED(EmoteReference.MARKET, lang -> lang.get("commands.profile.stats.market"), holder -> "%,d %s".formatted(holder.getPlayer().getMarketUsed(), holder.getI18nContext().get("commands.profile.stats.times"))),
 
-    POTION_ACTIVE(EmoteReference.BOOSTER, lang -> lang.get("commands.profile.stats.potion"), holder -> {
-        var equippedItems = holder.getDbUser().getEquippedItems();
-        var potion = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.POTION);
-        var potionEffect = equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION);
-        var isPotionActive = potion != null &&
-                (equippedItems.isEffectActive(PlayerEquipment.EquipmentType.POTION, potion.getMaxUses())
-                        || potionEffect.getAmountEquipped() > 1);
+    // potion and buff active basically do the same thing but exist to handle character counts
+    POTION_ACTIVE(EmoteReference.BOOSTER, lang -> lang.get("commands.profile.stats.potion"), holder -> makePotionEffectList(holder, true)),
 
-        var potionEquipped = 0L;
-        if (potion != null) {
-            potionEquipped = equippedItems.isEffectActive(
-                    PlayerEquipment.EquipmentType.POTION, potion.getMaxUses()
-            ) ? potionEffect.getAmountEquipped() : potionEffect.getAmountEquipped() - 1;
-        }
-        var noPotion = potion == null || !isPotionActive;
-        if (noPotion) {
-            return "None";
-        } else {
-            return "%s (%dx)%n%s: %,d %s".formatted(potion.getName(), potionEquipped, holder.getI18nContext().get("commands.profile.stats.times_used"),
-                    potionEffect.getTimesUsed(), holder.getI18nContext().get("commands.profile.stats.times")
-            );
-        }
-    }),
-
-    BUFF_ACTIVE(EmoteReference.BOOSTER, lang -> lang.get("commands.profile.stats.buff"), holder -> {
-        var equippedItems = holder.getDbUser().getEquippedItems();
-        var buff = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.BUFF);
-        var buffEffect = equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF);
-        var isBuffActive = buff != null &&
-                (equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses())
-                        || buffEffect.getAmountEquipped() > 1);
-        var buffEquipped = 0L;
-        if (buff != null) {
-            buffEquipped = equippedItems.isEffectActive(
-                    PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses()
-            ) ? buffEffect.getAmountEquipped() : buffEffect.getAmountEquipped() - 1;
-        }
-        var noBuff = buff == null || !isBuffActive;
-
-        if (noBuff) {
-            return "None";
-        } else {
-            return "%s (%dx)%n%s: %,d %s".formatted(buff.getName(), buffEquipped, holder.getI18nContext().get("commands.profile.stats.times_used"),
-                    buffEffect.getTimesUsed(), holder.getI18nContext().get("commands.profile.stats.times")
-            );
-        }
-    }),
+    BUFF_ACTIVE(EmoteReference.BOOSTER, lang -> lang.get("commands.profile.stats.buff"), holder -> makePotionEffectList(holder, false)),
 
     EQUIPMENT(EmoteReference.PICK, lang -> lang.get("commands.profile.stats.equipment"), holder -> {
         var equippedItems = holder.getDbUser().getEquippedItems();
@@ -161,6 +118,36 @@ public enum StatsComponent {
                 playerData.getGamesWon()
         );
     });
+
+    private static String makePotionEffectList(StatsComponent.Holder holder, boolean isPotion) {
+        var equippedItems = holder.getDbUser().getEquippedItems();
+        var builder = new StringBuilder();
+        var potions = isPotion ? equippedItems.getPotions() : equippedItems.getBuffs();
+        for (var potionEffect : potions) {
+            var potion = (Potion) ItemHelper.fromId(potionEffect.getPotion());
+            var potionEquipped = 0L;
+            if (potion != null) {
+                var effectActive = equippedItems.isEffectActive(potion.getEffectType(), potion.getMaxUses()) || potionEffect.getAmountEquipped() > 1;
+                potionEquipped = effectActive ? potionEffect.getAmountEquipped() : potionEffect.getAmountEquipped() - 1;
+                builder.append("**%s (%dx)**%n%s: %,d %s%n%s: %s".formatted(
+                        potion.getName(),
+                        potionEquipped,
+                        holder.getI18nContext().get("commands.profile.stats.times_used"),
+                        potionEffect.getTimesUsed(),
+                        holder.getI18nContext().get("commands.profile.stats.times"),
+                        holder.getI18nContext().get("commands.profile.stats." + (isPotion ? "potion_type" : "buff_type")),
+                        holder.getI18nContext().get("items.effect_types." + potion.getEffectType().name().toLowerCase())
+                )).append("\n\n");
+            }
+        }
+        var noPotion = potions.isEmpty() || builder.isEmpty();
+
+        if (noPotion) {
+            return holder.getI18nContext().get("commands.profile.stats.no_active_" + (isPotion ? "potions" : "buffs"));
+        } else {
+            return builder.toString();
+        }
+    }
 
     private final Function<I18nContext, String> name;
     private final Function<Holder, String> content;
