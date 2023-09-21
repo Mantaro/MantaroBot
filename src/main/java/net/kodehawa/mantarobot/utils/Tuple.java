@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record Tuple<A, B, C>(A first, B second, C third) {
     @JsonCreator
-    public Tuple(@JsonProperty("a") A first, @JsonProperty("b") B second, @JsonProperty("c") C third) {
+    public Tuple(@JsonProperty("first") A first, @JsonProperty("second") B second, @JsonProperty("third") C third) {
         this.first = first;
         this.second = second;
         this.third = third;
