@@ -71,9 +71,9 @@ public class PlayerEquipment {
         equipment.put(type, ItemHelper.idOf(item));
         if (item instanceof Breakable it) {
             durability.put(type, it.getMaxDurability());
+            fieldTracker.put("equippedItems.durability", durability);
         }
 
-        fieldTracker.put("equippedItems.durability", durability);
         fieldTracker.put("equippedItems.equipment", equipment);
         return true;
     }
