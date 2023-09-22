@@ -130,6 +130,8 @@ public class PlayerEquipment {
     @BsonIgnore
     public void resetEffect(PotionEffectType effectType) {
         effectList.keySet().removeIf(e -> effectType == null ? e.isPotion() : e == effectType);
+        fieldTracker.put("equippedItems.effectList", getEffectList());
+        fieldTracker.put("equippedItems.effects", null); // ensures we dont duplicate buffs
     }
 
     @BsonIgnore
@@ -142,7 +144,6 @@ public class PlayerEquipment {
 
         fieldTracker.put("equippedItems.effectList", getEffectList());
         fieldTracker.put("equippedItems.effects", null); // ensures we dont duplicate buffs
-
     }
 
     @BsonIgnore
