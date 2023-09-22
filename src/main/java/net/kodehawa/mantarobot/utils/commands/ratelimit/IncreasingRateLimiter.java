@@ -18,8 +18,10 @@
 package net.kodehawa.mantarobot.utils.commands.ratelimit;
 
 import net.dv8tion.jda.api.entities.User;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import org.apache.commons.io.IOUtils;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.exceptions.JedisNoScriptException;
@@ -45,6 +47,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class IncreasingRateLimiter {
     private static final String SCRIPT;
+    @BsonIgnore
+    private final Config config = MantaroData.config().get();
 
     static {
         try {
@@ -94,7 +98,7 @@ public class IncreasingRateLimiter {
 
             long start = Instant.now().toEpochMilli();
             List<Long> result;
-            boolean premiumAwareness = premiumAware && MantaroData.db().getUser(key).isPremium();
+            boolean premiumAwareness = config.isPremiumBot();
             try {
                 int cd = cooldown + (randomIncrement && !premiumAwareness ? ThreadLocalRandom.current().nextInt(cooldown / incrementDivider) : 0);
                 result = (List<Long>) j.evalsha(scriptSha,
