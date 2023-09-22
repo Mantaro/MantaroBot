@@ -28,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 
 @SuppressWarnings("unused")
-public class PotionEffect implements Comparable<PotionEffect> {
+public class PotionEffect {
     private String uuid;
     private int potion; //item id
     private long until;
@@ -129,7 +129,7 @@ public class PotionEffect implements Comparable<PotionEffect> {
             return new MessageEmbed.Field(
                     "%s\u2009\u2009\u2009%s".formatted(potion.getEmoji(), potion.getName()) +
                             (languageContext.getContextLanguage().equals("en_US") ? "" :
-                                    " (" + languageContext.get(potion.getTranslatedName()) + ")\n")
+                                    " (" + languageContext.get(potion.getTranslatedName()) + ")")
                             + " (" + potionEquipped + "x)",
                     "%s: %,d %s%n%s: %,d %s%n%s: %s".formatted(
                             languageContext.get("commands.profile.stats.times_used"),
@@ -143,10 +143,5 @@ public class PotionEffect implements Comparable<PotionEffect> {
                     ), true);
         }
         return null;
-    }
-
-    @Override
-    public int compareTo(@NotNull PotionEffect o) {
-        return Integer.compare(potion, o.potion);
     }
 }

@@ -31,6 +31,7 @@ import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +69,14 @@ public class PlayerEquipment {
         // we only save this as the list as we can create keys from the list itself
         // collections are treated as lists by mongo (surprisingly)
         return effectList.values();
+    }
+
+    public List<PotionEffect> getEffectListSorted() {
+        return effectList.entrySet()
+                .stream()
+                .sorted(Comparator.comparingInt(a -> a.getKey().ordinal()))
+                .map(Map.Entry::getValue)
+                .toList();
     }
 
     public Map<EquipmentType, Integer> getEquipment() {

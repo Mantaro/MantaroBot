@@ -449,7 +449,7 @@ public class ProfileCmd {
 
                 var equippedItems = dbUser.getEquippedItems();
                 List<MessageEmbed.Field> fields = new LinkedList<>();
-                for (PotionEffect effect : equippedItems.getEffectList().stream().sorted().toList()) {
+                for (PotionEffect effect : equippedItems.getEffectListSorted()) {
                     // this adds a blank field between each entry
                     if (!fields.isEmpty() && (fields.size() == 1 || fields.size() % 2 == 0)) {
                         fields.add(new MessageEmbed.Field(

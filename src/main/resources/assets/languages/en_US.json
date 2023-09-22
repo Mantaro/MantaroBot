@@ -2394,10 +2394,10 @@
       "interactive": "Interactive Item"
     },
     "effect_types": {
-      "drop_chance_other": "Drop Chance (Mine, Chop)",
+      "drop_chance_other": "Drop Chance",
       "waifu": "Waifu Buff",
       "durability": "Durability",
-      "drop_chance_fish": "Drop Chance (Fish)"
+      "drop_chance_fish": "Fish Chance"
     },
     "headphones": "Headphones",
     "ban_hammer": "Ban Hammer",
