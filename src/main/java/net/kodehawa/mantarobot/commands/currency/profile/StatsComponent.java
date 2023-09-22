@@ -32,12 +32,6 @@ import java.util.function.Function;
 // This isn't pretty, but the old one was *less* pretty!
 public enum StatsComponent {
     MARKET_USED(EmoteReference.MARKET, lang -> lang.get("commands.profile.stats.market"), holder -> "%,d %s".formatted(holder.getPlayer().getMarketUsed(), holder.getI18nContext().get("commands.profile.stats.times"))),
-
-    // potion and buff active basically do the same thing but exist to handle character counts
-    POTION_ACTIVE(EmoteReference.BOOSTER, lang -> lang.get("commands.profile.stats.potion"), holder -> makePotionEffectList(holder, true)),
-
-    BUFF_ACTIVE(EmoteReference.BOOSTER, lang -> lang.get("commands.profile.stats.buff"), holder -> makePotionEffectList(holder, false)),
-
     EQUIPMENT(EmoteReference.PICK, lang -> lang.get("commands.profile.stats.equipment"), holder -> {
         var equippedItems = holder.getDbUser().getEquippedItems();
         return ProfileCmd.parsePlayerEquipment(equippedItems, holder.getI18nContext());
@@ -118,36 +112,6 @@ public enum StatsComponent {
                 playerData.getGamesWon()
         );
     });
-
-    private static String makePotionEffectList(StatsComponent.Holder holder, boolean isPotion) {
-        var equippedItems = holder.getDbUser().getEquippedItems();
-        var builder = new StringBuilder();
-        var potions = isPotion ? equippedItems.getPotions() : equippedItems.getBuffs();
-        for (var potionEffect : potions) {
-            var potion = (Potion) ItemHelper.fromId(potionEffect.getPotion());
-            var potionEquipped = 0L;
-            if (potion != null) {
-                var effectActive = equippedItems.isEffectActive(potion.getEffectType(), potion.getMaxUses()) || potionEffect.getAmountEquipped() > 1;
-                potionEquipped = effectActive ? potionEffect.getAmountEquipped() : potionEffect.getAmountEquipped() - 1;
-                builder.append("**%s (%dx)**%n%s: %,d %s%n%s: %s".formatted(
-                        potion.getName(),
-                        potionEquipped,
-                        holder.getI18nContext().get("commands.profile.stats.times_used"),
-                        potionEffect.getTimesUsed(),
-                        holder.getI18nContext().get("commands.profile.stats.times"),
-                        holder.getI18nContext().get("commands.profile.stats." + (isPotion ? "potion_type" : "buff_type")),
-                        holder.getI18nContext().get("items.effect_types." + potion.getEffectType().name().toLowerCase())
-                )).append("\n\n");
-            }
-        }
-        var noPotion = potions.isEmpty() || builder.isEmpty();
-
-        if (noPotion) {
-            return holder.getI18nContext().get("commands.profile.stats.no_active_" + (isPotion ? "potions" : "buffs"));
-        } else {
-            return builder.toString();
-        }
-    }
 
     private final Function<I18nContext, String> name;
     private final Function<Holder, String> content;

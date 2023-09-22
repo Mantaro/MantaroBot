@@ -17,6 +17,9 @@
 
 package net.kodehawa.mantarobot.commands.currency.item;
 
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
+import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bson.codecs.pojo.annotations.BsonProperty;
@@ -113,5 +116,32 @@ public class PotionEffect {
 
     public void setAmountEquipped(long amountEquipped) {
         this.amountEquipped = amountEquipped;
+    }
+
+    public static MessageEmbed.Field toDisplayField(SlashContext ctx, PotionEffect effect, PlayerEquipment equippedItems) {
+        var potion = (Potion) ItemHelper.fromId(effect.getPotion());
+        var potionEquipped = 0L;
+        if (potion != null) {
+            var effectActive = equippedItems.isEffectActive(potion.getEffectType(), potion.getMaxUses()) || effect.getAmountEquipped() > 1;
+            potionEquipped = effectActive ? effect.getAmountEquipped() : effect.getAmountEquipped() - 1;
+            var languageContext = ctx.getI18nContext();
+            return new MessageEmbed.Field(
+                    "%s\u2009\u2009\u2009%s".formatted(potion.getEmoji(), potion.getName()) +
+                            (languageContext.getContextLanguage().equals("en_US") ? "" :
+                                    " (" + languageContext.get(potion.getTranslatedName()) + ")\n"),
+                    "**%s (%dx)**%n%s: %,d %s%n%s: %,d %s%n%s: %s".formatted(
+                            potion.getName(),
+                            potionEquipped,
+                            languageContext.get("commands.profile.stats.times_used"),
+                            effect.getTimesUsed(),
+                            languageContext.get("commands.profile.stats.times"),
+                            languageContext.get("commands.profile.stats.uses"),
+                            potion.getMaxUses(),
+                            languageContext.get("commands.profile.stats.times"),
+                            languageContext.get("commands.profile.stats." + (potion.getEffectType().isPotion() ? "potion_type" : "buff_type")),
+                            languageContext.get("items.effect_types." + potion.getEffectType().name().toLowerCase())
+                    ), true);
+        }
+        return null;
     }
 }

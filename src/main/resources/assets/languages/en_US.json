@@ -60,7 +60,7 @@
       },
       "potion_active": "%1$sYou already have an active **%2$s** potion effect and have the max amount possible of it!",
       "potion_not_found": "%1$sI can't find that potion or equipment type!",
-      "potion_applied": "%1$sSuccessfully applied effect %2$s**%3$s** of type *%4$s* (%5$dx). Check your shiny new effect on `/profile stats`",
+      "potion_applied": "%1$sSuccessfully applied effect %2$s**%3$s** of type *%4$s* (%5$dx). Check your shiny new effect on `/profile buffs`",
       "potion_applied_multiple": "%1$sSuccessfully applied %2$s**%3$s** of type *%4$s*.\nYou already had this effect applied, so we stacked it up. Current stack size: %5$s",
       "max_stack_size": "%1$sYou already stacked the max amount of %2$s%3$s you possibly can. (Maximum: 15, After stack: %4$s)",
       "max_stack_size_2": "%1$sYou can't stack that many %2$s%3$s. (Maximum: 15, Attempted: %4$s)",
@@ -954,6 +954,9 @@
         "header": "Active Pet",
         "none": "No active pet"
       },
+      "buffs": {
+        "header": "Buffs applied to Profile of %1$s"
+      },
       "stats": {
         "header": "Profile Statistics for %1$s",
         "wins": "Casino Wins",
@@ -982,6 +985,7 @@
         "times": "time(s)",
         "days": "day(s)",
         "times_used": "Times Used",
+        "uses": "Uses per stack",
         "equipment": "Equipment",
         "autoequip": "Auto Equip",
         "never": "Never"
