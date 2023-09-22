@@ -30,6 +30,7 @@ import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,9 +64,10 @@ public class PlayerEquipment {
         this.durability = durability == null ? new HashMap<>() : durability;
     }
 
-    public List<PotionEffect> getEffectList() {
+    public Collection<PotionEffect> getEffectList() {
         // we only save this as the list as we can create keys from the list itself
-        return new ArrayList<>(effectList.values());
+        // collections are treated as lists by mongo (surprisingly)
+        return effectList.values();
     }
 
     public Map<EquipmentType, Integer> getEquipment() {
@@ -113,6 +115,7 @@ public class PlayerEquipment {
 
         effectList.put(potion.getEffectType(), effect);
         fieldTracker.put("equippedItems.effectList", getEffectList());
+        fieldTracker.put("equippedItems.effects", null); // ensures we dont duplicate buffs
     }
 
     //Convenience methods start here.
@@ -138,6 +141,7 @@ public class PlayerEquipment {
         });
 
         fieldTracker.put("equippedItems.effectList", getEffectList());
+        fieldTracker.put("equippedItems.effects", null); // ensures we dont duplicate buffs
 
     }
 
@@ -145,6 +149,7 @@ public class PlayerEquipment {
     public boolean useEffect(PotionEffectType type) {
         var use = getCurrentEffect(type).use();
         fieldTracker.put("equippedItems.effectList", getEffectList());
+        fieldTracker.put("equippedItems.effects", null); // ensures we dont duplicate buffs
         return use;
     }
 
@@ -152,6 +157,7 @@ public class PlayerEquipment {
     public void equipEffect(PotionEffectType type, int amount) {
         getCurrentEffect(type).equip(amount);
         fieldTracker.put("equippedItems.effectList", getEffectList());
+        fieldTracker.put("equippedItems.effects", null); // ensures we dont duplicate buffs
     }
 
     @BsonIgnore
@@ -210,16 +216,6 @@ public class PlayerEquipment {
     @BsonIgnore
     public void updateAllChanged(MongoUser database) {
         MantaroData.db().updateFieldValues(database, fieldTracker);
-    }
-
-    @BsonIgnore
-    public List<PotionEffect> getPotions() {
-        return effectList.entrySet().stream().filter(e -> e.getKey().isPotion()).map(Map.Entry::getValue).toList();
-    }
-
-    @BsonIgnore
-    public List<PotionEffect> getBuffs() {
-        return effectList.entrySet().stream().filter(e -> !e.getKey().isPotion()).map(Map.Entry::getValue).toList();
     }
 
     public enum EquipmentType {

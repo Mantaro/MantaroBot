@@ -433,35 +433,40 @@ public class ItemHelper {
                 return false;
             }
 
-            // Effect is active when it's been used less than the max amount
-            if (!equipment.isEffectActive(type, potion.getMaxUses())) {
-                // Reset effect if the current amount equipped is 0. Else, subtract one from the current amount equipped.
-                if (!equipment.useEffect(type)) { //This call subtracts one from the current amount equipped.
-                    equipment.resetEffect(type);
-                    // This has to go twice, because I have to return on the next statement.
-                    equipment.updateAllChanged(user);
-
-                    return false;
-                } else {
-                    equipment.updateAllChanged(user);
-                    return true;
-                }
-            } else {
+            var activeBefore = equipment.isEffectActive(type, potion.getMaxUses());
+            // if the effect is active increment uses by 1
+            // this is basically always true, as the below
+            // logic ensures effects are rolled over in time
+            // (an improvement to the previous logic)
+            // for the sake of "security" we check it anyway
+            if (activeBefore) {
                 equipment.incrementEffectUses(type);
-                if (!equipment.isEffectActive(type, potion.getMaxUses())) {
-                    // Get the new amount. If the effect is not active we need to remove it
-                    // This is obviously a little hacky, but that's what I get for not thinking about it before.
-                    // This option will blow through the stack if the used amount > allowed amount,
-                    // but we check if the effect is not active, therefore it will only go through and delete
-                    // the element from the stack only when there's no more uses remaining on that part of the stack :)
-                    // This bug took me two god damn years to fix.
-                    equipment.useEffect(type);
-                }
-
-                equipment.updateAllChanged(user);
-
-                return true;
             }
+            var activeAfter = equipment.isEffectActive(type, potion.getMaxUses());
+            // if the effect either wasn't active before (basically impossible)
+            // [context: !activeAfter is true if activeBefore was false]
+            // or is no longer active afterward,
+            // reduce stack by 1
+            if (!activeAfter) {
+                var remove = !equipment.useEffect(type);
+                if (remove) {
+                    // stack reached 0, remove effect
+                    equipment.resetEffect(type);
+                }
+            }
+            // if we were active or are nt longer active afterward we have things to save
+            if (activeBefore || !activeAfter) {
+                equipment.updateAllChanged(user);
+            }
+            // unlike the previous logic we know that if this block is reached
+            // that there was at least one usage left.
+            // why?, because the above logic ensures that resetEffect is called in the same
+            // call as stacks are reduced by 1
+            // For instance if this is called for 1x Beverage with 3 out of 4 uses:
+            // activeBefore = true (increment to 4/4)
+            // activeAfter = false (reduce stack by 1)
+            // stack count after <= 0 -> remove effect
+            return true;
         }
 
         return false;
