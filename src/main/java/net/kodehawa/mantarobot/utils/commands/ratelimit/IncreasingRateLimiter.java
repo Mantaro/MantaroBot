@@ -21,7 +21,6 @@ import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import org.apache.commons.io.IOUtils;
-import org.bson.codecs.pojo.annotations.BsonIgnore;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.exceptions.JedisNoScriptException;
@@ -97,7 +96,7 @@ public class IncreasingRateLimiter {
 
             long start = Instant.now().toEpochMilli();
             List<Long> result;
-            boolean premiumAwareness = config.isPremiumBot();
+            boolean premiumAwareness = premiumAware && config.isPremiumBot();
             try {
                 int cd = cooldown + (randomIncrement && !premiumAwareness ? ThreadLocalRandom.current().nextInt(cooldown / incrementDivider) : 0);
                 result = (List<Long>) j.evalsha(scriptSha,
