@@ -47,7 +47,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class IncreasingRateLimiter {
     private static final String SCRIPT;
-    @BsonIgnore
     private final Config config = MantaroData.config().get();
 
     static {

@@ -203,7 +203,7 @@ public class ManagedDatabase {
     @Nonnull
     @CheckReturnValue
     public PlayerStats getPlayerStats(@Nonnull String userId) {
-        log("Requesting Player {} from MongoDB", userId);
+        log("Requesting PlayerStats {} from MongoDB", userId);
         var collection = dbMantaro().getCollection(PlayerStats.DB_TABLE, PlayerStats.class);
         var stats = collection.find().filter(Filters.eq(userId)).first();
 
