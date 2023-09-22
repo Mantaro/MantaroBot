@@ -450,16 +450,17 @@ public class ProfileCmd {
                 var equippedItems = dbUser.getEquippedItems();
                 List<MessageEmbed.Field> fields = new LinkedList<>();
                 for (PotionEffect effect : equippedItems.getEffectList()) {
-                    var field = PotionEffect.toDisplayField(ctx, effect, equippedItems);
-                    if (field == null) continue;
-                    fields.add(field);
-                    if (fields.size() % 2 == 0) {
+                    // this adds a blank field between each entry
+                    if (!fields.isEmpty() && (fields.size() == 1 || fields.size() % 2 == 0)) {
                         fields.add(new MessageEmbed.Field(
                                 EmbedBuilder.ZERO_WIDTH_SPACE,
                                 EmbedBuilder.ZERO_WIDTH_SPACE,
                                 true)
                         );
                     }
+                    var field = PotionEffect.toDisplayField(ctx, effect, equippedItems);
+                    if (field == null) continue;
+                    fields.add(field);
                 }
 
                 var splitFields = DiscordUtils.divideFields(9, fields);
