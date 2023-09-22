@@ -23,11 +23,12 @@ import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
 @SuppressWarnings("unused")
-public class PotionEffect {
+public class PotionEffect implements Comparable<PotionEffect> {
     private String uuid;
     private int potion; //item id
     private long until;
@@ -128,10 +129,9 @@ public class PotionEffect {
             return new MessageEmbed.Field(
                     "%s\u2009\u2009\u2009%s".formatted(potion.getEmoji(), potion.getName()) +
                             (languageContext.getContextLanguage().equals("en_US") ? "" :
-                                    " (" + languageContext.get(potion.getTranslatedName()) + ")\n"),
-                    "**%s (%dx)**%n%s: %,d %s%n%s: %,d %s%n%s: %s".formatted(
-                            potion.getName(),
-                            potionEquipped,
+                                    " (" + languageContext.get(potion.getTranslatedName()) + ")\n")
+                            + " (" + potionEquipped + "x)",
+                    "%s: %,d %s%n%s: %,d %s%n%s: %s".formatted(
                             languageContext.get("commands.profile.stats.times_used"),
                             effect.getTimesUsed(),
                             languageContext.get("commands.profile.stats.times"),
@@ -143,5 +143,10 @@ public class PotionEffect {
                     ), true);
         }
         return null;
+    }
+
+    @Override
+    public int compareTo(@NotNull PotionEffect o) {
+        return Integer.compare(potion, o.potion);
     }
 }
