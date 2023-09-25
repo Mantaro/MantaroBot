@@ -142,20 +142,7 @@ public class HelpCmd {
                 }
 
                 var help = cmd.getHelp();
-                if (help == null || help.description() == null) {
-                    ctx.sendLocalized("commands.help.extended.no_help", EmoteReference.ERROR);
-                    return;
-                }
-
                 var languageContext = ctx.getLanguageContext();
-                var desc = new StringBuilder();
-                if (random.nextBoolean()) {
-                    desc.append(languageContext.get("commands.help.patreon")).append("\n");
-                }
-
-                desc.append(help.description());
-                desc.append("\n").append(languageContext.get("commands.help.include_warning"));
-
                 var hasSubs = !cmd.getSubCommands().isEmpty();
 
                 String cmdMentionText;
@@ -167,6 +154,31 @@ public class HelpCmd {
                             parent.isBlank() ? "" : cmd.getName()
                     ) + "\n" + languageContext.get("commands.help.mention_tip");
                 }
+
+                if (cmd.getDescription() != null && (help == null || help.description() == null)) {
+                    ctx.send(new EmbedBuilder()
+                            .setColor(Color.PINK)
+                            .setAuthor(languageContext.get("commands.help.help_header").formatted(command), null, ctx.getAuthor().getEffectiveAvatarUrl())
+                            .setDescription(cmd.getDescription())
+                            .addField(EmoteReference.MEGA.toHeaderString() + languageContext.get("commands.help.mention"), cmdMentionText, false)
+                            .build()
+                    );
+                    return;
+                }
+
+                if (help == null || help.description() == null) {
+                    ctx.sendLocalized("commands.help.extended.no_help", EmoteReference.ERROR);
+                    return;
+                }
+
+                var desc = new StringBuilder();
+                if (random.nextBoolean()) {
+                    desc.append(languageContext.get("commands.help.patreon")).append("\n");
+                }
+
+                desc.append(help.description());
+                desc.append("\n").append(languageContext.get("commands.help.include_warning"));
+
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Color.PINK)
                         .setAuthor(languageContext.get("commands.help.help_header").formatted(command), null,

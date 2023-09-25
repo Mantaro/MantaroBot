@@ -46,7 +46,7 @@ public enum EmoteReference {
     PENCIL(":pencil:", "\uD83D\uDCDD"),
     SMILE(":smile:", "\uD83D\uDE04"),
     PICK(":pick:", "\u26cf"),
-    HEART(":heart:", "\u2764"),
+    HEART(":heart:", "\u2764\uFE0F"),
     BLUE_HEART(":blue_heart:", "\uD83D\uDC99"),
     RUNNER(":runner:", "\uD83C\uDFC3"),
     POTION1(":milk:", "\uD83E\uDD5B"),

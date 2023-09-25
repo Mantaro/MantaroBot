@@ -226,7 +226,8 @@ public class PetCmds {
                 var dbUser = ctx.getDBUser(user);
                 var marriage = dbUser.getMarriage();
                 var player = ctx.getPlayer(user);
-                var pet = getCurrentPet(ctx, player, marriage, "commands.pet.status.no_pet");
+                var other = user.getIdLong() != ctx.getAuthor().getIdLong();
+                var pet = getCurrentPet(ctx, player, marriage, other ? "commands.pet.status.no_pet_other" : "commands.pet.status.no_pet");
                 if (pet == null) {
                     return;
                 }
@@ -237,7 +238,10 @@ public class PetCmds {
                 var hasItemBuildup = baseAbilities.contains(HousePetType.HousePetAbility.CATCH);
 
                 EmbedBuilder status = new EmbedBuilder()
-                        .setAuthor(String.format(language.get("commands.pet.status.header"), name), null, ctx.getAuthor().getEffectiveAvatarUrl())
+                        .setAuthor(other ?
+                                String.format(language.get("commands.pet.status.header_other"), name, ctx.getAuthor().getName()) :
+                                String.format(language.get("commands.pet.status.header"), name),
+                                null, ctx.getAuthor().getEffectiveAvatarUrl())
                         .setColor(Color.PINK)
                         .setDescription(language.get("commands.pet.status.description"))
                         .addField(
@@ -387,7 +391,7 @@ public class PetCmds {
                     return;
                 }
 
-                if (pet.getType().getAbilities().isEmpty() || pet.getType().getAbilities().size() == 1) {
+                if (pet.getType().getAbilities().isEmpty()) {
                     ctx.reply("commands.pet.play.no_abilities", EmoteReference.ERROR);
                     return;
                 }
@@ -395,10 +399,18 @@ public class PetCmds {
                 if (!RatelimitUtils.ratelimit(petPlayRatelimiter, ctx))
                     return;
 
-                var increaseCeiling = pet.handleStatIncrease(random);
-                var increaseExperience = random.nextInt(100) < 35;
+                var extra = "";
+                var increaseCeiling = pet.getType() != HousePetType.ROCK && pet.handleStatIncrease(random);
+                var increaseExperience = random.nextInt(100) < 50;
+                var languageContext = ctx.getLanguageContext();
+
+                if (increaseCeiling) {
+                    extra += String.format(languageContext.get("commands.pet.play.ceiling_gain"), EmoteReference.ZAP);
+                }
+
                 if (increaseExperience) {
                     pet.increaseExperience();
+                    extra += String.format(languageContext.get("commands.pet.play.xp_gain"), EmoteReference.ZAP);
                 }
 
                 if (increaseCeiling || increaseExperience) {
@@ -410,7 +422,7 @@ public class PetCmds {
                 }
 
                 var message = pet.handlePlay(pet.getType()).getMessage();
-                ctx.replyStripped(message, pet.getType().getEmoji(), pet.getName());
+                ctx.replyStripped(message, EmoteReference.HEART, pet.getType().getEmoji(), pet.getName(), extra);
             }
         }
 

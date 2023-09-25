@@ -1366,8 +1366,10 @@
       "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. Check `/help command:marry` and `/pet explanation`",
       "status": {
         "no_pet": "%1$sYou don't have any pets to check the status of. Check `/pet explanation` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet_other": "%1$sThe user you're checking doesn't have any pets to check the status of. (Choice: %2$s)%3$s",
         "pet_in_other_category": "\n%1$sYou have a pet on the %2$s choice (%3$s). You can switch to it with `/pet choice type:%2$s`",
         "header": "Status for %1$s",
+        "header_other": "Status for %1$s (%2$s's pet)",
         "description": "Remember to take care and love your pet :heart:\nSee `/pet explanation` and `/help command:pet` for an explanation.",
         "cost": "Price",
         "type": "Type",
@@ -1421,11 +1423,13 @@
         "no_pet": "%1$sYou don't have any pets to play with. Check `/pet explanation` for an explanation. (Choice: %2$s)",
         "no_pet_other": "%1$s%2$s doesn't have any pets to play with. Check `/pet explanation` for an explanation.",
         "no_abilities": "%1$sThis pet has no registered abilities.",
+        "xp_gain": "\n%1$sAnd your pet gained some experience!",
+        "ceiling_gain": "\n%1$sAnd your pet gained increased stats ceiling! (Check your new stats on `/pet status`)",
         "reactions": {
-          "playful": "Your pet playfully plays with you.",
-          "love": "After a long play session, your pet looks lovingly at you.",
-          "dev": "You both played some games together. It was fun.",
-          "nothing": "The pet rock stares deeply at your soul, ever unmoving."
+          "playful": "%1$sYour pet (%2$s%3$s) playfully plays with you.%4$s",
+          "love": "%1$sAfter a long play session, your pet (%2$s%3$s) looks lovingly at you.%4$s",
+          "dev": "%1$sYou both played some games together. It was fun. (Pet: %2$s%3$s)%4$s",
+          "nothing": "%1$sYour pet (%2$s%3$s) stares deeply at your soul, ever unmoving.%4$s"
         }
       },
       "pet_reactions": {
