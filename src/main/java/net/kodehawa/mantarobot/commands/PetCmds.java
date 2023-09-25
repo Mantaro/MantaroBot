@@ -386,6 +386,11 @@ public class PetCmds {
                     return;
                 }
 
+                if (pet.getType().getAbilities().isEmpty()) {
+                    ctx.reply("commands.pet.play.no_abilities", EmoteReference.ERROR);
+                    return;
+                }
+
                 if (!RatelimitUtils.ratelimit(petPlayRatelimiter, ctx))
                     return;
 
