@@ -1419,6 +1419,7 @@
       "play": {
         "no_pet": "%1$sVocê não tem nenhum pet pra brincar. Cheque `/pet explanation` para uma explicação. (Escolha: %2$s)",
         "no_pet_other": "%1$s%2$s não tem nenhum pet pra brincar. Cheque `/pet explanation` para uma explicação.",
+        "no_abilities": "%1$sThis pet has no registered abilities.",
         "reactions": {
           "playful": "Seu pet brinca com você.",
           "love": "Depois de uma longa sessão de brincadeira, seu pet olha pra você com carinho.",
