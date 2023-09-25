@@ -20,9 +20,11 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.dv8tion.jda.api.utils.SplitUtil;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Description;
@@ -246,14 +248,11 @@ public class HelpCmd {
                             );
                         }
                     }
-
                     if (!stringBuilder.isEmpty()) {
-                        var value = stringBuilder.toString();
-                        if (value.length() > 1024) {
-                            value = languageContext.get("commands.help.too_long");
+                        var split = SplitUtil.split(stringBuilder.toString(), MessageEmbed.VALUE_MAX_LENGTH, SplitUtil.Strategy.NEWLINE);
+                        for (var s : split) {
+                            builder.addField(EmoteReference.ZAP.toHeaderString() + "Sub-commands", s, false);
                         }
-
-                        builder.addField(EmoteReference.ZAP.toHeaderString() + "Sub-commands", value, false);
                         builder.addField(EmoteReference.ZAP.toHeaderString() + "Sub-command help", languageContext.get("commands.help.subcommand_help"), false);
                     }
                 }
