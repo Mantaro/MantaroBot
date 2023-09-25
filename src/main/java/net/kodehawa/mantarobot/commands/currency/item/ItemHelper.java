@@ -17,8 +17,10 @@
 
 package net.kodehawa.mantarobot.commands.currency.item;
 
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
 import net.kodehawa.mantarobot.commands.currency.item.special.Food;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
@@ -33,7 +35,10 @@ import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.command.slash.AutocompleteContext;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
+import net.kodehawa.mantarobot.core.listeners.operations.ComponentOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.MongoUser;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -48,6 +53,7 @@ import org.slf4j.LoggerFactory;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -107,16 +113,54 @@ public class ItemHelper {
         }));
 
         ItemReference.POTION_CLEAN.setAction((ctx, season) -> {
-            Player player = ctx.getPlayer();
-            MongoUser dbUser = ctx.getDBUser();
-            var equipped = dbUser.getEquippedItems();
-            equipped.resetEffect(null);
-            player.processItem(ItemReference.POTION_CLEAN, -1);
+            var menu = StringSelectMenu.create("milky_select")
+                    .setRequiredRange(1, 1)
+                    .setPlaceholder(ctx.getLanguageContext().get("general.misc_item_usage.milk.placeholder"));
+            var types = ctx.getDBUser().getEquippedItems().getEffectTypes();
+            if (types.isEmpty()) {
+                ctx.sendLocalized("general.misc_item_usage.milk.none_active", EmoteReference.ERROR);
+                return true;
+            }
+            for (var effectType : types) {
+                menu.addOption(
+                        ctx.getLanguageContext().get("items.effect_types." + effectType.name().toLowerCase()),
+                        effectType.name()
+                );
+            }
+            var message = ctx.sendResult(ctx.getLanguageContext().get("general.misc_item_usage.milk.header"));
+            ComponentOperations.createSelect(message, 60, event -> {
+                var selected = event.getSelectedOptions();
+                User user = event.getUser();
+                MongoUser dbUser = MantaroData.db().getUser(user);
+                var langContext = new I18nContext(I18n.getForLanguage(dbUser.getLang()));
+                if (!selected.isEmpty()) {
+                    try {
+                        var effectType = PotionEffectType.valueOf(selected.get(0).getValue());
+                        Player player = MantaroData.db().getPlayer(user);
+                        var equipped = dbUser.getEquippedItems();
+                        equipped.resetEffect(effectType);
+                        player.processItem(ItemReference.POTION_CLEAN, -1);
 
-            player.updateAllChanged();
-            equipped.updateAllChanged(dbUser);
+                        player.updateAllChanged();
+                        equipped.updateAllChanged(dbUser);
 
-            ctx.sendLocalized("general.misc_item_usage.milk", EmoteReference.CORRECT);
+                        event.getHook().editOriginal(
+                                langContext.get("general.misc_item_usage.milk.success")
+                                        .formatted(
+                                                EmoteReference.CORRECT,
+                                                langContext.get("items.effect_types." + effectType.name().toLowerCase())
+                                        )
+                        ).setComponents().queue();
+                        return Operation.COMPLETED;
+                    } catch (IllegalArgumentException ignored) {}
+                }
+                event.getHook().editOriginal(
+                        langContext.get("general.misc_item_usage.milk.invalid")
+                                .formatted(EmoteReference.ERROR)
+                ).setComponents().queue();
+                return Operation.COMPLETED;
+            }, Collections.singletonList(menu.build()));
+
             return true;
         });
 
@@ -422,8 +466,9 @@ public class ItemHelper {
                 .collect(Collectors.toList());
     }
 
-    public static boolean handleEffect(PlayerEquipment equipment, Item item, MongoUser user) {
+    public static boolean handleEffect(Item item, MongoUser user) {
         if (!(item instanceof Potion potion)) return false;
+        var equipment = user.getEquippedItems();
         var type = potion.getEffectType();
         boolean isEffectPresent = equipment.getCurrentEffect(type) != null;
 
@@ -485,7 +530,7 @@ public class ItemHelper {
         var equippedItems = user.getEquippedItems();
         var subtractFrom = 0;
 
-        if (handleEffect(equippedItems, ItemReference.POTION_STAMINA, user)) {
+        if (handleEffect(ItemReference.POTION_STAMINA, user)) {
             subtractFrom = random.nextInt(7);
         } else {
             subtractFrom = random.nextInt(10);

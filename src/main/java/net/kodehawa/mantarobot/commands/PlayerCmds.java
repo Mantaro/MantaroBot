@@ -39,7 +39,7 @@ import net.kodehawa.mantarobot.core.command.meta.Options;
 import net.kodehawa.mantarobot.core.command.slash.AutocompleteContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
-import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.ComponentOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -283,7 +283,7 @@ public class PlayerCmds {
             var lang = ctx.getLanguageContext();
 
             var message = ctx.sendResult(lang.get("commands.profile.unequip.confirm").formatted(EmoteReference.WARNING, equippedItem.getEmoji(), equippedItem.getName()));
-            ButtonOperations.create(message, ctx.getAuthor().getIdLong(), event -> {
+            ComponentOperations.createButton(message, ctx.getAuthor().getIdLong(), event -> {
                 var author = event.getUser();
                 if (author.getIdLong() != ctx.getAuthor().getIdLong()) {
                     return InteractiveOperation.IGNORED;

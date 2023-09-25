@@ -20,15 +20,21 @@ package net.kodehawa.mantarobot.core.listeners.operations;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
+import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ButtonOperation;
+import net.kodehawa.mantarobot.core.listeners.operations.core.ComponentOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
+import net.kodehawa.mantarobot.core.listeners.operations.core.StringSelectOperation;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -38,9 +44,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("UnusedReturnValue")
-public class ButtonOperations {
-    private static final EventListener LISTENER = new ButtonOperations.ButtonListener();
-    private static final ConcurrentHashMap<Long, RunningOperation> OPERATIONS = new ConcurrentHashMap<>();
+public class ComponentOperations {
+    private static final EventListener LISTENER = new ComponentOperations.ButtonListener();
+    private static final ConcurrentHashMap<Long, RunningOperation<ComponentOperation<?>>> OPERATIONS = new ConcurrentHashMap<>();
     private static final ExecutorService timeoutProcessor = Executors.newCachedThreadPool(r -> {
         Thread t = new Thread(r);
         t.setDaemon(true);
@@ -62,11 +68,11 @@ public class ButtonOperations {
 
     @SuppressWarnings("unused")
     public static Future<Void> get(Long messageId) {
-        RunningOperation o = OPERATIONS.get(messageId);
+        RunningOperation<ComponentOperation<?>> o = OPERATIONS.get(messageId);
         return o == null ? null : o.future;
     }
 
-    public static Future<Void> create(Message message, long timeoutSeconds, ButtonOperation operation, Button... defaultButtons) {
+    public static Future<Void> createButton(Message message, long timeoutSeconds, ButtonOperation operation, Button... defaultButtons) {
         if (!message.getAuthor().equals(message.getJDA().getSelfUser())) {
             throw new IllegalArgumentException("Must provide a message sent by the bot");
         }
@@ -89,7 +95,7 @@ public class ButtonOperations {
         return f;
     }
 
-    public static Future<Void> create(Message message, long timeoutSeconds, ButtonOperation operation, Collection<Button> defaultButtons) {
+    public static Future<Void> createButton(Message message, long timeoutSeconds, ButtonOperation operation, Collection<Button> defaultButtons) {
         if (!message.getAuthor().equals(message.getJDA().getSelfUser())) {
             throw new IllegalArgumentException("Must provide a message sent by the bot");
         }
@@ -111,7 +117,29 @@ public class ButtonOperations {
         return f;
     }
 
-    public static Future<Void> createRows(Message message, long timeoutSeconds, ButtonOperation operation, Collection<ActionRow> defaultButtons) {
+    public static Future<Void> createSelect(Message message, long timeoutSeconds, StringSelectOperation operation, List<SelectMenu> menus) {
+        if (!message.getAuthor().equals(message.getJDA().getSelfUser())) {
+            throw new IllegalArgumentException("Must provide a message sent by the bot");
+        }
+
+        if (!message.getChannel().canTalk()) {
+            message.editMessage("The bot needs View Channel and Message Write on this channel (or Send Messages in Threads if in a thread) to display buttons.").queue();
+            return null;
+        }
+
+        Future<Void> f = create(message.getIdLong(), timeoutSeconds, operation);
+        if (f == null) {
+            return null;
+        }
+
+        if (!menus.isEmpty()) {
+            message.editMessageComponents(ActionRow.of(menus)).queue();
+        }
+
+        return f;
+    }
+
+    public static Future<Void> createButtonRows(Message message, long timeoutSeconds, ButtonOperation operation, Collection<ActionRow> defaultButtons) {
         if (!message.getAuthor().equals(message.getJDA().getSelfUser())) {
             throw new IllegalArgumentException("Must provide a message sent by the bot");
         }
@@ -133,21 +161,21 @@ public class ButtonOperations {
         return f;
     }
 
-    public static Future<Void> create(long messageId, long timeoutSeconds, ButtonOperation operation) {
+    public static Future<Void> create(long messageId, long timeoutSeconds, ComponentOperation<?> operation) {
         if (timeoutSeconds < 1)
             throw new IllegalArgumentException("Timeout is less than 1 second");
 
         if (operation == null)
             throw new IllegalArgumentException("Operation cannot be null!");
 
-        RunningOperation o = OPERATIONS.get(messageId);
+        RunningOperation<ComponentOperation<?>> o = OPERATIONS.get(messageId);
 
         // Already running?
         if (o != null) {
             return null;
         }
 
-        o = new RunningOperation(operation, new OperationFuture(messageId), TimeUnit.SECONDS.toNanos(timeoutSeconds));
+        o = new RunningOperation<>(operation, new OperationFuture(messageId), TimeUnit.SECONDS.toNanos(timeoutSeconds));
         OPERATIONS.put(messageId, o);
 
         return o.future;
@@ -156,7 +184,7 @@ public class ButtonOperations {
     public static class ButtonListener implements EventListener {
         @Override
         public void onEvent(@Nonnull GenericEvent e) {
-            if (e instanceof ButtonInteractionEvent evt) {
+            if (e instanceof GenericComponentInteractionCreateEvent evt) {
                 var guild = evt.getGuild();
                 var member = evt.getMember();
 
@@ -169,14 +197,19 @@ public class ButtonOperations {
                 }
 
                 var messageId = evt.getMessageIdLong();
-                ButtonOperations.RunningOperation o = OPERATIONS.get(messageId);
+                ComponentOperations.RunningOperation<ComponentOperation<?>> o = OPERATIONS.get(messageId);
                 if (o == null) {
                     return;
                 }
-
-                // Forward this event to the anonymous class.
                 evt.deferEdit().queue();
-                int i = o.operation.click(evt);
+                // Forward this event to the anonymous class.
+                int i = -1;
+                if (evt instanceof StringSelectInteractionEvent sev && o.operation instanceof StringSelectOperation sops) {
+                    i = sops.handle(sev);
+                }
+                if (evt instanceof ButtonInteractionEvent bev && o.operation instanceof ButtonOperation bops) {
+                    i = bops.handle(bev);
+                }
                 if (i == Operation.COMPLETED) {
                     //Operation has been completed. We can remove this from the running operations list and go on.
                     OPERATIONS.remove(messageId);
@@ -190,13 +223,13 @@ public class ButtonOperations {
         return LISTENER;
     }
 
-    private static class RunningOperation {
-        private final ButtonOperation operation;
+    private static class RunningOperation<T extends ComponentOperation<? extends GenericComponentInteractionCreateEvent>> {
+        private final T operation;
         private final OperationFuture future;
         private final long timeout;
         private boolean expired;
 
-        private RunningOperation(ButtonOperation operation, OperationFuture future, long timeout) {
+        private RunningOperation(T operation, OperationFuture future, long timeout) {
             this.expired = false;
             this.operation = operation;
             this.future = future;
@@ -238,7 +271,7 @@ public class ButtonOperations {
         @Override
         public boolean cancel(boolean mayInterruptIfRunning) {
             super.cancel(mayInterruptIfRunning);
-            ButtonOperations.RunningOperation o = OPERATIONS.remove(id);
+            ComponentOperations.RunningOperation<ComponentOperation<?>> o = OPERATIONS.remove(id);
 
             if (o == null) {
                 return false;

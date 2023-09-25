@@ -32,7 +32,7 @@ import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.meta.Options;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
-import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.ComponentOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
@@ -158,7 +158,7 @@ public class MarryCmd {
                         .formatted(EmoteReference.MEGA, proposedToUser.getName(), ctx.getAuthor().getName(), EmoteReference.STOPWATCH)
                 );
 
-                ButtonOperations.create(message, 120, e -> {
+                ComponentOperations.createButton(message, 120, e -> {
                     // Ignore all messages from anyone that isn't the user we already proposed to. Waiting for confirmation...
                     if (!e.getUser().getId().equals(proposedToUser.getId())) {
                         return Operation.IGNORED;
@@ -426,7 +426,7 @@ public class MarryCmd {
                 );
 
                 //Start the operation.
-                ButtonOperations.create(message, 60, e -> {
+                ComponentOperations.createButton(message, 60, e -> {
                     if (e.getUser().getIdLong() != author.getIdLong()) {
                         return Operation.IGNORED;
                     }
@@ -519,7 +519,7 @@ public class MarryCmd {
 
                 var finalContent = Utils.HTTP_URL.matcher(name).replaceAll("-url-");
                 var message = ctx.sendResult(String.format(languageContext.get("commands.marry.buyhouse.confirm"), EmoteReference.WARNING, housePrice, finalContent));
-                ButtonOperations.create(message, 30, e -> {
+                ComponentOperations.createButton(message, 30, e -> {
                     if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                         return Operation.IGNORED;
                     }
@@ -611,7 +611,7 @@ public class MarryCmd {
 
                 var finalContent = Utils.HTTP_URL.matcher(name).replaceAll("-url-");
                 var message = ctx.sendResult(String.format(languageContext.get("commands.marry.buycar.confirm"), EmoteReference.WARNING, carPrice, finalContent));
-                ButtonOperations.create(message, 30, e -> {
+                ComponentOperations.createButton(message, 30, e -> {
                     if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                         return Operation.IGNORED;
                     }
@@ -678,7 +678,7 @@ public class MarryCmd {
 
             final var languageContext = ctx.getLanguageContext();
             final var message = ctx.sendResult(String.format(languageContext.get("commands.divorce.confirm"), EmoteReference.WARNING));
-            ButtonOperations.create(message, 45, e -> {
+            ComponentOperations.createButton(message, 45, e -> {
                 if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                     return Operation.IGNORED;
                 }

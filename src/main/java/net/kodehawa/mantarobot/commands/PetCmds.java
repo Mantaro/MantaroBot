@@ -35,7 +35,7 @@ import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.slash.AutocompleteContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
-import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.ComponentOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
@@ -514,7 +514,7 @@ public class PetCmds {
                 player.locked(true);
                 player.updateAllChanged();
 
-                ButtonOperations.create(message, 60, event -> {
+                ComponentOperations.createButton(message, 60, event -> {
                     if (event.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                         return Operation.IGNORED;
                     }
@@ -703,7 +703,7 @@ public class PetCmds {
                 var message = ctx.sendResult(
                         String.format(ctx.getLanguageContext().get("commands.pet.buy.confirm"), EmoteReference.WARNING, name, type, toBuy.getCost(), petChoice.getReadableName())
                 );
-                ButtonOperations.create(message, 60, event -> {
+                ComponentOperations.createButton(message, 60, event -> {
                     if (event.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                         return Operation.IGNORED;
                     }

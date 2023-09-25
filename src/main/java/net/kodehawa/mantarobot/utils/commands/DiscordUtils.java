@@ -27,7 +27,7 @@ import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
-import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.ComponentOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ButtonOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.utils.IntIntObjectFunction;
@@ -111,9 +111,9 @@ public class DiscordUtils {
         buttons.add(ActionRow.of(temp));
         buttons.add(ActionRow.of(Button.danger("cancel", ctx.getLanguageContext().get("buttons.cancel"))));
 
-        return ButtonOperations.createRows(message, 30L, new ButtonOperation() {
+        return ComponentOperations.createButtonRows(message, 30L, new ButtonOperation() {
             @Override
-            public int click(ButtonInteractionEvent e) {
+            public int handle(ButtonInteractionEvent e) {
                 if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                     return Operation.IGNORED;
                 }
@@ -206,9 +206,9 @@ public class DiscordUtils {
 
         var index = new AtomicInteger();
         var message = ctx.send(embeds.get(0));
-        ButtonOperations.create(message, timeoutSeconds, new ButtonOperation() {
+        ComponentOperations.createButton(message, timeoutSeconds, new ButtonOperation() {
             @Override
-            public int click(ButtonInteractionEvent e) {
+            public int handle(ButtonInteractionEvent e) {
                 if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong())
                     return Operation.IGNORED;
 
@@ -289,9 +289,9 @@ public class DiscordUtils {
 
         var index = new AtomicInteger();
         var m = ctx.send(parts.get(0));
-        ButtonOperations.create(m, timeoutSeconds, new ButtonOperation() {
+        ComponentOperations.createButton(m, timeoutSeconds, new ButtonOperation() {
             @Override
-            public int click(ButtonInteractionEvent e) {
+            public int handle(ButtonInteractionEvent e) {
                 if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong())
                     return Operation.IGNORED;
 
@@ -385,9 +385,9 @@ public class DiscordUtils {
         base.setFooter("Total Pages: %s | Thanks for using Mantaro ❤️".formatted(parts.size()), ctx.getAuthor().getEffectiveAvatarUrl());
         var index = new AtomicInteger();
         var message = ctx.send(base.build());
-        ButtonOperations.create(message, timeoutSeconds, new ButtonOperation() {
+        ComponentOperations.createButton(message, timeoutSeconds, new ButtonOperation() {
             @Override
-            public int click(ButtonInteractionEvent e) {
+            public int handle(ButtonInteractionEvent e) {
                 if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                     return Operation.IGNORED;
                 }

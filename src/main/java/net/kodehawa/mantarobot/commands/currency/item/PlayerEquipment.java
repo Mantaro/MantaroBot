@@ -79,6 +79,10 @@ public class PlayerEquipment {
                 .toList();
     }
 
+    public Collection<PotionEffectType> getEffectTypes() {
+        return effectList.keySet();
+    }
+
     public Map<EquipmentType, Integer> getEquipment() {
         return this.equipment;
     }
@@ -95,7 +99,7 @@ public class PlayerEquipment {
     @BsonIgnore
     public boolean equipItem(Item item) {
         EquipmentType type = getTypeFor(item);
-        if (type == null) {
+        if (type == null || type.getType() != 0) {
             return false;
         }
 
@@ -138,7 +142,7 @@ public class PlayerEquipment {
 
     @BsonIgnore
     public void resetEffect(PotionEffectType effectType) {
-        effectList.keySet().removeIf(e -> effectType == null ? e.isPotion() : e == effectType);
+        effectList.keySet().removeIf(e -> e == effectType);
         fieldTracker.put("equippedItems.effectList", getEffectList());
         fieldTracker.put("equippedItems.effects", null); // ensures we dont duplicate buffs
     }

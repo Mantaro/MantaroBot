@@ -49,7 +49,13 @@
     "misc_item_usage": {
       "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
       "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
-      "milk": "%1$sCleared all potion effects.",
+      "milk": {
+        "placeholder": "Select the effect type you'd like to clear.",
+        "header": "Please use the select menu below to select what type of effect you'd like to clear (You have 60 seconds).",
+        "success": "%1$sCleared potion effects of type %2$s.",
+        "invalid": "The potion effect you provided seems to be invalid.",
+        "none_active": "%1$sYou do not have any active buffs."
+      },
       "crate": {
         "too_many": "%1$sYou cannot open more than 5 crates at once.",
         "no_key": "%1$sYou do not have enough crate keys to open that many crates. Crates are locked! You can buy them using `/buy item:key`",
@@ -175,7 +181,7 @@
       "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
       "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
       "rod_broke": "%1$sYour fishing rod broke while trying to catch a fish :(",
-      "waifu_help": "Your waifu came and joined your fishing adventure and you both get a larger haul!",
+      "tea_help": "Your tea helped you keep a calm head on your fishing adventure, yielding a larger haul!",
       "not_suitable": "%1$sYou can't use this to fish.",
       "shark_success": "%1$sSomehow, you managed to catch a shark. What a wonderful rod, huh?",
       "fossil_success": "%1$sYou caught a fossil while trying to find a fish. This might be worth a fair bit or be used for casting, I believe.",
@@ -955,7 +961,8 @@
         "none": "No active pet"
       },
       "buffs": {
-        "header": "Buffs applied to Profile of %1$s"
+        "header": "Buffs applied to Profile of %1$s",
+        "no_buffs": "%1$s %2$s does not have any active buffs."
       },
       "stats": {
         "header": "Profile Statistics for %1$s",
@@ -1796,7 +1803,7 @@
       },
       "item_broke": "%1$sYour %2$s broke while using it :( %3$s",
       "item_broke_autoequip": "*Hint: You can use `/profile autoequip` and it'll automatically equip the item for you when it breaks, assuming you have one in your inventory.*",
-      "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!",
+      "tea_help": "Your tea helped you keep a calm head on your mining adventure, yielding a larger haul!",
       "missing_equipped": "%1$sYou had an equipped %2$s pick, but you no longer have any of its kind on your inventory! Equipped pick has been reset.",
       "broken_drop": "%1$sYour tool broke, but you can repair it. Got broken item: %2$s *%3$s*",
       "broken_drop_miss": "%1$sYour tool broke and you didn't quite manage to get it back."
@@ -2395,9 +2402,11 @@
     },
     "effect_types": {
       "drop_chance_other": "Drop Chance",
-      "waifu": "Waifu Buff",
+      "waifu": "Money Buff",
       "durability": "Durability",
-      "drop_chance_fish": "Fish Chance"
+      "drop_chance_fish": "Fish Chance",
+      "pet": "Pet",
+      "daily": "Daily"
     },
     "headphones": "Headphones",
     "ban_hammer": "Ban Hammer",
@@ -2455,7 +2464,7 @@
     "mop": "Mop",
     "claim_key": "Claim Key",
     "coffee": "Coffee",
-    "waifu_pill": "Waifu Pill",
+    "waifu_pill": "Tea",
     "bait": "Fishing Bait",
     "diamond_pick": "Diamond Pickaxe",
     "tv": "Television",
@@ -2611,7 +2620,7 @@
       "mop": "A delightful way to clean all the dust you have around. I bet there's a lot of it.",
       "claim_key": "This item makes you un-claimeable (as a waifu) when you run `/waifu claimlock`",
       "coffee": "A delightful way to start your day.",
-      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 3 sessions.",
+      "waifu_pill": "Gives you a minor cash advantage on mine and fish. Lasts 3 sessions.",
       "bait": "Gives you a higher chance of catching fish.",
       "diamond_pick": "A strong-ish pick.",
       "tv": "Must... watch... TV...",

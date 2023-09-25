@@ -23,7 +23,6 @@ import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bson.codecs.pojo.annotations.BsonProperty;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -138,7 +137,7 @@ public class PotionEffect {
                             languageContext.get("commands.profile.stats.uses"),
                             potion.getMaxUses(),
                             languageContext.get("commands.profile.stats.times"),
-                            languageContext.get("commands.profile.stats." + (potion.getEffectType().isPotion() ? "potion_type" : "buff_type")),
+                            languageContext.get("commands.profile.stats.buff_type"),
                             languageContext.get("items.effect_types." + potion.getEffectType().name().toLowerCase())
                     ), true);
         }

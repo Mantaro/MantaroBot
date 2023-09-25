@@ -42,7 +42,7 @@ public class ItemReference {
             LOOT_CRATE_KEY, BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES,
             DIAMOND, CHOCOLATE, COOKIES, NECKLACE, ROSE, DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR,
             BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_CLEAN, POTION_STAMINA, FISHING_ROD, FISH,
-            TROPICAL_FISH, BLOWFISH, COMET_GEM, STAR_GEM, COBWEB, GEM_FRAGMENT, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE,
+            TROPICAL_FISH, BLOWFISH, COMET_GEM, STAR_GEM, COBWEB, GEM_FRAGMENT, MOP, CLAIM_KEY, COFFEE, TEA, FISHING_BAIT, DIAMOND_PICKAXE,
             TELEVISION, WRENCH, MOTORCYCLE, COMET_PICKAXE, STAR_PICKAXE, PIZZA, OLD_SPARKLE_FRAGMENT, GEM5_PICKAXE, MINE_CRATE, FISH_CRATE,
             FISH_PREMIUM_CRATE, MINE_PREMIUM_CRATE, COMET_ROD, STAR_ROD, OLD_SPARKLE_ROD, SPARKLE_PICKAXE, SPARKLE_FRAGMENT, SPARKLE_ROD, SHELL,
             SHARK, WRENCH_COMET, WRENCH_SPARKLE, CRAB, SQUID, SHRIMP, MOON_RUNES, SNOWFLAKE, BROKEN_SPARKLE_PICK, BROKEN_COMET_PICK,
@@ -335,8 +335,9 @@ public class ItemReference {
                     10, true
             ),
 
-            WAIFU_PILL = new Potion(ItemType.POTION, PotionEffectType.WAIFU, 3, "\ud83d\udc8a",
-                    "Waifu Pill", "items.waifu_pill", "items.description.waifu_pill",
+            // todo this needs a better buff than money, potentially chance to mult pet effect?
+            TEA = new Potion(ItemType.POTION, PotionEffectType.MONEY, 3, "\uD83C\uDF75",
+                    "Tea", "items.waifu_pill", "items.description.waifu_pill",
                     370, true
             ),
 

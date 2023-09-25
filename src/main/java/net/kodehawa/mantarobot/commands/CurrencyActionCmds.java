@@ -263,7 +263,6 @@ public class CurrencyActionCmds {
         }
 
         var message = "";
-        var waifuHelp = false;
         var petHelp = false;
 
         var item = (Pickaxe) ItemHelper.fromId(equipped);
@@ -272,21 +271,16 @@ public class CurrencyActionCmds {
         var moneyIncrease = item.getMoneyIncrease() <= 0 ? 1 : item.getMoneyIncrease();
         money += Math.max(moneyIncrease / 2, random.nextInt(moneyIncrease));
 
-        if (ItemHelper.handleEffect(dbUser.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
-            final var waifus = dbUser.waifuEntrySet();
-            if (waifus.stream().anyMatch((w) -> w.getValue() > 20_000L)) {
-                money += Math.max(20, random.nextInt(100));
-                waifuHelp = true;
-            }
+
+        var hasTea = ItemHelper.handleEffect(ItemReference.TEA, dbUser);
+        if (hasTea) {
+            money += Math.max(20, random.nextInt(100));
         }
 
         var reminder = random.nextInt(6) == 0 && item == ItemReference.BROM_PICKAXE ?
                 languageContext.get("commands.mine.reminder") : "";
 
-        var hasPotion = ItemHelper.handleEffect(
-                dbUser.getEquippedItems(),
-                ItemReference.POTION_HASTE, dbUser
-        );
+        var hasPotion = ItemHelper.handleEffect(ItemReference.POTION_HASTE, dbUser);
 
         HousePet pet = null;
         var activePetChoice = player.getActivePetChoice(marriage);
@@ -408,8 +402,8 @@ public class CurrencyActionCmds {
                 }
             }
 
-            if (waifuHelp) {
-                message += "\n" + languageContext.get("commands.mine.waifu_help");
+            if (hasTea) {
+                message += "\n" + languageContext.get("commands.mine.tea_help");
             }
 
             player.addBadgeIfAbsent(Badge.GEM_FINDER);
@@ -499,7 +493,7 @@ public class CurrencyActionCmds {
         var nominalLevel = item.getLevel() - 3;
         var extraMessage = "";
         var chance = random.nextInt(100);
-        var buff = ItemHelper.handleEffect(dbUser.getEquippedItems(), ItemReference.FISHING_BAIT, dbUser);
+        var buff = ItemHelper.handleEffect(ItemReference.FISHING_BAIT, dbUser);
 
         if (buff) {
             chance += 6;
@@ -576,15 +570,12 @@ public class CurrencyActionCmds {
                 }
             }
 
-            // START OF WAIFU HELP IMPLEMENTATION
-            boolean waifuHelp = false;
-            if (ItemHelper.handleEffect(dbUser.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
-                if (dbUser.waifuEntrySet().stream().anyMatch((w) -> w.getValue() > 20_000L)) {
-                    money += Math.max(10, random.nextInt(150));
-                    waifuHelp = true;
-                }
+            // START OF TEA HELP IMPLEMENTATION
+            var hasTea = ItemHelper.handleEffect(ItemReference.TEA, dbUser);
+            if (hasTea) {
+                money += Math.max(10, random.nextInt(150));
             }
-            // END OF WAIFU HELP IMPLEMENTATION
+            // END OF TEA HELP IMPLEMENTATION
 
             // START OF FISH LOOT CRATE HANDLING
             if (random.nextInt(400) > 380) {
@@ -689,7 +680,7 @@ public class CurrencyActionCmds {
                 ctx.sendFormatStripped(extraMessage + "\n\n" + languageContext.get("commands.fish.success"), item.getEmojiDisplay(), itemDisplay, item.getName());
             } else if (money > 0) { //there's money and fish
                 ctx.sendFormatStripped(extraMessage + "\n\n" + languageContext.get("commands.fish.success_money"),
-                        item.getEmojiDisplay(), itemDisplay, money, item.getName(), (waifuHelp ? "\n" + languageContext.get("commands.fish.waifu_help") : "")
+                        item.getEmojiDisplay(), itemDisplay, money, item.getName(), (hasTea ? "\n" + languageContext.get("commands.fish.tea_help") : "")
                 );
             }
 
@@ -725,7 +716,7 @@ public class CurrencyActionCmds {
         }
 
         var chance = random.nextInt(100);
-        var hasPotion = ItemHelper.handleEffect(dbUser.getEquippedItems(), ItemReference.POTION_HASTE, dbUser);
+        var hasPotion = ItemHelper.handleEffect(ItemReference.POTION_HASTE, dbUser);
 
         if (hasPotion) {
             chance += 9;

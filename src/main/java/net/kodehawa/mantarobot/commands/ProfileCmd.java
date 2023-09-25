@@ -448,8 +448,13 @@ public class ProfileCmd {
                 var dbUser = ctx.getDBUser(toLookup);
 
                 var equippedItems = dbUser.getEquippedItems();
+                var sorted = equippedItems.getEffectListSorted();
+                if (sorted.isEmpty()) {
+                    ctx.sendLocalized("commands.profile.buffs.no_buffs", EmoteReference.ERROR, toLookup.getName());
+                    return;
+                }
                 List<MessageEmbed.Field> fields = new LinkedList<>();
-                for (PotionEffect effect : equippedItems.getEffectListSorted()) {
+                for (PotionEffect effect : sorted) {
                     // this adds a blank field between each entry
                     if (!fields.isEmpty() && (fields.size() == 1 || fields.size() % 2 == 0)) {
                         fields.add(new MessageEmbed.Field(
