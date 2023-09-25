@@ -283,20 +283,21 @@ public class PetCmds {
                         )
                         .addField(
                                 EmoteReference.HEART.toHeaderString() + language.get("commands.pet.status.health"),
-                                "**%,d / 100**".formatted(pet.getHealth()), true
+                                "**%,d / %,d**".formatted(pet.getHealth(), pet.getMaxHealth()), true
                         )
                         .addField(
                                 EmoteReference.RUNNER.toHeaderString() + language.get("commands.pet.status.stamina"),
-                                "**%,d / 100**".formatted(pet.getStamina()), true
+                                "**%,d / %,d**".formatted(pet.getStamina(), pet.getMaxStamina()), true
                         )
                         .addField(
                                 EmoteReference.DROPLET.toHeaderString() + language.get("commands.pet.status.thirst"),
-                                "**%,d / 100**".formatted(pet.getThirst()), true
+                                "**%,d / %,d**".formatted(pet.getThirst(), pet.getMaxThirst()), true
                         )
                         .addField(
                                 EmoteReference.FORK.toHeaderString() + language.get("commands.pet.status.hunger"),
-                                "**%,d / 100**".formatted(pet.getHunger()), true
+                                "**%,d / %,d**".formatted(pet.getHunger(), pet.getMaxHunger()), true
                         )
+                        .addBlankField(true)
                         .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl())
                         .setFooter(language.get("commands.pet.status.footer"));
 
@@ -395,7 +396,7 @@ public class PetCmds {
                     return;
 
                 var increaseCeiling = pet.handleStatIncrease(random);
-                var increaseExperience = random.nextInt(100) < 25;
+                var increaseExperience = random.nextInt(100) < 35;
                 if (increaseExperience) {
                     pet.increaseExperience();
                 }

@@ -50,7 +50,7 @@ public class HousePet {
     private long level = 1;
 
     @BsonIgnore
-    public int attributeCeiling = 130;
+    public int attributeCeiling = 120;
     @BsonIgnore
     public Map<String, Object> fieldTracker = new HashMap<>();
 
@@ -368,7 +368,7 @@ public class HousePet {
 
     @BsonIgnore
     public boolean handleStatIncrease(SecureRandom random) {
-        var doChance = random.nextDouble() < 0.02f; // 2%
+        var doChance = random.nextDouble() <= 0.04f; // 4%
         if (doChance) {
             // 3 in 10 chance of it being 2 instead of 1, after the initial. Guarantee at least 1, though.
             // This handles the attribute ceiling on the calls for increase,
