@@ -386,7 +386,7 @@ public class PetCmds {
                     return;
                 }
 
-                if (pet.getType().getAbilities().isEmpty()) {
+                if (pet.getType().getAbilities().isEmpty() || pet.getType().getAbilities().size() == 1) {
                     ctx.reply("commands.pet.play.no_abilities", EmoteReference.ERROR);
                     return;
                 }
