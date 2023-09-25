@@ -1419,6 +1419,7 @@
       "play": {
         "no_pet": "%1$sYou don't have any pets to play with. Check `/pet explanation` for an explanation. (Choice: %2$s)",
         "no_pet_other": "%1$s%2$s doesn't have any pets to play with. Check `/pet explanation` for an explanation.",
+        "no_abilities": "%1$sThis pet has no registered abilities.",
         "reactions": {
           "playful": "Your pet playfully plays with you.",
           "love": "After a long play session, your pet looks lovingly at you.",
