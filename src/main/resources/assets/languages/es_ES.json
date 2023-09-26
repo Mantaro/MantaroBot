@@ -1357,7 +1357,7 @@
         "dog": "Dog",
         "rat": "Hamster",
         "rock": "Rock",
-        "kode": "Developer",
+        "kode": "Dev",
         "all": "All"
       },
       "explanation": "¡Las mascotas son un compañero muy útil en la economía!\nEllos/as te ayudan a ganar más dinero, encontrar más cosas minando, cortando árboles y ¡hasta te ayudan a pescar!. ¡Mientras más alto su nivel, más recompensas obtendrás!\nComprar la mascota correcta para la actividad que necesites es importante, así que ¡asegurate de ver las habilidades y capacidades de la mascota antes de conseguirla!\nRecuerda que debes alimentar y darle agua a tu mascota, así como dejarla descansar cada un rato, ¡como a una mascota de verdad!. Hasta le puedes acariciar la cabeza :)\nHay dos tipos: Personal (para tí) y Marriage (compartida entre tú y tu pareja). Elige una usando `/pet choice`. Por defecto esto es Personal.\nPara conseguir más ayuda, usa `/help command:pet` y `/pet list` para una lista de mascotas.",
@@ -1365,8 +1365,10 @@
       "no_marriage_other": "%1$s%2$s necesita estár casado para tener una mascota de casamiento. Revisa `/help command:marry` y `/pet explanation`",
       "status": {
         "no_pet": "%1$sNo tienes una mascota para ver el estado de esta. Usa `/pet explanation` para una explicación. (Elección: %2$s)%3$s",
+        "no_pet_other": "%1$sThe user you're checking doesn't have any pets to check the status of. (Choice: %2$s)%3$s",
         "pet_in_other_category": "\n%1$sTienes una mascota en la elección %2$s (%3$s). Puedes cambiar hacia esta mascota usando `/pet choice type:%2$s`",
         "header": "Estado para %1$s",
+        "header_other": "Status for %1$s (%2$s's pet)",
         "description": "Recuerda darle amor y cuidar de tu mascota :heart:\nUsa `/pet explanation` y `/help command:pet para más información.",
         "cost": "Precio",
         "type": "Tipo",
@@ -1386,7 +1388,7 @@
         "footer": "¡Gracias por usar Mantaro! <3"
       },
       "check": {
-        "success": "**Estado de la mascota %1$s:**\n\n%2$s Sed: **%3$s / 100** | %4$s Hambre: **%5$s / 100** | %6$s Polvo: **%7$s%%** | Elección: **%8$s**"
+        "success": "**Pet status for %1$s:**\n\n%2$s Thirst: **%3$s / %4$s** | %5$s Hunger: **%6$s / %7$s** | %8$s Dust: **%9$s%%** | Choice: **%10$s**"
       },
       "clean": {
         "not_enough_money": "%1$sNecesitas al menos %2$,d créditos para limpiar a **%3$s**.",
@@ -1420,11 +1422,13 @@
         "no_pet": "%1$sYou don't have any pets to play with. Check `/pet explanation` for an explanation. (Choice: %2$s)",
         "no_pet_other": "%1$s%2$s doesn't have any pets to play with. Check `/pet explanation` for an explanation.",
         "no_abilities": "%1$sThis pet has no registered abilities.",
+        "xp_gain": "\n%1$sAnd your pet gained some experience!",
+        "ceiling_gain": "\n%1$sAnd your pet gained increased stats ceiling! (Check your new stats on `/pet status`)",
         "reactions": {
-          "playful": "Your pet playfully plays with you.",
-          "love": "After a long play session, your pet looks lovingly at you.",
-          "dev": "You both played some games together. It was fun.",
-          "nothing": "The pet rock stares deeply at your soul, ever unmoving."
+          "playful": "%1$sYour pet (%2$s%3$s) playfully plays with you.%4$s",
+          "love": "%1$sAfter a long play session, your pet (%2$s%3$s) looks lovingly at you.%4$s",
+          "dev": "%1$sYou both played some games together. It was fun. (Pet: %2$s%3$s)%4$s",
+          "nothing": "%1$sYour pet (%2$s%3$s) stares deeply at your soul, ever unmoving.%4$s"
         }
       },
       "pet_reactions": {
