@@ -1357,7 +1357,7 @@
         "dog": "Dog",
         "rat": "Hamster",
         "rock": "Rock",
-        "kode": "Developer",
+        "kode": "Dev",
         "all": "All"
       },
       "explanation": "Evcil hayvanlar, para biriminde yararlı bir arkadaştır!\nDaha fazla para kazanmanıza, daha fazla yağmalamanıza, madende rastgele şeyler bulmanıza, ağaçları kesmenize ve hatta balık tutmanıza yardımcı olurlar. Seviye ne kadar yüksek olursa, ödüller de o kadar yüksek olur!\nFaaliyetleriniz için doğru evcil hayvanı almak önemlidir, bu nedenle seçmek istediğiniz evcil hayvanın türünü ve yeteneklerini kontrol ettiğinizden emin olun!\nEvcil hayvanınızı beslemeniz ve ona su vermeniz ve aynı zamanda gerçek bir evcil hayvan gibi dinlenmesini ve arada bir enerji toplamasını sağlamanız gerektiğini unutmayın! sevebilirsin bile :)\nİki tür vardır: Kişisel (kendiniz için) ve Evlilik (eşinizle sizin aranızda paylaşılan). `/pet choice` ile birini seçin. Varsayılan Kişisel'dir.\nDaha fazla yardım için `/help command:pet` ve evcil hayvan listesi için `/pet list` kullanın.",
@@ -1365,8 +1365,10 @@
       "no_marriage_other": "%1$s%2$s evcil hayvan sahibi olmak için evli olmalıdır. `/help command:marry` ve `/pet explanation` komutlarını kontrol edin",
       "status": {
         "no_pet": "%1$sDurumunu kontrol edecek evcil hayvanınız yok. Açıklama için `/pet explanation` komudunu kontrol edin. (Seçim: %2$s)%3$s",
+        "no_pet_other": "%1$sThe user you're checking doesn't have any pets to check the status of. (Choice: %2$s)%3$s",
         "pet_in_other_category": "\n%1$s%2$s seçiminde (%3$s) bir evcil hayvanınız var. `/pet choice type:%2$s` ile geçiş yapabilirsiniz",
         "header": "%1$s için durum",
+        "header_other": "Status for %1$s (%2$s's pet)",
         "description": "Evcil hayvanınıza bakmayı ve onu sevmeyi unutmayın :heart:\nAçıklama için `/pet explanation` ve `/help command:pet` komutlarına bakın.",
         "cost": "Fiyat",
         "type": "Tür",
@@ -1386,7 +1388,7 @@
         "footer": "Mantaro'yu kullandığınız için teşekkürler! <3"
       },
       "check": {
-        "success": "**%1$s için evcil hayvan durumu:**\n\n%2$s Susuzluk: **%3$s / 100** | %4$s Açlık: **%5$s / 100** | %6$s Toz: **%7$s%%** | Seçim: **%8$s**"
+        "success": "**Pet status for %1$s:**\n\n%2$s Thirst: **%3$s / %4$s** | %5$s Hunger: **%6$s / %7$s** | %8$s Dust: **%9$s%%** | Choice: **%10$s**"
       },
       "clean": {
         "not_enough_money": "%1$s**%3$s** temizlemek için en az %2$,d krediye ihtiyacınız var.",
@@ -1420,11 +1422,13 @@
         "no_pet": "%1$sYou don't have any pets to play with. Check `/pet explanation` for an explanation. (Choice: %2$s)",
         "no_pet_other": "%1$s%2$s doesn't have any pets to play with. Check `/pet explanation` for an explanation.",
         "no_abilities": "%1$sThis pet has no registered abilities.",
+        "xp_gain": "\n%1$sAnd your pet gained some experience!",
+        "ceiling_gain": "\n%1$sAnd your pet gained increased stats ceiling! (Check your new stats on `/pet status`)",
         "reactions": {
-          "playful": "Your pet playfully plays with you.",
-          "love": "After a long play session, your pet looks lovingly at you.",
-          "dev": "You both played some games together. It was fun.",
-          "nothing": "The pet rock stares deeply at your soul, ever unmoving."
+          "playful": "%1$sYour pet (%2$s%3$s) playfully plays with you.%4$s",
+          "love": "%1$sAfter a long play session, your pet (%2$s%3$s) looks lovingly at you.%4$s",
+          "dev": "%1$sYou both played some games together. It was fun. (Pet: %2$s%3$s)%4$s",
+          "nothing": "%1$sYour pet (%2$s%3$s) stares deeply at your soul, ever unmoving.%4$s"
         }
       },
       "pet_reactions": {

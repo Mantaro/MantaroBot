@@ -1357,7 +1357,7 @@
         "dog": "Dog",
         "rat": "Hamster",
         "rock": "Rock",
-        "kode": "Developer",
+        "kode": "Dev",
         "all": "All"
       },
       "explanation": "Les animaux sont d'utiles compagnon pécuniaires!\nIls t'aident à accumuler plus d'argent, plus de loot, trouver plus d'objets dans 'mine', dans 'chop' et dans 'fish'. Plus ils sont haut niveaux, plus il y a de récompenses.\nChoisir le meilleur animal pour tes activités est très important, donc vérifie bien le type et les capacités de l'animal que tu désires.\nN'oublie pas que tu dois nourrir ton animal et lui donner de l'eau, ainsi que le laisser se reposer pour recharger son énergie, comme un vrai animal de compagnie! Tu peux même le caresser :)\nTu peux créer deux type de lien avec ton animal: personnel (pour toi) et de mariage (partagé avec ton-ta partenaire). Choisis son lien avec toi en utilisant `/pet choice`. Le lien par défaut est personnel.\nPour plus d'aide, utilise `/help command:pet` et `/pet list` pour une liste de tous les animaux.",
@@ -1365,8 +1365,10 @@
       "no_marriage_other": "%1$s%2$s needs to be married to have a marriage pet. Check `/help command:marry` and `/pet explanation`",
       "status": {
         "no_pet": "%1$sTu n'as pas d'animaux à surveiller. Fais la commande `/pet explanation` pour plus d'explications. (Lien: %2$s)%3$s",
+        "no_pet_other": "%1$sThe user you're checking doesn't have any pets to check the status of. (Choice: %2$s)%3$s",
         "pet_in_other_category": "\n%1$sTu as un animal de compagnie auquel tu es lié.e de manière %2$s (%3$s). Tu peux changer ça grâce à `/pet choice type:%2$s`",
         "header": "Statut de %1$s",
+        "header_other": "Status for %1$s (%2$s's pet)",
         "description": "N'oublie pas de t'occuper de ton animal et l'aimer :heart:\nVoir `/pet explanation` et`/help command:pet` pour une explication.",
         "cost": "Prix",
         "type": "Type",
@@ -1386,7 +1388,7 @@
         "footer": "Merci d'utiliser Mantaro! <3"
       },
       "check": {
-        "success": "**Statut de %1$s:**\n%2$s Soif: **%3$s / 100** | %4$s Faim: **%5$s / 100** | %6$s Poussière: **%7$s%%** | Choix: **%8$s**"
+        "success": "**Pet status for %1$s:**\n\n%2$s Thirst: **%3$s / %4$s** | %5$s Hunger: **%6$s / %7$s** | %8$s Dust: **%9$s%%** | Choice: **%10$s**"
       },
       "clean": {
         "not_enough_money": "%1$sTu as besoin d'au moins %2$,d crédits pour nettoyer **%3$s**.",
@@ -1420,11 +1422,13 @@
         "no_pet": "%1$sYou don't have any pets to play with. Check `/pet explanation` for an explanation. (Choice: %2$s)",
         "no_pet_other": "%1$s%2$s doesn't have any pets to play with. Check `/pet explanation` for an explanation.",
         "no_abilities": "%1$sThis pet has no registered abilities.",
+        "xp_gain": "\n%1$sAnd your pet gained some experience!",
+        "ceiling_gain": "\n%1$sAnd your pet gained increased stats ceiling! (Check your new stats on `/pet status`)",
         "reactions": {
-          "playful": "Your pet playfully plays with you.",
-          "love": "After a long play session, your pet looks lovingly at you.",
-          "dev": "You both played some games together. It was fun.",
-          "nothing": "The pet rock stares deeply at your soul, ever unmoving."
+          "playful": "%1$sYour pet (%2$s%3$s) playfully plays with you.%4$s",
+          "love": "%1$sAfter a long play session, your pet (%2$s%3$s) looks lovingly at you.%4$s",
+          "dev": "%1$sYou both played some games together. It was fun. (Pet: %2$s%3$s)%4$s",
+          "nothing": "%1$sYour pet (%2$s%3$s) stares deeply at your soul, ever unmoving.%4$s"
         }
       },
       "pet_reactions": {
