@@ -322,8 +322,9 @@ public class PetCmds {
                 }
 
                 ctx.replyStripped("commands.pet.check.success",
-                        pet.getName(), EmoteReference.DROPLET, pet.getThirst(),
-                        EmoteReference.FORK, pet.getHunger(), EmoteReference.DUST, pet.getDust(), player.getActivePetChoice(marriage)
+                        pet.getName(), EmoteReference.DROPLET, pet.getThirst(), pet.getMaxThirst(),
+                        EmoteReference.FORK, pet.getHunger(), pet.getMaxHunger(), EmoteReference.DUST,
+                        pet.getDust(), player.getActivePetChoice(marriage)
                 );
             }
         }
