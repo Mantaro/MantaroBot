@@ -1053,7 +1053,7 @@ public class PetCmds {
                         @Options.Choice(value = "dog", description = "Dog"),
                         @Options.Choice(value = "hamster", description = "Hamster"),
                         @Options.Choice(value = "rock", description = "Rock"),
-                        @Options.Choice(value = "developer", description = "Developer")
+                        @Options.Choice(value = "dev", description = "Developer")
                 }
         ))
         public static class Info extends SlashCommand {
@@ -1082,11 +1082,11 @@ public class PetCmds {
                         .filter(ability -> ability != HousePetType.HousePetAbility.CHEER).toList();
 
                 var embed = new EmbedBuilder()
-                        .setAuthor(String.format(languageContext.get("commands.pet.info.author"), emoji, name),
+                        .setAuthor(String.format(languageContext.get("commands.pet.info.author"), emoji, languageContext.get(name)),
                                 null, ctx.getAuthor().getEffectiveAvatarUrl()
                         )
                         .addField(EmoteReference.PENCIL.toHeaderString() +
-                                languageContext.get("commands.pet.info.name"), name, true
+                                languageContext.get("commands.pet.info.name"), languageContext.get(name), true
                         )
                         .addField(EmoteReference.MONEY.toHeaderString() +
                                 languageContext.get("commands.pet.info.cost"), "%,d credits".formatted(cost), true
