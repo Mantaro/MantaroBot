@@ -616,7 +616,7 @@ public class PetCmds {
                                 @Options.Choice(value = "dog", description = "Dog"),
                                 @Options.Choice(value = "hamster", description = "Hamster"),
                                 @Options.Choice(value = "rock", description = "Rock"),
-                                @Options.Choice(value = "developer", description = "Developer")
+                                @Options.Choice(value = "dev", description = "Developer")
                         }
                 ),
                 @Options.Option(type = OptionType.STRING, name = "name", description = "The pet name.", required = true)
