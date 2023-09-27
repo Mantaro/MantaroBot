@@ -388,7 +388,7 @@ public class PetCmds {
                 }
 
                 if (pet == null) {
-                    ctx.reply("commands.pet.pat.no_pet", EmoteReference.ERROR, choice.getReadableName());
+                    ctx.reply("commands.pet.play.no_pet", EmoteReference.ERROR, choice.getReadableName());
                     return;
                 }
 
@@ -397,7 +397,7 @@ public class PetCmds {
                     return;
                 }
 
-                if (!RatelimitUtils.ratelimit(petPlayRatelimiter, ctx))
+                if (!RatelimitUtils.ratelimit(petPlayRatelimiter, ctx, false))
                     return;
 
                 var extra = "";
