@@ -918,7 +918,7 @@ public class PetCmds {
                     return;
                 }
 
-                if (pet.getHunger() > 95) {
+                if (pet.getHunger() > pet.getMaxHunger() - 5) {
                     ctx.reply("commands.pet.feed.no_need", EmoteReference.ERROR);
                     return;
                 }
@@ -926,8 +926,8 @@ public class PetCmds {
                 var baseline = foodItem.getHungerLevel();
 
                 if (isFull) {
-                    amount = (100 - pet.getHunger()) / baseline;
-                    if (pet.getHunger() + (baseline * amount) < 100 || amount == 0) {
+                    amount = (pet.getMaxHunger() - pet.getHunger()) / baseline;
+                    if (pet.getHunger() + (baseline * amount) < pet.getMaxHunger() || amount == 0) {
                         amount += 1;
                     }
                 }
@@ -946,7 +946,7 @@ public class PetCmds {
                 }
 
 
-                if ((pet.getHunger() + increase) > (91 + foodItem.getHungerLevel())) {
+                if ((pet.getHunger() + increase) > ((pet.getMaxHunger() - 9) + foodItem.getHungerLevel())) {
                     ctx.reply("commands.pet.feed.too_much", EmoteReference.ERROR);
                     return;
                 }
@@ -994,7 +994,7 @@ public class PetCmds {
                     return;
                 }
 
-                if (pet.getThirst() > 95) {
+                if (pet.getThirst() > pet.getMaxThirst() - 5) {
                     ctx.reply("commands.pet.water.no_need", EmoteReference.ERROR);
                     return;
                 }
@@ -1002,8 +1002,8 @@ public class PetCmds {
                 var item = ItemReference.WATER_BOTTLE;
                 if (isFull) {
                     // Reassign.
-                    amount = (100 - pet.getThirst()) / baseline;
-                    if (pet.getThirst() + (baseline * amount) < 100 || amount == 0) {
+                    amount = (pet.getMaxThirst() - pet.getThirst()) / baseline;
+                    if (pet.getThirst() + (baseline * amount) < pet.getMaxThirst() || amount == 0) {
                         amount += 1;
                     }
                 }
@@ -1019,7 +1019,7 @@ public class PetCmds {
                     return;
                 }
 
-                if ((pet.getThirst() + increase) > 110) {
+                if ((pet.getThirst() + increase) > pet.getMaxThirst() + 10) {
                     ctx.reply("commands.pet.water.too_much", EmoteReference.ERROR);
                     return;
                 }
