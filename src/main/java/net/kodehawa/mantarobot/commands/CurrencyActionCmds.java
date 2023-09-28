@@ -300,7 +300,6 @@ public class CurrencyActionCmds {
 
         if (pet != null) {
             var rewards = handlePetBuff(pet, HousePetType.HousePetAbility.CATCH, languageContext, false);
-            pet.handleStatIncrease(random);
             money += rewards.getMoney();
             message += rewards.getResult();
 
@@ -565,7 +564,6 @@ public class CurrencyActionCmds {
 
             if (pet != null) {
                 HousePet.ActivityReward rewards = handlePetBuff(pet, HousePetType.HousePetAbility.FISH, languageContext);
-                pet.handleStatIncrease(random);
                 amount += rewards.getItems();
                 money += rewards.getMoney();
                 extraMessage += "\n" + rewards.getResult();
@@ -765,7 +763,6 @@ public class CurrencyActionCmds {
 
             if (pet != null) {
                 HousePet.ActivityReward rewards = handlePetBuff(pet, HousePetType.HousePetAbility.CHOP, languageContext);
-                pet.handleStatIncrease(random);
                 amount += rewards.getItems();
                 money += rewards.getMoney();
                 extraMessage += rewards.getResult();
@@ -894,6 +891,8 @@ public class CurrencyActionCmds {
                                                          I18nContext languageContext, boolean needsItem) {
         HousePet.ActivityResult ability = pet.handleAbility(required);
         if (ability.passed()) {
+            pet.handleStatIncrease(random);
+
             var itemIncrease = 0;
             var buildup = pet.getType().getMaxItemBuildup(pet.getLevel());
             if (needsItem && buildup > 0) {
@@ -914,10 +913,8 @@ public class CurrencyActionCmds {
     }
 
     private static List<Item> handleChopDrop() {
-        var all = Arrays.stream(ItemReference.ALL)
-                .filter(i -> i.getItemType() == ItemType.CHOP_DROP).toList();
-
-        return all.stream()
+        return Arrays.stream(ItemReference.ALL)
+                .filter(i -> i.getItemType() == ItemType.CHOP_DROP)
                 .sorted(Comparator.comparingLong(Item::getValue))
                 .collect(Collectors.toList());
     }
