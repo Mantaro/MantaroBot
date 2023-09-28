@@ -234,7 +234,7 @@ public class HousePet {
     }
 
     public void increaseMaxHealth(int by) {
-        if (by == 0) {
+        if (by == 0 || maxHealth >= attributeCeiling) {
             return;
         }
 
@@ -243,7 +243,7 @@ public class HousePet {
     }
 
     public void increaseMaxHunger(int by) {
-        if (by == 0) {
+        if (by == 0 || maxHunger >= attributeCeiling) {
             return;
         }
 
@@ -252,7 +252,7 @@ public class HousePet {
     }
 
     public void increaseMaxStamina(int by) {
-        if (by == 0) {
+        if (by == 0 || maxStamina >= attributeCeiling) {
             return;
         }
 
@@ -261,7 +261,7 @@ public class HousePet {
     }
 
     public void increaseMaxThirst(int by) {
-        if (by == 0) {
+        if (by == 0 || maxThirst >= attributeCeiling) {
             return;
         }
 
