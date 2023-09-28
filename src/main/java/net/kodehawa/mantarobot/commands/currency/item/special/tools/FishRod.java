@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.commands.currency.item.special.tools;
 
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
-import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Attribute;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.ItemUsage;
@@ -29,61 +28,56 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FishRod extends Item implements Castable, Salvageable, Attribute {
+public class FishRod extends Item implements Salvageable, Attribute {
     private final int level;
     private final int castLevelRequired;
-    private final int maximumCastAmount;
     private final int maxDurability;
     private final int rarity;
     private final String explanation;
     private final List<Integer> salvageReturns;
 
-    public FishRod(ItemType type, int level, int castLevelRequired, int maximumCastAmount, String emoji, String name,
+    public FishRod(ItemType type, int level, int castLevelRequired, String emoji, String name,
                    String translatedName, String desc, String explanation, int rarity, long value, String recipe,
                    int maxDurability, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, true, false, recipe, recipeTypes);
         this.level = level;
         this.castLevelRequired = castLevelRequired;
-        this.maximumCastAmount = maximumCastAmount;
         this.maxDurability = maxDurability;
         this.salvageReturns = Arrays.stream(recipeTypes).boxed().collect(Collectors.toList());
         this.rarity = rarity;
         this.explanation = explanation;
     }
 
-    public FishRod(ItemType type, int level, int castLevelRequired, int maximumCastAmount, String emoji, String name,
+    public FishRod(ItemType type, int level, int castLevelRequired, String emoji, String name,
                    String alias, String translatedName, String desc, String explanation, int rarity, long value, String recipe,
                    int maxDurability, int... recipeTypes) {
         super(type, emoji, name, alias, translatedName, desc, value, true, false, recipe, recipeTypes);
         this.level = level;
         this.castLevelRequired = castLevelRequired;
-        this.maximumCastAmount = maximumCastAmount;
         this.maxDurability = maxDurability;
         this.salvageReturns = Arrays.stream(recipeTypes).boxed().collect(Collectors.toList());
         this.rarity = rarity;
         this.explanation = explanation;
     }
 
-    public FishRod(ItemType type, int level, int castLevelRequired, int maximumCastAmount, String emoji, String name,
+    public FishRod(ItemType type, int level, int castLevelRequired, String emoji, String name,
                    String translatedName, String desc, String explanation, int rarity, long value, boolean buyable, String recipe,
                    int maxDurability, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, true, buyable, recipe, recipeTypes);
         this.level = level;
         this.castLevelRequired = castLevelRequired;
-        this.maximumCastAmount = maximumCastAmount;
         this.maxDurability = maxDurability;
         this.salvageReturns = Arrays.stream(recipeTypes).filter(id -> id > 1).boxed().collect(Collectors.toList());
         this.rarity = rarity;
         this.explanation = explanation;
     }
 
-    public FishRod(ItemType type, int level, int castLevelRequired, int maximumCastAmount, String emoji, String name,
+    public FishRod(ItemType type, int level, int castLevelRequired, String emoji, String name,
                    String alias, String translatedName, String desc, String explanation, int rarity, long value, boolean buyable, String recipe,
                    int maxDurability, int... recipeTypes) {
         super(type, emoji, name, alias, translatedName, desc, value, true, buyable, recipe, recipeTypes);
         this.level = level;
         this.castLevelRequired = castLevelRequired;
-        this.maximumCastAmount = maximumCastAmount;
         this.maxDurability = maxDurability;
         this.salvageReturns = Arrays.stream(recipeTypes).filter(id -> id > 1).boxed().collect(Collectors.toList());
         this.rarity = rarity;
@@ -102,11 +96,6 @@ public class FishRod extends Item implements Castable, Salvageable, Attribute {
     @Override
     public int getCastLevelRequired() {
         return this.castLevelRequired;
-    }
-
-    @Override
-    public int getMaximumCastAmount() {
-        return this.maximumCastAmount;
     }
 
     @Override

@@ -17,9 +17,10 @@
 
 package net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes;
 
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 import org.apache.commons.lang3.StringUtils;
 
-public interface Tiered {
+public interface Tiered extends Castable {
     int getTier();
 
     default String getTierStars() {
@@ -32,5 +33,13 @@ public interface Tiered {
         }
 
         return StringUtils.repeat('⭐', stars);
+    }
+
+    default int getMaximumCastAmount() {
+        if (getTier() >= 7) return 1;
+        int required = getCastLevelRequired();
+        if (required < 0) return -1;
+        int offsetTier = Math.max(0, getTier() - 4);
+        return 10 - (offsetTier * 2) - (required > 1 ? 1 : 0);
     }
 }

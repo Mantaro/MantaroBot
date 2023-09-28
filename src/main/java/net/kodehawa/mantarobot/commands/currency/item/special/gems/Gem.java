@@ -40,4 +40,11 @@ public class Gem extends Item implements Tiered {
     public int getTier() {
         return tier;
     }
+
+    @Override
+    public int getCastLevelRequired() {
+        // technically any gem of this class isn't castable
+        // but since tiered now extends castable we need this here
+        return -1;
+    }
 }

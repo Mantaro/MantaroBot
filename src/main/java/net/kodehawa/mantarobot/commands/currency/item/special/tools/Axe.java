@@ -33,20 +33,18 @@ import java.util.stream.Collectors;
 public class Axe extends Item implements Castable, Salvageable, Attribute {
     //Wrench level, basically.
     private final int castLevelRequired;
-    private final int maximumCastAmount;
     private final int maxDurability;
     private final int moneyIncrease;
     private final int rarity;
     private final String explanation;
     private final List<Integer> salvageReturns;
 
-    public Axe(ItemType type, int castLevelRequired, int maximumCastAmount,
+    public Axe(ItemType type, int castLevelRequired,
                String emoji, String name, String translatedName,
                String desc, String explanation, int rarity, long value, boolean sellable, boolean buyable,
                String recipe, int maxDurability, int moneyIncrease, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, sellable, buyable, recipe, recipeTypes);
         this.castLevelRequired = castLevelRequired;
-        this.maximumCastAmount = maximumCastAmount;
         this.maxDurability = maxDurability;
         this.moneyIncrease = moneyIncrease;
         this.salvageReturns = Arrays.stream(recipeTypes).filter(id -> id > 1).boxed().collect(Collectors.toList());
@@ -58,7 +56,6 @@ public class Axe extends Item implements Castable, Salvageable, Attribute {
                String desc, String explanation, int rarity, long value, boolean buyable, int maxDurability, int moneyIncrease) {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
         this.castLevelRequired = -1;
-        this.maximumCastAmount = -1;
         this.maxDurability = maxDurability;
         this.moneyIncrease = moneyIncrease;
         this.salvageReturns = Collections.emptyList();
@@ -74,11 +71,6 @@ public class Axe extends Item implements Castable, Salvageable, Attribute {
     @Override
     public int getCastLevelRequired() {
         return this.castLevelRequired;
-    }
-
-    @Override
-    public int getMaximumCastAmount() {
-        return this.maximumCastAmount;
     }
 
     public int getMoneyIncrease() {

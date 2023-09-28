@@ -31,6 +31,9 @@ public class HousePet {
     @BsonIgnore
     private static final SecureRandom random = new SecureRandom();
 
+    @BsonIgnore
+    public static int attributeCeiling = 120;
+
     private String name;
     private HousePetType type;
 
@@ -48,9 +51,6 @@ public class HousePet {
     private int patCounter;
     private long experience;
     private long level = 1;
-
-    @BsonIgnore
-    public int attributeCeiling = 120;
     @BsonIgnore
     public Map<String, Object> fieldTracker = new HashMap<>();
 
@@ -368,18 +368,43 @@ public class HousePet {
 
     @BsonIgnore
     public boolean handleStatIncrease(SecureRandom random) {
-        var doChance = random.nextDouble() <= 0.02f; // 2%
-        if (doChance) {
-            // 3 in 10 chance of it being 2 instead of 1, after the initial. Guarantee at least 1, though.
-            // This handles the attribute ceiling on the calls for increase,
-            // so it's fine to just blindly increase the statistics here.
-            increaseMaxStamina(Math.max(1, random.nextInt(3)));
-            increaseMaxHealth(Math.max(1, random.nextInt(3)));
-            increaseMaxHunger(Math.max(1, random.nextInt(3)));
-            increaseMaxThirst(Math.max(1, random.nextInt(3)));
-        } // else do nothing.
+        // get chance is a gradual increase
+        // it starts at 2% and goes down to 0.5% by the time 110 is hit
+        var healthChance = getChance(getMaxHealth());
+        if (healthChance > 0 && random.nextDouble() <= healthChance) {
+            int by = getMaxHealth() < 105 ? Math.max(1, random.nextInt(3)) : 1;
+            increaseMaxHealth(by);
+        }
+        var hungerChance = getChance(getMaxHunger());
+        if (hungerChance > 0 && random.nextDouble() <= hungerChance) {
+            int by = getMaxHunger() < 105 ? Math.max(1, random.nextInt(3)) : 1;
+            increaseMaxHunger(by);
+        }
+        var thirstChance = getChance(getMaxThirst());
+        if (thirstChance > 0 && random.nextDouble() <= thirstChance) {
+            int by = getMaxThirst() < 105 ? Math.max(1, random.nextInt(3)) : 1;
+            increaseMaxThirst(by);
+        }
+        var staminaChance = getChance(getMaxStamina());
+        if (staminaChance > 0 && random.nextDouble() <= staminaChance) {
+            int by = getMaxStamina() < 105 ? Math.max(1, random.nextInt(3)) : 1;
+            increaseMaxStamina(by);
+        }
 
-        return doChance;
+        return healthChance > 0 || hungerChance > 0 || thirstChance > 0 || staminaChance > 0;
+    }
+
+    @BsonIgnore
+    private static float getChance(int attribute) {
+        if (attribute >= attributeCeiling) return 0;
+        if (attribute >= 110) return 0.005f;
+        // the below is:
+        // 0.02 - ((0.02-0.005) / 10) * (attribute - 100) but in an integer context
+        // and then brought back into a float context
+        // this effectively gets rid of any floating point precision errors
+        // returns values between 2% and 0.5%
+        // (assuming attribute values between 100 and 110 are passed to it)
+        return (20f - ((20f - 5f) / 10000f) * ((attribute - 100f) * 1000)) / 1000;
     }
 
     @BsonIgnore

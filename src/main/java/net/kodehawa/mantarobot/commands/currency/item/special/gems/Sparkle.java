@@ -33,4 +33,11 @@ public class Sparkle extends Item implements Tiered {
     public int getTier() {
         return 6;
     }
+
+    @Override
+    public int getCastLevelRequired() {
+        // technically this class isn't castable
+        // but since tiered now extends castable we need this here
+        return -1;
+    }
 }

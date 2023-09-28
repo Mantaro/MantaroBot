@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.commands.currency.item.special.tools;
 
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
-import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Attribute;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.ItemUsage;
@@ -30,10 +29,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Pickaxe extends Item implements Castable, Salvageable, Attribute {
+public class Pickaxe extends Item implements Salvageable, Attribute {
     // Wrench level, basically.
     private final int castLevelRequired;
-    private final int maximumCastAmount;
     private final int maxDurability;
     private final int moneyIncrease;
     private final List<Integer> salvageReturns;
@@ -50,12 +48,11 @@ public class Pickaxe extends Item implements Castable, Salvageable, Attribute {
     // item value, sellable, buyable, item recipe (amount), max durability, amount of money more it can give,
     // amount of extra diamonds it can give, sparkle find rate, gem find rate, item rarity, explanation, item recipe (items)
     public Pickaxe(ItemType type, String emoji, String name, String translatedName, String description,
-                   int castLevelRequired, int maximumCastAmount, long value, boolean sellable, boolean buyable,
+                   int castLevelRequired, long value, boolean sellable, boolean buyable,
                    String recipe, int maxDurability, int moneyIncrease, int diamondIncrease, int sparkleLuck,
                    int gemLuck, int rarity, String explanation, int... recipeTypes) {
         super(type, emoji, name, translatedName, description, value, sellable, buyable, recipe, recipeTypes);
         this.castLevelRequired = castLevelRequired;
-        this.maximumCastAmount = maximumCastAmount;
         this.maxDurability = maxDurability;
         this.moneyIncrease = moneyIncrease;
         this.salvageReturns = Arrays.stream(recipeTypes).filter(id -> id > 1).boxed().collect(Collectors.toList());
@@ -66,14 +63,13 @@ public class Pickaxe extends Item implements Castable, Salvageable, Attribute {
         this.explanation = explanation;
     }
 
-    public Pickaxe(ItemType type, int castLevelRequired, int maximumCastAmount,
+    public Pickaxe(ItemType type, int castLevelRequired,
                    String emoji, String name, String translatedName,
                    String description, long value, boolean sellable, boolean buyable, String recipe,
                    int maxDurability, int moneyIncrease, int gemLuck, int rarity,
                    String explanation, int... recipeTypes) {
         super(type, emoji, name, translatedName, description, value, sellable, buyable, recipe, recipeTypes);
         this.castLevelRequired = castLevelRequired;
-        this.maximumCastAmount = maximumCastAmount;
         this.maxDurability = maxDurability;
         this.moneyIncrease = moneyIncrease;
         this.salvageReturns = Arrays.stream(recipeTypes).filter(id -> id > 1).boxed().collect(Collectors.toList());
@@ -82,13 +78,12 @@ public class Pickaxe extends Item implements Castable, Salvageable, Attribute {
         this.explanation = explanation;
     }
 
-    public Pickaxe(ItemType type, int castLevelRequired, int maximumCastAmount,
+    public Pickaxe(ItemType type, int castLevelRequired,
                    String emoji, String name, String translatedName,
                    String desc, long value, boolean sellable, boolean buyable, String recipe,
                    int maxDurability, int moneyIncrease, int rarity, String explanation, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, sellable, buyable, recipe, recipeTypes);
         this.castLevelRequired = castLevelRequired;
-        this.maximumCastAmount = maximumCastAmount;
         this.maxDurability = maxDurability;
         this.moneyIncrease = moneyIncrease;
         this.salvageReturns = Arrays.stream(recipeTypes).filter(id -> id > 1).boxed().collect(Collectors.toList());
@@ -101,7 +96,6 @@ public class Pickaxe extends Item implements Castable, Salvageable, Attribute {
                    int rarity, String explanation) {
         super(type, emoji, name, translatedName, description, value, true, buyable);
         this.castLevelRequired = -1;
-        this.maximumCastAmount = -1;
         this.maxDurability = maxDurability;
         this.moneyIncrease = moneyIncrease;
         this.salvageReturns = Collections.emptyList();
@@ -157,11 +151,6 @@ public class Pickaxe extends Item implements Castable, Salvageable, Attribute {
     @Override
     public int getCastLevelRequired() {
         return this.castLevelRequired;
-    }
-
-    @Override
-    public int getMaximumCastAmount() {
-        return this.maximumCastAmount;
     }
 
     public int getMoneyIncrease() {

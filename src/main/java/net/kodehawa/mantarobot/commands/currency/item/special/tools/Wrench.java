@@ -23,6 +23,7 @@ import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Attribute;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.ItemUsage;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Tiered;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import java.util.Arrays;
@@ -30,7 +31,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Wrench extends Item implements Castable, Salvageable, Attribute {
+public class Wrench extends Item implements Salvageable, Attribute {
     private final int level;
     private final int durability;
     private final int tier;
@@ -60,6 +61,22 @@ public class Wrench extends Item implements Castable, Salvageable, Attribute {
         this.durability = durability;
         this.explanation = explanation;
         this.tier = tier;
+    }
+
+    public int getLimitFor(Item castItem) {
+        var limit = 10;
+        if (castItem instanceof Tiered tiered) {
+            limit = tier < 2 ? 1 : tiered.getMaximumCastAmount();
+        } else if (castItem instanceof Castable castable) { // else if bc tiered extends castable
+            limit = castable.getMaximumCastAmount();
+        }
+        if (tier >= 4) limit *= 2;
+        return limit;
+    }
+
+    public int getRequiredLevelFor(Item castItem) {
+        if (castItem instanceof Castable castable) return castable.getCastLevelRequired();
+        return 1;
     }
 
     public int getLevel() {

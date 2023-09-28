@@ -37,4 +37,9 @@ public class CastedGem extends Item implements Tiered {
     public int getTier() {
         return tier;
     }
+
+    @Override
+    public int getCastLevelRequired() {
+        return 1;
+    }
 }

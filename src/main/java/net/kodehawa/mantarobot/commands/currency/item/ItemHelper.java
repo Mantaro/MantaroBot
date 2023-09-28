@@ -42,7 +42,6 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RandomCollection;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -736,5 +735,13 @@ public class ItemHelper {
                 .filter(Food.class::isInstance)
                 .map(Food.class::cast)
                 .toArray(Food[]::new));
+    }
+
+    public static Wrench getWrenchForTier(int castLevelRequired) {
+        return switch (castLevelRequired) {
+            case 3 -> (Wrench) ItemReference.WRENCH_COMET;
+            case 4 -> (Wrench) ItemReference.WRENCH_SPARKLE;
+            default -> (Wrench) ItemReference.WRENCH;
+        };
     }
 }

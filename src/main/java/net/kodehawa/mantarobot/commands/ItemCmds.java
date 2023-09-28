@@ -27,7 +27,6 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
-import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Attribute;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Tiered;
@@ -188,14 +187,28 @@ public class ItemCmds {
                     return;
                 }
 
-                // if wrench tier is below 2 we cannot make more than one item
-                // so maxAmount should fall to 1
-                if (wrenchItem.getLevel() < 2) maxAmount = 1;
+                var wrenchLevelRequired = wrenchItem.getRequiredLevelFor(castItem);
+
+
+                if (wrenchItem.getLevel() < wrenchLevelRequired) {
+                    ctx.reply("commands.cast.not_enough_wrench_level", EmoteReference.ERROR, wrenchItem.getLevel(), wrenchLevelRequired);
+                    return;
+                }
+
+                int limit = wrenchItem.getLimitFor(castItem);
+
+                // if the limit is less than what by money etc. determined we set maxAmount to the limit.
+                if (limit < maxAmount) maxAmount = limit;
 
                 // max will never fall into this as we mimic one until the very end
                 // however the above ensures this check isn't needed
-                if (amountSpecified > 1 && wrenchItem.getLevel() < 2) {
-                    ctx.reply("commands.cast.low_tier", EmoteReference.ERROR, wrenchItem.getLevel());
+
+                if (amountSpecified > limit && !isMax) {
+                    if (wrenchItem.getLevel() < 2) {
+                        ctx.reply("commands.cast.low_tier", EmoteReference.ERROR, wrenchItem.getLevel());
+                        return;
+                    }
+                    ctx.reply("commands.cast.too_many_amount", EmoteReference.ERROR, limit, amountSpecified);
                     return;
                 }
 
@@ -203,9 +216,6 @@ public class ItemCmds {
                 Map<Item, Integer> castMap = new HashMap<>();
                 var recipe = castItem.getRecipe();
                 var splitRecipe = recipe.split(";");
-
-                var isItemCastable = castItem instanceof Castable;
-                var wrenchLevelRequired = isItemCastable ? ((Castable) castItem).getCastLevelRequired() : 1;
 
                 // How many parenthesis again? (cost for one recipe attempt)
                 var castCost = (long) (((castItem.getValue() / 2)) * wrenchItem.getMultiplierReduction());
@@ -221,23 +231,6 @@ public class ItemCmds {
                     ctx.reply("commands.cast.not_enough_money", EmoteReference.ERROR, castCost * amountSpecified);
                     return;
                 }
-
-                if (wrenchItem.getLevel() < wrenchLevelRequired) {
-                    ctx.reply("commands.cast.not_enough_wrench_level", EmoteReference.ERROR, wrenchItem.getLevel(), wrenchLevelRequired);
-                    return;
-                }
-
-                var limit = (isItemCastable ? ((Castable) castItem).getMaximumCastAmount() : 5);
-                if (wrenchItem.getTier() >= 4)
-                    limit *= 2;
-
-                if (amountSpecified > limit && !isMax) {
-                    ctx.reply("commands.cast.too_many_amount", EmoteReference.ERROR, limit, amountSpecified);
-                    return;
-                }
-
-                // if the limit is less than what by money etc. determined we set maxAmount to the limit.
-                if (limit < maxAmount) maxAmount = limit;
 
                 var dust = user.getDustLevel();
                 if (dust > 95) {
@@ -371,7 +364,7 @@ public class ItemCmds {
                     }).collect(Collectors.joining(",\u2009 "));
                     // End of build recipe explanation
 
-                    var castLevel = (item instanceof Castable castable) ? castable.getCastLevelRequired() : 1;
+                    var castLevel = (item instanceof Tiered tiered) ? tiered.getCastLevelRequired() : 1;
                     String fieldDescription = "%s%n**%s** %s %s%n**Recipe: ** %s%n**Wrench Tier: ** %s".formatted(
                             lang.get(item.getDesc()),
                             lang.get("commands.cast.ls.cost"),
@@ -382,14 +375,25 @@ public class ItemCmds {
 
                     // Cursed, but Attribute implements Tiered so... >_<
                     // But some stuff only implements Tiered.
-                    if (item instanceof Tiered tiered && !(item instanceof Attribute)) {
-                        fieldDescription += "%n**Quality: ** %s".formatted(tiered.getTierStars());
-                    }
-
-                    if (item instanceof Attribute attribute) {
-                        fieldDescription += "%n**Durability: ** %,d%n**Quality: ** %s".formatted(
-                                attribute.getMaxDurability(),
-                                attribute.getTierStars()
+                    if (item instanceof Tiered tiered) {
+                        if (item instanceof Attribute attribute) {
+                            fieldDescription += "%n**Durability: ** %,d%n**Quality: ** %s%n**Lowest Cast Limit: ** %,d%n**Highest Cast Limit: ** %,d".formatted(
+                                    attribute.getMaxDurability(),
+                                    attribute.getTierStars(),
+                                    ItemHelper.getWrenchForTier(tiered.getCastLevelRequired()).getLimitFor(item),
+                                    ItemHelper.getWrenchForTier(4).getLimitFor(item)
+                            );
+                        } else {
+                            fieldDescription += "%n**Quality: ** %s%n**Lowest Cast Limit: ** %,d%n**Highest Cast Limit: ** %,d".formatted(
+                                    tiered.getTierStars(),
+                                    ItemHelper.getWrenchForTier(tiered.getCastLevelRequired()).getLimitFor(item),
+                                    ItemHelper.getWrenchForTier(4).getLimitFor(item)
+                            );
+                        }
+                    } else {
+                        fieldDescription += "%n**Lowest Cast Limit: ** %,d%n**Highest Cast Limit: ** %,d".formatted(
+                                ItemHelper.getWrenchForTier(1).getLimitFor(item),
+                                ItemHelper.getWrenchForTier(4).getLimitFor(item)
                         );
                     }
 

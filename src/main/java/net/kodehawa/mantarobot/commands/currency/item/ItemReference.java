@@ -274,7 +274,7 @@ public class ItemReference {
                     450, true
             ),
 
-            FISHING_ROD = new FishRod(ItemType.FISHROD, 3, 1, 25,
+            FISHING_ROD = new FishRod(ItemType.FISHROD, 3, -1,
                     "\uD83C\uDFA3",
                     "Fishing Rod", "Rod", "items.rod", "items.description.rod", "items.explanation.rod",
                     1, 65, true,
@@ -346,7 +346,7 @@ public class ItemReference {
             ),
 
             DIAMOND_PICKAXE = new Pickaxe(ItemType.MINE_PICK,
-                    1, 20, EmoteReference.DIAMOND_PICK.getDiscordNotation(),
+                    1, EmoteReference.DIAMOND_PICK.getDiscordNotation(),
                     "Diamond Pickaxe", "items.diamond_pick", "items.description.diamond_pick",
                     100, true, false,
                     "1;3;7", 150, 40, 2,
@@ -371,7 +371,7 @@ public class ItemReference {
             ),
 
             COMET_PICKAXE = new Pickaxe(ItemType.MINE_PICK,
-                    1, 10, EmoteReference.COMET_PICK.getDiscordNotation(),
+                    1, EmoteReference.COMET_PICK.getDiscordNotation(),
                     "Comet Pickaxe", "items.comet_pick", "items.description.comet_pick",
                     290, true, false,
                     "1;2;7", 180, 100, 310, 3,
@@ -380,7 +380,7 @@ public class ItemReference {
 
             STAR_PICKAXE = new Pickaxe(ItemType.MINE_PICK, EmoteReference.STAR_PICK.getDiscordNotation(),
                     "Star Pickaxe", "items.star_pick", "items.description.star_pick",
-                    1, 10, 350, true, false, "1;2;7",
+                    1, 350, true, false, "1;2;7",
                     220, 100, 3, 390, 300, 4,
                     "items.explanation.star_pick", 10, 49, 101
             ),
@@ -432,21 +432,21 @@ public class ItemReference {
             ),
 
             COMET_ROD = new FishRod(ItemType.FISHROD, 6,
-                    1, 15, EmoteReference.COMET_ROD.getDiscordNotation(),
+                    1, EmoteReference.COMET_ROD.getDiscordNotation(),
                     "Comet Gem Rod", "Comet Rod", "items.comet_rod", "items.description.comet_rod",
                     "items.explanation.comet_rod", 3, 150,
                     "1;2;3", 130, 44, 48, 101
             ),
 
             STAR_ROD = new FishRod(ItemType.FISHROD, 9,
-                    1, 10, EmoteReference.STAR_ROD.getDiscordNotation(),
+                    1, EmoteReference.STAR_ROD.getDiscordNotation(),
                     "Star Gem Rod", "Star Rod", "items.star_rod", "items.description.star_rod",
                     "items.explanation.star_rod", 4, 250,
                     "1;2;3", 170, 44, 49, 101
             ),
 
             OLD_SPARKLE_ROD = new FishRod(ItemType.DEPRECATED, 3,
-                    -1, -1, "\uD83C\uDFA3",
+                    -1, "\uD83C\uDFA3",
                     "Old Sparkly Rod", "items.old_sparkly_rod", "general.deprecated",
                     "general.deprecated", 1, 65,
                     "", 2
@@ -454,7 +454,7 @@ public class ItemReference {
 
             SPARKLE_PICKAXE = new Pickaxe(ItemType.MINE_RARE_PICK, EmoteReference.SPARKLE_PICK.getDiscordNotation(),
                     "Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick",
-                    3, 5, 1200,
+                    3, 1200,
                     true, false, "1;3;1;7", 450, 300, 4,
                     378, 300, 6,
                     "items.explanation.sparkle_pick", 10, 74, 18, 101
@@ -466,7 +466,7 @@ public class ItemReference {
             ),
 
             SPARKLE_ROD = new FishRod(ItemType.FISHROD_RARE, 14,
-                    3, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(),
+                    3, EmoteReference.SPARKLE_ROD.getDiscordNotation(),
                     "Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod",
                     "items.explanation.sparkle_rod", 6, 800,
                     "1;2;1;3", 300, 44, 74, 18, 101
@@ -611,7 +611,7 @@ public class ItemReference {
 
             MOON_PICK = new Pickaxe(ItemType.MINE_RARE_PICK, EmoteReference.MOON_PICK.getDiscordNotation(),
                     "Moon Pickaxe", "items.moon_pick", "items.description.moon_pick",
-                    2, 7, 1000, true, false,
+                    2, 1000, true, false,
                     "1;1;3;2;5;10", 320, 140, 4,
                     388, 290, 5,
                     "items.explanation.moon_pick", 10, 83, 18, 76, 101
@@ -619,7 +619,7 @@ public class ItemReference {
 
             HELLFIRE_PICK = new Pickaxe(ItemType.MINE_RARE_PICK_NODROP, EmoteReference.HELLFIRE_PICK.getDiscordNotation(),
                     "Hellfire Pickaxe", "items.hellfire_pick", "items.description.hellfire_pick",
-                    4, 1, 15000, true, false,
+                    4, 15000, true, false,
                     "450;1;175;1;175;1;55;1;50;50", 3000, 1500,
                     10, 365, 260, 7, "items.explanation.hellfire_pick",
                     18, 57, 48, 61, 49, 62, 74, 73, 101, 76
@@ -631,7 +631,7 @@ public class ItemReference {
             ),
 
             COMET_AXE = new Axe(ItemType.CHOP_AXE,
-                    1, 10, EmoteReference.COMET_AXE.getDiscordNotation(),
+                    1, EmoteReference.COMET_AXE.getDiscordNotation(),
                     "Comet Axe", "items.comet_axe", "items.description.comet_axe",
                     "items.explanation.comet_axe",
                     3, 290, true, false,
@@ -639,7 +639,7 @@ public class ItemReference {
             ),
 
             STAR_AXE = new Axe(ItemType.CHOP_AXE,
-                    1, 10, EmoteReference.STAR_AXE.getDiscordNotation(),
+                    1, EmoteReference.STAR_AXE.getDiscordNotation(),
                     "Star Axe", "items.star_axe", "items.description.star_axe",
                     "items.explanation.star_axe",
                     4, 350, true, false,
@@ -647,7 +647,7 @@ public class ItemReference {
             ),
 
             SPARKLE_AXE = new Axe(ItemType.CHOP_RARE_AXE,
-                    3, 5, EmoteReference.SPARKLE_AXE.getDiscordNotation(),
+                    3, EmoteReference.SPARKLE_AXE.getDiscordNotation(),
                     "Sparkle Axe", "items.sparkle_axe", "items.description.sparkle_axe",
                     "items.explanation.sparkle_axe",
                     6, 1200, true, false,
@@ -655,7 +655,7 @@ public class ItemReference {
             ),
 
             MOON_AXE = new Axe(ItemType.CHOP_RARE_AXE,
-                    2, 7, EmoteReference.MOON_AXE.getDiscordNotation(),
+                    2, EmoteReference.MOON_AXE.getDiscordNotation(),
                     "Moon Axe", "items.moon_axe", "items.description.moon_axe",
                     "items.explanation.moon_axe",
                     5, 1000, true, false,
@@ -663,7 +663,7 @@ public class ItemReference {
             ),
 
             HELLFIRE_AXE = new Axe(ItemType.CHOP_RARE_AXE_NODROP,
-                    3, 1, EmoteReference.HELLFIRE_AXE.getDiscordNotation(),
+                    3, EmoteReference.HELLFIRE_AXE.getDiscordNotation(),
                     "Hellfire Axe", "items.hellfire_axe", "items.description.hellfire_axe",
                     "items.explanation.hellfire_axe",
                     7,15000, true, false,
@@ -671,14 +671,14 @@ public class ItemReference {
             ),
 
             MOON_ROD = new FishRod(ItemType.FISHROD_RARE, 12, 2,
-                    4, EmoteReference.MOON_ROD.getDiscordNotation(),
+                    EmoteReference.MOON_ROD.getDiscordNotation(),
                     "Moon Rod", "items.moon_rod", "items.description.moon_rod",
                     "items.explanation.moon_rod", 5, 800,
                     "1;2;3;3", 200, 44, 83, 76, 101
             ),
 
             HELLFIRE_ROD = new FishRod(ItemType.FISHROD_RARE_NODROP, 24,
-                    3, 4, EmoteReference.HELLFIRE_ROD.getDiscordNotation(),
+                    3, EmoteReference.HELLFIRE_ROD.getDiscordNotation(),
                     "Hellfire Rod", "items.hellfire_rod", "items.description.hellfire_rod",
                     "items.explanation.hellfire_rod", 7, 15000,
                     "450;175;1;175;1;50;1;35;50", 2500, 18, 48, 70, 49, 71, 74, 75, 101, 76
