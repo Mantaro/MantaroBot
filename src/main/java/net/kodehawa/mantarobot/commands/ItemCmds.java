@@ -27,6 +27,7 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Attribute;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Tiered;
@@ -364,7 +365,7 @@ public class ItemCmds {
                     }).collect(Collectors.joining(",\u2009 "));
                     // End of build recipe explanation
 
-                    var castLevel = (item instanceof Tiered tiered) ? tiered.getCastLevelRequired() : 1;
+                    var castLevel = (item instanceof Castable castable) ? castable.getCastLevelRequired() : 1;
                     String fieldDescription = "%s%n**%s** %s %s%n**Recipe: ** %s%n**Wrench Tier: ** %s".formatted(
                             lang.get(item.getDesc()),
                             lang.get("commands.cast.ls.cost"),
