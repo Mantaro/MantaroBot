@@ -368,30 +368,35 @@ public class HousePet {
 
     @BsonIgnore
     public boolean handleStatIncrease(SecureRandom random) {
+        boolean didIncrease = false;
         // get chance is a gradual increase
         // it starts at 2% and goes down to 0.5% by the time 110 is hit
         var healthChance = getChance(getMaxHealth());
         if (healthChance > 0 && random.nextDouble() <= healthChance) {
             int by = getMaxHealth() < 105 ? Math.max(1, random.nextInt(3)) : 1;
             increaseMaxHealth(by);
+            didIncrease = true;
         }
         var hungerChance = getChance(getMaxHunger());
         if (hungerChance > 0 && random.nextDouble() <= hungerChance) {
             int by = getMaxHunger() < 105 ? Math.max(1, random.nextInt(3)) : 1;
             increaseMaxHunger(by);
+            didIncrease = true;
         }
         var thirstChance = getChance(getMaxThirst());
         if (thirstChance > 0 && random.nextDouble() <= thirstChance) {
             int by = getMaxThirst() < 105 ? Math.max(1, random.nextInt(3)) : 1;
             increaseMaxThirst(by);
+            didIncrease = true;
         }
         var staminaChance = getChance(getMaxStamina());
         if (staminaChance > 0 && random.nextDouble() <= staminaChance) {
             int by = getMaxStamina() < 105 ? Math.max(1, random.nextInt(3)) : 1;
             increaseMaxStamina(by);
+            didIncrease = true;
         }
 
-        return healthChance > 0 || hungerChance > 0 || thirstChance > 0 || staminaChance > 0;
+        return didIncrease;
     }
 
     @BsonIgnore
