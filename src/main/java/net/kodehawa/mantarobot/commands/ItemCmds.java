@@ -123,7 +123,7 @@ public class ItemCmds {
         @Description("Cast an item.")
         @Options({
                 @Options.Option(type = OptionType.STRING, name = "item", description = "The item to cast.", required = true, autocomplete = true),
-                @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount to cast.", maxValue = 10),
+                @Options.Option(type = OptionType.INTEGER, name = "amount", description = "The amount to cast.", maxValue = 40),
                 @Options.Option(type = OptionType.BOOLEAN, name = "max", description = "Cast as many as possible. Makes it so amount is ignored.")
         })
         @Help(
