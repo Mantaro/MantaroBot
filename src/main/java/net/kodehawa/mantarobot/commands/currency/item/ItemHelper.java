@@ -736,12 +736,4 @@ public class ItemHelper {
                 .map(Food.class::cast)
                 .toArray(Food[]::new));
     }
-
-    public static Wrench getWrenchForTier(int castLevelRequired) {
-        return switch (castLevelRequired) {
-            case 3 -> (Wrench) ItemReference.WRENCH_COMET;
-            case 4 -> (Wrench) ItemReference.WRENCH_SPARKLE;
-            default -> (Wrench) ItemReference.WRENCH;
-        };
-    }
 }

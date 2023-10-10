@@ -401,7 +401,7 @@ public class ItemCmds {
                             current != ItemReference.WRENCH_SPARKLE
                                     ? "\n**Cast Limit (%s): ** %,d".formatted(
                                     ItemReference.WRENCH_SPARKLE.getEmoji(),
-                                    ItemHelper.getWrenchForTier(4).getLimitFor(item))
+                                    ((Wrench) ItemReference.WRENCH_SPARKLE).getLimitFor(item))
                                     : ""
                     );
 
