@@ -374,29 +374,36 @@ public class ItemCmds {
                             recipe, castLevel
                     );
 
+                    var wrench = ctx.getDBUser().getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
+                    var current = wrench == 0 ? (Wrench) ItemReference.WRENCH : (Wrench) ItemHelper.fromId(wrench);
+
                     // Cursed, but Attribute implements Tiered so... >_<
                     // But some stuff only implements Tiered.
                     if (item instanceof Tiered tiered) {
                         if (item instanceof Attribute attribute) {
-                            fieldDescription += "%n**Durability: ** %,d%n**Quality: ** %s%n**Lowest Cast Limit: ** %,d%n**Highest Cast Limit: ** %,d".formatted(
+                            fieldDescription += "%n**Durability: ** %,d%n**Quality: ** %s".formatted(
                                     attribute.getMaxDurability(),
-                                    attribute.getTierStars(),
-                                    ItemHelper.getWrenchForTier(tiered.getCastLevelRequired()).getLimitFor(item),
-                                    ItemHelper.getWrenchForTier(4).getLimitFor(item)
+                                    attribute.getTierStars()
                             );
                         } else {
-                            fieldDescription += "%n**Quality: ** %s%n**Lowest Cast Limit: ** %,d%n**Highest Cast Limit: ** %,d".formatted(
-                                    tiered.getTierStars(),
-                                    ItemHelper.getWrenchForTier(tiered.getCastLevelRequired()).getLimitFor(item),
-                                    ItemHelper.getWrenchForTier(4).getLimitFor(item)
+                            fieldDescription += "%n**Quality: ** %s".formatted(
+                                    tiered.getTierStars()
                             );
                         }
-                    } else {
-                        fieldDescription += "%n**Lowest Cast Limit: ** %,d%n**Highest Cast Limit: ** %,d".formatted(
-                                ItemHelper.getWrenchForTier(1).getLimitFor(item),
-                                ItemHelper.getWrenchForTier(4).getLimitFor(item)
-                        );
                     }
+
+                    var currentLimit = current.getLimitFor(item);
+                    var currentLimitText = currentLimit > 0 ? currentLimit + "" : "Cannot Cast";
+
+                    fieldDescription += "\n**Cast Limit (%s): ** %s%s".formatted(
+                            current.getEmoji(),
+                            currentLimitText,
+                            current != ItemReference.WRENCH_SPARKLE
+                                    ? "\n**Cast Limit (%s): ** %,d".formatted(
+                                    ItemReference.WRENCH_SPARKLE.getEmoji(),
+                                    ItemHelper.getWrenchForTier(4).getLimitFor(item))
+                                    : ""
+                    );
 
                     fields.add(new MessageEmbed.Field("%s\u2009\u2009\u2009%s".formatted(item.getEmoji(), item.getName()),
                             fieldDescription, false

@@ -66,9 +66,11 @@ public class Wrench extends Item implements Salvageable, Attribute {
     public int getLimitFor(Item castItem) {
         var limit = 10;
         if (castItem instanceof Tiered tiered) {
-            limit = tier < 2 ? 1 : tiered.getMaximumCastAmount();
+            if (tier < tiered.getCastLevelRequired()) limit = 0;
+            else limit = tier < 2 ? 1 : tiered.getMaximumCastAmount();
         } else if (castItem instanceof Castable castable) { // else if bc tiered extends castable
-            limit = castable.getMaximumCastAmount();
+            if (tier < castable.getCastLevelRequired()) limit = 0;
+            else limit = castable.getMaximumCastAmount();
         }
         if (tier >= 4) limit *= 2;
         return limit;
