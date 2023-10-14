@@ -116,13 +116,7 @@ public class PlayerEquipment {
     @BsonIgnore
     public void applyEffect(PotionEffect effect) {
         var item = ItemHelper.fromId(effect.getPotion());
-        if (item == null) {
-            return;
-        }
-         if (item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF) {
-             return;
-         }
-         if (!(item instanceof Potion potion)) {
+         if (item == null || !item.getItemType().isPotion() || !(item instanceof Potion potion)) {
              return;
          }
 
@@ -237,7 +231,7 @@ public class PlayerEquipment {
         PICK(Pickaxe.class::isInstance),
         AXE(Axe.class::isInstance),
         WRENCH(Wrench.class::isInstance),
-        POTION(item -> item.getItemType() == ItemType.POTION), // legacy
+        POTION(item -> item.getItemType() == ItemType.POTION || item.getItemType() == ItemType.POTION_CASTABLE), // legacy
         BUFF(item -> item.getItemType() == ItemType.BUFF); // legacy
 
         private final Predicate<Item> predicate;

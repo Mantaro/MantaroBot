@@ -336,9 +336,9 @@ public class ItemReference {
             ),
 
             // todo this needs a better buff than money, potentially chance to mult pet effect?
-            TEA = new Potion(ItemType.POTION, PotionEffectType.MONEY, 3, "\uD83C\uDF75",
+            TEA = new Potion(ItemType.POTION_CASTABLE, PotionEffectType.MONEY, 3, "\uD83C\uDF75",
                     "Tea", "items.waifu_pill", "items.description.waifu_pill",
-                    370, true
+                    370, false, "5;7", 115, 112
             ),
 
             FISHING_BAIT = new Potion(ItemType.BUFF, PotionEffectType.DROP_CHANCE_FISH, 1, "\uD83D\uDC1B",

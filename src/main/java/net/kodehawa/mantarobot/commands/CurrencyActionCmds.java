@@ -274,7 +274,14 @@ public class CurrencyActionCmds {
 
         var hasTea = ItemHelper.handleEffect(ItemReference.TEA, dbUser);
         if (hasTea) {
-            money += Math.max(20, random.nextInt(100));
+            // this ensures roughly an average of 2 times the investment into tea
+            // over all 3 uses the tea provides (rounded in favor of the player)
+            var teaMoney = Math.max(20, random.nextInt(310));
+            if (dbUser.isPremium()) {
+                // up to 1.2 times as much
+                teaMoney = (int) (teaMoney * ((random.nextInt(21) + 100) / 100D));
+            }
+            money += teaMoney;
         }
 
         var reminder = random.nextInt(6) == 0 && item == ItemReference.BROM_PICKAXE ?
@@ -573,7 +580,14 @@ public class CurrencyActionCmds {
             // START OF TEA HELP IMPLEMENTATION
             var hasTea = ItemHelper.handleEffect(ItemReference.TEA, dbUser);
             if (hasTea) {
-                money += Math.max(10, random.nextInt(150));
+                // this ensures roughly an average of 2 times the investment into tea
+                // over all 3 uses the tea provides (rounded in favor of the player)
+                var teaMoney = Math.max(20, random.nextInt(310));
+                if (dbUser.isPremium()) {
+                    // up to 1.2 times as much
+                    teaMoney = (int) (teaMoney * ((random.nextInt(21) + 100) / 100D));
+                }
+                money += teaMoney;
             }
             // END OF TEA HELP IMPLEMENTATION
 

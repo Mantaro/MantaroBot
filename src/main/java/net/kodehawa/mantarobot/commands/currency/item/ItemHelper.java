@@ -774,10 +774,7 @@ public class ItemHelper {
 
     public static Item[] getUsableItems() {
         return Objects.requireNonNullElseGet(usableItems, () -> usableItems = Stream.of(ItemReference.ALL)
-                .filter(i -> i.getItemType() == ItemType.INTERACTIVE ||
-                        i.getItemType() == ItemType.POTION ||
-                        i.getItemType() == ItemType.CRATE ||
-                        i.getItemType() == ItemType.BUFF)
+                .filter(i -> i.getItemType().isUsable())
                 .toArray(Item[]::new));
     }
 

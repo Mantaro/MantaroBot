@@ -616,13 +616,12 @@ public class CurrencyCmds {
             return;
         }
 
-        if (item.getItemType() != ItemType.INTERACTIVE && item.getItemType() != ItemType.CRATE &&
-                item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF) {
+        if (!item.getItemType().isUsable()) {
             ctx.sendLocalized("commands.useitem.not_interactive", EmoteReference.ERROR);
             return;
         }
 
-        if (item.getAction() == null && (item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF)) {
+        if (item.getAction() == null && !item.getItemType().isPotion()) {
             ctx.sendLocalized("commands.useitem.interactive_no_action", EmoteReference.ERROR);
             return;
         }
@@ -632,7 +631,7 @@ public class CurrencyCmds {
             return;
         }
 
-        applyPotionEffect(ctx, dbUser, item, player, amount, isMax);
+        handleItemAction(ctx, dbUser, item, player, amount, isMax);
     }
 
     private static void tools(IContext ctx, MongoUser dbUser) {
@@ -781,8 +780,8 @@ public class CurrencyCmds {
         DiscordUtils.sendPaginatedEmbed(ctx.getUtilsContext(), builder, DiscordUtils.divideFields(7, fields), toShow);
     }
 
-    public static void applyPotionEffect(IContext ctx, MongoUser dbUser, Item item, Player player, int amount, boolean isMax) {
-        if ((item.getItemType() == ItemType.POTION || item.getItemType() == ItemType.BUFF) && item instanceof Potion potion) {
+    public static void handleItemAction(IContext ctx, MongoUser dbUser, Item item, Player player, int amount, boolean isMax) {
+        if (item.getItemType().isPotion() && item instanceof Potion potion) {
             final var equippedItems = dbUser.getEquippedItems();
             var currentPotion = equippedItems.getCurrentEffect(potion.getEffectType());
             var activePotion = equippedItems.isEffectActive(potion.getEffectType(), potion.getMaxUses());
