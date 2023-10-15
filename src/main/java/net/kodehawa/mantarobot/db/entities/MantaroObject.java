@@ -34,7 +34,7 @@ public class MantaroObject implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "mantaro";
     @BsonId
-    public static final String id = "mantaro";
+    private String id = "mantaro";
 
     public List<String> blackListedGuilds;
     public List<String> blackListedUsers;

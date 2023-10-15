@@ -49,7 +49,7 @@ public class JsonDataManager<T> implements DataManager<T> {
         if (!configPath.toFile().exists()) {
             log.info("Could not find config file at {}", configPath.toFile().getAbsolutePath() + ", creating a new one...");
             try {
-                var pathExists = this.configPath.toFile().getParentFile().exists();
+                var pathExists = this.configPath.toFile().exists() || this.configPath.toFile().getParentFile().exists();
                 if (!pathExists) {
                     pathExists = this.configPath.toFile().getParentFile().mkdirs();
                 }
