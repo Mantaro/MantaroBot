@@ -41,12 +41,13 @@ public class SimpleFileDataManager implements DataManager<List<String>> {
         if (!this.path.toFile().exists()) {
             log.info("Could not find config file at {}, creating a new one...", this.path.toFile().getAbsolutePath());
             try {
-                var pathExists = this.path.toFile().getParentFile().exists();
+                var absPath = this.path.toAbsolutePath();
+                var pathExists = absPath.toFile().getParentFile().exists();
                 if (!pathExists) {
-                    pathExists = this.path.toFile().getParentFile().mkdirs();
+                    pathExists = absPath.toFile().getParentFile().mkdirs();
                 }
                 if (pathExists && this.path.toFile().createNewFile()) {
-                    log.info("Generated new config file at {}", this.path.toFile().getAbsolutePath() + ".");
+                    log.info("Generated new config file at {}", absPath + ".");
                     FileIOUtils.write(this.path, "");
                     log.info("Please, fill the file with valid properties.");
                 } else {
