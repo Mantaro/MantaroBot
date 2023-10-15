@@ -300,7 +300,7 @@ public class CurrencyActionCmds {
         }
 
         if (pet != null) {
-            var rewards = handlePetBuff(pet, HousePetType.HousePetAbility.CATCH, languageContext, false);
+            var rewards = handlePetBuff(pet, HousePetType.HousePetAbility.CATCH, languageContext, dbUser, false);
             money += rewards.getMoney();
             message += rewards.getResult();
 
@@ -560,7 +560,7 @@ public class CurrencyActionCmds {
             }
 
             if (pet != null) {
-                HousePet.ActivityReward rewards = handlePetBuff(pet, HousePetType.HousePetAbility.FISH, languageContext);
+                HousePet.ActivityReward rewards = handlePetBuff(pet, HousePetType.HousePetAbility.FISH, languageContext, dbUser);
                 amount += rewards.getItems();
                 money += rewards.getMoney();
                 extraMessage += "\n" + rewards.getResult();
@@ -761,7 +761,7 @@ public class CurrencyActionCmds {
             }
 
             if (pet != null) {
-                HousePet.ActivityReward rewards = handlePetBuff(pet, HousePetType.HousePetAbility.CHOP, languageContext);
+                HousePet.ActivityReward rewards = handlePetBuff(pet, HousePetType.HousePetAbility.CHOP, languageContext, dbUser);
                 amount += rewards.getItems();
                 money += rewards.getMoney();
                 extraMessage += rewards.getResult();
@@ -881,14 +881,14 @@ public class CurrencyActionCmds {
     }
 
     private static HousePet.ActivityReward handlePetBuff(HousePet pet, HousePetType.HousePetAbility required,
-                                                         I18nContext languageContext) {
-        return handlePetBuff(pet, required, languageContext, true);
+                                                         I18nContext languageContext, MongoUser dbUser) {
+        return handlePetBuff(pet, required, languageContext, dbUser, true);
     }
 
 
     private static HousePet.ActivityReward handlePetBuff(HousePet pet, HousePetType.HousePetAbility required,
-                                                         I18nContext languageContext, boolean needsItem) {
-        HousePet.ActivityResult ability = pet.handleAbility(required);
+                                                         I18nContext languageContext, MongoUser dbUser, boolean needsItem) {
+        HousePet.ActivityResult ability = pet.handleAbility(dbUser, required);
         if (ability.passed()) {
             pet.handleStatIncrease(random);
 

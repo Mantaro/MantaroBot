@@ -50,7 +50,7 @@ public class ItemReference {
             CHICKEN, MILK_2, DOG_FOOD, CAT_FOOD, HAMSTER_FOOD, WOOD, AXE, COMET_AXE, STAR_AXE, SPARKLE_AXE, HELLFIRE_AXE, MOON_AXE,
             MOON_PICK, MOON_ROD, HELLFIRE_PICK, HELLFIRE_ROD, PET_HOUSE, LEAVES, APPLE, PEAR, CHERRY_BLOSSOM, ROCK, BROKEN_MOON_PICK,
             BROKEN_MOON_ROD, BROKEN_COMET_AXE, BROKEN_STAR_AXE, BROKEN_SPARKLE_AXE, BROKEN_MOON_AXE, BROKEN_HELLFIRE_PICK,
-            BROKEN_HELLFIRE_AXE, BROKEN_HELLFIRE_ROD, CHOP_CRATE, CHOP_PREMIUM_CRATE, PIE, FISH_BOWL;
+            BROKEN_HELLFIRE_AXE, BROKEN_HELLFIRE_ROD, CHOP_CRATE, CHOP_PREMIUM_CRATE, PIE, FISH_BOWL, PET_TOY, STICKS;
 
     public static final Item[] ALL = {
             HEADPHONES = new Item(ItemType.COLLECTABLE, "\uD83C\uDFA7",
@@ -779,5 +779,16 @@ public class ItemReference {
                     "Fish Bowl", "items.fish_bowl", "items.description.fish_bowl",
                     70, false, "4;3", 45, 46
             ),
+
+            PET_TOY = new Potion(ItemType.POTION_CASTABLE, PotionEffectType.PET, 2, "\uD83E\uDD4F",
+                    "Pet Toy", "items.pet_toy", "items.description.pet_toy", 800,
+                    false, false,
+                    "5;10;3", 101, 131, 115
+            ),
+
+            STICKS = new Item(ItemType.CHOP_DROP, "\uD83E\uDD62",
+                    "Twigs", "items.twigs", "items.description.twigs",
+                    50, false, false
+            )
     };
 }

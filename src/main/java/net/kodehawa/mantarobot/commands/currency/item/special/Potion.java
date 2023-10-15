@@ -40,6 +40,13 @@ public class Potion extends Item {
     }
 
     public Potion(ItemType type, PotionEffectType effectType, int maxUses, String emoji, String name, String translatedName,
+                  String desc, long value, boolean buyable, boolean sellable, String recipe, int... recipeTypes) {
+        super(type, emoji, name, translatedName, desc, value, sellable, buyable, recipe, recipeTypes);
+        this.maxUses = maxUses;
+        this.effectType = effectType;
+    }
+
+    public Potion(ItemType type, PotionEffectType effectType, int maxUses, String emoji, String name, String translatedName,
                   String desc, long value, boolean buyable) {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
         this.maxUses = maxUses;

@@ -38,18 +38,20 @@ public enum HousePetType {
     ALL(EmoteReference.PENCIL, "All Placeholder", List.of(HousePetAbility.values()), 100000, 10000, 0, false);
 
     public enum HousePetAbility {
-        FISH(HousePet.ActivityResult.PASS_FISH),
-        CATCH(HousePet.ActivityResult.PASS_MINE),
-        CHOP(HousePet.ActivityResult.PASS_CHOP),
-        CHEER(HousePet.ActivityResult.PASS);
+        FISH(HousePet.ActivityResult.PASS_FISH, HousePet.ActivityResult.PASS_FISH_BOOSTED),
+        CATCH(HousePet.ActivityResult.PASS_MINE, HousePet.ActivityResult.PASS_MINE_BOOSTED),
+        CHOP(HousePet.ActivityResult.PASS_CHOP, HousePet.ActivityResult.PASS_CHOP_BOOSTED),
+        CHEER(HousePet.ActivityResult.PASS, HousePet.ActivityResult.PASS_BOOSTED);
 
         private final HousePet.ActivityResult passActivity;
-        HousePetAbility(HousePet.ActivityResult passActivity) {
+        private final HousePet.ActivityResult boostedActivity;
+        HousePetAbility(HousePet.ActivityResult passActivity, HousePet.ActivityResult boostedActivity) {
             this.passActivity = passActivity;
+            this.boostedActivity = boostedActivity;
         }
 
-        public HousePet.ActivityResult getPassActivity() {
-            return passActivity;
+        public HousePet.ActivityResult getPassActivity(boolean isBoosted) {
+            return isBoosted ? boostedActivity : passActivity;
         }
     }
 

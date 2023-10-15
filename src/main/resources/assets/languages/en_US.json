@@ -1494,8 +1494,11 @@
         "low_thirst": "%1$s**%2$s** is too thirsty to do anything right now.",
         "dusty": "%1$s**%2$s** is too dusty. Clean your pet to clear the dust.",
         "success_fish": "%1$s**%2$s** successfully helped you catch fish! **You got an extra %3$,d credits and %4$,d items** thanks to the extra work your pet was able to do for you! *included on what you got*",
+        "success_fish_boosted": "%1$s**%2$s** was very eager to help you catch fish. You gave them lot's of head-pats as a reward! **You got an extra %3$,d credits and %4$,d items** thanks to the extra work your pet was able to do for you! *included on what you got*",
         "success_chop": "%1$s**%2$s** successfully helped you chop a tree! **You got an extra %3$,d credits and %4$,d items** thanks to the extra work your pet was able to do for you! *included on what you got*",
-        "success_mine": "%1$s**%2$s** successfully helped you mine! **You got an extra %3$,d credits and more item drop chances** thanks to the extra work your pet was able to do for you! *included on what you got*"
+        "success_chop_boosted": "%1$s**%2$s** was very eager to helped you chop a tree, you worried a little for it's safety but it was all fine! **You got an extra %3$,d credits and %4$,d items** thanks to the extra work your pet was able to do for you! *included on what you got*",
+        "success_mine": "%1$s**%2$s** successfully helped you mine! **You got an extra %3$,d credits and more item drop chances** thanks to the extra work your pet was able to do for you! *included on what you got*",
+        "success_mine_boosted": "%1$s**%2$s** was super eager to help you in your mining efforts, finding some treasure you may have missed otherwise! **You got an extra %3$,d credits and more item drop chances** thanks to the extra work your pet was able to do for you! *included on what you got*"
       },
       "rename": {
         "no_pet": "%1$sYou don't have a pet to rename. (Choice: %2$s)%3$s",
@@ -2528,6 +2531,8 @@
     "rock": "Rock",
     "fruit_pie": "Fruit Pie",
     "fish_bowl": "Fish Bowl",
+    "twigs": "Twigs",
+    "pet_toy": "Pet Toy",
     "broken_moon_pick": "Broken Moon Pickaxe",
     "broken_moon_axe": "Broken Moon Axe",
     "broken_moon_rod": "Broken Moon Rod",
@@ -2682,6 +2687,8 @@
       "rock": "A rock. Yep. It's very hard, isn't it?",
       "fruit_pie": "A Pie made from the freshest fruits from your inventory. Looks yummy.",
       "fish_bowl": "A freshly cut of the fish you just caught. Or the ones you caught a while ago, but stuff doesn't spoil on your inventory, anyway.",
+      "twigs": "Some barely usable twigs that fell down from a tree.",
+      "pet_toy": "A lovely little pet toy. I might make your pet more active (reduces vital usage, lasts 2 sessions)?",
       "broken_moon_pick": "A moon pick that broke while mining. Still salvageable.",
       "broken_moon_axe": "A moon axe that broke while chopping. Still salvageable.",
       "broken_moon_rod": "A moon rod that broke while fishing. Still salvageable.",

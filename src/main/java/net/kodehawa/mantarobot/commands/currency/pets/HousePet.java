@@ -17,9 +17,12 @@
 
 package net.kodehawa.mantarobot.commands.currency.pets;
 
+import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
+import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedMongoObject;
+import net.kodehawa.mantarobot.db.entities.MongoUser;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
 
 import java.security.SecureRandom;
@@ -136,33 +139,36 @@ public class HousePet {
         fieldTracker.put("pet.health", this.health);
     }
 
-    public void decreaseStamina() {
-        var defaultDecrease = 10;
+    public void decreaseStamina(boolean reduced) {
+        var decreaseBy = 10;
+        if (reduced) decreaseBy -= 2;
         if (stamina < 1) {
             return;
         }
 
-        this.stamina = Math.max(1, stamina - defaultDecrease);
+        this.stamina = Math.max(1, stamina - decreaseBy);
         fieldTracker.put("pet.stamina", this.stamina);
     }
 
-    public void decreaseHunger() {
-        var defaultDecrease = 10;
+    public void decreaseHunger(boolean reduced) {
+        var decreaseBy = 10;
+        if (reduced) decreaseBy -= 2;
         if (hunger < 1) {
             return;
         }
 
-        this.hunger = Math.max(1, hunger - defaultDecrease);
+        this.hunger = Math.max(1, hunger - decreaseBy);
         fieldTracker.put("pet.hunger", this.hunger);
     }
 
-    public void decreaseThirst() {
-        var defaultDecrease = 15;
+    public void decreaseThirst(boolean reduced) {
+        var decreaseBy = 15;
+        if (reduced) decreaseBy -= 4;
         if (thirst < 1) {
             return;
         }
 
-        this.thirst = Math.max(1, thirst - defaultDecrease);
+        this.thirst = Math.max(1, thirst - decreaseBy);
         fieldTracker.put("pet.thirst", this.thirst);
     }
 
@@ -336,7 +342,7 @@ public class HousePet {
     }
 
     @BsonIgnore
-    public ActivityResult handleAbility(HousePetType.HousePetAbility neededAbility) {
+    public ActivityResult handleAbility(MongoUser dbUser, HousePetType.HousePetAbility neededAbility) {
         if (!type.getAbilities().contains(neededAbility))
             return ActivityResult.NO_ABILITY;
 
@@ -356,14 +362,15 @@ public class HousePet {
             return ActivityResult.DUSTY;
         }
 
-        decreaseStamina();
-        decreaseHealth();
-        decreaseHunger();
-        decreaseThirst();
+        var hasPetToy = ItemHelper.handleEffect(ItemReference.PET_TOY, dbUser);
+        decreaseStamina(hasPetToy);
+        decreaseHealth(); // this does not get a reduction because it is already a maximum of 2
+        decreaseHunger(hasPetToy);
+        decreaseThirst(hasPetToy);
         increaseDust();
         increaseExperience();
 
-        return neededAbility.getPassActivity();
+        return neededAbility.getPassActivity(hasPetToy);
     }
 
     @BsonIgnore
@@ -490,6 +497,10 @@ public class HousePet {
         PASS_MINE(true, "commands.pet.activity.success_mine"),
         PASS_CHOP(true, "commands.pet.activity.success_chop"),
         PASS_FISH(true, "commands.pet.activity.success_fish"),
+        PASS_BOOSTED(true, "commands.pet.activity.success_boosted"),
+        PASS_MINE_BOOSTED(true, "commands.pet.activity.success_mine_boosted"),
+        PASS_CHOP_BOOSTED(true, "commands.pet.activity.success_chop_boosted"),
+        PASS_FISH_BOOSTED(true, "commands.pet.activity.success_fish_boosted"),
         NO_ABILITY(false, ""); // No need, as it'll just be skipped.
 
         final boolean pass;
