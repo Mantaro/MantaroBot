@@ -21,6 +21,9 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
+import net.kodehawa.mantarobot.commands.currency.item.drops.ItemDrop;
+import net.kodehawa.mantarobot.commands.currency.item.drops.DropPicker;
+import net.kodehawa.mantarobot.commands.currency.item.drops.PercentageDrop;
 import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
 import net.kodehawa.mantarobot.commands.currency.item.special.Food;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
@@ -72,6 +75,40 @@ public class ItemHelper {
     private static Food[] petFoodItems;
     private static final Logger log = LoggerFactory.getLogger(ItemHelper.class);
     private static final SecureRandom random = new SecureRandom();
+    public static final DropPicker CHOP_DROPS = DropPicker.create()
+            .ensureMin(
+                    new ItemDrop(ItemReference.WOOD, 30, 1, 7),
+                    new ItemDrop(ItemReference.STICKS, 30, 1, 13)
+            )
+            .random(
+                    new ItemDrop(ItemReference.CHERRY_BLOSSOM, 30, 1, 1),
+                    new ItemDrop(ItemReference.PEAR, 30, 1, 1),
+                    new ItemDrop(ItemReference.APPLE, 30, 1, 1),
+                    new ItemDrop(ItemReference.LEAVES, 30, 1, 1)
+            )
+            .percentage(
+                    // premium crate replacement is handled by picker
+                    new PercentageDrop(ItemReference.CHOP_CRATE, 400, 380, 1, 1, "commands.chop.crate.success")
+                    )
+            .build();
+    public static final DropPicker FISH_DROPS = DropPicker.create()
+            .random(
+                    new ItemDrop(ItemReference.SHRIMP, 30, 1, 1),
+                    new ItemDrop(ItemReference.SQUID, 30, 1, 1),
+                    new ItemDrop(ItemReference.CRAB, 30, 1, 1),
+                    new ItemDrop(ItemReference.TROPICAL_FISH, 30, 1, 1),
+                    new ItemDrop(ItemReference.BLOWFISH, 1, 1, 1),
+                    new ItemDrop(ItemReference.FISH, 30, 1, 1)
+            )
+            .percentage(
+                    // premium crate replacement is handled by picker
+                    new PercentageDrop(ItemReference.FISH_CRATE, 400, 380, 1, 1, "commands.fish.crate.success"),
+                    new PercentageDrop(ItemReference.SHARK, 30, 20, 1, 1, 6, "commands.fish.shark_success"),
+                    // rarity of 3 is the same as nominalLevel 3
+                    new PercentageDrop(ItemReference.SHELL, 110, 90, 1, 1, 3, "commands.fish.fossil_success")
+            )
+            .build();
+
     private static final IncreasingRateLimiter lootCrateRatelimiter = new IncreasingRateLimiter.Builder()
             .limit(1)
             .spamTolerance(2)
