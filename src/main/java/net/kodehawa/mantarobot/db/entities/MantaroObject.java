@@ -24,17 +24,23 @@ import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.types.ObjectId;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MantaroObject implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "mantaro";
+
     @BsonId
-    private String id = "mantaro";
+    ObjectId _id;
+
+    @BsonProperty("id")
+    private String id;
 
     public List<String> blackListedGuilds;
     public List<String> blackListedUsers;
@@ -42,6 +48,7 @@ public class MantaroObject implements ManagedMongoObject {
     @BsonCreator
     public MantaroObject(@BsonProperty("blackListedGuilds") List<String> blackListedGuilds,
                          @BsonProperty("blackListedUsers") List<String> blackListedUsers) {
+        id = "mantaro"; // for some reason it has to be here
         this.blackListedGuilds = blackListedGuilds;
         this.blackListedUsers = blackListedUsers;
     }
@@ -57,6 +64,7 @@ public class MantaroObject implements ManagedMongoObject {
     @SuppressWarnings("unused")
     @Override
     @Nonnull
+    @BsonProperty("id")
     public String getId() {
         return id;
     }
