@@ -169,7 +169,7 @@ public class ManagedDatabase {
     public MantaroObject getMantaroData() {
         log("Requesting MantaroObject from MongoDB");
         var collection = dbMantaro().getCollection(MantaroObject.DB_TABLE, MantaroObject.class);
-        var obj = collection.find().filter(Filters.eq("id", "mantaro")).first();
+        var obj = collection.find().filter(Filters.eq("mantaro")).first();
         if (obj == null) {
             // quick fix for the id being wrong, just create obj from the old one -- should work.
             // next save should save it with the correct id, which should make this re-assigning superfluous after its fixed.

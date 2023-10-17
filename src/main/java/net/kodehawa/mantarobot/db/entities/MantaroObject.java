@@ -37,10 +37,7 @@ public class MantaroObject implements ManagedMongoObject {
     public static final String DB_TABLE = "mantaro";
 
     @BsonId
-    ObjectId _id;
-
-    @BsonProperty("id")
-    private String id;
+    private String id = "mantaro";
 
     public List<String> blackListedGuilds;
     public List<String> blackListedUsers;
@@ -48,7 +45,6 @@ public class MantaroObject implements ManagedMongoObject {
     @BsonCreator
     public MantaroObject(@BsonProperty("blackListedGuilds") List<String> blackListedGuilds,
                          @BsonProperty("blackListedUsers") List<String> blackListedUsers) {
-        id = "mantaro"; // for some reason it has to be here
         this.blackListedGuilds = blackListedGuilds;
         this.blackListedUsers = blackListedUsers;
     }
@@ -64,7 +60,6 @@ public class MantaroObject implements ManagedMongoObject {
     @SuppressWarnings("unused")
     @Override
     @Nonnull
-    @BsonProperty("id")
     public String getId() {
         return id;
     }
