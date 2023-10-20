@@ -736,7 +736,7 @@ public class MarketCmd {
             var playerCount = player.getItemAmount(itemToBuy);
 
             if (isMax) {
-                itemNumber = (int) Math.max(1, Math.min(ItemStack.MAX_STACK_SIZE - playerCount, player.getNewMoney() / price));
+                itemNumber = (int) Math.max(1, Math.min(ItemStack.MAX_STACK_SIZE - playerCount, player.getCurrentMoney() / price));
             }
 
             if (!player.fitsItemAmount(itemToBuy, itemNumber)) {
