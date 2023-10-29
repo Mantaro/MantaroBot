@@ -81,7 +81,7 @@ dependencies {
     implementation 'org.java-websocket:Java-WebSocket:1.5.4'
 
     // Database
-    implementation 'org.mongodb:mongodb-driver-sync:4.10.2'
+    implementation 'org.mongodb:mongodb-driver-sync:4.11.0'
     implementation 'redis.clients:jedis:5.0.2'
 
     // Utilities
