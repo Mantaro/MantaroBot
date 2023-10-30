@@ -24,17 +24,20 @@ import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.types.ObjectId;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MantaroObject implements ManagedMongoObject {
     @BsonIgnore
     public static final String DB_TABLE = "mantaro";
+
     @BsonId
-    public static final String id = "mantaro";
+    private String id = "mantaro";
 
     public List<String> blackListedGuilds;
     public List<String> blackListedUsers;
