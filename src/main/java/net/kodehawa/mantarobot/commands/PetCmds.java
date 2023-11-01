@@ -924,10 +924,15 @@ public class PetCmds {
                 }
 
                 var baseline = foodItem.getHungerLevel();
+                var effectiveMax = ((pet.getMaxHunger() - 9) + foodItem.getHungerLevel());
 
                 if (isFull) {
-                    amount = (pet.getMaxHunger() - pet.getHunger()) / baseline;
-                    if (pet.getHunger() + (baseline * amount) < pet.getMaxHunger() || amount == 0) {
+                    amount = Math.max(1, (pet.getMaxHunger() - pet.getHunger()) / baseline);
+                    var inc = baseline * amount;
+                    var hunger = pet.getHunger();
+                    // if calculated does not max out the hunger (first condition)
+                    // check if an additional can be safely used without wasting too much (second condition)
+                    if (hunger + inc < pet.getMaxHunger() && hunger + (inc + baseline) <= effectiveMax) {
                         amount += 1;
                     }
                 }
@@ -946,7 +951,7 @@ public class PetCmds {
                 }
 
 
-                if ((pet.getHunger() + increase) > ((pet.getMaxHunger() - 9) + foodItem.getHungerLevel())) {
+                if ((pet.getHunger() + increase) > effectiveMax) {
                     ctx.reply("commands.pet.feed.too_much", EmoteReference.ERROR);
                     return;
                 }
@@ -986,7 +991,8 @@ public class PetCmds {
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getMarriage();
                 var amount = ctx.getOptionAsInteger("amount", 1);
-                var baseline = 15;
+                final var baseline = 15;
+                final var maxOverflow = 10;
 
                 var isFull = ctx.getOptionAsBoolean("full");
                 var pet = getCurrentPet(ctx, player, marriage, "commands.pet.water.no_pet");
@@ -1000,10 +1006,15 @@ public class PetCmds {
                 }
 
                 var item = ItemReference.WATER_BOTTLE;
+                var effectiveMax = pet.getMaxThirst() + maxOverflow;
                 if (isFull) {
                     // Reassign.
                     amount = (pet.getMaxThirst() - pet.getThirst()) / baseline;
-                    if (pet.getThirst() + (baseline * amount) < pet.getMaxThirst() || amount == 0) {
+                    var inc = baseline * amount;
+                    var thirst = pet.getThirst();
+                    // if calculated does not max out the thirst (first condition)
+                    // check if an additional can be safely used without wasting too much (second condition)
+                    if (thirst + inc < pet.getMaxThirst() && thirst + (inc + baseline) <= effectiveMax) {
                         amount += 1;
                     }
                 }
@@ -1019,7 +1030,7 @@ public class PetCmds {
                     return;
                 }
 
-                if ((pet.getThirst() + increase) > pet.getMaxThirst() + 10) {
+                if ((pet.getThirst() + increase) > effectiveMax) {
                     ctx.reply("commands.pet.water.too_much", EmoteReference.ERROR);
                     return;
                 }
