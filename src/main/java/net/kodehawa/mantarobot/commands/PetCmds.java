@@ -1009,7 +1009,7 @@ public class PetCmds {
                 var effectiveMax = pet.getMaxThirst() + maxOverflow;
                 if (isFull) {
                     // Reassign.
-                    amount = (pet.getMaxThirst() - pet.getThirst()) / baseline;
+                    amount = Math.max(1, (pet.getMaxThirst() - pet.getThirst()) / baseline);
                     var inc = baseline * amount;
                     var thirst = pet.getThirst();
                     // if calculated does not max out the thirst (first condition)
