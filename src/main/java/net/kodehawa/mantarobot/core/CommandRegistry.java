@@ -438,7 +438,7 @@ public class CommandRegistry {
         final var dbUser = managedDatabase.getUser(author);
         renewPremiumKey(managedDatabase, author, dbUser, dbGuild);
 
-        cmd.execute(new SlashContext(event, new I18nContext(dbGuild, dbUser)));
+        cmd.execute(new SlashContext(event, new I18nContext(dbGuild, dbUser), cmd.isEphemeral()));
         commandLog.debug("Slash command: {}, User: {} ({}), Guild: {}, Channel: {}, Options: {}" ,
                 cmd.getName(), author.getName(), author.getId(), guild.getId(), channel.getId(), event.getOptions()
         );

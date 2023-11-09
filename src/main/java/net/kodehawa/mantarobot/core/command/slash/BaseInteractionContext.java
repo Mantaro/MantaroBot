@@ -64,8 +64,12 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
 
 
     public void defer() {
-        event.deferReply().complete();
-        deferred = true;
+        if (defaultEphemeral()) {
+            deferEphemeral();
+        } else {
+            event.deferReply().complete();
+            deferred = true;
+        }
     }
 
     public void deferEphemeral() {
@@ -135,7 +139,7 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
         if (deferred) {
             event.getHook().sendMessage(source.formatted(args)).queue();
         } else {
-            event.reply(source.formatted(args)).queue();
+            event.reply(source.formatted(args)).setEphemeral(defaultEphemeral()).queue();
         }
     }
 
@@ -143,7 +147,7 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
         if (deferred) {
             event.getHook().sendMessage(i18n.get(source).formatted(args)).queue();
         } else {
-            event.reply(i18n.get(source).formatted(args)).queue();
+            event.reply(i18n.get(source).formatted(args)).setEphemeral(defaultEphemeral()).queue();
         }
     }
 
@@ -155,23 +159,24 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
         } else {
             event.reply(i18n.get(source).formatted(args))
                     .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .setEphemeral(defaultEphemeral())
                     .queue();
         }
     }
 
     public void replyLocalized(String text) {
         if (deferred) {
-            event.getHook().sendMessage(i18n.get(text)).queue();
+            event.getHook().sendMessage(i18n.get(text)).setEphemeral(defaultEphemeral()).queue();
         } else {
-            event.reply(i18n.get(text)).queue();
+            event.reply(i18n.get(text)).setEphemeral(defaultEphemeral()).queue();
         }
     }
 
     public void reply(String text) {
         if (deferred) {
-            event.getHook().sendMessage(text).queue();
+            event.getHook().sendMessage(text).setEphemeral(defaultEphemeral()).queue();
         } else {
-            event.reply(text).queue();
+            event.reply(text).setEphemeral(defaultEphemeral()).queue();
         }
     }
 
@@ -179,7 +184,7 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
         if (deferred) {
             event.getHook().sendMessage(message).queue();
         } else {
-            event.reply(message).queue();
+            event.reply(message).setEphemeral(defaultEphemeral()).queue();
         }
     }
 
@@ -191,6 +196,7 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
         } else {
             event.reply(text)
                     .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
+                    .setEphemeral(defaultEphemeral())
                     .queue();
         }
     }
@@ -201,6 +207,7 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
                     .queue(success -> {}, Throwable::printStackTrace);
         } else {
             event.replyEmbeds(embed)
+                    .setEphemeral(defaultEphemeral())
                     .queue(success -> {}, Throwable::printStackTrace);
         }
     }
@@ -260,7 +267,7 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
 
     public WebhookMessageEditAction<Message> editAction(MessageEmbed embed) {
         if (!event.isAcknowledged()) {
-            event.deferReply().complete();
+            event.deferReply().setEphemeral(defaultEphemeral()).complete();
         }
 
         return event.getHook().editOriginalEmbeds(embed).setContent("");
@@ -325,7 +332,7 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
 
     public WebhookMessageEditAction<Message> editAction(String s) {
         if (!event.isAcknowledged()) {
-            event.deferReply().complete();
+            event.deferReply().setEphemeral(defaultEphemeral()).complete();
         }
 
         return event.getHook().editOriginal(s).setEmbeds(Collections.emptyList());
@@ -342,6 +349,7 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
         } else {
             event.replyEmbeds(embed)
                     .setComponents(actionRow)
+                    .setEphemeral(defaultEphemeral())
                     .queue(success -> {}, Throwable::printStackTrace);
         }
     }
@@ -365,7 +373,7 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
                     .queue();
         } else {
             event.reply(String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format))
-                    .setEphemeral(true)
+                    .setEphemeral(defaultEphemeral())
                     .setComponents(actionRow)
                     .queue();
         }
@@ -389,7 +397,7 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
     @Override
     public Message sendResult(String s) {
         if (!event.isAcknowledged()) {
-            event.deferReply().complete();
+            event.deferReply().setEphemeral(defaultEphemeral()).complete();
         }
 
         return event.getHook().sendMessage(s).setAllowedMentions(EnumSet.noneOf(Message.MentionType.class)).complete();
@@ -398,7 +406,7 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
     @Override
     public Message sendResult(MessageEmbed e) {
         if (!event.isAcknowledged()) {
-            event.deferReply().complete();
+            event.deferReply().setEphemeral(defaultEphemeral()).complete();
         }
 
         return event.getHook().sendMessageEmbeds(e).complete();
@@ -533,4 +541,6 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
     public Marriage getMarriage(MongoUser userData) {
         return MantaroData.db().getMarriage(userData.getMarriageId());
     }
+
+    public abstract boolean defaultEphemeral();
 }
