@@ -28,11 +28,8 @@ import java.util.List;
 
 public class SlashContext extends BaseInteractionContext<SlashCommandInteractionEvent> {
 
-    private final boolean isEphemeral;
-
-    public SlashContext(SlashCommandInteractionEvent event, I18nContext i18n, boolean isEphemeral) {
+    public SlashContext(SlashCommandInteractionEvent event, I18nContext i18n) {
         super(event, i18n);
-        this.isEphemeral = isEphemeral;
     }
 
     public String getSubCommand() {
@@ -146,10 +143,5 @@ public class SlashContext extends BaseInteractionContext<SlashCommandInteraction
         }
 
         return option.getAsBoolean();
-    }
-
-    @Override
-    public boolean defaultEphemeral() {
-        return isEphemeral;
     }
 }

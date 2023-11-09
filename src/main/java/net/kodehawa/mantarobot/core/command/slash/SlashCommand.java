@@ -165,6 +165,7 @@ public abstract class SlashCommand extends DeferrableCommand<SlashContext> {
                 else ctx.defer();
             }
 
+            ctx.setForceEphemeral(sub.isEphemeral());
             sub.process(ctx);
         } else {
             if ((defer() || forceDefer) && !modal) {
@@ -172,6 +173,7 @@ public abstract class SlashCommand extends DeferrableCommand<SlashContext> {
                 else ctx.defer();
             }
 
+            ctx.setForceEphemeral(isEphemeral());
             process(ctx);
         }
     }

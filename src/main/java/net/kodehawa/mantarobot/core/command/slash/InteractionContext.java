@@ -35,9 +35,4 @@ public class InteractionContext<T> extends BaseInteractionContext<GenericContext
     public GuildChannel getGuildChannel() {
         return event.getGuildChannel();
     }
-
-    @Override
-    public boolean defaultEphemeral() {
-        return true;
-    }
 }

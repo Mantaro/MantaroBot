@@ -50,6 +50,7 @@ public abstract class ContextCommand<T> extends DeferrableCommand<InteractionCon
             ctx.defer();
         }
 
+        ctx.setForceEphemeral(true);
         process(ctx);
     }
 }
