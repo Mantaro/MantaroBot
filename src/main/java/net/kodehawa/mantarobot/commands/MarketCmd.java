@@ -57,6 +57,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.campaign.Campaign;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
@@ -751,6 +752,13 @@ public class MarketCmd {
             var value = price * itemNumber;
             var removedMoney = player.removeMoney(value);
             if (removedMoney) {
+                var warn = "";
+                if (player.shouldSeeCampaign()) {
+                    var user = ctx.getDBUser();
+                    warn += Campaign.PREMIUM.getStringFromCampaign(ctx.getLanguageContext(), user.isPremium());
+                    player.markCampaignAsSeen();
+                }
+
                 player.processItem(itemToBuy, itemNumber);
                 player.addBadgeIfAbsent(Badge.BUYER);
                 player.marketUsed(player.getMarketUsed() + 1);
@@ -766,7 +774,6 @@ public class MarketCmd {
                     message = "commands.market.buy.success_potion";
                 }
 
-                var warn = "";
                 if (itemToBuy instanceof Attribute attribute && !(itemToBuy instanceof Wrench) &&
                         attribute.getTier() == 1 && random.nextFloat() <= 0.20 && player.getLevel() <= 5) {
                     warn += "\n" + EmoteReference.WRENCH.toHeaderString() + languageContext.get("commands.market.buy.success_breakable_upgrade") + "\n";
