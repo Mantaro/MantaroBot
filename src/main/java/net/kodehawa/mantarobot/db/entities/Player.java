@@ -726,12 +726,13 @@ public class Player implements ManagedMongoObject {
         if (config.isPremiumBot())
             return false;
 
-        return System.currentTimeMillis() > (getLastSeenCampaign() + TimeUnit.HOURS.toMillis(12));
+        return System.currentTimeMillis() > (getLastSeenCampaign() + TimeUnit.HOURS.toMillis(6));
     }
 
     @BsonIgnore
     public void markCampaignAsSeen() {
         this.lastSeenCampaign = System.currentTimeMillis();
+        fieldTracker.put("lastSeenCampaign", lastSeenCampaign);
     }
 
     /**
