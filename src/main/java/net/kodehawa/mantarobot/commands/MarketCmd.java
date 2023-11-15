@@ -755,7 +755,7 @@ public class MarketCmd {
                 var warn = "";
                 if (player.shouldSeeCampaign()) {
                     var user = ctx.getDBUser();
-                    warn += Campaign.PREMIUM.getStringFromCampaign(ctx.getLanguageContext(), user.isPremium());
+                    warn += Campaign.PREMIUM.getStringFromCampaign(ctx.getLanguageContext(), user.isPremium()) + "\n";
                     player.markCampaignAsSeen();
                 }
 
