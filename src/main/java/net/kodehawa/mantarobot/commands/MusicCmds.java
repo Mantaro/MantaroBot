@@ -69,6 +69,8 @@ public class MusicCmds {
             cr.registerSlash(Shuffle.class);
             cr.registerSlash(Stop.class);
             cr.registerSlash(Volume.class);
+        } else {
+            cr.registerSlash(PlayPlaceholder.class);
         }
     }
 
@@ -78,7 +80,7 @@ public class MusicCmds {
     public static class PlayPlaceholder extends SlashCommand {
         @Override
         protected void process(SlashContext ctx) {
-            ctx.reply("commands.music_general.play_deprecated", EmoteReference.WARNING);
+            ctx.reply("commands.music_general.play_sellout", EmoteReference.WARNING);
         }
     }
 
