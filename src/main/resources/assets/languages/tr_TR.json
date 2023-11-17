@@ -202,7 +202,7 @@
       "info": "%1$s`~>opts language set <language code> kullanarak sunucu dilini (varsa) değiştirebilirsiniz. Kişisel dil tercihleriniz `/profile language lang:<language code>` kullanılarak değiştirilebilirsiniz. **Mevcut diller:** `%2$s`\nEğer diliniz burada değilse ve yardım etmek istiyorsanız, destek sunucusuna katılmaktan ve çeviri çabalarına katılmaktan çekinmeyin!"
     },
     "music_general": {
-      "play_deprecated": "%1$sKontrolümüz dışındaki koşullar nedeniyle Mantaro'da müzik çalma hizmeti veremiyoruz.",
+      "play_sellout": "%1$sMusic playback is only available on Mantaro Patreon ($4/mo tier -- server-specific), Check out more on <https://patreon.com/mantaro> and help us keep the bot alive <3",
       "music_error": {
         "timeout": "%1$s %2$s bağlanamıyor: bağlantı zaman aşımına uğradı. Sunucu yerini değiştirip, komutu tekrar dene.",
         "unknown": "%1$s%2$s ile bağlantı kurulamıyor: bilinmeyen hata."
