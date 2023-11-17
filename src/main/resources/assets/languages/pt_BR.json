@@ -202,7 +202,7 @@
       "info": "%1$sVocê pode mudar o idioma do servidor (se aplicável) usando `~>opt language set <language code>`. Sua preferência de idioma pessoal pode ser trocada usando `/profile language lang:<language code>`.\n**Idiomas disponíveis:** `%2$s`\nSe o seu idioma não está aqui e se você quiser ajudar, sinta-se livre pra entrar no servidor de suporte e se juntar ao esforço de tradução!"
     },
     "music_general": {
-      "play_deprecated": "%1$sDevido a circunstâncias fora de nosso controle, não podemos providenciar comandos de música na Mantaro.",
+      "play_sellout": "%1$sMusic playback is only available on Mantaro Patreon ($4/mo tier -- server-specific), Check out more on <https://patreon.com/mantaro> and help us keep the bot alive <3",
       "music_error": {
         "timeout": "%1$sImpossível conectar no %2$s: conexão esgotada. Tente mudar a região do servidor e fazer o comando novamente.",
         "unknown": "%1$sNão foi possível conectar em %2$s: erro desconhecido."
