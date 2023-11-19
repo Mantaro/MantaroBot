@@ -202,7 +202,7 @@
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `/profile language lang:<language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "music_general": {
-      "play_sellout": "%1$sMusic playback is only available on Mantaro Patreon ($4/mo tier -- server-specific), Check out more on <https://patreon.com/mantaro> and help us keep the bot alive <3",
+      "play_sellout": "%1$sMusic playback is only available on Mantaro Patreon (Patreon Bot tier), Check out more on <https://patreon.com/mantaro> and consider help us keep the bot alive <3",
       "music_error": {
         "timeout": "%1$s Nem sikerült csatlakozni a: %2$s: kapcsolati időtúlépés. \nPróbáld meg megváltoztatni a szerver régióját, és futtasd a parancsot újra.",
         "unknown": "%1$sNem sikerült csatlakozni a következőhöz: %2$s: ismeretlen hiba."
