@@ -107,11 +107,6 @@ public class CommandListener implements EventListener {
     private void onSlash(SlashCommandInteractionEvent event) {
         try {
             if (commandProcessor.runSlash(event)) {
-                // Remove running flag
-                try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
-                    jedis.del("commands-running-" + event.getUser().getId());
-                }
-
                 commandTotal++;
             }
         } catch (MongoException e) {
@@ -157,11 +152,6 @@ public class CommandListener implements EventListener {
     private void onUserContext(UserContextInteractionEvent event) {
         try {
             if (commandProcessor.runContextUser(event)) {
-                // Remove running flag
-                try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
-                    jedis.del("commands-running-" + event.getUser().getId());
-                }
-
                 commandTotal++;
             }
         } catch (MongoException e) {
@@ -205,11 +195,6 @@ public class CommandListener implements EventListener {
     private void onCommand(MessageReceivedEvent event) {
         try {
             if (commandProcessor.run(event)) {
-                // Remove running flag
-                try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
-                    jedis.del("commands-running-" + event.getAuthor().getId());
-                }
-
                 commandTotal++;
             }
         } catch (MongoException e) {

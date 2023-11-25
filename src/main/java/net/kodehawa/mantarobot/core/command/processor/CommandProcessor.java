@@ -39,11 +39,6 @@ public class CommandProcessor {
         // Run the actual command here.
         REGISTRY.process(event);
 
-        // This could be done using a lock, but that would be a little too blocking. So just set a flag.
-        try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
-            jedis.set("commands-running-" + event.getUser().getId(), String.valueOf(1));
-        }
-
         final long end = System.currentTimeMillis();
         commandTime.observe(end - start);
         return true;
@@ -54,11 +49,6 @@ public class CommandProcessor {
         final long start = System.currentTimeMillis();
         // Run the actual command here.
         REGISTRY.process(event);
-
-        // This could be done using a lock, but that would be a little too blocking. So just set a flag.
-        try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
-            jedis.set("commands-running-" + event.getUser().getId(), String.valueOf(1));
-        }
 
         final long end = System.currentTimeMillis();
         commandTime.observe(end - start);
@@ -112,11 +102,6 @@ public class CommandProcessor {
             usedPrefix = customPrefix;
         } else if (usedPrefix == null) {
             return false;
-        }
-
-        // This could be done using a lock, but that would be a little too blocking. So just set a flag.
-        try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
-            jedis.set("commands-running-" + event.getAuthor().getId(), String.valueOf(1));
         }
 
         // The command arguments to parse.
