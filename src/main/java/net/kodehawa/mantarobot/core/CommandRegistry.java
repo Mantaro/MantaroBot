@@ -26,8 +26,8 @@ import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEven
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.CustomCmds;
 import net.kodehawa.mantarobot.core.command.CommandManager;
-import net.kodehawa.mantarobot.core.command.NewCommand;
-import net.kodehawa.mantarobot.core.command.NewContext;
+import net.kodehawa.mantarobot.core.command.TextCommand;
+import net.kodehawa.mantarobot.core.command.TextContext;
 import net.kodehawa.mantarobot.core.command.argument.ArgumentParseError;
 import net.kodehawa.mantarobot.core.command.slash.AutocompleteContext;
 import net.kodehawa.mantarobot.core.command.slash.ContextCommand;
@@ -220,7 +220,7 @@ public class CommandRegistry {
         // sort-of-fix: remove if statement when we port all commands
         boolean executedNew;
         try {
-            executedNew = newCommands.execute(new NewContext(event,
+            executedNew = newCommands.execute(new TextContext(event,
                     new I18nContext(dbGuild, dbUser),
                     event.getMessage().getContentRaw().substring(prefix.length()))
             );
@@ -502,7 +502,7 @@ public class CommandRegistry {
         }
     }
 
-    public void register(Class<? extends NewCommand> clazz) {
+    public void register(Class<? extends TextCommand> clazz) {
         var cmd = newCommands.register(clazz);
         var p = new ProxyCommand(cmd);
         commands.put(cmd.getName(), p);
@@ -603,9 +603,9 @@ public class CommandRegistry {
     }
 
     private static class ProxyCommand implements Command {
-        private final NewCommand c;
+        private final TextCommand c;
 
-        private ProxyCommand(NewCommand c) {
+        private ProxyCommand(TextCommand c) {
             this.c = c;
         }
 

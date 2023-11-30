@@ -26,14 +26,14 @@ import java.util.List;
 import java.util.Map;
 
 // common superclass for either commands or options
-public abstract class NewCommand extends AnnotatedCommand<NewContext> {
-    private final Map<String, NewCommand> children = new HashMap<>();
+public abstract class TextCommand extends AnnotatedCommand<TextContext> {
+    private final Map<String, TextCommand> children = new HashMap<>();
     private final Map<String, String> childrenAliases = new HashMap<>();
     private final List<String> aliases;
 
-    private NewCommand parent;
+    private TextCommand parent;
 
-    public NewCommand() {
+    public TextCommand() {
         super();
         var clazz = getClass();
         this.aliases = Arrays.stream(clazz.getAnnotationsByType(Alias.class))
@@ -56,7 +56,7 @@ public abstract class NewCommand extends AnnotatedCommand<NewContext> {
     }
 
     @Override
-    public final void execute(NewContext ctx) {
+    public final void execute(TextContext ctx) {
         var args = ctx.arguments();
         if (args.hasNext()) {
             var name = args.next().getValue().toLowerCase();
@@ -73,7 +73,7 @@ public abstract class NewCommand extends AnnotatedCommand<NewContext> {
         process(ctx);
     }
 
-    void registerParent(NewCommand parent) {
+    void registerParent(TextCommand parent) {
         this.parent = parent;
         parent.children.put(name, this);
         aliases.forEach(a -> parent.childrenAliases.put(a, name));

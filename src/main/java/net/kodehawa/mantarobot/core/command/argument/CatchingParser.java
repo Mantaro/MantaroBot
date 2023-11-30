@@ -17,7 +17,7 @@
 
 package net.kodehawa.mantarobot.core.command.argument;
 
-import net.kodehawa.mantarobot.core.command.NewContext;
+import net.kodehawa.mantarobot.core.command.TextContext;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
@@ -45,7 +45,7 @@ public class CatchingParser<T> implements Parser<T> {
     @SuppressWarnings("unused")
     @Nonnull
     @Override
-    public Optional<T> parse(@Nonnull NewContext context, @Nonnull Arguments arguments) {
+    public Optional<T> parse(@Nonnull TextContext context, @Nonnull Arguments arguments) {
         try {
             return Optional.of(parseFunction.parse(arguments.next().getValue()));
         } catch(Exception e) {

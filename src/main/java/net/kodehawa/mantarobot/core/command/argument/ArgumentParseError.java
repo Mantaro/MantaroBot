@@ -17,7 +17,7 @@
 
 package net.kodehawa.mantarobot.core.command.argument;
 
-import net.kodehawa.mantarobot.core.command.NewContext;
+import net.kodehawa.mantarobot.core.command.TextContext;
 
 import java.io.Serial;
 
@@ -26,13 +26,13 @@ import java.io.Serial;
  */
 @SuppressWarnings({"rawtypes", "unused"})
 public class ArgumentParseError extends RuntimeException {
-    private final NewContext context;
+    private final TextContext context;
     private final Parser<?> parser;
     private final Arguments readArguments;
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public ArgumentParseError(String message, NewContext context, Parser<?> parser, Arguments readArguments) {
+    public ArgumentParseError(String message, TextContext context, Parser<?> parser, Arguments readArguments) {
         super(messageString(message, parser, readArguments));
         this.context = context;
         this.parser = parser;
@@ -44,7 +44,7 @@ public class ArgumentParseError extends RuntimeException {
      *
      * @return Context for the command.
      */
-    public NewContext context() {
+    public TextContext context() {
         return context;
     }
 

@@ -24,8 +24,8 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.NewCommand;
-import net.kodehawa.mantarobot.core.command.NewContext;
+import net.kodehawa.mantarobot.core.command.TextCommand;
+import net.kodehawa.mantarobot.core.command.TextContext;
 import net.kodehawa.mantarobot.core.command.argument.Parsers;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Help;
@@ -79,9 +79,9 @@ public class OwnerCmd {
 
     @Permission(CommandPermission.OWNER)
     @Category(CommandCategory.OWNER)
-    public static class RestoreStreak extends NewCommand {
+    public static class RestoreStreak extends TextCommand {
         @Override
-        protected void process(NewContext ctx) {
+        protected void process(TextContext ctx) {
             var id = ctx.argument(Parsers.strictLong()
                     .map(String::valueOf), "Invalid id");
             var amount = ctx.argument(Parsers.strictLong(), "Invalid amount");
@@ -105,9 +105,9 @@ public class OwnerCmd {
 
     @Permission(CommandPermission.OWNER)
     @Category(CommandCategory.OWNER)
-    public static class DataRequest extends NewCommand {
+    public static class DataRequest extends TextCommand {
         @Override
-        protected void process(NewContext ctx) {
+        protected void process(TextContext ctx) {
             var db = MantaroData.db();
             var id = ctx.argument(Parsers.strictLong()
                     .map(String::valueOf), "Invalid id");
@@ -143,9 +143,9 @@ public class OwnerCmd {
 
     @Permission(CommandPermission.OWNER)
     @Category(CommandCategory.OWNER)
-    public static class GiveItem extends NewCommand {
+    public static class GiveItem extends TextCommand {
         @Override
-        protected void process(NewContext ctx) {
+        protected void process(TextContext ctx) {
             var itemString = ctx.argument(Parsers.delimitedBy('"', false), "Invalid item");
             int amount = ctx.argument(Parsers.strictInt(), "Invalid item amount");
 
@@ -173,9 +173,9 @@ public class OwnerCmd {
 
     @Permission(CommandPermission.OWNER)
     @Category(CommandCategory.OWNER)
-    public static class TransferPlayer extends NewCommand {
+    public static class TransferPlayer extends TextCommand {
         @Override
-        protected void process(NewContext ctx) {
+        protected void process(TextContext ctx) {
             var transferred = ctx.argument(Parsers.strictLong().map(String::valueOf),
                     "Invalid user (transferring from)"
             );
@@ -242,9 +242,9 @@ public class OwnerCmd {
 
     @Permission(CommandPermission.OWNER)
     @Category(CommandCategory.OWNER)
-    public static class AddBadge extends NewCommand {
+    public static class AddBadge extends TextCommand {
         @Override
-        protected void process(NewContext ctx) {
+        protected void process(TextContext ctx) {
             final var toAdd = ctx.argument(Parsers.string(),
                     "Wrong or no badge specified."
             );
@@ -276,9 +276,9 @@ public class OwnerCmd {
 
     @Permission(CommandPermission.OWNER)
     @Category(CommandCategory.OWNER)
-    public static class RemoveBadge extends NewCommand {
+    public static class RemoveBadge extends TextCommand {
         @Override
-        protected void process(NewContext ctx) {
+        protected void process(TextContext ctx) {
             final var toRemove = ctx.argument(Parsers.string(),
                     "Wrong or no badge specified."
             );
@@ -312,9 +312,9 @@ public class OwnerCmd {
 
     @Permission(CommandPermission.OWNER)
     @Category(CommandCategory.OWNER)
-    public static class RefreshPledges extends NewCommand {
+    public static class RefreshPledges extends TextCommand {
         @Override
-        protected void process(NewContext ctx) {
+        protected void process(TextContext ctx) {
             try {
                 APIUtils.getFrom("/mantaroapi/bot/patreon/refresh");
                 ctx.send("Refreshed Patreon pledges successfully.");
@@ -327,9 +327,9 @@ public class OwnerCmd {
 
     @Permission(CommandPermission.OWNER)
     @Category(CommandCategory.OWNER)
-    public static class AddOwnerPremium extends NewCommand {
+    public static class AddOwnerPremium extends TextCommand {
         @Override
-        protected void process(NewContext ctx) {
+        protected void process(TextContext ctx) {
             final var guild = ctx.argument(Parsers.strictLong()
                             .map(String::valueOf), "Invalid guild"
             );
@@ -365,14 +365,14 @@ public class OwnerCmd {
                     @Help.Parameter(name = "target", description = "ID of the entity to be (un)blacklisted")
             }
     )
-    public static class Blacklist extends NewCommand {
+    public static class Blacklist extends TextCommand {
         @Override
-        protected void process(NewContext ctx) {
+        protected void process(TextContext ctx) {
             ctx.send(EmoteReference.ERROR + "Invalid type. (Valid: guild, user)");
         }
 
         @SuppressWarnings("unused")
-        private abstract static class BlacklistCommand<T> extends NewCommand {
+        private abstract static class BlacklistCommand<T> extends TextCommand {
             private final String type;
             private final Function<MantaroObject, List<String>> dbGetter;
             private final BiFunction<ShardManager, String, T> entityGetter;
@@ -387,7 +387,7 @@ public class OwnerCmd {
             }
 
             @Override
-            protected void process(NewContext ctx) {
+            protected void process(TextContext ctx) {
                 var action = ctx.argument(Parsers.string());
                 var target = ctx.argument(Parsers.string());
                 var obj = MantaroData.db().getMantaroData();

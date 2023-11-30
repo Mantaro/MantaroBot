@@ -17,7 +17,7 @@
 
 package net.kodehawa.mantarobot.core.command.argument;
 
-import net.kodehawa.mantarobot.core.command.NewContext;
+import net.kodehawa.mantarobot.core.command.TextContext;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
@@ -38,7 +38,7 @@ public class BasicParser<T> implements Parser<T> {
     @SuppressWarnings("unused")
     @Nonnull
     @Override
-    public Optional<T> parse(@Nonnull NewContext context, @Nonnull Arguments arguments) {
+    public Optional<T> parse(@Nonnull TextContext context, @Nonnull Arguments arguments) {
         return Optional.of(parseFunction.apply(arguments.next().getValue()));
     }
 }

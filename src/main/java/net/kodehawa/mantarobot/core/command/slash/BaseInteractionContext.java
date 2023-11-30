@@ -32,9 +32,7 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimitContext;
 import redis.clients.jedis.JedisPool;
 
 import java.awt.Color;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumSet;
+import java.util.*;
 
 @SuppressWarnings("unused")
 public abstract class BaseInteractionContext<T extends GenericCommandInteractionEvent> implements IContext {
@@ -61,8 +59,6 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
     public T getEvent() {
         return event;
     }
-
-
 
     public void defer() {
         if (forceEphemeral) {
@@ -537,6 +533,11 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
     @Override
     public MantaroObject getMantaroData() {
         return managedDatabase.getMantaroData();
+    }
+
+    @Override
+    public List<Member> getMentionedMembers() {
+        throw new UnsupportedOperationException("Cannot be used in a slash context -- please parse argument.");
     }
 
     public Marriage getMarriage(MongoUser userData) {

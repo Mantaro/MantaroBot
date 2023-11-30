@@ -33,12 +33,10 @@ import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.inventory.InventorySortType;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.meta.Category;
-import net.kodehawa.mantarobot.core.command.meta.Defer;
-import net.kodehawa.mantarobot.core.command.meta.Description;
-import net.kodehawa.mantarobot.core.command.meta.Help;
-import net.kodehawa.mantarobot.core.command.meta.Name;
-import net.kodehawa.mantarobot.core.command.meta.Options;
+import net.kodehawa.mantarobot.core.command.TextCommand;
+import net.kodehawa.mantarobot.core.command.TextContext;
+import net.kodehawa.mantarobot.core.command.argument.Parsers;
+import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.slash.AutocompleteContext;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
@@ -66,6 +64,7 @@ import java.awt.Color;
 import java.security.SecureRandom;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -100,6 +99,9 @@ public class CurrencyCmds {
         cr.registerSlash(DailyCrate.class);
         cr.registerSlash(Tools.class);
         cr.registerSlash(Use.class);
+
+        // Text
+        cr.register(InventoryText.class);
     }
 
     @Name("inventory")
@@ -343,56 +345,34 @@ public class CurrencyCmds {
         }
     }
 
-    @Subscribe
-    public void inventory(CommandRegistry cr) {
-        var inv = (TreeCommand) cr.register("inventory", new TreeCommand(CommandCategory.CURRENCY) {
-            @SuppressWarnings("unused")
-            @Override
-            public Command defaultTrigger(Context context, String mainCommand, String commandName) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(Context ctx, I18nContext lang, String content) {
-                        var arguments = ctx.getOptionalArguments();
-                        // We don't really use most of them, but we kinda need to show a warning else users don't know what to do
-                        content = Utils.replaceArguments(arguments, content, "calculate", "calc", "c", "b", "brief", "season", "s");
+    @Name("inventory")
+    @Alias("inv")
+    @Alias("backpack")
+    @Description("The hub for inventory related commands.")
+    @Help(description = "The hub for inventory related commands. See the subcommands for more information.")
+    @Category(CommandCategory.CURRENCY)
+    public static class InventoryText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            var lookup = ctx.takeAllString();
+            ctx.findMember(lookup, members -> {
+                var member = CustomFinderUtil.findMemberDefault(lookup, members, ctx, ctx.getMember());
+                if (member == null)
+                    return;
 
-                        // Lambda memes lol
-                        var finalContent = content;
-                        ctx.findMember(content, members -> {
-                            var member = CustomFinderUtil.findMemberDefault(finalContent, members, ctx, ctx.getMember());
-                            if (member == null)
-                                return;
+                final var player = ctx.getPlayer(member);
+                final var user = ctx.getDBUser(member);
+                showInventory(ctx, member.getUser(), player, user, false);
+            });
+        }
 
-                            final var player = ctx.getPlayer(member);
-                            final var user = ctx.getDBUser(member);
-                            showInventory(ctx, member.getUser(), player, user, false);
-                        });
-                    }
-                };
-            }
+        @Description("Calculates the value of your or someone's inventory.")
+        public static class Calculate extends TextCommand {
             @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Shows your current inventory.")
-                        .setUsage("""
-                                  You can mention someone on this command to see their inventory.
-                                  Use `~>inventory -calculate` to see how much you'd get if you sell every sellable item on your inventory.
-                                  """
-                        )
-                        .build();
-            }
-        });
-
-        inv.addSubCommand("calculate", new SubCommand() {
-            @Override
-            public String description() {
-                return "Calculates the value of your or someone's inventory.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                ctx.findMember(content, members -> {
-                    var member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
+            protected void process(TextContext ctx) {
+                var lookup = ctx.takeAllString();
+                ctx.findMember(lookup, members -> {
+                    var member = CustomFinderUtil.findMemberDefault(lookup, members, ctx, ctx.getMember());
                     if (member == null)
                         return;
 
@@ -400,18 +380,17 @@ public class CurrencyCmds {
                     calculateInventory(ctx, member, player);
                 });
             }
-        });
+        }
 
-        inv.addSubCommand("brief", new SubCommand() {
+        @Alias("mobile")
+        @Alias("b")
+        @Description("Calculates the value of your or someone's inventory.")
+        public static class Brief extends TextCommand {
             @Override
-            public String description() {
-                return "Gives a brief view of your inventory in a single message.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                ctx.findMember(content, members -> {
-                    var member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
+            protected void process(TextContext ctx) {
+                var lookup = ctx.takeAllString();
+                ctx.findMember(lookup, members -> {
+                    var member = CustomFinderUtil.findMemberDefault(lookup, members, ctx, ctx.getMember());
                     if (member == null)
                         return;
 
@@ -420,13 +399,7 @@ public class CurrencyCmds {
                     showInventory(ctx, member.getUser(), player, user, true);
                 });
             }
-        });
-
-        inv.createSubCommandAlias("brief", "mobile");
-        inv.createSubCommandAlias("brief", "b");
-
-        cr.registerAlias("inventory", "inv");
-        cr.registerAlias("inventory", "backpack");
+        }
     }
 
     @Subscribe

@@ -38,6 +38,7 @@ import net.kodehawa.mantarobot.utils.commands.UtilsContext;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimitContext;
 
 import java.util.Collection;
+import java.util.List;
 
 @SuppressWarnings("unused")
 public interface IContext {
@@ -60,6 +61,7 @@ public interface IContext {
     void sendFormat(String message, Object... format);
     void sendFormatStripped(String message, Object... format);
     void sendFormat(String message, Collection<ActionRow> actionRow, Object... format);
+    List<Member> getMentionedMembers();
     ManagedDatabase db();
     Player getPlayer();
     MongoUser getDBUser();

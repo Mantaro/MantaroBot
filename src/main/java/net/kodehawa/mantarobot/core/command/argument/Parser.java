@@ -17,7 +17,7 @@
 
 package net.kodehawa.mantarobot.core.command.argument;
 
-import net.kodehawa.mantarobot.core.command.NewContext;
+import net.kodehawa.mantarobot.core.command.TextContext;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
@@ -57,20 +57,20 @@ public interface Parser<T> {
      */
     @Nonnull
     @CheckReturnValue
-    Optional<T> parse(@Nonnull NewContext context, @Nonnull Arguments arguments);
+    Optional<T> parse(@Nonnull TextContext context, @Nonnull Arguments arguments);
 
     /**
-     * Helper method for {@link #parse(NewContext, Arguments)}
+     * Helper method for {@link #parse(TextContext, Arguments)}
      *
      * @param context Context for the current command call.
      *
      * @return The result of the parsing attempt.
      *
-     * @see #parse(NewContext, Arguments)
+     * @see #parse(TextContext, Arguments)
      */
     @Nonnull
     @CheckReturnValue
-    default Optional<T> parse(@Nonnull NewContext context) {
+    default Optional<T> parse(@Nonnull TextContext context) {
         return parse(context, context.arguments());
     }
 

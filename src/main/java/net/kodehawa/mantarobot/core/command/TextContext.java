@@ -31,35 +31,27 @@ import net.dv8tion.jda.api.utils.FileUpload;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
-import net.kodehawa.mantarobot.core.command.argument.ArgumentParseError;
-import net.kodehawa.mantarobot.core.command.argument.Arguments;
-import net.kodehawa.mantarobot.core.command.argument.MarkedBlock;
-import net.kodehawa.mantarobot.core.command.argument.Parser;
+import net.kodehawa.mantarobot.core.command.argument.*;
 import net.kodehawa.mantarobot.core.command.argument.split.StringSplitter;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.MantaroObject;
-import net.kodehawa.mantarobot.db.entities.MongoGuild;
-import net.kodehawa.mantarobot.db.entities.MongoUser;
-import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.*;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.UtilsContext;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimitContext;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
-@SuppressWarnings("unused") // remove when old cmds are ported over
-public class NewContext implements IContext {
+public class TextContext implements IContext {
     private final ManagedDatabase managedDatabase = MantaroData.db();
     private final Config config = MantaroData.config().get();
     private static final StringSplitter SPLITTER = new StringSplitter();
@@ -68,13 +60,13 @@ public class NewContext implements IContext {
     private final I18nContext i18n;
     private final Arguments args;
 
-    private NewContext(@Nonnull MessageReceivedEvent event, @Nonnull I18nContext i18n, @Nonnull Arguments args) {
+    private TextContext(@Nonnull MessageReceivedEvent event, @Nonnull I18nContext i18n, @Nonnull Arguments args) {
         this.event = event;
         this.i18n = i18n;
         this.args = args;
     }
 
-    public NewContext(@Nonnull MessageReceivedEvent event, @Nonnull I18nContext i18n, @Nonnull String contentAfterPrefix) {
+    public TextContext(@Nonnull MessageReceivedEvent event, @Nonnull I18nContext i18n, @Nonnull String contentAfterPrefix) {
         this(event, i18n, new Arguments(SPLITTER.split(contentAfterPrefix), 0));
     }
 
@@ -82,8 +74,8 @@ public class NewContext implements IContext {
         return args;
     }
 
-    public NewContext snapshot() {
-        return new NewContext(event, i18n, args.snapshot());
+    public TextContext snapshot() {
+        return new TextContext(event, i18n, args.snapshot());
     }
 
     public MessageReceivedEvent getEvent() {
@@ -206,12 +198,29 @@ public class NewContext implements IContext {
      */
     @Nonnull
     @CheckReturnValue
-    public <T> List<T> many(@Nonnull Parser<T> parser) {
+    public <T> List<T> takeMany(@Nonnull Parser<T> parser) {
         List<T> list = new ArrayList<>();
         for(Optional<T> parsed = tryArgument(parser); parsed.isPresent(); parsed = tryArgument(parser)) {
             list.add(parsed.get());
         }
         return list;
+    }
+
+    /**
+     * Parses as many arguments as possible with the provided parser, stopping when there is no more arguments to read.
+     * <p>
+     * This will reduce the arguments to a single String value, which can be passed around to arguments -- this is useful for stuff like
+     * Member lookups, or simply as an aid when porting old commands, or when we expect an uninterrupted stream of arguments of the same type.
+     * For example, for profile description, or custom commands.
+     * <p>
+     * This will always use {@link Parsers#string() the string parser}
+     *
+     * @return A possibly-empty String value
+     */
+    @Nonnull
+    @CheckReturnValue
+    public <T> String takeAllString() {
+        return takeMany(Parsers.option(Parsers.string())).stream().flatMap(Optional::stream).collect(Collectors.joining(" "));
     }
 
     /**
@@ -496,6 +505,20 @@ public class NewContext implements IContext {
         return getMessage().getAuthor();
     }
 
+    public Marriage getMarriage(MongoUser userData) {
+        return MantaroData.db().getMarriage(userData.getMarriageId());
+    }
+
+    public void findMember(String query, Consumer<List<Member>> success) {
+        CustomFinderUtil.lookupMember(getGuild(), this, query).onSuccess(s -> {
+            try {
+                success.accept(s);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+
     @Override
     public RateLimitContext ratelimitContext() {
         return new RateLimitContext(getGuild(), getMessage(), getChannel(), event, null);
@@ -504,6 +527,10 @@ public class NewContext implements IContext {
     @Override
     public UtilsContext getUtilsContext() {
         return new UtilsContext(getGuild(), getMember(), getChannel(), i18n, null);
+    }
+
+    public List<Member> getMentionedMembers() {
+        return getEvent().getMessage().getMentions().getMembers();
     }
 
 
