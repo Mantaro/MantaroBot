@@ -35,6 +35,7 @@ import net.kodehawa.mantarobot.commands.currency.profile.inventory.InventorySort
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.TextCommand;
 import net.kodehawa.mantarobot.core.command.TextContext;
+import net.kodehawa.mantarobot.core.command.argument.Parser;
 import net.kodehawa.mantarobot.core.command.argument.Parsers;
 import net.kodehawa.mantarobot.core.command.meta.*;
 import net.kodehawa.mantarobot.core.command.slash.AutocompleteContext;
@@ -102,6 +103,9 @@ public class CurrencyCmds {
 
         // Text
         cr.register(InventoryText.class);
+        cr.register(LootCrate.class);
+        cr.register(DailyCrateText.class);
+        cr.register(ToolsText.class);
     }
 
     @Name("inventory")
@@ -402,68 +406,64 @@ public class CurrencyCmds {
         }
     }
 
-    @Subscribe
-    public void lootcrate(CommandRegistry registry) {
-        registry.register("opencrate", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                openCrate(ctx, content, ctx.getPlayer());
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Opens a loot crate.")
-                        .setUsage("`~>opencrate <name>` - Opens a loot crate.\n" +
-                                "You need a crate key to open any crate.")
-                        .setSeasonal(true)
-                        .addParameter("name",
-                                "The loot crate name. If you don't provide this, a default loot crate will attempt to open.")
-                        .build();
-            }
-        });
-
-        registry.registerAlias("opencrate", "crate");
+    @Name("opencrate")
+    @Alias("crate")
+    @Description("Opens a loot crate.")
+    @Help(description = "Opens a loot crate",
+            usage = "`~>opencrate <name>` - Opens a loot crate.\nYou need a crate key to open any crate."
+    )
+    public static class LootCrate extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            openCrate(ctx, ctx.takeAllString(), ctx.getPlayer());
+        }
     }
 
-    @Subscribe
-    public void openPremiumCrate(CommandRegistry cr) {
-        cr.register("dailycrate", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (!ctx.getDBUser().isPremium()) {
-                    ctx.sendLocalized("commands.dailycrate.not_premium", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (args.length > 0 && args[0].equalsIgnoreCase("-check")) {
-                    long rl = dailyCrateRatelimiter.getRemaniningCooldown(ctx.getAuthor());
-
-                    ctx.sendLocalized("commands.dailycrate.check", EmoteReference.TALKING,
-                            (rl) > 0 ? Utils.formatDuration(ctx.getLanguageContext(), rl) :
-                                    //Yes, this is intended to be daily.about_now, just reusing strings.
-                                    ctx.getLanguageContext().get("commands.daily.about_now")
-                    );
-                    return;
-                }
-
-                final var player = ctx.getPlayer();
-                dailyCrate(ctx, player);
+    @Name("dailycrate")
+    @Help(description = "Opens a daily premium loot crate.",
+            usage = """
+                       `~>dailycrate` - Opens a daily premium loot crate.
+                       You need a crate key to open any crate. Use `-check` to check when you can claim it.
+                       """,
+            parameters = { @Help.Parameter(name = "-check", description = "Check the time left for you to be able to claim it.", optional = true) }
+    )
+    public static class DailyCrateText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            if (!ctx.getDBUser().isPremium()) {
+                ctx.sendLocalized("commands.dailycrate.not_premium", EmoteReference.ERROR);
+                return;
             }
 
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Opens a daily premium loot crate.")
-                        .setUsage("""
-                                  `~>dailycrate` - Opens a daily premium loot crate.
-                                  You need a crate key to open any crate. Use `-check` to check when you can claim it.
-                                  """
-                        )
-                        .addParameterOptional("-check", "Check the time left for you to be able to claim it.")
-                        .build();
+            var arg = ctx.tryArgument(Parsers.string());
+            if (arg.isPresent() && arg.get().equals("-check")) { // This is hacky, but it's not much different than it was before.
+                long rl = dailyCrateRatelimiter.getRemaniningCooldown(ctx.getAuthor());
+
+                ctx.sendLocalized("commands.dailycrate.check", EmoteReference.TALKING,
+                        (rl) > 0 ? Utils.formatDuration(ctx.getLanguageContext(), rl) :
+                                //Yes, this is intended to be daily.about_now, just reusing strings.
+                                ctx.getLanguageContext().get("commands.daily.about_now")
+                );
+                return;
             }
-        });
+
+            final var player = ctx.getPlayer();
+            dailyCrate(ctx, player);
+        }
+    }
+
+    @Name("tools")
+    @Description("Check the durability and status of your tools.")
+    public static class ToolsText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            if (!RatelimitUtils.ratelimit(toolsRatelimiter, ctx)) {
+                return;
+            }
+
+            var dbUser = ctx.getDBUser();
+            tools(ctx, dbUser);
+        }
     }
 
     @Subscribe
@@ -535,28 +535,6 @@ public class CurrencyCmds {
         ui.createSubCommandAlias("list", "ls");
         ui.createSubCommandAlias("list", "1s");
         ui.createSubCommandAlias("list", "Is");
-    }
-
-    @Subscribe
-    public void tools(CommandRegistry cr) {
-        cr.register("tools", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (!RatelimitUtils.ratelimit(toolsRatelimiter, ctx)) {
-                    return;
-                }
-
-                var dbUser = ctx.getDBUser();
-                tools(ctx, dbUser);
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Check the durability and status of your tools.")
-                        .build();
-            }
-        });
     }
 
     private static void useItemList(IContext ctx) {
