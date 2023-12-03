@@ -76,7 +76,7 @@ public class VoiceChannelListener implements EventListener {
                 var musicPlayer = scheduler.getMusicPlayer();
                 var player = musicPlayer.block();
                 if (player.getTrack() != null && !player.getPaused()) {
-                    player.stopTrack();
+                    scheduler.stopCurrentTrack();
                 }
 
                 scheduler.getQueue().clear();

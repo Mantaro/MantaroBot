@@ -19,7 +19,7 @@ package net.kodehawa.mantarobot.commands.music.requester;
 
 import dev.arbjerg.lavalink.client.LavalinkPlayer;
 import dev.arbjerg.lavalink.client.Link;
-import dev.arbjerg.lavalink.protocol.v4.Exception;
+import dev.arbjerg.lavalink.protocol.v4.Message;
 import dev.arbjerg.lavalink.protocol.v4.Track;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -93,7 +93,6 @@ public class TrackScheduler {
 
     public void nextTrack(boolean force, boolean skip) {
         getVoteSkips().clear();
-
         if (repeatMode == Repeat.SONG && currentTrack != null && !force) {
             queue(currentTrack);
         } else {
@@ -102,7 +101,6 @@ public class TrackScheduler {
             }
 
             currentTrack = queue.poll();
-
             //This actually reads wrongly, but current = next in this context, since we switched it already.
             if (currentTrack != null) {
                 getLink().createOrUpdatePlayer()
@@ -192,12 +190,14 @@ public class TrackScheduler {
         }
     }
 
-    public void onTrackEnd(Track track) {
-        nextTrack(false, false);
-        onTrackStart();
+    public void onTrackEnd(Message.EmittedEvent.TrackEndEvent.AudioTrackEndReason reason) {
+        if(reason.getMayStartNext()) {
+            nextTrack(false, false);
+            onTrackStart();
+        }
     }
 
-    public void onTrackException(Track track, Exception exception) {
+    public void onTrackException() {
         if (getRequestedTextChannel() != null && getRequestedTextChannel().canTalk()) {
             //Avoid massive spam of when song error in mass.
             if ((lastErrorSentAt == 0 || lastErrorSentAt + 60000 < System.currentTimeMillis()) && errorCount < 10) {
@@ -293,7 +293,7 @@ public class TrackScheduler {
 
         // Stop the track and disconnect
         if (lavalinkPlayer.block().getTrack() != null) {
-            lavalinkPlayer.block().stopTrack();
+            stopCurrentTrack();
         }
 
         guild.getJDA().getDirectAudioController().disconnect(guild);
@@ -343,6 +343,13 @@ public class TrackScheduler {
 
     public void setRequestedChannel(long requestedChannel) {
         this.requestedChannel = requestedChannel;
+    }
+
+    public void stopCurrentTrack() {
+        getLink().createOrUpdatePlayer()
+                .stopTrack()
+                .asMono()
+                .subscribe();
     }
 
     public Link getLink() {

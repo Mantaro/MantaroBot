@@ -277,7 +277,7 @@ public class MusicCmds {
                 }
 
                 if (isDJ(ctx, ctx.getMember())) {
-                    musicManager.getLavaLink().getPlayer().block().stopTrack();
+                    musicManager.getTrackScheduler().stopCurrentTrack();
                     musicManager.getTrackScheduler().stop();
                     var tempLength = musicManager.getTrackScheduler().getQueue().size();
                     ctx.reply("commands.music_general.queue.clear_success", EmoteReference.CORRECT, tempLength);
@@ -505,7 +505,7 @@ public class MusicCmds {
             var player = musicPlayer.block();
 
             if (player.getTrack() != null && !player.getPaused()) {
-                player.stopTrack();
+                trackScheduler.stopCurrentTrack();
             }
 
             var TEMP_QUEUE_LENGTH = trackScheduler.getQueue().size();

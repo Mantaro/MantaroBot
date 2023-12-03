@@ -78,7 +78,7 @@ public class MantaroAudioManager {
             final var mng = getMusicManagers().get(guildId);
 
             if (mng != null) {
-                mng.getTrackScheduler().onTrackEnd(data.getEvent().getTrack());
+                mng.getTrackScheduler().onTrackEnd(data.getEvent().getReason());
             }
         });
     }
@@ -90,7 +90,7 @@ public class MantaroAudioManager {
             final var mng = getMusicManagers().get(guildId);
 
             if (mng != null) {
-                mng.getTrackScheduler().onTrackException(data.getEvent().getTrack(), data.getEvent().getException());
+                mng.getTrackScheduler().onTrackException();
             }
         });
     }
