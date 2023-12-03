@@ -18,8 +18,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
-import lavalink.client.io.LavalinkSocket;
+import dev.arbjerg.lavalink.client.LavalinkNode;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
 import net.kodehawa.mantarobot.MantaroInfo;
@@ -50,11 +49,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.getAvailableProcessors;
-import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.getFreeMemory;
-import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.getInstanceCPUUsage;
-import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.getTotalMemory;
-import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.start;
+import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 
 @Module
 public class DebugCmds {
@@ -112,9 +107,9 @@ public class DebugCmds {
                 queueSize = ctx.getBot().getAudioManager().getTotalQueueSize();
             }
 
-            List<LavalinkSocket> lavaLinkSockets = ctx.getBot().getLavaLink().getNodes();
+            List<LavalinkNode> lavaLinkSockets = ctx.getBot().getLavaLink().getNodes();
             for (var lavaLink : lavaLinkSockets) {
-                if (lavaLink.isAvailable() && lavaLink.getStats() != null) {
+                if (lavaLink.getAvailable() && lavaLink.getStats() != null) {
                     players += lavaLink.getStats().getPlayingPlayers();
                 }
             }
@@ -148,7 +143,6 @@ public class DebugCmds {
                     + "Uptime: " + uptimeString + "\n"
                     + "Version: " + MantaroInfo.VERSION + " (Git: " + MantaroInfo.GIT_REVISION + ")\n"
                     + "JDA: %s".formatted(JDAInfo.VERSION) + "\n"
-                    + (config.musicEnable() ? "Lava: %s".formatted(PlayerLibrary.VERSION) + "\n" : "")
                     + "Commands: [ Common: " +
                     CommandProcessor.REGISTRY.commands()
                             .values().stream()

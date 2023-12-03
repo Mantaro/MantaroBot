@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.core;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import dev.arbjerg.lavalink.libraries.jda.JDAVoiceUpdateListener;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
@@ -232,7 +233,6 @@ public class MantaroCore {
 
                 eventListeners = new Object[]{
                         VOICE_CHANNEL_LISTENER,
-                        MantaroBot.getInstance().getLavaLink(),
                         InteractiveOperations.listener(),
                         ButtonOperations.listener(),
                         ModalOperations.listener(),
@@ -285,7 +285,7 @@ public class MantaroCore {
                     .setActivity(Activity.playing("Hold on to your seatbelts!"));
 
             if (config.musicEnable()) {
-                shardManager.setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavaLink().getVoiceInterceptor());
+                shardManager.setVoiceDispatchInterceptor(new JDAVoiceUpdateListener(MantaroBot.getInstance().getLavaLink()));
             }
 
             /* only create eviction strategies that will get used */

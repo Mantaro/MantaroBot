@@ -17,9 +17,9 @@
 
 package net.kodehawa.mantarobot.commands.music.utils;
 
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import lavalink.client.io.Link;
-import lavalink.client.io.jda.JdaLink;
+import dev.arbjerg.lavalink.client.Link;
+import dev.arbjerg.lavalink.client.LinkState;
+import dev.arbjerg.lavalink.protocol.v4.Track;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -59,22 +59,23 @@ public class AudioCmdUtils {
         final var trackScheduler = musicManager.getTrackScheduler();
         final var toSend = getQueueList(trackScheduler.getQueue());
         final var musicPlayer = trackScheduler.getMusicPlayer();
-        final var playingTrack = musicPlayer.getPlayingTrack();
+        final var player = musicPlayer.block();
+        final var playingTrack = player.getTrack();
 
         var nowPlaying = "";
         if (playingTrack == null) {
             nowPlaying = lang.get("commands.music_general.queue.no_track_found_np");
         } else {
             Member dj = null;
-            if (playingTrack.getUserData() != null) {
+            if (playingTrack.getUserData().containsKey("user")) {
                 try {
-                    dj = guild.retrieveMemberById(String.valueOf(playingTrack.getUserData())).useCache(true).complete();
+                    dj = guild.retrieveMemberById(String.valueOf(playingTrack.getUserData().get("user"))).useCache(true).complete();
                 } catch (Exception ignored) { }
             }
 
             nowPlaying = String.format("**%s** (%s)%n%s",
-                    MarkdownSanitizer.sanitize(playingTrack.getInfo().title),
-                    getDurationMinutes(playingTrack.getInfo().length),
+                    MarkdownSanitizer.sanitize(playingTrack.getInfo().getTitle()),
+                    getDurationMinutes(playingTrack.getInfo().getLength()),
                     dj != null ? lang.get("commands.music_general.queue.dj_np") + dj.getUser().getName() : ""
             );
         }
@@ -98,8 +99,8 @@ public class AudioCmdUtils {
         }
 
         var length = trackScheduler.getQueue().stream()
-                .filter(track -> track.getDuration() != Long.MAX_VALUE)
-                .mapToLong(value -> value.getInfo().length).sum();
+                .filter(track -> track.getInfo().getLength() != Long.MAX_VALUE)
+                .mapToLong(value -> value.getInfo().getLength()).sum();
         AudioChannel voiceChannel = null;
         if (selfMember.getVoiceState() != null) {
             voiceChannel = selfMember.getVoiceState().getChannel();
@@ -139,7 +140,7 @@ public class AudioCmdUtils {
                     )
                     .addField(EmoteReference.SLIDER.toHeaderString() + lang.get("commands.music_general.queue.togglers"),
                         String.format("`%s / %s`", trackScheduler.getRepeatMode() == null ? "false" :
-                             trackScheduler.getRepeatMode(), musicPlayer.isPaused()),
+                             trackScheduler.getRepeatMode(), player.getPaused()),
                             true
                     )
                     .addField(EmoteReference.MEGA.toHeaderString() + lang.get("commands.music_general.queue.playing_in"),
@@ -155,7 +156,7 @@ public class AudioCmdUtils {
         DiscordUtils.listButtons(ctx.getUtilsContext(), 150, supplier, split);
     }
 
-    public static CompletionStage<Boolean> openAudioConnection(SlashContext ctx, JdaLink link,
+    public static CompletionStage<Boolean> openAudioConnection(SlashContext ctx, Link link,
                                                             AudioChannel userChannel, I18nContext lang) {
         final var userChannelMembers = userChannel.getMembers();
         Member selfMember = ctx.getGuild().getSelfMember();
@@ -256,7 +257,6 @@ public class AudioCmdUtils {
         }
 
         final var link = MantaroBot.getInstance().getAudioManager().getMusicManager(guild).getLavaLink();
-        final var lastChannel = link.getLastChannel();
         final var linkState = link.getState();
 
         // Cursed lavalink issues tracker.
@@ -269,7 +269,7 @@ public class AudioCmdUtils {
             }
 
             // If the link is not currently connected or connecting, accept connection and call openAudioConnection
-            if (linkState != Link.State.CONNECTED && linkState != Link.State.CONNECTING) {
+            if (linkState != LinkState.CONNECTED && linkState != LinkState.CONNECTING) {
                 return openAudioConnection(ctx, link, voiceChannel, lang);
             }
 
@@ -277,10 +277,12 @@ public class AudioCmdUtils {
             return completedFuture(true);
         }
 
+        var voiceState = selfMember.getVoiceState();
         // Assume last channel it's the one it was attempting to connect to? (on the one below this too)
         // If the link is CONNECTED and the lastChannel is not the one it's already connected to, reject connection
-        if (linkState == Link.State.CONNECTED && lastChannel != null && !lastChannel.equals(voiceChannel.getId())) {
-            var vc = guild.getChannelById(AudioChannel.class, lastChannel);
+        if (linkState == LinkState.CONNECTED && voiceState != null && voiceState.getChannel() != null &&
+                !voiceState.getChannel().getId().equals(voiceChannel.getId())) {
+            var vc = guild.getChannelById(AudioChannel.class, voiceState.getChannel().getId());
 
             // Workaround for a bug in lavalink that gives us Link.State.CONNECTED and a channel that doesn't exist anymore.
             // This is a little cursed.
@@ -293,8 +295,9 @@ public class AudioCmdUtils {
         }
 
         // If the link is CONNECTING and the lastChannel is not the one it's already connected to, reject connection
-        if (linkState == Link.State.CONNECTING && lastChannel != null && !lastChannel.equals(voiceChannel.getId())) {
-            var vc = guild.getChannelById(AudioChannel.class, lastChannel);
+        if (linkState == LinkState.CONNECTING && voiceState != null && voiceState.getChannel() != null &&
+                !voiceState.getId().equals(voiceChannel.getId())) {
+            var vc = guild.getChannelById(AudioChannel.class, voiceState.getChannel().getId());
 
             // Workaround for a bug in lavalink that gives us Link.State.CONNECTING and a channel that doesn't exist anymore.
             // This is a little cursed.
@@ -307,7 +310,7 @@ public class AudioCmdUtils {
         }
 
         // If the link is not currently connected or connecting, accept connection and call openAudioConnection
-        if ((linkState != Link.State.CONNECTED && linkState != Link.State.CONNECTING) || cursed) {
+        if ((linkState != LinkState.CONNECTED && linkState != LinkState.CONNECTING) || cursed) {
             if (cursed) {
                 log.debug("We seemed to hit a Lavalink/JDA bug? Null voice channel, but {} state.", linkState);
             }
@@ -319,8 +322,8 @@ public class AudioCmdUtils {
         return completedFuture(true);
     }
 
-    private static void joinVoiceChannel(JdaLink manager, AudioChannel channel) {
-        manager.connect(channel);
+    private static void joinVoiceChannel(Link manager, AudioChannel channel) {
+        channel.getJDA().getDirectAudioController().connect(channel);
     }
 
     public static String getDurationMinutes(long length) {
@@ -330,12 +333,12 @@ public class AudioCmdUtils {
         );
     }
 
-    public static String getQueueList(Deque<AudioTrack> queue) {
+    public static String getQueueList(Deque<Track> queue) {
         var sb = new StringBuilder();
         var num = 1;
 
         for (var audioTrack : queue) {
-            var aDuration = audioTrack.getDuration();
+            var aDuration = audioTrack.getInfo().getLength();
 
             var duration = String.format("%02d:%02d",
                     MILLISECONDS.toMinutes(aDuration),
@@ -346,7 +349,7 @@ public class AudioCmdUtils {
                     %s**%,d.** [%s] **%s**
                     """.formatted(EmoteReference.BLUE_SMALL_MARKER,
                     num, duration,
-                    formatTitle(audioTrack.getInfo().title))
+                    formatTitle(audioTrack.getInfo().getTitle()))
             );
 
             num++;

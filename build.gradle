@@ -25,8 +25,8 @@ mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 def ver = new Version(major: 8, minor: 1, revision: 0)
 version ver.toString()
 
-sourceCompatibility = JavaVersion.VERSION_16
-targetCompatibility = JavaVersion.VERSION_16
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
@@ -41,6 +41,10 @@ repositories {
 
     maven {
         url "https://maven.topi.wtf/releases"
+    }
+
+    maven {
+        url "https://maven.lavalink.dev/snapshots"
     }
 }
 
@@ -63,10 +67,7 @@ dependencies {
     implementation 'club.minnced:discord-webhooks:0.8.4'
 
     // Music
-    implementation ('com.github.freyacodes:Lavalink-Client:5fe1b90ab5') {
-        exclude group: 'com.sedmelluq', module: 'lavaplayer'
-    } // Lavalink-Client includes LP, but we specify it below, so we need to exclude it.
-    implementation 'com.github.walkyst:lavaplayer-fork:1.4.3'
+    implementation("dev.arbjerg:lavalink-client:e6919c860547abf5bf8b54a1f351658a7a1ec416-SNAPSHOT")
     implementation "com.github.TopiSenpai.LavaSrc:lavasrc:3.2.9"
 
     // JSON

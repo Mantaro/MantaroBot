@@ -18,7 +18,6 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import lavalink.client.io.jda.JdaLink;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -31,7 +30,12 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.meta.*;
+import net.kodehawa.mantarobot.core.command.meta.Category;
+import net.kodehawa.mantarobot.core.command.meta.Description;
+import net.kodehawa.mantarobot.core.command.meta.Ephemeral;
+import net.kodehawa.mantarobot.core.command.meta.Help;
+import net.kodehawa.mantarobot.core.command.meta.Name;
+import net.kodehawa.mantarobot.core.command.meta.Options;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -125,16 +129,20 @@ public class MusicCmds {
         protected void process(SlashContext ctx) {
             final var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
             final var trackScheduler = musicManager.getTrackScheduler();
-            if (isNotInCondition(ctx, musicManager.getLavaLink())) {
+            if (isNotInCondition(ctx)) {
                 return;
             }
 
-            var paused = !trackScheduler.getMusicPlayer().isPaused();
+            var paused = !trackScheduler.getMusicPlayer().block().getPaused();
             var languageContext = ctx.getLanguageContext();
 
             trackScheduler.setPausedManually(paused);
             var toSend = EmoteReference.MEGA + (paused ? languageContext.get("commands.pause.paused") : languageContext.get("commands.pause.unpaused"));
-            trackScheduler.getMusicPlayer().setPaused(paused);
+            trackScheduler.getLink().createOrUpdatePlayer()
+                    .setPaused(true)
+                    .asMono()
+                    .subscribe();
+
             ctx.reply(toSend);
 
             TextChannelGround.of(ctx.getChannel()).dropItemWithChance(0, 10);
@@ -151,7 +159,7 @@ public class MusicCmds {
                 var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
                 var scheduler = musicManager.getTrackScheduler();
 
-                if (isNotInCondition(ctx, musicManager.getLavaLink())) {
+                if (isNotInCondition(ctx)) {
                     return;
                 }
 
@@ -211,15 +219,15 @@ public class MusicCmds {
             final var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
             final var trackScheduler = musicManager.getTrackScheduler();
             final var audioPlayer = trackScheduler.getMusicPlayer();
-            final var playingTrack = audioPlayer.getPlayingTrack();
+            final var playingTrack = audioPlayer.block().getTrack();
             if (playingTrack == null) {
                 ctx.reply("commands.np.no_track", EmoteReference.ERROR);
                 return;
             }
 
             var npEmbed = new EmbedBuilder();
-            final var now = audioPlayer.getTrackPosition();
-            final var total = audioPlayer.getPlayingTrack().getDuration();
+            final var now = playingTrack.getInfo().getPosition();
+            final var total = playingTrack.getInfo().getLength();
             final var languageContext = ctx.getLanguageContext();
             final var trackInfo = playingTrack.getInfo();
 
@@ -231,7 +239,7 @@ public class MusicCmds {
                                     **[%s](%s)** `(%s/%s)`
                                     """
                             .formatted(Utils.getProgressBar(now, total),
-                                    MarkdownSanitizer.sanitize(trackInfo.title), trackInfo.uri,
+                                    MarkdownSanitizer.sanitize(trackInfo.getTitle()), trackInfo.getUri(),
                                     AudioCmdUtils.getDurationMinutes(now), total == Long.MAX_VALUE ? "stream" : AudioCmdUtils.getDurationMinutes(total)
                             )
                     ).setFooter("Enjoy the music! <3", ctx.getAuthor().getAvatarUrl());
@@ -264,12 +272,12 @@ public class MusicCmds {
                 var mantaroAudioManager = ctx.getAudioManager();
                 var musicManager = mantaroAudioManager.getMusicManager(ctx.getGuild());
 
-                if (isNotInCondition(ctx, musicManager.getLavaLink())) {
+                if (isNotInCondition(ctx)) {
                     return;
                 }
 
                 if (isDJ(ctx, ctx.getMember())) {
-                    musicManager.getLavaLink().getPlayer().stopTrack();
+                    musicManager.getLavaLink().getPlayer().block().stopTrack();
                     musicManager.getTrackScheduler().stop();
                     var tempLength = musicManager.getTrackScheduler().getQueue().size();
                     ctx.reply("commands.music_general.queue.clear_success", EmoteReference.CORRECT, tempLength);
@@ -300,7 +308,7 @@ public class MusicCmds {
         @Override
         protected void process(SlashContext ctx) {
             var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
-            if (isNotInCondition(ctx, musicManager.getLavaLink())) {
+            if (isNotInCondition(ctx)) {
                 return;
             }
 
@@ -335,7 +343,7 @@ public class MusicCmds {
         @Override
         protected void process(SlashContext ctx) {
             var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
-            if (isNotInCondition(ctx, musicManager.getLavaLink())) {
+            if (isNotInCondition(ctx)) {
                 return;
             }
 
@@ -354,7 +362,7 @@ public class MusicCmds {
                 var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
                 var scheduler = musicManager.getTrackScheduler();
 
-                if (isNotInCondition(ctx, musicManager.getLavaLink())) {
+                if (isNotInCondition(ctx)) {
                     return;
                 }
 
@@ -414,19 +422,18 @@ public class MusicCmds {
                 var volume = ctx.getOptionAsInteger("volume");
 
                 if (ctx.getOptionAsBoolean("check") || volume == 0) {
-                    var player = lavalink.getPlayer();
-                    if (player.getPlayingTrack() == null) {
+                    var player = lavalink.getPlayer().block();
+                    if (player.getTrack() == null) {
                         ctx.reply("commands.volume.no_player", EmoteReference.ERROR);
                         return;
                     }
 
-                    final var filters = player.getFilters();
-                    volume = (int) (filters.getVolume() * 100);
+                    volume = player.getVolume() * 100;
                     ctx.reply("commands.volume.check", EmoteReference.ZAP, volume, Utils.bar(volume, 50));
                     return;
                 }
 
-                if (isNotInCondition(ctx, musicManager.getLavaLink())) {
+                if (isNotInCondition(ctx)) {
                     return;
                 }
 
@@ -437,10 +444,8 @@ public class MusicCmds {
                     return;
                 }
 
-                float finalVolume = volume / 100.0f;
-                lavalink.getPlayer().getFilters()
-                        .setVolume(finalVolume)
-                        .commit();
+                var player = lavalink.getPlayer().block();
+                player.setVolume(volume);
 
                 ctx.reply("commands.volume.success",
                         EmoteReference.OK, volume, Utils.bar(volume, 50)
@@ -497,9 +502,10 @@ public class MusicCmds {
             var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
             var trackScheduler = musicManager.getTrackScheduler();
             var musicPlayer = trackScheduler.getMusicPlayer();
+            var player = musicPlayer.block();
 
-            if (musicPlayer.getPlayingTrack() != null && !musicPlayer.isPaused()) {
-                musicPlayer.stopTrack();
+            if (player.getTrack() != null && !player.getPaused()) {
+                player.stopTrack();
             }
 
             var TEMP_QUEUE_LENGTH = trackScheduler.getQueue().size();
@@ -521,7 +527,7 @@ public class MusicCmds {
         return scheduler.getCurrentTrack().getUserData() != null && String.valueOf(scheduler.getCurrentTrack().getUserData()).equals(author.getId());
     }
 
-    public static boolean isNotInCondition(SlashContext ctx, JdaLink player) {
+    public static boolean isNotInCondition(SlashContext ctx) {
         var selfVoiceState = ctx.getSelfMember().getVoiceState();
         var voiceState = ctx.getMember().getVoiceState();
 
@@ -537,16 +543,16 @@ public class MusicCmds {
                 return true; // No player to stop/change?
             }
 
-            // There's voice state but it isn't on a voice channel (how?), or the person is connected to another VC.
-            if (!voiceState.inAudioChannel() || !voiceState.getChannel().getId().equals(player.getChannel())) {
-                sendNotConnectedToMyChannel(ctx);
-                return true;
-            }
-
             // No self voice state?
-            if (selfVoiceState == null) {
+            if (selfVoiceState == null || selfVoiceState.getChannel() == null) {
                 ctx.reply("commands.music_general.no_player", EmoteReference.ERROR);
                 return true; // No player to stop/change?
+            }
+
+            // There's voice state but it isn't on a voice channel (how?), or the person is connected to another VC.
+            if (!voiceState.inAudioChannel() || !voiceState.getChannel().getId().equals(selfVoiceState.getChannel().getId())) {
+                sendNotConnectedToMyChannel(ctx);
+                return true;
             }
 
             return false;
