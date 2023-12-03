@@ -50,7 +50,7 @@ import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.eval.JavaEvaluator;
 import net.kodehawa.mantarobot.utils.eval.MavenDependencies;
 
-import java.awt.*;
+import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;

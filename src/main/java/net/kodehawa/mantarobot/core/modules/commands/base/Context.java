@@ -52,7 +52,7 @@ import net.kodehawa.mantarobot.utils.commands.UtilsContext;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimitContext;
 import redis.clients.jedis.JedisPool;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.LinkedList;
