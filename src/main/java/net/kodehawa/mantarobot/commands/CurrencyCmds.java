@@ -60,6 +60,7 @@ import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
+import org.checkerframework.checker.units.qual.C;
 
 import java.awt.Color;
 import java.security.SecureRandom;
@@ -106,6 +107,7 @@ public class CurrencyCmds {
         cr.register(LootCrate.class);
         cr.register(DailyCrateText.class);
         cr.register(ToolsText.class);
+        cr.register(UseItemText.class);
     }
 
     @Name("inventory")
@@ -412,6 +414,7 @@ public class CurrencyCmds {
     @Help(description = "Opens a loot crate",
             usage = "`~>opencrate <name>` - Opens a loot crate.\nYou need a crate key to open any crate."
     )
+    @Category(CommandCategory.CURRENCY)
     public static class LootCrate extends TextCommand {
         @Override
         protected void process(TextContext ctx) {
@@ -427,6 +430,7 @@ public class CurrencyCmds {
                        """,
             parameters = { @Help.Parameter(name = "-check", description = "Check the time left for you to be able to claim it.", optional = true) }
     )
+    @Category(CommandCategory.CURRENCY)
     public static class DailyCrateText extends TextCommand {
         @Override
         protected void process(TextContext ctx) {
@@ -454,6 +458,7 @@ public class CurrencyCmds {
 
     @Name("tools")
     @Description("Check the durability and status of your tools.")
+    @Category(CommandCategory.CURRENCY)
     public static class ToolsText extends TextCommand {
         @Override
         protected void process(TextContext ctx) {
@@ -466,75 +471,58 @@ public class CurrencyCmds {
         }
     }
 
-    @Subscribe
-    public void useItem(CommandRegistry cr) {
-        TreeCommand ui = cr.register("useitem", new TreeCommand(CommandCategory.CURRENCY) {
-            @SuppressWarnings("unused")
-            @Override
-            public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(Context ctx, I18nContext languageContext, String content) {
-                        String[] args = ctx.getArguments();
-                        var arguments = ctx.getOptionalArguments();
-                        // Yes, parser limitations. Natan change to your parser eta wen :^), really though, we could use some generics on here lol
-                        // NumberFormatException?
-                        int amount = 1;
-                        boolean isMax = false;
-                        if (arguments.containsKey("amount")) {
-                            isMax = "max".equalsIgnoreCase(arguments.get("amount"));
-                            if (!isMax) {
-                                try {
-                                    amount = Math.max(1, Math.abs(Integer.parseInt(arguments.get("amount"))));
-                                } catch (NumberFormatException e) {
-                                    ctx.sendLocalized("commands.useitem.invalid_amount", EmoteReference.WARNING);
-                                    return;
-                                }
-                            }
-                        }
+    @Name("useitem")
+    @Alias("use")
+    @Help(description = """
+                        Uses an item.
+                        You need to have the item to use it, and the item has to be marked as *interactive*.
+                        """, usage = "`~>useitem <item> [-amount <number>]` - Uses the specified item",
+            parameters = {
+                    @Help.Parameter(name = "item", description = "The item name or emoji. If the name contains spaces \"wrap it in quotes\""),
+                    @Help.Parameter(name = "amount", description = "The amount of items you want to use. Only works with potions/buffs. The maximum is 15."),
+            }
+    )
+    @Category(CommandCategory.CURRENCY)
+    public static class UseItemText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            var item = ctx.argument(Parsers.delimitedBy('"', false),
+                    String.format(ctx.getLanguageContext().get("commands.useitem.no_items_specified"), EmoteReference.ERROR)
+            ).trim();
 
-                        if (content.isEmpty()) {
-                            ctx.sendLocalized("commands.useitem.no_items_specified", EmoteReference.ERROR);
-                            return;
-                        }
+            // This will take all the REMAINING arguments, and reduce to a single String.
+            var tryAmount = ctx.takeAllString(); // This is VERY hacky, we have an integer parser, but cannot use it (because of "max").
+            int amount = 1;
+            boolean isMax = false;
+            if (!tryAmount.isEmpty()) {
+                if (tryAmount.contains("-amount ")) { // Backwards compat hack?
+                    tryAmount = tryAmount.replace("-amount ", "");
+                }
 
-                        useItem(ctx, ctx.getDBUser(), ctx.getPlayer(), args[0], amount, isMax);
+                isMax = "max".equalsIgnoreCase(tryAmount);
+                if (!isMax) {
+                    try {
+                        amount = Math.max(1, Math.abs(Integer.parseInt(tryAmount)));
+                    } catch (NumberFormatException e) {
+                        ctx.sendLocalized("commands.useitem.invalid_amount", EmoteReference.WARNING);
+                        return;
                     }
-                };
+                }
             }
 
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription(
-                                """
-                                Uses an item.
-                                You need to have the item to use it, and the item has to be marked as *interactive*.
-                                """
-                        )
-                        .setUsage("`~>useitem <item> [-amount <number>]` - Uses the specified item")
-                        .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
-                        .addParameterOptional("-amount", "The amount of items you want to use. Only works with potions/buffs. The maximum is 15.")
-                        .build();
-            }
-        });
+            useItem(ctx, ctx.getDBUser(), ctx.getPlayer(), item, amount, isMax);
+        }
 
-        cr.registerAlias("useitem", "use");
-        ui.addSubCommand("list", new SubCommand() {
+        @Description("Lists all usable (interactive) items.")
+        @Alias("ls")
+        @Alias("1s")
+        @Alias("Is") // oh well...
+        public static class List extends TextCommand {
             @Override
-            public String description() {
-                return "Lists all usable (interactive) items.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(TextContext ctx) {
                 useItemList(ctx);
             }
-        });
-
-        ui.createSubCommandAlias("list", "ls");
-        ui.createSubCommandAlias("list", "1s");
-        ui.createSubCommandAlias("list", "Is");
+        }
     }
 
     private static void useItemList(IContext ctx) {
