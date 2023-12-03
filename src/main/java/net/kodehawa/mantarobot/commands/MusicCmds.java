@@ -48,6 +48,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
+import java.time.Duration;
 import java.util.List;
 
 import static net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils.embedForQueue;
@@ -133,7 +134,7 @@ public class MusicCmds {
                 return;
             }
 
-            var paused = !trackScheduler.getMusicPlayer().block().getPaused();
+            var paused = !trackScheduler.getMusicPlayer().block(Duration.ofMillis(300)).getPaused();
             var languageContext = ctx.getLanguageContext();
 
             trackScheduler.setPausedManually(paused);
@@ -219,7 +220,7 @@ public class MusicCmds {
             final var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
             final var trackScheduler = musicManager.getTrackScheduler();
             final var audioPlayer = trackScheduler.getMusicPlayer();
-            final var playingTrack = audioPlayer.block().getTrack();
+            final var playingTrack = audioPlayer.block(Duration.ofMillis(300)).getTrack();
             if (playingTrack == null) {
                 ctx.reply("commands.np.no_track", EmoteReference.ERROR);
                 return;
@@ -422,7 +423,7 @@ public class MusicCmds {
                 var volume = ctx.getOptionAsInteger("volume");
 
                 if (ctx.getOptionAsBoolean("check") || volume == 0) {
-                    var player = lavalink.getPlayer().block();
+                    var player = lavalink.getPlayer().block(Duration.ofMillis(300));
                     if (player.getTrack() == null) {
                         ctx.reply("commands.volume.no_player", EmoteReference.ERROR);
                         return;
@@ -444,7 +445,7 @@ public class MusicCmds {
                     return;
                 }
 
-                var player = lavalink.getPlayer().block();
+                var player = lavalink.getPlayer().block(Duration.ofMillis(300));
                 player.setVolume(volume);
 
                 ctx.reply("commands.volume.success",
@@ -502,7 +503,7 @@ public class MusicCmds {
             var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
             var trackScheduler = musicManager.getTrackScheduler();
             var musicPlayer = trackScheduler.getMusicPlayer();
-            var player = musicPlayer.block();
+            var player = musicPlayer.block(Duration.ofMillis(300));
 
             if (player.getTrack() != null && !player.getPaused()) {
                 trackScheduler.stopCurrentTrack();

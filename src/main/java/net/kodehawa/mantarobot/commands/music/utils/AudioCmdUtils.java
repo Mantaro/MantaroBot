@@ -42,6 +42,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.Color;
+import java.time.Duration;
 import java.util.Deque;
 import java.util.concurrent.CompletionStage;
 
@@ -59,7 +60,7 @@ public class AudioCmdUtils {
         final var trackScheduler = musicManager.getTrackScheduler();
         final var toSend = getQueueList(trackScheduler.getQueue());
         final var musicPlayer = trackScheduler.getMusicPlayer();
-        final var player = musicPlayer.block();
+        final var player = musicPlayer.block(Duration.ofMillis(300));
         final var playingTrack = player.getTrack();
 
         var nowPlaying = "";

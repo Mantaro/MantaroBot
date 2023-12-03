@@ -28,6 +28,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimiter;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class VoiceChannelListener implements EventListener {
@@ -74,7 +75,7 @@ public class VoiceChannelListener implements EventListener {
 
                 var scheduler = musicManager.getTrackScheduler();
                 var musicPlayer = scheduler.getMusicPlayer();
-                var player = musicPlayer.block();
+                var player = musicPlayer.block(Duration.ofMillis(300));
                 if (player.getTrack() != null && !player.getPaused()) {
                     scheduler.stopCurrentTrack();
                 }

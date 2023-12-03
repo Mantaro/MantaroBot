@@ -42,6 +42,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
@@ -81,7 +82,7 @@ public class MusicUtilCmds {
         protected void process(SlashContext ctx) {
             var manager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
             var lavalinkPlayer = manager.getLavaLink().getPlayer();
-            var player = lavalinkPlayer.block();
+            var player = lavalinkPlayer.block(Duration.ofMillis(300));
 
             if (player.getTrack() == null) {
                 ctx.reply("commands.music_general.not_playing", EmoteReference.ERROR);
@@ -107,7 +108,7 @@ public class MusicUtilCmds {
         protected void process(SlashContext ctx) {
             var manager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
             var lavalinkPlayer = manager.getLavaLink().getPlayer();
-            var player = lavalinkPlayer.block();
+            var player = lavalinkPlayer.block(Duration.ofMillis(300));
 
             if (player.getTrack() == null) {
                 ctx.reply("commands.music_general.not_playing", EmoteReference.ERROR);
@@ -156,7 +157,7 @@ public class MusicUtilCmds {
         protected void process(SlashContext ctx) {
             var manager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
             var lavalinkPlayer = manager.getLavaLink().getPlayer();
-            var player = lavalinkPlayer.block();
+            var player = lavalinkPlayer.block(Duration.ofMillis(300));
 
             if (player.getTrack() == null) {
                 ctx.reply("commands.music_general.not_playing", EmoteReference.ERROR);

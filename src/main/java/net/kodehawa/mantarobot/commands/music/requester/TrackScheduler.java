@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -72,7 +73,7 @@ public class TrackScheduler {
     }
 
     public void queue(Track track, boolean addFirst) {
-        if (getMusicPlayer().block().getTrack() != null) {
+        if (getMusicPlayer().block(Duration.ofMillis(300)).getTrack() != null) {
             if (addFirst) {
                 queue.addFirst(track);
             } else {
@@ -292,7 +293,7 @@ public class TrackScheduler {
         previousTrack = null;
 
         // Stop the track and disconnect
-        if (lavalinkPlayer.block().getTrack() != null) {
+        if (lavalinkPlayer.block(Duration.ofMillis(300)).getTrack() != null) {
             stopCurrentTrack();
         }
 
