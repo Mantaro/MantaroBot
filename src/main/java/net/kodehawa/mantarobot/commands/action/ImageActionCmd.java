@@ -20,9 +20,9 @@ package net.kodehawa.mantarobot.commands.action;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
-import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
+import net.kodehawa.mantarobot.core.command.TextCommand;
+import net.kodehawa.mantarobot.core.command.TextContext;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.cache.ImageCache;
@@ -37,11 +37,9 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-public class ImageActionCmd extends NoArgsCommand {
-    private final String desc;
+public class ImageActionCmd extends TextCommand {
     private final String format;
     private final String lonelyLine;
-    private final String name;
     private final Random rand = new Random();
     private final IncreasingRateLimiter rateLimiter;
     private List<String> images;
@@ -52,9 +50,8 @@ public class ImageActionCmd extends NoArgsCommand {
 
     public ImageActionCmd(String name, String desc, EmoteReference emoji,
                           String format, List<String> images, String lonelyLine, String botLine, boolean swap) {
-        super(CommandCategory.ACTION);
-        this.name = name;
-        this.desc = desc;
+        super.setCategory(CommandCategory.ACTION);
+        super.setHelp(new HelpContent.Builder().setDescription(desc).setUsage(name + " @user").build());
         this.format = format;
         this.emoji = emoji;
         this.images = images;
@@ -66,9 +63,8 @@ public class ImageActionCmd extends NoArgsCommand {
 
     public ImageActionCmd(String name, String desc, EmoteReference emoji,
                           String format, String type, String lonelyLine, String botLine) {
-        super(CommandCategory.ACTION);
-        this.name = name;
-        this.desc = desc;
+        super.setCategory(CommandCategory.ACTION);
+        super.setHelp(new HelpContent.Builder().setDescription(desc).build());
         this.format = format;
         this.emoji = emoji;
         this.images = Collections.emptyList();
@@ -80,9 +76,8 @@ public class ImageActionCmd extends NoArgsCommand {
 
     public ImageActionCmd(String name, String desc, EmoteReference emoji,
                           String format, String type, String lonelyLine, String botLine, boolean swap) {
-        super(CommandCategory.ACTION);
-        this.name = name;
-        this.desc = desc;
+        super.setCategory(CommandCategory.ACTION);
+        super.setHelp(new HelpContent.Builder().setDescription(desc).build());
         this.format = format;
         this.emoji = emoji;
         this.images = Collections.emptyList();
@@ -106,7 +101,7 @@ public class ImageActionCmd extends NoArgsCommand {
     }
 
     @Override
-    protected void call(Context ctx, String content) {
+    protected void process(TextContext ctx) {
         if (!RatelimitUtils.ratelimit(rateLimiter, ctx, null)) {
             return;
         }
@@ -215,19 +210,11 @@ public class ImageActionCmd extends NoArgsCommand {
         }
     }
 
-    @Override
-    public HelpContent help() {
-        return new HelpContent.Builder()
-                .setDescription(desc)
-                .setUsagePrefixed(name + " @user")
-                .build();
-    }
-
-    private boolean isMentioningBot(Context ctx) {
+    private boolean isMentioningBot(TextContext ctx) {
         return ctx.getMentionedUsers().stream().anyMatch(user -> user.getIdLong() == ctx.getSelfUser().getIdLong());
     }
 
-    private boolean isLonely(Context ctx) {
+    private boolean isLonely(TextContext ctx) {
         return ctx.getMentionedUsers().stream().anyMatch(user -> user.getId().equals(ctx.getAuthor().getId()));
     }
 

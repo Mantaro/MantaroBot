@@ -25,6 +25,9 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.TextCommand;
+import net.kodehawa.mantarobot.core.command.TextContext;
+import net.kodehawa.mantarobot.core.command.meta.Alias;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Defer;
 import net.kodehawa.mantarobot.core.command.meta.Description;
@@ -35,10 +38,7 @@ import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -85,6 +85,10 @@ public class MoneyCmds {
         cr.registerSlash(Daily.class);
         cr.registerSlash(Loot.class);
         cr.registerSlash(Balance.class);
+
+        cr.register(DailyText.class);
+        cr.register(LootText.class);
+        cr.register(BalanceText.class);
     }
 
     @Name("daily")
@@ -146,94 +150,76 @@ public class MoneyCmds {
         }
     }
 
-    // Old command system start
-    @Subscribe
-    public void daily(CommandRegistry cr) {
-        cr.register("daily", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            public void call(Context ctx, String content, String[] args) {
-                final var mentionedUsers = ctx.getMentionedUsers();
-                final boolean targetOther = !mentionedUsers.isEmpty();
-                User toGive = null;
-                if (targetOther) {
-                    toGive = mentionedUsers.get(0);
+    // Text commands start
+    @Name("daily")
+    @Alias("dailies")
+    @Category(CommandCategory.CURRENCY)
+    @Help(
+            description = """
+                    Gives you $150 credits per day (or between 150 and 180 if you transfer it to another person). Maximum amount it can give is ~2000 credits (a bit more for shared dailies)
+                    This command gives a reward for claiming it every day (daily streak)
+                    """,
+            usage = "~>daily [@user] [-check]",
+            parameters = {
+                @Help.Parameter(name = "user", description = "The user to give your daily to, without this it gives it to yourself.", optional = true),
+                @Help.Parameter(name = "-check", description = "Check the time left for you to be able to claim it.", optional = true)
+            }
+    )
+    public static class DailyText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            final var mentionedUsers = ctx.getMentionedUsers();
+            final boolean targetOther = !mentionedUsers.isEmpty();
+            User toGive = null;
+            if (targetOther) {
+                toGive = mentionedUsers.get(0);
+            }
+
+            var args = ctx.takeAllString();
+            boolean check = !args.isEmpty() && ctx.getMentionedUsers().isEmpty() && args.equalsIgnoreCase("-check");
+            daily(ctx, toGive, check);
+
+        }
+    }
+
+    @Name("loot")
+    @Category(CommandCategory.CURRENCY)
+    @Help(description = "Loot the current chat for items, for usage in Mantaro's currency system. You have a random chance of getting collectible items from here.")
+    public static class LootText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            loot(ctx);
+        }
+    }
+
+    @Name("balance")
+    @Alias("credits")
+    @Alias("bal")
+    @Category(CommandCategory.CURRENCY)
+    @Help(
+            description = "Shows your current balance or another person's balance.",
+            usage = "`~>balance [user]`",
+            parameters = { @Help.Parameter(name = "user", description = "The user to check the balance of. This is optional.", optional = true)}
+    )
+    public static class BalanceText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            var content = ctx.takeAllString();
+            ctx.findMember(content, members -> {
+                var user = ctx.getAuthor();
+                boolean isExternal = false;
+
+                var found = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
+                if (found == null) {
+                    return;
+                } else if (!content.isEmpty()) {
+                    user = found.getUser();
+                    isExternal = true;
                 }
 
-                boolean check = args.length > 0 && ctx.getMentionedUsers().isEmpty() && args[0].equalsIgnoreCase("-check");
-                daily(ctx, toGive, check);
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Gives you $150 credits per day (or between 150 and 180 if you transfer it to another person). " +
-                                "Maximum amount it can give is ~2000 credits (a bit more for shared dailies)\n" +
-                                "This command gives a reward for claiming it every day (daily streak)")
-                        .setUsage("`~>daily [@user] [-check]`")
-                        .addParameterOptional("@user", "The user to give your daily to, without this it gives it to yourself.")
-                        .addParameterOptional("-check", "Check the time left for you to be able to claim it.")
-                        .build();
-            }
-        });
-
-        cr.registerAlias("daily", "dailies");
-    }
-
-    @Subscribe
-    public void loot(CommandRegistry cr) {
-        cr.register("loot", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            public void call(Context ctx, String content, String[] args) {
-                loot(ctx);
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Loot the current chat for items, for usage in Mantaro's currency system. " +
-                                "You have a random chance of getting collectible items from here.")
-                        .build();
-            }
-        });
-    }
-
-
-    @Subscribe
-    public void balance(CommandRegistry cr) {
-        cr.register("balance", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                // Values on lambdas should be final or effectively final part 9999.
-                final var finalContent = content;
-                ctx.findMember(content, members -> {
-                    var user = ctx.getAuthor();
-                    boolean isExternal = false;
-
-                    var found = CustomFinderUtil.findMemberDefault(finalContent, members, ctx, ctx.getMember());
-                    if (found == null) {
-                        return;
-                    } else if (!finalContent.isEmpty()) {
-                        user = found.getUser();
-                        isExternal = true;
-                    }
-
-                    balance(ctx, isExternal ? user : null);
-                });
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Shows your current balance or another person's balance.")
-                        .setUsage("`~>balance [@user]`")
-                        .addParameter("@user", "The user to check the balance of. This is optional.")
-                        .setSeasonal(true)
-                        .build();
-            }
-        });
-
-        cr.registerAlias("balance", "credits");
-        cr.registerAlias("balance", "bal");
+                balance(ctx, isExternal ? user : null);
+            });
+        }
     }
     // Old command system end
 

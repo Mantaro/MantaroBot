@@ -25,6 +25,7 @@ import net.kodehawa.mantarobot.commands.action.ImageCmd;
 import net.kodehawa.mantarobot.commands.action.ImageCmdSlash;
 import net.kodehawa.mantarobot.commands.action.TextActionCmd;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.meta.Alias;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Description;
 import net.kodehawa.mantarobot.core.command.meta.Name;
@@ -40,12 +41,54 @@ import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import java.util.List;
 
 @Module
+// Most of the commands in here are just definitions, the actual implementation is done in their parent class.
 public class ActionCmds {
     private static final DataManager<List<String>> BLOODSUCK = new SimpleFileDataManager("assets/mantaro/texts/bloodsuck.txt");
     private static final DataManager<List<String>> MEOW = new SimpleFileDataManager("assets/mantaro/texts/meow.txt");
     private static final DataManager<List<String>> NUZZLE = new SimpleFileDataManager("assets/mantaro/texts/nuzzle.txt");
     private static final DataManager<List<String>> TSUNDERE = new SimpleFileDataManager("assets/mantaro/texts/tsundere.txt");
 
+    @Subscribe
+    public void register(CommandRegistry cr) {
+        // This all are deferred in the parent class.
+        // Slash
+        cr.registerSlash(Pat.class);
+        cr.registerSlash(Hug.class);
+        cr.registerSlash(Kiss.class);
+        cr.registerSlash(Poke.class);
+        cr.registerSlash(Slap.class);
+        cr.registerSlash(Tickle.class);
+        cr.registerSlash(Pout.class);
+        cr.registerSlash(Cuddle.class);
+        cr.registerSlash(Action.class); // Subcommands contain the rest due to Discord slash command # limits.
+
+        // Text
+        cr.register(PatText.class);
+        cr.register(HugText.class);
+        cr.register(KissText.class);
+        cr.register(PokeText.class);
+        cr.register(SlapText.class);
+        cr.register(BiteText.class);
+        cr.register(TickleText.class);
+        cr.register(HighFiveText.class);
+        cr.register(PoutText.class);
+        cr.register(LickText.class);
+        cr.register(TeeheeText.class);
+        cr.register(SmileText.class);
+        cr.register(StareText.class);
+        cr.register(HoldHandsText.class);
+        cr.register(CuddleText.class);
+        cr.register(BlushText.class);
+        cr.register(NuzzleText.class);
+        cr.register(BloodsuckText.class);
+        cr.register(Tsundere.class);
+        cr.register(Lewd.class);
+        cr.register(Meow.class);
+        cr.register(Nom.class);
+        cr.register(Facedesk.class);
+    }
+
+    // Slash:
     @Name("action")
     @Description("A bunch of action commands that didn't fit into a separate command")
     @Category(CommandCategory.ACTION)
@@ -338,129 +381,216 @@ public class ActionCmds {
         }
     }
 
-    @Subscribe
-    public void register(CommandRegistry cr) {
-        // This all are deferred in the parent class.
-        cr.registerSlash(Pat.class);
-        cr.registerSlash(Hug.class);
-        cr.registerSlash(Kiss.class);
-        cr.registerSlash(Poke.class);
-        cr.registerSlash(Slap.class);
-        cr.registerSlash(Tickle.class);
-        cr.registerSlash(Pout.class);
-        cr.registerSlash(Cuddle.class);
-        // Do the rest on subcommands?
-        cr.registerSlash(Action.class);
+    // Text:
+    @Name("pat")
+    public static class PatText extends ImageActionCmd {
+        public PatText() {
+            super(
+                    "Pat", "Pats the specified user.", EmoteReference.TALKING,
+                    "commands.action.pat", "pat", "commands.action.lonely.pat", "commands.action.self.pat"
+            );
+        }
+    }
 
-        //pat();
-        cr.register("pat", new ImageActionCmd(
-                "Pat", "Pats the specified user.", EmoteReference.TALKING,
-                "commands.action.pat", "pat", "commands.action.lonely.pat", "commands.action.self.pat"
-        ));
+    @Name("hug")
+    public static class HugText extends ImageActionCmd {
+        public HugText() {
+            super(
+                    "Hug", "Hugs the specified user.", EmoteReference.TALKING,
+                    "commands.action.hug", "hug", "commands.action.lonely.hug", "commands.action.self.hug"
+            );
+        }
+    }
 
-        //hug();
-        cr.register("hug", new ImageActionCmd(
-                "Hug", "Hugs the specified user.", EmoteReference.TALKING,
-                "commands.action.hug", "hug", "commands.action.lonely.hug", "commands.action.self.hug"
-        ));
+    @Name("kiss")
+    public static class KissText extends ImageActionCmd {
+        public KissText() {
+            super(
+                    "Kiss", "Kisses the specified user.", EmoteReference.TALKING,
+                    "commands.action.kiss", "kiss", "commands.action.lonely.kiss", "commands.action.self.kiss"
+            );
+        }
+    }
 
-        //kiss();
-        cr.register("kiss", new ImageActionCmd(
-                "Kiss", "Kisses the specified user.", EmoteReference.TALKING,
-                "commands.action.kiss", "kiss", "commands.action.lonely.kiss", "commands.action.self.kiss"
-        ));
+    @Name("poke")
+    public static class PokeText extends ImageActionCmd {
+        public PokeText() {
+            super(
+                    "Poke", "Pokes the specified user.", EmoteReference.TALKING,
+                    "commands.action.poke", "poke", "commands.action.lonely.poke", "commands.action.self.poke"
+            );
+        }
+    }
 
-        //poke();
-        cr.register("poke", new ImageActionCmd(
-                "Poke", "Pokes the specified user.", EmoteReference.TALKING,
-                "commands.action.poke", "poke", "commands.action.lonely.poke", "commands.action.self.poke"
-        ));
+    @Name("slap")
+    public static class SlapText extends ImageActionCmd {
+        public SlapText() {
+            super(
+                    "Slap", "Slaps the specified user ;).", EmoteReference.TALKING,
+                    "commands.action.slap", "slap", "commands.action.lonely.slap", "commands.action.self.slap"
+            );
+        }
+    }
 
-        //slap();
-        cr.register("slap", new ImageActionCmd(
-                "Slap", "Slaps the specified user ;).", EmoteReference.TALKING,
-                "commands.action.slap", "slap", "commands.action.lonely.slap", "commands.action.self.slap"
-        ));
+    @Name("bite")
+    public static class BiteText extends ImageActionCmd {
+        public BiteText() {
+            super(
+                    "Bite", "Bites the specified user.", EmoteReference.TALKING,
+                    "commands.action.bite", "bite", "commands.action.lonely.bite", "commands.action.self.bite"
+            );
+        }
+    }
 
-        //bite();
-        cr.register("bite", new ImageActionCmd(
-                "Bite", "Bites the specified user.", EmoteReference.TALKING,
-                "commands.action.bite", "bite", "commands.action.lonely.bite", "commands.action.self.bite"
-        ));
+    @Name("tickle")
+    public static class TickleText extends ImageActionCmd {
+        public TickleText() {
+            super(
+                    "Tickle", "Tickles the specified user.", EmoteReference.JOY,
+                    "commands.action.tickle", "tickle", "commands.action.lonely.tickle", "commands.action.self.tickle"
+            );
+        }
+    }
 
-        //tickle();
-        cr.register("tickle", new ImageActionCmd(
-                "Tickle", "Tickles the specified user.", EmoteReference.JOY,
-                "commands.action.tickle", "tickle", "commands.action.lonely.tickle", "commands.action.self.tickle"
-        ));
+    @Name("highfive")
+    public static class HighFiveText extends ImageActionCmd {
+        public HighFiveText() {
+            super(
+                    "Highfive", "Highfives with the specified user.", EmoteReference.TALKING,
+                    "commands.action.highfive", "highfive", "commands.action.lonely.highfive", "commands.action.self.highfive", true
+            );
+        }
+    }
 
-        //highfive();
-        cr.register("highfive", new ImageActionCmd(
-                "Highfive", "Highfives with the specified user.", EmoteReference.TALKING,
-                "commands.action.highfive", "highfive", "commands.action.lonely.highfive", "commands.action.self.highfive", true
-        ));
+    @Name("pout")
+    public static class PoutText extends ImageActionCmd {
+        public PoutText() {
+            super(
+                    "Pout", "Pouts at the specified user.", EmoteReference.TALKING,
+                    "commands.action.pout", "pout", "commands.action.lonely.pout", "commands.action.self.pout", true
+            );
+        }
+    }
 
-        //pout();
-        cr.register("pout", new ImageActionCmd(
-                "Pout", "Pouts at the specified user.", EmoteReference.TALKING,
-                "commands.action.pout", "pout", "commands.action.lonely.pout", "commands.action.self.pout", true
-        ));
+    @Name("lick")
+    public static class LickText extends ImageActionCmd {
+        public LickText() {
+            super(
+                    "lick", "Licks the specified user.", EmoteReference.TALKING,
+                    "commands.action.lick", "lick", "commands.action.lonely.lick", "commands.action.self.lick"
+            );
+        }
+    }
 
-        //lick();
-        cr.register("lick", new ImageActionCmd(
-                "lick", "Licks the specified user.", EmoteReference.TALKING,
-                "commands.action.lick", "lick", "commands.action.lonely.lick", "commands.action.self.lick"
-        ));
+    @Name("teehee")
+    public static class TeeheeText extends ImageActionCmd {
+        public TeeheeText() {
+            super(
+                    "Teehee", "Teehee~", EmoteReference.EYES,
+                    "commands.action.teehee", "teehee", "commands.action.lonely.teehee", "commands.action.self.teehee", true
+            );
+        }
+    }
 
-        //teehee();
-        cr.register("teehee", new ImageActionCmd("Teehee", "Teehee~", EmoteReference.EYES,
-                "commands.action.teehee", "teehee", "commands.action.lonely.teehee", "commands.action.self.teehee", true));
+    @Name("smile")
+    public static class SmileText extends ImageActionCmd {
+        public SmileText() {
+            super(
+                    "Smile", "Smiles at someone", EmoteReference.TALKING,
+                    "commands.action.smile", "smile", "commands.action.lonely.smile", "commands.action.self.smile", true
+            );
+        }
+    }
 
-        //smile();
-        cr.register("smile", new ImageActionCmd("Smile", "Smiles at someone", EmoteReference.TALKING,
-                "commands.action.smile", "smile", "commands.action.lonely.smile", "commands.action.self.smile", true));
+    @Name("stare")
+    public static class StareText extends ImageActionCmd {
+        public StareText() {
+            super(
+                    "Stare", "Stares at someone", EmoteReference.EYES,
+                    "commands.action.stare", "stare", "commands.action.lonely.stare", "commands.action.self.stare", true
+            );
+        }
+    }
 
-        //stare();
-        cr.register("stare", new ImageActionCmd("Stare", "Stares at someone", EmoteReference.EYES,
-                "commands.action.stare", "stare", "commands.action.lonely.stare", "commands.action.self.stare", true));
+    @Name("holdhands")
+    public static class HoldHandsText extends ImageActionCmd {
+        public HoldHandsText() {
+            super(
+                    "Hold Hands", "Hold someone's hands", EmoteReference.HEART,
+                    "commands.action.holdhands", "handholding", "commands.action.lonely.holdhands", "commands.action.self.holdhands", true
+            );
+        }
+    }
 
-        //holdhands();
-        cr.register("holdhands", new ImageActionCmd("Hold Hands", "Hold someone's hands", EmoteReference.HEART,
-                "commands.action.holdhands", "handholding", "commands.action.lonely.holdhands", "commands.action.self.holdhands", true));
+    @Name("cuddle")
+    public static class CuddleText extends ImageActionCmd {
+        public CuddleText() {
+            super(
+                    "Cuddle", "Cuddles someone", EmoteReference.HEART,
+                    "commands.action.cuddle", "cuddle", "commands.action.lonely.cuddle", "commands.action.self.cuddle"
+            );
+        }
+    }
 
-        //cuddle();
-        cr.register("cuddle", new ImageActionCmd("Cuddle", "Cuddles someone", EmoteReference.HEART,
-                "commands.action.cuddle", "cuddle", "commands.action.lonely.cuddle", "commands.action.self.cuddle"));
+    @Name("blush")
+    public static class BlushText extends ImageActionCmd {
+        public BlushText() {
+            super(
+                    "Blush", "Blushes at someone", EmoteReference.HEART,
+                    "commands.action.blush", "blush", "commands.action.lonely.blush", "commands.action.self.blush", true
+            );
+        }
+    }
 
-        //blush();
-        cr.register("blush", new ImageActionCmd("Blush", "Blushes at someone", EmoteReference.HEART,
-                "commands.action.blush", "blush", "commands.action.lonely.blush", "commands.action.self.blush", true));
+    @Name("nuzzle")
+    public static class NuzzleText extends ImageActionCmd {
+        public NuzzleText() {
+            super(
+                    "Nuzzle", "Nuzzles the specified user.", EmoteReference.TALKING,
+                    "commands.action.nuzzle", NUZZLE.get(), "commands.action.lonely.nuzzle", "commands.action.self.nuzzle", true
+            );
+        }
+    }
 
-        //nuzzle();
-        cr.register("nuzzle", new ImageActionCmd("Nuzzle Command", "Nuzzles the specified user.", EmoteReference.TALKING,
-                "commands.action.nuzzle", NUZZLE.get(), "commands.action.lonely.nuzzle", "commands.action.self.nuzzle", true
-        ));
+    @Name("bloodsuck")
+    public static class BloodsuckText extends ImageActionCmd {
+        public BloodsuckText() {
+            super(
+                    "Bloodsuck", "Sucks the blood of a user", EmoteReference.TALKING,
+                    "commands.action.bloodsuck", BLOODSUCK.get(), "commands.action.lonely.bloodsuck", "commands.action.self.bloodsuck", true
+            );
+        }
+    }
 
-        //bloodsuck();
-        cr.register("bloodsuck", new ImageActionCmd("Bloodsuck command", "Sucks the blood of a user", EmoteReference.TALKING,
-                "commands.action.bloodsuck", BLOODSUCK.get(), "commands.action.lonely.bloodsuck", "commands.action.self.bloodsuck", true)
-        );
+    public static class Tsundere extends TextActionCmd {
+        public Tsundere() {
+            super("Y-You baka!", EmoteReference.MEGA + "%s", TSUNDERE.get());
+        }
+    }
 
-        //tsundere();
-        cr.register("tsundere", new TextActionCmd("Y-You baka!", EmoteReference.MEGA + "%s", TSUNDERE.get()));
+    public static class Lewd extends ImageCmd {
+        public Lewd() {
+            super("T-Too lewd!", "lewd", "commands.action.lewd");
+        }
+    }
 
-        //lewd();
-        cr.register("lewd", new ImageCmd("T-Too lewd!", "lewd", "commands.action.lewd"));
+    @Alias("mew")
+    public static class Meow extends ImageCmd {
+        public Meow() {
+            super("Meows at the specified user.", MEOW.get(), "commands.action.meow");
+        }
 
-        //meow();
-        cr.register("meow", new ImageCmd("Meows at the specified user.", MEOW.get(), "commands.action.meow"));
-        cr.registerAlias("meow", "mew");
+    }
 
-        //nom();
-        cr.register("nom", new ImageCmd("*nom nom*", "nom", "commands.action.nom"));
+    public static class Nom extends ImageCmd {
+        public Nom() {
+            super("*nom nom*", "nom", "commands.action.nom");
+        }
+    }
 
-        //facedesk();
-        cr.register("facedesk", new ImageCmd("When it's just too much to handle.", "banghead",
-                "commands.action.facedesk", true));
+    public static class Facedesk extends ImageCmd {
+        public Facedesk() {
+            super("When it's just too much to handle.", "banghead", "commands.action.facedesk", true);
+        }
     }
 }

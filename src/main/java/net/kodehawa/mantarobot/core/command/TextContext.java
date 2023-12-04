@@ -47,6 +47,7 @@ import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.MongoGuild;
 import net.kodehawa.mantarobot.db.entities.MongoUser;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.PlayerStats;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.UtilsContext;
@@ -55,9 +56,11 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimitContext;
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -219,14 +222,17 @@ public class TextContext implements IContext {
     }
 
     /**
-     * Parses as many arguments as possible with the provided parser, stopping when there is no more arguments to read.
+     * Parses as many arguments as possible from the remainder, stopping when there is no more arguments to read.
      * <p>
      * This will reduce the arguments to a single String value, which can be passed around to arguments -- this is useful for stuff like
      * Member lookups, or simply as an aid when porting old commands, or when we expect an uninterrupted stream of arguments of the same type.
      * For example, for profile description, or custom commands.
+     * </p>
      * <p>
-     * This will always use {@link Parsers#string() the string parser}
-     *
+     * You can also use {@link Parsers#remainingArguments()}, but it will fail if all arguments are empty. This will never fail.
+     * <p>
+     * This will always use {@link Parsers#string()}
+     * </p>
      * @return A possibly-empty String value
      */
     @Nonnull
@@ -508,6 +514,22 @@ public class TextContext implements IContext {
         return managedDatabase.getPlayer(id);
     }
 
+    public PlayerStats getPlayerStats() {
+        return managedDatabase.getPlayerStats(getMember());
+    }
+
+    public PlayerStats getPlayerStats(String id) {
+        return managedDatabase.getPlayerStats(id);
+    }
+
+    public PlayerStats getPlayerStats(User user) {
+        return managedDatabase.getPlayerStats(user);
+    }
+
+    public PlayerStats getPlayerStats(Member member) {
+        return managedDatabase.getPlayerStats(member);
+    }
+
     public MantaroBot getBot() {
         return MantaroBot.getInstance();
     }
@@ -545,9 +567,24 @@ public class TextContext implements IContext {
         return getEvent().getMessage().getMentions().getMembers();
     }
 
+    public List<User> getMentionedUsers() {
+        return getEvent().getMessage().getMentions().getUsers();
+    }
 
     @Override
     public I18nContext getLanguageContext() {
         return i18n;
+    }
+
+    public I18nContext getGuildLanguageContext() {
+        return new I18nContext(getDBGuild(), null);
+    }
+
+    public Color getMemberColor(Member member) {
+        return member.getColor() == null ? Color.PINK : member.getColor();
+    }
+
+    public Color getMemberColor() {
+        return getMemberColor(getMember());
     }
 }

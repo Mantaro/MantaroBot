@@ -44,14 +44,10 @@ import net.kodehawa.mantarobot.core.command.meta.Options;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.awt.Color;
 import java.util.Random;
 
 import static net.kodehawa.mantarobot.commands.image.ImageboardUtils.getImage;
@@ -524,28 +520,6 @@ public class ImageCmds {
                     ctx.getOptionAsString("excludetags", "")
             );
         }
-    }
-
-    @Subscribe
-    public void transition(CommandRegistry cr) {
-        cr.register("dog", new SimpleCommand(CommandCategory.HIDDEN) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                I18nContext i18nContext = ctx.getLanguageContext();
-                var builder = new EmbedBuilder();
-                builder.setAuthor(i18nContext.get("commands.slash.title"))
-                        .setDescription(i18nContext.get("commands.slash.description_image").formatted(EmoteReference.WARNING) + "\n" +
-                                i18nContext.get("commands.slash.description_2")
-                        )
-                        .setColor(Color.PINK)
-                        .setImage("https://apiv2.mantaro.site/image/common/slash-example.png")
-                        .setFooter(i18nContext.get("commands.pet.status.footer"), ctx.getMember().getEffectiveAvatarUrl());
-
-                ctx.send(builder.build());
-            }
-        });
-
-        cr.registerAlias("dog", "cat", "catgirl");
     }
 
     private static void sendImage(SlashContext ctx, ImageBoard<?> image,

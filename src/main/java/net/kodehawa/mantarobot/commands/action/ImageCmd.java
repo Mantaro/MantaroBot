@@ -19,6 +19,8 @@ package net.kodehawa.mantarobot.commands.action;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
+import net.kodehawa.mantarobot.core.command.TextCommand;
+import net.kodehawa.mantarobot.core.command.TextContext;
 import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
@@ -30,8 +32,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class ImageCmd extends NoArgsCommand {
-    private final String desc;
+public class ImageCmd extends TextCommand {
     private final String toSend;
     private final WeebAPIRequester weebapi = new WeebAPIRequester();
     private final Random rand = new Random();
@@ -40,23 +41,38 @@ public class ImageCmd extends NoArgsCommand {
     private String type;
 
     public ImageCmd(String desc, List<String> images, String toSend) {
-        super(CommandCategory.ACTION);
-        this.desc = desc;
+        super.setCategory(CommandCategory.ACTION);
+        super.setHelp(
+                new HelpContent.Builder()
+                .setDescription(desc)
+                .build()
+        );
+
         this.images = images;
         this.toSend = toSend;
     }
 
     public ImageCmd(String desc, String type, String toSend) {
-        super(CommandCategory.ACTION);
-        this.desc = desc;
+        super.setCategory(CommandCategory.ACTION);
+        super.setHelp(
+                new HelpContent.Builder()
+                        .setDescription(desc)
+                        .build()
+        );
+
         this.images = Collections.emptyList();
         this.toSend = toSend;
         this.type = type;
     }
 
     public ImageCmd(String desc, String type, String toSend, boolean noMentions) {
-        super(CommandCategory.ACTION);
-        this.desc = desc;
+        super.setCategory(CommandCategory.ACTION);
+        super.setHelp(
+                new HelpContent.Builder()
+                        .setDescription(desc)
+                        .build()
+        );
+
         this.images = Collections.emptyList();
         this.toSend = toSend;
         this.noMentions = noMentions;
@@ -64,7 +80,7 @@ public class ImageCmd extends NoArgsCommand {
     }
 
     @Override
-    protected void call(Context ctx, String content) {
+    protected void process(TextContext ctx) {
         final var builder = new EmbedBuilder();
         String random;
         try {
@@ -105,12 +121,5 @@ public class ImageCmd extends NoArgsCommand {
                 .build();
 
         ctx.send(builder.build());
-    }
-
-    @Override
-    public HelpContent help() {
-        return new HelpContent.Builder()
-                .setDescription(desc)
-                .build();
     }
 }

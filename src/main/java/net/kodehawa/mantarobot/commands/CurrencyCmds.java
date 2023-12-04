@@ -483,11 +483,13 @@ public class CurrencyCmds {
         @Override
         protected void process(TextContext ctx) {
             var item = ctx.argument(Parsers.delimitedBy('"', false),
+                    String.format(ctx.getLanguageContext().get("commands.useitem.no_items_specified"), EmoteReference.ERROR),
                     String.format(ctx.getLanguageContext().get("commands.useitem.no_items_specified"), EmoteReference.ERROR)
             ).trim();
 
             // This will take all the REMAINING arguments, and reduce to a single String.
             var tryAmount = ctx.takeAllString(); // This is VERY hacky, we have an integer parser, but cannot use it (because of "max").
+            System.out.println(tryAmount);
             int amount = 1;
             boolean isMax = false;
             if (!tryAmount.isEmpty()) {

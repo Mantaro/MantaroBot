@@ -86,7 +86,6 @@ public abstract class AnnotatedCommand<T extends IContext> {
         this.help = help;
     }
 
-
     protected EmbedBuilder baseEmbed(T ctx, String name) {
         return baseEmbed(ctx, name, ctx.getMember().getEffectiveAvatarUrl());
     }
