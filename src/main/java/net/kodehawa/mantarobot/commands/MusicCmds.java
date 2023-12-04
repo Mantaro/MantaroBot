@@ -134,7 +134,8 @@ public class MusicCmds {
                 return;
             }
 
-            var paused = !trackScheduler.getMusicPlayer().block(Duration.ofMillis(300)).getPaused();
+            var player = trackScheduler.getMusicPlayer().block(Duration.ofMillis(300));
+            var paused = !player.getPaused();
             var languageContext = ctx.getLanguageContext();
 
             trackScheduler.setPausedManually(paused);
@@ -220,7 +221,8 @@ public class MusicCmds {
             final var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
             final var trackScheduler = musicManager.getTrackScheduler();
             final var audioPlayer = trackScheduler.getMusicPlayer();
-            final var playingTrack = audioPlayer.block(Duration.ofMillis(300)).getTrack();
+            final var player = audioPlayer.block(Duration.ofMillis(300));
+            final var playingTrack = player.getTrack();
             if (playingTrack == null) {
                 ctx.reply("commands.np.no_track", EmoteReference.ERROR);
                 return;
@@ -525,7 +527,8 @@ public class MusicCmds {
     }
 
     public static boolean isSongOwner(TrackScheduler scheduler, User author) {
-        return scheduler.getCurrentTrack().getUserData() != null && String.valueOf(scheduler.getCurrentTrack().getUserData()).equals(author.getId());
+        return scheduler.getCurrentTrack().getUserData().containsKey("user") &&
+                String.valueOf(scheduler.getCurrentTrack().getUserData().get("user")).equals(author.getId());
     }
 
     public static boolean isNotInCondition(SlashContext ctx) {

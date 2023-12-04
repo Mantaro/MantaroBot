@@ -163,10 +163,10 @@ public class TrackScheduler {
                 var trackLength = information.getLength();
 
                 Member user = null;
-                if (getCurrentTrack().getUserData() != null) {
+                if (getCurrentTrack().getUserData().containsKey("user")) {
                     // Retrieve member instead of user, so it gets cached.
                     try {
-                        user = guild.retrieveMemberById(String.valueOf(getCurrentTrack().getUserData())).useCache(true).complete();
+                        user = guild.retrieveMemberById(String.valueOf(getCurrentTrack().getUserData().get("user"))).useCache(true).complete();
                     } catch (IllegalStateException | NumberFormatException ignored) {}
                 }
 
