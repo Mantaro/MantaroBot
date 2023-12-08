@@ -34,11 +34,8 @@ import net.kodehawa.mantarobot.core.command.meta.Permission;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.MantaroObject;
@@ -79,6 +76,7 @@ public class OwnerCmd {
         cr.register(Link.class);
         cr.register(CreateKey.class);
         cr.register(InvalidateKey.class);
+        cr.register(Eval.class);
     }
 
     @Permission(CommandPermission.OWNER)
@@ -455,11 +453,13 @@ public class OwnerCmd {
         }
     }
 
-    @Subscribe
-    public void eval(CommandRegistry cr) {
-        var deps = new MavenDependencies(Path.of("eval_deps"))
+    @Name("eval")
+    @Permission(CommandPermission.OWNER)
+    @Category(CommandCategory.OWNER)
+    public static class Eval extends TextCommand {
+        MavenDependencies deps = new MavenDependencies(Path.of("eval_deps"))
                 .addRepository("https://jcenter.bintray.com");
-        var evaluator = new JavaEvaluator(deps);
+        JavaEvaluator evaluator = new JavaEvaluator(deps);
         Evaluator eval = (ctx, code) -> {
             var result = evaluator.compile("Eval",
                     """
@@ -520,7 +520,7 @@ public class OwnerCmd {
             }
 
             try {
-                return result.resultingClass().getMethod("run", Context.class, MavenDependencies.class)
+                return result.resultingClass().getMethod("run", TextContext.class, MavenDependencies.class)
                         .invoke(null, ctx, deps);
             } catch(InvocationTargetException e) {
                 return e.getCause();
@@ -529,46 +529,33 @@ public class OwnerCmd {
             }
         };
 
-        cr.register("eval", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (args.length < 1) {
-                    ctx.send("Give me something to eval.");
-                    return;
-                }
+        @Override
+        protected void process(TextContext ctx) {
+            var content = ctx.argument(Parsers.remainingContent(), "Give me something to eval.", "Failed to parse eval string.");
+            // eval.eval, yes
+            var result = eval.eval(ctx, content);
+            var errored = result instanceof Throwable;
 
-                // eval.eval, yes
-                var result = eval.eval(ctx, content);
-                var errored = result instanceof Throwable;
-
-                ctx.send(new EmbedBuilder()
-                        .setAuthor(
-                                "Evaluated " + (errored ? "and errored" : "with success"),
-                                null,
-                                ctx.getAuthor().getAvatarUrl()
-                        )
-                        .setColor(errored ? Color.RED : Color.GREEN)
-                        .setDescription(result == null ?
-                                "Executed successfully with no objects returned" :
-                                ("Executed " + (errored ? "and errored: " : "successfully and returned: ") +
-                                        // We need to codeblock this as the compiler output expects a monospace font
-                                        // More ternary hell, but it's w/e
-                                        (errored ? "```\n%s```".formatted(result.toString()) : result.toString())
-                                )
-                        ).setFooter(
-                                "Asked by: " + ctx.getAuthor().getName(),
-                                null
-                        ).build()
-                );
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Evaluates stuff.")
-                        .build();
-            }
-        });
+            ctx.send(new EmbedBuilder()
+                    .setAuthor(
+                            "Evaluated " + (errored ? "and errored" : "with success"),
+                            null,
+                            ctx.getAuthor().getAvatarUrl()
+                    )
+                    .setColor(errored ? Color.RED : Color.GREEN)
+                    .setDescription(result == null ?
+                            "Executed successfully with no objects returned" :
+                            ("Executed " + (errored ? "and errored: " : "successfully and returned: ") +
+                                    // We need to codeblock this as the compiler output expects a monospace font
+                                    // More ternary hell, but it's w/e
+                                    (errored ? "```\n%s```".formatted(result.toString()) : result.toString())
+                            )
+                    ).setFooter(
+                            "Asked by: " + ctx.getAuthor().getName(),
+                            null
+                    ).build()
+            );
+        }
     }
 
     @Name("link")
@@ -668,6 +655,6 @@ public class OwnerCmd {
     }
 
     private interface Evaluator {
-        Object eval(Context ctx, String code);
+        Object eval(TextContext ctx, String code);
     }
 }
