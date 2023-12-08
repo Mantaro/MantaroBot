@@ -531,7 +531,7 @@ public class OwnerCmd {
 
         @Override
         protected void process(TextContext ctx) {
-            var content = ctx.argument(Parsers.remainingContent(), "Give me something to eval.", "Failed to parse eval string.");
+            var content = ctx.argument(Parsers.remainingContent(), "Give me something to eval.", "Failed to parse eval string.").trim();
             // eval.eval, yes
             var result = eval.eval(ctx, content);
             var errored = result instanceof Throwable;

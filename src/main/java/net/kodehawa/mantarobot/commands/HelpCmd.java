@@ -84,6 +84,7 @@ public class HelpCmd {
     public void register(CommandRegistry cr) {
         cr.registerSlash(HelpCommand.class);
         cr.register(HelpText.class);
+        cr.register(Slash.class);
     }
 
     @Name("help")
@@ -560,9 +561,35 @@ public class HelpCmd {
         );
     }
 
-    // Transitional command.
-    @Subscribe
-    public void slash(CommandRegistry cr) {
+    // This looks hilarious.
+    // Maybe just remove it.
+    @Alias("info") @Alias("status") @Alias("shard")
+    @Alias("shardinfo") @Alias("ping") @Alias("time")
+    @Alias("prune") @Alias("ban") @Alias("kick")
+    @Alias("softban") @Alias("userinfo") @Alias("serverinfo")
+    @Alias("avatar") @Alias("roleinfo") @Alias("support")
+    @Alias("donate") @Alias("language") @Alias("invite")
+    @Alias("danbooru") @Alias("e621") @Alias("e926")
+    @Alias("yandere") @Alias("konachan") @Alias("gelbooru")
+    @Alias("safebooru") @Alias("rule34") @Alias("iam")
+    @Alias("iamnot") @Alias("8ball") @Alias("createpoll")
+    @Alias("anime") @Alias("character") @Alias("poll")
+    @Alias("coinflip") @Alias("ratewaifu") @Alias("roll")
+    @Alias("birthday") @Alias("profile") @Alias("reputation")
+    @Alias("equip") @Alias("unequip") @Alias("badges")
+    @Alias("activatekey") @Alias("premium") @Alias("transfer")
+    @Alias("itemtransfer") @Alias("pet") @Alias("waifu")
+    @Alias("play") @Alias("shuffle") @Alias("np")
+    @Alias("skip") @Alias("stop") @Alias("ns")
+    @Alias("volume") @Alias("forceplay") @Alias("lyrics")
+    @Alias("playnow") @Alias("rewind") @Alias("forward")
+    @Alias("restartsong") @Alias("removetrack") @Alias("move")
+    @Alias("cast") @Alias("salvage") @Alias("repeat")
+    @Alias("repair") @Alias("marry") @Alias("divorce")
+    @Alias("mute") @Alias("unmute") @Alias("remindme")
+    @Alias("game") @Alias("trivia") @Alias("love")
+    @Category(CommandCategory.HIDDEN)
+    public static class Slash extends TextCommand {
         // old, squished
         String[][] squishPairs = {
                 {"bloodsuck", "action bloodsuck"},
@@ -592,102 +619,24 @@ public class HelpCmd {
                 {"activatekey", "premium activate"},
                 {"info", "stats"}
         };
-
         // Some commands had to be squished into subcommands.
         Map<String, String> squish = Utils.toMap(squishPairs);
 
-        cr.register("slash", new SimpleCommand(CommandCategory.HIDDEN) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                I18nContext i18nContext = ctx.getLanguageContext();
-                var builder = new EmbedBuilder();
-                var squished = squish.get(ctx.getCommandName());
+        @Override
+        protected void process(TextContext ctx) {
+            I18nContext i18nContext = ctx.getLanguageContext();
+            var builder = new EmbedBuilder();
+            var squished = squish.get(name);
+            builder.setAuthor(i18nContext.get("commands.slash.title"))
+                    .setDescription(i18nContext.get("commands.slash.description")
+                            .formatted(EmoteReference.WARNING, squished != null ? squished : name) + "\n" +
+                            i18nContext.get("commands.slash.description_2")
+                    )
+                    .setColor(Color.PINK)
+                    .setImage("https://apiv2.mantaro.site/image/common/slash-example.png")
+                    .setFooter(i18nContext.get("commands.pet.status.footer"), ctx.getMember().getEffectiveAvatarUrl());
 
-                builder.setAuthor(i18nContext.get("commands.slash.title"))
-                        .setDescription(i18nContext.get("commands.slash.description")
-                                .formatted(EmoteReference.WARNING, squished != null ? squished : ctx.getCommandName()) + "\n" +
-                                i18nContext.get("commands.slash.description_2")
-                        )
-                        .setColor(Color.PINK)
-                        .setImage("https://apiv2.mantaro.site/image/common/slash-example.png")
-                        .setFooter(i18nContext.get("commands.pet.status.footer"), ctx.getMember().getEffectiveAvatarUrl());
-
-                ctx.send(builder.build());
-            }
-        });
-
-        cr.registerAlias("slash",
-                "info", "status", "shard", "shardinfo", "ping", "time", "prune",
-                "ban", "kick", "softban", "userinfo", "serverinfo", "avatar", "roleinfo",
-                "support", "donate", "language", "invite", "danbooru",
-                "e621", "e926", "yandere", "konachan", "gelbooru", "safebooru", "rule34",
-                "iam", "iamnot", "8ball", "createpoll", "anime", "character", "poll", "coinflip",
-                "ratewaifu", "roll", "love", "birthday", "profile", "reputation", "equip",
-                "unequip", "badges", "activatekey", "premium", "transfer", "itemtransfer", "pet",
-                "waifu", "play", "shuffle", "np", "repeat", "skip", "stop", "ns", "volume", "forceplay",
-                "lyrics", "playnow", "rewind", "forward", "restartsong", "removetrack", "move",
-                "cast", "salvage", "repair", "marry", "divorce", "mute", "unmute", "remindme",
-                "game", "trivia"
-        );
-    }
-
-    // Transitional command, but with alias information.
-    @Subscribe
-    public void slashalias(CommandRegistry cr) {
-        // alias, real
-        String[][] aliasPairs = {
-                {"guildinfo", "info server"},
-                {"me", "profile"},
-                {"badge", "badges"},
-                {"vipstatus", "premium user"},
-                {"give", "transfer"},
-                {"itemtransfer", "transferitems"},
-                {"p", "play"},
-                {"s", "skip"},
-                {"np", "nowplaying"},
-                {"vol", "volume"},
-                {"resume", "skip"},
-                {"unpause", "pause"},
-                {"join", "play"},
-                {"fs", "forceskip"},
-                {"loop", "repeat"},
-                {"rp", "repeat"},
-                {"loopqueue", "repeat"},
-                {"leave", "stop"},
-                {"skipahead", "seek"},
-                {"fix", "repair"},
-                {"marriage", "marry"},
-                {"rep", "reputation"},
-                {"remind", "remindme"},
-                {"reminder", "remindme"}
-        };
-
-        // Aliases are no longer a thing in slash, so gotta do this to tell users the real commands.
-        Map<String, String> alias = Utils.toMap(aliasPairs);
-
-        cr.register("slashalias", new SimpleCommand(CommandCategory.HIDDEN) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                I18nContext i18nContext = ctx.getLanguageContext();
-                var builder = new EmbedBuilder();
-                builder.setAuthor(i18nContext.get("commands.slash.title"))
-                        .setDescription(i18nContext.get("commands.slash.description_alias")
-                                .formatted(EmoteReference.WARNING, alias.get(ctx.getCommandName())) + "\n" +
-                                i18nContext.get("commands.slash.description_2")
-                        )
-                        .setColor(Color.PINK)
-                        .setImage("https://apiv2.mantaro.site/image/common/slash-example.png")
-                        .setFooter(i18nContext.get("commands.pet.status.footer"), ctx.getMember().getEffectiveAvatarUrl());
-
-                ctx.send(builder.build());
-            }
-        });
-
-        cr.registerAlias("slashalias",
-                "guildinfo", "me", "rep", "badge", "vipstatus", "give",
-                "transferitem", "transferitems", "nowplaying", "p", "s", "q", "nexttrack",
-                "vol", "fp", "resume", "unpause", "join", "fs", "loop", "rp", "loopqueue",
-                "leave", "skipahead", "fix", "remind", "reminder"
-        );
+            ctx.send(builder.build());
+        }
     }
 }

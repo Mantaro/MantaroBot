@@ -17,6 +17,7 @@
 
 package net.kodehawa.mantarobot.options.core;
 
+import net.kodehawa.mantarobot.core.command.TextContext;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 
 import java.util.function.BiConsumer;
@@ -28,15 +29,15 @@ public abstract class OptionHandler {
     @SuppressWarnings("unused")
     public abstract String description();
 
-    protected void registerOption(String name, String displayName, String description, Consumer<Context> code) {
+    protected void registerOption(String name, String displayName, String description, Consumer<TextContext> code) {
         Option.addOption(name, new Option(displayName, description, type).setAction(code).setShortDescription(description));
     }
 
-    protected void registerOption(String name, String displayName, String description, String shortDescription, Consumer<Context> code) {
+    protected void registerOption(String name, String displayName, String description, String shortDescription, Consumer<TextContext> code) {
         Option.addOption(name, new Option(displayName, description, type).setAction(code).setShortDescription(shortDescription));
     }
 
-    protected void registerOption(String name, String displayName, String description, String shortDescription, BiConsumer<Context, String[]> code) {
+    protected void registerOption(String name, String displayName, String description, String shortDescription, BiConsumer<TextContext, String[]> code) {
         Option.addOption(name, new Option(displayName, description, type).setAction(code).setShortDescription(shortDescription));
     }
 

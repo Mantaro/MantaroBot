@@ -60,11 +60,9 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 public class TextContext implements IContext {
     private final ManagedDatabase managedDatabase = MantaroData.db();
@@ -74,6 +72,7 @@ public class TextContext implements IContext {
     private final MessageReceivedEvent event;
     private final I18nContext i18n;
     private final Arguments args;
+    private String customContent; // opts moment
 
     private TextContext(@Nonnull MessageReceivedEvent event, @Nonnull I18nContext i18n, @Nonnull Arguments args) {
         this.event = event;
@@ -597,5 +596,18 @@ public class TextContext implements IContext {
 
     public Color getMemberColor() {
         return getMemberColor(getMember());
+    }
+
+    // Both used for options.
+    public void setCustomContent(String str) {
+        this.customContent = str;
+    }
+
+    /**
+     * Get the custom (usually filtered) content. This is only used in options, do not call it anywhere else.
+     * @return The custom content that has been set using Context#setCustomContent
+     */
+    public String getCustomContent() {
+        return this.customContent;
     }
 }

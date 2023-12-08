@@ -249,7 +249,7 @@ public class BirthdayOptions extends OptionHandler {
                 return;
             }
 
-            String content = ctx.getContent();
+            String content = ctx.getCustomContent();
             ctx.findMember(content, members -> {
                 Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                 if (member == null)
