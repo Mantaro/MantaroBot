@@ -226,19 +226,21 @@ public class TextContext implements IContext {
      * <p>
      * This will reduce the arguments to a single String value, which can be passed around to arguments -- this is useful for stuff like
      * Member lookups, or simply as an aid when porting old commands, or when we expect an uninterrupted stream of arguments of the same type.
-     * For example, for profile description, or custom commands.
+     * This does not preserve new lines, for that use {@link Parsers#remainingContent()}
      * </p>
      * <p>
-     * You can also use {@link Parsers#remainingArguments()}, but it will fail if all arguments are empty. This will never fail.
+     * You can also use {@link Parsers#remainingContent()}, but it will fail if all arguments are empty. This will never fail.
+     * Use the method above if you want the text as-is (new lines included), but make sure to handle failures.
      * <p>
-     * This will always use {@link Parsers#string()}
+     * This will use {@link Parsers#remainingArguments()}, returning an empty String on failure.
      * </p>
      * @return A possibly-empty String value
      */
     @Nonnull
     @CheckReturnValue
     public <T> String takeAllString() {
-        return takeMany(Parsers.option(Parsers.string())).stream().flatMap(Optional::stream).collect(Collectors.joining(" "));
+        var arg = tryArgument(Parsers.remainingArguments());
+        return arg.orElse("");
     }
 
     /**
@@ -407,6 +409,15 @@ public class TextContext implements IContext {
     }
 
     public User retrieveUserById(String id) {
+        User user = null;
+        try {
+            user = MantaroBot.getInstance().getShardManager().retrieveUserById(id).complete();
+        } catch (Exception ignored) { }
+
+        return user;
+    }
+
+    public User retrieveUserById(long id) {
         User user = null;
         try {
             user = MantaroBot.getInstance().getShardManager().retrieveUserById(id).complete();
