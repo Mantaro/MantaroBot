@@ -89,7 +89,6 @@ public class CurrencyCmds {
             .prefix("tools")
             .build();
 
-
     @Subscribe
     public void register(CommandRegistry cr) {
         cr.registerSlash(InventoryCommand.class);
@@ -489,7 +488,6 @@ public class CurrencyCmds {
 
             // This will take all the REMAINING arguments, and reduce to a single String.
             var tryAmount = ctx.takeAllString(); // This is VERY hacky, we have an integer parser, but cannot use it (because of "max").
-            System.out.println(tryAmount);
             int amount = 1;
             boolean isMax = false;
             if (!tryAmount.isEmpty()) {

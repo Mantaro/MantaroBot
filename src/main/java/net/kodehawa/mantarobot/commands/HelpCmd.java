@@ -26,6 +26,9 @@ import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.SplitUtil;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.TextCommand;
+import net.kodehawa.mantarobot.core.command.TextContext;
+import net.kodehawa.mantarobot.core.command.meta.Alias;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Description;
 import net.kodehawa.mantarobot.core.command.meta.Help;
@@ -53,7 +56,6 @@ import java.awt.Color;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -77,17 +79,12 @@ public class HelpCmd {
             .build();
 
     private static final Random random = new Random();
-    private static final List<String> jokes = List.of(
-            "Yo damn I heard you like help, because you just issued the help command to get the help about the help command.",
-            "Congratulations, you managed to use the help command.",
-            "Helps you to help yourself.",
-            "Help Inception.",
-            "A help helping helping helping help.",
-            "I wonder if this is what you are looking for...",
-            "Helping you help the world.",
-            "The help you might need.",
-            "Halp!"
-    );
+
+    @Subscribe
+    public void register(CommandRegistry cr) {
+        cr.registerSlash(HelpCommand.class);
+        cr.register(HelpText.class);
+    }
 
     @Name("help")
     @Description("The usual help command helping you.")
@@ -267,164 +264,163 @@ public class HelpCmd {
         }
     }
 
-    @Subscribe
-    public void help(CommandRegistry cr) {
-        cr.registerSlash(HelpCommand.class);
-        cr.register("help", new SimpleCommand(CommandCategory.INFO) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
+    @Name("help")
+    @Alias("halp")
+    @Alias("commands")
+    @Category(CommandCategory.INFO)
+    @Help(
+            description = "The command you're using right now. Shows a list of commands or the command usage.",
+            usage = "`~>help command`",
+            parameters = {
+                    @Help.Parameter(
+                            name = "command",
+                            description = "The command to check help for. You can use sub-commands too.",
+                            optional = true
+                    )
+            }
+    )
+        public static class HelpText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
+                return;
+            }
+
+            if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+                ctx.sendLocalized("general.missing_embed_permissions");
+                return;
+            }
+
+            var content = ctx.takeAllString();
+            var commandCategory = CommandCategory.lookupFromString(content);
+
+            if (content.isEmpty()) {
+                buildHelp(ctx, null);
+            } else if (commandCategory != null) {
+                buildHelp(ctx, commandCategory);
+            } else {
+                var member = ctx.getMember();
+                var command = CommandProcessor.REGISTRY.commands().get(content);
+
+                if (command == null) {
+                    ctx.sendLocalized("commands.help.extended.not_found", EmoteReference.ERROR);
                     return;
                 }
 
-                if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
-                    ctx.sendLocalized("general.missing_embed_permissions");
+                if (command.isOwnerCommand() && !CommandPermission.OWNER.test(member)) {
+                    ctx.sendLocalized("commands.help.extended.not_found", EmoteReference.ERROR);
                     return;
                 }
 
-                var commandCategory = CommandCategory.lookupFromString(content);
+                var help = command.help();
+                if (help == null || help.description() == null) {
+                    ctx.sendLocalized("commands.help.extended.no_help", EmoteReference.ERROR);
+                    return;
+                }
 
-                if (content.isEmpty()) {
-                    buildHelp(ctx, null);
-                } else if (commandCategory != null) {
-                    buildHelp(ctx, commandCategory);
-                } else {
-                    var member = ctx.getMember();
-                    var command = CommandProcessor.REGISTRY.commands().get(content);
+                var descriptionList = help.descriptionList();
+                var languageContext = ctx.getLanguageContext();
 
-                    if (command == null) {
-                        ctx.sendLocalized("commands.help.extended.not_found", EmoteReference.ERROR);
-                        return;
-                    }
+                var desc = new StringBuilder();
+                if (random.nextBoolean()) {
+                    desc.append(languageContext.get("commands.help.patreon"))
+                            .append("\n");
+                }
 
-                    if (command.isOwnerCommand() && !CommandPermission.OWNER.test(member)) {
-                        ctx.sendLocalized("commands.help.extended.not_found", EmoteReference.ERROR);
-                        return;
-                    }
+                if (descriptionList.isEmpty()) {
+                    desc.append(help.description());
+                }
+                else {
+                    desc.append(descriptionList.get(random.nextInt(descriptionList.size())));
+                }
 
-                    var help = command.help();
-                    if (help == null || help.description() == null) {
-                        ctx.sendLocalized("commands.help.extended.no_help", EmoteReference.ERROR);
-                        return;
-                    }
+                desc.append("\n").append("**Don't include <> or [] on the command itself.**");
 
-                    var descriptionList = help.descriptionList();
-                    var languageContext = ctx.getLanguageContext();
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Color.PINK)
+                        .setAuthor("Command help for " + content, null,
+                                ctx.getAuthor().getEffectiveAvatarUrl()
+                        ).setDescription(desc);
 
-                    var desc = new StringBuilder();
-                    if (random.nextBoolean()) {
-                        desc.append(languageContext.get("commands.help.patreon"))
-                                .append("\n");
-                    }
+                if (help.usage() != null) {
+                    builder.addField(EmoteReference.PENCIL.toHeaderString() + "Usage", help.usage(), false);
+                }
 
-                    if (descriptionList.isEmpty()) {
-                        desc.append(help.description());
-                    }
-                    else {
-                        desc.append(descriptionList.get(random.nextInt(descriptionList.size())));
-                    }
-
-                    desc.append("\n").append("**Don't include <> or [] on the command itself.**");
-
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setColor(Color.PINK)
-                            .setAuthor("Command help for " + content, null,
-                                    ctx.getAuthor().getEffectiveAvatarUrl()
-                            ).setDescription(desc);
-
-                    if (help.usage() != null) {
-                        builder.addField(EmoteReference.PENCIL.toHeaderString() + "Usage", help.usage(), false);
-                    }
-
-                    if (!help.parameters().isEmpty()) {
-                        builder.addField(EmoteReference.SLIDER.toHeaderString() + "Parameters", help.parameters().stream()
-                                        .map(entry -> "`%s` - *%s*".formatted(entry.name(), entry.description()))
-                                        .collect(Collectors.joining("\n")), false
-                        );
-                    }
-
-                    // Ensure sub-commands show in help.
-                    // Only god shall help me now with all of this casting lol.
-                    if (command instanceof AliasCommand aliasCommand) {
-                        command = aliasCommand.getCommand();
-                    }
-
-                    if (command instanceof ITreeCommand treeCommand) {
-                        var subCommands =
-                                treeCommand.getSubCommands()
-                                        .entrySet()
-                                        .stream()
-                                        .sorted(Comparator.comparingInt(a ->
-                                                a.getValue().description() == null ? 0 : a.getValue().description().length())
-                                        ).collect(
-                                        Collectors.toMap(
-                                                Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new
-                                        )
-                                );
-
-                        var stringBuilder = new StringBuilder();
-
-                        for (var inners : subCommands.entrySet()) {
-                            var name = inners.getKey();
-                            var inner = inners.getValue();
-                            if (inner.isChild()) {
-                                continue;
-                            }
-
-                            if (inner.description() != null) {
-                                stringBuilder.append("""
-                                        %s`%s%s` - %s
-                                        """.formatted(BLUE_SMALL_MARKER, ctx.getConfig().prefix[0] + content + " ", name, inner.description())
-                                );
-                            }
-                        }
-
-                        if (!stringBuilder.isEmpty()) {
-                            var value = stringBuilder.toString();
-                            if (value.length() > 1024) {
-                                value = languageContext.get("commands.help.too_long");
-                            }
-
-                            builder.addField(EmoteReference.ZAP.toHeaderString() + "Sub-commands", value, false);
-                        }
-                    }
-
-                    //Known command aliases.
-                    var commandAliases = command.getAliases();
-                    if (!commandAliases.isEmpty()) {
-                        String aliases = commandAliases
-                                .stream()
-                                .filter(alias -> !alias.equalsIgnoreCase(content))
-                                .map("`%s`"::formatted)
-                                .collect(Collectors.joining(" "));
-
-                        if (!aliases.trim().isEmpty()) {
-                            builder.addField(EmoteReference.FORK.toHeaderString() + "Aliases", aliases, false);
-                        }
-                    }
-
-                    ctx.send(builder.build(),
-                            ActionRow.of(
-                                    Button.link("https://www.mantaro.site/mantaro-wiki", "Check the wiki!"),
-                                    Button.link("https://support.mantaro.site", "Get support here")
-                            )
+                if (!help.parameters().isEmpty()) {
+                    builder.addField(EmoteReference.SLIDER.toHeaderString() + "Parameters", help.parameters().stream()
+                            .map(entry -> "`%s` - *%s*".formatted(entry.name(), entry.description()))
+                            .collect(Collectors.joining("\n")), false
                     );
                 }
-            }
 
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("I wonder if this is what you are looking for...")
-                        .setDescriptionList(jokes)
-                        .setUsage("`~>help <command>`")
-                        .addParameter("command", "The command name of the command you want to check information about.")
-                        .build();
-            }
-        });
+                // Ensure sub-commands show in help.
+                // Only god shall help me now with all of this casting lol.
+                if (command instanceof AliasCommand aliasCommand) {
+                    command = aliasCommand.getCommand();
+                }
 
-        cr.registerAlias("help", "commands");
-        cr.registerAlias("help", "halp"); //why not
+                if (command instanceof ITreeCommand treeCommand) {
+                    var subCommands =
+                            treeCommand.getSubCommands()
+                                    .entrySet()
+                                    .stream()
+                                    .sorted(Comparator.comparingInt(a ->
+                                            a.getValue().description() == null ? 0 : a.getValue().description().length())
+                                    ).collect(
+                                            Collectors.toMap(
+                                                    Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new
+                                            )
+                                    );
+
+                    var stringBuilder = new StringBuilder();
+
+                    for (var inners : subCommands.entrySet()) {
+                        var name = inners.getKey();
+                        var inner = inners.getValue();
+                        if (inner.isChild()) {
+                            continue;
+                        }
+
+                        if (inner.description() != null) {
+                            stringBuilder.append("""
+                                        %s`%s%s` - %s
+                                        """.formatted(BLUE_SMALL_MARKER, ctx.getConfig().prefix[0] + content + " ", name, inner.description())
+                            );
+                        }
+                    }
+
+                    if (!stringBuilder.isEmpty()) {
+                        var value = stringBuilder.toString();
+                        if (value.length() > 1024) {
+                            value = languageContext.get("commands.help.too_long");
+                        }
+
+                        builder.addField(EmoteReference.ZAP.toHeaderString() + "Sub-commands", value, false);
+                    }
+                }
+
+                //Known command aliases.
+                var commandAliases = command.getAliases();
+                if (!commandAliases.isEmpty()) {
+                    String aliases = commandAliases
+                            .stream()
+                            .filter(alias -> !alias.equalsIgnoreCase(content))
+                            .map("`%s`"::formatted)
+                            .collect(Collectors.joining(" "));
+
+                    if (!aliases.trim().isEmpty()) {
+                        builder.addField(EmoteReference.FORK.toHeaderString() + "Aliases", aliases, false);
+                    }
+                }
+
+                ctx.send(builder.build(),
+                        ActionRow.of(
+                                Button.link("https://www.mantaro.site/mantaro-wiki", "Check the wiki!"),
+                                Button.link("https://support.mantaro.site", "Get support here")
+                        )
+                );
+            }
+        }
     }
 
     private static void buildHelpSlash(SlashContext ctx) {
@@ -489,7 +485,7 @@ public class HelpCmd {
         );
     }
 
-    private void buildHelp(Context ctx, CommandCategory category) {
+    private static void buildHelp(TextContext ctx, CommandCategory category) {
         var dbGuild = ctx.getDBGuild();
         var dbUser = ctx.getDBUser();
         var languageContext = ctx.getLanguageContext();
