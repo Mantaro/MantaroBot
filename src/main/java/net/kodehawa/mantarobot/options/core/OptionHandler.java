@@ -18,7 +18,6 @@
 package net.kodehawa.mantarobot.options.core;
 
 import net.kodehawa.mantarobot.core.command.TextContext;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;

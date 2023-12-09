@@ -28,22 +28,20 @@ import net.dv8tion.jda.api.utils.SplitUtil;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.TextCommand;
 import net.kodehawa.mantarobot.core.command.TextContext;
+import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
+import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
+import net.kodehawa.mantarobot.core.command.helpers.HelpContent;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.command.meta.Alias;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Description;
 import net.kodehawa.mantarobot.core.command.meta.Help;
+import net.kodehawa.mantarobot.core.command.meta.Module;
 import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.meta.Options;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
-import net.kodehawa.mantarobot.core.command.meta.Module;
-import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
-import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
-import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
-import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
-import net.kodehawa.mantarobot.core.command.helpers.HelpContent;
-import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -350,52 +348,6 @@ public class HelpCmd {
                             .map(entry -> "`%s` - *%s*".formatted(entry.name(), entry.description()))
                             .collect(Collectors.joining("\n")), false
                     );
-                }
-
-                // Ensure sub-commands show in help.
-                // Only god shall help me now with all of this casting lol.
-                if (command instanceof AliasCommand aliasCommand) {
-                    command = aliasCommand.getCommand();
-                }
-
-                if (command instanceof ITreeCommand treeCommand) {
-                    var subCommands =
-                            treeCommand.getSubCommands()
-                                    .entrySet()
-                                    .stream()
-                                    .sorted(Comparator.comparingInt(a ->
-                                            a.getValue().description() == null ? 0 : a.getValue().description().length())
-                                    ).collect(
-                                            Collectors.toMap(
-                                                    Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new
-                                            )
-                                    );
-
-                    var stringBuilder = new StringBuilder();
-
-                    for (var inners : subCommands.entrySet()) {
-                        var name = inners.getKey();
-                        var inner = inners.getValue();
-                        if (inner.isChild()) {
-                            continue;
-                        }
-
-                        if (inner.description() != null) {
-                            stringBuilder.append("""
-                                        %s`%s%s` - %s
-                                        """.formatted(BLUE_SMALL_MARKER, ctx.getConfig().prefix[0] + content + " ", name, inner.description())
-                            );
-                        }
-                    }
-
-                    if (!stringBuilder.isEmpty()) {
-                        var value = stringBuilder.toString();
-                        if (value.length() > 1024) {
-                            value = languageContext.get("commands.help.too_long");
-                        }
-
-                        builder.addField(EmoteReference.ZAP.toHeaderString() + "Sub-commands", value, false);
-                    }
                 }
 
                 //Known command aliases.

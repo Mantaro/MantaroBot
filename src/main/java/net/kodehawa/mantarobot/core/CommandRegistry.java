@@ -35,10 +35,10 @@ import net.kodehawa.mantarobot.core.command.slash.InteractionContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.Command;
 import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
 import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
+import net.kodehawa.mantarobot.core.modules.commands.Context;
 import net.kodehawa.mantarobot.core.command.helpers.HelpContent;
 import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
@@ -107,7 +107,9 @@ public class CommandRegistry {
 
         if (command == null) {
             // We will create a proper I18nContext once the custom command goes through, if it does. We don't need it otherwise.
-            CustomCmds.handle(prefix, cmdName, new Context(event, new I18nContext(), content, isMention), dbGuild, content);
+            CustomCmds.handle(prefix, cmdName, new TextContext(event,
+                    new I18nContext(),
+                    event.getMessage().getContentRaw().substring(prefix.length()), isMention), dbGuild, content);
             return;
         }
 
@@ -217,12 +219,10 @@ public class CommandRegistry {
         renewPremiumKey(managedDatabase, author, dbUser, dbGuild);
 
         // Used a command on the new system?
-        // sort-of-fix: remove if statement when we port all commands
-        boolean executedNew;
         try {
-            executedNew = newCommands.execute(new TextContext(event,
+            newCommands.execute(new TextContext(event,
                     new I18nContext(dbGuild, dbUser),
-                    event.getMessage().getContentRaw().substring(prefix.length()))
+                    event.getMessage().getContentRaw().substring(prefix.length()), isMention)
             );
         } catch (ArgumentParseError e) {
             if (e.getMessage() != null) {
@@ -235,10 +235,6 @@ public class CommandRegistry {
             }
 
             return;
-        }
-
-        if (!executedNew) {
-            cmd.run(new Context(event, new I18nContext(dbGuild, dbUser), cmdName, content, isMention), cmdName, content);
         }
 
         commandLog.debug("Command: {}, User: {} ({}), Guild: {}, Channel: {}, Message: {}" ,

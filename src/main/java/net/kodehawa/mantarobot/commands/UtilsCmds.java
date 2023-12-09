@@ -289,6 +289,7 @@ public class UtilsCmds {
         }
     }
 
+    @Category(CommandCategory.UTILS)
     @Description("Shows a bunch of things related to Mantaro's wiki.")
     public static class Wiki extends TextCommand {
         @Override

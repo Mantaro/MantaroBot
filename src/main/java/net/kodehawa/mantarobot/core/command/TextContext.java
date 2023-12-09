@@ -23,6 +23,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.SelfUser;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.attribute.IAgeRestrictedChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
@@ -60,6 +61,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -70,18 +72,20 @@ public class TextContext implements IContext {
     private static final StringSplitter SPLITTER = new StringSplitter();
 
     private final MessageReceivedEvent event;
-    private final I18nContext i18n;
+    private I18nContext i18n;
     private final Arguments args;
     private String customContent; // opts moment
+    private boolean isMentionPrefix;
 
-    private TextContext(@Nonnull MessageReceivedEvent event, @Nonnull I18nContext i18n, @Nonnull Arguments args) {
+    private TextContext(@Nonnull MessageReceivedEvent event, @Nonnull I18nContext i18n, @Nonnull Arguments args, boolean isMentionPrefix) {
         this.event = event;
         this.i18n = i18n;
         this.args = args;
+        this.isMentionPrefix = isMentionPrefix;
     }
 
-    public TextContext(@Nonnull MessageReceivedEvent event, @Nonnull I18nContext i18n, @Nonnull String contentAfterPrefix) {
-        this(event, i18n, new Arguments(SPLITTER.split(contentAfterPrefix), 0));
+    public TextContext(@Nonnull MessageReceivedEvent event, @Nonnull I18nContext i18n, @Nonnull String contentAfterPrefix, boolean isMentionPrefix) {
+        this(event, i18n, new Arguments(SPLITTER.split(contentAfterPrefix), 0), isMentionPrefix);
     }
 
     public Arguments arguments() {
@@ -89,13 +93,12 @@ public class TextContext implements IContext {
     }
 
     public TextContext snapshot() {
-        return new TextContext(event, i18n, args.snapshot());
+        return new TextContext(event, i18n, args.snapshot(), isMentionPrefix);
     }
 
     public MessageReceivedEvent getEvent() {
         return event;
     }
-
 
     /**
      * Attempts to parse an argument with the provided {@link net.kodehawa.mantarobot.core.command.argument.Parser parser}.
@@ -574,16 +577,32 @@ public class TextContext implements IContext {
     }
 
     public List<Member> getMentionedMembers() {
-        return getEvent().getMessage().getMentions().getMembers();
+        var members = getEvent().getMessage().getMentions().getMembers();
+        if (isMentionPrefix) {
+            var mutable = new LinkedList<>(members);
+            return mutable.subList(1, mutable.size());
+        }
+
+        return members;
     }
 
     public List<User> getMentionedUsers() {
-        return getEvent().getMessage().getMentions().getUsers();
+        var users = getEvent().getMessage().getMentions().getUsers();
+        if (isMentionPrefix) {
+            var mutable = new LinkedList<>(users);
+            return mutable.subList(1, mutable.size());
+        }
+
+        return users;
     }
 
     @Override
     public I18nContext getLanguageContext() {
         return i18n;
+    }
+
+    public void setLanguageContext(I18nContext languageContext) {
+        this.i18n = languageContext;
     }
 
     public I18nContext getGuildLanguageContext() {
@@ -609,5 +628,26 @@ public class TextContext implements IContext {
      */
     public String getCustomContent() {
         return this.customContent;
+    }
+
+    /**
+     * Get all the content in a message.
+     * @return all the content in a message, including new lines, or empty if none.
+     */
+    public String getContent() {
+         var content = tryArgument(Parsers.remainingContent());
+        return content.map(String::trim).orElse("");
+    }
+
+    public boolean isChannelNSFW() {
+        if (getChannel() instanceof IAgeRestrictedChannel txtChannel) {
+            return txtChannel.isNSFW();
+        }
+
+        return true;
+    }
+
+    public boolean isMentionPrefix() {
+        return isMentionPrefix;
     }
 }

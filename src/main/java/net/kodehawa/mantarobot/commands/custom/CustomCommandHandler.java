@@ -27,7 +27,7 @@ import net.kodehawa.mantarobot.commands.custom.legacy.ConditionalCustoms;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.commands.custom.v3.CCv3;
 import net.kodehawa.mantarobot.commands.custom.v3.Parser;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
+import net.kodehawa.mantarobot.core.command.TextContext;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -45,7 +45,7 @@ public class CustomCommandHandler {
     private static final Pattern filtered = Pattern.compile("([a-zA-Z0-9]{24}\\.[a-zA-Z0-9]{6}\\.[a-zA-Z0-9_\\-])\\w+");
     private static final Pattern escape = Pattern.compile("\\\\");
     private final String args;
-    private final Context ctx;
+    private final TextContext ctx;
     private final String prefixUsed;
     private String response;
 
@@ -112,11 +112,11 @@ public class CustomCommandHandler {
         });
     }
 
-    public CustomCommandHandler(String prefixUsed, Context ctx, String response) {
+    public CustomCommandHandler(String prefixUsed, TextContext ctx, String response) {
         this(prefixUsed, ctx, response, "");
     }
 
-    public CustomCommandHandler(String prefixUsed, Context ctx, String response, String args) {
+    public CustomCommandHandler(String prefixUsed, TextContext ctx, String response, String args) {
         this.ctx = ctx;
         this.response = response;
         this.args = args;
@@ -207,6 +207,6 @@ public class CustomCommandHandler {
 
     @SuppressWarnings("unused")
     private interface Func {
-        void handle(Context ctx, String value, String args);
+        void handle(TextContext ctx, String value, String args);
     }
 }

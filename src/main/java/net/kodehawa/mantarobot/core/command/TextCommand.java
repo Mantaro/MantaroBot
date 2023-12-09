@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 // common superclass for either commands or options
 public abstract class TextCommand extends AnnotatedCommand<TextContext> {
@@ -57,6 +58,10 @@ public abstract class TextCommand extends AnnotatedCommand<TextContext> {
 
     @Override
     public final void execute(TextContext ctx) {
+        if (!getPredicate().test(ctx)) {
+            return;
+        }
+
         var args = ctx.arguments();
         if (args.hasNext()) {
             var name = args.next().getValue().toLowerCase();
@@ -71,6 +76,10 @@ public abstract class TextCommand extends AnnotatedCommand<TextContext> {
             args.back();
         }
         process(ctx);
+    }
+
+    public Predicate<TextContext> getPredicate() {
+        return context -> true;
     }
 
     void registerParent(TextCommand parent) {
