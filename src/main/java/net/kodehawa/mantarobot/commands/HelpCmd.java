@@ -42,6 +42,7 @@ import net.kodehawa.mantarobot.core.command.meta.Options;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
+import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -348,6 +349,12 @@ public class HelpCmd {
                             .map(entry -> "`%s` - *%s*".formatted(entry.name(), entry.description()))
                             .collect(Collectors.joining("\n")), false
                     );
+                }
+
+                // Ensure sub-commands show in help.
+                // Only god shall help me now with all of this casting lol.
+                if (command instanceof AliasCommand aliasCommand) {
+                    command = aliasCommand.getCommand();
                 }
 
                 //Known command aliases.
