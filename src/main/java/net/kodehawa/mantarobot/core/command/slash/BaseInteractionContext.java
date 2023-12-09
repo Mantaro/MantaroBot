@@ -535,11 +535,6 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
         return managedDatabase.getMantaroData();
     }
 
-    @Override
-    public List<Member> getMentionedMembers() {
-        throw new UnsupportedOperationException("Cannot be used in a slash context -- please parse argument.");
-    }
-
     public Marriage getMarriage(MongoUser userData) {
         return MantaroData.db().getMarriage(userData.getMarriageId());
     }

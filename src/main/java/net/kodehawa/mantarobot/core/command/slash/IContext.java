@@ -61,7 +61,6 @@ public interface IContext {
     void sendFormat(String message, Object... format);
     void sendFormatStripped(String message, Object... format);
     void sendFormat(String message, Collection<ActionRow> actionRow, Object... format);
-    List<Member> getMentionedMembers();
     ManagedDatabase db();
     Player getPlayer();
     MongoUser getDBUser();

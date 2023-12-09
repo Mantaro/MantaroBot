@@ -20,7 +20,6 @@ package net.kodehawa.mantarobot.core.modules.commands;
 import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
 import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
 import net.kodehawa.mantarobot.core.command.helpers.HelpContent;
-import net.kodehawa.mantarobot.options.core.Option;
 
 import java.util.List;
 
@@ -47,8 +46,6 @@ public interface Command {
     void run(Context context, String commandName, String content);
 
     HelpContent help();
-
-    Command addOption(String call, Option option);
 
     List<String> getAliases();
 

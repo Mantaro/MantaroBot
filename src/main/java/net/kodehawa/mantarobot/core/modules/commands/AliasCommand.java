@@ -20,7 +20,6 @@ package net.kodehawa.mantarobot.core.modules.commands;
 import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
 import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
 import net.kodehawa.mantarobot.core.command.helpers.HelpContent;
-import net.kodehawa.mantarobot.options.core.Option;
 
 import java.util.List;
 
@@ -64,12 +63,6 @@ public class AliasCommand implements Command {
     @Override
     public HelpContent help() {
         return command.help();
-    }
-
-    @Override
-    public Command addOption(String call, Option option) {
-        Option.addOption(call, option);
-        return this;
     }
 
     @Override

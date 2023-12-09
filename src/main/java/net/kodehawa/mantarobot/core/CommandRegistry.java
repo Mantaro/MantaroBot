@@ -46,7 +46,6 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.MongoGuild;
 import net.kodehawa.mantarobot.db.entities.MongoUser;
-import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimiter;
@@ -623,12 +622,6 @@ public class CommandRegistry {
         @Override
         public HelpContent help() {
             return c.getHelp();
-        }
-
-        @Override
-        public Command addOption(String call, Option option) {
-            Option.addOption(call, option);
-            return this;
         }
 
         @Override
