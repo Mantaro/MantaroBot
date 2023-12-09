@@ -31,7 +31,7 @@ import net.dv8tion.jda.api.utils.MarkdownSanitizer;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.IntIntObjectFunction;
 import net.kodehawa.mantarobot.utils.StringUtils;

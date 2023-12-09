@@ -15,7 +15,7 @@
  *
  */
 
-package net.kodehawa.mantarobot.core.modules.commands.base;
+package net.kodehawa.mantarobot.core.command.helpers;
 
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;

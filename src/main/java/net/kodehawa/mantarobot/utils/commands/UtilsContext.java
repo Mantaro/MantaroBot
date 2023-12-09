@@ -24,7 +24,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 
 public class UtilsContext {
     private final Guild guild;

@@ -23,7 +23,7 @@ import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
 import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.MongoUser;
 import net.kodehawa.mantarobot.db.entities.Player;

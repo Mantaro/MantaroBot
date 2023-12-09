@@ -1,14 +1,14 @@
 package net.kodehawa.mantarobot.core.command;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
+import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
+import net.kodehawa.mantarobot.core.command.helpers.HelpContent;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Help;
 import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.meta.Permission;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 
 import java.util.Arrays;
 

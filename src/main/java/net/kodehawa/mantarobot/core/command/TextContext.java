@@ -38,7 +38,7 @@ import net.kodehawa.mantarobot.core.command.argument.Parser;
 import net.kodehawa.mantarobot.core.command.argument.Parsers;
 import net.kodehawa.mantarobot.core.command.argument.split.StringSplitter;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;

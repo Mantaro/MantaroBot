@@ -28,7 +28,7 @@ import net.kodehawa.mantarobot.core.command.meta.Alias;
 import net.kodehawa.mantarobot.core.command.meta.Description;
 import net.kodehawa.mantarobot.core.command.meta.Help;
 import net.kodehawa.mantarobot.core.command.meta.Name;
-import net.kodehawa.mantarobot.core.modules.Module;
+import net.kodehawa.mantarobot.core.command.meta.Module;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.utils.StringUtils;

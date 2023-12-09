@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.interactions.AutoCompleteQuery;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.I18n;
 
 import java.util.List;

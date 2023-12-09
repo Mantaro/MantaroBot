@@ -18,10 +18,10 @@
 package net.kodehawa.mantarobot.core.modules.commands;
 
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
+import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
+import net.kodehawa.mantarobot.core.command.helpers.HelpContent;
 import net.kodehawa.mantarobot.options.core.Option;
 
 import java.util.List;

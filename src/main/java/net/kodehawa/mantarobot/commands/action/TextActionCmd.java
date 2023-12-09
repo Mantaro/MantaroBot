@@ -19,8 +19,8 @@ package net.kodehawa.mantarobot.commands.action;
 
 import net.kodehawa.mantarobot.core.command.TextCommand;
 import net.kodehawa.mantarobot.core.command.TextContext;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
+import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
+import net.kodehawa.mantarobot.core.command.helpers.HelpContent;
 
 import java.util.List;
 import java.util.Random;

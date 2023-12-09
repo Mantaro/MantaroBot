@@ -17,7 +17,9 @@
 
 package net.kodehawa.mantarobot.core.modules.commands.base;
 
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
+import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
+import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
+import net.kodehawa.mantarobot.core.command.helpers.HelpContent;
 
 import java.util.ArrayList;
 import java.util.List;

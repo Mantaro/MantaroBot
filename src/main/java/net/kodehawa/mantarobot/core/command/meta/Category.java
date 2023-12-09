@@ -17,7 +17,7 @@
 
 package net.kodehawa.mantarobot.core.command.meta;
 
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
+import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

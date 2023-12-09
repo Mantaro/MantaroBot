@@ -18,10 +18,10 @@
 package net.kodehawa.mantarobot.core.modules.commands;
 
 import net.kodehawa.mantarobot.core.modules.commands.base.AssistedCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.base.InnerCommand;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 
 public abstract class SubCommand implements InnerCommand, AssistedCommand {
     public boolean child;

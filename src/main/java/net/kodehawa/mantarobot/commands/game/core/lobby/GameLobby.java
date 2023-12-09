@@ -21,7 +21,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 

@@ -25,6 +25,8 @@ import net.dv8tion.jda.api.utils.SplitUtil;
 import net.kodehawa.mantarobot.commands.utils.reminders.Reminder;
 import net.kodehawa.mantarobot.commands.utils.reminders.ReminderObject;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.TextCommand;
+import net.kodehawa.mantarobot.core.command.TextContext;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Defer;
 import net.kodehawa.mantarobot.core.command.meta.Description;
@@ -34,14 +36,9 @@ import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.meta.Options;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
-import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Command;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.core.command.meta.Module;
+import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
@@ -68,6 +65,7 @@ public class UtilsCmds {
     public void register(CommandRegistry cr) {
         cr.registerSlash(Time.class);
         cr.registerSlash(RemindMe.class);
+        cr.register(Wiki.class);
     }
 
     @Description("Reminds you of something.")
@@ -291,64 +289,102 @@ public class UtilsCmds {
         }
     }
 
-    @Subscribe
-    public void wiki(CommandRegistry registry) {
-        registry.register("wiki", new TreeCommand(CommandCategory.UTILS) {
-            @SuppressWarnings("unused")
-            @Override
-            public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(Context ctx, I18nContext languageContext, String content) {
-                        ctx.send(EmoteReference.OK + "**For Mantaro's documentation please visit:** https://www.mantaro.site/mantaro-wiki");
-                    }
-                };
-            }
+    @Description("Shows a bunch of things related to Mantaro's wiki.")
+    public static class Wiki extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            ctx.send(EmoteReference.OK + "**For Mantaro's documentation please visit:** https://www.mantaro.site/mantaro-wiki");
+        }
 
+        public static class Opts extends TextCommand {
             @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Shows a bunch of things related to Mantaro's wiki.")
-                        .build();
-            } // addSubCommand meme incoming...
-        }.addSubCommand("opts", (ctx, s) ->
-                ctx.send(EmoteReference.OK + "**For Mantaro's documentation on `~>opts` and general bot options please visit:** " +
-                        "https://www.mantaro.site/mantaro-wiki/basics/server-configuration"))
-                .addSubCommand("custom", (ctx, s) ->
-                        ctx.send(EmoteReference.OK + "**For Mantaro's documentation on custom commands please visit:** " +
-                                "https://www.mantaro.site/mantaro-wiki/guides/custom-commands"))
-                .addSubCommand("modifiers", (ctx, s) ->
-                        ctx.send(EmoteReference.OK + "**For Mantaro's documentation in custom commands modifiers please visit:** " +
-                                "https://www.mantaro.site/mantaro-wiki/guides/modifiers"))
-                .addSubCommand("commands", (ctx, s) ->
-                        ctx.send(EmoteReference.OK + "**For Mantaro's documentation on commands and usage please visit:** " +
-                                "https://www.mantaro.site/mantaro-wiki/commands/permissions and navigate the pages in the section."))
-                .addSubCommand("faq", (ctx, s) ->
-                        ctx.send(EmoteReference.OK + "**For Mantaro's FAQ please visit:** " +
-                                "https://www.mantaro.site/mantaro-wiki/basics/FAQ"))
-                .addSubCommand("badges", (ctx, s) ->
-                        ctx.send(EmoteReference.OK + "**For Mantaro's badge documentation please visit:**" +
-                                "https://www.mantaro.site/mantaro-wiki/currency/badges"))
-                .addSubCommand("tos", (ctx, s) ->
-                        ctx.send(EmoteReference.OK + "**For Mantaro's ToS please visit:** " +
-                                "https://www.mantaro.site/mantaro-wiki/legal/terms-of-service"))
-                .addSubCommand("usermessage", (ctx, s) ->
-                        ctx.send(EmoteReference.OK + "**For Mantaro's Welcome and Leave message tutorial please visit:** " +
-                                "https://www.mantaro.site/mantaro-wiki/guides/welcome-and-leave-messages"))
-                .addSubCommand("premium", (ctx, s) ->
-                        ctx.send(EmoteReference.OK + "**To see what Mantaro's Premium features offer please visit:** " +
-                                "https://www.mantaro.site/mantaro-wiki/basics/premium-perks"))
-                .addSubCommand("currency", (ctx, s) ->
-                        ctx.send(EmoteReference.OK + "**For a Currency guide, please visit:** " +
-                                "https://www.mantaro.site/mantaro-wiki/currency/101"))
-                .addSubCommand("items", (ctx, s) ->
-                        ctx.send(EmoteReference.OK + "**For a list of items, please visit:**" +
-                                "https://www.mantaro.site/mantaro-wiki/currency/items"))
-                .addSubCommand("overview", (ctx, s) ->
-                        ctx.send(EmoteReference.OK + "**For a feature overview, check:** https://mantaro.site/features.html"))
-                .addSubCommand("birthday", (ctx, s) ->
-                        ctx.send(EmoteReference.OK + "**For a guide on the birthday system, please visit:**" +
-                                "https://www.mantaro.site/mantaro-wiki/guides/birthday-announcer"))
-        );
+            protected void process(TextContext ctx) {
+                ctx.send(EmoteReference.OK + "**For Mantaro's documentation on `~>opts` and general bot options please visit:** https://www.mantaro.site/mantaro-wiki/basics/server-configuration");
+            }
+        }
+
+        public static class Custom extends TextCommand {
+            @Override
+            protected void process(TextContext ctx) {
+                ctx.send(EmoteReference.OK + "**For Mantaro's documentation on custom commands please visit:** https://www.mantaro.site/mantaro-wiki/guides/custom-commands");
+            }
+        }
+
+        public static class Modifiers extends TextCommand {
+            @Override
+            protected void process(TextContext ctx) {
+                ctx.send(EmoteReference.OK + "**For Mantaro's documentation in custom commands modifiers please visit:** https://www.mantaro.site/mantaro-wiki/guides/modifiers");
+            }
+        }
+
+        public static class Commands extends TextCommand {
+            @Override
+            protected void process(TextContext ctx) {
+                ctx.send(EmoteReference.OK + "**For Mantaro's documentation on commands and usage please visit:** https://www.mantaro.site/mantaro-wiki/commands/permissions and navigate the pages in the section.");
+            }
+        }
+
+        public static class Faq extends TextCommand {
+            @Override
+            protected void process(TextContext ctx) {
+                ctx.send(EmoteReference.OK + "**For Mantaro's FAQ please visit:** https://www.mantaro.site/mantaro-wiki/basics/FAQ");
+            }
+        }
+
+        public static class Badges extends TextCommand {
+            @Override
+            protected void process(TextContext ctx) {
+                ctx.send(EmoteReference.OK + "**For Mantaro's badge documentation please visit:** https://www.mantaro.site/mantaro-wiki/currency/badges");
+            }
+        }
+
+        public static class Tos extends TextCommand {
+            @Override
+            protected void process(TextContext ctx) {
+                ctx.send(EmoteReference.OK + "**For Mantaro's ToS please visit:** https://www.mantaro.site/mantaro-wiki/legal/terms-of-service");
+            }
+        }
+
+        public static class UserMessage extends TextCommand {
+            @Override
+            protected void process(TextContext ctx) {
+                ctx.send(EmoteReference.OK + "**For Mantaro's Welcome and Leave message tutorial please visit:** https://www.mantaro.site/mantaro-wiki/guides/welcome-and-leave-messages");
+            }
+        }
+
+        public static class Premium extends TextCommand {
+            @Override
+            protected void process(TextContext ctx) {
+                ctx.send(EmoteReference.OK + "**To see what Mantaro's Premium features offer please visit:** https://www.mantaro.site/mantaro-wiki/basics/premium-perks");
+            }
+        }
+
+        public static class Currency extends TextCommand {
+            @Override
+            protected void process(TextContext ctx) {
+                ctx.send(EmoteReference.OK + "**For a Currency guide, please visit:** https://www.mantaro.site/mantaro-wiki/currency/101");
+            }
+        }
+
+        public static class Items extends TextCommand {
+            @Override
+            protected void process(TextContext ctx) {
+                ctx.send(EmoteReference.OK + "**For a list of items, please visit:** https://www.mantaro.site/mantaro-wiki/currency/items");
+            }
+        }
+
+        public static class Overview extends TextCommand {
+            @Override
+            protected void process(TextContext ctx) {
+                ctx.send(EmoteReference.OK + "**For a feature overview, check:** https://mantaro.site/features.html");
+            }
+        }
+
+        public static class Birthday extends TextCommand {
+            @Override
+            protected void process(TextContext ctx) {
+                ctx.send(EmoteReference.OK + "**For a guide on the birthday system, please visit:** https://www.mantaro.site/mantaro-wiki/guides/birthday-announcer");
+            }
+        }
     }
 }

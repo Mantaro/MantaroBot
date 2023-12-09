@@ -27,7 +27,7 @@ import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.MantaroObject;

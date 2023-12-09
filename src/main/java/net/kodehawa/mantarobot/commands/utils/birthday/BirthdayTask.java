@@ -30,7 +30,7 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.Utils;

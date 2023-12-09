@@ -22,7 +22,7 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.annotations.ConfigName;
 import net.kodehawa.mantarobot.data.annotations.HiddenConfig;
 import okhttp3.MediaType;

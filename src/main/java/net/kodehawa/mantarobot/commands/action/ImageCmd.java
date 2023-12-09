@@ -21,10 +21,8 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.core.command.TextCommand;
 import net.kodehawa.mantarobot.core.command.TextContext;
-import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
+import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
+import net.kodehawa.mantarobot.core.command.helpers.HelpContent;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Collections;

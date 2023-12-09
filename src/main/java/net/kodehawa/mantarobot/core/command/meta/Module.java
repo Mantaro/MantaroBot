@@ -15,7 +15,7 @@
  *
  */
 
-package net.kodehawa.mantarobot.core.modules;
+package net.kodehawa.mantarobot.core.command.meta;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -15,7 +15,7 @@
  *
  */
 
-package net.kodehawa.mantarobot.core.modules.commands.help;
+package net.kodehawa.mantarobot.core.command.helpers;
 
 import net.kodehawa.mantarobot.core.command.meta.Help;
 

@@ -32,7 +32,7 @@ import net.dv8tion.jda.api.entities.channel.concrete.StageChannel;
 import net.kodehawa.mantarobot.commands.music.requester.AudioLoader;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Lazy;

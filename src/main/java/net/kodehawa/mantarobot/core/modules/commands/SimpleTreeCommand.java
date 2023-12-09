@@ -19,11 +19,11 @@ package net.kodehawa.mantarobot.core.modules.commands;
 
 import net.kodehawa.mantarobot.core.modules.commands.base.AbstractCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
+import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.HashMap;

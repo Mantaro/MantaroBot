@@ -17,8 +17,8 @@
 
 package net.kodehawa.mantarobot.core.command;
 
+import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
 import net.kodehawa.mantarobot.core.command.meta.Alias;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 
 import java.util.Arrays;
 import java.util.HashMap;

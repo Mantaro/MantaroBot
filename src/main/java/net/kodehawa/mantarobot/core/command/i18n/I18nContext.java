@@ -15,7 +15,7 @@
  *
  */
 
-package net.kodehawa.mantarobot.core.modules.commands.i18n;
+package net.kodehawa.mantarobot.core.command.i18n;
 
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.db.entities.MongoGuild;
