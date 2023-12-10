@@ -248,8 +248,8 @@ public class GambleCmds {
             var moneyToUse = ctx.tryArgument(Parsers.lenientInt());
 
             // This is stupid. Like, really, pretty stupid.
-            var ticket = ctx.tryArgument(Parsers.string());
-            if (ticket.isPresent() && ticket.get().equalsIgnoreCase("-useticket")) {
+            var ticket = ctx.tryArgument(Parsers.matching("^-useticket$"));
+            if (ticket.isPresent()) {
                 if (!player.containsItem(ItemReference.SLOT_COIN)) {
                     ctx.sendLocalized("commands.slots.errors.no_tickets", EmoteReference.SAD);
                     return;
@@ -263,8 +263,8 @@ public class GambleCmds {
                 return;
             }
 
-            var amountOptional = ctx.tryArgument(Parsers.string());
-            if (amountOptional.isPresent() && amountOptional.get().equalsIgnoreCase("-amount")) {
+            var amountOptional = ctx.tryArgument(Parsers.matching("^-amount$"));
+            if (amountOptional.isPresent()) {
                 if (!coinSelect) {
                     ctx.sendLocalized("commands.slots.errors.amount_not_ticket", EmoteReference.ERROR);
                     return;
