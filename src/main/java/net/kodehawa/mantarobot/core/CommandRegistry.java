@@ -26,19 +26,19 @@ import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEven
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.CustomCmds;
 import net.kodehawa.mantarobot.core.command.CommandManager;
-import net.kodehawa.mantarobot.core.command.TextCommand;
-import net.kodehawa.mantarobot.core.command.TextContext;
+import net.kodehawa.mantarobot.core.command.text.TextCommand;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
 import net.kodehawa.mantarobot.core.command.argument.ArgumentParseError;
 import net.kodehawa.mantarobot.core.command.slash.AutocompleteContext;
 import net.kodehawa.mantarobot.core.command.slash.ContextCommand;
+import net.kodehawa.mantarobot.core.command.helpers.IContext;
 import net.kodehawa.mantarobot.core.command.slash.InteractionContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
-import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
-import net.kodehawa.mantarobot.core.modules.commands.Command;
+import net.kodehawa.mantarobot.core.command.compat.AliasCommand;
+import net.kodehawa.mantarobot.core.command.compat.Command;
 import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
 import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
-import net.kodehawa.mantarobot.core.modules.commands.Context;
 import net.kodehawa.mantarobot.core.command.helpers.HelpContent;
 import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
@@ -615,7 +615,7 @@ public class CommandRegistry {
         }
 
         @Override
-        public void run(Context context, String commandName, String content) {
+        public void run(IContext context, String commandName, String content) {
             throw new UnsupportedOperationException();
         }
 

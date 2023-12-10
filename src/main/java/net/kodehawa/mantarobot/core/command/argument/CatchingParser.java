@@ -17,7 +17,7 @@
 
 package net.kodehawa.mantarobot.core.command.argument;
 
-import net.kodehawa.mantarobot.core.command.TextContext;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;

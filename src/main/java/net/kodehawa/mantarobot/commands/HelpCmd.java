@@ -26,12 +26,11 @@ import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.SplitUtil;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.TextCommand;
-import net.kodehawa.mantarobot.core.command.TextContext;
+import net.kodehawa.mantarobot.core.command.text.TextCommand;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
 import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
 import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
 import net.kodehawa.mantarobot.core.command.helpers.HelpContent;
-import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.command.meta.Alias;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Description;
@@ -42,9 +41,8 @@ import net.kodehawa.mantarobot.core.command.meta.Options;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
-import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
+import net.kodehawa.mantarobot.core.command.compat.AliasCommand;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
@@ -81,7 +79,6 @@ public class HelpCmd {
     public void register(CommandRegistry cr) {
         cr.registerSlash(HelpCommand.class);
         cr.register(HelpText.class);
-        cr.register(Slash.class);
     }
 
     @Name("help")

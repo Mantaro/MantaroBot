@@ -31,7 +31,7 @@ import net.kodehawa.mantarobot.commands.currency.item.special.tools.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Wrench;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.command.slash.AutocompleteContext;
-import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.helpers.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;

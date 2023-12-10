@@ -15,11 +15,12 @@
  *
  */
 
-package net.kodehawa.mantarobot.core.modules.commands;
+package net.kodehawa.mantarobot.core.command.compat;
 
 import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
 import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
 import net.kodehawa.mantarobot.core.command.helpers.HelpContent;
+import net.kodehawa.mantarobot.core.command.helpers.IContext;
 
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class AliasCommand implements Command {
     }
 
     @Override
-    public void run(Context context, String ignored, String content) {
+    public void run(IContext context, String ignored, String content) {
         command.run(context, commandName, content);
     }
 

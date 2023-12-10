@@ -27,7 +27,7 @@ import net.kodehawa.mantarobot.commands.custom.legacy.ConditionalCustoms;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.commands.custom.v3.CCv3;
 import net.kodehawa.mantarobot.commands.custom.v3.Parser;
-import net.kodehawa.mantarobot.core.command.TextContext;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;

@@ -25,7 +25,7 @@ import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.helpers.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ButtonOperation;

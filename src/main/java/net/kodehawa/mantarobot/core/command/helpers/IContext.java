@@ -15,7 +15,7 @@
  *
  */
 
-package net.kodehawa.mantarobot.core.command.slash;
+package net.kodehawa.mantarobot.core.command.helpers;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -38,7 +38,6 @@ import net.kodehawa.mantarobot.utils.commands.UtilsContext;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimitContext;
 
 import java.util.Collection;
-import java.util.List;
 
 @SuppressWarnings("unused")
 public interface IContext {

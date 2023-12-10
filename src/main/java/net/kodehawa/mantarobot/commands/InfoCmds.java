@@ -32,7 +32,7 @@ import net.kodehawa.mantarobot.core.command.meta.Help;
 import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.meta.Options;
 import net.kodehawa.mantarobot.core.command.slash.ContextCommand;
-import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.helpers.IContext;
 import net.kodehawa.mantarobot.core.command.slash.InteractionContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;

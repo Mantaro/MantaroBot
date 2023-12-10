@@ -18,7 +18,7 @@
 package net.kodehawa.mantarobot.commands.custom.v3.interpreter;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.core.command.TextContext;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
 
 import java.util.HashMap;
 import java.util.Map;

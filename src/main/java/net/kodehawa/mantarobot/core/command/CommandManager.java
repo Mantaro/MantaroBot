@@ -23,6 +23,8 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.kodehawa.mantarobot.core.command.slash.ContextCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
+import net.kodehawa.mantarobot.core.command.text.TextCommand;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Modifier;

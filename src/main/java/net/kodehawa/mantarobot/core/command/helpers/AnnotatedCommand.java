@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.core.command;
+package net.kodehawa.mantarobot.core.command.helpers;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
@@ -8,7 +8,7 @@ import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Help;
 import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.meta.Permission;
-import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.helpers.IContext;
 
 import java.util.Arrays;
 

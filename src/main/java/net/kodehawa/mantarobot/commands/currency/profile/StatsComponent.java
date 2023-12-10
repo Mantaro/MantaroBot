@@ -21,7 +21,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.ProfileCmd;
 import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
-import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.helpers.IContext;
 import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.db.entities.MongoUser;
 import net.kodehawa.mantarobot.db.entities.Player;

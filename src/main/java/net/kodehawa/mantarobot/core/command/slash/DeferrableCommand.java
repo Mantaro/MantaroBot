@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.core.command.slash;
 
-import net.kodehawa.mantarobot.core.command.AnnotatedCommand;
+import net.kodehawa.mantarobot.core.command.helpers.AnnotatedCommand;
+import net.kodehawa.mantarobot.core.command.helpers.IContext;
 import net.kodehawa.mantarobot.core.command.meta.Defer;
 import net.kodehawa.mantarobot.core.command.meta.Ephemeral;
 import net.kodehawa.mantarobot.core.command.meta.ModalInteraction;

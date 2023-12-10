@@ -15,8 +15,9 @@
  *
  */
 
-package net.kodehawa.mantarobot.core.command;
+package net.kodehawa.mantarobot.core.command.text;
 
+import net.kodehawa.mantarobot.core.command.helpers.AnnotatedCommand;
 import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
 import net.kodehawa.mantarobot.core.command.meta.Alias;
 
@@ -82,7 +83,7 @@ public abstract class TextCommand extends AnnotatedCommand<TextContext> {
         return context -> true;
     }
 
-    void registerParent(TextCommand parent) {
+    public void registerParent(TextCommand parent) {
         this.parent = parent;
         parent.children.put(name, this);
         aliases.forEach(a -> parent.childrenAliases.put(a, name));

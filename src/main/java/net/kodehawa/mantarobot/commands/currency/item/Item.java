@@ -17,7 +17,7 @@
 
 package net.kodehawa.mantarobot.commands.currency.item;
 
-import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.helpers.IContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -28,7 +28,7 @@ import net.kodehawa.mantarobot.commands.custom.v3.ast.Node;
 import net.kodehawa.mantarobot.commands.custom.v3.interpreter.InterpreterContext;
 import net.kodehawa.mantarobot.commands.custom.v3.interpreter.InterpreterVisitor;
 import net.kodehawa.mantarobot.commands.custom.v3.interpreter.Operation;
-import net.kodehawa.mantarobot.core.command.TextContext;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;

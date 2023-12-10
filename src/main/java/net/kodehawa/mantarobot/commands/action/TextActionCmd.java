@@ -17,8 +17,8 @@
 
 package net.kodehawa.mantarobot.commands.action;
 
-import net.kodehawa.mantarobot.core.command.TextCommand;
-import net.kodehawa.mantarobot.core.command.TextContext;
+import net.kodehawa.mantarobot.core.command.text.TextCommand;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
 import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
 import net.kodehawa.mantarobot.core.command.helpers.HelpContent;
 

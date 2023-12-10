@@ -18,7 +18,7 @@
 package net.kodehawa.mantarobot.utils.commands.ratelimit;
 
 import net.dv8tion.jda.api.entities.User;
-import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.helpers.IContext;
 import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;

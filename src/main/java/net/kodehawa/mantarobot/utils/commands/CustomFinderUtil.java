@@ -21,7 +21,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.utils.concurrent.Task;
 import net.dv8tion.jda.internal.utils.concurrent.task.GatewayTask;
-import net.kodehawa.mantarobot.core.command.TextContext;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
 import net.kodehawa.mantarobot.utils.Utils;
 
 import java.util.ArrayList;
