@@ -400,7 +400,7 @@ public class MarketCmd {
     public static class SellText extends TextCommand {
         @Override
         protected void process(TextContext ctx) {
-            var amount = ctx.tryArgument(Parsers.strictInt());
+            var amount = ctx.tryArgument(Parsers.rangeStrict(1, 5000));
             var max = ctx.tryArgument(Parsers.matching("^max$"));
             var isMax = max.isPresent();
             var itemName = ctx.takeAllString();
@@ -435,7 +435,7 @@ public class MarketCmd {
     public static class BuyText extends TextCommand {
         @Override
         protected void process(TextContext ctx) {
-            var amount = ctx.tryArgument(Parsers.strictInt());
+            var amount = ctx.tryArgument(Parsers.rangeStrict(1, 5000));
             var max = ctx.tryArgument(Parsers.matching("^max$"));
             var isMax = max.isPresent();
             var itemName = ctx.takeAllString();
@@ -469,7 +469,7 @@ public class MarketCmd {
     public static class DumpText extends TextCommand {
         @Override
         protected void process(TextContext ctx) {
-            var amount = ctx.tryArgument(Parsers.strictInt());
+            var amount = ctx.tryArgument(Parsers.rangeStrict(1, 5000));
             var max = ctx.tryArgument(Parsers.matching("^max$"));
             var isMax = max.isPresent();
             var itemName = ctx.takeAllString();
