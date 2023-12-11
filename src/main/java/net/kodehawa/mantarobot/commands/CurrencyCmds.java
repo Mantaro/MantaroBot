@@ -471,7 +471,7 @@ public class CurrencyCmds {
     @Help(description = """
                         Uses an item.
                         You need to have the item to use it, and the item has to be marked as *interactive*.
-                        """, usage = "`~>useitem <item> [-amount <number>]` - Uses the specified item",
+                        """, usage = "`~>useitem <item> [<number>]` - Uses the specified item",
             parameters = {
                     @Help.Parameter(name = "item", description = "The item name or emoji. If the name contains spaces \"wrap it in quotes\""),
                     @Help.Parameter(name = "amount", description = "The amount of items you want to use. Only works with potions/buffs. The maximum is 15."),

@@ -247,8 +247,15 @@ public class GambleCmds {
             var stats = ctx.getPlayerStats(ctx.getAuthor());
             var moneyToUse = ctx.tryArgument(Parsers.lenientInt());
 
-            // This is stupid. Like, really, pretty stupid.
-            var ticket = ctx.tryArgument(Parsers.matching("^-useticket$"));
+            // Warn and bail out if the old arguments are used.
+            var ticketOld = ctx.tryArgument(Parsers.matching("^-useticket$"));
+            var amountOld = ctx.tryArgument(Parsers.matching("^-amount$"));
+            if(ticketOld.isPresent() || amountOld.isPresent()) {
+                ctx.sendLocalized("commands.slots.errors.new_syntax", EmoteReference.ERROR);
+                return;
+            }
+
+            var ticket = ctx.tryArgument(Parsers.matching("^useticket$"));
             if (ticket.isPresent()) {
                 if (!player.containsItem(ItemReference.SLOT_COIN)) {
                     ctx.sendLocalized("commands.slots.errors.no_tickets", EmoteReference.SAD);
@@ -256,26 +263,18 @@ public class GambleCmds {
                 }
 
                 coinSelect = true;
-            }
-
-            if (coinSelect && moneyToUse.isPresent()) {
-                ctx.sendLocalized("commands.slots.errors.tickets_and_credits", EmoteReference.ERROR);
-                return;
-            }
-
-            var amountOptional = ctx.tryArgument(Parsers.matching("^-amount$"));
-            if (amountOptional.isPresent()) {
-                if (!coinSelect) {
-                    ctx.sendLocalized("commands.slots.errors.amount_not_ticket", EmoteReference.ERROR);
-                    return;
-                }
-
                 var amount = ctx.argument(
                         Parsers.lenientInt(),
                         ctx.getLanguageContext().get("commands.slots.errors.no_amount").formatted(EmoteReference.ERROR),
                         ctx.getLanguageContext().get("general.invalid_number").formatted(EmoteReference.ERROR)
                 );
+
                 coinAmount = Math.abs(amount);
+            }
+
+            if (coinSelect && moneyToUse.isPresent()) {
+                ctx.sendLocalized("commands.slots.errors.tickets_and_credits", EmoteReference.ERROR);
+                return;
             }
 
             if (!coinSelect && moneyToUse.isPresent()) {

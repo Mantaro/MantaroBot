@@ -1824,7 +1824,8 @@
         "no_amount": "%1$sYou didn't specify the amount!",
         "no_valid_amount": "%1$sThat's not a valid amount of money! (Example of valid amounts: 1000, 1k, 14000)",
         "too_many_tickets": "%1$sYou're trying to use too many slot tickets. Maximum allowed is %2$d",
-        "tickets_and_credits": "%1$sYou can only use tickets or credits, not both."
+        "tickets_and_credits": "%1$sYou can only use tickets or credits, not both.",
+        "new_syntax": "%1$sYou don't need to use `-useticket` and `-amount` now, the new syntax for tickets now is `~>slots useticket <amount>, for example `~>slots useticket 2` to use two tickets."
       },
       "roll": "%1$s**You used %2$s and rolled the slot machine**\n",
       "win": "And you won **%1$,d** credits and got to keep what you bet (%2$,d credits)! Lucky!",
