@@ -137,7 +137,7 @@ public class DebugCmds {
             var uptime = node.getLong("uptime");
             var uptimeString = String.format(
                     "%s (%.2f lettuces, %.2f trusses)",
-                    Utils.formatDuration(ctx.getI18nContext(), uptime),
+                    Utils.formatDuration(ctx.getLanguageContext(), uptime),
                     uptime / (10 * 24 * 60 * 60 * 1000.0),
                     uptime / (44 * 24 * 60 * 60 * 1000.0)
             );
@@ -193,13 +193,13 @@ public class DebugCmds {
 
         @Override
         protected void process(SlashContext ctx) {
-            I18nContext languageContext = ctx.getI18nContext();
+            I18nContext languageContext = ctx.getLanguageContext();
             if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false))
                 return;
 
             ctx.getJDA().getRestPing().queue(ping -> ctx.reply(
                     String.format(
-                            Utils.getLocaleFromLanguage(ctx.getI18nContext()),
+                            Utils.getLocaleFromLanguage(ctx.getLanguageContext()),
                             languageContext.get("commands.ping.text"), EmoteReference.MEGA,
                             languageContext.get("commands.ping.display"),
                             ping, ctx.getJDA().getGatewayPing()

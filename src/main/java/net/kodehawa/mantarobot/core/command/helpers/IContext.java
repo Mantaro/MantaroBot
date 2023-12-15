@@ -18,6 +18,7 @@
 package net.kodehawa.mantarobot.core.command.helpers;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -28,6 +29,7 @@ import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
@@ -49,26 +51,34 @@ public interface IContext {
     Guild getGuild();
     GuildMessageChannel getChannel();
     Member getMember();
+    Member getSelfMember();
     User getAuthor();
+    User getSelfUser();
     RateLimitContext ratelimitContext();
     UtilsContext getUtilsContext();
     I18nContext getLanguageContext();
+
     void send(String s);
     void send(MessageCreateData message);
     void sendStripped(String s);
     void send(MessageEmbed e);
     void send(MessageEmbed e, ActionRow... actionRows);
-    Message sendResult(String s);
-    Message sendResult(MessageEmbed e);
     void sendLocalized(String s, Object... args);
     void sendLocalizedStripped(String s, Object... args);
     void sendFormat(String message, Object... format);
     void sendFormatStripped(String message, Object... format);
     void sendFormat(String message, Collection<ActionRow> actionRow, Object... format);
+    Message sendResult(String s);
+    Message sendResult(MessageEmbed e);
+
     ManagedDatabase db();
     ShardManager getShardManager();
     MantaroObject getMantaroData();
     Config getConfig();
+
+    default MantaroBot getBot() {
+        return MantaroBot.getInstance();
+    }
 
     default Player getPlayer() {
         return db().getPlayer(getAuthor());
@@ -110,6 +120,22 @@ public interface IContext {
         return db().getPlayerStats(member);
     }
 
+    default MongoUser getDBUser(Member member) {
+        return db().getUser(member);
+    }
+
+    default MongoUser getDBUser(String id) {
+        return db().getUser(id);
+    }
+
+    default Player getPlayer(Member member) {
+        return db().getPlayer(member);
+    }
+
+    default Player getPlayer(String id) {
+        return db().getPlayer(id);
+    }
+
     default Color getMemberColor(@NotNull Member member) {
         return member.getColor() == null ? Color.PINK : member.getColor();
     }
@@ -130,7 +156,7 @@ public interface IContext {
         return true;
     }
 
-    default EmbedBuilder baseEmbed(IContext ctx, String name, String image) {
+    default EmbedBuilder baseEmbed(@NotNull IContext ctx, String name, String image) {
         return new EmbedBuilder()
                 .setAuthor(name, null, image)
                 .setColor(ctx.getMember().getColor())

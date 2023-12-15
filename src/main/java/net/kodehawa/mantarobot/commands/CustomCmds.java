@@ -152,7 +152,7 @@ public class CustomCmds {
         try {
             new CustomCommandHandler(prefix, ctx, response, args).handle();
         } catch (SyntaxException e) {
-            ctx.sendStrippedLocalized("commands.custom.error_running_new", EmoteReference.ERROR, e.getMessage());
+            ctx.sendLocalizedStripped("commands.custom.error_running_new", EmoteReference.ERROR, e.getMessage());
         } catch (Exception e) {
             ctx.sendLocalized("commands.custom.error_running", EmoteReference.ERROR);
             e.printStackTrace();
@@ -831,9 +831,9 @@ public class CustomCmds {
                     // Note a year later: this still has to change, but maybe? Custom commands only run in a text context.
                     new CustomCommandHandler("", ctx, ctn).handle(true);
                 } catch (SyntaxException e) {
-                    ctx.sendStrippedLocalized("commands.custom.eval.new_error", EmoteReference.ERROR, e.getMessage());
+                    ctx.sendLocalizedStripped("commands.custom.eval.new_error", EmoteReference.ERROR, e.getMessage());
                 } catch (Exception e) {
-                    ctx.sendStrippedLocalized("commands.custom.eval.error",
+                    ctx.sendLocalizedStripped("commands.custom.eval.error",
                             EmoteReference.ERROR, e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")"
                     );
                 }

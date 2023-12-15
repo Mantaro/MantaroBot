@@ -23,7 +23,6 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.SelfUser;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.entities.channel.attribute.IAgeRestrictedChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
@@ -38,17 +37,12 @@ import net.kodehawa.mantarobot.core.command.argument.MarkedBlock;
 import net.kodehawa.mantarobot.core.command.argument.Parser;
 import net.kodehawa.mantarobot.core.command.argument.Parsers;
 import net.kodehawa.mantarobot.core.command.argument.split.StringSplitter;
-import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.command.helpers.IContext;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.MantaroObject;
-import net.kodehawa.mantarobot.db.entities.Marriage;
-import net.kodehawa.mantarobot.db.entities.MongoGuild;
-import net.kodehawa.mantarobot.db.entities.MongoUser;
-import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.PlayerStats;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.UtilsContext;
@@ -57,7 +51,6 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimitContext;
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -404,12 +397,6 @@ public class TextContext implements IContext {
                 .setComponents(actionRow).queue(success -> {}, Throwable::printStackTrace);
     }
 
-    public void sendStrippedLocalized(String localizedMessage, Object... args) {
-        getChannel().sendMessageFormat(i18n.get(localizedMessage), args)
-                .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
-                .queue();
-    }
-
     public User retrieveUserById(String id) {
         User user = null;
         try {
@@ -428,41 +415,17 @@ public class TextContext implements IContext {
         return user;
     }
 
-    public String getTagOrDisplay(User user) {
-        if (user.getGlobalName() != null) {
-            return user.getGlobalName();
-        } else {
-            return user.getAsTag();
-        }
-    }
-
-    public Member retrieveMemberById(Guild guild, String id, boolean update) {
-        Member member = null;
-        try {
-            member = guild.retrieveMemberById(id).useCache(true).complete();
-        } catch (Exception ignored) { }
-
-        return member;
-    }
-
-    public Member retrieveMemberById(String id, boolean update) {
-        Member member = null;
-        try {
-            member = getGuild().retrieveMemberById(id).useCache(update).complete();
-        } catch (Exception ignored) { }
-
-        return member;
-    }
-
     @Override
     public Member getMember() {
         return getMessage().getMember();
     }
 
+    @Override
     public SelfUser getSelfUser() {
         return getChannel().getJDA().getSelfUser();
     }
 
+    @Override
     public Member getSelfMember() {
         return getGuild().getSelfMember();
     }
@@ -484,26 +447,6 @@ public class TextContext implements IContext {
     @Override
     public Config getConfig() {
         return config;
-    }
-
-    public MongoUser getDBUser(Member member) {
-        return managedDatabase.getUser(member);
-    }
-
-    public MongoUser getDBUser(String id) {
-        return managedDatabase.getUser(id);
-    }
-
-    public Player getPlayer(Member member) {
-        return managedDatabase.getPlayer(member);
-    }
-
-    public Player getPlayer(String id) {
-        return managedDatabase.getPlayer(id);
-    }
-
-    public MantaroBot getBot() {
-        return MantaroBot.getInstance();
     }
 
     @Override

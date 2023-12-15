@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.entities.channel.attribute.IAgeRestrictedChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
@@ -14,7 +13,6 @@ import net.dv8tion.jda.api.interactions.modals.Modal;
 import net.dv8tion.jda.api.requests.restaction.WebhookMessageEditAction;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.command.helpers.IContext;
 import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
@@ -22,18 +20,14 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.MantaroObject;
-import net.kodehawa.mantarobot.db.entities.Marriage;
-import net.kodehawa.mantarobot.db.entities.MongoGuild;
-import net.kodehawa.mantarobot.db.entities.MongoUser;
-import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.PlayerStats;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.UtilsContext;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimitContext;
 import redis.clients.jedis.JedisPool;
 
-import java.awt.Color;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
 
 @SuppressWarnings("unused")
 public abstract class BaseInteractionContext<T extends GenericCommandInteractionEvent> implements IContext {
@@ -47,10 +41,6 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
     public BaseInteractionContext(T event, I18nContext i18n) {
         this.event = event;
         this.i18n = i18n;
-    }
-
-    public I18nContext getI18nContext() {
-        return i18n;
     }
 
     public String getName() {
@@ -98,10 +88,12 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
         return event.getGuild();
     }
 
+    @Override
     public User getSelfUser() {
         return event.getJDA().getSelfUser();
     }
 
+    @Override
     public Member getSelfMember() {
         return getGuild().getSelfMember();
     }
@@ -409,7 +401,7 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
 
     @Override
     public I18nContext getLanguageContext() {
-        return getI18nContext();
+        return i18n;
     }
 
     @Override
@@ -426,17 +418,23 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
         return getMantaroData().getBlackListedUsers().contains(id);
     }
 
-    public JedisPool getJedisPool() {
-        return MantaroData.getDefaultJedisPool();
-    }
-
-    public MantaroBot getBot() {
-        return MantaroBot.getInstance();
-    }
-
     @Override
     public UtilsContext getUtilsContext() {
         return new UtilsContext(getGuild(), getMember(), getChannel(), getLanguageContext(), event);
+    }
+
+    @Override
+    public ShardManager getShardManager() {
+        return getBot().getShardManager();
+    }
+
+    @Override
+    public MantaroObject getMantaroData() {
+        return managedDatabase.getMantaroData();
+    }
+
+    public JedisPool getJedisPool() {
+        return MantaroData.getDefaultJedisPool();
     }
 
     public User retrieveUserById(String id) {
@@ -445,32 +443,6 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
 
     public MantaroAudioManager getAudioManager() {
         return getBot().getAudioManager();
-    }
-
-    @Override
-    public ShardManager getShardManager() {
-        return getBot().getShardManager();
-    }
-
-    public MongoUser getDBUser(Member member) {
-        return managedDatabase.getUser(member);
-    }
-
-    public MongoUser getDBUser(String id) {
-        return managedDatabase.getUser(id);
-    }
-
-    public Player getPlayer(Member member) {
-        return managedDatabase.getPlayer(member);
-    }
-
-    public Player getPlayer(String id) {
-        return managedDatabase.getPlayer(id);
-    }
-
-    @Override
-    public MantaroObject getMantaroData() {
-        return managedDatabase.getMantaroData();
     }
 
     public void setForceEphemeral(boolean force) {

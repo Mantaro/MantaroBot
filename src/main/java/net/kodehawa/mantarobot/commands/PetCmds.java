@@ -254,7 +254,7 @@ public class PetCmds {
                         )
                         .addField(
                                 EmoteReference.ZAP.toHeaderString() + language.get("commands.pet.status.type"),
-                                pet.getType().getEmoji() + ctx.getI18nContext().get(pet.getType().getTranslationKey()), true
+                                pet.getType().getEmoji() + ctx.getLanguageContext().get(pet.getType().getTranslationKey()), true
                         )
                         .addField(
                                 EmoteReference.WRENCH.toHeaderString() + language.get("commands.pet.status.abilities"),
@@ -789,12 +789,12 @@ public class PetCmds {
 
                         if (petChoiceConfirmed == PetChoice.MARRIAGE) {
                             hook.editOriginal(lang.get("commands.pet.buy.success").formatted(
-                                    EmoteReference.POPPER, toBuy.getEmoji(), ctx.getI18nContext().get(toBuy.getTranslationKey()), finalName,
+                                    EmoteReference.POPPER, toBuy.getEmoji(), ctx.getLanguageContext().get(toBuy.getTranslationKey()), finalName,
                                     toBuy.getCost(), petChoiceConfirmed.getReadableName()
                             )).setComponents().queue();
                         } else {
                             hook.editOriginal(lang.get("commands.pet.buy.success_personal").formatted(
-                                    EmoteReference.POPPER, toBuy.getEmoji(), ctx.getI18nContext().get(toBuy.getTranslationKey()), finalName,
+                                    EmoteReference.POPPER, toBuy.getEmoji(), ctx.getLanguageContext().get(toBuy.getTranslationKey()), finalName,
                                     toBuy.getCost(), petChoiceConfirmed.getReadableName()
                             )).setComponents().queue();
                         }

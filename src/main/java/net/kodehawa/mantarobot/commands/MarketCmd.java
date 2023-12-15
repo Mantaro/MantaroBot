@@ -226,7 +226,7 @@ public class MarketCmd {
             protected void process(SlashContext ctx) {
                 var item = ctx.getOptionAsString("item");
                 if (item == null) {
-                    ctx.sendLocalized("commands.market.price.no_item", EmoteReference.ERROR);
+                    ctx.reply("commands.market.price.no_item", EmoteReference.ERROR);
                     return;
                 }
                 price(ctx, item);
