@@ -23,6 +23,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.attribute.IAgeRestrictedChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -31,12 +32,16 @@ import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.MantaroObject;
+import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.MongoGuild;
 import net.kodehawa.mantarobot.db.entities.MongoUser;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.PlayerStats;
 import net.kodehawa.mantarobot.utils.commands.UtilsContext;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimitContext;
+import org.jetbrains.annotations.NotNull;
 
+import java.awt.Color;
 import java.util.Collection;
 
 @SuppressWarnings("unused")
@@ -61,14 +66,69 @@ public interface IContext {
     void sendFormatStripped(String message, Object... format);
     void sendFormat(String message, Collection<ActionRow> actionRow, Object... format);
     ManagedDatabase db();
-    Player getPlayer();
-    MongoUser getDBUser();
-    MongoGuild getDBGuild();
-    Player getPlayer(User user);
-    MongoUser getDBUser(User user);
     ShardManager getShardManager();
     MantaroObject getMantaroData();
     Config getConfig();
+
+    default Player getPlayer() {
+        return db().getPlayer(getAuthor());
+    }
+
+    default Player getPlayer(User user) {
+        return db().getPlayer(user);
+    }
+
+    default MongoUser getDBUser() {
+        return db().getUser(getAuthor());
+    }
+
+    default MongoUser getDBUser(User user) {
+        return db().getUser(user);
+    }
+
+    default MongoGuild getDBGuild() {
+        return db().getGuild(getGuild());
+    }
+
+    default Marriage getMarriage(@NotNull MongoUser userData) {
+        return db().getMarriage(userData.getMarriageId());
+    }
+
+    default PlayerStats getPlayerStats() {
+        return db().getPlayerStats(getMember());
+    }
+
+    default PlayerStats getPlayerStats(String id) {
+        return db().getPlayerStats(id);
+    }
+
+    default PlayerStats getPlayerStats(User user) {
+        return db().getPlayerStats(user);
+    }
+
+    default PlayerStats getPlayerStats(Member member) {
+        return db().getPlayerStats(member);
+    }
+
+    default Color getMemberColor(@NotNull Member member) {
+        return member.getColor() == null ? Color.PINK : member.getColor();
+    }
+
+    default Color getMemberColor() {
+        return getMemberColor(getMember());
+    }
+
+    default I18nContext getGuildLanguageContext() {
+        return new I18nContext(getDBGuild(), null);
+    }
+
+    default boolean isChannelNSFW() {
+        if (getChannel() instanceof IAgeRestrictedChannel txtChannel) {
+            return txtChannel.isNSFW();
+        }
+
+        return true;
+    }
 
     default EmbedBuilder baseEmbed(IContext ctx, String name, String image) {
         return new EmbedBuilder()

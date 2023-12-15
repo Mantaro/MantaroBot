@@ -486,37 +486,12 @@ public class TextContext implements IContext {
         return config;
     }
 
-    @Override
-    public MongoGuild getDBGuild() {
-        return managedDatabase.getGuild(getGuild());
-    }
-
-    @Override
-    public MongoUser getDBUser() {
-        return managedDatabase.getUser(getAuthor());
-    }
-
-    @Override
-    public MongoUser getDBUser(User user) {
-        return managedDatabase.getUser(user);
-    }
-
     public MongoUser getDBUser(Member member) {
         return managedDatabase.getUser(member);
     }
 
     public MongoUser getDBUser(String id) {
         return managedDatabase.getUser(id);
-    }
-
-    @Override
-    public Player getPlayer() {
-        return managedDatabase.getPlayer(getAuthor());
-    }
-
-    @Override
-    public Player getPlayer(User user) {
-        return managedDatabase.getPlayer(user);
     }
 
     public Player getPlayer(Member member) {
@@ -527,22 +502,6 @@ public class TextContext implements IContext {
         return managedDatabase.getPlayer(id);
     }
 
-    public PlayerStats getPlayerStats() {
-        return managedDatabase.getPlayerStats(getMember());
-    }
-
-    public PlayerStats getPlayerStats(String id) {
-        return managedDatabase.getPlayerStats(id);
-    }
-
-    public PlayerStats getPlayerStats(User user) {
-        return managedDatabase.getPlayerStats(user);
-    }
-
-    public PlayerStats getPlayerStats(Member member) {
-        return managedDatabase.getPlayerStats(member);
-    }
-
     public MantaroBot getBot() {
         return MantaroBot.getInstance();
     }
@@ -550,10 +509,6 @@ public class TextContext implements IContext {
     @Override
     public User getAuthor() {
         return getMessage().getAuthor();
-    }
-
-    public Marriage getMarriage(MongoUser userData) {
-        return MantaroData.db().getMarriage(userData.getMarriageId());
     }
 
     public void findMember(String query, Consumer<List<Member>> success) {
@@ -605,18 +560,6 @@ public class TextContext implements IContext {
         this.i18n = languageContext;
     }
 
-    public I18nContext getGuildLanguageContext() {
-        return new I18nContext(getDBGuild(), null);
-    }
-
-    public Color getMemberColor(Member member) {
-        return member.getColor() == null ? Color.PINK : member.getColor();
-    }
-
-    public Color getMemberColor() {
-        return getMemberColor(getMember());
-    }
-
     // Both used for options.
     public void setCustomContent(String str) {
         this.customContent = str;
@@ -637,14 +580,6 @@ public class TextContext implements IContext {
     public String getContent() {
          var content = tryArgument(Parsers.remainingContent());
         return content.map(String::trim).orElse("");
-    }
-
-    public boolean isChannelNSFW() {
-        if (getChannel() instanceof IAgeRestrictedChannel txtChannel) {
-            return txtChannel.isNSFW();
-        }
-
-        return true;
     }
 
     public boolean isMentionPrefix() {

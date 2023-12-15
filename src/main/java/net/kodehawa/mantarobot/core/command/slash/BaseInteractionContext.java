@@ -83,15 +83,6 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
         return null;
     }
 
-
-    public boolean isChannelNSFW() {
-        if (getChannel() instanceof IAgeRestrictedChannel txtChannel) {
-            return txtChannel.isNSFW();
-        }
-
-        return true;
-    }
-
     @Override
     public Member getMember() {
         return event.getMember();
@@ -114,15 +105,6 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
     public Member getSelfMember() {
         return getGuild().getSelfMember();
     }
-
-    public Color getMemberColor(Member member) {
-        return member.getColor() == null ? Color.PINK : member.getColor();
-    }
-
-    public Color getMemberColor() {
-        return getMember().getColor() == null ? Color.PINK : getMember().getColor();
-    }
-
 
     @Override
     public RateLimitContext ratelimitContext() {
@@ -430,10 +412,6 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
         return getI18nContext();
     }
 
-    public I18nContext getGuildLanguageContext() {
-        return new I18nContext(getDBGuild(), null);
-    }
-
     @Override
     public ManagedDatabase db() {
         return managedDatabase;
@@ -474,37 +452,12 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
         return getBot().getShardManager();
     }
 
-    @Override
-    public MongoGuild getDBGuild() {
-        return managedDatabase.getGuild(getGuild());
-    }
-
-    @Override
-    public MongoUser getDBUser() {
-        return managedDatabase.getUser(getAuthor());
-    }
-
-    @Override
-    public MongoUser getDBUser(User user) {
-        return managedDatabase.getUser(user);
-    }
-
     public MongoUser getDBUser(Member member) {
         return managedDatabase.getUser(member);
     }
 
     public MongoUser getDBUser(String id) {
         return managedDatabase.getUser(id);
-    }
-
-    @Override
-    public Player getPlayer() {
-        return managedDatabase.getPlayer(getAuthor());
-    }
-
-    @Override
-    public Player getPlayer(User user) {
-        return managedDatabase.getPlayer(user);
     }
 
     public Player getPlayer(Member member) {
@@ -515,29 +468,9 @@ public abstract class BaseInteractionContext<T extends GenericCommandInteraction
         return managedDatabase.getPlayer(id);
     }
 
-    public PlayerStats getPlayerStats() {
-        return managedDatabase.getPlayerStats(getMember());
-    }
-
-    public PlayerStats getPlayerStats(String id) {
-        return managedDatabase.getPlayerStats(id);
-    }
-
-    public PlayerStats getPlayerStats(User user) {
-        return managedDatabase.getPlayerStats(user);
-    }
-
-    public PlayerStats getPlayerStats(Member member) {
-        return managedDatabase.getPlayerStats(member);
-    }
-
     @Override
     public MantaroObject getMantaroData() {
         return managedDatabase.getMantaroData();
-    }
-
-    public Marriage getMarriage(MongoUser userData) {
-        return MantaroData.db().getMarriage(userData.getMarriageId());
     }
 
     public void setForceEphemeral(boolean force) {
