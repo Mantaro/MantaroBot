@@ -67,7 +67,7 @@ dependencies {
     implementation 'club.minnced:discord-webhooks:0.8.4'
 
     // Music
-    implementation("dev.arbjerg:lavalink-client:e6919c860547abf5bf8b54a1f351658a7a1ec416-SNAPSHOT")
+    implementation("dev.arbjerg:lavalink-client:64f8b44e8164f5873ab107f453b58b1a99a8bc13-SNAPSHOT")
     implementation "com.github.TopiSenpai.LavaSrc:lavasrc:3.2.9"
 
     // JSON

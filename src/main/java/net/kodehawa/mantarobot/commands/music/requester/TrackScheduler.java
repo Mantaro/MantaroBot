@@ -19,14 +19,15 @@ package net.kodehawa.mantarobot.commands.music.requester;
 
 import dev.arbjerg.lavalink.client.LavalinkPlayer;
 import dev.arbjerg.lavalink.client.Link;
+import dev.arbjerg.lavalink.client.protocol.Track;
 import dev.arbjerg.lavalink.protocol.v4.Message;
-import dev.arbjerg.lavalink.protocol.v4.Track;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
+import net.kodehawa.mantarobot.commands.music.utils.TrackData;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -81,7 +82,7 @@ public class TrackScheduler {
             }
         } else {
             getLink().createOrUpdatePlayer()
-                    .applyTrack(track)
+                    .setTrack(track)
                     .asMono()
                     .subscribe();
             currentTrack = track;
@@ -95,17 +96,17 @@ public class TrackScheduler {
     public void nextTrack(boolean force, boolean skip) {
         getVoteSkips().clear();
         if (repeatMode == Repeat.SONG && currentTrack != null && !force) {
-            queue(currentTrack);
+            queue(currentTrack.makeClone());
         } else {
             if (currentTrack != null) {
-                previousTrack = currentTrack;
+                previousTrack = currentTrack.makeClone();
             }
 
             currentTrack = queue.poll();
             //This actually reads wrongly, but current = next in this context, since we switched it already.
             if (currentTrack != null) {
                 getLink().createOrUpdatePlayer()
-                        .applyTrack(currentTrack)
+                        .setTrack(currentTrack)
                         .asMono()
                         .subscribe();
             }
@@ -163,10 +164,11 @@ public class TrackScheduler {
                 var trackLength = information.getLength();
 
                 Member user = null;
-                if (getCurrentTrack().getUserData().containsKey("user")) {
+                var userData = getCurrentTrack().getUserData(TrackData.class);
+                if (userData != null && userData.userId() != null) {
                     // Retrieve member instead of user, so it gets cached.
                     try {
-                        user = guild.retrieveMemberById(String.valueOf(getCurrentTrack().getUserData().get("user"))).useCache(true).complete();
+                        user = guild.retrieveMemberById(userData.userId()).useCache(true).complete();
                     } catch (IllegalStateException | NumberFormatException ignored) {}
                 }
 

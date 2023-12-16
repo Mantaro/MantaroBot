@@ -18,8 +18,11 @@
 package net.kodehawa.mantarobot.commands.music.requester;
 
 import dev.arbjerg.lavalink.client.AbstractAudioLoadResultHandler;
-import dev.arbjerg.lavalink.protocol.v4.LoadResult;
-import dev.arbjerg.lavalink.protocol.v4.Track;
+import dev.arbjerg.lavalink.client.protocol.LoadFailed;
+import dev.arbjerg.lavalink.client.protocol.PlaylistLoaded;
+import dev.arbjerg.lavalink.client.protocol.SearchResult;
+import dev.arbjerg.lavalink.client.protocol.Track;
+import dev.arbjerg.lavalink.client.protocol.TrackLoaded;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
@@ -28,6 +31,7 @@ import net.dv8tion.jda.api.utils.MarkdownSanitizer;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
+import net.kodehawa.mantarobot.commands.music.utils.TrackData;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.I18n;
@@ -72,12 +76,12 @@ public class AudioLoader extends AbstractAudioLoadResultHandler {
     }
 
     @Override
-    public void ontrackLoaded(@NotNull LoadResult.TrackLoaded trackLoaded) {
-        loadSingle(trackLoaded.getData(), false, db.getGuild(ctx.getGuild()), db.getUser(ctx.getMember()));
+    public void ontrackLoaded(@NotNull TrackLoaded trackLoaded) {
+        loadSingle(trackLoaded.getTrack(), false, db.getGuild(ctx.getGuild()), db.getUser(ctx.getMember()));
     }
 
     @Override
-    public void onPlaylistLoaded(@NotNull LoadResult.PlaylistLoaded playlistLoaded) {
+    public void onPlaylistLoaded(@NotNull PlaylistLoaded playlistLoaded) {
         final var member = ctx.getMember();
         try {
             var count = 0;
@@ -85,7 +89,7 @@ public class AudioLoader extends AbstractAudioLoadResultHandler {
             var user = db.getUser(member);
             var i18nContext = new I18nContext(language);
 
-            for (var track : playlistLoaded.getData().getTracks()) {
+            for (var track : playlistLoaded.getTracks()) {
                 if (dbGuild.getMusicQueueSizeLimit() != null) {
                     if (count <= dbGuild.getMusicQueueSizeLimit()) {
                         loadSingle(track, true, dbGuild, user);
@@ -106,9 +110,9 @@ public class AudioLoader extends AbstractAudioLoadResultHandler {
             }
 
             ctx.editStripped("commands.music_general.loader.loaded_playlist",
-                    EmoteReference.SATELLITE, count, MarkdownSanitizer.sanitize(playlistLoaded.getData().getInfo().getName()),
+                    EmoteReference.SATELLITE, count, MarkdownSanitizer.sanitize(playlistLoaded.getInfo().getName()),
                     Utils.formatDuration(i18nContext,
-                            playlistLoaded.getData().getTracks()
+                            playlistLoaded.getTracks()
                                     .stream()
                                     .mapToLong(temp -> temp.getInfo().getLength()).sum()
                     )
@@ -119,25 +123,25 @@ public class AudioLoader extends AbstractAudioLoadResultHandler {
     }
 
     @Override
-    public void onSearchResultLoaded(@NotNull LoadResult.SearchResult searchResult) {
+    public void onSearchResultLoaded(@NotNull SearchResult searchResult) {
         if (!skipSelection) {
-            onSearch(searchResult.getData().getTracks());
+            onSearch(searchResult.getTracks());
         } else {
-            loadSingle(searchResult.getData().getTracks().get(0), false, db.getGuild(ctx.getGuild()), db.getUser(ctx.getMember()));
+            loadSingle(searchResult.getTracks().get(0), false, db.getGuild(ctx.getGuild()), db.getUser(ctx.getMember()));
         }
     }
 
     @Override
-    public void loadFailed(@NotNull LoadResult.LoadFailed loadFailed) {
+    public void loadFailed(@NotNull LoadFailed loadFailed) {
         if (failureCount == 0) {
-            if (loadFailed.getData().getMessage() == null) {
+            if (loadFailed.getException().getMessage() == null) {
                 ctx.edit("commands.music_general.loader.unknown_error_loading", EmoteReference.ERROR);
             } else {
-                ctx.edit("commands.music_general.loader.error_loading", EmoteReference.ERROR, loadFailed.getData().getMessage());
+                ctx.edit("commands.music_general.loader.error_loading", EmoteReference.ERROR, loadFailed.getException().getMessage());
             }
 
             // Just in case.
-            log.error(loadFailed.getData().getMessage());
+            log.error(loadFailed.getException().getMessage());
         }
 
         Metrics.TRACK_EVENTS.labels("tracks_failed").inc();
@@ -154,7 +158,7 @@ public class AudioLoader extends AbstractAudioLoadResultHandler {
         final var trackScheduler = musicManager.getTrackScheduler();
         var i18nContext = new I18nContext(language);
 
-        //audioTrack = audioTrack.copyWithUserData();
+        audioTrack.setUserData(new TrackData(ctx.getAuthor().getId()));
 
         final var title = trackInfo.getTitle();
         final var length = trackInfo.getLength();
@@ -218,8 +222,7 @@ public class AudioLoader extends AbstractAudioLoadResultHandler {
         final var trackScheduler = musicManager.getTrackScheduler();
         var i18nContext = new I18nContext(language);
 
-        // TODO: userdata
-        //audioTrack.setUserData(ctx.getAuthor().getId());
+        audioTrack.setUserData(new TrackData(ctx.getAuthor().getId()));
 
         final var title = trackInfo.getTitle();
         final var length = trackInfo.getLength();

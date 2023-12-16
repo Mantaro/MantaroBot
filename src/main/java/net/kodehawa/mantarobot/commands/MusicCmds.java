@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
+import net.kodehawa.mantarobot.commands.music.utils.TrackData;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Description;
@@ -527,8 +528,8 @@ public class MusicCmds {
     }
 
     public static boolean isSongOwner(TrackScheduler scheduler, User author) {
-        return scheduler.getCurrentTrack().getUserData().containsKey("user") &&
-                String.valueOf(scheduler.getCurrentTrack().getUserData().get("user")).equals(author.getId());
+        var userData = scheduler.getCurrentTrack().getUserData(TrackData.class);
+        return userData != null && userData.userId() != null && userData.userId().equals(author.getId());
     }
 
     public static boolean isNotInCondition(SlashContext ctx) {

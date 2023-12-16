@@ -19,7 +19,7 @@ package net.kodehawa.mantarobot.commands.music.utils;
 
 import dev.arbjerg.lavalink.client.Link;
 import dev.arbjerg.lavalink.client.LinkState;
-import dev.arbjerg.lavalink.protocol.v4.Track;
+import dev.arbjerg.lavalink.client.protocol.Track;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -68,9 +68,10 @@ public class AudioCmdUtils {
             nowPlaying = lang.get("commands.music_general.queue.no_track_found_np");
         } else {
             Member dj = null;
-            if (playingTrack.getUserData().containsKey("user")) {
+            var userData = playingTrack.getUserData(TrackData.class);
+            if (userData != null && userData.userId() != null) {
                 try {
-                    dj = guild.retrieveMemberById(String.valueOf(playingTrack.getUserData().get("user"))).useCache(true).complete();
+                    dj = guild.retrieveMemberById(userData.userId()).useCache(true).complete();
                 } catch (Exception ignored) { }
             }
 

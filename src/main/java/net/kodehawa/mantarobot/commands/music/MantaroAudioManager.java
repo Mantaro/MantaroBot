@@ -72,22 +72,20 @@ public class MantaroAudioManager {
     }
 
     private void registerTrackEndEvent() {
-        MantaroBot.getInstance().getLavaLink().on(TrackEndEvent.class).subscribe((data) -> {
-            final var event = data.getEvent();
+        MantaroBot.getInstance().getLavaLink().on(TrackEndEvent.class).subscribe((event) -> {
             final var guildId = event.getGuildId();
-            final var mng = getMusicManagers().get(guildId);
+            final var mng = getMusicManagers().get(String.valueOf(guildId));
 
             if (mng != null) {
-                mng.getTrackScheduler().onTrackEnd(data.getEvent().getReason());
+                mng.getTrackScheduler().onTrackEnd(event.getEndReason());
             }
         });
     }
 
     private void registerTrackExceptionEvent() {
-        MantaroBot.getInstance().getLavaLink().on(TrackExceptionEvent.class).subscribe((data) -> {
-            final var event = data.getEvent();
+        MantaroBot.getInstance().getLavaLink().on(TrackExceptionEvent.class).subscribe((event) -> {
             final var guildId = event.getGuildId();
-            final var mng = getMusicManagers().get(guildId);
+            final var mng = getMusicManagers().get(String.valueOf(guildId));
 
             if (mng != null) {
                 mng.getTrackScheduler().onTrackException();
