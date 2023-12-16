@@ -143,7 +143,6 @@ public class MusicCmds {
             var toSend = EmoteReference.MEGA + (paused ? languageContext.get("commands.pause.paused") : languageContext.get("commands.pause.unpaused"));
             trackScheduler.getLink().createOrUpdatePlayer()
                     .setPaused(true)
-                    .asMono()
                     .subscribe();
 
             ctx.reply(toSend);

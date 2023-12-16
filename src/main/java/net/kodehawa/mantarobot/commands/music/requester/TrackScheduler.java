@@ -83,7 +83,6 @@ public class TrackScheduler {
         } else {
             getLink().createOrUpdatePlayer()
                     .setTrack(track)
-                    .asMono()
                     .subscribe();
             currentTrack = track;
         }
@@ -107,7 +106,6 @@ public class TrackScheduler {
             if (currentTrack != null) {
                 getLink().createOrUpdatePlayer()
                         .setTrack(currentTrack)
-                        .asMono()
                         .subscribe();
             }
 
@@ -351,7 +349,6 @@ public class TrackScheduler {
     public void stopCurrentTrack() {
         getLink().createOrUpdatePlayer()
                 .stopTrack()
-                .asMono()
                 .subscribe();
     }
 

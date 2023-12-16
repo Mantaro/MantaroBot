@@ -128,7 +128,6 @@ public class VoiceChannelListener implements EventListener {
 
                 scheduler.getLink().createOrUpdatePlayer()
                         .setPaused(true)
-                        .asMono()
                         .subscribe();
             }
         } else {
@@ -140,7 +139,6 @@ public class VoiceChannelListener implements EventListener {
                 if (!scheduler.isPausedManually()) {
                     scheduler.getLink().createOrUpdatePlayer()
                             .setPaused(true)
-                            .asMono()
                             .subscribe();
                 }
             }
@@ -185,7 +183,6 @@ public class VoiceChannelListener implements EventListener {
                 if (!scheduler.isPausedManually()) {
                     scheduler.getLink().createOrUpdatePlayer()
                             .setPaused(false)
-                            .asMono()
                             .subscribe();
                 }
 
@@ -223,10 +220,11 @@ public class VoiceChannelListener implements EventListener {
 
             musicManager.setAwaitingDeath(true);
             musicManager.scheduleLeave();
-            scheduler.getLink().createOrUpdatePlayer()
-                    .setPaused(false)
-                    .asMono()
-                    .subscribe();
+            if (scheduler != null) {
+                scheduler.getLink().createOrUpdatePlayer()
+                        .setPaused(true)
+                        .subscribe();
+            }
         }
     }
 

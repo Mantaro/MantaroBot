@@ -101,7 +101,6 @@ public class MantaroAudioManager {
 
                 scheduler.getLink().createOrUpdatePlayer()
                         .setPaused(false)
-                        .asMono()
                         .subscribe();
 
                 if (scheduler.getQueue().isEmpty()) {
