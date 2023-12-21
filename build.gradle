@@ -44,7 +44,7 @@ repositories {
     }
 
     maven {
-        url "https://maven.lavalink.dev/snapshots"
+        url "https://maven.lavalink.dev/releases"
     }
 }
 
@@ -67,7 +67,7 @@ dependencies {
     implementation 'club.minnced:discord-webhooks:0.8.4'
 
     // Music
-    implementation("dev.arbjerg:lavalink-client:64f8b44e8164f5873ab107f453b58b1a99a8bc13-SNAPSHOT")
+    implementation("dev.arbjerg:lavalink-client:2.1.0")
     implementation "com.github.TopiSenpai.LavaSrc:lavasrc:3.2.9"
 
     // JSON
