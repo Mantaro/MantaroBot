@@ -17,21 +17,23 @@
 
 package net.kodehawa.mantarobot.commands.music.requester;
 
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
-import lavalink.client.io.Link;
-import lavalink.client.player.IPlayer;
-import lavalink.client.player.event.PlayerEventListenerAdapter;
+import dev.arbjerg.lavalink.client.LavalinkPlayer;
+import dev.arbjerg.lavalink.client.Link;
+import dev.arbjerg.lavalink.client.protocol.Track;
+import dev.arbjerg.lavalink.protocol.v4.Message;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
+import net.kodehawa.mantarobot.commands.music.utils.TrackData;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -42,19 +44,19 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class TrackScheduler extends PlayerEventListenerAdapter {
+public class TrackScheduler {
     private static final Random random = new Random();
     private static final ScheduledExecutorService scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
     private final String guildId;
-    private final ConcurrentLinkedDeque<AudioTrack> queue;
+    private final ConcurrentLinkedDeque<Track> queue;
     private final List<String> voteSkips;
     private final List<String> voteStop;
     private final I18n language;
     private Link audioPlayer;
     private long lastMessageSentAt;
     private long lastErrorSentAt;
-    private AudioTrack previousTrack;
-    private AudioTrack currentTrack;
+    private Track previousTrack;
+    private Track currentTrack;
     private Repeat repeatMode;
     private long requestedChannel;
     private long errorCount = 0;
@@ -71,38 +73,40 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         this.language = I18n.of(guildId);
     }
 
-    public void queue(AudioTrack track, boolean addFirst) {
-        if (getMusicPlayer().getPlayingTrack() != null) {
+    public void queue(Track track, boolean addFirst) {
+        if (getMusicPlayer().block(Duration.ofMillis(300)).getTrack() != null) {
             if (addFirst) {
                 queue.addFirst(track);
             } else {
                 queue.offer(track);
             }
         } else {
-            getMusicPlayer().playTrack(track);
+            getLink().createOrUpdatePlayer()
+                    .setTrack(track)
+                    .subscribe();
             currentTrack = track;
         }
     }
 
-    public void queue(AudioTrack track) {
+    public void queue(Track track) {
         queue(track, false);
     }
 
     public void nextTrack(boolean force, boolean skip) {
         getVoteSkips().clear();
-
         if (repeatMode == Repeat.SONG && currentTrack != null && !force) {
             queue(currentTrack.makeClone());
         } else {
             if (currentTrack != null) {
-                previousTrack = currentTrack;
+                previousTrack = currentTrack.makeClone();
             }
 
             currentTrack = queue.poll();
-
             //This actually reads wrongly, but current = next in this context, since we switched it already.
             if (currentTrack != null) {
-                getMusicPlayer().playTrack(currentTrack);
+                getLink().createOrUpdatePlayer()
+                        .setTrack(currentTrack)
+                        .subscribe();
             }
 
             if (skip) {
@@ -116,12 +120,12 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                     return;
                 }
 
-                queue(previousTrack.makeClone());
+                queue(previousTrack);
             }
         }
     }
 
-    private void onTrackStart() {
+    public void onTrackStart() {
         if (currentTrack == null) {
             onStop();
             return;
@@ -137,10 +141,9 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
 
         if (dbGuild.isMusicAnnounce() && requestedChannel != 0 && getRequestedTextChannel() != null) {
             var voiceState = getRequestedTextChannel().getGuild().getSelfMember().getVoiceState();
-
             //What kind of massive meme is this? part 2
             if (voiceState == null) {
-                this.getAudioPlayer().destroy();
+                this.getLink().destroyPlayer();
                 return;
             }
 
@@ -149,21 +152,22 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
             //What kind of massive meme is this?
             //It's called mantaro
             if (voiceChannel == null) {
-                this.getAudioPlayer().destroy();
+                this.getLink().destroyPlayer();
                 return;
             }
 
             if (getRequestedTextChannel().canTalk() && repeatMode != Repeat.SONG) {
                 var information = currentTrack.getInfo();
-                var title = information.title;
-                var trackLength = information.length;
+                var title = information.getTitle();
+                var trackLength = information.getLength();
 
                 Member user = null;
-                if (getCurrentTrack().getUserData() != null) {
+                var userData = getCurrentTrack().getUserData(TrackData.class);
+                if (userData != null && userData.userId() != null) {
                     // Retrieve member instead of user, so it gets cached.
                     try {
-                        user = guild.retrieveMemberById(String.valueOf(getCurrentTrack().getUserData())).useCache(true).complete();
-                    } catch (Exception ignored) {}
+                        user = guild.retrieveMemberById(userData.userId()).useCache(true).complete();
+                    } catch (IllegalStateException | NumberFormatException ignored) {}
                 }
 
                 //Avoid massive spam of "now playing..." when repeating songs.
@@ -187,16 +191,14 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         }
     }
 
-    @Override
-    public void onTrackEnd(IPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-        if (endReason.mayStartNext) {
+    public void onTrackEnd(Message.EmittedEvent.TrackEndEvent.AudioTrackEndReason reason) {
+        if(reason.getMayStartNext()) {
             nextTrack(false, false);
             onTrackStart();
         }
     }
 
-    @Override
-    public void onTrackException(IPlayer player, AudioTrack track, Exception exception) {
+    public void onTrackException() {
         if (getRequestedTextChannel() != null && getRequestedTextChannel().canTalk()) {
             //Avoid massive spam of when song error in mass.
             if ((lastErrorSentAt == 0 || lastErrorSentAt + 60000 < System.currentTimeMillis()) && errorCount < 10) {
@@ -214,7 +216,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
 
     public int getRequiredVotes() {
         //noinspection DataFlowIssue
-        var listeners = (int) getGuild().getChannelById(AudioChannel.class, getAudioPlayer().getChannel())
+        var listeners = (int) getGuild().getChannelById(AudioChannel.class, getGuild().getSelfMember().getVoiceState().getChannel().getId())
                 .getMembers().stream()
                 .filter(m -> m.getVoiceState() != null) // Shouldn't happen?
                 .filter(m -> !m.getUser().isBot() && !m.getVoiceState().isDeafened())
@@ -224,7 +226,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
     }
 
     public void shuffle() {
-        List<AudioTrack> tempList = new ArrayList<>(getQueue());
+        List<Track> tempList = new ArrayList<>(getQueue());
         Collections.shuffle(tempList);
 
         queue.clear();
@@ -243,11 +245,11 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         onStop();
     }
 
-    public List<AudioTrack> getQueueAsList() {
+    public List<Track> getQueueAsList() {
         return new LinkedList<>(getQueue());
     }
 
-    public void acceptNewQueue(List<AudioTrack> newQueue) {
+    public void acceptNewQueue(List<Track> newQueue) {
         queue.clear();
         queue.addAll(newQueue);
     }
@@ -259,12 +261,12 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         var guild = getGuild();
         if (guild == null) {
             // Why?
-            this.getAudioPlayer().destroy();
+            this.getLink().destroyPlayer();
             return;
         }
 
         final var managedDatabase = MantaroData.db();
-        final var lavalinkPlayer = getAudioPlayer().getPlayer();
+        final var lavalinkPlayer = getLink().getPlayer();
         var premium = managedDatabase.getGuild(guild).isPremium();
         try {
             final var ch = getRequestedTextChannel();
@@ -276,7 +278,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
 
                 ch.sendMessageFormat(language.get("commands.music_general.queue_finished"), EmoteReference.MEGA, beg).queue();
             }
-        } catch (Exception e) {
+        } catch (java.lang.Exception e) {
             e.printStackTrace();
         }
 
@@ -291,14 +293,15 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         previousTrack = null;
 
         // Stop the track and disconnect
-        if (lavalinkPlayer.getPlayingTrack() != null) {
-            lavalinkPlayer.stopTrack();
+        if (lavalinkPlayer.block(Duration.ofMillis(300)).getTrack() != null) {
+            stopCurrentTrack();
         }
 
+        guild.getJDA().getDirectAudioController().disconnect(guild);
         MantaroBot.getInstance().getAudioManager().resetMusicManagerFor(guildId);
     }
 
-    public ConcurrentLinkedDeque<AudioTrack> getQueue() {
+    public ConcurrentLinkedDeque<Track> getQueue() {
         return this.queue;
     }
 
@@ -311,11 +314,11 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
     }
 
     @SuppressWarnings("unused")
-    public AudioTrack getPreviousTrack() {
+    public Track getPreviousTrack() {
         return this.previousTrack;
     }
 
-    public AudioTrack getCurrentTrack() {
+    public Track getCurrentTrack() {
         return this.currentTrack;
     }
 
@@ -343,16 +346,22 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         this.requestedChannel = requestedChannel;
     }
 
-    public Link getAudioPlayer() {
+    public void stopCurrentTrack() {
+        getLink().createOrUpdatePlayer()
+                .stopTrack()
+                .subscribe();
+    }
+
+    public Link getLink() {
         if (audioPlayer == null) {
-            audioPlayer = MantaroBot.getInstance().getLavaLink().getLink(guildId);
+            audioPlayer = MantaroBot.getInstance().getLavaLink().getLink(Long.parseLong(guildId));
         }
 
         return audioPlayer;
     }
 
-    public IPlayer getMusicPlayer() {
-        return getAudioPlayer().getPlayer();
+    public Mono<LavalinkPlayer> getMusicPlayer() {
+        return getLink().getPlayer();
     }
 
     public enum Repeat {

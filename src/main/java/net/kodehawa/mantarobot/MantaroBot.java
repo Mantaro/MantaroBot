@@ -18,9 +18,7 @@
 package net.kodehawa.mantarobot;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import lavalink.client.io.LavalinkLoadBalancer;
-import lavalink.client.io.LessAnnoyingJdaLavalink;
-import lavalink.client.io.jda.JdaLavalink;
+import dev.arbjerg.lavalink.client.LavalinkClient;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.requests.ErrorResponse;
@@ -57,6 +55,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -94,7 +93,7 @@ public class MantaroBot {
 
     private final MantaroAudioManager audioManager;
     private final MantaroCore core;
-    private final JdaLavalink lavaLink;
+    private final LavalinkClient lavaLink;
     private final Config config = MantaroData.config().get();
 
     private final BirthdayCacher birthdayCacher;
@@ -133,28 +132,22 @@ public class MantaroBot {
         }
 
         core = new MantaroCore(config, ExtraRuntimeOptions.DEBUG);
-        audioManager = new MantaroAudioManager();
         birthdayCacher = new BirthdayCacher();
         ItemHelper.setItemActions();
 
         // Lavalink stuff.
-        lavaLink = new LessAnnoyingJdaLavalink(
-                config.clientId,
-                ExtraRuntimeOptions.SHARD_COUNT.orElse(config.totalShards),
-                audioManager.getPlayerManager(),
-                shardId -> getShardManager().getShardById(shardId)
+        lavaLink = new LavalinkClient(
+                Long.parseLong(config.clientId)
         );
 
         if (config.musicEnable()) {
             for (var node : config.getLavalinkNodes()) {
-                lavaLink.addNode(new URI(node), config.lavalinkPass);
+                // Why name?
+                lavaLink.addNode(String.valueOf(UUID.randomUUID()), new URI(node), config.lavalinkPass);
             }
-
-            // Choose the server with the lowest player amount
-            lavaLink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getPlayerPenalty);
-            lavaLink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getCpuPenalty);
         }
 
+        audioManager = new MantaroAudioManager(lavaLink);
         LogUtils.log("Startup",
                 "Starting up Mantaro %s (Git: %s) in Node %s%nHold your seatbelts! <3"
                         .formatted(MantaroInfo.VERSION, MantaroInfo.GIT_REVISION, getNodeNumber())
@@ -175,7 +168,7 @@ public class MantaroBot {
             Runtime.getRuntime().addShutdownHook(thread.newThread(() -> {
                 log.info("Destroying all active players...");
                 for (var players : audioManager.getMusicManagers().entrySet()) {
-                    players.getValue().getLavaLink().destroy();
+                    players.getValue().getLavaLink().destroyPlayer();
                 }
 
                 log.info("Destroyed all players. Not aware of anything holding off shutdown now");
@@ -378,7 +371,7 @@ public class MantaroBot {
         return this.executorService;
     }
 
-    public JdaLavalink getLavaLink() {
+    public LavalinkClient getLavaLink() {
         return this.lavaLink;
     }
 

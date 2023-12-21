@@ -17,24 +17,17 @@
 
 package net.kodehawa.mantarobot.commands.music;
 
-import com.github.topisenpai.lavasrc.deezer.DeezerAudioSourceManager;
-import com.github.topisenpai.lavasrc.yandexmusic.YandexMusicSourceManager;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
-import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
-import com.sedmelluq.discord.lavaplayer.source.bandcamp.BandcampAudioSourceManager;
-import com.sedmelluq.discord.lavaplayer.source.beam.BeamAudioSourceManager;
-import com.sedmelluq.discord.lavaplayer.source.soundcloud.SoundCloudAudioSourceManager;
-import com.sedmelluq.discord.lavaplayer.source.twitch.TwitchStreamAudioSourceManager;
-import com.sedmelluq.discord.lavaplayer.source.vimeo.VimeoAudioSourceManager;
+import dev.arbjerg.lavalink.client.LavalinkClient;
+import dev.arbjerg.lavalink.client.TrackEndEvent;
+import dev.arbjerg.lavalink.client.TrackExceptionEvent;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.StageChannel;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.requester.AudioLoader;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.data.Config;
-import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Lazy;
 
 import java.util.Map;
@@ -51,23 +44,14 @@ public class MantaroAudioManager {
     ));
 
     private final Map<String, GuildMusicManager> musicManagers;
-    private final AudioPlayerManager playerManager;
+    private final LavalinkClient client;
 
-    public MantaroAudioManager() {
+    public MantaroAudioManager(LavalinkClient client) {
         this.musicManagers = new ConcurrentHashMap<>();
-        this.playerManager = new DefaultAudioPlayerManager();
+        this.client = client;
 
-        Config config = MantaroData.config().get();
-        if (config.musicEnable()) {
-            //Register source managers and configure the Player
-            playerManager.registerSourceManager(SoundCloudAudioSourceManager.createDefault());
-            playerManager.registerSourceManager(new BandcampAudioSourceManager());
-            playerManager.registerSourceManager(new VimeoAudioSourceManager());
-            playerManager.registerSourceManager(new TwitchStreamAudioSourceManager());
-            playerManager.registerSourceManager(new BeamAudioSourceManager());
-            playerManager.registerSourceManager(new DeezerAudioSourceManager(config.getdKey()));
-            playerManager.registerSourceManager(new YandexMusicSourceManager(config.getYandexKey()));
-        }
+        registerTrackEndEvent();
+        registerTrackExceptionEvent();
     }
 
     public GuildMusicManager getMusicManager(Guild guild) {
@@ -87,13 +71,37 @@ public class MantaroAudioManager {
         return musicManagers.values().stream().map(m -> m.getTrackScheduler().getQueue().size()).mapToInt(Integer::intValue).sum();
     }
 
+    private void registerTrackEndEvent() {
+        MantaroBot.getInstance().getLavaLink().on(TrackEndEvent.class).subscribe((event) -> {
+            final var guildId = event.getGuildId();
+            final var mng = getMusicManagers().get(String.valueOf(guildId));
+
+            if (mng != null) {
+                mng.getTrackScheduler().onTrackEnd(event.getEndReason());
+            }
+        });
+    }
+
+    private void registerTrackExceptionEvent() {
+        MantaroBot.getInstance().getLavaLink().on(TrackExceptionEvent.class).subscribe((event) -> {
+            final var guildId = event.getGuildId();
+            final var mng = getMusicManagers().get(String.valueOf(guildId));
+
+            if (mng != null) {
+                mng.getTrackScheduler().onTrackException();
+            }
+        });
+    }
+
     public void loadAndPlay(SlashContext ctx, String trackUrl, boolean skipSelection, boolean addFirst, I18nContext lang) {
         AudioCmdUtils.connectToVoiceChannel(ctx, lang).thenAcceptAsync(bool -> {
             if (bool) {
                 var musicManager = getMusicManager(ctx.getGuild());
                 var scheduler = musicManager.getTrackScheduler();
 
-                scheduler.getMusicPlayer().setPaused(false);
+                scheduler.getLink().createOrUpdatePlayer()
+                        .setPaused(false)
+                        .subscribe();
 
                 if (scheduler.getQueue().isEmpty()) {
                     scheduler.setRepeatMode(null);
@@ -107,16 +115,13 @@ public class MantaroAudioManager {
                 }
 
                 var loader = new AudioLoader(musicManager, ctx, skipSelection, addFirst);
-                playerManager.loadItemOrdered(musicManager, trackUrl, loader);
+                var link = client.getLink(ctx.getGuild().getIdLong());
+                link.loadItem(trackUrl).subscribe(loader);
             }
         }, LOAD_EXECUTOR.get());
     }
 
     public Map<String, GuildMusicManager> getMusicManagers() {
         return this.musicManagers;
-    }
-
-    public AudioPlayerManager getPlayerManager() {
-        return this.playerManager;
     }
 }

@@ -28,6 +28,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimiter;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class VoiceChannelListener implements EventListener {
@@ -74,8 +75,9 @@ public class VoiceChannelListener implements EventListener {
 
                 var scheduler = musicManager.getTrackScheduler();
                 var musicPlayer = scheduler.getMusicPlayer();
-                if (musicPlayer.getPlayingTrack() != null && !musicPlayer.isPaused()) {
-                    musicPlayer.stopTrack();
+                var player = musicPlayer.block(Duration.ofMillis(300));
+                if (player.getTrack() != null && !player.getPaused()) {
+                    scheduler.stopCurrentTrack();
                 }
 
                 scheduler.getQueue().clear();
@@ -124,7 +126,9 @@ public class VoiceChannelListener implements EventListener {
                     ).queue();
                 }
 
-                player.setPaused(true);
+                scheduler.getLink().createOrUpdatePlayer()
+                        .setPaused(true)
+                        .subscribe();
             }
         } else {
             if (voiceState.getChannel() == null) {
@@ -133,7 +137,9 @@ public class VoiceChannelListener implements EventListener {
 
             if (!isAlone(voiceState.getChannel()) && musicManager.getTrackScheduler().getCurrentTrack() != null) {
                 if (!scheduler.isPausedManually()) {
-                    player.setPaused(false);
+                    scheduler.getLink().createOrUpdatePlayer()
+                            .setPaused(true)
+                            .subscribe();
                 }
             }
         }
@@ -156,7 +162,6 @@ public class VoiceChannelListener implements EventListener {
             }
 
             var scheduler = musicManager.getTrackScheduler();
-            var player = musicManager.getLavaLink().getPlayer();
             if (musicManager.isAwaitingDeath()) {
                 if (scheduler.getCurrentTrack() != null) {
                     var channel = scheduler.getRequestedTextChannel();
@@ -176,7 +181,9 @@ public class VoiceChannelListener implements EventListener {
                 }
 
                 if (!scheduler.isPausedManually()) {
-                    player.setPaused(false);
+                    scheduler.getLink().createOrUpdatePlayer()
+                            .setPaused(false)
+                            .subscribe();
                 }
 
                 musicManager.cancelLeave();
@@ -201,7 +208,6 @@ public class VoiceChannelListener implements EventListener {
             }
 
             var scheduler = musicManager.getTrackScheduler();
-            var player = musicManager.getLavaLink().getPlayer();
             if (scheduler != null && scheduler.getCurrentTrack() != null && scheduler.getRequestedTextChannel() != null) {
                 var textChannel = scheduler.getRequestedTextChannel();
                 if (textChannel.canTalk() && vcRatelimiter.process(vc.getGuild().getId())) {
@@ -214,7 +220,11 @@ public class VoiceChannelListener implements EventListener {
 
             musicManager.setAwaitingDeath(true);
             musicManager.scheduleLeave();
-            player.setPaused(true);
+            if (scheduler != null) {
+                scheduler.getLink().createOrUpdatePlayer()
+                        .setPaused(true)
+                        .subscribe();
+            }
         }
     }
 

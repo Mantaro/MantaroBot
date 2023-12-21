@@ -18,7 +18,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import dev.arbjerg.lavalink.client.protocol.Track;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.exceptions.PermissionException;
@@ -42,14 +42,13 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-import static net.kodehawa.mantarobot.commands.MusicCmds.isDJ;
-import static net.kodehawa.mantarobot.commands.MusicCmds.isNotInCondition;
-import static net.kodehawa.mantarobot.commands.MusicCmds.isSongOwner;
+import static net.kodehawa.mantarobot.commands.MusicCmds.*;
 import static org.apache.commons.lang3.StringUtils.replaceEach;
 
 @Module
@@ -83,14 +82,15 @@ public class MusicUtilCmds {
         protected void process(SlashContext ctx) {
             var manager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
             var lavalinkPlayer = manager.getLavaLink().getPlayer();
+            var player = lavalinkPlayer.block(Duration.ofMillis(300));
 
-            if (lavalinkPlayer.getPlayingTrack() == null) {
+            if (player.getTrack() == null) {
                 ctx.reply("commands.music_general.not_playing", EmoteReference.ERROR);
                 return;
             }
 
             if (isDJ(ctx, ctx.getMember())) {
-                lavalinkPlayer.seekTo(1);
+                player.setPosition(1L);
                 ctx.reply("commands.restartsong.success", EmoteReference.CORRECT);
             } else {
                 ctx.reply("commands.music_general.dj_only", EmoteReference.ERROR);
@@ -108,8 +108,9 @@ public class MusicUtilCmds {
         protected void process(SlashContext ctx) {
             var manager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
             var lavalinkPlayer = manager.getLavaLink().getPlayer();
+            var player = lavalinkPlayer.block(Duration.ofMillis(300));
 
-            if (lavalinkPlayer.getPlayingTrack() == null) {
+            if (player.getTrack() == null) {
                 ctx.reply("commands.music_general.not_playing", EmoteReference.ERROR);
                 return;
             }
@@ -128,14 +129,14 @@ public class MusicUtilCmds {
                         return;
                     }
 
-                    var track = lavalinkPlayer.getPlayingTrack();
-                    var position = lavalinkPlayer.getTrackPosition();
-                    if (position + amt > track.getDuration()) {
+                    var track = player.getTrack();
+                    var position = track.getInfo().getPosition();
+                    if (position + amt > track.getInfo().getLength()) {
                         ctx.reply("commands.skipahead.past_duration", EmoteReference.ERROR);
                         return;
                     }
 
-                    lavalinkPlayer.seekTo(position + amt);
+                    player.setPosition(position + amt);
                     ctx.reply("commands.skipahead.success", EmoteReference.CORRECT, AudioCmdUtils.getDurationMinutes(position + amt));
                 } catch (NumberFormatException ex) {
                     ctx.reply("general.invalid_number", EmoteReference.ERROR);
@@ -156,7 +157,9 @@ public class MusicUtilCmds {
         protected void process(SlashContext ctx) {
             var manager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
             var lavalinkPlayer = manager.getLavaLink().getPlayer();
-            if (lavalinkPlayer.getPlayingTrack() == null) {
+            var player = lavalinkPlayer.block(Duration.ofMillis(300));
+
+            if (player.getTrack() == null) {
                 ctx.reply("commands.music_general.not_playing", EmoteReference.ERROR);
                 return;
             }
@@ -174,13 +177,13 @@ public class MusicUtilCmds {
                         return;
                     }
 
-                    var position = lavalinkPlayer.getTrackPosition();
+                    var position = player.getTrack().getInfo().getPosition();
                     if (position - amt < 0) {
                         ctx.reply("commands.rewind.before_beginning", EmoteReference.ERROR);
                         return;
                     }
 
-                    lavalinkPlayer.seekTo(position - amt);
+                    player.setPosition(position - amt);
                     ctx.reply("commands.rewind.success", EmoteReference.CORRECT, AudioCmdUtils.getDurationMinutes(position - amt));
                 } catch (NumberFormatException ex) {
                     ctx.reply("general.invalid_number", EmoteReference.ERROR);
@@ -256,7 +259,7 @@ public class MusicUtilCmds {
 
             try {
                 final var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
-                if (isNotInCondition(ctx, musicManager.getLavaLink())) {
+                if (isNotInCondition(ctx)) {
                     return;
                 }
 
@@ -290,7 +293,7 @@ public class MusicUtilCmds {
         protected void process(SlashContext ctx) {
             final var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
             final var trackScheduler = musicManager.getTrackScheduler();
-            if (isNotInCondition(ctx, musicManager.getLavaLink())) {
+            if (isNotInCondition(ctx)) {
                 return;
             }
 
@@ -359,7 +362,7 @@ public class MusicUtilCmds {
 
             // Removing an element by index on a List causes the next element to be
             // shifted by one, just use an iterator instead.
-            for (Iterator<AudioTrack> it = queue.iterator(); it.hasNext();) {
+            for (Iterator<Track> it = queue.iterator(); it.hasNext();) {
                 // No need to loop if empty.
                 if (selected.isEmpty()) {
                     break;

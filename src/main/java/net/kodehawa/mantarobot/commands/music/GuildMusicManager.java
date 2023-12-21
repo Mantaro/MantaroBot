@@ -17,10 +17,11 @@
 
 package net.kodehawa.mantarobot.commands.music;
 
-import lavalink.client.io.jda.JdaLink;
+import dev.arbjerg.lavalink.client.Link;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import reactor.core.Disposable;
 
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -30,22 +31,21 @@ public class GuildMusicManager {
 
     private final TrackScheduler trackScheduler;
     private boolean isAwaitingDeath;
+    private Disposable listener;
 
     private ScheduledFuture<?> leaveTask = null;
 
     public GuildMusicManager(String guildId) {
         this.guildId = guildId;
 
-        var lavaLink = MantaroBot.getInstance().getLavaLink().getLink(guildId);
+        var lavaLink = MantaroBot.getInstance().getLavaLink().getLink(Long.parseLong(guildId));
         trackScheduler = new TrackScheduler(lavaLink, guildId);
-
-        lavaLink.getPlayer().addListener(trackScheduler);
     }
 
     private void leave() {
         var guild = trackScheduler.getGuild();
         if (guild == null) {
-            getLavaLink().destroy();
+            getLavaLink().destroyPlayer();
             return;
         }
 
@@ -82,8 +82,8 @@ public class GuildMusicManager {
         leaveTask = null;
     }
 
-    public JdaLink getLavaLink() {
-        return MantaroBot.getInstance().getLavaLink().getLink(guildId);
+    public Link getLavaLink() {
+        return MantaroBot.getInstance().getLavaLink().getLink(Long.parseLong(guildId));
     }
 
     public TrackScheduler getTrackScheduler() {
@@ -91,9 +91,7 @@ public class GuildMusicManager {
     }
 
     public void destroy() {
-        getLavaLink().getPlayer().removeListener(trackScheduler);
-        getLavaLink().resetPlayer();
-        getLavaLink().destroy();
+        getLavaLink().destroyPlayer();
     }
 
     public boolean isAwaitingDeath() {
