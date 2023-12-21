@@ -68,7 +68,7 @@ dependencies {
 
     // Music
     implementation("dev.arbjerg:lavalink-client:2.1.0")
-    implementation "com.github.TopiSenpai.LavaSrc:lavasrc:3.2.9"
+    implementation "com.github.TopiSenpai.LavaSrc:lavasrc:4.0.0"
 
     // JSON
     implementation 'com.fasterxml.jackson.core:jackson-core:2.15.3'
