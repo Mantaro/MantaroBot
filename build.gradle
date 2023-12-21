@@ -22,11 +22,11 @@ plugins {
 }
 
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
-def ver = new Version(major: 8, minor: 1, revision: 0)
+def ver = new Version(major: 8, minor: 2, revision: 0)
 version ver.toString()
 
-sourceCompatibility = JavaVersion.VERSION_16
-targetCompatibility = JavaVersion.VERSION_16
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
@@ -41,6 +41,10 @@ repositories {
 
     maven {
         url "https://maven.topi.wtf/releases"
+    }
+
+    maven {
+        url "https://maven.lavalink.dev/releases"
     }
 }
 
@@ -59,22 +63,19 @@ task generateLanguageList {
 
 dependencies {
     // Base
-    implementation 'net.dv8tion:JDA:5.0.0-beta.16'
+    implementation 'net.dv8tion:JDA:5.0.0-beta.18'
     implementation 'club.minnced:discord-webhooks:0.8.4'
 
     // Music
-    implementation ('com.github.freyacodes:Lavalink-Client:5fe1b90ab5') {
-        exclude group: 'com.sedmelluq', module: 'lavaplayer'
-    } // Lavalink-Client includes LP, but we specify it below, so we need to exclude it.
-    implementation 'com.github.walkyst:lavaplayer-fork:1.4.3'
-    implementation "com.github.TopiSenpai.LavaSrc:lavasrc:3.2.9"
+    implementation("dev.arbjerg:lavalink-client:2.1.0")
+    implementation "com.github.TopiSenpai.LavaSrc:lavasrc:4.0.0"
 
     // JSON
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.15.3'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.3'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.16.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.0'
 
     // Core
-    implementation 'io.github.classgraph:classgraph:4.8.163'
+    implementation 'io.github.classgraph:classgraph:4.8.165'
     implementation 'ch.qos.logback:logback-classic:1.4.11'
     implementation 'com.google.guava:guava:32.1.3-jre'
     implementation 'commons-io:commons-io:2.15.0'
@@ -85,7 +86,7 @@ dependencies {
     implementation 'redis.clients:jedis:5.0.2'
 
     // Utilities
-    implementation 'org.apache.commons:commons-lang3:3.13.0'
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
     implementation 'org.apache.commons:commons-text:1.10.0'
     implementation 'com.github.Kodehawa:imageboard-api:2.6.0'
 

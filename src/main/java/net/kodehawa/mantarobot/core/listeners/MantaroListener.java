@@ -537,7 +537,7 @@ public class MantaroListener implements EventListener {
 
             // Clean the internal music data.
             if (manager != null) {
-                manager.getLavaLink().destroy();
+                manager.getLavaLink().destroyPlayer();
                 bot.getAudioManager().getMusicManagers().remove(guild.getId());
             }
 

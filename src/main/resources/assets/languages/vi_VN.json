@@ -202,7 +202,7 @@
       "info": "%1$sBạn có thể thay đổi ngôn ngữ của máy chủ (nếu có) bằng lệnh `~>opts language set <mã ngôn ngữ>`. Tùy chọn ngôn ngữ cá nhân của bạn có thể thay đổi bằng cách sử dụng `/profile language lang:<mã ngôn ngữ>`\n**Những ngôn ngữ hiện đang có sẵn:** `%2$s`\nNếu ngôn ngữ của bạn không có ở đây và bạn muốn giúp đỡ, vui lòng tham gia vào máy chủ hỗ trợ và tham gia vào đội dịch thuật!"
     },
     "music_general": {
-      "play_deprecated": "%1$sDo hoàn cảnh nằm ngoài tầm kiểm soát của chúng tôi, chúng tôi không thể cung cấp tính năng phát lại nhạc trên Mantaro.",
+      "play_sellout": "%1$sMusic playback is only available on Mantaro Patreon (Patreon Bot tier), Check out more on <https://patreon.com/mantaro> and consider help us keep the bot alive <3",
       "music_error": {
         "timeout": "%1$sKhông thể kết nối với %2$s: hết giờ kết nối. Hãy thử đổi vùng máy chủ và chạy lại lệnh một lần nữa.",
         "unknown": "%1$sKhông thể kết nối đến kênh %2$s: Lỗi không xác định."

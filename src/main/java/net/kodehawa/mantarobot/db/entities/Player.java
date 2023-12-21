@@ -726,7 +726,7 @@ public class Player implements ManagedMongoObject {
         if (config.isPremiumBot())
             return false;
 
-        return System.currentTimeMillis() > (getLastSeenCampaign() + TimeUnit.HOURS.toMillis(6));
+        return System.currentTimeMillis() > (getLastSeenCampaign() + TimeUnit.HOURS.toMillis(3));
     }
 
     @BsonIgnore

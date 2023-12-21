@@ -17,10 +17,12 @@
 
 package net.kodehawa.mantarobot.commands.music.requester;
 
-import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
-import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
-import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import dev.arbjerg.lavalink.client.AbstractAudioLoadResultHandler;
+import dev.arbjerg.lavalink.client.protocol.LoadFailed;
+import dev.arbjerg.lavalink.client.protocol.PlaylistLoaded;
+import dev.arbjerg.lavalink.client.protocol.SearchResult;
+import dev.arbjerg.lavalink.client.protocol.Track;
+import dev.arbjerg.lavalink.client.protocol.TrackLoaded;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
@@ -29,6 +31,7 @@ import net.dv8tion.jda.api.utils.MarkdownSanitizer;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
+import net.kodehawa.mantarobot.commands.music.utils.TrackData;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.I18n;
@@ -41,13 +44,19 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.Color;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
 
-public class AudioLoader implements AudioLoadResultHandler {
+public class AudioLoader extends AbstractAudioLoadResultHandler {
+    private static final Logger log = LoggerFactory.getLogger(AudioLoader.class);
+
     private static final int MAX_QUEUE_LENGTH = 350;
     private static final long MAX_SONG_LENGTH = TimeUnit.HOURS.toMillis(2);
     private static final ManagedDatabase db = MantaroData.db();
@@ -67,30 +76,20 @@ public class AudioLoader implements AudioLoadResultHandler {
     }
 
     @Override
-    public void trackLoaded(AudioTrack track) {
-        loadSingle(track, false, db.getGuild(ctx.getGuild()), db.getUser(ctx.getMember()));
+    public void ontrackLoaded(@NotNull TrackLoaded trackLoaded) {
+        loadSingle(trackLoaded.getTrack(), false, db.getGuild(ctx.getGuild()), db.getUser(ctx.getMember()));
     }
 
     @Override
-    public void playlistLoaded(AudioPlaylist playlist) {
+    public void onPlaylistLoaded(@NotNull PlaylistLoaded playlistLoaded) {
         final var member = ctx.getMember();
-        if (playlist.isSearchResult()) {
-            if (!skipSelection) {
-                onSearch(playlist);
-            } else {
-                loadSingle(playlist.getTracks().get(0), false, db.getGuild(ctx.getGuild()), db.getUser(member));
-            }
-
-            return;
-        }
-
         try {
             var count = 0;
             var dbGuild = db.getGuild(ctx.getGuild());
             var user = db.getUser(member);
             var i18nContext = new I18nContext(language);
 
-            for (var track : playlist.getTracks()) {
+            for (var track : playlistLoaded.getTracks()) {
                 if (dbGuild.getMusicQueueSizeLimit() != null) {
                     if (count <= dbGuild.getMusicQueueSizeLimit()) {
                         loadSingle(track, true, dbGuild, user);
@@ -111,16 +110,42 @@ public class AudioLoader implements AudioLoadResultHandler {
             }
 
             ctx.editStripped("commands.music_general.loader.loaded_playlist",
-                    EmoteReference.SATELLITE, count, MarkdownSanitizer.sanitize(playlist.getName()),
+                    EmoteReference.SATELLITE, count, MarkdownSanitizer.sanitize(playlistLoaded.getInfo().getName()),
                     Utils.formatDuration(i18nContext,
-                            playlist.getTracks()
+                            playlistLoaded.getTracks()
                                     .stream()
-                                    .mapToLong(temp -> temp.getInfo().length).sum()
+                                    .mapToLong(temp -> temp.getInfo().getLength()).sum()
                     )
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error loading playlist!", e);
         }
+    }
+
+    @Override
+    public void onSearchResultLoaded(@NotNull SearchResult searchResult) {
+        if (!skipSelection) {
+            onSearch(searchResult.getTracks());
+        } else {
+            loadSingle(searchResult.getTracks().get(0), false, db.getGuild(ctx.getGuild()), db.getUser(ctx.getMember()));
+        }
+    }
+
+    @Override
+    public void loadFailed(@NotNull LoadFailed loadFailed) {
+        if (failureCount == 0) {
+            if (loadFailed.getException().getMessage() == null) {
+                ctx.edit("commands.music_general.loader.unknown_error_loading", EmoteReference.ERROR);
+            } else {
+                ctx.edit("commands.music_general.loader.error_loading", EmoteReference.ERROR, loadFailed.getException().getMessage());
+            }
+
+            // Just in case.
+            log.error(loadFailed.getException().getMessage());
+        }
+
+        Metrics.TRACK_EVENTS.labels("tracks_failed").inc();
+        failureCount++;
     }
 
     @Override
@@ -128,32 +153,15 @@ public class AudioLoader implements AudioLoadResultHandler {
         ctx.edit("commands.music_general.loader.no_matches", EmoteReference.ERROR);
     }
 
-    @Override
-    public void loadFailed(FriendlyException exception) {
-        if (failureCount == 0) {
-            if (exception.getMessage() == null) {
-                ctx.edit("commands.music_general.loader.unknown_error_loading", EmoteReference.ERROR);
-            } else {
-                ctx.edit("commands.music_general.loader.error_loading", EmoteReference.ERROR, exception.getMessage());
-            }
-
-            // Just in case.
-            exception.printStackTrace();
-        }
-
-        Metrics.TRACK_EVENTS.labels("tracks_failed").inc();
-        failureCount++;
-    }
-
-    private void loadSingle(AudioTrack audioTrack, boolean silent, MongoGuild dbGuild, MongoUser dbUser) {
+    private void loadSingle(Track audioTrack, boolean silent, MongoGuild dbGuild, MongoUser dbUser) {
         final var trackInfo = audioTrack.getInfo();
         final var trackScheduler = musicManager.getTrackScheduler();
         var i18nContext = new I18nContext(language);
 
-        audioTrack.setUserData(ctx.getAuthor().getId());
+        audioTrack.setUserData(new TrackData(ctx.getAuthor().getId()));
 
-        final var title = trackInfo.title;
-        final var length = trackInfo.length;
+        final var title = trackInfo.getTitle();
+        final var length = trackInfo.getLength();
 
         long queueLimit = MAX_QUEUE_LENGTH;
         if (dbGuild.getMusicQueueSizeLimit() != null && dbGuild.getMusicQueueSizeLimit() > 1) {
@@ -161,7 +169,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         }
 
         var fqSize = dbGuild.getMaxFairQueue();
-        ConcurrentLinkedDeque<AudioTrack> queue = trackScheduler.getQueue();
+        ConcurrentLinkedDeque<Track> queue = trackScheduler.getQueue();
 
         if (queue.size() > queueLimit && !dbUser.isPremium() && !dbGuild.isPremium()) {
             if (!silent) {
@@ -170,7 +178,7 @@ public class AudioLoader implements AudioLoadResultHandler {
             return;
         }
 
-        if (trackInfo.length > MAX_SONG_LENGTH && (!dbUser.isPremium() && !dbGuild.isPremium())) {
+        if (trackInfo.getLength() > MAX_SONG_LENGTH && (!dbUser.isPremium() && !dbGuild.isPremium())) {
             ctx.edit("commands.music_general.loader.over_32_minutes",
                     EmoteReference.WARNING, title,
                     Utils.formatDuration(i18nContext, MAX_SONG_LENGTH),
@@ -180,7 +188,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         }
 
         // Comparing if the URLs are the same to be 100% sure they're just not spamming the same url over and over again.
-        if (queue.stream().filter(track -> trackInfo.uri.equals(track.getInfo().uri)).count() > fqSize && !silent) {
+        if (queue.stream().filter(track -> trackInfo.getUri().equals(track.getInfo().getUri())).count() > fqSize && !silent) {
             ctx.edit("commands.music_general.loader.fair_queue_limit_reached", EmoteReference.ERROR, fqSize + 1);
             return;
         }
@@ -190,7 +198,7 @@ public class AudioLoader implements AudioLoadResultHandler {
 
         if (!silent) {
             var player = db.getPlayer(ctx.getAuthor());
-            var badge = APIUtils.getHushBadge(audioTrack.getIdentifier(), Utils.HushType.MUSIC);
+            var badge = APIUtils.getHushBadge(audioTrack.getInfo().getIdentifier(), Utils.HushType.MUSIC);
             if (badge != null && player.addBadgeIfAbsent(badge)) {
                 player.updateAllChanged();
             }
@@ -209,15 +217,15 @@ public class AudioLoader implements AudioLoadResultHandler {
 
     // Yes, this is repeated twice. I need the hook for the search stuff.
     @SuppressWarnings("SameParameterValue")
-    private void loadSingle(InteractionHook hook, AudioTrack audioTrack, boolean silent, MongoGuild dbGuild, MongoUser dbUser) {
+    private void loadSingle(InteractionHook hook, Track audioTrack, boolean silent, MongoGuild dbGuild, MongoUser dbUser) {
         final var trackInfo = audioTrack.getInfo();
         final var trackScheduler = musicManager.getTrackScheduler();
         var i18nContext = new I18nContext(language);
 
-        audioTrack.setUserData(ctx.getAuthor().getId());
+        audioTrack.setUserData(new TrackData(ctx.getAuthor().getId()));
 
-        final var title = trackInfo.title;
-        final var length = trackInfo.length;
+        final var title = trackInfo.getTitle();
+        final var length = trackInfo.getLength();
 
         long queueLimit = MAX_QUEUE_LENGTH;
         if (dbGuild.getMusicQueueSizeLimit() != null && dbGuild.getMusicQueueSizeLimit() > 1) {
@@ -225,7 +233,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         }
 
         var fqSize = dbGuild.getMaxFairQueue();
-        ConcurrentLinkedDeque<AudioTrack> queue = trackScheduler.getQueue();
+        ConcurrentLinkedDeque<Track> queue = trackScheduler.getQueue();
 
         if (queue.size() > queueLimit && !dbUser.isPremium() && !dbGuild.isPremium()) {
             if (!silent) {
@@ -237,7 +245,7 @@ public class AudioLoader implements AudioLoadResultHandler {
             return;
         }
 
-        if (trackInfo.length > MAX_SONG_LENGTH && (!dbUser.isPremium() && !dbGuild.isPremium())) {
+        if (trackInfo.getLength() > MAX_SONG_LENGTH && (!dbUser.isPremium() && !dbGuild.isPremium())) {
             hook.editOriginal(i18nContext.get("commands.music_general.loader.over_32_minutes").formatted(
                     EmoteReference.WARNING, title,
                     Utils.formatDuration(i18nContext, MAX_SONG_LENGTH),
@@ -247,7 +255,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         }
 
         // Comparing if the URLs are the same to be 100% sure they're just not spamming the same url over and over again.
-        if (queue.stream().filter(track -> trackInfo.uri.equals(track.getInfo().uri)).count() > fqSize && !silent) {
+        if (queue.stream().filter(track -> trackInfo.getUri().equals(track.getInfo().getUri())).count() > fqSize && !silent) {
             hook.editOriginal(i18nContext.get("commands.music_general.loader.fair_queue_limit_reached").formatted(EmoteReference.ERROR, fqSize + 1))
                     .setEmbeds()
                     .setComponents()
@@ -260,7 +268,7 @@ public class AudioLoader implements AudioLoadResultHandler {
 
         if (!silent) {
             var player = db.getPlayer(ctx.getAuthor());
-            var badge = APIUtils.getHushBadge(audioTrack.getIdentifier(), Utils.HushType.MUSIC);
+            var badge = APIUtils.getHushBadge(audioTrack.getInfo().getIdentifier(), Utils.HushType.MUSIC);
             if (badge != null && player.addBadgeIfAbsent(badge)) {
                 player.updateAllChanged();
             }
@@ -281,9 +289,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         Metrics.TRACK_EVENTS.labels("tracks_load").inc();
     }
 
-    private void onSearch(AudioPlaylist playlist) {
-        final var list = playlist.getTracks();
-
+    private void onSearch(List<Track> list) {
         if (!ctx.getGuild().getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
             ctx.edit("commands.music_general.missing_embed_permissions", EmoteReference.ERROR);
 
@@ -305,8 +311,8 @@ public class AudioLoader implements AudioLoadResultHandler {
                 track -> String.format(
                         "%s**%s** (%s)",
                         EmoteReference.BLUE_SMALL_MARKER,
-                        track.getInfo().title,
-                        AudioCmdUtils.getDurationMinutes(track.getInfo().length)
+                        track.getInfo().getTitle(),
+                        AudioCmdUtils.getDurationMinutes(track.getInfo().getLength())
                 ), s -> new EmbedBuilder()
                         .setColor(Color.CYAN)
                         .setAuthor(language.get("commands.music_general.loader.selection_text"),
