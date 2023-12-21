@@ -71,7 +71,7 @@ dependencies {
     implementation "com.github.TopiSenpai.LavaSrc:lavasrc:4.0.0"
 
     // JSON
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.15.3'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.16.0'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.0'
 
     // Core
