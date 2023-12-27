@@ -30,22 +30,10 @@ targetCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
-    maven {
-        name 'm2-dv8tion'
-        url 'https://m2.dv8tion.net/releases'
-    }
-
-    maven {
-        url 'https://jitpack.io'
-    }
-
-    maven {
-        url "https://maven.topi.wtf/releases"
-    }
-
-    maven {
-        url "https://maven.lavalink.dev/releases"
-    }
+    maven { url 'https://m2.dv8tion.net/releases' }
+    maven { url "https://maven.topi.wtf/releases" }
+    maven { url "https://maven.lavalink.dev/releases" }
+    maven { url 'https://jitpack.io' }
 }
 
 task generateLanguageList {
@@ -88,7 +76,7 @@ dependencies {
     // Utilities
     implementation 'org.apache.commons:commons-lang3:3.14.0'
     implementation 'org.apache.commons:commons-text:1.11.0'
-    implementation 'com.github.Kodehawa:imageboard-api:2.6.1.1'
+    implementation 'io.github.kodehawa:imageboard-api:2.6.1.1'
 
     // Prometheus
     implementation 'io.prometheus:simpleclient:0.9.0'
