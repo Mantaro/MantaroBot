@@ -31,7 +31,6 @@ targetCompatibility = JavaVersion.VERSION_17
 repositories {
     mavenCentral()
     maven { url 'https://m2.dv8tion.net/releases' }
-    maven { url "https://maven.topi.wtf/releases" }
     maven { url "https://maven.lavalink.dev/releases" }
 }
 
