@@ -14,6 +14,7 @@
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
  *
  */
+import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
     id 'java'
@@ -21,30 +22,22 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
-mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 def ver = new Version(major: 8, minor: 2, revision: 0)
 version ver.toString()
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+application {
+    mainClass = "net.kodehawa.mantarobot.MantaroBot"
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 
 repositories {
     mavenCentral()
     maven { url 'https://m2.dv8tion.net/releases' }
     maven { url "https://maven.lavalink.dev/releases" }
-}
-
-task generateLanguageList {
-    doLast {
-        def out = new PrintStream(new FileOutputStream(new File(project.rootDir, "src/main/resources/assets/languages/list.txt")))
-        new File(project.rootDir, "src/main/resources/assets/languages").listFiles().each {
-            if (it.getName().endsWith("json")) {
-                out.println(it.getName())
-            }
-        }
-
-        out.close()
-    }
 }
 
 dependencies {
@@ -84,16 +77,20 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.1'
 }
 
-// Damned Gradle 8
-compileJava.dependsOn generateLanguageList
-distZip.dependsOn shadowJar
-distTar.dependsOn shadowJar
-startScripts.dependsOn shadowJar
-startShadowScripts.dependsOn jar
+tasks.register('generateLanguageList') {
+    doLast {
+        def out = new PrintStream(new FileOutputStream(new File(project.rootDir, "src/main/resources/assets/languages/list.txt")))
+        new File(project.rootDir, "src/main/resources/assets/languages").listFiles().each {
+            if (it.getName().endsWith("json")) {
+                out.println(it.getName())
+            }
+        }
 
-test.dependsOn generateLanguageList
+        out.close()
+    }
+}
 
-task ci {
+tasks.register('ci') {
     dependsOn shadowJar
 }
 
@@ -120,7 +117,8 @@ def lint = [
         "removal",
         "requires-automatic",
         "requires-transitive-automatic",
-        // removed because "non-transient instance field of a serializable class declared with a non-serializable type", believe me i know
+        // removed because "non-transient instance field of a serializable class declared with a non-serializable type",
+        // believe me i know
         //"serial",
         "static",
         "try",
@@ -128,8 +126,6 @@ def lint = [
         "varargs",
         "preview"
 ]
-
-import org.apache.tools.ant.filters.ReplaceTokens
 
 def gitRevision() {
     def gitVersion = new ByteArrayOutputStream()
@@ -141,11 +137,11 @@ def gitRevision() {
     return gitVersion.toString().trim()
 }
 
-task sourcesForRelease(type: Copy) {
-    from ('src/main/java') {
+tasks.register('sourcesForRelease', Copy) {
+    from('src/main/java') {
         include '**/MantaroInfo.java'
         filter(ReplaceTokens, tokens: [
-                version: ver.toString(),
+                version : ver.toString(),
                 revision: gitRevision().toString()
         ])
     }
@@ -154,7 +150,7 @@ task sourcesForRelease(type: Copy) {
     includeEmptyDirs = false
 }
 
-task generateJavaSources(type: SourceTask) {
+tasks.register('generateJavaSources', SourceTask) {
     def javaSources = sourceSets.main.allJava.filter {
         it.name != 'MantaroInfo.java'
     }
@@ -166,23 +162,30 @@ task generateJavaSources(type: SourceTask) {
 compileJava {
     source = generateJavaSources.source
     classpath = sourceSets.main.compileClasspath
-    //options.compilerArgs += ["-Xlint:${lint.join(",")}", "-Werror"]
     options.compilerArgs += ["-Xlint:${lint.join(",")}"]
 
     dependsOn generateJavaSources
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
     options.incremental = true
 }
-
-build.dependsOn shadowJar
 
 shadowJar {
     archiveClassifier.set(null)
     exclude 'module-info.class'
 }
+
+// Damned Gradle 8
+compileJava.dependsOn generateLanguageList
+distZip.dependsOn shadowJar
+distTar.dependsOn shadowJar
+startScripts.dependsOn shadowJar
+startShadowScripts.dependsOn jar
+
+test.dependsOn generateLanguageList
+build.dependsOn shadowJar
 
 class Version {
     String major, minor, revision
