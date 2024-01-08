@@ -83,10 +83,12 @@ public class ReminderTask {
                                                 (guild != null ? "%nAsked on: %s".formatted(guild.getName()) : "")
                                         )
                                 ).queue(success -> {
-                                            log.debug("Reminded {}. Removing from remind database", fullId);
+                                            log.debug("Reminded {}. Removing from remind database.", fullId);
                                             Reminder.cancel(userId, fullId, Reminder.CancelReason.REMINDED);
-                                        }, err -> Reminder.cancel(userId, fullId, Reminder.CancelReason.ERROR_DELIVERING)
-                                );
+                                }, err -> {
+                                    log.error("Error sending reminder {}. Removing from remind database.", fullId, err);
+                                    Reminder.cancel(userId, fullId, Reminder.CancelReason.ERROR_DELIVERING);
+                                });
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
