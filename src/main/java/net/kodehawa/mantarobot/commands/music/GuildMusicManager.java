@@ -23,6 +23,7 @@ import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import reactor.core.Disposable;
 
+import java.time.Duration;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -45,7 +46,7 @@ public class GuildMusicManager {
     private void leave() {
         var guild = trackScheduler.getGuild();
         if (guild == null) {
-            getLavaLink().destroyPlayer();
+            getLavaLink().destroyPlayer().block(Duration.ofMillis(300));
             return;
         }
 
@@ -91,7 +92,7 @@ public class GuildMusicManager {
     }
 
     public void destroy() {
-        getLavaLink().destroyPlayer();
+        getLavaLink().destroyPlayer().block(Duration.ofMillis(300));
     }
 
     public boolean isAwaitingDeath() {

@@ -68,6 +68,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.Color;
+import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -537,7 +538,7 @@ public class MantaroListener implements EventListener {
 
             // Clean the internal music data.
             if (manager != null) {
-                manager.getLavaLink().destroyPlayer();
+                manager.getLavaLink().destroyPlayer().block(Duration.ofMillis(300));
                 bot.getAudioManager().getMusicManagers().remove(guild.getId());
             }
 

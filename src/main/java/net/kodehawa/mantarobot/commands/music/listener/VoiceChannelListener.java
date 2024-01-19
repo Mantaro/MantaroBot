@@ -114,7 +114,6 @@ public class VoiceChannelListener implements EventListener {
         }
 
         var scheduler = musicManager.getTrackScheduler();
-        var player = musicManager.getLavaLink().getPlayer();
         if (event.isMuted()) {
             if (scheduler.getCurrentTrack() != null && scheduler.getRequestedTextChannel() != null) {
                 var textChannel = scheduler.getRequestedTextChannel();

@@ -143,7 +143,7 @@ public class TrackScheduler {
             var voiceState = getRequestedTextChannel().getGuild().getSelfMember().getVoiceState();
             //What kind of massive meme is this? part 2
             if (voiceState == null) {
-                this.getLink().destroyPlayer();
+                this.getLink().destroyPlayer().block(Duration.ofMillis(300));
                 return;
             }
 
@@ -152,7 +152,7 @@ public class TrackScheduler {
             //What kind of massive meme is this?
             //It's called mantaro
             if (voiceChannel == null) {
-                this.getLink().destroyPlayer();
+                this.getLink().destroyPlayer().block(Duration.ofMillis(300));
                 return;
             }
 
@@ -261,7 +261,7 @@ public class TrackScheduler {
         var guild = getGuild();
         if (guild == null) {
             // Why?
-            this.getLink().destroyPlayer();
+            this.getLink().destroyPlayer().block(Duration.ofMillis(300));
             return;
         }
 

@@ -37,7 +37,6 @@ java {
 repositories {
     mavenCentral()
     maven { url 'https://m2.dv8tion.net/releases' }
-    maven { url "https://maven.lavalink.dev/releases" }
 }
 
 dependencies {
@@ -46,7 +45,7 @@ dependencies {
     implementation 'club.minnced:discord-webhooks:0.8.4'
 
     // Music
-    implementation("dev.arbjerg:lavalink-client:2.1.0")
+    implementation("dev.arbjerg:lavalink-client:2.2.0")
 
     // JSON
     implementation 'com.fasterxml.jackson.core:jackson-core:2.16.1'

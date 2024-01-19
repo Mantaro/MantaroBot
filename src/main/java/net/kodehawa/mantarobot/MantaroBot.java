@@ -168,7 +168,7 @@ public class MantaroBot {
             Runtime.getRuntime().addShutdownHook(thread.newThread(() -> {
                 log.info("Destroying all active players...");
                 for (var players : audioManager.getMusicManagers().entrySet()) {
-                    players.getValue().getLavaLink().destroyPlayer();
+                    players.getValue().getLavaLink().destroyPlayer().block(Duration.ofMillis(300));
                 }
 
                 log.info("Destroyed all players. Not aware of anything holding off shutdown now");
