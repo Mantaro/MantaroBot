@@ -42,7 +42,7 @@ public class ItemReference {
             LOOT_CRATE_KEY, BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES,
             DIAMOND, CHOCOLATE, COOKIES, NECKLACE, ROSE, DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR,
             BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_CLEAN, POTION_STAMINA, FISHING_ROD, FISH,
-            TROPICAL_FISH, BLOWFISH, COMET_GEM, STAR_GEM, COBWEB, GEM_FRAGMENT, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE,
+            TROPICAL_FISH, BLOWFISH, COMET_GEM, STAR_GEM, COBWEB, GEM_FRAGMENT, MOP, CLAIM_KEY, COFFEE, TEA, FISHING_BAIT, DIAMOND_PICKAXE,
             TELEVISION, WRENCH, MOTORCYCLE, COMET_PICKAXE, STAR_PICKAXE, PIZZA, OLD_SPARKLE_FRAGMENT, GEM5_PICKAXE, MINE_CRATE, FISH_CRATE,
             FISH_PREMIUM_CRATE, MINE_PREMIUM_CRATE, COMET_ROD, STAR_ROD, OLD_SPARKLE_ROD, SPARKLE_PICKAXE, SPARKLE_FRAGMENT, SPARKLE_ROD, SHELL,
             SHARK, WRENCH_COMET, WRENCH_SPARKLE, CRAB, SQUID, SHRIMP, MOON_RUNES, SNOWFLAKE, BROKEN_SPARKLE_PICK, BROKEN_COMET_PICK,
@@ -50,7 +50,7 @@ public class ItemReference {
             CHICKEN, MILK_2, DOG_FOOD, CAT_FOOD, HAMSTER_FOOD, WOOD, AXE, COMET_AXE, STAR_AXE, SPARKLE_AXE, HELLFIRE_AXE, MOON_AXE,
             MOON_PICK, MOON_ROD, HELLFIRE_PICK, HELLFIRE_ROD, PET_HOUSE, LEAVES, APPLE, PEAR, CHERRY_BLOSSOM, ROCK, BROKEN_MOON_PICK,
             BROKEN_MOON_ROD, BROKEN_COMET_AXE, BROKEN_STAR_AXE, BROKEN_SPARKLE_AXE, BROKEN_MOON_AXE, BROKEN_HELLFIRE_PICK,
-            BROKEN_HELLFIRE_AXE, BROKEN_HELLFIRE_ROD, CHOP_CRATE, CHOP_PREMIUM_CRATE, PIE, FISH_BOWL;
+            BROKEN_HELLFIRE_AXE, BROKEN_HELLFIRE_ROD, CHOP_CRATE, CHOP_PREMIUM_CRATE, PIE, FISH_BOWL, PET_TOY, STICKS;
 
     public static final Item[] ALL = {
             HEADPHONES = new Item(ItemType.COLLECTABLE, "\uD83C\uDFA7",
@@ -259,7 +259,7 @@ public class ItemReference {
                     20, true
             ),
 
-            POTION_HASTE = new Potion(ItemType.POTION, 4, "\uD83C\uDF76",
+            POTION_HASTE = new Potion(ItemType.POTION, PotionEffectType.DROP_CHANCE_OTHER, 4, "\uD83C\uDF76",
                     "Haste Potion", "items.haste", "items.description.haste",
                     490, true
             ),
@@ -269,7 +269,7 @@ public class ItemReference {
                     50, true
             ),
 
-            POTION_STAMINA = new Potion(ItemType.POTION, 4, "\uD83C\uDFFA",
+            POTION_STAMINA = new Potion(ItemType.POTION, PotionEffectType.DURABILITY, 4, "\uD83C\uDFFA",
                     "Energy Beverage", "items.energy", "items.description.energy",
                     450, true
             ),
@@ -335,12 +335,13 @@ public class ItemReference {
                     10, true
             ),
 
-            WAIFU_PILL = new Potion(ItemType.POTION, 3, "\ud83d\udc8a",
-                    "Waifu Pill", "items.waifu_pill", "items.description.waifu_pill",
-                    370, true
+            // todo this needs a better buff than money, potentially chance to mult pet effect?
+            TEA = new Potion(ItemType.POTION_CASTABLE, PotionEffectType.MONEY, 3, "\uD83C\uDF75",
+                    "Tea", "items.waifu_pill", "items.description.waifu_pill",
+                    370, false, "5;7", 115, 112
             ),
 
-            FISHING_BAIT = new Potion(ItemType.BUFF, 1, "\uD83D\uDC1B",
+            FISHING_BAIT = new Potion(ItemType.BUFF, PotionEffectType.DROP_CHANCE_FISH, 1, "\uD83D\uDC1B",
                     "Fishing Bait", "items.bait", "items.description.bait",
                     15, true
             ),
@@ -778,5 +779,16 @@ public class ItemReference {
                     "Fish Bowl", "items.fish_bowl", "items.description.fish_bowl",
                     70, false, "4;3", 45, 46
             ),
+
+            PET_TOY = new Potion(ItemType.POTION_CASTABLE, PotionEffectType.PET, 2, "\uD83E\uDD4F",
+                    "Pet Toy", "items.pet_toy", "items.description.pet_toy", 800,
+                    false, false,
+                    "5;10;3", 101, 131, 115
+            ),
+
+            STICKS = new Item(ItemType.CHOP_DROP, "\uD83E\uDD62",
+                    "Twigs", "items.twigs", "items.description.twigs",
+                    50, false, false
+            )
     };
 }

@@ -17,6 +17,6 @@
 
 package net.kodehawa.mantarobot.core.listeners.operations.core;
 
-import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 
-public interface ButtonOperation extends ComponentOperation<ButtonInteractionEvent> { }
+public interface StringSelectOperation extends ComponentOperation<StringSelectInteractionEvent> { }

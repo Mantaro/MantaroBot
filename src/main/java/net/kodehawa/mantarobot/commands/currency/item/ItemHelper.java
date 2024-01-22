@@ -17,8 +17,13 @@
 
 package net.kodehawa.mantarobot.commands.currency.item;
 
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
+import net.kodehawa.mantarobot.commands.currency.item.drops.ItemDrop;
+import net.kodehawa.mantarobot.commands.currency.item.drops.DropPicker;
+import net.kodehawa.mantarobot.commands.currency.item.drops.PercentageDrop;
 import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
 import net.kodehawa.mantarobot.commands.currency.item.special.Food;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
@@ -33,7 +38,10 @@ import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.command.slash.AutocompleteContext;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
+import net.kodehawa.mantarobot.core.listeners.operations.ComponentOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.MongoUser;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -48,6 +56,7 @@ import org.slf4j.LoggerFactory;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -66,6 +75,40 @@ public class ItemHelper {
     private static Food[] petFoodItems;
     private static final Logger log = LoggerFactory.getLogger(ItemHelper.class);
     private static final SecureRandom random = new SecureRandom();
+    public static final DropPicker CHOP_DROPS = DropPicker.create()
+            .ensureMin(
+                    new ItemDrop(ItemReference.WOOD, 30, 1, 7),
+                    new ItemDrop(ItemReference.STICKS, 30, 1, 13)
+            )
+            .random(
+                    new ItemDrop(ItemReference.CHERRY_BLOSSOM, 30, 1, 1),
+                    new ItemDrop(ItemReference.PEAR, 30, 1, 1),
+                    new ItemDrop(ItemReference.APPLE, 30, 1, 1),
+                    new ItemDrop(ItemReference.LEAVES, 30, 1, 1)
+            )
+            .percentage(
+                    // premium crate replacement is handled by picker
+                    new PercentageDrop(ItemReference.CHOP_CRATE, 400, 380, 1, 1, "commands.chop.crate.success")
+                    )
+            .build();
+    public static final DropPicker FISH_DROPS = DropPicker.create()
+            .random(
+                    new ItemDrop(ItemReference.SHRIMP, 30, 1, 1),
+                    new ItemDrop(ItemReference.SQUID, 30, 1, 1),
+                    new ItemDrop(ItemReference.CRAB, 30, 1, 1),
+                    new ItemDrop(ItemReference.TROPICAL_FISH, 30, 1, 1),
+                    new ItemDrop(ItemReference.BLOWFISH, 1, 1, 1),
+                    new ItemDrop(ItemReference.FISH, 30, 1, 1)
+            )
+            .percentage(
+                    // premium crate replacement is handled by picker
+                    new PercentageDrop(ItemReference.FISH_CRATE, 400, 380, 1, 1, "commands.fish.crate.success"),
+                    new PercentageDrop(ItemReference.SHARK, 30, 20, 1, 1, 6, "commands.fish.shark_success"),
+                    // rarity of 3 is the same as nominalLevel 3
+                    new PercentageDrop(ItemReference.SHELL, 110, 90, 1, 1, 3, "commands.fish.fossil_success")
+            )
+            .build();
+
     private static final IncreasingRateLimiter lootCrateRatelimiter = new IncreasingRateLimiter.Builder()
             .limit(1)
             .spamTolerance(2)
@@ -107,16 +150,54 @@ public class ItemHelper {
         }));
 
         ItemReference.POTION_CLEAN.setAction((ctx, season) -> {
-            Player player = ctx.getPlayer();
-            MongoUser dbUser = ctx.getDBUser();
-            var equipped = dbUser.getEquippedItems();
-            equipped.resetEffect(PlayerEquipment.EquipmentType.POTION);
-            player.processItem(ItemReference.POTION_CLEAN, -1);
+            var menu = StringSelectMenu.create("milky_select")
+                    .setRequiredRange(1, 1)
+                    .setPlaceholder(ctx.getLanguageContext().get("general.misc_item_usage.milk.placeholder"));
+            var types = ctx.getDBUser().getEquippedItems().getEffectTypes();
+            if (types.isEmpty()) {
+                ctx.sendLocalized("general.misc_item_usage.milk.none_active", EmoteReference.ERROR);
+                return true;
+            }
+            for (var effectType : types) {
+                menu.addOption(
+                        ctx.getLanguageContext().get("items.effect_types." + effectType.name().toLowerCase()),
+                        effectType.name()
+                );
+            }
+            var message = ctx.sendResult(ctx.getLanguageContext().get("general.misc_item_usage.milk.header"));
+            ComponentOperations.createSelect(message, 60, event -> {
+                var selected = event.getSelectedOptions();
+                User user = event.getUser();
+                MongoUser dbUser = MantaroData.db().getUser(user);
+                var langContext = new I18nContext(I18n.getForLanguage(dbUser.getLang()));
+                if (!selected.isEmpty()) {
+                    try {
+                        var effectType = PotionEffectType.valueOf(selected.get(0).getValue());
+                        Player player = MantaroData.db().getPlayer(user);
+                        var equipped = dbUser.getEquippedItems();
+                        equipped.resetEffect(effectType);
+                        player.processItem(ItemReference.POTION_CLEAN, -1);
 
-            player.updateAllChanged();
-            equipped.updateAllChanged(dbUser);
+                        player.updateAllChanged();
+                        equipped.updateAllChanged(dbUser);
 
-            ctx.sendLocalized("general.misc_item_usage.milk", EmoteReference.CORRECT);
+                        event.getHook().editOriginal(
+                                langContext.get("general.misc_item_usage.milk.success")
+                                        .formatted(
+                                                EmoteReference.CORRECT,
+                                                langContext.get("items.effect_types." + effectType.name().toLowerCase())
+                                        )
+                        ).setComponents().queue();
+                        return Operation.COMPLETED;
+                    } catch (IllegalArgumentException ignored) {}
+                }
+                event.getHook().editOriginal(
+                        langContext.get("general.misc_item_usage.milk.invalid")
+                                .formatted(EmoteReference.ERROR)
+                ).setComponents().queue();
+                return Operation.COMPLETED;
+            }, Collections.singletonList(menu.build()));
+
             return true;
         });
 
@@ -422,7 +503,10 @@ public class ItemHelper {
                 .collect(Collectors.toList());
     }
 
-    public static boolean handleEffect(PlayerEquipment.EquipmentType type, PlayerEquipment equipment, Item item, MongoUser user) {
+    public static boolean handleEffect(Item item, MongoUser user) {
+        if (!(item instanceof Potion potion)) return false;
+        var equipment = user.getEquippedItems();
+        var type = potion.getEffectType();
         boolean isEffectPresent = equipment.getCurrentEffect(type) != null;
 
         if (isEffectPresent) {
@@ -431,35 +515,40 @@ public class ItemHelper {
                 return false;
             }
 
-            // Effect is active when it's been used less than the max amount
-            if (!equipment.isEffectActive(type, ((Potion) item).getMaxUses())) {
-                // Reset effect if the current amount equipped is 0. Else, subtract one from the current amount equipped.
-                if (!equipment.useEffect(type)) { //This call subtracts one from the current amount equipped.
-                    equipment.resetEffect(type);
-                    // This has to go twice, because I have to return on the next statement.
-                    equipment.updateAllChanged(user);
-
-                    return false;
-                } else {
-                    equipment.updateAllChanged(user);
-                    return true;
-                }
-            } else {
+            var activeBefore = equipment.isEffectActive(type, potion.getMaxUses());
+            // if the effect is active increment uses by 1
+            // this is basically always true, as the below
+            // logic ensures effects are rolled over in time
+            // (an improvement to the previous logic)
+            // for the sake of "security" we check it anyway
+            if (activeBefore) {
                 equipment.incrementEffectUses(type);
-                if (!equipment.isEffectActive(type, ((Potion) item).getMaxUses())) {
-                    // Get the new amount. If the effect is not active we need to remove it
-                    // This is obviously a little hacky, but that's what I get for not thinking about it before.
-                    // This option will blow through the stack if the used amount > allowed amount,
-                    // but we check if the effect is not active, therefore it will only go through and delete
-                    // the element from the stack only when there's no more uses remaining on that part of the stack :)
-                    // This bug took me two god damn years to fix.
-                    equipment.useEffect(type);
-                }
-
-                equipment.updateAllChanged(user);
-
-                return true;
             }
+            var activeAfter = equipment.isEffectActive(type, potion.getMaxUses());
+            // if the effect either wasn't active before (basically impossible)
+            // [context: !activeAfter is true if activeBefore was false]
+            // or is no longer active afterward,
+            // reduce stack by 1
+            if (!activeAfter) {
+                var remove = !equipment.useEffect(type);
+                if (remove) {
+                    // stack reached 0, remove effect
+                    equipment.resetEffect(type);
+                }
+            }
+            // if we were active or are nt longer active afterward we have things to save
+            if (activeBefore || !activeAfter) {
+                equipment.updateAllChanged(user);
+            }
+            // unlike the previous logic we know that if this block is reached
+            // that there was at least one usage left.
+            // why?, because the above logic ensures that resetEffect is called in the same
+            // call as stacks are reduced by 1
+            // For instance if this is called for 1x Beverage with 3 out of 4 uses:
+            // activeBefore = true (increment to 4/4)
+            // activeAfter = false (reduce stack by 1)
+            // stack count after <= 0 -> remove effect
+            return true;
         }
 
         return false;
@@ -478,7 +567,7 @@ public class ItemHelper {
         var equippedItems = user.getEquippedItems();
         var subtractFrom = 0;
 
-        if (handleEffect(PlayerEquipment.EquipmentType.POTION, equippedItems, ItemReference.POTION_STAMINA, user)) {
+        if (handleEffect(ItemReference.POTION_STAMINA, user)) {
             subtractFrom = random.nextInt(7);
         } else {
             subtractFrom = random.nextInt(10);
@@ -722,10 +811,7 @@ public class ItemHelper {
 
     public static Item[] getUsableItems() {
         return Objects.requireNonNullElseGet(usableItems, () -> usableItems = Stream.of(ItemReference.ALL)
-                .filter(i -> i.getItemType() == ItemType.INTERACTIVE ||
-                        i.getItemType() == ItemType.POTION ||
-                        i.getItemType() == ItemType.CRATE ||
-                        i.getItemType() == ItemType.BUFF)
+                .filter(i -> i.getItemType().isUsable())
                 .toArray(Item[]::new));
     }
 

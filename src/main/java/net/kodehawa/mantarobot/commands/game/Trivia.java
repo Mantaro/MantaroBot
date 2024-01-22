@@ -23,7 +23,7 @@ import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.lobby.GameLobby;
-import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.ComponentOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ButtonOperation;
 import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -60,9 +60,9 @@ public class Trivia extends Game<String> {
 
     @Override
     public void call(GameLobby lobby, List<String> players) {
-        ButtonOperations.create(message, 60, new ButtonOperation() {
+        ComponentOperations.createButton(message, 60, new ButtonOperation() {
             @Override
-            public int click(ButtonInteractionEvent event) {
+            public int handle(ButtonInteractionEvent event) {
                 return callDefaultButton(event, Long.parseLong(lobby.getPlayers().get(0)), lobby, answer, answerRaw, getAttempts(), 1, hardDiff ? 10 : 0);
             }
 

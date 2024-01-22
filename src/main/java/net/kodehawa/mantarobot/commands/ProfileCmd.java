@@ -34,6 +34,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
+import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
@@ -427,6 +428,60 @@ public class ProfileCmd {
             }
         }
 
+        @Description("See buffs applied to someone's profile.")
+        @Options({@Options.Option(type = OptionType.USER, name = "user", description = "The user to see buffs of.")})
+        @Help(
+                description = "See buffs applied to your own or someone's profile.",
+                usage = "`/profile buffs user:[user]`",
+                parameters = {@Help.Parameter(name = "user", description = "The user to see buffs of.", optional = true)}
+        )
+        public static class Buffs extends SlashCommand {
+            @Override
+            protected void process(SlashContext ctx) {
+                var toLookup = ctx.getOptionAsUser("user", ctx.getAuthor());
+                var lang = ctx.getLanguageContext();
+                if (toLookup.isBot()) {
+                    ctx.replyEphemeral("commands.profile.bot_notice", EmoteReference.ERROR);
+                    return;
+                }
+
+                var dbUser = ctx.getDBUser(toLookup);
+
+                var equippedItems = dbUser.getEquippedItems();
+                var sorted = equippedItems.getEffectListSorted();
+                if (sorted.isEmpty()) {
+                    ctx.sendLocalized("commands.profile.buffs.no_buffs", EmoteReference.ERROR, toLookup.getName());
+                    return;
+                }
+                List<MessageEmbed.Field> fields = new LinkedList<>();
+                for (PotionEffect effect : sorted) {
+                    // this adds a blank field between each entry
+                    if (!fields.isEmpty() && (fields.size() == 1 || fields.size() % 2 == 0)) {
+                        fields.add(new MessageEmbed.Field(
+                                EmbedBuilder.ZERO_WIDTH_SPACE,
+                                EmbedBuilder.ZERO_WIDTH_SPACE,
+                                true)
+                        );
+                    }
+                    var field = PotionEffect.toDisplayField(ctx, effect, equippedItems);
+                    if (field == null) continue;
+                    fields.add(field);
+                }
+
+                var splitFields = DiscordUtils.divideFields(9, fields);
+                var embed = new EmbedBuilder()
+                        .setThumbnail(toLookup.getEffectiveAvatarUrl())
+                        .setAuthor(lang.get("commands.profile.buffs.header").formatted(toLookup.getName()),
+                                null, toLookup.getEffectiveAvatarUrl()
+                        )
+                        .setDescription(String.format(lang.get("general.buy_sell_paged_react"), String.format(lang.get("general.reaction_timeout"), 200)))
+                        .setColor(ctx.getMemberColor())
+                        .setFooter("Thanks for using Mantaro! %s".formatted(EmoteReference.HEART), ctx.getGuild().getIconUrl());
+
+                DiscordUtils.listButtons(ctx.getUtilsContext(), 200, embed, splitFields);
+            }
+        }
+
         @Description("See profile statistics.")
         @Options({@Options.Option(type = OptionType.USER, name = "user", description = "The user to see stats for.")})
         @Help(
@@ -573,7 +628,8 @@ public class ProfileCmd {
         if (mh != null) {
             try {
                 mhMember = mh.retrieveMemberById(userLooked.getId()).useCache(true).complete();
-            } catch (ErrorResponseException ignored) { } // Expected UNKNOWN_MEMBER
+            } catch (ErrorResponseException ignored) {
+            } // Expected UNKNOWN_MEMBER
         }
 
         Badge.assignBadges(player, player.getStats(), dbUser);

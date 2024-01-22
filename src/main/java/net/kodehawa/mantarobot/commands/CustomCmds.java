@@ -43,7 +43,7 @@ import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.command.slash.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
-import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.ComponentOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ModalOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ModalOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
@@ -1129,7 +1129,7 @@ public class CustomCmds {
 
         var languageContext = ctx.getLanguageContext();
         var message = ctx.sendResult(languageContext.get("commands.custom.clear.confirmation").formatted(EmoteReference.WARNING));
-        ButtonOperations.create(message, 60, e -> {
+        ComponentOperations.createButton(message, 60, e -> {
             if (e.getUser().getIdLong() != ctx.getAuthor().getIdLong()) {
                 return Operation.IGNORED;
             }

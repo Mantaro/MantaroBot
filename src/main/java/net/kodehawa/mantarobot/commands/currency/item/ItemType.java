@@ -22,7 +22,7 @@ public enum ItemType {
     COLLECTABLE(false, "items.categories.collectable"),
     COMMON(false, "items.categories.common"),
     RARE(false, "items.categories.rare"),
-    INTERACTIVE(false, "items.categories.interactive"),
+    INTERACTIVE(false, true, "items.categories.interactive"),
 
     // Not really used.
     PREMIUM(false, "items.categories.premium"),
@@ -38,12 +38,13 @@ public enum ItemType {
     FISHING(false, "items.categories.fish"),
     FISHING_RARE(false, "items.categories.fish_rare"),
 
-    CRATE(false, "items.categories.crate"),
+    CRATE(false, true, "items.categories.crate"),
     CHOP_DROP(false, "items.categories.chop_drop"),
 
     // Buffs
-    POTION(false, "items.categories.potion"),
-    BUFF(false, "items.categories.buff"),
+    POTION(false, true, "items.categories.potion"),
+    POTION_CASTABLE(true, true, "items.categories.potion"),
+    BUFF(false, true, "items.categories.buff"),
 
     // Wrenches
     WRENCH(true, "items.categories.wrench"),
@@ -78,11 +79,17 @@ public enum ItemType {
     DEPRECATED(false, "items.categories.deprecated");
 
     private final boolean cast;
+    private final boolean usable;
 
     private final String description;
 
     ItemType(boolean cast, String description) {
+        this(cast, false, description);
+    }
+
+    ItemType(boolean cast, boolean usable, String description) {
         this.cast = cast;
+        this.usable = usable;
         this.description = description;
     }
 
@@ -92,6 +99,15 @@ public enum ItemType {
 
     public String getDescription() {
         return description;
+    }
+
+    public boolean isUsable() {
+        return usable;
+    }
+
+    public boolean isPotion() {
+        // this doesn't really need a boolean prop
+        return this == POTION || this == POTION_CASTABLE || this == BUFF;
     }
 
     public enum LootboxType {
