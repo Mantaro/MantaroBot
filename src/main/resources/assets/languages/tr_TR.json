@@ -3,7 +3,7 @@
     "invalid_number": "%1$sBu gecerli bir numara degil!",
     "requested_by": "Istek %1$s tarafindan yapildi.",
     "operation_timed_out": "%1$sBu operasyon icin cevap verme suresi doldu.",
-    "too_many_users_found": "%1$sToo many users found, maybe refine your search?\n**Users found:** %2$s",
+    "too_many_users_found": "%1$sÇok fazla kullanıcı bulundu, aramanızı hassaslaştırabilir misiniz?\n**Bulunan kullanıcılar:** %2$s",
     "search_no_result": "%1$sAramaniz bir sonuc vermedi :(",
     "unknown": "Bilinmiyor",
     "days": "gun",
@@ -1353,12 +1353,12 @@
     },
     "pet": {
       "types": {
-        "cat": "Cat",
-        "dog": "Dog",
+        "cat": "Kedi",
+        "dog": "Köpek",
         "rat": "Hamster",
-        "rock": "Rock",
+        "rock": "Kaya",
         "kode": "Dev",
-        "all": "All"
+        "all": "Tümü"
       },
       "explanation": "Evcil hayvanlar, para biriminde yararlı bir arkadaştır!\nDaha fazla para kazanmanıza, daha fazla yağmalamanıza, madende rastgele şeyler bulmanıza, ağaçları kesmenize ve hatta balık tutmanıza yardımcı olurlar. Seviye ne kadar yüksek olursa, ödüller de o kadar yüksek olur!\nFaaliyetleriniz için doğru evcil hayvanı almak önemlidir, bu nedenle seçmek istediğiniz evcil hayvanın türünü ve yeteneklerini kontrol ettiğinizden emin olun!\nEvcil hayvanınızı beslemeniz ve ona su vermeniz ve aynı zamanda gerçek bir evcil hayvan gibi dinlenmesini ve arada bir enerji toplamasını sağlamanız gerektiğini unutmayın! sevebilirsin bile :)\nİki tür vardır: Kişisel (kendiniz için) ve Evlilik (eşinizle sizin aranızda paylaşılan). `/pet choice` ile birini seçin. Varsayılan Kişisel'dir.\nDaha fazla yardım için `/help command:pet` ve evcil hayvan listesi için `/pet list` kullanın.",
       "no_marriage": "%1$sEvlilik hayvanına sahip olmak için evli olmanız gerekir. `/help command:marry` ve `/pet explanation` komutlarını kontrol edin",
@@ -1639,8 +1639,8 @@
       "optional": "(Bu isteğe bağlıdır)",
       "subcommand_help": "Not: Bir alt komut hakkında yardım almak için komut adının yanında alt komut adını kullanabilirsiniz, örneğin `/cast item` konusunda yardım almak için `/help command:cast item` kullanabilirsiniz.\nBu, bir tür yardımları olduğu sürece tüm alt komutlar için geçerlidir.",
       "mention": "Command Mention",
-      "mention_tip": "You can click this to have discord bring up the command for you.",
-      "mention_tip_subs": "You can click any of the below sub commands to have discord bring up the command for you."
+      "mention_tip": "Discord'un sizin için komutu getirmesini sağlamak için buna tıklayabilirsiniz.",
+      "mention_tip_subs": "Discord'un sizin için komutu getirmesini sağlamak için aşağıdaki alt komutlardan herhangi birine tıklayabilirsiniz."
     },
     "repair": {
       "no_item": "%1$sOnarılacak herhangi bir öğe belirtmediniz. Doğru öğeye sahip olduğunuzu düşünüyorsanız, tam ismini kullanmayı deneyin.",
@@ -2416,7 +2416,7 @@
     "die_2": "Özel Yüklü Zar",
     "booster": "Hızlandırıcı",
     "berserk": "Çılgın",
-    "companion": "Companion",
+    "companion": "Partner",
     "special_ring": "Özel Yüzük",
     "enchancer": "Geliştirici",
     "prize": "Ödül",
@@ -2504,8 +2504,8 @@
     "pear": "Armut",
     "cherry_blossom": "Kiraz Çiçeği",
     "rock": "Taş",
-    "fruit_pie": "Fruit Pie",
-    "fish_bowl": "Fish Bowl",
+    "fruit_pie": "Meyveli Turta",
+    "fish_bowl": "Balık Kasesi",
     "broken_moon_pick": "Kırık Ay Kazması",
     "broken_moon_axe": "Kırık Ay Baltası",
     "broken_moon_rod": "Kırık Ay Oltası",
