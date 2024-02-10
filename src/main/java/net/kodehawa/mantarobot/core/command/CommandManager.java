@@ -23,6 +23,8 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.kodehawa.mantarobot.core.command.slash.ContextCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
+import net.kodehawa.mantarobot.core.command.text.TextCommand;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Modifier;
@@ -33,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CommandManager {
-    private final Map<String, NewCommand> commands = new HashMap<>();
+    private final Map<String, TextCommand> commands = new HashMap<>();
     private final Map<String, SlashCommand> slashCommands = new HashMap<>();
     private final Map<String, ContextCommand<User>> contextUserCommand = new HashMap<>();
     private final Map<String, ContextCommand<Message>> contextMessageCommand = new HashMap<>();
@@ -44,7 +46,7 @@ public class CommandManager {
     private final Map<String, String> aliases = new HashMap<>();
 
     @SuppressWarnings("unused")
-    public Map<String, NewCommand> commands() {
+    public Map<String, TextCommand> commands() {
         return Collections.unmodifiableMap(commands);
     }
 
@@ -61,10 +63,10 @@ public class CommandManager {
         return Collections.unmodifiableMap(contextMessageCommand);
     }
 
-    public <T extends NewCommand> T register(@Nonnull Class<T> clazz) {
+    public <T extends TextCommand> T register(@Nonnull Class<T> clazz) {
         return register(instantiate(clazz));
     }
-    public <T extends NewCommand> T register(@Nonnull T command) {
+    public <T extends TextCommand> T register(@Nonnull T command) {
         if (commands.putIfAbsent(command.getName(), command) != null) {
             throw new IllegalArgumentException("Duplicate command " + command.getName());
         }
@@ -140,7 +142,7 @@ public class CommandManager {
         return command;
     }
 
-    public boolean execute(@Nonnull NewContext ctx) {
+    public boolean execute(@Nonnull TextContext ctx) {
         var args = ctx.arguments();
         if (args.hasNext()) {
             var name = args.next().getValue().toLowerCase();
@@ -188,13 +190,13 @@ public class CommandManager {
 
     }
 
-    private static void registerSubcommands(NewCommand command) {
+    private static void registerSubcommands(TextCommand command) {
         for (var inner : command.getClass().getDeclaredClasses()) {
-            if (!NewCommand.class.isAssignableFrom(inner)) continue;
+            if (!TextCommand.class.isAssignableFrom(inner)) continue;
             if (inner.isLocalClass() || inner.isAnonymousClass()) continue;
             if (!Modifier.isStatic(inner.getModifiers())) continue;
             if (Modifier.isAbstract(inner.getModifiers())) continue;
-            var sub = (NewCommand)instantiate(inner);
+            var sub = (TextCommand)instantiate(inner);
             sub.registerParent(command);
             registerSubcommands(sub);
         }

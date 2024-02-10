@@ -19,7 +19,7 @@ package net.kodehawa.mantarobot.core.command.slash;
 
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 
 public class InteractionContext<T> extends BaseInteractionContext<GenericContextInteractionEvent<T>> {
 

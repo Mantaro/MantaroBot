@@ -1,7 +1,7 @@
 package net.kodehawa.mantarobot.db.entities;
 
 import net.kodehawa.mantarobot.commands.utils.polls.Poll;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
+import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.annotations.ConfigName;

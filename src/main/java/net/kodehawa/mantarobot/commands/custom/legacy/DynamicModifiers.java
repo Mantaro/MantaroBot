@@ -25,7 +25,7 @@ import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.events.guild.GenericGuildEvent;
 import net.dv8tion.jda.api.events.guild.member.GenericGuildMemberEvent;
 import net.dv8tion.jda.api.events.message.GenericMessageEvent;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
 import net.kodehawa.mantarobot.utils.Utils;
 
 import java.io.Serial;
@@ -98,7 +98,7 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
                 .set(prefix, "nickname", member.getEffectiveName());
     }
 
-    public DynamicModifiers mapEvent(String prefix, Context ctx) {
+    public DynamicModifiers mapEvent(String prefix, TextContext ctx) {
         return this.mapEvent(prefix, ctx.getEvent())
                 .set(prefix, ctx.getMember().getAsMention() + "@" + ctx.getChannel().getAsMention())
                 .mapMember(k(prefix, "author"), ctx.getMember())

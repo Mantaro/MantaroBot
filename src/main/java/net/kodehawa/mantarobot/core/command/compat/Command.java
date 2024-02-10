@@ -15,13 +15,22 @@
  *
  */
 
-package net.kodehawa.mantarobot.core.modules;
+package net.kodehawa.mantarobot.core.command.compat;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
+import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
+import net.kodehawa.mantarobot.core.command.helpers.HelpContent;
+import net.kodehawa.mantarobot.core.command.helpers.IContext;
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface Module { }
+import java.util.List;
+
+public interface Command {
+    CommandCategory category();
+    CommandPermission permission();
+    void run(IContext context, String commandName, String content);
+    HelpContent help();
+    List<String> getAliases();
+    default boolean isOwnerCommand() {
+        return permission() == CommandPermission.OWNER;
+    }
+}

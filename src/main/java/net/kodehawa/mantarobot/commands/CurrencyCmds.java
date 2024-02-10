@@ -33,6 +33,10 @@ import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.inventory.InventorySortType;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.text.TextCommand;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
+import net.kodehawa.mantarobot.core.command.argument.Parsers;
+import net.kodehawa.mantarobot.core.command.meta.Alias;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Defer;
 import net.kodehawa.mantarobot.core.command.meta.Description;
@@ -40,18 +44,11 @@ import net.kodehawa.mantarobot.core.command.meta.Help;
 import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.meta.Options;
 import net.kodehawa.mantarobot.core.command.slash.AutocompleteContext;
-import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.helpers.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
-import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Command;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.core.command.meta.Module;
+import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.MongoUser;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -92,7 +89,6 @@ public class CurrencyCmds {
             .prefix("tools")
             .build();
 
-
     @Subscribe
     public void register(CommandRegistry cr) {
         cr.registerSlash(InventoryCommand.class);
@@ -100,6 +96,13 @@ public class CurrencyCmds {
         cr.registerSlash(DailyCrate.class);
         cr.registerSlash(Tools.class);
         cr.registerSlash(Use.class);
+
+        // Text
+        cr.register(InventoryText.class);
+        cr.register(LootCrate.class);
+        cr.register(DailyCrateText.class);
+        cr.register(ToolsText.class);
+        cr.register(UseItemText.class);
     }
 
     @Name("inventory")
@@ -343,56 +346,34 @@ public class CurrencyCmds {
         }
     }
 
-    @Subscribe
-    public void inventory(CommandRegistry cr) {
-        var inv = (TreeCommand) cr.register("inventory", new TreeCommand(CommandCategory.CURRENCY) {
-            @SuppressWarnings("unused")
-            @Override
-            public Command defaultTrigger(Context context, String mainCommand, String commandName) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(Context ctx, I18nContext lang, String content) {
-                        var arguments = ctx.getOptionalArguments();
-                        // We don't really use most of them, but we kinda need to show a warning else users don't know what to do
-                        content = Utils.replaceArguments(arguments, content, "calculate", "calc", "c", "b", "brief", "season", "s");
+    @Name("inventory")
+    @Alias("inv")
+    @Alias("backpack")
+    @Description("The hub for inventory related commands.")
+    @Help(description = "The hub for inventory related commands. See the subcommands for more information.")
+    @Category(CommandCategory.CURRENCY)
+    public static class InventoryText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            var lookup = ctx.takeAllString();
+            ctx.findMember(lookup, members -> {
+                var member = CustomFinderUtil.findMemberDefault(lookup, members, ctx, ctx.getMember());
+                if (member == null)
+                    return;
 
-                        // Lambda memes lol
-                        var finalContent = content;
-                        ctx.findMember(content, members -> {
-                            var member = CustomFinderUtil.findMemberDefault(finalContent, members, ctx, ctx.getMember());
-                            if (member == null)
-                                return;
+                final var player = ctx.getPlayer(member);
+                final var user = ctx.getDBUser(member);
+                showInventory(ctx, member.getUser(), player, user, false);
+            });
+        }
 
-                            final var player = ctx.getPlayer(member);
-                            final var user = ctx.getDBUser(member);
-                            showInventory(ctx, member.getUser(), player, user, false);
-                        });
-                    }
-                };
-            }
+        @Description("Calculates the value of your or someone's inventory.")
+        public static class Calculate extends TextCommand {
             @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Shows your current inventory.")
-                        .setUsage("""
-                                  You can mention someone on this command to see their inventory.
-                                  Use `~>inventory -calculate` to see how much you'd get if you sell every sellable item on your inventory.
-                                  """
-                        )
-                        .build();
-            }
-        });
-
-        inv.addSubCommand("calculate", new SubCommand() {
-            @Override
-            public String description() {
-                return "Calculates the value of your or someone's inventory.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                ctx.findMember(content, members -> {
-                    var member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
+            protected void process(TextContext ctx) {
+                var lookup = ctx.takeAllString();
+                ctx.findMember(lookup, members -> {
+                    var member = CustomFinderUtil.findMemberDefault(lookup, members, ctx, ctx.getMember());
                     if (member == null)
                         return;
 
@@ -400,18 +381,17 @@ public class CurrencyCmds {
                     calculateInventory(ctx, member, player);
                 });
             }
-        });
+        }
 
-        inv.addSubCommand("brief", new SubCommand() {
+        @Alias("mobile")
+        @Alias("b")
+        @Description("Calculates the value of your or someone's inventory.")
+        public static class Brief extends TextCommand {
             @Override
-            public String description() {
-                return "Gives a brief view of your inventory in a single message.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                ctx.findMember(content, members -> {
-                    var member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
+            protected void process(TextContext ctx) {
+                var lookup = ctx.takeAllString();
+                ctx.findMember(lookup, members -> {
+                    var member = CustomFinderUtil.findMemberDefault(lookup, members, ctx, ctx.getMember());
                     if (member == null)
                         return;
 
@@ -420,170 +400,125 @@ public class CurrencyCmds {
                     showInventory(ctx, member.getUser(), player, user, true);
                 });
             }
-        });
-
-        inv.createSubCommandAlias("brief", "mobile");
-        inv.createSubCommandAlias("brief", "b");
-
-        cr.registerAlias("inventory", "inv");
-        cr.registerAlias("inventory", "backpack");
+        }
     }
 
-    @Subscribe
-    public void lootcrate(CommandRegistry registry) {
-        registry.register("opencrate", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                openCrate(ctx, content, ctx.getPlayer());
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Opens a loot crate.")
-                        .setUsage("`~>opencrate <name>` - Opens a loot crate.\n" +
-                                "You need a crate key to open any crate.")
-                        .setSeasonal(true)
-                        .addParameter("name",
-                                "The loot crate name. If you don't provide this, a default loot crate will attempt to open.")
-                        .build();
-            }
-        });
-
-        registry.registerAlias("opencrate", "crate");
+    @Name("opencrate")
+    @Alias("crate")
+    @Description("Opens a loot crate.")
+    @Help(description = "Opens a loot crate",
+            usage = "`~>opencrate <name>` - Opens a loot crate.\nYou need a crate key to open any crate."
+    )
+    @Category(CommandCategory.CURRENCY)
+    public static class LootCrate extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            openCrate(ctx, ctx.takeAllString(), ctx.getPlayer());
+        }
     }
 
-    @Subscribe
-    public void openPremiumCrate(CommandRegistry cr) {
-        cr.register("dailycrate", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (!ctx.getDBUser().isPremium()) {
-                    ctx.sendLocalized("commands.dailycrate.not_premium", EmoteReference.ERROR);
-                    return;
+    @Name("dailycrate")
+    @Help(description = "Opens a daily premium loot crate.",
+            usage = """
+                       `~>dailycrate` - Opens a daily premium loot crate.
+                       You need a crate key to open any crate. Use `-check` to check when you can claim it.
+                       """,
+            parameters = { @Help.Parameter(name = "-check", description = "Check the time left for you to be able to claim it.", optional = true) }
+    )
+    @Category(CommandCategory.CURRENCY)
+    public static class DailyCrateText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            if (!ctx.getDBUser().isPremium()) {
+                ctx.sendLocalized("commands.dailycrate.not_premium", EmoteReference.ERROR);
+                return;
+            }
+
+            var arg = ctx.tryArgument(Parsers.string());
+            if (arg.isPresent() && arg.get().equals("-check")) { // This is hacky, but it's not much different than it was before.
+                long rl = dailyCrateRatelimiter.getRemaniningCooldown(ctx.getAuthor());
+
+                ctx.sendLocalized("commands.dailycrate.check", EmoteReference.TALKING,
+                        (rl) > 0 ? Utils.formatDuration(ctx.getLanguageContext(), rl) :
+                                //Yes, this is intended to be daily.about_now, just reusing strings.
+                                ctx.getLanguageContext().get("commands.daily.about_now")
+                );
+                return;
+            }
+
+            final var player = ctx.getPlayer();
+            dailyCrate(ctx, player);
+        }
+    }
+
+    @Name("tools")
+    @Description("Check the durability and status of your tools.")
+    @Category(CommandCategory.CURRENCY)
+    public static class ToolsText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            if (!RatelimitUtils.ratelimit(toolsRatelimiter, ctx)) {
+                return;
+            }
+
+            var dbUser = ctx.getDBUser();
+            tools(ctx, dbUser);
+        }
+    }
+
+    @Name("useitem")
+    @Alias("use")
+    @Help(description = """
+                        Uses an item.
+                        You need to have the item to use it, and the item has to be marked as *interactive*.
+                        """, usage = "`~>useitem <item> [<number>]` - Uses the specified item",
+            parameters = {
+                    @Help.Parameter(name = "item", description = "The item name or emoji. If the name contains spaces \"wrap it in quotes\""),
+                    @Help.Parameter(name = "amount", description = "The amount of items you want to use. Only works with potions/buffs. The maximum is 15."),
+            }
+    )
+    @Category(CommandCategory.CURRENCY)
+    public static class UseItemText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            var item = ctx.argument(Parsers.delimitedBy('"', false),
+                    String.format(ctx.getLanguageContext().get("commands.useitem.no_items_specified"), EmoteReference.ERROR),
+                    String.format(ctx.getLanguageContext().get("commands.useitem.no_items_specified"), EmoteReference.ERROR)
+            ).trim();
+
+            // This will take all the REMAINING arguments, and reduce to a single String.
+            var tryAmount = ctx.takeAllString(); // This is VERY hacky, we have an integer parser, but cannot use it (because of "max").
+            int amount = 1;
+            boolean isMax = false;
+            if (!tryAmount.isEmpty()) {
+                if (tryAmount.contains("-amount ")) { // Backwards compat hack?
+                    tryAmount = tryAmount.replace("-amount ", "");
                 }
 
-                if (args.length > 0 && args[0].equalsIgnoreCase("-check")) {
-                    long rl = dailyCrateRatelimiter.getRemaniningCooldown(ctx.getAuthor());
-
-                    ctx.sendLocalized("commands.dailycrate.check", EmoteReference.TALKING,
-                            (rl) > 0 ? Utils.formatDuration(ctx.getLanguageContext(), rl) :
-                                    //Yes, this is intended to be daily.about_now, just reusing strings.
-                                    ctx.getLanguageContext().get("commands.daily.about_now")
-                    );
-                    return;
-                }
-
-                final var player = ctx.getPlayer();
-                dailyCrate(ctx, player);
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Opens a daily premium loot crate.")
-                        .setUsage("""
-                                  `~>dailycrate` - Opens a daily premium loot crate.
-                                  You need a crate key to open any crate. Use `-check` to check when you can claim it.
-                                  """
-                        )
-                        .addParameterOptional("-check", "Check the time left for you to be able to claim it.")
-                        .build();
-            }
-        });
-    }
-
-    @Subscribe
-    public void useItem(CommandRegistry cr) {
-        TreeCommand ui = cr.register("useitem", new TreeCommand(CommandCategory.CURRENCY) {
-            @SuppressWarnings("unused")
-            @Override
-            public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(Context ctx, I18nContext languageContext, String content) {
-                        String[] args = ctx.getArguments();
-                        var arguments = ctx.getOptionalArguments();
-                        // Yes, parser limitations. Natan change to your parser eta wen :^), really though, we could use some generics on here lol
-                        // NumberFormatException?
-                        int amount = 1;
-                        boolean isMax = false;
-                        if (arguments.containsKey("amount")) {
-                            isMax = "max".equalsIgnoreCase(arguments.get("amount"));
-                            if (!isMax) {
-                                try {
-                                    amount = Math.max(1, Math.abs(Integer.parseInt(arguments.get("amount"))));
-                                } catch (NumberFormatException e) {
-                                    ctx.sendLocalized("commands.useitem.invalid_amount", EmoteReference.WARNING);
-                                    return;
-                                }
-                            }
-                        }
-
-                        if (content.isEmpty()) {
-                            ctx.sendLocalized("commands.useitem.no_items_specified", EmoteReference.ERROR);
-                            return;
-                        }
-
-                        useItem(ctx, ctx.getDBUser(), ctx.getPlayer(), args[0], amount, isMax);
+                isMax = "max".equalsIgnoreCase(tryAmount);
+                if (!isMax) {
+                    try {
+                        amount = Math.max(1, Math.abs(Integer.parseInt(tryAmount)));
+                    } catch (NumberFormatException e) {
+                        ctx.sendLocalized("commands.useitem.invalid_amount", EmoteReference.WARNING);
+                        return;
                     }
-                };
+                }
             }
 
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription(
-                                """
-                                Uses an item.
-                                You need to have the item to use it, and the item has to be marked as *interactive*.
-                                """
-                        )
-                        .setUsage("`~>useitem <item> [-amount <number>]` - Uses the specified item")
-                        .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
-                        .addParameterOptional("-amount", "The amount of items you want to use. Only works with potions/buffs. The maximum is 15.")
-                        .build();
-            }
-        });
+            useItem(ctx, ctx.getDBUser(), ctx.getPlayer(), item, amount, isMax);
+        }
 
-        cr.registerAlias("useitem", "use");
-        ui.addSubCommand("list", new SubCommand() {
+        @Description("Lists all usable (interactive) items.")
+        @Alias("ls")
+        @Alias("1s")
+        @Alias("Is") // oh well...
+        public static class List extends TextCommand {
             @Override
-            public String description() {
-                return "Lists all usable (interactive) items.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(TextContext ctx) {
                 useItemList(ctx);
             }
-        });
-
-        ui.createSubCommandAlias("list", "ls");
-        ui.createSubCommandAlias("list", "1s");
-        ui.createSubCommandAlias("list", "Is");
-    }
-
-    @Subscribe
-    public void tools(CommandRegistry cr) {
-        cr.register("tools", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (!RatelimitUtils.ratelimit(toolsRatelimiter, ctx)) {
-                    return;
-                }
-
-                var dbUser = ctx.getDBUser();
-                tools(ctx, dbUser);
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Check the durability and status of your tools.")
-                        .build();
-            }
-        });
+        }
     }
 
     private static void useItemList(IContext ctx) {

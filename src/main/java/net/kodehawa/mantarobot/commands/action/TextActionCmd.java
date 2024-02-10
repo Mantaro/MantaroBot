@@ -17,36 +17,33 @@
 
 package net.kodehawa.mantarobot.commands.action;
 
-import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
+import net.kodehawa.mantarobot.core.command.text.TextCommand;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
+import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
+import net.kodehawa.mantarobot.core.command.helpers.HelpContent;
 
 import java.util.List;
 import java.util.Random;
 
-public class TextActionCmd extends NoArgsCommand {
-    private final String desc;
+public class TextActionCmd extends TextCommand {
     private final String format;
     private final List<String> strings;
     private final Random rand = new Random();
 
     public TextActionCmd(String desc, String format, List<String> strings) {
-        super(CommandCategory.ACTION);
-        this.desc = desc;
+        super.setCategory(CommandCategory.ACTION);
+        super.setHelp(
+                new HelpContent.Builder()
+                .setDescription(desc)
+                .build()
+        );
+
         this.format = format;
         this.strings = strings;
     }
 
     @Override
-    protected void call(Context ctx, String content) {
+    protected void process(TextContext ctx) {
         ctx.send(String.format(format, strings.get(rand.nextInt(strings.size()))));
-    }
-
-    @Override
-    public HelpContent help() {
-        return new HelpContent.Builder()
-                .setDescription(desc)
-                .build();
     }
 }

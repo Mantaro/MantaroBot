@@ -17,13 +17,14 @@
 
 package net.kodehawa.mantarobot.utils.commands;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.StandardGuildMessageChannel;
 import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
-import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.helpers.IContext;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,8 +33,6 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
 
 public class FinderUtils {
     public static final Pattern DISCORD_ID = Pattern.compile("\\d{17,21}");
@@ -96,7 +95,7 @@ public class FinderUtils {
                             EmoteReference.BLUE_SMALL_MARKER,
                             role.getName(), role.getId()
                     ),
-                    s -> optsCmd.baseEmbed(ctx, ctx.getLanguageContext().get("general.role_select")).
+                    s -> baseEmbed(ctx, ctx.getLanguageContext().get("general.role_select")).
                             setDescription(s)
                             .build(),
                     consumer
@@ -179,7 +178,7 @@ public class FinderUtils {
                         EmoteReference.BLUE_SMALL_MARKER,
                         channel.getName(),
                         channel.getId()
-                ), s -> optsCmd.baseEmbed(ctx, ctx.getLanguageContext().get("general.channel_select"))
+                ), s -> baseEmbed(ctx, ctx.getLanguageContext().get("general.channel_select"))
                         .setDescription(s).build(), consumer);
     }
 
@@ -357,5 +356,14 @@ public class FinderUtils {
         }
 
         return genericVoiceChannelSearch(query, guild.getVoiceChannelCache());
+    }
+
+    private static EmbedBuilder baseEmbed(IContext ctx, String name) {
+        return new EmbedBuilder()
+                .setAuthor(name, null, ctx.getAuthor().getEffectiveAvatarUrl())
+                .setColor(ctx.getMember().getColor())
+                .setFooter("Requested by: %s".formatted(ctx.getMember().getEffectiveName()),
+                        ctx.getGuild().getIconUrl()
+                );
     }
 }

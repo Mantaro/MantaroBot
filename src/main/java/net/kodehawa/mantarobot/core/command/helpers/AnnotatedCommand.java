@@ -1,14 +1,14 @@
-package net.kodehawa.mantarobot.core.command;
+package net.kodehawa.mantarobot.core.command.helpers;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
+import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
+import net.kodehawa.mantarobot.core.command.helpers.HelpContent;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Help;
 import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.meta.Permission;
-import net.kodehawa.mantarobot.core.command.slash.IContext;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
+import net.kodehawa.mantarobot.core.command.helpers.IContext;
 
 import java.util.Arrays;
 
@@ -85,7 +85,6 @@ public abstract class AnnotatedCommand<T extends IContext> {
     public void setHelp(HelpContent help) {
         this.help = help;
     }
-
 
     protected EmbedBuilder baseEmbed(T ctx, String name) {
         return baseEmbed(ctx, name, ctx.getMember().getEffectiveAvatarUrl());

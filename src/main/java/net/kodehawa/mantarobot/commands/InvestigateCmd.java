@@ -28,12 +28,15 @@ import net.dv8tion.jda.api.utils.MiscUtil;
 import net.dv8tion.jda.api.utils.TimeUtil;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
+import net.kodehawa.mantarobot.core.command.text.TextCommand;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
+import net.kodehawa.mantarobot.core.command.argument.Parsers;
+import net.kodehawa.mantarobot.core.command.meta.Category;
+import net.kodehawa.mantarobot.core.command.meta.Help;
+import net.kodehawa.mantarobot.core.command.meta.Name;
+import net.kodehawa.mantarobot.core.command.meta.Module;
+import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
+import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import org.json.JSONArray;
@@ -51,7 +54,7 @@ import java.util.stream.Collectors;
 
 @Module
 public class InvestigateCmd {
-    public static void investigate(Context ctx, Type type, String id, boolean file) {
+    public static void investigate(TextContext ctx, Type type, String id, boolean file) {
         switch (type) {
             case GUILD -> investigateGuild(ctx, MantaroBot.getInstance().getShardManager().getGuildById(id), file);
             case USER -> investigateUser(ctx, MantaroBot.getInstance().getShardManager().getUserById(id), file);
@@ -60,7 +63,7 @@ public class InvestigateCmd {
         }
     }
 
-    private static void investigateGuild(Context ctx, Guild guild, boolean file) {
+    private static void investigateGuild(TextContext ctx, Guild guild, boolean file) {
         if (guild == null) {
             ctx.send("Unknown guild");
             return;
@@ -91,7 +94,7 @@ public class InvestigateCmd {
                 });
     }
 
-    private static void investigateUser(Context ctx, User user, boolean file) {
+    private static void investigateUser(TextContext ctx, User user, boolean file) {
         if (user == null) {
             ctx.send("Unknown user");
             return;
@@ -104,7 +107,7 @@ public class InvestigateCmd {
         DiscordUtils.selectListButton(ctx, user.getMutualGuilds(), Guild::toString, s -> eb.setDescription(s).build(), g -> investigateGuild(ctx, g, file));
     }
 
-    private static void investigateChannel(Context ctx, TextChannel channel, boolean file) {
+    private static void investigateChannel(TextContext ctx, TextChannel channel, boolean file) {
         if (channel == null) {
             ctx.send("Unknown channel");
             return;
@@ -125,59 +128,30 @@ public class InvestigateCmd {
     }
 
     @Subscribe
-    public void investigate(CommandRegistry cr) {
-        cr.register("investigate", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (args.length == 0) {
-                    ctx.send("You need to provide an id!");
-                    return;
-                }
+    public void register(CommandRegistry cr) {
+        cr.register(Investigate.class);
+    }
 
-                String id;
-                try {
-                    //noinspection ResultOfMethodCallIgnored
-                    Long.parseUnsignedLong(id = args[0]);
-                } catch (NumberFormatException e) {
-                    ctx.send("That's not a valid id!");
-                    return;
-                }
-
-                Type type;
-                boolean file;
-
-                if (args.length > 1) {
-                    String s = args[1];
-                    if (s.equalsIgnoreCase("file")) {
-                        type = Type.GUILD;
-                        file = true;
-                    } else {
-                        try {
-                            type = Type.valueOf(s.toUpperCase());
-                            file = args.length > 2 && args[2].equalsIgnoreCase("file");
-                        } catch (Exception e) {
-                            type = Type.GUILD;
-                            file = false;
-                        }
-                    }
-                } else {
-                    type = Type.GUILD;
-                    file = false;
-                }
-
-                investigate(ctx, type, id, file);
+    @Name("investigate")
+    @Category(CommandCategory.OWNER)
+    @net.kodehawa.mantarobot.core.command.meta.Permission(CommandPermission.OWNER)
+    @Help(
+            description = "Investigate suspicious users, guilds or channels.",
+            usage = "~>investigate <id> [type]\n~>investigate <id> [type] file",
+            parameters = {
+                    @Help.Parameter(name = "id", description = "user, channel or guild id"),
+                    @Help.Parameter(name = "type", description = "guild, user or channel"),
+                    @Help.Parameter(name = "file", description = "put file at the end for a file", optional = true)
             }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Investigate suspicious users, guilds or channels.")
-                        .setUsage("~>investigate <id> [type]\n~>investigate <id> [type] file")
-                        .addParameter("id", "The guild, user or channel id")
-                        .addParameter("type", "guild, user or channel, defaults to guild")
-                        .build();
-            }
-        });
+    )
+    public static class Investigate extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            var id = ctx.argument(Parsers.strictLong(), "Missing id.", "Invalid id.");
+            var type = ctx.argument(Parsers.toEnum(Type.class), "Missing type (required: guild, user, channel)", "Bad type (required: guild, user, channel)");
+            var file = ctx.tryArgument(Parsers.matching("^file$"));
+            investigate(ctx, type, String.valueOf(id), file.isPresent());
+        }
     }
 
     public enum Type {
@@ -196,7 +170,7 @@ public class InvestigateCmd {
             return parts.computeIfAbsent(key.getId(), __ -> new ChannelData(key)).messages;
         }
 
-        public void result(Guild target, Context ctx) {
+        public void result(Guild target, TextContext ctx) {
             if (file) {
                 var channels = new JSONObject();
                 parts.forEach((channelId, channel) -> channels.put(channelId, channel.toJson()));

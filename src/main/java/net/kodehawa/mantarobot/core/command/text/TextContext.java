@@ -15,7 +15,7 @@
  *
  */
 
-package net.kodehawa.mantarobot.core.command;
+package net.kodehawa.mantarobot.core.command.text;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -35,17 +35,16 @@ import net.kodehawa.mantarobot.core.command.argument.ArgumentParseError;
 import net.kodehawa.mantarobot.core.command.argument.Arguments;
 import net.kodehawa.mantarobot.core.command.argument.MarkedBlock;
 import net.kodehawa.mantarobot.core.command.argument.Parser;
+import net.kodehawa.mantarobot.core.command.argument.Parsers;
 import net.kodehawa.mantarobot.core.command.argument.split.StringSplitter;
-import net.kodehawa.mantarobot.core.command.slash.IContext;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.core.command.helpers.IContext;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.MantaroObject;
-import net.kodehawa.mantarobot.db.entities.MongoGuild;
-import net.kodehawa.mantarobot.db.entities.MongoUser;
-import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.UtilsContext;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimitContext;
 
@@ -55,41 +54,44 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
-@SuppressWarnings("unused") // remove when old cmds are ported over
-public class NewContext implements IContext {
+public class TextContext implements IContext {
     private final ManagedDatabase managedDatabase = MantaroData.db();
     private final Config config = MantaroData.config().get();
     private static final StringSplitter SPLITTER = new StringSplitter();
 
     private final MessageReceivedEvent event;
-    private final I18nContext i18n;
     private final Arguments args;
+    private final boolean isMentionPrefix;
+    private I18nContext i18n;
+    private String customContent; // opts moment
 
-    private NewContext(@Nonnull MessageReceivedEvent event, @Nonnull I18nContext i18n, @Nonnull Arguments args) {
+    private TextContext(@Nonnull MessageReceivedEvent event, @Nonnull I18nContext i18n, @Nonnull Arguments args, boolean isMentionPrefix) {
         this.event = event;
         this.i18n = i18n;
         this.args = args;
+        this.isMentionPrefix = isMentionPrefix;
     }
 
-    public NewContext(@Nonnull MessageReceivedEvent event, @Nonnull I18nContext i18n, @Nonnull String contentAfterPrefix) {
-        this(event, i18n, new Arguments(SPLITTER.split(contentAfterPrefix), 0));
+    public TextContext(@Nonnull MessageReceivedEvent event, @Nonnull I18nContext i18n, @Nonnull String contentAfterPrefix, boolean isMentionPrefix) {
+        this(event, i18n, new Arguments(SPLITTER.split(contentAfterPrefix), 0), isMentionPrefix);
     }
 
     public Arguments arguments() {
         return args;
     }
 
-    public NewContext snapshot() {
-        return new NewContext(event, i18n, args.snapshot());
+    public TextContext snapshot() {
+        return new TextContext(event, i18n, args.snapshot(), isMentionPrefix);
     }
 
     public MessageReceivedEvent getEvent() {
         return event;
     }
-
 
     /**
      * Attempts to parse an argument with the provided {@link net.kodehawa.mantarobot.core.command.argument.Parser parser}.
@@ -206,12 +208,34 @@ public class NewContext implements IContext {
      */
     @Nonnull
     @CheckReturnValue
-    public <T> List<T> many(@Nonnull Parser<T> parser) {
+    public <T> List<T> takeMany(@Nonnull Parser<T> parser) {
         List<T> list = new ArrayList<>();
         for(Optional<T> parsed = tryArgument(parser); parsed.isPresent(); parsed = tryArgument(parser)) {
             list.add(parsed.get());
         }
         return list;
+    }
+
+    /**
+     * Parses as many arguments as possible from the remainder, stopping when there is no more arguments to read.
+     * <p>
+     * This will reduce the arguments to a single String value, which can be passed around to arguments -- this is useful for stuff like
+     * Member lookups, or simply as an aid when porting old commands, or when we expect an uninterrupted stream of arguments of the same type.
+     * This does not preserve new lines, for that use {@link Parsers#remainingContent()}
+     * </p>
+     * <p>
+     * You can also use {@link Parsers#remainingContent()}, but it will fail if all arguments are empty. This will never fail.
+     * Use the method above if you want the text as-is (new lines included), but make sure to handle failures.
+     * <p>
+     * This will use {@link Parsers#remainingArguments()}, returning an empty String on failure.
+     * </p>
+     * @return A possibly-empty String value
+     */
+    @Nonnull
+    @CheckReturnValue
+    public <T> String takeAllString() {
+        var arg = tryArgument(Parsers.remainingArguments());
+        return arg.orElse("");
     }
 
     /**
@@ -373,12 +397,6 @@ public class NewContext implements IContext {
                 .setComponents(actionRow).queue(success -> {}, Throwable::printStackTrace);
     }
 
-    public void sendStrippedLocalized(String localizedMessage, Object... args) {
-        getChannel().sendMessageFormat(i18n.get(localizedMessage), args)
-                .setAllowedMentions(EnumSet.noneOf(Message.MentionType.class))
-                .queue();
-    }
-
     public User retrieveUserById(String id) {
         User user = null;
         try {
@@ -388,30 +406,13 @@ public class NewContext implements IContext {
         return user;
     }
 
-    public String getTagOrDisplay(User user) {
-        if (user.getGlobalName() != null) {
-            return user.getGlobalName();
-        } else {
-            return user.getAsTag();
-        }
-    }
-
-    public Member retrieveMemberById(Guild guild, String id, boolean update) {
-        Member member = null;
+    public User retrieveUserById(long id) {
+        User user = null;
         try {
-            member = guild.retrieveMemberById(id).useCache(true).complete();
+            user = MantaroBot.getInstance().getShardManager().retrieveUserById(id).complete();
         } catch (Exception ignored) { }
 
-        return member;
-    }
-
-    public Member retrieveMemberById(String id, boolean update) {
-        Member member = null;
-        try {
-            member = getGuild().retrieveMemberById(id).useCache(update).complete();
-        } catch (Exception ignored) { }
-
-        return member;
+        return user;
     }
 
     @Override
@@ -419,10 +420,12 @@ public class NewContext implements IContext {
         return getMessage().getMember();
     }
 
+    @Override
     public SelfUser getSelfUser() {
         return getChannel().getJDA().getSelfUser();
     }
 
+    @Override
     public Member getSelfMember() {
         return getGuild().getSelfMember();
     }
@@ -447,53 +450,18 @@ public class NewContext implements IContext {
     }
 
     @Override
-    public MongoGuild getDBGuild() {
-        return managedDatabase.getGuild(getGuild());
-    }
-
-    @Override
-    public MongoUser getDBUser() {
-        return managedDatabase.getUser(getAuthor());
-    }
-
-    @Override
-    public MongoUser getDBUser(User user) {
-        return managedDatabase.getUser(user);
-    }
-
-    public MongoUser getDBUser(Member member) {
-        return managedDatabase.getUser(member);
-    }
-
-    public MongoUser getDBUser(String id) {
-        return managedDatabase.getUser(id);
-    }
-
-    @Override
-    public Player getPlayer() {
-        return managedDatabase.getPlayer(getAuthor());
-    }
-
-    @Override
-    public Player getPlayer(User user) {
-        return managedDatabase.getPlayer(user);
-    }
-
-    public Player getPlayer(Member member) {
-        return managedDatabase.getPlayer(member);
-    }
-
-    public Player getPlayer(String id) {
-        return managedDatabase.getPlayer(id);
-    }
-
-    public MantaroBot getBot() {
-        return MantaroBot.getInstance();
-    }
-
-    @Override
     public User getAuthor() {
         return getMessage().getAuthor();
+    }
+
+    public void findMember(String query, Consumer<List<Member>> success) {
+        CustomFinderUtil.lookupMember(getGuild(), this, query).onSuccess(s -> {
+            try {
+                success.accept(s);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -506,9 +474,58 @@ public class NewContext implements IContext {
         return new UtilsContext(getGuild(), getMember(), getChannel(), i18n, null);
     }
 
+    public List<Member> getMentionedMembers() {
+        var members = getEvent().getMessage().getMentions().getMembers();
+        if (isMentionPrefix) {
+            var mutable = new LinkedList<>(members);
+            return mutable.subList(1, mutable.size());
+        }
+
+        return members;
+    }
+
+    public List<User> getMentionedUsers() {
+        var users = getEvent().getMessage().getMentions().getUsers();
+        if (isMentionPrefix) {
+            var mutable = new LinkedList<>(users);
+            return mutable.subList(1, mutable.size());
+        }
+
+        return users;
+    }
 
     @Override
     public I18nContext getLanguageContext() {
         return i18n;
+    }
+
+    public void setLanguageContext(I18nContext languageContext) {
+        this.i18n = languageContext;
+    }
+
+    // Both used for options.
+    public void setCustomContent(String str) {
+        this.customContent = str;
+    }
+
+    /**
+     * Get the custom (usually filtered) content. This is only used in options, do not call it anywhere else.
+     * @return The custom content that has been set using Context#setCustomContent
+     */
+    public String getCustomContent() {
+        return this.customContent;
+    }
+
+    /**
+     * Get all the content in a message.
+     * @return all the content in a message, including new lines, or empty if none.
+     */
+    public String getContent() {
+         var content = tryArgument(Parsers.remainingContent());
+        return content.map(String::trim).orElse("");
+    }
+
+    public boolean isMentionPrefix() {
+        return isMentionPrefix;
     }
 }

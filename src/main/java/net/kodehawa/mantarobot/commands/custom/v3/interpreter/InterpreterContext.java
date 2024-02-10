@@ -18,7 +18,7 @@
 package net.kodehawa.mantarobot.commands.custom.v3.interpreter;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,9 +27,9 @@ public class InterpreterContext {
     private final Map<String, Object> custom = new HashMap<>();
     private final Map<String, String> vars;
     private final Map<String, Operation> operations;
-    private final Context commandContext;
+    private final TextContext commandContext;
 
-    public InterpreterContext(Map<String, String> vars, Map<String, Operation> operations, Context ctx) {
+    public InterpreterContext(Map<String, String> vars, Map<String, Operation> operations, TextContext ctx) {
         this.vars = vars;
         this.operations = operations;
         this.commandContext = ctx;
@@ -52,7 +52,7 @@ public class InterpreterContext {
         custom.put(key, value);
     }
 
-    public Context getCommandContext() {
+    public TextContext getCommandContext() {
         return commandContext;
     }
 

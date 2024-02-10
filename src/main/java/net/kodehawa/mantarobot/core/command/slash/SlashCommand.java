@@ -25,7 +25,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.command.meta.Description;
 import net.kodehawa.mantarobot.core.command.meta.NSFW;
 import net.kodehawa.mantarobot.core.command.meta.Options;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
 
 import java.util.ArrayList;
 import java.util.Arrays;

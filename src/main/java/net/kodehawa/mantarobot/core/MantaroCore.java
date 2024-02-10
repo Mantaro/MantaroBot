@@ -50,7 +50,7 @@ import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ModalOperations;
-import net.kodehawa.mantarobot.core.modules.Module;
+import net.kodehawa.mantarobot.core.command.meta.Module;
 import net.kodehawa.mantarobot.core.shard.Shard;
 import net.kodehawa.mantarobot.core.shard.discord.BotGateway;
 import net.kodehawa.mantarobot.core.shard.jda.BucketedController;

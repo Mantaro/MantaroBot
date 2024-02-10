@@ -15,21 +15,13 @@
  *
  */
 
-package net.kodehawa.mantarobot.core.modules.commands.base;
+package net.kodehawa.mantarobot.core.command.meta;
 
-import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import java.util.Map;
-
-public interface ITreeCommand extends Command {
-    @SuppressWarnings({"unused" , "UnusedReturnValue"})
-    ITreeCommand createSubCommandAlias(String name, String alias);
-
-    @SuppressWarnings("unused")
-    ITreeCommand addSubCommand(String name, SubCommand command);
-
-    Map<String, SubCommand> getSubCommands();
-
-    @SuppressWarnings("unused")
-    Command defaultTrigger(Context context, String mainCommand, String commandName);
-}
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface Module { }

@@ -17,7 +17,7 @@
 
 package net.kodehawa.mantarobot.options.core;
 
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +34,7 @@ public class Option {
     private final String description;
     private final String optionName;
     private final OptionType type;
-    private BiConsumer<Context, String[]> eventConsumer;
+    private BiConsumer<TextContext, String[]> eventConsumer;
 
     public Option(String displayName, String description, OptionType type) {
         this.optionName = displayName;
@@ -79,12 +79,12 @@ public class Option {
         return this;
     }
 
-    public Option setAction(Consumer<Context> code) {
+    public Option setAction(Consumer<TextContext> code) {
         eventConsumer = (event, ignored) -> code.accept(event);
         return this;
     }
 
-    public Option setAction(BiConsumer<Context, String[]> code) {
+    public Option setAction(BiConsumer<TextContext, String[]> code) {
         eventConsumer = code;
         return this;
     }
@@ -101,7 +101,7 @@ public class Option {
         return this.type;
     }
 
-    public BiConsumer<Context, String[]> getEventConsumer() {
+    public BiConsumer<TextContext, String[]> getEventConsumer() {
         return this.eventConsumer;
     }
 }

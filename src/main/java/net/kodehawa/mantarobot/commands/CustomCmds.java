@@ -33,32 +33,31 @@ import net.kodehawa.mantarobot.commands.custom.CustomCommandHandler;
 import net.kodehawa.mantarobot.commands.custom.v3.Parser;
 import net.kodehawa.mantarobot.commands.custom.v3.SyntaxException;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.text.TextCommand;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
+import net.kodehawa.mantarobot.core.command.argument.Parsers;
+import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
+import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
+import net.kodehawa.mantarobot.core.command.meta.Alias;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Description;
 import net.kodehawa.mantarobot.core.command.meta.Help;
 import net.kodehawa.mantarobot.core.command.meta.ModalInteraction;
+import net.kodehawa.mantarobot.core.command.meta.Module;
 import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.meta.Options;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
-import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.helpers.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
 import net.kodehawa.mantarobot.core.listeners.operations.ButtonOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ModalOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ModalOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
-import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.CustomCommand;
 import net.kodehawa.mantarobot.db.entities.MongoGuild;
-import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -110,7 +109,7 @@ public class CustomCmds {
         return true;
     };
 
-    public static void handle(String prefix, String cmdName, Context ctx, MongoGuild guildData, String args) {
+    public static void handle(String prefix, String cmdName, TextContext ctx, MongoGuild guildData, String args) {
         CustomCommand customCommand = getCustomCommand(ctx.getGuild().getId(), cmdName);
         if (customCommand == null) {
             return;
@@ -153,7 +152,7 @@ public class CustomCmds {
         try {
             new CustomCommandHandler(prefix, ctx, response, args).handle();
         } catch (SyntaxException e) {
-            ctx.sendStrippedLocalized("commands.custom.error_running_new", EmoteReference.ERROR, e.getMessage());
+            ctx.sendLocalizedStripped("commands.custom.error_running_new", EmoteReference.ERROR, e.getMessage());
         } catch (Exception e) {
             ctx.sendLocalized("commands.custom.error_running", EmoteReference.ERROR);
             e.printStackTrace();
@@ -198,6 +197,7 @@ public class CustomCmds {
     @Subscribe
     public void registry(CommandRegistry cr) {
         cr.registerSlash(Custom.class);
+        cr.register(CustomText.class);
     }
 
     @Description("Add, modify or list custom commands / tags.")
@@ -689,328 +689,242 @@ public class CustomCmds {
         }
     }
 
-    @Subscribe
-    public void custom(CommandRegistry cr) {
-        SimpleTreeCommand customCommand = cr.register("custom", new SimpleTreeCommand(CommandCategory.UTILS) {
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription(
-                                """
-                                Manages the Custom Commands of the current server.
-                                If you wish to allow normal people to make custom commands, run `~>opts admincustom false`.
-                                Running the above isn't exactly recommended, but works for small servers.
-                                See subcommands for more commands, or refer to the [wiki](https://www.mantaro.site/mantaro-wiki/guides/custom-commands)
-                                """
-                        )
-                        .setUsage("`~>custom <sub command>`")
-                        .build();
-            }
-        });
+    @Name("custom")
+    @Category(CommandCategory.UTILS)
+    @Help(
+            description = """
+                    Manages the Custom Commands of the current server.
+                    If you wish to allow normal people to make custom commands, run `~>opts admincustom false`.
+                    Running the above isn't exactly recommended, but works for small servers.
+                    See subcommands for more commands, or refer to the [wiki](https://www.mantaro.site/mantaro-wiki/guides/custom-commands)
+                    """,
+            usage = "`~>custom <sub command>`"
+    )
+    public static class CustomText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            ctx.sendLocalized("commands.custom.no_subcommand_specified", EmoteReference.ERROR);
+        }
 
-        customCommand.setPredicate(ctx ->
-                RatelimitUtils.ratelimit(customRatelimiter, ctx, null)
-        );
+        @Override
+        public Predicate<TextContext> getPredicate() {
+            return ctx -> RatelimitUtils.ratelimit(customRatelimiter, ctx, null);
+        }
 
-        customCommand.addSubCommand("list", new SubCommand() {
+        @Alias("ls")
+        @Description("Lists all the current commands on this server.")
+        public static class List extends TextCommand {
             @Override
-            public String description() {
-                return "Lists all the current commands on this server.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(TextContext ctx) {
                 listCustoms(ctx);
             }
-        }).createSubCommandAlias("list", "ls");
+        }
 
-        customCommand.addSubCommand("view", new SubCommand() {
+        @Alias("vw")
+        @Description("Views the response of an specific command.")
+        public static class View extends TextCommand {
             @Override
-            public String description() {
-                return "Views the response of an specific command.";
+            protected void process(TextContext ctx) {
+                var lang = ctx.getLanguageContext();
+                var cmd = ctx.argument(Parsers.string(),
+                        lang.get("commands.custom.view.not_found").formatted(EmoteReference.ERROR),
+                        lang.get("commands.custom.view.not_found").formatted(EmoteReference.ERROR)
+                );
+                var number = ctx.argument(Parsers.strictInt(),
+                        lang.get("commands.custom.view.not_found").formatted(EmoteReference.ERROR),
+                        lang.get("commands.custom.view.not_found").formatted(EmoteReference.ERROR)
+                );
+
+                viewCommands(ctx, cmd, number - 1);
             }
+        }
 
+        @Alias("rw")
+        @Description("Show all the raw responses of the specified command.")
+        public static class Raw extends TextCommand {
             @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                var args = StringUtils.splitArgs(content, 2);
-                if (args.length < 2) {
-                    ctx.sendLocalized("commands.custom.view.not_found", EmoteReference.ERROR);
-                    return;
-                }
+            protected void process(TextContext ctx) {
+                var lang = ctx.getLanguageContext();
+                var cmd = ctx.argument(Parsers.string(),
+                        lang.get("commands.custom.raw.no_command").formatted(EmoteReference.ERROR),
+                        lang.get("commands.custom.raw.no_command").formatted(EmoteReference.ERROR)
+                );
 
-                var cmd = args[0];
-                int number;
-                try {
-                    number = Integer.parseInt(args[1]) - 1;
-                } catch (NumberFormatException e) {
-                    ctx.sendLocalized("general.invalid_number", EmoteReference.ERROR);
-                    return;
-                }
-
-                viewCommands(ctx, cmd, number);
+                rawCommand(ctx, cmd);
             }
-        }).createSubCommandAlias("view", "vw");
+        }
 
-        customCommand.addSubCommand("raw", new SubCommand() {
+        @Description("Clear all custom commands.")
+        public static class Clear extends TextCommand {
             @Override
-            public String description() {
-                return "Show all the raw responses of the specified command.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                String command = content.trim();
-                if (command.isEmpty()) {
-                    ctx.sendLocalized("commands.custom.raw.no_command", EmoteReference.ERROR);
-                    return;
-                }
-
-                rawCommand(ctx, command);
-            }
-        }).createSubCommandAlias("raw", "rw");
-
-        customCommand.addSubCommand("clear", new SubCommand() {
-            @Override
-            public String description() {
-                return "Clear all custom commands.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(TextContext ctx) {
                 clearCommand(ctx);
             }
-        }).createSubCommandAlias("clear", "clr");
+        }
 
-        customCommand.addSubCommand("eval", new SubCommand() {
+        @Description("Shows the information about an specific custom command.")
+        public static class Info extends TextCommand {
             @Override
-            public String description() {
-                return "Evaluates the result of a custom command.";
+            protected void process(TextContext ctx) {
+                var lang = ctx.getLanguageContext();
+                var content = ctx.argument(Parsers.string(),
+                        lang.get("commands.custom.raw.no_command").formatted(EmoteReference.ERROR),
+                        lang.get("commands.custom.raw.no_command").formatted(EmoteReference.ERROR)
+                );
+
+                infoCommand(ctx, content);
             }
+        }
 
+        @Description("Removes a custom command.")
+        public static class Remove extends TextCommand {
             @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(TextContext ctx) {
+                var lang = ctx.getLanguageContext();
+                var content = ctx.argument(Parsers.string(),
+                        lang.get("commands.custom.remove.no_command").formatted(EmoteReference.ERROR),
+                        lang.get("commands.custom.remove.no_command").formatted(EmoteReference.ERROR)
+                );
+
+                removeCmd(ctx, content);
+            }
+        }
+
+        @Description("Looks a command for further edits until unlocked.")
+        public static class LockCommand extends TextCommand {
+            @Override
+            protected void process(TextContext ctx) {
+                lockCmd(ctx, ctx.getContent());
+            }
+        }
+
+        @Description("Unlocks a command to do further edits.")
+        public static class UnlockCommand extends TextCommand {
+            @Override
+            protected void process(TextContext ctx) {
+                unlockCmd(ctx, ctx.getContent());
+            }
+        }
+
+        @Description("Evaluates the result of a custom command.")
+        public static class Eval extends TextCommand {
+            @Override
+            protected void process(TextContext ctx) {
                 if (!adminPredicate.test(ctx)) {
                     return;
                 }
 
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.custom.eval.not_specified", EmoteReference.ERROR);
-                    return;
-                }
+                var lang = ctx.getLanguageContext();
+                var content = ctx.argument(Parsers.remainingContent(),
+                        lang.get("commands.custom.eval.not_specified").formatted(EmoteReference.ERROR),
+                        lang.get("commands.custom.eval.not_specified").formatted(EmoteReference.ERROR)
+                );
 
                 try {
-                    var ctn = content;
+                    var ctn = content.trim();
                     ctn = Utils.DISCORD_INVITE.matcher(ctn).replaceAll("-invite link-");
                     ctn = Utils.DISCORD_INVITE_2.matcher(ctn).replaceAll("-invite link-");
 
                     // Sadly no way to get the prefix used, so eval will have the old bug still.
                     // TODO: CANNOT PORT TO SLASH: somehow requires event from the old Context to function.
                     // THIS HAS TO CHANGE.
+                    // Note a year later: this still has to change, but maybe? Custom commands only run in a text context.
                     new CustomCommandHandler("", ctx, ctn).handle(true);
                 } catch (SyntaxException e) {
-                    ctx.sendStrippedLocalized("commands.custom.eval.new_error", EmoteReference.ERROR, e.getMessage());
+                    ctx.sendLocalizedStripped("commands.custom.eval.new_error", EmoteReference.ERROR, e.getMessage());
                 } catch (Exception e) {
-                    ctx.sendStrippedLocalized("commands.custom.eval.error",
+                    ctx.sendLocalizedStripped("commands.custom.eval.error",
                             EmoteReference.ERROR, e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")"
                     );
                 }
             }
-        }).createSubCommandAlias("eval", "evl");
+        }
 
-        customCommand.addSubCommand("remove", new SubCommand() {
+        @Description("Edits the response of a command.")
+        public static class Edit extends TextCommand {
             @Override
-            public String description() {
-                return "Removes a custom command.";
+            protected void process(TextContext ctx) {
+                var lang = ctx.getLanguageContext();
+                var cmd = ctx.argument(Parsers.string(),
+                        lang.get("commands.custom.edit.no_command").formatted(EmoteReference.ERROR),
+                        lang.get("commands.custom.edit.no_command").formatted(EmoteReference.ERROR)
+                );
+                int where = Math.abs(ctx.argument(Parsers.strictInt(),
+                        lang.get("commands.custom.edit.invalid_number").formatted(EmoteReference.ERROR),
+                        lang.get("commands.custom.edit.no_number").formatted(EmoteReference.ERROR)
+                ));
+                var nsfw = ctx.tryArgument(Parsers.matching("^-nsfw$")).isPresent();
+
+                editCmd(ctx, cmd, where, ctx.getContent(), nsfw);
             }
+        }
 
+        @Alias("new")
+        @Description("Adds a new custom commands or adds a response to an existing command.")
+        public static class Add extends TextCommand {
             @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.custom.remove.no_command", EmoteReference.ERROR);
-                    return;
-                }
+            protected void process(TextContext ctx) {
+                var lang = ctx.getLanguageContext();
+                var cmd = ctx.argument(Parsers.string(),
+                        lang.get("commands.custom.add.no_command").formatted(EmoteReference.ERROR),
+                        lang.get("commands.custom.add.no_command").formatted(EmoteReference.ERROR)
+                );
 
-                removeCmd(ctx, content);
-            }
-        }).createSubCommandAlias("remove", "rm");
-
-        customCommand.addSubCommand("info", new SubCommand() {
-            @Override
-            public String description() {
-                return "Shows the information about an specific command.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.custom.raw.no_command", EmoteReference.ERROR);
-                    return;
-                }
-
-                infoCommand(ctx, content);
-            }
-        });
-
-        customCommand.addSubCommand("edit", new SubCommand() {
-            @Override
-            public String description() {
-                return "Edits the response of a command.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.custom.edit.no_command", EmoteReference.ERROR);
-                    return;
-                }
-
-                var opts = ctx.getOptionalArguments();
-                var ctn = Utils.replaceArguments(opts, content, "nsfw");
-                var nsfw = opts.containsKey("nsfw");
-                var args = StringUtils.splitArgs(ctn, -1);
-                if (args.length < 2) {
-                    ctx.sendLocalized("commands.custom.edit.not_enough_args", EmoteReference.ERROR);
-                    return;
-                }
-
-                var cmd = args[0];
-                int where;
-                var index = args[1];
-                //replace first occurrence and second argument: custom command and index.
-                var commandContent = ctn.replaceFirst(cmd, "").replaceFirst(index, "").trim();
-                try {
-                    where = Math.abs(Integer.parseInt(index));
-                } catch (NumberFormatException e) {
-                    ctx.sendLocalized("commands.custom.edit.invalid_number", EmoteReference.ERROR);
-                    return;
-                }
-
-                editCmd(ctx, cmd, where, commandContent, nsfw);
-            }
-        });
-
-        customCommand.addSubCommand("deleteresponse", new SubCommand() {
-            @Override
-            public String description() {
-                return "Deletes a response of a command.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.custom.deleteresponse.no_command", EmoteReference.ERROR);
-                    return;
-                }
-
-                var args = StringUtils.splitArgs(content, -1);
-                if (args.length < 2) {
-                    ctx.sendLocalized("commands.custom.deleteresponse.not_enough_args", EmoteReference.ERROR);
-                    return;
-                }
-
-                int where;
-                var index = args[1];
-                try {
-                    where = Math.abs(Integer.parseInt(index));
-                } catch (NumberFormatException e) {
-                    ctx.sendLocalized("commands.custom.deleteresponse.invalid_number", EmoteReference.ERROR);
-                    return;
-                }
-
-                deleteResponseCmd(ctx, args[0], where);
-            }
-        }).createSubCommandAlias("deleteresponse", "dlr");
-
-        customCommand.addSubCommand("lockcommand", new SubCommand() {
-            @Override
-            public String description() {
-                return "Looks a command for further edits until unlocked.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                lockCmd(ctx, content);
-            }
-        });
-
-        customCommand.addSubCommand("unlockcommand", new SubCommand() {
-            @Override
-            public String description() {
-                return "Unlocks a command to do further edits.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                unlockCmd(ctx, content);
-            }
-        });
-
-        customCommand.addSubCommand("rename", new SubCommand() {
-            @Override
-            public String description() {
-                return "Renames a custom command.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                if (!adminPredicate.test(ctx)) {
-                    return;
-                }
-
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.custom.rename.no_command", EmoteReference.ERROR);
-                    return;
-                }
-
-                var args = ctx.getArguments();
-                if (args.length < 2) {
-                    ctx.sendLocalized("commands.custom.rename.not_enough_args", EmoteReference.ERROR);
-                    return;
-                }
-
-                var cmd = args[0];
-                var value = args[1];
-                renameCmd(ctx, cmd, value);
-            }
-        }).createSubCommandAlias("rename", "rn");
-
-        customCommand.addSubCommand("add", new SubCommand() {
-            @Override
-            public String description() {
-                return "Adds a new custom commands or adds a response to an existing command.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.custom.add.no_command", EmoteReference.ERROR);
-                    return;
-                }
-
-                var args = StringUtils.splitArgs(content, -1);
-
-                if (args.length < 2) {
-                    ctx.sendLocalized("commands.custom.add.not_enough_args", EmoteReference.ERROR);
-                    return;
-                }
-
-                var cmd = args[0];
                 if (!NAME_PATTERN.matcher(cmd).matches()) {
                     ctx.sendLocalized("commands.custom.character_not_allowed", EmoteReference.ERROR);
                     return;
                 }
 
-                var value = content.replaceFirst(args[0], "").trim();
-                var opts = ctx.getOptionalArguments();
-                var cmdSource = Utils.replaceArguments(opts, value, "nsfw");
-                var nsfw = opts.containsKey("nsfw");
-                addCmd(ctx, cmd, cmdSource, nsfw);
+                var nsfw = ctx.tryArgument(Parsers.matching("^-nsfw$")).isPresent();
+                var value = ctx.getContent();
+                addCmd(ctx, cmd, value, nsfw);
             }
-        }).createSubCommandAlias("add", "new");
+        }
+
+        @Alias("dlr")
+        @Description("Deletes the response of a custom command.")
+        public static class DeleteResponse extends TextCommand {
+            @Override
+            protected void process(TextContext ctx) {
+                var lang = ctx.getLanguageContext();
+                var name = ctx.argument(Parsers.string(),
+                        lang.get("commands.custom.deleteresponse.no_command").formatted(EmoteReference.ERROR),
+                        lang.get("commands.custom.deleteresponse.no_command").formatted(EmoteReference.ERROR)
+                );
+                int where = Math.abs(ctx.argument(Parsers.strictInt(),
+                        lang.get("commands.custom.deleteresponse.invalid_number").formatted(EmoteReference.ERROR),
+                        lang.get("commands.custom.deleteresponse.no_number").formatted(EmoteReference.ERROR)
+                ));
+
+                deleteResponseCmd(ctx, name, where);
+            }
+        }
+
+        @Alias("rn")
+        @Description("Renames a custom command.")
+        public static class Rename extends TextCommand {
+            @Override
+            protected void process(TextContext ctx) {
+                if (!adminPredicate.test(ctx)) {
+                    return;
+                }
+
+                var lang = ctx.getLanguageContext();
+                var cmd = ctx.argument(Parsers.string(),
+                        lang.get("commands.custom.rename.no_name").formatted(EmoteReference.ERROR),
+                        lang.get("commands.custom.rename.no_name").formatted(EmoteReference.ERROR)
+                );
+                var value = ctx.argument(Parsers.string(),
+                        lang.get("commands.custom.rename.no_name_new").formatted(EmoteReference.ERROR),
+                        lang.get("commands.custom.rename.no_name_new").formatted(EmoteReference.ERROR)
+                );
+                renameCmd(ctx, cmd, value);
+            }
+        }
     }
 
     private static void listCustoms(IContext ctx) {
-        if (!ctx.getGuild().getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS) && ctx instanceof Context) {
+        if (!ctx.getGuild().getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS) && ctx instanceof TextContext) {
             ctx.sendLocalized("general.missing_embed_permissions");
             return;
         }

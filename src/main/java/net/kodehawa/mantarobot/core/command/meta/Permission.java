@@ -17,7 +17,7 @@
 
 package net.kodehawa.mantarobot.core.command.meta;
 
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

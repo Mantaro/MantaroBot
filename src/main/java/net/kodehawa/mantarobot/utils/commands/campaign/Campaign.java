@@ -17,7 +17,7 @@
 
 package net.kodehawa.mantarobot.utils.commands.campaign;
 
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 
 public enum Campaign {
     // At least we're sincere with names.

@@ -35,20 +35,19 @@ import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
 import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.text.TextCommand;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Defer;
 import net.kodehawa.mantarobot.core.command.meta.Description;
 import net.kodehawa.mantarobot.core.command.meta.Help;
 import net.kodehawa.mantarobot.core.command.meta.Name;
-import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.helpers.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
-import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.core.command.meta.Module;
+import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.MongoUser;
@@ -110,6 +109,11 @@ public class CurrencyActionCmds {
         cr.registerSlash(Mine.class);
         cr.registerSlash(Fish.class);
         cr.registerSlash(Chop.class);
+
+        // Text
+        cr.register(MineText.class);
+        cr.register(FishText.class);
+        cr.register(ChopText.class);
     }
 
     @Name("mine")
@@ -169,84 +173,58 @@ public class CurrencyActionCmds {
         }
     }
 
-    @Subscribe
-    public void mine(CommandRegistry cr) {
-        cr.register("mine", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                final var player = ctx.getPlayer();
-                final var dbUser = ctx.getDBUser();
-                final var marriage = ctx.getMarriage(dbUser);
+    @Name("mine")
+    @Description("Mines minerals to gain some credits. A bit more lucrative than loot, but needs pickaxes.")
+    @Category(CommandCategory.CURRENCY)
+    @Help(description = "Mines minerals to gain some credits. A bit more lucrative than loot, but needs pickaxes.", usage = """
+            `/mine` - Mines. You can gain minerals or mineral fragments by mining.
+            This can used later on to cast rods or picks for better chances.
+            """)
+    public static class MineText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            final var player = ctx.getPlayer();
+            final var dbUser = ctx.getDBUser();
+            final var marriage = ctx.getMarriage(dbUser);
 
-                mine(ctx, player, dbUser, marriage);
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Mines minerals to gain some credits. A bit more lucrative than loot, but needs pickaxes.")
-                        .setUsage("""
-                                  `~>mine` - Mines. You can gain minerals or mineral fragments by mining.
-                                  This can used later on to cast rods or picks for better chances.
-                                  """
-                        )
-                        .build();
-            }
-        });
+            mine(ctx, player, dbUser, marriage);
+        }
     }
 
-    @Subscribe
-    public void fish(CommandRegistry cr) {
-        cr.register("fish", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                final var player = ctx.getPlayer();
-                final var dbUser = ctx.getDBUser();
-                final var marriage = ctx.getMarriage(dbUser);
+    @Name("fish")
+    @Description("Starts a fishing session.")
+    @Category(CommandCategory.CURRENCY)
+    @Help(description = "Starts a fishing session.", usage = """
+            `/fish` - Starts fishing.
+            This can used later on to cast rods or picks for better chances.
+            """)
+    public static class FishText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            final var player = ctx.getPlayer();
+            final var dbUser = ctx.getDBUser();
+            final var marriage = ctx.getMarriage(dbUser);
 
-                fish(ctx, player, dbUser, marriage);
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Starts a fishing session.")
-                        .setUsage("""
-                                  `~>fish` - Starts fishing.
-                                  `~>fish` - Starts fishing.
-                                  """
-                        )
-                        .setSeasonal(true)
-                        .build();
-            }
-        });
+            fish(ctx, player, dbUser, marriage);
+        }
     }
 
-    @Subscribe
-    public void chop(CommandRegistry cr) {
-        cr.register("chop", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                final var player = ctx.getPlayer();
-                final var dbUser = ctx.getDBUser();
-                final var marriage = ctx.getMarriage(dbUser);
+    @Name("chop")
+    @Description("Starts a chopping session.")
+    @Category(CommandCategory.CURRENCY)
+    @Help(description = "Starts a chopping session.", usage = """
+            `/chop` - Starts chopping trees.
+            You can gain credits and items by chopping, which can be used later on for casting, specially tools.
+            """)
+    public static class ChopText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            final var player = ctx.getPlayer();
+            final var dbUser = ctx.getDBUser();
+            final var marriage = ctx.getMarriage(dbUser);
 
-                chop(ctx, player, dbUser, marriage);
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Starts a chopping session.")
-                        .setUsage("""
-                                  `~>chop` - Starts chopping trees.
-                                  You can gain credits and items by chopping, which can be used later on for casting, specially tools.
-                                  """
-                        )
-                        .setSeasonal(true)
-                        .build();
-            }
-        });
+            chop(ctx, player, dbUser, marriage);
+        }
     }
 
     private static void mine(IContext ctx, Player player, MongoUser dbUser, Marriage marriage) {

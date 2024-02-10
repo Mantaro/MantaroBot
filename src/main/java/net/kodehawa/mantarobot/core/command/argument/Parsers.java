@@ -17,6 +17,8 @@
 
 package net.kodehawa.mantarobot.core.command.argument;
 
+import org.apache.commons.lang3.BooleanUtils;
+
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 import java.net.URL;
@@ -42,6 +44,17 @@ public class Parsers {
     @CheckReturnValue
     public static Parser<String> string() {
         return new BasicParser<>(Function.identity());
+    }
+
+    /**
+     * Returns a parser that matches booleans.
+     *
+     * @return Returns a parser that matches booleans.
+     */
+    @Nonnull
+    @CheckReturnValue
+    public static Parser<Boolean> bool() {
+        return new BasicParser<>(BooleanUtils::toBoolean);
     }
 
     /**

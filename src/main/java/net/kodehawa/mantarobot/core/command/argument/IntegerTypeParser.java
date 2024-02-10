@@ -17,7 +17,7 @@
 
 package net.kodehawa.mantarobot.core.command.argument;
 
-import net.kodehawa.mantarobot.core.command.NewContext;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
@@ -42,7 +42,7 @@ public class IntegerTypeParser<T> implements Parser<T> {
     @SuppressWarnings("unused")
     @Nonnull
     @Override
-    public Optional<T> parse(@Nonnull NewContext context, @Nonnull Arguments arguments) {
+    public Optional<T> parse(@Nonnull TextContext context, @Nonnull Arguments arguments) {
         try {
             String s = arguments.next().getValue();
             StringBuilder builder = new StringBuilder();

@@ -24,21 +24,19 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.command.NewCommand;
-import net.kodehawa.mantarobot.core.command.NewContext;
+import net.kodehawa.mantarobot.core.command.text.TextCommand;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
 import net.kodehawa.mantarobot.core.command.argument.Parsers;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Help;
+import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.meta.Permission;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
-import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.core.command.meta.Module;
+import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
+import net.kodehawa.mantarobot.core.command.helpers.CommandPermission;
+import net.kodehawa.mantarobot.core.command.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.MantaroObject;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -75,13 +73,17 @@ public class OwnerCmd {
         cr.register(RefreshPledges.class);
         cr.register(AddOwnerPremium.class);
         cr.register(Blacklist.class);
+        cr.register(Link.class);
+        cr.register(CreateKey.class);
+        cr.register(InvalidateKey.class);
+        cr.register(Eval.class);
     }
 
     @Permission(CommandPermission.OWNER)
     @Category(CommandCategory.OWNER)
-    public static class RestoreStreak extends NewCommand {
+    public static class RestoreStreak extends TextCommand {
         @Override
-        protected void process(NewContext ctx) {
+        protected void process(TextContext ctx) {
             var id = ctx.argument(Parsers.strictLong()
                     .map(String::valueOf), "Invalid id");
             var amount = ctx.argument(Parsers.strictLong(), "Invalid amount");
@@ -105,9 +107,9 @@ public class OwnerCmd {
 
     @Permission(CommandPermission.OWNER)
     @Category(CommandCategory.OWNER)
-    public static class DataRequest extends NewCommand {
+    public static class DataRequest extends TextCommand {
         @Override
-        protected void process(NewContext ctx) {
+        protected void process(TextContext ctx) {
             var db = MantaroData.db();
             var id = ctx.argument(Parsers.strictLong()
                     .map(String::valueOf), "Invalid id");
@@ -143,9 +145,9 @@ public class OwnerCmd {
 
     @Permission(CommandPermission.OWNER)
     @Category(CommandCategory.OWNER)
-    public static class GiveItem extends NewCommand {
+    public static class GiveItem extends TextCommand {
         @Override
-        protected void process(NewContext ctx) {
+        protected void process(TextContext ctx) {
             var itemString = ctx.argument(Parsers.delimitedBy('"', false), "Invalid item");
             int amount = ctx.argument(Parsers.strictInt(), "Invalid item amount");
 
@@ -173,9 +175,9 @@ public class OwnerCmd {
 
     @Permission(CommandPermission.OWNER)
     @Category(CommandCategory.OWNER)
-    public static class TransferPlayer extends NewCommand {
+    public static class TransferPlayer extends TextCommand {
         @Override
-        protected void process(NewContext ctx) {
+        protected void process(TextContext ctx) {
             var transferred = ctx.argument(Parsers.strictLong().map(String::valueOf),
                     "Invalid user (transferring from)"
             );
@@ -242,9 +244,9 @@ public class OwnerCmd {
 
     @Permission(CommandPermission.OWNER)
     @Category(CommandCategory.OWNER)
-    public static class AddBadge extends NewCommand {
+    public static class AddBadge extends TextCommand {
         @Override
-        protected void process(NewContext ctx) {
+        protected void process(TextContext ctx) {
             final var toAdd = ctx.argument(Parsers.string(),
                     "Wrong or no badge specified."
             );
@@ -276,9 +278,9 @@ public class OwnerCmd {
 
     @Permission(CommandPermission.OWNER)
     @Category(CommandCategory.OWNER)
-    public static class RemoveBadge extends NewCommand {
+    public static class RemoveBadge extends TextCommand {
         @Override
-        protected void process(NewContext ctx) {
+        protected void process(TextContext ctx) {
             final var toRemove = ctx.argument(Parsers.string(),
                     "Wrong or no badge specified."
             );
@@ -312,9 +314,9 @@ public class OwnerCmd {
 
     @Permission(CommandPermission.OWNER)
     @Category(CommandCategory.OWNER)
-    public static class RefreshPledges extends NewCommand {
+    public static class RefreshPledges extends TextCommand {
         @Override
-        protected void process(NewContext ctx) {
+        protected void process(TextContext ctx) {
             try {
                 APIUtils.getFrom("/mantaroapi/bot/patreon/refresh");
                 ctx.send("Refreshed Patreon pledges successfully.");
@@ -327,9 +329,9 @@ public class OwnerCmd {
 
     @Permission(CommandPermission.OWNER)
     @Category(CommandCategory.OWNER)
-    public static class AddOwnerPremium extends NewCommand {
+    public static class AddOwnerPremium extends TextCommand {
         @Override
-        protected void process(NewContext ctx) {
+        protected void process(TextContext ctx) {
             final var guild = ctx.argument(Parsers.strictLong()
                             .map(String::valueOf), "Invalid guild"
             );
@@ -365,14 +367,14 @@ public class OwnerCmd {
                     @Help.Parameter(name = "target", description = "ID of the entity to be (un)blacklisted")
             }
     )
-    public static class Blacklist extends NewCommand {
+    public static class Blacklist extends TextCommand {
         @Override
-        protected void process(NewContext ctx) {
+        protected void process(TextContext ctx) {
             ctx.send(EmoteReference.ERROR + "Invalid type. (Valid: guild, user)");
         }
 
         @SuppressWarnings("unused")
-        private abstract static class BlacklistCommand<T> extends NewCommand {
+        private abstract static class BlacklistCommand<T> extends TextCommand {
             private final String type;
             private final Function<MantaroObject, List<String>> dbGetter;
             private final BiFunction<ShardManager, String, T> entityGetter;
@@ -387,7 +389,7 @@ public class OwnerCmd {
             }
 
             @Override
-            protected void process(NewContext ctx) {
+            protected void process(TextContext ctx) {
                 var action = ctx.argument(Parsers.string());
                 var target = ctx.argument(Parsers.string());
                 var obj = MantaroData.db().getMantaroData();
@@ -451,11 +453,13 @@ public class OwnerCmd {
         }
     }
 
-    @Subscribe
-    public void eval(CommandRegistry cr) {
-        var deps = new MavenDependencies(Path.of("eval_deps"))
+    @Name("eval")
+    @Permission(CommandPermission.OWNER)
+    @Category(CommandCategory.OWNER)
+    public static class Eval extends TextCommand {
+        MavenDependencies deps = new MavenDependencies(Path.of("eval_deps"))
                 .addRepository("https://jcenter.bintray.com");
-        var evaluator = new JavaEvaluator(deps);
+        JavaEvaluator evaluator = new JavaEvaluator(deps);
         Evaluator eval = (ctx, code) -> {
             var result = evaluator.compile("Eval",
                     """
@@ -475,10 +479,10 @@ public class OwnerCmd {
                     import net.kodehawa.mantarobot.utils.*;
                     import net.kodehawa.mantarobot.utils.eval.*;
                     import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.entities.channel.*;
-import net.dv8tion.jda.api.entities.channel.attribute.*;
-import net.dv8tion.jda.api.entities.channel.middleman.*;
-import net.dv8tion.jda.api.entities.channel.concrete.*;
+                    import net.dv8tion.jda.api.entities.channel.*;
+                    import net.dv8tion.jda.api.entities.channel.attribute.*;
+                    import net.dv8tion.jda.api.entities.channel.middleman.*;
+                    import net.dv8tion.jda.api.entities.channel.concrete.*;
                     import java.util.*;
                     import java.util.stream.*;
                     import java.util.function.*;
@@ -516,7 +520,7 @@ import net.dv8tion.jda.api.entities.channel.concrete.*;
             }
 
             try {
-                return result.resultingClass().getMethod("run", Context.class, MavenDependencies.class)
+                return result.resultingClass().getMethod("run", TextContext.class, MavenDependencies.class)
                         .invoke(null, ctx, deps);
             } catch(InvocationTargetException e) {
                 return e.getCause();
@@ -525,185 +529,132 @@ import net.dv8tion.jda.api.entities.channel.concrete.*;
             }
         };
 
-        cr.register("eval", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (args.length < 1) {
-                    ctx.send("Give me something to eval.");
-                    return;
-                }
+        @Override
+        protected void process(TextContext ctx) {
+            var content = ctx.argument(Parsers.remainingContent(), "Give me something to eval.", "Failed to parse eval string.").trim();
+            // eval.eval, yes
+            var result = eval.eval(ctx, content);
+            var errored = result instanceof Throwable;
 
-                // eval.eval, yes
-                var result = eval.eval(ctx, content);
-                var errored = result instanceof Throwable;
-
-                ctx.send(new EmbedBuilder()
-                        .setAuthor(
-                                "Evaluated " + (errored ? "and errored" : "with success"),
-                                null,
-                                ctx.getAuthor().getAvatarUrl()
-                        )
-                        .setColor(errored ? Color.RED : Color.GREEN)
-                        .setDescription(result == null ?
-                                "Executed successfully with no objects returned" :
-                                ("Executed " + (errored ? "and errored: " : "successfully and returned: ") +
-                                        // We need to codeblock this as the compiler output expects a monospace font
-                                        // More ternary hell but it's w/e
-                                        (errored ? "```\n%s```".formatted(result.toString()) : result.toString())
-                                )
-                        ).setFooter(
-                                "Asked by: " + ctx.getAuthor().getName(),
-                                null
-                        ).build()
-                );
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Evaluates stuff.")
-                        .build();
-            }
-        });
+            ctx.send(new EmbedBuilder()
+                    .setAuthor(
+                            "Evaluated " + (errored ? "and errored" : "with success"),
+                            null,
+                            ctx.getAuthor().getAvatarUrl()
+                    )
+                    .setColor(errored ? Color.RED : Color.GREEN)
+                    .setDescription(result == null ?
+                            "Executed successfully with no objects returned" :
+                            ("Executed " + (errored ? "and errored: " : "successfully and returned: ") +
+                                    // We need to codeblock this as the compiler output expects a monospace font
+                                    // More ternary hell, but it's w/e
+                                    (errored ? "```\n%s```".formatted(result.toString()) : result.toString())
+                            )
+                    ).setFooter(
+                            "Asked by: " + ctx.getAuthor().getName(),
+                            null
+                    ).build()
+            );
+        }
     }
 
-    @Subscribe
-    public void link(CommandRegistry cr) {
-        cr.register("link", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                final var config = ctx.getConfig();
+    @Name("link")
+    @Permission(CommandPermission.OWNER)
+    @Category(CommandCategory.OWNER)
+    public static class Link extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            final var config = ctx.getConfig();
+            if (!config.isPremiumBot()) {
+                ctx.send("This command can only be ran in MP, as it'll link a guild to an MP holder.");
+                return;
+            }
 
-                if (!config.isPremiumBot()) {
-                    ctx.send("This command can only be ran in MP, as it'll link a guild to an MP holder.");
-                    return;
-                }
+            var userId = ctx.argument(Parsers.strictLong(), "Missing user id.", "Couldn't parse user id.");
+            var guildId = ctx.argument(Parsers.strictLong(), "Missing guild id.", "Couldn't parse guild id.");
+            var user = ctx.retrieveUserById(userId);
+            var guild = MantaroBot.getInstance().getShardManager().getGuildById(guildId);
 
-                if (args.length < 2) {
-                    ctx.send("You need to enter both the user and the guild id (example: 132584525296435200 493297606311542784).");
-                    return;
-                }
+            if (guild == null || user == null) {
+                ctx.send("User or guild not found.");
+                return;
+            }
 
-                var userString = args[0];
-                var guildString = args[1];
-                var guild = MantaroBot.getInstance().getShardManager().getGuildById(guildString);
-                var user = ctx.retrieveUserById(userString);
+            final var dbGuild = MantaroData.db().getGuild(String.valueOf(guildId));
 
-                if (guild == null || user == null) {
-                    ctx.send("User or guild not found.");
-                    return;
-                }
-
-                final var dbGuild = MantaroData.db().getGuild(guildString);
-                var optionalArguments = ctx.getOptionalArguments();
-
-                if (optionalArguments.containsKey("u")) {
-                    dbGuild.mpLinkedTo(null);
-                    dbGuild.updateAllChanged();
-
-                    ctx.sendFormat("Un-linked MP for guild %s (%s).", guild.getName(), guild.getId());
-                    return;
-                }
-
-                var pledgeInfo = APIUtils.getFullPledgeInformation(user.getId());
-
-                // Guaranteed to be an integer
-                if (pledgeInfo == null || !pledgeInfo.isActive() || pledgeInfo.getReward().getKeyAmount() < 3) {
-                    ctx.send("Pledge not found, pledge amount not enough or pledge was cancelled.");
-                    return;
-                }
-
-                //Guild assignment.
-                dbGuild.mpLinkedTo(userString); //Patreon check will run from this user.
+            var unlink = ctx.tryArgument(Parsers.matching("^-u$"));
+            if (unlink.isPresent()) {
+                dbGuild.mpLinkedTo(null);
                 dbGuild.updateAllChanged();
 
-                ctx.sendFormat("Linked MP for guild %s (%s) to user %s (%s). Including this guild in pledge check (id -> user -> pledge). User tier: %s",
-                        guild.getName(), guild.getId(), user.getName(), user.getId(), pledgeInfo.getReward()
-                );
+                ctx.sendFormat("Un-linked MP for guild %s (%s).", guild.getName(), guild.getId());
+                return;
             }
 
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Links a guild to a patreon owner (user id). Use -u to unlink.")
-                        .setUsage("`~>link <user id> <guild id>`")
-                        .build();
+            var pledgeInfo = APIUtils.getFullPledgeInformation(user.getId());
+
+            // Guaranteed to be an integer
+            if (pledgeInfo == null || !pledgeInfo.isActive() || pledgeInfo.getReward().getKeyAmount() < 3) {
+                ctx.send("Pledge not found, pledge amount not enough or pledge was cancelled.");
+                return;
             }
-        });
+
+            //Guild assignment.
+            dbGuild.mpLinkedTo(String.valueOf(userId)); // Patreon check will run from this user.
+            dbGuild.updateAllChanged();
+
+            ctx.sendFormat("Linked MP for guild %s (%s) to user %s (%s). Including this guild in pledge check (id -> user -> pledge). User tier: %s",
+                    guild.getName(), guild.getId(), user.getName(), user.getId(), pledgeInfo.getReward()
+            );
+
+        }
     }
 
-    @Subscribe
-    public void invalidatekey(CommandRegistry cr) {
-        cr.register("invalidatekey", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (args.length == 0) {
-                    ctx.send(EmoteReference.ERROR + "Give me a key to invalidate!");
-                    return;
-                }
-
-                var key = MantaroData.db().getPremiumKey(args[0]);
-                if (key == null) {
-                    ctx.send("Invalid key.");
-                    return;
-                }
-
-                var dbUser = MantaroData.db().getUser(key.getOwner());
-                dbUser.removeKeyClaimed(dbUser.getUserIdFromKeyId(key.getId()));
-                dbUser.updateAllChanged();
-                key.delete();
-
-                ctx.send("Invalidated key " + args[0]);
+    @Name("invalidatekey")
+    @Permission(CommandPermission.OWNER)
+    @Category(CommandCategory.OWNER)
+    public static class InvalidateKey extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            var keyString = ctx.argument(Parsers.string(), "Give me a key to invalidate.", "Couldn't parse key.");
+            var key = MantaroData.db().getPremiumKey(keyString);
+            if (key == null) {
+                ctx.send("Invalid key.");
+                return;
             }
-        });
+
+            var dbUser = MantaroData.db().getUser(key.getOwner());
+            dbUser.removeKeyClaimed(dbUser.getUserIdFromKeyId(key.getId()));
+            dbUser.updateAllChanged();
+            key.delete();
+
+            ctx.send("Invalidated key " + keyString);
+        }
     }
 
-    @Subscribe
-    public void createkey(CommandRegistry cr) {
-        cr.register("createkey", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                var optionalArguments = ctx.getOptionalArguments();
+    @Name("createkey")
+    @Permission(CommandPermission.OWNER)
+    @Category(CommandCategory.OWNER)
+    public static class CreateKey extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            var scope = ctx.argument(Parsers.toEnum(PremiumKey.Type.class), "Missing scope (Valid ones are: `user` or `guild`)", "Invalid scope (Valid ones are: `user` or `guild`)");
+            var owner = ctx.argument(Parsers.strictLong(), "Missing owner id.", "Failed to parse owner.");
+            var linked = ctx.argument(Parsers.bool(), "Missing linked.", "Failed to parse linked.");
+            var mobile = ctx.tryArgument(Parsers.matching("^mobile$"));
 
-                if (args.length < 3) {
-                    ctx.send(EmoteReference.ERROR + "You need to provide a scope, an id and whether this key is linked (example: guild 1558674582032875529 true)");
-                    return;
-                }
-
-                var scope = args[0];
-                var owner = args[1];
-                var linked = Boolean.parseBoolean(args[2]);
-
-                PremiumKey.Type scopeParsed = null;
-                try {
-                    scopeParsed = PremiumKey.Type.valueOf(scope.toUpperCase()); //To get the ordinal
-                } catch (IllegalArgumentException ignored) { }
-
-                if (scopeParsed == null) {
-                    ctx.send(EmoteReference.ERROR + "Invalid scope (Valid ones are: `user` or `guild`)");
-                    return;
-                }
-
-                //This method generates a premium key AND saves it on the database! Please use this result!
-                var generated = PremiumKey.generatePremiumKey(owner, scopeParsed, linked);
-                if (optionalArguments.containsKey("mobile")) {
-                    ctx.send(generated.getId());
-                } else {
-                    ctx.send(EmoteReference.CORRECT + String.format("Generated: `%s` (S: %s) **[NOT ACTIVATED]** (Linked: %s)",
-                            generated.getId(), generated.getParsedType(), linked));
-                }
+            //This method generates a premium key AND saves it on the database! Please use this result!
+            var generated = PremiumKey.generatePremiumKey(String.valueOf(owner), scope, linked);
+            if (mobile.isPresent()) {
+                ctx.send(generated.getId());
+            } else {
+                ctx.send(EmoteReference.CORRECT + String.format("Generated: `%s` (S: %s) **[NOT ACTIVATED]** (Linked: %s)",
+                        generated.getId(), generated.getParsedType(), linked));
             }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Makes a premium key, what else? Needs scope (user or guild) and id. Also add true or false for linking status at the end")
-                        .build();
-            }
-        });
+        }
     }
 
     private interface Evaluator {
-        Object eval(Context ctx, String code);
+        Object eval(TextContext ctx, String code);
     }
 }

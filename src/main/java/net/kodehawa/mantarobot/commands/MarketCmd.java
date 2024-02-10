@@ -37,23 +37,20 @@ import net.kodehawa.mantarobot.commands.currency.item.special.tools.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Wrench;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.text.TextCommand;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
+import net.kodehawa.mantarobot.core.command.argument.Parsers;
+import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
+import net.kodehawa.mantarobot.core.command.meta.Alias;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Description;
 import net.kodehawa.mantarobot.core.command.meta.Help;
+import net.kodehawa.mantarobot.core.command.meta.Module;
 import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.meta.Options;
-import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.helpers.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
-import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Command;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -119,6 +116,11 @@ public class MarketCmd {
         cr.registerSlash(Buy.class);
         cr.registerSlash(Sell.class);
         cr.registerSlash(Dump.class);
+
+        cr.register(MarketText.class);
+        cr.register(SellText.class);
+        cr.register(BuyText.class);
+        cr.register(DumpText.class);
     }
 
     @Name("market")
@@ -223,6 +225,10 @@ public class MarketCmd {
             @Override
             protected void process(SlashContext ctx) {
                 var item = ctx.getOptionAsString("item");
+                if (item == null) {
+                    ctx.reply("commands.market.price.no_item", EmoteReference.ERROR);
+                    return;
+                }
                 price(ctx, item);
             }
         }
@@ -307,280 +313,178 @@ public class MarketCmd {
         }
     }
 
-    @Subscribe
-    public void market(CommandRegistry cr) {
-        TreeCommand marketCommand = cr.register("market", new TreeCommand(CommandCategory.CURRENCY) {
-            @SuppressWarnings("unused")
-            @Override
-            public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(Context ctx, I18nContext languageContext, String content) {
-                        showMarket(ctx, item -> true);
-                    }
-                };
-            }
+    @Name("market")
+    @Alias("shop")
+    @Category(CommandCategory.CURRENCY)
+    @Description("List current items for buying and selling. You can check more specific markets below.")
+    public static class MarketText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            showMarket(ctx, item -> true);
+        }
 
+        @Description("List all current pet items.")
+        public static class Pet extends TextCommand {
             @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("List current items for buying and selling. You can check more specific markets below.")
-                        .setUsage("""
-                                To buy an item do `~>market buy <item>`. It will subtract the value from your money and give you the item.
-                                To sell do `~>market sell all` to sell all your items or `~>market sell <item>` to sell the specified item.
-                                If the item name contains spaces, "wrap it in quotes".
-                                To buy and sell multiple items you need to do `~>market <buy/sell> <amount> <item>`
-                                """)
-                        .addParameter("item", "The item name or emoji")
-                        .build();
-            }
-        });
-
-        marketCommand.addSubCommand("pet", new SubCommand() {
-            @Override
-            public String description() {
-                return "List all current pet items.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(TextContext ctx) {
                 showMarket(ctx, item -> item.getItemType() == ItemType.PET || item.getItemType() == ItemType.PET_FOOD);
             }
-        });
+        }
 
-        marketCommand.addSubCommand("common", new SubCommand() {
+        @Description("List all common items.")
+        public static class Common extends TextCommand {
             @Override
-            public String description() {
-                return "List all common items.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(TextContext ctx) {
                 showMarket(ctx, item -> item.getItemType() == ItemType.COMMON || item.getItemType() == ItemType.COLLECTABLE);
             }
-        });
+        }
 
-        marketCommand.addSubCommand("tools", new SubCommand() {
+        @Description("List all tools.")
+        public static class Tools extends TextCommand {
             @Override
-            public String description() {
-                return "List all current tools.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(TextContext ctx) {
                 showMarket(ctx, item -> item instanceof FishRod || item instanceof Pickaxe || item instanceof Axe || item instanceof Broken);
             }
-        });
+        }
 
-        marketCommand.addSubCommand("potions", new SubCommand() {
+        @Description("List all potions.")
+        public static class Potions extends TextCommand {
             @Override
-            public String description() {
-                return "List all current potions.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(TextContext ctx) {
                 showMarket(ctx, Potion.class::isInstance);
             }
-        });
+        }
 
-
-        marketCommand.addSubCommand("buyable", new SubCommand() {
+        @Description("List all buyable items.")
+        public static class Buyable extends TextCommand {
             @Override
-            public String description() {
-                return "List all the buyable items.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(TextContext ctx) {
                 showMarket(ctx, Item::isBuyable);
             }
-        });
+        }
 
-        marketCommand.addSubCommand("sellable", new SubCommand() {
+        @Description("List all sellable items.")
+        public static class Sellable extends TextCommand {
             @Override
-            public String description() {
-                return "List all the sellable items.";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void process(TextContext ctx) {
                 showMarket(ctx, Item::isSellable);
             }
-        });
+        }
 
-        marketCommand.addSubCommand("price", new SubCommand() {
+        @Description("Checks the price of any given item.")
+        public static class Price extends TextCommand {
             @Override
-            public String description() {
-                return "Checks the price of any given item.";
+            protected void process(TextContext ctx) {
+                price(ctx, ctx.argument(Parsers.string(),
+                        ctx.getLanguageContext().get("commands.market.price.no_item").formatted(EmoteReference.ERROR),
+                        ctx.getLanguageContext().get("commands.market.price.no_item").formatted(EmoteReference.ERROR))
+                );
             }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.market.price.no_item", EmoteReference.ERROR);
-                    return;
-                }
-
-                price(ctx, content);
-            }
-        });
-
-        cr.registerAlias("market", "shop");
+        }
     }
 
-    @Subscribe
-    public void sell(CommandRegistry cr) {
-        cr.register("sell", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.market.sell.no_item_amount", EmoteReference.ERROR);
-                    return;
-                }
-
-                var itemName = content;
-                var itemNumber = 1;
-                var split = args[0];
-                var isMassive = split.matches("^[0-9]*$");
-                var isMax = "max".equalsIgnoreCase(split);
-
-                if (isMassive) {
-                    try {
-                        itemNumber = Math.abs(Integer.parseInt(split));
-                        itemName = itemName.replace(args[0], "").trim();
-                    } catch (NumberFormatException e) {
-                        ctx.sendLocalized("commands.market.sell.invalid", EmoteReference.ERROR);
-                        return;
-                    }
-                }
-                if (isMax) {
-                    itemName = itemName.replace(args[0], "").trim();
-                }
-
-                sell(ctx, itemName, itemNumber, isMax);
+    @Name("sell")
+    @Category(CommandCategory.CURRENCY)
+    @Help(
+            description = "Sells an item.",
+            usage = """
+                  To sell an item do `~>sell <item>`.
+                  If the item name contains spaces, "wrap it in quotes".
+                  To sell multiple items you need to do `~>sell <amount> <item>`
+                  """,
+            parameters = {
+                    @Help.Parameter(name = "amount", description = "The amount to sell. Use max for all. Defaults to 1", optional = true),
+                    @Help.Parameter(name = "item", description = "The item name or emoji")
+            }
+    )
+    public static class SellText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            var amount = ctx.tryArgument(Parsers.rangeStrict(1, 5000));
+            var max = ctx.tryArgument(Parsers.matching("^max$"));
+            var isMax = max.isPresent();
+            var itemName = ctx.takeAllString();
+            if (itemName.isEmpty()) { // It could happen, for some reason?
+                ctx.sendLocalized("commands.market.sell.no_item_amount", EmoteReference.ERROR);
+                return;
             }
 
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Sells an item.")
-                        .setUsage("""
-                                To sell an item do `~>sell <item>`.
-                                If the item name contains spaces, "wrap it in quotes".
-                                To sell multiple items you need to do `~>sell <amount> <item>`
-                                """)
-                        .addParameter("item", "The item name or emoji")
-                        .addParameterOptional("amount", "The amount you want to sell. If you want to sell all of one item, use allof here.")
-                        .build();
+            var itemNumber = 1;
+            if (amount.isPresent()) {
+                itemNumber = Math.abs(amount.get());
             }
-        });
+
+            sell(ctx, itemName, itemNumber, isMax);
+        }
     }
 
-    @Subscribe
-    public void buy(CommandRegistry cr) {
-        cr.register("buy", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.market.buy.no_item_amount", EmoteReference.ERROR);
-                    return;
-                }
-
-                var itemName = content;
-                var itemNumber = 1;
-                var split = args[0];
-                var isMassive = split.matches("^[0-9]*$");
-                var isMax = false;
-                if (isMassive) {
-                    try {
-                        itemNumber = Math.abs(Integer.parseInt(split));
-                        itemName = itemName.replace(args[0], "").trim();
-                    } catch (NumberFormatException e) {
-                        ctx.sendLocalized("commands.market.buy.invalid", EmoteReference.ERROR);
-                        return;
-                    }
-                } else {
-                    // This is silly but works, people can stop asking about this now :o
-                    switch (split) {
-                        case "all" -> itemNumber = ItemStack.MAX_STACK_SIZE;
-                        case "half" -> itemNumber = ItemStack.MAX_STACK_SIZE / 2;
-                        case "quarter" -> itemNumber = ItemStack.MAX_STACK_SIZE / 4;
-                        // you might think: isn't "all" and "max", to that I say no
-                        // all is MAX_STACK_SIZE, while max changes based on how much the
-                        // player can still fit into their inventory
-                        case "max" -> isMax = true;
-                        default -> {}
-                    }
-
-                    if (itemNumber > 1 || isMax) {
-                        itemName = itemName.replace(args[0], "").trim();
-                    }
-                }
-
-                buy(ctx, itemName, itemNumber, isMax);
+    @Name("buy")
+    @Category(CommandCategory.CURRENCY)
+    @Help(
+            description = "Buys an item.",
+            usage = """
+                  To buy an item do `~>buy <item>`. It will subtract the value from your money and give you the item.
+                  If the item name contains spaces, "wrap it in quotes".
+                  To buy multiple items you need to do `~>buy <amount> <item>`
+                  """,
+            parameters = {
+                    @Help.Parameter(name = "amount", description = "The amount to items to buy. Can be max for all of the ones you have. Defaults to 1", optional = true),
+                    @Help.Parameter(name = "item", description = "The item to buy. Name or emoji.")
+            }
+    )
+    public static class BuyText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            var amount = ctx.tryArgument(Parsers.rangeStrict(1, 5000));
+            var max = ctx.tryArgument(Parsers.matching("^max$"));
+            var isMax = max.isPresent();
+            var itemName = ctx.takeAllString();
+            if (itemName.isEmpty()) {
+                ctx.sendLocalized("commands.market.buy.no_item_amount", EmoteReference.ERROR);
+                return;
             }
 
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Buys an item.")
-                        .setUsage("""
-                                To buy an item do `~>buy <item>`. It will subtract the value from your money and give you the item.
-                                If the item name contains spaces, "wrap it in quotes".
-                                To buy multiple items you need to do `~>buy <amount> <item>`
-                                """)
-                        .addParameter("item", "The item name or emoji")
-                        .addParameterOptional("amount", "The amount you want to buy.")
-                        .build();
+            var itemNumber = 1;
+            if (amount.isPresent()) {
+                itemNumber = Math.abs(amount.get());
             }
-        });
+
+            buy(ctx, itemName, itemNumber, isMax);
+        }
     }
 
-    @Subscribe
-    public void dump(CommandRegistry cr) {
-        cr.register("dump", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.market.dump.no_item", EmoteReference.ERROR);
-                    return;
-                }
-
-                var itemName = content;
-                var itemNumber = 1;
-                var split = itemName.split(" ")[0];
-                var isMassive = split.matches("^[0-9]*$");
-                var isMax = "max".equalsIgnoreCase(split);
-                if (isMassive) {
-                    try {
-                        itemNumber = Math.abs(Integer.parseInt(itemName.split(" ")[0]));
-                        itemName = itemName.replace(args[0], "").trim();
-                    } catch (NumberFormatException e) {
-                        ctx.sendLocalized("commands.market.dump.invalid", EmoteReference.ERROR);
-                        return;
-                    }
-                }
-                if (isMax) {
-                    itemName = itemName.replace(args[0], "").trim();
-                }
-
-                dump(ctx, itemName, itemNumber, isMax);
+    @Name("dump")
+    @Category(CommandCategory.CURRENCY)
+    @Help(
+            description = "Dumps an item.",
+            usage = """
+                    To dump an item do `~>dump <item>`. If the item name contains spaces, "wrap it in quotes".
+                    To dump multiple items you need to do `~>dump <amount> <item>`
+                    """,
+            parameters = {
+                    @Help.Parameter(name = "amount", description = "The amount to items to dump. Can be max for all of the ones you have. Defaults to 1", optional = true),
+                    @Help.Parameter(name = "item", description = "The item to dump. Name or emoji.")
+            }
+    )
+    public static class DumpText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            var amount = ctx.tryArgument(Parsers.rangeStrict(1, 5000));
+            var max = ctx.tryArgument(Parsers.matching("^max$"));
+            var isMax = max.isPresent();
+            var itemName = ctx.takeAllString();
+            if (itemName.isEmpty()) {
+                ctx.sendLocalized("commands.market.dump.no_item", EmoteReference.ERROR);
+                return;
             }
 
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Dumps an item.")
-                        .setUsage("""
-                                To dump an item do `~>dump <item>`. If the item name contains spaces, "wrap it in quotes".
-                                To dump multiple items you need to do `~>dump <amount> <item>`
-                                """)
-                        .addParameter("item", "The item name or emoji")
-                        .addParameterOptional("amount", "The amount you want to throw away. If you want to throw all of one item, use allof here.")
-                        .build();
+            var itemNumber = 1;
+            if (amount.isPresent()) {
+                itemNumber = Math.abs(amount.get());
             }
-        });
+
+            dump(ctx, itemName, itemNumber, isMax);
+        }
     }
 
     private static void price(IContext ctx, String itemString) {
@@ -795,7 +699,7 @@ public class MarketCmd {
         }
 
         // Slash does not need Embed Links permissions
-        if (!ctx.getGuild().getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS) && ctx instanceof Context) {
+        if (!ctx.getGuild().getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS) && ctx instanceof TextContext) {
             ctx.sendLocalized("general.missing_embed_permissions");
             return;
         }

@@ -23,20 +23,21 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.text.TextCommand;
+import net.kodehawa.mantarobot.core.command.text.TextContext;
+import net.kodehawa.mantarobot.core.command.argument.Parsers;
+import net.kodehawa.mantarobot.core.command.meta.Alias;
 import net.kodehawa.mantarobot.core.command.meta.Category;
 import net.kodehawa.mantarobot.core.command.meta.Defer;
 import net.kodehawa.mantarobot.core.command.meta.Description;
 import net.kodehawa.mantarobot.core.command.meta.Help;
 import net.kodehawa.mantarobot.core.command.meta.Name;
 import net.kodehawa.mantarobot.core.command.meta.Options;
-import net.kodehawa.mantarobot.core.command.slash.IContext;
+import net.kodehawa.mantarobot.core.command.helpers.IContext;
 import net.kodehawa.mantarobot.core.command.slash.SlashCommand;
 import net.kodehawa.mantarobot.core.command.slash.SlashContext;
-import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
+import net.kodehawa.mantarobot.core.command.meta.Module;
+import net.kodehawa.mantarobot.core.command.helpers.CommandCategory;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PlayerStats;
@@ -99,6 +100,9 @@ public class GambleCmds {
     public void register(CommandRegistry cr) {
         cr.registerSlash(Gamble.class);
         cr.registerSlash(Slots.class);
+
+        cr.register(GambleText.class);
+        cr.register(SlotsText.class);
     }
 
     @Name("gamble")
@@ -191,111 +195,94 @@ public class GambleCmds {
         }
     }
 
-    @Subscribe
-    public void gamble(CommandRegistry cr) {
-        cr.register("gamble", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            public void call(Context ctx, String content, String[] args) {
-                doGamble(ctx, ctx.getPlayer(), content);
+    @Name("gamble")
+    @Alias("bet")
+    @Category(CommandCategory.CURRENCY)
+    @Help(
+            description = "Gambles your money away. It's like Vegas, but without real money and without the impending doom. Kinda.",
+            usage = "`~>gamble <all/half/quarter>` or `~>gamble <amount>` or `~>gamble <percentage>`",
+            parameters = {
+                    @Help.Parameter(
+                            name = "amount",
+                            description = "How much money you want to gamble. You can also express this on k (10k is 10000, for example). " +
+                                    "The maximum amount you can gamble at once is " + GAMBLE_MAX_MONEY + " credits."),
+                    @Help.Parameter(
+                            name = "all/half/quarter",
+                            description = "How much of your money you want to gamble, but if you're too lazy to type the number (half = 50% of all of your money)",
+                            optional = true
+                    )
             }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Gambles your money away. It's like Vegas, but without real money and without the impending doom. Kinda.")
-                        .setUsage("`~>gamble <all/half/quarter>` or `~>gamble <amount>` or `~>gamble <percentage>`")
-                        .addParameter("amount", "How much money you want to gamble. " +
-                                "You can also express this on k (10k is 10000, for example). The maximum amount you can gamble at once is " + GAMBLE_MAX_MONEY + " credits.")
-                        .addParameter("all/half/quarter",
-                                "How much of your money you want to gamble, but if you're too lazy to type the number (half = 50% of all of your money)")
-                        .addParameter("percentage", "The percentage of money you want to gamble. Works anywhere from 1% to 100%.")
-                        .build();
-            }
-        });
-
-        cr.registerAlias("gamble", "bet");
+    )
+    public static class GambleText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            doGamble(ctx, ctx.getPlayer(), ctx.takeAllString());
+        }
     }
 
-    @Subscribe
-    public void slots(CommandRegistry cr) {
-        cr.register("slots", new SimpleCommand(CommandCategory.CURRENCY) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                var opts = ctx.getOptionalArguments();
-                var money = 50L;
-                var coinSelect = false;
-                var coinAmount = 1;
+    @Name("slots")
+    @Category(CommandCategory.CURRENCY)
+    @Help(
+            description = """
+                    Rolls the slot machine. Requires a default of 50 credits to roll.
+                    To win, you need to hit all 3 emojis of the same type on the middle row.
+                    You can gain anywhere from ~15% to 175% of the money you put in. This is what you can *gain*, if you win you won't lose what you put in.
+                    """,
+            usage = """
+                `~>slots` - Default one, 50 credits.
+                `~>slots <credits>` - Puts x credits on the slot machine. You can put a maximum of 50,000 credits.
+                `~>slots -useticket` - Rolls the slot machine with one slot coin.
+                You can specify the amount of tickets to use using `-amount` (for example `~>slots -useticket -amount 10`).
+                Using tickets increases your chance by 6 to 12%. Maximum amount of tickets allowed is 100.
+                """
+    )
+    public static class SlotsText extends TextCommand {
+        @Override
+        protected void process(TextContext ctx) {
+            var money = 50L;
+            var coinSelect = false;
+            var coinAmount = 1;
 
-                var player = ctx.getPlayer();
-                var stats = ctx.getPlayerStats(ctx.getAuthor());
+            var player = ctx.getPlayer();
+            var stats = ctx.getPlayerStats(ctx.getAuthor());
+            var moneyToUse = ctx.tryArgument(Parsers.lenientInt());
 
-                if (opts.containsKey("useticket")) {
-                    if (!player.containsItem(ItemReference.SLOT_COIN)) {
-                        ctx.sendLocalized("commands.slots.errors.no_tickets", EmoteReference.SAD);
-                        return;
-                    }
-
-                    coinSelect = true;
-                }
-
-                if (opts.containsKey("amount") && opts.get("amount") != null) {
-                    if (!coinSelect) {
-                        ctx.sendLocalized("commands.slots.errors.amount_not_ticket", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    var amount = opts.get("amount");
-                    if (amount.isEmpty()) {
-                        ctx.sendLocalized("commands.slots.errors.no_amount", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    try {
-                        coinAmount = Math.abs(Integer.parseInt(amount));
-                    } catch (NumberFormatException e) {
-                        ctx.sendLocalized("general.invalid_number", EmoteReference.ERROR);
-                        return;
-                    }
-                }
-
-                if (args.length >= 1 && !coinSelect) {
-                    try {
-                        var parsedRaw = new RoundedMetricPrefixFormat().parseObject(args[0]);
-                        if (parsedRaw == null) {
-                            ctx.sendLocalized("commands.slots.errors.no_valid_amount", EmoteReference.ERROR);
-                            return;
-                        }
-
-                        money = Math.max(1, Math.abs(parsedRaw.longValue()));
-                    } catch (NumberFormatException e) {
-                        ctx.sendLocalized("general.invalid_number", EmoteReference.ERROR);
-                        return;
-                    }
-                }
-
-                slots(ctx, player, stats, money, coinAmount, coinSelect);
+            // Warn and bail out if the old arguments are used.
+            var ticketOld = ctx.tryArgument(Parsers.matching("^-useticket$"));
+            var amountOld = ctx.tryArgument(Parsers.matching("^-amount$"));
+            if(ticketOld.isPresent() || amountOld.isPresent()) {
+                ctx.sendLocalized("commands.slots.errors.new_syntax", EmoteReference.ERROR);
+                return;
             }
 
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription(
-                                """
-                                Rolls the slot machine. Requires a default of 50 credits to roll.
-                                To win, you need to hit all 3 emojis of the same type on the middle row.
-                                You can gain anywhere from ~15% to 175% of the money you put in. This is what you can *gain*, if you win you won't lose what you put in.
-                                """
-                        ).setUsage(
-                                """
-                                `~>slots` - Default one, 50 credits.
-                                `~>slots <credits>` - Puts x credits on the slot machine. You can put a maximum of 50,000 credits.
-                                `~>slots -useticket` - Rolls the slot machine with one slot coin.
-                                You can specify the amount of tickets to use using `-amount` (for example `~>slots -useticket -amount 10`).
-                                Using tickets increases your chance by 6 to 12%. Maximum amount of tickets allowed is 100.
-                                """
-                        ).build();
+            var ticket = ctx.tryArgument(Parsers.matching("^useticket$"));
+            if (ticket.isPresent()) {
+                if (!player.containsItem(ItemReference.SLOT_COIN)) {
+                    ctx.sendLocalized("commands.slots.errors.no_tickets", EmoteReference.SAD);
+                    return;
+                }
+
+                coinSelect = true;
+                var amount = ctx.argument(
+                        Parsers.lenientInt(),
+                        ctx.getLanguageContext().get("commands.slots.errors.no_amount").formatted(EmoteReference.ERROR),
+                        ctx.getLanguageContext().get("general.invalid_number").formatted(EmoteReference.ERROR)
+                );
+
+                coinAmount = Math.abs(amount);
             }
-        });
+
+            if (coinSelect && moneyToUse.isPresent()) {
+                ctx.sendLocalized("commands.slots.errors.tickets_and_credits", EmoteReference.ERROR);
+                return;
+            }
+
+            if (!coinSelect && moneyToUse.isPresent()) {
+                money = Math.max(1, Math.abs(moneyToUse.get()));
+            }
+
+            slots(ctx, player, stats, money, coinAmount, coinSelect);
+        }
     }
 
     private static void slots(IContext ctx, Player player, PlayerStats stats, long money, long coinAmount, boolean ticket) {
