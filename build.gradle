@@ -56,7 +56,7 @@ dependencies {
     implementation 'ch.qos.logback:logback-classic:1.4.14'
     implementation 'com.google.guava:guava:33.0.0-jre'
     implementation 'commons-io:commons-io:2.15.1'
-    implementation 'org.java-websocket:Java-WebSocket:1.5.5'
+    implementation 'org.java-websocket:Java-WebSocket:1.5.6'
 
     // Database
     implementation 'org.mongodb:mongodb-driver-sync:4.11.1'
